@@ -867,17 +867,6 @@ export async function startApp(): Promise<void> {
         });
       }
 
-      if (window.isBeforeVersion(lastVersion, '6.22.0-alpha')) {
-        const formattingWarningShown = window.storage.get(
-          'formattingWarningShown',
-          false
-        );
-        log.info(
-          `Clearing formattingWarningShown. Previous value was ${formattingWarningShown}`
-        );
-        await window.storage.put('formattingWarningShown', false);
-      }
-
       if (window.isBeforeVersion(lastVersion, 'v1.29.2-beta.1')) {
         // Stickers flags
         await Promise.all([
@@ -945,6 +934,11 @@ export async function startApp(): Promise<void> {
       if (window.isBeforeVersion(lastVersion, 'v7.3.0-beta.1')) {
         await window.storage.remove('lastHeartbeat');
         await window.storage.remove('lastStartup');
+      }
+
+      if (window.isBeforeVersion(lastVersion, 'v7.8.0-beta.1')) {
+        await window.storage.remove('sendEditWarningShown');
+        await window.storage.remove('formattingWarningShown');
       }
     }
 

@@ -20,7 +20,6 @@ import {
 } from '../../types/Attachment';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { DraftBodyRanges } from '../../types/BodyRange';
-import { BodyRange } from '../../types/BodyRange';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import type { MessageAttributesType } from '../../model-types.d';
 import type { NoopActionType } from './noop';
@@ -90,8 +89,6 @@ import { drop } from '../../util/drop';
 import { strictAssert } from '../../util/assert';
 import { makeQuote } from '../../util/makeQuote';
 import { sendEditedMessage as doSendEditedMessage } from '../../util/sendEditedMessage';
-import { maybeBlockSendForFormattingModal } from '../../util/maybeBlockSendForFormattingModal';
-import { maybeBlockSendForEditWarningModal } from '../../util/maybeBlockSendForEditWarningModal';
 import { Sound, SoundType } from '../../util/Sound';
 import {
   isImageTypeSupported,
@@ -390,9 +387,7 @@ export function handleLeaveConversation(
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 type WithPreSendChecksOptions = Readonly<{
-  bodyRanges?: DraftBodyRanges;
   message?: string;
-  isEditedMessage?: boolean;
   voiceNoteAttachment?: InMemoryAttachmentDraftType;
 }>;
 
@@ -416,7 +411,7 @@ async function withPreSendChecks(
     conversation.attributes,
   ]);
 
-  const { bodyRanges, isEditedMessage, message, voiceNoteAttachment } = options;
+  const { message, voiceNoteAttachment } = options;
 
   try {
     dispatch(setComposerDisabledState(conversationId, true));
@@ -433,45 +428,6 @@ async function withPreSendChecks(
     } catch (error) {
       log.error(
         'withPreSendChecks block until verified error:',
-        Errors.toLogFormat(error)
-      );
-      return;
-    }
-
-    try {
-      const hasFormatting = bodyRanges?.some(BodyRange.isFormatting);
-      if (hasFormatting && !window.storage.get('formattingWarningShown')) {
-        const sendAnyway = await maybeBlockSendForFormattingModal();
-        if (!sendAnyway) {
-          dispatch(setComposerDisabledState(conversationId, false));
-          return;
-        }
-        drop(window.storage.put('formattingWarningShown', true));
-      }
-    } catch (error) {
-      log.error(
-        'withPreSendChecks block for formatting modal:',
-        Errors.toLogFormat(error)
-      );
-      return;
-    }
-
-    try {
-      if (
-        isEditedMessage &&
-        !window.storage.get('sendEditWarningShown') &&
-        !window.SignalCI
-      ) {
-        const sendAnyway = await maybeBlockSendForEditWarningModal();
-        if (!sendAnyway) {
-          dispatch(setComposerDisabledState(conversationId, false));
-          return;
-        }
-        drop(window.storage.put('sendEditWarningShown', true));
-      }
-    } catch (error) {
-      log.error(
-        'withPreSendChecks block for send edit warning modal:',
         Errors.toLogFormat(error)
       );
       return;
@@ -510,6 +466,7 @@ async function withPreSendChecks(
 function sendEditedMessage(
   conversationId: string,
   options: WithPreSendChecksOptions & {
+    bodyRanges?: DraftBodyRanges;
     targetMessageId: string;
     quoteAuthorAci?: AciString;
     quoteSentAt?: number;
@@ -534,39 +491,35 @@ function sendEditedMessage(
       targetMessageId,
     } = options;
 
-    await withPreSendChecks(
-      conversationId,
-      { ...options, isEditedMessage: true },
-      dispatch,
-      async () => {
-        try {
-          await doSendEditedMessage(conversationId, {
-            body: message,
-            bodyRanges,
-            preview: getLinkPreviewForSend(message),
-            quoteAuthorAci,
-            quoteSentAt,
-            targetMessageId,
+    await withPreSendChecks(conversationId, options, dispatch, async () => {
+      try {
+        await doSendEditedMessage(conversationId, {
+          body: message,
+          bodyRanges,
+          preview: getLinkPreviewForSend(message),
+          quoteAuthorAci,
+          quoteSentAt,
+          targetMessageId,
+        });
+      } catch (error) {
+        log.error('sendEditedMessage', Errors.toLogFormat(error));
+        if (error.toastType) {
+          dispatch({
+            type: SHOW_TOAST,
+            payload: {
+              toastType: error.toastType,
+            },
           });
-        } catch (error) {
-          log.error('sendEditedMessage', Errors.toLogFormat(error));
-          if (error.toastType) {
-            dispatch({
-              type: SHOW_TOAST,
-              payload: {
-                toastType: error.toastType,
-              },
-            });
-          }
         }
       }
-    );
+    });
   };
 }
 
 function sendMultiMediaMessage(
   conversationId: string,
   options: WithPreSendChecksOptions & {
+    bodyRanges?: DraftBodyRanges;
     draftAttachments?: ReadonlyArray<AttachmentDraftType>;
     timestamp?: number;
   }

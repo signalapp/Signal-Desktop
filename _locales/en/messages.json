@@ -3096,19 +3096,19 @@
   },
   "icu:SendEdit--dialog--title2": {
     "messageformat": "Edit Message",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(Deleted 2024/04/29) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
     "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
-    "description": "Body text of the modal shown before sending your first edit message"
+    "description": "(Deleted 2024/04/29) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
     "messageformat": "Sending formatted text",
-    "description": "Title of the modal shown before sending your first formatting message"
+    "description": "(Deleted 2024/04/29) Title of the modal shown before sending your first formatting message"
   },
   "icu:SendFormatting--dialog--body": {
     "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
-    "description": "Body text of the modal shown before sending your first formatting message"
+    "description": "(Deleted 2024/04/29) Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Would you like to open Signal Sticker Pack Creator?",
