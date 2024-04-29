@@ -110,10 +110,6 @@
   margin-block: -5px;
 }
 
-.CallControls__ReactButtonContainer--menu-shown .module-tooltip {
-  opacity: 0;
-}
-
 .CallControls__OuterSpacer {
   // Defined in _modules but duplicated here for ease of refactor
   $local-preview-width: 108px;
