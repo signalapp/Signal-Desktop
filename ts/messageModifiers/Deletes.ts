@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MessageAttributesType } from '../model-types.d';
-import { getContactId } from '../messages/helpers';
+import { getAuthorId } from '../messages/helpers';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { deleteForEveryone } from '../util/deleteForEveryone';
@@ -32,7 +32,7 @@ export function forMessage(
 
   const matchingDeletes = deleteValues.filter(item => {
     return (
-      item.fromId === getContactId(messageAttributes) &&
+      item.fromId === getAuthorId(messageAttributes) &&
       sentTimestamps.has(item.targetSentTimestamp)
     );
   });
@@ -77,7 +77,7 @@ export async function onDelete(del: DeleteAttributesType): Promise<void> {
         );
 
         const targetMessage = messages.find(
-          m => del.fromId === getContactId(m) && !m.deletedForEveryone
+          m => del.fromId === getAuthorId(m) && !m.deletedForEveryone
         );
 
         if (!targetMessage) {

@@ -244,7 +244,7 @@ export type GetContactOptions = Pick<
   'conversationSelector' | 'ourConversationId' | 'ourNumber' | 'ourAci'
 >;
 
-export function getContactId(
+export function getAuthorId(
   message: MessageWithUIFieldsType,
   {
     conversationSelector,
@@ -704,7 +704,7 @@ export const getPropsForMessage = (
     (message.reactions || []).find(re => re.fromId === ourConversationId) || {}
   ).emoji;
 
-  const authorId = getContactId(message, {
+  const authorId = getAuthorId(message, {
     conversationSelector,
     ourConversationId,
     ourNumber,
@@ -2096,7 +2096,7 @@ export const getMessageDetails = createSelector(
     let conversationIds: Array<string>;
     if (isIncoming(message)) {
       conversationIds = [
-        getContactId(message, {
+        getAuthorId(message, {
           conversationSelector,
           ourConversationId,
           ourNumber,

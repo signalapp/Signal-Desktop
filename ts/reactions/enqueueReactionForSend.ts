@@ -121,7 +121,7 @@ export async function enqueueReactionForSend({
     fromId: window.ConversationController.getOurConversationIdOrThrow(),
     remove,
     source: ReactionSource.FromThisDevice,
-    storyReactionMessage,
+    generatedMessageForStoryReaction: storyReactionMessage,
     targetAuthorAci,
     targetTimestamp,
     receivedAtDate: timestamp,

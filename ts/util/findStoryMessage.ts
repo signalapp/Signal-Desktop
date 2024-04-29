@@ -8,7 +8,7 @@ import type { AciString } from '../types/ServiceId';
 import * as log from '../logging/log';
 import { normalizeAci } from './normalizeAci';
 import { filter } from './iterables';
-import { getContactId } from '../messages/helpers';
+import { getAuthorId } from '../messages/helpers';
 import { getTimestampFromLong } from './timestampLongUtils';
 
 export async function findStoryMessages(
@@ -89,7 +89,7 @@ function isStoryAMatch(
 
   return (
     message.sent_at === sentTimestamp &&
-    getContactId(message) === authorConversation?.id &&
+    getAuthorId(message) === authorConversation?.id &&
     (message.conversationId === conversationId ||
       message.conversationId === ourConversationId)
   );

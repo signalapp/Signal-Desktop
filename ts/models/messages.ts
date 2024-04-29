@@ -113,12 +113,12 @@ import type {
 import * as log from '../logging/log';
 import { cleanupMessage, deleteMessageData } from '../util/cleanup';
 import {
-  getContact,
   getSource,
   getSourceServiceId,
   isCustomError,
   messageHasPaymentEvent,
   isQuoteAMatch,
+  getAuthor,
 } from '../messages/helpers';
 import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue';
 import { getMessageIdForLogging } from '../util/idForLogging';
@@ -1625,7 +1625,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const type = message.get('type');
     const conversationId = message.get('conversationId');
 
-    const fromContact = getContact(this.attributes);
+    const fromContact = getAuthor(this.attributes);
     if (fromContact) {
       fromContact.setRegistered();
     }
@@ -1751,6 +1751,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           return;
         }
         if (existingMessage) {
+          // TODO: (DESKTOP-7301): improve this check in case previous message is not yet
+          // registered in memory
           log.warn(
             `${idLog}: Received duplicate transcript for message ${message.idForLogging()}, but it was not an update transcript. Dropping.`
           );
@@ -2477,7 +2479,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           );
         }
 
-        const generatedMessage = reaction.storyReactionMessage;
+        const generatedMessage = reaction.generatedMessageForStoryReaction;
         strictAssert(
           generatedMessage,
           'Story reactions must provide storyReactionMessage'
@@ -2668,7 +2670,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           'New story reaction must have an emoji'
         );
 
-        const generatedMessage = reaction.storyReactionMessage;
+        const generatedMessage = reaction.generatedMessageForStoryReaction;
         strictAssert(
           generatedMessage,
           'Story reactions must provide storyReactionmessage'

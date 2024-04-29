@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AciString } from '../types/ServiceId';
-import type { ConversationModel } from '../models/conversations';
 import type { MessageAttributesType } from '../model-types.d';
 import type { MessageModel } from '../models/messages';
 import type { ReactionSource } from '../reactions/ReactionSource';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
-import { getContactId, getContact } from '../messages/helpers';
-import { getMessageIdForLogging } from '../util/idForLogging';
+import { getAuthor } from '../messages/helpers';
 import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet';
-import { isDirectConversation, isMe } from '../util/whatTypeOfConversation';
-import { isOutgoing, isStory } from '../state/selectors/message';
+import { isMe } from '../util/whatTypeOfConversation';
+import { isStory } from '../state/selectors/message';
+import { getPropForTimestamp } from '../util/editHelpers';
+import { isSent } from '../messages/MessageSendState';
 import { strictAssert } from '../util/assert';
 
 export type ReactionAttributesType = {
@@ -22,9 +22,10 @@ export type ReactionAttributesType = {
   remove?: boolean;
   removeFromMessageReceiverCache: () => unknown;
   source: ReactionSource;
-  // Necessary to put 1:1 story replies into the right conversation - not the same
-  //   conversation as the target message!
-  storyReactionMessage?: MessageModel;
+  // If this is a reaction to a 1:1 story, we can use this message, generated from the
+  //   reaction message itself. Necessary to put 1:1 story replies into the right
+  //   conversation - not the same conversation as the target message!
+  generatedMessageForStoryReaction?: MessageModel;
   targetAuthorAci: AciString;
   targetTimestamp: number;
   timestamp: number;
@@ -38,70 +39,133 @@ function remove(reaction: ReactionAttributesType): void {
   reaction.removeFromMessageReceiverCache();
 }
 
-export function forMessage(
+export function findReactionsForMessage(
   message: MessageModel
 ): Array<ReactionAttributesType> {
-  const logId = `Reactions.forMessage(${getMessageIdForLogging(
-    message.attributes
-  )})`;
-
-  const reactionValues = Array.from(reactions.values());
-  const sentTimestamps = getMessageSentTimestampSet(message.attributes);
-  if (isOutgoing(message.attributes)) {
-    const outgoingReactions = reactionValues.filter(item =>
-      sentTimestamps.has(item.targetTimestamp)
-    );
-
-    if (outgoingReactions.length > 0) {
-      log.info(`${logId}: Found early reaction for outgoing message`);
-      outgoingReactions.forEach(item => {
-        remove(item);
-      });
-      return outgoingReactions;
-    }
-  }
-
-  const senderId = getContactId(message.attributes);
-  const reactionsBySource = reactionValues.filter(re => {
-    const targetSender = window.ConversationController.lookupOrCreate({
-      serviceId: re.targetAuthorAci,
-      reason: logId,
+  const matchingReactions = Array.from(reactions.values()).filter(reaction => {
+    return isMessageAMatchForReaction({
+      message: message.attributes,
+      targetTimestamp: reaction.targetTimestamp,
+      targetAuthorAci: reaction.targetAuthorAci,
+      reactionSenderConversationId: reaction.fromId,
     });
-    return (
-      targetSender?.id === senderId && sentTimestamps.has(re.targetTimestamp)
-    );
   });
 
-  if (reactionsBySource.length > 0) {
-    log.info(`${logId}: Found early reaction for message`);
-    reactionsBySource.forEach(item => {
-      remove(item);
-      item.removeFromMessageReceiverCache();
-    });
-    return reactionsBySource;
-  }
-
-  return [];
+  matchingReactions.forEach(reaction => remove(reaction));
+  return matchingReactions;
 }
 
-async function findMessage(
-  targetTimestamp: number,
-  targetConversationId: string
-): Promise<MessageAttributesType | undefined> {
+async function findMessageForReaction({
+  targetTimestamp,
+  targetAuthorAci,
+  reactionSenderConversationId,
+  logId,
+}: {
+  targetTimestamp: number;
+  targetAuthorAci: string;
+  reactionSenderConversationId: string;
+  logId: string;
+}): Promise<MessageAttributesType | undefined> {
   const messages = await window.Signal.Data.getMessagesBySentAt(
     targetTimestamp
   );
 
-  return messages.find(m => {
-    const contact = getContact(m);
+  const matchingMessages = messages.filter(message =>
+    isMessageAMatchForReaction({
+      message,
+      targetTimestamp,
+      targetAuthorAci,
+      reactionSenderConversationId,
+    })
+  );
 
-    if (!contact) {
+  if (!matchingMessages.length) {
+    return undefined;
+  }
+
+  if (matchingMessages.length > 1) {
+    // This could theoretically happen given limitations in the reaction proto but
+    // is very unlikely
+    log.warn(
+      `${logId}/findMessageForReaction: found ${matchingMessages.length} matching messages for the reaction!`
+    );
+  }
+
+  return matchingMessages[0];
+}
+
+function isMessageAMatchForReaction({
+  message,
+  targetTimestamp,
+  targetAuthorAci,
+  reactionSenderConversationId,
+}: {
+  message: MessageAttributesType;
+  targetTimestamp: number;
+  targetAuthorAci: string;
+  reactionSenderConversationId: string;
+}): boolean {
+  if (!getMessageSentTimestampSet(message).has(targetTimestamp)) {
+    return false;
+  }
+
+  const targetAuthorConversation =
+    window.ConversationController.get(targetAuthorAci);
+  const reactionSenderConversation = window.ConversationController.get(
+    reactionSenderConversationId
+  );
+
+  if (!targetAuthorConversation || !reactionSenderConversation) {
+    return false;
+  }
+
+  const author = getAuthor(message);
+  if (!author) {
+    return false;
+  }
+
+  if (author.id !== targetAuthorConversation.id) {
+    return false;
+  }
+
+  if (isMe(reactionSenderConversation.attributes)) {
+    // I am either the recipient or sender of all the messages I know about!
+    return true;
+  }
+
+  if (message.type === 'outgoing') {
+    const sendStateByConversationId = getPropForTimestamp({
+      log,
+      message,
+      prop: 'sendStateByConversationId',
+      targetTimestamp,
+    });
+
+    const sendState =
+      sendStateByConversationId?.[reactionSenderConversation.id];
+    if (!sendState) {
       return false;
     }
 
-    const mcid = contact.get('id');
-    return mcid === targetConversationId;
-  });
+    return isSent(sendState.status);
+  }
+
+  if (message.type === 'incoming') {
+    const messageConversation = window.ConversationController.get(
+      message.conversationId
+    );
+    if (!messageConversation) {
+      return false;
+    }
+
+    const reactionSenderServiceId = reactionSenderConversation.getServiceId();
+    return (
+      reactionSenderServiceId != null &&
+      messageConversation.hasMember(reactionSenderServiceId)
+    );
+  }
+
+  return true;
 }
 
 export async function onReaction(
@@ -112,36 +176,14 @@ export async function onReaction(
   const logId = `Reactions.onReaction(timestamp=${reaction.timestamp};target=${reaction.targetTimestamp})`;
 
   try {
-    // The conversation the target message was in; we have to find it in the database
-    //   to to figure that out.
-    const targetAuthorConversation =
-      window.ConversationController.lookupOrCreate({
-        serviceId: reaction.targetAuthorAci,
-        reason: logId,
-      });
-    const targetConversationId = targetAuthorConversation?.id;
-    if (!targetConversationId) {
-      throw new Error(
-        `${logId} Error: No conversationId returned from lookupOrCreate!`
-      );
-    }
+    const matchingMessage = await findMessageForReaction({
+      targetTimestamp: reaction.targetTimestamp,
+      targetAuthorAci: reaction.targetAuthorAci,
+      reactionSenderConversationId: reaction.fromId,
+      logId,
+    });
 
-    const generatedMessage = reaction.storyReactionMessage;
-    strictAssert(
-      generatedMessage,
-      `${logId} strictAssert: Story reactions must provide storyReactionMessage`
-    );
-    const fromConversation = window.ConversationController.get(
-      generatedMessage.get('conversationId')
-    );
-
-    let targetConversation: ConversationModel | undefined | null;
-
-    const targetMessageCheck = await findMessage(
-      reaction.targetTimestamp,
-      targetConversationId
-    );
-    if (!targetMessageCheck) {
+    if (!matchingMessage) {
       log.info(
         `${logId}: No message for reaction`,
         'targeting',
@@ -150,22 +192,11 @@ export async function onReaction(
       return;
     }
 
-    if (
-      fromConversation &&
-      isStory(targetMessageCheck) &&
-      isDirectConversation(fromConversation.attributes) &&
-      !isMe(fromConversation.attributes)
-    ) {
-      targetConversation = fromConversation;
-    } else {
-      targetConversation =
-        await window.ConversationController.getConversationForTargetMessage(
-          targetConversationId,
-          reaction.targetTimestamp
-        );
-    }
+    const matchingMessageConversation = window.ConversationController.get(
+      matchingMessage.conversationId
+    );
 
-    if (!targetConversation) {
+    if (!matchingMessageConversation) {
       log.info(
         `${logId}: No target conversation for reaction`,
         reaction.targetAuthorAci,
@@ -176,45 +207,52 @@ export async function onReaction(
     }
 
     // awaiting is safe since `onReaction` is never called from inside the queue
-    await targetConversation.queueJob('Reactions.onReaction', async () => {
-      log.info(`${logId}: handling`);
+    await matchingMessageConversation.queueJob(
+      'Reactions.onReaction',
+      async () => {
+        log.info(`${logId}: handling`);
 
-      // Thanks TS.
-      if (!targetConversation) {
-        remove(reaction);
-        return;
-      }
-
-      // Message is fetched inside the conversation queue so we have the
-      // most recent data
-      const targetMessage = await findMessage(
-        reaction.targetTimestamp,
-        targetConversationId
-      );
-
-      if (!targetMessage) {
-        remove(reaction);
-        return;
-      }
-
-      const message = window.MessageCache.__DEPRECATED$register(
-        targetMessage.id,
-        targetMessage,
-        'Reactions.onReaction'
-      );
-
-      // Use the generated message in ts/background.ts to create a message
-      // if the reaction is targeted at a story.
-      if (!isStory(targetMessage)) {
-        await message.handleReaction(reaction);
-      } else {
-        await generatedMessage.handleReaction(reaction, {
-          storyMessage: targetMessage,
+        // Message is fetched inside the conversation queue so we have the
+        // most recent data
+        const targetMessage = await findMessageForReaction({
+          targetTimestamp: reaction.targetTimestamp,
+          targetAuthorAci: reaction.targetAuthorAci,
+          reactionSenderConversationId: reaction.fromId,
+          logId: `${logId}/conversationQueue`,
         });
-      }
 
-      remove(reaction);
-    });
+        if (!targetMessage || targetMessage.id !== matchingMessage.id) {
+          log.warn(
+            `${logId}: message no longer a match for reaction! Maybe it's been deleted?`
+          );
+          remove(reaction);
+          return;
+        }
+
+        const targetMessageModel = window.MessageCache.__DEPRECATED$register(
+          targetMessage.id,
+          targetMessage,
+          'Reactions.onReaction'
+        );
+
+        // Use the generated message in ts/background.ts to create a message
+        // if the reaction is targeted at a story.
+        if (!isStory(targetMessage)) {
+          await targetMessageModel.handleReaction(reaction);
+        } else {
+          const generatedMessage = reaction.generatedMessageForStoryReaction;
+          strictAssert(
+            generatedMessage,
+            'Generated message must exist for story reaction'
+          );
+          await generatedMessage.handleReaction(reaction, {
+            storyMessage: targetMessage,
+          });
+        }
+
+        remove(reaction);
+      }
+    );
   } catch (error) {
     remove(reaction);
     log.error(`${logId} error:`, Errors.toLogFormat(error));
