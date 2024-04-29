@@ -70,7 +70,7 @@ import { shouldShowInvalidMessageToast } from '../../util/shouldShowInvalidMessa
 import { writeDraftAttachment } from '../../util/writeDraftAttachment';
 import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
 import { canReply, isNormalBubble } from '../selectors/message';
-import { getContactId } from '../../messages/helpers';
+import { getAuthorId } from '../../messages/helpers';
 import { getConversationSelector } from '../selectors/conversations';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend';
 import { useBoundActions } from '../../hooks/useBoundActions';
@@ -341,7 +341,7 @@ function scrollToQuotedMessage({
       Boolean(
         item.conversationId === conversationId &&
           authorId &&
-          getContactId(item) === authorId
+          getAuthorId(item) === authorId
       )
     );
 

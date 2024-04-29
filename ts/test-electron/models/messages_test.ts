@@ -18,7 +18,7 @@ import enMessages from '../../../_locales/en/messages.json';
 import { SendStatus } from '../../messages/MessageSendState';
 import { SignalService as Proto } from '../../protobuf';
 import { generateAci } from '../../types/ServiceId';
-import { getContact } from '../../messages/helpers';
+import { getAuthor } from '../../messages/helpers';
 import { setupI18n } from '../../util/setupI18n';
 import {
   APPLICATION_JSON,
@@ -237,7 +237,7 @@ describe('Message', () => {
   describe('getContact', () => {
     it('gets outgoing contact', () => {
       const message = createMessage(attributes);
-      assert.exists(getContact(message.attributes));
+      assert.exists(getAuthor(message.attributes));
     });
 
     it('gets incoming contact', () => {
@@ -245,7 +245,7 @@ describe('Message', () => {
         type: 'incoming',
         source,
       });
-      assert.exists(getContact(message.attributes));
+      assert.exists(getAuthor(message.attributes));
     });
   });
 

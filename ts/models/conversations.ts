@@ -51,7 +51,7 @@ import type {
   CustomColorType,
 } from '../types/Colors';
 import type { MessageModel } from './messages';
-import { getContact } from '../messages/helpers';
+import { getAuthor } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
 import { isConversationMuted } from '../util/isConversationMuted';
 import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
@@ -5153,7 +5153,7 @@ export class ConversationModel extends window.Backbone
 
     const sender = reaction
       ? window.ConversationController.get(reaction.fromId)
-      : getContact(message.attributes);
+      : getAuthor(message.attributes);
     const senderName = sender
       ? sender.getTitle()
       : window.i18n('icu:unknownContact');
