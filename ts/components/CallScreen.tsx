@@ -97,7 +97,6 @@ export type PropsType = {
   hangUpActiveCall: (reason: string) => void;
   i18n: LocalizerType;
   isGroupCallRaiseHandEnabled: boolean;
-  isGroupCallReactionsEnabled: boolean;
   me: ConversationType;
   openSystemPreferencesAction: () => unknown;
   renderReactionPicker: (
@@ -186,7 +185,6 @@ export function CallScreen({
   hangUpActiveCall,
   i18n,
   isGroupCallRaiseHandEnabled,
-  isGroupCallReactionsEnabled,
   me,
   openSystemPreferencesAction,
   renderEmojiPicker,
@@ -851,20 +849,19 @@ export function CallScreen({
               className="CallControls__ReactionPickerContainer"
               ref={reactionPickerContainerRef}
             >
-              {isGroupCallReactionsEnabled &&
-                renderReactionPicker({
-                  ref: reactionPickerRef,
-                  onClose: () => setShowReactionPicker(false),
-                  onPick: emoji => {
-                    setShowReactionPicker(false);
-                    sendGroupCallReaction({
-                      callMode: activeCall.callMode,
-                      conversationId: conversation.id,
-                      value: emoji,
-                    });
-                  },
-                  renderEmojiPicker,
-                })}
+              {renderReactionPicker({
+                ref: reactionPickerRef,
+                onClose: () => setShowReactionPicker(false),
+                onPick: emoji => {
+                  setShowReactionPicker(false);
+                  sendGroupCallReaction({
+                    callMode: activeCall.callMode,
+                    conversationId: conversation.id,
+                    value: emoji,
+                  });
+                },
+                renderEmojiPicker,
+              })}
             </div>
           )}
 
@@ -903,7 +900,7 @@ export function CallScreen({
               onClick={togglePresenting}
               tooltipDirection={TooltipPlacement.Top}
             />
-            {isGroupCallReactionsEnabled && reactButtonType && (
+            {reactButtonType && (
               <div
                 className={classNames('CallControls__ReactButtonContainer', {
                   'CallControls__ReactButtonContainer--menu-shown':
