@@ -67,22 +67,42 @@ export type OnsResolveSubRequest = {
   };
 };
 
+/**
+ * If you are thinking of adding the `limit` field here: don't.
+ * We fetch the full list because we will remove from every cached swarms the snodes not found in that fresh list.
+ * If a `limit` was set, we would remove a lot of valid snodes from those cached swarms.
+ */
+type FetchSnodeListParams = {
+  active_only: true;
+  fields: {
+    public_ip: true;
+    storage_port: true;
+    pubkey_x25519: true;
+    pubkey_ed25519: true;
+  };
+};
+
+export type GetServicesNodesFromSeedRequest = {
+  method: 'get_n_service_nodes';
+  jsonrpc: '2.0';
+  /**
+   * If you are thinking of adding the `limit` field here: don't.
+   * We fetch the full list because we will remove from every cached swarms the snodes not found in that fresh list.
+   * If the limit was set, we would remove a lot of valid snodes from the swarms we've already fetched.
+   */
+  params: FetchSnodeListParams;
+};
+
 export type GetServiceNodesSubRequest = {
   method: 'oxend_request';
   params: {
     endpoint: 'get_service_nodes';
-    params: {
-      active_only: true;
-      // If you are thinking of adding the `limit` field here: don't.
-      // We fetch the full list because when we retrieve it we also remove from all the swarms we already know, any snode not part of that fetched list.
-      // If the limit was set, we would remove a lot of valid snodes from the swarms we've already fetched.
-      fields: {
-        public_ip: true;
-        storage_port: true;
-        pubkey_x25519: true;
-        pubkey_ed25519: true;
-      };
-    };
+    /**
+     * If you are thinking of adding the `limit` field here: don't.
+     * We fetch the full list because we will remove from every cached swarms the snodes not found in that fresh list.
+     * If the limit was set, we would remove a lot of valid snodes from the swarms we've already fetched.
+     */
+    params: FetchSnodeListParams;
   };
 };
 

@@ -1,7 +1,7 @@
 import { isBoolean } from 'lodash';
 
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { SettingsKey } from '../../data/settings-key'; // ok: does not import anything else
+import { SettingsKey } from '../../data/settings-key';
 
 const SettingsBoolsKeyTrackedInRedux = [
   SettingsKey.someDeviceOutdatedSyncing,

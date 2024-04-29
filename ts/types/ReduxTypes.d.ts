@@ -12,7 +12,7 @@ export type SessionSettingCategory =
   | 'permissions'
   | 'help'
   | 'recoveryPhrase'
-  | 'ClearData';
+  | 'clearData';
 
 export type PasswordAction = 'set' | 'change' | 'remove' | 'enter';
 

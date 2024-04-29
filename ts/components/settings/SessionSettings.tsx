@@ -117,7 +117,7 @@ const SettingInCategory = (props: {
       return <SettingsCategoryPermissions />;
 
     // these three down there have no options, they are just a button
-    case 'ClearData':
+    case 'clearData':
     case 'messageRequests':
     case 'recoveryPhrase':
     default:

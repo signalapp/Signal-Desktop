@@ -5,7 +5,7 @@ import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';
 import { SnodeNamespace, SnodeNamespaces } from './namespaces';
 
-import { TTL_DEFAULT } from '../../constants';
+import { DURATION, TTL_DEFAULT } from '../../constants';
 import { UserUtils } from '../../utils';
 import { sleepFor } from '../../utils/Promise';
 import {
@@ -124,7 +124,7 @@ async function retrieveNextMessages(
   );
   // let exceptions bubble up
   // no retry for this one as this a call we do every few seconds while polling for messages
-  const timeOutMs = 10 * 1000; // yes this is a long timeout for just messages, but 4s timeouts way to often...
+  const timeOutMs = 10 * DURATION.SECONDS; // yes this is a long timeout for just messages, but 4s timeouts way to often...
   const timeoutPromise = async () => sleepFor(timeOutMs);
   const fetchPromise = async () =>
     doSnodeBatchRequest(retrieveRequestsParams, targetNode, timeOutMs, associatedWith);
@@ -166,7 +166,7 @@ async function retrieveNextMessages(
 
     GetNetworkTime.handleTimestampOffsetFromNetwork('retrieve', bodyFirstResult.t);
 
-    // NOTE: We don't want to sort messages here because the ordering depends on the snode and when it received each messages.
+    // NOTE: We don't want to sort messages here because the ordering depends on the snode and when it received each message.
     // The last_hash for that snode has to be the last one we've received from that same snode, othwerwise we end up fetching the same messages over and over again.
     return results.map((result, index) => ({
       code: result.code,

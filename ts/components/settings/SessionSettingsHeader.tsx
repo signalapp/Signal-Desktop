@@ -44,7 +44,7 @@ export const SettingsHeader = (props: Props) => {
     case 'privacy':
       categoryTitle = window.i18n('privacySettingsTitle');
       break;
-    case 'ClearData':
+    case 'clearData':
     case 'messageRequests':
     case 'recoveryPhrase':
       throw new Error(`no header for should be tried to be rendered for "${category}"`);

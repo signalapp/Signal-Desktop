@@ -77,7 +77,7 @@ const getCategories = (): Array<{ id: SessionSettingCategory; title: string }> =
       title: window.i18n('recoveryPhrase'),
     },
     {
-      id: 'ClearData' as const,
+      id: 'clearData' as const,
       title: window.i18n('clearDataSettingsTitle'),
     },
   ];
@@ -93,7 +93,7 @@ const LeftPaneSettingsCategoryRow = (props: {
 
   const dataTestId = `${title.toLowerCase().replace(' ', '-')}-settings-menu-item`;
 
-  const isClearData = id === 'ClearData';
+  const isClearData = id === 'clearData';
 
   return (
     <StyledSettingsListItem
@@ -111,7 +111,7 @@ const LeftPaneSettingsCategoryRow = (props: {
           case 'recoveryPhrase':
             dispatch(recoveryPhraseModal({}));
             break;
-          case 'ClearData':
+          case 'clearData':
             dispatch(updateDeleteAccountModal({}));
             break;
           default:
