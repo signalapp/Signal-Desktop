@@ -5,7 +5,7 @@ import type { MessageAttributesType } from '../model-types.d';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import { drop } from '../util/drop';
-import { getContactId } from '../messages/helpers';
+import { getAuthorId } from '../messages/helpers';
 import { handleEditMessage } from '../util/handleEditMessage';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 import {
@@ -55,7 +55,7 @@ export function forMessage(
   const matchingEdits = editValues.filter(item => {
     return (
       item.targetSentTimestamp === sentAt &&
-      item.fromId === getContactId(messageAttributes)
+      item.fromId === getAuthorId(messageAttributes)
     );
   });
 
@@ -125,7 +125,7 @@ export async function onEdit(edit: EditAttributesType): Promise<void> {
         const targetMessage = messages.find(
           m =>
             edit.conversationId === m.conversationId &&
-            edit.fromId === getContactId(m)
+            edit.fromId === getAuthorId(m)
         );
 
         if (!targetMessage) {

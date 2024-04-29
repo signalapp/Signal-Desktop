@@ -220,12 +220,16 @@ export async function modifyTargetMessage(
   }
 
   // Does message message have any pending, previously-received associated reactions?
-  const reactions = Reactions.forMessage(message);
+  const reactions = Reactions.findReactionsForMessage(message);
+
+  log.info(
+    `${logId}: Found ${reactions.length} early reaction(s) for ${message.attributes.type} message`
+  );
   await Promise.all(
     reactions.map(async reaction => {
       if (isStory(message.attributes)) {
         // We don't set changed = true here, because we don't modify the original story
-        const generatedMessage = reaction.storyReactionMessage;
+        const generatedMessage = reaction.generatedMessageForStoryReaction;
         strictAssert(
           generatedMessage,
           'Story reactions must provide storyReactionMessage'

@@ -132,11 +132,11 @@ export function isQuoteAMatch(
   return (
     isSameTimestamp &&
     message.conversationId === conversationId &&
-    getContactId(message) === authorConversation?.id
+    getAuthorId(message) === authorConversation?.id
   );
 }
 
-export function getContactId(
+export function getAuthorId(
   message: Pick<MessageAttributesType, 'type' | 'source' | 'sourceServiceId'>
 ): string | undefined {
   const source = getSource(message);
@@ -149,15 +149,15 @@ export function getContactId(
   const conversation = window.ConversationController.lookupOrCreate({
     e164: source,
     serviceId: sourceServiceId,
-    reason: 'helpers.getContactId',
+    reason: 'helpers.getAuthorId',
   });
   return conversation?.id;
 }
 
-export function getContact(
+export function getAuthor(
   message: MessageAttributesType
 ): ConversationModel | undefined {
-  const id = getContactId(message);
+  const id = getAuthorId(message);
   return window.ConversationController.get(id);
 }
 

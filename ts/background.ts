@@ -59,7 +59,7 @@ import { RoutineProfileRefresher } from './routineProfileRefresh';
 import { isOlderThan } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import type { ConversationModel } from './models/conversations';
-import { getContact, isIncoming } from './messages/helpers';
+import { getAuthor, isIncoming } from './messages/helpers';
 import { migrateMessageData } from './messages/migrateMessageData';
 import { createBatcher } from './util/batcher';
 import {
@@ -2329,7 +2329,7 @@ export async function startApp(): Promise<void> {
     const message = initIncomingMessage(data, messageDescriptor);
 
     if (isIncoming(message.attributes)) {
-      const sender = getContact(message.attributes);
+      const sender = getAuthor(message.attributes);
       strictAssert(sender, 'MessageModel has no sender');
 
       const serviceIdKind = window.textsecure.storage.user.getOurServiceIdKind(
@@ -2395,7 +2395,7 @@ export async function startApp(): Promise<void> {
         fromId: fromConversation.id,
         remove: reaction.remove,
         source: ReactionSource.FromSomeoneElse,
-        storyReactionMessage: message,
+        generatedMessageForStoryReaction: message,
         targetAuthorAci,
         targetTimestamp: reaction.targetTimestamp,
         receivedAtDate: data.receivedAtDate,
@@ -2784,7 +2784,7 @@ export async function startApp(): Promise<void> {
         fromId: window.ConversationController.getOurConversationIdOrThrow(),
         remove: reaction.remove,
         source: ReactionSource.FromSync,
-        storyReactionMessage: message,
+        generatedMessageForStoryReaction: message,
         targetAuthorAci,
         targetTimestamp: reaction.targetTimestamp,
         receivedAtDate: data.receivedAtDate,

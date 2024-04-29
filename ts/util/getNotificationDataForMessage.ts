@@ -48,7 +48,7 @@ import {
   isMessageRequestResponse,
 } from '../state/selectors/message';
 import {
-  getContact,
+  getAuthor,
   messageHasPaymentEvent,
   getPaymentEventNotificationText,
 } from '../messages/helpers';
@@ -260,7 +260,7 @@ export function getNotificationDataForMessage(
 
   if (isGroupUpdate(attributes)) {
     const { group_update: groupUpdate } = attributes;
-    const fromContact = getContact(attributes);
+    const fromContact = getAuthor(attributes);
     const messages = [];
     if (!groupUpdate) {
       throw new Error('getNotificationData: Missing group_update');
@@ -499,7 +499,7 @@ export function getNotificationDataForMessage(
       };
     }
 
-    const fromContact = getContact(attributes);
+    const fromContact = getAuthor(attributes);
     const sender = fromContact?.getTitle() ?? window.i18n('icu:unknownContact');
     return {
       emoji,
