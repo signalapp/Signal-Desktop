@@ -14,6 +14,7 @@ export enum CallingLobbyJoinButtonVariant {
   Join = 'Join',
   Loading = 'Loading',
   Start = 'Start',
+  AskToJoin = 'AskToJoin',
 }
 
 type PropsType = {
@@ -54,6 +55,9 @@ export function CallingLobbyJoinButton({
     ),
     [CallingLobbyJoinButtonVariant.Start]: i18n(
       'icu:CallingLobbyJoinButton--start'
+    ),
+    [CallingLobbyJoinButtonVariant.AskToJoin]: i18n(
+      'icu:CallingLobbyJoinButton--ask-to-join'
     ),
   };
 

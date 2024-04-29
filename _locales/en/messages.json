@@ -1625,6 +1625,10 @@
     "messageformat": "Call full",
     "description": "Button in the call lobby when you can't join because the call is full"
   },
+  "icu:CallingLobbyJoinButton--ask-to-join": {
+    "messageformat": "Ask to join",
+    "description": "Button label in the call lobby for joining a call link which requires admin approval"
+  },
   "icu:calling__button--video-disabled": {
     "messageformat": "Camera disabled",
     "description": "Button tooltip label when the camera is disabled"

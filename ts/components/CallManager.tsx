@@ -53,6 +53,7 @@ import { CallingAdhocCallInfo } from './CallingAdhocCallInfo';
 import { callLinkRootKeyToUrl } from '../util/callLinkRootKeyToUrl';
 import { ToastType } from '../types/Toast';
 import type { ShowToastAction } from '../state/ducks/toast';
+import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode';
 
 const GROUP_CALL_RING_DURATION = 60 * 1000;
 
@@ -257,6 +258,7 @@ function ActiveCallManager({
     | undefined
     | Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   let isConvoTooBigToRing = false;
+  let isAdhocAdminApprovalRequired = false;
   let isAdhocJoinRequestPending = false;
 
   switch (activeCall.callMode) {
@@ -286,8 +288,11 @@ function ActiveCallManager({
       isCallFull = activeCall.deviceCount >= activeCall.maxDevices;
       isConvoTooBigToRing = activeCall.isConversationTooBigToRing;
       ({ groupMembers } = activeCall);
+      isAdhocAdminApprovalRequired =
+        !callLink?.adminKey &&
+        callLink?.restrictions === CallLinkRestrictions.AdminApproval;
       isAdhocJoinRequestPending =
-        callLink?.restrictions === CallLinkRestrictions.AdminApproval &&
+        isAdhocAdminApprovalRequired &&
         activeCall.joinState === GroupCallJoinState.Pending;
       break;
     }
@@ -324,9 +329,11 @@ function ActiveCallManager({
           hasLocalAudio={hasLocalAudio}
           hasLocalVideo={hasLocalVideo}
           i18n={i18n}
+          isAdhocAdminApprovalRequired={isAdhocAdminApprovalRequired}
           isAdhocJoinRequestPending={isAdhocJoinRequestPending}
           isCallFull={isCallFull}
           isConversationTooBigToRing={isConvoTooBigToRing}
+          isSharingPhoneNumberWithEverybody={isSharingPhoneNumberWithEverybody()}
           me={me}
           onCallCanceled={cancelActiveCall}
           onJoinCall={joinActiveCall}

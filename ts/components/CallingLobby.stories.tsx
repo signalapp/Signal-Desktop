@@ -20,6 +20,7 @@ import {
 } from '../test-both/helpers/getDefaultConversation';
 import { CallingToastProvider } from './CallingToast';
 import { CallMode } from '../types/Calling';
+import { getDefaultCallLinkConversation } from '../test-both/helpers/fakeCallLink';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -33,15 +34,24 @@ const camera = {
   },
 };
 
+const getConversation = (callMode: CallMode) => {
+  if (callMode === CallMode.Group) {
+    return getDefaultConversation({
+      title: 'Tahoe Trip',
+      type: 'group',
+    });
+  }
+
+  if (callMode === CallMode.Adhoc) {
+    return getDefaultCallLinkConversation();
+  }
+
+  return getDefaultConversation();
+};
+
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
   const callMode = overrideProps.callMode ?? CallMode.Direct;
-  const conversation =
-    callMode === CallMode.Group
-      ? getDefaultConversation({
-          title: 'Tahoe Trip',
-          type: 'group',
-        })
-      : getDefaultConversation();
+  const conversation = getConversation(callMode);
 
   return {
     availableCameras: overrideProps.availableCameras || [camera],
@@ -55,9 +65,13 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     hasLocalAudio: overrideProps.hasLocalAudio ?? true,
     hasLocalVideo: overrideProps.hasLocalVideo ?? false,
     i18n,
+    isAdhocAdminApprovalRequired:
+      overrideProps.isAdhocAdminApprovalRequired ?? false,
     isAdhocJoinRequestPending: false,
     isConversationTooBigToRing: false,
     isCallFull: overrideProps.isCallFull ?? false,
+    isSharingPhoneNumberWithEverybody:
+      overrideProps.isSharingPhoneNumberWithEverybody ?? false,
     me:
       overrideProps.me ||
       getDefaultConversation({
@@ -203,6 +217,23 @@ export function GroupCallWith0PeekedParticipantsBigGroup(): JSX.Element {
   const props = createProps({
     callMode: CallMode.Group,
     groupMembers: times(100, () => getDefaultConversation()),
+  });
+  return <CallingLobby {...props} />;
+}
+
+export function CallLink(): JSX.Element {
+  const props = createProps({
+    callMode: CallMode.Adhoc,
+  });
+  return <CallingLobby {...props} />;
+}
+
+// Due to storybook font loading, if you directly load this story then
+// the button width is not calculated correctly
+export function CallLinkAdminApproval(): JSX.Element {
+  const props = createProps({
+    callMode: CallMode.Adhoc,
+    isAdhocAdminApprovalRequired: true,
   });
   return <CallingLobby {...props} />;
 }
