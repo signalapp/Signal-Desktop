@@ -1,5 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+import type { CallingConversationType } from '../../types/Calling';
 import type { CallLinkType } from '../../types/CallLink';
 import { CallLinkRestrictions } from '../../types/CallLink';
 import { MONTH } from '../../util/durations/constants';
@@ -24,3 +25,21 @@ export const FAKE_CALL_LINK_WITH_ADMIN_KEY: CallLinkType = {
   roomId: 'c097eb04cc278d6bc7ed9fb2ddeac00dc9646ae6ddb38513dad9a8a4fe3c38f4',
   rootKey: 'bpmc-mrgn-hntf-mffd-mndd-xbxk-zmgq-qszg',
 };
+
+export function getDefaultCallLinkConversation(
+  callLinkOverrideProps: Partial<CallLinkType> = {}
+): CallingConversationType {
+  const { roomId: id, name: title } = {
+    ...FAKE_CALL_LINK,
+    ...callLinkOverrideProps,
+  };
+  return {
+    id,
+    type: 'callLink',
+    isMe: false,
+    title,
+    sharedGroupNames: [],
+    acceptedMessageRequest: true,
+    badges: [],
+  };
+}

@@ -28,7 +28,6 @@ import type { ConversationType } from '../state/ducks/conversations';
 import { useCallingToasts } from './CallingToast';
 import { CallingButtonToastsContainer } from './CallingToastManager';
 import { isGroupOrAdhocCallMode } from '../util/isGroupOrAdhocCall';
-import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode';
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
@@ -59,9 +58,11 @@ export type PropsType = {
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   i18n: LocalizerType;
+  isAdhocAdminApprovalRequired: boolean;
   isAdhocJoinRequestPending: boolean;
   isConversationTooBigToRing: boolean;
   isCallFull?: boolean;
+  isSharingPhoneNumberWithEverybody: boolean;
   me: Readonly<
     Pick<ConversationType, 'avatarPath' | 'color' | 'id' | 'serviceId'>
   >;
@@ -87,9 +88,11 @@ export function CallingLobby({
   hasLocalAudio,
   hasLocalVideo,
   i18n,
+  isAdhocAdminApprovalRequired,
   isAdhocJoinRequestPending,
   isCallFull = false,
   isConversationTooBigToRing,
+  isSharingPhoneNumberWithEverybody,
   me,
   onCallCanceled,
   onJoinCall,
@@ -214,6 +217,8 @@ export function CallingLobby({
     callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.CallIsFull;
   } else if (isCallConnecting) {
     callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.Loading;
+  } else if (isAdhocAdminApprovalRequired) {
+    callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.AskToJoin;
   } else if (peekedParticipants.length || callMode === CallMode.Adhoc) {
     callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.Join;
   } else {
@@ -303,7 +308,7 @@ export function CallingLobby({
 
         {callMode === CallMode.Adhoc && (
           <div className="CallingLobby__CallLinkNotice">
-            {isSharingPhoneNumberWithEverybody()
+            {isSharingPhoneNumberWithEverybody
               ? i18n('icu:CallingLobby__CallLinkNotice--phone-sharing')
               : i18n('icu:CallingLobby__CallLinkNotice')}
           </div>
