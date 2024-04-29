@@ -67,7 +67,6 @@ export type StorageAccessType = {
   customColors: CustomColorsItemType;
   device_name: string;
   existingOnboardingStoryMessageIds: ReadonlyArray<string> | undefined;
-  formattingWarningShown: boolean;
   hasRegisterSupportForUnauthenticatedDelivery: boolean;
   hasSetMyStoriesPrivacy: boolean;
   hasCompletedUsernameOnboarding: boolean;
@@ -92,7 +91,6 @@ export type StorageAccessType = {
   regionCode: string;
   registrationIdMap: Record<ServiceIdString, number>;
   remoteBuildExpiration: number;
-  sendEditWarningShown: boolean;
   sessionResets: SessionResetsType;
   showStickerPickerHint: boolean;
   showStickersIntroduction: boolean;
@@ -175,6 +173,8 @@ export type StorageAccessType = {
   signedKeyRotationRejected: number;
   lastHeartbeat: never;
   lastStartup: never;
+  sendEditWarningShown: never;
+  formattingWarningShown: never;
 };
 
 export type StorageInterface = {

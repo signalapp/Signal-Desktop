@@ -8,22 +8,17 @@ import type {
   DeleteMessagesPropsType,
   EditHistoryMessagesType,
   EditNicknameAndNoteModalPropsType,
-  FormattingWarningDataType,
   ForwardMessagesPropsType,
   MessageRequestActionsConfirmationPropsType,
   SafetyNumberChangedBlockingDataType,
-  SendEditWarningDataType,
   UserNotFoundModalStateType,
 } from '../state/ducks/globalModals';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import { UsernameOnboardingState } from '../types/globalModals';
-import type { ExplodePromiseResultType } from '../util/explodePromise';
 import { missingCaseError } from '../util/missingCaseError';
 
 import { ButtonVariant } from './Button';
 import { ConfirmationDialog } from './ConfirmationDialog';
-import { FormattingWarningModal } from './FormattingWarningModal';
-import { SendEditWarningModal } from './SendEditWarningModal';
 import { SignalConnectionsModal } from './SignalConnectionsModal';
 import { WhatsNewModal } from './WhatsNewModal';
 
@@ -56,11 +51,6 @@ export type PropsType = {
   // DeleteMessageModal
   deleteMessagesProps: DeleteMessagesPropsType | undefined;
   renderDeleteMessagesModal: () => JSX.Element;
-  // FormattingWarningModal
-  showFormattingWarningModal: (
-    explodedPromise: ExplodePromiseResultType<boolean> | undefined
-  ) => void;
-  formattingWarningData: FormattingWarningDataType | undefined;
   // ForwardMessageModal
   forwardMessagesProps: ForwardMessagesPropsType | undefined;
   renderForwardMessagesModal: () => JSX.Element;
@@ -76,11 +66,6 @@ export type PropsType = {
   // SafetyNumberModal
   safetyNumberModalContactId: string | undefined;
   renderSafetyNumber: () => JSX.Element;
-  // SendEditWarningModal
-  showSendEditWarningModal: (
-    explodedPromise: ExplodePromiseResultType<boolean> | undefined
-  ) => void;
-  sendEditWarningData: SendEditWarningDataType | undefined;
   // ShortcutGuideModal
   isShortcutGuideModalVisible: boolean;
   renderShortcutGuideModal: () => JSX.Element;
@@ -138,9 +123,6 @@ export function GlobalModalContainer({
   // DeleteMessageModal
   deleteMessagesProps,
   renderDeleteMessagesModal,
-  // FormattingWarningModal
-  showFormattingWarningModal,
-  formattingWarningData,
   // ForwardMessageModal
   forwardMessagesProps,
   renderForwardMessagesModal,
@@ -156,9 +138,6 @@ export function GlobalModalContainer({
   // SafetyNumberModal
   safetyNumberModalContactId,
   renderSafetyNumber,
-  // SendEditWarningDataType
-  showSendEditWarningModal,
-  sendEditWarningData,
   // ShortcutGuideModal
   isShortcutGuideModalVisible,
   renderShortcutGuideModal,
@@ -226,23 +205,6 @@ export function GlobalModalContainer({
     return renderDeleteMessagesModal();
   }
 
-  if (formattingWarningData) {
-    const { resolve } = formattingWarningData.explodedPromise;
-    return (
-      <FormattingWarningModal
-        i18n={i18n}
-        onSendAnyway={() => {
-          showFormattingWarningModal(undefined);
-          resolve(true);
-        }}
-        onCancel={() => {
-          showFormattingWarningModal(undefined);
-          resolve(false);
-        }}
-      />
-    );
-  }
-
   if (forwardMessagesProps) {
     return renderForwardMessagesModal();
   }
@@ -257,23 +219,6 @@ export function GlobalModalContainer({
 
   if (isProfileEditorVisible) {
     return renderProfileEditor();
-  }
-
-  if (sendEditWarningData) {
-    const { resolve } = sendEditWarningData.explodedPromise;
-    return (
-      <SendEditWarningModal
-        i18n={i18n}
-        onSendAnyway={() => {
-          showSendEditWarningModal(undefined);
-          resolve(true);
-        }}
-        onCancel={() => {
-          showSendEditWarningModal(undefined);
-          resolve(false);
-        }}
-      />
-    );
   }
 
   if (isShortcutGuideModalVisible) {

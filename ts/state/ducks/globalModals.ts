@@ -73,12 +73,6 @@ export type SafetyNumberChangedBlockingDataType = ReadonlyDeep<{
   promiseUuid: SingleServePromise.SingleServePromiseIdString;
   source?: SafetyNumberChangeSource;
 }>;
-export type FormattingWarningDataType = ReadonlyDeep<{
-  explodedPromise: ExplodePromiseResultType<boolean>;
-}>;
-export type SendEditWarningDataType = ReadonlyDeep<{
-  explodedPromise: ExplodePromiseResultType<boolean>;
-}>;
 export type AuthorizeArtCreatorDataType =
   ReadonlyDeep<AuthorizeArtCreatorOptionsType>;
 
@@ -103,7 +97,6 @@ export type GlobalModalsStateType = ReadonlyDeep<{
     description?: string;
     title?: string;
   };
-  formattingWarningData?: FormattingWarningDataType;
   forwardMessagesProps?: ForwardMessagesPropsType;
   gv2MigrationProps?: MigrateToGV2PropsType;
   hasConfirmationModal: boolean;
@@ -120,7 +113,6 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   profileEditorInitialEditState: ProfileEditorEditState | undefined;
   safetyNumberChangedBlockingData?: SafetyNumberChangedBlockingDataType;
   safetyNumberModalContactId?: string;
-  sendEditWarningData?: SendEditWarningDataType;
   stickerPackPreviewId?: string;
   userNotFoundModalState?: UserNotFoundModalStateType;
 }>;
@@ -163,10 +155,6 @@ const TOGGLE_EDIT_NICKNAME_AND_NOTE_MODAL =
   'globalModals/TOGGLE_EDIT_NICKNAME_AND_NOTE_MODAL';
 const TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION =
   'globalModals/TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION';
-const SHOW_FORMATTING_WARNING_MODAL =
-  'globalModals/SHOW_FORMATTING_WARNING_MODAL';
-const SHOW_SEND_EDIT_WARNING_MODAL =
-  'globalModals/SHOW_SEND_EDIT_WARNING_MODAL';
 const CLOSE_SHORTCUT_GUIDE_MODAL = 'globalModals/CLOSE_SHORTCUT_GUIDE_MODAL';
 const SHOW_SHORTCUT_GUIDE_MODAL = 'globalModals/SHOW_SHORTCUT_GUIDE_MODAL';
 const SHOW_AUTH_ART_CREATOR = 'globalModals/SHOW_AUTH_ART_CREATOR';
@@ -278,20 +266,6 @@ type ToggleUsernameOnboardingActionType = ReadonlyDeep<{
 
 type ShowStoriesSettingsActionType = ReadonlyDeep<{
   type: typeof SHOW_STORIES_SETTINGS;
-}>;
-
-type ShowFormattingWarningModalActionType = ReadonlyDeep<{
-  type: typeof SHOW_FORMATTING_WARNING_MODAL;
-  payload: {
-    explodedPromise: ExplodePromiseResultType<boolean> | undefined;
-  };
-}>;
-
-type ShowSendEditWarningModalActionType = ReadonlyDeep<{
-  type: typeof SHOW_SEND_EDIT_WARNING_MODAL;
-  payload: {
-    explodedPromise: ExplodePromiseResultType<boolean> | undefined;
-  };
 }>;
 
 type HideStoriesSettingsActionType = ReadonlyDeep<{
@@ -409,9 +383,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ShowErrorModalActionType
   | ToggleEditNicknameAndNoteModalActionType
   | ToggleMessageRequestActionsConfirmationActionType
-  | ShowFormattingWarningModalActionType
   | ShowSendAnywayDialogActionType
-  | ShowSendEditWarningModalActionType
   | ShowShortcutGuideModalActionType
   | ShowStickerPackPreviewActionType
   | ShowStoriesSettingsActionType
@@ -453,8 +425,6 @@ export const actions = {
   showErrorModal,
   toggleEditNicknameAndNoteModal,
   toggleMessageRequestActionsConfirmation,
-  showFormattingWarningModal,
-  showSendEditWarningModal,
   showGV2MigrationDialog,
   showShortcutGuideModal,
   showStickerPackPreview,
@@ -530,18 +500,6 @@ function hideStoriesSettings(): HideStoriesSettingsActionType {
 
 function showStoriesSettings(): ShowStoriesSettingsActionType {
   return { type: SHOW_STORIES_SETTINGS };
-}
-
-function showFormattingWarningModal(
-  explodedPromise: ExplodePromiseResultType<boolean> | undefined
-): ShowFormattingWarningModalActionType {
-  return { type: SHOW_FORMATTING_WARNING_MODAL, payload: { explodedPromise } };
-}
-
-function showSendEditWarningModal(
-  explodedPromise: ExplodePromiseResultType<boolean> | undefined
-): ShowSendEditWarningModalActionType {
-  return { type: SHOW_SEND_EDIT_WARNING_MODAL, payload: { explodedPromise } };
 }
 
 function showGV2MigrationDialog(
@@ -1158,36 +1116,6 @@ export function reducer(
     return {
       ...state,
       stickerPackPreviewId: undefined,
-    };
-  }
-
-  if (action.type === SHOW_FORMATTING_WARNING_MODAL) {
-    const { explodedPromise } = action.payload;
-    if (!explodedPromise) {
-      return {
-        ...state,
-        formattingWarningData: undefined,
-      };
-    }
-
-    return {
-      ...state,
-      formattingWarningData: { explodedPromise },
-    };
-  }
-
-  if (action.type === SHOW_SEND_EDIT_WARNING_MODAL) {
-    const { explodedPromise } = action.payload;
-    if (!explodedPromise) {
-      return {
-        ...state,
-        sendEditWarningData: undefined,
-      };
-    }
-
-    return {
-      ...state,
-      sendEditWarningData: { explodedPromise },
     };
   }
 

@@ -96,7 +96,6 @@ export const SmartGlobalModalContainer = memo(
       editHistoryMessages,
       editNicknameAndNoteModalProps,
       errorModalProps,
-      formattingWarningData,
       forwardMessagesProps,
       messageRequestActionsConfirmationProps,
       notePreviewModalProps,
@@ -109,7 +108,6 @@ export const SmartGlobalModalContainer = memo(
       usernameOnboardingState,
       safetyNumberChangedBlockingData,
       safetyNumberModalContactId,
-      sendEditWarningData,
       stickerPackPreviewId,
       userNotFoundModalState,
     } = useSelector(getGlobalModalsState);
@@ -120,8 +118,6 @@ export const SmartGlobalModalContainer = memo(
       confirmAuthorizeArtCreator,
       hideUserNotFoundModal,
       hideWhatsNewModal,
-      showFormattingWarningModal,
-      showSendEditWarningModal,
       toggleSignalConnectionsModal,
     } = useGlobalModalActions();
 
@@ -181,7 +177,6 @@ export const SmartGlobalModalContainer = memo(
         editNicknameAndNoteModalProps={editNicknameAndNoteModalProps}
         errorModalProps={errorModalProps}
         deleteMessagesProps={deleteMessagesProps}
-        formattingWarningData={formattingWarningData}
         forwardMessagesProps={forwardMessagesProps}
         messageRequestActionsConfirmationProps={
           messageRequestActionsConfirmationProps
@@ -218,9 +213,6 @@ export const SmartGlobalModalContainer = memo(
         renderStoriesSettings={renderStoriesSettings}
         safetyNumberChangedBlockingData={safetyNumberChangedBlockingData}
         safetyNumberModalContactId={safetyNumberModalContactId}
-        sendEditWarningData={sendEditWarningData}
-        showFormattingWarningModal={showFormattingWarningModal}
-        showSendEditWarningModal={showSendEditWarningModal}
         stickerPackPreviewId={stickerPackPreviewId}
         theme={theme}
         toggleSignalConnectionsModal={toggleSignalConnectionsModal}
