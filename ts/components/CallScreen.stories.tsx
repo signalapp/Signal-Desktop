@@ -187,7 +187,6 @@ const createProps = (
   hangUpActiveCall: action('hang-up'),
   i18n,
   isGroupCallRaiseHandEnabled: true,
-  isGroupCallReactionsEnabled: true,
   me: getDefaultConversation({
     color: AvatarColors[1],
     id: '6146087e-f7ef-457e-9a8d-47df1fdd6b25',

@@ -38,7 +38,6 @@ import { strictAssert } from '../../util/assert';
 import { callLinkToConversation } from '../../util/callLinks';
 import { callingTones } from '../../util/callingTones';
 import { isGroupCallRaiseHandEnabled } from '../../util/isGroupCallRaiseHandEnabled';
-import { isGroupCallReactionsEnabled } from '../../util/isGroupCallReactionsEnabled';
 import { missingCaseError } from '../../util/missingCaseError';
 import { useAudioPlayerActions } from '../ducks/audioPlayer';
 import { getActiveCall, useCallingActions } from '../ducks/calling';
@@ -457,7 +456,6 @@ export const SmartCallManager = memo(function SmartCallManager() {
       incomingCall={incomingCall}
       isConversationTooBigToRing={isConversationTooBigToRing}
       isGroupCallRaiseHandEnabled={isGroupCallRaiseHandEnabled()}
-      isGroupCallReactionsEnabled={isGroupCallReactionsEnabled()}
       me={me}
       notifyForCall={notifyForCall}
       openSystemPreferencesAction={openSystemPreferencesAction}

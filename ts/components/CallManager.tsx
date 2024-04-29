@@ -101,7 +101,6 @@ export type PropsType = {
   hasInitialLoadCompleted: boolean;
   i18n: LocalizerType;
   isGroupCallRaiseHandEnabled: boolean;
-  isGroupCallReactionsEnabled: boolean;
   me: ConversationType;
   notifyForCall: (
     conversationId: string,
@@ -160,7 +159,6 @@ function ActiveCallManager({
   hangUpActiveCall,
   i18n,
   isGroupCallRaiseHandEnabled,
-  isGroupCallReactionsEnabled,
   getGroupCallVideoFrameSource,
   getPresentingSources,
   me,
@@ -405,7 +403,6 @@ function ActiveCallManager({
         hangUpActiveCall={hangUpActiveCall}
         i18n={i18n}
         isGroupCallRaiseHandEnabled={isGroupCallRaiseHandEnabled}
-        isGroupCallReactionsEnabled={isGroupCallReactionsEnabled}
         me={me}
         openSystemPreferencesAction={openSystemPreferencesAction}
         renderEmojiPicker={renderEmojiPicker}
@@ -477,7 +474,6 @@ export function CallManager({
   incomingCall,
   isConversationTooBigToRing,
   isGroupCallRaiseHandEnabled,
-  isGroupCallReactionsEnabled,
   me,
   notifyForCall,
   openSystemPreferencesAction,
@@ -565,7 +561,6 @@ export function CallManager({
           hangUpActiveCall={hangUpActiveCall}
           i18n={i18n}
           isGroupCallRaiseHandEnabled={isGroupCallRaiseHandEnabled}
-          isGroupCallReactionsEnabled={isGroupCallReactionsEnabled}
           me={me}
           openSystemPreferencesAction={openSystemPreferencesAction}
           pauseVoiceNotePlayer={pauseVoiceNotePlayer}
