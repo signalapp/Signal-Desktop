@@ -1113,6 +1113,8 @@ function getPropsForGroupV1Migration(
       conversationId: message.conversationId,
       droppedMembers,
       invitedMembers,
+      droppedMemberCount: droppedMembers.length,
+      invitedMemberCount: invitedMembers.length,
     };
   }
 
@@ -1120,19 +1122,30 @@ function getPropsForGroupV1Migration(
     areWeInvited,
     droppedMemberIds,
     invitedMembers: rawInvitedMembers,
+    droppedMemberCount: rawDroppedMemberCount,
+    invitedMemberCount: rawInvitedMemberCount,
   } = migration;
-  const invitedMembers = rawInvitedMembers.map(item =>
-    conversationSelector(item.uuid)
-  );
-  const droppedMembers = droppedMemberIds.map(conversationId =>
-    conversationSelector(conversationId)
-  );
+  const droppedMembers = droppedMemberIds
+    ? droppedMemberIds.map(conversationId =>
+        conversationSelector(conversationId)
+      )
+    : undefined;
+  const invitedMembers = rawInvitedMembers
+    ? rawInvitedMembers.map(item => conversationSelector(item.uuid))
+    : undefined;
+
+  const droppedMemberCount =
+    rawDroppedMemberCount ?? droppedMemberIds?.length ?? 0;
+  const invitedMemberCount =
+    rawInvitedMemberCount ?? invitedMembers?.length ?? 0;
 
   return {
     areWeInvited,
     conversationId: message.conversationId,
     droppedMembers,
     invitedMembers,
+    droppedMemberCount,
+    invitedMemberCount,
   };
 }
 

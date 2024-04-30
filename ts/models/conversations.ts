@@ -4516,9 +4516,10 @@ export class ConversationModel extends window.Backbone
       }
     }
 
-    const ourConversationId =
-      window.ConversationController.getOurConversationId();
-    source = source || ourConversationId;
+    const ourConversation =
+      window.ConversationController.getOurConversationOrThrow();
+    source = source || ourConversation.id;
+    const sourceServiceId = ourConversation.get('serviceId');
 
     this.set({ expireTimer });
 
@@ -4535,7 +4536,7 @@ export class ConversationModel extends window.Backbone
     const isFromSyncOperation =
       reason === 'group sync' || reason === 'contact sync';
     const isFromMe =
-      window.ConversationController.get(source)?.id === ourConversationId;
+      window.ConversationController.get(source) === ourConversation;
     const isNoteToSelf = isMe(this.attributes);
     const shouldBeRead =
       (isInitialSync && isFromSyncOperation) || isFromMe || isNoteToSelf;
@@ -4547,6 +4548,7 @@ export class ConversationModel extends window.Backbone
       expirationTimerUpdate: {
         expireTimer,
         source,
+        sourceServiceId,
         fromSync,
         fromGroupUpdate,
       },

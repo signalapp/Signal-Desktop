@@ -3,7 +3,7 @@
 
 import * as path from 'path';
 import { tmpdir } from 'os';
-import { chmodSync, rmdirSync, writeFileSync, mkdtempSync } from 'fs';
+import { chmodSync, rmSync, writeFileSync, mkdtempSync } from 'fs';
 import { pathExists, readJsonSync } from 'fs-extra';
 
 import { v4 as generateGuid } from 'uuid';
@@ -25,7 +25,7 @@ describe('base_config', () => {
     try {
       chmodSync(targetDir, 0o755);
       chmodSync(targetPath, 0o755);
-      rmdirSync(targetDir, { recursive: true });
+      rmSync(targetDir, { recursive: true });
     } catch (err) {
       assert.strictEqual(err.code, 'ENOENT');
     }
@@ -167,7 +167,7 @@ describe('base_config', () => {
           throwOnFilesystemErrors: true,
         });
         config.set('foo', 123);
-        rmdirSync(targetDir, { recursive: true });
+        rmSync(targetDir, { recursive: true });
 
         assert.throws(() => config.set('foo', 456));
         assert.strictEqual(config.get('foo'), 123);
@@ -185,7 +185,7 @@ describe('base_config', () => {
           throwOnFilesystemErrors: false,
         });
         config.set('foo', 123);
-        rmdirSync(targetDir, { recursive: true });
+        rmSync(targetDir, { recursive: true });
 
         config.set('bar', 456);
 

@@ -5,11 +5,13 @@ import { Aci, Pni } from '@signalapp/libsignal-client';
 import { v4 as generateUuid } from 'uuid';
 import pMap from 'p-map';
 import { Writable } from 'stream';
+import { isNumber } from 'lodash';
 
-import { Backups } from '../../protobuf';
+import { Backups, SignalService } from '../../protobuf';
 import Data from '../../sql/Client';
 import * as log from '../../logging/log';
 import { StorySendMode } from '../../types/Stories';
+import type { ServiceIdString } from '../../types/ServiceId';
 import { fromAciObject, fromPniObject } from '../../types/ServiceId';
 import * as Errors from '../../types/errors';
 import type {
@@ -36,6 +38,9 @@ import type { SendStateByConversationId } from '../../messages/MessageSendState'
 import { SeenStatus } from '../../MessageSeenStatus';
 import * as Bytes from '../../Bytes';
 import { BACKUP_VERSION } from './constants';
+import type { AboutMe } from './types';
+import type { GroupV2ChangeDetailType } from '../../groups';
+import { isNotNil } from '../../util/isNotNil';
 
 const MAX_CONCURRENCY = 10;
 
@@ -43,6 +48,11 @@ type ConversationOpType = Readonly<{
   isUpdate: boolean;
   attributes: ConversationAttributesType;
 }>;
+
+type ChatItemParseResult = {
+  message: Partial<MessageAttributesType>;
+  additionalMessages: Array<Partial<MessageAttributesType>>;
+};
 
 async function processConversationOpBatch(
   batch: ReadonlyArray<ConversationOpType>
@@ -67,6 +77,7 @@ async function processConversationOpBatch(
 export class BackupImportStream extends Writable {
   private parsedBackupInfo = false;
   private logId = 'BackupImportStream(unknown)';
+  private aboutMe: AboutMe | undefined;
 
   private readonly recipientIdToConvo = new Map<
     number,
@@ -126,7 +137,19 @@ export class BackupImportStream extends Writable {
       } else {
         const frame = Backups.Frame.decode(data);
 
-        await this.processFrame(frame);
+        await this.processFrame(frame, { aboutMe: this.aboutMe });
+
+        if (!this.aboutMe && this.ourConversation) {
+          const { serviceId, pni } = this.ourConversation;
+          strictAssert(
+            isAciString(serviceId),
+            'ourConversation serviceId must be ACI'
+          );
+          this.aboutMe = {
+            aci: serviceId,
+            pni,
+          };
+        }
       }
       done();
     } catch (error) {
@@ -181,7 +204,12 @@ export class BackupImportStream extends Writable {
     this.saveMessageBatcher.unregister();
   }
 
-  private async processFrame(frame: Backups.Frame): Promise<void> {
+  private async processFrame(
+    frame: Backups.Frame,
+    options: { aboutMe?: AboutMe }
+  ): Promise<void> {
+    const { aboutMe } = options;
+
     if (frame.account) {
       await this.fromAccount(frame.account);
 
@@ -215,7 +243,13 @@ export class BackupImportStream extends Writable {
       } else if (frame.chat) {
         await this.fromChat(frame.chat);
       } else if (frame.chatItem) {
-        await this.fromChatItem(frame.chatItem);
+        if (!aboutMe) {
+          throw new Error(
+            'processFrame: Processing a chatItem frame, but no aboutMe data!'
+          );
+        }
+
+        await this.fromChatItem(frame.chatItem, { aboutMe });
       } else {
         log.warn(`${this.logId}: unsupported frame item ${frame.item}`);
       }
@@ -494,30 +528,46 @@ export class BackupImportStream extends Writable {
     }
   }
 
-  private async fromChatItem(item: Backups.IChatItem): Promise<void> {
-    strictAssert(this.ourConversation != null, 'AccountData missing');
+  private async fromChatItem(
+    item: Backups.IChatItem,
+    options: { aboutMe: AboutMe }
+  ): Promise<void> {
+    const { aboutMe } = options;
 
-    strictAssert(item.chatId != null, 'chatItem must have a chatId');
-    strictAssert(item.authorId != null, 'chatItem must have a authorId');
-    strictAssert(item.dateSent != null, 'chatItem must have a dateSent');
+    const timestamp = item?.dateSent?.toNumber();
+    const logId = `fromChatItem(${timestamp})`;
+
+    strictAssert(this.ourConversation != null, `${logId}: AccountData missing`);
+
+    strictAssert(item.chatId != null, `${logId}: must have a chatId`);
+    strictAssert(item.dateSent != null, `${logId}: must have a dateSent`);
+    strictAssert(timestamp, `${logId}: must have a timestamp`);
 
     const chatConvo = this.chatIdToConvo.get(item.chatId.toNumber());
-    strictAssert(chatConvo !== undefined, 'chat conversation not found');
+    strictAssert(
+      chatConvo !== undefined,
+      `${logId}: chat conversation not found`
+    );
 
-    const authorConvo = this.recipientIdToConvo.get(item.authorId.toNumber());
-    strictAssert(authorConvo !== undefined, 'author conversation not found');
+    const authorConvo = item.authorId
+      ? this.recipientIdToConvo.get(item.authorId.toNumber())
+      : undefined;
 
-    const isOutgoing = this.ourConversation.id === authorConvo.id;
+    const isOutgoing =
+      authorConvo && this.ourConversation.id === authorConvo?.id;
+    const isIncoming =
+      authorConvo && this.ourConversation.id !== authorConvo?.id;
+    const isDirectionLess = !isOutgoing && !isIncoming;
 
     let attributes: MessageAttributesType = {
       id: generateUuid(),
       canReplyToStory: false,
       conversationId: chatConvo.id,
       received_at: incrementMessageCounter(),
-      sent_at: item.dateSent.toNumber(),
-      source: authorConvo.e164,
-      sourceServiceId: authorConvo.serviceId,
-      timestamp: item.dateSent.toNumber(),
+      sent_at: timestamp,
+      source: authorConvo?.e164,
+      sourceServiceId: authorConvo?.serviceId,
+      timestamp,
       type: isOutgoing ? 'outgoing' : 'incoming',
       unidentifiedDeliveryReceived: false,
       expirationStartTimestamp: item.expireStartDate
@@ -527,10 +577,14 @@ export class BackupImportStream extends Writable {
         ? DurationInSeconds.fromMillis(item.expiresInMs.toNumber())
         : undefined,
     };
+    const additionalMessages: Array<MessageAttributesType> = [];
 
-    if (isOutgoing) {
-      const { outgoing } = item;
-      strictAssert(outgoing, 'outgoing message must have outgoing field');
+    const { outgoing, incoming, directionless } = item;
+    if (outgoing) {
+      strictAssert(
+        isOutgoing,
+        `${logId}: outgoing message must have outgoing field`
+      );
 
       const sendStateByConversationId: SendStateByConversationId = {};
 
@@ -583,9 +637,12 @@ export class BackupImportStream extends Writable {
 
       attributes.sendStateByConversationId = sendStateByConversationId;
       chatConvo.active_at = attributes.sent_at;
-    } else {
-      const { incoming } = item;
-      strictAssert(incoming, 'incoming message must have incoming field');
+    }
+    if (incoming) {
+      strictAssert(
+        isIncoming,
+        `${logId}: message with incoming field must be incoming`
+      );
       attributes.received_at_ms =
         incoming.dateReceived?.toNumber() ?? Date.now();
 
@@ -600,24 +657,62 @@ export class BackupImportStream extends Writable {
 
       chatConvo.active_at = attributes.received_at_ms;
     }
+    if (directionless) {
+      strictAssert(
+        isDirectionLess,
+        `${logId}: directionless message must not be incoming/outgoing`
+      );
+    }
 
     if (item.standardMessage) {
+      // TODO (DESKTOP-6964): add revisions to editHistory
+
       attributes = {
         ...attributes,
         ...this.fromStandardMessage(item.standardMessage),
       };
+    } else {
+      const result = await this.fromNonBubbleChatItem(item, {
+        aboutMe,
+        author: authorConvo,
+        conversation: chatConvo,
+        timestamp,
+      });
+
+      if (!result) {
+        throw new Error(`${logId}: fromNonBubbleChat item returned nothing!`);
+      }
+
+      attributes = {
+        ...attributes,
+        ...result.message,
+      };
+
+      let sentAt = attributes.sent_at;
+      (result.additionalMessages || []).forEach(additional => {
+        sentAt -= 1;
+        additionalMessages.push({
+          ...attributes,
+          sent_at: sentAt,
+          ...additional,
+        });
+      });
     }
 
     assertDev(
       isAciString(this.ourConversation.serviceId),
-      'Our conversation must have ACI'
+      `${logId}: Our conversation must have ACI`
     );
     this.saveMessage(attributes);
+    additionalMessages.forEach(additional => this.saveMessage(additional));
 
-    if (isOutgoing) {
-      chatConvo.sentMessageCount = (chatConvo.sentMessageCount ?? 0) + 1;
-    } else {
-      chatConvo.messageCount = (chatConvo.messageCount ?? 0) + 1;
+    // TODO (DESKTOP-6964): We'll want to increment for more types here - stickers, etc.
+    if (item.standardMessage) {
+      if (isOutgoing) {
+        chatConvo.sentMessageCount = (chatConvo.sentMessageCount ?? 0) + 1;
+      } else {
+        chatConvo.messageCount = (chatConvo.messageCount ?? 0) + 1;
+      }
     }
     this.updateConversation(chatConvo);
   }
@@ -656,6 +751,678 @@ export class BackupImportStream extends Writable {
           };
         }
       ),
+    };
+  }
+
+  private async fromNonBubbleChatItem(
+    chatItem: Backups.IChatItem,
+    options: {
+      aboutMe: AboutMe;
+      author?: ConversationAttributesType;
+      conversation: ConversationAttributesType;
+      timestamp: number;
+    }
+  ): Promise<ChatItemParseResult | undefined> {
+    const { timestamp } = options;
+    const logId = `fromChatItemToNonBubble(${timestamp})`;
+
+    if (chatItem.standardMessage) {
+      throw new Error(`${logId}: Got chat item with standardMessage set!`);
+    }
+    if (chatItem.contactMessage) {
+      // TODO (DESKTOP-6964)
+    } else if (chatItem.remoteDeletedMessage) {
+      return {
+        message: {
+          isErased: true,
+        },
+        additionalMessages: [],
+      };
+    } else if (chatItem.stickerMessage) {
+      // TODO (DESKTOP-6964)
+    } else if (chatItem.updateMessage) {
+      return this.fromChatItemUpdateMessage(chatItem.updateMessage, options);
+    } else {
+      throw new Error(`${logId}: Message was missing all five message types`);
+    }
+
+    return undefined;
+  }
+
+  private async fromChatItemUpdateMessage(
+    updateMessage: Backups.IChatUpdateMessage,
+    options: {
+      aboutMe: AboutMe;
+      author?: ConversationAttributesType;
+      conversation: ConversationAttributesType;
+      timestamp: number;
+    }
+  ): Promise<ChatItemParseResult | undefined> {
+    const { aboutMe, author } = options;
+
+    if (updateMessage.groupChange) {
+      return this.fromGroupUpdateMessage(updateMessage.groupChange, options);
+    }
+
+    if (updateMessage.expirationTimerChange) {
+      const { expiresInMs } = updateMessage.expirationTimerChange;
+
+      const sourceServiceId = author?.serviceId ?? aboutMe.aci;
+      const expireTimer = isNumber(expiresInMs)
+        ? DurationInSeconds.fromMillis(expiresInMs)
+        : DurationInSeconds.fromSeconds(0);
+
+      return {
+        message: {
+          type: 'timer-notification',
+          sourceServiceId,
+          flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+          expirationTimerUpdate: {
+            expireTimer,
+            sourceServiceId,
+          },
+        },
+        additionalMessages: [],
+      };
+    }
+
+    // TODO (DESKTOP-6964): check these fields
+    //   updateMessage.simpleUpdate
+    //   updateMessage.profileChange
+    //   updateMessage.threadMerge
+    //   updateMessage.sessionSwitchover
+    //   updateMessage.callingMessage
+
+    return undefined;
+  }
+
+  private async fromGroupUpdateMessage(
+    groupChange: Backups.IGroupChangeChatUpdate,
+    options: {
+      aboutMe: AboutMe;
+      timestamp: number;
+    }
+  ): Promise<ChatItemParseResult | undefined> {
+    const { updates } = groupChange;
+    const { aboutMe, timestamp } = options;
+    const logId = `fromGroupUpdateMessage${timestamp}`;
+
+    const details: Array<GroupV2ChangeDetailType> = [];
+    let from: ServiceIdString | undefined;
+    const additionalMessages: Array<Partial<MessageAttributesType>> = [];
+    let migrationMessage: Partial<MessageAttributesType> | undefined;
+    function getDefaultMigrationMessage() {
+      return {
+        type: 'group-v1-migration' as const,
+        groupMigration: {
+          areWeInvited: false,
+          droppedMemberCount: 0,
+          invitedMemberCount: 0,
+        },
+      };
+    }
+
+    let openApprovalServiceId: ServiceIdString | undefined;
+    let openBounceServiceId: ServiceIdString | undefined;
+
+    updates?.forEach(update => {
+      if (update.genericGroupUpdate) {
+        const { updaterAci } = update.genericGroupUpdate;
+        if (updaterAci) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+        details.push({
+          type: 'summary',
+        });
+      }
+      if (update.groupCreationUpdate) {
+        const { updaterAci } = update.groupCreationUpdate;
+        if (updaterAci) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+        details.push({
+          type: 'create',
+        });
+      }
+      if (update.groupNameUpdate) {
+        const { updaterAci, newGroupName } = update.groupNameUpdate;
+        if (updaterAci) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+        details.push({
+          type: 'title',
+          newTitle: dropNull(newGroupName),
+        });
+      }
+      if (update.groupAvatarUpdate) {
+        const { updaterAci, wasRemoved } = update.groupAvatarUpdate;
+        if (updaterAci) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+        details.push({
+          type: 'avatar',
+          removed: Boolean(dropNull(wasRemoved)),
+        });
+      }
+      if (update.groupDescriptionUpdate) {
+        const { updaterAci, newDescription } = update.groupDescriptionUpdate;
+        if (updaterAci) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+        const description = dropNull(newDescription);
+        details.push({
+          type: 'description',
+          description,
+          removed:
+            description === undefined || description.length === 0
+              ? true
+              : undefined,
+        });
+      }
+      if (update.groupMembershipAccessLevelChangeUpdate) {
+        const { updaterAci, accessLevel } =
+          update.groupMembershipAccessLevelChangeUpdate;
+        if (updaterAci) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+        details.push({
+          type: 'access-members',
+          newPrivilege:
+            dropNull(accessLevel) ??
+            SignalService.AccessControl.AccessRequired.UNKNOWN,
+        });
+      }
+      if (update.groupAttributesAccessLevelChangeUpdate) {
+        const { updaterAci, accessLevel } =
+          update.groupAttributesAccessLevelChangeUpdate;
+        if (updaterAci) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+        details.push({
+          type: 'access-attributes',
+          newPrivilege:
+            dropNull(accessLevel) ??
+            SignalService.AccessControl.AccessRequired.UNKNOWN,
+        });
+      }
+      if (update.groupAnnouncementOnlyChangeUpdate) {
+        const { updaterAci, isAnnouncementOnly } =
+          update.groupAnnouncementOnlyChangeUpdate;
+        if (updaterAci) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+        details.push({
+          type: 'announcements-only',
+          announcementsOnly: Boolean(dropNull(isAnnouncementOnly)),
+        });
+      }
+      if (update.groupAdminStatusUpdate) {
+        const { updaterAci, memberAci, wasAdminStatusGranted } =
+          update.groupAdminStatusUpdate;
+        if (updaterAci) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+        if (!memberAci) {
+          throw new Error(
+            `${logId}: We can't render this without a target member!`
+          );
+        }
+        details.push({
+          type: 'member-privilege',
+          aci: fromAciObject(Aci.fromUuidBytes(memberAci)),
+          newPrivilege: wasAdminStatusGranted
+            ? SignalService.Member.Role.ADMINISTRATOR
+            : SignalService.Member.Role.DEFAULT,
+        });
+      }
+      if (update.groupMemberLeftUpdate) {
+        const { aci } = update.groupMemberLeftUpdate;
+        if (!aci || Bytes.isEmpty(aci)) {
+          throw new Error(`${logId}: groupMemberLeftUpdate had missing aci!`);
+        }
+        from = fromAciObject(Aci.fromUuidBytes(aci));
+        details.push({
+          type: 'member-remove',
+          aci: fromAciObject(Aci.fromUuidBytes(aci)),
+        });
+      }
+      if (update.groupMemberRemovedUpdate) {
+        const { removerAci, removedAci } = update.groupMemberRemovedUpdate;
+        if (removerAci) {
+          from = fromAciObject(Aci.fromUuidBytes(removerAci));
+        }
+        if (!removedAci || Bytes.isEmpty(removedAci)) {
+          throw new Error(
+            `${logId}: groupMemberRemovedUpdate had missing removedAci!`
+          );
+        }
+        details.push({
+          type: 'member-remove',
+          aci: fromAciObject(Aci.fromUuidBytes(removedAci)),
+        });
+      }
+      if (update.selfInvitedToGroupUpdate) {
+        const { inviterAci } = update.selfInvitedToGroupUpdate;
+        if (inviterAci) {
+          from = fromAciObject(Aci.fromUuidBytes(inviterAci));
+        }
+        details.push({
+          type: 'pending-add-one',
+          serviceId: aboutMe.aci,
+        });
+      }
+      if (update.selfInvitedOtherUserToGroupUpdate) {
+        const { inviteeServiceId } = update.selfInvitedOtherUserToGroupUpdate;
+        from = aboutMe.aci;
+        if (!inviteeServiceId || Bytes.isEmpty(inviteeServiceId)) {
+          throw new Error(
+            `${logId}: selfInvitedOtherUserToGroupUpdate had missing inviteeServiceId!`
+          );
+        }
+        details.push({
+          type: 'pending-add-one',
+          serviceId: fromAciObject(Aci.fromUuidBytes(inviteeServiceId)),
+        });
+      }
+      if (update.groupUnknownInviteeUpdate) {
+        const { inviterAci, inviteeCount } = update.groupUnknownInviteeUpdate;
+        if (inviterAci) {
+          from = fromAciObject(Aci.fromUuidBytes(inviterAci));
+        }
+        if (!isNumber(inviteeCount)) {
+          throw new Error(
+            `${logId}: groupUnknownInviteeUpdate had non-number inviteeCount`
+          );
+        }
+        details.push({
+          type: 'pending-add-many',
+          count: inviteeCount,
+        });
+      }
+      if (update.groupInvitationAcceptedUpdate) {
+        const { inviterAci, newMemberAci } =
+          update.groupInvitationAcceptedUpdate;
+        if (!newMemberAci || Bytes.isEmpty(newMemberAci)) {
+          throw new Error(
+            `${logId}: groupInvitationAcceptedUpdate had missing newMemberAci!`
+          );
+        }
+        from = fromAciObject(Aci.fromUuidBytes(newMemberAci));
+        const inviter =
+          inviterAci && Bytes.isNotEmpty(inviterAci)
+            ? fromAciObject(Aci.fromUuidBytes(inviterAci))
+            : undefined;
+        details.push({
+          type: 'member-add-from-invite',
+          aci: fromAciObject(Aci.fromUuidBytes(newMemberAci)),
+          inviter,
+        });
+      }
+      if (update.groupInvitationDeclinedUpdate) {
+        const { inviterAci, inviteeAci } = update.groupInvitationDeclinedUpdate;
+        if (!inviteeAci || Bytes.isEmpty(inviteeAci)) {
+          throw new Error(
+            `${logId}: groupInvitationDeclinedUpdate had missing inviteeAci!`
+          );
+        }
+        from = fromAciObject(Aci.fromUuidBytes(inviteeAci));
+        details.push({
+          type: 'pending-remove-one',
+          inviter: Bytes.isNotEmpty(inviterAci)
+            ? fromAciObject(Aci.fromUuidBytes(inviterAci))
+            : undefined,
+          serviceId: from,
+        });
+      }
+      if (update.groupMemberJoinedUpdate) {
+        const { newMemberAci } = update.groupMemberJoinedUpdate;
+        if (!newMemberAci || Bytes.isEmpty(newMemberAci)) {
+          throw new Error(
+            `${logId}: groupMemberJoinedUpdate had missing newMemberAci!`
+          );
+        }
+        from = fromAciObject(Aci.fromUuidBytes(newMemberAci));
+        details.push({
+          type: 'member-add',
+          aci: fromAciObject(Aci.fromUuidBytes(newMemberAci)),
+        });
+      }
+      if (update.groupMemberAddedUpdate) {
+        const { hadOpenInvitation, inviterAci, newMemberAci, updaterAci } =
+          update.groupMemberAddedUpdate;
+        if (Bytes.isNotEmpty(updaterAci)) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+        if (!newMemberAci || Bytes.isEmpty(newMemberAci)) {
+          throw new Error(
+            `${logId}: groupMemberAddedUpdate had missing newMemberAci!`
+          );
+        }
+        if (hadOpenInvitation || Bytes.isNotEmpty(inviterAci)) {
+          const inviter =
+            inviterAci && Bytes.isNotEmpty(inviterAci)
+              ? fromAciObject(Aci.fromUuidBytes(inviterAci))
+              : undefined;
+          details.push({
+            type: 'member-add-from-invite',
+            aci: fromAciObject(Aci.fromUuidBytes(newMemberAci)),
+            inviter,
+          });
+        } else {
+          details.push({
+            type: 'member-add',
+            aci: fromAciObject(Aci.fromUuidBytes(newMemberAci)),
+          });
+        }
+      }
+      if (update.groupSelfInvitationRevokedUpdate) {
+        const { revokerAci } = update.groupSelfInvitationRevokedUpdate;
+        if (Bytes.isNotEmpty(revokerAci)) {
+          from = fromAciObject(Aci.fromUuidBytes(revokerAci));
+        }
+        details.push({
+          type: 'pending-remove-one',
+          serviceId: aboutMe.aci,
+        });
+      }
+      if (update.groupInvitationRevokedUpdate) {
+        const { updaterAci, invitees } = update.groupInvitationRevokedUpdate;
+        if (Bytes.isNotEmpty(updaterAci)) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+        if (!invitees || invitees.length === 0) {
+          throw new Error(
+            `${logId}: groupInvitationRevokedUpdate had missing invitees list!`
+          );
+        }
+
+        if (invitees.length === 1) {
+          const { inviteeAci, inviteePni } = invitees[0];
+          let serviceId: ServiceIdString | undefined = Bytes.isNotEmpty(
+            inviteeAci
+          )
+            ? fromAciObject(Aci.fromUuidBytes(inviteeAci))
+            : undefined;
+          if (!serviceId) {
+            serviceId = Bytes.isNotEmpty(inviteePni)
+              ? fromPniObject(Pni.fromUuidBytes(inviteePni))
+              : undefined;
+          }
+          if (serviceId) {
+            details.push({
+              type: 'pending-remove-one',
+              serviceId,
+            });
+          } else {
+            details.push({
+              type: 'pending-remove-many',
+              count: 1,
+            });
+          }
+        } else {
+          details.push({
+            type: 'pending-remove-many',
+            count: invitees.length,
+          });
+        }
+      }
+      if (update.groupJoinRequestUpdate) {
+        const { requestorAci } = update.groupJoinRequestUpdate;
+        if (!requestorAci || Bytes.isEmpty(requestorAci)) {
+          throw new Error(
+            `${logId}: groupInvitationRevokedUpdate was missing requestorAci!`
+          );
+        }
+        from = fromAciObject(Aci.fromUuidBytes(requestorAci));
+        openApprovalServiceId = from;
+        details.push({
+          type: 'admin-approval-add-one',
+          aci: from,
+        });
+      }
+      if (update.groupJoinRequestApprovalUpdate) {
+        const { updaterAci, requestorAci, wasApproved } =
+          update.groupJoinRequestApprovalUpdate;
+        if (!requestorAci || Bytes.isEmpty(requestorAci)) {
+          throw new Error(
+            `${logId}: groupJoinRequestApprovalUpdate was missing requestorAci!`
+          );
+        }
+        if (Bytes.isNotEmpty(updaterAci)) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+
+        const aci = fromAciObject(Aci.fromUuidBytes(requestorAci));
+        if (wasApproved) {
+          details.push({
+            type: 'member-add-from-admin-approval',
+            aci,
+          });
+        } else {
+          details.push({
+            type: 'admin-approval-remove-one',
+            aci,
+          });
+        }
+      }
+      if (update.groupJoinRequestCanceledUpdate) {
+        const { requestorAci } = update.groupJoinRequestCanceledUpdate;
+        if (!requestorAci || Bytes.isEmpty(requestorAci)) {
+          throw new Error(
+            `${logId}: groupJoinRequestCanceledUpdate was missing requestorAci!`
+          );
+        }
+        from = fromAciObject(Aci.fromUuidBytes(requestorAci));
+        details.push({
+          type: 'admin-approval-remove-one',
+          aci: from,
+        });
+      }
+      if (update.groupInviteLinkResetUpdate) {
+        const { updaterAci } = update.groupInviteLinkResetUpdate;
+        if (Bytes.isNotEmpty(updaterAci)) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+        details.push({
+          type: 'group-link-reset',
+        });
+      }
+      if (update.groupInviteLinkEnabledUpdate) {
+        const { updaterAci, linkRequiresAdminApproval } =
+          update.groupInviteLinkEnabledUpdate;
+        if (Bytes.isNotEmpty(updaterAci)) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+        details.push({
+          type: 'group-link-add',
+          privilege: linkRequiresAdminApproval
+            ? SignalService.AccessControl.AccessRequired.ADMINISTRATOR
+            : SignalService.AccessControl.AccessRequired.ANY,
+        });
+      }
+      if (update.groupInviteLinkAdminApprovalUpdate) {
+        const { updaterAci, linkRequiresAdminApproval } =
+          update.groupInviteLinkAdminApprovalUpdate;
+        if (Bytes.isNotEmpty(updaterAci)) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+        details.push({
+          type: 'access-invite-link',
+          newPrivilege: linkRequiresAdminApproval
+            ? SignalService.AccessControl.AccessRequired.ADMINISTRATOR
+            : SignalService.AccessControl.AccessRequired.ANY,
+        });
+      }
+      if (update.groupInviteLinkDisabledUpdate) {
+        const { updaterAci } = update.groupInviteLinkDisabledUpdate;
+        if (Bytes.isNotEmpty(updaterAci)) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+        details.push({
+          type: 'group-link-remove',
+        });
+      }
+      if (update.groupMemberJoinedByLinkUpdate) {
+        const { newMemberAci } = update.groupMemberJoinedByLinkUpdate;
+        if (!newMemberAci || Bytes.isEmpty(newMemberAci)) {
+          throw new Error(
+            `${logId}: groupMemberJoinedByLinkUpdate was missing newMemberAci!`
+          );
+        }
+        from = fromAciObject(Aci.fromUuidBytes(newMemberAci));
+        details.push({
+          type: 'member-add-from-link',
+          aci: from,
+        });
+      }
+      if (update.groupV2MigrationUpdate) {
+        migrationMessage = migrationMessage || getDefaultMigrationMessage();
+      }
+      if (update.groupV2MigrationSelfInvitedUpdate) {
+        migrationMessage = migrationMessage || getDefaultMigrationMessage();
+        const { groupMigration } = migrationMessage;
+        if (!groupMigration) {
+          throw new Error(
+            `${logId}: migrationMessage had no groupMigration processing groupV2MigrationSelfInvitedUpdate!`
+          );
+        }
+        groupMigration.areWeInvited = true;
+      }
+      if (update.groupV2MigrationInvitedMembersUpdate) {
+        migrationMessage = migrationMessage || getDefaultMigrationMessage();
+        const { groupMigration } = migrationMessage;
+        if (!groupMigration) {
+          throw new Error(
+            `${logId}: migrationMessage had no groupMigration processing groupV2MigrationInvitedMembersUpdate!`
+          );
+        }
+        const { invitedMembersCount } =
+          update.groupV2MigrationInvitedMembersUpdate;
+        if (!isNumber(invitedMembersCount)) {
+          throw new Error(
+            `${logId}: groupV2MigrationInvitedMembersUpdate had a non-number invitedMembersCount!`
+          );
+        }
+        groupMigration.invitedMemberCount = invitedMembersCount;
+      }
+      if (update.groupV2MigrationDroppedMembersUpdate) {
+        migrationMessage = migrationMessage || getDefaultMigrationMessage();
+        const { groupMigration } = migrationMessage;
+        if (!groupMigration) {
+          throw new Error(
+            `${logId}: migrationMessage had no groupMigration processing groupV2MigrationDroppedMembersUpdate!`
+          );
+        }
+        const { droppedMembersCount } =
+          update.groupV2MigrationDroppedMembersUpdate;
+        if (!isNumber(droppedMembersCount)) {
+          throw new Error(
+            `${logId}: groupV2MigrationDroppedMembersUpdate had a non-number droppedMembersCount!`
+          );
+        }
+        groupMigration.droppedMemberCount = droppedMembersCount;
+      }
+      if (update.groupSequenceOfRequestsAndCancelsUpdate) {
+        const { count, requestorAci } =
+          update.groupSequenceOfRequestsAndCancelsUpdate;
+        if (!requestorAci || Bytes.isEmpty(requestorAci)) {
+          throw new Error(
+            `${logId}: groupSequenceOfRequestsAndCancelsUpdate was missing requestorAci!`
+          );
+        }
+        if (!isNumber(count)) {
+          throw new Error(
+            `${logId}: groupSequenceOfRequestsAndCancelsUpdate had a non-number count!`
+          );
+        }
+        const aci = fromAciObject(Aci.fromUuidBytes(requestorAci));
+        openBounceServiceId = aci;
+        from = aci;
+        details.push({
+          type: 'admin-approval-bounce',
+          aci,
+          times: count,
+          // This will be set later if we find an open approval request for this aci
+          isApprovalPending: false,
+        });
+      }
+      if (update.groupExpirationTimerUpdate) {
+        const { updaterAci, expiresInMs } = update.groupExpirationTimerUpdate;
+        if (!updaterAci || Bytes.isEmpty(updaterAci)) {
+          throw new Error(
+            `${logId}: groupExpirationTimerUpdate was missing updaterAci!`
+          );
+        }
+        const sourceServiceId = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        const expireTimer = isNumber(expiresInMs)
+          ? DurationInSeconds.fromMillis(expiresInMs)
+          : undefined;
+        additionalMessages.push({
+          type: 'timer-notification',
+          sourceServiceId,
+          flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+          expirationTimerUpdate: {
+            expireTimer,
+            sourceServiceId,
+          },
+        });
+      }
+    });
+
+    let finalDetails = details;
+    if (
+      openApprovalServiceId &&
+      openBounceServiceId &&
+      openApprovalServiceId === openBounceServiceId
+    ) {
+      finalDetails = details
+        .map(item => {
+          const approvalMatch =
+            item.type === 'admin-approval-add-one' &&
+            item.aci === openApprovalServiceId;
+          if (approvalMatch) {
+            return undefined;
+          }
+
+          const bounceMatch =
+            item.type === 'admin-approval-bounce' &&
+            item.aci === openApprovalServiceId;
+          if (bounceMatch) {
+            return {
+              ...item,
+              isApprovalPending: true,
+            };
+          }
+
+          return item;
+        })
+        .filter(isNotNil);
+    }
+
+    if (migrationMessage) {
+      additionalMessages.push(migrationMessage);
+    }
+
+    if (finalDetails.length === 0 && additionalMessages.length > 0) {
+      return {
+        message: additionalMessages[0],
+        additionalMessages: additionalMessages.slice(1),
+      };
+    }
+
+    if (finalDetails.length === 0) {
+      return undefined;
+    }
+
+    return {
+      message: {
+        type: 'group-v2-change',
+        groupV2Change: {
+          from,
+          details: finalDetails,
+        },
+      },
+      additionalMessages,
     };
   }
 }

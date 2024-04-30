@@ -14,15 +14,30 @@ import type { SmartContactRendererType } from '../../groupChange';
 import type { PropsType } from './GroupV2Change';
 import { GroupV2Change } from './GroupV2Change';
 
+// Note: this should be kept up to date with backup_groupv2_notifications_test.ts, to
+//   maintain the comprehensive set of GroupV2 notifications we need to handle
+
 const i18n = setupI18n('en', enMessages);
 
 const OUR_ACI = generateAci();
 const OUR_PNI = generatePni();
 const CONTACT_A = generateAci();
+const CONTACT_A_PNI = generatePni();
 const CONTACT_B = generateAci();
 const CONTACT_C = generateAci();
 const ADMIN_A = generateAci();
 const INVITEE_A = generateAci();
+
+const contactMap = {
+  [OUR_ACI]: 'YOU',
+  [OUR_PNI]: 'YOU',
+  [CONTACT_A]: 'CONTACT_A',
+  [CONTACT_A_PNI]: 'CONTACT_A',
+  [CONTACT_B]: 'CONTACT_B',
+  [CONTACT_C]: 'CONTACT_C',
+  [ADMIN_A]: 'ADMIN_A',
+  [INVITEE_A]: 'INVITEE_A',
+};
 
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 const RoleEnum = Proto.Member.Role;
@@ -31,9 +46,16 @@ const renderContact: SmartContactRendererType<JSX.Element> = (
   conversationId: string
 ) => (
   <React.Fragment key={conversationId}>
-    {`Conversation(${conversationId})`}
+    {contactMap[conversationId] || 'UNKNOWN'}
   </React.Fragment>
 );
+
+function checkServiceIdEquivalence(
+  left: ServiceIdString | undefined,
+  right: ServiceIdString | undefined
+): boolean {
+  return Boolean(left && right && contactMap[left] === contactMap[right]);
+}
 
 const renderChange = (
   change: GroupV2ChangeType,
@@ -57,6 +79,7 @@ const renderChange = (
     blockGroupLinkRequests={action('blockGroupLinkRequests')}
     conversationId="some-conversation-id"
     change={change}
+    checkServiceIdEquivalence={checkServiceIdEquivalence}
     groupBannedMemberships={groupBannedMemberships}
     groupMemberships={groupMemberships}
     groupName={groupName}
@@ -603,6 +626,24 @@ export function MemberAddFromInvited(): JSX.Element {
           },
         ],
       })}
+      {renderChange({
+        from: OUR_PNI,
+        details: [
+          {
+            type: 'member-add-from-invite',
+            aci: OUR_ACI,
+          },
+        ],
+      })}
+      {renderChange({
+        from: CONTACT_A_PNI,
+        details: [
+          {
+            type: 'member-add-from-invite',
+            aci: CONTACT_A,
+          },
+        ],
+      })}
     </>
   );
 }
@@ -924,7 +965,33 @@ export function PendingAddMany(): JSX.Element {
         ],
       })}
       {renderChange({
+        from: OUR_ACI,
+        details: [
+          {
+            type: 'pending-add-many',
+            count: 1,
+          },
+        ],
+      })}
+      {renderChange({
         from: CONTACT_A,
+        details: [
+          {
+            type: 'pending-add-many',
+            count: 5,
+          },
+        ],
+      })}
+      {renderChange({
+        from: CONTACT_A,
+        details: [
+          {
+            type: 'pending-add-many',
+            count: 1,
+          },
+        ],
+      })}
+      {renderChange({
         details: [
           {
             type: 'pending-add-many',
@@ -936,7 +1003,7 @@ export function PendingAddMany(): JSX.Element {
         details: [
           {
             type: 'pending-add-many',
-            count: 5,
+            count: 1,
           },
         ],
       })}
@@ -1101,7 +1168,36 @@ export function PendingRemoveMany(): JSX.Element {
         ],
       })}
       {renderChange({
+        from: OUR_ACI,
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 1,
+            inviter: OUR_ACI,
+          },
+        ],
+      })}
+      {renderChange({
         from: ADMIN_A,
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 5,
+            inviter: OUR_ACI,
+          },
+        ],
+      })}
+      {renderChange({
+        from: ADMIN_A,
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 1,
+            inviter: OUR_ACI,
+          },
+        ],
+      })}
+      {renderChange({
         details: [
           {
             type: 'pending-remove-many',
@@ -1114,7 +1210,7 @@ export function PendingRemoveMany(): JSX.Element {
         details: [
           {
             type: 'pending-remove-many',
-            count: 5,
+            count: 1,
             inviter: OUR_ACI,
           },
         ],
@@ -1130,6 +1226,16 @@ export function PendingRemoveMany(): JSX.Element {
         ],
       })}
       {renderChange({
+        from: OUR_ACI,
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 1,
+            inviter: CONTACT_A,
+          },
+        ],
+      })}
+      {renderChange({
         from: ADMIN_A,
         details: [
           {
@@ -1140,10 +1246,29 @@ export function PendingRemoveMany(): JSX.Element {
         ],
       })}
       {renderChange({
+        from: ADMIN_A,
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 1,
+            inviter: CONTACT_A,
+          },
+        ],
+      })}
+      {renderChange({
         details: [
           {
             type: 'pending-remove-many',
             count: 5,
+            inviter: CONTACT_A,
+          },
+        ],
+      })}
+      {renderChange({
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 1,
             inviter: CONTACT_A,
           },
         ],
@@ -1154,6 +1279,15 @@ export function PendingRemoveMany(): JSX.Element {
           {
             type: 'pending-remove-many',
             count: 5,
+          },
+        ],
+      })}
+      {renderChange({
+        from: OUR_ACI,
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 1,
           },
         ],
       })}
@@ -1168,10 +1302,27 @@ export function PendingRemoveMany(): JSX.Element {
         ],
       })}
       {renderChange({
+        from: CONTACT_A,
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 1,
+          },
+        ],
+      })}
+      {renderChange({
         details: [
           {
             type: 'pending-remove-many',
             count: 5,
+          },
+        ],
+      })}
+      {renderChange({
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 1,
           },
         ],
       })}
@@ -1183,6 +1334,7 @@ export function AdminApprovalAdd(): JSX.Element {
   return (
     <>
       {renderChange({
+        from: OUR_ACI,
         details: [
           {
             type: 'admin-approval-add-one',
@@ -1191,6 +1343,7 @@ export function AdminApprovalAdd(): JSX.Element {
         ],
       })}
       {renderChange({
+        from: CONTACT_A,
         details: [
           {
             type: 'admin-approval-add-one',
@@ -1331,6 +1484,21 @@ export function AdminApprovalBounce(): JSX.Element {
         },
 
         { groupBannedMemberships: [CONTACT_A] }
+      )}
+      Open request
+      {renderChange(
+        {
+          from: CONTACT_A,
+          details: [
+            {
+              type: 'admin-approval-bounce',
+              aci: CONTACT_A,
+              times: 4,
+              isApprovalPending: true,
+            },
+          ],
+        },
+        { groupBannedMemberships: [] }
       )}
     </>
   );

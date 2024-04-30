@@ -862,23 +862,23 @@ export const getCachedSelectorForConversation = createSelector(
   }
 );
 
-export type GetConversationByIdType = (id?: string) => ConversationType;
-export const getConversationSelector = createSelector(
-  getCachedSelectorForConversation,
+export type GetConversationByAnyIdSelectorType = (
+  id?: string
+) => ConversationType | undefined;
+export const getConversationByAnyIdSelector = createSelector(
   getConversationLookup,
   getConversationsByServiceId,
   getConversationsByE164,
   getConversationsByGroupId,
   (
-    selector: CachedConversationSelectorType,
     byId: ConversationLookupType,
     byServiceId: ConversationLookupType,
     byE164: ConversationLookupType,
     byGroupId: ConversationLookupType
-  ): GetConversationByIdType => {
+  ): GetConversationByAnyIdSelectorType => {
     return (id?: string) => {
       if (!id) {
-        return selector(undefined);
+        return undefined;
       }
 
       const onServiceId = getOwn(
@@ -886,24 +886,65 @@ export const getConversationSelector = createSelector(
         normalizeServiceId(id, 'getConversationSelector')
       );
       if (onServiceId) {
-        return selector(onServiceId);
+        return onServiceId;
       }
       const onE164 = getOwn(byE164, id);
       if (onE164) {
-        return selector(onE164);
+        return onE164;
       }
       const onGroupId = getOwn(byGroupId, id);
       if (onGroupId) {
-        return selector(onGroupId);
+        return onGroupId;
       }
       const onId = getOwn(byId, id);
       if (onId) {
-        return selector(onId);
+        return onId;
+      }
+
+      return undefined;
+    };
+  }
+);
+
+export type GetConversationByIdType = (id?: string) => ConversationType;
+export const getConversationSelector = createSelector(
+  getCachedSelectorForConversation,
+  getConversationByAnyIdSelector,
+  (
+    selector: CachedConversationSelectorType,
+    getById: GetConversationByAnyIdSelectorType
+  ): GetConversationByIdType => {
+    return (id?: string) => {
+      if (!id) {
+        return selector(undefined);
+      }
+
+      const byId = getById(id);
+      if (byId) {
+        return selector(byId);
       }
 
       log.warn(`getConversationSelector: No conversation found for id ${id}`);
       // This will return a placeholder contact
       return selector(undefined);
+    };
+  }
+);
+
+export type CheckServiceIdEquivalenceType = (
+  left: ServiceIdString | undefined,
+  right: ServiceIdString | undefined
+) => boolean;
+export const getCheckServiceIdEquivalence = createSelector(
+  getConversationByAnyIdSelector,
+  (
+    getById: GetConversationByAnyIdSelectorType
+  ): CheckServiceIdEquivalenceType => {
+    return (
+      left: ServiceIdString | undefined,
+      right: ServiceIdString | undefined
+    ): boolean => {
+      return Boolean(left && right && getById(left) === getById(right));
     };
   }
 );

@@ -4159,15 +4159,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{memberName} invited {count, plural, one {#} other {#}} people to the group.",
+    "messageformat": "{memberName} invited {count, plural, one {# person} other {# people}} to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "You invited {count, number} people to the group.",
+    "messageformat": "You invited {count, plural, one {# person} other {# people}} to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--unknown": {
-    "messageformat": "{count, plural, one {#} other {#}} people were invited to the group.",
+    "messageformat": "{count, plural, one {# person was} other {# people were}} invited to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--other": {
@@ -4207,15 +4207,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{memberName} revoked invitations to the group for {count, number} people.",
+    "messageformat": "{memberName} revoked {count, plural, one {an invitation to the group for 1 person} other {invitations to the group for # people}}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "You revoked invitations to the group for {count, number} people.",
+    "messageformat": "You revoked {count, plural, one {an invitation to the group for 1 person} other {invitations to the group for # people}}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "An admin revoked invitations to the group for {count, number} people.",
+    "messageformat": "An admin revoked {count, plural, one {an invitation to the group for 1 person} other {invitations to the group for # people}}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
@@ -4243,27 +4243,27 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{adminName} revoked invitations to the group for {count, plural, one {# person} other {# people}} invited by {memberName}.",
+    "messageformat": "{adminName} revoked {count, plural, one {an invitation to the group for 1 person} other {invitations to the group for # people}} invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "You revoked invitations to the group for {count, number} people invited by {memberName}.",
+    "messageformat": "You revoked {count, plural, one {an invitation to the group for 1 person} other {invitations to the group for # people}} invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "An admin revoked invitations to the group for {count, number} people invited by {memberName}.",
+    "messageformat": "An admin revoked {count, plural, one {an invitation to the group for 1 person} other {invitations to the group for # people}} invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{adminName} revoked the invitations to the group you sent to {count, number} people.",
+    "messageformat": "{adminName} revoked the {count, plural, one {invitation to the group you sent to 1 person} other {invitations to the group you sent to # people}}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "You rescinded your invitation to {count, number} people.",
+    "messageformat": "You rescinded your invitation to {count, plural, one {# person} other {# people}}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "An admin revoked the invitations to the group you sent to {count, number} people.",
+    "messageformat": "An admin revoked the {count, plural, one {invitation to the group you sent to 1 person} other {invitations to the group you sent to # people}}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
@@ -4454,6 +4454,10 @@
     "messageformat": "This member will need to accept an invite to join this group again, and will not receive group messages until they accept:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
+  "icu:GroupV1--Migration--info--invited--count": {
+    "messageformat": "{count, plural, one {# member} other {# members}} will need to accept an invite to join this group again, and will not receive group messages until they accept.",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "These members are not capable of joining New Groups, and will be removed from the group:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
@@ -4462,12 +4466,20 @@
     "messageformat": "This member is not capable of joining New Groups, and will be removed from the group:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
+  "icu:GroupV1--Migration--info--removed--before--count": {
+    "messageformat": "{count, plural, one {# member is} other {# members are}} not capable of joining New Groups, and will be removed from the group.",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "These members were not capable of joining New Groups, and were removed from the group:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "icu:GroupV1--Migration--info--removed--after--one": {
     "messageformat": "This member was not capable of joining New Groups, and was removed from the group:",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
+  "icu:GroupV1--Migration--info--removed--after--count": {
+    "messageformat": "{count, plural, one {# member was not capable of joining New Groups, and was} other {# members were not capable of joining New Groups, and were}} removed from the group.",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "icu:GroupV1--Migration--invited--you": {
@@ -4479,7 +4491,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added"
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, number} members couldn’t be added to the New Group and have been invited to join.",
+    "messageformat": "{count, plural, one {# member couldn’t be added to the New Group and has been invited to join} other {# members couldn’t be added to the New Group and have been invited to join}}.",
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "icu:GroupV1--Migration--removed--one": {

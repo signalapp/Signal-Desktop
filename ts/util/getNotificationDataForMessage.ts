@@ -143,6 +143,12 @@ export function getNotificationDataForMessage(
     );
 
     const changes = GroupChange.renderChange<string>(change, {
+      checkServiceIdEquivalence: (left, right) => {
+        return (
+          window.ConversationController.get(left) ===
+          window.ConversationController.get(right)
+        );
+      },
       i18n: window.i18n,
       ourAci: window.textsecure.storage.user.getCheckedAci(),
       ourPni: window.textsecure.storage.user.getCheckedPni(),

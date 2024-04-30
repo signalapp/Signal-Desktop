@@ -2,17 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Long from 'long';
-import { Aci, Pni } from '@signalapp/libsignal-client';
+import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
 import pMap from 'p-map';
 import pTimeout from 'p-timeout';
 import { Readable } from 'stream';
 
-import { Backups } from '../../protobuf';
+import { Backups, SignalService } from '../../protobuf';
 import Data from '../../sql/Client';
 import type { PageMessagesCursorType } from '../../sql/Interface';
 import * as log from '../../logging/log';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories';
-import type { ServiceIdString } from '../../types/ServiceId';
+import {
+  isPniString,
+  type AciString,
+  type ServiceIdString,
+} from '../../types/ServiceId';
 import type { RawBodyRange } from '../../types/BodyRange';
 import { LONG_ATTACHMENT_LIMIT } from '../../types/Message';
 import type {
@@ -25,6 +29,7 @@ import { drop } from '../../util/drop';
 import { explodePromise } from '../../util/explodePromise';
 import {
   isDirectConversation,
+  isGroup,
   isGroupV2,
   isMe,
 } from '../../util/whatTypeOfConversation';
@@ -42,11 +47,41 @@ import {
   parsePhoneNumberSharingMode,
 } from '../../util/phoneNumberSharingMode';
 import { missingCaseError } from '../../util/missingCaseError';
-import { isNormalBubble } from '../../state/selectors/message';
+import {
+  isCallHistory,
+  isChatSessionRefreshed,
+  isContactRemovedNotification,
+  isConversationMerge,
+  isDeliveryIssue,
+  isEndSession,
+  isExpirationTimerUpdate,
+  isGiftBadge,
+  isGroupUpdate,
+  isGroupV1Migration,
+  isGroupV2Change,
+  isKeyChange,
+  isNormalBubble,
+  isPhoneNumberDiscovery,
+  isProfileChange,
+  isUniversalTimerNotification,
+  isUnsupportedMessage,
+  isVerifiedChange,
+} from '../../state/selectors/message';
 import * as Bytes from '../../Bytes';
 import { canBeSynced as canPreferredReactionEmojiBeSynced } from '../../reactions/preferredReactionEmoji';
 import { SendStatus } from '../../messages/MessageSendState';
 import { BACKUP_VERSION } from './constants';
+import { getMessageIdForLogging } from '../../util/idForLogging';
+import { getCallsHistoryForRedux } from '../callHistoryLoader';
+import { makeLookup } from '../../util/makeLookup';
+import type { CallHistoryDetails } from '../../types/CallDisposition';
+import { isAciString } from '../../util/isAciString';
+import type { AboutMe } from './types';
+import { messageHasPaymentEvent } from '../../messages/helpers';
+import {
+  numberToAddressType,
+  numberToPhoneType,
+} from '../../types/EmbeddedContact';
 
 const MAX_CONCURRENCY = 10;
 
@@ -224,6 +259,18 @@ export class BackupExportStream extends Readable {
 
     let cursor: PageMessagesCursorType | undefined;
 
+    const callHistory = getCallsHistoryForRedux();
+    const callHistoryByCallId = makeLookup(callHistory, 'callId');
+
+    const me = window.ConversationController.getOurConversationOrThrow();
+    const serviceId = me.get('serviceId');
+    const aci = isAciString(serviceId) ? serviceId : undefined;
+    strictAssert(aci, 'We must have our own ACI');
+    const aboutMe = {
+      aci,
+      pni: me.get('pni'),
+    };
+
     try {
       while (!cursor?.done) {
         // eslint-disable-next-line no-await-in-loop
@@ -232,7 +279,7 @@ export class BackupExportStream extends Readable {
         // eslint-disable-next-line no-await-in-loop
         const items = await pMap(
           messages,
-          message => this.toChatItem(message),
+          message => this.toChatItem(message, { aboutMe, callHistoryByCallId }),
           { concurrency: MAX_CONCURRENCY }
         );
 
@@ -511,21 +558,22 @@ export class BackupExportStream extends Readable {
   }
 
   private async toChatItem(
-    message: MessageAttributesType
-  ): Promise<Backups.IChatItem | undefined> {
-    if (!isNormalBubble(message)) {
-      return undefined;
+    message: MessageAttributesType,
+    options: {
+      aboutMe: AboutMe;
+      callHistoryByCallId: Record<string, CallHistoryDetails>;
     }
-
+  ): Promise<Backups.IChatItem | undefined> {
     const chatId = this.getRecipientId({ id: message.conversationId });
     if (chatId === undefined) {
       log.warn('backups: message chat not found');
       return undefined;
     }
 
-    let authorId: Long;
+    let authorId: Long | undefined;
 
     const isOutgoing = message.type === 'outgoing';
+    const isIncoming = message.type === 'incoming';
 
     if (isOutgoing) {
       const ourAci = window.storage.user.getCheckedAci();
@@ -544,8 +592,9 @@ export class BackupExportStream extends Readable {
         serviceId: message.sourceServiceId,
         e164: message.source,
       });
-    } else {
-      return undefined;
+    }
+    if (isOutgoing || isIncoming) {
+      strictAssert(authorId, 'Incoming/outgoing messages require an author');
     }
 
     let expireStartDate: Long | undefined;
@@ -570,36 +619,42 @@ export class BackupExportStream extends Readable {
       expiresInMs,
       revisions: [],
       sms: false,
-      standardMessage: {
-        quote: await this.toQuote(message.quote),
-        text: {
-          // Note that we store full text on the message model so we have to
-          // trim it before serializing.
-          body: message.body?.slice(0, LONG_ATTACHMENT_LIMIT),
-          bodyRanges: message.bodyRanges?.map(range => this.toBodyRange(range)),
-        },
+    };
 
-        linkPreview: message.preview?.map(preview => {
-          return {
-            url: preview.url,
-            title: preview.title,
-            description: preview.description,
-            date: getSafeLongFromTimestamp(preview.date),
-          };
-        }),
-        reactions: message.reactions?.map(reaction => {
-          return {
-            emoji: reaction.emoji,
-            authorId: this.getOrPushPrivateRecipient({
-              id: reaction.fromId,
-            }),
-            sentTimestamp: getSafeLongFromTimestamp(reaction.timestamp),
-            receivedTimestamp: getSafeLongFromTimestamp(
-              reaction.receivedAtDate ?? reaction.timestamp
-            ),
-          };
-        }),
+    if (!isNormalBubble(message)) {
+      return this.toChatItemFromNonBubble(result, message, options);
+    }
+
+    // TODO (DESKTOP-6964): put incoming/outgoing fields below onto non-bubble messages
+    result.standardMessage = {
+      quote: await this.toQuote(message.quote),
+      text: {
+        // Note that we store full text on the message model so we have to
+        // trim it before serializing.
+        body: message.body?.slice(0, LONG_ATTACHMENT_LIMIT),
+        bodyRanges: message.bodyRanges?.map(range => this.toBodyRange(range)),
       },
+
+      linkPreview: message.preview?.map(preview => {
+        return {
+          url: preview.url,
+          title: preview.title,
+          description: preview.description,
+          date: getSafeLongFromTimestamp(preview.date),
+        };
+      }),
+      reactions: message.reactions?.map(reaction => {
+        return {
+          emoji: reaction.emoji,
+          authorId: this.getOrPushPrivateRecipient({
+            id: reaction.fromId,
+          }),
+          sentTimestamp: getSafeLongFromTimestamp(reaction.timestamp),
+          receivedTimestamp: getSafeLongFromTimestamp(
+            reaction.receivedAtDate ?? reaction.timestamp
+          ),
+        };
+      }),
     };
 
     if (isOutgoing) {
@@ -667,6 +722,795 @@ export class BackupExportStream extends Readable {
     return result;
   }
 
+  // TODO(indutny): convert to bytes
+  private aciToBytes(aci: AciString | string): Uint8Array {
+    return Aci.parseFromServiceIdString(aci).getRawUuidBytes();
+  }
+  private serviceIdToBytes(serviceId: ServiceIdString): Uint8Array {
+    return ServiceId.parseFromServiceIdString(serviceId).getRawUuidBytes();
+  }
+
+  private async toChatItemFromNonBubble(
+    chatItem: Backups.IChatItem,
+    message: MessageAttributesType,
+    options: {
+      aboutMe: AboutMe;
+      callHistoryByCallId: Record<string, CallHistoryDetails>;
+    }
+  ): Promise<Backups.IChatItem | undefined> {
+    const { contact, sticker } = message;
+
+    if (contact && contact[0]) {
+      const contactMessage = new Backups.ContactMessage();
+
+      // TODO (DESKTOP-6845): properly handle avatarUrlPath
+
+      contactMessage.contact = contact.map(contactDetails => ({
+        ...contactDetails,
+        number: contactDetails.number?.map(number => ({
+          ...number,
+          type: numberToPhoneType(number.type),
+        })),
+        email: contactDetails.email?.map(email => ({
+          ...email,
+          type: numberToPhoneType(email.type),
+        })),
+        address: contactDetails.address?.map(address => ({
+          ...address,
+          type: numberToAddressType(address.type),
+        })),
+      }));
+
+      // TODO (DESKTOP-6964): add reactions
+
+      // eslint-disable-next-line no-param-reassign
+      chatItem.contactMessage = contactMessage;
+      return chatItem;
+    }
+
+    if (message.isErased) {
+      // eslint-disable-next-line no-param-reassign
+      chatItem.remoteDeletedMessage = new Backups.RemoteDeletedMessage();
+      return chatItem;
+    }
+
+    if (sticker) {
+      const stickerMessage = new Backups.StickerMessage();
+
+      const stickerProto = new Backups.Sticker();
+      stickerProto.emoji = sticker.emoji;
+      stickerProto.packId = Bytes.fromHex(sticker.packId);
+      stickerProto.packKey = Bytes.fromBase64(sticker.packKey);
+      stickerProto.stickerId = sticker.stickerId;
+      // TODO (DESKTOP-6845): properly handle data FilePointer
+
+      // TODO (DESKTOP-6964): add reactions
+
+      stickerMessage.sticker = stickerProto;
+      // eslint-disable-next-line no-param-reassign
+      chatItem.stickerMessage = stickerMessage;
+
+      return chatItem;
+    }
+
+    return this.toChatItemUpdate(chatItem, message, options);
+  }
+
+  async toChatItemUpdate(
+    chatItem: Backups.IChatItem,
+    message: MessageAttributesType,
+    options: {
+      aboutMe: AboutMe;
+      callHistoryByCallId: Record<string, CallHistoryDetails>;
+    }
+  ): Promise<Backups.IChatItem | undefined> {
+    const logId = `toChatItemUpdate(${getMessageIdForLogging(message)})`;
+
+    const updateMessage = new Backups.ChatUpdateMessage();
+    // eslint-disable-next-line no-param-reassign
+    chatItem.updateMessage = updateMessage;
+
+    if (isCallHistory(message)) {
+      // TODO (DESKTOP-6964)
+      // const callingMessage = new Backups.CallChatUpdate();
+      // const { callId } = message;
+      // if (!callId) {
+      //   throw new Error(
+      //     `${logId}: Message was callHistory, but missing callId!`
+      //   );
+      // }
+      // const callHistory = callHistoryByCallId[callId];
+      // if (!callHistory) {
+      //   throw new Error(
+      //     `${logId}: Message had callId, but no call history details were found!`
+      //   );
+      // }
+      // callingMessage.callId = Long.fromString(callId);
+      // if (callHistory.mode === CallMode.Group) {
+      //   const groupCall = new Backups.GroupCallChatUpdate();
+      //   const { ringerId } = callHistory;
+      //   if (!ringerId) {
+      //     throw new Error(
+      //       `${logId}: Message had missing ringerId for a group call!`
+      //     );
+      //   }
+      //   groupCall.startedCallAci = this.aciToBytes(ringerId);
+      //   groupCall.startedCallTimestamp = Long.fromNumber(callHistory.timestamp);
+      //   // Note: we don't store inCallACIs, instead relying on RingRTC in-memory state
+      //   callingMessage.groupCall = groupCall;
+      // } else {
+      //   const callMessage = new Backups.IndividualCallChatUpdate();
+      //   const { direction, type, status } = callHistory;
+      //   if (
+      //     status === DirectCallStatus.Accepted ||
+      //     status === DirectCallStatus.Pending
+      //   ) {
+      //     if (type === CallType.Audio) {
+      //       callMessage.type =
+      //         direction === CallDirection.Incoming
+      //           ? Backups.IndividualCallChatUpdate.Type.INCOMING_AUDIO_CALL
+      //           : Backups.IndividualCallChatUpdate.Type.OUTGOING_AUDIO_CALL;
+      //     } else if (type === CallType.Video) {
+      //       callMessage.type =
+      //         direction === CallDirection.Incoming
+      //           ? Backups.IndividualCallChatUpdate.Type.INCOMING_VIDEO_CALL
+      //           : Backups.IndividualCallChatUpdate.Type.OUTGOING_VIDEO_CALL;
+      //     } else {
+      //       throw new Error(
+      //         `${logId}: Message direct status '${status}' call had type ${type}`
+      //       );
+      //     }
+      //   } else if (status === DirectCallStatus.Declined) {
+      //     if (direction === CallDirection.Incoming) {
+      //       // question: do we really not call declined calls things that we decline?
+      //       throw new Error(
+      //         `${logId}: Message direct call was declined but incoming`
+      //       );
+      //     }
+      //     if (type === CallType.Audio) {
+      //       callMessage.type =
+      //         Backups.IndividualCallChatUpdate.Type.UNANSWERED_OUTGOING_AUDIO_CALL;
+      //     } else if (type === CallType.Video) {
+      //       callMessage.type =
+      //         Backups.IndividualCallChatUpdate.Type.UNANSWERED_OUTGOING_VIDEO_CALL;
+      //     } else {
+      //       throw new Error(
+      //         `${logId}: Message direct status '${status}' call had type ${type}`
+      //       );
+      //     }
+      //   } else if (status === DirectCallStatus.Missed) {
+      //     if (direction === CallDirection.Outgoing) {
+      //       throw new Error(
+      //         `${logId}: Message direct call was missed but outgoing`
+      //       );
+      //     }
+      //     if (type === CallType.Audio) {
+      //       callMessage.type =
+      //         Backups.IndividualCallChatUpdate.Type.MISSED_INCOMING_AUDIO_CALL;
+      //     } else if (type === CallType.Video) {
+      //       callMessage.type =
+      //         Backups.IndividualCallChatUpdate.Type.MISSED_INCOMING_VIDEO_CALL;
+      //     } else {
+      //       throw new Error(
+      //         `${logId}: Message direct status '${status}' call had type ${type}`
+      //       );
+      //     }
+      //   } else {
+      //     throw new Error(`${logId}: Message direct call had status ${status}`);
+      //   }
+      //   callingMessage.callMessage = callMessage;
+      // }
+      // updateMessage.callingMessage = callingMessage;
+      // return chatItem;
+    }
+
+    if (isExpirationTimerUpdate(message)) {
+      const expiresInSeconds = message.expirationTimerUpdate?.expireTimer;
+      const expiresInMs = (expiresInSeconds ?? 0) * 1000;
+
+      const conversation = window.ConversationController.get(
+        message.conversationId
+      );
+
+      if (conversation && isGroup(conversation.attributes)) {
+        const groupChatUpdate = new Backups.GroupChangeChatUpdate();
+
+        const timerUpdate = new Backups.GroupExpirationTimerUpdate();
+        timerUpdate.expiresInMs = expiresInMs;
+
+        const sourceServiceId = message.expirationTimerUpdate?.sourceServiceId;
+        if (sourceServiceId && Aci.parseFromServiceIdString(sourceServiceId)) {
+          timerUpdate.updaterAci = uuidToBytes(sourceServiceId);
+        }
+
+        const innerUpdate = new Backups.GroupChangeChatUpdate.Update();
+
+        innerUpdate.groupExpirationTimerUpdate = timerUpdate;
+
+        groupChatUpdate.updates = [innerUpdate];
+
+        updateMessage.groupChange = groupChatUpdate;
+
+        return chatItem;
+      }
+
+      const source =
+        message.expirationTimerUpdate?.sourceServiceId ||
+        message.expirationTimerUpdate?.source;
+      if (source && !chatItem.authorId) {
+        // eslint-disable-next-line no-param-reassign
+        chatItem.authorId = this.getOrPushPrivateRecipient({
+          id: source,
+        });
+      }
+
+      const expirationTimerChange = new Backups.ExpirationTimerChatUpdate();
+      expirationTimerChange.expiresInMs = expiresInMs;
+
+      updateMessage.expirationTimerChange = expirationTimerChange;
+
+      return chatItem;
+    }
+
+    if (isGroupV2Change(message)) {
+      updateMessage.groupChange = await this.toGroupV2Update(message, options);
+
+      return chatItem;
+    }
+
+    if (isKeyChange(message)) {
+      const simpleUpdate = new Backups.SimpleChatUpdate();
+      simpleUpdate.type = Backups.SimpleChatUpdate.Type.IDENTITY_UPDATE;
+
+      updateMessage.simpleUpdate = simpleUpdate;
+
+      return chatItem;
+    }
+
+    if (isProfileChange(message)) {
+      const profileChange = new Backups.ProfileChangeChatUpdate();
+      if (!message.profileChange) {
+        return undefined;
+      }
+
+      const { newName, oldName } = message.profileChange;
+      profileChange.newName = newName;
+      profileChange.previousName = oldName;
+
+      updateMessage.profileChange = profileChange;
+
+      return chatItem;
+    }
+
+    if (isVerifiedChange(message)) {
+      // TODO (DESKTOP-6964)): it can't be this simple if we show this in groups, right?
+
+      const simpleUpdate = new Backups.SimpleChatUpdate();
+      simpleUpdate.type = Backups.SimpleChatUpdate.Type.IDENTITY_VERIFIED;
+
+      updateMessage.simpleUpdate = simpleUpdate;
+
+      return chatItem;
+    }
+
+    if (isConversationMerge(message)) {
+      const threadMerge = new Backups.ThreadMergeChatUpdate();
+      const e164 = message.conversationMerge?.renderInfo.e164;
+      if (!e164) {
+        return undefined;
+      }
+      threadMerge.previousE164 = Long.fromString(e164);
+
+      updateMessage.threadMerge = threadMerge;
+
+      return chatItem;
+    }
+
+    if (isPhoneNumberDiscovery(message)) {
+      // TODO (DESKTOP-6964): need to add to protos
+    }
+
+    if (isUniversalTimerNotification(message)) {
+      // TODO (DESKTOP-6964): need to add to protos
+    }
+
+    if (isContactRemovedNotification(message)) {
+      // TODO (DESKTOP-6964): this doesn't appear to be in the protos at all
+    }
+
+    if (messageHasPaymentEvent(message)) {
+      // TODO (DESKTOP-6964): are these enough?
+      // SimpleChatUpdate
+      // PAYMENTS_ACTIVATED
+      // PAYMENT_ACTIVATION_REQUEST;
+    }
+
+    if (isGiftBadge(message)) {
+      // TODO (DESKTOP-6964)
+    }
+
+    if (isGroupUpdate(message)) {
+      // TODO (DESKTOP-6964)
+      // these old-school message types are no longer generated but we probably
+      //   still want to render them
+    }
+
+    if (isGroupV1Migration(message)) {
+      const { groupMigration } = message;
+
+      const groupChatUpdate = new Backups.GroupChangeChatUpdate();
+
+      groupChatUpdate.updates = [];
+
+      const areWeInvited = groupMigration?.areWeInvited ?? false;
+      const droppedMemberCount =
+        groupMigration?.droppedMemberCount ??
+        groupMigration?.droppedMemberIds?.length ??
+        message.droppedGV2MemberIds?.length ??
+        0;
+      const invitedMemberCount =
+        groupMigration?.invitedMemberCount ??
+        groupMigration?.invitedMembers?.length ??
+        message.invitedGV2Members?.length ??
+        0;
+
+      let addedItem = false;
+      if (areWeInvited) {
+        const container = new Backups.GroupChangeChatUpdate.Update();
+        container.groupV2MigrationSelfInvitedUpdate =
+          new Backups.GroupV2MigrationSelfInvitedUpdate();
+        groupChatUpdate.updates.push(container);
+        addedItem = true;
+      }
+      if (droppedMemberCount > 0) {
+        const container = new Backups.GroupChangeChatUpdate.Update();
+        const update = new Backups.GroupV2MigrationDroppedMembersUpdate();
+        update.droppedMembersCount = droppedMemberCount;
+        container.groupV2MigrationDroppedMembersUpdate = update;
+        groupChatUpdate.updates.push(container);
+        addedItem = true;
+      }
+      if (invitedMemberCount > 0) {
+        const container = new Backups.GroupChangeChatUpdate.Update();
+        const update = new Backups.GroupV2MigrationInvitedMembersUpdate();
+        update.invitedMembersCount = invitedMemberCount;
+        container.groupV2MigrationInvitedMembersUpdate = update;
+        groupChatUpdate.updates.push(container);
+        addedItem = true;
+      }
+
+      if (!addedItem) {
+        const container = new Backups.GroupChangeChatUpdate.Update();
+        container.groupV2MigrationUpdate = new Backups.GroupV2MigrationUpdate();
+        groupChatUpdate.updates.push(container);
+      }
+
+      updateMessage.groupChange = groupChatUpdate;
+
+      return chatItem;
+    }
+
+    if (isDeliveryIssue(message)) {
+      // TODO (DESKTOP-6964)
+    }
+
+    if (isEndSession(message)) {
+      const simpleUpdate = new Backups.SimpleChatUpdate();
+      simpleUpdate.type = Backups.SimpleChatUpdate.Type.END_SESSION;
+
+      updateMessage.simpleUpdate = simpleUpdate;
+
+      return chatItem;
+    }
+
+    if (isChatSessionRefreshed(message)) {
+      const simpleUpdate = new Backups.SimpleChatUpdate();
+      simpleUpdate.type = Backups.SimpleChatUpdate.Type.CHAT_SESSION_REFRESH;
+
+      updateMessage.simpleUpdate = simpleUpdate;
+
+      return chatItem;
+    }
+
+    if (isUnsupportedMessage(message)) {
+      // TODO (DESKTOP-6964): need to add to protos
+    }
+
+    throw new Error(
+      `${logId}: Message was not a bubble, but didn't understand type`
+    );
+  }
+
+  async toGroupV2Update(
+    message: MessageAttributesType,
+    options: {
+      aboutMe: AboutMe;
+    }
+  ): Promise<Backups.GroupChangeChatUpdate | undefined> {
+    const logId = `toGroupV2Update(${getMessageIdForLogging(message)})`;
+
+    const { groupV2Change } = message;
+    const { aboutMe } = options;
+    if (!isGroupV2Change(message) || !groupV2Change) {
+      throw new Error(`${logId}: Message was not a groupv2 change`);
+    }
+
+    const { from, details } = groupV2Change;
+    const updates: Array<Backups.GroupChangeChatUpdate.Update> = [];
+
+    details.forEach(detail => {
+      const update = new Backups.GroupChangeChatUpdate.Update();
+      const { type } = detail;
+
+      if (type === 'create') {
+        const innerUpdate = new Backups.GroupCreationUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+        update.groupCreationUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'access-attributes') {
+        const innerUpdate =
+          new Backups.GroupAttributesAccessLevelChangeUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+        innerUpdate.accessLevel = detail.newPrivilege;
+
+        update.groupAttributesAccessLevelChangeUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'access-members') {
+        const innerUpdate =
+          new Backups.GroupMembershipAccessLevelChangeUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+        innerUpdate.accessLevel = detail.newPrivilege;
+
+        update.groupMembershipAccessLevelChangeUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'access-invite-link') {
+        const innerUpdate = new Backups.GroupInviteLinkAdminApprovalUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+        innerUpdate.linkRequiresAdminApproval =
+          detail.newPrivilege ===
+          SignalService.AccessControl.AccessRequired.ADMINISTRATOR;
+
+        update.groupInviteLinkAdminApprovalUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'announcements-only') {
+        const innerUpdate = new Backups.GroupAnnouncementOnlyChangeUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+        innerUpdate.isAnnouncementOnly = detail.announcementsOnly;
+
+        update.groupAnnouncementOnlyChangeUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'avatar') {
+        const innerUpdate = new Backups.GroupAvatarUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+        innerUpdate.wasRemoved = detail.removed;
+
+        update.groupAvatarUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'title') {
+        const innerUpdate = new Backups.GroupNameUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+        innerUpdate.newGroupName = detail.newTitle;
+
+        update.groupNameUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'group-link-add') {
+        const innerUpdate = new Backups.GroupInviteLinkEnabledUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+        innerUpdate.linkRequiresAdminApproval =
+          detail.privilege ===
+          SignalService.AccessControl.AccessRequired.ADMINISTRATOR;
+
+        update.groupInviteLinkEnabledUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'group-link-reset') {
+        const innerUpdate = new Backups.GroupInviteLinkResetUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+
+        update.groupInviteLinkResetUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'group-link-remove') {
+        const innerUpdate = new Backups.GroupInviteLinkDisabledUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+
+        update.groupInviteLinkDisabledUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'member-add') {
+        if (from && from === detail.aci) {
+          const innerUpdate = new Backups.GroupMemberJoinedUpdate();
+          innerUpdate.newMemberAci = this.serviceIdToBytes(from);
+
+          update.groupMemberJoinedUpdate = innerUpdate;
+          updates.push(update);
+          return;
+        }
+
+        const innerUpdate = new Backups.GroupMemberAddedUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+        innerUpdate.newMemberAci = this.aciToBytes(detail.aci);
+
+        update.groupMemberAddedUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'member-add-from-invite') {
+        if (from && checkServiceIdEquivalence(from, detail.aci)) {
+          const innerUpdate = new Backups.GroupInvitationAcceptedUpdate();
+          innerUpdate.newMemberAci = this.aciToBytes(detail.aci);
+          if (detail.inviter) {
+            innerUpdate.inviterAci = this.aciToBytes(detail.inviter);
+          }
+          update.groupInvitationAcceptedUpdate = innerUpdate;
+          updates.push(update);
+          return;
+        }
+
+        const innerUpdate = new Backups.GroupMemberAddedUpdate();
+        innerUpdate.newMemberAci = this.aciToBytes(detail.aci);
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+        if (detail.inviter) {
+          innerUpdate.inviterAci = this.aciToBytes(detail.inviter);
+        }
+        innerUpdate.hadOpenInvitation = true;
+
+        update.groupMemberAddedUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'member-add-from-link') {
+        const innerUpdate = new Backups.GroupMemberJoinedByLinkUpdate();
+        innerUpdate.newMemberAci = this.aciToBytes(detail.aci);
+
+        update.groupMemberJoinedByLinkUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'member-add-from-admin-approval') {
+        const innerUpdate = new Backups.GroupJoinRequestApprovalUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+
+        innerUpdate.requestorAci = this.aciToBytes(detail.aci);
+        innerUpdate.wasApproved = true;
+
+        update.groupJoinRequestApprovalUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'member-privilege') {
+        const innerUpdate = new Backups.GroupAdminStatusUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+
+        innerUpdate.memberAci = this.aciToBytes(detail.aci);
+        innerUpdate.wasAdminStatusGranted =
+          detail.newPrivilege === SignalService.Member.Role.ADMINISTRATOR;
+
+        update.groupAdminStatusUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'member-remove') {
+        if (from && from === detail.aci) {
+          const innerUpdate = new Backups.GroupMemberLeftUpdate();
+          innerUpdate.aci = this.serviceIdToBytes(from);
+
+          update.groupMemberLeftUpdate = innerUpdate;
+          updates.push(update);
+          return;
+        }
+
+        const innerUpdate = new Backups.GroupMemberRemovedUpdate();
+        if (from) {
+          innerUpdate.removerAci = this.serviceIdToBytes(from);
+        }
+        innerUpdate.removedAci = this.aciToBytes(detail.aci);
+
+        update.groupMemberRemovedUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'pending-add-one') {
+        if (
+          (aboutMe.aci && detail.serviceId === aboutMe.aci) ||
+          (aboutMe.pni && detail.serviceId === aboutMe.pni)
+        ) {
+          const innerUpdate = new Backups.SelfInvitedToGroupUpdate();
+          if (from) {
+            innerUpdate.inviterAci = this.serviceIdToBytes(from);
+          }
+
+          update.selfInvitedToGroupUpdate = innerUpdate;
+          updates.push(update);
+          return;
+        }
+        if (
+          from &&
+          ((aboutMe.aci && from === aboutMe.aci) ||
+            (aboutMe.pni && from === aboutMe.pni))
+        ) {
+          const innerUpdate = new Backups.SelfInvitedOtherUserToGroupUpdate();
+          innerUpdate.inviteeServiceId = this.serviceIdToBytes(
+            detail.serviceId
+          );
+
+          update.selfInvitedOtherUserToGroupUpdate = innerUpdate;
+          updates.push(update);
+          return;
+        }
+
+        const innerUpdate = new Backups.GroupUnknownInviteeUpdate();
+        if (from) {
+          innerUpdate.inviterAci = this.serviceIdToBytes(from);
+        }
+        innerUpdate.inviteeCount = 1;
+
+        update.groupUnknownInviteeUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'pending-add-many') {
+        const innerUpdate = new Backups.GroupUnknownInviteeUpdate();
+        if (from) {
+          innerUpdate.inviterAci = this.serviceIdToBytes(from);
+        }
+        innerUpdate.inviteeCount = detail.count;
+
+        update.groupUnknownInviteeUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'pending-remove-one') {
+        if (from && detail.serviceId && from === detail.serviceId) {
+          const innerUpdate = new Backups.GroupInvitationDeclinedUpdate();
+          if (detail.inviter) {
+            innerUpdate.inviterAci = this.aciToBytes(detail.inviter);
+          }
+          if (isAciString(detail.serviceId)) {
+            innerUpdate.inviteeAci = this.aciToBytes(detail.serviceId);
+          }
+
+          update.groupInvitationDeclinedUpdate = innerUpdate;
+          updates.push(update);
+          return;
+        }
+        if (
+          (aboutMe.aci && detail.serviceId === aboutMe.aci) ||
+          (aboutMe.pni && detail.serviceId === aboutMe.pni)
+        ) {
+          const innerUpdate = new Backups.GroupSelfInvitationRevokedUpdate();
+          if (from) {
+            innerUpdate.revokerAci = this.serviceIdToBytes(from);
+          }
+
+          update.groupSelfInvitationRevokedUpdate = innerUpdate;
+          updates.push(update);
+          return;
+        }
+
+        const innerUpdate = new Backups.GroupInvitationRevokedUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+        innerUpdate.invitees = [
+          {
+            inviteeAci: isAciString(detail.serviceId)
+              ? this.aciToBytes(detail.serviceId)
+              : undefined,
+            inviteePni: isPniString(detail.serviceId)
+              ? this.serviceIdToBytes(detail.serviceId)
+              : undefined,
+          },
+        ];
+
+        update.groupInvitationRevokedUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'pending-remove-many') {
+        const innerUpdate = new Backups.GroupInvitationRevokedUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+
+        innerUpdate.invitees = [];
+        for (let i = 0, max = detail.count; i < max; i += 1) {
+          // Yes, we're adding totally empty invitees. This is okay.
+          innerUpdate.invitees.push({});
+        }
+
+        update.groupInvitationRevokedUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'admin-approval-add-one') {
+        const innerUpdate = new Backups.GroupJoinRequestUpdate();
+        innerUpdate.requestorAci = this.aciToBytes(detail.aci);
+
+        update.groupJoinRequestUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'admin-approval-remove-one') {
+        if (from && detail.aci && from === detail.aci) {
+          const innerUpdate = new Backups.GroupJoinRequestCanceledUpdate();
+          innerUpdate.requestorAci = this.aciToBytes(detail.aci);
+
+          update.groupJoinRequestCanceledUpdate = innerUpdate;
+          updates.push(update);
+          return;
+        }
+
+        const innerUpdate = new Backups.GroupJoinRequestApprovalUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+
+        innerUpdate.requestorAci = this.aciToBytes(detail.aci);
+        innerUpdate.wasApproved = false;
+
+        update.groupJoinRequestApprovalUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'admin-approval-bounce') {
+        // We can't express all we need in GroupSequenceOfRequestsAndCancelsUpdate, so we
+        //   add an additional groupJoinRequestUpdate to express that there
+        //   is an approval pending.
+        if (detail.isApprovalPending) {
+          const innerUpdate = new Backups.GroupJoinRequestUpdate();
+          innerUpdate.requestorAci = this.aciToBytes(detail.aci);
+
+          // We need to create another update since the items we put in Update are oneof
+          const secondUpdate = new Backups.GroupChangeChatUpdate.Update();
+          secondUpdate.groupJoinRequestUpdate = innerUpdate;
+          updates.push(secondUpdate);
+
+          // not returning because we really do want both of these
+        }
+
+        const innerUpdate =
+          new Backups.GroupSequenceOfRequestsAndCancelsUpdate();
+        innerUpdate.requestorAci = this.aciToBytes(detail.aci);
+        innerUpdate.count = detail.times;
+
+        update.groupSequenceOfRequestsAndCancelsUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'description') {
+        const innerUpdate = new Backups.GroupDescriptionUpdate();
+        innerUpdate.newDescription = detail.removed
+          ? undefined
+          : detail.description;
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+
+        update.groupDescriptionUpdate = innerUpdate;
+        updates.push(update);
+      } else if (type === 'summary') {
+        const innerUpdate = new Backups.GenericGroupUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.serviceIdToBytes(from);
+        }
+
+        update.genericGroupUpdate = innerUpdate;
+        updates.push(update);
+      } else {
+        throw missingCaseError(type);
+      }
+    });
+
+    if (updates.length === 0) {
+      throw new Error(`${logId}: No updates generated from message`);
+    }
+
+    const groupUpdate = new Backups.GroupChangeChatUpdate();
+    groupUpdate.updates = updates;
+
+    return groupUpdate;
+  }
+
   private async toQuote(
     quote?: QuotedMessageType
   ): Promise<Backups.IQuote | null> {
@@ -720,9 +1564,7 @@ export class BackupExportStream extends Readable {
 
       ...('mentionAci' in range
         ? {
-            mentionAci: Aci.parseFromServiceIdString(
-              range.mentionAci
-            ).getRawUuidBytes(),
+            mentionAci: this.aciToBytes(range.mentionAci),
           }
         : {
             // Numeric values are compatible between backup and message protos
@@ -730,4 +1572,14 @@ export class BackupExportStream extends Readable {
           }),
     };
   }
+}
+
+function checkServiceIdEquivalence(
+  left: ServiceIdString | undefined,
+  right: ServiceIdString | undefined
+) {
+  const leftConvo = window.ConversationController.get(left);
+  const rightConvo = window.ConversationController.get(right);
+
+  return leftConvo && rightConvo && leftConvo === rightConvo;
 }

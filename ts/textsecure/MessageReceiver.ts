@@ -2221,7 +2221,7 @@ export default class MessageReceiver
     const { sourceServiceId: sourceAci } = envelope;
     strictAssert(
       isAciString(sourceAci),
-      'MessageReceiver.handleEditMesage: received message from PNI'
+      'MessageReceiver.handleStoryMessage: received message from PNI'
     );
 
     const attachments: Array<ProcessedAttachment> = [];

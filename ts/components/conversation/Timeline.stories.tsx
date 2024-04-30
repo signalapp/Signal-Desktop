@@ -361,6 +361,7 @@ const renderItem = ({
     isNextItemCallingNotification={false}
     theme={ThemeType.light}
     platform="darwin"
+    checkServiceIdEquivalence={() => false}
     containerElementRef={containerElementRef}
     containerWidthBreakpoint={containerWidthBreakpoint}
     conversationId=""

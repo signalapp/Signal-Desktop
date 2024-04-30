@@ -2429,12 +2429,15 @@ export async function initiateMigrationToGroupV2(
       groupChangeMessages.push({
         ...generateBasicMessage(),
         type: 'group-v1-migration',
-        invitedGV2Members: pendingMembersV2.map(
-          ({ serviceId: uuid, ...rest }) => {
-            return { ...rest, uuid };
-          }
-        ),
-        droppedGV2MemberIds,
+        groupMigration: {
+          areWeInvited: false,
+          droppedMemberIds: droppedGV2MemberIds,
+          invitedMembers: pendingMembersV2.map(
+            ({ serviceId: uuid, ...rest }) => {
+              return { ...rest, uuid };
+            }
+          ),
+        },
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
       });

@@ -262,7 +262,7 @@ export class ConversationController {
   getOrCreate(
     identifier: string | null,
     type: ConversationAttributesTypeType,
-    additionalInitialProps = {}
+    additionalInitialProps: Partial<ConversationAttributesType> = {}
   ): ConversationModel {
     if (typeof identifier !== 'string') {
       throw new TypeError("'id' must be a string");
@@ -358,7 +358,7 @@ export class ConversationController {
   async getOrCreateAndWait(
     id: string | null,
     type: ConversationAttributesTypeType,
-    additionalInitialProps = {}
+    additionalInitialProps: Partial<ConversationAttributesType> = {}
   ): Promise<ConversationModel> {
     await this.load();
     const conversation = this.getOrCreate(id, type, additionalInitialProps);

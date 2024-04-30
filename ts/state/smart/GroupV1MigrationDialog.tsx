@@ -72,7 +72,9 @@ export const SmartGroupV1MigrationDialog = memo(
         hasMigrated={hasMigrated}
         getPreferredBadge={getPreferredBadge}
         droppedMembers={droppedMembers}
+        droppedMemberCount={droppedMembers.length}
         invitedMembers={invitedMembers}
+        invitedMemberCount={invitedMembers.length}
         onMigrate={handleMigrate}
         onClose={closeGV2MigrationDialog}
       />

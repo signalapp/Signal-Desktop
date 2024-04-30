@@ -65,8 +65,12 @@ export type CustomError = Error & {
 
 export type GroupMigrationType = {
   areWeInvited: boolean;
-  droppedMemberIds: Array<string>;
-  invitedMembers: Array<LegacyMigrationPendingMemberType>;
+  droppedMemberIds?: Array<string>;
+  invitedMembers?: Array<LegacyMigrationPendingMemberType>;
+
+  // We don't generate data like this; these were added to support import/export
+  droppedMemberCount?: number;
+  invitedMemberCount?: number;
 };
 
 export type QuotedAttachment = {
@@ -131,6 +135,28 @@ export type EditHistoryType = {
   received_at_ms?: number;
 };
 
+type MessageType =
+  | 'call-history'
+  | 'change-number-notification'
+  | 'chat-session-refreshed'
+  | 'conversation-merge'
+  | 'delivery-issue'
+  | 'group-v1-migration'
+  | 'group-v2-change'
+  | 'group'
+  | 'incoming'
+  | 'keychange'
+  | 'outgoing'
+  | 'phone-number-discovery'
+  | 'profile-change'
+  | 'story'
+  | 'timer-notification'
+  | 'universal-timer-notification'
+  | 'contact-removed-notification'
+  | 'title-transition-notification'
+  | 'verified-change'
+  | 'message-request-response-event';
+
 export type MessageAttributesType = {
   bodyAttachment?: AttachmentType;
   bodyRanges?: ReadonlyArray<RawBodyRange>;
@@ -180,27 +206,7 @@ export type MessageAttributesType = {
   verifiedChanged?: string;
 
   id: string;
-  type:
-    | 'call-history'
-    | 'change-number-notification'
-    | 'chat-session-refreshed'
-    | 'conversation-merge'
-    | 'delivery-issue'
-    | 'group-v1-migration'
-    | 'group-v2-change'
-    | 'group'
-    | 'incoming'
-    | 'keychange'
-    | 'outgoing'
-    | 'phone-number-discovery'
-    | 'profile-change'
-    | 'story'
-    | 'timer-notification'
-    | 'universal-timer-notification'
-    | 'contact-removed-notification'
-    | 'title-transition-notification'
-    | 'verified-change'
-    | 'message-request-response-event';
+  type: MessageType;
   body?: string;
   attachments?: Array<AttachmentType>;
   preview?: Array<LinkPreviewType>;
@@ -437,7 +443,7 @@ export type ConversationAttributesType = {
   };
   announcementsOnly?: boolean;
   avatar?: ContactAvatarType | null;
-  avatars?: Array<AvatarDataType>;
+  avatars?: ReadonlyArray<Readonly<AvatarDataType>>;
   description?: string;
   expireTimer?: DurationInSeconds;
   membersV2?: Array<GroupV2MemberType>;

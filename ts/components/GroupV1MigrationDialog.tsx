@@ -11,9 +11,11 @@ import { missingCaseError } from '../util/missingCaseError';
 
 export type DataPropsType = {
   readonly areWeInvited: boolean;
-  readonly droppedMembers: Array<ConversationType>;
+  readonly droppedMembers?: Array<ConversationType>;
+  readonly droppedMemberCount: number;
   readonly hasMigrated: boolean;
-  readonly invitedMembers: Array<ConversationType>;
+  readonly invitedMembers?: Array<ConversationType>;
+  readonly invitedMemberCount: number;
   readonly getPreferredBadge: PreferredBadgeSelectorType;
   readonly i18n: LocalizerType;
   readonly theme: ThemeType;
@@ -30,10 +32,12 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
   React.memo(function GroupV1MigrationDialogInner({
     areWeInvited,
     droppedMembers,
+    droppedMemberCount,
     getPreferredBadge,
     hasMigrated,
     i18n,
     invitedMembers,
+    invitedMemberCount,
     theme,
     onClose,
     onMigrate,
@@ -88,6 +92,7 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
               getPreferredBadge,
               i18n,
               members: invitedMembers,
+              count: invitedMemberCount,
               hasMigrated,
               kind: 'invited',
               theme,
@@ -96,6 +101,7 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
               getPreferredBadge,
               i18n,
               members: droppedMembers,
+              count: droppedMemberCount,
               hasMigrated,
               kind: 'dropped',
               theme,
@@ -110,19 +116,48 @@ function renderMembers({
   getPreferredBadge,
   i18n,
   members,
+  count,
   hasMigrated,
   kind,
   theme,
 }: Readonly<{
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
-  members: Array<ConversationType>;
+  members?: Array<ConversationType>;
+  count: number;
   hasMigrated: boolean;
   kind: 'invited' | 'dropped';
   theme: ThemeType;
 }>): React.ReactNode {
-  if (!members.length) {
+  if (count === 0) {
     return null;
+  }
+
+  if (!members) {
+    if (kind === 'invited') {
+      return (
+        <GroupDialog.Paragraph>
+          {i18n('icu:GroupV1--Migration--info--invited--count', { count })}
+        </GroupDialog.Paragraph>
+      );
+    }
+    if (hasMigrated) {
+      return (
+        <GroupDialog.Paragraph>
+          {i18n('icu:GroupV1--Migration--info--removed--after--count', {
+            count,
+          })}
+        </GroupDialog.Paragraph>
+      );
+    }
+
+    return (
+      <GroupDialog.Paragraph>
+        {i18n('icu:GroupV1--Migration--info--removed--before--count', {
+          count,
+        })}
+      </GroupDialog.Paragraph>
+    );
   }
 
   let text: string;
@@ -137,13 +172,13 @@ function renderMembers({
       if (hasMigrated) {
         text =
           members.length === 1
-            ? i18n('icu:GroupV1--Migration--info--removed--before--one')
-            : i18n('icu:GroupV1--Migration--info--removed--before--many');
+            ? i18n('icu:GroupV1--Migration--info--removed--after--one')
+            : i18n('icu:GroupV1--Migration--info--removed--after--many');
       } else {
         text =
           members.length === 1
-            ? i18n('icu:GroupV1--Migration--info--removed--after--one')
-            : i18n('icu:GroupV1--Migration--info--removed--after--many');
+            ? i18n('icu:GroupV1--Migration--info--removed--before--one')
+            : i18n('icu:GroupV1--Migration--info--removed--before--many');
       }
       break;
     default:

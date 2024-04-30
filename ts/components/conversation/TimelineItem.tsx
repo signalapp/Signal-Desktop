@@ -61,6 +61,7 @@ import {
   type MessageRequestResponseNotificationData,
 } from './MessageRequestResponseNotification';
 import type { MessageRequestState } from './MessageRequestActionsConfirmation';
+import type { ServiceIdString } from '../../types/ServiceId';
 
 type CallHistoryType = {
   type: 'callHistory';
@@ -172,6 +173,10 @@ export type TimelineItemType = (
 ) & { timestamp: number };
 
 type PropsLocalType = {
+  checkServiceIdEquivalence(
+    left: ServiceIdString | undefined,
+    right: ServiceIdString | undefined
+  ): boolean;
   containerElementRef: RefObject<HTMLElement>;
   conversationId: string;
   item?: TimelineItemType;
