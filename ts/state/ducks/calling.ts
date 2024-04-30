@@ -49,11 +49,12 @@ import { requestCameraPermissions } from '../../util/callingPermissions';
 import {
   CALL_LINK_DEFAULT_STATE,
   getRoomIdFromRootKey,
+  toAdminKeyBytes,
 } from '../../util/callLinks';
 import { sendCallLinkUpdateSync } from '../../util/sendCallLinkUpdateSync';
 import { sleep } from '../../util/sleep';
 import { LatestQueue } from '../../util/LatestQueue';
-import type { AciString } from '../../types/ServiceId';
+import type { AciString, ServiceIdString } from '../../types/ServiceId';
 import type {
   ConversationChangedActionType,
   ConversationRemovedActionType,
@@ -81,11 +82,13 @@ import { SHOW_ERROR_MODAL } from './globalModals';
 import { ButtonVariant } from '../../components/Button';
 import { getConversationIdForLogging } from '../../util/idForLogging';
 import dataInterface from '../../sql/Client';
+import { isAciString } from '../../util/isAciString';
 
 // State
 
 export type GroupCallPeekInfoType = ReadonlyDeep<{
   acis: Array<AciString>;
+  pendingAcis: Array<AciString>;
   creatorAci?: AciString;
   eraId?: string;
   maxDevices: number;
@@ -250,7 +253,7 @@ type HangUpActionPayloadType = ReadonlyDeep<{
   conversationId: string;
 }>;
 
-type HandleCallLinkUpdateType = ReadonlyDeep<{
+export type HandleCallLinkUpdateType = ReadonlyDeep<{
   rootKey: string;
   adminKey: string | null;
 }>;
@@ -307,6 +310,10 @@ export type RemoteVideoChangeType = ReadonlyDeep<{
 type RemoteSharingScreenChangeType = ReadonlyDeep<{
   conversationId: string;
   isSharingScreen: boolean;
+}>;
+
+export type RemoveClientType = ReadonlyDeep<{
+  demuxId: number;
 }>;
 
 export type SetLocalAudioType = ReadonlyDeep<{
@@ -558,10 +565,12 @@ const doGroupCallPeek = ({
 // Actions
 
 const ACCEPT_CALL_PENDING = 'calling/ACCEPT_CALL_PENDING';
+const APPROVE_USER = 'calling/APPROVE_USER';
 const CANCEL_CALL = 'calling/CANCEL_CALL';
 const CANCEL_INCOMING_GROUP_CALL_RING =
   'calling/CANCEL_INCOMING_GROUP_CALL_RING';
 const CHANGE_CALL_VIEW = 'calling/CHANGE_CALL_VIEW';
+const DENY_USER = 'calling/DENY_USER';
 const START_CALLING_LOBBY = 'calling/START_CALLING_LOBBY';
 const START_CALL_LINK_LOBBY = 'calling/START_CALL_LINK_LOBBY';
 const CALL_STATE_CHANGE_FULFILLED = 'calling/CALL_STATE_CHANGE_FULFILLED';
@@ -584,6 +593,7 @@ const RAISE_HAND_GROUP_CALL = 'calling/RAISE_HAND_GROUP_CALL';
 const REFRESH_IO_DEVICES = 'calling/REFRESH_IO_DEVICES';
 const REMOTE_SHARING_SCREEN_CHANGE = 'calling/REMOTE_SHARING_SCREEN_CHANGE';
 const REMOTE_VIDEO_CHANGE = 'calling/REMOTE_VIDEO_CHANGE';
+const REMOVE_CLIENT = 'calling/REMOVE_CLIENT';
 const RETURN_TO_ACTIVE_CALL = 'calling/RETURN_TO_ACTIVE_CALL';
 const SEND_GROUP_CALL_REACTION = 'calling/SEND_GROUP_CALL_REACTION';
 const SET_LOCAL_AUDIO_FULFILLED = 'calling/SET_LOCAL_AUDIO_FULFILLED';
@@ -605,6 +615,10 @@ type AcceptCallPendingActionType = ReadonlyDeep<{
   payload: AcceptCallType;
 }>;
 
+type ApproveUserActionType = ReadonlyDeep<{
+  type: 'calling/APPROVE_USER';
+}>;
+
 type CancelCallActionType = ReadonlyDeep<{
   type: 'calling/CANCEL_CALL';
 }>;
@@ -612,6 +626,10 @@ type CancelCallActionType = ReadonlyDeep<{
 type CancelIncomingGroupCallRingActionType = ReadonlyDeep<{
   type: 'calling/CANCEL_INCOMING_GROUP_CALL_RING';
   payload: CancelIncomingGroupCallRingType;
+}>;
+
+type DenyUserActionType = ReadonlyDeep<{
+  type: 'calling/DENY_USER';
 }>;
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
@@ -751,6 +769,10 @@ export type PeekGroupCallFulfilledActionType = ReadonlyDeep<{
   };
 }>;
 
+export type PendingUserActionPayloadType = ReadonlyDeep<{
+  serviceId: ServiceIdString | undefined;
+}>;
+
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 type RefreshIODevicesActionType = {
   type: 'calling/REFRESH_IO_DEVICES';
@@ -765,6 +787,10 @@ type RemoteSharingScreenChangeActionType = ReadonlyDeep<{
 type RemoteVideoChangeActionType = ReadonlyDeep<{
   type: 'calling/REMOTE_VIDEO_CHANGE';
   payload: RemoteVideoChangeType;
+}>;
+
+type RemoveClientActionType = ReadonlyDeep<{
+  type: 'calling/REMOVE_CLIENT';
 }>;
 
 type ReturnToActiveCallActionType = ReadonlyDeep<{
@@ -833,10 +859,12 @@ type SwitchFromPresentationViewActionType = ReadonlyDeep<{
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type CallingActionType =
+  | ApproveUserActionType
   | AcceptCallPendingActionType
   | CancelCallActionType
   | CancelIncomingGroupCallRingActionType
   | ChangeCallViewActionType
+  | DenyUserActionType
   | StartCallingLobbyActionType
   | StartCallLinkLobbyActionType
   | CallStateChangeFulfilledActionType
@@ -860,6 +888,7 @@ export type CallingActionType =
   | RefreshIODevicesActionType
   | RemoteSharingScreenChangeActionType
   | RemoteVideoChangeActionType
+  | RemoveClientActionType
   | ReturnToActiveCallActionType
   | SendGroupCallReactionActionType
   | SetLocalAudioActionType
@@ -908,6 +937,68 @@ function acceptCall(
       type: ACCEPT_CALL_PENDING,
       payload,
     });
+  };
+}
+
+function approveUser(
+  payload: PendingUserActionPayloadType
+): ThunkAction<void, RootStateType, unknown, ApproveUserActionType> {
+  return (dispatch, getState) => {
+    const activeCall = getActiveCall(getState().calling);
+    if (!activeCall || !isGroupOrAdhocCallMode(activeCall.callMode)) {
+      log.warn(
+        'approveUser: Trying to approve pending user without active group or adhoc call'
+      );
+      return;
+    }
+    if (!isAciString(payload.serviceId)) {
+      log.warn(
+        'approveUser: Trying to approve pending user without valid aci serviceid'
+      );
+      return;
+    }
+
+    calling.approveUser(activeCall.conversationId, payload.serviceId);
+    dispatch({ type: APPROVE_USER });
+  };
+}
+
+function denyUser(
+  payload: PendingUserActionPayloadType
+): ThunkAction<void, RootStateType, unknown, DenyUserActionType> {
+  return (dispatch, getState) => {
+    const activeCall = getActiveCall(getState().calling);
+    if (!activeCall || !isGroupOrAdhocCallMode(activeCall.callMode)) {
+      log.warn(
+        'approveUser: Trying to approve pending user without active group or adhoc call'
+      );
+      return;
+    }
+    if (!isAciString(payload.serviceId)) {
+      log.warn(
+        'approveUser: Trying to approve pending user without valid aci serviceid'
+      );
+      return;
+    }
+
+    calling.denyUser(activeCall.conversationId, payload.serviceId);
+    dispatch({ type: DENY_USER });
+  };
+}
+function removeClient(
+  payload: RemoveClientType
+): ThunkAction<void, RootStateType, unknown, RemoveClientActionType> {
+  return (dispatch, getState) => {
+    const activeCall = getActiveCall(getState().calling);
+    if (!activeCall || !isGroupOrAdhocCallMode(activeCall.callMode)) {
+      log.warn(
+        'approveUser: Trying to approve pending user without active group or adhoc call'
+      );
+      return;
+    }
+
+    calling.removeClient(activeCall.conversationId, payload.demuxId);
+    dispatch({ type: REMOVE_CLIENT });
   };
 }
 
@@ -1869,8 +1960,13 @@ const _startCallLinkLobby = async ({
     groupCall?.remoteParticipants.length ||
     0;
 
+  const { adminKey } = getOwn(state.calling.callLinks, roomId) ?? {};
+  const adminPasskey = adminKey
+    ? Buffer.from(toAdminKeyBytes(adminKey))
+    : undefined;
   const callLobbyData = await calling.startCallLinkLobby({
     callLinkRootKey,
+    adminPasskey,
     hasLocalAudio: groupCallDeviceCount < 8,
   });
   if (!callLobbyData) {
@@ -2003,6 +2099,7 @@ function startCall(
         await calling.joinCallLinkCall({
           roomId: conversationId,
           rootKey: callLink.rootKey,
+          adminKey: callLink.adminKey ?? undefined,
           hasLocalAudio,
           hasLocalVideo,
         });
@@ -2061,6 +2158,7 @@ function switchFromPresentationView(): SwitchFromPresentationViewActionType {
 }
 export const actions = {
   acceptCall,
+  approveUser,
   callStateChange,
   cancelCall,
   cancelIncomingGroupCallRing,
@@ -2068,6 +2166,7 @@ export const actions = {
   changeIODevice,
   closeNeedPermissionScreen,
   declineCall,
+  denyUser,
   getPresentingSources,
   groupCallAudioLevelsChange,
   groupCallEnded,
@@ -2089,6 +2188,7 @@ export const actions = {
   refreshIODevices,
   remoteSharingScreenChange,
   remoteVideoChange,
+  removeClient,
   returnToActiveCall,
   sendGroupCallRaiseHand,
   sendGroupCallReaction,
@@ -2237,6 +2337,7 @@ export function reducer(
           peekInfo: peekInfo ||
             existingCall?.peekInfo || {
               acis: remoteParticipants.map(({ aci }) => aci),
+              pendingAcis: [],
               maxDevices: Infinity,
               deviceCount: remoteParticipants.length,
             },
@@ -2286,8 +2387,10 @@ export function reducer(
               ...callLinks,
               [conversationId]: {
                 ...action.payload.callLinkState,
-                rootKey: action.payload.callLinkRootKey,
-                adminKey: null,
+                rootKey:
+                  callLinks[conversationId]?.rootKey ??
+                  action.payload.callLinkRootKey,
+                adminKey: callLinks[conversationId]?.adminKey,
               },
             }
           : callLinks,
@@ -2478,6 +2581,7 @@ export function reducer(
         localDemuxId: undefined,
         peekInfo: {
           acis: [],
+          pendingAcis: [],
           maxDevices: Infinity,
           deviceCount: 0,
         },
@@ -2676,6 +2780,7 @@ export function reducer(
     const newPeekInfo = peekInfo ||
       existingCall?.peekInfo || {
         acis: remoteParticipants.map(({ aci }) => aci),
+        pendingAcis: [],
         maxDevices: Infinity,
         deviceCount: remoteParticipants.length,
       };
@@ -2755,6 +2860,7 @@ export function reducer(
       localDemuxId: undefined,
       peekInfo: {
         acis: [],
+        pendingAcis: [],
         maxDevices: Infinity,
         deviceCount: 0,
       },

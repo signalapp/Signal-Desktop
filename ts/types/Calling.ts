@@ -97,6 +97,7 @@ export type ActiveGroupCallType = ActiveCallBaseType & {
   groupMembers: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   isConversationTooBigToRing: boolean;
   peekedParticipants: Array<ConversationType>;
+  pendingParticipants: Array<ConversationType>;
   raisedHands: Set<number>;
   remoteParticipants: Array<GroupCallRemoteParticipantType>;
   remoteAudioLevels: Map<number, number>;

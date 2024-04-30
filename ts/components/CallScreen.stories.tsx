@@ -67,6 +67,7 @@ type GroupCallOverrideProps = OverridePropsBase & {
   callMode: CallMode.Group;
   connectionState?: GroupCallConnectionState;
   peekedParticipants?: Array<ConversationType>;
+  pendingParticipants?: Array<ConversationType>;
   raisedHands?: Set<number>;
   remoteParticipants?: Array<GroupCallRemoteParticipantType>;
   remoteAudioLevel?: number;
@@ -135,6 +136,7 @@ const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
   isConversationTooBigToRing: false,
   peekedParticipants:
     overrideProps.peekedParticipants || overrideProps.remoteParticipants || [],
+  pendingParticipants: overrideProps.pendingParticipants || [],
   raisedHands:
     overrideProps.raisedHands ||
     getRaisedHands(overrideProps) ||
@@ -181,11 +183,14 @@ const createProps = (
   }
 ): PropsType => ({
   activeCall: createActiveCallProp(overrideProps),
+  approveUser: action('approve-user'),
   changeCallView: action('change-call-view'),
+  denyUser: action('deny-user'),
   getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,
   getPresentingSources: action('get-presenting-sources'),
   hangUpActiveCall: action('hang-up'),
   i18n,
+  isCallLinkAdmin: true,
   isGroupCallRaiseHandEnabled: true,
   me: getDefaultConversation({
     color: AvatarColors[1],

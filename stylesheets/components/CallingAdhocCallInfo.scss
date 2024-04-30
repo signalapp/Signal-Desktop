@@ -81,3 +81,11 @@
   margin-inline: 10px;
   border: 1px solid $color-gray-65;
 }
+
+.CallingAdhocCallInfo__RemoveClient {
+  @include button-reset;
+  width: 16px;
+  height: 16px;
+  margin-inline: 8px;
+  background: $color-white;
+}

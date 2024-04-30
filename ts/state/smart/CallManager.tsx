@@ -211,6 +211,7 @@ const mapStateToActiveCallProp = (
       const groupMembers: Array<ConversationType> = [];
       const remoteParticipants: Array<GroupCallRemoteParticipantType> = [];
       const peekedParticipants: Array<ConversationType> = [];
+      const pendingParticipants: Array<ConversationType> = [];
       const conversationsByDemuxId: ConversationsByDemuxIdType = new Map();
       const { localDemuxId } = call;
       const raisedHands: Set<number> = new Set(call.raisedHands ?? []);
@@ -224,6 +225,7 @@ const mapStateToActiveCallProp = (
           deviceCount: 0,
           maxDevices: Infinity,
           acis: [],
+          pendingAcis: [],
         },
       } = call;
 
@@ -294,6 +296,20 @@ const mapStateToActiveCallProp = (
         peekedParticipants.push(peekedConversation);
       }
 
+      for (let i = 0; i < peekInfo.pendingAcis.length; i += 1) {
+        const aci = peekInfo.pendingAcis[i];
+
+        // In call links, pending users may be unknown until they share profile keys.
+        // conversationSelectorByAci should create conversations for new contacts.
+        const pendingConversation = conversationSelectorByAci(aci);
+        if (!pendingConversation) {
+          log.error('Pending participant has no corresponding conversation');
+          continue;
+        }
+
+        pendingParticipants.push(pendingConversation);
+      }
+
       return {
         ...baseResult,
         callMode: call.callMode,
@@ -306,6 +322,7 @@ const mapStateToActiveCallProp = (
         localDemuxId,
         maxDevices: peekInfo.maxDevices,
         peekedParticipants,
+        pendingParticipants,
         raisedHands,
         remoteParticipants,
         remoteAudioLevels: call.remoteAudioLevels || new Map<number, number>(),
@@ -407,6 +424,8 @@ export const SmartCallManager = memo(function SmartCallManager() {
     : false;
 
   const {
+    approveUser,
+    denyUser,
     changeCallView,
     closeNeedPermissionScreen,
     getPresentingSources,
@@ -416,6 +435,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
     acceptCall,
     declineCall,
     openSystemPreferencesAction,
+    removeClient,
     sendGroupCallRaiseHand,
     sendGroupCallReaction,
     setGroupCallVideoRequest,
@@ -440,6 +460,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
     <CallManager
       acceptCall={acceptCall}
       activeCall={activeCall}
+      approveUser={approveUser}
       availableCameras={availableCameras}
       bounceAppIconStart={bounceAppIconStart}
       bounceAppIconStop={bounceAppIconStop}
@@ -448,6 +469,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
       changeCallView={changeCallView}
       closeNeedPermissionScreen={closeNeedPermissionScreen}
       declineCall={declineCall}
+      denyUser={denyUser}
       getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
       getPresentingSources={getPresentingSources}
       hangUpActiveCall={hangUpActiveCall}
@@ -461,6 +483,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
       openSystemPreferencesAction={openSystemPreferencesAction}
       pauseVoiceNotePlayer={pauseVoiceNotePlayer}
       playRingtone={playRingtone}
+      removeClient={removeClient}
       renderDeviceSelection={renderDeviceSelection}
       renderEmojiPicker={renderEmojiPicker}
       renderReactionPicker={renderReactionPicker}

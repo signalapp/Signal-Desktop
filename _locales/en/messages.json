@@ -1685,6 +1685,18 @@
     "messageformat": "More options",
     "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
   },
+  "icu:CallingPendingParticipants__ApproveUser": {
+    "messageformat": "Approve join request",
+    "description": "Tooltip label for check mark button to approve a user's request to join a call."
+  },
+  "icu:CallingPendingParticipants__DenyUser": {
+    "messageformat": "Deny join request",
+    "description": "Tooltip label for check mark button to deny a user's request to join a call."
+  },
+  "icu:CallingPendingParticipants__RequestsToJoin": {
+    "messageformat": "{count, plural, one {# request} other {# requests}} to join the call",
+    "description": "Shown in the call pending join request list to describe how many people are requesting to join"
+  },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "Raised hands · {count, plural, one {# person} other {# people}}",
     "description": "Shown in the call raised hands list to describe how many people have active raised hands"
@@ -3653,6 +3665,10 @@
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Copy link",
     "description": "Menu item in the in-call info popup for call link calls. The action is to add the call link to the clipboard."
+  },
+  "icu:CallingAdhocCallInfo__RemoveClient": {
+    "messageformat": "Remove this person from the call",
+    "description": "Button in the in-call info popup for call link calls showing all participants. The action is to remove the participant from the call."
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video",

@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type {
   ActiveCallStateType,
+  PendingUserActionPayloadType,
   SendGroupCallRaiseHandType,
   SendGroupCallReactionType,
   SetLocalAudioType,
@@ -88,14 +89,18 @@ import {
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
 import { assertDev } from '../util/assert';
 import { emojiToData } from './emoji/lib';
+import { CallingPendingParticipants } from './CallingPendingParticipants';
 
 export type PropsType = {
   activeCall: ActiveCallType;
+  approveUser: (payload: PendingUserActionPayloadType) => void;
+  denyUser: (payload: PendingUserActionPayloadType) => void;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   getPresentingSources: () => void;
   groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   hangUpActiveCall: (reason: string) => void;
   i18n: LocalizerType;
+  isCallLinkAdmin: boolean;
   isGroupCallRaiseHandEnabled: boolean;
   me: ConversationType;
   openSystemPreferencesAction: () => unknown;
@@ -178,12 +183,15 @@ function CallDuration({
 
 export function CallScreen({
   activeCall,
+  approveUser,
   changeCallView,
+  denyUser,
   getGroupCallVideoFrameSource,
   getPresentingSources,
   groupMembers,
   hangUpActiveCall,
   i18n,
+  isCallLinkAdmin,
   isGroupCallRaiseHandEnabled,
   me,
   openSystemPreferencesAction,
@@ -395,6 +403,11 @@ export function CallScreen({
     default:
       throw missingCaseError(activeCall);
   }
+
+  const pendingParticipants =
+    activeCall.callMode === CallMode.Adhoc && isCallLinkAdmin
+      ? activeCall.pendingParticipants
+      : [];
 
   let lonelyInCallNode: ReactNode;
   let localPreviewNode: ReactNode;
@@ -811,6 +824,15 @@ export function CallScreen({
         renderRaisedHandsToast={renderRaisedHandsToast}
         i18n={i18n}
       />
+      {pendingParticipants.length ? (
+        <CallingPendingParticipants
+          i18n={i18n}
+          ourServiceId={me.serviceId}
+          participants={pendingParticipants}
+          approveUser={approveUser}
+          denyUser={denyUser}
+        />
+      ) : null}
       {/* We render the local preview first and set the footer flex direction to row-reverse
       to ensure the preview is visible at low viewport widths. */}
       <div className="module-ongoing-call__footer">

@@ -4511,6 +4511,13 @@ button.module-image__border-overlay:focus {
       $color-white
     );
   }
+
+  &__remove {
+    @include color-svg(
+      '../images/icons/v3/minus/minus-circle-compact.svg',
+      $color-white
+    );
+  }
 }
 
 .module-call-need-permission-screen {
