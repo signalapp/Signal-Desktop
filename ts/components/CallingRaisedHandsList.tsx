@@ -77,6 +77,12 @@ export function CallingRaisedHandsList({
             {i18n('icu:CallingRaisedHandsList__Title', {
               count: participants.length,
             })}
+            {participants.length > 1 ? (
+              <span className="CallingRaisedHandsList__TitleHint">
+                {' '}
+                {i18n('icu:CallingRaisedHandsList__TitleHint')}
+              </span>
+            ) : null}
           </div>
           <button
             type="button"

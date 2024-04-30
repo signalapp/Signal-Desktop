@@ -36,6 +36,14 @@
   align-items: start;
 }
 
+.CallingRaisedHandsList__TitleHint {
+  font-weight: normal;
+}
+
+.CallingRaisedHandsList .module-calling-participants-list__contact:last-child {
+  margin-block-end: 4px;
+}
+
 .CallingRaisedHandsList__Button {
   @include button-reset;
   position: absolute;
