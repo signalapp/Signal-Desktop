@@ -34,9 +34,10 @@ const QRView = ({ sessionID }: { sessionID: string }) => {
       foregroundColor={getThemeValue(
         theme.includes('dark') ? '--background-primary-color' : '--text-primary-color'
       )}
-      logoImage={`./images/session/brand/${theme}.png`}
-      logoWidth={42}
-      logoHeight={44}
+      logoImage={'./images/session/qr/brand.svg'}
+      logoWidth={40}
+      logoHeight={40}
+      logoIsSVG={true}
     />
   );
 };

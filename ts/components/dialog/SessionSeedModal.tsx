@@ -142,9 +142,10 @@ const Seed = (props: SeedProps) => {
           foregroundColor={getThemeValue(
             theme.includes('dark') ? '--background-primary-color' : '--text-primary-color'
           )}
-          logoImage={`./images/session/shield/${theme}.png`}
-          logoWidth={60}
-          logoHeight={60}
+          logoImage={'./images/session/qr/shield.svg'}
+          logoWidth={56}
+          logoHeight={56}
+          logoIsSVG={true}
           style={{ margin: '0 auto var(--margins-lg)' }}
         />
 
