@@ -16,29 +16,35 @@ import { sortByTitle } from '../util/sortByTitle';
 import type { ConversationType } from '../state/ducks/conversations';
 import { ModalHost } from './ModalHost';
 import { isInSystemContacts } from '../util/isInSystemContacts';
+import type { RemoveClientType } from '../state/ducks/calling';
 
 type ParticipantType = ConversationType & {
   hasRemoteAudio?: boolean;
   hasRemoteVideo?: boolean;
   isHandRaised?: boolean;
   presenting?: boolean;
+  demuxId?: number;
 };
 
 export type PropsType = {
   readonly callLink: CallLinkType;
   readonly i18n: LocalizerType;
+  readonly isCallLinkAdmin: boolean;
   readonly ourServiceId: ServiceIdString | undefined;
   readonly participants: Array<ParticipantType>;
   readonly onClose: () => void;
   readonly onCopyCallLink: () => void;
+  readonly removeClient: ((payload: RemoveClientType) => void) | null;
 };
 
 export function CallingAdhocCallInfo({
   i18n,
+  isCallLinkAdmin,
   ourServiceId,
   participants,
   onClose,
   onCopyCallLink,
+  removeClient,
 }: PropsType): JSX.Element | null {
   const sortedParticipants = React.useMemo<Array<ParticipantType>>(
     () => sortByTitle(participants),
@@ -137,6 +143,26 @@ export function CallingAdhocCallInfo({
                       'module-calling-participants-list__muted--audio'
                   )}
                 />
+                {isCallLinkAdmin &&
+                removeClient &&
+                participant.demuxId &&
+                !(ourServiceId && participant.serviceId === ourServiceId) ? (
+                  <button
+                    aria-label={i18n('icu:CallingAdhocCallInfo__RemoveClient')}
+                    className={classNames(
+                      'CallingAdhocCallInfo__RemoveClient',
+                      'module-calling-participants-list__status-icon',
+                      'module-calling-participants-list__remove'
+                    )}
+                    onClick={() => {
+                      if (!participant.demuxId) {
+                        return;
+                      }
+                      removeClient({ demuxId: participant.demuxId });
+                    }}
+                    type="button"
+                  />
+                ) : null}
               </li>
             )
           )}

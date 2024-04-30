@@ -31,6 +31,8 @@ import type {
   CancelCallType,
   DeclineCallType,
   GroupCallParticipantInfoType,
+  PendingUserActionPayloadType,
+  RemoveClientType,
   SendGroupCallRaiseHandType,
   SendGroupCallReactionType,
   SetGroupCallVideoRequestType,
@@ -95,9 +97,11 @@ export type PropsType = {
   startCall: (payload: StartCallType) => void;
   toggleParticipants: () => void;
   acceptCall: (_: AcceptCallType) => void;
+  approveUser: (payload: PendingUserActionPayloadType) => void;
   bounceAppIconStart: () => unknown;
   bounceAppIconStop: () => unknown;
   declineCall: (_: DeclineCallType) => void;
+  denyUser: (payload: PendingUserActionPayloadType) => void;
   hasInitialLoadCompleted: boolean;
   i18n: LocalizerType;
   isGroupCallRaiseHandEnabled: boolean;
@@ -109,6 +113,7 @@ export type PropsType = {
   ) => unknown;
   openSystemPreferencesAction: () => unknown;
   playRingtone: () => unknown;
+  removeClient: (payload: RemoveClientType) => void;
   sendGroupCallRaiseHand: (payload: SendGroupCallRaiseHandType) => void;
   sendGroupCallReaction: (payload: SendGroupCallReactionType) => void;
   setGroupCallVideoRequest: (_: SetGroupCallVideoRequestType) => void;
@@ -151,11 +156,13 @@ type ActiveCallManagerPropsType = {
 
 function ActiveCallManager({
   activeCall,
+  approveUser,
   availableCameras,
   callLink,
   cancelCall,
   changeCallView,
   closeNeedPermissionScreen,
+  denyUser,
   hangUpActiveCall,
   i18n,
   isGroupCallRaiseHandEnabled,
@@ -166,6 +173,7 @@ function ActiveCallManager({
   renderDeviceSelection,
   renderEmojiPicker,
   renderReactionPicker,
+  removeClient,
   sendGroupCallRaiseHand,
   sendGroupCallReaction,
   setGroupCallVideoRequest,
@@ -258,6 +266,7 @@ function ActiveCallManager({
   let isConvoTooBigToRing = false;
   let isAdhocAdminApprovalRequired = false;
   let isAdhocJoinRequestPending = false;
+  let isCallLinkAdmin = false;
 
   switch (activeCall.callMode) {
     case CallMode.Direct: {
@@ -292,6 +301,7 @@ function ActiveCallManager({
       isAdhocJoinRequestPending =
         isAdhocAdminApprovalRequired &&
         activeCall.joinState === GroupCallJoinState.Pending;
+      isCallLinkAdmin = Boolean(callLink?.adminKey);
       break;
     }
     default:
@@ -352,10 +362,12 @@ function ActiveCallManager({
             <CallingAdhocCallInfo
               callLink={callLink}
               i18n={i18n}
+              isCallLinkAdmin={isCallLinkAdmin}
               ourServiceId={me.serviceId}
               participants={peekedParticipants}
               onClose={toggleParticipants}
               onCopyCallLink={onCopyCallLink}
+              removeClient={removeClient}
             />
           ) : (
             <CallingParticipantsList
@@ -388,6 +400,7 @@ function ActiveCallManager({
           hasRemoteVideo: hasLocalVideo,
           isHandRaised,
           presenting: Boolean(activeCall.presentingSource),
+          demuxId: activeCall.localDemuxId,
         },
       ]
     : [];
@@ -396,12 +409,15 @@ function ActiveCallManager({
     <>
       <CallScreen
         activeCall={activeCall}
+        approveUser={approveUser}
         changeCallView={changeCallView}
+        denyUser={denyUser}
         getPresentingSources={getPresentingSources}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
         groupMembers={groupMembers}
         hangUpActiveCall={hangUpActiveCall}
         i18n={i18n}
+        isCallLinkAdmin={isCallLinkAdmin}
         isGroupCallRaiseHandEnabled={isGroupCallRaiseHandEnabled}
         me={me}
         openSystemPreferencesAction={openSystemPreferencesAction}
@@ -438,10 +454,12 @@ function ActiveCallManager({
           <CallingAdhocCallInfo
             callLink={callLink}
             i18n={i18n}
+            isCallLinkAdmin={isCallLinkAdmin}
             ourServiceId={me.serviceId}
             participants={groupCallParticipantsForParticipantsList}
             onClose={toggleParticipants}
             onCopyCallLink={onCopyCallLink}
+            removeClient={removeClient}
           />
         ) : (
           <CallingParticipantsList
@@ -458,6 +476,7 @@ function ActiveCallManager({
 export function CallManager({
   acceptCall,
   activeCall,
+  approveUser,
   availableCameras,
   bounceAppIconStart,
   bounceAppIconStop,
@@ -466,6 +485,7 @@ export function CallManager({
   changeCallView,
   closeNeedPermissionScreen,
   declineCall,
+  denyUser,
   getGroupCallVideoFrameSource,
   getPresentingSources,
   hangUpActiveCall,
@@ -479,6 +499,7 @@ export function CallManager({
   openSystemPreferencesAction,
   pauseVoiceNotePlayer,
   playRingtone,
+  removeClient,
   renderDeviceSelection,
   renderEmojiPicker,
   renderReactionPicker,
@@ -552,10 +573,12 @@ export function CallManager({
         <ActiveCallManager
           activeCall={activeCall}
           availableCameras={availableCameras}
+          approveUser={approveUser}
           callLink={callLink}
           cancelCall={cancelCall}
           changeCallView={changeCallView}
           closeNeedPermissionScreen={closeNeedPermissionScreen}
+          denyUser={denyUser}
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
           getPresentingSources={getPresentingSources}
           hangUpActiveCall={hangUpActiveCall}
@@ -564,6 +587,7 @@ export function CallManager({
           me={me}
           openSystemPreferencesAction={openSystemPreferencesAction}
           pauseVoiceNotePlayer={pauseVoiceNotePlayer}
+          removeClient={removeClient}
           renderDeviceSelection={renderDeviceSelection}
           renderEmojiPicker={renderEmojiPicker}
           renderReactionPicker={renderReactionPicker}

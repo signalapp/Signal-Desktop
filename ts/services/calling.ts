@@ -40,7 +40,7 @@ import {
   RingRTC,
   RingUpdate,
 } from '@signalapp/ringrtc';
-import { uniqBy, noop } from 'lodash';
+import { uniqBy, noop, compact } from 'lodash';
 
 import Long from 'long';
 import type { CallLinkAuthCredentialPresentation } from '@signalapp/libsignal-client/zkgroup';
@@ -125,11 +125,13 @@ import {
 } from '../util/callDisposition';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { LocalCallEvent } from '../types/CallDisposition';
-import { isServiceIdString, type ServiceIdString } from '../types/ServiceId';
+import type { AciString, ServiceIdString } from '../types/ServiceId';
+import { isServiceIdString } from '../types/ServiceId';
 import { isInSystemContacts } from '../util/isInSystemContacts';
 import {
   getRoomIdFromRootKey,
   getCallLinkAuthCredentialPresentation,
+  toAdminKeyBytes,
 } from '../util/callLinks';
 import { isAdhocCallingEnabled } from '../util/isAdhocCallingEnabled';
 import { conversationJobQueue } from '../jobs/conversationJobQueue';
@@ -580,10 +582,12 @@ export class CallingClass {
 
   async startCallLinkLobby({
     callLinkRootKey,
+    adminPasskey,
     hasLocalAudio,
     hasLocalVideo = true,
   }: Readonly<{
     callLinkRootKey: CallLinkRootKey;
+    adminPasskey: Buffer | undefined;
     hasLocalAudio: boolean;
     hasLocalVideo?: boolean;
   }>): Promise<
@@ -610,7 +614,7 @@ export class CallingClass {
       roomId,
       authCredentialPresentation,
       callLinkRootKey,
-      adminPasskey: undefined,
+      adminPasskey,
     });
 
     groupCall.setOutgoingAudioMuted(!hasLocalAudio);
@@ -1210,11 +1214,13 @@ export class CallingClass {
   public async joinCallLinkCall({
     roomId,
     rootKey,
+    adminKey,
     hasLocalAudio,
     hasLocalVideo,
   }: {
     roomId: string;
     rootKey: string;
+    adminKey: string | undefined;
     hasLocalAudio: boolean;
     hasLocalVideo: boolean;
   }): Promise<void> {
@@ -1228,13 +1234,16 @@ export class CallingClass {
     const callLinkRootKey = CallLinkRootKey.parse(rootKey);
     const authCredentialPresentation =
       await getCallLinkAuthCredentialPresentation(callLinkRootKey);
+    const adminPasskey = adminKey
+      ? Buffer.from(toAdminKeyBytes(adminKey))
+      : undefined;
 
     // RingRTC reuses the same type GroupCall between Adhoc and Group calls.
     const groupCall = this.connectCallLinkCall({
       roomId,
       authCredentialPresentation,
       callLinkRootKey,
-      adminPasskey: undefined,
+      adminPasskey,
     });
 
     groupCall.setOutgoingAudioMuted(!hasLocalAudio);
@@ -1265,6 +1274,33 @@ export class CallingClass {
     }
 
     groupCall.setGroupMembers(this.getGroupCallMembers(conversationId));
+  }
+
+  public approveUser(conversationId: string, aci: AciString): void {
+    const groupCall = this.getGroupCall(conversationId);
+    if (!groupCall) {
+      throw new Error('Could not find matching call');
+    }
+
+    groupCall.approveUser(Buffer.from(uuidToBytes(aci)));
+  }
+
+  public denyUser(conversationId: string, aci: AciString): void {
+    const groupCall = this.getGroupCall(conversationId);
+    if (!groupCall) {
+      throw new Error('Could not find matching call');
+    }
+
+    groupCall.denyUser(Buffer.from(uuidToBytes(aci)));
+  }
+
+  public removeClient(conversationId: string, demuxId: number): void {
+    const groupCall = this.getGroupCall(conversationId);
+    if (!groupCall) {
+      throw new Error('Could not find matching call');
+    }
+
+    groupCall.removeClient(demuxId);
   }
 
   // See the comment in types/Calling.ts to explain why we have to do this conversion.
@@ -1301,6 +1337,18 @@ export class CallingClass {
     }
   }
 
+  private formatUserId(userId: Buffer): AciString | null {
+    const uuid = bytesToUuid(userId);
+    if (uuid && isAciString(uuid)) {
+      return uuid;
+    }
+
+    log.error(
+      'Calling.formatUserId: could not convert participant UUID Uint8Array to string'
+    );
+    return null;
+  }
+
   public formatGroupCallPeekInfoForRedux(
     peekInfo: PeekInfo
   ): GroupCallPeekInfoType {
@@ -1308,17 +1356,10 @@ export class CallingClass {
     return {
       acis: peekInfo.devices.map(peekDeviceInfo => {
         if (peekDeviceInfo.userId) {
-          const uuid = bytesToUuid(peekDeviceInfo.userId);
+          const uuid = this.formatUserId(peekDeviceInfo.userId);
           if (uuid) {
-            assertDev(
-              isAciString(uuid),
-              'peeked participant uuid must be an ACI'
-            );
             return uuid;
           }
-          log.error(
-            'Calling.formatGroupCallPeekInfoForRedux: could not convert peek UUID Uint8Array to string; using fallback UUID'
-          );
         } else {
           log.error(
             'Calling.formatGroupCallPeekInfoForRedux: device had no user ID; using fallback UUID'
@@ -1329,6 +1370,9 @@ export class CallingClass {
           'formatGrouPCallPeekInfoForRedux'
         );
       }),
+      pendingAcis: compact(
+        peekInfo.pendingUsers.map(userId => this.formatUserId(userId))
+      ),
       creatorAci:
         creatorAci !== undefined
           ? normalizeAci(

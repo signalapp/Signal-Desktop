@@ -139,6 +139,7 @@ export function GroupCall(args: PropsType): JSX.Element {
         maxDevices: 5,
         deviceCount: 0,
         peekedParticipants: [],
+        pendingParticipants: [],
         raisedHands: new Set<number>(),
         remoteParticipants: [],
         remoteAudioLevels: new Map<number, number>(),

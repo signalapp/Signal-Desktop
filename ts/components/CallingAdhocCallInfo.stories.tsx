@@ -61,10 +61,12 @@ function getCallLink(overrideProps: Partial<CallLinkType> = {}): CallLinkType {
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   callLink: getCallLink(overrideProps.callLink || {}),
   i18n,
+  isCallLinkAdmin: overrideProps.isCallLinkAdmin || false,
   ourServiceId: generateAci(),
   participants: overrideProps.participants || [],
   onClose: action('on-close'),
   onCopyCallLink: action('on-copy-call-link'),
+  removeClient: overrideProps.removeClient || action('remove-client'),
 });
 
 export default {
