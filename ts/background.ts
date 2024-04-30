@@ -1620,6 +1620,35 @@ export async function startApp(): Promise<void> {
   window.addEventListener('online', onNavigatorOnline);
   window.addEventListener('offline', onNavigatorOffline);
 
+  window.Whisper.events.on('socketStatusChange', () => {
+    if (window.getSocketStatus() === SocketStatus.OPEN) {
+      pauseQueuesAndNotificationsOnSocketConnect();
+    }
+  });
+
+  // 1. When the socket is connected, to avoid a flood of operations before we catch up,
+  //    we pause some queues.
+  function pauseQueuesAndNotificationsOnSocketConnect() {
+    log.info('pauseQueuesAndNotificationsOnSocketConnect: pausing');
+    profileKeyResponseQueue.pause();
+    lightSessionResetQueue.pause();
+    onDecryptionErrorQueue.pause();
+    onRetryRequestQueue.pause();
+    window.Whisper.deliveryReceiptQueue.pause();
+    notificationService.disable();
+  }
+
+  // 2. After the socket finishes processing any queued messages, restart these queues
+  function restartQueuesAndNotificationsOnEmpty() {
+    log.info('restartQueuesAndNotificationsOnEmpty: restarting');
+    profileKeyResponseQueue.start();
+    lightSessionResetQueue.start();
+    onDecryptionErrorQueue.start();
+    onRetryRequestQueue.start();
+    window.Whisper.deliveryReceiptQueue.start();
+    notificationService.enable();
+  }
+
   function isSocketOnline() {
     const socketStatus = window.getSocketStatus();
     return (
@@ -1703,14 +1732,6 @@ export async function startApp(): Promise<void> {
       }
 
       connectCount += 1;
-
-      // To avoid a flood of operations before we catch up, we pause some queues.
-      profileKeyResponseQueue.pause();
-      lightSessionResetQueue.pause();
-      onDecryptionErrorQueue.pause();
-      onRetryRequestQueue.pause();
-      window.Whisper.deliveryReceiptQueue.pause();
-      notificationService.disable();
 
       void window.Signal.Services.initializeGroupCredentialFetcher();
 
@@ -1983,12 +2004,7 @@ export async function startApp(): Promise<void> {
     // Start listeners here, after we get through our queue.
     UpdateKeysListener.init(window.Whisper.events, newVersion);
 
-    profileKeyResponseQueue.start();
-    lightSessionResetQueue.start();
-    onDecryptionErrorQueue.start();
-    onRetryRequestQueue.start();
-    window.Whisper.deliveryReceiptQueue.start();
-    notificationService.enable();
+    restartQueuesAndNotificationsOnEmpty();
 
     await onAppView;
 
