@@ -1698,8 +1698,12 @@
     "description": "Shown in the call pending join request list to describe how many people are requesting to join"
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "Raised hands · {count, plural, one {# person} other {# people}}",
+    "messageformat": "{count, plural, one {# raised hand} other {# raised hands}}",
     "description": "Shown in the call raised hands list to describe how many people have active raised hands"
+  },
+  "icu:CallingRaisedHandsList__TitleHint": {
+    "messageformat": "(first to last)",
+    "description": "Shown in the call raised hands list next to the raised hands count to explain list ordering"
   },
   "icu:CallingReactions--me": {
     "messageformat": "You",
