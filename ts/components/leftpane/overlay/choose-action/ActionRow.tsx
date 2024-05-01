@@ -18,14 +18,14 @@ const StyledActionRow = styled.button`
 export const StyledChooseActionTitle = styled.span`
   color: var(--text-primary-color);
   font-size: 18px;
-  padding: var(--margins-sm) 0;
+  padding: var(--margins-md) 0;
   text-align: start;
   width: 100%;
 `;
 
 const StyledIcon = styled.div`
   width: 58px;
-  margin: var(--margins-sm);
+  margin: var(--margins-md) var(--margins-sm);
 `;
 
 const StyledHR = styled.hr`

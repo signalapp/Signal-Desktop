@@ -27,6 +27,10 @@ export const OverlayChooseAction = () => {
     dispatch(setLeftOverlayMode('open-group'));
   }, [dispatch]);
 
+  const inviteAFriend = useCallback(() => {
+    dispatch(setLeftOverlayMode('invite-a-friend'));
+  }, [dispatch]);
+
   useKey('Escape', closeOverlay);
 
   useEffect(() => {
@@ -83,6 +87,13 @@ export const OverlayChooseAction = () => {
           iconType={'communities'}
           onClick={openJoinCommunity}
           dataTestId="chooser-new-community"
+        />
+        <ActionRow
+          title={window.i18n('sessionInviteAFriend')}
+          ariaLabel={window.i18n('sessionInviteAFriend')}
+          iconType={'addUser'}
+          onClick={inviteAFriend}
+          dataTestId="invite-a-friend"
         />
       </StyledActionRowContainer>
       <SpacerSM />

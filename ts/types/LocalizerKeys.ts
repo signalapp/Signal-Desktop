@@ -458,6 +458,8 @@ export type LocalizerKeys =
   | 'sending'
   | 'sent'
   | 'serverId'
+  | 'sessionInviteAFriend'
+  | 'sessionInviteAFriendDescription'
   | 'sessionMessenger'
   | 'sessionRecoveryPassword'
   | 'set'

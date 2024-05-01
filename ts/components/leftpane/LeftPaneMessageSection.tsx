@@ -13,6 +13,7 @@ import { StyledLeftPaneList } from './LeftPaneList';
 import { ConversationListItem } from './conversation-list-item/ConversationListItem';
 import { OverlayClosedGroup } from './overlay/OverlayClosedGroup';
 import { OverlayCommunity } from './overlay/OverlayCommunity';
+import { OverlayInvite } from './overlay/OverlayInvite';
 import { OverlayMessage } from './overlay/OverlayMessage';
 import { OverlayMessageRequest } from './overlay/OverlayMessageRequest';
 import { OverlayChooseAction } from './overlay/choose-action/OverlayChooseAction';
@@ -53,6 +54,8 @@ const ClosableOverlay = () => {
       return <OverlayMessage />;
     case 'message-requests':
       return <OverlayMessageRequest />;
+    case 'invite-a-friend':
+      return <OverlayInvite />;
     case undefined:
       return null;
     default:

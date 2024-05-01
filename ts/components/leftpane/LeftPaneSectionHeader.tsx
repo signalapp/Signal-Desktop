@@ -148,6 +148,9 @@ export const LeftPaneSectionHeader = () => {
     case 'message-requests':
       leftOverlayHeading = window.i18n('messageRequests');
       break;
+    case 'invite-a-friend':
+      leftOverlayHeading = window.i18n('sessionInviteAFriend');
+      break;
     case 'choose-action':
     default:
       leftOverlayHeading = window.i18n('messagesHeader');
