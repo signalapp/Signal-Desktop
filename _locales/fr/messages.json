@@ -498,7 +498,7 @@
     "messageformat": "Annuler la confirmation"
   },
   "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Pour vérifier le chiffrement de bout en bout avec {name}, comparez les chiffres ci-dessus avec leur appareil. Ils peuvent également lire votre code avec leur appareil."
+    "messageformat": "Pour vérifier le chiffrement de bout en bout de vos communications avec {name}, comparez les chiffres ci-dessus avec ceux de son appareil. Vous pouvez aussi scanner le code QR qui s’affiche sur son appareil."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "En savoir plus"
@@ -1632,7 +1632,7 @@
     "messageformat": "Attirer l’attention sur cette fenêtre quand une notification arrive"
   },
   "icu:hideMenuBar": {
-    "messageformat": "Cacher la barre de menu"
+    "messageformat": "Masquer la barre de menu"
   },
   "icu:newConversation": {
     "messageformat": "Nouvelle conversation"
@@ -4329,7 +4329,7 @@
     "messageformat": "Numéro de téléphone"
   },
   "icu:Preferences__pnp__row--body": {
-    "messageformat": "Choisissez qui peut voir votre numéro de téléphone et qui peut vous contacter sur Signal avec celui-ci."
+    "messageformat": "Choisissez qui peut voir votre numéro de téléphone et qui peut l’utiliser pour vous rechercher sur Signal."
   },
   "icu:Preferences__pnp__row--button": {
     "messageformat": "Modifier..."
@@ -5266,7 +5266,7 @@
     "messageformat": "Activer/désactiver"
   },
   "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "Aucun appel récent. Commencez en appelant un ami."
+    "messageformat": "Aucun appel récent. Pour commencer, appelez un ami."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Aucun résultat pour « {query} »"

@@ -57,7 +57,7 @@
     "messageformat": "Foutmelding kopiëren en afsluiten"
   },
   "icu:unknownContact": {
-    "messageformat": "Onbekend contactpersoon"
+    "messageformat": "Onbekend contact"
   },
   "icu:unknownGroup": {
     "messageformat": "Onbekende groep"
