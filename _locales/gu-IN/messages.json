@@ -1223,6 +1223,9 @@
   "icu:CallingLobbyJoinButton--call-full": {
     "messageformat": "કૉલમાં જગ્યા નથી"
   },
+  "icu:CallingLobbyJoinButton--ask-to-join": {
+    "messageformat": "Ask to join"
+  },
   "icu:calling__button--video-disabled": {
     "messageformat": "કૅમેરા અક્ષમ છે"
   },
@@ -1265,8 +1268,20 @@
   "icu:CallingButton--more-options": {
     "messageformat": "વધુ વિકલ્પો"
   },
+  "icu:CallingPendingParticipants__ApproveUser": {
+    "messageformat": "Approve join request"
+  },
+  "icu:CallingPendingParticipants__DenyUser": {
+    "messageformat": "Deny join request"
+  },
+  "icu:CallingPendingParticipants__RequestsToJoin": {
+    "messageformat": "{count, plural, one {{count,number} request to join the call} other {{count,number} requests to join the call}}"
+  },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {હાથ ઊંચો કર્યો · {count,number} વ્યક્તિ} other {હાથ ઊંચા કર્યા · {count,number} લોકો}}"
+    "messageformat": "{count, plural, one {{count,number} raised hand} other {{count,number} raised hands}}"
+  },
+  "icu:CallingRaisedHandsList__TitleHint": {
+    "messageformat": "(first to last)"
   },
   "icu:CallingReactions--me": {
     "messageformat": "તમે"
@@ -2752,6 +2767,9 @@
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "લિંક કૉપી કરો"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClient": {
+    "messageformat": "Remove this person from the call"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "વિડિયો"
@@ -5304,6 +5322,9 @@
   "icu:CallHistory__Description--Declined": {
     "messageformat": "{type, select, Audio {નકારેલ વૉઇસ કૉલ} Video {નકારેલ વીડિયો કૉલ} Group {નકારેલ ગ્રૂપ કૉલ} other {નકારેલ કૉલ}}"
   },
+  "icu:CallHistory__Description--Adhoc": {
+    "messageformat": "Call link"
+  },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} અન્ય ટાઇપ કરી રહ્યા છે.} other {{count,number} અન્યો ટાઇપ કરી રહ્યાં છે.}}"
   },
@@ -5343,5 +5364,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__v7.8--0": {
+    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once."
   }
 }
