@@ -25,6 +25,14 @@ export class HTTPError extends Error {
 
   public readonly response: unknown;
 
+  static fromResponse(response: Response): HTTPError {
+    return new HTTPError(response.statusText, {
+      code: response.status,
+      headers: Object.fromEntries(response.headers),
+      response,
+    });
+  }
+
   constructor(
     message: string,
     options: {
