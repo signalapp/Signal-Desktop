@@ -72,9 +72,11 @@ export const UserDetailsDialog = (props: UserDetailsModalState) => {
       <SpacerLG />
       <SessionInput
         value={props.conversationId}
-        isSpecial={true}
+        biggerText={true}
         centerText={true}
         editable={false}
+        monospaced={true}
+        isTextArea={true}
       />
       <SpacerLG />
       <div className="session-modal__button-group__center">

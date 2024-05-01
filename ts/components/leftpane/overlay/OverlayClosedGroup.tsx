@@ -149,8 +149,10 @@ export const OverlayClosedGroup = () => {
         onEnterPressed={onEnterPressed}
         error={groupNameError}
         maxLength={VALIDATION.MAX_GROUP_NAME_LENGTH}
+        biggerText={true}
         centerText={true}
-        isGroup={true}
+        monospaced={true}
+        isTextArea={true}
         inputDataTestId="new-closed-group-name"
       />
       <SpacerMD />

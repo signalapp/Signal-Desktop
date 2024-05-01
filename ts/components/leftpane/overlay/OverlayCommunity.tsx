@@ -106,8 +106,10 @@ export const OverlayCommunity = () => {
         onEnterPressed={onTryJoinRoom}
         error={groupUrlError}
         maxLength={VALIDATION.MAX_COMMUNITY_NAME_LENGTH}
+        biggerText={true}
         centerText={true}
-        isGroup={true}
+        monospaced={true}
+        isTextArea={true}
       />
       <Spacer2XL />
       <SessionButton text={window.i18n('join')} disabled={!groupUrl} onClick={onTryJoinRoom} />

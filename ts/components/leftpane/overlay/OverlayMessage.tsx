@@ -164,8 +164,8 @@ export const OverlayMessage = () => {
         onValueChanged={setPubkeyOrOns}
         onEnterPressed={handleMessageButtonClick}
         error={pubkeyOrOnsError}
-        isSpecial={true}
         centerText={true}
+        isTextArea={true}
         inputDataTestId="new-session-conversation"
       />
       <SpacerMD />

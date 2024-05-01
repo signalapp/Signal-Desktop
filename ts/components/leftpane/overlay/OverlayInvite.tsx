@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { resetLeftOverlayMode } from '../../../state/ducks/section';
 import { SessionButton } from '../../basic/SessionButton';
 
-import { ToastUtils, UserUtils } from '../../../session/utils';
+import { UserUtils } from '../../../session/utils';
 import { SpacerLG, SpacerMD } from '../../basic/Text';
 import { SessionInput } from '../../inputs';
 import { StyledLeftPaneOverlay } from './OverlayMessage';
@@ -52,9 +52,9 @@ export const OverlayInvite = () => {
         autoFocus={true}
         type="text"
         value={ourSessionID}
-        isSpecial={true}
         centerText={true}
         editable={false}
+        isTextArea={true}
         inputDataTestId="invite-account-id"
       />
       <SpacerMD />
@@ -65,7 +65,7 @@ export const OverlayInvite = () => {
           text={window.i18n('editMenuCopy')}
           onClick={() => {
             window.clipboard.writeText(ourSessionID);
-            ToastUtils.pushCopiedToClipBoard();
+            // TODO[epic=SES-955] update to next screen
           }}
           dataTestId="invite-account-id-copy"
         />

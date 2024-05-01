@@ -10,7 +10,7 @@ import { Flex } from '../basic/Flex';
 import { SpacerMD } from '../basic/Text';
 import { SessionIconButton } from '../icon';
 
-const StyledInput = styled(motion.input)<{ centerText?: boolean }>`
+const StyledInput = styled(motion.input)<{ centerText?: boolean; monospaced?: boolean }>`
   border: 1px solid var(--input-border-color);
   border-radius: 13px;
   outline: 0;
@@ -18,7 +18,7 @@ const StyledInput = styled(motion.input)<{ centerText?: boolean }>`
   background: transparent;
   color: var(--input-text-color);
 
-  font-family: var(--font-default);
+  font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
   font-size: 12px;
   line-height: 14px;
   padding: var(--margins-lg);
@@ -30,18 +30,17 @@ const StyledInput = styled(motion.input)<{ centerText?: boolean }>`
   }
 `;
 
-const StyledTextAreaContainer = styled(motion.div)<{ centerText?: boolean }>`
+const StyledTextAreaContainer = styled(motion.div)<{ centerText?: boolean; monospaced?: boolean }>`
   border: 1px solid var(--input-border-color);
   border-radius: 13px;
   outline: 0;
   width: 100%;
-  min-height: 100px;
   background: transparent;
   color: var(--input-text-color);
 
-  font-family: var(--font-mono);
-  font-size: var(--font-size-md);
-  line-height: 18px;
+  font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
+  font-size: 12px;
+  line-height: 14px;
 
   ${props => props.centerText && 'text-align: center;'}
 
@@ -63,10 +62,10 @@ const StyledTextAreaContainer = styled(motion.div)<{ centerText?: boolean }>`
     ${props => props.centerText && 'text-align: center;'}
 
     :placeholder-shown {
-      font-family: var(--font-default);
-      height: 28px;
+      font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
+      font-size: 12px;
+      height: 48px;
       margin: var(--margins-md) 0;
-      padding: var(--margins-xl);
     }
 
     ::placeholder {
@@ -76,7 +75,7 @@ const StyledTextAreaContainer = styled(motion.div)<{ centerText?: boolean }>`
   }
 `;
 
-const StyledInputContainer = styled(Flex)<{ error: boolean; isGroup?: boolean }>`
+const StyledInputContainer = styled(Flex)<{ error: boolean; biggerText?: boolean }>`
   position: relative;
   width: 100%;
 
@@ -103,25 +102,24 @@ const StyledInputContainer = styled(Flex)<{ error: boolean; isGroup?: boolean }>
   }
 
   ${props =>
-    props.isGroup &&
+    props.biggerText &&
     `
-    ${StyledInput} {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-md);
-      line-height: 18px;
-    }
+  ${StyledInput} {
+    font-size: var(--font-size-md);
+    line-height: 18px;
+  }
 
-    ${StyledTextAreaContainer} {
-      font-family: var(--font-mono);
-      font-size: var(--font-size-md);
-      line-height: 18px;
+  ${StyledTextAreaContainer} {
+    font-size: var(--font-size-md);
+    line-height: 18px;
 
-      textarea {
-        :placeholder-shown {
-          font-family: var(--font-mono);
-        }
+    textarea {
+      :placeholder-shown {
+        font-size: var(--font-size-md);
+        height: 56px;
       }
     }
+  }
   `}
 `;
 
@@ -194,12 +192,11 @@ type Props = {
   inputDataTestId?: string;
   id?: string;
   ctaButton?: ReactNode;
-  /** Font is larger and monospaced */
-  isGroup?: boolean;
-  /** Gives us a textarea with a monospace font. Mostly used for joining conversations, groups or communities */
-  isSpecial?: boolean;
+  monospaced?: boolean;
+  biggerText?: boolean;
   centerText?: boolean;
   editable?: boolean;
+  isTextArea?: boolean;
   className?: string;
 };
 
@@ -218,10 +215,11 @@ export const SessionInput = (props: Props) => {
     inputDataTestId,
     id = 'session-input-floating-label',
     ctaButton,
-    isGroup,
-    isSpecial,
+    monospaced,
+    biggerText,
     centerText,
     editable = true,
+    isTextArea,
     className,
   } = props;
   const [inputValue, setInputValue] = useState('');
@@ -265,7 +263,7 @@ export const SessionInput = (props: Props) => {
         return;
       }
       if (event.key === 'Enter' && onEnterPressed) {
-        if (isSpecial && event.shiftKey) {
+        if (isTextArea && event.shiftKey) {
           return;
         }
         event.preventDefault();
@@ -297,15 +295,15 @@ export const SessionInput = (props: Props) => {
       justifyContent="center"
       alignItems="center"
       error={Boolean(errorString)}
-      isGroup={isGroup}
+      biggerText={biggerText}
     >
       <Flex container={true} width="100%" alignItems="center" style={{ position: 'relative' }}>
-        {isSpecial ? (
-          <StyledTextAreaContainer centerText={centerText}>
+        {isTextArea ? (
+          <StyledTextAreaContainer centerText={centerText} monospaced={monospaced}>
             <textarea {...inputProps} />
           </StyledTextAreaContainer>
         ) : (
-          <StyledInput {...inputProps} centerText={centerText} />
+          <StyledInput {...inputProps} centerText={centerText} monospaced={monospaced} />
         )}
         {editable && enableShowHide && (
           <ShowHideButton
