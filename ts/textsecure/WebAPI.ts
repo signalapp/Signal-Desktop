@@ -787,9 +787,9 @@ export type GetAccountForUsernameResultType = z.infer<
 export type GetIceServersResultType = Readonly<{
   username: string;
   password: string;
-  urls: ReadonlyArray<string>;
-  urlsWithIps: ReadonlyArray<string>;
-  hostname: string;
+  urls?: ReadonlyArray<string>;
+  urlsWithIps?: ReadonlyArray<string>;
+  hostname?: string;
 }>;
 
 export type GetDevicesResultType = ReadonlyArray<

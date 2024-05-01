@@ -2691,7 +2691,7 @@ export class CallingClass {
       : // proritize ice servers with IPs to avoid DNS
         [
           {
-            hostname: iceServer.hostname,
+            hostname: iceServer.hostname ?? '',
             username: iceServer.username,
             password: iceServer.password,
             urls: (iceServer.urlsWithIps ?? []).slice(),
