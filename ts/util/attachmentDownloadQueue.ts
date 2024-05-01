@@ -66,7 +66,11 @@ export async function flushAttachmentDownloadQueue(): Promise<void> {
   );
 
   const messagesWithDownloads = await Promise.all(
-    attachmentsToDownload.map(message => message.queueAttachmentDownloads())
+    attachmentsToDownload.map(message => {
+      const updatedMessage =
+        window.MessageCache.__DEPRECATED$getById(message.id) ?? message;
+      return updatedMessage.queueAttachmentDownloads();
+    })
   );
   const messagesToSave: Array<MessageAttributesType> = [];
   messagesWithDownloads.forEach((shouldSave, messageKey) => {
