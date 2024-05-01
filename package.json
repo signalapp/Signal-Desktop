@@ -2,7 +2,7 @@
   "name": "session-desktop",
   "productName": "Session",
   "description": "Private messaging from your desktop",
-  "version": "1.12.2",
+  "version": "1.12.3",
   "license": "GPL-3.0",
   "author": {
     "name": "Oxen Labs",
@@ -216,11 +216,13 @@
     "afterSign": "build/notarize.js",
     "afterPack": "build/afterPackHook.js",
     "artifactName": "${name}-${os}-${arch}-${version}.${ext}",
-    "extraResources": [{
-      "from": "./build/launcher-script.sh",
-      "to": "./launcher-script.sh"
-    },
-    "mmdb/GeoLite2-Country.mmdb"],
+    "extraResources": [
+      {
+        "from": "./build/launcher-script.sh",
+        "to": "./launcher-script.sh"
+      },
+      "mmdb/GeoLite2-Country.mmdb"
+    ],
     "mac": {
       "category": "public.app-category.social-networking",
       "icon": "build/icon-mac.icns",

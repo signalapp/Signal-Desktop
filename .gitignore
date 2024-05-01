@@ -53,3 +53,5 @@ stylesheets/dist/
 *.LICENSE.txt
 ts/webworker/workers/node/**/*.node
 
+.yarn/**/*.mjs
+.yarn/**/*.cjs

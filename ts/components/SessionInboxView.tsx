@@ -91,7 +91,18 @@ function createSessionInboxStore() {
 function setupLeftPane(forceUpdateInboxComponent: () => void) {
   window.openConversationWithMessages = openConversationWithMessages;
   window.inboxStore = createSessionInboxStore();
-  window.inboxStore.dispatch(updateAllOnStorageReady());
+
+  window.inboxStore.dispatch(
+    updateAllOnStorageReady({
+      hasBlindedMsgRequestsEnabled: Storage.getBoolOrFalse(
+        SettingsKey.hasBlindedMsgRequestsEnabled
+      ),
+      someDeviceOutdatedSyncing: Storage.getBoolOrFalse(SettingsKey.someDeviceOutdatedSyncing),
+      settingsLinkPreview: Storage.getBoolOrFalse(SettingsKey.settingsLinkPreview),
+      hasFollowSystemThemeEnabled: Storage.getBoolOrFalse(SettingsKey.hasFollowSystemThemeEnabled),
+      hasShiftSendEnabled: Storage.getBoolOrFalse(SettingsKey.hasShiftSendEnabled),
+    })
+  );
   forceUpdateInboxComponent();
 }
 

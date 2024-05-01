@@ -42,7 +42,7 @@ import {
   VisibleMessageParams,
 } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { perfEnd, perfStart } from '../session/utils/Performance';
-import { toHex } from '../session/utils/String';
+import { ed25519Str, toHex } from '../session/utils/String';
 import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 import {
   actions as conversationActions,
@@ -74,7 +74,6 @@ import {
   MessageRequestResponse,
   MessageRequestResponseParams,
 } from '../session/messages/outgoing/controlMessage/MessageRequestResponse';
-import { ed25519Str } from '../session/onions/onionPath';
 import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
 import { SessionUtilContact } from '../session/utils/libsession/libsession_utils_contacts';
 import { SessionUtilConvoInfoVolatile } from '../session/utils/libsession/libsession_utils_convo_info_volatile';

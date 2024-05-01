@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { EditProfilePictureModalProps } from '../../components/dialog/EditProfilePictureModal';
 import { SessionConfirmDialogProps } from '../../components/dialog/SessionConfirm';
-import { PasswordAction } from '../../components/dialog/SessionPasswordDialog';
-import { Noop } from '../../types/Util';
+import type { EditProfilePictureModalProps, PasswordAction } from '../../types/ReduxTypes';
 
 export type BanType = 'ban' | 'unban';
 
@@ -23,7 +21,7 @@ export type OnionPathModalState = EditProfileModalState;
 export type RecoveryPhraseModalState = EditProfileModalState;
 export type DeleteAccountModalState = EditProfileModalState;
 
-export type SessionPasswordModalState = { passwordAction: PasswordAction; onOk: Noop } | null;
+export type SessionPasswordModalState = { passwordAction: PasswordAction; onOk: () => void } | null;
 
 export type UserDetailsModalState = {
   conversationId: string;

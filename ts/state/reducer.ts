@@ -37,7 +37,7 @@ export type StateType = {
   settings: SettingsState;
 };
 
-export const reducers = {
+const reducers = {
   search,
   conversations,
   user,

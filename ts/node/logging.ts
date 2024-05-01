@@ -63,7 +63,7 @@ export async function initializeLogger() {
       fs.mkdirSync(logPath, { recursive: true });
       console.info('fetching logs from logPath');
 
-      fetch(logPath).then(
+      fetchLogFile(logPath).then(
         data => {
           event.sender.send('fetched-log', data);
         },
@@ -218,7 +218,7 @@ async function fetchLog(logFile: string) {
   });
 }
 
-export async function fetch(logPath: string) {
+export async function fetchLogFile(logPath: string) {
   // Check that the file exists locally
   if (!fs.existsSync(logPath)) {
     (console as ConsoleCustom)._log(

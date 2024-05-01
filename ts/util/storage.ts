@@ -160,4 +160,12 @@ export async function saveRecentReations(reactions: Array<string>) {
   return Storage.put('recent_reactions', reactions.join(' '));
 }
 
-export const Storage = { fetch, put, get, remove, onready, reset };
+function getBoolOrFalse(settingsKey: string): boolean {
+  const got = Storage.get(settingsKey, false);
+  if (isBoolean(got)) {
+    return got;
+  }
+  return false;
+}
+
+export const Storage = { fetch, put, get, getBoolOrFalse, remove, onready, reset };

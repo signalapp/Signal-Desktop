@@ -18,7 +18,6 @@ import {
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import { getConversationController } from '../../conversations';
 import { CallMessage } from '../../messages/outgoing/controlMessage/CallMessage';
-import { ed25519Str } from '../../onions/onionPath';
 import { PubKey } from '../../types';
 
 import { getMessageQueue } from '../..';
@@ -35,6 +34,7 @@ import { ReadyToDisappearMsgUpdate } from '../../disappearing_messages/types';
 import { MessageSender } from '../../sending';
 import { getIsRinging } from '../RingingManager';
 import { getBlackSilenceMediaStream } from './Silence';
+import { ed25519Str } from '../String';
 
 export type InputItem = { deviceId: string; label: string };
 
@@ -415,8 +415,11 @@ async function createOfferAndSendIt(recipient: string, msgIdentifier: string | n
     if (offer && offer.sdp) {
       const lines = offer.sdp.split(/\r?\n/);
       const lineWithFtmpIndex = lines.findIndex(f => f.startsWith('a=fmtp:111'));
-      const partBeforeComma = lines[lineWithFtmpIndex].split(';');
-      lines[lineWithFtmpIndex] = `${partBeforeComma[0]};cbr=1`;
+      // If webrtc does not find any audio input when initializing, the offer will not have a line with `a=fmtp:111` at all, `lineWithFtmpIndex` will be invalid.
+      if (lineWithFtmpIndex > -1) {
+        const partBeforeComma = lines[lineWithFtmpIndex].split(';');
+        lines[lineWithFtmpIndex] = `${partBeforeComma[0]};cbr=1`;
+      }
       let overridenSdps = lines.join('\n');
       overridenSdps = overridenSdps.replace(
         // eslint-disable-next-line prefer-regex-literals
