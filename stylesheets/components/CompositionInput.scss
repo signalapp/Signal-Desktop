@@ -98,11 +98,16 @@
       }
 
       &--large {
-        max-height: calc(212px - 2 * $border-size);
-        min-height: calc(212px - 2 * $border-size);
+        $largeHeight: calc(212px - 2 * $border-size);
+        $largeHeightContentBox: calc($largeHeight - 2 * $padding-top);
+
+        // Explicit height needed to allow `height: 100%` on children
+        height: $largeHeight;
+        max-height: $largeHeight;
+        min-height: $largeHeight;
 
         .DraftEditor-root {
-          height: calc(212px - 2 * $padding-top - 2 * $border-size);
+          height: $largeHeightContentBox;
         }
       }
 
