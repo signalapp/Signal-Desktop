@@ -3,13 +3,13 @@ import { useSelector } from 'react-redux';
 
 import styled from 'styled-components';
 import { useConversationUsername } from '../../hooks/useParamSelector';
-import { ed25519Str } from '../../session/onions/onionPath';
 import { CallManager } from '../../session/utils';
 import { callTimeoutMs } from '../../session/utils/calling/CallManager';
 import { getHasIncomingCall, getHasIncomingCallFrom } from '../../state/selectors/call';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import { ed25519Str } from '../../session/utils/String';
 
 export const CallWindow = styled.div`
   position: absolute;

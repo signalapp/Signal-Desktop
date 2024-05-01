@@ -9,12 +9,12 @@ import { SnodeAPI } from '../../session/apis/snode_api/SNodeAPI';
 import { SnodeNamespaces } from '../../session/apis/snode_api/namespaces';
 import { getConversationController } from '../../session/conversations';
 import { UnsendMessage } from '../../session/messages/outgoing/controlMessage/UnsendMessage';
-import { ed25519Str } from '../../session/onions/onionPath';
 import { PubKey } from '../../session/types';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { closeRightPanel, resetSelectedMessageIds } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { resetRightOverlayMode } from '../../state/ducks/section';
+import { ed25519Str } from '../../session/utils/String';
 
 /**
  * Deletes messages for everyone in a 1-1 or everyone in a closed group conversation.

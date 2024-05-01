@@ -1,9 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { isFinite, sortBy, uniq, xor } from 'lodash';
-import {
-  getCanWriteOutsideRedux,
-  getCurrentSubscriberCountOutsideRedux,
-} from '../selectors/sogsRoomInfo';
 
 type RoomInfo = {
   canWrite: boolean;
@@ -79,16 +75,10 @@ export const ReduxSogsRoomInfos = {
 };
 
 function setSubscriberCountOutsideRedux(convoId: string, subscriberCount: number) {
-  if (subscriberCount === getCurrentSubscriberCountOutsideRedux(convoId)) {
-    return;
-  }
   window.inboxStore?.dispatch(setSubscriberCount({ convoId, subscriberCount }));
 }
 
 function setCanWriteOutsideRedux(convoId: string, canWrite: boolean) {
-  if (getCanWriteOutsideRedux(convoId) === canWrite) {
-    return;
-  }
   window.inboxStore?.dispatch(setCanWrite({ convoId, canWrite }));
 }
 

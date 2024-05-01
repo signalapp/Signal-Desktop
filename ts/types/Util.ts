@@ -7,5 +7,3 @@ export type RenderTextCallbackType = (options: {
 }) => JSX.Element;
 
 export type LocalizerType = (key: LocalizerKeys, values?: Array<string>) => string;
-
-export type Noop = () => void;
