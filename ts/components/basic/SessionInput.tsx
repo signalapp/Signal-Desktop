@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import classNames from 'classnames';
 import { SessionIconButton } from '../icon';
-import { Noop } from '../../types/Util';
 import { useHTMLDirection } from '../../util/i18n';
 
 type Props = {
@@ -46,7 +45,7 @@ const ErrorItem = (props: { error: string | undefined }) => {
   );
 };
 
-const ShowHideButton = (props: { toggleForceShow: Noop }) => {
+const ShowHideButton = (props: { toggleForceShow: () => void }) => {
   const htmlDirection = useHTMLDirection();
   const position = htmlDirection === 'ltr' ? { right: '0px' } : { left: '0px' };
 
