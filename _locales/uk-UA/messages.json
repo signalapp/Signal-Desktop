@@ -39,10 +39,10 @@
     "messageformat": "Якість відправлених медіа"
   },
   "icu:sentMediaQualityStandard": {
-    "messageformat": "Стандартне"
+    "messageformat": "Стандартна"
   },
   "icu:sentMediaQualityHigh": {
-    "messageformat": "Великий"
+    "messageformat": "Висока"
   },
   "icu:softwareAcknowledgments": {
     "messageformat": "Подяки програмному забезпеченню"
@@ -411,7 +411,7 @@
     "messageformat": "Код безпеки, який ви намагаєтеся підтвердити, змінився. Перевірте новий код безпеки, який {name1} використовує для зв’язку з вами. Пам’ятайте: зміна коду означає, що хтось намагався перехопити ваші повідомлення або додаток чи програма Signal, яку використовує {name2}, просто була перевстановлена."
   },
   "icu:safetyNumberChangeDialog__message": {
-    "messageformat": "Ці люди могли заново встановити Signal або змінити пристрої. Натисніть на одержувача, щоб підтвердити новий код безпеки. Це необов'язково."
+    "messageformat": "Можливо, ці люди перевстановили Signal або замінили пристрій. Натисніть на користувача, щоб підтвердити новий код безпеки. Це необов'язково."
   },
   "icu:safetyNumberChangeDialog__pending-messages": {
     "messageformat": "Відправити повідомлення, що очікують"
@@ -555,13 +555,13 @@
     "messageformat": "Тип додатку не дозволений з міркувань безпеки"
   },
   "icu:loadingPreview": {
-    "messageformat": "Завантаження попереднього перегляду…"
+    "messageformat": "Завантаження попереднього вигляду…"
   },
   "icu:stagedPreviewThumbnail": {
-    "messageformat": "Чернетка мініатюри попереднього перегляду посилання для {domain}"
+    "messageformat": "Чернетка мініатюри попереднього вигляду вебсторінки {domain}"
   },
   "icu:previewThumbnail": {
-    "messageformat": "Мініатюра попереднього перегляду посилання для {domain}"
+    "messageformat": "Мініатюра попереднього вигляду вебсторінки {domain}"
   },
   "icu:stagedImageAttachment": {
     "messageformat": "Чернетка вкладення зображення: {path}"
@@ -1026,10 +1026,10 @@
     "messageformat": "Проблема з Доставкою"
   },
   "icu:DeliveryIssue--summary": {
-    "messageformat": "Не вдалося доставити вам повідомлення, стікер, реакцію, медіафайл або сповіщення про прочитання від користувача {sender}. Користувач намагався надіслати це безпосередньо вам або в груповий чат."
+    "messageformat": "Не вдалося доставити вам повідомлення, стікер, реакцію, медіафайл або відмітку про читання від користувача {sender}. Користувач намагався надіслати це безпосередньо вам або в груповий чат."
   },
   "icu:DeliveryIssue--summary--group": {
-    "messageformat": "Не вдалося доставити вам повідомлення, стікер, реакцію, сповіщення про прочитання або медіафайл у цьому чаті від користувача {sender}."
+    "messageformat": "Не вдалося доставити вам повідомлення, стікер, реакцію, відмітку про читання або медіафайл у цьому чаті від користувача {sender}."
   },
   "icu:ChangeNumber--notification": {
     "messageformat": "У {sender} змінився номер телефону"
@@ -1223,6 +1223,9 @@
   "icu:CallingLobbyJoinButton--call-full": {
     "messageformat": "Немає вільних місць для дзвінка"
   },
+  "icu:CallingLobbyJoinButton--ask-to-join": {
+    "messageformat": "Ask to join"
+  },
   "icu:calling__button--video-disabled": {
     "messageformat": "Камера вимкнута"
   },
@@ -1265,8 +1268,20 @@
   "icu:CallingButton--more-options": {
     "messageformat": "Більше опцій"
   },
+  "icu:CallingPendingParticipants__ApproveUser": {
+    "messageformat": "Approve join request"
+  },
+  "icu:CallingPendingParticipants__DenyUser": {
+    "messageformat": "Deny join request"
+  },
+  "icu:CallingPendingParticipants__RequestsToJoin": {
+    "messageformat": "{count, plural, one {{count,number} request to join the call} other {{count,number} requests to join the call}}"
+  },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {Підняті руки · {count,number} людина} few {Підняті руки · {count,number} людини} many {Підняті руки · {count,number} людей} other {Підняті руки · {count,number} людини}}"
+    "messageformat": "{count, plural, one {{count,number} raised hand} other {{count,number} raised hands}}"
+  },
+  "icu:CallingRaisedHandsList__TitleHint": {
+    "messageformat": "(first to last)"
   },
   "icu:CallingReactions--me": {
     "messageformat": "Ви"
@@ -1392,7 +1407,7 @@
     "messageformat": "Дозволи"
   },
   "icu:mediaPermissionsDescription": {
-    "messageformat": "Надати доступ до мікрофону"
+    "messageformat": "Надати доступ до мікрофона"
   },
   "icu:mediaCameraPermissionsDescription": {
     "messageformat": "Надати доступ до камери"
@@ -1446,7 +1461,7 @@
     "messageformat": "Ім'я, вміст, дії"
   },
   "icu:noNameOrMessage": {
-    "messageformat": "Імені чи вмісту немає"
+    "messageformat": "Без імені й вмісту"
   },
   "icu:nameOnly": {
     "messageformat": "Тільки ім'я"
@@ -1461,7 +1476,7 @@
     "messageformat": "{sender} реагує на ваше повідомлення: {emoji}"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} надсилає {emoji} до вашого повідомлення: {message}"
+    "messageformat": "Користувач {sender} поставив реакцію {emoji} на: {message}"
   },
   "icu:sendFailed": {
     "messageformat": "Не вдалося надіслати"
@@ -1539,34 +1554,34 @@
     "messageformat": "Розблокуйте цю групу, щоб надіслати повідомлення."
   },
   "icu:youChangedTheTimer": {
-    "messageformat": "Ви встановлюєте час зникнення повідомлення на {time}."
+    "messageformat": "Ви встановили таймер тимчасових повідомлень на {time}."
   },
   "icu:timerSetOnSync": {
-    "messageformat": "Оновлено час зникнення повідомлення на {time}."
+    "messageformat": "Таймер тимчасових повідомлень змінено на {time}."
   },
   "icu:timerSetByMember": {
-    "messageformat": "Один із учасників встановив час зникнення повідомлення на {time}."
+    "messageformat": "Один з учасників установив таймер тимчасових повідомлень на {time}."
   },
   "icu:theyChangedTheTimer": {
-    "messageformat": "{name} встановив (-ла) час зникнення повідомлення на {time}."
+    "messageformat": "Користувач {name} встановив таймер тимчасових повідомлень на {time}."
   },
   "icu:disappearingMessages__off": {
     "messageformat": "вимкн"
   },
   "icu:disappearingMessages": {
-    "messageformat": "Зникаючі повідомлення"
+    "messageformat": "Тимчасові повідомлення"
   },
   "icu:disappearingMessagesDisabled": {
-    "messageformat": "Зникаючі повідомлення заборонені"
+    "messageformat": "Тимчасові повідомлення вимкнено"
   },
   "icu:disappearingMessagesDisabledByMember": {
-    "messageformat": "Учасник групи вимкнув зникаючі повідомлення."
+    "messageformat": "Учасник групи вимкнув тимчасові повідомлення."
   },
   "icu:disabledDisappearingMessages": {
-    "messageformat": "{name} вимкнув зникаючі повідомлення."
+    "messageformat": "Користувач {name} вимкнув тимчасові повідомлення."
   },
   "icu:youDisabledDisappearingMessages": {
-    "messageformat": "Ви вимкнули зникаючі повідомлення"
+    "messageformat": "Ви вимкнули тимчасові повідомлення"
   },
   "icu:timerSetTo": {
     "messageformat": "Таймер встановлено на {time}"
@@ -1593,13 +1608,13 @@
     "messageformat": "Перевірка коду безпеки"
   },
   "icu:safetyNumberChanged": {
-    "messageformat": "Код безпеки змінився"
+    "messageformat": "Змінився код безпеки"
   },
   "icu:safetyNumberChanges": {
-    "messageformat": "Історія змін коду безпеки"
+    "messageformat": "Зміна коду безпеки"
   },
   "icu:safetyNumberChangedGroup": {
-    "messageformat": "Код безпеки з {name} змінився"
+    "messageformat": "Змінився код безпеки для чатів з користувачем {name}"
   },
   "icu:ConversationDetails__viewSafetyNumber": {
     "messageformat": "Переглянути код безпеки"
@@ -1629,7 +1644,7 @@
     "messageformat": "У цьому чаті ви можете додавати нотатки для себе. Якщо ваш акаунт має зв'язані пристрої, нові нотатки буде синхронізовано."
   },
   "icu:notificationDrawAttention": {
-    "messageformat": "Привернути увагу до цього вікна коли надійде сповіщення"
+    "messageformat": "Привертати увагу до вікна програми, коли надходять сповіщення"
   },
   "icu:hideMenuBar": {
     "messageformat": "Сховати стрічку меню"
@@ -2199,7 +2214,7 @@
     "messageformat": "Прикріпити файл"
   },
   "icu:Keyboard--remove-draft-link-preview": {
-    "messageformat": "Видалити чернетку попереднього перегляду посилання"
+    "messageformat": "Видалити попередній вигляд вебсторінки з чернетки повідомлення"
   },
   "icu:Keyboard--remove-draft-attachments": {
     "messageformat": "Видалити всі чернетки вкладень"
@@ -2292,7 +2307,7 @@
     "messageformat": "Увімкнути або вимкнути звук"
   },
   "icu:Keyboard--toggle-video": {
-    "messageformat": "Включити/відключити відео"
+    "messageformat": "Увімкнути/вимкнути відео"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Відповісти на дзвінок із відео (тільки для відеодзвінків)"
@@ -2753,6 +2768,9 @@
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Копіювати посилання"
   },
+  "icu:CallingAdhocCallInfo__RemoveClient": {
+    "messageformat": "Remove this person from the call"
+  },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Камера"
   },
@@ -2772,7 +2790,7 @@
     "messageformat": "Вимкнути сповіщення"
   },
   "icu:notMuted": {
-    "messageformat": "Сповіщення увімкнені"
+    "messageformat": "Сповіщення ввімкнено"
   },
   "icu:muteHour": {
     "messageformat": "Не сповіщати протягом години"
@@ -3432,7 +3450,7 @@
     "messageformat": "Редагування повідомлення"
   },
   "icu:countMutedConversationsDescription": {
-    "messageformat": "Враховувати чати без сповіщень у числі на емблемі"
+    "messageformat": "Лічильник враховує повідомлення з чатів з вимкненими сповіщеннями"
   },
   "icu:ContactModal--nickname": {
     "messageformat": "Умовне ім'я"
@@ -3471,13 +3489,13 @@
     "messageformat": "Групове посилання"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
-    "messageformat": "Зникаючі повідомлення"
+    "messageformat": "Тимчасові повідомлення"
   },
   "icu:ConversationDetails--disappearing-messages-info--group": {
-    "messageformat": "При включенні цієї настройки повідомлень, надіслані та отримані в цій групі повідомлення будуть зникати після того як будуть прочитаними."
+    "messageformat": "Якщо ввімкнути цю функцію, повідомлення, надіслані та отримані в цьому груповому чаті, зникатимуть після перегляду."
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
-    "messageformat": "Якщо ввімкнути, повідомлення в цьому чаті зникатимуть після того, як їх переглянуть."
+    "messageformat": "Якщо ввімкнути цю функцію, повідомлення, надіслані та отримані в цьому особистому чаті, зникатимуть після перегляду."
   },
   "icu:ConversationDetails--nickname-label": {
     "messageformat": "Умовне ім'я"
@@ -3501,7 +3519,7 @@
     "messageformat": "Хто може редагувати інформацію групи"
   },
   "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Виберіть, хто може редагувати ім'я, фото, опис і часу зникнення таймеру повідомлень."
+    "messageformat": "Оберіть, хто може змінювати назву, фото, опис групи і таймер тимчасових повідомлень."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Хто може додавати учасників"
@@ -3615,13 +3633,13 @@
     "messageformat": "Згадки"
   },
   "icu:ConversationNotificationsSettings__mentions__info": {
-    "messageformat": "Отримувати сповіщення, якщо вас згадали в чатах із вимкнутими сповіщеннями"
+    "messageformat": "Отримувати сповіщення, коли вас згадують, навіть якщо сповіщення від чату вимкнено"
   },
   "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
-    "messageformat": "Завжди повідомляти"
+    "messageformat": "Завжди сповіщати"
   },
   "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "messageformat": "Не сповіщати, якщо сповіщення вимкнені"
+    "messageformat": "Не сповіщати, якщо сповіщення вимкнено"
   },
   "icu:GroupLinkManagement--clipboard": {
     "messageformat": "Посилання групи скопійовано."
@@ -3993,7 +4011,7 @@
     "messageformat": "Настроюваний час…"
   },
   "icu:selectedCustomDisappearingTimeOption": {
-    "messageformat": "Власний час"
+    "messageformat": "Свій час"
   },
   "icu:DisappearingTimeDialog__label--value": {
     "messageformat": "Число"
@@ -4002,13 +4020,13 @@
     "messageformat": "Одиниця часу"
   },
   "icu:DisappearingTimeDialog__title": {
-    "messageformat": "Власний час"
+    "messageformat": "Свій час"
   },
   "icu:DisappearingTimeDialog__body": {
-    "messageformat": "Виберіть власні налаштування часу для зникаючих повідомлень."
+    "messageformat": "Створіть свій таймер для тимчасових повідомлень."
   },
   "icu:DisappearingTimeDialog__set": {
-    "messageformat": "Задати"
+    "messageformat": "Установити"
   },
   "icu:DisappearingTimeDialog__seconds": {
     "messageformat": "Секунди"
@@ -4026,13 +4044,13 @@
     "messageformat": "Тижні"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "Встановіть таймер зникнення повідомлень за замовчуванням для всіх нових чатів, які ви створите."
+    "messageformat": "Установіть стандартний таймер для тимчасових повідомлень у всіх нових чатах, які ви починаєте."
   },
   "icu:settings__DisappearingMessages__timer__label": {
-    "messageformat": "Таймер за замовчуванням для нових чатів"
+    "messageformat": "Стандартний таймер для нових чатів"
   },
   "icu:UniversalTimerNotification__text": {
-    "messageformat": "Час зникання повідомлення буде встановлено на {timeValue}, коли ви надіслете їм повідомлення."
+    "messageformat": "Таймер цього тимчасового повідомлення буде встановлено на {timeValue}, коли ви його відправите."
   },
   "icu:ContactRemovedNotification__text": {
     "messageformat": "Ви вилучили цей контакт. Якщо надіслати повідомлення, контакт буде знову додано до списку."
@@ -4056,13 +4074,13 @@
     "messageformat": "Якість Медіа"
   },
   "icu:MediaQualitySelector--standard-quality-title": {
-    "messageformat": "Стандартне"
+    "messageformat": "Стандартна"
   },
   "icu:MediaQualitySelector--standard-quality-description": {
     "messageformat": "Швидше, менше даних"
   },
   "icu:MediaQualitySelector--high-quality-title": {
-    "messageformat": "Великий"
+    "messageformat": "Висока"
   },
   "icu:MediaQualitySelector--high-quality-description": {
     "messageformat": "Повільніше, більше даних"
@@ -4269,7 +4287,7 @@
     "messageformat": "Звуки повідомлень у чаті"
   },
   "icu:Preferences__message-audio-description": {
-    "messageformat": "Відтворювати звук сповіщень для надісланих і отриманих повідомлень, якщо чат відкрито."
+    "messageformat": "Надсилати й отримувати повідомлення зі звуковим сповіщенням, якщо чат відкрито."
   },
   "icu:Preferences__button--general": {
     "messageformat": "Загальні відомості"
@@ -4299,10 +4317,10 @@
     "messageformat": "Рівень масштабування"
   },
   "icu:Preferences__link-previews--title": {
-    "messageformat": "Генерувати посилання попереднього перегляду"
+    "messageformat": "Генерувати попередній вигляд вебсторінок"
   },
   "icu:Preferences__link-previews--description": {
-    "messageformat": "Щоб змінити налаштування, відкрийте застосунок Signal на мобільному пристрої та перейдіть у Налаштування > Чати"
+    "messageformat": "Щоб змінити це налаштування, відкрийте застосунок Signal на мобільному пристрої та перейдіть у налаштування > Чати"
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Перетворювати емограми, введені символами, на емоджі"
@@ -4323,7 +4341,7 @@
     "messageformat": "{num, plural, one {{num,number} контакт} few {{num,number} контакти} many {{num,number} контактів} other {{num,number} контакту}}"
   },
   "icu:Preferences__privacy--description": {
-    "messageformat": "Щоб змінити ці налаштування, відкрийте застосунок Signal на своєму мобільному пристрої та перейдіть до Налаштування > Конфіденційність"
+    "messageformat": "Щоб змінити ці налаштування, відкрийте застосунок Signal на своєму мобільному пристрої та перейдіть у налаштування > Конфіденційність"
   },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "Номер телефону"
@@ -4377,13 +4395,13 @@
     "messageformat": "Якщо обрати варіант «{nobodyLabel}» для параметра «{settingTitle}», людям буде складніше знайти вас у Signal."
   },
   "icu:Preferences--messaging": {
-    "messageformat": "Листування"
+    "messageformat": "Повідомлення"
   },
   "icu:Preferences--read-receipts": {
-    "messageformat": "Звіти про прочитання"
+    "messageformat": "Відмітки про читання"
   },
   "icu:Preferences--typing-indicators": {
-    "messageformat": "Індикатори введення"
+    "messageformat": "Індикатор набору тексту"
   },
   "icu:Preferences--updates": {
     "messageformat": "Оновлення"
@@ -4404,7 +4422,7 @@
     "messageformat": "Вимкнути історії"
   },
   "icu:Preferences__turn-stories-off--action": {
-    "messageformat": "Відключити"
+    "messageformat": "Вимкнути"
   },
   "icu:Preferences__turn-stories-off--body": {
     "messageformat": "Ви більше не зможете публікувати й переглядати історії. Нещодавно опубліковані оновлення ваших історій також буде видалено."
@@ -4812,7 +4830,7 @@
     "messageformat": "Відмітки про перегляд"
   },
   "icu:StoriesSettings__view-receipts--description": {
-    "messageformat": "Щоб змінити це налаштування, відкрийте застосунок Signal на своєму мобільному пристрої та перейдіть у Налаштування -> Історії"
+    "messageformat": "Щоб змінити це налаштування, відкрийте застосунок Signal на своєму мобільному пристрої та перейдіть у налаштування -> Історії"
   },
   "icu:GroupStorySettingsModal__members_title": {
     "messageformat": "Хто може дивитися цю історію"
@@ -4884,7 +4902,7 @@
     "messageformat": "Лише адміністратори можуть надсилати історії в цю групу."
   },
   "icu:Stories__settings-toggle--title": {
-    "messageformat": "Публікувати й переглядати історії"
+    "messageformat": "Публікування й перегляд історій"
   },
   "icu:Stories__settings-toggle--description": {
     "messageformat": "Якщо історії вимкнути, ви не зможете їх ні публікувати, ні переглядати."
@@ -5124,7 +5142,7 @@
     "messageformat": "Ваш QR-код і посилання було скинуто. Ваше ім’я користувача: {username}"
   },
   "icu:UsernameLinkModalBody__hint": {
-    "messageformat": "Проскануйте цей QR-код телефоном, щоб написати мені в Signal.",
+    "messageformat": "Зіскануйте цей QR-код телефоном, щоб написати мені в Signal.",
     "descrption": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
@@ -5304,6 +5322,9 @@
   "icu:CallHistory__Description--Declined": {
     "messageformat": "{type, select, Audio {Відхилений голосовий виклик} Video {Відхилений відеовиклик} Group {Відхилений груповий виклик} other {Відхилений виклик}}"
   },
+  "icu:CallHistory__Description--Adhoc": {
+    "messageformat": "Call link"
+  },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Ще {count,number} пише.} few {Ще {count,number} пишуть.} many {Ще {count,number} пишуть.} other {Ще {count,number} пише.}}"
   },
@@ -5343,5 +5364,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__v7.8--0": {
+    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once."
   }
 }

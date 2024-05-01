@@ -498,7 +498,7 @@
     "messageformat": "Annuler la confirmation"
   },
   "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Pour vérifier le chiffrement de bout en bout avec {name}, comparez les chiffres ci-dessus avec leur appareil. Ils peuvent également lire votre code avec leur appareil."
+    "messageformat": "Pour vérifier le chiffrement de bout en bout de vos communications avec {name}, comparez les chiffres ci-dessus avec ceux de son appareil. Vous pouvez aussi scanner le code QR qui s’affiche sur son appareil."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "En savoir plus"
@@ -1223,6 +1223,9 @@
   "icu:CallingLobbyJoinButton--call-full": {
     "messageformat": "Appel complet"
   },
+  "icu:CallingLobbyJoinButton--ask-to-join": {
+    "messageformat": "Ask to join"
+  },
   "icu:calling__button--video-disabled": {
     "messageformat": "La caméra est désactivée"
   },
@@ -1265,8 +1268,20 @@
   "icu:CallingButton--more-options": {
     "messageformat": "Plus d’options"
   },
+  "icu:CallingPendingParticipants__ApproveUser": {
+    "messageformat": "Approve join request"
+  },
+  "icu:CallingPendingParticipants__DenyUser": {
+    "messageformat": "Deny join request"
+  },
+  "icu:CallingPendingParticipants__RequestsToJoin": {
+    "messageformat": "{count, plural, one {{count,number} request to join the call} other {{count,number} requests to join the call}}"
+  },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {Mains levées · {count,number} personne} other {Mains levées · {count,number} personnes}}"
+    "messageformat": "{count, plural, one {{count,number} raised hand} other {{count,number} raised hands}}"
+  },
+  "icu:CallingRaisedHandsList__TitleHint": {
+    "messageformat": "(first to last)"
   },
   "icu:CallingReactions--me": {
     "messageformat": "Vous"
@@ -1632,7 +1647,7 @@
     "messageformat": "Attirer l’attention sur cette fenêtre quand une notification arrive"
   },
   "icu:hideMenuBar": {
-    "messageformat": "Cacher la barre de menu"
+    "messageformat": "Masquer la barre de menu"
   },
   "icu:newConversation": {
     "messageformat": "Nouvelle conversation"
@@ -2752,6 +2767,9 @@
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Copier le lien"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClient": {
+    "messageformat": "Remove this person from the call"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Vidéo"
@@ -4329,7 +4347,7 @@
     "messageformat": "Numéro de téléphone"
   },
   "icu:Preferences__pnp__row--body": {
-    "messageformat": "Choisissez qui peut voir votre numéro de téléphone et qui peut vous contacter sur Signal avec celui-ci."
+    "messageformat": "Choisissez qui peut voir votre numéro de téléphone et qui peut l’utiliser pour vous rechercher sur Signal."
   },
   "icu:Preferences__pnp__row--button": {
     "messageformat": "Modifier..."
@@ -5266,7 +5284,7 @@
     "messageformat": "Activer/désactiver"
   },
   "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "Aucun appel récent. Commencez en appelant un ami."
+    "messageformat": "Aucun appel récent. Pour commencer, appelez un ami."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Aucun résultat pour « {query} »"
@@ -5303,6 +5321,9 @@
   },
   "icu:CallHistory__Description--Declined": {
     "messageformat": "{type, select, Audio {Appel vocal rejeté} Video {Appel vidéo rejeté} Group {Appel de groupe rejeté} other {Appel rejeté}}"
+  },
+  "icu:CallHistory__Description--Adhoc": {
+    "messageformat": "Call link"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} autre personne est en train d’écrire.} other {{count,number} autres personnes sont en train d’écrire.}}"
@@ -5343,5 +5364,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__v7.8--0": {
+    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once."
   }
 }
