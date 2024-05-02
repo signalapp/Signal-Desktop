@@ -67,7 +67,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     i18n,
     isAdhocAdminApprovalRequired:
       overrideProps.isAdhocAdminApprovalRequired ?? false,
-    isAdhocJoinRequestPending: false,
+    isAdhocJoinRequestPending: overrideProps.isAdhocJoinRequestPending ?? false,
     isConversationTooBigToRing: false,
     isCallFull: overrideProps.isCallFull ?? false,
     isSharingPhoneNumberWithEverybody:
@@ -234,6 +234,15 @@ export function CallLinkAdminApproval(): JSX.Element {
   const props = createProps({
     callMode: CallMode.Adhoc,
     isAdhocAdminApprovalRequired: true,
+  });
+  return <CallingLobby {...props} />;
+}
+
+export function CallLinkJoinRequestPending(): JSX.Element {
+  const props = createProps({
+    callMode: CallMode.Adhoc,
+    isAdhocAdminApprovalRequired: true,
+    isAdhocJoinRequestPending: true,
   });
   return <CallingLobby {...props} />;
 }

@@ -28,6 +28,8 @@ import type { ConversationType } from '../state/ducks/conversations';
 import { useCallingToasts } from './CallingToast';
 import { CallingButtonToastsContainer } from './CallingToastManager';
 import { isGroupOrAdhocCallMode } from '../util/isGroupOrAdhocCall';
+import { Button, ButtonVariant } from './Button';
+import { SpinnerV2 } from './SpinnerV2';
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
@@ -211,6 +213,9 @@ export function CallingLobby({
   }
 
   const canJoin = !isCallFull && !isCallConnecting && isOnline;
+  const canLeave =
+    (isAdhocAdminApprovalRequired && isCallConnecting) ||
+    isAdhocJoinRequestPending;
 
   let callingLobbyJoinButtonVariant: CallingLobbyJoinButtonVariant;
   if (isCallFull) {
@@ -306,7 +311,16 @@ export function CallingLobby({
           {i18n('icu:calling__your-video-is-off')}
         </div>
 
-        {callMode === CallMode.Adhoc && (
+        {callMode === CallMode.Adhoc && isAdhocJoinRequestPending ? (
+          <div className="CallingLobby__CallLinkNotice CallingLobby__CallLinkNotice--join-request-pending">
+            <SpinnerV2
+              className="CallingLobby__CallLinkJoinRequestPendingSpinner"
+              size={16}
+              strokeWidth={3}
+            />
+            {i18n('icu:CallingLobby__CallLinkNotice--join-request-pending')}
+          </div>
+        ) : (
           <div className="CallingLobby__CallLinkNotice">
             {isSharingPhoneNumberWithEverybody
               ? i18n('icu:CallingLobby__CallLinkNotice--phone-sharing')
@@ -350,15 +364,25 @@ export function CallingLobby({
               />
             </div>
             <div className="CallControls__JoinLeaveButtonContainer">
-              <CallingLobbyJoinButton
-                disabled={!canJoin}
-                i18n={i18n}
-                onClick={() => {
-                  setIsCallConnecting(true);
-                  onJoinCall();
-                }}
-                variant={callingLobbyJoinButtonVariant}
-              />
+              {canLeave ? (
+                <Button
+                  className="CallControls__JoinLeaveButton CallControls__JoinLeaveButton--hangup"
+                  onClick={onCallCanceled}
+                  variant={ButtonVariant.Destructive}
+                >
+                  {i18n('icu:CallControls__JoinLeaveButton--hangup-group')}
+                </Button>
+              ) : (
+                <CallingLobbyJoinButton
+                  disabled={!canJoin}
+                  i18n={i18n}
+                  onClick={() => {
+                    setIsCallConnecting(true);
+                    onJoinCall();
+                  }}
+                  variant={callingLobbyJoinButtonVariant}
+                />
+              )}
             </div>
           </div>
           <div className="module-calling__spacer CallControls__OuterSpacer" />
