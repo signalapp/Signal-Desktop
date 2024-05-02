@@ -432,7 +432,8 @@ export class ChallengeHandler {
 
       log.info(`challenge: retry after ${retryAfter}ms`);
       this.options.onChallengeFailed(retryAfter);
-      return;
+
+      throw error;
     }
 
     this.options.onChallengeSolved();
