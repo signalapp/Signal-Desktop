@@ -3,6 +3,7 @@ import imageType from 'image-type';
 
 import { arrayBufferToBlob } from 'blob-util';
 import loadImage from 'blueimp-load-image';
+import fileSize from 'filesize';
 import { StagedAttachmentType } from '../components/conversation/composition/CompositionBox';
 import { SignalService } from '../protobuf';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
@@ -53,7 +54,7 @@ export async function autoScaleForAvatar<T extends { contentType: string; blob: 
 ) {
   const maxMeasurements = {
     maxSide: AVATAR_MAX_SIDE,
-    maxSize: 1000 * 1024,
+    maxSize: 5 * 1024 * 1024,
   };
 
   // we can only upload jpeg, gif, or png as avatar/opengroup
@@ -79,7 +80,7 @@ export async function autoScaleForAvatar<T extends { contentType: string; blob: 
 export async function autoScaleForIncomingAvatar(incomingAvatar: ArrayBuffer) {
   const maxMeasurements = {
     maxSide: AVATAR_MAX_SIDE,
-    maxSize: 1000 * 1024,
+    maxSize: 5 * 1024 * 1024,
   };
 
   // the avatar url send in a message does not contain anything related to the avatar MIME type, so
@@ -186,7 +187,7 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
   }
 
   if (blob.type === IMAGE_GIF && blob.size > maxSize) {
-    throw new Error(`GIF is too large, required size is ${maxSize}`);
+    throw new Error(`GIF is too large. Max size: ${fileSize(maxSize, { base: 10, round: 0 })}`);
   }
 
   perfStart(`loadimage-*${blob.size}`);
