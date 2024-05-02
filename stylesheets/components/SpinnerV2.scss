@@ -1,0 +1,33 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.SpinnerV2 {
+  animation: SpinnerV2-rotate 2s linear infinite;
+}
+
+.SpinnerV2__Path {
+  stroke: $color-gray-15;
+  stroke-linecap: round;
+  animation: SpinnerV2-dash 1.5s ease-in-out infinite;
+}
+
+@keyframes SpinnerV2-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes SpinnerV2-dash {
+  0% {
+    stroke-dasharray: 2%, 300%;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 180%, 300%;
+    stroke-dashoffset: -70%;
+  }
+  100% {
+    stroke-dasharray: 180%, 300%;
+    stroke-dashoffset: -248%;
+  }
+}

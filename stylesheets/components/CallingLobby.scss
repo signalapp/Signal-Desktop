@@ -46,7 +46,17 @@
   background: $color-black-alpha-60;
   color: $color-white;
   border-radius: 10px;
+  align-items: center;
   text-align: center;
+}
+
+.CallingLobby__CallLinkNotice--join-request-pending {
+  @include font-body-1;
+  width: auto;
+}
+
+.CallingLobby__CallLinkJoinRequestPendingSpinner {
+  margin-inline-end: 8px;
 }
 
 .CallingLobby__Footer {

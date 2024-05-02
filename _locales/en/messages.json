@@ -1613,6 +1613,10 @@
     "messageformat": "Anyone who joins this call via the link will see your name, photo, and phone number.",
     "description": "Toast shown in call lobby before joining a call link call to inform user that profile info will be shared, when the phone number sharing account setting is enabled."
   },
+  "icu:CallingLobby__CallLinkNotice--join-request-pending": {
+    "messageformat": "Waiting to be let in…",
+    "description": "Notice shown in call lobby after you requested to join a call link to indicate your request is pending approval."
+  },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Join",
     "description": "Button label in the call lobby for joining a call"
