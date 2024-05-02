@@ -13,7 +13,7 @@ import { IMAGE_GIF, IMAGE_JPEG, IMAGE_PNG, IMAGE_TIFF, IMAGE_UNKNOWN } from '../
 import { getAbsoluteAttachmentPath, processNewAttachment } from '../types/MessageAttachment';
 import { THUMBNAIL_SIDE } from '../types/attachments/VisualAttachment';
 
-import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../session/constants';
+import { FILESIZE, MAX_ATTACHMENT_FILESIZE_BYTES } from '../session/constants';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 
 /**
@@ -54,7 +54,7 @@ export async function autoScaleForAvatar<T extends { contentType: string; blob: 
 ) {
   const maxMeasurements = {
     maxSide: AVATAR_MAX_SIDE,
-    maxSize: 5 * 1024 * 1024,
+    maxSize: 5 * FILESIZE.MB,
   };
 
   // we can only upload jpeg, gif, or png as avatar/opengroup
@@ -80,7 +80,7 @@ export async function autoScaleForAvatar<T extends { contentType: string; blob: 
 export async function autoScaleForIncomingAvatar(incomingAvatar: ArrayBuffer) {
   const maxMeasurements = {
     maxSide: AVATAR_MAX_SIDE,
-    maxSize: 5 * 1024 * 1024,
+    maxSize: 5 * FILESIZE.MB,
   };
 
   // the avatar url send in a message does not contain anything related to the avatar MIME type, so
