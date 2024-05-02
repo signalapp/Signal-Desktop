@@ -6,16 +6,18 @@ import {
   BackupAuthCredential,
   BackupAuthCredentialRequestContext,
   BackupAuthCredentialResponse,
+  type BackupLevel,
   GenericServerPublicParams,
 } from '@signalapp/libsignal-client/zkgroup';
 
 import * as log from '../../logging/log';
 import { strictAssert } from '../../util/assert';
 import { drop } from '../../util/drop';
-import { toDayMillis } from '../../util/timestamp';
-import { DAY, DurationInSeconds } from '../../util/durations';
+import { isMoreRecentThan, toDayMillis } from '../../util/timestamp';
+import { DAY, DurationInSeconds, HOUR } from '../../util/durations';
 import { BackOff, FIBONACCI_TIMEOUTS } from '../../util/BackOff';
 import type {
+  BackupCdnReadCredentialType,
   BackupCredentialType,
   BackupPresentationHeadersType,
   BackupSignedPresentationType,
@@ -37,9 +39,15 @@ export function getAuthContext(): BackupAuthCredentialRequestContext {
 
 const FETCH_INTERVAL = 3 * DAY;
 
+//  Credentials should be good for 24 hours, but let's play it safe.
+const BACKUP_CDN_READ_CREDENTIALS_VALID_DURATION = 12 * HOUR;
+
 export class BackupCredentials {
   private activeFetch: ReturnType<typeof this.fetch> | undefined;
-
+  private cachedCdnReadCredentials: Record<
+    number,
+    BackupCdnReadCredentialType
+  > = {};
   private readonly fetchBackoff = new BackOff(FIBONACCI_TIMEOUTS);
 
   public start(): void {
@@ -112,15 +120,41 @@ export class BackupCredentials {
     return headers;
   }
 
-  public async getCDNCredentials(
+  public async getCDNReadCredentials(
     cdn: number
   ): Promise<GetBackupCDNCredentialsResponseType> {
     const { server } = window.textsecure;
     strictAssert(server, 'server not available');
 
+    // Backup CDN read credentials are short-lived; we'll just cache them in memory so
+    // that they get invalidated for any reason, we'll fetch new ones on app restart
+    const cachedCredentialsForThisCdn = this.cachedCdnReadCredentials[cdn];
+
+    if (
+      cachedCredentialsForThisCdn &&
+      isMoreRecentThan(
+        cachedCredentialsForThisCdn.retrievedAtMs,
+        BACKUP_CDN_READ_CREDENTIALS_VALID_DURATION
+      )
+    ) {
+      return cachedCredentialsForThisCdn.credentials;
+    }
+
     const headers = await this.getHeadersForToday();
 
-    return server.getBackupCDNCredentials({ headers, cdn });
+    const retrievedAtMs = Date.now();
+    const newCredentials = await server.getBackupCDNCredentials({
+      headers,
+      cdn,
+    });
+
+    this.cachedCdnReadCredentials[cdn] = {
+      credentials: newCredentials,
+      cdnNumber: cdn,
+      retrievedAtMs,
+    };
+
+    return newCredentials;
   }
 
   private scheduleFetch(): void {
@@ -281,8 +315,13 @@ export class BackupCredentials {
     return result;
   }
 
-  // Called when backup tier changes
-  public async clear(): Promise<void> {
+  public async getBackupLevel(): Promise<BackupLevel> {
+    return (await this.getForToday()).level;
+  }
+
+  // Called when backup tier changes or when userChanged event
+  public async clearCache(): Promise<void> {
+    this.cachedCdnReadCredentials = {};
     await window.storage.put('backupCredentials', []);
   }
 }

@@ -78,6 +78,14 @@ export type AttachmentType = {
   textAttachment?: TextAttachmentType;
   wasTooBig?: boolean;
 
+  incrementalMac?: string;
+  incrementalMacChunkSize?: number;
+
+  backupLocator?: {
+    mediaName: string;
+    cdnNumber?: number;
+  };
+
   /** Legacy field. Used only for downloading old attachments */
   id?: number;
 

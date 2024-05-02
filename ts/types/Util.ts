@@ -89,3 +89,6 @@ export type JSONWithUnknownFields<Value> = Value extends Record<
   : Value extends Array<infer E>
   ? ReadonlyArray<JSONWithUnknownFields<E>>
   : Value;
+
+export type WithRequiredProperties<T, P extends keyof T> = Omit<T, P> &
+  Required<Pick<T, P>>;

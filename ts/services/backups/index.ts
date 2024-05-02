@@ -4,7 +4,7 @@
 import { pipeline } from 'stream/promises';
 import { PassThrough } from 'stream';
 import type { Readable, Writable } from 'stream';
-import { createWriteStream } from 'fs';
+import { createReadStream, createWriteStream } from 'fs';
 import { createGzip, createGunzip } from 'zlib';
 import { createCipheriv, createHmac, randomBytes } from 'crypto';
 import { noop } from 'lodash';
@@ -54,6 +54,11 @@ export class BackupsService {
 
     drop(this.runPeriodicRefresh());
     this.credentials.start();
+
+    window.Whisper.events.on('userChanged', () => {
+      drop(this.credentials.clearCache());
+      this.api.clearCache();
+    });
   }
 
   public async exportBackup(sink: Writable): Promise<void> {
@@ -111,6 +116,10 @@ export class BackupsService {
       name: 'backup.bin',
       data,
     });
+  }
+
+  public async importFromDisk(backupFile: string): Promise<void> {
+    return backupsService.importBackup(() => createReadStream(backupFile));
   }
 
   public async importBackup(createBackupStream: () => Readable): Promise<void> {
@@ -175,7 +184,7 @@ export class BackupsService {
       await this.api.refresh();
       log.info('Backup: refreshed');
     } catch (error) {
-      log.error('Backup: periodic refresh failed', Errors.toLogFormat(error));
+      log.error('Backup: periodic refresh kufailed', Errors.toLogFormat(error));
     }
   }
 }

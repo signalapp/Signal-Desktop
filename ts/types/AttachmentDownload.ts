@@ -4,6 +4,11 @@ import { z } from 'zod';
 import { MIMETypeSchema, type MIMEType } from './MIME';
 import type { AttachmentType } from './Attachment';
 
+export enum MediaTier {
+  STANDARD = 'standard',
+  BACKUP = 'backup',
+}
+
 export const attachmentDownloadTypeSchema = z.enum([
   'long-message',
   'attachment',

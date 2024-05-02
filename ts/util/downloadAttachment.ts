@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AttachmentType } from '../types/Attachment';
-import { downloadAttachmentV2 as doDownloadAttachment } from '../textsecure/downloadAttachment';
+import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment';
 
 export class AttachmentNotFoundOnCdnError extends Error {}
 export async function downloadAttachment(

@@ -40,7 +40,10 @@ import * as Bytes from '../../Bytes';
 import { BACKUP_VERSION } from './constants';
 import type { AboutMe } from './types';
 import type { GroupV2ChangeDetailType } from '../../groups';
+import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
+import { drop } from '../../util/drop';
 import { isNotNil } from '../../util/isNotNil';
+import { convertFilePointerToAttachment } from './util/filePointers';
 
 const MAX_CONCURRENCY = 10;
 
@@ -100,14 +103,18 @@ export class BackupImportStream extends Writable {
     name: 'BackupImport.saveMessageBatcher',
     wait: 0,
     maxSize: 1000,
-    processBatch: batch => {
+    processBatch: async batch => {
       const ourAci = this.ourConversation?.serviceId;
       assertDev(isAciString(ourAci), 'Our conversation must have ACI');
-      return Data.saveMessages(batch, {
+      await Data.saveMessages(batch, {
         forceSave: true,
         ourAci,
       });
-      // TODO (DESKTOP-6845): after we save messages, queue their attachment downloads
+
+      // TODO (DESKTOP-7402): consider re-saving after updating the pending state
+      for (const messageAttributes of batch) {
+        drop(queueAttachmentDownloads(messageAttributes));
+      }
     },
   });
   private ourConversation?: ConversationAttributesType;
@@ -722,7 +729,14 @@ export class BackupImportStream extends Writable {
   ): Partial<MessageAttributesType> {
     return {
       body: data.text?.body ?? '',
-      // TODO (DESKTOP-6845): add attachments
+      attachments: data.attachments
+        ?.map(attachment => {
+          if (!attachment.pointer) {
+            return null;
+          }
+          return convertFilePointerToAttachment(attachment.pointer);
+        })
+        .filter(isNotNil),
       reactions: data.reactions?.map(
         ({ emoji, authorId, sentTimestamp, receivedTimestamp }) => {
           strictAssert(emoji != null, 'reaction must have an emoji');

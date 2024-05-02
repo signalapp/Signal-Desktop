@@ -23,10 +23,7 @@ import * as durations from '../util/durations';
 import type { ExplodePromiseResultType } from '../util/explodePromise';
 import { explodePromise } from '../util/explodePromise';
 import { getUserAgent } from '../util/getUserAgent';
-import {
-  getTimeoutStream,
-  getStreamWithTimeout,
-} from '../util/getStreamWithTimeout';
+import { getTimeoutStream } from '../util/getStreamWithTimeout';
 import { formatAcceptLanguageHeader } from '../util/userLanguages';
 import { toWebSafeBase64, fromWebSafeBase64 } from '../util/webSafeBase64';
 import { getBasicAuth } from '../util/getBasicAuth';
@@ -1154,22 +1151,25 @@ export type WebAPIType = {
     imageFiles: Array<string>
   ) => Promise<Array<Uint8Array>>;
   getArtAuth: () => Promise<ArtAuthType>;
-  getAttachment: (
-    cdnKey: string,
-    cdnNumber?: number,
+  getAttachmentFromBackupTier: (args: {
+    mediaId: string;
+    backupDir: string;
+    mediaDir: string;
+    cdnNumber: number;
+    headers: Record<string, string>;
     options?: {
       disableRetries?: boolean;
       timeout?: number;
-    }
-  ) => Promise<Uint8Array>;
-  getAttachmentV2: (
-    cdnKey: string,
-    cdnNumber?: number,
+    };
+  }) => Promise<Readable>;
+  getAttachment: (args: {
+    cdnKey: string;
+    cdnNumber?: number;
     options?: {
       disableRetries?: boolean;
       timeout?: number;
-    }
-  ) => Promise<Readable>;
+    };
+  }) => Promise<Readable>;
   getAvatar: (path: string) => Promise<Uint8Array>;
   getHasSubscription: (subscriberId: Uint8Array) => Promise<boolean>;
   getGroup: (options: GroupCredentialsType) => Promise<Proto.Group>;
@@ -1650,7 +1650,7 @@ export function initialize({
       getArtAuth,
       getArtProvisioningSocket,
       getAttachment,
-      getAttachmentV2,
+      getAttachmentFromBackupTier,
       getAvatar,
       getBackupCredentials,
       getBackupCDNCredentials,
@@ -3310,84 +3310,89 @@ export function initialize({
       return packId;
     }
 
-    async function getAttachment(
-      cdnKey: string,
-      cdnNumber?: number,
+    // Transit tier is the default place for normal (non-backup) attachments.
+    // Called "transit" because it is transitory
+    async function getAttachment({
+      cdnKey,
+      cdnNumber,
+      options,
+    }: {
+      cdnKey: string;
+      cdnNumber?: number;
       options?: {
         disableRetries?: boolean;
         timeout?: number;
-      }
-    ) {
-      const abortController = new AbortController();
+      };
+    }) {
+      return _getAttachment({
+        cdnPath: `/attachments/${cdnKey}`,
+        cdnNumber: cdnNumber ?? 0,
+        redactor: _createRedactor(cdnKey),
+        options,
+      });
+    }
 
-      const cdnUrl = isNumber(cdnNumber)
-        ? cdnUrlObject[cdnNumber] ?? cdnUrlObject['0']
-        : cdnUrlObject['0'];
+    async function getAttachmentFromBackupTier({
+      mediaId,
+      backupDir,
+      mediaDir,
+      cdnNumber,
+      headers,
+      options,
+    }: {
+      mediaId: string;
+      backupDir: string;
+      mediaDir: string;
+      cdnNumber: number;
+      headers: Record<string, string>;
+      options?: {
+        disableRetries?: boolean;
+        timeout?: number;
+      };
+    }) {
+      return _getAttachment({
+        cdnPath: `/backups/${backupDir}/${mediaDir}/${mediaId}`,
+        cdnNumber,
+        headers,
+        redactor: _createRedactor(backupDir, mediaDir, mediaId),
+        options,
+      });
+    }
+
+    async function _getAttachment({
+      cdnPath,
+      cdnNumber,
+      headers,
+      redactor,
+      options,
+    }: {
+      cdnPath: string;
+      cdnNumber: number;
+      headers?: Record<string, string>;
+      redactor: RedactUrl;
+      options?: {
+        disableRetries?: boolean;
+        timeout?: number;
+      };
+    }): Promise<Readable> {
+      const abortController = new AbortController();
+      const cdnUrl = cdnUrlObject[cdnNumber] ?? cdnUrlObject['0'];
       // This is going to the CDN, not the service, so we use _outerAjax
-      const stream = await _outerAjax(`${cdnUrl}/attachments/${cdnKey}`, {
+      const downloadStream = await _outerAjax(`${cdnUrl}${cdnPath}`, {
+        headers,
         certificateAuthority,
         disableRetries: options?.disableRetries,
         proxyUrl,
         responseType: 'stream',
         timeout: options?.timeout || 0,
         type: 'GET',
-        redactUrl: _createRedactor(cdnKey),
+        redactUrl: redactor,
         version,
         abortSignal: abortController.signal,
       });
 
-      const streamPromise = getStreamWithTimeout(stream, {
-        name: `getAttachment(${cdnKey})`,
-        timeout: GET_ATTACHMENT_CHUNK_TIMEOUT,
-        abortController,
-      });
-
-      // Add callback to central store that would reject a promise
-      const { promise: cancelPromise, reject } = explodePromise<Uint8Array>();
-      const inflightRequest = (error: Error) => {
-        reject(error);
-        abortController.abort();
-      };
-      registerInflightRequest(inflightRequest);
-
-      try {
-        return Promise.race([streamPromise, cancelPromise]);
-      } finally {
-        unregisterInFlightRequest(inflightRequest);
-      }
-    }
-
-    async function getAttachmentV2(
-      cdnKey: string,
-      cdnNumber?: number,
-      options?: {
-        disableRetries?: boolean;
-        timeout?: number;
-      }
-    ): Promise<Readable> {
-      const abortController = new AbortController();
-
-      const cdnUrl = isNumber(cdnNumber)
-        ? cdnUrlObject[cdnNumber] ?? cdnUrlObject['0']
-        : cdnUrlObject['0'];
-      // This is going to the CDN, not the service, so we use _outerAjax
-      const downloadStream = await _outerAjax(
-        `${cdnUrl}/attachments/${cdnKey}`,
-        {
-          certificateAuthority,
-          disableRetries: options?.disableRetries,
-          proxyUrl,
-          responseType: 'stream',
-          timeout: options?.timeout || 0,
-          type: 'GET',
-          redactUrl: _createRedactor(cdnKey),
-          version,
-          abortSignal: abortController.signal,
-        }
-      );
-
       const timeoutStream = getTimeoutStream({
-        name: `getAttachment(${cdnKey})`,
+        name: `getAttachment(${redactor(cdnPath)})`,
         timeout: GET_ATTACHMENT_CHUNK_TIMEOUT,
         abortController,
       });

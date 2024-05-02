@@ -13,6 +13,7 @@ import type {
 import type { BackupCredentials } from './credentials';
 
 export class BackupAPI {
+  private cachedBackupInfo: GetBackupInfoResponseType | undefined;
   constructor(private credentials: BackupCredentials) {}
 
   public async refresh(): Promise<void> {
@@ -23,9 +24,33 @@ export class BackupAPI {
   }
 
   public async getInfo(): Promise<GetBackupInfoResponseType> {
-    return this.server.getBackupInfo(
+    const backupInfo = await this.server.getBackupInfo(
       await this.credentials.getHeadersForToday()
     );
+    this.cachedBackupInfo = backupInfo;
+    return backupInfo;
+  }
+
+  private async getCachedInfo(): Promise<GetBackupInfoResponseType> {
+    if (this.cachedBackupInfo) {
+      return this.cachedBackupInfo;
+    }
+
+    return this.getInfo();
+  }
+
+  public async getMediaDir(): Promise<string> {
+    return (await this.getCachedInfo()).mediaDir;
+  }
+
+  public async getBackupDir(): Promise<string> {
+    return (await this.getCachedInfo())?.backupDir;
+  }
+
+  // Backup name will change whenever a new backup is created, so we don't want to cache
+  // it
+  public async getBackupName(): Promise<string> {
+    return (await this.getInfo()).backupName;
   }
 
   public async getUploadForm(): Promise<GetBackupUploadFormResponseType> {
@@ -61,6 +86,10 @@ export class BackupAPI {
       cursor,
       limit,
     });
+  }
+
+  public clearCache(): void {
+    this.cachedBackupInfo = undefined;
   }
 
   private get server(): WebAPIType {

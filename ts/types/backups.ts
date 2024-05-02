@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
+import type { GetBackupCDNCredentialsResponseType } from '../textsecure/WebAPI';
 
 export type BackupCredentialType = Readonly<{
   credential: string;
@@ -17,4 +18,10 @@ export type BackupPresentationHeadersType = Readonly<{
 export type BackupSignedPresentationType = Readonly<{
   headers: BackupPresentationHeadersType;
   level: BackupLevel;
+}>;
+
+export type BackupCdnReadCredentialType = Readonly<{
+  credentials: Readonly<GetBackupCDNCredentialsResponseType>;
+  retrievedAtMs: number;
+  cdnNumber: number;
 }>;

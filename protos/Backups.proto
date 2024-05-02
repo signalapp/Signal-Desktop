@@ -12,6 +12,18 @@ message BackupInfo {
   uint64 backupTimeMs = 2;
 }
 
+// Frames must follow in the following ordering rules:
+//
+// 1. There is exactly one AccountData and it is the first frame.
+// 2. A frame referenced by ID must come before the referencing frame.
+//    e.g. a Recipient must come before any Chat referencing it.
+// 3. All ChatItems must appear in global Chat rendering order.
+//    (The order in which they were received by the client.)
+//
+// Recipients, Chats, Ad-hoc Calls, & StickerPacks can be in any order.
+// (But must respect rule 2.)
+// For example, Chats may all be together at the beginning,
+// or may each immediately precede its first ChatItem.
 message Frame {
   oneof item {
     AccountData account = 1;
@@ -364,10 +376,16 @@ message FilePointer {
   // References attachments in the backup (media) storage tier.
   message BackupLocator {
     string mediaName = 1;
-    uint32 cdnNumber = 2;
+    // If present, the cdn number of the succesful upload.
+    // If empty/0, may still have been uploaded, and clients
+    // can discover the cdn number via the list endpoint.
+    optional uint32 cdnNumber = 2;
     bytes key = 3;
     bytes digest = 4;
     uint32 size = 5;
+    // Fallback in case backup tier upload failed.
+    optional string transitCdnKey = 6;
+    optional uint32 transitCdnNumber = 7;
   }
 
   // References attachments in the transit storage tier.
@@ -519,9 +537,17 @@ message IndividualCallChatUpdate {
 }
 
 message GroupCallChatUpdate {
+  enum LocalUserJoined {
+    UNKNOWN = 0;
+    JOINED = 1;
+    DID_NOT_JOIN = 2;
+  }
+
   optional bytes startedCallAci = 1;
   uint64 startedCallTimestamp = 2;
   repeated bytes inCallAcis = 3;
+  uint64 endedCallTimestamp = 4; // 0 indicates we do not know
+  LocalUserJoined localUserJoined = 5;
 }
 
 message SimpleChatUpdate {

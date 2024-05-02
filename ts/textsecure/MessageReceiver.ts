@@ -83,7 +83,7 @@ import {
 import { processSyncMessage } from './processSyncMessage';
 import type { EventHandler } from './EventTarget';
 import EventTarget from './EventTarget';
-import { downloadAttachmentV2 } from './downloadAttachment';
+import { downloadAttachment } from './downloadAttachment';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
 import type { ContactDetailsWithAvatar } from './ContactsParser';
 import { parseContactsV2 } from './ContactsParser';
@@ -3764,7 +3764,7 @@ export default class MessageReceiver
     options?: { timeout?: number; disableRetries?: boolean }
   ): Promise<AttachmentType> {
     const cleaned = processAttachment(attachment);
-    return downloadAttachmentV2(this.server, cleaned, options);
+    return downloadAttachment(this.server, cleaned, options);
   }
 
   private async handleEndSession(
