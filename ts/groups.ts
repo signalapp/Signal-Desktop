@@ -149,6 +149,7 @@ type GroupV2MemberAddChangeType = {
 type GroupV2MemberAddFromInviteChangeType = {
   type: 'member-add-from-invite';
   aci: AciString;
+  pni?: PniString;
   inviter?: AciString;
 };
 type GroupV2MemberAddFromLinkChangeType = {
@@ -4430,6 +4431,7 @@ function extractDiffs({
         details.push({
           type: 'member-add-from-invite',
           aci,
+          pni,
           inviter: pendingMember.addedByUserId,
         });
       } else if (currentMember.joinedFromLink) {

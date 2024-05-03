@@ -1253,7 +1253,13 @@ export class BackupExportStream extends Readable {
         update.groupMemberAddedUpdate = innerUpdate;
         updates.push(update);
       } else if (type === 'member-add-from-invite') {
-        if (from && checkServiceIdEquivalence(from, detail.aci)) {
+        const { aci, pni } = detail;
+        if (
+          from &&
+          ((pni && from === pni) ||
+            (aci && from === aci) ||
+            checkServiceIdEquivalence(from, aci))
+        ) {
           const innerUpdate = new Backups.GroupInvitationAcceptedUpdate();
           innerUpdate.newMemberAci = this.aciToBytes(detail.aci);
           if (detail.inviter) {

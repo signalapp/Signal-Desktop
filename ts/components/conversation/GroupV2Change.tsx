@@ -49,10 +49,6 @@ export type PropsActionsType = {
 };
 
 export type PropsHousekeepingType = {
-  checkServiceIdEquivalence(
-    left: ServiceIdString | undefined,
-    right: ServiceIdString | undefined
-  ): boolean;
   i18n: LocalizerType;
   renderContact: SmartContactRendererType<JSX.Element>;
 };
@@ -297,7 +293,6 @@ export function GroupV2Change(props: PropsType): ReactElement {
     areWeAdmin,
     blockGroupLinkRequests,
     change,
-    checkServiceIdEquivalence,
     conversationId,
     groupBannedMemberships,
     groupMemberships,
@@ -311,7 +306,6 @@ export function GroupV2Change(props: PropsType): ReactElement {
   return (
     <>
       {renderChange<JSX.Element>(change, {
-        checkServiceIdEquivalence,
         i18n,
         ourAci,
         ourPni,

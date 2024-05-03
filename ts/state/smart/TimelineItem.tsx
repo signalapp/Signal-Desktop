@@ -21,10 +21,7 @@ import {
   getTheme,
   getPlatform,
 } from '../selectors/user';
-import {
-  getTargetedMessage,
-  getCheckServiceIdEquivalence,
-} from '../selectors/conversations';
+import { getTargetedMessage } from '../selectors/conversations';
 import { useTimelineItem } from '../selectors/timeline';
 import {
   areMessagesInSameGroup,
@@ -89,8 +86,6 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
   const isTargeted = Boolean(
     targetedMessage && messageId === targetedMessage.id
   );
-  const checkServiceIdEquivalence = useSelector(getCheckServiceIdEquivalence);
-
   const isNextItemCallingNotification = nextItem?.type === 'callHistory';
 
   const shouldCollapseAbove = areMessagesInSameGroup(
@@ -180,7 +175,6 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     <TimelineItem
       item={item}
       id={messageId}
-      checkServiceIdEquivalence={checkServiceIdEquivalence}
       containerElementRef={containerElementRef}
       containerWidthBreakpoint={containerWidthBreakpoint}
       conversationId={conversationId}

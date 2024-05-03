@@ -709,7 +709,40 @@ describe('backup/groupv2/notifications', () => {
             },
           ],
         }),
-        // ACI accepts PNI invite:
+        // ACI accepts PNI invite (X joined the group)
+        // These don't roundtrip; the PNI from is replaced with ACI. See next test below.
+        // createMessage({
+        //   from: OUR_PNI,
+        //   details: [
+        //     {
+        //       type: 'member-add-from-invite',
+        //       aci: OUR_ACI,
+        //       pni: OUR_PNI,
+        //       inviter: CONTACT_B,
+        //     },
+        //   ],
+        // }),
+        // createMessage({
+        //   from: OUR_PNI,
+        //   details: [
+        //     {
+        //       type: 'member-add-from-invite',
+        //       aci: OUR_ACI,
+        //       pni: OUR_PNI,
+        //     },
+        //   ],
+        // }),
+        // createMessage({
+        //   from: CONTACT_A_PNI,
+        //   details: [
+        //     {
+        //       type: 'member-add-from-invite',
+        //       aci: CONTACT_A,
+        //       pni: CONTACT_A_PNI,
+        //     },
+        //   ],
+        // }),
+        // ACI accepts PNI invite, the old way (X added X to group)
         // These don't roundtrip; the PNI is replaced with ACI. See next test below.
         // createMessage({
         //   from: OUR_PNI,
@@ -813,8 +846,31 @@ describe('backup/groupv2/notifications', () => {
         { disableIncrement: true }
       );
 
-      const before = [firstBefore, secondBefore, thirdBefore];
-      const after = [firstAfter, secondAfter, thirdAfter];
+      const fourthBefore = createMessage({
+        from: CONTACT_A_PNI,
+        details: [
+          {
+            type: 'member-add-from-invite',
+            aci: CONTACT_A,
+            pni: CONTACT_A_PNI,
+          },
+        ],
+      });
+      const fourthAfter = createMessage(
+        {
+          from: CONTACT_A,
+          details: [
+            {
+              type: 'member-add-from-invite',
+              aci: CONTACT_A,
+            },
+          ],
+        },
+        { disableIncrement: true }
+      );
+
+      const before = [firstBefore, secondBefore, thirdBefore, fourthBefore];
+      const after = [firstAfter, secondAfter, thirdAfter, fourthAfter];
 
       await asymmetricRoundtripHarness(before, after);
     });

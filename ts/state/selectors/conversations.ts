@@ -931,24 +931,6 @@ export const getConversationSelector = createSelector(
   }
 );
 
-export type CheckServiceIdEquivalenceType = (
-  left: ServiceIdString | undefined,
-  right: ServiceIdString | undefined
-) => boolean;
-export const getCheckServiceIdEquivalence = createSelector(
-  getConversationByAnyIdSelector,
-  (
-    getById: GetConversationByAnyIdSelectorType
-  ): CheckServiceIdEquivalenceType => {
-    return (
-      left: ServiceIdString | undefined,
-      right: ServiceIdString | undefined
-    ): boolean => {
-      return Boolean(left && right && getById(left) === getById(right));
-    };
-  }
-);
-
 export const getConversationByIdSelector = createSelector(
   getConversationLookup,
   conversationLookup =>

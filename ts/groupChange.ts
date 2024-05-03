@@ -37,10 +37,6 @@ export type RenderOptionsType<T extends string | JSX.Element> = {
   ourAci: AciString | undefined;
   ourPni: PniString | undefined;
   renderContact: SmartContactRendererType<T>;
-  checkServiceIdEquivalence(
-    left: ServiceIdString | undefined,
-    right: ServiceIdString | undefined
-  ): boolean;
   renderIntl: StringRendererType<T>;
 };
 
@@ -87,7 +83,6 @@ function renderChangeDetail<T extends string | JSX.Element>(
   options: RenderOptionsType<T>
 ): string | T | ReadonlyArray<string | T> {
   const {
-    checkServiceIdEquivalence,
     from,
     i18n: localizer,
     ourAci,
@@ -301,11 +296,14 @@ function renderChangeDetail<T extends string | JSX.Element>(
     });
   }
   if (detail.type === 'member-add-from-invite') {
-    const { aci, inviter } = detail;
+    const { aci, inviter, pni } = detail;
     const weAreJoiner = isOurServiceId(aci);
     const weAreInviter = isOurServiceId(inviter);
 
-    if (!from || !checkServiceIdEquivalence(from, aci)) {
+    const fromPni = pni && from === pni;
+    const fromAci = from === aci;
+
+    if (!from || (!fromPni && !fromAci)) {
       if (weAreJoiner) {
         // They can't be the same, no fromYou check here
         if (from) {
@@ -433,7 +431,7 @@ function renderChangeDetail<T extends string | JSX.Element>(
         memberName: renderContact(aci),
       });
     }
-    if (from && fromYou) {
+    if (from && from === aci) {
       return i18n('icu:GroupV2--member-remove--other--self', {
         memberName: renderContact(from),
       });
