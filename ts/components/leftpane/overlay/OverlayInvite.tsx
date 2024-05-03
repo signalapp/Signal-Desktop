@@ -19,13 +19,13 @@ const StyledHeadingContainer = styled(Flex)`
     border: 1px solid var(--text-primary-color);
     border-radius: 9999px;
     margin-inline-start: var(--margins-sm);
-    margin-bottom:
     transition-duration: var(--default-duration);
-  }`;
+  }
+`;
 
 const StyledHeading = styled.h3`
   color: var(--text-primary-color);
-  font-family: var(--font-default)
+  font-family: var(--font-default);
   font-size: var(--font-size-sm);
   font-weight: 300;
   margin: 0 auto;
