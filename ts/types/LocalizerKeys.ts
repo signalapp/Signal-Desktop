@@ -1,6 +1,7 @@
 export type LocalizerKeys =
   | 'about'
   | 'accept'
+  | 'accountIDCopied'
   | 'accountIDCopy'
   | 'accountIdEnter'
   | 'accountIdErrorInvalid'
@@ -460,6 +461,7 @@ export type LocalizerKeys =
   | 'serverId'
   | 'sessionInviteAFriend'
   | 'sessionInviteAFriendDescription'
+  | 'sessionInviteAFriendIDCopied'
   | 'sessionMessenger'
   | 'sessionRecoveryPassword'
   | 'set'
