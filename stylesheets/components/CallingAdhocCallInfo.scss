@@ -2,23 +2,32 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .CallingAdhocCallInfo {
-  width: 100%;
+  flex-shrink: 0;
+  width: 360px;
   height: auto;
   margin-block-end: auto;
   padding-block-end: 16px;
-  overflow: auto;
+  pointer-events: auto;
 }
 
 .CallingAdhocCallInfo__width-container {
   display: flex;
-  flex-direction: column;
-  width: 360px;
+  flex-direction: row;
+  width: 100%;
+  max-width: none;
   height: auto;
   padding-block: 1px;
-  padding-inline: 1px;
-  margin-block-end: 102px;
-  margin-inline-start: 90px;
+  padding-inline-start: 15px;
+  margin-block-end: 80px;
   overflow: hidden;
+  pointer-events: none;
+}
+
+.CallingAdhocCallInfo__width-container::after {
+  content: '';
+  display: flex;
+  flex-shrink: 1;
+  flex-basis: 480px;
 }
 
 .CallingAdhocCallInfo__overlay {
@@ -29,11 +38,6 @@
   flex-direction: column;
   padding: 0;
   justify-content: flex-end;
-  align-items: start;
-}
-
-.CallingAdhocCallInfo__Overlay {
-  align-items: start;
 }
 
 .CallingAdhocCallInfo__MenuItem {

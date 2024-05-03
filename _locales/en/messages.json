@@ -3671,7 +3671,7 @@
     "description": "Title for the select your screen sharing sources modal"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy link",
+    "messageformat": "Copy call link",
     "description": "Menu item in the in-call info popup for call link calls. The action is to add the call link to the clipboard."
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
