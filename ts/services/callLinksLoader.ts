@@ -8,7 +8,6 @@ import { strictAssert } from '../util/assert';
 let callLinksData: ReadonlyArray<CallLinkType>;
 
 export async function loadCallLinks(): Promise<void> {
-  await dataInterface.cleanupCallHistoryMessages();
   callLinksData = await dataInterface.getAllCallLinks();
 }
 
