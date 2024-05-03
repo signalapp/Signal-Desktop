@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { isEmpty, isEqual } from 'lodash';
 import styled, { CSSProperties } from 'styled-components';
 import { THEME_GLOBALS } from '../../themes/globals';
-import { Noop } from '../../types/Util';
 import { useHTMLDirection } from '../../util/i18n';
 import { Flex } from '../basic/Flex';
 import { SpacerMD } from '../basic/Text';
@@ -138,7 +137,11 @@ const ErrorItem = (props: { id: string; error: string }) => {
   );
 };
 
-const ShowHideButton = (props: { forceShow: boolean; toggleForceShow: Noop; error: boolean }) => {
+const ShowHideButton = (props: {
+  forceShow: boolean;
+  toggleForceShow: () => void;
+  error: boolean;
+}) => {
   const htmlDirection = useHTMLDirection();
   const style: CSSProperties = {
     position: 'absolute',
@@ -240,7 +243,7 @@ export const SessionInput = (props: Props) => {
     }
   };
 
-  // TODO[epic=893] Type inputProps properly
+  // TODO[epic=ses-893] Type inputProps properly
   const inputProps: any = {
     id,
     type: correctType,

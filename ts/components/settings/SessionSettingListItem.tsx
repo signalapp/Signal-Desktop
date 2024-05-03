@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 import { ReactNode } from 'react';
-import { Noop } from '../../types/Util';
 import {
   SessionButton,
   SessionButtonColor,
@@ -113,7 +112,7 @@ export const SessionSettingsItemWrapper = (props: {
   );
 };
 
-export const SessionSettingsTitleWithLink = (props: { title: string; onClick: Noop }) => {
+export const SessionSettingsTitleWithLink = (props: { title: string; onClick: () => void }) => {
   const { onClick, title } = props;
   return (
     <StyledSettingItemClickable onClick={onClick}>

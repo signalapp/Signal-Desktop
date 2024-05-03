@@ -10,8 +10,8 @@ import {
   showSettingsSection,
 } from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
+import type { SessionSettingCategory } from '../../types/ReduxTypes';
 import { SessionIcon } from '../icon';
-import { SessionSettingCategory } from '../settings/SessionSettings';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 
 const StyledSettingsSectionTitle = styled.strong`
@@ -41,42 +41,42 @@ const StyledSettingsListItem = styled.div<{ active: boolean }>`
   }
 `;
 
-const getCategories = () => {
+const getCategories = (): Array<{ id: SessionSettingCategory; title: string }> => {
   return [
     {
-      id: SessionSettingCategory.Privacy,
+      id: 'privacy' as const,
       title: window.i18n('privacySettingsTitle'),
     },
     {
-      id: SessionSettingCategory.Notifications,
+      id: 'notifications' as const,
       title: window.i18n('notificationsSettingsTitle'),
     },
     {
-      id: SessionSettingCategory.Conversations,
+      id: 'conversations' as const,
       title: window.i18n('conversationsSettingsTitle'),
     },
     {
-      id: SessionSettingCategory.MessageRequests,
+      id: 'messageRequests' as const,
       title: window.i18n('openMessageRequestInbox'),
     },
     {
-      id: SessionSettingCategory.Appearance,
+      id: 'appearance' as const,
       title: window.i18n('appearanceSettingsTitle'),
     },
     {
-      id: SessionSettingCategory.Permissions,
+      id: 'permissions',
       title: window.i18n('permissionsSettingsTitle'),
     },
     {
-      id: SessionSettingCategory.Help,
+      id: 'help' as const,
       title: window.i18n('helpSettingsTitle'),
     },
     {
-      id: SessionSettingCategory.RecoveryPassword,
+      id: 'recoveryPassword' as const,
       title: window.i18n('sessionRecoveryPassword'),
     },
     {
-      id: SessionSettingCategory.ClearData,
+      id: 'clearData' as const,
       title: window.i18n('clearDataSettingsTitle'),
     },
   ];
@@ -92,7 +92,7 @@ const LeftPaneSettingsCategoryRow = (props: {
 
   const dataTestId = `${title.toLowerCase().replace(' ', '-')}-settings-menu-item`;
 
-  const isClearData = id === SessionSettingCategory.ClearData;
+  const isClearData = id === 'clearData';
 
   return (
     <StyledSettingsListItem
@@ -102,15 +102,15 @@ const LeftPaneSettingsCategoryRow = (props: {
       role="link"
       onClick={() => {
         switch (id) {
-          case SessionSettingCategory.MessageRequests:
+          case 'messageRequests':
             dispatch(showLeftPaneSection(SectionType.Message));
             dispatch(setLeftOverlayMode('message-requests'));
             dispatch(resetConversationExternal());
             break;
-          case SessionSettingCategory.RecoveryPassword:
+          case 'recoveryPassword':
             dispatch(recoveryPhraseModal({}));
             break;
-          case SessionSettingCategory.ClearData:
+          case 'clearData':
             dispatch(updateDeleteAccountModal({}));
             break;
           default:

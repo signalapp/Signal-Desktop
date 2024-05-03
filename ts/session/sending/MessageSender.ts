@@ -32,11 +32,10 @@ import { SharedConfigMessage } from '../messages/outgoing/controlMessage/SharedC
 import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
-import { ed25519Str } from '../onions/onionPath';
 import { PubKey } from '../types';
 import { RawMessage } from '../types/RawMessage';
 import { UserUtils } from '../utils';
-import { fromUInt8ArrayToBase64 } from '../utils/String';
+import { ed25519Str, fromUInt8ArrayToBase64 } from '../utils/String';
 import { EmptySwarmError } from '../utils/errors';
 
 // ================ SNODE STORE ================

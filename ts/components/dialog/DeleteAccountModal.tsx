@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { SnodeAPI } from '../../session/apis/snode_api/SNodeAPI';
-import { ed25519Str } from '../../session/onions/onionPath';
+
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/sync/syncUtils';
 import { updateConfirmModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 import { SessionWrapperModal } from '../SessionWrapperModal';
@@ -14,6 +14,7 @@ import { deleteAllLogs } from '../../node/logs';
 import { clearInbox } from '../../session/apis/open_group_api/sogsv3/sogsV3ClearInbox';
 import { getAllValidOpenGroupV2ConversationRoomInfos } from '../../session/apis/open_group_api/utils/OpenGroupUtils';
 import { SessionRadioGroup } from '../basic/SessionRadioGroup';
+import { ed25519Str } from '../../session/utils/String';
 
 const deleteDbLocally = async () => {
   window?.log?.info('last message sent successfully. Deleting everything');

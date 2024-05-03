@@ -94,7 +94,7 @@ function format(entries: Array<EntryType>) {
   return redactAll(entries.map(formatLine).join('\n'));
 }
 
-export async function fetch() {
+export async function fetchNodeLog() {
   return new Promise(resolve => {
     ipc.on('fetched-log', (_event, text) => {
       const result = `${getHeader()}\n${format(text)}`;

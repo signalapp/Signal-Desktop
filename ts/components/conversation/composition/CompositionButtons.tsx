@@ -1,6 +1,5 @@
 import { forwardRef } from 'react';
 import styled from 'styled-components';
-import { Noop } from '../../../types/Util';
 import { SessionIconButton } from '../../icon';
 
 const StyledChatButtonContainer = styled.div`
@@ -15,7 +14,7 @@ const StyledChatButtonContainer = styled.div`
   }
 `;
 
-export const AddStagedAttachmentButton = (props: { onClick: Noop }) => {
+export const AddStagedAttachmentButton = (props: { onClick: () => void }) => {
   return (
     <StyledChatButtonContainer>
       <SessionIconButton
@@ -32,7 +31,7 @@ export const AddStagedAttachmentButton = (props: { onClick: Noop }) => {
   );
 };
 
-export const StartRecordingButton = (props: { onClick: Noop }) => {
+export const StartRecordingButton = (props: { onClick: () => void }) => {
   return (
     <StyledChatButtonContainer>
       <SessionIconButton
@@ -50,25 +49,27 @@ export const StartRecordingButton = (props: { onClick: Noop }) => {
 };
 
 // eslint-disable-next-line react/display-name
-export const ToggleEmojiButton = forwardRef<HTMLButtonElement, { onClick: Noop }>((props, ref) => {
-  return (
-    <StyledChatButtonContainer>
-      <SessionIconButton
-        iconType="emoji"
-        ref={ref}
-        backgroundColor={'var(--chat-buttons-background-color)'}
-        iconColor={'var(--chat-buttons-icon-color)'}
-        iconSize={'huge2'}
-        borderRadius="300px"
-        iconPadding="6px"
-        onClick={props.onClick}
-        dataTestId="emoji-button"
-      />
-    </StyledChatButtonContainer>
-  );
-});
+export const ToggleEmojiButton = forwardRef<HTMLButtonElement, { onClick: () => void }>(
+  (props, ref) => {
+    return (
+      <StyledChatButtonContainer>
+        <SessionIconButton
+          iconType="emoji"
+          ref={ref}
+          backgroundColor={'var(--chat-buttons-background-color)'}
+          iconColor={'var(--chat-buttons-icon-color)'}
+          iconSize={'huge2'}
+          borderRadius="300px"
+          iconPadding="6px"
+          onClick={props.onClick}
+          dataTestId="emoji-button"
+        />
+      </StyledChatButtonContainer>
+    );
+  }
+);
 
-export const SendMessageButton = (props: { onClick: Noop }) => {
+export const SendMessageButton = (props: { onClick: () => void }) => {
   return (
     <StyledChatButtonContainer>
       <SessionIconButton

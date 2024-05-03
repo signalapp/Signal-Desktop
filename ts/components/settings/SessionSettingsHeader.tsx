@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
-import { SessionSettingCategory, SettingsViewProps } from './SessionSettings';
+import { SettingsViewProps } from './SessionSettings';
 
 type Props = Pick<SettingsViewProps, 'category'>;
 
@@ -25,27 +25,27 @@ export const SettingsHeader = (props: Props) => {
 
   let categoryTitle: string | null = null;
   switch (category) {
-    case SessionSettingCategory.Appearance:
+    case 'appearance':
       categoryTitle = window.i18n('appearanceSettingsTitle');
       break;
-    case SessionSettingCategory.Conversations:
+    case 'conversations':
       categoryTitle = window.i18n('conversationsSettingsTitle');
       break;
-    case SessionSettingCategory.Notifications:
+    case 'notifications':
       categoryTitle = window.i18n('notificationsSettingsTitle');
       break;
-    case SessionSettingCategory.Help:
+    case 'help':
       categoryTitle = window.i18n('helpSettingsTitle');
       break;
-    case SessionSettingCategory.Permissions:
+    case 'permissions':
       categoryTitle = window.i18n('permissionsSettingsTitle');
       break;
-    case SessionSettingCategory.Privacy:
+    case 'privacy':
       categoryTitle = window.i18n('privacySettingsTitle');
       break;
-    case SessionSettingCategory.ClearData:
-    case SessionSettingCategory.MessageRequests:
-    case SessionSettingCategory.RecoveryPassword:
+    case 'clearData':
+    case 'messageRequests':
+    case 'recoveryPassword':
       throw new Error(`no header for should be tried to be rendered for "${category}"`);
 
     default:

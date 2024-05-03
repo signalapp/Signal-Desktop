@@ -1,4 +1,5 @@
 /* eslint-disable no-await-in-loop */
+import { to_hex } from 'libsodium-wrappers-sumo';
 import { compact, isArray, isEmpty, isNumber, isString } from 'lodash';
 import { v4 } from 'uuid';
 import { UserUtils } from '../..';
@@ -207,6 +208,29 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
           message: item.message,
         };
       });
+
+      if (window.sessionFeatureFlags.debug.debugLibsessionDumps) {
+        for (let index = 0; index < LibSessionUtil.requiredUserVariants.length; index++) {
+          const variant = LibSessionUtil.requiredUserVariants[index];
+
+          window.log.info(
+            `ConfigurationSyncJob: current dumps: ${variant}:`,
+            to_hex(await GenericWrapperActions.dump(variant))
+          );
+        }
+        window.log.info(
+          'ConfigurationSyncJob: About to push changes: ',
+          msgs.map(m => {
+            return {
+              ...m,
+              message: {
+                ...m.message,
+                data: to_hex(m.message.data),
+              },
+            };
+          })
+        );
+      }
 
       const result = await MessageSender.sendMessagesToSnode(
         msgs,

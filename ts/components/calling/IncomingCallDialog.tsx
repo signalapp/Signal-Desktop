@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 
 import styled from 'styled-components';
 import { useConversationUsername } from '../../hooks/useParamSelector';
-import { ed25519Str } from '../../session/onions/onionPath';
 import { CallManager } from '../../session/utils';
+import { ed25519Str } from '../../session/utils/String';
 import { callTimeoutMs } from '../../session/utils/calling/CallManager';
 import { getHasIncomingCall, getHasIncomingCallFrom } from '../../state/selectors/call';
 import { SessionWrapperModal } from '../SessionWrapperModal';

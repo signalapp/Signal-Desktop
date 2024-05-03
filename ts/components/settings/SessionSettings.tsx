@@ -13,7 +13,7 @@ import { SessionNotificationGroupSettings } from './SessionNotificationGroupSett
 import { Data } from '../../data/data';
 import { sessionPassword } from '../../state/ducks/modalDialog';
 import { SectionType, showLeftPaneSection } from '../../state/ducks/section';
-import { PasswordAction } from '../dialog/SessionPasswordDialog';
+import type { PasswordAction, SessionSettingCategory } from '../../types/ReduxTypes';
 import { SettingsCategoryAppearance } from './section/CategoryAppearance';
 import { CategoryConversations } from './section/CategoryConversations';
 import { SettingsCategoryHelp } from './section/CategoryHelp';
@@ -40,18 +40,6 @@ export function getMediaPermissionsSettings() {
 
 export function getCallMediaPermissionsSettings() {
   return window.getSettingValue('call-media-permissions');
-}
-
-export enum SessionSettingCategory {
-  Privacy = 'privacy',
-  Notifications = 'notifications',
-  Conversations = 'conversations',
-  MessageRequests = 'messageRequests',
-  Appearance = 'appearance',
-  Permissions = 'permissions',
-  Help = 'help',
-  RecoveryPassword = 'recoveryPassword',
-  ClearData = 'ClearData',
 }
 
 export interface SettingsViewProps {
@@ -113,25 +101,25 @@ const SettingInCategory = (props: {
 
   switch (category) {
     // special case for blocked user
-    case SessionSettingCategory.Conversations:
+    case 'conversations':
       return <CategoryConversations />;
-    case SessionSettingCategory.Appearance:
+    case 'appearance':
       return <SettingsCategoryAppearance />;
-    case SessionSettingCategory.Notifications:
+    case 'notifications':
       return <SessionNotificationGroupSettings />;
-    case SessionSettingCategory.Privacy:
+    case 'privacy':
       return (
         <SettingsCategoryPrivacy onPasswordUpdated={onPasswordUpdated} hasPassword={hasPassword} />
       );
-    case SessionSettingCategory.Help:
+    case 'help':
       return <SettingsCategoryHelp />;
-    case SessionSettingCategory.Permissions:
+    case 'permissions':
       return <SettingsCategoryPermissions />;
 
     // these three down there have no options, they are just a button
-    case SessionSettingCategory.ClearData:
-    case SessionSettingCategory.MessageRequests:
-    case SessionSettingCategory.RecoveryPassword:
+    case 'clearData':
+    case 'messageRequests':
+    case 'recoveryPassword':
     default:
       return null;
   }
