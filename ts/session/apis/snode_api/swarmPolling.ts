@@ -429,8 +429,26 @@ export class SwarmPolling {
               hash: m.messageHash,
             }));
 
+            if (window.sessionFeatureFlags.debug.debugLibsessionDumps) {
+              for (let dumpIndex = 0; dumpIndex < incomingConfigMessages.length; dumpIndex++) {
+                const element = incomingConfigMessages[dumpIndex];
+                window.log.info(
+                  `printDumpsForDebugging: toMerge of ${dumpIndex}:${element.hash}:  ${StringUtils.toHex(
+                    element.data
+                  )} `
+                );
+              }
+            }
+
             await GenericWrapperActions.init('UserConfig', privateKeyEd25519, null);
             await GenericWrapperActions.merge('UserConfig', incomingConfigMessages);
+
+            if (window.sessionFeatureFlags.debug.debugLibsessionDumps) {
+              window.log.info(
+                `printDumpsForDebugging: after merge of UserConfig:`,
+                StringUtils.toHex(await GenericWrapperActions.dump('UserConfig'))
+              );
+            }
 
             const userInfo = await UserConfigWrapperActions.getUserInfo();
             if (!userInfo) {
