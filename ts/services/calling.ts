@@ -82,6 +82,7 @@ import * as durations from '../util/durations';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { fetchMembershipProof, getMembershipList } from '../groups';
 import type { ProcessedEnvelope } from '../textsecure/Types.d';
+import type { GetIceServersResultType } from '../textsecure/WebAPI';
 import { missingCaseError } from '../util/missingCaseError';
 import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp';
 import {
@@ -317,7 +318,7 @@ export class CallingClass {
 
   public _sfuUrl?: string;
 
-  public _iceServerOverride?: string;
+  public _iceServerOverride?: GetIceServersResultType | string;
 
   private lastMediaDeviceSettings?: MediaDeviceSettings;
 
@@ -2658,12 +2659,39 @@ export class CallingClass {
   }
 
   private async handleStartCall(call: Call): Promise<boolean> {
+    type IceServer = {
+      username?: string;
+      password?: string;
+      hostname?: string;
+      urls: Array<string>;
+    };
+
+    function iceServerConfigToList(
+      iceServerConfig: GetIceServersResultType
+    ): Array<IceServer> {
+      return [
+        {
+          hostname: iceServerConfig.hostname ?? '',
+          username: iceServerConfig.username,
+          password: iceServerConfig.password,
+          urls: (iceServerConfig.urlsWithIps ?? []).slice(),
+        },
+        {
+          hostname: '',
+          username: iceServerConfig.username,
+          password: iceServerConfig.password,
+          urls: (iceServerConfig.urls ?? []).slice(),
+        },
+      ];
+    }
+
     if (!window.textsecure.messaging) {
       log.error('handleStartCall: offline!');
       return false;
     }
 
-    const iceServer = await window.textsecure.messaging.server.getIceServers();
+    const iceServerConfig =
+      await window.textsecure.messaging.server.getIceServers();
 
     const shouldRelayCalls = window.Events.getAlwaysRelayCalls();
 
@@ -2676,33 +2704,23 @@ export class CallingClass {
     // If the peer is not in the user's system contacts, force IP hiding.
     const isContactUntrusted = !isInSystemContacts(conversation.attributes);
 
+    // proritize ice servers with IPs to avoid DNS
     // only include hostname with urlsWithIps
-    const iceServers = this._iceServerOverride
-      ? [
-          {
-            hostname: ICE_SERVER_IS_IP_LIKE.test(this._iceServerOverride)
-              ? iceServer.hostname
-              : '',
-            username: iceServer.username,
-            password: iceServer.password,
-            urls: [this._iceServerOverride.toString()],
-          },
-        ]
-      : // proritize ice servers with IPs to avoid DNS
-        [
-          {
-            hostname: iceServer.hostname ?? '',
-            username: iceServer.username,
-            password: iceServer.password,
-            urls: (iceServer.urlsWithIps ?? []).slice(),
-          },
-          {
-            hostname: '',
-            username: iceServer.username,
-            password: iceServer.password,
-            urls: (iceServer.urls ?? []).slice(),
-          },
-        ];
+    let iceServers = iceServerConfigToList(iceServerConfig);
+
+    if (this._iceServerOverride) {
+      if (typeof this._iceServerOverride === 'string') {
+        if (ICE_SERVER_IS_IP_LIKE.test(this._iceServerOverride)) {
+          iceServers[0].urls = [this._iceServerOverride];
+          iceServers = [iceServers[0]];
+        } else {
+          iceServers[1].urls = [this._iceServerOverride];
+          iceServers = [iceServers[1]];
+        }
+      } else {
+        iceServers = iceServerConfigToList(this._iceServerOverride);
+      }
+    }
 
     const callSettings = {
       iceServers,

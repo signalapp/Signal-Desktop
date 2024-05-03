@@ -13,7 +13,10 @@ import './phase3-post-signal';
 import './phase4-test';
 import '../../backbone/reliable_trigger';
 
-import type { CdsLookupOptionsType } from '../../textsecure/WebAPI';
+import type {
+  CdsLookupOptionsType,
+  GetIceServersResultType,
+} from '../../textsecure/WebAPI';
 import type { FeatureFlagType } from '../../window.d';
 import type { StorageAccessType } from '../../types/Storage.d';
 import { start as startConversationController } from '../../ConversationController';
@@ -71,13 +74,18 @@ if (!isProduction(window.SignalContext.getVersion())) {
     setSfuUrl: (url: string) => {
       window.Signal.Services.calling._sfuUrl = url;
     },
-    setIceServerOverride: (url: string) => {
-      if (!/(turn|turns|stun):.*]/.test(url)) {
-        log.warn(
-          'Override url should be prefixed with `turn:`, `turns:`, or `stun:` else override may not work'
-        );
+    setIceServerOverride: (
+      override: GetIceServersResultType | string | undefined
+    ) => {
+      if (typeof override === 'string') {
+        if (!/(turn|turns|stun):.*/.test(override)) {
+          log.warn(
+            'Override url should be prefixed with `turn:`, `turns:`, or `stun:` else override may not work'
+          );
+        }
       }
-      window.Signal.Services.calling._iceServerOverride = url;
+
+      window.Signal.Services.calling._iceServerOverride = override;
     },
     sqlCall: (name: string, ...args: ReadonlyArray<unknown>) =>
       ipcInvoke(name, args),
