@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import formatFileSize from 'filesize';
 
 import { isBeta } from '../util/version';
 import { DialogType } from '../types/Dialogs';
@@ -11,6 +10,7 @@ import { PRODUCTION_DOWNLOAD_URL, BETA_DOWNLOAD_URL } from '../types/support';
 import { Intl } from './Intl';
 import { LeftPaneDialog } from './LeftPaneDialog';
 import type { WidthBreakpoint } from './_util';
+import { formatFileSize } from '../util/formatFileSize';
 
 export type PropsType = {
   containerWidthBreakpoint: WidthBreakpoint;
@@ -195,7 +195,7 @@ export function DialogUpdate({
     (dialogType === DialogType.DownloadReady ||
       dialogType === DialogType.FullDownloadReady)
   ) {
-    title += ` (${formatFileSize(downloadSize, { round: 0 })})`;
+    title += ` (${formatFileSize(downloadSize)})`;
   }
 
   let clickLabel = i18n('icu:autoUpdateNewVersionMessage');

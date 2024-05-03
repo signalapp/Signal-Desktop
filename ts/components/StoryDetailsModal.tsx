@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import formatFileSize from 'filesize';
 import type { LocalizerType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { StorySendStateType, StoryViewType } from '../types/Stories';
@@ -21,6 +20,7 @@ import { ThemeType } from '../types/Util';
 import { Time } from './Time';
 import { groupBy } from '../util/mapUtil';
 import { format as formatRelativeTime } from '../util/expirationTimer';
+import { formatFileSize } from '../util/formatFileSize';
 
 export type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;

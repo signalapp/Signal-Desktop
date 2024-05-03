@@ -3,7 +3,6 @@
 
 import { groupBy, isEmpty, isNumber, isObject, map } from 'lodash';
 import { createSelector } from 'reselect';
-import filesize from 'filesize';
 import getDirection from 'direction';
 import emojiRegex from 'emoji-regex';
 import LinkifyIt from 'linkify-it';
@@ -141,6 +140,7 @@ import { CallDirection } from '../../types/CallDisposition';
 import { getCallIdFromEra } from '../../util/callDisposition';
 import { LONG_MESSAGE } from '../../types/MIME';
 import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification';
+import { formatFileSize } from '../../util/formatFileSize';
 
 export { isIncoming, isOutgoing, isStory };
 
@@ -1806,7 +1806,7 @@ export function getPropsForAttachment(
 
   return {
     ...attachment,
-    fileSize: size ? filesize(size) : undefined,
+    fileSize: size ? formatFileSize(size) : undefined,
     isVoiceMessage: isVoiceMessage(attachment),
     pending,
     url: path ? getAttachmentUrlForPath(path) : undefined,
