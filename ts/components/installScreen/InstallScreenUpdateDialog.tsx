@@ -3,7 +3,6 @@
 
 import React from 'react';
 import { noop } from 'lodash';
-import formatFileSize from 'filesize';
 
 import { DialogType } from '../../types/Dialogs';
 import type { LocalizerType } from '../../types/Util';
@@ -17,6 +16,7 @@ import { isBeta } from '../../util/version';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { Modal } from '../Modal';
 import { Intl } from '../Intl';
+import { formatFileSize } from '../../util/formatFileSize';
 
 export type PropsType = UpdatesStateType &
   Readonly<{
@@ -91,7 +91,7 @@ export function InstallScreenUpdateDialog({
           components={{
             downloadSize: (
               <span className="InstallScreenUpdateDialog__download-size">
-                ({formatFileSize(downloadSize ?? 0, { round: 0 })})
+                ({formatFileSize(downloadSize ?? 0)})
               </span>
             ),
           }}
