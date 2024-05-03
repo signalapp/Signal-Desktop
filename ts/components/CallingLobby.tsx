@@ -311,22 +311,25 @@ export function CallingLobby({
           {i18n('icu:calling__your-video-is-off')}
         </div>
 
-        {callMode === CallMode.Adhoc && isAdhocJoinRequestPending ? (
-          <div className="CallingLobby__CallLinkNotice CallingLobby__CallLinkNotice--join-request-pending">
-            <SpinnerV2
-              className="CallingLobby__CallLinkJoinRequestPendingSpinner"
-              size={16}
-              strokeWidth={3}
-            />
-            {i18n('icu:CallingLobby__CallLinkNotice--join-request-pending')}
-          </div>
-        ) : (
-          <div className="CallingLobby__CallLinkNotice">
-            {isSharingPhoneNumberWithEverybody
-              ? i18n('icu:CallingLobby__CallLinkNotice--phone-sharing')
-              : i18n('icu:CallingLobby__CallLinkNotice')}
-          </div>
-        )}
+        {/* eslint-disable-next-line no-nested-ternary */}
+        {callMode === CallMode.Adhoc ? (
+          isAdhocJoinRequestPending ? (
+            <div className="CallingLobby__CallLinkNotice CallingLobby__CallLinkNotice--join-request-pending">
+              <SpinnerV2
+                className="CallingLobby__CallLinkJoinRequestPendingSpinner"
+                size={16}
+                strokeWidth={3}
+              />
+              {i18n('icu:CallingLobby__CallLinkNotice--join-request-pending')}
+            </div>
+          ) : (
+            <div className="CallingLobby__CallLinkNotice">
+              {isSharingPhoneNumberWithEverybody
+                ? i18n('icu:CallingLobby__CallLinkNotice--phone-sharing')
+                : i18n('icu:CallingLobby__CallLinkNotice')}
+            </div>
+          )
+        ) : null}
 
         <CallingButtonToastsContainer
           hasLocalAudio={hasLocalAudio}

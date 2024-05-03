@@ -4367,29 +4367,37 @@ button.module-image__border-overlay:focus {
   flex-direction: column;
   width: 320px;
   height: 440px;
+  max-height: calc(100vh - $CallControls__height - 22px);
+  padding-block: 5px 0;
+  padding-inline: 5px;
+  margin-block-end: 85px;
+  margin-block-start: 20px;
+  margin-inline: auto;
   background-color: $color-gray-80;
   border-radius: 10px;
   color: $color-white;
   filter: drop-shadow(0px 4px 3px $color-black-alpha-20);
-  margin-inline-end: 340px;
-  margin-block-end: 85px;
-  margin-block-start: 20px;
   outline: 1px solid $color-gray-62;
   overflow: hidden;
-  padding-block: 5px 0;
-  padding-inline: 5px;
 
   &__overlay {
     position: absolute;
     top: 0;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
     width: 100vw;
     height: 100vh;
-    justify-content: flex-end;
+    padding-inline-start: 15px;
+    align-items: flex-end;
     inset-inline-start: 0;
     z-index: $z-index-calling;
+
+    &::after {
+      content: '';
+      display: flex;
+      flex-shrink: 1;
+      flex-basis: 480px;
+    }
   }
 
   &__title {
