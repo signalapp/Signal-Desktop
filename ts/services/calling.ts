@@ -39,6 +39,7 @@ import {
   RingCancelReason,
   RingRTC,
   RingUpdate,
+  GroupCallKind,
 } from '@signalapp/ringrtc';
 import { uniqBy, noop, compact } from 'lodash';
 
@@ -1758,12 +1759,21 @@ export class CallingClass {
     this.setOutgoingVideoIsScreenShare(call, isPresenting);
 
     if (source) {
+      ipcRenderer.send('show-screen-share', source.name);
+
+      // TODO: DESKTOP-7068
+      if (
+        call instanceof GroupCall &&
+        call.getKind() === GroupCallKind.CallLink
+      ) {
+        return;
+      }
+
       const conversation = window.ConversationController.get(conversationId);
       strictAssert(conversation, 'setPresenting: conversation not found');
 
       const { url, absolutePath } = await conversation.getAvatarOrIdenticon();
 
-      ipcRenderer.send('show-screen-share', source.name);
       notificationService.notify({
         conversationId,
         iconPath: absolutePath,
