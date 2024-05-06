@@ -15,6 +15,7 @@ interface SProps extends SessionIconProps {
   title?: string;
   tabIndex?: number;
   children?: ReactNode;
+  disabled?: boolean;
 }
 
 const StyledSessionIconButton = styled.button<{ color?: string; isSelected?: boolean }>`
@@ -32,8 +33,10 @@ const StyledSessionIconButton = styled.button<{ color?: string; isSelected?: boo
         };`}
   }
 
+  ${props => props.disabled && 'cursor: not-allowed;'}
+
   &:hover svg path {
-    ${props => !props.color && 'fill: var(--button-icon-stroke-hover-color);'}
+    ${props => !props.disabled && !props.color && 'fill: var(--button-icon-stroke-hover-color);'}
   }
 `;
 
@@ -61,15 +64,16 @@ const SessionIconButtonInner = forwardRef<HTMLButtonElement, SProps>((props, ref
     style,
     tabIndex,
     children,
+    disabled,
   } = props;
   const clickHandler = (e: MouseEvent<HTMLButtonElement>) => {
-    if (props.onClick) {
+    if (!disabled && props.onClick) {
       e.stopPropagation();
       props.onClick(e);
     }
   };
   const keyPressHandler = (e: KeyboardEvent<HTMLButtonElement>) => {
-    if (e.currentTarget.tabIndex > -1 && e.key === 'Enter' && props.onClick) {
+    if (e.currentTarget.tabIndex > -1 && e.key === 'Enter' && !disabled && props.onClick) {
       e.stopPropagation();
       props.onClick();
     }
@@ -92,6 +96,7 @@ const SessionIconButtonInner = forwardRef<HTMLButtonElement, SProps>((props, ref
       }}
       tabIndex={tabIndex}
       onKeyDown={keyPressHandler}
+      disabled={disabled}
       data-testid={dataTestId}
     >
       <SessionIcon
