@@ -1,6 +1,5 @@
 import { RefObject, useState } from 'react';
 import { Mention, MentionsInput } from 'react-mentions';
-import { useIsOutgoingRequest } from '../../../hooks/useParamSelector';
 import { getConversationController } from '../../../session/conversations';
 import {
   useSelectedConversationKey,
@@ -55,7 +54,6 @@ export const CompositionTextArea = (props: Props) => {
 
   const selectedConversationKey = useSelectedConversationKey();
   const htmlDirection = useHTMLDirection();
-  const isOutgoingRequest = useIsOutgoingRequest(selectedConversationKey);
   const isKickedFromGroup = useSelectedIsKickedFromGroup();
   const left = useSelectedIsLeft();
   const isBlocked = useSelectedIsBlocked();
@@ -121,7 +119,7 @@ export const CompositionTextArea = (props: Props) => {
       spellCheck={true}
       dir={htmlDirection}
       inputRef={textAreaRef}
-      disabled={!typingEnabled || isOutgoingRequest}
+      disabled={!typingEnabled}
       rows={1}
       data-testid="message-input-text-area"
       style={style}

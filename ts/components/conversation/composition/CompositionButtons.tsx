@@ -63,11 +63,8 @@ export const StartRecordingButton = (props: { onClick: () => void }) => {
 // eslint-disable-next-line react/display-name
 export const ToggleEmojiButton = forwardRef<HTMLButtonElement, { onClick: () => void }>(
   (props, ref) => {
-    const selectedConvoKey = useSelectedConversationKey();
-    const isOutgoingRequest = useIsOutgoingRequest(selectedConvoKey);
-
     return (
-      <StyledChatButtonContainer disabled={isOutgoingRequest}>
+      <StyledChatButtonContainer>
         <SessionIconButton
           iconType="emoji"
           ref={ref}
@@ -77,7 +74,6 @@ export const ToggleEmojiButton = forwardRef<HTMLButtonElement, { onClick: () => 
           borderRadius="300px"
           iconPadding="6px"
           onClick={props.onClick}
-          disabled={isOutgoingRequest}
           dataTestId="emoji-button"
         />
       </StyledChatButtonContainer>
@@ -86,11 +82,8 @@ export const ToggleEmojiButton = forwardRef<HTMLButtonElement, { onClick: () => 
 );
 
 export const SendMessageButton = (props: { onClick: () => void }) => {
-  const selectedConvoKey = useSelectedConversationKey();
-  const isOutgoingRequest = useIsOutgoingRequest(selectedConvoKey);
-
   return (
-    <StyledChatButtonContainer disabled={isOutgoingRequest}>
+    <StyledChatButtonContainer>
       <SessionIconButton
         iconType="send"
         backgroundColor={'var(--chat-buttons-background-color)'}
@@ -100,7 +93,6 @@ export const SendMessageButton = (props: { onClick: () => void }) => {
         borderRadius="300px"
         iconPadding="6px"
         onClick={props.onClick}
-        disabled={isOutgoingRequest}
         dataTestId="send-message-button"
       />
     </StyledChatButtonContainer>
