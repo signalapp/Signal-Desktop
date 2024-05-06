@@ -90,6 +90,12 @@ export class BackupsService {
     }
   }
 
+  public async upload(): Promise<void> {
+    const pipe = new PassThrough();
+
+    await Promise.all([this.api.upload(pipe), this.exportBackup(pipe)]);
+  }
+
   // Test harness
   public async exportBackupData(): Promise<Uint8Array> {
     const sink = new PassThrough();
