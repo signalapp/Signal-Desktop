@@ -113,6 +113,7 @@ import { load as loadLocale } from './locale';
 
 import type { LoggerType } from '../ts/types/Logging';
 import { HourCyclePreference } from '../ts/types/I18N';
+import { ScreenShareStatus } from '../ts/types/Calling';
 import { DBVersionFromFutureError } from '../ts/sql/migrations';
 import type { ParsedSignalRoute } from '../ts/util/signalRoutes';
 import { parseSignalRoute } from '../ts/util/signalRoutes';
@@ -2332,11 +2333,20 @@ ipc.on(
   }
 );
 
-ipc.on('close-screen-share-controller', () => {
-  if (screenShareWindow) {
-    screenShareWindow.close();
+ipc.on(
+  'screen-share:status-change',
+  (_event: Electron.Event, status: ScreenShareStatus) => {
+    if (!screenShareWindow) {
+      return;
+    }
+
+    if (status === ScreenShareStatus.Disconnected) {
+      screenShareWindow.close();
+    } else {
+      screenShareWindow.webContents.send('status-change', status);
+    }
   }
-});
+);
 
 ipc.on('stop-screen-share', () => {
   if (mainWindow) {

@@ -1,7 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ipcRenderer } from 'electron';
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import {
   hasScreenCapturePermission,
@@ -1013,10 +1012,6 @@ function callStateChange(
   return async dispatch => {
     const { callState, acceptedTime, callEndedReason } = payload;
 
-    if (callState === CallState.Ended) {
-      ipcRenderer.send('close-screen-share-controller');
-    }
-
     const wasAccepted = acceptedTime != null;
     const isEnded = callState === CallState.Ended && callEndedReason != null;
 
@@ -1303,10 +1298,6 @@ function groupCallStateChange(
 
     if (didSomeoneStartPresenting) {
       void callingTones.someonePresenting();
-    }
-
-    if (payload.connectionState === GroupCallConnectionState.NotConnected) {
-      ipcRenderer.send('close-screen-share-controller');
     }
   };
 }
@@ -2630,6 +2621,25 @@ export function reducer(
   }
 
   if (action.type === CALL_STATE_CHANGE_FULFILLED) {
+    const call = getOwn(
+      state.callsByConversation,
+      action.payload.conversationId
+    );
+
+    if (
+      call?.callMode === CallMode.Direct &&
+      call?.callState !== action.payload.callState
+    ) {
+      drop(
+        calling.notifyScreenShareStatus({
+          callMode: CallMode.Direct,
+          callState: action.payload.callState,
+          isPresenting: state.activeCallState?.presentingSource != null,
+          conversationId: state.activeCallState?.conversationId,
+        })
+      );
+    }
+
     // We want to keep the state around for ended calls if they resulted in a message
     //   request so we can show the "needs permission" screen.
     if (
@@ -2640,10 +2650,6 @@ export function reducer(
       return removeConversationFromState(state, action.payload.conversationId);
     }
 
-    const call = getOwn(
-      state.callsByConversation,
-      action.payload.conversationId
-    );
     if (call?.callMode !== CallMode.Direct) {
       log.warn('Cannot update state for a non-direct call');
       return state;
@@ -2829,6 +2835,17 @@ export function reducer(
       raisedHands: existingCall?.raisedHands ?? [],
       ...newRingState,
     };
+
+    if (existingCall?.connectionState !== connectionState) {
+      drop(
+        calling.notifyScreenShareStatus({
+          callMode,
+          connectionState,
+          isPresenting: state.activeCallState?.presentingSource != null,
+          conversationId: state.activeCallState?.conversationId,
+        })
+      );
+    }
 
     return {
       ...state,
