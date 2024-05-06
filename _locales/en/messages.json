@@ -1813,9 +1813,21 @@
     "messageformat": "Click here to return to the call when you're ready to stop presenting.",
     "description": "Body text for the share screen notification"
   },
+  "icu:calling__presenting--reconnecting--notification-title": {
+    "messageformat": "Reconnecting...",
+    "description": "Title for the share screen reconnecting notification"
+  },
+  "icu:calling__presenting--reconnecting--notification-body": {
+    "messageformat": "Your connection was lost. Signal is reconnecting.",
+    "description": "Body text for the share screen reconnecting notification"
+  },
   "icu:calling__presenting--info": {
     "messageformat": "Signal is sharing {window}.",
     "description": "Text that appears in the screen sharing controller to inform person that they are presenting"
+  },
+  "icu:calling__presenting--reconnecting": {
+    "messageformat": "Reconnecting...",
+    "description": "Text that appears in the screen sharing controller to inform person that the call is in reconnecting state"
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Stop sharing",

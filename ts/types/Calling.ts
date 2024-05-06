@@ -205,3 +205,9 @@ export type ChangeIODevicePayloadType =
 export type CallingConversationType =
   | ConversationType
   | CallLinkConversationType;
+
+export enum ScreenShareStatus {
+  Connected = 'Connected',
+  Reconnecting = 'Reconnecting',
+  Disconnected = 'Disconnected',
+}

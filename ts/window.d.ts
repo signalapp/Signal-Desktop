@@ -39,6 +39,7 @@ import type { BatcherType } from './util/batcher';
 import type { ConfirmationDialog } from './components/ConfirmationDialog';
 import type { SignalProtocolStore } from './SignalProtocolStore';
 import type { SocketStatus } from './types/SocketStatus';
+import type { ScreenShareStatus } from './types/Calling';
 import type SyncRequest from './textsecure/SyncRequest';
 import type { MessageCache } from './services/MessageCache';
 import type { StateType } from './state/reducer';
@@ -122,6 +123,8 @@ type PermissionsWindowPropsType = {
 type ScreenShareWindowPropsType = {
   onStopSharing: () => void;
   presentedSourceName: string;
+  getStatus: () => ScreenShareStatus;
+  setRenderCallback: (cb: () => void) => void;
 };
 
 type SettingsOnRenderCallbackType = (props: PreferencesPropsType) => void;

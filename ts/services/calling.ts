@@ -64,6 +64,7 @@ import {
   CallMode,
   GroupCallConnectionState,
   GroupCallJoinState,
+  ScreenShareStatus,
 } from '../types/Calling';
 import {
   findBestMatchingAudioDeviceIndex,
@@ -309,6 +310,22 @@ function protoToCallingMessage({
       : undefined,
   };
 }
+
+export type NotifyScreenShareStatusOptionsType = Readonly<
+  {
+    conversationId?: string;
+    isPresenting: boolean;
+  } & (
+    | {
+        callMode: CallMode.Direct;
+        callState: CallState;
+      }
+    | {
+        callMode: CallMode.Group | CallMode.Adhoc;
+        connectionState: GroupCallConnectionState;
+      }
+  )
+>;
 
 export class CallingClass {
   readonly videoCapturer: GumVideoCapturer;
@@ -1610,7 +1627,10 @@ export class CallingClass {
       );
     }
 
-    ipcRenderer.send('close-screen-share-controller');
+    ipcRenderer.send(
+      'screen-share:status-change',
+      ScreenShareStatus.Disconnected
+    );
 
     const entries = Object.entries(this.callsLookup);
     log.info(`hangup: ${entries.length} call(s) to hang up...`);
@@ -1785,8 +1805,82 @@ export class CallingClass {
         title: window.i18n('icu:calling__presenting--notification-title'),
       });
     } else {
-      ipcRenderer.send('close-screen-share-controller');
+      ipcRenderer.send(
+        'screen-share:status-change',
+        ScreenShareStatus.Disconnected
+      );
     }
+  }
+
+  async notifyScreenShareStatus(
+    options: NotifyScreenShareStatusOptionsType
+  ): Promise<void> {
+    let newStatus: ScreenShareStatus;
+    if (options.callMode === CallMode.Direct) {
+      switch (options.callState) {
+        case CallState.Prering:
+        case CallState.Ringing:
+        case CallState.Accepted:
+          newStatus = ScreenShareStatus.Connected;
+          break;
+        case CallState.Reconnecting:
+          newStatus = ScreenShareStatus.Reconnecting;
+          break;
+        case CallState.Ended:
+          newStatus = ScreenShareStatus.Disconnected;
+          break;
+        default:
+          throw missingCaseError(options.callState);
+      }
+    } else {
+      switch (options.connectionState) {
+        case GroupCallConnectionState.NotConnected:
+          newStatus = ScreenShareStatus.Disconnected;
+          break;
+        case GroupCallConnectionState.Connecting:
+        case GroupCallConnectionState.Connected:
+          newStatus = ScreenShareStatus.Connected;
+          break;
+        case GroupCallConnectionState.Reconnecting:
+          newStatus = ScreenShareStatus.Reconnecting;
+          break;
+        default:
+          throw missingCaseError(options.connectionState);
+      }
+    }
+
+    const { conversationId, isPresenting } = options;
+
+    if (
+      options.callMode !== CallMode.Adhoc &&
+      isPresenting &&
+      conversationId &&
+      newStatus === ScreenShareStatus.Reconnecting
+    ) {
+      const conversation = window.ConversationController.get(conversationId);
+      strictAssert(
+        conversation,
+        'showPresentingReconnectingNotification: conversation not found'
+      );
+
+      const { url, absolutePath } = await conversation.getAvatarOrIdenticon();
+
+      notificationService.notify({
+        conversationId,
+        iconPath: absolutePath,
+        iconUrl: url,
+        message: window.i18n(
+          'icu:calling__presenting--reconnecting--notification-body'
+        ),
+        type: NotificationType.IsPresenting,
+        sentAt: 0,
+        silent: true,
+        title: window.i18n(
+          'icu:calling__presenting--reconnecting--notification-title'
+        ),
+      });
+    }
+    ipcRenderer.send('screen-share:status-change', newStatus);
   }
 
   private async startDeviceReselectionTimer(): Promise<void> {
