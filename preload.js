@@ -34,8 +34,7 @@ window.sessionFeatureFlags = {
   useClosedGroupV3: false,
   debug: {
     debugLogging: !_.isEmpty(process.env.SESSION_DEBUG),
-    // TODO[epic=ses-825] Restore this
-    // debugLibsessionDumps: !_.isEmpty(process.env.SESSION_DEBUG_LIBSESSION_DUMPS),
+    debugLibsessionDumps: !_.isEmpty(process.env.SESSION_DEBUG_LIBSESSION_DUMPS),
     debugLibsessionDumps: true,
     debugFileServerRequests: false,
     debugNonSnodeRequests: false,
