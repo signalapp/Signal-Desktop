@@ -2153,7 +2153,7 @@ export default class MessageSender {
   async createGroup(
     group: Readonly<Proto.IGroup>,
     options: Readonly<GroupCredentialsType>
-  ): Promise<void> {
+  ): Promise<Proto.IGroupResponse> {
     return this.server.createGroup(group, options);
   }
 
@@ -2166,7 +2166,7 @@ export default class MessageSender {
 
   async getGroup(
     options: Readonly<GroupCredentialsType>
-  ): Promise<Proto.Group> {
+  ): Promise<Proto.IGroupResponse> {
     return this.server.getGroup(options);
   }
 
@@ -2192,7 +2192,7 @@ export default class MessageSender {
     changes: Readonly<Proto.GroupChange.IActions>,
     options: Readonly<GroupCredentialsType>,
     inviteLinkBase64?: string
-  ): Promise<Proto.IGroupChange> {
+  ): Promise<Proto.IGroupChangeResponse> {
     return this.server.modifyGroup(changes, options, inviteLinkBase64);
   }
 
@@ -2243,8 +2243,8 @@ export default class MessageSender {
 
   async getGroupMembershipToken(
     options: Readonly<GroupCredentialsType>
-  ): Promise<Proto.GroupExternalCredential> {
-    return this.server.getGroupExternalCredential(options);
+  ): Promise<Proto.IExternalGroupCredential> {
+    return this.server.getExternalGroupCredential(options);
   }
 
   public async sendChallengeResponse(

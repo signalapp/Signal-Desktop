@@ -1445,7 +1445,7 @@ async function uploadGroupChange({
   actions: Proto.GroupChange.IActions;
   group: ConversationAttributesType;
   inviteLinkPassword?: string;
-}): Promise<Proto.IGroupChange> {
+}): Promise<Proto.IGroupChangeResponse> {
   const logId = idForLogging(group.groupId);
 
   // Ensure we have the credentials we need before attempting GroupsV2 operations
@@ -1551,11 +1551,13 @@ export async function modifyGroupV2({
         }
 
         // Upload. If we don't have permission, the server will return an error here.
-        const groupChange = await uploadGroupChange({
+        const groupChangeResponse = await uploadGroupChange({
           actions,
           inviteLinkPassword,
           group: conversation.attributes,
         });
+        const { groupChange } = groupChangeResponse;
+        strictAssert(groupChange, 'missing groupChange');
 
         const groupChangeBuffer =
           Proto.GroupChange.encode(groupChange).finish();
@@ -2755,12 +2757,13 @@ export async function respondToGroupV2Migration({
         `respondToGroupV2Migration/${logId}: Failed to access log endpoint; fetching full group state`
       );
       try {
-        firstGroupState = await makeRequestWithTemporalRetry({
+        const groupResponse = await makeRequestWithTemporalRetry({
           logId: `getGroup/${logId}`,
           publicParams,
           secretParams,
           request: (sender, options) => sender.getGroup(options),
         });
+        firstGroupState = groupResponse.group;
       } catch (secondError) {
         if (secondError.code === GROUP_ACCESS_DENIED_CODE) {
           log.info(
@@ -3669,12 +3672,15 @@ async function updateGroupViaState({
     throw new Error('updateGroupViaState: group was missing publicParams!');
   }
 
-  const groupState = await makeRequestWithTemporalRetry({
+  const groupResponse = await makeRequestWithTemporalRetry({
     logId: `getGroup/${logId}`,
     publicParams,
     secretParams,
     request: (sender, requestOptions) => sender.getGroup(requestOptions),
   });
+
+  const groupState = groupResponse.group;
+  strictAssert(groupState, 'Group state must be present');
 
   const decryptedGroupState = decryptGroupState(
     groupState,
@@ -3809,7 +3815,7 @@ async function updateGroupViaLogs({
   // `integrateGroupChanges`.
   let revisionToFetch = isNumber(currentRevision) ? currentRevision : undefined;
 
-  let response;
+  let response: GroupLogResponseType;
   const changes: Array<Proto.IGroupChanges> = [];
   do {
     // eslint-disable-next-line no-await-in-loop

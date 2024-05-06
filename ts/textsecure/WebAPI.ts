@@ -542,9 +542,9 @@ const URL_CALLS = {
   getBackupCDNCredentials: 'v1/archives/auth/read',
   getBackupUploadForm: 'v1/archives/upload/form',
   getBackupMediaUploadForm: 'v1/archives/media/upload/form',
-  groupLog: 'v1/groups/logs',
+  groupLog: 'v2/groups/logs',
   groupJoinedAtVersion: 'v1/groups/joined_at_version',
-  groups: 'v1/groups',
+  groups: 'v2/groups',
   groupsViaLink: 'v1/groups/join/',
   groupToken: 'v1/groups/token',
   keys: 'v2/keys',
@@ -719,6 +719,7 @@ export type GroupLogResponseType = {
   start?: number;
   end?: number;
   changes: Proto.GroupChanges;
+  groupSendEndorsementResponse: Uint8Array | null;
 };
 
 export type ProfileRequestDataType = {
@@ -1153,7 +1154,7 @@ export type WebAPIType = {
   createGroup: (
     group: Proto.IGroup,
     options: GroupCredentialsType
-  ) => Promise<void>;
+  ) => Promise<Proto.IGroupResponse>;
   deleteUsername: (abortSignal?: AbortSignal) => Promise<void>;
   downloadOnboardingStories: (
     version: string,
@@ -1178,7 +1179,7 @@ export type WebAPIType = {
   ) => Promise<Readable>;
   getAvatar: (path: string) => Promise<Uint8Array>;
   getHasSubscription: (subscriberId: Uint8Array) => Promise<boolean>;
-  getGroup: (options: GroupCredentialsType) => Promise<Proto.Group>;
+  getGroup: (options: GroupCredentialsType) => Promise<Proto.IGroupResponse>;
   getGroupFromLink: (
     inviteLinkPassword: string | undefined,
     auth: GroupCredentialsType
@@ -1187,9 +1188,9 @@ export type WebAPIType = {
   getGroupCredentials: (
     options: GetGroupCredentialsOptionsType
   ) => Promise<GetGroupCredentialsResultType>;
-  getGroupExternalCredential: (
+  getExternalGroupCredential: (
     options: GroupCredentialsType
-  ) => Promise<Proto.GroupExternalCredential>;
+  ) => Promise<Proto.IExternalGroupCredential>;
   getGroupLog: (
     options: GetGroupLogOptionsType,
     credentials: GroupCredentialsType
@@ -1259,7 +1260,7 @@ export type WebAPIType = {
     changes: Proto.GroupChange.IActions,
     options: GroupCredentialsType,
     inviteLinkBase64?: string
-  ) => Promise<Proto.IGroupChange>;
+  ) => Promise<Proto.IGroupChangeResponse>;
   modifyStorageRecords: MessageSender['modifyStorageRecords'];
   postBatchIdentityCheck: (
     elements: VerifyServiceIdRequestType
@@ -1669,7 +1670,7 @@ export function initialize({
       getGroup,
       getGroupAvatar,
       getGroupCredentials,
-      getGroupExternalCredential,
+      getExternalGroupCredential,
       getGroupFromLink,
       getGroupLog,
       getHasSubscription,
@@ -3695,9 +3696,9 @@ export function initialize({
       return response;
     }
 
-    async function getGroupExternalCredential(
+    async function getExternalGroupCredential(
       options: GroupCredentialsType
-    ): Promise<Proto.GroupExternalCredential> {
+    ): Promise<Proto.IExternalGroupCredential> {
       const basicAuth = generateGroupAuth(
         options.groupPublicParamsHex,
         options.authCredentialPresentationHex
@@ -3713,7 +3714,7 @@ export function initialize({
         disableSessionResumption: true,
       });
 
-      return Proto.GroupExternalCredential.decode(response);
+      return Proto.ExternalGroupCredential.decode(response);
     }
 
     function verifyAttributes(attributes: Proto.IAvatarUploadAttributes) {
@@ -3817,14 +3818,14 @@ export function initialize({
     async function createGroup(
       group: Proto.IGroup,
       options: GroupCredentialsType
-    ): Promise<void> {
+    ): Promise<Proto.IGroupResponse> {
       const basicAuth = generateGroupAuth(
         options.groupPublicParamsHex,
         options.authCredentialPresentationHex
       );
       const data = Proto.Group.encode(group).finish();
 
-      await _ajax({
+      const response = await _ajax({
         basicAuth,
         call: 'groups',
         contentType: 'application/x-protobuf',
@@ -3832,12 +3833,15 @@ export function initialize({
         host: storageUrl,
         disableSessionResumption: true,
         httpType: 'PUT',
+        responseType: 'bytes',
       });
+
+      return Proto.GroupResponse.decode(response);
     }
 
     async function getGroup(
       options: GroupCredentialsType
-    ): Promise<Proto.Group> {
+    ): Promise<Proto.IGroupResponse> {
       const basicAuth = generateGroupAuth(
         options.groupPublicParamsHex,
         options.authCredentialPresentationHex
@@ -3853,7 +3857,7 @@ export function initialize({
         responseType: 'bytes',
       });
 
-      return Proto.Group.decode(response);
+      return Proto.GroupResponse.decode(response);
     }
 
     async function getGroupFromLink(
@@ -3889,7 +3893,7 @@ export function initialize({
       changes: Proto.GroupChange.IActions,
       options: GroupCredentialsType,
       inviteLinkBase64?: string
-    ): Promise<Proto.IGroupChange> {
+    ): Promise<Proto.IGroupChangeResponse> {
       const basicAuth = generateGroupAuth(
         options.groupPublicParamsHex,
         options.authCredentialPresentationHex
@@ -3916,7 +3920,7 @@ export function initialize({
           : undefined,
       });
 
-      return Proto.GroupChange.decode(response);
+      return Proto.GroupChangeResponse.decode(response);
     }
 
     async function getGroupLog(
@@ -3966,6 +3970,10 @@ export function initialize({
         disableSessionResumption: true,
         httpType: 'GET',
         responseType: 'byteswithdetails',
+        headers: {
+          // TODO(jamie): To be implmented in DESKTOP-699
+          'Cached-Send-Endorsements': '0',
+        },
         urlParameters:
           `/${startVersion}?` +
           `includeFirstState=${Boolean(includeFirstState)}&` +
@@ -3974,6 +3982,7 @@ export function initialize({
       });
       const { data, response } = withDetails;
       const changes = Proto.GroupChanges.decode(data);
+      const { groupSendEndorsementResponse } = changes;
 
       if (response && response.status === 206) {
         const range = response.headers.get('Content-Range');
@@ -3994,12 +4003,14 @@ export function initialize({
             start,
             end,
             currentRevision,
+            groupSendEndorsementResponse,
           };
         }
       }
 
       return {
         changes,
+        groupSendEndorsementResponse,
       };
     }
 
