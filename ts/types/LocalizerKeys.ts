@@ -306,6 +306,7 @@ export type LocalizerKeys =
   | 'messageRequestAcceptedOurs'
   | 'messageRequestAcceptedOursNoName'
   | 'messageRequestPending'
+  | 'messageRequestPendingDescription'
   | 'messageRequests'
   | 'messageRequestsAcceptDescription'
   | 'messageWillDisappear'
