@@ -282,7 +282,7 @@ export const OverlayRightPanelSettings = () => {
         <PanelButtonGroup style={{ margin: '0 var(--margins-lg)' }}>
           {showUpdateGroupNameButton && (
             <PanelIconButton
-              iconType={'group'}
+              iconType={'groupMembers'}
               text={isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
               onClick={() => {
                 void showUpdateGroupNameByConvoId(selectedConvoKey);
@@ -315,7 +315,7 @@ export const OverlayRightPanelSettings = () => {
 
           {showUpdateGroupMembersButton && (
             <PanelIconButton
-              iconType={'group'}
+              iconType={'groupMembers'}
               text={window.i18n('groupMembers')}
               onClick={() => {
                 void showUpdateGroupMembersByConvoId(selectedConvoKey);

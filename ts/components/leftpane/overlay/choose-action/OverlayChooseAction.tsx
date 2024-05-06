@@ -78,6 +78,7 @@ export const OverlayChooseAction = () => {
           title={window.i18n('createGroup')}
           ariaLabel={window.i18n('createConversationNewGroup')}
           iconType={'group'}
+          iconSize={36}
           onClick={openCreateGroup}
           dataTestId="chooser-new-group"
         />
