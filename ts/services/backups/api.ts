@@ -1,6 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Readable } from 'stream';
+
 import { strictAssert } from '../../util/assert';
 import type {
   WebAPIType,
@@ -28,10 +30,11 @@ export class BackupAPI {
     );
   }
 
-  public async getUploadForm(): Promise<GetBackupUploadFormResponseType> {
-    return this.server.getBackupUploadForm(
-      await this.credentials.getHeadersForToday()
-    );
+  public async upload(stream: Readable): Promise<string> {
+    return this.server.uploadBackup({
+      headers: await this.credentials.getHeadersForToday(),
+      stream,
+    });
   }
 
   public async getMediaUploadForm(): Promise<GetBackupUploadFormResponseType> {

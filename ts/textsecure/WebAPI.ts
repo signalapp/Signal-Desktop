@@ -146,6 +146,7 @@ function _validateResponse(response: any, schema: any) {
 
 const FIVE_MINUTES = 5 * durations.MINUTE;
 const GET_ATTACHMENT_CHUNK_TIMEOUT = 10 * durations.SECOND;
+const BACKUP_CDN_VERSION = 3;
 
 type AgentCacheType = {
   [name: string]: {
@@ -174,7 +175,7 @@ type PromiseAjaxOptionsType = {
   basicAuth?: string;
   certificateAuthority?: string;
   contentType?: string;
-  data?: Uint8Array | string;
+  data?: Uint8Array | Readable | string;
   disableRetries?: boolean;
   disableSessionResumption?: boolean;
   headers?: HeaderListType;
@@ -1015,6 +1016,11 @@ export type SetBackupSignatureKeyOptionsType = Readonly<{
   backupIdPublicKey: Uint8Array;
 }>;
 
+export type UploadBackupOptionsType = Readonly<{
+  headers: BackupPresentationHeadersType;
+  stream: Readable;
+}>;
+
 export type BackupMediaItemType = Readonly<{
   sourceAttachment: Readonly<{
     cdn: number;
@@ -1353,6 +1359,7 @@ export type WebAPIType = {
     uploadAvatarRequestHeaders: UploadAvatarHeadersType,
     avatarData: Uint8Array
   ) => Promise<string>;
+  uploadBackup: (options: UploadBackupOptionsType) => Promise<string>;
   uploadGroupAvatar: (
     avatarData: Uint8Array,
     options: GroupCredentialsType
@@ -1719,6 +1726,7 @@ export function initialize({
       unregisterRequestHandler,
       updateDeviceName,
       uploadAvatar,
+      uploadBackup,
       uploadGroupAvatar,
       whoami,
     };
@@ -2730,6 +2738,93 @@ export function initialize({
       });
 
       return getBackupUploadFormResponseSchema.parse(res);
+    }
+
+    async function uploadBackup({ headers, stream }: UploadBackupOptionsType) {
+      const {
+        signedUploadLocation,
+        headers: uploadHeaders,
+        cdn,
+        key,
+      } = await getBackupUploadForm(headers);
+
+      strictAssert(
+        cdn === BACKUP_CDN_VERSION,
+        'uploadBackup: unexpected cdn version'
+      );
+
+      let size = 0n;
+      stream.pause();
+      stream.on('data', chunk => {
+        size += BigInt(chunk.length);
+      });
+
+      const uploadOptions = {
+        certificateAuthority,
+        proxyUrl,
+        timeout: 0,
+        type: 'POST' as const,
+        version,
+        headers: {
+          ...uploadHeaders,
+          'Tus-Resumable': '1.0.0',
+          'Content-Type': 'application/offset+octet-stream',
+          'Upload-Defer-Length': '1',
+        },
+        redactUrl: () => {
+          const tmp = new URL(signedUploadLocation);
+          tmp.search = '';
+          tmp.pathname = '';
+          return `${tmp}[REDACTED]`;
+        },
+        data: stream,
+        responseType: 'byteswithdetails' as const,
+      };
+
+      let response: Response;
+      try {
+        ({ response } = await _outerAjax(signedUploadLocation, uploadOptions));
+      } catch (e) {
+        // Another upload in progress, getting 409 should have aborted it.
+        if (e instanceof HTTPError && e.code === 409) {
+          log.warn('uploadBackup: aborting previous unfinished upload');
+          ({ response } = await _outerAjax(
+            signedUploadLocation,
+            uploadOptions
+          ));
+        } else {
+          throw e;
+        }
+      }
+
+      const uploadLocation = response.headers.get('location');
+      strictAssert(uploadLocation, 'backup response header has no location');
+
+      // Finish the upload by sending a PATCH with the stream length
+
+      // This is going to the CDN, not the service, so we use _outerAjax
+      await _outerAjax(uploadLocation, {
+        certificateAuthority,
+        proxyUrl,
+        timeout: 0,
+        type: 'PATCH',
+        version,
+        headers: {
+          ...uploadHeaders,
+          'Tus-Resumable': '1.0.0',
+          'Content-Type': 'application/offset+octet-stream',
+          'Upload-Offset': String(size),
+          'Upload-Length': String(size),
+        },
+        redactUrl: () => {
+          const tmp = new URL(uploadLocation);
+          tmp.search = '';
+          tmp.pathname = '';
+          return `${tmp}[REDACTED]`;
+        },
+      });
+
+      return key;
     }
 
     async function refreshBackup(headers: BackupPresentationHeadersType) {
