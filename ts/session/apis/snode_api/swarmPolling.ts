@@ -429,18 +429,15 @@ export class SwarmPolling {
               hash: m.messageHash,
             }));
 
+            await GenericWrapperActions.init('UserConfig', privateKeyEd25519, null);
+
             if (window.sessionFeatureFlags.debug.debugLibsessionDumps) {
-              for (let dumpIndex = 0; dumpIndex < incomingConfigMessages.length; dumpIndex++) {
-                const element = incomingConfigMessages[dumpIndex];
-                window.log.info(
-                  `printDumpsForDebugging: toMerge of ${dumpIndex}:${element.hash}:  ${StringUtils.toHex(
-                    element.data
-                  )} `
-                );
-              }
+              window.log.info(
+                `printDumpsForDebugging: before merge of UserConfig (should be empty):`,
+                StringUtils.toHex(await GenericWrapperActions.dump('UserConfig'))
+              );
             }
 
-            await GenericWrapperActions.init('UserConfig', privateKeyEd25519, null);
             await GenericWrapperActions.merge('UserConfig', incomingConfigMessages);
 
             if (window.sessionFeatureFlags.debug.debugLibsessionDumps) {
