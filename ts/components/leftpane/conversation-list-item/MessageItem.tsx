@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { useConvoIdFromContext } from '../../../contexts/ConvoIdContext';
 import {
   useHasUnread,
+  useIsOutgoingRequest,
   useIsPrivate,
   useIsTyping,
   useLastMessage,
@@ -26,8 +27,13 @@ export const MessageItem = () => {
   const hasUnread = useHasUnread(conversationId);
   const isConvoTyping = useIsTyping(conversationId);
   const isMessageRequest = useSelector(getIsMessageRequestOverlayShown);
+  const isOutgoingRequest = useIsOutgoingRequest(conversationId);
 
   const isSearchingMode = useSelector(isSearching);
+
+  if (isOutgoingRequest) {
+    return null;
+  }
 
   if (lastMessage?.interactionType && lastMessage?.interactionStatus) {
     return <InteractionItem conversationId={conversationId} lastMessage={lastMessage} />;
