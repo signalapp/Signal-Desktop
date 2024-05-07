@@ -56,6 +56,7 @@ import { callLinkRootKeyToUrl } from '../util/callLinkRootKeyToUrl';
 import { ToastType } from '../types/Toast';
 import type { ShowToastAction } from '../state/ducks/toast';
 import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode';
+import { usePrevious } from '../hooks/usePrevious';
 
 const GROUP_CALL_RING_DURATION = 60 * 1000;
 
@@ -76,6 +77,8 @@ export type GroupIncomingCall = Readonly<{
   ringer: Pick<ConversationType, 'firstName' | 'title'>;
   remoteParticipants: Array<GroupCallParticipantInfoType>;
 }>;
+
+export type CallingImageDataCache = Map<number, ImageData>;
 
 export type PropsType = {
   activeCall?: ActiveCallType;
@@ -228,6 +231,16 @@ function ActiveCallManager({
     pauseVoiceNotePlayer,
   ]);
 
+  // For caching screenshare frames which update slowly, between Pip and CallScreen.
+  const imageDataCache = React.useRef<CallingImageDataCache>(new Map());
+
+  const previousConversationId = usePrevious(conversation.id, conversation.id);
+  useEffect(() => {
+    if (conversation.id !== previousConversationId) {
+      imageDataCache.current.clear();
+    }
+  }, [conversation.id, previousConversationId]);
+
   const getGroupCallVideoFrameSourceForActiveCall = useCallback(
     (demuxId: number) => {
       return getGroupCallVideoFrameSource(conversation.id, demuxId);
@@ -313,6 +326,7 @@ function ActiveCallManager({
       <CallingPip
         activeCall={activeCall}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
+        imageDataCache={imageDataCache}
         hangUpActiveCall={hangUpActiveCall}
         hasLocalVideo={hasLocalVideo}
         i18n={i18n}
@@ -417,6 +431,7 @@ function ActiveCallManager({
         groupMembers={groupMembers}
         hangUpActiveCall={hangUpActiveCall}
         i18n={i18n}
+        imageDataCache={imageDataCache}
         isCallLinkAdmin={isCallLinkAdmin}
         isGroupCallRaiseHandEnabled={isGroupCallRaiseHandEnabled}
         me={me}

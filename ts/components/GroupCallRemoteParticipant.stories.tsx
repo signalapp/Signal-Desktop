@@ -11,6 +11,7 @@ import { FRAME_BUFFER_SIZE } from '../calling/constants';
 import { setupI18n } from '../util/setupI18n';
 import { generateAci } from '../types/ServiceId';
 import enMessages from '../../_locales/en/messages.json';
+import type { CallingImageDataCache } from './CallManager';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -54,6 +55,7 @@ const createProps = (
   getGroupCallVideoFrameSource: () => {
     return { receiveVideoFrame: () => undefined };
   },
+  imageDataCache: React.createRef<CallingImageDataCache>(),
   i18n,
   audioLevel: 0,
   remoteParticipant: {

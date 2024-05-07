@@ -90,6 +90,7 @@ import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
 import { assertDev } from '../util/assert';
 import { emojiToData } from './emoji/lib';
 import { CallingPendingParticipants } from './CallingPendingParticipants';
+import type { CallingImageDataCache } from './CallManager';
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -100,6 +101,7 @@ export type PropsType = {
   groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   hangUpActiveCall: (reason: string) => void;
   i18n: LocalizerType;
+  imageDataCache: React.RefObject<CallingImageDataCache>;
   isCallLinkAdmin: boolean;
   isGroupCallRaiseHandEnabled: boolean;
   me: ConversationType;
@@ -191,6 +193,7 @@ export function CallScreen({
   groupMembers,
   hangUpActiveCall,
   i18n,
+  imageDataCache,
   isCallLinkAdmin,
   isGroupCallRaiseHandEnabled,
   me,
@@ -688,6 +691,7 @@ export function CallScreen({
         <GroupCallRemoteParticipants
           callViewMode={activeCall.viewMode}
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+          imageDataCache={imageDataCache}
           i18n={i18n}
           remoteParticipants={activeCall.remoteParticipants}
           setGroupCallVideoRequest={setGroupCallVideoRequest}

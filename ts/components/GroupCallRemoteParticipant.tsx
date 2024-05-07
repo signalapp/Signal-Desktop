@@ -29,6 +29,8 @@ import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants';
 import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate';
 import { Theme } from '../util/theme';
 import { isOlderThan } from '../util/timestamp';
+import type { CallingImageDataCache } from './CallManager';
+import { usePrevious } from '../hooks/usePrevious';
 
 const MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES = 10000;
 const MAX_TIME_TO_SHOW_STALE_SCREENSHARE_FRAMES = 60000;
@@ -38,6 +40,7 @@ type BasePropsType = {
   getFrameBuffer: () => Buffer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
+  imageDataCache: React.RefObject<CallingImageDataCache>;
   isActiveSpeakerInSpeakerView: boolean;
   isCallReconnecting: boolean;
   onClickRaisedHand?: () => void;
@@ -70,6 +73,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     const {
       getFrameBuffer,
       getGroupCallVideoFrameSource,
+      imageDataCache,
       i18n,
       onClickRaisedHand,
       onVisibilityChanged,
@@ -101,9 +105,12 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       !props.isInPip ? props.audioLevel > 0 : false,
       SPEAKING_LINGER_MS
     );
+    const previousSharingScreen = usePrevious(sharingScreen, sharingScreen);
 
+    const isImageDataCached =
+      sharingScreen && imageDataCache.current?.has(demuxId);
     const [hasReceivedVideoRecently, setHasReceivedVideoRecently] =
-      useState(false);
+      useState(isImageDataCached);
     const [isWide, setIsWide] = useState<boolean>(
       videoAspectRatio ? videoAspectRatio >= 1 : true
     );
@@ -131,6 +138,12 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     useEffect(() => {
       onVisibilityChanged?.(demuxId, isVisible);
     }, [demuxId, isVisible, onVisibilityChanged]);
+
+    useEffect(() => {
+      if (sharingScreen !== previousSharingScreen) {
+        imageDataCache.current?.delete(demuxId);
+      }
+    }, [demuxId, imageDataCache, previousSharingScreen, sharingScreen]);
 
     const wantsToShowVideo = hasRemoteVideo && !isBlocked && isVisible;
     const hasVideoToShow = wantsToShowVideo && hasReceivedVideoRecently;
@@ -173,46 +186,74 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       // This frame buffer is shared by all participants, so it may contain pixel data
       //   for other participants, or pixel data from a previous frame. That's why we
       //   return early and use the `frameWidth` and `frameHeight`.
+      let frameWidth: number | undefined;
+      let frameHeight: number | undefined;
+      let imageData = imageDataRef.current;
+
       const frameBuffer = getFrameBuffer();
       const frameDimensions = videoFrameSource.receiveVideoFrame(
         frameBuffer,
         MAX_FRAME_WIDTH,
         MAX_FRAME_HEIGHT
       );
-      if (!frameDimensions) {
-        return;
+      if (frameDimensions) {
+        [frameWidth, frameHeight] = frameDimensions;
+
+        if (
+          frameWidth < 2 ||
+          frameHeight < 2 ||
+          frameWidth > MAX_FRAME_WIDTH ||
+          frameHeight > MAX_FRAME_HEIGHT
+        ) {
+          return;
+        }
+
+        if (
+          imageData?.width !== frameWidth ||
+          imageData?.height !== frameHeight
+        ) {
+          imageData = new ImageData(frameWidth, frameHeight);
+          imageDataRef.current = imageData;
+        }
+        imageData.data.set(
+          frameBuffer.subarray(0, frameWidth * frameHeight * 4)
+        );
+
+        // Screen share is at a slow FPS so updates slowly if we PiP then restore.
+        // Cache the image data so we can quickly show the most recent frame.
+        if (sharingScreen) {
+          imageDataCache.current?.set(demuxId, imageData);
+        }
+      } else if (sharingScreen && !imageData) {
+        // Try to use the screenshare cache the first time we show
+        const cachedImageData = imageDataCache.current?.get(demuxId);
+        if (cachedImageData) {
+          frameWidth = cachedImageData.width;
+          frameHeight = cachedImageData.height;
+          imageDataRef.current = cachedImageData;
+          imageData = cachedImageData;
+        }
       }
 
-      const [frameWidth, frameHeight] = frameDimensions;
-
-      if (
-        frameWidth < 2 ||
-        frameHeight < 2 ||
-        frameWidth > MAX_FRAME_WIDTH ||
-        frameHeight > MAX_FRAME_HEIGHT
-      ) {
+      if (!frameWidth || !frameHeight || !imageData) {
         return;
       }
 
       canvasEl.width = frameWidth;
       canvasEl.height = frameHeight;
-
-      let imageData = imageDataRef.current;
-      if (
-        imageData?.width !== frameWidth ||
-        imageData?.height !== frameHeight
-      ) {
-        imageData = new ImageData(frameWidth, frameHeight);
-        imageDataRef.current = imageData;
-      }
-      imageData.data.set(frameBuffer.subarray(0, frameWidth * frameHeight * 4));
       canvasContext.putImageData(imageData, 0, 0);
-
       lastReceivedVideoAt.current = Date.now();
 
       setHasReceivedVideoRecently(true);
       setIsWide(frameWidth > frameHeight);
-    }, [getFrameBuffer, videoFrameSource, sharingScreen, isCallReconnecting]);
+    }, [
+      demuxId,
+      imageDataCache,
+      isCallReconnecting,
+      sharingScreen,
+      videoFrameSource,
+      getFrameBuffer,
+    ]);
 
     useEffect(() => {
       if (!hasRemoteVideo) {
