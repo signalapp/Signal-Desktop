@@ -117,7 +117,7 @@ const SessionSeedModalInner = (props: ModalInnerProps) => {
       setLoadingSeed(false);
     },
     onClose,
-    title: window.window.i18n('sessionRecoveryPassword'),
+    title: window.i18n('sessionRecoveryPassword'),
   });
 
   if (loadingSeed) {
