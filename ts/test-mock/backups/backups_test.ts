@@ -3,13 +3,20 @@
 
 import createDebug from 'debug';
 import Long from 'long';
-import { StorageState } from '@signalapp/mock-server';
+import { Proto, StorageState } from '@signalapp/mock-server';
 
+import { generateStoryDistributionId } from '../../types/StoryDistributionId';
+import { MY_STORY_ID } from '../../types/Stories';
+import { uuidToBytes } from '../../util/uuidToBytes';
 import * as durations from '../../util/durations';
 import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
 
 export const debug = createDebug('mock:test:backups');
+
+const IdentifierType = Proto.ManifestRecord.Identifier.Type;
+
+const DISTRIBUTION1 = generateStoryDistributionId();
 
 describe('backups', function (this: Mocha.Suite) {
   this.timeout(100 * durations.MINUTE);
@@ -45,6 +52,33 @@ describe('backups', function (this: Mocha.Suite) {
     });
 
     state = state.pin(pinned);
+
+    // Create empty My Story
+    state = state.addRecord({
+      type: IdentifierType.STORY_DISTRIBUTION_LIST,
+      record: {
+        storyDistributionList: {
+          allowsReplies: true,
+          identifier: uuidToBytes(MY_STORY_ID),
+          isBlockList: true,
+          name: MY_STORY_ID,
+          recipientServiceIds: [pinned.device.aci],
+        },
+      },
+    });
+
+    state = state.addRecord({
+      type: IdentifierType.STORY_DISTRIBUTION_LIST,
+      record: {
+        storyDistributionList: {
+          allowsReplies: true,
+          identifier: uuidToBytes(DISTRIBUTION1),
+          isBlockList: false,
+          name: 'friend',
+          recipientServiceIds: [friend.device.aci],
+        },
+      },
+    });
 
     await phone.setStorageState(state);
 
@@ -138,6 +172,15 @@ describe('backups', function (this: Mocha.Suite) {
           .waitFor();
 
         await snapshot('conversation');
+
+        debug('Switching to stories nav tab');
+        await window.getByTestId('NavTabsItem--Stories').click();
+
+        debug('Opening story privacy');
+        await window.locator('.StoriesTab__MoreActionsIcon').click();
+        await window.getByRole('button', { name: 'Story Privacy' }).click();
+
+        await snapshot('story privacy');
       },
       this.test
     );
