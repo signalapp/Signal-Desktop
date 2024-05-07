@@ -254,8 +254,13 @@ export function createSearch(localeEmoji: SearchEmojiListType): SearchFnType {
     }
   }
 
+  let maxShortNameLength = 0;
+  for (const { shortName } of knownEmoji) {
+    maxShortNameLength = Math.max(maxShortNameLength, shortName.length);
+  }
+
   const fuse = new Fuse(knownEmoji, {
-    shouldSort: true,
+    shouldSort: false,
     threshold: 0.2,
     minMatchCharLength: 1,
     keys: ['shortName', 'tags'],
@@ -263,7 +268,8 @@ export function createSearch(localeEmoji: SearchEmojiListType): SearchFnType {
   });
 
   const fuseExactPrefix = new Fuse(knownEmoji, {
-    shouldSort: true,
+    // We re-rank and sort manually below
+    shouldSort: false,
     threshold: 0, // effectively a prefix search
     minMatchCharLength: 2,
     keys: ['shortName', 'tags'],
@@ -280,8 +286,17 @@ export function createSearch(localeEmoji: SearchEmojiListType): SearchFnType {
     const rankedResults = rawResults.map(entry => {
       const rank = entry.item.rank || 1e9;
 
+      // Rank exact prefix matches in [0,1] range
+      if (entry.item.shortName.startsWith(query)) {
+        return {
+          score: entry.item.shortName.length / maxShortNameLength,
+          item: entry.item,
+        };
+      }
+
+      // Other matches in [1,], ordered by score and rank
       return {
-        score: (entry.score ?? 0) + rank / knownEmoji.length,
+        score: 1 + (entry.score ?? 0) + rank / knownEmoji.length,
         item: entry.item,
       };
     });
