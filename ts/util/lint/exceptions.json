@@ -3899,5 +3899,12 @@
     "line": "  message.innerHTML = window.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallManager.tsx",
+    "line": "  const imageDataCache = React.useRef<CallingImageDataCache>(new Map());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-05-06T20:18:59.647Z"
   }
 ]

@@ -13,6 +13,7 @@ import type {
 } from '../state/ducks/calling';
 import { missingCaseError } from '../util/missingCaseError';
 import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting';
+import type { CallingImageDataCache } from './CallManager';
 
 enum PositionMode {
   BeingDragged,
@@ -54,6 +55,7 @@ export type PropsType = {
   hangUpActiveCall: (reason: string) => void;
   hasLocalVideo: boolean;
   i18n: LocalizerType;
+  imageDataCache: React.RefObject<CallingImageDataCache>;
   setGroupCallVideoRequest: (
     _: Array<GroupCallVideoRequest>,
     speakerHeight: number
@@ -75,6 +77,7 @@ export function CallingPip({
   getGroupCallVideoFrameSource,
   hangUpActiveCall,
   hasLocalVideo,
+  imageDataCache,
   i18n,
   setGroupCallVideoRequest,
   setLocalPreview,
@@ -304,6 +307,7 @@ export function CallingPip({
       <CallingPipRemoteVideo
         activeCall={activeCall}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+        imageDataCache={imageDataCache}
         i18n={i18n}
         setRendererCanvas={setRendererCanvas}
         setGroupCallVideoRequest={setGroupCallVideoRequest}

@@ -27,6 +27,7 @@ import * as log from '../logging/log';
 import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants';
 import { SizeObserver } from '../hooks/useSizeObserver';
 import { strictAssert } from '../util/assert';
+import type { CallingImageDataCache } from './CallManager';
 
 const SMALL_TILES_MIN_HEIGHT = 80;
 const LARGE_TILES_MIN_HEIGHT = 200;
@@ -60,6 +61,7 @@ type PropsType = {
   callViewMode: CallViewMode;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
+  imageDataCache: React.RefObject<CallingImageDataCache>;
   isCallReconnecting: boolean;
   remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
   setGroupCallVideoRequest: (
@@ -110,6 +112,7 @@ enum VideoRequestMode {
 export function GroupCallRemoteParticipants({
   callViewMode,
   getGroupCallVideoFrameSource,
+  imageDataCache,
   i18n,
   isCallReconnecting,
   remoteParticipants,
@@ -343,6 +346,7 @@ export function GroupCallRemoteParticipants({
           <GroupCallRemoteParticipant
             key={tile.demuxId}
             getFrameBuffer={getFrameBuffer}
+            imageDataCache={imageDataCache}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
             onClickRaisedHand={onClickRaisedHand}
             height={gridParticipantHeight}
@@ -510,6 +514,7 @@ export function GroupCallRemoteParticipants({
         <GroupCallOverflowArea
           getFrameBuffer={getFrameBuffer}
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+          imageDataCache={imageDataCache}
           i18n={i18n}
           isCallReconnecting={isCallReconnecting}
           onClickRaisedHand={onClickRaisedHand}

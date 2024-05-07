@@ -25,6 +25,7 @@ import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteP
 import { isReconnecting } from '../util/callingIsReconnecting';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
 import { assertDev } from '../util/assert';
+import type { CallingImageDataCache } from './CallManager';
 
 // This value should be kept in sync with the hard-coded CSS height. It should also be
 //   less than `MAX_FRAME_HEIGHT`.
@@ -78,6 +79,7 @@ export type PropsType = {
   activeCall: ActiveCallType;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
+  imageDataCache: React.RefObject<CallingImageDataCache>;
   setGroupCallVideoRequest: (
     _: Array<GroupCallVideoRequest>,
     speakerHeight: number
@@ -88,6 +90,7 @@ export type PropsType = {
 export function CallingPipRemoteVideo({
   activeCall,
   getGroupCallVideoFrameSource,
+  imageDataCache,
   i18n,
   setGroupCallVideoRequest,
   setRendererCanvas,
@@ -181,6 +184,7 @@ export function CallingPipRemoteVideo({
           <GroupCallRemoteParticipant
             getFrameBuffer={getGroupCallFrameBuffer}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+            imageDataCache={imageDataCache}
             i18n={i18n}
             isInPip
             remoteParticipant={activeGroupCallSpeaker}

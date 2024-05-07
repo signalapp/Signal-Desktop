@@ -13,6 +13,7 @@ import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGr
 import { FRAME_BUFFER_SIZE } from '../calling/constants';
 import enMessages from '../../_locales/en/messages.json';
 import { generateAci } from '../types/ServiceId';
+import type { CallingImageDataCache } from './CallManager';
 
 const MAX_PARTICIPANTS = 32;
 
@@ -42,7 +43,9 @@ export default {
 
 const defaultProps = {
   getFrameBuffer: memoize(() => Buffer.alloc(FRAME_BUFFER_SIZE)),
+  getCallingImageDataCache: memoize(() => new Map()),
   getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,
+  imageDataCache: React.createRef<CallingImageDataCache>(),
   i18n,
   isCallReconnecting: false,
   onParticipantVisibilityChanged: action('onParticipantVisibilityChanged'),

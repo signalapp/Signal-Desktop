@@ -33,6 +33,7 @@ import {
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import enMessages from '../../_locales/en/messages.json';
 import { CallingToastProvider, useCallingToasts } from './CallingToast';
+import type { CallingImageDataCache } from './CallManager';
 
 const MAX_PARTICIPANTS = 75;
 const LOCAL_DEMUX_ID = 1;
@@ -190,6 +191,7 @@ const createProps = (
   getPresentingSources: action('get-presenting-sources'),
   hangUpActiveCall: action('hang-up'),
   i18n,
+  imageDataCache: React.createRef<CallingImageDataCache>(),
   isCallLinkAdmin: true,
   isGroupCallRaiseHandEnabled: true,
   me: getDefaultConversation({
