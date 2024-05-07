@@ -1214,6 +1214,9 @@
   "icu:CallingLobby__CallLinkNotice--phone-sharing": {
     "messageformat": "Kushdo që i bashkohet kësaj telefonate nëpërmjet lidhjes do të shohë emrin, fotografinë dhe numrin tënd të telefonit."
   },
+  "icu:CallingLobby__CallLinkNotice--join-request-pending": {
+    "messageformat": "Waiting to be let in…"
+  },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Bashkohu"
   },
@@ -1224,7 +1227,7 @@
     "messageformat": "Thirrja plot"
   },
   "icu:CallingLobbyJoinButton--ask-to-join": {
-    "messageformat": "Ask to join"
+    "messageformat": "Kërko të bashkohesh"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "Kamera e çaktivizuar"
@@ -1269,19 +1272,19 @@
     "messageformat": "Opsione të tjera"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
-    "messageformat": "Approve join request"
+    "messageformat": "Mirato kërkesën për t'ju bashkuar"
   },
   "icu:CallingPendingParticipants__DenyUser": {
-    "messageformat": "Deny join request"
+    "messageformat": "Refuzo kërkesën për t'ju bashkuar"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
-    "messageformat": "{count, plural, one {{count,number} request to join the call} other {{count,number} requests to join the call}}"
+    "messageformat": "{count, plural, one {{count,number} kërkesë për t'ju bashkuar telefonatës} other {{count,number} kërkesa për t'ju bashkuar telefonatës}}"
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {{count,number} raised hand} other {{count,number} raised hands}}"
+    "messageformat": "{count, plural, one {{count,number} ngriti dorën} other {{count,number} ngritën duart}}"
   },
   "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(first to last)"
+    "messageformat": "(nga i pari tek i fundit)"
   },
   "icu:CallingReactions--me": {
     "messageformat": "Ti"
@@ -1361,8 +1364,17 @@
   "icu:calling__presenting--notification-body": {
     "messageformat": "Klikoni këtu që të ktheheni te thirrja, kur jeni gati të ndalet paraqitja."
   },
+  "icu:calling__presenting--reconnecting--notification-title": {
+    "messageformat": "Reconnecting..."
+  },
+  "icu:calling__presenting--reconnecting--notification-body": {
+    "messageformat": "Your connection was lost. Signal is reconnecting."
+  },
   "icu:calling__presenting--info": {
     "messageformat": "Signal-i po ndan me të tjerë {window}."
+  },
+  "icu:calling__presenting--reconnecting": {
+    "messageformat": "Reconnecting..."
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Ndale ndarjen me të tjerë"
@@ -2766,10 +2778,10 @@
     "messageformat": "Një dritare"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Kopjo linkun"
+    "messageformat": "Copy call link"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remove this person from the call"
+    "messageformat": "Hiqe këtë person nga telefonata"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3153,7 +3165,7 @@
     "messageformat": "{count, plural, one {{memberName} ftoi te grupi 1 person.} other {{memberName} ftoi te grupi {count,number} persona.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "Ftuat te grupi {count,number} vetë."
+    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, one {1 person u ftua në grup.} other {{count,number} persona u ftuan në grup.}}"
@@ -3186,13 +3198,13 @@
     "messageformat": "Një përgjegjës shfuqizoi një ftesë për te grupi për 1 person."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{memberName} shfuqizoi ftesa për te grupi për {count,number} vetë."
+    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "Shfuqizuat ftesa për te grupi për {count,number} vetë."
+    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "Një përgjegjës shfuqizoi ftesa për te grupi për {count,number} vetë."
+    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} shfuqizoi një ftesë për te grupi për 1 person të ftuar nga {memberName}."
@@ -3201,7 +3213,7 @@
     "messageformat": "Shfuqizuat një ftesë për te grupi për 1 person të ftuar nga {memberName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "Një përgjegjës shfuqizoi një ftesë për te grupi për 1 person të ftuar nga {memberName}."
+    "messageformat": "An admin revoked an invitation to the group for # person invited by {memberName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
     "messageformat": "{adminName} shfuqizoi ftesën për te grupi që dërguat për {inviteeName}."
@@ -3216,19 +3228,19 @@
     "messageformat": "{count, plural, one {{adminName} anuloi ftesat për në grup për {count,number} vetë të ftuar nga {memberName}.} other {{adminName} anuloi ftesat për në grup, për {count,number} vetë të ftuar nga {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "Shfuqizuat ftesat për te grupi për {count,number} vetë të ftuar nga {memberName}."
+    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "Një përgjegjës shfuqizoi ftesat për te grupi për {count,number} vetë të ftuar nga {memberName}."
+    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{adminName} shfuqizoi ftesat për te grupi që dërguat për {count,number} vetë."
+    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "Shfuqizuat ftesën tuaj për {count,number} vetë."
+    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "Një përgjegjës shfuqizoi ftesat për te grupi që dërguat për {count,number} vetë."
+    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "Dërguat një kërkesë të bëheni pjesë e grupit."
@@ -3371,17 +3383,26 @@
   "icu:GroupV1--Migration--info--invited--one": {
     "messageformat": "Këtij anëtari do t’i duhet të pranojë një ftesë për t’u bërë pjesë e grupit, dhe s’do të marrë mesazhe grupi, pa pranuar ftesën:"
   },
+  "icu:GroupV1--Migration--info--invited--count": {
+    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+  },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "Këta anëtarë s’mund të bëhen pjesë e Grupeve të reja dhe do të hiqen prej grupit:"
   },
   "icu:GroupV1--Migration--info--removed--before--one": {
     "messageformat": "Ky anëtar s’mund të bëhet pjesë e Grupeve të reja, dhe do të hiqet prej grupit:"
   },
+  "icu:GroupV1--Migration--info--removed--before--count": {
+    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+  },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "Këta anëtarë s’mund të bëheshin pjesë e Grupeve të reja dhe u hoqën nga grupi:"
   },
   "icu:GroupV1--Migration--info--removed--after--one": {
     "messageformat": "Ky anëtar s’mund të bëhej pjesë e Grupeve të reja dhe u hoq nga grupi:"
+  },
+  "icu:GroupV1--Migration--info--removed--after--count": {
+    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "S’u shtuat dot te Grupi i Ri dhe u ftuat të bëheni pjesë."
@@ -3390,7 +3411,7 @@
     "messageformat": "{contact} s’u shtua dot te Grupi i Ri dhe u ftua të bëhet pjesë e tij."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count,number} anëtarë s’u shtuan dot te Grupi i Ri dhe u ftuan të bëhet pjesë."
+    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} u hoq prej grupit."
@@ -5323,7 +5344,7 @@
     "messageformat": "{type, select, Audio {Thirrje zanore e refuzuar} Video {Thirrje me video e refuzuar} Group {Thirrje në grup e refuzuar} other {Thirrje  e refuzuar}}"
   },
   "icu:CallHistory__Description--Adhoc": {
-    "messageformat": "Call link"
+    "messageformat": "Lidhja e thirrjes"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} tjetër po shkruan.} other {{count,number} tjerë po shkruajnë.}}"
@@ -5366,6 +5387,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once."
+    "messageformat": "Tani në Signal mund të reagosh me emoji edhe kur je në telefonatë. Buzëqesh edhe nëse kamera është e fikur, dërgo një zemër nëse të pëlqen ajo çka po dëgjon ose voto për sushi në vend të picës pa thënë asnjë fjalë. Madje, do të shohësh edhe një animacion të shpërthimit emocional të njerëzve nëse personat me të cilët po flet reagojnë të gjithë njëherësh me të njëjtin emoji."
   }
 }

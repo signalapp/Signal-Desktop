@@ -1214,6 +1214,9 @@
   "icu:CallingLobby__CallLinkNotice--phone-sharing": {
     "messageformat": "Siapa pun yang gabung dengan panggilan ini via tautan akan melihat nama, foto, dan nomor telepon Anda."
   },
+  "icu:CallingLobby__CallLinkNotice--join-request-pending": {
+    "messageformat": "Waiting to be let in…"
+  },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Gabung"
   },
@@ -1224,7 +1227,7 @@
     "messageformat": "Panggilan penuh"
   },
   "icu:CallingLobbyJoinButton--ask-to-join": {
-    "messageformat": "Ask to join"
+    "messageformat": "Minta gabung"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "Kamera dinonaktifkan"
@@ -1269,19 +1272,19 @@
     "messageformat": "Opsi lainnya"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
-    "messageformat": "Approve join request"
+    "messageformat": "Setujui permintaan gabung"
   },
   "icu:CallingPendingParticipants__DenyUser": {
-    "messageformat": "Deny join request"
+    "messageformat": "Tolak permintaan gabung"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
-    "messageformat": "{count, plural, one {{count,number} request to join the call} other {{count,number} requests to join the call}}"
+    "messageformat": "{count, plural, other {{count,number} permintaan gabung panggilan}}"
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {{count,number} raised hand} other {{count,number} raised hands}}"
+    "messageformat": "{count, plural, other {{count,number} mengangkat tangan}}"
   },
   "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(first to last)"
+    "messageformat": "(pertama ke terakhir)"
   },
   "icu:CallingReactions--me": {
     "messageformat": "Anda"
@@ -1361,8 +1364,17 @@
   "icu:calling__presenting--notification-body": {
     "messageformat": "Klik di sini untuk kembali ke panggilan saat Anda selesai berbagi layar."
   },
+  "icu:calling__presenting--reconnecting--notification-title": {
+    "messageformat": "Reconnecting..."
+  },
+  "icu:calling__presenting--reconnecting--notification-body": {
+    "messageformat": "Your connection was lost. Signal is reconnecting."
+  },
   "icu:calling__presenting--info": {
     "messageformat": "Signal sedang menunjukkan layar {window}"
+  },
+  "icu:calling__presenting--reconnecting": {
+    "messageformat": "Reconnecting..."
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Berhenti berbagi layar"
@@ -2766,10 +2778,10 @@
     "messageformat": "Sebuah jendela"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Salin tautan"
+    "messageformat": "Copy call link"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remove this person from the call"
+    "messageformat": "Keluarkan orang ini dari panggilan"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3153,7 +3165,7 @@
     "messageformat": "{count, plural, other {{memberName} mengundang {count,number} orang ke grup.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "Anda mengundang {count,number} orang ke grup."
+    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, other {{count,number} orang diundang masuk ke grup.}}"
@@ -3186,13 +3198,13 @@
     "messageformat": "Seorang admin membatalkan undangan masuk ke grup untuk 1 orang."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{memberName} membatalkan undangan masuk ke grup untuk {count,number} orang."
+    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "Anda membatalkan undangan masuk ke grup untuk {count,number} orang."
+    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "Seorang admin membatalkan undangan masuk ke grup untuk {count,number} orang."
+    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} membatalkan undangan masuk ke grup untuk 1 orang yang diundang oleh {memberName}."
@@ -3201,7 +3213,7 @@
     "messageformat": "Anda membatalkan undangan masuk ke grup untuk 1 orang yang diundang oleh {memberName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "Seorang admin membatalkan undangan masuk ke grup untuk 1 orang yang diundang oleh {memberName}."
+    "messageformat": "An admin revoked an invitation to the group for # person invited by {memberName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
     "messageformat": "{adminName} membatalkan undangan ke grup yang Anda kirimkan ke {inviteeName}."
@@ -3216,19 +3228,19 @@
     "messageformat": "{count, plural, other {{adminName} membatalkan undangan masuk ke grup untuk {count,number} orang yang diundang oleh {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "Anda membatalkan undangan masuk ke grup untuk {count,number} orang yang diundang oleh {memberName}."
+    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "Seorang admin membatalkan undangan ke grup untuk {count,number} orang yang diundang oleh {memberName}."
+    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{adminName} membatalkan undangan masuk ke grup yang Anda kirimkan ke {count,number} orang."
+    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "Anda membatalkan undangan Anda ke {count,number} orang."
+    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "Seorang admin membatalkan undangan masuk ke grup yang Anda kirimkan ke {count,number} orang."
+    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "Anda mengirimkan permintaan untuk bergabung ke grup."
@@ -3371,17 +3383,26 @@
   "icu:GroupV1--Migration--info--invited--one": {
     "messageformat": "Anggota ini harus menerima permintaan untuk bergabung ke grup ini lagi, dan tidak akan menerima pesan grup sampai mereka menerimanya:"
   },
+  "icu:GroupV1--Migration--info--invited--count": {
+    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+  },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "Anggota-anggota ini tidak dapat bergabung ke Grup Baru, dan akan dikeluarkan dari grup:"
   },
   "icu:GroupV1--Migration--info--removed--before--one": {
     "messageformat": "Anggota ini tidak dapat bergabung ke Grup Baru, dan akan dikeluarkan dari grup:"
   },
+  "icu:GroupV1--Migration--info--removed--before--count": {
+    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+  },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "Anggota-anggota ini tidak dapat bergabung ke Grup Baru, dan telah dikeluarkan dari grup:"
   },
   "icu:GroupV1--Migration--info--removed--after--one": {
     "messageformat": "Anggota ini tidak dapat bergabung ke Grup Baru, dan telah dikeluarkan dari grup:"
+  },
+  "icu:GroupV1--Migration--info--removed--after--count": {
+    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "Anda tidak dapat ditambahkan ke Grup Baru dan telah diundang untuk bergabung."
@@ -3390,7 +3411,7 @@
     "messageformat": "{contact} tidak dapat ditambahkan ke Grup Baru dan telah diundang untuk bergabung."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count,number} anggota tidak dapat ditambahkan ke Grup Baru dan telah diundang untuk bergabung."
+    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} telah dikeluarkan dari grup."
@@ -5323,7 +5344,7 @@
     "messageformat": "{type, select, Audio {Panggilan suara ditolak} Video {Panggilan video ditolak} Group {Panggilan grup ditolak} other {Panggilan ditolak}}"
   },
   "icu:CallHistory__Description--Adhoc": {
-    "messageformat": "Call link"
+    "messageformat": "Tautan panggilan"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} orang lainnya sedang mengetik.}}"
@@ -5366,6 +5387,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once."
+    "messageformat": "Kini Anda dapat menanggapi dengan emoji selama panggilan Signal."
   }
 }
