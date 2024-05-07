@@ -4263,7 +4263,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "An admin revoked an invitation to the group for 1 person invited by {memberName}.",
+    "messageformat": "An admin revoked an invitation to the group for # person invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
@@ -4279,19 +4279,19 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{adminName} revoked {count, plural, one {an invitation to the group for 1 person} other {invitations to the group for # people}} invited by {memberName}.",
+    "messageformat": "{adminName} revoked {count, plural, one {an invitation to the group for # person} other {invitations to the group for # people}} invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "You revoked {count, plural, one {an invitation to the group for 1 person} other {invitations to the group for # people}} invited by {memberName}.",
+    "messageformat": "You revoked {count, plural, one {an invitation to the group for # person} other {invitations to the group for # people}} invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "An admin revoked {count, plural, one {an invitation to the group for 1 person} other {invitations to the group for # people}} invited by {memberName}.",
+    "messageformat": "An admin revoked {count, plural, one {an invitation to the group for # person} other {invitations to the group for # people}} invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{adminName} revoked the {count, plural, one {invitation to the group you sent to 1 person} other {invitations to the group you sent to # people}}.",
+    "messageformat": "{adminName} revoked the {count, plural, one {invitation to the group you sent to # person} other {invitations to the group you sent to # people}}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
@@ -4299,7 +4299,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "An admin revoked the {count, plural, one {invitation to the group you sent to 1 person} other {invitations to the group you sent to # people}}.",
+    "messageformat": "An admin revoked the {count, plural, one {invitation to the group you sent to # person} other {invitations to the group you sent to # people}}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
