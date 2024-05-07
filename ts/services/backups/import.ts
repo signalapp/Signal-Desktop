@@ -13,6 +13,7 @@ import * as log from '../../logging/log';
 import { StorySendMode } from '../../types/Stories';
 import type { ServiceIdString } from '../../types/ServiceId';
 import { fromAciObject, fromPniObject } from '../../types/ServiceId';
+import { isStoryDistributionId } from '../../types/StoryDistributionId';
 import * as Errors from '../../types/errors';
 import type {
   ConversationAttributesType,
@@ -32,6 +33,8 @@ import { isAciString } from '../../util/isAciString';
 import { createBatcher } from '../../util/batcher';
 import { PhoneNumberDiscoverability } from '../../util/phoneNumberDiscoverability';
 import { PhoneNumberSharingMode } from '../../util/phoneNumberSharingMode';
+import { bytesToUuid } from '../../util/uuidToBytes';
+import { missingCaseError } from '../../util/missingCaseError';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SendStatus } from '../../messages/MessageSendState';
 import type { SendStateByConversationId } from '../../messages/MessageSendState';
@@ -237,6 +240,11 @@ export class BackupImportStream extends Writable {
           convo = this.ourConversation;
         } else if (recipient.group) {
           convo = await this.fromGroup(recipient.group);
+        } else if (recipient.distributionList) {
+          await this.fromDistributionList(recipient.distributionList);
+
+          // Not a conversation
+          return;
         } else {
           log.warn(`${this.logId}: unsupported recipient item`);
           return;
@@ -502,6 +510,76 @@ export class BackupImportStream extends Writable {
     }
 
     return attrs;
+  }
+
+  private async fromDistributionList(
+    list: Backups.IDistributionList
+  ): Promise<void> {
+    strictAssert(
+      Bytes.isNotEmpty(list.distributionId),
+      'Missing distribution list id'
+    );
+
+    const id = bytesToUuid(list.distributionId);
+    strictAssert(isStoryDistributionId(id), 'Invalid distribution list id');
+
+    strictAssert(
+      list.privacyMode != null,
+      'Missing distribution list privacy mode'
+    );
+
+    let isBlockList: boolean;
+    const { PrivacyMode } = Backups.DistributionList;
+    switch (list.privacyMode) {
+      case PrivacyMode.ALL:
+        strictAssert(
+          !list.memberRecipientIds?.length,
+          'Distribution list with ALL privacy mode has members'
+        );
+        isBlockList = true;
+        break;
+      case PrivacyMode.ALL_EXCEPT:
+        strictAssert(
+          list.memberRecipientIds?.length,
+          'Distribution list with ALL_EXCEPT privacy mode has no members'
+        );
+        isBlockList = true;
+        break;
+      case PrivacyMode.ONLY_WITH:
+        isBlockList = false;
+        break;
+      case PrivacyMode.UNKNOWN:
+        throw new Error('Invalid privacy mode for distribution list');
+      default:
+        throw missingCaseError(list.privacyMode);
+    }
+
+    const result = {
+      id,
+      name: list.name ?? '',
+      deletedAtTimestamp:
+        list.deletionTimestamp == null
+          ? undefined
+          : getTimestampFromLong(list.deletionTimestamp),
+      allowsReplies: list.allowReplies === true,
+      isBlockList,
+      members: (list.memberRecipientIds || []).map(recipientId => {
+        const convo = this.recipientIdToConvo.get(recipientId.toNumber());
+        strictAssert(convo != null, 'Missing story distribution list member');
+        strictAssert(
+          convo.serviceId,
+          'Story distribution list member has no serviceId'
+        );
+
+        return convo.serviceId;
+      }),
+
+      // Default values
+      senderKeyInfo: undefined,
+      storageNeedsSync: false,
+    };
+
+    await Data.createNewStoryDistribution(result);
   }
 
   private async fromChat(chat: Backups.IChat): Promise<void> {
