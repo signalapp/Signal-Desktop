@@ -393,7 +393,7 @@
     "messageformat": "{count, plural, one {{count,number} message non lu} other {{count,number} messages non lus}}"
   },
   "icu:messageHistoryUnsynced": {
-    "messageformat": "Pour votre sécurité, l’historique des conversations n’est pas transféré vers les nouveaux appareils reliés."
+    "messageformat": "Pour votre sécurité, l’historique des conversations n’est pas transféré vers les nouveaux appareils associés."
   },
   "icu:youMarkedAsVerified": {
     "messageformat": "Vous avez marqué votre numéro de sécurité avec {name} comme confirmé"
@@ -1224,7 +1224,7 @@
     "messageformat": "Appel complet"
   },
   "icu:CallingLobbyJoinButton--ask-to-join": {
-    "messageformat": "Ask to join"
+    "messageformat": "Demander à rejoindre l’appel"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "La caméra est désactivée"
@@ -1269,19 +1269,19 @@
     "messageformat": "Plus d’options"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
-    "messageformat": "Approve join request"
+    "messageformat": "Accepter la demande"
   },
   "icu:CallingPendingParticipants__DenyUser": {
-    "messageformat": "Deny join request"
+    "messageformat": "Refuser la demande"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
-    "messageformat": "{count, plural, one {{count,number} request to join the call} other {{count,number} requests to join the call}}"
+    "messageformat": "{count, plural, one {{count,number} personne demande à rejoindre l’appel} other {{count,number} personnes demandent à rejoindre l’appel}}"
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {{count,number} raised hand} other {{count,number} raised hands}}"
+    "messageformat": "{count, plural, one {{count,number} participant a levé la main} other {{count,number} participants ont levé la main}}"
   },
   "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(first to last)"
+    "messageformat": "(dans l’ordre chronologique)"
   },
   "icu:CallingReactions--me": {
     "messageformat": "Vous"
@@ -1446,7 +1446,7 @@
     "messageformat": "Supprimer toutes les données ?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Supprimer toutes les données et tous les messages de cette version de Signal Desktop ? Vous pourrez toujours relier la version Desktop ultérieurement mais vos messages ne seront pas restaurés. Votre compte et vos données Signal sauvegardées sur votre téléphone ou vos autres appareils reliés ne seront pas supprimés."
+    "messageformat": "Supprimer toutes les données et tous les messages de cette version de Signal Desktop ? Vous pourrez toujours réassocier Signal Desktop, mais vous ne pourrez pas restaurer vos messages. Cette action ne supprime pas le compte et les données Signal qui sont stockés sur votre téléphone ou sur vos autres appareils associés."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Déconnexion et suppression de toutes les données"
@@ -1584,7 +1584,7 @@
     "messageformat": "Vous avez désactivé les messages éphémères."
   },
   "icu:timerSetTo": {
-    "messageformat": "L’expiration des messages a été définie à {time}"
+    "messageformat": "Le délai avant disparition des messages a été défini sur {time}"
   },
   "icu:audioNotificationDescription": {
     "messageformat": "Sons des notifications push"
@@ -2769,7 +2769,7 @@
     "messageformat": "Copier le lien"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remove this person from the call"
+    "messageformat": "Retirer cet utilisateur de l’appel"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Vidéo"
@@ -3477,7 +3477,7 @@
     "messageformat": "Couleur de la conversation"
   },
   "icu:showConversationDetails": {
-    "messageformat": "Paramètres de groupe"
+    "messageformat": "Paramètres du groupe"
   },
   "icu:showConversationDetails--direct": {
     "messageformat": "Paramètres de la conversation"
@@ -3519,7 +3519,7 @@
     "messageformat": "Qui peut modifier les informations du groupe"
   },
   "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Choisissez qui peut modifier le nom, la photo, la description et la minuterie des messages éphémères du groupe."
+    "messageformat": "Choisissez qui peut modifier le nom, la photo et la description du groupe, ou encore le délai avant disparition des messages éphémères."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Les personnes qui peuvent ajouter des membres"
@@ -4044,13 +4044,13 @@
     "messageformat": "Semaines"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "Définissez une minuterie par défaut pour les messages éphémères pour toutes les nouvelles conversations que vous démarrez."
+    "messageformat": "Définissez un délai avant disparition des messages éphémères pour toutes les nouvelles conversations que vous initiez."
   },
   "icu:settings__DisappearingMessages__timer__label": {
-    "messageformat": "Minuterie par défaut pour les nouvelles conversations"
+    "messageformat": "Délai avant disparition"
   },
   "icu:UniversalTimerNotification__text": {
-    "messageformat": "La minuterie des messages éphémères sera définie sur {timeValue} quand vous échangez des messages avec cette personne."
+    "messageformat": "Lorsque vous enverrez des messages à ce contact, le délai avant disparition des messages éphémères sera défini sur {timeValue}."
   },
   "icu:ContactRemovedNotification__text": {
     "messageformat": "Vous avez supprimé ce contact. Si vous écrivez de nouveau à ce contact, il apparaîtra sur votre liste."
@@ -4680,7 +4680,7 @@
     "messageformat": "En savoir plus"
   },
   "icu:SignalConnectionsModal__title": {
-    "messageformat": "Contacts Signal"
+    "messageformat": "contacts Signal"
   },
   "icu:SignalConnectionsModal__header": {
     "messageformat": "Les {connections} sont des personnes en qui vous avez confiance pour au moins une des raisons suivantes :"
@@ -5323,7 +5323,7 @@
     "messageformat": "{type, select, Audio {Appel vocal rejeté} Video {Appel vidéo rejeté} Group {Appel de groupe rejeté} other {Appel rejeté}}"
   },
   "icu:CallHistory__Description--Adhoc": {
-    "messageformat": "Call link"
+    "messageformat": "Lien d’appel"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} autre personne est en train d’écrire.} other {{count,number} autres personnes sont en train d’écrire.}}"
@@ -5366,6 +5366,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once."
+    "messageformat": "Lorsque vous passez un appel sur Signal, vous pouvez maintenant réagir avec n’importe quel émoji. Sourires, petits cœurs, sushis ou pizza, à vous de choisir. Et si une majorité de participants utilise le même émoji, une animation s’affiche pour exprimer l’émotion du groupe."
   }
 }

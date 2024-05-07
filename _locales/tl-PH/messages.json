@@ -1224,7 +1224,7 @@
     "messageformat": "Puno na ang call"
   },
   "icu:CallingLobbyJoinButton--ask-to-join": {
-    "messageformat": "Ask to join"
+    "messageformat": "Mag-request na sumali"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "Disabled ang camera"
@@ -1269,16 +1269,16 @@
     "messageformat": "Karagdagang options"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
-    "messageformat": "Approve join request"
+    "messageformat": "I-approve ang request na sumali"
   },
   "icu:CallingPendingParticipants__DenyUser": {
-    "messageformat": "Deny join request"
+    "messageformat": "I-deny ang request na sumali"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
-    "messageformat": "{count, plural, one {{count,number} request to join the call} other {{count,number} requests to join the call}}"
+    "messageformat": "{count, plural, one {May {count,number} request na sumali sa call} other {May {count,number} requests na sumali sa call}}"
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {{count,number} raised hand} other {{count,number} raised hands}}"
+    "messageformat": "{count, plural, one {{count,number} ang nagtaas ng kamay} other {{count,number} ang nagtaas ng kamay}}"
   },
   "icu:CallingRaisedHandsList__TitleHint": {
     "messageformat": "(first to last)"
@@ -2769,7 +2769,7 @@
     "messageformat": "Kopyahin ang link"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remove this person from the call"
+    "messageformat": "Tanggalin ang taong ito sa call"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -5366,6 +5366,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once."
+    "messageformat": "Pwede ka nang mag-react ngayon gamit ang kahit anong emoji habang nasa Signal call."
   }
 }

@@ -30,7 +30,7 @@
     "messageformat": "{count, plural, one {{count,number} lid} other {{count,number} leden}}"
   },
   "icu:GroupListItem__message-already-member": {
-    "messageformat": "Is al een groepslid"
+    "messageformat": "Is al lid van deze groep"
   },
   "icu:GroupListItem__message-pending": {
     "messageformat": "Lidmaatschap nog in afwachting"
@@ -207,7 +207,7 @@
     "messageformat": "Gearchiveerde chats"
   },
   "icu:LeftPane--pinned": {
-    "messageformat": "Vastgeprikt"
+    "messageformat": "Vastgezet"
   },
   "icu:LeftPane--chats": {
     "messageformat": "Chats"
@@ -360,7 +360,7 @@
     "messageformat": "Chat losmaken"
   },
   "icu:pinnedConversationsFull": {
-    "messageformat": "Je kunt niet meer dan 4 chats vastprikken"
+    "messageformat": "Je kunt niet meer dan 4 chats vastzetten"
   },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, one {Berichten van 1 dag geleden laden…} other {Berichten van {daysAgo,number} dagen geleden laden…}}"
@@ -1131,7 +1131,7 @@
     "messageformat": "Contactpersonen en groepen worden gesynchroniseerd"
   },
   "icu:initialSync__subtitle": {
-    "messageformat": "Opmerking: Het is met Signal niet mogelijk om je chatgeschiedenis van voor het moment van koppelen te synchroniseren naar dit apparaat"
+    "messageformat": "Opmerking: Je eerdere chatgeschiedenis wordt niet gesynchroniseerd naar dit apparaat"
   },
   "icu:installConnectionFailed": {
     "messageformat": "Verbinden met server mislukt."
@@ -1224,7 +1224,7 @@
     "messageformat": "Oproep vol"
   },
   "icu:CallingLobbyJoinButton--ask-to-join": {
-    "messageformat": "Ask to join"
+    "messageformat": "Deelnameverzoek"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "Camera uitgeschakeld"
@@ -1269,19 +1269,19 @@
     "messageformat": "Meer opties"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
-    "messageformat": "Approve join request"
+    "messageformat": "Deelnameverzoek goedkeuren"
   },
   "icu:CallingPendingParticipants__DenyUser": {
-    "messageformat": "Deny join request"
+    "messageformat": "Deelnameverzoek weigeren"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
-    "messageformat": "{count, plural, one {{count,number} request to join the call} other {{count,number} requests to join the call}}"
+    "messageformat": "{count, plural, one {{count,number} verzoek om deel te nemen aan de oproep} other {{count,number} verzoeken om deel te nemen aan de oproep}}"
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {{count,number} raised hand} other {{count,number} raised hands}}"
+    "messageformat": "{count, plural, one {{count,number} opgestoken hand} other {{count,number} opgestoken handen}}"
   },
   "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(first to last)"
+    "messageformat": "(eerste tot laatste)"
   },
   "icu:CallingReactions--me": {
     "messageformat": "Jij"
@@ -1467,7 +1467,7 @@
     "messageformat": "Alleen de naam van de afzender"
   },
   "icu:newMessage": {
-    "messageformat": "nieuw bericht"
+    "messageformat": "Nieuw bericht"
   },
   "icu:notificationSenderInGroup": {
     "messageformat": "{sender} in {group}"
@@ -1497,7 +1497,7 @@
     "messageformat": "Gedeeltelijk verwijderd, klik hier om het opnieuw te proberen"
   },
   "icu:expiredWarning": {
-    "messageformat": "Deze versie van Signal Desktop is verouderd. Werk bij naar de meest recente versie om gesprekken voort te kunnen zetten."
+    "messageformat": "Deze versie van Signal Desktop is verlopen. Werk bij naar de meest recente versie om gesprekken voort te kunnen zetten."
   },
   "icu:upgrade": {
     "messageformat": "Klik hier op signal.org/download te openen"
@@ -1752,7 +1752,7 @@
     "messageformat": "Ontkoppeld"
   },
   "icu:autoUpdateNewVersionTitle": {
-    "messageformat": "Update beschikbaar"
+    "messageformat": "Nieuwe versie beschikbaar"
   },
   "icu:autoUpdateRetry": {
     "messageformat": "Probeer Signal opnieuw bij te werken"
@@ -2769,7 +2769,7 @@
     "messageformat": "Link kopiëren"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remove this person from the call"
+    "messageformat": "Deze persoon uit de oproep verwijderen"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -2883,7 +2883,7 @@
     "messageformat": "Deelnemen"
   },
   "icu:GroupV2--join--request-to-join-button": {
-    "messageformat": "Verzoek om lid te worden"
+    "messageformat": "Verzoeken om lid te worden"
   },
   "icu:GroupV2--join--cancel-request-to-join": {
     "messageformat": "Verzoek annuleren"
@@ -3111,7 +3111,7 @@
     "messageformat": "Je hebt {memberName} een beheerder gemaakt."
   },
   "icu:GroupV2--member-privilege--promote--other--unknown": {
-    "messageformat": "Een beheerde heeft {memberName} een beheerder gemaakt."
+    "messageformat": "Een beheerder heeft {memberName} een beheerder gemaakt."
   },
   "icu:GroupV2--member-privilege--promote--you--other": {
     "messageformat": "{adminName} heeft je een beheerder gemaakt."
@@ -3807,7 +3807,7 @@
     "messageformat": "{name} kan niet worden geselecteerd"
   },
   "icu:alreadyAMember": {
-    "messageformat": "Is al een groepslid"
+    "messageformat": "Is al lid van deze groep"
   },
   "icu:MessageAudio--play": {
     "messageformat": "Audiobericht afspelen"
@@ -4470,7 +4470,7 @@
     "messageformat": "Update vereist"
   },
   "icu:InstallScreenUpdateDialog--auto-update__body": {
-    "messageformat": "Als je Signal wilt blijven gebruiken, moet je updaten naar de nieuwste versie."
+    "messageformat": "Als je Signal wilt blijven gebruiken, moet je bijwerken naar de nieuwste versie."
   },
   "icu:InstallScreenUpdateDialog--manual-update__action": {
     "messageformat": "{downloadSize} downloaden"
@@ -5323,7 +5323,7 @@
     "messageformat": "{type, select, Audio {Spraakoproep geweigerd} Video {Video-oproep geweigerd} Group {Groepsoproep geweigerd} other {Oproep geweigerd}}"
   },
   "icu:CallHistory__Description--Adhoc": {
-    "messageformat": "Call link"
+    "messageformat": "Oproeplink"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ander is aan het typen.} other {{count,number} anderen zijn aan het typen.}}"
@@ -5366,6 +5366,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once."
+    "messageformat": "Je kunt nu tijdens een Signal-oproep reageren met elke emoji. Glimlach, ook met je camera uit, deel een hartje als je blij wordt van wat iemand zegt, of stem op sushi in plaats van pizza zonder een woord te zeggen. Je ziet zelfs een animatie van emojitionele uitbarstingen als genoeg mensen in het gesprek tegelijk met dezelfde emoji reageren."
   }
 }

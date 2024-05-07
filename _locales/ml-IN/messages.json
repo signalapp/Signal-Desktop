@@ -1224,7 +1224,7 @@
     "messageformat": "കോൾ നിറഞ്ഞു"
   },
   "icu:CallingLobbyJoinButton--ask-to-join": {
-    "messageformat": "Ask to join"
+    "messageformat": "ചേരാൻ ആവശ്യപ്പെടുക"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "കാമറ  പ്രവർത്തനരഹിതമാണ്"
@@ -1269,19 +1269,19 @@
     "messageformat": "കൂടുതൽ ഓപ്‌ഷനുകൾ"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
-    "messageformat": "Approve join request"
+    "messageformat": "ചേരാനുള്ള അഭ്യർത്ഥന അംഗീകരിക്കുക"
   },
   "icu:CallingPendingParticipants__DenyUser": {
-    "messageformat": "Deny join request"
+    "messageformat": "ചേരാനുള്ള അഭ്യർത്ഥന നിരസിക്കുക"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
-    "messageformat": "{count, plural, one {{count,number} request to join the call} other {{count,number} requests to join the call}}"
+    "messageformat": "{count, plural, one {കോളിൽ ചേരാൻ {count,number} ആൾ അഭ്യർത്ഥിക്കുന്നു} other {കോളിൽ ചേരാൻ {count,number} പേർ അഭ്യർത്ഥിക്കുന്നു}}"
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {{count,number} raised hand} other {{count,number} raised hands}}"
+    "messageformat": "{count, plural, one {{count,number} ഉയർത്തിയ കൈ} other {{count,number} ഉയർത്തിയ കൈകൾ}}"
   },
   "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(first to last)"
+    "messageformat": "(ആദ്യം മുതൽ അവസാനം വരെ)"
   },
   "icu:CallingReactions--me": {
     "messageformat": "നിങ്ങൾ"
@@ -2769,7 +2769,7 @@
     "messageformat": "ലിങ്ക് പകർത്തുക"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remove this person from the call"
+    "messageformat": "കോളിൽ നിന്ന് ഈ വ്യക്തിയെ നീക്കം ചെയ്യുക"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "വീഡിയോ"
@@ -5323,7 +5323,7 @@
     "messageformat": "{type, select, Audio {നിരസിച്ച വോയിസ് കോൾ} Video {നിരസിച്ച വീഡിയോ കോൾ} Group {നിരസിച്ച ഗ്രൂപ്പ് കോൾ} other {നിരസിച്ച  കോൾ}}"
   },
   "icu:CallHistory__Description--Adhoc": {
-    "messageformat": "Call link"
+    "messageformat": "കോൾ ലിങ്ക്"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {മറ്റ് {count,number} ആൾ ടൈപ്പ് ചെയ്യുന്നു.} other {മറ്റ് {count,number} പേർ ടൈപ്പ് ചെയ്യുന്നു.}}"
@@ -5366,6 +5366,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once."
+    "messageformat": "ഇപ്പോൾ നിങ്ങൾക്ക് ഒരു Signal കോളിനിടെ ഏത് ഇമോജി ഉപയോഗിച്ചും പ്രതികരിക്കാം. ക്യാമറ ഓഫാണെങ്കിലും പുഞ്ചിരിക്കുക, കേൾക്കുന്നത് ഇഷ്ടപ്പെട്ടാൽ ഒരു ഹാർട്ട് പങ്കിടുക, അല്ലെങ്കിൽ ഒരു വാക്കുപോലും പറയാതെ പിസ്സയ്ക്ക് പകരം സുഷിക്ക് വോട്ട് ചെയ്യൂ. കോളിലെ കുറേ ആളുകൾ ഒരേ ഇമോജി വഴി ഒരേസമയം പ്രതികരിച്ചാൽ ഏവരുടേയും വികാരപ്രകടനത്തിൻ്റെ ഒരു ആനിമേഷൻ പോലും കാണും."
   }
 }

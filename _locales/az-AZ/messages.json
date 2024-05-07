@@ -1224,7 +1224,7 @@
     "messageformat": "Zəng siyahısı doludur"
   },
   "icu:CallingLobbyJoinButton--ask-to-join": {
-    "messageformat": "Ask to join"
+    "messageformat": "Qoşulma sorğusu göndər"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "Kamera sıradan çıxarıldı"
@@ -1269,19 +1269,19 @@
     "messageformat": "Daha çox seçim"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
-    "messageformat": "Approve join request"
+    "messageformat": "Qoşulma sorğusunu qəbul et"
   },
   "icu:CallingPendingParticipants__DenyUser": {
-    "messageformat": "Deny join request"
+    "messageformat": "Qoşulma sorğusunu rədd et"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
-    "messageformat": "{count, plural, one {{count,number} request to join the call} other {{count,number} requests to join the call}}"
+    "messageformat": "{count, plural, one {{count,number} nəfər zəngə qoşulmaq istəyir} other {{count,number} nəfər zəngə qoşulmaq istəyir}}"
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {{count,number} raised hand} other {{count,number} raised hands}}"
+    "messageformat": "{count, plural, one {{count,number} nəfər əl qaldırdı} other {{count,number} nəfər əl qaldırdı}}"
   },
   "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(first to last)"
+    "messageformat": "(birincidən sonuncuya)"
   },
   "icu:CallingReactions--me": {
     "messageformat": "Siz"
@@ -2769,7 +2769,7 @@
     "messageformat": "Keçidi kopyala"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remove this person from the call"
+    "messageformat": "Bu şəxsi zəngdən çıxar"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -5323,7 +5323,7 @@
     "messageformat": "{type, select, Audio {İmtina edilmiş audio-zəng} Video {İmtina edilmiş video-zəng} Group {İmtina edilmiş qrup zəngi} other {İmtina edilmiş zəng}}"
   },
   "icu:CallHistory__Description--Adhoc": {
-    "messageformat": "Call link"
+    "messageformat": "Zəng keçidi"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Əlavə {count,number} nəfər də yazır.} other {Əlavə {count,number} nəfər də yazır.}}"
@@ -5366,6 +5366,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once."
+    "messageformat": "Artıq Signal zəngi zamanı emoji ilə reaksiyanızı bildirə bilərsiniz. Emojilərlə kameranız sönülü də olsa gülümsəyə, sevindikdə ürək göndərə, ya da heç nə yazmadan pizza əvəzinə suşi seçə bilərsiniz. Zəngdəki insanlar eyni anda eyni emoji ilə reaksiya versə, hətta hər kəsin emosional alovlanması animasiyasını görəcəksiniz."
   }
 }

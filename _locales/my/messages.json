@@ -1224,7 +1224,7 @@
     "messageformat": "ကောလ်တွင် လူပြည့်နေပြီ"
   },
   "icu:CallingLobbyJoinButton--ask-to-join": {
-    "messageformat": "Ask to join"
+    "messageformat": "ပါဝင်ဖို့ တောင်းဆိုပါ"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "ကင်မရာ ပိတ်ထားသည်"
@@ -1269,19 +1269,19 @@
     "messageformat": "နောက်ထပ် ရွေးစရာများ"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
-    "messageformat": "Approve join request"
+    "messageformat": "ပါဝင်ရန် တောင်းဆိုချက်ကို အတည်ပြုသည်"
   },
   "icu:CallingPendingParticipants__DenyUser": {
-    "messageformat": "Deny join request"
+    "messageformat": "ပါဝင်ရန် တောင်းဆိုမှုကို ငြင်းပယ်သည်"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
-    "messageformat": "{count, plural, one {{count,number} request to join the call} other {{count,number} requests to join the call}}"
+    "messageformat": "{count, plural, other {{count,number} သည် ခေါ်ဆိုမှုထဲပါဝင်ရန် တောင်းဆိုထားသည်}}"
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {{count,number} raised hand} other {{count,number} raised hands}}"
+    "messageformat": "{count, plural, other {{count,number} လက်ထောင်ထားပါသည်}}"
   },
   "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(first to last)"
+    "messageformat": "(ပထမမှနောက်ဆုံး)"
   },
   "icu:CallingReactions--me": {
     "messageformat": "သင်"
@@ -2769,7 +2769,7 @@
     "messageformat": "လင့်ခ် ကူးရန်"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remove this person from the call"
+    "messageformat": "ဤလူကို ခေါ်ဆိုမှုမှ ဖယ်ရှားသည်"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "ရုပ်မြင်သံကြား"
@@ -5323,7 +5323,7 @@
     "messageformat": "{type, select, Audio {ငြင်းပယ်ခဲ့သော အော်ဒီယိုကောလ်} Video {ငြင်းပယ်ခဲ့သော ဗီဒီယိုကောလ်} Group {ငြင်းပယ်ခဲ့သော အဖွဲ့ကောလ်} other {ငြင်းပယ်ခဲ့သော  ကောလ်}}"
   },
   "icu:CallHistory__Description--Adhoc": {
-    "messageformat": "Call link"
+    "messageformat": "ကောလ်လင့်ခ်"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {အခြား {count,number} ဦး စာရိုက်နေသည်။}}"
@@ -5366,6 +5366,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once."
+    "messageformat": "ယခု သင်သည် Signal ကောလ်အတွင်း မည်သည့် Emoji နှင့်မဆို တုံ့ပြန်နိုင်ပါပြီ။"
   }
 }

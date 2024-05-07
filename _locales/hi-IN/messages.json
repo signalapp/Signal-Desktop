@@ -1224,7 +1224,7 @@
     "messageformat": "पूर्ण कॉल करें"
   },
   "icu:CallingLobbyJoinButton--ask-to-join": {
-    "messageformat": "Ask to join"
+    "messageformat": "जुड़ने के लिए कहें"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "कैमरा डिसेबल किया गया"
@@ -1269,19 +1269,19 @@
     "messageformat": "अधिक विकल्प"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
-    "messageformat": "Approve join request"
+    "messageformat": "जुड़ने के अनुरोध को स्वीकार करें"
   },
   "icu:CallingPendingParticipants__DenyUser": {
-    "messageformat": "Deny join request"
+    "messageformat": "जुड़ने के अनुरोध को अस्वीकार करें"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
-    "messageformat": "{count, plural, one {{count,number} request to join the call} other {{count,number} requests to join the call}}"
+    "messageformat": "{count, plural, one {{count,number} कॉल में जुड़नेे का अनुरोध} other {{count,number} कॉल में जुड़ने का अनुरोध}}"
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {{count,number} raised hand} other {{count,number} raised hands}}"
+    "messageformat": "{count, plural, one {{count,number} ने हाथ उठाया} other {{count,number} ने हाथ उठाए}}"
   },
   "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(first to last)"
+    "messageformat": "(पहली से आखिरी तक)"
   },
   "icu:CallingReactions--me": {
     "messageformat": "आप"
@@ -2769,7 +2769,7 @@
     "messageformat": "लिंक कॉपी करें"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remove this person from the call"
+    "messageformat": "इस व्यक्ति को कॉल से हटाएँ"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "वीडियो"
@@ -5323,7 +5323,7 @@
     "messageformat": "{type, select, Audio {अस्वीकृत वॉयस कॉल} Video {अस्वीकृत वीडियो कॉल} Group {अस्वीकृत ग्रुप कॉल} other {अस्वीकृत  कॉल}}"
   },
   "icu:CallHistory__Description--Adhoc": {
-    "messageformat": "Call link"
+    "messageformat": "कॉल लिंक"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} अन्य टाइप कर रहा/रही है।} other {{count,number} अन्य टाइप कर रहे/रही हैं।}}"
@@ -5366,6 +5366,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once."
+    "messageformat": "अब आप Signal कॉल के दौरान किसी भी इमोजी के साथ प्रतिक्रिया दे सकते हैं। यदि आपका कैमरा बंद भी हो तो भी मुस्कुराइए, यदि आप जो सुन रहे हैं वह आपको पसंद है तो दिल से अपनी बात साझा कीजिए। और अगर कॉल में पर्याप्त लोग एक ही इमोजी के साथ एक ही बार में प्रतिक्रिया देते हैं, तो आपको हर किसी के भावनात्मक प्रकोप का एनीमेशन भी दिखाई देगा।"
   }
 }

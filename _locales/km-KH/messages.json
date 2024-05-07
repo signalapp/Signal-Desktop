@@ -1224,7 +1224,7 @@
     "messageformat": "ការហៅពេញហើយ"
   },
   "icu:CallingLobbyJoinButton--ask-to-join": {
-    "messageformat": "Ask to join"
+    "messageformat": "សុំចូលរួម"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "កាមេរ៉ាត្រូវបានបិទ"
@@ -1269,19 +1269,19 @@
     "messageformat": "ជម្រើសច្រើនទៀត"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
-    "messageformat": "Approve join request"
+    "messageformat": "យល់ព្រមតាមសំណើចូលរួម"
   },
   "icu:CallingPendingParticipants__DenyUser": {
-    "messageformat": "Deny join request"
+    "messageformat": "បដិសេធសំណើចូលរួម"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
-    "messageformat": "{count, plural, one {{count,number} request to join the call} other {{count,number} requests to join the call}}"
+    "messageformat": "{count, plural, other {{count,number} នាក់សុំចូលរួមការហៅទូរសព្ទ}}"
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {{count,number} raised hand} other {{count,number} raised hands}}"
+    "messageformat": "{count, plural, other {{count,number} នាក់បានលើកដៃ}}"
   },
   "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(first to last)"
+    "messageformat": "(ពីដំបូងដល់ចុងក្រោយ)"
   },
   "icu:CallingReactions--me": {
     "messageformat": "អ្នក"
@@ -2769,7 +2769,7 @@
     "messageformat": "ចម្លងតំណ"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remove this person from the call"
+    "messageformat": "ដកម្នាក់នេះចេញពីការហៅ"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "វីដេអូ"
@@ -5323,7 +5323,7 @@
     "messageformat": "{type, select, Audio {ការហៅជាសំឡេងដែលបានបដិសេធ} Video {ការហៅជាវីដេអូដែលបានបដិសេធ} Group {ការហៅជាក្រុមដែលបានបដិសេធ} other {ការហៅដែលបានបដិសេធ}}"
   },
   "icu:CallHistory__Description--Adhoc": {
-    "messageformat": "Call link"
+    "messageformat": "តំណសម្រាប់ការហៅ"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} នាក់ផ្សេងទៀតកំពុងវាយអក្សរ។}}"
@@ -5366,6 +5366,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once."
+    "messageformat": "ឥឡូវនេះអ្នកអាចប្រតិកម្មដោយប្រើរូបអារម្មណ៍ណាមួយពេលកំពុងហៅតាម Signal។ ទោះបីជាកាមេរ៉ាអ្នកបិទក៏ដោយ សូមបង្ហាញស្នាមញញឹម ចែករំលែកបេះដូង បើអ្នកចូលចិត្តអ្វីដែលអ្នកកំពុងស្តាប់ឮ ឬបោះឆ្នោតឱ្យស៊ូស្ស៊ីជំនួសឱ្យភីហ្សា ដោយមិនបាច់និយាយអីទេ។ ហើយអ្នកថែមទាំងឃើញចលនានៃរូបអារម្មណ៍របស់អ្នកគ្រប់គ្នា ប្រសិនបើមនុស្សច្រើនល្មមនៅក្នុងការហៅ ប្រើរូបអារម្មណ៍ដូចគ្នាទាំងអស់ក្នុងពេលតែមួយដើម្បីប្រតិកម្ម។"
   }
 }

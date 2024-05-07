@@ -1224,7 +1224,7 @@
     "messageformat": "కాల్ నిండిపోయింది"
   },
   "icu:CallingLobbyJoinButton--ask-to-join": {
-    "messageformat": "Ask to join"
+    "messageformat": "చేరడానికి అడగండి"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "కెమెరా నిలిపివేయబడింది"
@@ -1269,19 +1269,19 @@
     "messageformat": "మరిన్ని ఎంపికలు"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
-    "messageformat": "Approve join request"
+    "messageformat": "చేరిక అభ్యర్థనను ఆమోదించండి"
   },
   "icu:CallingPendingParticipants__DenyUser": {
-    "messageformat": "Deny join request"
+    "messageformat": "చేరిక అభ్యర్థనను తిరస్కరించండి"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
-    "messageformat": "{count, plural, one {{count,number} request to join the call} other {{count,number} requests to join the call}}"
+    "messageformat": "{count, plural, one {కాల్‌లో చేరడానికి {count,number} అభ్యర్థన} other {కాల్‌లో చేరడానికి {count,number} అభ్యర్థనలు}}"
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {{count,number} raised hand} other {{count,number} raised hands}}"
+    "messageformat": "{count, plural, one {{count,number} చేయి ఎత్తారు} other {{count,number} చేతులు ఎత్తారు}}"
   },
   "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(first to last)"
+    "messageformat": "(మొదటి నుండి చివరికి)"
   },
   "icu:CallingReactions--me": {
     "messageformat": "మీరు"
@@ -2769,7 +2769,7 @@
     "messageformat": "లింక్‌ను కాపీ చేయండి"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remove this person from the call"
+    "messageformat": "కాల్ నుండి ఈ వ్యక్తిని తొలగించండి"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "వీడియో"
@@ -5323,7 +5323,7 @@
     "messageformat": "{type, select, Audio {స్వర కాల్ తిరస్కరించబడింది} Video {వీడియో కాల్ తిరస్కరించబడింది} Group {గ్రూప్ కాల్ తిరస్కరించబడింది} other {కాల్  తిరస్కరించబడింది}}"
   },
   "icu:CallHistory__Description--Adhoc": {
-    "messageformat": "Call link"
+    "messageformat": "కాల్ లింక్"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ఇతర వ్యక్తి టైప్ చేస్తున్నారు.} other {{count,number} మంది ఇతర వ్యక్తులు టైప్ చేస్తున్నారు.}}"
@@ -5366,6 +5366,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once."
+    "messageformat": "Signal కాల్ సమయంలో మీరు ఏదైనా ఎమోజీతో ఇప్పుడు ప్రతిస్పందించవచ్చు. ఒకవేళ మీ కెమెరా ఆఫ్‌లో ఉన్నప్పటికీ నవ్వండి, మీరు వింటున్నది ఒకవేళ మీకు నచ్చితే హృదయాకారాన్ని పంచుకోండి లేదా ఒక్క మాట కూడా మాట్లాడకుండా పిజ్జాకు బదులుగా సుషీకి ఓటు వేయండి. ఒకవేళ కాల్‌లో ఉన్న తగినంత మంది వ్యక్తులు ఒకేసారి ఒకే ఎమోజితో ప్రతిస్పందిస్తే, మీరు ప్రతి ఒక్కరి ఎమోజినల్ అవుట్‌బర్స్ట్ యొక్క యానిమేషన్‌ను కూడా చూస్తారు."
   }
 }

@@ -1224,7 +1224,7 @@
     "messageformat": "Klic je poln"
   },
   "icu:CallingLobbyJoinButton--ask-to-join": {
-    "messageformat": "Ask to join"
+    "messageformat": "Prosi za pridružitev"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "Kamera onemogočena"
@@ -1269,19 +1269,19 @@
     "messageformat": "Več možnosti"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
-    "messageformat": "Approve join request"
+    "messageformat": "Odobri zahtevek za pridružitev"
   },
   "icu:CallingPendingParticipants__DenyUser": {
-    "messageformat": "Deny join request"
+    "messageformat": "Zavrni zahtevek za pridružitev"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
-    "messageformat": "{count, plural, one {{count,number} request to join the call} other {{count,number} requests to join the call}}"
+    "messageformat": "{count, plural, one {{count,number} zahteva za pridružitev klicu} two {{count,number} zahtevi za pridružitev klicu} few {{count,number} zahteve za pridružitev klicu} other {{count,number} zahtev za pridružitev klicu}}"
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {{count,number} raised hand} other {{count,number} raised hands}}"
+    "messageformat": "{count, plural, one {{count,number} dvignjena roka} two {{count,number} dvignjeni roki} few {{count,number} dvignjene roke} other {{count,number} dvignjenih rok}}"
   },
   "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(first to last)"
+    "messageformat": "(od prvega do zadnjega)"
   },
   "icu:CallingReactions--me": {
     "messageformat": "Vi"
@@ -2769,7 +2769,7 @@
     "messageformat": "Kopiraj povezavo"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remove this person from the call"
+    "messageformat": "Odstrani te osebe iz klica"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -5323,7 +5323,7 @@
     "messageformat": "{type, select, Audio {Zavrnjen zvočni klic} Video {Zavrnjen video klic} Group {Zavrnjen skupinski klic} other {Zavrnjen klic}}"
   },
   "icu:CallHistory__Description--Adhoc": {
-    "messageformat": "Call link"
+    "messageformat": "Povezava do klica"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Še ena oseba tipka.} two {Še {count,number} osebi tipkata.} few {Še {count,number} osebe tipkajo.} other {Še {count,number} oseb tipka.}}"
@@ -5366,6 +5366,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once."
+    "messageformat": "Zdaj se lahko med klicem odzovete s katerimkoli emojijem. Nasmehnite se, tudi če je fotoaparat izklopljen, delite srce, če vam je všeč, kar slišite, ali pa brez besed glasujte za suši namesto za pico. Če se dovolj ljudi v klicu odzove z istim emojijem, se prikaže animacija izbruha vseh emojijev."
   }
 }

@@ -1224,7 +1224,7 @@
     "messageformat": "定員オーバーです"
   },
   "icu:CallingLobbyJoinButton--ask-to-join": {
-    "messageformat": "Ask to join"
+    "messageformat": "参加をリクエストする"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "カメラが無効になっています"
@@ -1269,19 +1269,19 @@
     "messageformat": "その他のオプション"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
-    "messageformat": "Approve join request"
+    "messageformat": "参加リクエストを承認する"
   },
   "icu:CallingPendingParticipants__DenyUser": {
-    "messageformat": "Deny join request"
+    "messageformat": "参加リクエストを拒否する"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
-    "messageformat": "{count, plural, one {{count,number} request to join the call} other {{count,number} requests to join the call}}"
+    "messageformat": "{count, plural, other {{count,number}人が通話への参加をリクエストしています}}"
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {{count,number} raised hand} other {{count,number} raised hands}}"
+    "messageformat": "{count, plural, other {{count,number}人が手を挙げています}}"
   },
   "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(first to last)"
+    "messageformat": "（手を挙げた順番）"
   },
   "icu:CallingReactions--me": {
     "messageformat": "あなた"
@@ -2769,7 +2769,7 @@
     "messageformat": "リンクをコピーします"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remove this person from the call"
+    "messageformat": "このユーザーを通話から退出させる"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "動画"
@@ -5323,7 +5323,7 @@
     "messageformat": "{type, select, Audio {音声通話が拒否されました} Video {ビデオ通話が拒否されました} Group {グループ通話が拒否されました} other {ビデオ通話が拒否されました}}"
   },
   "icu:CallHistory__Description--Adhoc": {
-    "messageformat": "Call link"
+    "messageformat": "通話リンク"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} 人が入力中です。}}"
@@ -5366,6 +5366,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once."
+    "messageformat": "Signal通話中に好きな絵文字でリアクションできるようになりました。"
   }
 }

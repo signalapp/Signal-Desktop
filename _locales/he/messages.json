@@ -1224,7 +1224,7 @@
     "messageformat": "השיחה מלאה"
   },
   "icu:CallingLobbyJoinButton--ask-to-join": {
-    "messageformat": "Ask to join"
+    "messageformat": "בקשת הצטרפות"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "המצלמה מושבתת"
@@ -1269,19 +1269,19 @@
     "messageformat": "עוד אפשרויות"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
-    "messageformat": "Approve join request"
+    "messageformat": "אישור בקשת הצטרפות"
   },
   "icu:CallingPendingParticipants__DenyUser": {
-    "messageformat": "Deny join request"
+    "messageformat": "דחיית בקשת הצטרפות"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
-    "messageformat": "{count, plural, one {{count,number} request to join the call} other {{count,number} requests to join the call}}"
+    "messageformat": "{count, plural, one {בקשה {count,number} להצטרף לשיחה} two {{count,number} בקשות להצטרף לשיחה זו} many {{count,number} בקשות להצטרף לשיחה} other {{count,number} בקשות להצטרף לשיחה}}"
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {{count,number} raised hand} other {{count,number} raised hands}}"
+    "messageformat": "{count, plural, one {יד מורמת {count,number}} two {{count,number} ידיים מורמות} many {{count,number} ידיים מורמות} other {{count,number} ידיים מורמות}}"
   },
   "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(first to last)"
+    "messageformat": "(מהראשונה לאחרונה)"
   },
   "icu:CallingReactions--me": {
     "messageformat": "את/ה"
@@ -2769,7 +2769,7 @@
     "messageformat": "העתקת קישור"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remove this person from the call"
+    "messageformat": "להסיר את אדם זה מהשיחה"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "סרטון"
@@ -5323,7 +5323,7 @@
     "messageformat": "{type, select, Audio {שיחה קולית נדחתה} Video {שיחת וידאו נדחתה} Group {שיחה קבוצתית נדחתה} other {שיחה  נדחתה}}"
   },
   "icu:CallHistory__Description--Adhoc": {
-    "messageformat": "Call link"
+    "messageformat": "לינק לשיחה"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {עוד {count,number} מקליד/ה.} two {עוד {count,number} מקלידים.} many {עוד {count,number} מקלידים.} other {עוד {count,number} מקלידים.}}"
@@ -5366,6 +5366,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once."
+    "messageformat": "עכשיו אפשר להגיב עם כל אימוג׳י במהלך שיחת Signal."
   }
 }
