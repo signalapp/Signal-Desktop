@@ -36,7 +36,7 @@ import WebSocketResource, {
   TransportOption,
   WebSocketResourceWithShadowing,
 } from './WebsocketResources';
-import { HTTPError } from './Errors';
+import { ConnectTimeoutError, HTTPError } from './Errors';
 import type { IRequestHandler, WebAPICredentials } from './Types.d';
 import { connect as connectWebSocket } from './WebSocket';
 import { isAlpha, isBeta, isStaging } from '../util/version';
@@ -115,6 +115,13 @@ export class SocketManager extends EventListener {
 
   public getStatus(): SocketStatus {
     return this.status;
+  }
+
+  private markOffline() {
+    if (this.privIsOnline !== false) {
+      this.privIsOnline = false;
+      this.emit('offline');
+    }
   }
 
   // Update WebAPICredentials and reconnect authenticated resource if
@@ -257,10 +264,11 @@ export class SocketManager extends EventListener {
           return;
         }
 
-        if (code === -1 && this.privIsOnline !== false) {
-          this.privIsOnline = false;
-          this.emit('offline');
+        if (code === -1) {
+          this.markOffline();
         }
+      } else if (error instanceof ConnectTimeoutError) {
+        this.markOffline();
       }
 
       drop(reconnect());
