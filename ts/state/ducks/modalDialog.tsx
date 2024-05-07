@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { EnterPasswordModalProps } from '../../components/dialog/EnterPasswordModal';
 import { SessionConfirmDialogProps } from '../../components/dialog/SessionConfirm';
 import type { EditProfilePictureModalProps, PasswordAction } from '../../types/ReduxTypes';
 
@@ -19,6 +20,7 @@ export type ChangeNickNameModalState = InviteContactModalState;
 export type EditProfileModalState = object | null;
 export type OnionPathModalState = EditProfileModalState;
 export type RecoveryPhraseModalState = EditProfileModalState;
+export type EnterPasswordModalState = EnterPasswordModalProps | null;
 export type DeleteAccountModalState = EditProfileModalState;
 
 export type SessionPasswordModalState = { passwordAction: PasswordAction; onOk: () => void } | null;
@@ -49,6 +51,7 @@ export type ModalState = {
   editProfileModal: EditProfileModalState;
   onionPathModal: OnionPathModalState;
   recoveryPhraseModal: RecoveryPhraseModalState;
+  enterPasswordModal: EnterPasswordModalState;
   sessionPasswordModal: SessionPasswordModalState;
   deleteAccountModal: DeleteAccountModalState;
   reactListModalState: ReactModalsState;
@@ -69,6 +72,7 @@ export const initialModalState: ModalState = {
   editProfileModal: null,
   onionPathModal: null,
   recoveryPhraseModal: null,
+  enterPasswordModal: null,
   sessionPasswordModal: null,
   deleteAccountModal: null,
   reactListModalState: null,
@@ -116,6 +120,9 @@ const ModalSlice = createSlice({
     recoveryPhraseModal(state, action: PayloadAction<RecoveryPhraseModalState | null>) {
       return { ...state, recoveryPhraseModal: action.payload };
     },
+    updateEnterPasswordModal(state, action: PayloadAction<EnterPasswordModalState | null>) {
+      return { ...state, enterPasswordModal: action.payload };
+    },
     sessionPassword(state, action: PayloadAction<SessionPasswordModalState>) {
       return { ...state, sessionPasswordModal: action.payload };
     },
@@ -147,6 +154,7 @@ export const {
   editProfileModal,
   onionPathModal,
   recoveryPhraseModal,
+  updateEnterPasswordModal,
   sessionPassword,
   updateDeleteAccountModal,
   updateBanOrUnbanUserModal,

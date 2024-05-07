@@ -420,6 +420,7 @@
   "readReceiptSettingDescription": "Send read receipts in one-to-one chats.",
   "readReceiptSettingTitle": "Read Receipts",
   "received": "Received",
+  "recoveryPasswordDescription": "Use your recovery password to load your account on new devices.<br/>Your account cannot be recovered without your recovery password. Make sure it's stored somewhere safe and secure — and don't share it with anyone.",
   "recoveryPasswordEnter": "Enter your recovery password",
   "recoveryPasswordErrorMessageGeneric": "Please check your recovery password and try again.",
   "recoveryPasswordErrorMessageIncorrect": "Some of the words in your Recovery Password are incorrect. Please check and try again.",

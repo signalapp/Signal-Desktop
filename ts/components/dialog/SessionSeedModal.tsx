@@ -1,97 +1,20 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import useMount from 'react-use/lib/useMount';
 import styled from 'styled-components';
 
-import { Data } from '../../data/data';
 import { ToastUtils } from '../../session/utils';
-import { matchesHash } from '../../util/passwordUtils';
 
 import { mnDecode } from '../../session/crypto/mnemonic';
 import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 import { SpacerSM } from '../basic/Text';
 
+import { usePasswordModal } from '../../hooks/usePasswordModal';
 import { getTheme } from '../../state/selectors/theme';
 import { getThemeValue } from '../../themes/globals';
 import { getCurrentRecoveryPhrase } from '../../util/storage';
 import { SessionQRCode } from '../SessionQRCode';
 import { SessionWrapperModal } from '../SessionWrapperModal';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-
-interface PasswordProps {
-  setPasswordValid: (val: boolean) => any;
-  passwordHash: string;
-}
-
-const Password = (props: PasswordProps) => {
-  const { setPasswordValid, passwordHash } = props;
-  const i18n = window.i18n;
-  const dispatch = useDispatch();
-
-  const onClose = () => dispatch(recoveryPhraseModal(null));
-
-  const confirmPassword = () => {
-    const passwordValue = (document.getElementById('seed-input-password') as any)?.value;
-    const isPasswordValid = matchesHash(passwordValue as string, passwordHash);
-
-    if (!passwordValue) {
-      ToastUtils.pushToastError('enterPasswordErrorToast', i18n('noGivenPassword'));
-
-      return false;
-    }
-
-    if (passwordHash && !isPasswordValid) {
-      ToastUtils.pushToastError('enterPasswordErrorToast', i18n('invalidPassword'));
-      return false;
-    }
-
-    setPasswordValid(true);
-
-    window.removeEventListener('keyup', onEnter);
-    return true;
-  };
-
-  const onEnter = (event: any) => {
-    if (event.key === 'Enter') {
-      confirmPassword();
-    }
-  };
-
-  return (
-    <>
-      <div className="session-modal__input-group">
-        <input
-          type="password"
-          id="seed-input-password"
-          data-testid="password-input"
-          placeholder={i18n('enterPassword')}
-          onKeyUp={onEnter}
-        />
-      </div>
-
-      <SpacerSM />
-
-      <div
-        className="session-modal__button-group"
-        style={{ justifyContent: 'center', width: '100%' }}
-      >
-        <SessionButton
-          text={i18n('done')}
-          buttonType={SessionButtonType.Simple}
-          onClick={confirmPassword}
-          dataTestId="session-confirm-ok-button"
-        />
-        <SessionButton
-          text={i18n('cancel')}
-          buttonType={SessionButtonType.Simple}
-          buttonColor={SessionButtonColor.Danger}
-          onClick={onClose}
-          dataTestId="session-confirm-cancel-button"
-        />
-      </div>
-    </>
-  );
-};
+import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 
 interface SeedProps {
   recoveryPhrase: string;
@@ -102,7 +25,6 @@ const StyledRecoveryPhrase = styled.i``;
 
 const Seed = (props: SeedProps) => {
   const { recoveryPhrase, onClickCopy } = props;
-  const i18n = window.i18n;
   const dispatch = useDispatch();
   const theme = useSelector(getTheme);
 
@@ -129,7 +51,7 @@ const Seed = (props: SeedProps) => {
             maxWidth: '600px',
           }}
         >
-          {i18n('recoveryPhraseSavePromptMain')}
+          {window.i18n('recoveryPhraseSavePromptMain')}
         </p>
 
         <SessionQRCode
@@ -161,7 +83,7 @@ const Seed = (props: SeedProps) => {
         style={{ justifyContent: 'center', width: '100%' }}
       >
         <SessionButton
-          text={i18n('editMenuCopy')}
+          text={window.i18n('editMenuCopy')}
           buttonType={SessionButtonType.Simple}
           onClick={() => {
             copyRecoveryPhrase(recoveryPhrase);
@@ -184,52 +106,35 @@ const SessionSeedModalInner = (props: ModalInnerProps) => {
   const { onClickOk } = props;
   const [loadingSeed, setLoadingSeed] = useState(true);
   const [recoveryPhrase, setRecoveryPhrase] = useState('');
-  const [hasPassword, setHasPassword] = useState<null | boolean>(null);
-  const [passwordValid, setPasswordValid] = useState(false);
-  const [passwordHash, setPasswordHash] = useState('');
   const dispatch = useDispatch();
-
-  useMount(() => {
-    async function validateAccess() {
-      if (passwordHash || recoveryPhrase) {
-        return;
-      }
-
-      const hash = await Data.getPasswordHash();
-      setHasPassword(!!hash);
-      setPasswordHash(hash || '');
-
-      const newRecoveryPhrase = getCurrentRecoveryPhrase();
-      setRecoveryPhrase(newRecoveryPhrase);
-      setLoadingSeed(false);
-    }
-
-    setTimeout(() => (document.getElementById('seed-input-password') as any)?.focus(), 100);
-    void validateAccess();
-  });
 
   const onClose = () => dispatch(recoveryPhraseModal(null));
 
-  return (
-    <>
-      {!loadingSeed && (
-        <SessionWrapperModal
-          title={window.i18n('sessionRecoveryPassword')}
-          onClose={onClose}
-          showExitIcon={true}
-        >
-          <StyledSeedModalContainer>
-            <SpacerSM />
+  usePasswordModal({
+    onSuccess: () => {
+      const newRecoveryPhrase = getCurrentRecoveryPhrase();
+      setRecoveryPhrase(newRecoveryPhrase);
+      setLoadingSeed(false);
+    },
+    onClose,
+    title: window.window.i18n('sessionRecoveryPassword'),
+  });
 
-            {hasPassword && !passwordValid ? (
-              <Password passwordHash={passwordHash} setPasswordValid={setPasswordValid} />
-            ) : (
-              <Seed recoveryPhrase={recoveryPhrase} onClickCopy={onClickOk} />
-            )}
-          </StyledSeedModalContainer>
-        </SessionWrapperModal>
-      )}
-    </>
+  if (loadingSeed) {
+    return null;
+  }
+
+  return (
+    <SessionWrapperModal
+      title={window.i18n('sessionRecoveryPassword')}
+      onClose={onClose}
+      showExitIcon={true}
+    >
+      <StyledSeedModalContainer>
+        <SpacerSM />
+        <Seed recoveryPhrase={recoveryPhrase} onClickCopy={onClickOk} />
+      </StyledSeedModalContainer>
+    </SessionWrapperModal>
   );
 };
 

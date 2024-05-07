@@ -8,6 +8,7 @@ import {
   DeleteAccountModalState,
   EditProfileModalState,
   EditProfilePictureModalState,
+  EnterPasswordModalState,
   InviteContactModalState,
   ModalState,
   OnionPathModalState,
@@ -83,6 +84,11 @@ export const getOnionPathDialog = createSelector(
 export const getRecoveryPhraseDialog = createSelector(
   getModal,
   (state: ModalState): RecoveryPhraseModalState => state.recoveryPhraseModal
+);
+
+export const getEnterPasswordModalState = createSelector(
+  getModal,
+  (state: ModalState): EnterPasswordModalState => state.enterPasswordModal
 );
 
 export const getSessionPasswordDialog = createSelector(

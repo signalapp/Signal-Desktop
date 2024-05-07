@@ -420,6 +420,7 @@ export type LocalizerKeys =
   | 'readReceiptSettingDescription'
   | 'readReceiptSettingTitle'
   | 'received'
+  | 'recoveryPasswordDescription'
   | 'recoveryPasswordEnter'
   | 'recoveryPasswordErrorMessageGeneric'
   | 'recoveryPasswordErrorMessageIncorrect'

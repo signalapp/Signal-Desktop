@@ -25,7 +25,7 @@ interface State {
   currentPasswordRetypeEntered: string | null;
 }
 
-export class SessionPasswordDialog extends Component<Props, State> {
+export class SessionSetPasswordDialog extends Component<Props, State> {
   private passportInput: HTMLInputElement | null = null;
 
   constructor(props: any) {

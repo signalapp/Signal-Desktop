@@ -7,6 +7,7 @@ import {
   getDeleteAccountModalState,
   getEditProfileDialog,
   getEditProfilePictureModalState,
+  getEnterPasswordModalState,
   getInviteContactModal,
   getOnionPathDialog,
   getReactClearAllDialog,
@@ -22,6 +23,7 @@ import { BanOrUnBanUserDialog } from './BanOrUnbanUserDialog';
 import { DeleteAccountModal } from './DeleteAccountModal';
 import { EditProfileDialog } from './EditProfileDialog';
 import { EditProfilePictureModal } from './EditProfilePictureModal';
+import { EnterPasswordModal } from './EnterPasswordModal';
 import { InviteContactsDialog } from './InviteContactsDialog';
 import { AddModeratorsDialog } from './ModeratorsAddDialog';
 import { RemoveModeratorsDialog } from './ModeratorsRemoveDialog';
@@ -30,8 +32,8 @@ import { ReactClearAllModal } from './ReactClearAllModal';
 import { ReactListModal } from './ReactListModal';
 import { SessionConfirm } from './SessionConfirm';
 import { SessionNicknameDialog } from './SessionNicknameDialog';
-import { SessionPasswordDialog } from './SessionPasswordDialog';
 import { SessionSeedModal } from './SessionSeedModal';
+import { SessionSetPasswordDialog } from './SessionSetPasswordDialog';
 import { UpdateGroupMembersDialog } from './UpdateGroupMembersDialog';
 import { UpdateGroupNameDialog } from './UpdateGroupNameDialog';
 import { UserDetailsDialog } from './UserDetailsDialog';
@@ -48,6 +50,7 @@ export const ModalContainer = () => {
   const editProfileModalState = useSelector(getEditProfileDialog);
   const onionPathModalState = useSelector(getOnionPathDialog);
   const recoveryPhraseModalState = useSelector(getRecoveryPhraseDialog);
+  const enterPasswordModalState = useSelector(getEnterPasswordModalState);
   const sessionPasswordModalState = useSelector(getSessionPasswordDialog);
   const deleteAccountModalState = useSelector(getDeleteAccountModalState);
   const banOrUnbanUserModalState = useSelector(getBanOrUnbanUserModalState);
@@ -70,7 +73,8 @@ export const ModalContainer = () => {
       {editProfileModalState && <EditProfileDialog {...editProfileModalState} />}
       {onionPathModalState && <OnionPathModal {...onionPathModalState} />}
       {recoveryPhraseModalState && <SessionSeedModal {...recoveryPhraseModalState} />}
-      {sessionPasswordModalState && <SessionPasswordDialog {...sessionPasswordModalState} />}
+      {enterPasswordModalState && <EnterPasswordModal {...enterPasswordModalState} />}
+      {sessionPasswordModalState && <SessionSetPasswordDialog {...sessionPasswordModalState} />}
       {deleteAccountModalState && <DeleteAccountModal {...deleteAccountModalState} />}
       {confirmModalState && <SessionConfirm {...confirmModalState} />}
       {reactListModalState && <ReactListModal {...reactListModalState} />}
