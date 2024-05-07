@@ -9,6 +9,7 @@ import z from 'zod';
 
 import type { LoggerType } from '../ts/types/Logging';
 import * as Errors from '../ts/types/errors';
+import { isProduction } from '../ts/util/version';
 import OS from '../ts/util/os/osMain';
 
 const dumpSchema = z
@@ -64,12 +65,21 @@ async function eraseDumps(
 
 export function setup(
   getLogger: () => LoggerType,
-  showDebugLogWindow: () => Promise<void>
+  showDebugLogWindow: () => Promise<void>,
+  forceEnable = false
 ): void {
-  getLogger().info('crashReporter: enabled');
-  crashReporter.start({ uploadToServer: false });
+  const isEnabled = !isProduction(app.getVersion()) || forceEnable;
+
+  if (isEnabled) {
+    getLogger().info(`crashReporter: ${forceEnable ? 'force ' : ''}enabled`);
+    crashReporter.start({ uploadToServer: false });
+  }
 
   ipc.handle('crash-reports:get-count', async () => {
+    if (!isEnabled) {
+      return 0;
+    }
+
     const pendingDumps = await getPendingDumps();
     if (pendingDumps.length !== 0) {
       getLogger().warn(
@@ -80,6 +90,10 @@ export function setup(
   });
 
   ipc.handle('crash-reports:write-to-log', async () => {
+    if (!isEnabled) {
+      return;
+    }
+
     const pendingDumps = await getPendingDumps();
     if (pendingDumps.length === 0) {
       return;
@@ -119,6 +133,10 @@ export function setup(
   });
 
   ipc.handle('crash-reports:erase', async () => {
+    if (!isEnabled) {
+      return;
+    }
+
     const pendingDumps = await getPendingDumps();
 
     await eraseDumps(getLogger(), pendingDumps);

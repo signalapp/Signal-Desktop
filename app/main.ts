@@ -208,10 +208,13 @@ const DISABLE_GPU =
   OS.isLinux() && !process.argv.some(arg => arg === '--enable-gpu');
 
 const DISABLE_IPV6 = process.argv.some(arg => arg === '--disable-ipv6');
+const FORCE_ENABLE_CRASH_REPORTS = process.argv.some(
+  arg => arg === '--enable-crash-reports'
+);
 
 const CLI_LANG = cliOptions.lang as string | undefined;
 
-setupCrashReports(getLogger, showDebugLogWindow);
+setupCrashReports(getLogger, showDebugLogWindow, FORCE_ENABLE_CRASH_REPORTS);
 
 let sendDummyKeystroke: undefined | (() => void);
 if (OS.isWindows()) {
