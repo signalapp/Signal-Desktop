@@ -3,6 +3,8 @@
 
 const SECOND = 1000;
 
+export const FIBONACCI: ReadonlyArray<number> = [1, 2, 3, 5, 8, 13, 21, 34, 55];
+
 export const FIBONACCI_TIMEOUTS: ReadonlyArray<number> = [
   1 * SECOND,
   2 * SECOND,
