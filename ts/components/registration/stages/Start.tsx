@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { useMount } from 'react-use';
+import useMount from 'react-use/lib/useMount';
 import {
   AccountCreation,
   AccountRestoration,

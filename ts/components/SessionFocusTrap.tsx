@@ -1,6 +1,6 @@
 import FocusTrap from 'focus-trap-react';
 import { ReactNode, useState } from 'react';
-import { useMount } from 'react-use';
+import useMount from 'react-use/lib/useMount';
 
 /**
  * Focus trap which activates on mount.

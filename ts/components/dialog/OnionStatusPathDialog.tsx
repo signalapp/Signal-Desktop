@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import { isEmpty, isTypedArray } from 'lodash';
 import { CityResponse, Reader } from 'maxmind';
-import { useMount } from 'react-use';
+import useMount from 'react-use/lib/useMount';
 import { Snode } from '../../data/data';
 import { onionPathModal } from '../../state/ducks/modalDialog';
 import {

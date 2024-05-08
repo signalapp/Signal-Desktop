@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import styled from 'styled-components';
 
-import { useMount } from 'react-use';
+import useMount from 'react-use/lib/useMount';
 import { onboardingStore } from '../../state/onboarding/store';
 import { SessionTheme } from '../../themes/SessionTheme';
 import { setSignInByLinking } from '../../util/storage';

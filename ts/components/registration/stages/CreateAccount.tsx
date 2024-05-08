@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
-import { useMount } from 'react-use';
+import useMount from 'react-use/lib/useMount';
 import { SettingsKey } from '../../../data/settings-key';
 import { mnDecode } from '../../../session/crypto/mnemonic';
 import { StringUtils } from '../../../session/utils';
