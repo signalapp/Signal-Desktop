@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { resetConversationExternal } from '../../state/ducks/conversations';
-import { recoveryPhraseModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
+import { updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 import {
   SectionType,
   setLeftOverlayMode,
@@ -106,9 +106,6 @@ const LeftPaneSettingsCategoryRow = (props: {
             dispatch(showLeftPaneSection(SectionType.Message));
             dispatch(setLeftOverlayMode('message-requests'));
             dispatch(resetConversationExternal());
-            break;
-          case 'recoveryPassword':
-            dispatch(recoveryPhraseModal({}));
             break;
           case 'clearData':
             dispatch(updateDeleteAccountModal({}));

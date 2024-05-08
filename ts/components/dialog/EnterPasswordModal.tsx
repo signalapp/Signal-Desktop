@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
@@ -18,9 +17,9 @@ const StyledModalContainer = styled.div`
 export type EnterPasswordModalProps = {
   passwordHash: string;
   passwordValid: boolean;
-  setPasswordValid: Dispatch<SetStateAction<boolean>>;
-  onClickOk: () => any;
-  onClickClose: () => any;
+  setPasswordValid: (value: boolean) => void;
+  onClickOk?: () => any;
+  onClickClose?: () => any;
   title?: string;
 };
 
@@ -29,7 +28,9 @@ export const EnterPasswordModal = (props: EnterPasswordModalProps) => {
   const dispatch = useDispatch();
 
   const onClose = () => {
-    onClickClose();
+    if (onClickClose) {
+      onClickClose();
+    }
     dispatch(updateEnterPasswordModal(null));
   };
 
@@ -52,7 +53,9 @@ export const EnterPasswordModal = (props: EnterPasswordModalProps) => {
 
     window.removeEventListener('keyup', onEnter);
 
-    void onClickOk();
+    if (onClickOk) {
+      void onClickOk();
+    }
   };
 
   const onEnter = (event: any) => {

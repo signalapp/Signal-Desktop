@@ -1,19 +1,27 @@
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useMount } from 'react-use';
+import useMount from 'react-use/lib/useMount';
 import { Data } from '../data/data';
 import { updateEnterPasswordModal } from '../state/ducks/modalDialog';
 
+/**
+ * Password protection for a component if a password has been set
+ * @param title - Title of the password modal
+ * @param onSuccess - Callback when password is correct
+ * @param onClose - Callback when modal is cancelled or closed. Definitely use this if your component returns null until a password is entered
+ * @returns An object with two properties - hasPassword which is true if a password has been set, passwordValid which is true if the password entered is correct
+ */
 export function usePasswordModal({
+  title,
   onSuccess,
   onClose,
-  title,
 }: {
-  onSuccess: () => void;
-  onClose: () => void;
   title?: string;
+  onSuccess?: () => void;
+  onClose?: () => void;
 }) {
+  const [hasPassword, setHasPassword] = useState(false);
   const [passwordHash, setPasswordHash] = useState('');
   const [passwordValid, setPasswordValid] = useState(false);
 
@@ -25,6 +33,8 @@ export function usePasswordModal({
     }
 
     const hash = await Data.getPasswordHash();
+    setHasPassword(!!hash);
+
     if (hash && !isEmpty(hash)) {
       setPasswordHash(hash);
       dispatch(
@@ -33,12 +43,16 @@ export function usePasswordModal({
           passwordValid,
           setPasswordValid,
           onClickOk: () => {
-            onSuccess();
+            if (onSuccess) {
+              onSuccess();
+            }
             setPasswordHash('');
             dispatch(updateEnterPasswordModal(null));
           },
           onClickClose: () => {
-            onClose();
+            if (onClose) {
+              onClose();
+            }
             setPasswordHash('');
             dispatch(updateEnterPasswordModal(null));
           },
@@ -51,4 +65,6 @@ export function usePasswordModal({
   useMount(() => {
     void validateAccess();
   });
+
+  return { hasPassword, passwordValid };
 }
