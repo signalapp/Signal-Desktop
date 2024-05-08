@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 import { CSSProperties, MouseEvent, useState } from 'react';
 import { QRCode } from 'react-qrcode-logo';
-import { useMount } from 'react-use';
+import useMount from 'react-use/lib/useMount';
 import styled from 'styled-components';
 import { THEME_GLOBALS, getThemeValue } from '../themes/globals';
 import { saveQRCode } from '../util/saveQRCode';
@@ -19,6 +19,8 @@ const StyledQRView = styled(AnimatedFlex)<{
   border-radius: 10px;
   overflow: hidden;
   padding: 10px;
+  width: fit-content;
+  height: auto;
 
   ${props => props.backgroundColor && ` background-color: ${props.backgroundColor}`};
   ${props =>
