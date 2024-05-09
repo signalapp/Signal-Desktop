@@ -88,7 +88,19 @@ export type SessionIconType =
 
 export type SessionIconSize = 'tiny' | 'small' | 'medium' | 'large' | 'huge' | 'huge2' | 'max';
 
-export const icons: Record<string, { path: string; viewBox: string; ratio: number }> = {
+export type ClipRule = 'nonzero' | 'evenodd' | 'inherit';
+export type FillRule = 'nonzero' | 'evenodd';
+
+type IconProps = {
+  path: string;
+  viewBox: string;
+  ratio: number;
+  fill?: string;
+  clipRule?: ClipRule;
+  fillRule?: FillRule;
+};
+
+export const icons: Record<SessionIconType, IconProps> = {
   addUser: {
     path: 'M8.85,2.17c-1.73,0-3.12,1.4-3.12,3.12s1.4,3.12,3.12,3.12c1.73,0,3.13-1.4,3.13-3.12S10.58,2.17,8.85,2.17z M8.85,0.08c2.88,0,5.21,2.33,5.21,5.21s-2.33,5.21-5.21,5.21s-5.2-2.33-5.2-5.21C3.65,2.42,5.98,0.08,8.85,0.08z M20.83,5.29 c0.54,0,0.98,0.41,1.04,0.93l0.01,0.11v2.08h2.08c0.54,0,0.98,0.41,1.04,0.93v0.12c0,0.54-0.41,0.98-0.93,1.04l-0.11,0.01h-2.08 v2.08c0,0.58-0.47,1.04-1.04,1.04c-0.54,0-0.98-0.41-1.04-0.93l-0.01-0.11v-2.08h-2.08c-0.54,0-0.98-0.41-1.04-0.93l-0.01-0.11 c0-0.54,0.41-0.98,0.93-1.04l0.11-0.01h2.08V6.34C19.79,5.76,20.26,5.29,20.83,5.29z M12.5,12.58c2.8,0,5.09,2.21,5.2,4.99v0.22 v2.08c0,0.58-0.47,1.04-1.04,1.04c-0.54,0-0.98-0.41-1.04-0.93l-0.01-0.11v-2.08c0-1.67-1.3-3.03-2.95-3.12h-0.18H5.21 c-1.67,0-3.03,1.3-3.12,2.95v0.18v2.08c0,0.58-0.47,1.04-1.04,1.04c-0.54,0-0.98-0.41-1.04-0.93L0,19.88V17.8 c0-2.8,2.21-5.09,4.99-5.2h0.22h7.29V12.58z',
     viewBox: '0 0 25 21',
