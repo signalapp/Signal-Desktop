@@ -306,7 +306,7 @@
   "messageRequestAcceptedOurs": "You have accepted $name$'s message request",
   "messageRequestAcceptedOursNoName": "You have accepted the message request",
   "messageRequestPending": "Your message request is currently pending",
-  "messageRequestPendingDescription": "You will be able to send voice messages and attachments once the recipient has approved this message request",
+  "messageRequestPendingDescription": "You will be able to send voice messages and attachments once the recipient has approved this message request.",
   "messageRequests": "Message Requests",
   "messageRequestsAcceptDescription": "Sending a message to this user will automatically accept their message request and reveal your Account ID.",
   "messagesHeader": "Conversations",
