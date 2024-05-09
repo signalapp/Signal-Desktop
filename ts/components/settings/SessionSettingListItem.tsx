@@ -26,7 +26,6 @@ export const StyledDescriptionSettingsItem = styled.div`
   font-family: var(--font-default);
   font-size: var(--font-size-sm);
   font-weight: 400;
-  max-width: 700px;
 `;
 
 export const StyledTitleSettingsItem = styled.div`
@@ -73,8 +72,8 @@ const StyledSettingItemClickable = styled(StyledSettingItemInline)`
 `;
 
 export const SettingsTitleAndDescription = (props: {
-  title?: string;
-  description?: string;
+  title?: string | ReactNode;
+  description?: string | ReactNode;
   childrenDescription?: ReactNode;
 }) => {
   const { description, childrenDescription, title } = props;
@@ -93,8 +92,8 @@ export const SettingsTitleAndDescription = (props: {
 
 export const SessionSettingsItemWrapper = (props: {
   inline: boolean;
-  title?: string;
-  description?: string;
+  title?: string | ReactNode;
+  description?: string | ReactNode;
   children?: ReactNode;
   childrenDescription?: ReactNode;
 }) => {

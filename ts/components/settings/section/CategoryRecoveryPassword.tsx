@@ -2,6 +2,7 @@ import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useMount from 'react-use/lib/useMount';
+import styled from 'styled-components';
 import { usePasswordModal } from '../../../hooks/usePasswordModal';
 import { mnDecode } from '../../../session/crypto/mnemonic';
 import { ToastUtils } from '../../../session/utils';
@@ -10,12 +11,38 @@ import { getTheme } from '../../../state/selectors/theme';
 import { getThemeValue } from '../../../themes/globals';
 import { getCurrentRecoveryPhrase } from '../../../util/storage';
 import { SessionQRCode } from '../../SessionQRCode';
+import { AnimatedFlex } from '../../basic/Flex';
+import { SessionHtmlRenderer } from '../../basic/SessionHTMLRenderer';
+import { SpacerMD, SpacerSM } from '../../basic/Text';
+import { SessionIconButton } from '../../icon';
 import { SessionSettingsItemWrapper } from '../SessionSettingListItem';
+
+const StyledSettingsItemContainer = styled.div`
+  p {
+    font-size: var(--font-size-md);
+    line-height: 30px;
+    margin: 0;
+  }
+`;
+
+const StyledRecoveryPassword = styled(AnimatedFlex)`
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  text-align: justify;
+  user-select: text;
+  border: 2px solid var(--text-secondary-color);
+  border-radius: 11px;
+  padding: var(--margins-sm) var(--margins-sm) var(--margins-sm) var(--margins-md);
+  margin: 0;
+  color: var(--primary-color);
+  max-width: fit-content;
+`;
 
 export const SettingsCategoryRecoveryPassword = () => {
   const [loadingSeed, setLoadingSeed] = useState(true);
   const [recoveryPhrase, setRecoveryPhrase] = useState('');
   const [hexEncodedSeed, setHexEncodedSeed] = useState('');
+  const [isQRVisible, setIsQRVisible] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -52,25 +79,43 @@ export const SettingsCategoryRecoveryPassword = () => {
   }
 
   return (
-    <>
+    <StyledSettingsItemContainer>
       <SessionSettingsItemWrapper
-        // TODO need to support escaping the HTML or passing through a ReactNode
         title={window.i18n('sessionRecoveryPassword')}
-        description={window.i18n('recoveryPasswordDescription')}
+        description={
+          <SessionHtmlRenderer tag="p" html={window.i18n('recoveryPasswordDescription')} />
+        }
         inline={false}
       >
-        <i
-          onClick={() => {
-            if (isEmpty(recoveryPhrase)) {
-              return;
-            }
-            copyRecoveryPhrase(recoveryPhrase);
-          }}
-          className="session-modal__text-highlight"
+        <SpacerMD />
+        <StyledRecoveryPassword
+          container={true}
+          flexDirection={'row'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          width={'100%'}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          // initial load has some flickering, so we add a small delay
+          transition={{ duration: 0.05 }}
+          style={{ display: isQRVisible ? 'none' : 'flex' }}
           data-testid="recovery-phrase-seed-modal"
         >
           {recoveryPhrase}
-        </i>
+          <SpacerSM />
+          <SessionIconButton
+            aria-label={'copy to clipboard button'}
+            iconType={'copy'}
+            iconSize={'huge'}
+            iconColor={'var(--text-primary-color)'}
+            onClick={() => {
+              if (isEmpty(recoveryPhrase)) {
+                return;
+              }
+              copyRecoveryPhrase(recoveryPhrase);
+            }}
+          />
+        </StyledRecoveryPassword>
         <SessionQRCode
           id={'session-recovery-passwod'}
           value={hexEncodedSeed}
@@ -85,10 +130,29 @@ export const SettingsCategoryRecoveryPassword = () => {
           logoWidth={56}
           logoHeight={56}
           logoIsSVG={true}
+          style={{ display: isQRVisible ? 'flex' : 'none' }}
         />
-        {/* TODO Toggling between QR and recovery password */}
+
+        <SpacerMD />
+        <SessionIconButton
+          aria-label={isQRVisible ? 'show password button' : 'show qr code button'}
+          iconType={isQRVisible ? 'password' : 'qr'}
+          iconSize={isQRVisible ? 48 : 'huge'}
+          iconColor={'var(--text-primary-color)'}
+          onClick={() => setIsQRVisible(!isQRVisible)}
+          padding="0"
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: isQRVisible ? undefined : 'var(--margins-xs)',
+            marginLeft: isQRVisible ? '-8px' : undefined,
+          }}
+        >
+          {isQRVisible ? 'View as Password' : 'View QR'}
+        </SessionIconButton>
         {/* TODO Permenantly hide button */}
       </SessionSettingsItemWrapper>
-    </>
+    </StyledSettingsItemContainer>
   );
 };
