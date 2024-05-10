@@ -101,7 +101,7 @@ const ProfileHeader = (props: ProfileHeaderProps) => {
           }}
           role="button"
         >
-          <SessionIconButton iconType="qr" iconSize="small" iconColor="var(--black-color)" />
+          <SessionIconButton iconType="qr" iconSize={26} iconColor="var(--black-color)" />
         </div>
       </div>
     </div>
@@ -205,13 +205,16 @@ export const EditProfileDialog = () => {
   };
 
   return (
-    /* The <div> element has a child <input> element that allows keyboard interaction */
+    /* The <div> element has a child <input> element that allows keyboard interaction
+    We use edit-profile-default class to prevent the qr icon on the avatar from clipping
+    */
     <div className="edit-profile-dialog" data-testid="edit-profile-dialog" onKeyUp={handleOnKeyUp}>
       <SessionWrapperModal
         title={window.i18n('editProfileModalTitle')}
         onClose={closeDialog}
         headerIconButtons={backButton}
         showExitIcon={true}
+        additionalClassName={mode === 'default' ? 'edit-profile-default' : undefined}
       >
         {mode === 'qr' && <QRView sessionID={ourId} />}
         {mode === 'default' && (

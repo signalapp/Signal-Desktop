@@ -168,9 +168,10 @@
       align-items: center;
       justify-content: center;
       position: absolute;
-      right: -3px;
-      height: 30px;
-      width: 30px;
+      top: -8px;
+      right: -8px;
+      height: 34px;
+      width: 34px;
       border-radius: 50%;
       background-color: var(--white-color);
       transition: var(--default-duration);
@@ -218,6 +219,14 @@
 
       .session-icon-button {
         padding: 0px;
+      }
+    }
+  }
+
+  .edit-profile-default {
+    .session-modal {
+      .session-modal__body {
+        overflow: initial;
       }
     }
   }
