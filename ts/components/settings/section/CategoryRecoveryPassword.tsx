@@ -82,6 +82,11 @@ export const SettingsCategoryRecoveryPassword = () => {
     <StyledSettingsItemContainer>
       <SessionSettingsItemWrapper
         title={window.i18n('sessionRecoveryPassword')}
+        icon={{
+          iconType: 'recoveryPasswordFill',
+          iconSize: 16,
+          iconColor: 'var(--text-primary-color)',
+        }}
         description={
           <SessionHtmlRenderer tag="p" html={window.i18n('recoveryPasswordDescription')} />
         }
