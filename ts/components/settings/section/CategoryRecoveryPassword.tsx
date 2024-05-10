@@ -8,7 +8,7 @@ import { mnDecode } from '../../../session/crypto/mnemonic';
 import { ToastUtils } from '../../../session/utils';
 import { showSettingsSection } from '../../../state/ducks/section';
 import { getTheme } from '../../../state/selectors/theme';
-import { getThemeValue } from '../../../themes/globals';
+import { THEME_GLOBALS, getThemeValue } from '../../../themes/globals';
 import { getCurrentRecoveryPhrase } from '../../../util/storage';
 import { SessionQRCode } from '../../SessionQRCode';
 import { AnimatedFlex } from '../../basic/Flex';
@@ -25,7 +25,7 @@ const StyledSettingsItemContainer = styled.div`
   }
 `;
 
-const StyledRecoveryPassword = styled(AnimatedFlex)`
+const StyledRecoveryPassword = styled(AnimatedFlex)<{ color: string }>`
   font-family: var(--font-mono);
   font-size: var(--font-size-sm);
   text-align: justify;
@@ -34,8 +34,8 @@ const StyledRecoveryPassword = styled(AnimatedFlex)`
   border-radius: 11px;
   padding: var(--margins-sm) var(--margins-sm) var(--margins-sm) var(--margins-md);
   margin: 0;
-  color: var(--primary-color);
   max-width: fit-content;
+  color: ${props => props.color};
 `;
 
 export const SettingsCategoryRecoveryPassword = () => {
@@ -112,9 +112,10 @@ export const SettingsCategoryRecoveryPassword = () => {
             justifyContent={'space-between'}
             alignItems={'center'}
             width={'100%'}
+            color={theme.includes('dark') ? 'var(--primary-color)' : 'var(--text-primary-color)'}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.05 }}
+            transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
             data-testid="recovery-phrase-seed-modal"
           >
             {recoveryPhrase}
