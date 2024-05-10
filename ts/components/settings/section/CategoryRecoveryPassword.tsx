@@ -88,50 +88,51 @@ export const SettingsCategoryRecoveryPassword = () => {
         inline={false}
       >
         <SpacerMD />
-        <StyledRecoveryPassword
-          container={true}
-          flexDirection={'row'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-          width={'100%'}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          // initial load has some flickering, so we add a small delay
-          transition={{ duration: 0.05 }}
-          style={{ display: isQRVisible ? 'none' : 'flex' }}
-          data-testid="recovery-phrase-seed-modal"
-        >
-          {recoveryPhrase}
-          <SpacerSM />
-          <SessionIconButton
-            aria-label={'copy to clipboard button'}
-            iconType={'copy'}
-            iconSize={'huge'}
-            iconColor={'var(--text-primary-color)'}
-            onClick={() => {
-              if (isEmpty(recoveryPhrase)) {
-                return;
-              }
-              copyRecoveryPhrase(recoveryPhrase);
-            }}
+        {isQRVisible ? (
+          <SessionQRCode
+            id={'session-recovery-passwod'}
+            value={hexEncodedSeed}
+            size={240}
+            backgroundColor={getThemeValue(
+              theme.includes('dark') ? '--text-primary-color' : '--background-primary-color'
+            )}
+            foregroundColor={getThemeValue(
+              theme.includes('dark') ? '--background-primary-color' : '--text-primary-color'
+            )}
+            logoImage={'./images/session/qr/shield.svg'}
+            logoWidth={56}
+            logoHeight={56}
+            logoIsSVG={true}
+            theme={theme}
           />
-        </StyledRecoveryPassword>
-        <SessionQRCode
-          id={'session-recovery-passwod'}
-          value={hexEncodedSeed}
-          size={240}
-          backgroundColor={getThemeValue(
-            theme.includes('dark') ? '--text-primary-color' : '--background-primary-color'
-          )}
-          foregroundColor={getThemeValue(
-            theme.includes('dark') ? '--background-primary-color' : '--text-primary-color'
-          )}
-          logoImage={'./images/session/qr/shield.svg'}
-          logoWidth={56}
-          logoHeight={56}
-          logoIsSVG={true}
-          style={{ display: isQRVisible ? 'flex' : 'none' }}
-        />
+        ) : (
+          <StyledRecoveryPassword
+            container={true}
+            flexDirection={'row'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
+            width={'100%'}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.05 }}
+            data-testid="recovery-phrase-seed-modal"
+          >
+            {recoveryPhrase}
+            <SpacerSM />
+            <SessionIconButton
+              aria-label={'copy to clipboard button'}
+              iconType={'copy'}
+              iconSize={'huge'}
+              iconColor={'var(--text-primary-color)'}
+              onClick={() => {
+                if (isEmpty(recoveryPhrase)) {
+                  return;
+                }
+                copyRecoveryPhrase(recoveryPhrase);
+              }}
+            />
+          </StyledRecoveryPassword>
+        )}
 
         <SpacerMD />
         <SessionIconButton
@@ -139,7 +140,9 @@ export const SettingsCategoryRecoveryPassword = () => {
           iconType={isQRVisible ? 'password' : 'qr'}
           iconSize={isQRVisible ? 48 : 'huge'}
           iconColor={'var(--text-primary-color)'}
-          onClick={() => setIsQRVisible(!isQRVisible)}
+          onClick={() => {
+            setIsQRVisible(!isQRVisible);
+          }}
           padding="0"
           style={{
             display: 'flex',

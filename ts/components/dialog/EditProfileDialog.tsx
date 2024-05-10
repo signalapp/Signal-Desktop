@@ -38,6 +38,7 @@ const QRView = ({ sessionID }: { sessionID: string }) => {
       logoWidth={40}
       logoHeight={40}
       logoIsSVG={true}
+      theme={theme}
     />
   );
 };

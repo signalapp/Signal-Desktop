@@ -68,6 +68,7 @@ const Seed = (props: SeedProps) => {
           logoWidth={56}
           logoHeight={56}
           logoIsSVG={true}
+          theme={theme}
           style={{ margin: '0 auto var(--margins-lg)' }}
         />
 

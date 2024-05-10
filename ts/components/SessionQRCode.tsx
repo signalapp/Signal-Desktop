@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash';
-import { CSSProperties, MouseEvent, useState } from 'react';
+import { CSSProperties, MouseEvent, useCallback, useEffect, useState } from 'react';
 import { QRCode } from 'react-qrcode-logo';
 import useMount from 'react-use/lib/useMount';
 import styled from 'styled-components';
@@ -18,11 +18,9 @@ const StyledQRView = styled(AnimatedFlex)<{
   cursor: pointer;
   border-radius: 10px;
   overflow: hidden;
-  padding: 10px;
-  width: fit-content;
-  height: auto;
 
   ${props => props.backgroundColor && ` background-color: ${props.backgroundColor}`};
+  ${props => props.size && `width: ${props.size + 20}px; height: ${props.size + 20}px; }`}
   ${props =>
     props.canvasId &&
     props.size &&
@@ -39,8 +37,9 @@ export type SessionQRCodeProps = {
   logoWidth?: number;
   logoHeight?: number;
   logoIsSVG?: boolean;
-  style?: CSSProperties;
+  theme?: string;
   ignoreTheme?: boolean;
+  style?: CSSProperties;
 };
 
 export function SessionQRCode(props: SessionQRCodeProps) {
@@ -54,39 +53,52 @@ export function SessionQRCode(props: SessionQRCodeProps) {
     logoWidth,
     logoHeight,
     logoIsSVG,
-    style,
+    theme,
     ignoreTheme,
+    style,
   } = props;
 
   const [svgDataURL, setSvgDataURL] = useState('');
-  // Saving the QR code uses a separate react instance without the redux store so we don't use a selector here
-  const theme = window.Events.getThemeSetting();
+  const [currentTheme, setCurrentTheme] = useState(theme);
+  const [loading, setLoading] = useState(false);
+
+  const loadLogoImage = useCallback(async () => {
+    if (logoImage && logoIsSVG) {
+      setLoading(true);
+      try {
+        const response = await fetch(logoImage);
+        let svgString = await response.text();
+
+        if (!ignoreTheme && theme && !isEmpty(theme)) {
+          svgString = svgString.replaceAll(
+            'black',
+            getThemeValue(
+              theme.includes('dark') ? '--background-primary-color' : '--text-primary-color'
+            )
+          );
+        }
+
+        setSvgDataURL(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}`);
+        window.log.debug(
+          `WIP: [SessionQRCode] SVG logo fetched: ${logoImage} data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}`
+        );
+      } catch (error) {
+        window.log.error('Error fetching the QR Code logo which is an svg:', error);
+      }
+      setLoading(false);
+    }
+  }, [ignoreTheme, logoImage, logoIsSVG, theme]);
 
   useMount(() => {
-    if (logoImage && logoIsSVG && isEmpty(svgDataURL)) {
-      // eslint-disable-next-line more/no-then
-      fetch(logoImage)
-        .then(response => response.text())
-        .then(response => {
-          const svgString = ignoreTheme
-            ? response
-            : response.replaceAll(
-                'black',
-                getThemeValue(
-                  theme.includes('dark') ? '--background-primary-color' : '--text-primary-color'
-                )
-              );
-          setSvgDataURL(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}`);
-        })
-        .catch(error =>
-          window.log.error('Error fetching the QR Code logo which is an svg:', error)
-        );
-    }
+    void loadLogoImage();
   });
 
-  if (logoImage && logoIsSVG && isEmpty(svgDataURL)) {
-    return null;
-  }
+  useEffect(() => {
+    if (theme && theme !== currentTheme) {
+      setCurrentTheme(theme);
+      void loadLogoImage();
+    }
+  }, [currentTheme, loadLogoImage, theme]);
 
   const qrCanvasSize = 1000;
   const canvasLogoWidth =
@@ -96,6 +108,8 @@ export function SessionQRCode(props: SessionQRCodeProps) {
   return (
     <StyledQRView
       container={true}
+      justifyContent="center"
+      alignItems="center"
       aria-label={window.i18n('clickToTrustContact')}
       title={window.i18n('clickToTrustContact')}
       canvasId={id}
@@ -113,7 +127,7 @@ export function SessionQRCode(props: SessionQRCodeProps) {
         });
       }}
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      animate={{ opacity: loading ? 0 : 1 }}
       transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
       style={style}
     >
