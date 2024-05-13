@@ -3719,7 +3719,6 @@ button.module-image__border-overlay:focus {
   }
 }
 .module-ongoing-call {
-  $local-preview-width: 108px;
   $local-preview-height: 80px;
 
   &__remote-video-enabled {
@@ -4216,7 +4215,7 @@ button.module-image__border-overlay:focus {
       margin-inline: 0 16px;
       overflow: hidden;
       position: relative;
-      width: $local-preview-width;
+      width: $calling-local-preview-width;
 
       &--active {
         box-shadow: 0px 4px 14px 0px $color-black-alpha-40;

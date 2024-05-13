@@ -259,6 +259,9 @@ $ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 
 $calling-background-color: $color-gray-90;
 
+// Maintain aspect ratio 960x720 with $local-preview-height
+$calling-local-preview-width: 106.67px;
+
 // General
 
 $z-index-negative: -1;
