@@ -1359,10 +1359,10 @@
     minimist "^1.2.6"
     plist "^3.0.5"
 
-"@electron/symbolicate-mac@2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@electron/symbolicate-mac/-/symbolicate-mac-2.0.2.tgz#e3df3a62d3d48444c97f251fdd5cede1bfeef546"
-  integrity sha512-ysQQk1XrTILQXCoi7l4pa3J8qA5RMfcRNjow1tFdZGEwmV6FK6X3hpGbo94Gsv4z+6m+gTspdrVANFbpT2Tx2w==
+"@electron/symbolicate-mac@2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@electron/symbolicate-mac/-/symbolicate-mac-2.1.0.tgz#94e559b7ade72c2b06885c03bb8e10cb8a1b2529"
+  integrity sha512-IOn78ATkPgtMSyK6tUToA4npOCMOnOLT4umhlEDPLpLMqNMeTR+2HlL/rHmTK4IlP5Pzd/GqqF2cQ4NtNRRV6Q==
   dependencies:
     got "^11.8.2"
     mkdirp "^1.0.4"
