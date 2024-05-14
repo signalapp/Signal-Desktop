@@ -1,7 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
-import { SectionType, setLeftOverlayMode } from '../../state/ducks/section';
+import {
+  SectionType,
+  setLeftOverlayMode,
+  showLeftPaneSection,
+  showSettingsSection,
+} from '../../state/ducks/section';
 import { disableRecoveryPhrasePrompt } from '../../state/ducks/userConfig';
 import { getFocusedSection, getLeftOverlayMode } from '../../state/selectors/section';
 import { useHideRecoveryPasswordEnabled } from '../../state/selectors/settings';
@@ -82,7 +86,8 @@ export const LeftPaneBanner = () => {
 
   const showRecoveryPhraseModal = () => {
     dispatch(disableRecoveryPhrasePrompt());
-    dispatch(recoveryPhraseModal({}));
+    dispatch(showLeftPaneSection(SectionType.Settings));
+    dispatch(showSettingsSection('recoveryPassword'));
   };
 
   if (section !== SectionType.Message || isSignInWithRecoveryPhrase || hideRecoveryPassword) {
