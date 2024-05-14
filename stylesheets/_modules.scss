@@ -4574,8 +4574,11 @@ button.module-image__border-overlay:focus {
     padding-inline: 0;
   }
 
+  // Center chat list icons in narrow mode by reserving scrollbar space, preventing
+  // scrollbar from pushing content
   &--width-narrow {
-    padding-inline: 10px;
+    padding-inline: 10px 1px;
+    scrollbar-gutter: stable;
   }
 
   &__item {
@@ -4687,10 +4690,6 @@ button.module-image__border-overlay:focus {
       padding-inline: 14px;
       user-select: none;
       width: 100%;
-
-      .module-conversation-list--width-narrow & {
-        padding-inline: 14px 0;
-      }
 
       #{$unread-indicator} {
         $size: 18px;
@@ -4835,10 +4834,6 @@ button.module-image__border-overlay:focus {
         flex-direction: column;
         align-items: stretch;
         overflow: hidden;
-
-        .module-conversation-list--width-narrow & {
-          margin-inline-start: 0;
-        }
 
         &--disabled {
           opacity: 0.5;

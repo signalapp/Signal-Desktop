@@ -868,9 +868,11 @@ $rtl-icon-map: (
   @include scrollbar;
   &::-webkit-scrollbar-thumb {
     @include light-theme {
+      background: $color-gray-25;
       border-color: $color-gray-04;
     }
     @include dark-theme {
+      background: $color-gray-45;
       border-color: $color-gray-80;
     }
   }
