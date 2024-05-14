@@ -85,6 +85,8 @@ textarea {
 }
 
 ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+
   @include light-theme {
     background: $color-gray-25;
     border: 2px solid $color-white;
