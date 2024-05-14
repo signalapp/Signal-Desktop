@@ -4243,15 +4243,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{memberName} revoked {count, plural, one {an invitation to the group for 1 person} other {invitations to the group for # people}}.",
+    "messageformat": "{memberName} revoked {count, plural, one {an invitation to the group for # person} other {invitations to the group for # people}}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "You revoked {count, plural, one {an invitation to the group for 1 person} other {invitations to the group for # people}}.",
+    "messageformat": "You revoked {count, plural, one {an invitation to the group for # person} other {invitations to the group for # people}}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "An admin revoked {count, plural, one {an invitation to the group for 1 person} other {invitations to the group for # people}}.",
+    "messageformat": "An admin revoked {count, plural, one {an invitation to the group for # person} other {invitations to the group for # people}}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
@@ -4263,7 +4263,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "An admin revoked an invitation to the group for # person invited by {memberName}.",
+    "messageformat": "An admin revoked an invitation to the group for 1 person invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
