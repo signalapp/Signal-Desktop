@@ -425,6 +425,8 @@ export type LocalizerKeys =
   | 'recoveryPasswordErrorMessageGeneric'
   | 'recoveryPasswordErrorMessageIncorrect'
   | 'recoveryPasswordErrorMessageShort'
+  | 'recoveryPasswordHidePermanently'
+  | 'recoveryPasswordHideRecoveryPasswordDescription'
   | 'recoveryPasswordWarningSendDescription'
   | 'recoveryPhraseSavePromptMain'
   | 'remove'

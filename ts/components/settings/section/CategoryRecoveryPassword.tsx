@@ -12,16 +12,21 @@ import { THEME_GLOBALS, getThemeValue } from '../../../themes/globals';
 import { getCurrentRecoveryPhrase } from '../../../util/storage';
 import { SessionQRCode } from '../../SessionQRCode';
 import { AnimatedFlex } from '../../basic/Flex';
+import { SessionButtonColor } from '../../basic/SessionButton';
 import { SessionHtmlRenderer } from '../../basic/SessionHTMLRenderer';
 import { SpacerMD, SpacerSM } from '../../basic/Text';
 import { SessionIconButton } from '../../icon';
-import { SessionSettingsItemWrapper } from '../SessionSettingListItem';
+import { SessionSettingButtonItem, SessionSettingsItemWrapper } from '../SessionSettingListItem';
 
 const StyledSettingsItemContainer = styled.div`
   p {
     font-size: var(--font-size-md);
     line-height: 30px;
     margin: 0;
+  }
+
+  button[data-testid='hide-recovery-password-button'] {
+    width: 130px;
   }
 `;
 
@@ -160,8 +165,17 @@ export const SettingsCategoryRecoveryPassword = () => {
         >
           {isQRVisible ? 'View as Password' : 'View QR'}
         </SessionIconButton>
-        {/* TODO Permenantly hide button */}
       </SessionSettingsItemWrapper>
+      <SessionSettingButtonItem
+        title={window.i18n('recoveryPasswordHidePermanently')}
+        description={window.i18n('recoveryPasswordHideRecoveryPasswordDescription')}
+        onClick={() => {
+          // TODO
+        }}
+        buttonText={window.i18n('hide')}
+        buttonColor={SessionButtonColor.Danger}
+        dataTestId={'hide-recovery-password-button'}
+      />
     </StyledSettingsItemContainer>
   );
 };

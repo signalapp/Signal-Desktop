@@ -425,6 +425,8 @@
   "recoveryPasswordErrorMessageGeneric": "Please check your recovery password and try again.",
   "recoveryPasswordErrorMessageIncorrect": "Some of the words in your Recovery Password are incorrect. Please check and try again.",
   "recoveryPasswordErrorMessageShort": "The Recovery Password you entered is not long enough. Please check and try again.",
+  "recoveryPasswordHidePermanently": "Hide Recovery Password Permanently",
+  "recoveryPasswordHideRecoveryPasswordDescription": "Permanently hide your recover password on this device.",
   "recoveryPasswordWarningSendDescription": "This is your recovery password. If you send it to someone they'll have full access to your account.",
   "recoveryPhraseSavePromptMain": "Your recovery password is the master key to your Account ID — you can use it to restore your Account ID if you lose access to your device. Store your recovery password in a safe place, and don't give it to anyone.",
   "remove": "Remove",
