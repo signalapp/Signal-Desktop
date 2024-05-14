@@ -74,13 +74,21 @@ function IconMessageStatus({ status }: { status: LastMessageStatusType }) {
   const nonErrorIconColor = 'var(--text-secondary-color';
   switch (status) {
     case 'error':
-      return <SessionIcon iconColor={'var(--danger-color'} iconType="error" iconSize="tiny" />;
+      return (
+        <SessionIcon
+          iconColor={'var(--danger-color'}
+          iconType="error"
+          iconSize="tiny"
+          style={{ flexShrink: 0 }}
+        />
+      );
     case 'read':
       return (
         <SessionIcon
           iconColor={nonErrorIconColor}
           iconType="doubleCheckCircleFilled"
           iconSize="tiny"
+          style={{ flexShrink: 0 }}
         />
       );
     case 'sending':
@@ -90,10 +98,18 @@ function IconMessageStatus({ status }: { status: LastMessageStatusType }) {
           iconColor={nonErrorIconColor}
           iconType="sending"
           iconSize="tiny"
+          style={{ flexShrink: 0 }}
         />
       );
     case 'sent':
-      return <SessionIcon iconColor={nonErrorIconColor} iconType="circleCheck" iconSize="tiny" />;
+      return (
+        <SessionIcon
+          iconColor={nonErrorIconColor}
+          iconType="circleCheck"
+          iconSize="tiny"
+          style={{ flexShrink: 0 }}
+        />
+      );
     case undefined:
       return null;
     default:
