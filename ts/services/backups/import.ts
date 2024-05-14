@@ -638,12 +638,6 @@ export class BackupImportStream extends Writable {
       ? this.recipientIdToConvo.get(item.authorId.toNumber())
       : undefined;
 
-    const isOutgoing =
-      authorConvo && this.ourConversation.id === authorConvo?.id;
-    const isIncoming =
-      authorConvo && this.ourConversation.id !== authorConvo?.id;
-    const isDirectionLess = !isOutgoing && !isIncoming;
-
     let attributes: MessageAttributesType = {
       id: generateUuid(),
       canReplyToStory: false,
@@ -653,7 +647,7 @@ export class BackupImportStream extends Writable {
       source: authorConvo?.e164,
       sourceServiceId: authorConvo?.serviceId,
       timestamp,
-      type: isOutgoing ? 'outgoing' : 'incoming',
+      type: item.outgoing != null ? 'outgoing' : 'incoming',
       unidentifiedDeliveryReceived: false,
       expirationStartTimestamp: item.expireStartDate
         ? getTimestampFromLong(item.expireStartDate)
@@ -667,7 +661,7 @@ export class BackupImportStream extends Writable {
     const { outgoing, incoming, directionless } = item;
     if (outgoing) {
       strictAssert(
-        isOutgoing,
+        authorConvo && this.ourConversation.id === authorConvo?.id,
         `${logId}: outgoing message must have outgoing field`
       );
 
@@ -722,10 +716,9 @@ export class BackupImportStream extends Writable {
 
       attributes.sendStateByConversationId = sendStateByConversationId;
       chatConvo.active_at = attributes.sent_at;
-    }
-    if (incoming) {
+    } else if (incoming) {
       strictAssert(
-        isIncoming,
+        authorConvo && this.ourConversation.id !== authorConvo?.id,
         `${logId}: message with incoming field must be incoming`
       );
       attributes.received_at_ms =
@@ -741,12 +734,8 @@ export class BackupImportStream extends Writable {
       }
 
       chatConvo.active_at = attributes.received_at_ms;
-    }
-    if (directionless) {
-      strictAssert(
-        isDirectionLess,
-        `${logId}: directionless message must not be incoming/outgoing`
-      );
+    } else if (directionless) {
+      // Nothing to do
     }
 
     if (item.standardMessage) {
@@ -793,7 +782,7 @@ export class BackupImportStream extends Writable {
 
     // TODO (DESKTOP-6964): We'll want to increment for more types here - stickers, etc.
     if (item.standardMessage) {
-      if (isOutgoing) {
+      if (item.outgoing != null) {
         chatConvo.sentMessageCount = (chatConvo.sentMessageCount ?? 0) + 1;
       } else {
         chatConvo.messageCount = (chatConvo.messageCount ?? 0) + 1;

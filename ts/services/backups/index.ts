@@ -5,6 +5,8 @@ import { pipeline } from 'stream/promises';
 import { PassThrough } from 'stream';
 import type { Readable, Writable } from 'stream';
 import { createReadStream, createWriteStream } from 'fs';
+import { unlink } from 'fs/promises';
+import { join } from 'path';
 import { createGzip, createGunzip } from 'zlib';
 import { createCipheriv, createHmac, randomBytes } from 'crypto';
 import { noop } from 'lodash';
@@ -27,6 +29,7 @@ import { BackupImportStream } from './import';
 import { getKeyMaterial } from './crypto';
 import { BackupCredentials } from './credentials';
 import { BackupAPI } from './api';
+import { validateBackup } from './validator';
 
 const IV_LENGTH = 16;
 
@@ -61,39 +64,21 @@ export class BackupsService {
     });
   }
 
-  public async exportBackup(sink: Writable): Promise<void> {
-    strictAssert(!this.isRunning, 'BackupService is already running');
-
-    log.info('exportBackup: starting...');
-    this.isRunning = true;
+  public async upload(): Promise<void> {
+    const fileName = `backup-${randomBytes(32).toString('hex')}`;
+    const filePath = join(window.BasePaths.temp, fileName);
 
     try {
-      const { aesKey, macKey } = getKeyMaterial();
+      const fileSize = await this.exportToDisk(filePath);
 
-      const recordStream = new BackupExportStream();
-      recordStream.run();
-
-      const iv = randomBytes(IV_LENGTH);
-
-      await pipeline(
-        recordStream,
-        createGzip(),
-        appendPaddingStream(),
-        createCipheriv(CipherType.AES256CBC, aesKey, iv),
-        prependStream(iv),
-        appendMacStream(macKey),
-        sink
-      );
+      await this.api.upload(filePath, fileSize);
     } finally {
-      log.info('exportBackup: finished...');
-      this.isRunning = false;
+      try {
+        await unlink(filePath);
+      } catch {
+        // Ignore
+      }
     }
-  }
-
-  public async upload(): Promise<void> {
-    const pipe = new PassThrough();
-
-    await Promise.all([this.api.upload(pipe), this.exportBackup(pipe)]);
   }
 
   // Test harness
@@ -108,8 +93,12 @@ export class BackupsService {
   }
 
   // Test harness
-  public async exportToDisk(path: string): Promise<void> {
-    await this.exportBackup(createWriteStream(path));
+  public async exportToDisk(path: string): Promise<number> {
+    const size = await this.exportBackup(createWriteStream(path));
+
+    await validateBackup(path, size);
+
+    return size;
   }
 
   // Test harness
@@ -181,6 +170,49 @@ export class BackupsService {
       log.info(`importBackup: failed, error: ${Errors.toLogFormat(error)}`);
       throw error;
     } finally {
+      this.isRunning = false;
+    }
+  }
+
+  private async exportBackup(sink: Writable): Promise<number> {
+    strictAssert(!this.isRunning, 'BackupService is already running');
+
+    log.info('exportBackup: starting...');
+    this.isRunning = true;
+
+    try {
+      const { aesKey, macKey } = getKeyMaterial();
+
+      const recordStream = new BackupExportStream();
+      recordStream.run();
+
+      const iv = randomBytes(IV_LENGTH);
+
+      const pass = new PassThrough();
+
+      let totalBytes = 0;
+
+      // Pause the flow first so that the we respect backpressure. The
+      // `pipeline` call below will control the flow anyway.
+      pass.pause();
+      pass.on('data', chunk => {
+        totalBytes += chunk.length;
+      });
+
+      await pipeline(
+        recordStream,
+        createGzip(),
+        appendPaddingStream(),
+        createCipheriv(CipherType.AES256CBC, aesKey, iv),
+        prependStream(iv),
+        appendMacStream(macKey),
+        pass,
+        sink
+      );
+
+      return totalBytes;
+    } finally {
+      log.info('exportBackup: finished...');
       this.isRunning = false;
     }
   }

@@ -3,7 +3,8 @@
 
 import path from 'path';
 import { tmpdir } from 'os';
-import { rmSync, mkdtempSync, createReadStream } from 'fs';
+import { createReadStream } from 'fs';
+import { mkdtemp, rm } from 'fs/promises';
 
 import { v4 as generateGuid } from 'uuid';
 import { assert } from 'chai';
@@ -71,7 +72,7 @@ async function asymmetricRoundtripHarness(
   before: Array<MessageAttributesType>,
   after: Array<MessageAttributesType>
 ) {
-  const outDir = mkdtempSync(path.join(tmpdir(), 'signal-temp-'));
+  const outDir = await mkdtemp(path.join(tmpdir(), 'signal-temp-'));
   try {
     const targetOutputFile = path.join(outDir, 'backup.bin');
 
@@ -89,7 +90,7 @@ async function asymmetricRoundtripHarness(
     const actual = sortAndNormalize(messagesFromDatabase);
     assert.deepEqual(expected, actual);
   } finally {
-    rmSync(outDir, { recursive: true });
+    await rm(outDir, { recursive: true });
   }
 }
 

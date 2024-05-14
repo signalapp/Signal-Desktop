@@ -3,6 +3,7 @@
 
 /* eslint-disable max-classes-per-file */
 
+import type { Response } from 'node-fetch';
 import type { LibSignalErrorBase } from '@signalapp/libsignal-client';
 
 import { parseRetryAfter } from '../util/parseRetryAfter';

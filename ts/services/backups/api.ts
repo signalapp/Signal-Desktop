@@ -1,13 +1,13 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Readable } from 'stream';
-
 import { strictAssert } from '../../util/assert';
+import { tusUpload } from '../../util/uploads/tusProtocol';
+import { defaultFileReader } from '../../util/uploads/uploads';
 import type {
   WebAPIType,
+  AttachmentV3ResponseType,
   GetBackupInfoResponseType,
-  GetBackupUploadFormResponseType,
   BackupMediaItemType,
   BackupMediaBatchResponseType,
   BackupListMediaResponseType,
@@ -55,14 +55,25 @@ export class BackupAPI {
     return (await this.getInfo()).backupName;
   }
 
-  public async upload(stream: Readable): Promise<string> {
-    return this.server.uploadBackup({
-      headers: await this.credentials.getHeadersForToday(),
-      stream,
+  public async upload(filePath: string, fileSize: number): Promise<void> {
+    const form = await this.server.getBackupUploadForm(
+      await this.credentials.getHeadersForToday()
+    );
+
+    const fetchFn = this.server.createFetchForAttachmentUpload(form);
+
+    await tusUpload({
+      endpoint: form.signedUploadLocation,
+      headers: {},
+      fileName: form.key,
+      filePath,
+      fileSize,
+      reader: defaultFileReader,
+      fetchFn,
     });
   }
 
-  public async getMediaUploadForm(): Promise<GetBackupUploadFormResponseType> {
+  public async getMediaUploadForm(): Promise<AttachmentV3ResponseType> {
     return this.server.getBackupMediaUploadForm(
       await this.credentials.getHeadersForToday()
     );

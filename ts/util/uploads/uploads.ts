@@ -1,12 +1,13 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+import fetch from 'node-fetch';
 import { createReadStream, createWriteStream } from 'node:fs';
-import { Writable } from 'node:stream';
-import type { TusFileReader } from './tusProtocol';
+import { pipeline } from 'node:stream/promises';
+import type { TusFileReader, FetchFunctionType } from './tusProtocol';
 import { tusResumeUpload, tusUpload } from './tusProtocol';
 import { HTTPError } from '../../textsecure/Errors';
 
-const defaultFileReader: TusFileReader = (filePath, offset) => {
+export const defaultFileReader: TusFileReader = (filePath, offset) => {
   return createReadStream(filePath, { start: offset });
 };
 
@@ -87,13 +88,15 @@ export async function _doDownload({
   headers = {},
   filePath,
   signal,
+  fetchFn = fetch,
 }: {
   endpoint: string;
   filePath: string;
   headers?: Record<string, string>;
   signal?: AbortSignal;
+  fetchFn?: FetchFunctionType;
 }): Promise<void> {
-  const response = await fetch(endpoint, {
+  const response = await fetchFn(endpoint, {
     method: 'GET',
     signal,
     redirect: 'error',
@@ -106,7 +109,7 @@ export async function _doDownload({
     throw new Error('Response has no body');
   }
   const writable = createWriteStream(filePath);
-  await response.body.pipeTo(Writable.toWeb(writable));
+  await pipeline(response.body, writable);
 }
 
 /**
