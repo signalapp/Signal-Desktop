@@ -17,6 +17,9 @@ const getHasFollowSystemThemeEnabled = (state: StateType) =>
 const getHasShiftSendEnabled = (state: StateType) =>
   state.settings.settingsBools[SettingsKey.hasShiftSendEnabled];
 
+const getHideRecoveryPassword = (state: StateType) =>
+  state.settings.settingsBools[SettingsKey.hideRecoveryPassword];
+
 export const useHasLinkPreviewEnabled = () => {
   const value = useSelector(getLinkPreviewEnabled);
   return Boolean(value);
@@ -39,6 +42,12 @@ export const useHasFollowSystemThemeEnabled = () => {
 
 export const useHasEnterSendEnabled = () => {
   const value = useSelector(getHasShiftSendEnabled);
+
+  return Boolean(value);
+};
+
+export const useHideRecoveryPasswordEnabled = () => {
+  const value = useSelector(getHideRecoveryPassword);
 
   return Boolean(value);
 };

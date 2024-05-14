@@ -102,6 +102,7 @@ function setupLeftPane(forceUpdateInboxComponent: () => void) {
       settingsLinkPreview: Storage.getBoolOrFalse(SettingsKey.settingsLinkPreview),
       hasFollowSystemThemeEnabled: Storage.getBoolOrFalse(SettingsKey.hasFollowSystemThemeEnabled),
       hasShiftSendEnabled: Storage.getBoolOrFalse(SettingsKey.hasShiftSendEnabled),
+      hideRecoveryPassword: Storage.getBoolOrFalse(SettingsKey.hideRecoveryPassword),
     })
   );
   forceUpdateInboxComponent();
