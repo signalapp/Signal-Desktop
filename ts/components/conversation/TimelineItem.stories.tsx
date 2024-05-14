@@ -69,7 +69,6 @@ const getDefaultProps = () => ({
   toggleSelectMessage: action('toggleSelectMessage'),
   reactToMessage: action('reactToMessage'),
   checkForAccount: action('checkForAccount'),
-  checkServiceIdEquivalence: () => false,
   clearTargetedMessage: action('clearTargetedMessage'),
   setMessageToEdit: action('setMessageToEdit'),
   setQuoteByMessageId: action('setQuoteByMessageId'),

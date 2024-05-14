@@ -50,13 +50,6 @@ const renderContact: SmartContactRendererType<JSX.Element> = (
   </React.Fragment>
 );
 
-function checkServiceIdEquivalence(
-  left: ServiceIdString | undefined,
-  right: ServiceIdString | undefined
-): boolean {
-  return Boolean(left && right && contactMap[left] === contactMap[right]);
-}
-
 const renderChange = (
   change: GroupV2ChangeType,
   {
@@ -79,7 +72,6 @@ const renderChange = (
     blockGroupLinkRequests={action('blockGroupLinkRequests')}
     conversationId="some-conversation-id"
     change={change}
-    checkServiceIdEquivalence={checkServiceIdEquivalence}
     groupBannedMemberships={groupBannedMemberships}
     groupMemberships={groupMemberships}
     groupName={groupName}
@@ -615,7 +607,39 @@ export function MemberAddFromInvited(): JSX.Element {
           },
         ],
       })}
-      ACI accepts PNI invite:
+      ACI accepts PNI invite (X joined the group)
+      {renderChange({
+        from: OUR_PNI,
+        details: [
+          {
+            type: 'member-add-from-invite',
+            aci: OUR_ACI,
+            pni: OUR_PNI,
+            inviter: CONTACT_B,
+          },
+        ],
+      })}
+      {renderChange({
+        from: OUR_PNI,
+        details: [
+          {
+            type: 'member-add-from-invite',
+            aci: OUR_ACI,
+            pni: OUR_PNI,
+          },
+        ],
+      })}
+      {renderChange({
+        from: CONTACT_A_PNI,
+        details: [
+          {
+            type: 'member-add-from-invite',
+            aci: CONTACT_A,
+            pni: CONTACT_A_PNI,
+          },
+        ],
+      })}
+      ACI accepts PNI invite, the old way (X added X to group)
       {renderChange({
         from: OUR_PNI,
         details: [
