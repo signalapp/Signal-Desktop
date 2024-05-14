@@ -151,7 +151,7 @@ export const SettingsCategoryRecoveryPassword = () => {
 
         <SpacerMD />
         <SessionIconButton
-          aria-label={isQRVisible ? 'show password button' : 'show qr code button'}
+          aria-label={isQRVisible ? 'View as password button' : 'View as QR code button'}
           iconType={isQRVisible ? 'password' : 'qr'}
           iconSize={isQRVisible ? 48 : 'huge'}
           iconColor={'var(--text-primary-color)'}
@@ -167,7 +167,7 @@ export const SettingsCategoryRecoveryPassword = () => {
             marginLeft: isQRVisible ? '-8px' : undefined,
           }}
         >
-          {isQRVisible ? 'View as Password' : 'View QR'}
+          {isQRVisible ? window.i18n('passwordView') : window.i18n('qrView')}
         </SessionIconButton>
       </SessionSettingsItemWrapper>
       {!hideRecoveryPassword ? (
