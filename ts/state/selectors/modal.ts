@@ -14,7 +14,6 @@ import {
   ModalState,
   OnionPathModalState,
   ReactModalsState,
-  RecoveryPhraseModalState,
   RemoveModeratorsModalState,
   SessionPasswordModalState,
   UpdateGroupMembersModalState,
@@ -80,11 +79,6 @@ export const getEditProfileDialog = createSelector(
 export const getOnionPathDialog = createSelector(
   getModal,
   (state: ModalState): OnionPathModalState => state.onionPathModal
-);
-
-export const getRecoveryPhraseDialog = createSelector(
-  getModal,
-  (state: ModalState): RecoveryPhraseModalState => state.recoveryPhraseModal
 );
 
 export const getEnterPasswordModalState = createSelector(

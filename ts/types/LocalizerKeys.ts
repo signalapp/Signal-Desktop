@@ -430,7 +430,6 @@ export type LocalizerKeys =
   | 'recoveryPasswordHidePermanentlyDescription2'
   | 'recoveryPasswordHideRecoveryPasswordDescription'
   | 'recoveryPasswordWarningSendDescription'
-  | 'recoveryPhraseSavePromptMain'
   | 'remove'
   | 'removeAccountPasswordDescription'
   | 'removeAccountPasswordTitle'

@@ -13,7 +13,6 @@ import {
   getOnionPathDialog,
   getReactClearAllDialog,
   getReactListDialog,
-  getRecoveryPhraseDialog,
   getRemoveModeratorsModal,
   getSessionPasswordDialog,
   getUpdateGroupMembersModal,
@@ -34,7 +33,6 @@ import { ReactClearAllModal } from './ReactClearAllModal';
 import { ReactListModal } from './ReactListModal';
 import { SessionConfirm } from './SessionConfirm';
 import { SessionNicknameDialog } from './SessionNicknameDialog';
-import { SessionSeedModal } from './SessionSeedModal';
 import { SessionSetPasswordDialog } from './SessionSetPasswordDialog';
 import { UpdateGroupMembersDialog } from './UpdateGroupMembersDialog';
 import { UpdateGroupNameDialog } from './UpdateGroupNameDialog';
@@ -51,7 +49,6 @@ export const ModalContainer = () => {
   const changeNicknameModal = useSelector(getChangeNickNameDialog);
   const editProfileModalState = useSelector(getEditProfileDialog);
   const onionPathModalState = useSelector(getOnionPathDialog);
-  const recoveryPhraseModalState = useSelector(getRecoveryPhraseDialog);
   const enterPasswordModalState = useSelector(getEnterPasswordModalState);
   const sessionPasswordModalState = useSelector(getSessionPasswordDialog);
   const deleteAccountModalState = useSelector(getDeleteAccountModalState);
@@ -75,7 +72,6 @@ export const ModalContainer = () => {
       {changeNicknameModal && <SessionNicknameDialog {...changeNicknameModal} />}
       {editProfileModalState && <EditProfileDialog {...editProfileModalState} />}
       {onionPathModalState && <OnionPathModal {...onionPathModalState} />}
-      {recoveryPhraseModalState && <SessionSeedModal {...recoveryPhraseModalState} />}
       {enterPasswordModalState && <EnterPasswordModal {...enterPasswordModalState} />}
       {sessionPasswordModalState && <SessionSetPasswordDialog {...sessionPasswordModalState} />}
       {deleteAccountModalState && <DeleteAccountModal {...deleteAccountModalState} />}

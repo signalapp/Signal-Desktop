@@ -430,7 +430,6 @@
   "recoveryPasswordHidePermanentlyDescription2": "Are you sure you want to permanently hide your recovery password on this device? This cannot be undone.",
   "recoveryPasswordHideRecoveryPasswordDescription": "Permanently hide your recover password on this device.",
   "recoveryPasswordWarningSendDescription": "This is your recovery password. If you send it to someone they'll have full access to your account.",
-  "recoveryPhraseSavePromptMain": "Your recovery password is the master key to your Account ID — you can use it to restore your Account ID if you lose access to your device. Store your recovery password in a safe place, and don't give it to anyone.",
   "remove": "Remove",
   "removeAccountPasswordDescription": "Remove the password required to unlock Session.",
   "removeAccountPasswordTitle": "Remove Password",
