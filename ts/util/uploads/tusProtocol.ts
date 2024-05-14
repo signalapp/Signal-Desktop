@@ -1,12 +1,18 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { type Readable } from 'node:stream';
+import fetch, { type RequestInit, type Response } from 'node-fetch';
 
 import { HTTPError } from '../../textsecure/Errors';
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
 import { sleep } from '../sleep';
 import { FIBONACCI_TIMEOUTS, BackOff } from '../BackOff';
+
+export type FetchFunctionType = (
+  url: string | URL,
+  init: RequestInit
+) => Promise<Response>;
 
 const DEFAULT_MAX_RETRIES = 3;
 
@@ -49,6 +55,17 @@ function addProgressHandler(
   });
 }
 
+function wrapFetchWithBody(
+  responsePromise: Promise<Response>,
+  body: Readable
+): Promise<Response> {
+  const errorPromise = new Promise<Response>((_resolve, reject) => {
+    body.on('error', reject);
+  });
+
+  return Promise.race([responsePromise, errorPromise]);
+}
+
 /**
  * @private
  * Generic TUS POST implementation with creation-with-upload.
@@ -65,6 +82,7 @@ export async function _tusCreateWithUploadRequest({
   onProgress,
   onCaughtError,
   signal,
+  fetchFn = fetch,
 }: {
   endpoint: string;
   headers: Record<string, string>;
@@ -74,6 +92,7 @@ export async function _tusCreateWithUploadRequest({
   onProgress?: (bytesUploaded: number) => void;
   onCaughtError?: (error: Error) => void;
   signal?: AbortSignal;
+  fetchFn?: FetchFunctionType;
 }): Promise<boolean> {
   const logId = `tusProtocol: CreateWithUpload(${toLogId(fileName)})`;
   if (onProgress != null) {
@@ -83,23 +102,26 @@ export async function _tusCreateWithUploadRequest({
   let response: Response;
   try {
     log.info(`${logId} init`);
-    response = await fetch(endpoint, {
-      method: 'POST',
-      signal,
-      // @ts-expect-error: `duplex` is missing from TypeScript's `RequestInit`.
-      duplex: 'half',
-      headers: {
-        ...headers,
-        'Tus-Resumable': '1.0.0',
-        'Upload-Length': String(fileSize),
-        'Upload-Metadata': _getUploadMetadataHeader({
-          filename: fileName,
-        }),
-        'Content-Type': 'application/offset+octet-stream',
-      },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      body: readable as any,
-    });
+    response = await wrapFetchWithBody(
+      fetchFn(endpoint, {
+        method: 'POST',
+        signal,
+        // @ts-expect-error: `duplex` is missing from TypeScript's `RequestInit`.
+        duplex: 'half',
+        headers: {
+          ...headers,
+          'Tus-Resumable': '1.0.0',
+          'Upload-Length': String(fileSize),
+          'Upload-Metadata': _getUploadMetadataHeader({
+            filename: fileName,
+          }),
+          'Content-Type': 'application/offset+octet-stream',
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        body: readable as any,
+      }),
+      readable
+    );
   } catch (error) {
     log.error(`${logId} closed without response`, Errors.toLogFormat(error));
     onCaughtError?.(error);
@@ -130,16 +152,18 @@ export async function _tusGetCurrentOffsetRequest({
   headers,
   fileName,
   signal,
+  fetchFn = fetch,
 }: {
   endpoint: string;
   headers: Record<string, string>;
   fileName: string;
   signal?: AbortSignal;
+  fetchFn?: FetchFunctionType;
 }): Promise<number> {
   const logId = `tusProtocol: GetCurrentOffsetRequest(${toLogId(fileName)})`;
   log.info(`${logId} init`);
 
-  const response = await fetch(`${endpoint}/${fileName}`, {
+  const response = await fetchFn(`${endpoint}/${fileName}`, {
     method: 'HEAD',
     signal,
     headers: {
@@ -183,6 +207,7 @@ export async function _tusResumeUploadRequest({
   onProgress,
   onCaughtError,
   signal,
+  fetchFn = fetch,
 }: {
   endpoint: string;
   headers: Record<string, string>;
@@ -192,6 +217,7 @@ export async function _tusResumeUploadRequest({
   onProgress?: (bytesUploaded: number) => void;
   onCaughtError?: (error: Error) => void;
   signal?: AbortSignal;
+  fetchFn?: FetchFunctionType;
 }): Promise<boolean> {
   const logId = `tusProtocol: ResumeUploadRequest(${toLogId(fileName)})`;
   if (onProgress != null) {
@@ -201,20 +227,23 @@ export async function _tusResumeUploadRequest({
   let response: Response;
   try {
     log.info(`${logId} init`);
-    response = await fetch(`${endpoint}/${fileName}`, {
-      method: 'PATCH',
-      signal,
-      // @ts-expect-error: `duplex` is missing from TypeScript's `RequestInit`.
-      duplex: 'half',
-      headers: {
-        ...headers,
-        'Tus-Resumable': '1.0.0',
-        'Upload-Offset': String(uploadOffset),
-        'Content-Type': 'application/offset+octet-stream',
-      },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      body: readable as any,
-    });
+    response = await wrapFetchWithBody(
+      fetchFn(`${endpoint}/${fileName}`, {
+        method: 'PATCH',
+        signal,
+        // @ts-expect-error: `duplex` is missing from TypeScript's `RequestInit`.
+        duplex: 'half',
+        headers: {
+          ...headers,
+          'Tus-Resumable': '1.0.0',
+          'Upload-Offset': String(uploadOffset),
+          'Content-Type': 'application/offset+octet-stream',
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        body: readable as any,
+      }),
+      readable
+    );
   } catch (error) {
     log.error(`${logId} closed without response`, Errors.toLogFormat(error));
     onCaughtError?.(error);
@@ -244,6 +273,7 @@ export async function tusUpload({
   onCaughtError,
   maxRetries = DEFAULT_MAX_RETRIES,
   signal,
+  fetchFn = fetch,
 }: {
   endpoint: string;
   headers: Record<string, string>;
@@ -255,6 +285,7 @@ export async function tusUpload({
   onCaughtError?: (error: Error) => void;
   maxRetries?: number;
   signal?: AbortSignal;
+  fetchFn?: FetchFunctionType;
 }): Promise<void> {
   const readable = reader(filePath);
   const done = await _tusCreateWithUploadRequest({
@@ -267,6 +298,7 @@ export async function tusUpload({
     onProgress,
     onCaughtError,
     signal,
+    fetchFn,
   });
   if (!done) {
     await tusResumeUpload({
@@ -280,6 +312,7 @@ export async function tusUpload({
       onCaughtError,
       maxRetries,
       signal,
+      fetchFn,
     });
   }
 }
@@ -302,6 +335,7 @@ export async function tusResumeUpload({
   onCaughtError,
   maxRetries = DEFAULT_MAX_RETRIES,
   signal,
+  fetchFn = fetch,
 }: {
   endpoint: string;
   headers: Record<string, string>;
@@ -313,6 +347,7 @@ export async function tusResumeUpload({
   onCaughtError?: (error: Error) => void;
   maxRetries?: number;
   signal?: AbortSignal;
+  fetchFn?: FetchFunctionType;
 }): Promise<void> {
   const backoff = new BackOff(FIBONACCI_TIMEOUTS, {
     jitter: BACKOFF_JITTER_MS,
@@ -330,6 +365,7 @@ export async function tusResumeUpload({
       headers,
       fileName,
       signal,
+      fetchFn,
     });
 
     if (uploadOffset === fileSize) {
@@ -348,6 +384,7 @@ export async function tusResumeUpload({
       onProgress,
       onCaughtError,
       signal,
+      fetchFn,
     });
 
     if (done) {

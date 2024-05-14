@@ -146,7 +146,7 @@ describe('tusProtocol', () => {
         }),
       });
       assert.strictEqual(result, false);
-      assert.strictEqual(caughtError?.message, 'fetch failed');
+      assert.strictEqual(caughtError?.message, 'test');
     });
   });
 
@@ -317,7 +317,7 @@ describe('tusProtocol', () => {
         }),
       });
       assert.strictEqual(result, false);
-      assert.strictEqual(caughtError?.message, 'fetch failed');
+      assert.strictEqual(caughtError?.message, 'test');
     });
   });
 
@@ -327,7 +327,6 @@ describe('tusProtocol', () => {
     function assertSocketCloseError(error: unknown) {
       // There isn't an equivalent to this chain in assert()
       expect(error, toLogFormat(error))
-        .property('cause')
         .property('code')
         .oneOf(['ECONNRESET', 'UND_ERR_SOCKET']);
     }

@@ -622,6 +622,7 @@ export class BackupExportStream extends Readable {
     };
 
     if (!isNormalBubble(message)) {
+      result.directionless = {};
       return this.toChatItemFromNonBubble(result, message, options);
     }
 

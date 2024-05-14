@@ -6,7 +6,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import type { Response } from 'node-fetch';
+import type { RequestInit, Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import type { Agent } from 'https';
 import { escapeRegExp, isNumber, isString, isObject } from 'lodash';
@@ -30,6 +30,7 @@ import { getBasicAuth } from '../util/getBasicAuth';
 import { createHTTPSAgent } from '../util/createHTTPSAgent';
 import { createProxyAgent } from '../util/createProxyAgent';
 import type { ProxyAgent } from '../util/createProxyAgent';
+import type { FetchFunctionType } from '../util/uploads/tusProtocol';
 import type { SocketStatus } from '../types/SocketStatus';
 import { VerificationTransport } from '../types/VerificationTransport';
 import { toLogFormat } from '../types/errors';
@@ -143,7 +144,6 @@ function _validateResponse(response: any, schema: any) {
 
 const FIVE_MINUTES = 5 * durations.MINUTE;
 const GET_ATTACHMENT_CHUNK_TIMEOUT = 10 * durations.SECOND;
-const BACKUP_CDN_VERSION = 3;
 
 type AgentCacheType = {
   [name: string]: {
@@ -260,19 +260,21 @@ function getHostname(url: string): string {
   return urlObject.hostname;
 }
 
-async function _promiseAjax(
-  providedUrl: string | null,
+type FetchOptionsType = {
+  method: string;
+  body?: Uint8Array | Readable | string;
+  headers: FetchHeaderListType;
+  redirect?: 'error' | 'follow' | 'manual';
+  agent?: Agent;
+  ca?: string;
+  timeout?: number;
+  abortSignal?: AbortSignal;
+};
+
+async function getFetchOptions(
   options: PromiseAjaxOptionsType
-): Promise<unknown> {
-  const { proxyUrl, socketManager } = options;
-
-  const url = providedUrl || `${options.host}/${options.path}`;
-  const logType = socketManager ? '(WS)' : '(REST)';
-  const redactedURL = options.redactUrl ? options.redactUrl(url) : url;
-
-  const unauthLabel = options.unauthenticated ? ' (unauth)' : '';
-  const logId = `${options.type} ${logType} ${redactedURL}${unauthLabel}`;
-  log.info(logId);
+): Promise<FetchOptionsType> {
+  const { proxyUrl } = options;
 
   const timeout =
     typeof options.timeout === 'number' ? options.timeout : DEFAULT_TIMEOUT;
@@ -313,6 +315,28 @@ async function _promiseAjax(
     abortSignal: options.abortSignal,
   };
 
+  if (options.contentType) {
+    fetchOptions.headers['Content-Type'] = options.contentType;
+  }
+
+  return fetchOptions;
+}
+
+async function _promiseAjax(
+  providedUrl: string | null,
+  options: PromiseAjaxOptionsType
+): Promise<unknown> {
+  const fetchOptions = await getFetchOptions(options);
+  const { socketManager } = options;
+
+  const url = providedUrl || `${options.host}/${options.path}`;
+  const logType = socketManager ? '(WS)' : '(REST)';
+  const redactedURL = options.redactUrl ? options.redactUrl(url) : url;
+
+  const unauthLabel = options.unauthenticated ? ' (unauth)' : '';
+  const logId = `${options.type} ${logType} ${redactedURL}${unauthLabel}`;
+  log.info(logId);
+
   if (fetchOptions.body instanceof Uint8Array) {
     // node-fetch doesn't support Uint8Array, only node Buffer
     const contentLength = fetchOptions.body.byteLength;
@@ -335,10 +359,6 @@ async function _promiseAjax(
       username: options.user,
       password: options.password,
     });
-  }
-
-  if (options.contentType) {
-    fetchOptions.headers['Content-Type'] = options.contentType;
   }
 
   let response: Response;
@@ -963,7 +983,7 @@ const artAuthZod = z.object({
 export type ArtAuthType = z.infer<typeof artAuthZod>;
 
 const attachmentV3Response = z.object({
-  cdn: z.literal(2),
+  cdn: z.literal(2).or(z.literal(3)),
   key: z.string(),
   headers: z.record(z.string()),
   signedUploadLocation: z.string(),
@@ -1127,17 +1147,6 @@ export const getBackupInfoResponseSchema = z.object({
 
 export type GetBackupInfoResponseType = z.infer<
   typeof getBackupInfoResponseSchema
->;
-
-export const getBackupUploadFormResponseSchema = z.object({
-  cdn: z.number(),
-  key: z.string(),
-  headers: z.record(z.string(), z.string()),
-  signedUploadLocation: z.string(),
-});
-
-export type GetBackupUploadFormResponseType = z.infer<
-  typeof getBackupUploadFormResponseSchema
 >;
 
 export type WebAPIType = {
@@ -1327,15 +1336,18 @@ export type WebAPIType = {
       urgent?: boolean;
     }
   ) => Promise<MultiRecipient200ResponseType>;
+  createFetchForAttachmentUpload(
+    attachment: AttachmentV3ResponseType
+  ): FetchFunctionType;
   getBackupInfo: (
     headers: BackupPresentationHeadersType
   ) => Promise<GetBackupInfoResponseType>;
   getBackupUploadForm: (
     headers: BackupPresentationHeadersType
-  ) => Promise<GetBackupUploadFormResponseType>;
+  ) => Promise<AttachmentV3ResponseType>;
   getBackupMediaUploadForm: (
     headers: BackupPresentationHeadersType
-  ) => Promise<GetBackupUploadFormResponseType>;
+  ) => Promise<AttachmentV3ResponseType>;
   refreshBackup: (headers: BackupPresentationHeadersType) => Promise<void>;
   getBackupCredentials: (
     options: GetBackupCredentialsOptionsType
@@ -1360,7 +1372,6 @@ export type WebAPIType = {
     uploadAvatarRequestHeaders: UploadAvatarHeadersType,
     avatarData: Uint8Array
   ) => Promise<string>;
-  uploadBackup: (options: UploadBackupOptionsType) => Promise<string>;
   uploadGroupAvatar: (
     avatarData: Uint8Array,
     options: GroupCredentialsType
@@ -1646,6 +1657,7 @@ export function initialize({
       checkAccountExistence,
       checkSockets,
       createAccount,
+      createFetchForAttachmentUpload,
       confirmUsername,
       createGroup,
       deleteUsername,
@@ -1727,7 +1739,6 @@ export function initialize({
       unregisterRequestHandler,
       updateDeviceName,
       uploadAvatar,
-      uploadBackup,
       uploadGroupAvatar,
       whoami,
     };
@@ -2725,7 +2736,45 @@ export function initialize({
         responseType: 'json',
       });
 
-      return getBackupUploadFormResponseSchema.parse(res);
+      return attachmentV3Response.parse(res);
+    }
+
+    function createFetchForAttachmentUpload({
+      signedUploadLocation,
+      headers: uploadHeaders,
+      cdn,
+    }: AttachmentV3ResponseType): FetchFunctionType {
+      strictAssert(cdn === 3, 'Fetch can only be created for CDN 3');
+      const { origin: expectedOrigin } = new URL(signedUploadLocation);
+
+      return async (
+        endpoint: string | URL,
+        init: RequestInit
+      ): Promise<Response> => {
+        const { origin } = new URL(endpoint);
+        strictAssert(origin === expectedOrigin, `Unexpected origin: ${origin}`);
+
+        const fetchOptions = await getFetchOptions({
+          // Will be overriden
+          type: 'GET',
+
+          certificateAuthority,
+          proxyUrl,
+          timeout: 0,
+          version,
+
+          headers: uploadHeaders,
+        });
+
+        return fetch(endpoint, {
+          ...fetchOptions,
+          ...init,
+          headers: {
+            ...fetchOptions.headers,
+            ...init.headers,
+          },
+        });
+      };
     }
 
     async function getBackupUploadForm(headers: BackupPresentationHeadersType) {
@@ -2738,94 +2787,7 @@ export function initialize({
         responseType: 'json',
       });
 
-      return getBackupUploadFormResponseSchema.parse(res);
-    }
-
-    async function uploadBackup({ headers, stream }: UploadBackupOptionsType) {
-      const {
-        signedUploadLocation,
-        headers: uploadHeaders,
-        cdn,
-        key,
-      } = await getBackupUploadForm(headers);
-
-      strictAssert(
-        cdn === BACKUP_CDN_VERSION,
-        'uploadBackup: unexpected cdn version'
-      );
-
-      let size = 0n;
-      stream.pause();
-      stream.on('data', chunk => {
-        size += BigInt(chunk.length);
-      });
-
-      const uploadOptions = {
-        certificateAuthority,
-        proxyUrl,
-        timeout: 0,
-        type: 'POST' as const,
-        version,
-        headers: {
-          ...uploadHeaders,
-          'Tus-Resumable': '1.0.0',
-          'Content-Type': 'application/offset+octet-stream',
-          'Upload-Defer-Length': '1',
-        },
-        redactUrl: () => {
-          const tmp = new URL(signedUploadLocation);
-          tmp.search = '';
-          tmp.pathname = '';
-          return `${tmp}[REDACTED]`;
-        },
-        data: stream,
-        responseType: 'byteswithdetails' as const,
-      };
-
-      let response: Response;
-      try {
-        ({ response } = await _outerAjax(signedUploadLocation, uploadOptions));
-      } catch (e) {
-        // Another upload in progress, getting 409 should have aborted it.
-        if (e instanceof HTTPError && e.code === 409) {
-          log.warn('uploadBackup: aborting previous unfinished upload');
-          ({ response } = await _outerAjax(
-            signedUploadLocation,
-            uploadOptions
-          ));
-        } else {
-          throw e;
-        }
-      }
-
-      const uploadLocation = response.headers.get('location');
-      strictAssert(uploadLocation, 'backup response header has no location');
-
-      // Finish the upload by sending a PATCH with the stream length
-
-      // This is going to the CDN, not the service, so we use _outerAjax
-      await _outerAjax(uploadLocation, {
-        certificateAuthority,
-        proxyUrl,
-        timeout: 0,
-        type: 'PATCH',
-        version,
-        headers: {
-          ...uploadHeaders,
-          'Tus-Resumable': '1.0.0',
-          'Content-Type': 'application/offset+octet-stream',
-          'Upload-Offset': String(size),
-          'Upload-Length': String(size),
-        },
-        redactUrl: () => {
-          const tmp = new URL(uploadLocation);
-          tmp.search = '';
-          tmp.pathname = '';
-          return `${tmp}[REDACTED]`;
-        },
-      });
-
-      return key;
+      return attachmentV3Response.parse(res);
     }
 
     async function refreshBackup(headers: BackupPresentationHeadersType) {

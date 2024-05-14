@@ -65,7 +65,7 @@ export class TestServer extends EventEmitter {
       typeof address === 'object' && address != null,
       'address must be an object'
     );
-    return `http://localhost:${address.port}/}`;
+    return `http://localhost:${address.port}/`;
   }
 
   respondWith(status: number, headers: OutgoingHttpHeaders = {}): void {
