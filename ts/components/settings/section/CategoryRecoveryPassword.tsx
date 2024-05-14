@@ -6,7 +6,9 @@ import styled from 'styled-components';
 import { usePasswordModal } from '../../../hooks/usePasswordModal';
 import { mnDecode } from '../../../session/crypto/mnemonic';
 import { ToastUtils } from '../../../session/utils';
+import { updateHideRecoveryPasswordModel } from '../../../state/ducks/modalDialog';
 import { showSettingsSection } from '../../../state/ducks/section';
+import { useHideRecoveryPasswordEnabled } from '../../../state/selectors/settings';
 import { getTheme } from '../../../state/selectors/theme';
 import { THEME_GLOBALS, getThemeValue } from '../../../themes/globals';
 import { getCurrentRecoveryPhrase } from '../../../util/storage';
@@ -49,6 +51,8 @@ export const SettingsCategoryRecoveryPassword = () => {
   const [hexEncodedSeed, setHexEncodedSeed] = useState('');
   const [isQRVisible, setIsQRVisible] = useState(false);
 
+  const hideRecoveryPassword = useHideRecoveryPasswordEnabled();
+
   const dispatch = useDispatch();
 
   const { hasPassword, passwordValid } = usePasswordModal({
@@ -79,7 +83,7 @@ export const SettingsCategoryRecoveryPassword = () => {
     }
   });
 
-  if ((hasPassword && !passwordValid) || loadingSeed) {
+  if ((hasPassword && !passwordValid) || loadingSeed || hideRecoveryPassword) {
     return null;
   }
 
@@ -166,16 +170,18 @@ export const SettingsCategoryRecoveryPassword = () => {
           {isQRVisible ? 'View as Password' : 'View QR'}
         </SessionIconButton>
       </SessionSettingsItemWrapper>
-      <SessionSettingButtonItem
-        title={window.i18n('recoveryPasswordHidePermanently')}
-        description={window.i18n('recoveryPasswordHideRecoveryPasswordDescription')}
-        onClick={() => {
-          // TODO
-        }}
-        buttonText={window.i18n('hide')}
-        buttonColor={SessionButtonColor.Danger}
-        dataTestId={'hide-recovery-password-button'}
-      />
+      {!hideRecoveryPassword ? (
+        <SessionSettingButtonItem
+          title={window.i18n('recoveryPasswordHidePermanently')}
+          description={window.i18n('recoveryPasswordHideRecoveryPasswordDescription')}
+          onClick={() => {
+            dispatch(updateHideRecoveryPasswordModel({ state: 'firstWarning' }));
+          }}
+          buttonText={window.i18n('hide')}
+          buttonColor={SessionButtonColor.Danger}
+          dataTestId={'hide-recovery-password-button'}
+        />
+      ) : null}
     </StyledSettingsItemContainer>
   );
 };

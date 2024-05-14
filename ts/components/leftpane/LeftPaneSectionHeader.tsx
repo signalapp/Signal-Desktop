@@ -4,6 +4,7 @@ import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 import { SectionType, setLeftOverlayMode } from '../../state/ducks/section';
 import { disableRecoveryPhrasePrompt } from '../../state/ducks/userConfig';
 import { getFocusedSection, getLeftOverlayMode } from '../../state/selectors/section';
+import { useHideRecoveryPasswordEnabled } from '../../state/selectors/settings';
 import { getShowRecoveryPhrasePrompt } from '../../state/selectors/userConfig';
 import { isSignWithRecoveryPhrase } from '../../util/storage';
 import { Flex } from '../basic/Flex';
@@ -75,6 +76,7 @@ const StyledLeftPaneBanner = styled.div`
 export const LeftPaneBanner = () => {
   const section = useSelector(getFocusedSection);
   const isSignInWithRecoveryPhrase = isSignWithRecoveryPhrase();
+  const hideRecoveryPassword = useHideRecoveryPasswordEnabled();
 
   const dispatch = useDispatch();
 
@@ -83,7 +85,7 @@ export const LeftPaneBanner = () => {
     dispatch(recoveryPhraseModal({}));
   };
 
-  if (section !== SectionType.Message || isSignInWithRecoveryPhrase) {
+  if (section !== SectionType.Message || isSignInWithRecoveryPhrase || hideRecoveryPassword) {
     return null;
   }
 

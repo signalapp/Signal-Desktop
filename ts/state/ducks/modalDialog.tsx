@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { EnterPasswordModalProps } from '../../components/dialog/EnterPasswordModal';
+import { HideRecoveryPasswordDialogProps } from '../../components/dialog/HideRecoveryPasswordDialog';
 import { SessionConfirmDialogProps } from '../../components/dialog/SessionConfirm';
 import type { EditProfilePictureModalProps, PasswordAction } from '../../types/ReduxTypes';
 
@@ -38,6 +39,8 @@ export type ReactModalsState = {
 
 export type EditProfilePictureModalState = EditProfilePictureModalProps | null;
 
+export type HideRecoveryPasswordModalState = HideRecoveryPasswordDialogProps | null;
+
 export type ModalState = {
   confirmModal: ConfirmModalState;
   inviteContactModal: InviteContactModalState;
@@ -57,6 +60,7 @@ export type ModalState = {
   reactListModalState: ReactModalsState;
   reactClearAllModalState: ReactModalsState;
   editProfilePictureModalState: EditProfilePictureModalState;
+  hideRecoveryPasswordModalState: HideRecoveryPasswordModalState;
 };
 
 export const initialModalState: ModalState = {
@@ -78,6 +82,7 @@ export const initialModalState: ModalState = {
   reactListModalState: null,
   reactClearAllModalState: null,
   editProfilePictureModalState: null,
+  hideRecoveryPasswordModalState: null,
 };
 
 const ModalSlice = createSlice({
@@ -138,6 +143,9 @@ const ModalSlice = createSlice({
     updateEditProfilePictureModel(state, action: PayloadAction<EditProfilePictureModalState>) {
       return { ...state, editProfilePictureModalState: action.payload };
     },
+    updateHideRecoveryPasswordModel(state, action: PayloadAction<HideRecoveryPasswordModalState>) {
+      return { ...state, hideRecoveryPasswordModalState: action.payload };
+    },
   },
 });
 
@@ -161,5 +169,6 @@ export const {
   updateReactListModal,
   updateReactClearAllModal,
   updateEditProfilePictureModel,
+  updateHideRecoveryPasswordModel,
 } = actions;
 export const modalReducer = reducer;

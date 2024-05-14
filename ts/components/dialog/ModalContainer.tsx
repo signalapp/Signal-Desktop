@@ -8,6 +8,7 @@ import {
   getEditProfileDialog,
   getEditProfilePictureModalState,
   getEnterPasswordModalState,
+  getHideRecoveryPasswordModalState,
   getInviteContactModal,
   getOnionPathDialog,
   getReactClearAllDialog,
@@ -24,6 +25,7 @@ import { DeleteAccountModal } from './DeleteAccountModal';
 import { EditProfileDialog } from './EditProfileDialog';
 import { EditProfilePictureModal } from './EditProfilePictureModal';
 import { EnterPasswordModal } from './EnterPasswordModal';
+import { HideRecoveryPasswordDialog } from './HideRecoveryPasswordDialog';
 import { InviteContactsDialog } from './InviteContactsDialog';
 import { AddModeratorsDialog } from './ModeratorsAddDialog';
 import { RemoveModeratorsDialog } from './ModeratorsRemoveDialog';
@@ -57,6 +59,7 @@ export const ModalContainer = () => {
   const reactListModalState = useSelector(getReactListDialog);
   const reactClearAllModalState = useSelector(getReactClearAllDialog);
   const editProfilePictureModalState = useSelector(getEditProfilePictureModalState);
+  const hideRecoveryPasswordModalState = useSelector(getHideRecoveryPasswordModalState);
 
   return (
     <>
@@ -81,6 +84,9 @@ export const ModalContainer = () => {
       {reactClearAllModalState && <ReactClearAllModal {...reactClearAllModalState} />}
       {editProfilePictureModalState && (
         <EditProfilePictureModal {...editProfilePictureModalState} />
+      )}
+      {hideRecoveryPasswordModalState && (
+        <HideRecoveryPasswordDialog {...hideRecoveryPasswordModalState} />
       )}
     </>
   );

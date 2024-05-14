@@ -10,6 +10,7 @@ import {
   showSettingsSection,
 } from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
+import { useHideRecoveryPasswordEnabled } from '../../state/selectors/settings';
 import type { SessionSettingCategory } from '../../types/ReduxTypes';
 import { Flex } from '../basic/Flex';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
@@ -164,7 +165,12 @@ const LeftPaneSettingsCategoryRow = (props: { item: Categories }) => {
 };
 
 const LeftPaneSettingsCategories = () => {
-  const categories = getCategories();
+  let categories = getCategories();
+  const hideRecoveryPassword = useHideRecoveryPasswordEnabled();
+
+  if (hideRecoveryPassword) {
+    categories = categories.filter(category => category.id !== 'recoveryPassword');
+  }
 
   return (
     <>
