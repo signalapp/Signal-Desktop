@@ -207,7 +207,7 @@
     "@babel/preset-typescript": "7.23.0",
     "@electron/fuses": "1.5.0",
     "@electron/notarize": "2.1.0",
-    "@electron/symbolicate-mac": "2.0.2",
+    "@electron/symbolicate-mac": "2.1.0",
     "@formatjs/intl": "2.6.7",
     "@indutny/rezip-electron": "1.3.1",
     "@mixer/parallel-prettier": "2.0.3",
