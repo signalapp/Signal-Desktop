@@ -9,7 +9,7 @@ import {
   MessageRequestActionsConfirmation,
   MessageRequestState,
 } from './MessageRequestActionsConfirmation';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import type { LocalizerType } from '../../types/Util';
 import { strictAssert } from '../../util/assert';
 
@@ -55,7 +55,7 @@ export function MessageRequestActions({
 
     if (isBlocked) {
       message = (
-        <Intl
+        <I18n
           i18n={i18n}
           id="icu:MessageRequests--message-direct-blocked"
           components={{ name }}
@@ -63,7 +63,7 @@ export function MessageRequestActions({
       );
     } else if (isHidden) {
       message = (
-        <Intl
+        <I18n
           i18n={i18n}
           id="icu:MessageRequests--message-direct-hidden"
           components={{ name }}
@@ -71,7 +71,7 @@ export function MessageRequestActions({
       );
     } else {
       message = (
-        <Intl
+        <I18n
           i18n={i18n}
           id="icu:MessageRequests--message-direct"
           components={{ name }}
@@ -81,10 +81,10 @@ export function MessageRequestActions({
   } else if (conversationType === 'group') {
     if (isBlocked) {
       message = (
-        <Intl i18n={i18n} id="icu:MessageRequests--message-group-blocked" />
+        <I18n i18n={i18n} id="icu:MessageRequests--message-group-blocked" />
       );
     } else {
-      message = <Intl i18n={i18n} id="icu:MessageRequests--message-group" />;
+      message = <I18n i18n={i18n} id="icu:MessageRequests--message-group" />;
     }
   }
 

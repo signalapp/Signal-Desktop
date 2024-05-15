@@ -66,6 +66,7 @@ import { Modal } from './Modal';
 import { SearchInput } from './SearchInput';
 import { removeDiacritics } from '../util/removeDiacritics';
 import { assertDev } from '../util/assert';
+import { I18n } from './I18n';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -865,9 +866,12 @@ export function Preferences({
           />
           <Checkbox
             checked={hasAutoConvertEmoji}
-            description={i18n(
-              'icu:Preferences__auto-convert-emoji--description'
-            )}
+            description={
+              <I18n
+                i18n={i18n}
+                id="icu:Preferences__auto-convert-emoji--description"
+              />
+            }
             label={i18n('icu:Preferences__auto-convert-emoji--title')}
             moduleClassName="Preferences__checkbox"
             name="autoConvertEmoji"

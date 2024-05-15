@@ -18,7 +18,7 @@ import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
 import { WidthBreakpoint } from '../_util';
 
 import { ErrorBoundary } from './ErrorBoundary';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import { TimelineWarning } from './TimelineWarning';
 import { TimelineWarnings } from './TimelineWarnings';
 import { NewlyCreatedGroupInvitedContactsDialog } from '../NewlyCreatedGroupInvitedContactsDialog';
@@ -995,7 +995,7 @@ export class Timeline extends React.Component<
         switch (warning.type) {
           case ContactSpoofingType.DirectConversationWithSameTitle:
             text = (
-              <Intl
+              <I18n
                 i18n={i18n}
                 id="icu:ContactSpoofing__same-name--link"
                 components={{
@@ -1037,7 +1037,7 @@ export class Timeline extends React.Component<
                 );
               }
               text = (
-                <Intl
+                <I18n
                   i18n={i18n}
                   id="icu:ContactSpoofing__same-name-in-group--link"
                   components={{
@@ -1048,7 +1048,7 @@ export class Timeline extends React.Component<
               );
             } else {
               text = (
-                <Intl
+                <I18n
                   i18n={i18n}
                   id="icu:ContactSpoofing__same-names-in-group--link"
                   components={{

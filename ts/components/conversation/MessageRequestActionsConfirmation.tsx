@@ -5,7 +5,7 @@ import * as React from 'react';
 import type { ContactNameData } from './ContactName';
 import { ContactName } from './ContactName';
 import { ConfirmationDialog } from '../ConfirmationDialog';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import type { LocalizerType } from '../../types/Util';
 
 export enum MessageRequestState {
@@ -65,7 +65,7 @@ export function MessageRequestActionsConfirmation({
         }}
         title={
           conversationType === 'direct' ? (
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:MessageRequests--block-direct-confirm-title"
               components={{
@@ -79,7 +79,7 @@ export function MessageRequestActionsConfirmation({
               }}
             />
           ) : (
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:MessageRequests--block-group-confirm-title"
               components={{
@@ -147,7 +147,7 @@ export function MessageRequestActionsConfirmation({
             'icu:MessageRequests--ReportAndMaybeBlockModal-body--group--unknown-contact'
           )
         ) : (
-          <Intl
+          <I18n
             i18n={i18n}
             id="icu:MessageRequests--ReportAndMaybeBlockModal-body--group"
             components={{
@@ -170,7 +170,7 @@ export function MessageRequestActionsConfirmation({
           onChangeState(MessageRequestState.default);
         }}
         title={
-          <Intl
+          <I18n
             i18n={i18n}
             id="icu:MessageRequests--unblock-direct-confirm-title"
             components={{
@@ -207,12 +207,12 @@ export function MessageRequestActionsConfirmation({
         }}
         title={
           conversationType === 'direct' ? (
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:MessageRequests--delete-direct-confirm-title"
             />
           ) : (
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:MessageRequests--delete-group-confirm-title"
               components={{
@@ -269,7 +269,7 @@ export function MessageRequestActionsConfirmation({
           },
         ]}
       >
-        <Intl
+        <I18n
           i18n={i18n}
           id="icu:MessageRequests--AcceptedOptionsModal--body"
           components={{

@@ -1,11 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReactNode } from 'react';
 import React, { forwardRef, useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import { getClassNamesFor } from '../util/getClassNamesFor';
-import { Emojify } from './conversation/Emojify';
 
 export type PropsType = {
   checked?: boolean;
@@ -15,7 +15,7 @@ export type PropsType = {
     labelNode: JSX.Element;
     checked?: boolean;
   }) => JSX.Element;
-  description?: string;
+  description?: ReactNode;
   disabled?: boolean;
   isRadio?: boolean;
   label: string;
@@ -62,9 +62,7 @@ export const Checkbox = forwardRef(function CheckboxInner(
     <div>
       <label htmlFor={id}>
         <div>{label}</div>
-        <div className={getClassName('__description')}>
-          <Emojify text={description ?? ''} />
-        </div>
+        <div className={getClassName('__description')}>{description}</div>
       </label>
     </div>
   );

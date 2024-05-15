@@ -5,7 +5,7 @@ import React from 'react';
 
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { LocalizerType } from '../../types/Util';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 
 import { SystemMessage } from './SystemMessage';
 import { MessageTimestamp } from './MessageTimestamp';
@@ -29,7 +29,7 @@ export function ChangeNumberNotification(props: Props): JSX.Element {
     <SystemMessage
       contents={
         <>
-          <Intl
+          <I18n
             id="icu:ChangeNumber--notification"
             components={{
               sender: (

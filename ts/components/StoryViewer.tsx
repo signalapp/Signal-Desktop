@@ -30,7 +30,7 @@ import { AnimatedEmojiGalore } from './AnimatedEmojiGalore';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { SendStatus } from '../messages/MessageSendState';
 import { Spinner } from './Spinner';
@@ -946,7 +946,7 @@ export function StoryViewer({
                           <>{i18n('icu:StoryViewer__views-off')}</>
                         )}
                         {isSent && hasViewReceiptSetting && (
-                          <Intl
+                          <I18n
                             i18n={i18n}
                             id="icu:MyStories__views--strong"
                             components={{
@@ -957,7 +957,7 @@ export function StoryViewer({
                         )}
                         {(isSent || viewCount > 0) && replyCount > 0 && ' '}
                         {replyCount > 0 && (
-                          <Intl
+                          <I18n
                             i18n={i18n}
                             id="icu:MyStories__replies"
                             components={{ replyCount, strong: renderStrong }}

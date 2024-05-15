@@ -21,14 +21,14 @@ export type Props<Key extends keyof ICUJSXMessageParamsByKeyType> = {
       components: ICUJSXMessageParamsByKeyType[Key];
     });
 
-export function Intl<Key extends keyof ICUJSXMessageParamsByKeyType>({
+export function I18n<Key extends keyof ICUJSXMessageParamsByKeyType>({
   components,
   id,
   // Indirection for linter/migration tooling
   i18n: localizer,
 }: Props<Key>): JSX.Element | null {
   if (!id) {
-    log.error('Error: Intl id prop not provided');
+    log.error('Error: <I18n> id prop not provided');
     return null;
   }
 

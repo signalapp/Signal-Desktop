@@ -8,7 +8,7 @@ import type { LocalizerType } from '../../types/Util';
 import { isAccessControlEnabled } from '../../groups/util';
 
 import { ConfirmationDialog } from '../ConfirmationDialog';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import { ContactName } from './ContactName';
 
 type PropsType = {
@@ -46,13 +46,13 @@ export function RemoveGroupMemberConfirmationDialog({
       onClose={onClose}
       title={
         accessControlEnabled ? (
-          <Intl
+          <I18n
             i18n={i18n}
             id="icu:RemoveGroupMemberConfirmation__description__with-link"
             components={{ name: contactName }}
           />
         ) : (
-          <Intl
+          <I18n
             i18n={i18n}
             id="icu:RemoveGroupMemberConfirmation__description"
             components={{ name: contactName }}

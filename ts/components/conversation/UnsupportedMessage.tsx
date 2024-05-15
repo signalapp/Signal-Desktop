@@ -6,7 +6,7 @@ import React from 'react';
 import { SystemMessage } from './SystemMessage';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { ContactName } from './ContactName';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import type { LocalizerType } from '../../types/Util';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
 
@@ -43,25 +43,25 @@ function UnsupportedMessageContents({ canProcessNow, contact, i18n }: Props) {
   if (isMe) {
     if (canProcessNow) {
       return (
-        <Intl
+        <I18n
           id="icu:Message--unsupported-message-ask-to-resend"
           components={{ contact: contactName }}
           i18n={i18n}
         />
       );
     }
-    return <Intl id="icu:Message--from-me-unsupported-message" i18n={i18n} />;
+    return <I18n id="icu:Message--from-me-unsupported-message" i18n={i18n} />;
   }
   if (canProcessNow) {
     return (
-      <Intl
+      <I18n
         id="icu:Message--from-me-unsupported-message-ask-to-resend"
         i18n={i18n}
       />
     );
   }
   return (
-    <Intl
+    <I18n
       id="icu:Message--unsupported-message"
       i18n={i18n}
       components={{

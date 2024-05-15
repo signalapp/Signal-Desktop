@@ -8,7 +8,7 @@ import type { LocalizerType } from '../types/Util';
 import { UNSUPPORTED_OS_URL } from '../types/support';
 import { missingCaseError } from '../util/missingCaseError';
 import type { WidthBreakpoint } from './_util';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 
 import { LeftPaneDialog } from './LeftPaneDialog';
 
@@ -41,7 +41,7 @@ export function UnsupportedOSDialog({
   let body: JSX.Element;
   if (type === 'error') {
     body = (
-      <Intl
+      <I18n
         id="icu:UnsupportedOSErrorDialog__body"
         i18n={i18n}
         components={{
@@ -52,7 +52,7 @@ export function UnsupportedOSDialog({
     );
   } else if (type === 'warning') {
     body = (
-      <Intl
+      <I18n
         id="icu:UnsupportedOSWarningDialog__body"
         i18n={i18n}
         components={{

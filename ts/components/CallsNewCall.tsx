@@ -15,7 +15,7 @@ import { ListTile } from './ListTile';
 import { strictAssert } from '../util/assert';
 import { UserText } from './UserText';
 import { Avatar, AvatarSize } from './Avatar';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { SizeObserver } from '../hooks/useSizeObserver';
 import { CallType } from '../types/CallDisposition';
 
@@ -244,7 +244,7 @@ export function CallsNewCall({
           {query === '' ? (
             i18n('icu:CallsNewCall__EmptyState--noQuery')
           ) : (
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:CallsNewCall__EmptyState--hasQuery"
               components={{

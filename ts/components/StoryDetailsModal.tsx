@@ -8,7 +8,7 @@ import type { StorySendStateType, StoryViewType } from '../types/Stories';
 import { Avatar, AvatarSize } from './Avatar';
 import { ContactName } from './conversation/ContactName';
 import { ContextMenu } from './ContextMenu';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { Modal } from './Modal';
 import { SendStatus } from '../messages/MessageSendState';
 import { Theme } from '../util/theme';
@@ -246,7 +246,7 @@ export function StoryDetailsModal({
           theme={Theme.Dark}
         >
           <div>
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:StoryDetailsModal__sent-time"
               components={{
@@ -263,7 +263,7 @@ export function StoryDetailsModal({
           </div>
           {attachment && (
             <div>
-              <Intl
+              <I18n
                 i18n={i18n}
                 id="icu:StoryDetailsModal__file-size"
                 components={{
@@ -278,7 +278,7 @@ export function StoryDetailsModal({
           )}
           {timeRemaining && timeRemaining > 0 && (
             <div>
-              <Intl
+              <I18n
                 i18n={i18n}
                 id="icu:StoryDetailsModal__disappears-in"
                 components={{

@@ -6,7 +6,7 @@ import React from 'react';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { SystemMessage } from './SystemMessage';
 import { ContactName } from './ContactName';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import type { LocalizerType } from '../../types/Util';
 
 export type ContactType = {
@@ -51,13 +51,13 @@ export function SafetyNumberNotification({
       icon="safety-number"
       contents={
         isGroup ? (
-          <Intl
+          <I18n
             id="icu:safetyNumberChangedGroup"
             components={{ name }}
             i18n={i18n}
           />
         ) : (
-          <Intl id="icu:safetyNumberChanged" i18n={i18n} />
+          <I18n id="icu:safetyNumberChanged" i18n={i18n} />
         )
       }
       button={
