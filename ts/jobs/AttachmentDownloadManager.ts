@@ -518,7 +518,7 @@ async function runDownloadAttachmentJob(
 
     if (error instanceof AttachmentSizeError) {
       await addAttachmentToMessage(
-        message,
+        message.id,
         _markAttachmentAsTooBig(job.attachment),
         logId,
         { type: job.attachmentType }
@@ -528,7 +528,7 @@ async function runDownloadAttachmentJob(
 
     if (error instanceof AttachmentNotFoundOnCdnError) {
       await addAttachmentToMessage(
-        message,
+        message.id,
         _markAttachmentAsPermanentlyErrored(job.attachment),
         logId,
         { type: job.attachmentType }
@@ -539,7 +539,7 @@ async function runDownloadAttachmentJob(
 
     if (isLastAttempt) {
       await addAttachmentToMessage(
-        message,
+        message.id,
         _markAttachmentAsTransientlyErrored(job.attachment),
         logId,
         { type: job.attachmentType }
@@ -549,7 +549,7 @@ async function runDownloadAttachmentJob(
 
     // Remove `pending` flag from the attachment and retry later
     await addAttachmentToMessage(
-      message,
+      message.id,
       {
         ...job.attachment,
         pending: false,
@@ -601,7 +601,7 @@ async function runDownloadAttachmentJobInner(
   }
 
   await addAttachmentToMessage(
-    message,
+    message.id,
     { ...attachment, pending: true },
     logId,
     { type }
@@ -613,7 +613,7 @@ async function runDownloadAttachmentJobInner(
     await window.Signal.Migrations.processNewAttachment(downloaded);
 
   await addAttachmentToMessage(
-    message,
+    message.id,
     omit(upgradedAttachment, ['error', 'pending']),
     logId,
     {
