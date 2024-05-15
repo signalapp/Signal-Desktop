@@ -179,18 +179,15 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--right-panel-duration': setDuration('0.3s'),
 };
 
-// These should only be needed for the global style (at root).
-export function declareCSSVariables(variables: Record<string, string>) {
-  let output = '';
-  // eslint-disable-next-line no-restricted-syntax
-  for (const [key, value] of Object.entries(variables)) {
-    output += `${key}: ${value};\n`;
-  }
-
-  return output;
-}
-
 type ThemeKeys = ThemeGlobals & ThemeColorVariables;
+
 export function getThemeValue(key: keyof ThemeKeys) {
   return getComputedStyle(document.documentElement).getPropertyValue(key);
+}
+
+export function setThemeValues(variables: ThemeGlobals | ThemeColorVariables) {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [key, value] of Object.entries(variables)) {
+    document.documentElement.style.setProperty(key, value);
+  }
 }

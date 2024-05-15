@@ -205,10 +205,3 @@ export type ThemeColorVariables = {
   '--file-dropzone-background-color': string;
   '--file-dropzone-border-color': string;
 };
-
-export function loadThemeColors(variables: ThemeColorVariables) {
-  // eslint-disable-next-line no-restricted-syntax
-  for (const [key, value] of Object.entries(variables)) {
-    document.documentElement.style.setProperty(key, value);
-  }
-}
