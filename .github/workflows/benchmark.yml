@@ -30,7 +30,7 @@ jobs:
     - name: Setup node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '20.9.0'
+        node-version: '20.11.1'
     - name: Install global dependencies
       run: npm install -g yarn@1.22.10 npm@10.2.5
 
