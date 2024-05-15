@@ -8,6 +8,10 @@ export class Bytes {
     return Buffer.from(value, 'base64');
   }
 
+  public fromBase64url(value: string): Uint8Array {
+    return Buffer.from(value, 'base64url');
+  }
+
   public fromHex(value: string): Uint8Array {
     return Buffer.from(value, 'hex');
   }

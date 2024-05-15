@@ -10,6 +10,7 @@ import { join } from 'path';
 import { createGzip, createGunzip } from 'zlib';
 import { createCipheriv, createHmac, randomBytes } from 'crypto';
 import { noop } from 'lodash';
+import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 
 import * as log from '../../logging/log';
 import * as Bytes from '../../Bytes';
@@ -68,8 +69,11 @@ export class BackupsService {
     const fileName = `backup-${randomBytes(32).toString('hex')}`;
     const filePath = join(window.BasePaths.temp, fileName);
 
+    const backupLevel = await this.credentials.getBackupLevel();
+    log.info(`exportBackup: starting, backup level: ${backupLevel}...`);
+
     try {
-      const fileSize = await this.exportToDisk(filePath);
+      const fileSize = await this.exportToDisk(filePath, backupLevel);
 
       await this.api.upload(filePath, fileSize);
     } finally {
@@ -82,19 +86,24 @@ export class BackupsService {
   }
 
   // Test harness
-  public async exportBackupData(): Promise<Uint8Array> {
+  public async exportBackupData(
+    backupLevel: BackupLevel = BackupLevel.Messages
+  ): Promise<Uint8Array> {
     const sink = new PassThrough();
 
     const chunks = new Array<Uint8Array>();
     sink.on('data', chunk => chunks.push(chunk));
-    await this.exportBackup(sink);
+    await this.exportBackup(sink, backupLevel);
 
     return Bytes.concatenate(chunks);
   }
 
   // Test harness
-  public async exportToDisk(path: string): Promise<number> {
-    const size = await this.exportBackup(createWriteStream(path));
+  public async exportToDisk(
+    path: string,
+    backupLevel: BackupLevel = BackupLevel.Messages
+  ): Promise<number> {
+    const size = await this.exportBackup(createWriteStream(path), backupLevel);
 
     await validateBackup(path, size);
 
@@ -174,7 +183,10 @@ export class BackupsService {
     }
   }
 
-  private async exportBackup(sink: Writable): Promise<number> {
+  private async exportBackup(
+    sink: Writable,
+    backupLevel: BackupLevel = BackupLevel.Messages
+  ): Promise<number> {
     strictAssert(!this.isRunning, 'BackupService is already running');
 
     log.info('exportBackup: starting...');
@@ -184,7 +196,7 @@ export class BackupsService {
       const { aesKey, macKey } = getKeyMaterial();
 
       const recordStream = new BackupExportStream();
-      recordStream.run();
+      recordStream.run(backupLevel);
 
       const iv = randomBytes(IV_LENGTH);
 

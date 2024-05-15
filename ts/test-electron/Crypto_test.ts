@@ -40,7 +40,7 @@ import {
   KEY_SET_LENGTH,
   _generateAttachmentIv,
   decryptAttachmentV2,
-  encryptAttachmentV2,
+  encryptAttachmentV2ToDisk,
   getAesCbcCiphertextLength,
   splitKeys,
 } from '../AttachmentCrypto';
@@ -607,7 +607,7 @@ describe('Crypto', () => {
       let ciphertextPath;
 
       try {
-        const encryptedAttachment = await encryptAttachmentV2({
+        const encryptedAttachment = await encryptAttachmentV2ToDisk({
           keys,
           plaintextAbsolutePath: FILE_PATH,
         });
@@ -655,7 +655,7 @@ describe('Crypto', () => {
       let ciphertextPath;
 
       try {
-        const encryptedAttachment = await encryptAttachmentV2({
+        const encryptedAttachment = await encryptAttachmentV2ToDisk({
           keys,
           plaintextAbsolutePath: sourcePath,
         });
@@ -700,7 +700,7 @@ describe('Crypto', () => {
       let ciphertextPath;
 
       try {
-        const encryptedAttachment = await encryptAttachmentV2({
+        const encryptedAttachment = await encryptAttachmentV2ToDisk({
           keys,
           plaintextAbsolutePath: FILE_PATH,
         });
@@ -753,7 +753,7 @@ describe('Crypto', () => {
         });
         const ciphertextV1 = encryptedAttachmentV1.ciphertext;
 
-        const encryptedAttachmentV2 = await encryptAttachmentV2({
+        const encryptedAttachmentV2 = await encryptAttachmentV2ToDisk({
           keys,
           plaintextAbsolutePath: FILE_PATH,
           dangerousTestOnlyIv,
@@ -788,7 +788,7 @@ describe('Crypto', () => {
         let outerCiphertextPath;
         let innerEncryptedAttachment;
         try {
-          innerEncryptedAttachment = await encryptAttachmentV2({
+          innerEncryptedAttachment = await encryptAttachmentV2ToDisk({
             keys: innerKeys,
             plaintextAbsolutePath,
           });
@@ -797,7 +797,7 @@ describe('Crypto', () => {
               innerEncryptedAttachment.path
             );
 
-          const outerEncryptedAttachment = await encryptAttachmentV2({
+          const outerEncryptedAttachment = await encryptAttachmentV2ToDisk({
             keys: outerKeys,
             plaintextAbsolutePath: innerCiphertextPath,
             // We (and the server!) don't pad the second layer

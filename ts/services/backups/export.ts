@@ -3,6 +3,7 @@
 
 import Long from 'long';
 import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
+import type { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 import pMap from 'p-map';
 import pTimeout from 'p-timeout';
 import { Readable } from 'stream';
@@ -82,6 +83,13 @@ import {
   numberToAddressType,
   numberToPhoneType,
 } from '../../types/EmbeddedContact';
+import {
+  isVoiceMessage,
+  type AttachmentType,
+  isGIF,
+  isDownloaded,
+} from '../../types/Attachment';
+import { convertAttachmentToFilePointer } from './util/filePointers';
 
 const MAX_CONCURRENCY = 10;
 
@@ -116,14 +124,13 @@ export class BackupExportStream extends Readable {
   private nextRecipientId = 0;
   private flushResolve: (() => void) | undefined;
 
-  public run(): void {
+  public run(backupLevel: BackupLevel): void {
     drop(
       (async () => {
         log.info('BackupExportStream: starting...');
         await Data.pauseWriteAccess();
-
         try {
-          await this.unsafeRun();
+          await this.unsafeRun(backupLevel);
         } catch (error) {
           this.emit('error', error);
         } finally {
@@ -134,7 +141,7 @@ export class BackupExportStream extends Readable {
     );
   }
 
-  private async unsafeRun(): Promise<void> {
+  private async unsafeRun(backupLevel: BackupLevel): Promise<void> {
     this.push(
       Backups.BackupInfo.encodeDelimited({
         version: Long.fromNumber(BACKUP_VERSION),
@@ -279,7 +286,12 @@ export class BackupExportStream extends Readable {
         // eslint-disable-next-line no-await-in-loop
         const items = await pMap(
           messages,
-          message => this.toChatItem(message, { aboutMe, callHistoryByCallId }),
+          message =>
+            this.toChatItem(message, {
+              aboutMe,
+              callHistoryByCallId,
+              backupLevel,
+            }),
           { concurrency: MAX_CONCURRENCY }
         );
 
@@ -308,6 +320,7 @@ export class BackupExportStream extends Readable {
     }
 
     await this.flush();
+
     log.warn('backups: final stats', stats);
 
     this.push(null);
@@ -562,6 +575,7 @@ export class BackupExportStream extends Readable {
     options: {
       aboutMe: AboutMe;
       callHistoryByCallId: Record<string, CallHistoryDetails>;
+      backupLevel: BackupLevel;
     }
   ): Promise<Backups.IChatItem | undefined> {
     const chatId = this.getRecipientId({ id: message.conversationId });
@@ -629,6 +643,16 @@ export class BackupExportStream extends Readable {
     // TODO (DESKTOP-6964): put incoming/outgoing fields below onto non-bubble messages
     result.standardMessage = {
       quote: await this.toQuote(message.quote),
+      attachments: message.attachments
+        ? await Promise.all(
+            message.attachments.map(attachment => {
+              return this.processMessageAttachment({
+                attachment,
+                backupLevel: options.backupLevel,
+              });
+            })
+          )
+        : undefined,
       text: {
         // Note that we store full text on the message model so we have to
         // trim it before serializing.
@@ -1578,6 +1602,63 @@ export class BackupExportStream extends Readable {
             style: range.style,
           }),
     };
+  }
+
+  private getMessageAttachmentFlag(
+    attachment: AttachmentType
+  ): Backups.MessageAttachment.Flag {
+    if (isVoiceMessage(attachment)) {
+      return Backups.MessageAttachment.Flag.VOICE_MESSAGE;
+    }
+    if (isGIF([attachment])) {
+      return Backups.MessageAttachment.Flag.GIF;
+    }
+    if (
+      attachment.flags &&
+      // eslint-disable-next-line no-bitwise
+      attachment.flags & SignalService.AttachmentPointer.Flags.BORDERLESS
+    ) {
+      return Backups.MessageAttachment.Flag.BORDERLESS;
+    }
+
+    return Backups.MessageAttachment.Flag.NONE;
+  }
+
+  private async processMessageAttachment({
+    attachment,
+    backupLevel,
+  }: {
+    attachment: AttachmentType;
+    backupLevel: BackupLevel;
+  }): Promise<Backups.MessageAttachment> {
+    const filePointer = await this.processAttachment({
+      attachment,
+      backupLevel,
+    });
+
+    return new Backups.MessageAttachment({
+      pointer: filePointer,
+      flag: this.getMessageAttachmentFlag(attachment),
+      wasDownloaded: isDownloaded(attachment), // should always be true
+    });
+  }
+
+  private async processAttachment({
+    attachment,
+    backupLevel,
+  }: {
+    attachment: AttachmentType;
+    backupLevel: BackupLevel;
+  }): Promise<Backups.FilePointer> {
+    const filePointer = await convertAttachmentToFilePointer({
+      attachment,
+      backupLevel,
+      // TODO (DESKTOP-6983) -- Retrieve & save backup tier media list
+      getBackupTierInfo: () => ({
+        isInBackupTier: false,
+      }),
+    });
+    return filePointer;
   }
 }
 

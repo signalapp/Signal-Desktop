@@ -21,7 +21,7 @@ import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../util/GoogleChrome';
-import type { LocalizerType } from './Util';
+import type { LocalizerType, WithRequiredProperties } from './Util';
 import { ThemeType } from './Util';
 import * as GoogleChrome from '../util/GoogleChrome';
 import { ReadStatus } from '../messages/MessageReadStatus';
@@ -993,4 +993,67 @@ export const canBeDownloaded = (
 export function getAttachmentSignature(attachment: AttachmentType): string {
   strictAssert(attachment.digest, 'attachment missing digest');
   return attachment.digest;
+}
+
+type RequiredPropertiesForDecryption = 'key' | 'digest';
+
+type DecryptableAttachment = WithRequiredProperties<
+  AttachmentType,
+  RequiredPropertiesForDecryption
+>;
+
+export type AttachmentDownloadableFromTransitTier = WithRequiredProperties<
+  DecryptableAttachment,
+  'cdnKey' | 'cdnNumber'
+>;
+
+export type AttachmentDownloadableFromBackupTier = WithRequiredProperties<
+  DecryptableAttachment,
+  'backupLocator'
+>;
+
+export type DownloadedAttachment = WithRequiredProperties<
+  AttachmentType,
+  'path'
+>;
+
+export type AttachmentReadyForBackup = WithRequiredProperties<
+  DownloadedAttachment,
+  RequiredPropertiesForDecryption
+>;
+
+function isDecryptable(
+  attachment: AttachmentType
+): attachment is DecryptableAttachment {
+  return Boolean(attachment.key) && Boolean(attachment.digest);
+}
+
+export function isDownloadableFromTransitTier(
+  attachment: AttachmentType
+): attachment is AttachmentDownloadableFromTransitTier {
+  if (!isDecryptable(attachment)) {
+    return false;
+  }
+  if (attachment.cdnKey && attachment.cdnNumber) {
+    return true;
+  }
+  return false;
+}
+
+export function isDownloadableFromBackupTier(
+  attachment: AttachmentType
+): attachment is AttachmentDownloadableFromBackupTier {
+  if (!attachment.key || !attachment.digest) {
+    return false;
+  }
+  if (attachment.backupLocator?.mediaName) {
+    return true;
+  }
+  return false;
+}
+
+export function isDownloadedToLocalFile(
+  attachment: AttachmentType
+): attachment is DownloadedAttachment {
+  return Boolean(attachment.path);
 }
