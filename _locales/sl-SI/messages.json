@@ -1215,7 +1215,7 @@
     "messageformat": "Vsakdo, ki se pridruži temu klicu prek povezave, bo videl vaše ime, fotografijo in telefonsko številko."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "Čakanje na dostop ..."
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Pridruži se"
@@ -1365,16 +1365,16 @@
     "messageformat": "Kliknite tu za vrnitev na klic po koncu predvajanja."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Ponovno povezovanje ..."
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "Vaša povezava je bila izgubljena. Signal se ponovno povezuje."
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal vam deli {window}."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Ponovno povezovanje ..."
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Zaustavi deljenje zaslona"
@@ -2778,7 +2778,7 @@
     "messageformat": "Okno"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "Kopiraj klicno povezavo"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Odstrani te osebe iz klica"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, one {Član_ica {memberName} je povabil_a 1 osebo v skupino.} two {Član_ica {memberName} je povabil_a {count,number} osebi v skupino.} few {Član_ica {memberName} je povabil_a {count,number} osebe v skupino.} other {Član_ica {memberName} je povabil_a {count,number} oseb v skupino.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, one {V skupino ste povabili {count,number} osebo.} two {V skupino ste povabili {count,number} osebi.} few {V skupino ste povabili {count,number} osebe.} other {V skupino ste povabili {count,number} oseb.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, one {{count,number} oseba je bila povabljena v to skupino} two {{count,number} uporabnika_ci sta bila_li povabljena_ni v skupino.} few {{count,number} uporabniki_ce so bili_e povabljeni_ne v skupino.} other {{count,number} uporabnikov_ic je bilo povabljenih v skupino.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "Skrbnik_ca je preklical_a vabilo v skupino za 1 uporabnika_co."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {{memberName} je preklical_a vabilo v to skupino za 1 osebo.} two {{memberName} je preklical_a vabilo v to skupino za {count,number} osebi.} few {{memberName} je preklical_a vabilo v to skupino za {count,number} osebe.} other {{memberName} je preklical_a vabilo v to skupino za {count,number} oseb.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Preklicali ste vabilo v to skupino za 1 osebo.} two {Preklicali ste vabilo v to skupino za {count,number} osebi.} few {Preklicali ste vabilo v to skupino za {count,number} osebe.} other {Preklicali ste vabilo v to skupino za {count,number} oseb.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Skrbnik_ca je preklical_a vabilo v to skupino za 1 osebo.} two {Skrbnik_ca je preklical_a vabilo v to skupino za {count,number} osebi.} few {Skrbnik_ca je preklical_a vabilo v to skupino za {count,number} osebe.} other {Skrbnik_ca je preklical_a vabilo v to skupino za {count,number} oseb.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} je preklical_a vabilo v skupino za 1 uporabnika_co, povabljenega_no s strani člana_ice {memberName}."
@@ -3213,7 +3213,7 @@
     "messageformat": "Preklicali ste vabilo v skupino za 1 uporabnika_co, povabljeno s strani člana_ice {memberName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "An admin revoked an invitation to the group for # person invited by {memberName}."
+    "messageformat": "Skrbnik_ca je preklical_a vabilo v skupino za 1 uporabnika_co, povabljeno s strani člana_ice {memberName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
     "messageformat": "{adminName} je preklical_a vabilo v skupino, ki ste ga poslali uporabniku_ci {inviteeName}."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, one {{adminName} je preklical_a vabilo v skupino za {count,number} uporabnika_ico, povabljenih s strani člana_ice {memberName}.} two {{adminName} je preklical_a vabilo v skupino za {count,number} uporabnika_ici, povabljenih s strani člana_ice {memberName}.} few {{adminName} je preklical_a vabilo v skupino za {count,number} uporabnike_ice, povabljenih s strani člana_ice {memberName}.} other {{adminName} je preklical_a vabilo v skupino za {count,number} uporabnikov_ic, povabljenih s strani člana_ice {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Preklicali ste vabilo v to skupino za {count,number} osebo, povabljeno s strani člana_ice {memberName}.} two {Preklicali ste vabilo v to skupino za {count,number} osebi, povabljeni s strani člana_ice {memberName}.} few {Preklicali ste vabilo v to skupino za {count,number} osebe, povabljene s strani člana_ice {memberName}.} other {Preklicali ste vabilo v to skupino za {count,number} oseb, povabljenih s strani člana_ice {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Skrbnik_ca je preklical_a vabilo v to skupino za {count,number} osebo, povabljeno s strani člana_ice {memberName}.} two {Skrbnik_ca je preklical_a vabilo v to skupino za {count,number} osebi, povabljeni s strani člana_ice {memberName}.} few {Skrbnik_ca je preklical_a vabilo v to skupino za {count,number} osebe, povabljene s strani člana_ice {memberName}.} other {Skrbnik_ca je preklical_a vabilo v to skupino za {count,number} oseb, povabljenih s strani člana_ice {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {{adminName} je preklical_a vaše vabilo v to skupino za {count,number} osebo.} two {{adminName} je preklical_a vaše vabilo v to skupino za {count,number} osebi.} few {{adminName} je preklical_a vaše vabilo v to skupino za {count,number} osebe.} other {{adminName} je preklical_a vaše vabilo v to skupino za {count,number} oseb.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Preklicali ste svoje vabilo za {count,number} osebo.} two {Preklicali ste svoje vabilo za {count,number} osebi.} few {Preklicali ste svoje vabilo za {count,number} osebe.} other {Preklicali ste svoje vabilo za {count,number} oseb.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Skrbnik_ca je preklical_a vaše vabilo v to skupino za {count,number} osebo.} two {Skrbnik_ca je preklical_a vaše vabilo v to skupino za {count,number} osebi.} few {Skrbnik_ca je preklical_a vaše vabilo v to skupino za {count,number} osebe.} other {Skrbnik_ca je preklical_a vaše vabilo v to skupino za {count,number} oseb.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "Poslali ste prošnjo za pridružitev skupini."
@@ -3384,7 +3384,7 @@
     "messageformat": "Ta član_ica bo moral_a potrditi vabilo za ponovno pridružitev skupini in do takrat ne bo mogel_la prejemati novih sporočil skupine:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, one {{count,number} član_ica bo morala_a potrditi vabilo za ponovno pridružitev skupini in do takrat ne bo mogel_la prejemati sporočil skupine.} two {{count,number} člana_ci bosta morala_i potrditi vabilo za ponovno pridružitev skupini in do takrat ne bosta mogla_i prejemati sporočil skupine.} few {{count,number} člani_ce bodo morali_e potrditi vabilo za ponovno pridružitev skupini in do takrat ne bodo mogli_e prejemati sporočil skupine.} other {{count,number} članov_ci bo moralo potrditi vabilo za ponovno pridružitev skupini in do takrat ne bodo mogli_e prejemati sporočil skupine.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "Ti_te člani_ce se ne morejo pridružiti Novim skupinam, zato so bili_e odstranjeni_e iz skupine:"
@@ -3393,7 +3393,7 @@
     "messageformat": "Ta član_ica se ne more pridružiti Novim skupinam, zato je bil_a odstranjen_a iz skupine:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} član_ica se ne more pridružiti Novim skupinam, zato bo odstranjen_a iz skupine.} two {{count,number} člana_ici se ne moreta pridružiti Novim skupinam, zato bosta odstranjena_i iz skupine.} few {{count,number} člani_ce se ne morejo pridružiti Novim skupinam, zato bodo odstranjeni_e iz skupine.} other {{count,number} članov_ic se ne more pridružiti Novim skupinam, zato bodo odstranjeni_e iz skupine.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "Ti_te člani_ce se niso mogli pridružiti Novim skupinam, zato so bili_e odstranjeni_e iz skupine:"
@@ -3402,7 +3402,7 @@
     "messageformat": "Ta član_ica se ni mogla pridružiti Novim skupinam, zato je bil_a odstranjen_a iz skupine:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} član_ica se ni mogel_la pridružiti Novim skupinam, zato je bil_a odstranjen_a iz skupine.} two {{count,number} člana_ci se nista mogla_i pridružiti Novim skupinam, zato sta bila_i odstranjena_i iz skupine.} few {{count,number} člani_ce se niso mogli pridružiti Novim skupinam, zato so bili_e odstranjeni_e iz skupine.} other {{count,number} članov_ic se ni moglo pridružiti Novim skupinam, zato so bili_e odstranjeni_e iz skupine.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "Niste mogli biti dodani Novi skupini, zato ste bili povabljeni, da se ponovno pridružite."
@@ -3411,7 +3411,7 @@
     "messageformat": "{contact} ni mogel_la biti dodan_a v Novo skupino, zato je bil_a povabljen_a, da se pridruži."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, one {Člana ni bilo mogoče dodati v novo skupino in mu je bilo poslano povabilo.} two {{count,number} članov ni bilo mogoče dodati v novo skupino in jima je bilo poslano povabilo.} few {{count,number} članov ni bilo mogoče dodati v novo skupino in jim je bilo poslano povabilo.} other {{count,number} članov ni bilo mogoče dodati v novo skupino in jim je bilo poslano povabilo.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} je bil_a odstranjen_a iz skupine."
@@ -5367,7 +5367,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "Nekaj popravkov napak za nemoteno delovanje vaše aplikacije. Več razburljivih sprememb na obzorju! ",
+    "messageformat": "Nekaj popravkov napak za nemoteno delovanje vaše aplikacije. Več razburljivih sprememb na obzorju!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
@@ -5385,8 +5385,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Zdaj se lahko med klicem odzovete s katerimkoli emojijem. Nasmehnite se, tudi če je fotoaparat izklopljen, delite srce, če vam je všeč, kar slišite, ali pa brez besed glasujte za suši namesto za pico. Če se dovolj ljudi v klicu odzove z istim emojijem, se prikaže animacija izbruha vseh emojijev."
   }
 }

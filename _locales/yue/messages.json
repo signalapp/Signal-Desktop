@@ -1215,7 +1215,7 @@
     "messageformat": "透過連結加入呢個通話嘅人都會睇到你個名、相同電話冧把。"
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "等緊入去..."
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "加入"
@@ -1365,16 +1365,16 @@
     "messageformat": "當你準備好停止簡報嗰陣，可以㩒呢度返回通話。"
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "重新連緊線..."
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "你斷咗線。Signal 而家重新連緊線。"
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal 分享緊 {window}。"
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "重新連緊線..."
   },
   "icu:calling__presenting--stop": {
     "messageformat": "停止分享"
@@ -2778,7 +2778,7 @@
     "messageformat": "視窗"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "複製通話連結"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "喺通話度移除呢個人"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, other {{memberName} 邀請咗 {count,number} 個人加入群組。}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, other {你邀請咗 {count,number} 個人加入群組。}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, other {邀請咗 {count,number} 個人加入群組。}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "有管理員撤銷咗 1 個人嘅群組邀請。"
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {{memberName} 撤銷咗 {count,number} 個人嘅群組邀請。}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {你撤銷咗 {count,number} 個人嘅群組邀請。}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {有管理員撤銷咗 {count,number} 個人嘅群組邀請。}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} 撤銷咗 {memberName} 對 1 個人嘅群組邀請。"
@@ -3213,7 +3213,7 @@
     "messageformat": "你撤銷咗 {memberName} 對 1 個人嘅群組邀請。"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "An admin revoked an invitation to the group for # person invited by {memberName}."
+    "messageformat": "有管理員撤銷咗 {memberName} 對 1 個人嘅群組邀請。"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
     "messageformat": "{adminName} 撤銷咗你對 {inviteeName} 嘅群組邀請。"
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, other {{adminName} 撤銷咗 {memberName} 對 {count,number} 個人嘅群組邀請。}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, other {你撤銷咗{memberName}對 {count,number} 個人嘅群組邀請。}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, other {有管理員撤銷咗{memberName}對 {count,number} 個人嘅群組邀請。}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, other {{adminName}撤銷咗你對 {count,number} 個人嘅群組邀請。}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, other {你取消咗對 {count,number} 個人嘅邀請。}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, other {有管理員撤銷咗你對 {count,number} 個人嘅群組邀請。}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "你送出咗加入群組嘅請求。"
@@ -3384,7 +3384,7 @@
     "messageformat": "呢位成員要接受咗邀請先可以再加入呢個群組。喺未接受邀請之前，佢唔會收到任何群組訊息："
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, other {{count,number} 個成員需要接受邀請先可以重新加入群組。喺佢哋接受之前，唔會收到呢個群組嘅訊息。}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "呢啲成員唔夠資格加入「新版群組」，所以佢哋將會被移除："
@@ -3393,7 +3393,7 @@
     "messageformat": "呢位成員唔夠資格加入「新版群組」，所以佢將會被移除："
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, other {{count,number} 個成員唔夠資格加入「新版群組」，佢哋將會被移除。}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "呢啲成員唔夠資格加入「新版群組」，所以佢哋已經被移除咗："
@@ -3402,7 +3402,7 @@
     "messageformat": "呢位成員唔夠資格加入「新版群組」，所以佢已經被移除咗："
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, other {{count,number} 個成員唔夠資格加入「新版群組」，佢哋將會被移除。}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "我哋加唔到你入「新版群組」，所以傳送咗邀請俾你自己加入。"
@@ -3411,7 +3411,7 @@
     "messageformat": "我哋加唔到 {contact} 入「新版群組」，所以傳送咗邀請俾佢自己加入。"
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, other {有 {count,number} 個成員加入唔到新版群組，已經邀請咗佢地加入。}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} 喺群組度俾人移除咗。"
@@ -5367,7 +5367,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "我哋修復咗一啲錯誤，確保應用程式可以順暢運作。仲有更多令人期待嘅更新，陸續有嚟！ ",
+    "messageformat": "我哋修復咗一啲錯誤，確保應用程式可以順暢運作。仲有更多令人期待嘅更新，陸續有嚟！",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
@@ -5385,8 +5385,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.8--0": {
-    "messageformat": "你而家可以喺 Signal 通話期間，用任何表情符號傳送心情回應喇。就算冇開鏡頭，都可以送出微笑；聽到鍾意嘅嘢，可以俾個心心；又或者唔使出聲，都可以輕鬆投票揀今晚食壽司唔食 pizza。另外，如果通話入面夠多人用同一個表情符號嘅話，仲可以睇到代表所有人心情嘅爆炸動畫添！"
   }
 }

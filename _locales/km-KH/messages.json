@@ -1215,7 +1215,7 @@
     "messageformat": "នរណាដែលចូលរួមការហៅនេះតាមរយៈតំណនឹងឃើញឈ្មោះ រូបថត និងលេខទូរសព្ទរបស់អ្នក។"
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "កំពុងរង់ចាំការអនុញ្ញាតឲ្យចូល…"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "ចូលរួម"
@@ -1365,16 +1365,16 @@
     "messageformat": "ចុចត្រង់នេះដើម្បីត្រឡប់ទៅការហៅវិញ នៅពេលអ្នកត្រៀមរួចរាល់ដើម្បីបញ្ឈប់ការបង្ហាញ។"
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "កំពុងភ្ជាប់ឡើងវិញ…"
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "ការតភ្ជាប់របស់អ្នកបានដាច់សេវាហើយ។ Signal កំពុងតភ្ជាប់ឡើងវិញ។"
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal កំពុងចែករំលែក {window}។"
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "កំពុងភ្ជាប់ឡើងវិញ…"
   },
   "icu:calling__presenting--stop": {
     "messageformat": "ឈប់ចែករំលែក"
@@ -2778,7 +2778,7 @@
     "messageformat": "វីនដូ"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "ចម្លងតំណហៅទូរសព្ទ"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "ដកម្នាក់នេះចេញពីការហៅ"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, other {{memberName} បានអញ្ជើញមនុស្ស{count,number} នាក់ទៅក្រុមនេះ។}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, other {អ្នកបានអញ្ជើញមនុស្ស {count,number} នាក់ឱ្យចូលរួមក្រុមនេះ។}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, other {{count,number} នាក់ ត្រូវបានអញ្ជើញចូលក្នុងក្រុម។}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "អ្នកគ្រប់គ្រងម្នាក់បានលុបចោលការបបួលឲ្យចូលរួមក្រុមសម្រាប់មនុស្ស 1 នាក់។"
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {{memberName} បានលុបចោលការអញ្ជើញឱ្យចូលរួមក្រុមសម្រាប់មនុស្ស {count,number} នាក់។}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {អ្នកបានលុបចោលការអញ្ជើញឱ្យចូលរួមក្រុមសម្រាប់មនុស្ស {count,number} នាក់។}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {អ្នកគ្រប់គ្រងបានលុបចោលការអញ្ជើញឱ្យចូលរួមក្រុមសម្រាប់មនុស្ស {count,number} នាក់។}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} បានលុបចោលការបបួលឲ្យចូលរួមក្រុមសម្រាប់មនុស្ស 1 នាក់ដែល {memberName} បានបបួល។"
@@ -3213,7 +3213,7 @@
     "messageformat": "អ្នកបានលុបចោលការបបួលឲ្យចូលរួមក្រុមសម្រាប់មនុស្ស 1 នាក់ដែលបានបបួលដោយ {memberName}។"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "An admin revoked an invitation to the group for # person invited by {memberName}."
+    "messageformat": "អ្នកគ្រប់គ្រងបានលុបចោលការបបួលឲ្យចូលរួមក្រុមសម្រាប់មនុស្ស 1 នាក់ដែលបានបបួលដោយ {memberName}។"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
     "messageformat": "{adminName} បានលុបចោលការបបួលឲ្យចូលរួមក្រុមដែលបានផ្ញើទៅ {inviteeName}។"
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, other {{adminName} បានលុបចោលការបបួលឲ្យចូលរួមក្រុមសម្រាប់មនុស្ស {count,number} នាក់ដែលបានបបួលដោយ {memberName}។}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, other {អ្នកបានលុបចោលការអញ្ជើញឱ្យចូលរួមក្រុមសម្រាប់មនុស្ស {count,number} នាក់ ដែលត្រូវបានអញ្ជើញដោយ {memberName}។}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, other {អ្នកគ្រប់គ្រងបានលុបចោលការអញ្ជើញឱ្យចូលរួមក្រុមសម្រាប់មនុស្ស {count,number} នាក់ ដែលត្រូវបានអញ្ជើញដោយ {memberName}។}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, other {{adminName} បានលុបចោលការអញ្ជើញឱ្យចូលរួមក្រុម ដែលអ្នកបានផ្ញើទៅមនុស្ស {count,number} នាក់។}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, other {អ្នកបានលុបចោលការអញ្ជើញរបស់អ្នកសម្រាប់មនុស្ស {count,number} នាក់។}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, other {អ្នកគ្រប់គ្រងបានលុបចោលការអញ្ជើញឱ្យចូលរួមក្រុម ដែលអ្នកបានផ្ញើទៅមនុស្ស {count,number} នាក់។}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "អ្នកបានស្នើសុំចួលរួមក្រុម។"
@@ -3384,7 +3384,7 @@
     "messageformat": "សមាជិកនេះនឹងត្រូវទទួលយកការបបួលឲ្យចួលរួមក្រុមនេះម្តងទៀត ហើយនឹងមិនទទួលបានសាររបស់ក្រុមទេ រហូតទាល់តែគេទទួលយកសិន៖"
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, other {សមាជិក {count,number} នាក់នឹងត្រូវទទួលយកការអញ្ជើញឱ្យចួលរួមក្រុមនេះម្តងទៀត ហើយនឹងមិនទទួលបានសារក្នុងក្រុមនេះទេ រហូតទាល់តែពួកគេទទួលយកការអញ្ជើញ។}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "សមាជិកទាំងនេះមិនអាចចូលក្រុមថ្មីបានទេ ហើយនឹងត្រូវដកចេញពីក្រុម៖"
@@ -3393,7 +3393,7 @@
     "messageformat": "សមាជិកនេះមិនអាចចូលក្រុមថ្មីបានទេ ហើយនឹងត្រូវដកចេញពីក្រុម៖"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, other {សមាជិក {count,number} នាក់មិនអាចចូលក្រុមថ្មីបានទេ ហើយនឹងត្រូវដកចេញពីក្រុម។}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "សមាជិកទាំងនេះមិនអាចចូលក្រុមថ្មីបានទេ ហើយត្រូវបានដកចេញពីក្រុម៖"
@@ -3402,7 +3402,7 @@
     "messageformat": "សមាជិកនេះមិនអាចចូលក្រុមថ្មីបានទេ ហើយត្រូវបានដកចេញពីក្រុម៖"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, other {សមាជិក {count,number} នាក់មិនអាចចូលក្រុមថ្មីបានទេ ហើយត្រូវបានដកចេញពីក្រុម។}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "មិនអាចបញ្ចូលអ្នកទៅក្រុមថ្មីបានទេ តែអ្នកត្រូវបានគេបបួលឲ្យចូលរួម។"
@@ -3411,7 +3411,7 @@
     "messageformat": "{contact} មិនអាចបញ្ចូលទៅក្រុមថ្មីបានទេ តែត្រូវបានគេបបួលឲ្យចូលរួម។"
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, other {សមាជិក {count,number} នាក់មិនអាចបញ្ចូលទៅក្នុងក្រុមថ្មីបានទេ ហើយត្រូវបានបបួលឲ្យចូលរួម។}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} ត្រូវបានដកចេញពីក្រុម។"
@@ -5367,7 +5367,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "បញ្ហាមួយចំនួនតូចត្រូវបានដោះស្រាយដើម្បីរក្សា​ឲ្យ​កម្មវិធី​របស់​អ្នក​ដំណើរការ​ដោយ​រលូន។ នឹងមានការផ្លាស់ប្តូរដ៏គួរឲ្យរំភើបរីករាយបន្ថែមទៀតនាពេលខាងមុខនេះ! ",
+    "messageformat": "បញ្ហាមួយចំនួនតូចត្រូវបានដោះស្រាយដើម្បីរក្សា​ឲ្យ​កម្មវិធី​របស់​អ្នក​ដំណើរការ​ដោយ​រលូន។ នឹងមានការផ្លាស់ប្តូរដ៏គួរឲ្យរំភើបរីករាយបន្ថែមទៀតនាពេលខាងមុខនេះ!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
@@ -5385,8 +5385,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.8--0": {
-    "messageformat": "ឥឡូវនេះអ្នកអាចប្រតិកម្មដោយប្រើរូបអារម្មណ៍ណាមួយពេលកំពុងហៅតាម Signal។ ទោះបីជាកាមេរ៉ាអ្នកបិទក៏ដោយ សូមបង្ហាញស្នាមញញឹម ចែករំលែកបេះដូង បើអ្នកចូលចិត្តអ្វីដែលអ្នកកំពុងស្តាប់ឮ ឬបោះឆ្នោតឱ្យស៊ូស្ស៊ីជំនួសឱ្យភីហ្សា ដោយមិនបាច់និយាយអីទេ។ ហើយអ្នកថែមទាំងឃើញចលនានៃរូបអារម្មណ៍របស់អ្នកគ្រប់គ្នា ប្រសិនបើមនុស្សច្រើនល្មមនៅក្នុងការហៅ ប្រើរូបអារម្មណ៍ដូចគ្នាទាំងអស់ក្នុងពេលតែមួយដើម្បីប្រតិកម្ម។"
   }
 }

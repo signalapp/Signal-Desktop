@@ -1215,7 +1215,7 @@
     "messageformat": "Enigiemand wat via die skakel by hierdie oproep aansluit, sal jou naam, foto en telefoonnommer sien."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "Wag om ingelaat te word…"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Sluit aan"
@@ -1365,16 +1365,16 @@
     "messageformat": "Klik hier om na die oproep terug te keer wanneer jy klaar aangebied het."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Besig om te herkonnekteer…"
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "Jou verbinding is onderbreek. Signal is besig om te herkonnekteer."
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal is besig om {window} te deel."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Besig om te herkonnekteer…"
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Hou op om te deel"
@@ -2778,7 +2778,7 @@
     "messageformat": "'n Venster"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "Kopieer oproepskakel"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Verwyder hierdie persoon uit die oproep"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, one {{memberName} het 1 persoon na die groep genooi.} other {{memberName} het {count,number} persone na die groep genooi.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, one {Jy het {count,number} persoon na die groep genooi.} other {Jy het {count,number} persone na die groep genooi.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, one {1 persoon is na die groep genooi.} other {{count,number} persone is na die groep genooi.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "'n Admin het ’n uitnodiging na die groep vir 1 persoon herroep."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {{memberName} het 'n uitnodiging na die groep vir 1 persoon herroep.} other {{memberName} het 'n uitnodiging na die groep vir {count,number} persone herroep.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Jy het ’n uitnodiging na die groep vir 1 persoon herroep.} other {Jy het uitnodigings na die groep vir {count,number} persone herroep.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {'n Admin het ’n uitnodiging na die groep vir 1 persoon herroep.} other {'n Admin het ’n uitnodiging na die groep vir {count,number} persone herroep.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} het ’n uitnodiging na die groep vir 1 persoon, gestuur deur {memberName}, herroep."
@@ -3213,7 +3213,7 @@
     "messageformat": "Jy het ’n uitnodiging na die groep vir 1 persoon, gestuur deur {memberName}, herroep."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "An admin revoked an invitation to the group for # person invited by {memberName}."
+    "messageformat": "'n Admin het ’n uitnodiging na die groep vir 1 persoon, gestuur deur {memberName}, herroep."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
     "messageformat": "{adminName} het die uitnodiging na die groep wat jy aan {inviteeName} gestuur het, herroep."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, one {{adminName} het uitnodigings na die groep vir {count,number} persone, deur {memberName} genooi, herroep.} other {{adminName} het uitnodigings na die groep vir {count,number} persoon, deur {memberName} genooi, herroep.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Jy het 'n uitnodiging na die groep vir {count,number} persoon, deur {memberName} genooi, herroep.} other {Jy het uitnodigings na die groep vir {count,number} persone, deur {memberName} genooi, herroep.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {'n Admin het 'n uitnodiging na die groep vir {count,number} persoon, deur {memberName} genooi, herroep.} other {’n Admin het uitnodigings na die groep vir {count,number} mense, deur {memberName} genooi, herroep.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {{adminName} het die uitnodiging na die groep wat jy aan {count,number} persoon gestuur het, herroep.} other {{adminName} het die uitnodigings na die groep wat jy aan {count,number} persone gestuur het, herroep.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Jy het jou uitnodiging aan {count,number} persoon herroep.} other {Jy het jou uitnodiging aan {count,number} persone herroep.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {’n Admin het die uitnodiging na die groep wat jy aan {count,number} persoon gestuur het, herroep.} other {’n Admin het ’n uitnodigings na die groep wat jy aan {count,number} persone gestuur het, herroep.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "Jy het ’n versoek gestuur om by die groep aan te sluit."
@@ -3384,7 +3384,7 @@
     "messageformat": "Hierdie lid moet weer ’n uitnodiging om by die groep aan te sluit, aanvaar en sal tot dan geen groepboodskappe ontvang nie:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, one {{count,number} lid sal ’n uitnodiging moet aanvaar om weer by hierdie groep aan te sluit en sal nie groepboodskappe ontvang totdat hulle aanvaar nie.} other {{count,number} lede sal ’n uitnodiging moet aanvaar om weer by hierdie groep aan te sluit en sal geen groepboodskappe ontvang totdat hulle aanvaar het nie.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "Hierdie lede kan nie by Nuwe Groepe aansluit nie en sal van die volgende groep verwyder word:"
@@ -3393,7 +3393,7 @@
     "messageformat": "Hierdie lid kan nie by Nuwe Groepe aansluit nie en sal van die volgende groep verwyder word:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} lid kan nie by Nuwe Groepe aansluit nie en sal van die groep verwyder word.} other {{count,number} lede kan nie by Nuwe Groepe aansluit nie en sal van die groep verwyder word.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "Hierdie lede kon nie by Nuwe Groepe aansluit nie en is van die volgende groep verwyder:"
@@ -3402,7 +3402,7 @@
     "messageformat": "Hierdie lid kon nie by Nuwe Groepe aansluit nie en is van die volgende groep verwyder:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} lid kon nie by Nuwe Groepe aansluit nie en is van die groep verwyder.} other {{count,number} lede kon nie by Nuwe Groepe aansluit nie en is van die volgende groep verwyder.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "Jy kon nie by die Nuwe Groep toegevoeg word nie en is genooi om aan te sluit."
@@ -3411,7 +3411,7 @@
     "messageformat": "{contact} kon nie by die Nuwe Groep toegevoeg word nie en is genooi om aan te sluit."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, one {A member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} is van die groep verwyder."
@@ -5367,7 +5367,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "'n Handvol foutregstellings om jou toepassing glad te laat werk. Nog meer opwindende veranderings is op die horison! ",
+    "messageformat": "'n Handvol foutregstellings om jou toepassing glad te laat werk. Nog meer opwindende veranderings is op die horison!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
@@ -5385,8 +5385,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Nou kan jy tydens 'n Signal-oproep met enige emoji reageer."
   }
 }
