@@ -1215,7 +1215,7 @@
     "messageformat": "Bu zəngə keçid vasitəsilə qoşulan hər kəs adınızı, şəklinizi və telefon nömrənizi görəcək."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "Zəngə qoşulmaq üçün icazə gözləyir…"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Qoşul"
@@ -1365,16 +1365,16 @@
     "messageformat": "Təqdimatı dayandırmağa hazır olanda, zəngə qayıtmaq üçün bura klikləyin."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Yenidən bağlantı qurulur..."
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "Bağlantını itirdiniz. Signal yenidən qoşulur."
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal, {window} pəncərəsini paylaşır."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Yenidən bağlantı qurulur..."
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Paylaşmanı dayandır"
@@ -2778,7 +2778,7 @@
     "messageformat": "Bir pəncərə"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "Zəng keçidini kopyala"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Bu şəxsi zəngdən çıxar"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, one {{memberName} 1 nəfəri qrupa dəvət etdi.} other {{memberName}, {count,number} nəfəri qrupa dəvət etdi.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, one {{count,number} nəfəri qrupa dəvət etdiniz.} other {{count,number} nəfəri qrupa dəvət etdiniz.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, one {1 nəfər qrupa dəvət edildi.} other {{count,number} nəfər qrupa dəvət edildi.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "Bir admin, 1 şəxsə göndərilən qrup dəvətini ləğv etdi."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {{memberName} 1 nəfərin qrup dəvətini ləğv etdi.} other {{memberName} {count,number} nəfərin qrup dəvətlərini ləğv etdi.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Siz 1 nəfərin qrup dəvətini ləğv etdiniz.} other {{count,number} nəfərə göndərilən qrup dəvətlərini ləğv etdiniz.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Admin, 1 nəfərə göndərilən qrup dəvətini ləğv etdi.} other {Admin {count,number} nəfərə göndərilən qrup dəvətlərini ləğv etdi.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName}, {memberName} tərəfindən dəvət edilən 1 şəxsin dəvətini ləğv etdiniz."
@@ -3213,7 +3213,7 @@
     "messageformat": "{memberName} tərəfindən dəvət edilən 1 şəxsin qrup dəvətini ləğv etdiniz."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "An admin revoked an invitation to the group for # person invited by {memberName}."
+    "messageformat": "Bir admin, {memberName} tərəfindən dəvət edilən 1 şəxsin qrup dəvətini ləğv etdi."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
     "messageformat": "{adminName}, {inviteeName} üçün göndərdiyiniz qrup dəvətini ləğv etdi."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, one {{adminName}, {memberName} tərəfindən {count,number} nəfərə göndərilən qrup dəvətlərini ləğv etdi.} other {{adminName}, {memberName} tərəfindən {count,number} nəfərə göndərilən qrup dəvətlərini ləğv etdi.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {{count,number} nəfər üçün {memberName} tərəfindən göndərilən qrup dəvətini ləğv etdiniz.} other {{memberName} tərəfindən {count,number} nəfərə göndərilən qrup dəvətlərini ləğv etdiniz.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Admin {count,number} nəfər üçün {memberName} tərəfindən göndərilən qrup dəvətlərini ləğv etdi.} other {Admin {count,number} nəfər üçün {memberName} tərəfindən göndərilən qrup dəvətlərini ləğv etdi.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {{adminName} {count,number} nəfərə göndərdiyiniz qrup dəvətini ləğv etdi.} other {{adminName} {count,number} nəfərə göndərdiyiniz qrup dəvətlərini ləğv etdi.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, one {{count,number} nəfərə göndərdiyiniz dəvəti ləğv etdiniz.} other {{count,number} nəfərə göndərdiyiniz dəvəti ləğv etdiniz.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Admin {count,number} nəfərə göndərdiyiniz qrup dəvətini ləğv etdi.} other {Admin {count,number} nəfərə göndərdiyiniz qrup dəvətlərini ləğv etdi.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "Qrupa qoşulma tələbi göndərdiniz."
@@ -3384,7 +3384,7 @@
     "messageformat": "Bu üzv, bu qrupa yenidən qoşulması üçün dəvəti qəbul etməlidir və qəbul edənə qədər qrup mesajlarını almayacaq:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, one {{count,number} üzv bu qrupa yenidən qoşulması üçün bir dəvət qəbul etməlidir və qəbul edənə qədər qrup mesajlarını almayacaq.} other {{count,number} üzv bu qrupa yenidən qoşulması üçün bir dəvət qəbul etməlidir və qəbul edənə qədər qrup mesajlarını almayacaqlar.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "Bu üzvlər Yeni Qruplara əlavə edilə bilmədi və qrupdan çıxarılacaq:"
@@ -3393,7 +3393,7 @@
     "messageformat": "Bu üzv Yeni Qruplara əlavə edilə bilmədi və qrupdan çıxarılacaq:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} üzv Yeni Qruplara əlavə edilə bilmədi və qrupdan çıxarılacaq.} other {{count,number} üzv Yeni Qruplara əlavə edilə bilmədi və qrupdan çıxarılacaqlar.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "Bu üzvlər Yeni Qruplara əlavə edilə bilmədi və qrupdan çıxarıldı:"
@@ -3402,7 +3402,7 @@
     "messageformat": "Bu üzv Yeni Qruplara əlavə edilə bilmədi və qrupdan çıxarıldı:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} üzv Yeni Qruplara əlavə edilə bilmədi və qrupdan çıxarıldı.} other {{count,number} üzv Yeni Qruplara əlavə edilə bilmədi və qrupdan çıxarıldılar.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "Yeni Qrupa əlavə edilə bilmədiniz və qoşulmağınız üçün dəvət göndərildi."
@@ -3411,7 +3411,7 @@
     "messageformat": "{contact} Yeni Qrupa əlavə edilə bilmədi və qoşulmaq üçün dəvət edildi."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, one {1 üzv Yeni Qrupa əlavə edilə bilmədi və qoşulmaq üçün dəvət edildi.} other {{count,number} üzv Yeni Qrupa əlavə edilə bilmədi və qoşulmaq üçün dəvət edildi.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} qrupdan çıxarıldı."
@@ -5367,7 +5367,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "Tətbiqinizin rahat işləməsini təmin etmək üçün bir neçə xəta düzəlişi xüsusiyyəti təqdim olunur. Gələcəkdə sizi daha maraqlı dəyişikliklər gözləyir. ",
+    "messageformat": "Tətbiqinizin rahat işləməsini təmin etmək üçün bir neçə xəta düzəlişi xüsusiyyəti təqdim olunur. Gələcəkdə sizi daha maraqlı dəyişikliklər gözləyir.",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
@@ -5385,8 +5385,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Artıq Signal zəngi zamanı emoji ilə reaksiyanızı bildirə bilərsiniz. Emojilərlə kameranız sönülü də olsa gülümsəyə, sevindikdə ürək göndərə, ya da heç nə yazmadan pizza əvəzinə suşi seçə bilərsiniz. Zəngdəki insanlar eyni anda eyni emoji ilə reaksiya versə, hətta hər kəsin emosional alovlanması animasiyasını görəcəksiniz."
   }
 }

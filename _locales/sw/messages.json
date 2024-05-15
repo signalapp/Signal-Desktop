@@ -1215,7 +1215,7 @@
     "messageformat": "Yeyote atakayejiunga kwenye simu hii kupitia kiungo ataona jina, picha na nambari yako ya simu."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "Unasubiri kuruhusiwa…"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Jiunge"
@@ -1365,16 +1365,16 @@
     "messageformat": "Bonyeza hapa urudi kwenye mazungumzo ya simu ukiwa tayari kuacha kuwasilisha."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Inaunganisha tena..."
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "Muunganisho wako umepotea. Signal inatafuta upya muunganisho."
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal inashiriki {window}."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Inaunganisha tena..."
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Acha kushiriki"
@@ -2778,7 +2778,7 @@
     "messageformat": "Dirisha"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "Nakili kiungo cha simu"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Toa mtu huyu kwenye simu hii"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, one {{memberName} amemualika mtu 1 kwenye kikundi.} other {{memberName} amewaalika watu {count,number} kwenye kikundi.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, one {Umemwalika mtu {count,number} kwenye kikundi.} other {Umewaalika watu {count,number} kwenye kikundi.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, one {Mtu 1 amealikwa kwenye kikundi.} other {Watu {count,number} walialikwa kwenye kikundi.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "Msimamizi amebatilisha mwaliko wa kikundi uliotumiwa kwa mtu 1."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {{memberName} amebatilisha mualiko kwenye kikundi wa mtu 1.} other {{memberName} amebatilisha mialiko kwenye kikundi ya watu {count,number}.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Umebatilisha mualiko kwenye kikundi wa mtu 1.} other {Umebatilisha mialiko kwenye kikundi ya watu {count,number}.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Admin amebatilisha mwaliko wa kikundi kwa mtu 1.} other {Admin amebatilisha mialiko ya kikundi kwa watu {count,number}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} amebatilisha mwaliko wa kikundi uliotumiwa mtu 1 aliyealikwa na{memberName}."
@@ -3213,7 +3213,7 @@
     "messageformat": "Umebatilisha mwaliko wa kikundi uliotumiwa mtu 1 aliyealikwa na{memberName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "An admin revoked an invitation to the group for # person invited by {memberName}."
+    "messageformat": "Msimamizi amebatilisha mwaliko wa kikundi uliotumiwa mtu 1 aliyealikwa na {memberName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
     "messageformat": "{adminName} amebatilisha mwaliko wa kikundi uliomtumia {inviteeName}."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, one {{adminName} amebatilisha mialiko ya kikundi aliyomtumia mtu{count,number} aliyealikwa na {memberName}.} other {{adminName} amebatilisha mialiko ya kikundi aliyowatumia watu{count,number} walioalikwa na {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Umebatilisha mwaliko kwenye kikundi kwa mtu {count,number} aliyealikwa na {memberName}.} other {Umebatilisha mialiko kwenye kikundi ya watu {count,number} walioalikwa na {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Admin amebatilisha mwaliko kwenye kikundi kwa mtu {count,number} aliyealikwa na {memberName}.} other {Admin amebatilisha mialiko kwenye kikundi kwa watu {count,number} walioalikwa na {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {{adminName} amebatilisha mwaliko kwenye kikundi uliotuma kwa mtu {count,number}.} other {{adminName} amebatilisha mialiko kwenye kikundi uliyotuma kwa watu {count,number}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Umeghairi kumualika mtu {count,number}.} other {Umeghairi kuwaalika watu {count,number}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Admin amebatilisha mwaliko kwenye kikundi uliotuma kwa mtu {count,number}.} other {Admin amebatilisha mialiko kwenye kikundi uliyotuma kwa watu {count,number}.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "Umetuma ombi la kujiunga na kikundi."
@@ -3384,7 +3384,7 @@
     "messageformat": "Mwanachama huyu atahitaji kukubali mwaliko wa kujiunga na kikundi hiki tena, na hatapokea ujumbe wa kikundi mpaka akubali:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, one {Mwanachama {count,number} atahitaji kukubali mwaliko wa kujiunga kwenye kikundi hiki tena, na hatapokea ujumbe hadi akubali.} other {Wanachama {count,number} watahitaji kukubali mialiko ya kujiunga kwenye kikundi hiki tena, na hawatapokea ujumbe hadi wakubali.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "Wanachama hawa hawana uwezo wa kujiunga na Vikundi Vipya, kwa hivyo wataondolewa kwenye kikundi:"
@@ -3393,7 +3393,7 @@
     "messageformat": "Mwanachama huyu hana uwezo wa kujiunga na Vikundi Vipya, kwa hivyo ataondolewa kwenye kikundi:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, one {Mwanachama {count,number} ameshindwa kujiunga na Vikundi Vipya, na ataondolewa kwenye kikundi.} other {Wanachama {count,number} wameshindwa kujiunga na Vikundi Vipya, na wataondolewa kwenye kikundi.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "Wanachama hawa hawakuweza kujiunga na Vikundi vipya, kwa hivyo waliondolewa kwenye kikundi:"
@@ -3402,7 +3402,7 @@
     "messageformat": "Mwanachama huyu hakuweza kujiunga na Vikundi Vipya, kwa hivyo ameondolewa kwenye kikundi:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, one {Mwanachama {count,number} ameshindwa kujiunga na Vikundi Vipya, na ameondolewa kwenye kikundi.} other {Wanachama {count,number} wameshindwa kujiunga na Vikundi Vipya, na wameondolewa kwenye kikundi.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "Hukuweza kuongezwa kwenye Kikundi Kipya na umealikwa kujiunga."
@@ -3411,7 +3411,7 @@
     "messageformat": "{contact} hakuweza kuongezwa kwenye Kikundi Kipya na amealikwa kujiunga."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, one {Mwanachama ameshindwa kuongezwa kwenye Kikundi Kipya na amealikwa kujiunga.} other {wanachama {count,number} wameshindwa kuongezwa kwenye Kikundi Kipya na wamealikwa kujiunga.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} ameondolewa kwenye kikundi."
@@ -5367,7 +5367,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "Marekebisho kadhaa ya bugs kuifanya programu yako iendeshwe vizuri. Mabadiliko mazuri zaida yanatarajiwa! ",
+    "messageformat": "Marekebisho kadhaa ya bugs kuifanya programu yako iendeshwe vizuri. Mabadiliko mazuri zaida yanatarajiwa!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
@@ -5385,8 +5385,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Sasa unaweza ku-react kwa emoji yoyote wakati wa simu ya Signal. Tabasamu hata kama kamera yako imezimwa, onyesha emoji ya love kama unafurahishwa na kile unachokisikia, au chagua sushi badala ya pizza bila kutamka neno lolote. Na utaona mlipuko wa emoji endapo watu wengi walio kwenye simu wata-react kwa emoji inayofanana kwa wakati mmoja."
   }
 }

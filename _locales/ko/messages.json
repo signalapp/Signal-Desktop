@@ -1215,7 +1215,7 @@
     "messageformat": "링크를 통해 통화에 참여하는 모든 사용자에게 내 이름, 사진, 전화번호가 표시됩니다."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "승인을 기다리는 중…"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "참가"
@@ -1365,16 +1365,16 @@
     "messageformat": "표시를 중단할 준비가 되었을 때 통화로 돌아가려면 여기를 클릭하세요."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "다시 연결 중…"
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "연결이 끊어졌습니다. Signal이 다시 연결합니다."
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal이 {window} 창을 공유하고 있습니다."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "다시 연결 중…"
   },
   "icu:calling__presenting--stop": {
     "messageformat": "공유 그만하기"
@@ -2778,7 +2778,7 @@
     "messageformat": "창"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "통화 링크 복사"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "이 사용자를 통화에서 제거"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, other {{memberName} 님이 {count,number}명을 그룹에 초대했습니다.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, other {{count,number}명을 그룹에 초대했습니다.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, other {{count,number}명을 그룹에 초대했습니다.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "관리자가 1명의 그룹 초대를 취소했습니다."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {{memberName} 님이 {count,number}명에 대한 그룹 초대를 취소했습니다.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {{count,number}명에 대한 그룹 초대를 취소했습니다.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {관리자가 {count,number}명에 대한 그룹 초대를 취소했습니다.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} 님이 {memberName} 님이 초대한 1명의 그룹 초대를 취소했습니다."
@@ -3213,7 +3213,7 @@
     "messageformat": "{memberName} 님이 초대한 1명의 그룹 초대를 취소했습니다."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "An admin revoked an invitation to the group for # person invited by {memberName}."
+    "messageformat": "관리자가{memberName} 님이 초대한 1명의 그룹 초대를 취소했습니다."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
     "messageformat": "{adminName} 님이 {inviteeName} 님에 보낸 그룹에 대한 초대를 취소했습니다."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, other {{adminName} 님이 {memberName} 님이 초대한 {count,number}명의 그룹에 대한 초대를 취소했습니다.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, other {{memberName} 님이 초대한 {count,number}명의 그룹에 대한 초대를 취소했습니다.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, other {관리자가 {count,number} 님이 초대한 {memberName}명의 그룹에 대한 초대를 취소했습니다.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, other {{adminName} 님이 {count,number}명에게 보낸 그룹에 대한 초대를 취소했습니다.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, other {{count,number}명에 대한 초대를 취소했습니다.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, other {관리자가 {count,number}명에게 보낸 그룹에 대한 초대를 취소했습니다.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "그룹 참가 요청을 보냈습니다."
@@ -3384,7 +3384,7 @@
     "messageformat": "이 멤버가 그룹에 다시 가입하려면 초대를 수락해야 하며 수락할 때까지 그룹 메시지를 받지 않습니다."
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, other {그룹에 다시 가입하려면 멤버 {count,number}명이 초대를 수락해야 하며 수락할 때까지 그룹 메시지가 전송되지 않습니다.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "이 멤버들은 새 그룹에 가입할 수 없으며 그룹에서 제거됩니다."
@@ -3393,7 +3393,7 @@
     "messageformat": "이 멤버는 새 그룹에 가입할 수 없으며 그룹에서 제거됩니다."
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, other {멤버 {count,number}명이 새 그룹에 가입할 수 없어 그룹에서 제거됩니다.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "이 멤버들은 새 그룹에 가입하지 못했고 그룹에서 제거되었습니다."
@@ -3402,7 +3402,7 @@
     "messageformat": "이 멤버는 새 그룹에 가입하지 못했고 그룹에서 제거되었습니다."
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, other {멤버 {count,number}명이 새 그룹에 가입할 수 없어 그룹에서 제거되었습니다.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "귀하를 새 그룹에 추가할 수 없었으며 가입하도록 초대되었습니다."
@@ -3411,7 +3411,7 @@
     "messageformat": "{contact} 님을 새 그룹에 추가할 수 없었으며 가입하도록 초대되었습니다."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, other {멤버 {count,number}명을 새 그룹에 추가하지 못했으며, 참가하도록 초대했습니다.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} 님이 그룹에서 제거되었습니다."
@@ -5367,7 +5367,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "앱의 원활한 사용을 위해 몇 가지 수정 사항을 적용했습니다. 앞으로 있을 더 많은 변경 사항을 기대해 주세요! ",
+    "messageformat": "앱의 원활한 사용을 위해 몇 가지 수정 사항을 적용했습니다. 앞으로 있을 더 많은 변경 사항을 기대해 주세요!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
@@ -5385,8 +5385,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.8--0": {
-    "messageformat": "이제 Signal 통화 중에 모든 이모지를 사용하여 반응할 수 있습니다."
   }
 }

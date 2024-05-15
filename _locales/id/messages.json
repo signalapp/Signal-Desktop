@@ -1215,7 +1215,7 @@
     "messageformat": "Siapa pun yang gabung dengan panggilan ini via tautan akan melihat nama, foto, dan nomor telepon Anda."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "Menunggu diizinkan masuk…"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Gabung"
@@ -1365,16 +1365,16 @@
     "messageformat": "Klik di sini untuk kembali ke panggilan saat Anda selesai berbagi layar."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Menghubungkan ulang…"
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "Koneksi Anda terputus. Signal sedang menghubungkan kembali."
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal sedang menunjukkan layar {window}"
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Menghubungkan ulang…"
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Berhenti berbagi layar"
@@ -2778,7 +2778,7 @@
     "messageformat": "Sebuah jendela"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "Salin tautan panggilan"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Keluarkan orang ini dari panggilan"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, other {{memberName} mengundang {count,number} orang ke grup.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, other {Anda mengundang {count,number} orang ke grup.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, other {{count,number} orang diundang masuk ke grup.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "Seorang admin membatalkan undangan masuk ke grup untuk 1 orang."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {{memberName} membatalkan undangan masuk grup untuk {count,number} orang.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {Anda membatalkan undangan masuk grup untuk {count,number} orang.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {Admin membatalkan undangan masuk grup untuk {count,number} orang.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} membatalkan undangan masuk ke grup untuk 1 orang yang diundang oleh {memberName}."
@@ -3213,7 +3213,7 @@
     "messageformat": "Anda membatalkan undangan masuk ke grup untuk 1 orang yang diundang oleh {memberName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "An admin revoked an invitation to the group for # person invited by {memberName}."
+    "messageformat": "Seorang admin membatalkan undangan masuk ke grup untuk 1 orang yang diundang oleh {memberName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
     "messageformat": "{adminName} membatalkan undangan ke grup yang Anda kirimkan ke {inviteeName}."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, other {{adminName} membatalkan undangan masuk ke grup untuk {count,number} orang yang diundang oleh {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, other {Anda membatalkan undangan masuk grup untuk {count,number} orang yang diundang oleh {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, other {Admin membatalkan undangan masuk grup untuk {count,number} orang yang diundang oleh {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, other {{adminName} membatalkan undangan masuk grup yang Anda kirimkan ke {count,number} orang.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, other {Anda membatalkan undangan yang Anda kirim ke {count,number} orang.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, other {Admin membatalkan undangan masuk grup yang Anda kirimkan ke {count,number} orang.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "Anda mengirimkan permintaan untuk bergabung ke grup."
@@ -3384,7 +3384,7 @@
     "messageformat": "Anggota ini harus menerima permintaan untuk bergabung ke grup ini lagi, dan tidak akan menerima pesan grup sampai mereka menerimanya:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, other {{count,number} anggota harus menerima undangan masuk grup ini lagi, dan mereka tidak akan menerima pesan grup sampai undangan diterima.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "Anggota-anggota ini tidak dapat bergabung ke Grup Baru, dan akan dikeluarkan dari grup:"
@@ -3393,7 +3393,7 @@
     "messageformat": "Anggota ini tidak dapat bergabung ke Grup Baru, dan akan dikeluarkan dari grup:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, other {{count,number} anggota tidak dapat bergabung ke Grup Baru, dan akan dikeluarkan dari grup.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "Anggota-anggota ini tidak dapat bergabung ke Grup Baru, dan telah dikeluarkan dari grup:"
@@ -3402,7 +3402,7 @@
     "messageformat": "Anggota ini tidak dapat bergabung ke Grup Baru, dan telah dikeluarkan dari grup:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, other {{count,number} anggota tidak dapat bergabung ke Grup Baru, dan telah dikeluarkan dari grup.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "Anda tidak dapat ditambahkan ke Grup Baru dan telah diundang untuk bergabung."
@@ -3411,7 +3411,7 @@
     "messageformat": "{contact} tidak dapat ditambahkan ke Grup Baru dan telah diundang untuk bergabung."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, other {{count,number} anggota tidak dapat ditambahkan ke Grup Baru dan telah diundang untuk bergabung.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} telah dikeluarkan dari grup."
@@ -5367,7 +5367,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "Beberapa perbaikan bug untuk memastikan aplikasi berjalan lancar. Perubahan menarik lain akan segera diterapkan! ",
+    "messageformat": "Beberapa perbaikan bug untuk memastikan aplikasi berjalan lancar. Perubahan menarik lain akan segera diterapkan!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
@@ -5385,8 +5385,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Kini Anda dapat menanggapi dengan emoji selama panggilan Signal."
   }
 }

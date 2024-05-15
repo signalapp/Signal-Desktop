@@ -1215,7 +1215,7 @@
     "messageformat": "Alle, die diesem Anruf über den Link beitreten, sehen deinen Namen, dein Foto und deine Telefonnummer."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "Warten auf Einlass…"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Beitreten"
@@ -1365,16 +1365,16 @@
     "messageformat": "Klicke hier, um zum Anruf zurückzukehren, sobald du die Präsentation stoppen möchtest."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Neu verbinden …"
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "Deine Verbindung wurde unterbrochen. Signal stellt die Verbindung wieder her."
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal teilt gerade {window}."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Neu verbinden …"
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Teilen stoppen"
@@ -2778,7 +2778,7 @@
     "messageformat": "Ein Fenster"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "Anruflink kopieren"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Diese Person aus dem Anruf entfernen"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, one {{memberName} hat {count,number} Person in die Gruppe eingeladen.} other {{memberName} hat {count,number} Personen in die Gruppe eingeladen.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, one {Du hast {count,number} Person in die Gruppe eingeladen.} other {Du hast {count,number} Personen in die Gruppe eingeladen.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, one {{count,number} Person wurde in die Gruppe eingeladen.} other {{count,number} Personen wurden in die Gruppe eingeladen.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "Ein Admin hat eine Gruppeneinladung für 1 Person widerrufen."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {{memberName} hat die Gruppeneinladung für 1 Person widerrufen.} other {{memberName} hat die Gruppeneinladung für {count,number} Personen widerrufen.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Du hast die Gruppeneinladung für 1 Person widerrufen.} other {Du hast die Gruppeneinladung für {count,number} Personen widerrufen.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Ein Admin hat die Gruppeneinladung für 1 Person widerrufen.} other {Ein Admin hat die Gruppeneinladung für {count,number} Personen widerrufen.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} hat eine Gruppeneinladung für eine von {memberName} eingeladene Person widerrufen."
@@ -3213,7 +3213,7 @@
     "messageformat": "Du hast eine Gruppeneinladung für eine von {memberName} eingeladene Person widerrufen."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "An admin revoked an invitation to the group for # person invited by {memberName}."
+    "messageformat": "Ein Admin hat eine Gruppeneinladung für eine von {memberName} eingeladene Person widerrufen."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
     "messageformat": "{adminName} hat deine Gruppeneinladung für {inviteeName} widerrufen."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, one {{adminName} hat die Gruppeneinladung für {count,number} Person, die von {memberName} eingeladen wurde, widerrufen.} other {{adminName} hat Gruppeneinladungen für {count,number} Personen, die von {memberName} eingeladen wurden, widerrufen.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Du hast die Gruppeneinladung für {count,number} Person, die von {memberName} eingeladen wurde, widerrufen.} other {Du hast die Gruppeneinladung für {count,number} Personen, die von {memberName} eingeladen wurden, widerrufen.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Ein Admin hat die Gruppeneinladung für {count,number} Person, die von {memberName} eingeladen wurde, widerrufen.} other {Ein Admin hat die Gruppeneinladung für {count,number} Personen, die von {memberName} eingeladen wurden, widerrufen.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {{adminName} hat deine Gruppeneinladung für {count,number} Person widerrufen.} other {{adminName} hat deine Gruppeneinladungen für {count,number} Personen widerrufen.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Du hast deine Gruppeneinladungen für {count,number} Person widerrufen.} other {Du hast deine Gruppeneinladungen für {count,number} Personen widerrufen.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Ein Admin hat deine Gruppeneinladungen für {count,number} Person widerrufen.} other {Ein Admin hat deine Gruppeneinladungen für {count,number} Personen widerrufen.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "Du hast eine Gruppenbeitrittsanfrage gesendet."
@@ -3384,7 +3384,7 @@
     "messageformat": "Dieses Mitglied muss eine Einladung zum erneuten Gruppenbeitritt annehmen und wird bis dahin keine Gruppennachrichten erhalten:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, one {{count,number} Mitglied muss eine Einladung zum erneuten Gruppenbeitritt annehmen und wird bis dahin keine Gruppennachrichten erhalten.} other {{count,number} Mitglieder müssen eine Einladung zum erneuten Gruppenbeitritt annehmen und werden bis dahin keine Gruppennachrichten erhalten.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "Diese Mitglieder können Gruppen neuen Typs nicht beitreten und werden daher aus der Gruppe entfernt:"
@@ -3393,7 +3393,7 @@
     "messageformat": "Dieses Mitglied kann Gruppen neuen Typs nicht beitreten und wird daher aus der Gruppe entfernt:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} Mitglied kann keinen Gruppen neuen Typs beitreten und wird daher aus der Gruppe entfernt.} other {{count,number} Mitglieder können keinen Gruppen neuen Typs beitreten und werden daher aus der Gruppe entfernt.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "Diese Mitglieder konnten Gruppen neuen Typs nicht beitreten und wurden daher aus der Gruppe entfernt:"
@@ -3402,7 +3402,7 @@
     "messageformat": "Dieses Mitglied konnte Gruppen neuen Typs nicht beitreten und wurde daher aus der Gruppe entfernt:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} Mitglied konnte keinen Gruppen neuen Typs beitreten und wird daher aus der Gruppe entfernt.} other {{count,number} Mitglieder konnten keinen Gruppen neuen Typs beitreten und wurden daher aus der Gruppe entfernt.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "Du konntest der Gruppe neuen Typs nicht hinzugefügt werden und wurdest daher eingeladen, beizutreten."
@@ -3411,7 +3411,7 @@
     "messageformat": "{contact} konnte der Gruppe neuen Typs nicht hinzugefügt werden und wurde daher eingeladen, beizutreten."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, one {Ein Mitglied konnte der Gruppe neuen Typs nicht hinzugefügt werden und wurde daher eingeladen, beizutreten.} other {{count,number} Mitglieder konnten der Gruppe neuen Typs nicht hinzugefügt werden und wurden daher eingeladen, beizutreten.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} wurde aus der Gruppe entfernt."
@@ -5367,7 +5367,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "Eine Handvoll Fehlerbehebungen, damit deine App reibungslos läuft. Mehr aufregende Änderungen in Sicht! ",
+    "messageformat": "Eine Handvoll Fehlerbehebungen, damit deine App reibungslos läuft. Mehr aufregende Änderungen in Sicht!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
@@ -5385,8 +5385,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Jetzt kannst du bei einem Signal-Anruf mit einem beliebigen Emoji reagieren. Lächle, auch wenn deine Kamera ausgeschaltet ist, sende ein Herz, wenn dir gefällt, was du hörst, oder stimme für Sushi statt Pizza, ohne ein Wort zu sagen. Und du siehst sogar eine Animation der Emoji-Antworten aller Teilnehmer, wenn genug Leute gleichzeitig mit demselben Emoji reagieren."
   }
 }

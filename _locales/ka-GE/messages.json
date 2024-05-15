@@ -1215,7 +1215,7 @@
     "messageformat": "ვინც ამ ზარზე ბმულის საშუალებით შევა, შენს სახელს, ფოტოსა და ტელეფონის ნომერს დაინახავს."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "ელოდება შეშვებას…"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "შეუერთდი"
@@ -1365,16 +1365,16 @@
     "messageformat": "დააწკაპუნე ამ ზარზე დასაბრუნებლად, როცა მზად იქნები შეწყვიტო პრეზენტირება."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "მიმდინარეობს ხელახლა დაკავშირება…"
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "შენი კავშირი გაწყდა. Signal-ი თავიდან უკავშირდება."
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal-ი აზიარებს {window}-ს."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "მიმდინარეობს ხელახლა დაკავშირება…"
   },
   "icu:calling__presenting--stop": {
     "messageformat": "გაზიარების შეწყვეტა"
@@ -2778,7 +2778,7 @@
     "messageformat": "ფანჯარა"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "ზარის ბმულის დაკოპირება"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "ამ ადამიანის ზარიდან გაგდება"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, one {{memberName} -მა ჯგუფში 1 ადამიანი მოიწვია.} other {{memberName} -მა ჯგუფში {count,number} ადამიანი მოიწვია.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, one {ჯგუფში {count,number} ადამიანი მოიწვიე.} other {ჯგუფში {count,number} ადამიანი მოიწვიე.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, one {ჯგუფში 1 ადამიანი მოიწვიეს.} other {ჯგუფში {count,number} ადამიანი მოიწვიეს.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "ადმინმა 1 ადამიანის ჯგუფში მოწვევა გააუქმა."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {{memberName}-მა ჯგუფში 1 ადამიანის მოწვევა გააუქმა.} other {{memberName}-მა ჯგუფში {count,number} ადამიანის მოწვევა გააუქმა.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {ჯგუფში 1 ადამიანის მოწვევა გააუქმე.} other {ჯგუფში {count,number} ადამიანის მოწვევა გააუქმე.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {ადმინმა ჯგუფში 1 ადამიანის მოწვევა გააუქმა.} other {ადმინმა ჯგუფში {count,number} ადამიანის მოწვევა გააუქმა.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} -მა {memberName} -ის ჯგუფში გაწევრიანების 1 ადამიანის მოწვევა გააუქმა."
@@ -3213,7 +3213,7 @@
     "messageformat": "{memberName} -ის მიერ ჯგუფში მოწვეული 1 ადამიანის მოწვევა გააუქმე."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "An admin revoked an invitation to the group for # person invited by {memberName}."
+    "messageformat": "ადმინმა {memberName} -ის მიერ ჯგუფში მოწვეული 1 ადამიანის მოწვევა გააუქმა."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
     "messageformat": "{adminName} -მა {inviteeName} -სთვის შენი გაგზავნილი ჯგუფში მოწვევა გააუქმა."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, one {{adminName}-მა {memberName}-ის მიერ ჯგუფში მოწვეული {count,number} მოსაწვევი გააუქმა.} other {{adminName}-მა {memberName}-ის მიერ ჯგუფში მოწვეული {count,number} ადამიანის მოსაწვევი გააუქმა.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {შენ გააუქმე {memberName}-ის მიერ ჯგუფში მოწვეული {count,number} ადამიანის მოწვევა.} other {შენ გააუქმე {memberName}-ის მიერ ჯგუფში მოწვეული {count,number} ადამიანის მოწვევა.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {ადმინმა გააუქმა {memberName}-ის მიერ ჯგუფში მოწვეული {count,number} ადამიანის მოწვევა.} other {ადმინმა გააუქმა {memberName}-ის მიერ ჯგუფში მოწვეული {count,number} ადამიანის მოწვევა.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {{adminName}-მა გააუქმა ჯგუფში შენს მიერ მოწვეული {count,number} ადამიანის მოწვევა.} other {{adminName}-მა გააუქმა ჯგუფში შენს მიერ მოწვეული {count,number} ადამიანის მოწვევა.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, one {შენს მიერ გაგზავნილი {count,number} ადამიანის მოწვევა გააუქმე.} other {შენს მიერ გაგზავნილი {count,number} ადამიანის მოსაწვევი გააუქმე.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {ადმინმა გააუქმა ჯგუფში შენს მიერ მოწვეული {count,number} ადამიანის მოსაწვევი.} other {ადმინმა გააუქმა ჯგუფში შენს მიერ მოწვეული {count,number} ადამიანის მოსაწვევი.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "შენ ჯგუფში გასაწევრიანებლად მოთხოვნა გააგზავნე."
@@ -3384,7 +3384,7 @@
     "messageformat": "ამ წევრს მოუწევს დაეთანხმოს მოწვევას ამ ჯგუფში ხელახლა გასაწევრიანებლად და არ მიიღებს ჯგუფურ შეტყობინებებს, სანამ არ დაეთანხმება:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, one {იმისათვის, რომ {count,number} წევრი კვლავ შეუერთდეს ამ ჯგუფს, მოწვევას უნდა დაეთანხმოს. ჯგუფურ შეტყობინებს ვერ მიიღებს, სანამ მოწვევას არ დაეთანხმება.} other {იმისათვის, რომ {count,number} წევრი კვლავ შეუერთდეს ამ ჯგუფს, მოწვევას უნდა დაეთანხმონ. ჯგუფურ შეტყობინებს ვერ მიიღებენ, სანამ მოწვევას არ დაეთანხმებიან.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "ამ წევრებს არ შეუძლიათ შეუერთდნენ ახალ ჯგუფებს და ამ ჯგუფიდან წაიშლებიან:"
@@ -3393,7 +3393,7 @@
     "messageformat": "ამ წევრს არ შეუძლია ახალ ჯგუფებში გაწევრიანება და წაიშლება ჯგუფიდან:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} წევრს არ შეუძლია შეუერთდეს ახალ ჯგუფებს და ამ ჯგუფიდან წაიშლება.} other {{count,number} წევრს არ შეუძლია შეუერთდეს ახალ ჯგუფებს და ამ ჯგუფიდან წაიშლებიან.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "ამ წევრებს არ შეეძლოთ ახალ ჯგუფებში გაწევრიანება და ჯგუფიდან წაიშალნენ:"
@@ -3402,7 +3402,7 @@
     "messageformat": "ამ წევრს არ შეეძლო ახალ ჯგუფებში გაწევრიანება და ჯგუფიდან წაიშალა:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} წევრს არ შეუძლია შეუერთდეს ახალ ჯგუფებს და ამ ჯგუფიდან წაიშალა.} other {{count,number} წევრს არ შეუძლია შეუერთდეს ახალ ჯგუფებს და ამ ჯგუფიდან იქნენ წაშლილები.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "ახალ ჯგუფში ვერ დაემატე და გასაწევრიანებლად მიგიწვიეს."
@@ -3411,7 +3411,7 @@
     "messageformat": "{contact} ვერ დაემატა ახალ ჯგუფს და მიწვეულ იქნა გასაწევრიანებლად."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, one {{count,number} წევრი ახალ ჯგუფში ვერ დაემატა და მოწვეული იქნა გასაწევრიანებლად.} other {{count,number} წევრი ახალ ჯგუფში ვერ დაემატა და მიწვეულნი იქნენ გასაწევრიანებლად.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} წაიშალა ჯგუფიდან."
@@ -5367,7 +5367,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "შენი აპის შეუფერხებლად მუშაობისთვის უამრავი ბაგი გამოვასწორეთ. ჰორიზონტზე უფრო საინტერესო ცვლილებები გელოდება! ",
+    "messageformat": "შენი აპის შეუფერხებლად მუშაობისთვის უამრავი ბაგი გამოვასწორეთ. ჰორიზონტზე უფრო საინტერესო ცვლილებები გელოდება!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
@@ -5385,8 +5385,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.8--0": {
-    "messageformat": "ახლა უკვე შეგიძლია Signal-ის ზარის დროს რეაქცია ნებისმიერი emoji-ით გამოხატო."
   }
 }

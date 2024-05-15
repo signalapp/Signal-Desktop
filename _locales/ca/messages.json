@@ -1215,7 +1215,7 @@
     "messageformat": "Qualsevol persona que s'uneixi a aquesta trucada mitjançant l'enllaç veurà el teu nom, foto i número de telèfon."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "Esperant per a entrar…"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Afegeix-m'hi"
@@ -1365,16 +1365,16 @@
     "messageformat": "Cliqueu aquí per a tornar a la trucada quan estigueu a punt per interrompre la presentació."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Tornant a connectar…"
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "S'ha perdut la teva connexió. Signal s'està tornat a connectar."
   },
   "icu:calling__presenting--info": {
     "messageformat": "El Signal comparteix {window}."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Tornant a connectar…"
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Interromp la compartició"
@@ -2778,7 +2778,7 @@
     "messageformat": "Una finestra"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "Copiar enllaç de trucada"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Expulsar a aquesta persona de la trucada"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, one {{memberName} ha convidat {count,number} persona al grup.} other {{memberName} ha convidat {count,number} persones al grup.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, one {Has convidat {count,number} persona al grup.} other {Has convidat {count,number} persones al grup.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, one {S'han convidat {count,number} persona al grup.} other {S'han convidat {count,number} persones al grup.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "Un administrador ha rebutjat una invitació de grup per a 1 persona."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {{memberName} ha revocat una invitació al grup per a 1 persona.} other {{memberName} ha revocat les invitacions al grup per a {count,number} persones.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Has revocat la invitació al grup per a 1 persona.} other {Has revocat les invitacions al grup per a {count,number} persones.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Un administrador ha revocat la invitació al grup per a 1 persona.} other {Un administrador ha revocat les invitacions al grup per a {count,number} persones.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} ha rebutjat una invitació al grup per a 1 persona convidada per {memberName}."
@@ -3213,7 +3213,7 @@
     "messageformat": "Heu rebutjat una invitació al grup per a 1 persona convidada per {memberName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "An admin revoked an invitation to the group for # person invited by {memberName}."
+    "messageformat": "Un administrador ha rebutjat una invitació al grup per a 1 persona convidada per {memberName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
     "messageformat": "{adminName} ha rebutjat la invitació al grup que heu enviat a {inviteeName}."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, one {{adminName} ha rebutjat invitacions al grup per a {count,number} persona convidada per {memberName}.} other {{adminName} ha rebutjat invitacions al grup per a {count,number} persones convidades per {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Has revocat la invitació al grup que ha enviat {memberName} per a {count,number} persona.} other {Has revocat les invitacions al grup que ha enviat {memberName} per a {count,number} persones.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Un admin ha revocat la invitació al grup que ha enviat {memberName} per a {count,number} persona.} other {Un admin ha revocat les invitacions al grup que ha enviat {memberName} per a {count,number} persones.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {{adminName} ha revocat la invitació al grup que has enviat a {count,number} persones.} other {{adminName} ha revocat les invitacions al grup que has enviat a {count,number} persones.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Has rescindit la invitació a {count,number} persona.} other {Has rescindit la invitació a {count,number} persones.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Un admin ha revocat la invitació al grup que has enviat a {count,number} persona.} other {Un admin ha revocat les invitacions al grup que has enviat a {count,number} persones.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "Heu enviat la sol·licitud per a afegir-vos al grup."
@@ -3384,7 +3384,7 @@
     "messageformat": "Aquest membre haurà d'acceptar una invitació per a tornar a afegir-se a aquest grup i no en rebrà missatges fins que no l'accepti:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, one {{count,number} membre haurà d'acceptar una invitació per tornar a afegir-se a aquest grup i no en rebrà missatges fins que no l'accepti.} other {{count,number} membres hauran d'acceptar una invitació per a tornar a afegir-se a aquest grup i no en rebran missatges fins que no l'acceptin}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "Aquests membres no són capaços d'afegir-se als grups nous i han estat esborrats del grup:"
@@ -3393,7 +3393,7 @@
     "messageformat": "Aquest membre no és capaç d'afegir-se als grups nous i serà esborrat del grup."
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} membre no s'ha pogut afegir als grups nous i serà esborrat del grup.} other {{count,number} membres no són capaços d'afegir-se als grups nous i han estat esborrats del grup.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "Aquests membres no eren capaços d'afegir-se als grups nous i han estat esborrats del grup:"
@@ -3402,7 +3402,7 @@
     "messageformat": "Aquest membre no podia afegir-se als grups nous i ha estat esborrat del grup:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} membre no és capaç d'afegir-se als grups nous i serà esborrat del grup.} other {{count,number} membres no s'han pogut afegir als grups nous i han estat esborrats del grup.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "No se us ha pogut afegir al grup nou i se us ha convidat a afegir-vos-hi."
@@ -3411,7 +3411,7 @@
     "messageformat": "{contact} no s'ha pogut afegir al grup nou i s'ha convidat a afegir-s'hi."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, one {Un membre no s'ha pogut afegir al grup nou i ha estat convidat a afegir-s'hi.} other {{count,number} membres no s'han pogut afegir al grup nou i han estat convidats a afegir-s'hi.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} ha estat esborrat del grup."
@@ -5367,7 +5367,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "Diverses correccions d'errors fan que la teva aplicació funcioni sense problemes. Més canvis emocionants pròximament! ",
+    "messageformat": "Diverses correccions d'errors fan que la teva aplicació funcioni sense problemes. Més canvis emocionants pròximament!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
@@ -5385,8 +5385,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Ara pots reaccionar amb qualsevol emoji durant una trucada de Signal."
   }
 }

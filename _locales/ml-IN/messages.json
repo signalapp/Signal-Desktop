@@ -1215,7 +1215,7 @@
     "messageformat": "ലിങ്കിലൂടെ ഈ കോളിൽ ചേരുന്ന ആർക്കും നിങ്ങളുടെ പേര്, ഫോട്ടോ, ഫോൺ നമ്പർ എന്നിവ കാണാനാകും."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "പ്രവേശനം അനുവദിക്കാൻ കാത്തിരിക്കുന്നു..."
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "ചേരുക"
@@ -1365,16 +1365,16 @@
     "messageformat": "നിങ്ങൾ അവതരിപ്പിക്കുന്നത് നിർത്താൻ തയ്യാറാകുമ്പോൾ കോളിലേക്ക് മടങ്ങാൻ ഇവിടെ ക്ലിക്ക് ചെയ്യുക."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "വീണ്ടും കണക്റ്റ് ചെയ്യുന്നു..."
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "നിങ്ങളുടെ കണക്ഷൻ പോയി. Signal വീണ്ടും ബന്ധിപ്പിക്കുന്നു."
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal {window} പങ്കിടുന്നു."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "വീണ്ടും കണക്റ്റ് ചെയ്യുന്നു..."
   },
   "icu:calling__presenting--stop": {
     "messageformat": "പങ്കിടുന്നത് നിർത്തുക"
@@ -2778,7 +2778,7 @@
     "messageformat": "ഒരു വിൻഡോ"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "കോൾ ലിങ്ക് പകർത്തുക"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "കോളിൽ നിന്ന് ഈ വ്യക്തിയെ നീക്കം ചെയ്യുക"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, one {{memberName} 1 ആളെ ഗ്രൂപ്പിലേക്ക് ക്ഷണിച്ചു.} other {{memberName} {count,number} ആളുകളെ ഗ്രൂപ്പിലേക്ക് ക്ഷണിച്ചു.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, one {നിങ്ങൾ {count,number} ആളെ ഗ്രൂപ്പിലേക്ക് ക്ഷണിച്ചിരിക്കുന്നു.} other {നിങ്ങൾ {count,number} ആളുകളെ ഗ്രൂപ്പിലേക്ക് ക്ഷണിച്ചിരിക്കുന്നു.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, one {1 ആളെ ഗ്രൂപ്പിലേക്ക് ക്ഷണിച്ചു.} other {{count,number} ആളുകളെ ഗ്രൂപ്പിലേക്ക് ക്ഷണിച്ചു.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "ഒരു അഡ്മിൻ 1 വ്യക്തിക്ക് ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണം പിൻവലിച്ചു."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {{memberName}, 1 വ്യക്തിയുടെ ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണം റദ്ദാക്കി.} other {{memberName}, {count,number} വ്യക്തികളുടെ ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണം റദ്ദാക്കി.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {നിങ്ങൾ 1 വ്യക്തിക്ക് ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണം റദ്ദാക്കി.} other {{count,number} പേർക്കുള്ള ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണങ്ങൾ നിങ്ങൾ റദ്ദാക്കി.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {ഒരു അഡ്മിൻ 1 ആൾക്കുള്ള ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണം റദ്ദാക്കി.} other {ഒരു അഡ്മിൻ {count,number} പേർക്കുള്ള ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണങ്ങൾ റദ്ദാക്കി.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{memberName} ക്ഷണിച്ച 1 വ്യക്തിക്കുള്ള ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണം {adminName} പിൻവലിച്ചു"
@@ -3213,7 +3213,7 @@
     "messageformat": "{memberName} ക്ഷണിച്ച 1 വ്യക്തിക്കുള്ള ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണം നിങ്ങൾ റദ്ദാക്കി."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "An admin revoked an invitation to the group for # person invited by {memberName}."
+    "messageformat": "{memberName} ക്ഷണിച്ച 1 വ്യക്തിക്കുള്ള ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണം ഒരു അഡ്മിൻ പിൻവലിച്ചു."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
     "messageformat": "നിങ്ങൾ {inviteeName}-യ്ക്ക് അയച്ച ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണം {adminName} പിൻവലിച്ചു."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, one {{memberName} ക്ഷണിച്ച {count,number} ആൾക്കുള്ള ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണങ്ങൾ {adminName} റദ്ദാക്കി.} other {{memberName} ക്ഷണിച്ച {count,number} പേർക്കുള്ള ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണങ്ങൾ {adminName} റദ്ദാക്കി.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {{memberName} ക്ഷണിച്ച {count,number} ആൾക്കുള്ള ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണങ്ങൾ നിങ്ങൾ റദ്ദാക്കി.} other {{memberName} ക്ഷണിച്ച {count,number} പേർക്കുള്ള ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണങ്ങൾ നിങ്ങൾ റദ്ദാക്കി.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {{memberName} ക്ഷണിച്ച {count,number} ആൾക്കുള്ള ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണങ്ങൾ അഡ്‌മിൻ റദ്ദാക്കി.} other {{memberName} ക്ഷണിച്ച {count,number} പേർക്കുള്ള ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണങ്ങൾ ഒരു അഡ്മിൻ റദ്ദാക്കി.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {നിങ്ങൾ {count,number} ആൾക്ക് അയച്ച ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണങ്ങൾ {adminName} റദ്ദാക്കി.} other {നിങ്ങൾ {count,number} പേർക്ക് അയച്ച ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണങ്ങൾ {adminName} റദ്ദാക്കി.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, one {{count,number} ആൾക്കുള്ള നിങ്ങളുടെ ക്ഷണം നിങ്ങൾ റദ്ദാക്കി.} other {{count,number} പേർക്കുള്ള നിങ്ങളുടെ ക്ഷണം നിങ്ങൾ റദ്ദാക്കി.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {നിങ്ങൾ {count,number} ആൾക്ക് അയച്ച, ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണങ്ങൾ ഒരു അഡ്മിൻ റദ്ദാക്കി.} other {നിങ്ങൾ {count,number} പേർക്ക് അയച്ച ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണങ്ങൾ ഒരു അഡ്മിൻ റദ്ദാക്കി.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "ഗ്രൂപ്പിൽ ചേരാൻ നിങ്ങൾ ഒരു അഭ്യർത്ഥന അയച്ചു."
@@ -3384,7 +3384,7 @@
     "messageformat": "ഈ അംഗത്തിന് ഈ ഗ്രൂപ്പിൽ‌ വീണ്ടും ചേരുന്നതിനുള്ള ക്ഷണം സ്വീകരിക്കേണ്ടതുണ്ട്, മാത്രമല്ല അവർ‌ അംഗീകരിക്കുന്നതുവരെ ഗ്രൂപ്പ് സന്ദേശങ്ങൾ‌ സ്വീകരിക്കുകയുമില്ല:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, one {{count,number} എന്ന അംഗത്തിന് ഈ ഗ്രൂപ്പിൽ വീണ്ടും ചേരുന്നതിനുള്ള ക്ഷണം സ്വീകരിക്കേണ്ടതുണ്ട്, അവർ അംഗീകരിക്കുന്നതുവരെ ഗ്രൂപ്പ് സന്ദേശങ്ങൾ ലഭിക്കില്ല.} other {{count,number} അംഗങ്ങൾക്ക് ഈ ഗ്രൂപ്പിൽ വീണ്ടും ചേരുന്നതിനുള്ള ക്ഷണം സ്വീകരിക്കേണ്ടതുണ്ട്, അവർ അംഗീകരിക്കുന്നതുവരെ ഗ്രൂപ്പ് സന്ദേശങ്ങൾ ലഭിക്കില്ല.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "ഈ അംഗങ്ങൾക്ക് പുതിയ ഗ്രൂപ്പുകളിൽ‌ ചേരാൻ‌ കഴിയില്ല, മാത്രമല്ല ഈ ഗ്രൂപ്പിൽ‌ നിന്നും നീക്കം ചെയ്യുകയും ചെയ്യും:"
@@ -3393,7 +3393,7 @@
     "messageformat": "ഈ അംഗത്തിന് പുതിയ ഗ്രൂപ്പുകളിൽ‌ ചേരാൻ‌ കഴിയില്ല, മാത്രമല്ല ഗ്രൂപ്പിൽ‌ നിന്നും നീക്കം ചെയ്യുകയും ചെയ്യും:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} എന്ന അംഗത്തിന് പുതിയ ഗ്രൂപ്പുകളിൽ ചേരാൻ കഴിയില്ല, മാത്രമല്ല ഈ ഗ്രൂപ്പിൽ‌ നിന്നും നീക്കം ചെയ്യുകയും ചെയ്യും.} other {{count,number} അംഗങ്ങൾക്ക് പുതിയ ഗ്രൂപ്പുകളിൽ ചേരാൻ കഴിയില്ല, മാത്രമല്ല ഈ ഗ്രൂപ്പിൽ നിന്നും നീക്കംചെയ്യുകയും ചെയ്യും.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "ഈ അംഗങ്ങൾക്ക് പുതിയ ഗ്രൂപ്പുകളിൽ ചേരാൻ കഴിവില്ല, അവരെ ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്തു:"
@@ -3402,7 +3402,7 @@
     "messageformat": "ഈ അംഗത്തിന് പുതിയ ഗ്രൂപ്പുകളിൽ ചേരാൻ കഴിവില്ല, ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്തു:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} എന്ന അംഗത്തിന് പുതിയ ഗ്രൂപ്പുകളിൽ ചേരാൻ കഴിഞ്ഞില്ല, ഗ്രൂപ്പിൽ നിന്നും നീക്കം ചെയ്യുകയും ചെയ്തു.} other {{count,number} അംഗങ്ങൾക്ക് പുതിയ ഗ്രൂപ്പുകളിൽ ചേരാൻ കഴിഞ്ഞില്ല, അവരെ ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്തു.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "നിങ്ങളെ പുതിയ ഗ്രൂപ്പിലേക്ക് ചേർക്കാൻ കഴിഞ്ഞില്ല ഒപ്പം ചേരാൻ ക്ഷണിക്കുകയും ചെയ്തിട്ടുണ്ട്."
@@ -3411,7 +3411,7 @@
     "messageformat": "{contact} പുതിയ ഗ്രൂപ്പിൽ ചേർക്കാൻ കഴിഞ്ഞില്ല കൂടാതെ ചേരാൻ ക്ഷണിച്ചിട്ടുണ്ട്."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, one {A member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} എന്നയാളെ ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്തു."
@@ -5367,7 +5367,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "നിങ്ങളുടെ ആപ്പ് സുഗമമായി പ്രവർത്തിപ്പിക്കുന്നതിന് ആവശ്യമായ ഒരുപറ്റം ബഗ് പരിഹരിക്കലുകൾ. കൂടുതൽ ആവേശകരമായ മാറ്റങ്ങൾ ഉടൻ! ",
+    "messageformat": "നിങ്ങളുടെ ആപ്പ് സുഗമമായി പ്രവർത്തിപ്പിക്കുന്നതിന് ആവശ്യമായ ഒരുപറ്റം ബഗ് പരിഹരിക്കലുകൾ. കൂടുതൽ ആവേശകരമായ മാറ്റങ്ങൾ ഉടൻ!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
@@ -5385,8 +5385,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.8--0": {
-    "messageformat": "ഇപ്പോൾ നിങ്ങൾക്ക് ഒരു Signal കോളിനിടെ ഏത് ഇമോജി ഉപയോഗിച്ചും പ്രതികരിക്കാം. ക്യാമറ ഓഫാണെങ്കിലും പുഞ്ചിരിക്കുക, കേൾക്കുന്നത് ഇഷ്ടപ്പെട്ടാൽ ഒരു ഹാർട്ട് പങ്കിടുക, അല്ലെങ്കിൽ ഒരു വാക്കുപോലും പറയാതെ പിസ്സയ്ക്ക് പകരം സുഷിക്ക് വോട്ട് ചെയ്യൂ. കോളിലെ കുറേ ആളുകൾ ഒരേ ഇമോജി വഴി ഒരേസമയം പ്രതികരിച്ചാൽ ഏവരുടേയും വികാരപ്രകടനത്തിൻ്റെ ഒരു ആനിമേഷൻ പോലും കാണും."
   }
 }
