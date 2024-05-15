@@ -33,7 +33,6 @@ import {
 } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { addStagedAttachmentsInConversation } from '../../state/ducks/stagedAttachments';
-import { SessionTheme } from '../../themes/SessionTheme';
 import { MIME } from '../../types';
 import { AttachmentTypeWithPath } from '../../types/Attachment';
 import {
@@ -256,7 +255,7 @@ export class SessionConversation extends Component<Props, State> {
         : window.i18n('someOfYourDeviceUseOutdatedVersion');
 
     return (
-      <SessionTheme>
+      <>
         <div className="conversation-header">
           <ConversationHeaderWithDetails />
           {selectedConversation?.hasOutdatedClient?.length ? (
@@ -312,7 +311,7 @@ export class SessionConversation extends Component<Props, State> {
             </StyledRightPanelContainer>
           </>
         )}
-      </SessionTheme>
+      </>
     );
   }
 

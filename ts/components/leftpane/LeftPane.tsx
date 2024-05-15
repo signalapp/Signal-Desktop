@@ -4,7 +4,6 @@ import { SectionType } from '../../state/ducks/section';
 import { getLeftPaneConversationIds } from '../../state/selectors/conversations';
 import { getHasSearchResults } from '../../state/selectors/search';
 import { getFocusedSection, getLeftOverlayMode } from '../../state/selectors/section';
-import { SessionTheme } from '../../themes/SessionTheme';
 import { SessionToastContainer } from '../SessionToastContainer';
 import { CallInFullScreenContainer } from '../calling/CallInFullScreenContainer';
 import { DraggableCallContainer } from '../calling/DraggableCallContainer';
@@ -58,17 +57,15 @@ const CallContainer = () => {
 
 export const LeftPane = () => {
   return (
-    <SessionTheme>
-      <div className="module-left-pane-session">
-        <ModalContainer />
-        <CallContainer />
-        <SessionToastContainer />
-        <ActionsPanel />
+    <div className="module-left-pane-session">
+      <ModalContainer />
+      <CallContainer />
+      <SessionToastContainer />
+      <ActionsPanel />
 
-        <StyledLeftPane className="module-left-pane">
-          <LeftPaneSection />
-        </StyledLeftPane>
-      </div>
-    </SessionTheme>
+      <StyledLeftPane className="module-left-pane">
+        <LeftPaneSection />
+      </StyledLeftPane>
+    </div>
   );
 };

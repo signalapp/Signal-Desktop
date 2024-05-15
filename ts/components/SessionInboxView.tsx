@@ -35,6 +35,7 @@ import { SettingsKey } from '../data/settings-key';
 import { getSettingsInitialState, updateAllOnStorageReady } from '../state/ducks/settings';
 import { initialSogsRoomInfoState } from '../state/ducks/sogsRoomInfo';
 import { useHasDeviceOutdatedSyncing } from '../state/selectors/settings';
+import { SessionTheme } from '../themes/SessionTheme';
 import { Storage } from '../util/storage';
 import { NoticeBanner } from './NoticeBanner';
 import { Flex } from './basic/Flex';
@@ -144,15 +145,17 @@ export const SessionInboxView = () => {
     <div className="inbox index">
       <Provider store={window.inboxStore}>
         <PersistGate loading={null} persistor={persistor}>
-          <SomeDeviceOutdatedSyncingNotice />
-          <AnimatePresence>
-            <Flex container={true} height="0" flexShrink={100} flexGrow={1}>
-              <StyledGutter>
-                <LeftPane />
-              </StyledGutter>
-              <SessionMainPanel />
-            </Flex>
-          </AnimatePresence>
+          <SessionTheme>
+            <SomeDeviceOutdatedSyncingNotice />
+            <AnimatePresence>
+              <Flex container={true} height="0" flexShrink={100} flexGrow={1}>
+                <StyledGutter>
+                  <LeftPane />
+                </StyledGutter>
+                <SessionMainPanel />
+              </Flex>
+            </AnimatePresence>
+          </SessionTheme>
         </PersistGate>
       </Provider>
     </div>
