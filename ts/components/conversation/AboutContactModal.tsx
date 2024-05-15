@@ -11,7 +11,7 @@ import { Modal } from '../Modal';
 import { UserText } from '../UserText';
 import { SharedGroupNames } from '../SharedGroupNames';
 import { About } from './About';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import {
   areNicknamesEnabled,
   canHaveNicknameAndNote,
@@ -154,7 +154,7 @@ export function AboutContactModal({
         (conversation.nicknameGivenName || conversation.nicknameFamilyName) &&
         conversation.titleNoNickname ? (
           <span>
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:AboutContactModal__TitleAndTitleWithoutNickname"
               components={{
@@ -164,7 +164,7 @@ export function AboutContactModal({
                     className="AboutContactModal__TitleWithoutNickname__Tooltip"
                     direction={TooltipPlacement.Top}
                     content={
-                      <Intl
+                      <I18n
                         i18n={i18n}
                         id="icu:AboutContactModal__TitleWithoutNickname__Tooltip"
                         components={{

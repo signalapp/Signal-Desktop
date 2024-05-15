@@ -6,7 +6,7 @@ import React from 'react';
 import moment from 'moment';
 
 import { Modal } from './Modal';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import type { LocalizerType } from '../types/Util';
 
 export type PropsType = {
@@ -42,7 +42,7 @@ export function WhatsNewModal({
   const releaseNotes: ReleaseNotesType = {
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
-    features: [<Intl i18n={i18n} id="icu:WhatsNew__bugfixes--2" />],
+    features: [<I18n i18n={i18n} id="icu:WhatsNew__bugfixes--2" />],
   };
 
   if (releaseNotes.features.length === 1 && !releaseNotes.header) {

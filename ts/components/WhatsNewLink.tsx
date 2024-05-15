@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 
 import type { LocalizerType } from '../types/Util';
 
@@ -16,7 +16,7 @@ export function WhatsNewLink(props: PropsType): JSX.Element {
   const { i18n, showWhatsNewModal } = props;
 
   return (
-    <Intl
+    <I18n
       i18n={i18n}
       id="icu:whatsNew"
       components={{

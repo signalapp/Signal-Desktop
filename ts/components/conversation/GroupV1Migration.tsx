@@ -8,7 +8,7 @@ import { SystemMessage } from './SystemMessage';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import { ContactName } from './ContactName';
 import { GroupV1MigrationDialog } from '../GroupV1MigrationDialog';
 import * as log from '../../logging/log';
@@ -130,14 +130,14 @@ function renderUsers({
     return (
       <p>
         {kind === 'invited' && (
-          <Intl
+          <I18n
             i18n={i18n}
             id="icu:GroupV1--Migration--invited--one"
             components={{ contact }}
           />
         )}
         {kind === 'removed' && (
-          <Intl
+          <I18n
             i18n={i18n}
             id="icu:GroupV1--Migration--removed--one"
             components={{ contact }}
@@ -150,14 +150,14 @@ function renderUsers({
   return (
     <p>
       {kind === 'invited' && (
-        <Intl
+        <I18n
           i18n={i18n}
           id="icu:GroupV1--Migration--invited--many"
           components={{ count }}
         />
       )}
       {kind === 'removed' && (
-        <Intl
+        <I18n
           i18n={i18n}
           id="icu:GroupV1--Migration--removed--many"
           components={{ count }}

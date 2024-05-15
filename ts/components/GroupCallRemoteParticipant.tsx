@@ -22,7 +22,7 @@ import {
 } from './CallingAudioIndicator';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { ContactName } from './conversation/ContactName';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants';
@@ -408,7 +408,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       if (isBlocked) {
         setErrorDialogTitle(
           <div className="module-ongoing-call__group-call-remote-participant__more-info-modal-title">
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:calling__you-have-blocked"
               components={{
@@ -421,7 +421,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       } else if (showMissingMediaKeys) {
         setErrorDialogTitle(
           <div className="module-ongoing-call__group-call-remote-participant__more-info-modal-title">
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:calling__missing-media-keys"
               components={{

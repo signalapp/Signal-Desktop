@@ -5,7 +5,7 @@ import { last } from 'lodash';
 import type { ReactChild } from 'react';
 import React from 'react';
 
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import type { ToFindType } from './LeftPaneHelper';
 import type {
   ConversationType,
@@ -118,7 +118,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
       return (
         <div className="module-left-pane__empty">
           <div>
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:emptyInboxMessage"
               components={{

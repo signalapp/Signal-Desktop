@@ -9,7 +9,7 @@ import {
   MessageRequestActionsConfirmation,
   MessageRequestState,
 } from './MessageRequestActionsConfirmation';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import type { LocalizerType } from '../../types/Util';
 
 export type Props = {
@@ -92,13 +92,13 @@ export function MandatoryProfileSharingActions({
       <div className="module-message-request-actions">
         <p className="module-message-request-actions__message">
           {conversationType === 'direct' ? (
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:MessageRequests--profile-sharing--direct--link"
               components={{ firstName: firstNameContact, learnMoreLink }}
             />
           ) : (
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:MessageRequests--profile-sharing--group--link"
               components={{ learnMoreLink }}

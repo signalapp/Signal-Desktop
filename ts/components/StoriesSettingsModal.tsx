@@ -22,7 +22,7 @@ import { ContactPills } from './ContactPills';
 import { ContactPill } from './ContactPill';
 import { ConversationList, RowType } from './ConversationList';
 import { Input } from './Input';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { MY_STORY_ID, getStoryDistributionListName } from '../types/Stories';
 import { PagedModal, ModalPage } from './Modal';
 import { SearchInput } from './SearchInput';
@@ -836,13 +836,13 @@ export function EditMyStoryPrivacy({
   const disclaimerElement = (
     <div className="StoriesSettingsModal__disclaimer">
       {kind === 'mine' ? (
-        <Intl
+        <I18n
           components={{ learnMoreLink }}
           i18n={i18n}
           id="icu:StoriesSettings__mine__disclaimer--link"
         />
       ) : (
-        <Intl
+        <I18n
           components={{ learnMoreLink }}
           i18n={i18n}
           id="icu:SendStoryModal__privacy-disclaimer--link"

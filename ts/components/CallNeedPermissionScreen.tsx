@@ -5,7 +5,7 @@ import React, { useRef, useEffect } from 'react';
 import type { LocalizerType } from '../types/Util';
 import { AvatarColors } from '../types/Colors';
 import { Avatar, AvatarSize } from './Avatar';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { ContactName } from './conversation/ContactName';
 import type { ConversationType } from '../state/ducks/conversations';
 
@@ -61,7 +61,7 @@ export function CallNeedPermissionScreen({
       />
 
       <p className="module-call-need-permission-screen__text">
-        <Intl
+        <I18n
           i18n={i18n}
           id="icu:callNeedPermission"
           components={{

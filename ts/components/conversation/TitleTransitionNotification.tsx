@@ -4,7 +4,7 @@
 import React from 'react';
 
 import type { LocalizerType } from '../../types/Util';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 
 import { SystemMessage } from './SystemMessage';
 import { UserText } from '../UserText';
@@ -25,7 +25,7 @@ export function TitleTransitionNotification(props: Props): JSX.Element {
   return (
     <SystemMessage
       contents={
-        <Intl
+        <I18n
           id="icu:TitleTransition--notification"
           components={{
             oldTitle: <UserText text={oldTitle} />,

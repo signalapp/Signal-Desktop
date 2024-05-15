@@ -10,7 +10,7 @@ import { missingCaseError } from '../../util/missingCaseError';
 import type { Loadable } from '../../util/loadable';
 import { LoadingState } from '../../util/loadable';
 
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import { Spinner } from '../Spinner';
 import { QrCode } from '../QrCode';
 import { TitlebarDragArea } from '../TitlebarDragArea';
@@ -75,7 +75,7 @@ export function InstallScreenQrCodeNotScannedStep({
           <ol>
             <li>{i18n('icu:Install__instructions__1')}</li>
             <li>
-              <Intl
+              <I18n
                 i18n={i18n}
                 id="icu:Install__instructions__2"
                 components={{
@@ -89,7 +89,7 @@ export function InstallScreenQrCodeNotScannedStep({
               />
             </li>
             <li>
-              <Intl
+              <I18n
                 i18n={i18n}
                 id="icu:Install__instructions__3"
                 components={{
@@ -130,7 +130,7 @@ function InstallScreenQrCode(
     case LoadingState.LoadFailed:
       contents = (
         <span className={classNames(getQrCodeClassName('__error-message'))}>
-          <Intl
+          <I18n
             i18n={i18n}
             id="icu:Install__qr-failed-load"
             components={{

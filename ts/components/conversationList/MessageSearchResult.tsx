@@ -16,7 +16,7 @@ import type {
   ShowConversationType,
 } from '../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import {
   MessageTextRenderer,
   RenderLocation,
@@ -74,7 +74,7 @@ const renderPerson = (
   }>
 ): JSX.Element =>
   person.isMe ? (
-    <Intl i18n={i18n} id="icu:you" />
+    <I18n i18n={i18n} id="icu:you" />
   ) : (
     <ContactName title={person.title} />
   );
@@ -112,7 +112,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
       if (to.type === 'group') {
         headerName = (
           <span>
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:searchResultHeader--you-to-group"
               components={{
@@ -124,7 +124,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
       } else {
         headerName = (
           <span>
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:searchResultHeader--you-to-receiver"
               components={{
@@ -139,7 +139,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
       if (to.type === 'group') {
         headerName = (
           <span>
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:searchResultHeader--sender-to-group"
               components={{
@@ -152,7 +152,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
       } else {
         headerName = (
           <span>
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:searchResultHeader--sender-to-you"
               components={{

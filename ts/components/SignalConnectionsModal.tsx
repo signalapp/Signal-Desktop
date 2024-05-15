@@ -4,7 +4,7 @@
 import React from 'react';
 
 import type { LocalizerType } from '../types/Util';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { Modal } from './Modal';
 
 export type PropsType = Readonly<{
@@ -27,7 +27,7 @@ export function SignalConnectionsModal({
         <i className="SignalConnectionsModal__icon" />
 
         <div className="SignalConnectionsModal__description">
-          <Intl
+          <I18n
             components={{
               connections: (
                 <strong>{i18n('icu:SignalConnectionsModal__title')}</strong>

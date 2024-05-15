@@ -36,7 +36,7 @@ import { refMerger } from '../util/refMerger';
 import { drop } from '../util/drop';
 import { strictAssert } from '../util/assert';
 import { UserText } from './UserText';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { NavSidebarSearchHeader } from './NavSidebar';
 import { SizeObserver } from '../hooks/useSizeObserver';
 import { formatCallHistoryGroup } from '../util/callDisposition';
@@ -535,7 +535,7 @@ export function CallsList({
           {currentQuery === '' ? (
             i18n('icu:CallsList__EmptyState--noQuery')
           ) : (
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:CallsList__EmptyState--hasQuery"
               components={{

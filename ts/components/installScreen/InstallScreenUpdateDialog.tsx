@@ -15,7 +15,7 @@ import type { UpdatesStateType } from '../../state/ducks/updates';
 import { isBeta } from '../../util/version';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { Modal } from '../Modal';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import { formatFileSize } from '../../util/formatFileSize';
 
 export type PropsType = UpdatesStateType &
@@ -56,7 +56,7 @@ export function InstallScreenUpdateDialog({
         noMouseClose
         title={i18n('icu:InstallScreenUpdateDialog--unsupported-os__title')}
       >
-        <Intl
+        <I18n
           id="icu:UnsupportedOSErrorDialog__body"
           i18n={i18n}
           components={{
@@ -85,7 +85,7 @@ export function InstallScreenUpdateDialog({
       dialogType === DialogType.FullDownloadReady
     ) {
       actionText = (
-        <Intl
+        <I18n
           id="icu:InstallScreenUpdateDialog--manual-update__action"
           i18n={i18n}
           components={{
@@ -159,7 +159,7 @@ export function InstallScreenUpdateDialog({
       : PRODUCTION_DOWNLOAD_URL;
     const title = i18n('icu:cannotUpdate');
     const body = (
-      <Intl
+      <I18n
         i18n={i18n}
         id="icu:InstallScreenUpdateDialog--cannot-update__body"
         components={{
@@ -218,7 +218,7 @@ export function InstallScreenUpdateDialog({
         useFocusTrap={false}
         title={i18n('icu:cannotUpdate')}
       >
-        <Intl
+        <I18n
           components={{
             app: <strong key="app">Signal.app</strong>,
             folder: <strong key="folder">/Applications</strong>,
