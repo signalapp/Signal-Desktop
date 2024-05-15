@@ -8,6 +8,9 @@ const bytes = globalThis.window?.SignalContext?.bytes || new Bytes();
 export function fromBase64(value: string): Uint8Array {
   return bytes.fromBase64(value);
 }
+export function fromBase64url(value: string): Uint8Array {
+  return bytes.fromBase64url(value);
+}
 
 export function fromHex(value: string): Uint8Array {
   return bytes.fromHex(value);

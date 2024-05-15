@@ -11,7 +11,7 @@ import {
   randomBytes,
 } from 'crypto';
 import type { Decipher, Hash, Hmac } from 'crypto';
-import { Transform } from 'stream';
+import { PassThrough, Transform, type Writable } from 'stream';
 import { pipeline } from 'stream/promises';
 import { ensureFile } from 'fs-extra';
 import * as log from './logging/log';
@@ -45,7 +45,6 @@ export function _generateAttachmentIv(): Uint8Array {
 }
 
 export type EncryptedAttachmentV2 = {
-  path: string;
   digest: Uint8Array;
   plaintextHash: string;
 };
@@ -55,23 +54,54 @@ export type DecryptedAttachmentV2 = {
   plaintextHash: string;
 };
 
+type EncryptAttachmentV2PropsType = {
+  keys: Readonly<Uint8Array>;
+  plaintextAbsolutePath: string;
+  dangerousTestOnlyIv?: Readonly<Uint8Array>;
+  dangerousTestOnlySkipPadding?: boolean;
+};
+
+export async function encryptAttachmentV2ToDisk(
+  args: EncryptAttachmentV2PropsType
+): Promise<EncryptedAttachmentV2 & { path: string }> {
+  // Create random output file
+  const relativeTargetPath = getRelativePath(createName());
+  const absoluteTargetPath =
+    window.Signal.Migrations.getAbsoluteAttachmentPath(relativeTargetPath);
+
+  let writeFd;
+  let encryptResult: EncryptedAttachmentV2;
+
+  try {
+    await ensureFile(absoluteTargetPath);
+    writeFd = await open(absoluteTargetPath, 'w');
+    encryptResult = await encryptAttachmentV2({
+      ...args,
+      sink: writeFd.createWriteStream(),
+    });
+  } catch (error) {
+    safeUnlinkSync(absoluteTargetPath);
+    throw error;
+  } finally {
+    await writeFd?.close();
+  }
+
+  return {
+    ...encryptResult,
+    path: relativeTargetPath,
+  };
+}
+
 export async function encryptAttachmentV2({
   keys,
   plaintextAbsolutePath,
   dangerousTestOnlyIv,
   dangerousTestOnlySkipPadding = false,
-}: {
-  keys: Readonly<Uint8Array>;
-  plaintextAbsolutePath: string;
-  dangerousTestOnlyIv?: Readonly<Uint8Array>;
-  dangerousTestOnlySkipPadding?: boolean;
+  sink,
+}: EncryptAttachmentV2PropsType & {
+  sink?: Writable;
 }): Promise<EncryptedAttachmentV2> {
   const logId = 'encryptAttachmentV2';
-
-  // Create random output file
-  const relativeTargetPath = getRelativePath(createName());
-  const absoluteTargetPath =
-    window.Signal.Migrations.getAbsoluteAttachmentPath(relativeTargetPath);
 
   const { aesKey, macKey } = splitKeys(keys);
 
@@ -92,18 +122,11 @@ export async function encryptAttachmentV2({
   const digest = createHash(HashType.size256);
 
   let readFd;
-  let writeFd;
   try {
     try {
       readFd = await open(plaintextAbsolutePath, 'r');
     } catch (cause) {
       throw new Error(`${logId}: Read path doesn't exist`, { cause });
-    }
-    try {
-      await ensureFile(absoluteTargetPath);
-      writeFd = await open(absoluteTargetPath, 'w');
-    } catch (cause) {
-      throw new Error(`${logId}: Failed to create write path`, { cause });
     }
 
     await pipeline(
@@ -115,7 +138,7 @@ export async function encryptAttachmentV2({
         prependIv(iv),
         appendMacStream(macKey),
         peekAndUpdateHash(digest),
-        writeFd.createWriteStream(),
+        sink ?? new PassThrough().resume(),
       ].filter(isNotNil)
     );
   } catch (error) {
@@ -123,10 +146,9 @@ export async function encryptAttachmentV2({
       `${logId}: Failed to encrypt attachment`,
       Errors.toLogFormat(error)
     );
-    safeUnlinkSync(absoluteTargetPath);
     throw error;
   } finally {
-    await Promise.all([readFd?.close(), writeFd?.close()]);
+    await readFd?.close();
   }
 
   const ourPlaintextHash = plaintextHash.digest('hex');
@@ -143,7 +165,6 @@ export async function encryptAttachmentV2({
   );
 
   return {
-    path: relativeTargetPath,
     digest: ourDigest,
     plaintextHash: ourPlaintextHash,
   };
