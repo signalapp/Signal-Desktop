@@ -3,8 +3,26 @@
 
 import { contextBridge, ipcRenderer } from 'electron';
 
-contextBridge.exposeInMainWorld('getCredentials', async () =>
-  ipcRenderer.invoke('get-art-creator-auth')
+let onProgress: (() => void) | undefined;
+
+ipcRenderer.on('art-creator:onUploadProgress', () => {
+  onProgress?.();
+});
+
+contextBridge.exposeInMainWorld(
+  'uploadStickerPack',
+  async (
+    manifest: Uint8Array,
+    stickers: Readonly<Uint8Array>,
+    newOnProgress: (() => void) | undefined
+  ): Promise<string> => {
+    onProgress = newOnProgress;
+
+    return ipcRenderer.invoke('art-creator:uploadStickerPack', {
+      manifest,
+      stickers,
+    });
+  }
 );
 
 contextBridge.exposeInMainWorld(

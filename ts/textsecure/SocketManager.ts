@@ -52,7 +52,6 @@ export const AUTHENTICATED_CHANNEL_NAME = 'authenticated';
 
 export type SocketManagerOptions = Readonly<{
   url: string;
-  artCreatorUrl: string;
   certificateAuthority: string;
   version: string;
   proxyUrl?: string;

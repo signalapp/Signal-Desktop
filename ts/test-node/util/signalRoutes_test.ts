@@ -142,16 +142,6 @@ describe('signalRoutes', () => {
     check(`sgnl://signal.link/call#key=${foo}`, result);
   });
 
-  it('artAuth', () => {
-    const result: ParsedSignalRoute = {
-      key: 'artAuth',
-      args: { token: foo, pubKey: foo },
-    };
-    const check = createCheck({ hasWebUrl: false });
-    check(`sgnl://art-auth/?token=${foo}&pub_key=${foo}`, result);
-    check(`sgnl://art-auth?token=${foo}&pub_key=${foo}`, result);
-  });
-
   it('artAddStickers', () => {
     const result: ParsedSignalRoute = {
       key: 'artAddStickers',

@@ -6,7 +6,6 @@
 //
 
 export type Credentials = Readonly<{
-  baseUrl?: string;
   username: string;
   password: string;
 }>;

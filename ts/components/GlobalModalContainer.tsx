@@ -3,7 +3,6 @@
 
 import React from 'react';
 import type {
-  AuthorizeArtCreatorDataType,
   ContactModalStateType,
   DeleteMessagesPropsType,
   EditHistoryMessagesType,
@@ -96,11 +95,6 @@ export type PropsType = {
   // UsernameOnboarding
   usernameOnboardingState: UsernameOnboardingState;
   renderUsernameOnboarding: () => JSX.Element;
-  // AuthArtCreatorModal
-  authArtCreatorData?: AuthorizeArtCreatorDataType;
-  isAuthorizingArtCreator?: boolean;
-  cancelAuthorizeArtCreator: () => unknown;
-  confirmAuthorizeArtCreator: () => unknown;
 };
 
 export function GlobalModalContainer({
@@ -166,11 +160,6 @@ export function GlobalModalContainer({
   // UsernameOnboarding
   usernameOnboardingState,
   renderUsernameOnboarding,
-  // AuthArtCreatorModal
-  authArtCreatorData,
-  isAuthorizingArtCreator,
-  cancelAuthorizeArtCreator,
-  confirmAuthorizeArtCreator,
 }: PropsType): JSX.Element | null {
   // We want the following dialogs to show in this order:
   // 1. Errors
@@ -285,29 +274,6 @@ export function GlobalModalContainer({
         onClose={hideUserNotFoundModal}
       >
         {content}
-      </ConfirmationDialog>
-    );
-  }
-
-  if (authArtCreatorData) {
-    return (
-      <ConfirmationDialog
-        dialogName="GlobalModalContainer.authArtCreator"
-        cancelText={i18n('icu:AuthArtCreator--dialog--dismiss')}
-        cancelButtonVariant={ButtonVariant.Secondary}
-        i18n={i18n}
-        isSpinning={isAuthorizingArtCreator}
-        onClose={cancelAuthorizeArtCreator}
-        actions={[
-          {
-            text: i18n('icu:AuthArtCreator--dialog--confirm'),
-            style: 'affirmative',
-            action: confirmAuthorizeArtCreator,
-            autoClose: false,
-          },
-        ]}
-      >
-        {i18n('icu:AuthArtCreator--dialog--message')}
       </ConfirmationDialog>
     );
   }
