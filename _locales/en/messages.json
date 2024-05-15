@@ -7131,7 +7131,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "Handful of bug fixes to keep your app running smoothly. More exciting changes on the horizon! ",
+    "messageformat": "Handful of bug fixes to keep your app running smoothly. More exciting changes on the horizon!",
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
@@ -7154,9 +7154,5 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.8--0": {
-    "messageformat": "Now you can react with any emoji during a Signal call. Smile even if your camera is off, share a heart if you love what you're hearing, or vote for sushi instead of pizza without saying a word. And you'll even see an animation of everyone's emojional outburst if enough people in the call react with the same emoji all at once.",
-    "description": "(Deleted 2024/05/07) Release notes for version 7.8"
   }
 }
