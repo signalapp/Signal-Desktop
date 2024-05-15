@@ -1215,7 +1215,7 @@
     "messageformat": "Aon duine a théann isteach sa ghlao seo tríd an nasc, feicfidh an duine sin d'ainm, do ghrianghraf agus d'uimhir ghutháin."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "Ag fanacht le go ligfear isteach…"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Téigh isteach ann"
@@ -1365,16 +1365,16 @@
     "messageformat": "Cliceáil anseo le filleadh ar an nglao nuair atá tú réidh le comhroinnt scáileáin a stopadh."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Athnascadh…"
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "Cailleadh do nasc. Tá Signal á athnascadh."
   },
   "icu:calling__presenting--info": {
     "messageformat": "Tá {window} á chomhroinnt ag Signal."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Athnascadh…"
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Stop comhroinnt"
@@ -2778,7 +2778,7 @@
     "messageformat": "Fuinneog"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "Cóipeáil an nasc glao"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Bain an duine seo den ghlao"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, one {Thug {memberName} cuireadh do {count,number} duine chun dul isteach sa ghrúpa.} two {Thug {memberName} cuireadh do {count,number} dhuine chun dul isteach sa ghrúpa.} few {Thug {memberName} cuireadh do {count,number} dhuine chun dul isteach sa ghrúpa.} many {Thug {memberName} cuireadh do {count,number} nduine chun dul isteach sa ghrúpa.} other {Thug {memberName} cuireadh do {count,number} duine chun dul isteach sa ghrúpa.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, one {Thug tú cuireadh do {count,number} duine chun dul isteach sa ghrúpa.} two {Thug tú cuireadh do {count,number} dhuine chun dul isteach sa ghrúpa.} few {Thug tú cuireadh do {count,number} dhuine chun dul isteach sa ghrúpa.} many {Thug tú cuireadh do {count,number} nduine chun dul isteach sa ghrúpa.} other {Thug tú cuireadh do {count,number} duine chun dul isteach sa ghrúpa.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, one {Tugadh cuireadh do {count,number} duine chun dul isteach sa ghrúpa.} two {Tugadh cuireadh do {count,number} dhuine chun dul isteach sa ghrúpa.} few {Tugadh cuireadh do {count,number} dhuine chun dul isteach sa ghrúpa.} many {Tugadh cuireadh do {count,number} nduine chun dul isteach sa ghrúpa.} other {Tugadh cuireadh do {count,number} duine chun dul isteach sa ghrúpa.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "Chealaigh riarthóir cuireadh 1 duine chun dul isteach sa ghrúpa."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Chealaigh {memberName} cuireadh do 1 duine chun dul isteach sa ghrúpa.} two {Chealaigh {memberName} cuireadh do {count,number} dhuine chun dul isteach sa ghrúpa.} few {Chealaigh {memberName} cuireadh do {count,number} dhuine chun dul isteach sa ghrúpa.} many {Chealaigh {memberName} cuireadh do {count,number} nduine chun dul isteach sa ghrúpa.} other {Chealaigh {memberName} cuireadh do {count,number} duine chun dul isteach sa ghrúpa.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Chealaigh tú cuireadh do 1 duine chun dul isteach sa ghrúpa.} two {Chealaigh tú cuireadh do {count,number} dhuine chun dul isteach sa ghrúpa.} few {Chealaigh tú cuireadh do {count,number} dhuine chun dul isteach sa ghrúpa.} many {Chealaigh tú cuireadh do {count,number} nduine chun dul isteach sa ghrúpa.} other {Chealaigh tú cuireadh don líon seo daoine chun dul isteach sa ghrúpa: {count,number}.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Chealaigh riarthóir cuireadh do 1 duine chun dul isteach sa ghrúpa.} two {Chealaigh riarthóir cuireadh do {count,number} dhuine chun dul isteach sa ghrúpa.} few {Chealaigh riarthóir cuireadh do {count,number} dhuine chun dul isteach sa ghrúpa.} many {Chealaigh riarthóir cuireadh do {count,number} nduine chun dul isteach sa ghrúpa.} other {Chealaigh riarthóir cuireadh do {count,number} duine chun dul isteach sa ghrúpa.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "Chealaigh {adminName} cuireadh a thug {memberName} do 1 duine chun dul isteach sa ghrúpa."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, one {Chealaigh {adminName} cuireadh a thug {memberName} chuig {count,number} duine amháin chun dul isteach sa ghrúpa.} two {Chealaigh {adminName} cuireadh a thug {memberName} chuig {count,number} dhuine chun dul isteach sa ghrúpa.} few {Chealaigh {adminName} cuireadh a thug {memberName} chuig {count,number} dhuine chun dul isteach sa ghrúpa.} many {Chealaigh {adminName} cuireadh a thug {memberName} chuig {count,number} nduine chun dul isteach sa ghrúpa.} other {Chealaigh {adminName} cuireadh a thug {memberName} chuig {count,number} duine chun dul isteach sa ghrúpa.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Chealaigh tú cuireadh a thug {memberName} do {count,number} duine chun dul isteach sa ghrúpa.} two {Chealaigh tú cuireadh a thug {memberName} do {count,number} dhuine chun dul isteach sa ghrúpa.} few {Chealaigh tú cuireadh a thug {memberName} do {count,number} dhuine chun dul isteach sa ghrúpa.} many {Chealaigh tú cuireadh a thug {memberName} do {count,number} nduine chun dul isteach sa ghrúpa.} other {Chealaigh tú cuireadh a thug {memberName} do {count,number} dhuine chun dul isteach sa ghrúpa.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Chealaigh riarthóir cuireadh a thug {memberName} do {count,number} duine chun dul isteach sa ghrúpa.} two {Chealaigh riarthóir cuireadh a thug {memberName} do {count,number} dhuine chun dul isteach sa ghrúpa.} few {Chealaigh riarthóir cuireadh a thug {memberName} do {count,number} dhuine chun dul isteach sa ghrúpa.} many {Chealaigh riarthóir cuireadh a thug {memberName} do {count,number} nduine chun dul isteach sa ghrúpa.} other {Chealaigh riarthóir cuireadh a thug {memberName} do {count,number} duine chun dul isteach sa ghrúpa.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Chealaigh {adminName} cuireadh a sheol tú chuig {count,number} duine chun dul isteach sa ghrúpa.} two {Chealaigh {adminName} cuireadh a sheol tú chuig {count,number} dhuine chun dul isteach sa ghrúpa.} few {Chealaigh {adminName} cuireadh a sheol tú chuig {count,number} dhuine chun dul isteach sa ghrúpa.} many {Chealaigh {adminName} cuireadh a sheol tú chuig {count,number} nduine chun dul isteach sa ghrúpa.} other {Chealaigh {adminName} cuireadh a sheol tú chuig {count,number} duine chun dul isteach sa ghrúpa.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Chuir tú do chuireadh chuig {count,number} duine ar ceal.} two {Chuir tú do chuireadh chuig {count,number} dhuine ar ceal.} few {Chuir tú do chuireadh chuig {count,number} dhuine ar ceal.} many {Chuir tú do chuireadh chuig {count,number} nduine ar ceal.} other {Chuir tú do chuireadh chuig {count,number} duine ar ceal.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Chealaigh riarthóir an cuireadh a sheol tú chuig {count,number} duine chun dul isteach sa ghrúpa.} two {Chealaigh riarthóir an cuireadh a sheol tú chuig {count,number} dhuine chun dul isteach sa ghrúpa.} few {Chealaigh riarthóir an cuireadh a sheol tú chuig {count,number} dhuine chun dul isteach sa ghrúpa.} many {Chealaigh riarthóir an cuireadh a sheol tú chuig {count,number} nduine chun dul isteach sa ghrúpa.} other {Chealaigh riarthóir an cuireadh a sheol tú chuig {count,number} duine chun dul isteach sa ghrúpa.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "You sent a request to join the group."
@@ -3384,7 +3384,7 @@
     "messageformat": "This member will need to accept an invite to join this group again, and will not receive group messages until they accept:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, one {Beidh ar {count,number} bhall glacadh leis an gcuireadh chuig an ngrúpa seo arís, agus ní bhfaighidh sé/sí grúptheachtaireachtaí go nglacfar leis.} two {Beidh ar {count,number} bhall glacadh leis an gcuireadh chuig an ngrúpa seo arís, agus ní bhfaighidh siad grúptheachtaireachtaí go nglacfar leis.} few {Beidh ar {count,number} bhall glacadh leis an gcuireadh chuig an ngrúpa seo arís, agus ní bhfaighidh siad grúptheachtaireachtaí go nglacfar leis.} many {Beidh ar {count,number} mball glacadh leis an gcuireadh chuig an ngrúpa seo arís, agus ní bhfaighidh siad grúptheachtaireachtaí go nglacfar leis.} other {Beidh ar {count,number} ball glacadh leis an gcuireadh chuig an ngrúpa seo arís, agus ní bhfaighidh siad grúptheachtaireachtaí go nglacfar leis.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "Níl na baill seo in ann dul isteach i nGrúpaí Nua, agus bainfear den ghrúpa iad:"
@@ -3393,7 +3393,7 @@
     "messageformat": "Níl an ball seo in ann páirt a ghlacadh i nGrúpaí Nua, agus bainfear den ghrúpa é:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, one {Níl {count,number} bhall in ann dul isteach i nGrúpaí Nua, agus bainfear den ghrúpa é/í.} two {Níl {count,number} bhall in ann dul isteach i nGrúpaí Nua, agus bainfear den ghrúpa iad.} few {Níl {count,number} bhall in ann dul isteach i nGrúpaí Nua, agus bainfear den ghrúpa iad.} many {Níl {count,number} mball in ann dul isteach i nGrúpaí Nua, agus bainfear den ghrúpa iad.} other {Níl {count,number} ball in ann dul isteach i nGrúpaí Nua, agus bainfear den ghrúpa iad.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "Ní raibh na baill seo in ann dul isteach i nGrúpaí Nua, agus baineadh den ghrúpa iad:"
@@ -3402,7 +3402,7 @@
     "messageformat": "Ní raibh an ball seo in ann dul isteach i nGrúpaí Nua, agus baineadh den ghrúpa é/í:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, one {Ní raibh {count,number} bhall in ann dul isteach i nGrúpaí Nua, agus baineadh den ghrúpa é/í.} two {Ní raibh {count,number} bhall in ann dul isteach i nGrúpaí Nua, agus baineadh den ghrúpa iad.} few {Ní raibh {count,number} bhall in ann dul isteach i nGrúpaí Nua, agus baineadh den ghrúpa iad.} many {Ní raibh {count,number} mball in ann dul isteach i nGrúpaí Nua, agus baineadh den ghrúpa iad.} other {Ní raibh {count,number} ball in ann dul isteach i nGrúpaí Nua, agus baineadh den ghrúpa iad.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "Níorbh fhéidir thú a chur leis an mBaicle Nua agus tugadh cuireadh duit chun dul isteach inti."
@@ -3411,7 +3411,7 @@
     "messageformat": "Níorbh fhéidir {contact} a chur leis an nGrúpa Nua agus tugadh cuireadh dó/di dul isteach ann."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, one {Níorbh fhéidir ball a chur leis an nGrúpa Nua agus tugadh cuireadh don duine sin chun dul isteach ann.} two {Níorbh fhéidir {count,number} bhall a chur leis an nGrúpa Nua agus tugadh cuireadh dóibh chun dul isteach ann.} few {Níorbh fhéidir {count,number} bhall a chur leis an nGrúpa Nua agus tugadh cuireadh dóibh chun dul isteach ann.} many {Níorbh fhéidir {count,number} mball a chur leis an nGrúpa Nua agus tugadh cuireadh dóibh chun dul isteach ann.} other {Níorbh fhéidir {count,number} ball a chur leis an nGrúpa Nua agus tugadh cuireadh dóibh chun dul isteach ann.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "Baineadh {contact} den ghrúpa."

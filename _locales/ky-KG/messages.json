@@ -1215,7 +1215,7 @@
     "messageformat": "Ушул шилтеме аркылуу чалууга кошулган адамга аты-жөнүңүз, сүрөтүңүз жана телефон номериңиз көрүнөт."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "Күтө туралы…"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Кошулуу"
@@ -1365,16 +1365,16 @@
     "messageformat": "Көрсөтүүнү токтотууга даяр болгондо чалууга кайтуу үчүн бул жерди басыңыз."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Кайра байланышып жатасыз…"
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "Байланыш үзүлүп калды. Signal кайра туташууда."
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal {window} менен бөлүшүүдө."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Кайра байланышып жатасыз…"
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Бөлүшүүнү токтотуу"
@@ -2778,7 +2778,7 @@
     "messageformat": "Терезе"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "Чалуунун шилтемесин көчүрүү"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Бул адамды чалуудан алып салуу"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, other {{memberName} {count,number} адамды топко чакырды.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, other {Топко {count,number} адамды чакырдыңыз.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, other {{count,number} адам топко чакырылган.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "Админ 1 адам үчүн группага чакырууну жокко чыгарды."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {{memberName} топко чакырган {count,number} адамдын чакыруусун жокко чыгарды.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {Сиз {count,number} адамдын топко чакырууларын жокко чыгардыңыз.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {Админ {count,number} адамдын топко чакырууларын жокко чыгарды.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} {memberName} чакырган 1 адам үчүн топко чакырууну жокко чыгарды."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, other {{adminName} {memberName} топко чакырган {count,number} адамдын чакыруусун жокко чыгарды.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, other {{memberName} топко чакырган {count,number} адамды жокко чыгардыңыз.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, other {Админ {memberName} топко чакырган {count,number} адамды жокко чыгарды.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, other {{adminName} сиздин {count,number} адамды топко чакырууңузду жокко чыгарды.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, other {Сиз {count,number} адамга жөнөткөн чакырууңузду жокко чыгардыңыз.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, other {Админ сиздин {count,number} адамга жөнөткөн топко чакырууларыңызды жокко чыгарды.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "Топко кошулуу өтүнүчүн жөнөттүңүз."
@@ -3384,7 +3384,7 @@
     "messageformat": "Бул мүчө топко кайра кошулуу үчүн чакырууну кабыл алышы керек. Болбосо, топтун билдирүүлөрүн албайт."
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, other {{count,number} мүчө бул топко кайра кошулуу үчүн чакырууну кабыл алышы керек. Чакырууну кабыл алмайынча, топто билдирүүлөрдү алышпайт.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "Бул мүчөлөр Жаңы топторго кошула алышпайт жана ушул топтон алынып салынышат:"
@@ -3393,7 +3393,7 @@
     "messageformat": "Бул мүчө Жаңы Топторго кошула албайт жана ушул топтон алынып салынат:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, other {{count,number} мүчө жаңы топторго кошула алышпайт жана ушул топтон чыгарылат.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "Бул мүчөлөр жаңы топторго кошула алышкан жок жана ушул топтон алынып салынды:"
@@ -3402,7 +3402,7 @@
     "messageformat": "Бул мүчө Жаңы Топторго кошула алган жок жана ушул топтон алынып салынды:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, other {{count,number} мүчө жаңы топторго кошула алышпайт жана ушул топтон чыгарылат.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "Сизди жаңы топко кошо албайбыз, андыктан ага кошулууга чакырылдыңыз."
@@ -3411,7 +3411,7 @@
     "messageformat": "{contact} Жаңы Топко кошулган жок жана кошулууга чакырылды."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, other {{count,number} мүчөнү жаңы топко кошуу мүмкүн эмес болгондуктан, аларга чакыруу жөнөтүлдү.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} топтон алынып салынды."

@@ -1215,7 +1215,7 @@
     "messageformat": "Každý, kdo se k tomuto hovoru připojí prostřednictvím odkazu, uvidí vaše jméno, fotografii a telefonní číslo."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "Čeká se na vpuštění…"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Připojit"
@@ -1365,16 +1365,16 @@
     "messageformat": "Kliknutím sem se vrátíte k hovoru, až budete připraveni ukončit prezentaci."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Opětovné připojování…"
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "Došlo ke ztrátě spojení. Aplikace Signal se znovu připojuje."
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal sdílí {window}."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Opětovné připojování…"
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Přestat sdílet"
@@ -2778,7 +2778,7 @@
     "messageformat": "Okno"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "Zkopírovat odkaz na hovor"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Odebrat tuto osobu z hovoru"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, one {{memberName} pozval/a {count,number} osobu do skupiny.} few {{memberName} pozval/a {count,number} osoby do skupiny.} many {{memberName} pozval/a {count,number} osob do skupiny.} other {{memberName} pozval/a {count,number} osob do skupiny.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, one {Pozvali jste {count,number} osobu do skupiny.} few {Pozvali jste {count,number} osoby do skupiny.} many {Pozvali jste {count,number} osob do skupiny.} other {Pozvali jste {count,number} osob do skupiny.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, one {{count,number} osoba byla pozvána do skupiny.} few {{count,number} osoby byly pozvány do skupiny.} many {{count,number} osob bylo pozváno do skupiny.} other {{count,number} osob bylo pozváno do skupiny.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "Správce odvolal pozvání do skupiny pro 1 osobu."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {{memberName} zrušil/a pozvání do skupiny 1 osobě.} few {{memberName} zrušil/a pozvání do skupiny {count,number} osobám.} many {{memberName} zrušil/a pozvání do skupiny {count,number} osob.} other {{memberName} zrušil/a pozvání do skupiny {count,number} osobám.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Zrušili jste pozvání do skupiny 1 osobě.} few {Zrušili jste pozvání do skupiny {count,number} osobám.} many {Zrušili jste pozvání do skupiny {count,number} osob.} other {Zrušili jste pozvání do skupiny {count,number} osobám.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Správce zrušil pozvání do skupiny 1 osobě.} few {Správce zrušil pozvání do skupiny {count,number} osobám.} many {Správce zrušil pozvání do skupiny {count,number} osob.} other {Správce zrušil pozvání do skupiny {count,number} osobám.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} odvolal(a) pozvání do skupiny pro 1 osobu pozvanou {memberName}."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, one {{adminName} zrušil/a pozvání do skupiny pro {count,number} osobu, kterou pozval uživatel {memberName}.} few {{adminName} zrušil/a pozvání do skupiny pro {count,number} osoby, které pozval uživatel {memberName}.} many {{adminName} zrušil/a pozvání do skupiny pro {count,number} osoby, které pozval uživatel {memberName}.} other {{adminName} zrušil/a pozvání do skupiny pro {count,number} osob, které pozval uživatel {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Zrušili jste pozvání do skupiny {count,number} osobě, kterou pozval uživatel {memberName}.} few {Zrušili jste pozvání do skupiny {count,number} osobám, které pozval uživatel {memberName}.} many {Zrušili jste pozvání do skupiny {count,number} osob, které pozval uživatel {memberName}.} other {Zrušili jste pozvání {count,number} osobám, které pozval uživatel {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Správce zrušil pozvání do skupiny {count,number} osobě, kterou pozval uživatel {memberName}.} few {Správce zrušil pozvání do skupiny {count,number} osobám, které pozval uživatel {memberName}.} many {Správce zrušil pozvání do skupiny {count,number} osob, které pozval uživatel {memberName}.} other {Správce zrušil pozvání do skupiny {count,number} osobám, které pozval uživatel {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {{adminName} zrušil vaše pozvání do skupiny{count,number} osobě.} few {{adminName} zrušil vaše pozvání do skupiny {count,number} osobám.} many {{adminName} zrušil vaše pozvání do skupiny {count,number} osob.} other {{adminName} zrušil vaše pozvání do skupiny {count,number} osobám.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Zrušili jste své pozvání {count,number} osobě.} few {Zrušili jste své pozvání {count,number} osobám.} many {Zrušili jste své pozvání {count,number} osob.} other {Zrušili jste své pozvání {count,number} osobám.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Správce zrušil vaše pozvání do skupiny, které jste poslali {count,number} osobě.} few {Správce zrušil vaše pozvání do skupiny, které jste poslali {count,number} osobám.} many {Správce zrušil vaše pozvání do skupiny, které jste poslali {count,number} osob.} other {Správce zrušil vaše pozvání do skupiny, které jste poslali {count,number} osobám.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "Odeslali jste žádost o připojení ke skupině."
@@ -3384,7 +3384,7 @@
     "messageformat": "Tento člen bude muset přijmout pozvání, aby se mohl znovu připojit k této skupině, a dokud ho nepřijme, nebude dostávat zprávy skupiny:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, one {{count,number} člen bude muset přijmout pozvánku, aby se mohl k této skupině znovu připojit, a dokud ji nepřijme, nebude dostávat zprávy skupiny.} few {{count,number} členové budou muset přijmout pozvánku, aby se mohli k této skupině znovu připojit, a dokud ji nepřijmou, nebudou dostávat zprávy skupiny.} many {{count,number} členů bude muset přijmout pozvánku, aby se mohli k této skupině znovu připojit, a dokud ji nepřijmou, nebude dostávat zprávy skupiny.} other {{count,number} členů bude muset přijmout pozvánku, aby se mohli k této skupině znovu připojit, a dokud ji nepřijmou, nebudou dostávat zprávy skupiny.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "Tito členové se nemohou připojit k Novým skupinám a budou ze skupiny odebráni:"
@@ -3393,7 +3393,7 @@
     "messageformat": "Tento člen se nemůže připojit k Novým skupinám a bude ze skupiny odebrán:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} člen se nemůže připojit k Novým skupinám a bude ze skupiny odebrán.} few {{count,number} členové se nemohou připojit k Novým skupinám a budou ze skupiny odebráni.} many {{count,number} členů se nemůže připojit k Novým skupinám a budou ze skupiny odebráni.} other {{count,number} členů se nemůže připojit k Novým skupinám a budou ze skupiny odebráni.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "Tito členové se nemohli připojit k Novým skupinám a byli ze skupiny odebráni:"
@@ -3402,7 +3402,7 @@
     "messageformat": "Tento člen se nemohl připojit k Novým skupinám a byl ze skupiny odebrán:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} člen se nemohl připojit k Novým skupinám a byl ze skupiny odebrán.} few {{count,number} členové se nemohli připojit k Novým skupinám a byli ze skupiny odebráni.} many {{count,number} členů se nemohlo připojit k Novým skupinám a byli ze skupiny odebráni.} other {{count,number} členů se nemohlo připojit k Novým skupinám a byli ze skupiny odebráni.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "Nemohli jste být přidáni do Nové skupiny a byli jste pozváni k připojení."
@@ -3411,7 +3411,7 @@
     "messageformat": "{contact} nemohl být přidán do Nové skupiny a byl pozván."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, one {Jeden člen nemohl být přidán do nové skupiny a byl pozván, aby se připojil.} few {{count,number} členové nemohli být přidáni do nové skupiny a byli pozváni, aby se připojili.} many {{count,number} členů nemohlo být přidáno do nové skupiny a byli pozváni, aby se připojili.} other {{count,number} členů nemohlo být přidáno do nové skupiny a byli pozváni, aby se připojili.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} byl ze skupiny odebrán."

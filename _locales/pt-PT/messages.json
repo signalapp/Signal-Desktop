@@ -1215,7 +1215,7 @@
     "messageformat": "Qualquer pessoa que entre nesta chamada através do link verá o seu nome, foto e número de telemóvel."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "À espera de entrar…"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Entrar"
@@ -1365,16 +1365,16 @@
     "messageformat": "Clique aqui para regressar à chamada quando estiver preparado para parar a apresentação."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "A ligar novamente…"
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "A sua ligação perdeu-se. O Signal está a reconectar-se."
   },
   "icu:calling__presenting--info": {
     "messageformat": "O Signal está a partilhar {window}."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "A ligar novamente…"
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Parar de partilhar"
@@ -2778,7 +2778,7 @@
     "messageformat": "Uma janela"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "Copiar link de chamada"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Remover esta pessoa da chamada"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, one {{memberName} convidou {count,number} pessoa para o grupo.} other {{memberName} convidou {count,number} pessoas para o grupo.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, one {Convidou {count,number} pessoa para o grupo.} other {Convidou {count,number} pessoas para o grupo.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, one {{count,number} pessoa foi convidada para o grupo} other {{count,number} pessoas foram convidadas para o grupo.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "Um administrador revogou um convite de uma pessoa para entrar para o grupo."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {{memberName} revogou um convite para 1 pessoa entrar no grupo.} other {{memberName} revogou convites para {count,number} pessoas entrarem no grupo.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Revogou um convite para 1 pessoa entrar no grupo.} other {Revogou convites para {count,number} pessoas entrarem no grupo.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Um administrador revogou um convite para 1 pessoa entrar no grupo.} other {Um administrador revogou convites para {count,number} pessoas entrarem no grupo.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} revogou um, convite para uma pessoa convidada por {memberName} entrar no grupo."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, one {{adminName} revogou o convite para {count,number} pessoa convidada por {memberName} entrar para o grupo.} other {{adminName} revogou os convites para {count,number} pessoas convidadas por {memberName} entrarem para o grupo.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Revogou um convite para {count,number} pessoa convidada por {memberName} entrar no grupo.} other {Revogou convites para {count,number} pessoas convidadas por {memberName} entrarem no grupo.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Um administrador revogou um convite para {count,number}pessoa convidada por {memberName} entrar no grupo.} other {Um administrador revogou convites para {count,number} pessoas convidadas por {memberName} entrarem no grupo.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {{adminName} revogou os convites para entrar no grupo que você enviou a {count,number} pessoa.} other {{adminName} revogou os convites para entrar no grupo que você enviou a {count,number} pessoas.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Rescindiu o seu convite para {count,number} pessoa.} other {Rescindiu o seu convite para {count,number} pessoas.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Um administrador revogou o convite para entrar no grupo que você enviou a {count,number} pessoa.} other {Um administrador revogou os convites para entrar no grupo que você enviou a {count,number} pessoas.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "Enviou um pedido para entrar para o grupo."
@@ -3384,7 +3384,7 @@
     "messageformat": "Este membro necessitará de aceitar um convite para se juntar novamente a este grupo e não receberá mensagens de grupo até que ele aceite:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, one {{count,number} membro necessitará de aceitar um convite para se juntar novamente a este grupo e não receberá mensagens do grupo até aceitar.} other {{count,number} membros necessitarão de aceitar um convite para se juntarem novamente a este grupo e não receberão mensagens do grupo até aceitarem.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "Estes membros não são capazes de se juntarem a 'Novos grupos', e serão removidos do grupo:"
@@ -3393,7 +3393,7 @@
     "messageformat": "Este membro não se pode juntar a 'Novos grupos', e será removido do grupo:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} membro não se pode juntar a Novos Grupos e será removido do grupo.} other {{count,number} membros não se podem juntar a Novos Grupos e serão removidos do grupo.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "Estes membros não se puderam juntar a 'Novos grupos', e serão removidos do grupo:"
@@ -3402,7 +3402,7 @@
     "messageformat": "Não foi possível adicionar este membro a 'Novos grupos', e foi removido do grupo:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} não se pôde juntar a Novos Grupos e será removido do grupo.} other {{count,number} não se puderam juntar a Novos Grupos e serão removidos do grupo.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "Não foi possível adicioná-lo ao 'Novo grupo' e foi convidado a entrar."
@@ -3411,7 +3411,7 @@
     "messageformat": "{contact} não foi possível adicioná-lo ao 'Novo grupo' e foi convidado a entrar."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, one {Um membro não pôde ser adicionado ao Novo grupo e foi convidado a entrar.} other {{count,number} membros não puderam ser adicionados ao 'Novo grupo' e foram convidados a entrar.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} foi removido do grupo."

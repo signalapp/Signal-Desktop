@@ -1215,7 +1215,7 @@
     "messageformat": "بۇ ئۇلىنىش ئارقىلىق توپقا قېتىلغانلار سىزنىڭ ئىسمىڭىز، رەسىمىڭىز ۋە تېلېفون نومۇرىڭىزنى كۆرەلەيدۇ."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "قېتىلىشنى كۈتىۋاتىدۇ..."
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "قوشۇلۇش"
@@ -1365,16 +1365,16 @@
     "messageformat": "ئېكران ئورتاقلىشىشنى ئاخىرلاشتۇرماقچى بولغاندا، بۇ يەرنى چېكىپ چاقىرىققا قايتسىڭىز بولىدۇ."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "قايتا ئۇلىنىۋاتىدۇ..."
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "ئۇلىنىشىڭىز يوقاپ كەتتى. Signal قايتا ئۇلىنىۋاتىدۇ."
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal {window} ئېكرانىنى ئورتاقلىشىۋاتىدۇ."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "قايتا ئۇلىنىۋاتىدۇ..."
   },
   "icu:calling__presenting--stop": {
     "messageformat": "ئورتاقلىشىشنى توختىتىش"
@@ -2778,7 +2778,7 @@
     "messageformat": "كۆزنەك"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "چاقىرىق ئۇلانمىسىنى كۆچۈرۈش"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "بۇ كىشىنى چاقىرىقتىن چىقىرىۋېتىش"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, other {{memberName} بۇگۇرۇپپىغا {count,number} كىشىنى تەكلىپ قىلدى.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, other {بۇ گۇرۇپپىغا {count,number} كىشى تەكلىپ قىلدىڭىز.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, other {بۇ گۇرۇپپىغا {count,number} كىشى تەكلىپ قىلىندى.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "بىر باشقۇرغۇچى 1 كىشىنىڭ گۇرۇپپىغا كىرىش تەكلىپىنى بىكار قىلدى."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {{memberName} {count,number} كىشىنىڭ گۇرۇپپىغا كىرىش تەكلىپىنى بىكار قىلدى.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {{count,number} كىشىنىڭ گۇرۇپپىغا كىرىش تەكلىپىنى بىكار قىلدىڭىز.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {بىر باشقۇرغۇچى {count,number} كىشىنىڭ گۇرۇپپىغا كىرىش تەكلىپىنى بىكار قىلدى.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} {memberName} ئەۋەتكەن 1 كىشىنىڭ گۇرۇپپىغا قاتنىشىش تەكلىپىنى بىكار قىلدى."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, other {{adminName} {memberName} تەكلىپ قىلغان {count,number} كىشىنىڭ گۇرۇپپىغا كىرىش تەكلىپنامىسىنى بىكار قىلدى.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, other {{memberName} تەكلىپ قىلغان {count,number} كىشىنىڭ گۇرۇپپىغا كىرىش تەكلىپنامىسىنى بىكار قىلدىڭىز.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, other {بىر باشقۇرغۇچى {memberName} تەكلىپ قىلغان {count,number} كىشىنىڭ گۇرۇپپىغا كىرىش تەكلىپنامىسىنى بىكار قىلدى.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, other {{adminName} سىز {count,number} كىشىگە ئەۋەتكەن گۇرۇپپىغا كىرىش تەكلىپىنى بىكار قىلدى.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, other {{count,number} كىشىگە ئەۋەتكەن تەكلىپىڭىزنى قايتۇرۇۋالدىڭىز.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, other {بىر باشقۇرغۇچى سىز {count,number} كىشىگە يوللىغان گۇرۇپپىغا قاتنىشىش تەكلىپىنى بىكار قىلدى.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "گۇرۇپپىغا قوشۇلۇش ئىلتىماسى يوللىدىڭىز."
@@ -3384,7 +3384,7 @@
     "messageformat": "بۇ ئەزا بۇ گۇرۇپپىغا قايتا قوشۇلۇش تەكلىپنامىسىنى قوبۇل قىلىشى كېرەك، ئۇلار تەكلىپنامىنى قوبۇل قىلمىغۇچە گۇرۇپپا ئۇچۇرلىرىنى تاپشۇرۇۋالمايدۇ:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, other {{count,number} ئەزا بۇ گۇرۇپپىغا قايتا قوشۇلۇش ئۈچۈن تەكلىپنامىنى قوبۇل قىلىشى كېرەك، ئۇلار تەكلىپنامىنى قوبۇل قىلمىغۇچە گۇرۇپپا ئۇچۇرلىرىنى تاپشۇرۇۋالالمايدۇ.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "بۇ ئەزالار «يېڭى گۇرۇپپا»غا كىرەلمەيدۇ، ھەمدە بۇ گۇرۇپپىدىن چىقىرىۋېتىلىدۇ:"
@@ -3393,7 +3393,7 @@
     "messageformat": "بۇ ئەزا «يېڭى گۇرۇپپا»غا كىرەلمەيدۇ، ھەمدە بۇ گۇرۇپپىدىن چىقىرىۋېتىلىدۇ:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, other {{count,number} ئەزا «يېڭى گۇرۇپپا»غا كىرەلمەيدۇ، ھەمدە بۇ گۇرۇپپىدىن چىقىرىۋېتىلىدۇ.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "بۇ ئەزالار «يېڭى گۇرۇپپا» غا كىرەلمەيدۇ، ھەمدە بۇ گۇرۇپپىدىن چىقىرىۋېتىلىدۇ:"
@@ -3402,7 +3402,7 @@
     "messageformat": "بۇ ئەزا «يېڭى گۇرۇپپا» غا كىرەلمەيدۇ، ھەمدە بۇ گۇرۇپپىدىن چىقىرىۋېتىلىدۇ:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, other {{count,number} ئەزا «يېڭى گۇرۇپپا»غا كىرەلمەيدۇ، ھەمدە بۇ گۇرۇپپىدىن چىقىرىۋېتىلىدۇ.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "تەكلىپ قىلىنمىغۇچە يېڭى گۇرۇپپىغا قوشۇلالمايسىز."
@@ -3411,7 +3411,7 @@
     "messageformat": "«{contact}» نى «يېڭى گۇرۇپپا» غا قوشقىلى بولمىدى ھەمدە ئۇنىڭغا گۇرۇپپىغا قوشۇلۇش تەكلىپى ئەۋەتىلدى."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, other {{count,number} ئەزانى «يېڭى گۇرۇپپا» غا قوشقىلى بولمىدى ۋە ئۇلارغا گۇرۇپپىغا قوشۇلۇش تەكلىپى ئەۋەتىلدى.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} گۇرۇپپىدىن چىقىرىۋېتىلدى."

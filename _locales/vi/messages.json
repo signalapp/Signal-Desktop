@@ -1215,7 +1215,7 @@
     "messageformat": "Bất kỳ ai tham gia cuộc gọi này qua đường dẫn sẽ thấy tên, ảnh, và số điện thoại của bạn."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "Đang chờ để được tham gia…"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Tham gia"
@@ -1365,16 +1365,16 @@
     "messageformat": "Nhấn vào đây để trả lời cuộc điện thoại khi bạn sẵn sàng ngưng trình bày."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Đang kết nối lại…"
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "Kết nối của bạn đã mất. Signal đang kết nối lại."
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal đang chia sẻ {window}."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Đang kết nối lại…"
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Ngưng chia sẻ"
@@ -2778,7 +2778,7 @@
     "messageformat": "Một cửa sổ"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "Sao chép đường dẫn cuộc gọi"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Gỡ người này khỏi cuộc gọi"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, other {{memberName} đã mời {count,number} người vào nhóm.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, other {Bạn đã mời {count,number} người vào nhóm.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, other {{count,number} người đã được mời vào nhóm.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "Một admin đã thu hồi lời mời vào nhóm cho 1 người."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {{memberName} đã thu hồi lời mời vào nhóm cho {count,number} người.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {Bạn đã thu hồi lời mời vào nhóm cho {count,number} người.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, other {Một quản trị viên đã thu hồi lời mời vào nhóm cho {count,number} người.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} đã thu hồi lời mời vào nhóm cho 1 người được mời bởi {memberName}."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, other {{adminName} đã thu hồi lời mời vào nhóm cho {count,number} người đã được mời bởi {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, other {Bạn đã thu hồi lời mời vào nhóm cho {count,number} người được mời bởi {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, other {Một quản trị viên đã thu hồi lời mời vào nhóm cho {count,number} người được mời bởi {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, other {{adminName} đã thu hồi lời mời vào nhóm bạn gửi cho {count,number} người.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, other {Bạn đã huỷ lời mời của bạn cho {count,number} người.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, other {Một quản trị viên đã thu hồi lời mời vào nhóm bạn đã gửi cho {count,number} người.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "Bạn đã gửi yêu cầu tham gia nhóm."
@@ -3384,7 +3384,7 @@
     "messageformat": "Thành viên này cần đồng ý lời mời tham gia nhóm trở lại, và sẽ không nhận được tin nhắn cho tới khi họ đồng ý:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, other {{count,number} thành viên sẽ cần đồng ý lời mời để tham gia nhóm lần nữa và sẽ không nhận được tin nhắn nhóm cho tới khi họ đồng ý.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "Những thành viên này không thể tham gia các Nhóm Mới, và sẽ bị gỡ bỏ khỏi nhóm:"
@@ -3393,7 +3393,7 @@
     "messageformat": "Thành viên này không thể tham gia các Nhóm Mới, và sẽ bị gỡ bỏ khỏi nhóm:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, other {{count,number} thành viên không có khả năng tham gia Nhóm Mới, và sẽ được xóa khỏi nhóm.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "Những thành viên này không có khả năng tham gia Nhóm Mới, và đã bị loại bỏ khỏi nhóm:"
@@ -3402,7 +3402,7 @@
     "messageformat": "Thành viên này không có khả năng tham gia Nhóm Mới, và đã được loại bỏ khỏi nhóm:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, other {{count,number} thành viên không có khả năng tham gia Nhóm Mới, và sẽ được xóa khỏi nhóm.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "Bạn không thể được thêm vào Nhóm Mới và đã được mời tham dự."
@@ -3411,7 +3411,7 @@
     "messageformat": "{contact} không thể được thêm vào Nhóm Mới và đã được mời tham gia."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, other {{count,number} thành viên không thể được thêm vào Nhóm Mới và đã được mời tham gia.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} đã được loại bỏ khỏi nhóm."

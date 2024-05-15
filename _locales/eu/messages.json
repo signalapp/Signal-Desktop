@@ -1215,7 +1215,7 @@
     "messageformat": "Esteka bidez dei honetan sartzen den edonork zure izena, argazkia eta telefono-zenbakia ikusiko ditu."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "Sartzen uzteko zain..."
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Sartu"
@@ -1365,16 +1365,16 @@
     "messageformat": "Aurkezteari uzteko prest zaudenean, egin klik hemen deira itzultzeko."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Berriro konektatzen…"
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "Konexioa galdu duzu. Signal berriro konektatzen ari da."
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal {window} partekatzen ari da."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Berriro konektatzen…"
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Utzi partekatzeari"
@@ -2778,7 +2778,7 @@
     "messageformat": "Leiho bat"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "Kopiatu deiaren esteka"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Kendu pertsona hau deitik"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, one {{memberName}(e)k pertsona bat gonbidatu du taldera.} other {{memberName}(e)k {count,number} pertsona gonbidatu ditu taldera.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, one {{count,number} pertsona gonbidatu duzu taldera.} other {{count,number} pertsona gonbidatu dituzu taldera.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, one {Pertsona bat taldera gonbidatu da.} other {{count,number} pertsona taldera gonbidatu dira.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "Kudeatzaile batek taldera sartzeko pertsona baten gonbidapena ezeztatu egin du."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {{memberName} erabiltzaileak taldean sartzeko gonbidapena kendu dio pertsona bati.} other {{memberName} erabiltzaileak taldean sartzeko gonbidapena kendu die {count,number} pertsonari.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Taldean sartzeko gonbidapena kendu diozu pertsona bati.} other {Taldean sartzeko gonbidapena kendu diezu {count,number} pertsonari.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Administratzaile batek taldean sartzeko gonbidapena kendu dio pertsona bati.} other {Administratzaile batek taldean sartzeko gonbidapena kendu die {count,number} pertsonari.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} erabiltzaileak taldera sartzeko {memberName} erabiltzaileak egindako pertsona baten gonbidapena ezeztatu egin du."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, one {{adminName} erabiltzaileak ezeztatu egin du {memberName} erabiltzaileak gonbidatutako {count,number} pertsonaren gonbidapena.} other {{adminName} erabiltzaileak ezeztatu egin ditu {memberName} erabiltzaileak gonbidatutako {count,number} pertsonaren gonbidapenak.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Taldean sartzeko gonbidapena kendu diozu {memberName} erabiltzaileak gonbidatutako {count,number} pertsonari.} other {Taldean sartzeko gonbidapena kendu diezu {memberName} erabiltzaileak gonbidatutako {count,number} pertsonari.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Administratzaile batek taldean sartzeko gonbidapena kendu dio {memberName} erabiltzaileak gonbidatutako {count,number} pertsonari.} other {Administratzaile batek taldean sartzeko gonbidapena kendu die {memberName} erabiltzaileak gonbidatutako {count,number} pertsonari.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {{adminName} erabiltzaileak taldean sartzeko gonbidapena kendu dio zuk gonbidatutako {count,number} pertsonari.} other {{adminName} erabiltzaileak taldean sartzeko gonbidapena kendu die zuk gonbidatutako {count,number} pertsonari.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, one {{count,number} pertsonari bidali diozun gonbidapena kendu diozu.} other {{count,number} pertsonari bidali dizkiezun gonbidapenak kendu dizkiezu.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Administratzaile batek {count,number} pertsonari bidali diozun taldean sartzeko gonbidapena baliogabetu du.} other {Administratzaile batek {count,number} pertsonari bidali dizkiezun taldean sartzeko gonbidapenak baliogabetu ditu.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "Taldean sartzeko eskaera bat bidali duzu."
@@ -3384,7 +3384,7 @@
     "messageformat": "Talde honetan berriro sartzeko, kide hauek gonbidapena onartu beharko dute; ez dute talde mezurik jasoko gonbidapena onartu arte:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, one {{count,number} kidek berriro onartu beharko du talde honetan sartzeko gonbidapen bat; ordura arte, ez du jasoko taldeko mezurik.} other {{count,number} kidek berriro onartu beharko dituzte talde honetan sartzeko gonbidapenak; ordura arte, ez dute jasoko taldeko mezurik.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "Kide hauek ezin dira talde berrietan sartu, eta talde honetatik kenduko dira:"
@@ -3393,7 +3393,7 @@
     "messageformat": "Kide hau ezin da talde berrietan sartu, eta talde honetatik kenduko da:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} kide ezin da sartu talde berrietan, eta taldetik kenduko da.} other {{count,number} kide ezin dira sartu talde berrietan, eta taldetik kenduko dira.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "Kide hauek ezin izan dira sartu talde berrietan, eta talde honetatik kendu dira:"
@@ -3402,7 +3402,7 @@
     "messageformat": "Kide hau ezin izan da sartu talde berrietan, eta talde honetatik kendu da:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} kide ezin da sartu talde berrietan, eta taldetik kendu da.} other {{count,number} kide ezin dira sartu talde berrietan, eta taldetik kendu dira.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "Ezin izan zaituzte Talde Berrira gehitu eta taldean sartzeko gonbidapena bidali zaizu."
@@ -3411,7 +3411,7 @@
     "messageformat": "Ezin izan da {contact} erabiltzailea Talde Berrira gehitu eta gonbidapena bidali zaio."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, one {Kide 1 ezin izan da talde berrira gehitu eta sartzeko gonbidapena bidali zaio.} other {{count,number} kide ezin izan dira talde berrira gehitu eta sartzeko gonbidapena bidali zaie.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} taldetik kendu da."

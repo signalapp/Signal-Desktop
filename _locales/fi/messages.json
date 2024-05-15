@@ -1215,7 +1215,7 @@
     "messageformat": "Kuka tahansa, joka liittyy tähän puheluun linkin kautta, näkee nimesi, kuvasi ja puhelinnumerosi."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Waiting to be let in…"
+    "messageformat": "Odotetaan sisäänpääsyä…"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Liity"
@@ -1365,16 +1365,16 @@
     "messageformat": "Palaa puheluun napsauttamalla tätä, kun olet valmis lopettamaan esityksen."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Yhdistetään uudelleen…"
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Your connection was lost. Signal is reconnecting."
+    "messageformat": "Yhteytesi katkesi. Signal yhdistää uudelleen."
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal jakaa {window}."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Reconnecting..."
+    "messageformat": "Yhdistetään uudelleen…"
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Lopeta jakaminen"
@@ -2778,7 +2778,7 @@
     "messageformat": "Ikkuna"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
-    "messageformat": "Copy call link"
+    "messageformat": "Kopioi puhelulinkki"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Poista tämä henkilö puhelusta"
@@ -3165,7 +3165,7 @@
     "messageformat": "{count, plural, one {{memberName} kutsui {count,number} henkilön ryhmään.} other {{memberName} kutsui {count,number} henkilöä ryhmään.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {You invited {count,number} person to the group.} other {You invited {count,number} people to the group.}}"
+    "messageformat": "{count, plural, one {Kutsuit {count,number} henkilön ryhmään.} other {Kutsuit {count,number} henkilöä ryhmään.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, one {{count,number} henkilö kutsuttiin ryhmään.} other {{count,number} henkilöä kutsuttiin ryhmään.}}"
@@ -3198,13 +3198,13 @@
     "messageformat": "Ylläpitäjä peruutti yhden henkilön kutsun ryhmään."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{count, plural, one {{memberName} revoked an invitation to the group for 1 person.} other {{memberName} revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {{memberName} peruutti kutsun ryhmään yhdeltä käyttäjältä.} other {{memberName} peruutti kutsut ryhmään {count,number} käyttäjältä.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for 1 person.} other {You revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Peruutit kutsun ryhmään yhdeltä henkilöltä.} other {Peruutit kutsut ryhmään {count,number} henkilöltä.}}"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for 1 person.} other {An admin revoked invitations to the group for {count,number} people.}}"
+    "messageformat": "{count, plural, one {Järjestelmänvalvoja peruutti kutsun ryhmään yhdeltä henkilöltä.} other {Järjestelmänvalvoja peruutti kutsut ryhmään {count,number} henkilöltä.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
     "messageformat": "{adminName} peruutti kutsun ryhmään yhdeltä käyttäjän {memberName} kutsumalta henkilöltä."
@@ -3228,19 +3228,19 @@
     "messageformat": "{count, plural, one {{adminName} peruutti kutsut ryhmään käyttäjän {memberName} kutsumalta {count,number} henkilöltä.} other {{adminName} peruutti kutsut ryhmään käyttäjän {memberName} kutsumalta {count,number} henkilöltä.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "{count, plural, one {You revoked an invitation to the group for {count,number} person invited by {memberName}.} other {You revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Peruutit kutsun ryhmään käyttäjän {memberName} kutsumalta {count,number} henkilöltä.} other {Peruutit kutsut ryhmään käyttäjän {memberName} kutsumalta {count,number} henkilöltä.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked an invitation to the group for {count,number} person invited by {memberName}.} other {An admin revoked invitations to the group for {count,number} people invited by {memberName}.}}"
+    "messageformat": "{count, plural, one {Järjestelmänvalvoja peruutti kutsun ryhmään käyttäjän {memberName} kutsumalta {count,number} henkilöltä.} other {Järjestelmänvalvoja peruutti kutsut ryhmään käyttäjän {memberName} kutsumalta {count,number} henkilöltä.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{count, plural, one {{adminName} revoked the invitation to the group you sent to {count,number} person.} other {{adminName} revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {{adminName} peruutti lähettämäsi kutsun ryhmään {count,number} henkilöltä.} other {{adminName} peruutti lähettämäsi kutsut ryhmään {count,number} henkilöltä.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "{count, plural, one {You rescinded your invitation to {count,number} person.} other {You rescinded your invitation to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Peruutit {count,number} henkilölle lähettämäsi kutsun.} other {Peruutit {count,number} henkilölle lähettämäsi kutsun.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "{count, plural, one {An admin revoked the invitation to the group you sent to {count,number} person.} other {An admin revoked the invitations to the group you sent to {count,number} people.}}"
+    "messageformat": "{count, plural, one {Järjestelmänvalvoja peruutti {count,number} henkilölle lähettämäsi kutsun ryhmään.} other {Järjestelmänvalvoja peruutti {count,number} henkilölle lähettämäsi kutsun ryhmään.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
     "messageformat": "Lähetit pyynnön liittyä ryhmään."
@@ -3384,7 +3384,7 @@
     "messageformat": "Tämän jäsenen on hyväksyttävä kutsu liittyä tähän ryhmään uudelleen. Hän saa ryhmäviestit vasta hyväksyttyään kutsun."
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, one {{count,number} member will need to accept an invite to join this group again, and will not receive group messages until they accept.} other {{count,number} members will need to accept an invite to join this group again, and will not receive group messages until they accept.}}"
+    "messageformat": "{count, plural, one {{count,number} jäsenen tarvitsee hyväksyä kutsu tähän ryhmään uudelleen. Hän saa ryhmäviestit vasta hyväksyttyään kutsun.} other {{count,number} jäsenen on hyväksyttävä kutsu liittyä tähän ryhmään uudelleen. He saavat ryhmäviestit vasta hyväksyttyään kutsun.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "Nämä jäsenet eivät voi liittyä uusiin ryhmiin, ja heidät poistetaan tästä ryhmästä:"
@@ -3393,7 +3393,7 @@
     "messageformat": "Tämä jäsen ei voi liittyä uusiin ryhmiin, ja hänet poistetaan ryhmästä:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
-    "messageformat": "{count, plural, one {{count,number} member is not capable of joining New Groups, and will be removed from the group.} other {{count,number} members are not capable of joining New Groups, and will be removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} jäsen ei voi liittyä uusiin ryhmiin, ja hänet poistetaan ryhmästä.} other {{count,number} jäsentä ei voi liittyä uusiin ryhmiin, ja heidät poistetaan ryhmästä.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "Nämä jäsenet eivät voineet liittyä uusiin ryhmiin, ja heidät poistettiin ryhmästä:"
@@ -3402,7 +3402,7 @@
     "messageformat": "Tämä jäsen ei voinut liittyä uusiin ryhmiin, ja hänet poistettiin ryhmästä:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
-    "messageformat": "{count, plural, one {{count,number} member was not capable of joining New Groups, and was removed from the group.} other {{count,number} members were not capable of joining New Groups, and were removed from the group.}}"
+    "messageformat": "{count, plural, one {{count,number} jäsen ei voi liittyä uusiin ryhmiin, ja hänet poistetaan ryhmästä.} other {{count,number} jäsentä ei voinut liittyä uusiin ryhmiin, ja heidät poistettiin ryhmästä.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
     "messageformat": "Sinua ei voitu lisätä uuteen ryhmään ja sinut on kutsuttu liittymään."
@@ -3411,7 +3411,7 @@
     "messageformat": "{contact} ei voitu lisätä uuteen ryhmään, ja hänet on kutsuttu liittymään."
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, plural, one {{count,number} member couldn’t be added to the New Group and has been invited to join.} other {{count,number} members couldn’t be added to the New Group and have been invited to join.}}"
+    "messageformat": "{count, plural, one {{count,number} jäsentä ei voitu lisätä uuteen ryhmään, ja hänet on kutsuttu liittymään.} other {{count,number} jäsentä ei voitu lisätä uuteen ryhmään, ja heidät on kutsuttu liittymään.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
     "messageformat": "{contact} poistettiin ryhmästä."
