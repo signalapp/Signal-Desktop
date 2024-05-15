@@ -37,7 +37,7 @@ const ThemeContainer = styled.button`
 
   transition: var(--default-duration);
 
-  :hover {
+  &:hover {
     background: var(--settings-tab-background-hover-color);
   }
 `;

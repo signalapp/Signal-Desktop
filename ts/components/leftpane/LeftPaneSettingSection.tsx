@@ -33,7 +33,7 @@ const StyledSettingsListItem = styled(Flex)<{ active: boolean }>`
   cursor: pointer;
   transition: var(--default-duration) !important;
 
-  :hover {
+  &:hover {
     background: var(--settings-tab-background-hover-color);
   }
 `;

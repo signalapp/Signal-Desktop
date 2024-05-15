@@ -66,10 +66,10 @@ const StyledSettingItemInline = styled(StyledSettingItem)`
 
 const StyledSettingItemClickable = styled(StyledSettingItemInline)`
   cursor: pointer;
-  :hover {
+  &:hover {
     background: var(--settings-tab-background-hover-color);
   }
-  :active {
+  &:active {
     background: var(--settings-tab-background-selected-color);
   }
 `;

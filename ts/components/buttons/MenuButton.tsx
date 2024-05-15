@@ -21,7 +21,7 @@ const StyledMenuButton = styled.button`
 
   transition: var(--default-duration);
 
-  :hover {
+  &:hover {
     background: var(--menu-button-background-hover-color);
     border-color: var(--menu-button-border-hover-color);
     svg path {

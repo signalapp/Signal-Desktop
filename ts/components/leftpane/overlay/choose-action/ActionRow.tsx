@@ -10,7 +10,7 @@ const StyledActionRow = styled.button`
   transition-duration: var(--default-duration);
   width: 100%;
 
-  :hover {
+  &:hover {
     background: var(--conversation-tab-background-hover-color);
   }
 `;

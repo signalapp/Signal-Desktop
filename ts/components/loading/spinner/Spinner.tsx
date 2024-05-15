@@ -46,7 +46,7 @@ const SpinnerContainer = styled.div`
   height: 56px;
   width: 56px;
 
-  /* :hover {
+  /* &:hover {
     animation-play-state: running;
   }
   animation-play-state: paused;
