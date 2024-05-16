@@ -109,7 +109,7 @@ export const SettingsCategoryPrivacy = (props: {
 
       {!props.hasPassword ? (
         <SessionSettingButtonItem
-          title={window.i18n('setAccountPasswordTitle')}
+          title={window.i18n('lockApp')}
           description={window.i18n('setAccountPasswordDescription')}
           onClick={() => {
             displayPasswordModal('set', props.onPasswordUpdated);
