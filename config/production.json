@@ -8,7 +8,6 @@
     "2": "https://cdn2.signal.org",
     "3": "https://cdn3.signal.org"
   },
-  "artCreatorUrl": "https://create.signal.art",
   "sfuUrl": "https://sfu.voip.signal.org/",
   "challengeUrl": "https://signalcaptchas.org/challenge/generate.html",
   "registrationChallengeUrl": "https://signalcaptchas.org/registration/generate.html",

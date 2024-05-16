@@ -18,7 +18,6 @@ import type { RecipientsByConversation } from './stories';
 import type { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
 import type { EditState as ProfileEditorEditState } from '../../components/ProfileEditor';
 import type { StateType as RootStateType } from '../reducer';
-import * as Errors from '../../types/errors';
 import * as SingleServePromise from '../../services/singleServePromise';
 import * as Stickers from '../../types/Stickers';
 import { UsernameOnboardingState } from '../../types/globalModals';
@@ -28,18 +27,13 @@ import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { isGroupV1 } from '../../util/whatTypeOfConversation';
-import { authorizeArtCreator } from '../../textsecure/authorizeArtCreator';
-import type { AuthorizeArtCreatorOptionsType } from '../../textsecure/authorizeArtCreator';
 import { getGroupMigrationMembers } from '../../groups';
-import { ToastType } from '../../types/Toast';
 import {
   MESSAGE_CHANGED,
   MESSAGE_DELETED,
   MESSAGE_EXPIRED,
   actions as conversationsActions,
 } from './conversations';
-import { SHOW_TOAST } from './toast';
-import type { ShowToastActionType } from './toast';
 import { isDownloaded } from '../../types/Attachment';
 import type { ButtonVariant } from '../../components/Button';
 import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation';
@@ -73,8 +67,6 @@ export type SafetyNumberChangedBlockingDataType = ReadonlyDeep<{
   promiseUuid: SingleServePromise.SingleServePromiseIdString;
   source?: SafetyNumberChangeSource;
 }>;
-export type AuthorizeArtCreatorDataType =
-  ReadonlyDeep<AuthorizeArtCreatorOptionsType>;
 
 type MigrateToGV2PropsType = ReadonlyDeep<{
   areWeInvited: boolean;
@@ -87,7 +79,6 @@ type MigrateToGV2PropsType = ReadonlyDeep<{
 export type GlobalModalsStateType = ReadonlyDeep<{
   addUserToAnotherGroupModalContactId?: string;
   aboutContactModalContactId?: string;
-  authArtCreatorData?: AuthorizeArtCreatorDataType;
   contactModalState?: ContactModalStateType;
   deleteMessagesProps?: DeleteMessagesPropsType;
   editHistoryMessages?: EditHistoryMessagesType;
@@ -100,7 +91,6 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   forwardMessagesProps?: ForwardMessagesPropsType;
   gv2MigrationProps?: MigrateToGV2PropsType;
   hasConfirmationModal: boolean;
-  isAuthorizingArtCreator?: boolean;
   isProfileEditorVisible: boolean;
   isShortcutGuideModalVisible: boolean;
   isSignalConnectionsVisible: boolean;
@@ -157,13 +147,7 @@ const TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION =
   'globalModals/TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION';
 const CLOSE_SHORTCUT_GUIDE_MODAL = 'globalModals/CLOSE_SHORTCUT_GUIDE_MODAL';
 const SHOW_SHORTCUT_GUIDE_MODAL = 'globalModals/SHOW_SHORTCUT_GUIDE_MODAL';
-const SHOW_AUTH_ART_CREATOR = 'globalModals/SHOW_AUTH_ART_CREATOR';
 const TOGGLE_CONFIRMATION_MODAL = 'globalModals/TOGGLE_CONFIRMATION_MODAL';
-const CANCEL_AUTH_ART_CREATOR = 'globalModals/CANCEL_AUTH_ART_CREATOR';
-const CONFIRM_AUTH_ART_CREATOR_PENDING =
-  'globalModals/CONFIRM_AUTH_ART_CREATOR_PENDING';
-const CONFIRM_AUTH_ART_CREATOR_FULFILLED =
-  'globalModals/CONFIRM_AUTH_ART_CREATOR_FULFILLED';
 const SHOW_EDIT_HISTORY_MODAL = 'globalModals/SHOW_EDIT_HISTORY_MODAL';
 const CLOSE_EDIT_HISTORY_MODAL = 'globalModals/CLOSE_EDIT_HISTORY_MODAL';
 const TOGGLE_USERNAME_ONBOARDING = 'globalModals/TOGGLE_USERNAME_ONBOARDING';
@@ -332,23 +316,6 @@ type ShowShortcutGuideModalActionType = ReadonlyDeep<{
   type: typeof SHOW_SHORTCUT_GUIDE_MODAL;
 }>;
 
-export type ShowAuthArtCreatorActionType = ReadonlyDeep<{
-  type: typeof SHOW_AUTH_ART_CREATOR;
-  payload: AuthorizeArtCreatorDataType;
-}>;
-
-type CancelAuthArtCreatorActionType = ReadonlyDeep<{
-  type: typeof CANCEL_AUTH_ART_CREATOR;
-}>;
-
-type ConfirmAuthArtCreatorPendingActionType = ReadonlyDeep<{
-  type: typeof CONFIRM_AUTH_ART_CREATOR_PENDING;
-}>;
-
-type ConfirmAuthArtCreatorFulfilledActionType = ReadonlyDeep<{
-  type: typeof CONFIRM_AUTH_ART_CREATOR_FULFILLED;
-}>;
-
 type ShowEditHistoryModalActionType = ReadonlyDeep<{
   type: typeof SHOW_EDIT_HISTORY_MODAL;
   payload: {
@@ -361,14 +328,11 @@ type CloseEditHistoryModalActionType = ReadonlyDeep<{
 }>;
 
 export type GlobalModalsActionType = ReadonlyDeep<
-  | CancelAuthArtCreatorActionType
   | CloseEditHistoryModalActionType
   | CloseErrorModalActionType
   | CloseGV2MigrationDialogActionType
   | CloseShortcutGuideModalActionType
   | CloseStickerPackPreviewActionType
-  | ConfirmAuthArtCreatorFulfilledActionType
-  | ConfirmAuthArtCreatorPendingActionType
   | HideContactModalActionType
   | HideSendAnywayDialogActiontype
   | HideStoriesSettingsActionType
@@ -377,7 +341,6 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | MessageChangedActionType
   | MessageDeletedActionType
   | MessageExpiredActionType
-  | ShowAuthArtCreatorActionType
   | ShowContactModalActionType
   | ShowEditHistoryModalActionType
   | ShowErrorModalActionType
@@ -406,19 +369,16 @@ export type GlobalModalsActionType = ReadonlyDeep<
 // Action Creators
 
 export const actions = {
-  cancelAuthorizeArtCreator,
   closeEditHistoryModal,
   closeErrorModal,
   closeGV2MigrationDialog,
   closeShortcutGuideModal,
   closeStickerPackPreview,
-  confirmAuthorizeArtCreator,
   hideBlockingSafetyNumberChangeDialog,
   hideContactModal,
   hideStoriesSettings,
   hideUserNotFoundModal,
   hideWhatsNewModal,
-  showAuthorizeArtCreator,
   showBlockingSafetyNumberChangeDialog,
   showContactModal,
   showEditHistoryModal,
@@ -790,25 +750,6 @@ function showShortcutGuideModal(): ShowShortcutGuideModalActionType {
   };
 }
 
-function cancelAuthorizeArtCreator(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  CancelAuthArtCreatorActionType
-> {
-  return async (dispatch, getState) => {
-    const data = getState().globalModals.authArtCreatorData;
-
-    if (!data) {
-      return;
-    }
-
-    dispatch({
-      type: CANCEL_AUTH_ART_CREATOR,
-    });
-  };
-}
-
 function copyOverMessageAttributesIntoEditHistory(
   messageAttributes: ReadonlyDeep<MessageAttributesType>
 ): EditHistoryMessagesType | undefined {
@@ -857,54 +798,6 @@ function showEditHistoryModal(
 function closeEditHistoryModal(): CloseEditHistoryModalActionType {
   return {
     type: CLOSE_EDIT_HISTORY_MODAL,
-  };
-}
-
-export function showAuthorizeArtCreator(
-  data: AuthorizeArtCreatorDataType
-): ShowAuthArtCreatorActionType {
-  return {
-    type: SHOW_AUTH_ART_CREATOR,
-    payload: data,
-  };
-}
-
-export function confirmAuthorizeArtCreator(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  | ConfirmAuthArtCreatorPendingActionType
-  | ConfirmAuthArtCreatorFulfilledActionType
-  | CancelAuthArtCreatorActionType
-  | ShowToastActionType
-> {
-  return async (dispatch, getState) => {
-    const data = getState().globalModals.authArtCreatorData;
-
-    if (!data) {
-      dispatch({ type: CANCEL_AUTH_ART_CREATOR });
-      return;
-    }
-
-    dispatch({
-      type: CONFIRM_AUTH_ART_CREATOR_PENDING,
-    });
-
-    try {
-      await authorizeArtCreator(data);
-    } catch (err) {
-      log.error('authorizeArtCreator failed', Errors.toLogFormat(err));
-      dispatch({
-        type: SHOW_TOAST,
-        payload: {
-          toastType: ToastType.Error,
-        },
-      });
-    }
-
-    dispatch({
-      type: CONFIRM_AUTH_ART_CREATOR_FULFILLED,
-    });
   };
 }
 
@@ -1165,36 +1058,6 @@ export function reducer(
     return {
       ...state,
       isShortcutGuideModalVisible: true,
-    };
-  }
-
-  if (action.type === CANCEL_AUTH_ART_CREATOR) {
-    return {
-      ...state,
-      authArtCreatorData: undefined,
-    };
-  }
-
-  if (action.type === SHOW_AUTH_ART_CREATOR) {
-    return {
-      ...state,
-      isAuthorizingArtCreator: false,
-      authArtCreatorData: action.payload,
-    };
-  }
-
-  if (action.type === CONFIRM_AUTH_ART_CREATOR_PENDING) {
-    return {
-      ...state,
-      isAuthorizingArtCreator: true,
-    };
-  }
-
-  if (action.type === CONFIRM_AUTH_ART_CREATOR_FULFILLED) {
-    return {
-      ...state,
-      isAuthorizingArtCreator: false,
-      authArtCreatorData: undefined,
     };
   }
 
