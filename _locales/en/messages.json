@@ -473,7 +473,6 @@
   "sessionRecoveryPassword": "Recovery Password",
   "set": "Set",
   "setAccountPasswordDescription": "Require password to unlock Session.",
-  "setAccountPasswordTitle": "Password",
   "setDisplayPicture": "Set Display Picture",
   "setPassword": "Set Password",
   "setPasswordFail": "Failed to set password",

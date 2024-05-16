@@ -473,7 +473,6 @@ export type LocalizerKeys =
   | 'sessionRecoveryPassword'
   | 'set'
   | 'setAccountPasswordDescription'
-  | 'setAccountPasswordTitle'
   | 'setDisplayPicture'
   | 'setPassword'
   | 'setPasswordFail'
