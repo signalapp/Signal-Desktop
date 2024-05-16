@@ -134,13 +134,10 @@ export const CallingParticipantsList = React.memo(
                             title={participant.title}
                           />
                           {isInSystemContacts(participant) ? (
-                            <span>
-                              {' '}
-                              <InContactsIcon
-                                className="module-calling-participants-list__contact-icon"
-                                i18n={i18n}
-                              />
-                            </span>
+                            <InContactsIcon
+                              className="module-calling-participants-list__contact-icon"
+                              i18n={i18n}
+                            />
                           ) : null}
                         </>
                       )}
