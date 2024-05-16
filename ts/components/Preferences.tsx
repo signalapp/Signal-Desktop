@@ -1656,6 +1656,7 @@ export function Preferences({
         openFileInFolder={shouldNeverBeCalled}
         toast={toast}
         containerWidthBreakpoint={WidthBreakpoint.Narrow}
+        isInFullScreenCall={false}
       />
     </>
   );

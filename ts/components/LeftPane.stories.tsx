@@ -264,6 +264,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         toast={undefined}
         megaphone={undefined}
         containerWidthBreakpoint={containerWidthBreakpoint}
+        isInFullScreenCall={false}
       />
     ),
     selectedConversationId: undefined,

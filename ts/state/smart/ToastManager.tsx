@@ -96,6 +96,7 @@ export const SmartToastManager = memo(function SmartToastManager({
       centerToast={centerToast}
       containerWidthBreakpoint={containerWidthBreakpoint}
       isCompositionAreaVisible={isCompositionAreaVisible}
+      isInFullScreenCall={isInFullScreenCall}
     />
   );
 });

@@ -157,6 +157,7 @@ export function DebugLogWindow({
           openFileInFolder={shouldNeverBeCalled}
           toast={toast}
           containerWidthBreakpoint={null}
+          isInFullScreenCall={false}
         />
       </div>
     );
@@ -213,6 +214,7 @@ export function DebugLogWindow({
         openFileInFolder={shouldNeverBeCalled}
         toast={toast}
         containerWidthBreakpoint={null}
+        isInFullScreenCall={false}
       />
     </div>
   );
