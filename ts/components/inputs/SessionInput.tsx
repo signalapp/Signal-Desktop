@@ -9,13 +9,17 @@ import { Flex } from '../basic/Flex';
 import { SpacerMD } from '../basic/Text';
 import { SessionIconButton } from '../icon';
 
-const StyledInput = styled(motion.input)<{ centerText?: boolean; monospaced?: boolean }>`
+const StyledInput = styled(motion.input)<{
+  error: boolean;
+  centerText?: boolean;
+  monospaced?: boolean;
+}>`
   border: 1px solid var(--input-border-color);
   border-radius: 13px;
   outline: 0;
   width: 100%;
   background: transparent;
-  color: var(--input-text-color);
+  color: ${props => (props.error ? 'var(--danger-color)' : 'var(--input-text-color)')};
 
   font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
   font-size: 12px;
@@ -29,13 +33,17 @@ const StyledInput = styled(motion.input)<{ centerText?: boolean; monospaced?: bo
   }
 `;
 
-const StyledTextAreaContainer = styled(motion.div)<{ centerText?: boolean; monospaced?: boolean }>`
+const StyledTextAreaContainer = styled(motion.div)<{
+  error: boolean;
+  centerText?: boolean;
+  monospaced?: boolean;
+}>`
   border: 1px solid var(--input-border-color);
   border-radius: 13px;
   outline: 0;
   width: 100%;
   background: transparent;
-  color: var(--input-text-color);
+  color: ${props => (props.error ? 'var(--danger-color)' : 'var(--input-text-color)')};
 
   font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
   font-size: 12px;
@@ -283,6 +291,12 @@ export const SessionInput = (props: Props) => {
     transition: { duration: THEME_GLOBALS['--default-duration-seconds'] },
   };
 
+  const containerProps = {
+    error: Boolean(error),
+    centerText,
+    monospaced,
+  };
+
   // if we have an error, we want to show it even if the input changes to a valid value
   useEffect(() => {
     if (error && !isEmpty(error) && !isEqual(error, errorString)) {
@@ -302,11 +316,11 @@ export const SessionInput = (props: Props) => {
     >
       <Flex container={true} width="100%" alignItems="center" style={{ position: 'relative' }}>
         {isTextArea ? (
-          <StyledTextAreaContainer centerText={centerText} monospaced={monospaced}>
+          <StyledTextAreaContainer {...containerProps}>
             <textarea {...inputProps} />
           </StyledTextAreaContainer>
         ) : (
-          <StyledInput {...inputProps} centerText={centerText} monospaced={monospaced} />
+          <StyledInput {...inputProps} {...containerProps} />
         )}
         {editable && enableShowHide && (
           <ShowHideButton
