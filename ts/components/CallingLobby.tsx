@@ -265,7 +265,16 @@ export function CallingLobby({
   useWasInitiallyMutedToast(hasLocalAudio, i18n);
 
   return (
-    <FocusTrap>
+    <FocusTrap
+      focusTrapOptions={{
+        allowOutsideClick: ({ target }) => {
+          if (!target || !(target instanceof HTMLElement)) {
+            return false;
+          }
+          return target.matches('.Toast, .Toast *');
+        },
+      }}
+    >
       <div className="module-calling__container dark-theme">
         {shouldShowLocalVideo ? (
           <video

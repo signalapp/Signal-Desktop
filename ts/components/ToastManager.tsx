@@ -29,6 +29,7 @@ export type PropsType = {
   centerToast?: boolean;
   containerWidthBreakpoint: WidthBreakpoint | null;
   isCompositionAreaVisible?: boolean;
+  isInFullScreenCall: boolean;
 };
 
 const SHORT_TIMEOUT = 3 * SECOND;
@@ -554,8 +555,12 @@ export function renderMegaphone({
 }
 
 export function ToastManager(props: PropsType): JSX.Element {
-  const { centerToast, containerWidthBreakpoint, isCompositionAreaVisible } =
-    props;
+  const {
+    centerToast,
+    containerWidthBreakpoint,
+    isCompositionAreaVisible,
+    isInFullScreenCall,
+  } = props;
 
   const toast = renderToast(props);
 
@@ -569,7 +574,13 @@ export function ToastManager(props: PropsType): JSX.Element {
     >
       {centerToast
         ? createPortal(
-            <div className="ToastManager__root">{toast}</div>,
+            <div
+              className={classNames('ToastManager__root', {
+                'ToastManager--full-screen-call': isInFullScreenCall,
+              })}
+            >
+              {toast}
+            </div>,
             document.body
           )
         : toast}
