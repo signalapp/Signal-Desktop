@@ -4,6 +4,7 @@ import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 import { SectionType } from '../../state/ducks/section';
 import { disableRecoveryPhrasePrompt } from '../../state/ducks/userConfig';
 import { getFocusedSection, getIsMessageRequestOverlayShown } from '../../state/selectors/section';
+import { getTheme } from '../../state/selectors/theme';
 import { getShowRecoveryPhrasePrompt } from '../../state/selectors/userConfig';
 import { isSignWithRecoveryPhrase } from '../../util/storage';
 import { Flex } from '../basic/Flex';
@@ -50,7 +51,7 @@ const StyledBanner = styled(Flex)`
 
   svg {
     margin-top: -3px;
-    margin-left: var(--margins-sm);
+    margin-left: var(--margins-xs);
   }
 `;
 
@@ -68,6 +69,7 @@ const StyledLeftPaneBanner = styled.div`
 `;
 
 export const LeftPaneBanner = () => {
+  const theme = useSelector(getTheme);
   const section = useSelector(getFocusedSection);
   const isSignInWithRecoveryPhrase = isSignWithRecoveryPhrase();
 
@@ -97,7 +99,7 @@ export const LeftPaneBanner = () => {
         <Flex container={true} width={'100%'} alignItems="flex-start">
           <StyledBannerTitle>{window.i18n('saveRecoveryPassword')}</StyledBannerTitle>
           <SessionIcon
-            iconType="recoveryPasswordFill"
+            iconType={theme.includes('dark') ? 'recoveryPasswordFill' : 'recoveryPasswordOutline'}
             iconSize="medium"
             iconColor="var(--text-primary-color)"
           />
