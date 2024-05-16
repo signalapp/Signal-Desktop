@@ -300,7 +300,7 @@
   "messageDeletionForbidden": "You don’t have permission to delete others’ messages",
   "messageHash": "Message Hash",
   "messageInfo": "Message Info",
-  "messageNewDescription": "Start a new conversation by entering someone's Account ID or scanning their QR code.",
+  "messageNewDescription": "Start a new conversation by entering your friend's Account ID or ONS.",
   "messageRequestAccepted": "Your message request has been accepted",
   "messageRequestAcceptedOurs": "You have accepted $name$'s message request",
   "messageRequestAcceptedOursNoName": "You have accepted the message request",
