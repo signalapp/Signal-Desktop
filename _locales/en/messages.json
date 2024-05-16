@@ -3148,15 +3148,15 @@
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Would you like to open Signal Sticker Pack Creator?",
-    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
+    "description": "(Deleted 2024/05/15) A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
   },
   "icu:AuthArtCreator--dialog--confirm": {
     "messageformat": "Confirm",
-    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
+    "description": "(Deleted 2024/05/15) A buttle title for confirming Signal Sticker Pack Creator dialog"
   },
   "icu:AuthArtCreator--dialog--dismiss": {
     "messageformat": "Dismiss",
-    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
+    "description": "(Deleted 2024/05/15) A buttle title for dismissing Signal Sticker Pack Creator dialog"
   },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",

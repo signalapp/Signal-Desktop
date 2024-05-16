@@ -14,7 +14,6 @@ import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
 import type { Readable } from 'stream';
-import type { connection as WebSocket } from 'websocket';
 
 import { Net } from '@signalapp/libsignal-client';
 import { assertDev, strictAssert } from '../util/assert';
@@ -554,7 +553,6 @@ const URL_CALLS = {
   getOnboardingStoryManifest:
     'dynamic/desktop/stories/onboarding/manifest.json',
   getStickerPackUpload: 'v1/sticker/pack/form',
-  getArtAuth: 'v1/art/auth',
   getBackupCredentials: 'v1/archives/auth',
   getBackupCDNCredentials: 'v1/archives/auth/read',
   getBackupUploadForm: 'v1/archives/upload/form',
@@ -647,7 +645,6 @@ type InitializeOptionsType = {
   storageUrl: string;
   updatesUrl: string;
   resourcesUrl: string;
-  artCreatorUrl: string;
   cdnUrlObject: {
     readonly '0': string;
     readonly [propName: string]: string;
@@ -975,13 +972,6 @@ export type ReportMessageOptionsType = Readonly<{
   token?: string;
 }>;
 
-const artAuthZod = z.object({
-  username: z.string(),
-  password: z.string(),
-});
-
-export type ArtAuthType = z.infer<typeof artAuthZod>;
-
 const attachmentV3Response = z.object({
   cdn: z.literal(2).or(z.literal(3)),
   key: z.string(),
@@ -1149,6 +1139,23 @@ export type GetBackupInfoResponseType = z.infer<
   typeof getBackupInfoResponseSchema
 >;
 
+const StickerPackUploadAttributesSchema = z.object({
+  acl: z.string(),
+  algorithm: z.string(),
+  credential: z.string(),
+  date: z.string(),
+  id: z.number(),
+  key: z.string(),
+  policy: z.string(),
+  signature: z.string(),
+});
+
+const StickerPackUploadFormSchema = z.object({
+  packId: z.string(),
+  manifest: StickerPackUploadAttributesSchema,
+  stickers: z.array(StickerPackUploadAttributesSchema),
+});
+
 export type WebAPIType = {
   startRegistration(): unknown;
   finishRegistration(baton: unknown): void;
@@ -1166,7 +1173,6 @@ export type WebAPIType = {
     version: string,
     imageFiles: Array<string>
   ) => Promise<Array<Uint8Array>>;
-  getArtAuth: () => Promise<ArtAuthType>;
   getAttachmentFromBackupTier: (args: {
     mediaId: string;
     backupDir: string;
@@ -1237,7 +1243,6 @@ export type WebAPIType = {
   getProvisioningResource: (
     handler: IRequestHandler
   ) => Promise<IWebSocketResource>;
-  getArtProvisioningSocket: (token: string) => Promise<WebSocket>;
   getSenderCertificate: (
     withUuid?: boolean
   ) => Promise<GetSenderCertificateResultType>;
@@ -1280,7 +1285,7 @@ export type WebAPIType = {
   ) => Promise<UploadAvatarHeadersType | undefined>;
   putStickers: (
     encryptedManifest: Uint8Array,
-    encryptedStickers: Array<Uint8Array>,
+    encryptedStickers: ReadonlyArray<Uint8Array>,
     onProgress?: () => void
   ) => Promise<string>;
   reserveUsername: (
@@ -1471,7 +1476,6 @@ export function initialize({
   storageUrl,
   updatesUrl,
   resourcesUrl,
-  artCreatorUrl,
   directoryConfig,
   cdnUrlObject,
   certificateAuthority,
@@ -1492,9 +1496,6 @@ export function initialize({
   }
   if (!isString(resourcesUrl)) {
     throw new Error('WebAPI.initialize: Invalid updatesUrl (general)');
-  }
-  if (!isString(artCreatorUrl)) {
-    throw new Error('WebAPI.initialize: Invalid artCreatorUrl');
   }
   if (!isObject(cdnUrlObject)) {
     throw new Error('WebAPI.initialize: Invalid cdnUrlObject');
@@ -1558,7 +1559,6 @@ export function initialize({
 
     const socketManager = new SocketManager(libsignalNet, {
       url,
-      artCreatorUrl,
       certificateAuthority,
       version,
       proxyUrl,
@@ -1667,8 +1667,6 @@ export function initialize({
       fetchLinkPreviewMetadata,
       finishRegistration,
       getAccountForUsername,
-      getArtAuth,
-      getArtProvisioningSocket,
       getAttachment,
       getAttachmentFromBackupTier,
       getAvatar,
@@ -3309,20 +3307,19 @@ export function initialize({
 
     async function putStickers(
       encryptedManifest: Uint8Array,
-      encryptedStickers: Array<Uint8Array>,
+      encryptedStickers: ReadonlyArray<Uint8Array>,
       onProgress?: () => void
     ) {
       // Get manifest and sticker upload parameters
-      const { packId, manifest, stickers } = (await _ajax({
+      const formJson = await _ajax({
         call: 'getStickerPackUpload',
         responseType: 'json',
         httpType: 'GET',
         urlParameters: `/${encryptedStickers.length}`,
-      })) as {
-        packId: string;
-        manifest: ServerV2AttachmentType;
-        stickers: ReadonlyArray<ServerV2AttachmentType>;
-      };
+      });
+
+      const { packId, manifest, stickers } =
+        StickerPackUploadFormSchema.parse(formJson);
 
       // Upload manifest
       const manifestParams = makePutParams(manifest, encryptedManifest);
@@ -4008,15 +4005,6 @@ export function initialize({
       return socketManager.getProvisioningResource(handler);
     }
 
-    function getArtProvisioningSocket(token: string): Promise<WebSocket> {
-      return socketManager.connectExternalSocket({
-        url: `${artCreatorUrl}/api/socket?token=${token}`,
-        extraHeaders: {
-          origin: artCreatorUrl,
-        },
-      });
-    }
-
     async function cdsLookup({
       e164s,
       acisAndAccessKeys = [],
@@ -4029,20 +4017,6 @@ export function initialize({
         returnAcisWithoutUaks,
         useLibsignal,
       });
-    }
-
-    //
-    // Art
-    //
-
-    async function getArtAuth(): Promise<ArtAuthType> {
-      const response = await _ajax({
-        call: 'getArtAuth',
-        httpType: 'GET',
-        responseType: 'json',
-      });
-
-      return artAuthZod.parse(response);
     }
   }
 }

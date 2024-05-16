@@ -16,7 +16,6 @@ import * as Errors from '../types/errors';
 import * as Stickers from '../types/Stickers';
 
 import type { ConversationType } from '../state/ducks/conversations';
-import type { AuthorizeArtCreatorDataType } from '../state/ducks/globalModals';
 import { calling } from '../services/calling';
 import { resolveUsernameByLinkBase64 } from '../services/username';
 import { writeProfile } from '../services/writeProfile';
@@ -96,7 +95,6 @@ export type IPCEventsValuesType = {
 };
 
 export type IPCEventsCallbacksType = {
-  openArtCreator(): Promise<void>;
   getAvailableIODevices(): Promise<{
     availableCameras: Array<
       Pick<MediaDeviceInfo, 'deviceId' | 'groupId' | 'kind' | 'label'>
@@ -106,7 +104,6 @@ export type IPCEventsCallbacksType = {
   }>;
   addCustomColor: (customColor: CustomColorType) => void;
   addDarkOverlay: () => void;
-  authorizeArtCreator: (data: AuthorizeArtCreatorDataType) => void;
   deleteAllData: () => Promise<void>;
   deleteAllMyStories: () => Promise<void>;
   editCustomColor: (colorId: string, customColor: CustomColorType) => void;
@@ -141,6 +138,10 @@ export type IPCEventsCallbacksType = {
     customColor?: { id: string; value: CustomColorType }
   ) => void;
   getDefaultConversationColor: () => DefaultConversationColorType;
+  uploadStickerPack: (
+    manifest: Uint8Array,
+    stickers: ReadonlyArray<Uint8Array>
+  ) => Promise<string>;
 };
 
 type ValuesWithGetters = Omit<
@@ -239,15 +240,6 @@ export function createIPCEvents(
   };
 
   return {
-    openArtCreator: async () => {
-      const auth = await window.textsecure.server?.getArtAuth();
-      if (!auth) {
-        return;
-      }
-
-      window.openArtCreator(auth);
-    },
-
     getDeviceName: () => window.textsecure.storage.user.getDeviceName(),
     getPhoneNumber: () => {
       try {
@@ -530,14 +522,6 @@ export function createIPCEvents(
       });
       document.body.prepend(newOverlay);
     },
-    authorizeArtCreator: (data: AuthorizeArtCreatorDataType) => {
-      // We can get these events even if the user has never linked this instance.
-      if (!Registration.everDone()) {
-        log.warn('authorizeArtCreator: Not registered, returning early');
-        return;
-      }
-      window.reduxActions.globalModals.showAuthorizeArtCreator(data);
-    },
     removeDarkOverlay: () => {
       const elems = document.querySelectorAll('.dark-overlay');
 
@@ -715,6 +699,16 @@ export function createIPCEvents(
       if (playbackDisabled) {
         window.reduxActions?.audioPlayer.pauseVoiceNotePlayer();
       }
+    },
+
+    uploadStickerPack: (
+      manifest: Uint8Array,
+      stickers: ReadonlyArray<Uint8Array>
+    ): Promise<string> => {
+      strictAssert(window.textsecure.server, 'WebAPI must be available');
+      return window.textsecure.server.putStickers(manifest, stickers, () =>
+        ipcRenderer.send('art-creator:onUploadProgress')
+      );
     },
 
     ...overrideEvents,

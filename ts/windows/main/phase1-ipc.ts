@@ -341,24 +341,6 @@ ipc.on('show-group-via-link', (_event, info) => {
   drop(window.Events.showGroupViaLink?.(info.value));
 });
 
-ipc.on('open-art-creator', () => {
-  drop(window.Events.openArtCreator());
-});
-
-window.openArtCreator = ({
-  username,
-  password,
-}: {
-  username: string;
-  password: string;
-}) => {
-  return ipc.invoke('open-art-creator', { username, password });
-};
-
-ipc.on('authorize-art-creator', (_event, info) => {
-  window.Events.authorizeArtCreator?.(info);
-});
-
 ipc.on('start-call-lobby', (_event, { conversationId }) => {
   window.IPC.showWindow();
   window.reduxActions?.calling?.startCallingLobby({
@@ -458,3 +440,18 @@ ipc.on('show-release-notes', () => {
     showReleaseNotes();
   }
 });
+
+ipc.on(
+  'art-creator:uploadStickerPack',
+  async (
+    event,
+    {
+      manifest,
+      stickers,
+    }: { manifest: Uint8Array; stickers: ReadonlyArray<Uint8Array> }
+  ) => {
+    const packId = await window.Events?.uploadStickerPack(manifest, stickers);
+
+    event.sender.send('art-creator:uploadStickerPack:done', packId);
+  }
+);
