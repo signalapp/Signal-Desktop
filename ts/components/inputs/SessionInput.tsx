@@ -27,7 +27,7 @@ const StyledInput = styled(motion.input)<{
   padding: var(--margins-lg);
   ${props => props.centerText && 'text-align: center;'}
 
-  ::placeholder {
+  &::placeholder {
     color: var(--input-text-placeholder-color);
     ${props => props.centerText && 'text-align: center;'}
   }
@@ -68,14 +68,14 @@ const StyledTextAreaContainer = styled(motion.div)<{
 
     ${props => props.centerText && 'text-align: center;'}
 
-    :placeholder-shown {
+    &:placeholder-shown {
       font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
       font-size: 12px;
       height: 48px;
       margin: var(--margins-md) 0;
     }
 
-    ::placeholder {
+    &::placeholder {
       color: var(--input-text-placeholder-color);
       ${props => props.centerText && 'text-align: center;'}
     }
@@ -121,7 +121,7 @@ const StyledInputContainer = styled(Flex)<{ error: boolean; biggerText?: boolean
     line-height: 18px;
 
     textarea {
-      :placeholder-shown {
+      &:placeholder-shown {
         font-size: var(--font-size-md);
         height: 56px;
       }

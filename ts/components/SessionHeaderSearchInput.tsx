@@ -19,13 +19,13 @@ export const SessionHeaderSearchInput = styled.input<{ darkMode: boolean }>`
   position: relative;
   border-radius: '4px';
 
-  ::placeholder {
+  &::placeholder {
     color: var(--search-bar-text-control-color);
   }
 
   &:focus {
     border: solid 1px
-      var(${props => (props.darkMode ? '--primary-color' : '--search-bar-text-user-color')});
+      ${props => (props.darkMode ? 'var(--primary-color)' : 'var(--search-bar-text-user-color)')};
     color: var(--search-bar-text-user-color);
     outline: none;
   }
