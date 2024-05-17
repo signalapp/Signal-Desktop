@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getLeftPaneConversationIdsCount } from '../state/selectors/conversations';
+import { getTheme } from '../state/selectors/theme';
 import { isSignWithRecoveryPhrase } from '../util/storage';
 import { Flex } from './basic/Flex';
 import { Spacer2XL, SpacerXS } from './basic/Text';
@@ -46,9 +47,9 @@ const StyledHeading = styled(StyledP)`
   font-weight: 700;
 `;
 
-const StyledSessionWelcome = styled(StyledP)`
+const StyledSessionWelcome = styled(StyledP)<{ color: string }>`
   line-height: 1;
-  color: var(--primary-color);
+  color: ${props => props.color};
   font-size: 32px;
 `;
 
@@ -66,6 +67,7 @@ const StyledNoConversations = styled(StyledP)`
 `;
 
 export const EmptyMessageView = () => {
+  const theme = useSelector(getTheme);
   const conversationCount = useSelector(getLeftPaneConversationIdsCount);
   const isSignInWithRecoveryPhrase = isSignWithRecoveryPhrase();
 
@@ -86,7 +88,9 @@ export const EmptyMessageView = () => {
           <StyledPartyPopper src="images/party-popper.svg" alt="party popper emoji" />
           <Spacer2XL />
           <StyledHeading>{window.i18n('onboardingAccountCreated')}</StyledHeading>
-          <StyledSessionWelcome>
+          <StyledSessionWelcome
+            color={theme.includes('dark') ? 'var(--primary-color)' : 'var(--text-primary-color)'}
+          >
             {window.i18n('onboardingBubbleWelcomeToSession')}
           </StyledSessionWelcome>
         </>
