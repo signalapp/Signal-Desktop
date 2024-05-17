@@ -25,7 +25,12 @@ import type { ConversationType } from '../ducks/conversations';
 import { SmartConversationDetails } from './ConversationDetails';
 import { SmartToastManager } from './ToastManager';
 import { useCallingActions } from '../ducks/calling';
-import { getActiveCallState, getCallLinkSelector } from '../selectors/calling';
+import {
+  getActiveCallState,
+  getAdhocCallSelector,
+  getCallSelector,
+  getCallLinkSelector,
+} from '../selectors/calling';
 import { useCallHistoryActions } from '../ducks/callHistory';
 import { getCallHistoryEdition } from '../selectors/callHistory';
 import { getHasPendingUpdate } from '../selectors/updates';
@@ -97,6 +102,8 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
   const allConversations = useSelector(getAllConversations);
   const regionCode = useSelector(getRegionCode);
   const getConversation = useSelector(getConversationSelector);
+  const getAdhocCall = useSelector(getAdhocCallSelector);
+  const getCall = useSelector(getCallSelector);
   const getCallLink = useSelector(getCallLinkSelector);
 
   const activeCall = useSelector(getActiveCallState);
@@ -107,9 +114,12 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
 
   const {
+    hangUpActiveCall,
     onOutgoingAudioCallInConversation,
     onOutgoingVideoCallInConversation,
+    peekNotConnectedGroupCall,
     startCallLinkLobbyByRoomId,
+    togglePip,
   } = useCallingActions();
   const {
     clearAllCallHistory: clearCallHistory,
@@ -169,8 +179,11 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
       getConversation={getConversation}
       getCallHistoryGroupsCount={getCallHistoryGroupsCount}
       getCallHistoryGroups={getCallHistoryGroups}
+      getAdhocCall={getAdhocCall}
+      getCall={getCall}
       getCallLink={getCallLink}
       callHistoryEdition={callHistoryEdition}
+      hangUpActiveCall={hangUpActiveCall}
       hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}
       i18n={i18n}
@@ -180,12 +193,14 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
       onToggleNavTabsCollapse={toggleNavTabsCollapse}
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
+      peekNotConnectedGroupCall={peekNotConnectedGroupCall}
       preferredLeftPaneWidth={preferredLeftPaneWidth}
       renderConversationDetails={renderConversationDetails}
       renderToastManager={renderToastManager}
       regionCode={regionCode}
       savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
       startCallLinkLobbyByRoomId={startCallLinkLobbyByRoomId}
+      togglePip={togglePip}
     />
   );
 });

@@ -46,3 +46,12 @@ export const isAnybodyElseInGroupCall = (
   peekInfo: undefined | Readonly<Pick<GroupCallPeekInfoType, 'acis'>>,
   ourAci: AciString
 ): boolean => Boolean(peekInfo?.acis.some(id => id !== ourAci));
+
+export const isAnybodyInGroupCall = (
+  peekInfo: undefined | Readonly<Pick<GroupCallPeekInfoType, 'acis'>>
+): boolean => {
+  if (!peekInfo?.acis) {
+    return false;
+  }
+  return peekInfo.acis.length > 0;
+};

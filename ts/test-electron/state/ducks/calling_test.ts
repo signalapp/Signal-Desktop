@@ -1498,6 +1498,7 @@ describe('calling duck', () => {
             const dispatch = sinon.spy();
 
             await peekNotConnectedGroupCall({
+              callMode: CallMode.Group,
               conversationId: 'fake-group-call-conversation-id',
             })(
               dispatch,

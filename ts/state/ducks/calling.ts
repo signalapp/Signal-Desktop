@@ -285,7 +285,8 @@ type SendGroupCallReactionLocalCopyType = ReadonlyDeep<{
   timestamp: number;
 }>;
 
-type PeekNotConnectedGroupCallType = ReadonlyDeep<{
+export type PeekNotConnectedGroupCallType = ReadonlyDeep<{
+  callMode: CallMode.Group | CallMode.Adhoc;
   conversationId: string;
 }>;
 
@@ -1368,6 +1369,48 @@ function handleCallLinkUpdate(
   };
 }
 
+/**
+ * When starting a lobby and there's an active call, if we're already in call then
+ * focus it (toggle pip), otherwise show an error.
+ * @returns {boolean} `true` if there was an active call and we handled it.
+ */
+function handleActiveCallOnStartLobby({
+  conversationId,
+  state,
+  dispatch,
+}: {
+  conversationId: string;
+  state: RootStateType;
+  dispatch: ThunkDispatch<
+    RootStateType,
+    unknown,
+    ShowErrorModalActionType | TogglePipActionType
+  >;
+}): boolean {
+  const { activeCallState } = state.calling;
+  if (!activeCallState) {
+    return false;
+  }
+
+  if (activeCallState.conversationId === conversationId) {
+    dispatch({
+      type: TOGGLE_PIP,
+    });
+  } else {
+    const i18n = getIntl(state);
+    dispatch({
+      type: SHOW_ERROR_MODAL,
+      payload: {
+        title: i18n('icu:calling__cant-join'),
+        description: i18n('icu:calling__dialog-already-in-call'),
+        buttonVariant: ButtonVariant.Primary,
+      },
+    });
+  }
+
+  return true;
+}
+
 function hangUpActiveCall(
   reason: string
 ): ThunkAction<void, RootStateType, unknown, HangUpActionType> {
@@ -1553,10 +1596,10 @@ function peekNotConnectedGroupCall(
   payload: PeekNotConnectedGroupCallType
 ): ThunkAction<void, RootStateType, unknown, PeekGroupCallFulfilledActionType> {
   return (dispatch, getState) => {
-    const { conversationId } = payload;
+    const { callMode, conversationId } = payload;
     doGroupCallPeek({
       conversationId,
-      callMode: CallMode.Group,
+      callMode,
       dispatch,
       getState,
     });
@@ -1868,26 +1911,21 @@ const _startCallLinkLobby = async ({
   dispatch: ThunkDispatch<
     RootStateType,
     unknown,
-    StartCallLinkLobbyActionType | ShowErrorModalActionType
+    | StartCallLinkLobbyActionType
+    | ShowErrorModalActionType
+    | TogglePipActionType
   >;
   getState: () => RootStateType;
 }) => {
+  const callLinkRootKey = CallLinkRootKey.parse(rootKey);
+  const roomId = getRoomIdFromRootKey(callLinkRootKey);
   const state = getState();
 
-  if (state.calling.activeCallState) {
-    const i18n = getIntl(getState());
-    dispatch({
-      type: SHOW_ERROR_MODAL,
-      payload: {
-        title: i18n('icu:calling__cant-join'),
-        description: i18n('icu:calling__dialog-already-in-call'),
-        buttonVariant: ButtonVariant.Primary,
-      },
-    });
+  if (
+    handleActiveCallOnStartLobby({ conversationId: roomId, state, dispatch })
+  ) {
     return;
   }
-
-  const callLinkRootKey = CallLinkRootKey.parse(rootKey);
 
   const readResult = await calling.readCallLink({ callLinkRootKey });
   const { callLinkState } = readResult;
@@ -1919,7 +1957,6 @@ const _startCallLinkLobby = async ({
     return;
   }
 
-  const roomId = getRoomIdFromRootKey(callLinkRootKey);
   try {
     const callLinkExists = await dataInterface.callLinkExists(roomId);
     if (callLinkExists) {
@@ -1983,7 +2020,7 @@ function startCallingLobby({
   void,
   RootStateType,
   unknown,
-  StartCallingLobbyActionType
+  StartCallingLobbyActionType | TogglePipActionType
 > {
   return async (dispatch, getState) => {
     const state = getState();
