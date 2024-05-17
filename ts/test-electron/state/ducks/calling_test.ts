@@ -1363,12 +1363,12 @@ describe('calling duck', () => {
         sinon.assert.calledWith(dispatch, {
           type: 'calling/HANDLE_CALL_LINK_UPDATE',
           payload: {
-            roomId,
-            callLinkDetails: {
+            callLink: {
               name,
               restrictions,
               expiration,
               revoked,
+              roomId,
               rootKey,
               adminKey,
             },
@@ -1383,12 +1383,12 @@ describe('calling duck', () => {
         sinon.assert.calledWith(dispatch, {
           type: 'calling/HANDLE_CALL_LINK_UPDATE',
           payload: {
-            roomId,
-            callLinkDetails: {
+            callLink: {
               name,
               restrictions,
               expiration,
               revoked,
+              roomId,
               rootKey,
               adminKey: 'banana',
             },
@@ -1451,6 +1451,7 @@ describe('calling duck', () => {
           payload: {
             ...callLobbyData,
             callLinkState,
+            callLinkRoomId: roomId,
             callLinkRootKey: rootKey,
             conversationId: roomId,
             isConversationTooBigToRing: false,

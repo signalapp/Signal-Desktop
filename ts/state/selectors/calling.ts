@@ -79,17 +79,13 @@ export type CallLinkSelectorType = (roomId: string) => CallLinkType | undefined;
 export const getCallLinkSelector = createSelector(
   getCallLinksByRoomId,
   (callLinksByRoomId: CallLinksByRoomIdType): CallLinkSelectorType =>
-    (roomId: string): CallLinkType | undefined => {
-      const callLinkState = getOwn(callLinksByRoomId, roomId);
-      if (!callLinkState) {
-        return;
-      }
+    (roomId: string): CallLinkType | undefined =>
+      getOwn(callLinksByRoomId, roomId)
+);
 
-      return {
-        roomId,
-        ...callLinkState,
-      };
-    }
+export const getAllCallLinks = createSelector(
+  getCallLinksByRoomId,
+  (lookup): Array<CallLinkType> => Object.values(lookup)
 );
 
 export type CallSelectorType = (
