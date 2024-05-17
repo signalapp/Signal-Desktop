@@ -7076,6 +7076,22 @@
     "messageformat": "Call link",
     "description": "On the Calls Tab, the subtitle text for a Call Link entry."
   },
+  "icu:CallsList__ItemCallInfo--Active": {
+    "messageformat": "Active",
+    "description": "On the Calls Tab, the subtitle text for an active call."
+  },
+  "icu:CallsList__LeaveCallDialogTitle": {
+    "messageformat": "Leave the current call?",
+    "description": "On the Calls Tab, when trying to join a different call when you're already in another one, this is the title of the confirmation dialog to leave the other call."
+  },
+  "icu:CallsList__LeaveCallDialogBody": {
+    "messageformat": "You must leave the current call before joining a new call.",
+    "description": "On the Calls Tab, when trying to join a different call when you're already in another one, this is the body of the confirmation dialog to leave the other call."
+  },
+  "icu:CallsList__LeaveCallDialogButton--leave": {
+    "messageformat": "Leave call",
+    "description": "On the Calls Tab, when trying to join a different call when you're already in another one, this is the button to confirm leaving the other call."
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "No recent conversations.",
     "description": "Calls Tab > New Call > Conversations List > When no results found > With no search query"
@@ -7083,6 +7099,14 @@
   "icu:CallsNewCall__EmptyState--hasQuery": {
     "messageformat": "No results for “{query}”",
     "description": "Calls Tab > New Call > Conversations List > When no results found > With a search query"
+  },
+  "icu:CallsNewCallButton--return": {
+    "messageformat": "Return",
+    "description": "Calls Tab button label for returning to the call you're currently in"
+  },
+  "icu:CallsNewCallButtonTooltip--in-another-call": {
+    "messageformat": "You must leave the current call before joining a new call",
+    "description": "Calls Tab button tooltip for the join call button when you are already in a different call."
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{direction, select, Outgoing {Outgoing} other {Incoming}} {type, select, Audio {voice} Video {video} Group {group} other {}} call",

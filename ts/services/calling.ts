@@ -2369,6 +2369,7 @@ export class CallingClass {
 
     if (update === RingUpdate.Requested) {
       this.reduxInterface?.peekNotConnectedGroupCall({
+        callMode: CallMode.Group,
         conversationId: conversation.id,
       });
     }

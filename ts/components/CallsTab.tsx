@@ -13,12 +13,16 @@ import type {
 } from '../types/CallDisposition';
 import { CallsNewCall } from './CallsNewCall';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
-import type { ActiveCallStateType } from '../state/ducks/calling';
+import type {
+  ActiveCallStateType,
+  PeekNotConnectedGroupCallType,
+} from '../state/ducks/calling';
 import { ContextMenu } from './ContextMenu';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import type { UnreadStats } from '../util/countUnreadStats';
 import type { WidthBreakpoint } from './_util';
 import type { CallLinkType } from '../types/CallLink';
+import type { CallStateType } from '../state/selectors/calling';
 
 enum CallsTabSidebarView {
   CallsListView,
@@ -37,8 +41,11 @@ type CallsTabProps = Readonly<{
     pagination: CallHistoryPagination
   ) => Promise<Array<CallHistoryGroup>>;
   callHistoryEdition: number;
+  getAdhocCall: (roomId: string) => CallStateType | undefined;
+  getCall: (id: string) => CallStateType | undefined;
   getCallLink: (id: string) => CallLinkType | undefined;
   getConversation: (id: string) => ConversationType | void;
+  hangUpActiveCall: (reason: string) => void;
   hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
   i18n: LocalizerType;
@@ -48,6 +55,7 @@ type CallsTabProps = Readonly<{
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
+  peekNotConnectedGroupCall: (options: PeekNotConnectedGroupCallType) => void;
   preferredLeftPaneWidth: number;
   renderConversationDetails: (
     conversationId: string,
@@ -59,6 +67,7 @@ type CallsTabProps = Readonly<{
   regionCode: string | undefined;
   savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
   startCallLinkLobbyByRoomId: (roomId: string) => void;
+  togglePip: () => void;
 }>;
 
 export function CallsTab({
@@ -68,8 +77,11 @@ export function CallsTab({
   getCallHistoryGroupsCount,
   getCallHistoryGroups,
   callHistoryEdition,
+  getAdhocCall,
+  getCall,
   getCallLink,
   getConversation,
+  hangUpActiveCall,
   hasFailedStorySends,
   hasPendingUpdate,
   i18n,
@@ -79,12 +91,14 @@ export function CallsTab({
   onToggleNavTabsCollapse,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
+  peekNotConnectedGroupCall,
   preferredLeftPaneWidth,
   renderConversationDetails,
   renderToastManager,
   regionCode,
   savePreferredLeftPaneWidth,
   startCallLinkLobbyByRoomId,
+  togglePip,
 }: CallsTabProps): JSX.Element {
   const [sidebarView, setSidebarView] = useState(
     CallsTabSidebarView.CallsListView
@@ -231,12 +245,15 @@ export function CallsTab({
           {sidebarView === CallsTabSidebarView.CallsListView && (
             <CallsList
               key={CallsTabSidebarView.CallsListView}
-              hasActiveCall={activeCall != null}
+              activeCall={activeCall}
               getCallHistoryGroupsCount={getCallHistoryGroupsCount}
               getCallHistoryGroups={getCallHistoryGroups}
               callHistoryEdition={callHistoryEdition}
+              getAdhocCall={getAdhocCall}
+              getCall={getCall}
               getCallLink={getCallLink}
               getConversation={getConversation}
+              hangUpActiveCall={hangUpActiveCall}
               i18n={i18n}
               selectedCallHistoryGroup={selected?.callHistoryGroup ?? null}
               onSelectCallHistoryGroup={handleSelectCallHistoryGroup}
@@ -246,7 +263,9 @@ export function CallsTab({
               onOutgoingVideoCallInConversation={
                 handleOutgoingVideoCallInConversation
               }
+              peekNotConnectedGroupCall={peekNotConnectedGroupCall}
               startCallLinkLobbyByRoomId={startCallLinkLobbyByRoomId}
+              togglePip={togglePip}
             />
           )}
           {sidebarView === CallsTabSidebarView.NewCallView && (

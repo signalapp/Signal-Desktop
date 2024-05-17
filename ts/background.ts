@@ -200,6 +200,7 @@ import { deriveStorageServiceKey } from './Crypto';
 import { getThemeType } from './util/getThemeType';
 import { AttachmentDownloadManager } from './jobs/AttachmentDownloadManager';
 import { onCallLinkUpdateSync } from './util/onCallLinkUpdateSync';
+import { CallMode } from './types/Calling';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -2923,6 +2924,7 @@ export async function startApp(): Promise<void> {
           conversationId
         );
         window.reduxActions.calling.peekNotConnectedGroupCall({
+          callMode: CallMode.Group,
           conversationId,
         });
         if (callId != null) {
