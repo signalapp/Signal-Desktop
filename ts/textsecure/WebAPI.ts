@@ -1531,7 +1531,7 @@ export function initialize({
     libsignalNetEnvironment
   );
   log.info(`libsignal net environment resolved to [${Net.Environment[env]}]`);
-  const libsignalNet = new Net.Net(env);
+  const libsignalNet = new Net.Net(env, getUserAgent(version));
   libsignalNet.setIpv6Enabled(!disableIPv6);
 
   // Thanks to function-hoisting, we can put this return statement before all of the
