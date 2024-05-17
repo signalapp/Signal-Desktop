@@ -31,7 +31,7 @@ import type {
   PresentedSource,
   PresentableSource,
 } from '../../types/Calling';
-import type { CallLinkStateType } from '../../types/CallLink';
+import type { CallLinkStateType, CallLinkType } from '../../types/CallLink';
 import {
   CALLING_REACTIONS_LIFETIME,
   MAX_CALLING_REACTIONS,
@@ -174,15 +174,8 @@ export type AdhocCallsType = {
   [roomId: string]: GroupCallStateType;
 };
 
-export type CallLinksByRoomIdStateType = ReadonlyDeep<
-  CallLinkStateType & {
-    rootKey: string;
-    adminKey: string | null;
-  }
->;
-
 export type CallLinksByRoomIdType = ReadonlyDeep<{
-  [roomId: string]: CallLinksByRoomIdStateType;
+  [roomId: string]: CallLinkType;
 }>;
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
@@ -244,8 +237,7 @@ type GroupCallStateChangeActionPayloadType =
   };
 
 type HandleCallLinkUpdateActionPayloadType = ReadonlyDeep<{
-  roomId: string;
-  callLinkDetails: CallLinksByRoomIdStateType;
+  callLink: CallLinkType;
 }>;
 
 type HangUpActionPayloadType = ReadonlyDeep<{
@@ -384,6 +376,7 @@ type StartCallLinkLobbyPayloadType = {
   peekInfo?: GroupCallPeekInfoType;
   remoteParticipants: Array<GroupCallParticipantInfoType>;
   callLinkState: CallLinkStateType;
+  callLinkRoomId: string;
   callLinkRootKey: string;
 };
 
@@ -1333,10 +1326,11 @@ function handleCallLinkUpdate(
       'revoked',
     ]);
 
-    const callLinkDetails: CallLinksByRoomIdStateType = {
+    const callLink: CallLinkType = {
       ...CALL_LINK_DEFAULT_STATE,
       ...existingCallLinkState,
       ...freshCallLinkState,
+      roomId,
       rootKey,
       adminKey,
     };
@@ -1352,19 +1346,13 @@ function handleCallLinkUpdate(
         log.info(`${logId}: Updated existing call link state`);
       }
     } else {
-      await dataInterface.insertCallLink({
-        roomId,
-        ...callLinkDetails,
-      });
+      await dataInterface.insertCallLink(callLink);
       log.info(`${logId}: Saved new call link`);
     }
 
     dispatch({
       type: HANDLE_CALL_LINK_UPDATE,
-      payload: {
-        roomId,
-        callLinkDetails,
-      },
+      payload: { callLink },
     });
   };
 }
@@ -2006,6 +1994,7 @@ const _startCallLinkLobby = async ({
     payload: {
       ...callLobbyData,
       callLinkState,
+      callLinkRoomId: roomId,
       callLinkRootKey: rootKey,
       conversationId: roomId,
       isConversationTooBigToRing: false,
@@ -2415,6 +2404,9 @@ export function reducer(
               ...callLinks,
               [conversationId]: {
                 ...action.payload.callLinkState,
+                roomId:
+                  callLinks[conversationId]?.roomId ??
+                  action.payload.callLinkRoomId,
                 rootKey:
                   callLinks[conversationId]?.rootKey ??
                   action.payload.callLinkRootKey,
@@ -3355,13 +3347,14 @@ export function reducer(
 
   if (action.type === HANDLE_CALL_LINK_UPDATE) {
     const { callLinks } = state;
-    const { roomId, callLinkDetails } = action.payload;
+    const { callLink } = action.payload;
+    const { roomId } = callLink;
 
     return {
       ...state,
       callLinks: {
         ...callLinks,
-        [roomId]: callLinkDetails,
+        [roomId]: callLink,
       },
     };
   }

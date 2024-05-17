@@ -133,6 +133,7 @@ export type CallHistoryFilterOptions = Readonly<{
 
 export type CallHistoryFilter = Readonly<{
   status: CallHistoryFilterStatus;
+  callLinkRoomIds: ReadonlyArray<string> | null;
   conversationIds: ReadonlyArray<string> | null;
 }>;
 

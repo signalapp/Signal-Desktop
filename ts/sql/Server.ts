@@ -3619,48 +3619,66 @@ function getCallHistoryGroupDataSync(
 ): unknown {
   return db.transaction(() => {
     const { limit, offset } = pagination;
-    const { status, conversationIds } = filter;
+    const { status, conversationIds, callLinkRoomIds } = filter;
 
-    // TODO: DESKTOP-6827 Search Calls Tab for adhoc calls
-    if (conversationIds != null) {
-      strictAssert(conversationIds.length > 0, "can't filter by empty array");
-
+    const isUsingTempTable = conversationIds != null || callLinkRoomIds != null;
+    if (isUsingTempTable) {
       const [createTempTable] = sql`
-        CREATE TEMP TABLE temp_callHistory_filtered_conversations (
-          id TEXT,
+        CREATE TEMP TABLE temp_callHistory_filtered_peers (
+          conversationId TEXT,
           serviceId TEXT,
-          groupId TEXT
+          groupId TEXT,
+          callLinkRoomId TEXT
         );
       `;
 
       db.exec(createTempTable);
+      if (conversationIds != null) {
+        strictAssert(conversationIds.length > 0, "can't filter by empty array");
 
-      batchMultiVarQuery(db, conversationIds, ids => {
-        const idList = sqlJoin(ids.map(id => sqlFragment`${id}`));
+        batchMultiVarQuery(db, conversationIds, ids => {
+          const idList = sqlJoin(ids.map(id => sqlFragment`${id}`));
 
-        const [insertQuery, insertParams] = sql`
-          INSERT INTO temp_callHistory_filtered_conversations
-            (id, serviceId, groupId)
-          SELECT id, serviceId, groupId
-          FROM conversations
-          WHERE conversations.id IN (${idList});
-        `;
+          const [insertQuery, insertParams] = sql`
+            INSERT INTO temp_callHistory_filtered_peers
+              (conversationId, serviceId, groupId)
+            SELECT id, serviceId, groupId
+            FROM conversations
+            WHERE conversations.id IN (${idList});
+          `;
 
-        db.prepare(insertQuery).run(insertParams);
-      });
+          db.prepare(insertQuery).run(insertParams);
+        });
+      }
+
+      if (callLinkRoomIds != null) {
+        strictAssert(callLinkRoomIds.length > 0, "can't filter by empty array");
+
+        batchMultiVarQuery(db, callLinkRoomIds, ids => {
+          const idList = sqlJoin(ids.map(id => sqlFragment`(${id})`));
+
+          const [insertQuery, insertParams] = sql`
+            INSERT INTO temp_callHistory_filtered_peers
+              (callLinkRoomId)
+            VALUES ${idList};
+          `;
+
+          db.prepare(insertQuery).run(insertParams);
+        });
+      }
     }
 
-    const innerJoin =
-      conversationIds != null
-        ? // peerId can be a conversation id (legacy), a serviceId, or a groupId
-          sqlFragment`
-            INNER JOIN temp_callHistory_filtered_conversations ON (
-              temp_callHistory_filtered_conversations.id IS c.peerId
-              OR temp_callHistory_filtered_conversations.serviceId IS c.peerId
-              OR temp_callHistory_filtered_conversations.groupId IS c.peerId
-            )
-          `
-        : sqlFragment``;
+    // peerId can be a conversation id (legacy), a serviceId, groupId, or call link roomId
+    const innerJoin = isUsingTempTable
+      ? sqlFragment`
+          INNER JOIN temp_callHistory_filtered_peers ON (
+            temp_callHistory_filtered_peers.conversationId IS c.peerId
+            OR temp_callHistory_filtered_peers.serviceId IS c.peerId
+            OR temp_callHistory_filtered_peers.groupId IS c.peerId
+            OR temp_callHistory_filtered_peers.callLinkRoomId IS c.peerId
+          )
+        `
+      : sqlFragment``;
 
     const filterClause =
       status === CallHistoryFilterStatus.All
@@ -3795,9 +3813,9 @@ function getCallHistoryGroupDataSync(
       ? db.prepare(query).pluck(true).get(params)
       : db.prepare(query).all(params);
 
-    if (conversationIds != null) {
+    if (isUsingTempTable) {
       const [dropTempTableQuery] = sql`
-        DROP TABLE temp_callHistory_filtered_conversations;
+        DROP TABLE temp_callHistory_filtered_peers;
       `;
 
       db.exec(dropTempTableQuery);
@@ -3819,6 +3837,11 @@ async function getCallHistoryGroupsCount(
     limit: 0,
     offset: 0,
   });
+
+  if (result == null) {
+    return 0;
+  }
+
   return countSchema.parse(result);
 }
 
@@ -5975,6 +5998,7 @@ async function removeAll(): Promise<void> {
       DELETE FROM attachment_downloads;
       DELETE FROM badgeImageFiles;
       DELETE FROM badges;
+      DELETE FROM callLinks;
       DELETE FROM callsHistory;
       DELETE FROM conversations;
       DELETE FROM emojis;

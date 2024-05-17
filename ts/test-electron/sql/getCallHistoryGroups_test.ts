@@ -23,11 +23,16 @@ import {
 } from '../../types/CallDisposition';
 import { strictAssert } from '../../util/assert';
 import type { ConversationAttributesType } from '../../model-types';
+import {
+  FAKE_CALL_LINK,
+  FAKE_CALL_LINK_WITH_ADMIN_KEY,
+} from '../../test-both/helpers/fakeCallLink';
 
 const {
   removeAll,
   getCallHistoryGroups,
   getCallHistoryGroupsCount,
+  insertCallLink,
   saveCallHistory,
   saveConversation,
 } = dataInterface;
@@ -90,7 +95,11 @@ describe('sql/getCallHistoryGroups', () => {
     await saveCallHistory(call2);
 
     const groups = await getCallHistoryGroups(
-      { status: CallHistoryFilterStatus.All, conversationIds: null },
+      {
+        status: CallHistoryFilterStatus.All,
+        callLinkRoomIds: null,
+        conversationIds: null,
+      },
       { offset: 0, limit: 0 }
     );
 
@@ -121,7 +130,11 @@ describe('sql/getCallHistoryGroups', () => {
     await saveCallHistory(call2);
 
     const groups = await getCallHistoryGroups(
-      { status: CallHistoryFilterStatus.All, conversationIds: null },
+      {
+        status: CallHistoryFilterStatus.All,
+        callLinkRoomIds: null,
+        conversationIds: null,
+      },
       { offset: 0, limit: 0 }
     );
 
@@ -156,7 +169,11 @@ describe('sql/getCallHistoryGroups', () => {
     await saveCallHistory(call4);
 
     const groups = await getCallHistoryGroups(
-      { status: CallHistoryFilterStatus.All, conversationIds: null },
+      {
+        status: CallHistoryFilterStatus.All,
+        callLinkRoomIds: null,
+        conversationIds: null,
+      },
       { offset: 0, limit: 0 }
     );
 
@@ -218,6 +235,7 @@ describe('sql/getCallHistoryGroups', () => {
       const groups = await getCallHistoryGroups(
         {
           status: CallHistoryFilterStatus.All,
+          callLinkRoomIds: null,
           conversationIds: [conversation1.id],
         },
         { offset: 0, limit: 0 }
@@ -230,6 +248,7 @@ describe('sql/getCallHistoryGroups', () => {
       const groups = await getCallHistoryGroups(
         {
           status: CallHistoryFilterStatus.All,
+          callLinkRoomIds: null,
           conversationIds: [conversation2.id],
         },
         { offset: 0, limit: 0 }
@@ -268,6 +287,7 @@ describe('sql/getCallHistoryGroups', () => {
     const groups = await getCallHistoryGroups(
       {
         status: CallHistoryFilterStatus.All,
+        callLinkRoomIds: null,
         conversationIds: [conversation.id],
       },
       { offset: 0, limit: 0 }
@@ -310,7 +330,11 @@ describe('sql/getCallHistoryGroups', () => {
     await saveCallHistory(call2);
 
     const groups = await getCallHistoryGroups(
-      { status: CallHistoryFilterStatus.Missed, conversationIds: null },
+      {
+        status: CallHistoryFilterStatus.Missed,
+        callLinkRoomIds: null,
+        conversationIds: null,
+      },
       { offset: 0, limit: 0 }
     );
 
@@ -328,7 +352,7 @@ describe('sql/getCallHistoryGroups', () => {
         ringerId: null,
         mode: CallMode.Adhoc,
         type: CallType.Adhoc,
-        direction: CallDirection.Outgoing,
+        direction: CallDirection.Incoming,
         timestamp,
         status: AdhocCallStatus.Joined,
       };
@@ -341,11 +365,126 @@ describe('sql/getCallHistoryGroups', () => {
     await saveCallHistory(call2);
 
     const groups = await getCallHistoryGroups(
-      { status: CallHistoryFilterStatus.All, conversationIds: null },
+      {
+        status: CallHistoryFilterStatus.All,
+        callLinkRoomIds: null,
+        conversationIds: null,
+      },
       { offset: 0, limit: 0 }
     );
 
     assert.deepEqual(groups, [toAdhocGroup(call2)]);
+  });
+
+  it('should search call links', async () => {
+    const now = Date.now();
+
+    const { roomId: roomId1 } = FAKE_CALL_LINK;
+    const { roomId: roomId2 } = FAKE_CALL_LINK_WITH_ADMIN_KEY;
+
+    await insertCallLink(FAKE_CALL_LINK);
+    await insertCallLink(FAKE_CALL_LINK_WITH_ADMIN_KEY);
+
+    const conversation1Uuid = generateAci();
+    const conversation2GroupId = 'groupId:2';
+
+    const conversation1: ConversationAttributesType = {
+      type: 'private',
+      version: 0,
+      id: 'id:1',
+      serviceId: conversation1Uuid,
+    };
+
+    const conversation2: ConversationAttributesType = {
+      type: 'group',
+      version: 2,
+      id: 'id:2',
+      groupId: conversation2GroupId,
+    };
+
+    await saveConversation(conversation1);
+    await saveConversation(conversation2);
+
+    function toAdhocCall(callId: string, roomId: string, timestamp: number) {
+      return {
+        callId,
+        peerId: roomId,
+        ringerId: null,
+        mode: CallMode.Adhoc,
+        type: CallType.Adhoc,
+        direction: CallDirection.Outgoing,
+        timestamp,
+        status: AdhocCallStatus.Joined,
+      };
+    }
+
+    function toConversationCall(
+      callId: string,
+      timestamp: number,
+      mode: CallMode,
+      peerId: string | ServiceIdString
+    ) {
+      return {
+        callId,
+        peerId,
+        ringerId: null,
+        mode,
+        type: CallType.Video,
+        direction: CallDirection.Incoming,
+        timestamp,
+        status: DirectCallStatus.Accepted,
+      };
+    }
+
+    const call1 = toAdhocCall('1', roomId1, now - 30);
+    const call2 = toAdhocCall('2', roomId2, now - 20);
+    const call3 = toConversationCall(
+      '3',
+      now - 10,
+      CallMode.Direct,
+      conversation1Uuid
+    );
+    const call4 = toConversationCall(
+      '4',
+      now,
+      CallMode.Group,
+      conversation2GroupId
+    );
+
+    await saveCallHistory(call1);
+    await saveCallHistory(call2);
+    await saveCallHistory(call3);
+    await saveCallHistory(call4);
+
+    {
+      const groups = await getCallHistoryGroups(
+        {
+          status: CallHistoryFilterStatus.All,
+          callLinkRoomIds: [roomId1],
+          conversationIds: null,
+        },
+        { offset: 0, limit: 0 }
+      );
+
+      assert.deepEqual(groups, [toAdhocGroup(call1)], 'just call link');
+    }
+
+    {
+      const groups = await getCallHistoryGroups(
+        {
+          status: CallHistoryFilterStatus.All,
+          callLinkRoomIds: [roomId2],
+          conversationIds: [conversation2.id],
+        },
+        { offset: 0, limit: 0 }
+      );
+
+      assert.deepEqual(
+        groups,
+        [toGroup([call4]), toAdhocGroup(call2)],
+        'call link and conversation'
+      );
+    }
   });
 });
 
@@ -383,6 +522,7 @@ describe('sql/getCallHistoryGroupsCount', () => {
 
     const result = await getCallHistoryGroupsCount({
       status: CallHistoryFilterStatus.All,
+      callLinkRoomIds: null,
       conversationIds: null,
     });
 
@@ -419,6 +559,7 @@ describe('sql/getCallHistoryGroupsCount', () => {
 
     const result = await getCallHistoryGroupsCount({
       status: CallHistoryFilterStatus.All,
+      callLinkRoomIds: null,
       conversationIds: null,
     });
 
