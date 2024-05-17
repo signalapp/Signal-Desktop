@@ -47,7 +47,7 @@ export const RegistrationStages = () => {
         <Flex container={true} alignItems="center" height={'30px'}>
           <SessionIcon iconColor="var(--primary-color)" iconSize={'huge'} iconType="brand" />
           <SpacerXS />
-          <div style={{ flexGrow: 1 }}>
+          <div style={{ flexGrow: 1, zIndex: -1 }}>
             <SessionIcon iconSize={140} iconType="session" iconColor="var(--text-primary-color)" />
           </div>
           <Flex container={true} alignItems="center">
