@@ -1,6 +1,6 @@
-import { Message } from '.';
 import { SignalService } from '../../../protobuf';
 import { TTL_DEFAULT } from '../../constants';
+import { Message } from './Message';
 
 export abstract class ContentMessage extends Message {
   public plainTextBuffer(): Uint8Array {

@@ -79,7 +79,7 @@ module.exports = {
     // make imports without file extensions
     'import/extensions': ['warn', 'never'],
 
-    // NOTE Remove this line when debugging cyclic dependencies
+    // NOTE Comment out this line when debugging cyclic dependencies
     'import/no-cycle': 'off',
 
     // Prettier overrides:
