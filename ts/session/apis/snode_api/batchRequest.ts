@@ -1,5 +1,5 @@
 import { isArray } from 'lodash';
-import { Snode } from '../../../data/data';
+import { Snode } from '../../../data/types';
 import { SnodeResponseError } from '../../utils/errors';
 import { processOnionRequestErrorAtDestination, SnodeResponse } from './onions';
 import { snodeRpc } from './sessionRpc';

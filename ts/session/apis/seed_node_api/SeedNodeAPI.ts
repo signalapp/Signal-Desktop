@@ -1,17 +1,17 @@
-import tls from 'tls';
 import https from 'https';
+import _ from 'lodash';
+import tls from 'tls';
 // eslint-disable-next-line import/no-named-default
 import { default as insecureNodeFetch } from 'node-fetch';
-import _ from 'lodash';
 import pRetry from 'p-retry';
 
-import { sha256 } from '../../crypto';
-import { Constants } from '../..';
 import { SeedNodeAPI } from '.';
-import { allowOnlyOneAtATime } from '../../utils/Promise';
-import { APPLICATION_JSON } from '../../../types/MIME';
+import { Constants } from '../..';
 import { isLinux } from '../../../OS';
-import { Snode } from '../../../data/data';
+import { Snode } from '../../../data/types';
+import { APPLICATION_JSON } from '../../../types/MIME';
+import { sha256 } from '../../crypto';
+import { allowOnlyOneAtATime } from '../../utils/Promise';
 import { GetServicesNodesFromSeedRequest } from '../snode_api/SnodeRequestTypes';
 
 /**

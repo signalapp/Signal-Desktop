@@ -14,7 +14,7 @@ import { OnionPaths } from '../../onions';
 import { incrementBadPathCountOrDrop } from '../../onions/onionPath';
 import { ed25519Str, toHex } from '../../utils/String';
 
-import { Snode } from '../../../data/data';
+import { Snode } from '../../../data/types';
 import { callUtilsWorker } from '../../../webworker/workers/browser/util_worker_interface';
 import { encodeV4Request } from '../../onions/onionv4';
 import { SnodeResponseError } from '../../utils/errors';

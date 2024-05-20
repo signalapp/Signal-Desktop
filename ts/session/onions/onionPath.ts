@@ -5,15 +5,16 @@ import pRetry from 'p-retry';
 // eslint-disable-next-line import/no-named-default
 import { default as insecureNodeFetch } from 'node-fetch';
 
-import { Data, Snode } from '../../data/data';
+import { OnionPaths } from '.';
+import { Data } from '../../data/data';
+import { Snode } from '../../data/types';
+import { updateOnionPaths } from '../../state/ducks/onion';
+import { APPLICATION_JSON } from '../../types/MIME';
+import { ERROR_CODE_NO_CONNECT } from '../apis/snode_api/SNodeAPI';
+import { Onions, snodeHttpsAgent } from '../apis/snode_api/onions';
 import * as SnodePool from '../apis/snode_api/snodePool';
 import { UserUtils } from '../utils';
-import { Onions, snodeHttpsAgent } from '../apis/snode_api/onions';
 import { allowOnlyOneAtATime } from '../utils/Promise';
-import { updateOnionPaths } from '../../state/ducks/onion';
-import { ERROR_CODE_NO_CONNECT } from '../apis/snode_api/SNodeAPI';
-import { OnionPaths } from '.';
-import { APPLICATION_JSON } from '../../types/MIME';
 import { ed25519Str } from '../utils/String';
 
 const desiredGuardCount = 3;

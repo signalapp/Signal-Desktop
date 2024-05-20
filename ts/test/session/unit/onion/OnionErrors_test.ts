@@ -1,24 +1,24 @@
-import chai from 'chai';
-import Sinon, * as sinon from 'sinon';
-import { describe } from 'mocha';
-import chaiAsPromised from 'chai-as-promised';
 import AbortController from 'abort-controller';
+import chai from 'chai';
+import chaiAsPromised from 'chai-as-promised';
+import { describe } from 'mocha';
+import Sinon, * as sinon from 'sinon';
 
-import { TestUtils } from '../../../test-utils';
 import * as SnodeAPI from '../../../../session/apis/snode_api';
+import { TestUtils } from '../../../test-utils';
 
-import { OnionPaths } from '../../../../session/onions';
+import { SNODE_POOL_ITEM_ID } from '../../../../data/settings-key';
+import { Snode } from '../../../../data/types';
+import { SeedNodeAPI } from '../../../../session/apis/seed_node_api';
+import { ServiceNodesList } from '../../../../session/apis/snode_api/getServiceNodesList';
 import {
   NEXT_NODE_NOT_FOUND_PREFIX,
   Onions,
   OXEN_SERVER_ERROR,
 } from '../../../../session/apis/snode_api/onions';
-import { Snode } from '../../../../data/data';
+import { OnionPaths } from '../../../../session/onions';
 import { pathFailureCount } from '../../../../session/onions/onionPath';
-import { SeedNodeAPI } from '../../../../session/apis/seed_node_api';
 import { generateFakeSnodeWithEdKey, stubData } from '../../../test-utils/utils';
-import { ServiceNodesList } from '../../../../session/apis/snode_api/getServiceNodesList';
-import { SNODE_POOL_ITEM_ID } from '../../../../data/settings-key';
 
 chai.use(chaiAsPromised as any);
 chai.should();

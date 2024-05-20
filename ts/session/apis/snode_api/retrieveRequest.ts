@@ -1,5 +1,5 @@
 import { isArray, omit } from 'lodash';
-import { Snode } from '../../../data/data';
+import { Snode } from '../../../data/types';
 import { updateIsOnline } from '../../../state/ducks/onion';
 import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';

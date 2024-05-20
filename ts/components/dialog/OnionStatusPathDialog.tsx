@@ -8,7 +8,6 @@ import styled from 'styled-components';
 import { isEmpty, isTypedArray } from 'lodash';
 import { CityResponse, Reader } from 'maxmind';
 import useMount from 'react-use/lib/useMount';
-import { Snode } from '../../data/data';
 import { onionPathModal } from '../../state/ducks/modalDialog';
 import {
   useFirstOnionPath,
@@ -18,6 +17,7 @@ import {
 } from '../../state/selectors/onions';
 import { Flex } from '../basic/Flex';
 
+import { Snode } from '../../data/types';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionIcon, SessionIconButton } from '../icon';
 import { SessionSpinner } from '../loading';

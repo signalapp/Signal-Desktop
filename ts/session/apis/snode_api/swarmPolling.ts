@@ -2,7 +2,8 @@
 /* eslint-disable more/no-then */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { compact, concat, flatten, isEmpty, last, sample, toNumber, uniqBy } from 'lodash';
-import { Data, Snode } from '../../../data/data';
+import { Data } from '../../../data/data';
+import { Snode } from '../../../data/types';
 import { SignalService } from '../../../protobuf';
 import * as Receiver from '../../../receiver/receiver';
 import { PubKey } from '../../types';
