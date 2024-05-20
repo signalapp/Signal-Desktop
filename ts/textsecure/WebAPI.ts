@@ -727,14 +727,22 @@ export type GetGroupLogOptionsType = Readonly<{
   includeFirstState: boolean;
   includeLastState: boolean;
   maxSupportedChangeEpoch: number;
+  cachedEndorsementsExpiration: number | null; // seconds
 }>;
 export type GroupLogResponseType = {
-  currentRevision?: number;
-  start?: number;
-  end?: number;
   changes: Proto.GroupChanges;
   groupSendEndorsementResponse: Uint8Array | null;
-};
+} & (
+  | {
+      paginated: false;
+    }
+  | {
+      paginated: true;
+      currentRevision: number;
+      start: number;
+      end: number;
+    }
+);
 
 export type ProfileRequestDataType = {
   about: string | null;
@@ -3909,6 +3917,7 @@ export function initialize({
         includeFirstState,
         includeLastState,
         maxSupportedChangeEpoch,
+        cachedEndorsementsExpiration,
       } = options;
 
       // If we don't know starting revision - fetch it from the server
@@ -3943,8 +3952,7 @@ export function initialize({
         httpType: 'GET',
         responseType: 'byteswithdetails',
         headers: {
-          // TODO(jamie): To be implmented in DESKTOP-699
-          'Cached-Send-Endorsements': '0',
+          'Cached-Send-Endorsements': String(cachedEndorsementsExpiration ?? 0),
         },
         urlParameters:
           `/${startVersion}?` +
@@ -3971,6 +3979,7 @@ export function initialize({
           isNumber(currentRevision)
         ) {
           return {
+            paginated: true,
             changes,
             start,
             end,
@@ -3981,6 +3990,7 @@ export function initialize({
       }
 
       return {
+        paginated: false,
         changes,
         groupSendEndorsementResponse,
       };

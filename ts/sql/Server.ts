@@ -174,6 +174,11 @@ import {
   updateCallLinkAdminKeyByRoomId,
   updateCallLinkState,
 } from './server/callLinks';
+import {
+  replaceAllEndorsementsForGroup,
+  deleteAllEndorsementsForGroup,
+  getGroupSendCombinedEndorsementExpiration,
+} from './server/groupEndorsements';
 import { CallMode } from '../types/Calling';
 import {
   attachmentDownloadJobSchema,
@@ -285,6 +290,10 @@ const dataInterface: ServerInterface = {
   getAllConversations,
   getAllConversationIds,
   getAllGroupsInvolvingServiceId,
+
+  replaceAllEndorsementsForGroup,
+  deleteAllEndorsementsForGroup,
+  getGroupSendCombinedEndorsementExpiration,
 
   searchMessages,
 
@@ -4530,9 +4539,9 @@ function getAttachmentDownloadJob(
     SELECT * FROM attachment_downloads
     WHERE
       messageId = ${job.messageId}
-    AND 
+    AND
       attachmentType = ${job.attachmentType}
-    AND 
+    AND
       digest = ${job.digest};
   `;
 
@@ -4570,7 +4579,7 @@ async function getNextAttachmentDownloadJobs({
         })
       AND
         messageId IN (${sqlJoin(prioritizeMessageIds)})
-      -- for priority messages, let's load them oldest first; this helps, e.g. for stories where we 
+      -- for priority messages, let's load them oldest first; this helps, e.g. for stories where we
       -- want the oldest one first
       ORDER BY receivedAt ASC
       LIMIT ${limit}
@@ -4681,11 +4690,11 @@ function removeAttachmentDownloadJobSync(
 ): void {
   const [query, params] = sql`
     DELETE FROM attachment_downloads
-    WHERE 
+    WHERE
       messageId = ${job.messageId}
     AND
-      attachmentType = ${job.attachmentType} 
-    AND 
+      attachmentType = ${job.attachmentType}
+    AND
       digest = ${job.digest};
   `;
 
@@ -6003,6 +6012,8 @@ async function removeAll(): Promise<void> {
       DELETE FROM conversations;
       DELETE FROM emojis;
       DELETE FROM groupCallRingCancellations;
+      DELETE FROM groupSendCombinedEndorsement;
+      DELETE FROM groupSendMemberEndorsement;
       DELETE FROM identityKeys;
       DELETE FROM items;
       DELETE FROM jobs;
@@ -6053,6 +6064,8 @@ async function removeAllConfiguration(): Promise<void> {
   db.transaction(() => {
     db.exec(
       `
+      DELETE FROM groupSendCombinedEndorsement;
+      DELETE FROM groupSendMemberEndorsement;
       DELETE FROM identityKeys;
       DELETE FROM jobs;
       DELETE FROM kyberPreKeys;

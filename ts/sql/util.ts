@@ -36,7 +36,12 @@ export function jsonToObject<T>(json: string): T {
   return JSON.parse(json);
 }
 
-export type QueryTemplateParam = string | number | null | undefined;
+export type QueryTemplateParam =
+  | Uint8Array
+  | string
+  | number
+  | null
+  | undefined;
 export type QueryFragmentValue = QueryFragment | QueryTemplateParam;
 
 export type QueryFragment = [
@@ -148,7 +153,7 @@ export type QueryTemplate = [string, ReadonlyArray<QueryTemplateParam>];
  */
 export function sql(
   strings: TemplateStringsArray,
-  ...values: ReadonlyArray<QueryFragment | QueryTemplateParam>
+  ...values: Array<QueryFragment | QueryTemplateParam>
 ): QueryTemplate {
   const [{ fragment }, params] = sqlFragment(strings, ...values);
   return [fragment, params];
