@@ -155,3 +155,10 @@ export const stubStorage = () => {
     },
   };
 };
+
+/** The crypto module from the browser is not accessible during tests so we use the NodeJS module instead  */
+export const stubCrypto = async () => {
+  const nodeCrypto = await import('node:crypto');
+
+  return nodeCrypto;
+};

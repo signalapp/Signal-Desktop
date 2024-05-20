@@ -55,7 +55,7 @@ function useHashBasedOnPubkey(pubkey: string) {
     }
 
     // eslint-disable-next-line more/no-then
-    void sha512FromPubkeyOneAtAtime(pubkey).then(sha => {
+    void AvatarPlaceHolderUtils.sha512FromPubkeyOneAtAtime(pubkey).then(sha => {
       if (isInProgress) {
         setIsLoading(false);
         // Generate the seed simulate the .hashCode as Java
