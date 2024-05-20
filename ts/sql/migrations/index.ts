@@ -79,10 +79,11 @@ import { updateToSchemaVersion1000 } from './1000-mark-unread-call-history-messa
 import { updateToSchemaVersion1010 } from './1010-call-links-table';
 import { updateToSchemaVersion1020 } from './1020-self-merges';
 import { updateToSchemaVersion1030 } from './1030-unblock-event';
+import { updateToSchemaVersion1040 } from './1040-undownloaded-backed-up-media';
 import {
-  updateToSchemaVersion1040,
+  updateToSchemaVersion1050,
   version as MAX_VERSION,
-} from './1040-undownloaded-backed-up-media';
+} from './1050-group-send-endorsements';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -2029,6 +2030,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion1020,
   updateToSchemaVersion1030,
   updateToSchemaVersion1040,
+  updateToSchemaVersion1050,
 ];
 
 export class DBVersionFromFutureError extends Error {

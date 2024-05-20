@@ -31,6 +31,7 @@ import type {
 } from '../types/CallDisposition';
 import type { CallLinkStateType, CallLinkType } from '../types/CallLink';
 import type { AttachmentDownloadJobType } from '../types/AttachmentDownload';
+import type { GroupSendEndorsementsData } from '../types/GroupSendEndorsements';
 
 export type AdjacentMessagesByConversationOptionsType = Readonly<{
   conversationId: string;
@@ -525,6 +526,14 @@ export type DataInterface = {
   getAllGroupsInvolvingServiceId: (
     serviceId: ServiceIdString
   ) => Promise<Array<ConversationType>>;
+
+  replaceAllEndorsementsForGroup: (
+    data: GroupSendEndorsementsData
+  ) => Promise<void>;
+  deleteAllEndorsementsForGroup: (groupId: string) => Promise<void>;
+  getGroupSendCombinedEndorsementExpiration: (
+    groupId: string
+  ) => Promise<number | null>;
 
   getMessageCount: (conversationId?: string) => Promise<number>;
   getStoryCount: (conversationId: string) => Promise<number>;
