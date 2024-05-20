@@ -3,10 +3,10 @@ import { compact, isEmpty } from 'lodash';
 
 import { StateType } from '../reducer';
 
+import { MessageResultProps } from '../../types/message';
 import { ConversationLookupType } from '../ducks/conversations';
 import { SearchStateType } from '../ducks/search';
 import { getConversationLookup } from './conversations';
-import { MessageResultProps } from '../../components/search/MessageSearchResults';
 
 export const getSearch = (state: StateType): SearchStateType => state.search;
 

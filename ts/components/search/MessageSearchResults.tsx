@@ -1,16 +1,14 @@
 import styled, { CSSProperties } from 'styled-components';
 
 import { useConversationUsername, useIsPrivate } from '../../hooks/useParamSelector';
-import { MessageAttributes } from '../../models/messageType';
 import { UserUtils } from '../../session/utils';
 import { getOurPubKeyStrFromCache } from '../../session/utils/User';
 import { openConversationToSpecificMessage } from '../../state/ducks/conversations';
+import { MessageResultProps } from '../../types/message';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { MessageBodyHighlight } from '../basic/MessageBodyHighlight';
 import { ContactName } from '../conversation/ContactName';
 import { Timestamp } from '../conversation/Timestamp';
-
-export type MessageResultProps = MessageAttributes & { snippet: string };
 
 const StyledConversationTitleResults = styled.div`
   flex-grow: 1;

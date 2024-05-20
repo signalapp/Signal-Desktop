@@ -4,10 +4,10 @@ import { Data } from '../../data/data';
 import { AdvancedSearchOptions, SearchOptions } from '../../types/Search';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 
-import { MessageResultProps } from '../../components/search/MessageSearchResults';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { PubKey } from '../../session/types';
 import { UserUtils } from '../../session/utils';
+import { MessageResultProps } from '../../types/message';
 import { ReduxConversationType } from './conversations';
 
 // State
