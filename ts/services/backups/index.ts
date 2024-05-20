@@ -24,7 +24,11 @@ import { HOUR } from '../../util/durations';
 import { CipherType, HashType } from '../../types/Crypto';
 import * as Errors from '../../types/errors';
 import { constantTimeEqual } from '../../Crypto';
-import { getIvAndDecipher, getMacAndUpdateHmac } from '../../AttachmentCrypto';
+import {
+  getIvAndDecipher,
+  getMacAndUpdateHmac,
+  measureSize,
+} from '../../AttachmentCrypto';
 import { BackupExportStream } from './export';
 import { BackupImportStream } from './import';
 import { getKeyMaterial } from './crypto';
@@ -200,16 +204,7 @@ export class BackupsService {
 
       const iv = randomBytes(IV_LENGTH);
 
-      const pass = new PassThrough();
-
       let totalBytes = 0;
-
-      // Pause the flow first so that the we respect backpressure. The
-      // `pipeline` call below will control the flow anyway.
-      pass.pause();
-      pass.on('data', chunk => {
-        totalBytes += chunk.length;
-      });
 
       await pipeline(
         recordStream,
@@ -218,7 +213,9 @@ export class BackupsService {
         createCipheriv(CipherType.AES256CBC, aesKey, iv),
         prependStream(iv),
         appendMacStream(macKey),
-        pass,
+        measureSize(size => {
+          totalBytes = size;
+        }),
         sink
       );
 

@@ -539,7 +539,7 @@ function makeHTTPError(
 
 const URL_CALLS = {
   accountExistence: 'v1/accounts/account',
-  attachmentId: 'v3/attachments/form/upload',
+  attachmentUploadForm: 'v3/attachments/form/upload',
   attestation: 'v1/attestation',
   batchIdentityCheck: 'v1/profile/identity_check/batch',
   challenge: 'v1/challenge',
@@ -604,7 +604,7 @@ const WEBSOCKET_CALLS = new Set<keyof typeof URL_CALLS>([
   'profile',
 
   // AttachmentControllerV3
-  'attachmentId',
+  'attachmentUploadForm',
 
   // RemoteConfigController
   'config',
@@ -1192,6 +1192,7 @@ export type WebAPIType = {
       timeout?: number;
     };
   }) => Promise<Readable>;
+  getAttachmentUploadForm: () => Promise<AttachmentV3ResponseType>;
   getAvatar: (path: string) => Promise<Uint8Array>;
   getHasSubscription: (subscriberId: Uint8Array) => Promise<boolean>;
   getGroup: (options: GroupCredentialsType) => Promise<Proto.IGroupResponse>;
@@ -1279,7 +1280,10 @@ export type WebAPIType = {
   postBatchIdentityCheck: (
     elements: VerifyServiceIdRequestType
   ) => Promise<VerifyServiceIdResponseType>;
-  putEncryptedAttachment: (encryptedBin: Uint8Array) => Promise<string>;
+  putEncryptedAttachment: (
+    encryptedBin: Uint8Array | Readable,
+    uploadForm: AttachmentV3ResponseType
+  ) => Promise<void>;
   putProfile: (
     jsonData: ProfileRequestDataType
   ) => Promise<UploadAvatarHeadersType | undefined>;
@@ -1669,6 +1673,7 @@ export function initialize({
       getAccountForUsername,
       getAttachment,
       getAttachmentFromBackupTier,
+      getAttachmentUploadForm,
       getAvatar,
       getBackupCredentials,
       getBackupCDNCredentials,
@@ -3472,16 +3477,21 @@ export function initialize({
       return combinedStream;
     }
 
-    async function putEncryptedAttachment(encryptedBin: Uint8Array) {
-      const response = attachmentV3Response.parse(
+    async function getAttachmentUploadForm() {
+      return attachmentV3Response.parse(
         await _ajax({
-          call: 'attachmentId',
+          call: 'attachmentUploadForm',
           httpType: 'GET',
           responseType: 'json',
         })
       );
+    }
 
-      const { signedUploadLocation, key: cdnKey, headers } = response;
+    async function putEncryptedAttachment(
+      encryptedBin: Uint8Array | Readable,
+      uploadForm: AttachmentV3ResponseType
+    ) {
+      const { signedUploadLocation, headers } = uploadForm;
 
       // This is going to the CDN, not the service, so we use _outerAjax
       const { response: uploadResponse } = await _outerAjax(
@@ -3524,8 +3534,6 @@ export function initialize({
           return `${tmp}[REDACTED]`;
         },
       });
-
-      return cdnKey;
     }
 
     function getHeaderPadding() {

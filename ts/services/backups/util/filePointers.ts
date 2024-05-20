@@ -11,10 +11,10 @@ import {
   type AttachmentType,
   isDownloadableFromTransitTier,
   isDownloadableFromBackupTier,
-  isDownloadedToLocalFile,
+  isAttachmentLocallySaved,
   type AttachmentDownloadableFromTransitTier,
   type AttachmentDownloadableFromBackupTier,
-  type DownloadedAttachment,
+  type LocallySavedAttachment,
   type AttachmentReadyForBackup,
 } from '../../../types/Attachment';
 import { Backups } from '../../../protobuf';
@@ -117,7 +117,7 @@ export function convertFilePointerToAttachment(
  * along with the new keys.
  */
 async function fixupAttachmentForBackup(
-  attachment: DownloadedAttachment
+  attachment: LocallySavedAttachment
 ): Promise<AttachmentReadyForBackup> {
   const fixedUpAttachment = { ...attachment };
   const keyToUse = attachment.key ?? Bytes.toBase64(getRandomBytes(64));
@@ -133,9 +133,11 @@ async function fixupAttachmentForBackup(
     // encrypt this file in memory in order to calculate the digest
     const { digest } = await encryptAttachmentV2({
       keys: Bytes.fromBase64(keyToUse),
-      plaintextAbsolutePath: window.Signal.Migrations.getAbsoluteAttachmentPath(
-        attachment.path
-      ),
+      plaintext: {
+        absolutePath: window.Signal.Migrations.getAbsoluteAttachmentPath(
+          attachment.path
+        ),
+      },
     });
 
     digestToUse = Bytes.toBase64(digest);
@@ -175,7 +177,7 @@ export async function convertAttachmentToFilePointer({
     blurHash: attachment.blurHash,
   });
 
-  if (!isDownloadedToLocalFile(attachment)) {
+  if (!isAttachmentLocallySaved(attachment)) {
     // 1. If the attachment is undownloaded, we cannot trust its digest / mediaName. Thus,
     // we only include a BackupLocator if this attachment already had one (e.g. we
     // restored it from a backup and it had a BackupLocator then, which means we have at
@@ -212,7 +214,7 @@ export async function convertAttachmentToFilePointer({
     });
   }
 
-  if (!isDownloadedToLocalFile(attachment)) {
+  if (!isAttachmentLocallySaved(attachment)) {
     return new Backups.FilePointer({
       ...filePointerRootProps,
       invalidAttachmentLocator: getInvalidAttachmentLocator(),
