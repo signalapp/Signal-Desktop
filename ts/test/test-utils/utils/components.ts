@@ -1,23 +1,20 @@
-import { RenderResult } from '@testing-library/react';
-import * as prettier from 'prettier';
+import { RenderResult, prettyDOM } from '@testing-library/react';
 import { enableLogRedirect } from './stubbing';
 
-const printHTMLElement = async (element: HTMLElement) => {
+const printHTMLElement = async (element: HTMLElement, name?: string) => {
   if (!window.log || !enableLogRedirect) {
     throw Error('window.log is not defined. Have you turned on enableLogRedirect?');
   }
 
-  return window.log.debug(
-    `\nRender Result:\n${await prettier.format(element.outerHTML, { parser: 'html' })}\n`
-  );
+  return window.log.debug(`\nRender Result${name ? ` (${name})` : ''}:\n${prettyDOM(element)}\n`);
 };
-const printRenderResult = async (result: RenderResult) => {
+const printRenderResult = async (result: RenderResult, name?: string) => {
   if (!window.log || !enableLogRedirect) {
     throw Error('window.log is not defined. Have you turned on enableLogRedirect?');
   }
 
   return window.log.debug(
-    `\nHTML Element:\n${await prettier.format(result.baseElement.outerHTML, { parser: 'html' })}\n`
+    `\nHTML Element${name ? ` (${name})` : ''}:\n${prettyDOM(result.baseElement)}\n`
   );
 };
 
