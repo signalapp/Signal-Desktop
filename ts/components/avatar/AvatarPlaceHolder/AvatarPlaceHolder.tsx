@@ -8,6 +8,7 @@ type Props = {
   diameter: number;
   name: string;
   pubkey: string;
+  dataTestId?: string;
 };
 
 const sha512FromPubkeyOneAtAtime = async (pubkey: string) => {
@@ -19,6 +20,9 @@ const sha512FromPubkeyOneAtAtime = async (pubkey: string) => {
       .join('');
   });
 };
+
+// for testing purposes only
+export const AvatarPlaceHolderUtils = { sha512FromPubkeyOneAtAtime };
 
 // do not do this on every avatar, just cache the values so we can reuse them across the app
 // key is the pubkey, value is the hash
@@ -74,7 +78,7 @@ function useHashBasedOnPubkey(pubkey: string) {
 }
 
 export const AvatarPlaceHolder = (props: Props) => {
-  const { pubkey, diameter, name } = props;
+  const { pubkey, diameter, name, dataTestId } = props;
 
   const { hash, loading } = useHashBasedOnPubkey(pubkey);
 
@@ -85,7 +89,7 @@ export const AvatarPlaceHolder = (props: Props) => {
 
   if (loading || !hash) {
     // return avatar placeholder circle
-    return <MemberAvatarPlaceHolder />;
+    return <MemberAvatarPlaceHolder dataTestId={dataTestId} />;
   }
 
   const initials = getInitials(name);
@@ -97,7 +101,7 @@ export const AvatarPlaceHolder = (props: Props) => {
   const bgColor = avatarPlaceholderColors[bgColorIndex];
 
   return (
-    <svg viewBox={viewBox}>
+    <svg viewBox={viewBox} data-testid={dataTestId}>
       <g id="UrTavla">
         <circle
           cx={r}
