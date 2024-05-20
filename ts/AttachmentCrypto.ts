@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { unlinkSync } from 'fs';
+import { unlinkSync, createReadStream, createWriteStream } from 'fs';
 import { open } from 'fs/promises';
 import {
   createDecipheriv,
@@ -11,7 +11,7 @@ import {
   randomBytes,
 } from 'crypto';
 import type { Decipher, Hash, Hmac } from 'crypto';
-import { PassThrough, Transform, type Writable } from 'stream';
+import { PassThrough, Transform, type Writable, Readable } from 'stream';
 import { pipeline } from 'stream/promises';
 import { ensureFile } from 'fs-extra';
 import * as log from './logging/log';
@@ -47,6 +47,7 @@ export function _generateAttachmentIv(): Uint8Array {
 export type EncryptedAttachmentV2 = {
   digest: Uint8Array;
   plaintextHash: string;
+  ciphertextSize: number;
 };
 
 export type DecryptedAttachmentV2 = {
@@ -54,9 +55,13 @@ export type DecryptedAttachmentV2 = {
   plaintextHash: string;
 };
 
+export type PlaintextSourceType =
+  | { data: Uint8Array }
+  | { absolutePath: string };
+
 type EncryptAttachmentV2PropsType = {
+  plaintext: PlaintextSourceType;
   keys: Readonly<Uint8Array>;
-  plaintextAbsolutePath: string;
   dangerousTestOnlyIv?: Readonly<Uint8Array>;
   dangerousTestOnlySkipPadding?: boolean;
 };
@@ -69,21 +74,18 @@ export async function encryptAttachmentV2ToDisk(
   const absoluteTargetPath =
     window.Signal.Migrations.getAbsoluteAttachmentPath(relativeTargetPath);
 
-  let writeFd;
+  await ensureFile(absoluteTargetPath);
+
   let encryptResult: EncryptedAttachmentV2;
 
   try {
-    await ensureFile(absoluteTargetPath);
-    writeFd = await open(absoluteTargetPath, 'w');
     encryptResult = await encryptAttachmentV2({
       ...args,
-      sink: writeFd.createWriteStream(),
+      sink: createWriteStream(absoluteTargetPath),
     });
   } catch (error) {
     safeUnlinkSync(absoluteTargetPath);
     throw error;
-  } finally {
-    await writeFd?.close();
   }
 
   return {
@@ -91,12 +93,11 @@ export async function encryptAttachmentV2ToDisk(
     path: relativeTargetPath,
   };
 }
-
 export async function encryptAttachmentV2({
   keys,
-  plaintextAbsolutePath,
+  plaintext,
   dangerousTestOnlyIv,
-  dangerousTestOnlySkipPadding = false,
+  dangerousTestOnlySkipPadding,
   sink,
 }: EncryptAttachmentV2PropsType & {
   sink?: Writable;
@@ -117,27 +118,29 @@ export async function encryptAttachmentV2({
     );
   }
   const iv = dangerousTestOnlyIv || _generateAttachmentIv();
-
   const plaintextHash = createHash(HashType.size256);
   const digest = createHash(HashType.size256);
 
-  let readFd;
+  let ciphertextSize: number | undefined;
+
   try {
-    try {
-      readFd = await open(plaintextAbsolutePath, 'r');
-    } catch (cause) {
-      throw new Error(`${logId}: Read path doesn't exist`, { cause });
-    }
+    const source =
+      'data' in plaintext
+        ? Readable.from(plaintext.data)
+        : createReadStream(plaintext.absolutePath);
 
     await pipeline(
       [
-        readFd.createReadStream(),
+        source,
         peekAndUpdateHash(plaintextHash),
         dangerousTestOnlySkipPadding ? undefined : appendPaddingStream(),
         createCipheriv(CipherType.AES256CBC, aesKey, iv),
         prependIv(iv),
         appendMacStream(macKey),
         peekAndUpdateHash(digest),
+        measureSize(size => {
+          ciphertextSize = size;
+        }),
         sink ?? new PassThrough().resume(),
       ].filter(isNotNil)
     );
@@ -147,8 +150,6 @@ export async function encryptAttachmentV2({
       Errors.toLogFormat(error)
     );
     throw error;
-  } finally {
-    await readFd?.close();
   }
 
   const ourPlaintextHash = plaintextHash.digest('hex');
@@ -164,9 +165,12 @@ export async function encryptAttachmentV2({
     `${logId}: Failed to generate ourDigest!`
   );
 
+  strictAssert(ciphertextSize != null, 'Failed to measure ciphertext size!');
+
   return {
     digest: ourDigest,
     plaintextHash: ourPlaintextHash,
+    ciphertextSize,
   };
 }
 
@@ -462,6 +466,18 @@ function trimPadding(size: number) {
       }
     },
   });
+}
+
+export function measureSize(onComplete: (size: number) => void): Transform {
+  let totalBytes = 0;
+  const passthrough = new PassThrough();
+  passthrough.on('data', chunk => {
+    totalBytes += chunk.length;
+  });
+  passthrough.on('end', () => {
+    onComplete(totalBytes);
+  });
+  return passthrough;
 }
 
 export function getAttachmentCiphertextLength(plaintextLength: number): number {

@@ -20,6 +20,13 @@ function toLogId(input: string) {
   return Buffer.from(input).toString('base64').slice(0, 3);
 }
 
+function redactedUrl(endpoint: string) {
+  const redacted = new URL(endpoint);
+  redacted.search = '';
+  redacted.pathname = '';
+  return `${redacted}[REDACTED]`;
+}
+
 /**
  * This file is a standalone implementation of the TUS protocol.
  * Signal specific logic is in uploads.ts
@@ -94,7 +101,10 @@ export async function _tusCreateWithUploadRequest({
   signal?: AbortSignal;
   fetchFn?: FetchFunctionType;
 }): Promise<boolean> {
-  const logId = `tusProtocol: CreateWithUpload(${toLogId(fileName)})`;
+  const logId = `tusProtocol: CreateWithUpload(${toLogId(
+    fileName
+  )}): POST ${redactedUrl(endpoint)}`;
+
   if (onProgress != null) {
     addProgressHandler(readable, onProgress);
   }
@@ -160,7 +170,10 @@ export async function _tusGetCurrentOffsetRequest({
   signal?: AbortSignal;
   fetchFn?: FetchFunctionType;
 }): Promise<number> {
-  const logId = `tusProtocol: GetCurrentOffsetRequest(${toLogId(fileName)})`;
+  const logId = `tusProtocol: GetCurrentOffsetRequest(${toLogId(
+    fileName
+  )}): HEAD ${redactedUrl(endpoint)}`;
+
   log.info(`${logId} init`);
 
   const response = await fetchFn(`${endpoint}/${fileName}`, {
@@ -219,7 +232,9 @@ export async function _tusResumeUploadRequest({
   signal?: AbortSignal;
   fetchFn?: FetchFunctionType;
 }): Promise<boolean> {
-  const logId = `tusProtocol: ResumeUploadRequest(${toLogId(fileName)})`;
+  const logId = `tusProtocol: ResumeUploadRequest(${toLogId(
+    fileName
+  )}): PATCH ${redactedUrl(endpoint)}`;
   if (onProgress != null) {
     addProgressHandler(readable, onProgress);
   }

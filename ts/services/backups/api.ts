@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { strictAssert } from '../../util/assert';
-import { tusUpload } from '../../util/uploads/tusProtocol';
-import { defaultFileReader } from '../../util/uploads/uploads';
 import type {
   WebAPIType,
   AttachmentV3ResponseType,
@@ -13,6 +11,7 @@ import type {
   BackupListMediaResponseType,
 } from '../../textsecure/WebAPI';
 import type { BackupCredentials } from './credentials';
+import { uploadFile } from '../../util/uploadAttachment';
 
 export class BackupAPI {
   private cachedBackupInfo: GetBackupInfoResponseType | undefined;
@@ -60,16 +59,10 @@ export class BackupAPI {
       await this.credentials.getHeadersForToday()
     );
 
-    const fetchFn = this.server.createFetchForAttachmentUpload(form);
-
-    await tusUpload({
-      endpoint: form.signedUploadLocation,
-      headers: {},
-      fileName: form.key,
-      filePath,
-      fileSize,
-      reader: defaultFileReader,
-      fetchFn,
+    await uploadFile({
+      absoluteCiphertextPath: filePath,
+      ciphertextFileSize: fileSize,
+      uploadForm: form,
     });
   }
 

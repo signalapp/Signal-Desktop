@@ -42,6 +42,7 @@ import {
   decryptAttachmentV2,
   encryptAttachmentV2ToDisk,
   getAesCbcCiphertextLength,
+  getAttachmentCiphertextLength,
   splitKeys,
 } from '../AttachmentCrypto';
 import { createTempDir, deleteTempDir } from '../updater/common';
@@ -531,6 +532,7 @@ describe('Crypto', () => {
   describe('attachments', () => {
     const FILE_PATH = join(__dirname, '../../fixtures/ghost-kitty.mp4');
     const FILE_CONTENTS = readFileSync(FILE_PATH);
+    const FILE_HASH = sha256(FILE_CONTENTS);
     let tempDir: string;
 
     function generateAttachmentKeys(): Uint8Array {
@@ -601,98 +603,108 @@ describe('Crypto', () => {
       }
     });
 
-    it('v2 roundtrips smaller file (all on disk)', async () => {
-      const keys = generateAttachmentKeys();
-      let plaintextPath;
-      let ciphertextPath;
+    describe('v2 roundtrips', () => {
+      async function testV2RoundTripData({
+        path,
+        data,
+        plaintextHash,
+      }: {
+        path?: string;
+        data: Uint8Array;
+        plaintextHash: Uint8Array;
+      }): Promise<void> {
+        let plaintextPath;
+        let ciphertextPath;
+        const keys = generateAttachmentKeys();
 
-      try {
-        const encryptedAttachment = await encryptAttachmentV2ToDisk({
-          keys,
-          plaintextAbsolutePath: FILE_PATH,
-        });
-        ciphertextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
-          encryptedAttachment.path
-        );
-        const decryptedAttachment = await decryptAttachmentV2({
-          ciphertextPath,
-          idForLogging: 'test',
-          ...splitKeys(keys),
-          size: FILE_CONTENTS.byteLength,
-          theirDigest: encryptedAttachment.digest,
-        });
-        plaintextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
-          decryptedAttachment.path
-        );
-        const plaintext = readFileSync(plaintextPath);
-        assert.isTrue(constantTimeEqual(FILE_CONTENTS, plaintext));
-        assert.strictEqual(encryptedAttachment.plaintextHash, GHOST_KITTY_HASH);
-        assert.strictEqual(
-          decryptedAttachment.plaintextHash,
-          encryptedAttachment.plaintextHash
-        );
-      } finally {
-        if (plaintextPath) {
-          unlinkSync(plaintextPath);
-        }
-        if (ciphertextPath) {
-          unlinkSync(ciphertextPath);
+        try {
+          const encryptedAttachment = await encryptAttachmentV2ToDisk({
+            keys,
+            plaintext: path ? { absolutePath: path } : { data },
+          });
+
+          ciphertextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
+            encryptedAttachment.path
+          );
+
+          const decryptedAttachment = await decryptAttachmentV2({
+            ciphertextPath,
+            idForLogging: 'test',
+            ...splitKeys(keys),
+            size: data.byteLength,
+            theirDigest: encryptedAttachment.digest,
+          });
+          plaintextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
+            decryptedAttachment.path
+          );
+
+          const plaintext = readFileSync(plaintextPath);
+          assert.isTrue(constantTimeEqual(data, plaintext));
+          assert.strictEqual(
+            encryptedAttachment.ciphertextSize,
+            getAttachmentCiphertextLength(data.byteLength)
+          );
+          assert.strictEqual(
+            encryptedAttachment.plaintextHash,
+            Bytes.toHex(plaintextHash)
+          );
+          assert.strictEqual(
+            decryptedAttachment.plaintextHash,
+            encryptedAttachment.plaintextHash
+          );
+        } finally {
+          if (plaintextPath) {
+            unlinkSync(plaintextPath);
+          }
+          if (ciphertextPath) {
+            unlinkSync(ciphertextPath);
+          }
         }
       }
-    });
 
-    it('v2 roundtrips random data (all on disk)', async () => {
-      const sourcePath = join(tempDir, 'random');
-      // Get sufficient large file to have more than 64kb of padding and
-      // trigger push back on the streams.
-      const data = getRandomBytes(5 * 1024 * 1024);
-      const digest = sha256(data);
-
-      writeFileSync(sourcePath, data);
-
-      const keys = generateAttachmentKeys();
-      let plaintextPath;
-      let ciphertextPath;
-
-      try {
-        const encryptedAttachment = await encryptAttachmentV2ToDisk({
-          keys,
-          plaintextAbsolutePath: sourcePath,
+      it('v2 roundtrips smaller file from disk', async () => {
+        await testV2RoundTripData({
+          path: FILE_PATH,
+          data: FILE_CONTENTS,
+          plaintextHash: FILE_HASH,
         });
-        ciphertextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
-          encryptedAttachment.path
-        );
-        const decryptedAttachment = await decryptAttachmentV2({
-          ciphertextPath,
-          idForLogging: 'test',
-          ...splitKeys(keys),
-          size: data.byteLength,
-          theirDigest: encryptedAttachment.digest,
+      });
+
+      it('v2 roundtrips smaller file from memory', async () => {
+        await testV2RoundTripData({
+          data: FILE_CONTENTS,
+          plaintextHash: FILE_HASH,
         });
-        plaintextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
-          decryptedAttachment.path
-        );
-        const plaintext = readFileSync(plaintextPath);
-        assert.isTrue(constantTimeEqual(data, plaintext));
-        assert.strictEqual(
-          encryptedAttachment.plaintextHash,
-          Bytes.toHex(digest)
-        );
-        assert.strictEqual(
-          decryptedAttachment.plaintextHash,
-          encryptedAttachment.plaintextHash
-        );
-      } finally {
-        if (sourcePath) {
+      });
+
+      it('v2 roundtrips large file from disk', async () => {
+        const sourcePath = join(tempDir, 'random');
+        // Get sufficient large file to have more than 64kb of padding and
+        // trigger push back on the streams.
+        const data = getRandomBytes(5 * 1024 * 1024);
+        const plaintextHash = sha256(data);
+        writeFileSync(sourcePath, data);
+        try {
+          await testV2RoundTripData({
+            path: sourcePath,
+            data,
+            plaintextHash,
+          });
+        } finally {
           unlinkSync(sourcePath);
         }
-        if (plaintextPath) {
-          unlinkSync(plaintextPath);
-        }
-        if (ciphertextPath) {
-          unlinkSync(ciphertextPath);
-        }
-      }
+      });
+
+      it('v2 roundtrips large file from memory', async () => {
+        // Get sufficient large data to have more than 64kb of padding and
+        // trigger push back on the streams.
+        const data = getRandomBytes(5 * 1024 * 1024);
+        const plaintextHash = sha256(data);
+        await testV2RoundTripData({
+          data,
+          plaintextHash,
+        });
+      });
     });
 
     it('v2 -> v1 (disk -> memory)', async () => {
@@ -702,7 +714,7 @@ describe('Crypto', () => {
       try {
         const encryptedAttachment = await encryptAttachmentV2ToDisk({
           keys,
-          plaintextAbsolutePath: FILE_PATH,
+          plaintext: { absolutePath: FILE_PATH },
         });
         ciphertextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
           encryptedAttachment.path
@@ -755,7 +767,7 @@ describe('Crypto', () => {
 
         const encryptedAttachmentV2 = await encryptAttachmentV2ToDisk({
           keys,
-          plaintextAbsolutePath: FILE_PATH,
+          plaintext: { absolutePath: FILE_PATH },
           dangerousTestOnlyIv,
         });
         ciphertextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
@@ -790,7 +802,7 @@ describe('Crypto', () => {
         try {
           innerEncryptedAttachment = await encryptAttachmentV2ToDisk({
             keys: innerKeys,
-            plaintextAbsolutePath,
+            plaintext: { absolutePath: plaintextAbsolutePath },
           });
           innerCiphertextPath =
             window.Signal.Migrations.getAbsoluteAttachmentPath(
@@ -799,7 +811,7 @@ describe('Crypto', () => {
 
           const outerEncryptedAttachment = await encryptAttachmentV2ToDisk({
             keys: outerKeys,
-            plaintextAbsolutePath: innerCiphertextPath,
+            plaintext: { absolutePath: innerCiphertextPath },
             // We (and the server!) don't pad the second layer
             dangerousTestOnlySkipPadding: true,
           });

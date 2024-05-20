@@ -1012,13 +1012,13 @@ export type AttachmentDownloadableFromBackupTier = WithRequiredProperties<
   'backupLocator'
 >;
 
-export type DownloadedAttachment = WithRequiredProperties<
+export type LocallySavedAttachment = WithRequiredProperties<
   AttachmentType,
   'path'
 >;
 
 export type AttachmentReadyForBackup = WithRequiredProperties<
-  DownloadedAttachment,
+  LocallySavedAttachment,
   RequiredPropertiesForDecryption
 >;
 
@@ -1052,8 +1052,8 @@ export function isDownloadableFromBackupTier(
   return false;
 }
 
-export function isDownloadedToLocalFile(
+export function isAttachmentLocallySaved(
   attachment: AttachmentType
-): attachment is DownloadedAttachment {
+): attachment is LocallySavedAttachment {
   return Boolean(attachment.path);
 }
