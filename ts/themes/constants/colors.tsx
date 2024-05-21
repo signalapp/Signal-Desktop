@@ -96,7 +96,6 @@ export type PrimaryColorStateType =
 
 type PrimaryColorType = { id: PrimaryColorStateType; ariaLabel: string; color: string };
 
-// NOTE: Make sure order matches COLORS.PRIMARY
 export const getPrimaryColors = (): Array<PrimaryColorType> => [
   { id: 'green', ariaLabel: window.i18n('primaryColorGreen'), color: COLORS.PRIMARY.GREEN },
   { id: 'blue', ariaLabel: window.i18n('primaryColorBlue'), color: COLORS.PRIMARY.BLUE },

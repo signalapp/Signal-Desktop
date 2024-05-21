@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { getSodiumRenderer } from '../../../session/crypto';
 import { allowOnlyOneAtATime } from '../../../session/utils/Promise';
+import { toHex } from '../../../session/utils/String';
 import { COLORS } from '../../../themes/constants/colors';
 import { getInitials } from '../../../util/getInitials';
 import { MemberAvatarPlaceHolder } from '../../icon/MemberAvatarPlaceHolder';
@@ -11,18 +13,14 @@ type Props = {
   dataTestId?: string;
 };
 
+/** NOTE we use libsodium instead of crypto.subtle.digest because node:crypto.subtle.digest does not work the same way and we need to unit test this component */
 const sha512FromPubkeyOneAtAtime = async (pubkey: string) => {
   return allowOnlyOneAtATime(`sha512FromPubkey-${pubkey}`, async () => {
-    const buf = await crypto.subtle.digest('SHA-512', new TextEncoder().encode(pubkey));
-
-    return Array.prototype.map
-      .call(new Uint8Array(buf), (x: any) => `00${x.toString(16)}`.slice(-2))
-      .join('');
+    const sodium = await getSodiumRenderer();
+    const buf = sodium.crypto_hash_sha512(pubkey);
+    return toHex(buf);
   });
 };
-
-// for testing purposes only
-export const AvatarPlaceHolderUtils = { sha512FromPubkeyOneAtAtime };
 
 // do not do this on every avatar, just cache the values so we can reuse them across the app
 // key is the pubkey, value is the hash
@@ -55,7 +53,7 @@ function useHashBasedOnPubkey(pubkey: string) {
     }
 
     // eslint-disable-next-line more/no-then
-    void AvatarPlaceHolderUtils.sha512FromPubkeyOneAtAtime(pubkey).then(sha => {
+    void sha512FromPubkeyOneAtAtime(pubkey).then(sha => {
       if (isInProgress) {
         setIsLoading(false);
         // Generate the seed simulate the .hashCode as Java
@@ -116,9 +114,9 @@ export const AvatarPlaceHolder = (props: Props) => {
           fontSize={fontSize}
           x="50%"
           y="50%"
-          fill="white"
+          fill="var(--white-color)"
           textAnchor="middle"
-          stroke="white"
+          stroke="var(--white-color)"
           strokeWidth={1}
           alignmentBaseline="central"
           height={fontSize}

@@ -6,7 +6,7 @@ const printHTMLElement = async (element: HTMLElement, name?: string) => {
     throw Error('window.log is not defined. Have you turned on enableLogRedirect?');
   }
 
-  return window.log.debug(`\nRender Result${name ? ` (${name})` : ''}:\n${prettyDOM(element)}\n`);
+  return window.log.debug(`\nHTML Element${name ? ` (${name})` : ''}:\n${prettyDOM(element)}\n`);
 };
 const printRenderResult = async (result: RenderResult, name?: string) => {
   if (!window.log || !enableLogRedirect) {
@@ -14,7 +14,7 @@ const printRenderResult = async (result: RenderResult, name?: string) => {
   }
 
   return window.log.debug(
-    `\nHTML Element${name ? ` (${name})` : ''}:\n${prettyDOM(result.baseElement)}\n`
+    `\nRender Result${name ? ` (${name})` : ''}:\n${prettyDOM(result.baseElement)}\n`
   );
 };
 
