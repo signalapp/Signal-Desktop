@@ -675,6 +675,12 @@ describe('Crypto', () => {
           data: FILE_CONTENTS,
           plaintextHash: FILE_HASH,
         });
+
+        // also works if data is raw Uint8Array rather than a buffer
+        await testV2RoundTripData({
+          data: new Uint8Array(FILE_CONTENTS),
+          plaintextHash: FILE_HASH,
+        });
       });
 
       it('v2 roundtrips large file from disk', async () => {
