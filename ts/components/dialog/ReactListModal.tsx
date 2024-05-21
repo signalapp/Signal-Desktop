@@ -51,6 +51,11 @@ const StyledSendersContainer = styled(Flex)`
   padding: 0 16px 16px;
 `;
 
+const StyledContactContainer = styled.span`
+  text-overflow: ellipsis;
+  overflow: hidden;
+`;
+
 const StyledReactionBar = styled(Flex)`
   width: 100%;
   margin: 12px 0 20px 4px;
@@ -133,7 +138,7 @@ const ReactionSenders = (props: ReactionSendersProps) => {
           justifyContent={'space-between'}
           alignItems={'center'}
         >
-          <Flex container={true} alignItems={'center'}>
+          <Flex container={true} alignItems={'center'} style={{ overflow: 'hidden' }}>
             <Avatar
               size={AvatarSize.XS}
               pubkey={sender}
@@ -144,11 +149,13 @@ const ReactionSenders = (props: ReactionSendersProps) => {
             {sender === me ? (
               window.i18n('you')
             ) : (
-              <ContactName
-                pubkey={sender}
-                module="module-conversation__user"
-                shouldShowPubkey={false}
-              />
+              <StyledContactContainer>
+                <ContactName
+                  pubkey={sender}
+                  module="module-conversation__user"
+                  shouldShowPubkey={false}
+                />
+              </StyledContactContainer>
             )}
           </Flex>
           {sender === me && (
