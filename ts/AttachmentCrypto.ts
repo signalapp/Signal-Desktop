@@ -126,7 +126,7 @@ export async function encryptAttachmentV2({
   try {
     const source =
       'data' in plaintext
-        ? Readable.from(plaintext.data)
+        ? Readable.from([Buffer.from(plaintext.data)])
         : createReadStream(plaintext.absolutePath);
 
     await pipeline(
