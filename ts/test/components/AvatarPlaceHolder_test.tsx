@@ -67,7 +67,7 @@ describe('AvatarPlaceHolder', () => {
     expect(el.innerHTML).to.equal(el2.innerHTML);
     result.unmount();
   });
-  it('should render the background color using COLORS.PRIMARY with the correct order', async () => {
+  it('should render the background color using the primary colors in the correct order', async () => {
     const testPubkeys = [
       '0541214ef26572066f0535140b1d6d021218299321c6001e2cdcaaa8cd5c9382fc', // green
       '0541214ef26572066f0535140b1d6d021218299321c6001e2cdcaaa8cd5c9382fa', // blue
@@ -123,6 +123,4 @@ describe('AvatarPlaceHolder', () => {
     await testBackgroundColor(testPubkeys[5], COLORS.PRIMARY.ORANGE);
     await testBackgroundColor(testPubkeys[6], COLORS.PRIMARY.RED);
   });
-
-  // TODO given a name it should render the correct initials
 });
