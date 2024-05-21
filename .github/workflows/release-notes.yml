@@ -7,6 +7,8 @@ on:
     types: [created]
   issues:
     types: [opened]
+  pull_request:
+    types: [opened, labeled, unlabeled, closed]
 
 jobs:
   backport:
