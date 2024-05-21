@@ -14,6 +14,7 @@ import {
 } from '../../state/ducks/modalDialog';
 import {
   useSelectedIsPublic,
+  useSelectedWeAreAdmin,
   useSelectedWeAreModerator,
 } from '../../state/selectors/selectedConversation';
 import { SortedReactionList } from '../../types/Reaction';
@@ -231,6 +232,7 @@ export const ReactListModal = (props: Props) => {
 
   const msgProps = useMessageReactsPropsById(messageId);
   const isPublic = useSelectedIsPublic();
+  const weAreAdmin = useSelectedWeAreAdmin();
   const weAreModerator = useSelectedWeAreModerator();
   const me = UserUtils.getOurPubKeyStrFromCache();
 
@@ -362,7 +364,7 @@ export const ReactListModal = (props: Props) => {
                   </>
                 )}
               </p>
-              {isPublic && weAreModerator && (
+              {isPublic && (weAreAdmin || weAreModerator) && (
                 <SessionButton
                   text={window.i18n('clearAll')}
                   buttonColor={SessionButtonColor.Danger}
