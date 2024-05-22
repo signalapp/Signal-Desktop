@@ -2,18 +2,22 @@ import styled from 'styled-components';
 
 type Props = {
   loading: boolean;
+  height?: string;
+  width?: string;
 };
 
-const StyledSessionSpinner = styled.div`
+const StyledSessionSpinner = styled.div<Props>`
   display: inline-block;
   position: relative;
-  width: 80px;
-  height: 80px;
+  min-width: 13px;
+  min-height: 13px;
+  width: ${props => (props.width ? props.width : '80px')};
+  height: ${props => (props.height ? props.height : '80px')};
   flex-shrink: 0;
 
   div {
     position: absolute;
-    top: 33px;
+    top: calc(50% - 6.5px);
     width: 13px;
     height: 13px;
     border-radius: 50%;
@@ -63,10 +67,15 @@ const StyledSessionSpinner = styled.div`
 `;
 
 export const SessionSpinner = (props: Props) => {
-  const { loading } = props;
+  const { loading, height, width } = props;
 
   return loading ? (
-    <StyledSessionSpinner data-testid="loading-spinner">
+    <StyledSessionSpinner
+      loading={loading}
+      height={height}
+      width={width}
+      data-testid="loading-spinner"
+    >
       <div />
       <div />
       <div />
