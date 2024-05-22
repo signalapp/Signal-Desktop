@@ -129,7 +129,7 @@ export const CreateAccount = () => {
         <SpacerLG />
         <SessionInput
           autoFocus={true}
-          disabledOnBlur={true}
+          disableOnBlurEvent={true}
           type="text"
           placeholder={window.i18n('enterDisplayName')}
           value={displayName}

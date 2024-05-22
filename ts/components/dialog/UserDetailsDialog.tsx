@@ -82,7 +82,7 @@ export const UserDetailsDialog = (props: UserDetailsModalState) => {
       >
         <SessionInput
           value={props.conversationId}
-          fontSize="md"
+          textSize="md"
           centerText={true}
           editable={false}
           monospaced={true}

@@ -149,7 +149,7 @@ export const OverlayClosedGroup = () => {
         onEnterPressed={onEnterPressed}
         error={groupNameError}
         maxLength={VALIDATION.MAX_GROUP_NAME_LENGTH}
-        fontSize="md"
+        textSize="md"
         centerText={true}
         monospaced={true}
         isTextArea={true}

@@ -227,7 +227,7 @@ export const RestoreAccount = () => {
                 <SpacerLG />
                 <SessionInput
                   autoFocus={true}
-                  disabledOnBlur={true}
+                  disableOnBlurEvent={true}
                   type="password"
                   placeholder={window.i18n('recoveryPasswordEnter')}
                   value={recoveryPassword}
@@ -261,7 +261,7 @@ export const RestoreAccount = () => {
                 <SpacerLG />
                 <SessionInput
                   autoFocus={true}
-                  disabledOnBlur={true}
+                  disableOnBlurEvent={true}
                   type="text"
                   placeholder={window.i18n('enterDisplayName')}
                   value={displayName}

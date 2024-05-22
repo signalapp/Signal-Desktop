@@ -13,7 +13,7 @@ type TextSizes = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 const StyledSessionInput = styled(Flex)<{
   error: boolean;
-  fontSize?: TextSizes;
+  textSize?: TextSizes;
 }>`
   position: relative;
   width: 100%;
@@ -41,18 +41,18 @@ const StyledSessionInput = styled(Flex)<{
   }
 
   ${props =>
-    props.fontSize &&
+    props.textSize &&
     `
   ${StyledInput} {
-    font-size: var(--font-size-${props.fontSize});
+    font-size: var(--font-size-${props.textSize});
   }
 
   ${StyledTextAreaContainer} {
-    font-size: var(--font-size-${props.fontSize});
+    font-size: var(--font-size-${props.textSize});
 
     textarea {
       &:placeholder-shown {
-        font-size: var(--font-size-${props.fontSize});
+        font-size: var(--font-size-${props.textSize});
       }
     }
   }
@@ -91,12 +91,12 @@ const StyledInput = styled(motion.input)<{
 const StyledTextAreaContainer = styled(motion.div)<{
   error: boolean;
   centerText?: boolean;
-  fontSize?: TextSizes;
+  textSize?: TextSizes;
   monospaced?: boolean;
 }>`
   overflow: hidden;
   position: relative;
-  height: ${props => (props.fontSize ? `calc(var(--font-size-${props.fontSize}) * 4)` : '48px')};
+  height: ${props => (props.textSize ? `calc(var(--font-size-${props.textSize}) * 4)` : '48px')};
   width: 100%;
   margin: var(--margins-sm) var(--margins-md);
 
@@ -121,7 +121,7 @@ const StyledTextAreaContainer = styled(motion.div)<{
 
     position: absolute;
     top: ${props =>
-      props.fontSize ? `calc(var(--font-size-${props.fontSize}) + 5px)` : 'calc(12px + 5px)'};
+      props.textSize ? `calc(var(--font-size-${props.textSize}) + 5px)` : 'calc(12px + 5px)'};
 
     resize: none;
     overflow-wrap: break-word;
@@ -210,14 +210,13 @@ type Props = {
   onValueChanged?: (value: string) => any;
   onEnterPressed?: (value: string) => any;
   autoFocus?: boolean;
-  // TODO rename disableOnBlurEvent
-  disabledOnBlur?: boolean;
+  disableOnBlurEvent?: boolean;
   inputRef?: any;
   inputDataTestId?: string;
   id?: string;
   ctaButton?: ReactNode;
   monospaced?: boolean;
-  fontSize?: TextSizes;
+  textSize?: TextSizes;
   centerText?: boolean;
   editable?: boolean;
   isTextArea?: boolean;
@@ -237,13 +236,13 @@ export const SessionInput = (props: Props) => {
     onValueChanged,
     onEnterPressed,
     autoFocus,
-    disabledOnBlur,
+    disableOnBlurEvent,
     inputRef,
     inputDataTestId,
     id = 'session-input-floating-label',
     ctaButton,
     monospaced,
-    fontSize,
+    textSize,
     centerText,
     editable = true,
     isTextArea,
@@ -287,7 +286,7 @@ export const SessionInput = (props: Props) => {
     style: { paddingInlineEnd: enableShowHide ? '48px' : undefined },
     // just in case onChange isn't triggered
     onBlur: (event: ChangeEvent<HTMLInputElement>) => {
-      if (editable && !disabledOnBlur) {
+      if (editable && !disableOnBlurEvent) {
         updateInputValue(event);
       }
     },
@@ -309,7 +308,7 @@ export const SessionInput = (props: Props) => {
   const containerProps = {
     error: Boolean(error),
     centerText,
-    fontSize,
+    textSize,
     monospaced,
   };
 
@@ -328,7 +327,7 @@ export const SessionInput = (props: Props) => {
       justifyContent="center"
       alignItems="center"
       error={Boolean(errorString)}
-      fontSize={fontSize}
+      textSize={textSize}
     >
       <StyledBorder
         container={true}
