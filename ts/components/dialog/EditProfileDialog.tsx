@@ -1,16 +1,16 @@
-import { ChangeEvent, useState } from 'react';
+import { isEmpty } from 'lodash';
+import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useKey } from 'react-use';
 import styled from 'styled-components';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 
-import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
+import { SyncUtils, UserUtils } from '../../session/utils';
 import { YourSessionIDPill, YourSessionIDSelectable } from '../basic/YourSessionIDPill';
 
 import { useOurAvatarPath, useOurConversationUsername } from '../../hooks/useParamSelector';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
-import { MAX_NAME_LENGTH_BYTES } from '../../session/constants';
 import { getConversationController } from '../../session/conversations';
-import { sanitizeSessionUsername } from '../../session/utils/String';
 import { editProfileModal, updateEditProfilePictureModel } from '../../state/ducks/modalDialog';
 import { getTheme } from '../../state/selectors/theme';
 import { getThemeValue } from '../../themes/globals';
@@ -19,14 +19,19 @@ import { SessionQRCode } from '../SessionQRCode';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { Flex } from '../basic/Flex';
 import { SessionButton } from '../basic/SessionButton';
-import { Spacer2XL, Spacer3XL, SpacerLG, SpacerSM, SpacerXL, SpacerXS } from '../basic/Text';
+import { Spacer2XL, Spacer3XL, SpacerLG, SpacerSM, SpacerXL } from '../basic/Text';
+import { CopyToClipboardButton } from '../buttons/CopyToClipboardButton';
 import { SessionIconButton } from '../icon';
+import { SessionInput } from '../inputs';
 import { SessionSpinner } from '../loading';
+import { sanitizeDisplayNameOrToast } from '../registration/utils';
 
 const StyledEditProfileDialog = styled.div`
   .session-modal {
     width: 468px;
     .session-modal__body {
+      width: calc(100% - 80px);
+      margin: 0 auto;
       overflow: initial;
     }
   }
@@ -57,25 +62,27 @@ const StyledEditProfileDialog = styled.div`
       }
     }
   }
+
+  input {
+    border: none;
+  }
 `;
 
+// We center the name in the modal by offsetting the pencil icon
+// we have a transparent border to match the dimensions of the SessionInput
 const StyledProfileName = styled(Flex)`
-  input {
-    height: 38px;
-    border-radius: 5px;
-    text-align: center;
-    font-size: var(--font-size-md);
+  margin-inline-start: calc((25px + var(--margins-sm)) * -1);
+  padding: 8px;
+  border: 1px solid var(--transparent-color);
+  p {
+    font-size: var(--font-size-xl);
+    line-height: 1.4;
+    margin: 0;
+    padding: 0px;
   }
 
-  &.uneditable {
-    p {
-      margin: 0;
-      padding: 0px var(--margins-lg) 0 var(--margins-sm);
-    }
-
-    .session-icon-button {
-      padding: 0px;
-    }
+  .session-icon-button {
+    padding: 0px;
   }
 `;
 
@@ -104,6 +111,7 @@ const QRView = ({ sessionID }: { sessionID: string }) => {
       logoHeight={40}
       logoIsSVG={true}
       theme={theme}
+      style={{ marginTop: '-1px' }}
     />
   );
 };
@@ -143,11 +151,11 @@ export const ProfileAvatar = (props: ProfileAvatarProps) => {
 
 type ProfileHeaderProps = ProfileAvatarProps & {
   onClick: () => void;
-  setMode: (mode: ProfileDialogModes) => void;
+  onQRClick: () => void;
 };
 
 const ProfileHeader = (props: ProfileHeaderProps) => {
-  const { avatarPath, profileName, ourId, onClick, setMode } = props;
+  const { avatarPath, profileName, ourId, onClick, onQRClick } = props;
 
   return (
     <div className="avatar-center">
@@ -159,13 +167,7 @@ const ProfileHeader = (props: ProfileHeaderProps) => {
           onClick={onClick}
           data-testid="image-upload-section"
         />
-        <div
-          className="qr-view-button"
-          onClick={() => {
-            setMode('qr');
-          }}
-          role="button"
-        >
+        <div className="qr-view-button" onClick={onQRClick} role="button">
           <SessionIconButton iconType="qr" iconSize={26} iconColor="var(--black-color)" />
         </div>
       </div>
@@ -181,14 +183,21 @@ export const EditProfileDialog = () => {
   const _profileName = useOurConversationUsername() || '';
   const [profileName, setProfileName] = useState(_profileName);
   const [updatedProfileName, setUpdateProfileName] = useState(profileName);
+  const [profileNameError, setProfileNameError] = useState<string | undefined>(undefined);
+
+  const copyButtonRef = useRef<HTMLButtonElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const avatarPath = useOurAvatarPath() || '';
   const ourId = UserUtils.getOurPubKeyStrFromCache();
 
   const [mode, setMode] = useState<ProfileDialogModes>('default');
   const [loading, setLoading] = useState(false);
 
-  const closeDialog = () => {
-    window.removeEventListener('keyup', handleOnKeyUp);
+  const closeDialog = (event?: any) => {
+    if (event?.key || loading) {
+      return;
+    }
     window.inboxStore?.dispatch(editProfileModal(null));
   };
 
@@ -199,6 +208,9 @@ export const EditProfileDialog = () => {
             iconType: 'chevron',
             iconRotation: 90,
             onClick: () => {
+              if (loading) {
+                return;
+              }
               setMode('default');
             },
           },
@@ -206,48 +218,21 @@ export const EditProfileDialog = () => {
       : undefined;
 
   const onClickOK = async () => {
-    /**
-     * Tidy the profile name input text and save the new profile name and avatar
-     */
-    try {
-      const newName = profileName ? profileName.trim() : '';
-
-      if (newName.length === 0 || newName.length > MAX_NAME_LENGTH_BYTES) {
-        return;
-      }
-
-      // this throw if the length in bytes is too long
-      const sanitizedName = sanitizeSessionUsername(newName);
-      const trimName = sanitizedName.trim();
-
-      setUpdateProfileName(trimName);
-      setLoading(true);
-
-      await updateDisplayName(newName);
-      setMode('default');
-      setUpdateProfileName(profileName);
-      setLoading(false);
-    } catch (e) {
-      ToastUtils.pushToastError('nameTooLong', window.i18n('displayNameTooLong'));
+    if (isEmpty(profileName) || !isEmpty(profileNameError)) {
+      return;
     }
-  };
 
-  const handleOnKeyUp = (event: any) => {
-    switch (event.key) {
-      case 'Enter':
-        if (mode === 'edit') {
-          void onClickOK();
-        }
-        break;
-      case 'Esc':
-      case 'Escape':
-        closeDialog();
-        break;
-      default:
-    }
+    setLoading(true);
+    await updateDisplayName(profileName);
+    setUpdateProfileName(profileName);
+    setMode('default');
+    setLoading(false);
   };
 
   const handleProfileHeaderClick = () => {
+    if (loading) {
+      return;
+    }
     closeDialog();
     dispatch(
       updateEditProfilePictureModel({
@@ -258,124 +243,210 @@ export const EditProfileDialog = () => {
     );
   };
 
-  const onNameEdited = (event: ChangeEvent<HTMLInputElement>) => {
-    const displayName = event.target.value;
-    try {
-      const newName = sanitizeSessionUsername(displayName);
-      setProfileName(newName);
-    } catch (e) {
-      setProfileName(displayName);
-      ToastUtils.pushToastError('nameTooLong', window.i18n('displayNameTooLong'));
+  useKey(
+    (event: KeyboardEvent) => {
+      return event.key === 'c';
+    },
+    () => {
+      if (loading) {
+        return;
+      }
+      switch (mode) {
+        case 'default':
+        case 'qr':
+          if (copyButtonRef.current !== null) {
+            copyButtonRef.current.click();
+          }
+          break;
+        case 'edit':
+        default:
+      }
     }
-  };
+  );
+
+  useKey(
+    (event: KeyboardEvent) => {
+      return event.key === 'v';
+    },
+    () => {
+      if (loading) {
+        return;
+      }
+      switch (mode) {
+        case 'default':
+          setMode('qr');
+          break;
+        case 'qr':
+          setMode('default');
+          break;
+        case 'edit':
+        default:
+      }
+    }
+  );
+
+  useKey(
+    (event: KeyboardEvent) => {
+      return event.key === 'Enter';
+    },
+    () => {
+      if (loading) {
+        return;
+      }
+      switch (mode) {
+        case 'default':
+          setMode('edit');
+          break;
+        case 'edit':
+          void onClickOK();
+          break;
+        case 'qr':
+        default:
+      }
+    }
+  );
+
+  useKey(
+    (event: KeyboardEvent) => {
+      return event.key === 'Backspace';
+    },
+    () => {
+      if (loading) {
+        return;
+      }
+      switch (mode) {
+        case 'edit':
+        case 'qr':
+          if (inputRef.current !== null && document.activeElement === inputRef.current) {
+            return;
+          }
+          setMode('default');
+          if (mode === 'edit') {
+            setProfileNameError(undefined);
+            setProfileName(updatedProfileName);
+          }
+          break;
+        case 'default':
+        default:
+      }
+    }
+  );
+
+  useKey(
+    (event: KeyboardEvent) => {
+      return event.key === 'Esc' || event.key === 'Escape';
+    },
+    () => {
+      if (loading) {
+        return;
+      }
+      if (mode === 'edit') {
+        setMode('default');
+        setProfileNameError(undefined);
+        setProfileName(updatedProfileName);
+      } else {
+        window.inboxStore?.dispatch(editProfileModal(null));
+      }
+    }
+  );
 
   return (
-    /* The <div> element has a child <input> element that allows keyboard interaction
-    We use edit-profile-default class to prevent the qr icon on the avatar from clipping
-    */
-    <StyledEditProfileDialog
-      className="edit-profile-dialog"
-      data-testid="edit-profile-dialog"
-      onKeyUp={handleOnKeyUp}
-    >
+    <StyledEditProfileDialog className="edit-profile-dialog" data-testid="edit-profile-dialog">
       <SessionWrapperModal
         title={window.i18n('editProfileModalTitle')}
-        onClose={closeDialog}
         headerIconButtons={backButton}
         headerReverse={true}
         showExitIcon={true}
+        onClose={closeDialog}
         additionalClassName={mode === 'default' ? 'edit-profile-default' : undefined}
       >
-        {mode === 'qr' && (
+        {mode === 'qr' ? (
+          <QRView sessionID={ourId} />
+        ) : (
           <>
-            <QRView sessionID={ourId} />
-            <SpacerXS />
-          </>
-        )}
-        {mode === 'default' && (
-          <>
-            <SpacerSM />
-            <ProfileHeader
-              avatarPath={avatarPath}
-              profileName={profileName}
-              ourId={ourId}
-              onClick={handleProfileHeaderClick}
-              setMode={setMode}
-            />
             <SpacerXL />
-            <StyledProfileName
-              container={true}
-              justifyContent="center"
-              alignItems="center"
-              className="uneditable"
-            >
-              <SessionIconButton
-                iconType="pencil"
-                iconSize="large"
-                onClick={() => {
-                  setMode('edit');
-                }}
-                dataTestId="edit-profile-icon"
-              />
-              <p data-testid="your-profile-name">{updatedProfileName || profileName}</p>
-            </StyledProfileName>
-            <Spacer3XL />
-          </>
-        )}
-        {mode === 'edit' && (
-          <>
             <ProfileHeader
               avatarPath={avatarPath}
               profileName={profileName}
               ourId={ourId}
               onClick={handleProfileHeaderClick}
-              setMode={setMode}
+              onQRClick={() => {
+                if (loading) {
+                  return;
+                }
+                setMode('qr');
+              }}
             />
-            <StyledProfileName container={true} justifyContent="center" alignItems="center">
-              {/* TODO swap with new session input */}
-              <input
-                type="text"
-                value={profileName}
-                placeholder={window.i18n('displayName')}
-                onChange={onNameEdited}
-                maxLength={MAX_NAME_LENGTH_BYTES}
-                tabIndex={0}
-                required={true}
-                aria-required={true}
-                data-testid="profile-name-input"
-              />
-            </StyledProfileName>
           </>
         )}
+
+        <SpacerLG />
+
+        {mode === 'default' && (
+          <StyledProfileName container={true} justifyContent="center" alignItems="center">
+            <SessionIconButton
+              iconType="pencil"
+              iconSize="large"
+              onClick={() => {
+                if (loading) {
+                  return;
+                }
+                setMode('edit');
+              }}
+              dataTestId="edit-profile-icon"
+            />
+            <SpacerSM />
+            <p data-testid="your-profile-name">{updatedProfileName || profileName}</p>
+          </StyledProfileName>
+        )}
+
+        {mode === 'edit' && (
+          <SessionInput
+            autoFocus={true}
+            disableOnBlurEvent={true}
+            type="text"
+            placeholder={window.i18n('enterDisplayName')}
+            value={profileName}
+            onValueChanged={(name: string) => {
+              const sanitizedName = sanitizeDisplayNameOrToast(name, setProfileNameError);
+              setProfileName(sanitizedName);
+            }}
+            editable={!loading}
+            tabIndex={0}
+            required={true}
+            error={profileNameError}
+            textSize={'xl'}
+            centerText={true}
+            inputRef={inputRef}
+            inputDataTestId="profile-name-input"
+          />
+        )}
+
+        {mode !== 'qr' ? <Spacer3XL /> : <SpacerSM />}
 
         <StyledSessionIdSection
           container={true}
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
-          width="calc(100% - 80px)"
+          width={'100%'}
         >
-          <SpacerLG />
           <YourSessionIDPill />
           <SpacerLG />
           <YourSessionIDSelectable />
-
-          <SessionSpinner loading={loading} />
-          <Spacer2XL />
-
+          <SessionSpinner loading={loading} height={'74px'} />
+          {!loading ? <Spacer2XL /> : null}
           {mode === 'default' || mode === 'qr' ? (
             <Flex
               container={true}
               justifyContent={mode === 'default' ? 'space-between' : 'center'}
               alignItems="center"
+              flexGap="var(--margins-lg)"
               width={'100%'}
             >
-              <SessionButton
-                text={window.i18n('editMenuCopy')}
-                onClick={() => {
-                  window.clipboard.writeText(ourId);
-                  ToastUtils.pushCopiedToClipBoard();
-                }}
+              <CopyToClipboardButton
+                copyContent={ourId}
+                reference={copyButtonRef}
                 dataTestId="copy-button-profile-update"
               />
               {mode === 'default' ? (
@@ -398,7 +469,8 @@ export const EditProfileDialog = () => {
               />
             )
           )}
-          <SpacerSM />
+
+          {!loading ? <SpacerSM /> : null}
         </StyledSessionIdSection>
       </SessionWrapperModal>
     </StyledEditProfileDialog>
