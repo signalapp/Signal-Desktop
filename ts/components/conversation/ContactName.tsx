@@ -13,12 +13,11 @@ type Props = {
   profileName?: string | null;
   module?: string;
   boldProfileName?: boolean;
-  compact?: boolean;
   shouldShowPubkey: boolean;
 };
 
 export const ContactName = (props: Props) => {
-  const { pubkey, name, profileName, module, boldProfileName, compact, shouldShowPubkey } = props;
+  const { pubkey, name, profileName, module, boldProfileName, shouldShowPubkey } = props;
   const prefix = module || 'module-contact-name';
 
   const convoName = useNicknameOrProfileNameOrShortenedPubkey(pubkey);
@@ -43,7 +42,7 @@ export const ContactName = (props: Props) => {
 
   return (
     <span
-      className={classNames(prefix, compact && 'compact')}
+      className={classNames(prefix)}
       dir="auto"
       data-testid={`${prefix}__profile-name`}
       style={{
