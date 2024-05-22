@@ -145,6 +145,7 @@ type MessageType =
   | 'group-v2-change'
   | 'group'
   | 'incoming'
+  | 'joined-signal-notification'
   | 'keychange'
   | 'outgoing'
   | 'phone-number-discovery'

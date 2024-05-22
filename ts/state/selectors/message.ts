@@ -26,6 +26,7 @@ import type { PropsData as TimelineMessagePropsData } from '../../components/con
 import { TextDirection } from '../../components/conversation/Message';
 import type { PropsData as TimerNotificationProps } from '../../components/conversation/TimerNotification';
 import type { PropsData as ChangeNumberNotificationProps } from '../../components/conversation/ChangeNumberNotification';
+import type { PropsData as JoinedSignalNotificationProps } from '../../components/conversation/JoinedSignalNotification';
 import type { PropsData as SafetyNumberNotificationProps } from '../../components/conversation/SafetyNumberNotification';
 import type { PropsData as VerificationNotificationProps } from '../../components/conversation/VerificationNotification';
 import type { PropsData as TitleTransitionNotificationProps } from '../../components/conversation/TitleTransitionNotification';
@@ -925,6 +926,13 @@ export function getPropsForBubble(
       timestamp,
     };
   }
+  if (isJoinedSignalNotification(message)) {
+    return {
+      type: 'joinedSignalNotification',
+      data: getPropsForJoinedSignalNotification(message),
+      timestamp,
+    };
+  }
   if (isTitleTransitionNotification(message)) {
     return {
       type: 'titleTransitionNotification',
@@ -1006,7 +1014,10 @@ export function isNormalBubble(message: MessageWithUIFieldsType): boolean {
     !isProfileChange(message) &&
     !isUniversalTimerNotification(message) &&
     !isUnsupportedMessage(message) &&
-    !isVerifiedChange(message)
+    !isVerifiedChange(message) &&
+    !isChangeNumberNotification(message) &&
+    !isJoinedSignalNotification(message) &&
+    !isDeliveryIssue(message)
   );
 }
 
@@ -1556,6 +1567,22 @@ function getPropsForChangeNumberNotification(
 ): ChangeNumberNotificationProps {
   return {
     sender: conversationSelector(message.sourceServiceId),
+    timestamp: message.sent_at,
+  };
+}
+
+// Joined Signal Notification
+
+export function isJoinedSignalNotification(
+  message: MessageWithUIFieldsType
+): boolean {
+  return message.type === 'joined-signal-notification';
+}
+
+function getPropsForJoinedSignalNotification(
+  message: MessageWithUIFieldsType
+): JoinedSignalNotificationProps {
+  return {
     timestamp: message.sent_at,
   };
 }

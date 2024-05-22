@@ -1,20 +1,12 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import path from 'path';
-import { tmpdir } from 'os';
-import { createReadStream } from 'fs';
-import { mkdtemp, rm } from 'fs/promises';
-
 import { v4 as generateGuid } from 'uuid';
-import { assert } from 'chai';
-import { pick, sortBy } from 'lodash';
 
 import Data from '../../sql/Client';
-import { backupsService } from '../../services/backups';
-import { generateAci, generatePni } from '../../types/ServiceId';
 import { SignalService as Proto } from '../../protobuf';
 
+import { generateAci, generatePni } from '../../types/ServiceId';
 import type { MessageAttributesType } from '../../model-types';
 import type { GroupV2ChangeType } from '../../groups';
 import { getRandomBytes } from '../../Crypto';
@@ -22,6 +14,13 @@ import * as Bytes from '../../Bytes';
 import { loadCallsHistory } from '../../services/callHistoryLoader';
 import { strictAssert } from '../../util/assert';
 import { DurationInSeconds } from '../../util/durations';
+import {
+  OUR_ACI,
+  OUR_PNI,
+  setupBasics,
+  asymmetricRoundtripHarness,
+  symmetricRoundtripHarness,
+} from './helpers';
 
 // Note: this should be kept up to date with GroupV2Change.stories.tsx, to
 //   maintain the comprehensive set of GroupV2 notifications we need to handle
@@ -30,8 +29,6 @@ const AccessControlEnum = Proto.AccessControl.AccessRequired;
 const RoleEnum = Proto.Member.Role;
 const EXPIRATION_TIMER_FLAG = Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
 
-const OUR_ACI = generateAci();
-const OUR_PNI = generatePni();
 const CONTACT_A = generateAci();
 const CONTACT_A_PNI = generatePni();
 const CONTACT_B = generateAci();
@@ -40,82 +37,6 @@ const ADMIN_A = generateAci();
 const INVITEE_A = generateAci();
 
 const GROUP_ID = Bytes.toBase64(getRandomBytes(32));
-const MASTER_KEY = Bytes.toBase64(getRandomBytes(32));
-const PROFILEKEY = getRandomBytes(32);
-
-// We need to eliminate fields that won't stay stable through import/export
-function sortAndNormalize(
-  messages: Array<MessageAttributesType>
-): Array<Partial<MessageAttributesType>> {
-  return sortBy(messages, 'sent_at').map(message =>
-    pick(
-      message,
-      'droppedGV2MemberIds',
-      'expirationTimerUpdate',
-      'groupMigration',
-      'groupV2Change',
-      'invitedGV2Members',
-      'sent_at',
-      'timestamp',
-      'type'
-    )
-  );
-}
-
-async function symmetricRoundtripHarness(
-  messages: Array<MessageAttributesType>
-) {
-  return asymmetricRoundtripHarness(messages, messages);
-}
-
-async function asymmetricRoundtripHarness(
-  before: Array<MessageAttributesType>,
-  after: Array<MessageAttributesType>
-) {
-  const outDir = await mkdtemp(path.join(tmpdir(), 'signal-temp-'));
-  try {
-    const targetOutputFile = path.join(outDir, 'backup.bin');
-
-    await Data.saveMessages(before, { forceSave: true, ourAci: OUR_ACI });
-
-    await backupsService.exportToDisk(targetOutputFile);
-
-    await clearData();
-
-    await backupsService.importBackup(() => createReadStream(targetOutputFile));
-
-    const messagesFromDatabase = await Data._getAllMessages();
-
-    const expected = sortAndNormalize(after);
-    const actual = sortAndNormalize(messagesFromDatabase);
-    assert.deepEqual(expected, actual);
-  } finally {
-    await rm(outDir, { recursive: true });
-  }
-}
-
-async function clearData() {
-  await Data._removeAllMessages();
-  await Data._removeAllConversations();
-  await Data.removeAllItems();
-  window.storage.reset();
-  window.ConversationController.reset();
-
-  await setupBasics();
-}
-
-async function setupBasics() {
-  await window.storage.put('uuid_id', `${OUR_ACI}.2`);
-  await window.storage.put('pni', OUR_PNI);
-  await window.storage.put('masterKey', MASTER_KEY);
-  await window.storage.put('profileKey', PROFILEKEY);
-
-  await window.ConversationController.getOrCreateAndWait(OUR_ACI, 'private', {
-    pni: OUR_PNI,
-    systemGivenName: 'ME',
-    profileKey: Bytes.toBase64(PROFILEKEY),
-  });
-}
 
 let counter = 0;
 
@@ -182,11 +103,6 @@ describe('backup/groupv2/notifications', () => {
     });
 
     await loadCallsHistory();
-    window.Events = {
-      ...window.Events,
-      getTypingIndicatorSetting: () => false,
-      getLinkPreviewSetting: () => false,
-    };
   });
 
   describe('roundtrips given groupv2 notifications with', () => {

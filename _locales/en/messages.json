@@ -1378,6 +1378,10 @@
     "messageformat": "{sender} changed their phone number",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
   },
+  "icu:JoinedSignal--notification": {
+    "messageformat": "Contact joined Signal",
+    "description": "Shown in timeline when a contact joins Signal"
+  },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} and {conversationTitle} are the same account. Your message history for both chats are here.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"

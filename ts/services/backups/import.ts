@@ -15,9 +15,19 @@ import type { ServiceIdString } from '../../types/ServiceId';
 import { fromAciObject, fromPniObject } from '../../types/ServiceId';
 import { isStoryDistributionId } from '../../types/StoryDistributionId';
 import * as Errors from '../../types/errors';
+import { PaymentEventKind } from '../../types/Payment';
+import {
+  ContactFormType,
+  AddressType as ContactAddressType,
+} from '../../types/EmbeddedContact';
+import {
+  STICKERPACK_ID_BYTE_LEN,
+  STICKERPACK_KEY_BYTE_LEN,
+} from '../../types/Stickers';
 import type {
   ConversationAttributesType,
   MessageAttributesType,
+  MessageReactionType,
 } from '../../model-types.d';
 import { assertDev, strictAssert } from '../../util/assert';
 import { getTimestampFromLong } from '../../util/timestampLongUtils';
@@ -46,6 +56,7 @@ import type { GroupV2ChangeDetailType } from '../../groups';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { drop } from '../../util/drop';
 import { isNotNil } from '../../util/isNotNil';
+import { isGroup } from '../../util/whatTypeOfConversation';
 import { convertFilePointerToAttachment } from './util/filePointers';
 
 const MAX_CONCURRENCY = 10;
@@ -78,6 +89,70 @@ async function processConversationOpBatch(
 
   await Data.saveConversations(saves);
   await Data.updateConversations(updates);
+}
+
+function phoneToContactFormType(
+  type: Backups.ContactAttachment.Phone.Type | null | undefined
+): ContactFormType {
+  const { Type } = Backups.ContactAttachment.Phone;
+  switch (type) {
+    case Type.HOME:
+      return ContactFormType.HOME;
+    case Type.MOBILE:
+      return ContactFormType.MOBILE;
+    case Type.WORK:
+      return ContactFormType.WORK;
+    case Type.CUSTOM:
+      return ContactFormType.CUSTOM;
+    case undefined:
+    case null:
+    case Type.UNKNOWN:
+      return ContactFormType.HOME;
+    default:
+      throw missingCaseError(type);
+  }
+}
+
+function emailToContactFormType(
+  type: Backups.ContactAttachment.Email.Type | null | undefined
+): ContactFormType {
+  const { Type } = Backups.ContactAttachment.Email;
+  switch (type) {
+    case Type.HOME:
+      return ContactFormType.HOME;
+    case Type.MOBILE:
+      return ContactFormType.MOBILE;
+    case Type.WORK:
+      return ContactFormType.WORK;
+    case Type.CUSTOM:
+      return ContactFormType.CUSTOM;
+    case undefined:
+    case null:
+    case Type.UNKNOWN:
+      return ContactFormType.HOME;
+    default:
+      throw missingCaseError(type);
+  }
+}
+
+function addressToContactAddressType(
+  type: Backups.ContactAttachment.PostalAddress.Type | null | undefined
+): ContactAddressType {
+  const { Type } = Backups.ContactAttachment.PostalAddress;
+  switch (type) {
+    case Type.HOME:
+      return ContactAddressType.HOME;
+    case Type.WORK:
+      return ContactAddressType.WORK;
+    case Type.CUSTOM:
+      return ContactAddressType.CUSTOM;
+    case undefined:
+    case null:
+    case Type.UNKNOWN:
+      return ContactAddressType.HOME;
+    default:
+      throw missingCaseError(type);
+  }
 }
 
 export class BackupImportStream extends Writable {
@@ -740,6 +815,7 @@ export class BackupImportStream extends Writable {
 
     if (item.standardMessage) {
       // TODO (DESKTOP-6964): add revisions to editHistory
+      //   gift badge
 
       attributes = {
         ...attributes,
@@ -804,35 +880,41 @@ export class BackupImportStream extends Writable {
           return convertFilePointerToAttachment(attachment.pointer);
         })
         .filter(isNotNil),
-      reactions: data.reactions?.map(
-        ({ emoji, authorId, sentTimestamp, receivedTimestamp }) => {
-          strictAssert(emoji != null, 'reaction must have an emoji');
-          strictAssert(authorId != null, 'reaction must have authorId');
-          strictAssert(
-            sentTimestamp != null,
-            'reaction must have a sentTimestamp'
-          );
-          strictAssert(
-            receivedTimestamp != null,
-            'reaction must have a receivedTimestamp'
-          );
-
-          const authorConvo = this.recipientIdToConvo.get(authorId.toNumber());
-          strictAssert(
-            authorConvo !== undefined,
-            'author conversation not found'
-          );
-
-          return {
-            emoji,
-            fromId: authorConvo.id,
-            targetTimestamp: getTimestampFromLong(sentTimestamp),
-            receivedAtDate: getTimestampFromLong(receivedTimestamp),
-            timestamp: getTimestampFromLong(sentTimestamp),
-          };
-        }
-      ),
+      reactions: this.fromReactions(data.reactions),
     };
+  }
+
+  private fromReactions(
+    reactions: ReadonlyArray<Backups.IReaction> | null | undefined
+  ): Array<MessageReactionType> | undefined {
+    return reactions?.map(
+      ({ emoji, authorId, sentTimestamp, receivedTimestamp }) => {
+        strictAssert(emoji != null, 'reaction must have an emoji');
+        strictAssert(authorId != null, 'reaction must have authorId');
+        strictAssert(
+          sentTimestamp != null,
+          'reaction must have a sentTimestamp'
+        );
+        strictAssert(
+          receivedTimestamp != null,
+          'reaction must have a receivedTimestamp'
+        );
+
+        const authorConvo = this.recipientIdToConvo.get(authorId.toNumber());
+        strictAssert(
+          authorConvo !== undefined,
+          'author conversation not found'
+        );
+
+        return {
+          emoji,
+          fromId: authorConvo.id,
+          targetTimestamp: getTimestampFromLong(sentTimestamp),
+          receivedAtDate: getTimestampFromLong(receivedTimestamp),
+          timestamp: getTimestampFromLong(sentTimestamp),
+        };
+      }
+    );
   }
 
   private async fromNonBubbleChatItem(
@@ -851,23 +933,162 @@ export class BackupImportStream extends Writable {
       throw new Error(`${logId}: Got chat item with standardMessage set!`);
     }
     if (chatItem.contactMessage) {
-      // TODO (DESKTOP-6964)
-    } else if (chatItem.remoteDeletedMessage) {
+      return {
+        message: {
+          contact: (chatItem.contactMessage.contact ?? []).map(details => {
+            const {
+              name,
+              number,
+              email,
+              address,
+              // TODO (DESKTOP-6845): properly handle avatarUrlPath
+              organization,
+            } = details;
+
+            return {
+              name: name
+                ? {
+                    givenName: dropNull(name.givenName),
+                    familyName: dropNull(name.familyName),
+                    prefix: dropNull(name.prefix),
+                    suffix: dropNull(name.suffix),
+                    middleName: dropNull(name.middleName),
+                    displayName: dropNull(name.displayName),
+                  }
+                : undefined,
+              number: number?.length
+                ? number
+                    .map(({ value, type, label }) => {
+                      if (!value) {
+                        return undefined;
+                      }
+
+                      return {
+                        value,
+                        type: phoneToContactFormType(type),
+                        label: dropNull(label),
+                      };
+                    })
+                    .filter(isNotNil)
+                : undefined,
+              email: email?.length
+                ? email
+                    .map(({ value, type, label }) => {
+                      if (!value) {
+                        return undefined;
+                      }
+
+                      return {
+                        value,
+                        type: emailToContactFormType(type),
+                        label: dropNull(label),
+                      };
+                    })
+                    .filter(isNotNil)
+                : undefined,
+              address: address?.length
+                ? address.map(addr => {
+                    const {
+                      type,
+                      label,
+                      street,
+                      pobox,
+                      neighborhood,
+                      city,
+                      region,
+                      postcode,
+                      country,
+                    } = addr;
+
+                    return {
+                      type: addressToContactAddressType(type),
+                      label: dropNull(label),
+                      street: dropNull(street),
+                      pobox: dropNull(pobox),
+                      neighborhood: dropNull(neighborhood),
+                      city: dropNull(city),
+                      region: dropNull(region),
+                      postcode: dropNull(postcode),
+                      country: dropNull(country),
+                    };
+                  })
+                : undefined,
+              organization: dropNull(organization),
+            };
+          }),
+          reactions: this.fromReactions(chatItem.contactMessage.reactions),
+        },
+        additionalMessages: [],
+      };
+    }
+    if (chatItem.remoteDeletedMessage) {
       return {
         message: {
           isErased: true,
         },
         additionalMessages: [],
       };
-    } else if (chatItem.stickerMessage) {
-      // TODO (DESKTOP-6964)
-    } else if (chatItem.updateMessage) {
+    }
+    if (chatItem.stickerMessage) {
+      strictAssert(
+        chatItem.stickerMessage.sticker != null,
+        'stickerMessage must have a sticker'
+      );
+      const {
+        stickerMessage: {
+          sticker: { emoji, packId, packKey, stickerId },
+        },
+      } = chatItem;
+      strictAssert(emoji != null, 'stickerMessage must have an emoji');
+      strictAssert(
+        packId?.length === STICKERPACK_ID_BYTE_LEN,
+        'stickerMessage must have a valid pack id'
+      );
+      strictAssert(
+        packKey?.length === STICKERPACK_KEY_BYTE_LEN,
+        'stickerMessage must have a valid pack key'
+      );
+      strictAssert(stickerId != null, 'stickerMessage must have a sticker id');
+
+      return {
+        message: {
+          sticker: {
+            emoji,
+            packId: Bytes.toHex(packId),
+            packKey: Bytes.toBase64(packKey),
+            stickerId,
+          },
+          reactions: this.fromReactions(chatItem.stickerMessage.reactions),
+        },
+        additionalMessages: [],
+      };
+    }
+    if (chatItem.paymentNotification) {
+      const { paymentNotification: notification } = chatItem;
+      return {
+        message: {
+          payment: {
+            kind: PaymentEventKind.Notification,
+            amountMob: dropNull(notification.amountMob),
+            feeMob: dropNull(notification.feeMob),
+            note: notification.note ?? null,
+            transactionDetailsBase64: notification.transactionDetails
+              ? Bytes.toBase64(
+                  Backups.PaymentNotification.TransactionDetails.encode(
+                    notification.transactionDetails
+                  ).finish()
+                )
+              : undefined,
+          },
+        },
+        additionalMessages: [],
+      };
+    }
+    if (chatItem.updateMessage) {
       return this.fromChatItemUpdateMessage(chatItem.updateMessage, options);
-    } else {
-      throw new Error(`${logId}: Message was missing all five message types`);
     }
 
-    return undefined;
+    throw new Error(`${logId}: Message was missing all five message types`);
   }
 
   private async fromChatItemUpdateMessage(
@@ -907,10 +1128,57 @@ export class BackupImportStream extends Writable {
       };
     }
 
+    if (updateMessage.simpleUpdate) {
+      const message = await this.fromSimpleUpdateMessage(
+        updateMessage.simpleUpdate,
+        options
+      );
+      if (!message) {
+        return undefined;
+      }
+
+      return {
+        message,
+        additionalMessages: [],
+      };
+    }
+
+    if (updateMessage.profileChange) {
+      const { newName, previousName: oldName } = updateMessage.profileChange;
+      strictAssert(newName != null, 'profileChange must have a new name');
+      strictAssert(oldName != null, 'profileChange must have an old name');
+      return {
+        message: {
+          type: 'profile-change',
+          changedId: author?.id,
+          profileChange: {
+            type: 'name',
+            oldName,
+            newName,
+          },
+        },
+        additionalMessages: [],
+      };
+    }
+
+    if (updateMessage.threadMerge) {
+      const { previousE164 } = updateMessage.threadMerge;
+      strictAssert(previousE164 != null, 'threadMerge must have an old e164');
+      return {
+        message: {
+          type: 'conversation-merge',
+          conversationMerge: {
+            renderInfo: {
+              type: 'private',
+              e164: `+${previousE164}`,
+            },
+          },
+        },
+        additionalMessages: [],
+      };
+    }
+
     // TODO (DESKTOP-6964): check these fields
-    //   updateMessage.simpleUpdate
-    //   updateMessage.profileChange
-    //   updateMessage.threadMerge
     //   updateMessage.sessionSwitchover
     //   updateMessage.callingMessage
 
@@ -1505,5 +1773,76 @@ export class BackupImportStream extends Writable {
       },
       additionalMessages,
     };
+  }
+
+  private async fromSimpleUpdateMessage(
+    simpleUpdate: Backups.ISimpleChatUpdate,
+    {
+      author,
+      conversation,
+    }: {
+      author?: ConversationAttributesType;
+      conversation: ConversationAttributesType;
+    }
+  ): Promise<Partial<MessageAttributesType> | undefined> {
+    const { Type } = Backups.SimpleChatUpdate;
+    switch (simpleUpdate.type) {
+      case Type.END_SESSION:
+        return {
+          flags: SignalService.DataMessage.Flags.END_SESSION,
+        };
+      case Type.CHAT_SESSION_REFRESH:
+        return {
+          type: 'chat-session-refreshed',
+        };
+      case Type.IDENTITY_UPDATE:
+        return {
+          type: 'keychange',
+          key_changed: isGroup(conversation) ? author?.id : undefined,
+        };
+      case Type.IDENTITY_VERIFIED:
+        strictAssert(author != null, 'IDENTITY_VERIFIED must have an author');
+        return {
+          type: 'verified-change',
+          verifiedChanged: author.id,
+          verified: true,
+        };
+      case Type.IDENTITY_DEFAULT:
+        strictAssert(author != null, 'IDENTITY_UNVERIFIED must have an author');
+        return {
+          type: 'verified-change',
+          verifiedChanged: author.id,
+          verified: false,
+        };
+      case Type.CHANGE_NUMBER:
+        return {
+          type: 'change-number-notification',
+        };
+      case Type.JOINED_SIGNAL:
+        return {
+          type: 'joined-signal-notification',
+        };
+      case Type.BAD_DECRYPT:
+        return {
+          type: 'delivery-issue',
+        };
+      case Type.BOOST_REQUEST:
+        log.warn('backups: dropping boost request from release notes');
+        return undefined;
+      case Type.PAYMENTS_ACTIVATED:
+        return {
+          payment: {
+            kind: PaymentEventKind.Activation,
+          },
+        };
+      case Type.PAYMENT_ACTIVATION_REQUEST:
+        return {
+          payment: {
+            kind: PaymentEventKind.ActivationRequest,
+          },
+        };
+      default:
+        throw new Error('Not implemented');
+    }
   }
 }
