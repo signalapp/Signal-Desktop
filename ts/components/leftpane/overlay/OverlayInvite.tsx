@@ -5,11 +5,11 @@ import { shell } from 'electron';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { resetLeftOverlayMode } from '../../../state/ducks/section';
-import { SessionButton } from '../../basic/SessionButton';
 
 import { UserUtils } from '../../../session/utils';
 import { Flex } from '../../basic/Flex';
 import { SpacerLG, SpacerMD, SpacerSM } from '../../basic/Text';
+import { CopyToClipboardButton } from '../../buttons/CopyToClipboardButton';
 import { SessionIcon, SessionIconButton } from '../../icon';
 import { SessionInput } from '../../inputs';
 import { StyledLeftPaneOverlay } from './OverlayMessage';
@@ -88,12 +88,9 @@ export const OverlayInvite = () => {
           <StyledDescription>{window.i18n('sessionInviteAFriendDescription')}</StyledDescription>
           <SpacerLG />
           <StyledButtonerContainer>
-            <SessionButton
-              text={window.i18n('editMenuCopy')}
-              onClick={() => {
-                window.clipboard.writeText(ourSessionID);
-                setIdCopied(true);
-              }}
+            <CopyToClipboardButton
+              copyContent={ourSessionID}
+              onCopyComplete={() => setIdCopied(true)}
               dataTestId="invite-account-id-copy"
             />
           </StyledButtonerContainer>

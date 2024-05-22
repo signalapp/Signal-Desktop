@@ -112,7 +112,7 @@ const StyledButton = styled.button<{
   }
 `;
 
-type Props = {
+export type SessionButtonProps = {
   text?: string;
   disabled?: boolean;
   buttonType?: SessionButtonType;
@@ -121,15 +121,17 @@ type Props = {
   onClick?: any;
   children?: ReactNode;
   margin?: string;
+  reference?: any;
   dataTestId?: string;
 };
 
-export const SessionButton = (props: Props) => {
+export const SessionButton = (props: SessionButtonProps) => {
   const {
     buttonType = SessionButtonType.Outline,
     buttonShape = buttonType === SessionButtonType.Ghost
       ? SessionButtonShape.None
       : SessionButtonShape.Round,
+    reference,
     dataTestId,
     buttonColor,
     text,
@@ -160,6 +162,7 @@ export const SessionButton = (props: Props) => {
       )}
       role="button"
       onClick={onClickFn}
+      ref={reference}
       data-testid={dataTestId}
       style={{ margin }}
     >

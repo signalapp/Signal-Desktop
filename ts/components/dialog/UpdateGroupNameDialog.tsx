@@ -121,7 +121,6 @@ export class UpdateGroupNameDialog extends Component<Props, State> {
         {isAdmin ? (
           <input
             type="text"
-            className="profile-name-input"
             value={this.state.groupName}
             placeholder={window.i18n('groupNamePlaceholder')}
             onChange={this.onGroupNameChanged}
