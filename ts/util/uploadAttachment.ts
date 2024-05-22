@@ -40,7 +40,6 @@ export async function uploadAttachment(
     cdnKey,
     cdnNumber,
     key: keys,
-    iv: encrypted.iv,
     size: attachment.data.byteLength,
     digest: encrypted.digest,
     plaintextHash: encrypted.plaintextHash,

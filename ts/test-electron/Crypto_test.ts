@@ -37,7 +37,6 @@ import {
   CipherType,
 } from '../Crypto';
 import {
-  type HardcodedIVForEncryptionType,
   KEY_SET_LENGTH,
   _generateAttachmentIv,
   decryptAttachmentV2,
@@ -609,24 +608,19 @@ describe('Crypto', () => {
         path,
         data,
         plaintextHash,
-        encryptionKeys,
-        dangerousIv,
       }: {
         path?: string;
         data: Uint8Array;
         plaintextHash: Uint8Array;
-        encryptionKeys?: Uint8Array;
-        dangerousIv?: HardcodedIVForEncryptionType;
       }): Promise<void> {
         let plaintextPath;
         let ciphertextPath;
-        const keys = encryptionKeys ?? generateAttachmentKeys();
+        const keys = generateAttachmentKeys();
 
         try {
           const encryptedAttachment = await encryptAttachmentV2ToDisk({
             keys,
             plaintext: path ? { absolutePath: path } : { data },
-            dangerousIv,
           });
 
           ciphertextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
@@ -645,21 +639,6 @@ describe('Crypto', () => {
           );
 
           const plaintext = readFileSync(plaintextPath);
-
-          assert.deepStrictEqual(
-            encryptedAttachment.iv,
-            decryptedAttachment.iv
-          );
-          if (dangerousIv) {
-            assert.deepStrictEqual(encryptedAttachment.iv, dangerousIv.iv);
-            if (dangerousIv.reason === 'reencrypting-for-backup') {
-              assert.deepStrictEqual(
-                encryptedAttachment.digest,
-                dangerousIv.digestToMatch
-              );
-            }
-          }
-
           assert.isTrue(constantTimeEqual(data, plaintext));
           assert.strictEqual(
             encryptedAttachment.ciphertextSize,
@@ -732,52 +711,6 @@ describe('Crypto', () => {
           plaintextHash,
         });
       });
-      describe('dangerousIv', () => {
-        it('uses hardcodedIv in tests', async () => {
-          await testV2RoundTripData({
-            data: FILE_CONTENTS,
-            plaintextHash: FILE_HASH,
-            dangerousIv: {
-              reason: 'test',
-              iv: _generateAttachmentIv(),
-            },
-          });
-        });
-
-        it('uses hardcodedIv when re-encrypting for backup', async () => {
-          const keys = generateAttachmentKeys();
-          const previouslyEncrypted = await encryptAttachmentV2ToDisk({
-            keys,
-            plaintext: { data: FILE_CONTENTS },
-          });
-
-          await testV2RoundTripData({
-            data: FILE_CONTENTS,
-            plaintextHash: FILE_HASH,
-            encryptionKeys: keys,
-            dangerousIv: {
-              reason: 'reencrypting-for-backup',
-              iv: previouslyEncrypted.iv,
-              digestToMatch: previouslyEncrypted.digest,
-            },
-          });
-
-          // If the digest is wrong, it should throw
-          await assert.isRejected(
-            testV2RoundTripData({
-              data: FILE_CONTENTS,
-              plaintextHash: FILE_HASH,
-              encryptionKeys: keys,
-              dangerousIv: {
-                reason: 'reencrypting-for-backup',
-                iv: previouslyEncrypted.iv,
-                digestToMatch: getRandomBytes(32),
-              },
-            }),
-            'iv was hardcoded for backup re-encryption, but digest does not match'
-          );
-        });
-      });
     });
 
     it('v2 -> v1 (disk -> memory)', async () => {
@@ -841,7 +774,7 @@ describe('Crypto', () => {
         const encryptedAttachmentV2 = await encryptAttachmentV2ToDisk({
           keys,
           plaintext: { absolutePath: FILE_PATH },
-          dangerousIv: { iv: dangerousTestOnlyIv, reason: 'test' },
+          dangerousTestOnlyIv,
         });
         ciphertextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
           encryptedAttachmentV2.path
