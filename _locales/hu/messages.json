@@ -1034,6 +1034,9 @@
   "icu:ChangeNumber--notification": {
     "messageformat": "{sender} megváltoztatta a telefonszámát"
   },
+  "icu:JoinedSignal--notification": {
+    "messageformat": "Contact joined Signal"
+  },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} és {conversationTitle} ugyanaz a fiók. Itt található mindkét csevegés üzenetelőzménye."
   },
@@ -3866,11 +3869,17 @@
   "icu:ForwardMessageModal__title": {
     "messageformat": "Továbbítás ide:"
   },
+  "icu:ForwardMessageModal__ShareCallLink": {
+    "messageformat": "Share call link"
+  },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Folytatás"
   },
   "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
     "messageformat": "Üres vagy törölt üzeneteket nem lehet továbbítani"
+  },
+  "icu:ShareCallLinkViaSignal__DraftMessageText": {
+    "messageformat": "Use this link to join a Signal call: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Tudj meg többet!"
@@ -4347,7 +4356,7 @@
     "messageformat": "A beírt hangulatjelek emodzsivá való átalakítása"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "Például a :-) hangulatjel 🙂 emodzsivá kerül átalakításra"
+    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Haladó"
@@ -5325,11 +5334,29 @@
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "Híváshivatkozás"
   },
+  "icu:CallsList__ItemCallInfo--Active": {
+    "messageformat": "Active"
+  },
+  "icu:CallsList__LeaveCallDialogTitle": {
+    "messageformat": "Leave the current call?"
+  },
+  "icu:CallsList__LeaveCallDialogBody": {
+    "messageformat": "You must leave the current call before joining a new call."
+  },
+  "icu:CallsList__LeaveCallDialogButton--leave": {
+    "messageformat": "Leave call"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Nincsenek legutóbbi beszélgetések."
   },
   "icu:CallsNewCall__EmptyState--hasQuery": {
     "messageformat": "Nincs találat a következőre: „{query}”"
+  },
+  "icu:CallsNewCallButton--return": {
+    "messageformat": "Return"
+  },
+  "icu:CallsNewCallButtonTooltip--in-another-call": {
+    "messageformat": "You must leave the current call before joining a new call"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Kimenő hanghívás} other {Bejövő hanghívás}}} Video {{direction, select, Outgoing {Kimenő videóhívás} other {Bejövő videóhívás}}} Group {{direction, select, Outgoing {Kimenő csoportos hívás} other {Bejövő csoportos hívás}}} other {{direction, select, Outgoing {Kimenő hívás} other {Bejövő hívás}}}}"
@@ -5345,6 +5372,15 @@
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Híváshivatkozás"
+  },
+  "icu:CallLinkDetails__Join": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkDetails__CopyLink": {
+    "messageformat": "Copy link"
+  },
+  "icu:CallLinkDetails__ShareLinkViaSignal": {
+    "messageformat": "Share link via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} másik személy ír.} other {{count,number} másik személy ír.}}"
@@ -5385,5 +5421,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__v7.11--0": {
+    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
   }
 }

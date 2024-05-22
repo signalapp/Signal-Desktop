@@ -1034,6 +1034,9 @@
   "icu:ChangeNumber--notification": {
     "messageformat": "{sender} alterou o número de telefone"
   },
+  "icu:JoinedSignal--notification": {
+    "messageformat": "Contact joined Signal"
+  },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} e {conversationTitle} são a mesma conta. Seu histórico de mensagens dos dois chats está aqui."
   },
@@ -3866,11 +3869,17 @@
   "icu:ForwardMessageModal__title": {
     "messageformat": "Encaminhar para"
   },
+  "icu:ForwardMessageModal__ShareCallLink": {
+    "messageformat": "Share call link"
+  },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Continuar"
   },
   "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
     "messageformat": "Não é possível encaminhar mensagens vazias ou excluídas"
+  },
+  "icu:ShareCallLinkViaSignal__DraftMessageText": {
+    "messageformat": "Use this link to join a Signal call: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Saiba mais"
@@ -4347,7 +4356,7 @@
     "messageformat": "Converter emoticons digitados em emoji"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "Por exemplo, :-) será convertido para 🙂"
+    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Avançadas"
@@ -5325,11 +5334,29 @@
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "Link da chamada"
   },
+  "icu:CallsList__ItemCallInfo--Active": {
+    "messageformat": "Active"
+  },
+  "icu:CallsList__LeaveCallDialogTitle": {
+    "messageformat": "Leave the current call?"
+  },
+  "icu:CallsList__LeaveCallDialogBody": {
+    "messageformat": "You must leave the current call before joining a new call."
+  },
+  "icu:CallsList__LeaveCallDialogButton--leave": {
+    "messageformat": "Leave call"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Nenhuma conversa recente."
   },
   "icu:CallsNewCall__EmptyState--hasQuery": {
     "messageformat": "Nenhum resultado encontrado para “{query}”"
+  },
+  "icu:CallsNewCallButton--return": {
+    "messageformat": "Return"
+  },
+  "icu:CallsNewCallButtonTooltip--in-another-call": {
+    "messageformat": "You must leave the current call before joining a new call"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Chamada de voz efetuada} other {Recebendo chamada de voz}}} Video {{direction, select, Outgoing {Chamada de vídeo efetuada} other {Chamada de vídeo recebida}}} Group {{direction, select, Outgoing {Chamada de grupo efetuada} other {Recebendo chamada de grupo}}} other {{direction, select, Outgoing {Fazendo chamada} other {Recebendo chamada}}}}"
@@ -5345,6 +5372,15 @@
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Link de chamada"
+  },
+  "icu:CallLinkDetails__Join": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkDetails__CopyLink": {
+    "messageformat": "Copy link"
+  },
+  "icu:CallLinkDetails__ShareLinkViaSignal": {
+    "messageformat": "Share link via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} outra pessoa está digitando.} other {{count,number} outras pessoas estão digitando.}}"
@@ -5385,5 +5421,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__v7.11--0": {
+    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
   }
 }

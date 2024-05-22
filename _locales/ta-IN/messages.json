@@ -1034,6 +1034,9 @@
   "icu:ChangeNumber--notification": {
     "messageformat": "{sender} அவர்களின் தொலைபேசி எண்ணை மாற்றியுள்ளார்"
   },
+  "icu:JoinedSignal--notification": {
+    "messageformat": "Contact joined Signal"
+  },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} மற்றும் {conversationTitle} ஆகியவை ஒரே கணக்கைச் சேர்ந்தவை. இரண்டு சாட்களுக்கான உங்கள் செய்தி வரலாறு இங்கே உள்ளது."
   },
@@ -3866,11 +3869,17 @@
   "icu:ForwardMessageModal__title": {
     "messageformat": "இவருக்கு முன்னனுப்பு"
   },
+  "icu:ForwardMessageModal__ShareCallLink": {
+    "messageformat": "Share call link"
+  },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "தொடர்க"
   },
   "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
     "messageformat": "வெற்று அல்லது நீக்கப்பட்ட மெசேஜ்களை அனுப்ப முடியாது"
+  },
+  "icu:ShareCallLinkViaSignal__DraftMessageText": {
+    "messageformat": "Use this link to join a Signal call: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "மேலும் அறிக"
@@ -4347,7 +4356,7 @@
     "messageformat": "டைப் செய்யப்பட்ட இமோடிகான்களை இமோஜியாக மாற்று"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "எடுத்துக்காட்டாக, :-) 🙂 ஆக மாற்றப்படும்"
+    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "மேம்படுத்தபட்ட"
@@ -5325,11 +5334,29 @@
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "அழைப்பு இணைப்பு"
   },
+  "icu:CallsList__ItemCallInfo--Active": {
+    "messageformat": "Active"
+  },
+  "icu:CallsList__LeaveCallDialogTitle": {
+    "messageformat": "Leave the current call?"
+  },
+  "icu:CallsList__LeaveCallDialogBody": {
+    "messageformat": "You must leave the current call before joining a new call."
+  },
+  "icu:CallsList__LeaveCallDialogButton--leave": {
+    "messageformat": "Leave call"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "சமீபத்திய உரையாடல்கள் எதுவுமில்லை."
   },
   "icu:CallsNewCall__EmptyState--hasQuery": {
     "messageformat": "''{query}' க்கான முடிவுகள் எதுவும் கிடைக்கவில்லை"
+  },
+  "icu:CallsNewCallButton--return": {
+    "messageformat": "Return"
+  },
+  "icu:CallsNewCallButtonTooltip--in-another-call": {
+    "messageformat": "You must leave the current call before joining a new call"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {வெளிச்செல்லும் குரல் அழைப்பு} other {உள்வரும் குரல் அழைப்பு}}} Video {{direction, select, Outgoing {வெளிச்செல்லும் காணொளி அழைப்பு} other {உள்வரும் காணொளி அழைப்பு}}} Group {{direction, select, Outgoing {வெளிச்செல்லும் குழு அழைப்பு} other {உள்வரும் குழு அழைப்பு}}} other {{direction, select, Outgoing {வெளிசெல்லும் அழைப்பு} other {உள்வரும் அழைப்பு}}}}"
@@ -5345,6 +5372,15 @@
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "அழைப்பு இணைப்பு"
+  },
+  "icu:CallLinkDetails__Join": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkDetails__CopyLink": {
+    "messageformat": "Copy link"
+  },
+  "icu:CallLinkDetails__ShareLinkViaSignal": {
+    "messageformat": "Share link via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {மேலும் {count,number} நபர் டைப் செய்கிறார்.} other {மேலும் {count,number} பேர் டைப் செய்கின்றனர்.}}"
@@ -5385,5 +5421,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__v7.11--0": {
+    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
   }
 }

@@ -1034,6 +1034,9 @@
   "icu:ChangeNumber--notification": {
     "messageformat": "{sender} তার ফোন নাম্বার পরিবর্তন করেছেন।"
   },
+  "icu:JoinedSignal--notification": {
+    "messageformat": "Contact joined Signal"
+  },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} এবং {conversationTitle} একই অ্যাকাউন্ট। উভয় চ্যাট-এর জন্য আপনার ম্যাসেজের ইতিহাসই এখানে আছে।"
   },
@@ -3866,11 +3869,17 @@
   "icu:ForwardMessageModal__title": {
     "messageformat": "ফরওয়ার্ড করুন"
   },
+  "icu:ForwardMessageModal__ShareCallLink": {
+    "messageformat": "Share call link"
+  },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "চালিয়ে যান"
   },
   "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
     "messageformat": "খালি বা মুছে ফেলা ম্যাসেজ ফরোয়ার্ড করা যাবে না"
+  },
+  "icu:ShareCallLinkViaSignal__DraftMessageText": {
+    "messageformat": "Use this link to join a Signal call: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "আরও জানুন"
@@ -4347,7 +4356,7 @@
     "messageformat": "টাইপ করা ইমোটিকনকে ইমোজিতে রূপান্তর করুন"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "উদাহরণস্বরূপ, :-) 🙂-তে রূপান্তরিত হবে"
+    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "অ্যাডভান্সড"
@@ -5325,11 +5334,29 @@
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "কলের লিংক"
   },
+  "icu:CallsList__ItemCallInfo--Active": {
+    "messageformat": "Active"
+  },
+  "icu:CallsList__LeaveCallDialogTitle": {
+    "messageformat": "Leave the current call?"
+  },
+  "icu:CallsList__LeaveCallDialogBody": {
+    "messageformat": "You must leave the current call before joining a new call."
+  },
+  "icu:CallsList__LeaveCallDialogButton--leave": {
+    "messageformat": "Leave call"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "কোনো সাম্প্রতিক কথোপকথন নেই।"
   },
   "icu:CallsNewCall__EmptyState--hasQuery": {
     "messageformat": "“{query}”-এর জন্য কোনো ফলাফল পাওয়া যায়নি"
+  },
+  "icu:CallsNewCallButton--return": {
+    "messageformat": "Return"
+  },
+  "icu:CallsNewCallButtonTooltip--in-another-call": {
+    "messageformat": "You must leave the current call before joining a new call"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {ভয়েস কল যাচ্ছে} other {ভয়েস কল আসছে}}} Video {{direction, select, Outgoing {ভিডিও কল যাচ্ছে} other {ভিডিও কল আসছে}}} Group {{direction, select, Outgoing {আউটগোয়িং গ্রুপ কল} other {ইনকামিং গ্রুপ কল}}} other {{direction, select, Outgoing {আউটগোয়িং কল} other {আগত কল}}}}"
@@ -5345,6 +5372,15 @@
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "কলের লিংক"
+  },
+  "icu:CallLinkDetails__Join": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkDetails__CopyLink": {
+    "messageformat": "Copy link"
+  },
+  "icu:CallLinkDetails__ShareLinkViaSignal": {
+    "messageformat": "Share link via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {আরো {count,number} জন টাইপ করছেন।} other {আরো {count,number} জন টাইপ করছেন।}}"
@@ -5385,5 +5421,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__v7.11--0": {
+    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
   }
 }

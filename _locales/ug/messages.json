@@ -1034,6 +1034,9 @@
   "icu:ChangeNumber--notification": {
     "messageformat": "{sender} تېلېفون نومۇرىنى ئۆزگەرتتى"
   },
+  "icu:JoinedSignal--notification": {
+    "messageformat": "Contact joined Signal"
+  },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} ۋە {conversationTitle} بولسا ئوخشاش بىر ھېسابات. ھەر ئىككى پاراڭلىشىش خاتىرىڭىز بۇ يەردە."
   },
@@ -3866,11 +3869,17 @@
   "icu:ForwardMessageModal__title": {
     "messageformat": "ئۇلاپ يوللاش"
   },
+  "icu:ForwardMessageModal__ShareCallLink": {
+    "messageformat": "Share call link"
+  },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "داۋاملاشتۇرۇش"
   },
   "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
     "messageformat": "قۇرۇق ياكى ئۆچۈرۈلگەن ئۇچۇرلارنى ئۇلاپ يوللىغىلى بولمايدۇ"
+  },
+  "icu:ShareCallLinkViaSignal__DraftMessageText": {
+    "messageformat": "Use this link to join a Signal call: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "كۆپرەك ئۆگىنىش"
@@ -4347,7 +4356,7 @@
     "messageformat": "كىرگۈزگەن emoticons نى emoji غا ئايلاندۇرۇش"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "مەسىلەن، :-) نى 🙂 گە ئايلاندۇرۇش"
+    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "ئالىي"
@@ -5325,11 +5334,29 @@
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "چاقىرىق ئۇلانمىسى"
   },
+  "icu:CallsList__ItemCallInfo--Active": {
+    "messageformat": "Active"
+  },
+  "icu:CallsList__LeaveCallDialogTitle": {
+    "messageformat": "Leave the current call?"
+  },
+  "icu:CallsList__LeaveCallDialogBody": {
+    "messageformat": "You must leave the current call before joining a new call."
+  },
+  "icu:CallsList__LeaveCallDialogButton--leave": {
+    "messageformat": "Leave call"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "يېڭى بىر پاراڭ يوق."
   },
   "icu:CallsNewCall__EmptyState--hasQuery": {
     "messageformat": "{query} ئۈچۈن نەتىجە يوق"
+  },
+  "icu:CallsNewCallButton--return": {
+    "messageformat": "Return"
+  },
+  "icu:CallsNewCallButtonTooltip--in-another-call": {
+    "messageformat": "You must leave the current call before joining a new call"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {ئۇرۇلغان ئاۋازلىق چاقىرىق} other {كەلگەن ئاۋازلىق چاقىرىق}}} Video {{direction, select, Outgoing {ئۇرۇلغان ۋىدېيولۇق چاقىرىق} other {كەلگەن ۋىدېيولۇق چاقىرىق}}} Group {{direction, select, Outgoing {ئۇرۇلغان گۇرۇپپا چاقىرىقى} other {كەلگەن گۇرۇپپا چاقىرىقى}}} other {{direction, select, Outgoing {قىلىنغان  چاقىرىق} other {كەلگەن  چاقىرىق}}}}"
@@ -5345,6 +5372,15 @@
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "چاقىرىق ئۇلانمىسى"
+  },
+  "icu:CallLinkDetails__Join": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkDetails__CopyLink": {
+    "messageformat": "Copy link"
+  },
+  "icu:CallLinkDetails__ShareLinkViaSignal": {
+    "messageformat": "Share link via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} باشقىلار يېزىۋاتىدۇ.}}"
@@ -5385,5 +5421,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__v7.11--0": {
+    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
   }
 }

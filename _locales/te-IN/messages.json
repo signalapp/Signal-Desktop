@@ -1034,6 +1034,9 @@
   "icu:ChangeNumber--notification": {
     "messageformat": "{sender}వారి ఫోన్ నెంబర్‌ని మార్చారు"
   },
+  "icu:JoinedSignal--notification": {
+    "messageformat": "Contact joined Signal"
+  },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} మరియు {conversationTitle} లు ఒకే ఖాతా. రెండు చాట్‌ల కొరకు మీ సందేశ చరిత్ర ఇక్కడ ఉంది."
   },
@@ -3866,11 +3869,17 @@
   "icu:ForwardMessageModal__title": {
     "messageformat": "వీరికి ఫార్వర్డ్ చేయండి"
   },
+  "icu:ForwardMessageModal__ShareCallLink": {
+    "messageformat": "Share call link"
+  },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "కొనసాగించండి"
   },
   "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
     "messageformat": "ఖాళీ లేదా తొలగించబడిన సందేశాలను ఫార్వర్డ్ చేయలేము"
+  },
+  "icu:ShareCallLinkViaSignal__DraftMessageText": {
+    "messageformat": "Use this link to join a Signal call: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "ఇంకా నేర్చుకో"
@@ -4347,7 +4356,7 @@
     "messageformat": "టైప్ చేసిన ఎమోటికాన్‌లను ఎమోజీగా మార్చండి"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "ఉదాహరణకు, :-) 🙂 ఎమోజీగా మార్చబడుతుంది"
+    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "ఆధునిక"
@@ -5325,11 +5334,29 @@
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "కాల్ లింక్"
   },
+  "icu:CallsList__ItemCallInfo--Active": {
+    "messageformat": "Active"
+  },
+  "icu:CallsList__LeaveCallDialogTitle": {
+    "messageformat": "Leave the current call?"
+  },
+  "icu:CallsList__LeaveCallDialogBody": {
+    "messageformat": "You must leave the current call before joining a new call."
+  },
+  "icu:CallsList__LeaveCallDialogButton--leave": {
+    "messageformat": "Leave call"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "ఇటీవలి సంభాషణలు ఏవీ లేవు."
   },
   "icu:CallsNewCall__EmptyState--hasQuery": {
     "messageformat": "“{query}” కోసం ఫలితాలు లేవు"
+  },
+  "icu:CallsNewCallButton--return": {
+    "messageformat": "Return"
+  },
+  "icu:CallsNewCallButtonTooltip--in-another-call": {
+    "messageformat": "You must leave the current call before joining a new call"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {అవుట్‌గోయింగ్ వాయిస్ కాల్} other {ఇన్‌కమింగ్ వాయిస్ కాల్}}} Video {{direction, select, Outgoing {అవుట్గోయింగ్ వీడియో కాల్} other {కొత్తగా వచ్చిన వీడియో కాల్}}} Group {{direction, select, Outgoing {అవుట్‌గోయింగ్ గ్రూప్ కాల్} other {ఇన్‌కమింగ్ గ్రూప్ కాల్}}} other {{direction, select, Outgoing {అవుట్గోయింగ్ కాల్} other {క్రొత్తగా వచ్చిన కాల్}}}}"
@@ -5345,6 +5372,15 @@
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "కాల్ లింక్"
+  },
+  "icu:CallLinkDetails__Join": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkDetails__CopyLink": {
+    "messageformat": "Copy link"
+  },
+  "icu:CallLinkDetails__ShareLinkViaSignal": {
+    "messageformat": "Share link via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ఇతర వ్యక్తి టైప్ చేస్తున్నారు.} other {{count,number} మంది ఇతర వ్యక్తులు టైప్ చేస్తున్నారు.}}"
@@ -5385,5 +5421,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__v7.11--0": {
+    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
   }
 }

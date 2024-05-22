@@ -1034,6 +1034,9 @@
   "icu:ChangeNumber--notification": {
     "messageformat": "{sender} เปลี่ยนหมายเลขโทรศัพท์แล้ว"
   },
+  "icu:JoinedSignal--notification": {
+    "messageformat": "Contact joined Signal"
+  },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} และ {conversationTitle} เป็นบัญชีเดียวกัน ประวัติการส่งข้อความสำหรับแชททั้งสองรายการอยู่ในนี้"
   },
@@ -3866,11 +3869,17 @@
   "icu:ForwardMessageModal__title": {
     "messageformat": "ส่งต่อไปยัง"
   },
+  "icu:ForwardMessageModal__ShareCallLink": {
+    "messageformat": "Share call link"
+  },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "ดำเนินการต่อ"
   },
   "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
     "messageformat": "ไม่สามารถส่งต่อข้อความเปล่าหรือข้อความที่ลบแล้วได้"
+  },
+  "icu:ShareCallLinkViaSignal__DraftMessageText": {
+    "messageformat": "Use this link to join a Signal call: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "เรียนรู้เพิ่มเติม"
@@ -4347,7 +4356,7 @@
     "messageformat": "เปลี่ยนอีโมติคอนที่พิมพ์ให้กลายเป็นอีโมจิ"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "ตัวอย่างเช่น :-) จะถูกเปลี่ยนให้เป็น 🙂"
+    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "ขั้นสูง"
@@ -5325,11 +5334,29 @@
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "ลิงก์การโทร"
   },
+  "icu:CallsList__ItemCallInfo--Active": {
+    "messageformat": "Active"
+  },
+  "icu:CallsList__LeaveCallDialogTitle": {
+    "messageformat": "Leave the current call?"
+  },
+  "icu:CallsList__LeaveCallDialogBody": {
+    "messageformat": "You must leave the current call before joining a new call."
+  },
+  "icu:CallsList__LeaveCallDialogButton--leave": {
+    "messageformat": "Leave call"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "ยังไม่มีการสนทนาล่าสุด"
   },
   "icu:CallsNewCall__EmptyState--hasQuery": {
     "messageformat": "ไม่พบผลลัพธ์สำหรับ “{query}”"
+  },
+  "icu:CallsNewCallButton--return": {
+    "messageformat": "Return"
+  },
+  "icu:CallsNewCallButtonTooltip--in-another-call": {
+    "messageformat": "You must leave the current call before joining a new call"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {การโทรด้วยเสียงขาออก} other {การโทรด้วยเสียงขาเข้า}}} Video {{direction, select, Outgoing {สายวิดีโอโทรออก} other {สายวิดีโอเรียกเข้า}}} Group {{direction, select, Outgoing {สายโทรกลุ่มขาออก} other {สายโทรกลุ่มขาเข้า}}} other {{direction, select, Outgoing {สายโทรออก} other {สายโทรเข้า}}}}"
@@ -5345,6 +5372,15 @@
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "ลิงก์การโทร"
+  },
+  "icu:CallLinkDetails__Join": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkDetails__CopyLink": {
+    "messageformat": "Copy link"
+  },
+  "icu:CallLinkDetails__ShareLinkViaSignal": {
+    "messageformat": "Share link via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {อีก {count,number} คนกำลังพิมพ์}}"
@@ -5385,5 +5421,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__v7.11--0": {
+    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
   }
 }

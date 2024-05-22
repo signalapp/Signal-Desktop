@@ -1034,6 +1034,9 @@
   "icu:ChangeNumber--notification": {
     "messageformat": "{sender} က ၎င်း၏ ဖုန်းနံပါတ် ပြောင်းလိုက်ပါသည်"
   },
+  "icu:JoinedSignal--notification": {
+    "messageformat": "Contact joined Signal"
+  },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} နှင့် {conversationTitle} သည် တူညီသော အကောင့် ဖြစ်ပါသည်။ ချက်(တ်)နှစ်ခုလုံးအတွက် မက်ဆေ့ချ်မှတ်တမ်းကို ဤနေရာတွင် တွေ့နိုင်ပါသည်။"
   },
@@ -3866,11 +3869,17 @@
   "icu:ForwardMessageModal__title": {
     "messageformat": "ဒီကို ထပ်ဆင့်ပို့မည်"
   },
+  "icu:ForwardMessageModal__ShareCallLink": {
+    "messageformat": "Share call link"
+  },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "ဆက်လုပ်ရန်"
   },
   "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
     "messageformat": "အလွတ် သို့မဟုတ် ဖျက်ထားသော မက်ဆေ့ချ်များကို ထပ်ဆင့်ပို့၍ မရပါ"
+  },
+  "icu:ShareCallLinkViaSignal__DraftMessageText": {
+    "messageformat": "Use this link to join a Signal call: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "ထပ်မံလေ့လာရန်"
@@ -4347,7 +4356,7 @@
     "messageformat": "စာရိုက်ထားသော ရုပ်ပြောင်များကို အီမိုဂျီအဖြစ် ပြောင်းရန်"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "ဥပမာ :-) ကို 🙂 ဟု ပြောင်းခြင်း"
+    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "အဆင်မြင့်သော"
@@ -5325,11 +5334,29 @@
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "ကောလ်လင့်ခ်"
   },
+  "icu:CallsList__ItemCallInfo--Active": {
+    "messageformat": "Active"
+  },
+  "icu:CallsList__LeaveCallDialogTitle": {
+    "messageformat": "Leave the current call?"
+  },
+  "icu:CallsList__LeaveCallDialogBody": {
+    "messageformat": "You must leave the current call before joining a new call."
+  },
+  "icu:CallsList__LeaveCallDialogButton--leave": {
+    "messageformat": "Leave call"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "လတ်တလော စကားပြောဆိုမှုများ မရှိပါ။"
   },
   "icu:CallsNewCall__EmptyState--hasQuery": {
     "messageformat": "“{query}” အတွက် ရလဒ်မရှိပါ"
+  },
+  "icu:CallsNewCallButton--return": {
+    "messageformat": "Return"
+  },
+  "icu:CallsNewCallButtonTooltip--in-another-call": {
+    "messageformat": "You must leave the current call before joining a new call"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {အထွက် အော်ဒီယိုကောလ်} other {အဝင် အော်ဒီယိုကောလ်}}} Video {{direction, select, Outgoing {ဗီဒီယိုကောလ် အထွက်} other {ဗီဒီယိုကောလ် အဝင်}}} Group {{direction, select, Outgoing {အထွက် အဖွဲ့ကောလ်} other {အဝင် အဖွဲ့ကောလ်}}} other {{direction, select, Outgoing {ဖုန်းခေါ်ဆိုမှု} other {အဝင်ဖုန်းလာသည်}}}}"
@@ -5345,6 +5372,15 @@
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "ကောလ်လင့်ခ်"
+  },
+  "icu:CallLinkDetails__Join": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkDetails__CopyLink": {
+    "messageformat": "Copy link"
+  },
+  "icu:CallLinkDetails__ShareLinkViaSignal": {
+    "messageformat": "Share link via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {အခြား {count,number} ဦး စာရိုက်နေသည်။}}"
@@ -5385,5 +5421,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__v7.11--0": {
+    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
   }
 }
