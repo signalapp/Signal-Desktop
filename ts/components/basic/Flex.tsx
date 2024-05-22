@@ -18,6 +18,7 @@ export interface FlexProps {
     | 'initial'
     | 'inherit';
   flexWrap?: 'wrap' | 'nowrap' | 'wrap-reverse';
+  flexGap?: string;
   alignItems?:
     | 'stretch'
     | 'center'
@@ -50,6 +51,7 @@ export const Flex = styled.div<FlexProps>`
   flex-basis: ${props => (props.flexBasis !== undefined ? props.flexBasis : 'auto')};
   flex-shrink: ${props => (props.flexShrink !== undefined ? props.flexShrink : '1')};
   flex-wrap: ${props => (props.flexWrap !== undefined ? props.flexWrap : 'nowrap')};
+  gap: ${props => (props.flexGap !== undefined ? props.flexGap : undefined)};
   align-items: ${props => props.alignItems || 'stretch'};
   margin: ${props => props.margin || '0'};
   padding: ${props => props.padding || '0'};
@@ -68,6 +70,7 @@ export const AnimatedFlex = styled(motion.div)<FlexProps>`
   flex-basis: ${props => (props.flexBasis !== undefined ? props.flexBasis : 'auto')};
   flex-shrink: ${props => (props.flexShrink !== undefined ? props.flexShrink : '1')};
   flex-wrap: ${props => (props.flexWrap !== undefined ? props.flexWrap : 'nowrap')};
+  gap: ${props => (props.flexGap !== undefined ? props.flexGap : undefined)};
   align-items: ${props => props.alignItems || 'stretch'};
   margin: ${props => props.margin || '0'};
   padding: ${props => props.padding || '0'};
