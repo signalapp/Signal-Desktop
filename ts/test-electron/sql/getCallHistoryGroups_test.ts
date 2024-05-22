@@ -62,7 +62,12 @@ function toAdhocGroup(call: CallHistoryDetails): CallHistoryGroup {
     direction: call.direction,
     timestamp: call.timestamp,
     status: call.status,
-    children: [],
+    children: [
+      {
+        callId: call.callId,
+        timestamp: call.timestamp,
+      },
+    ],
   };
 }
 

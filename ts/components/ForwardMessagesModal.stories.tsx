@@ -7,7 +7,10 @@ import type { Meta } from '@storybook/react';
 import enMessages from '../../_locales/en/messages.json';
 import type { AttachmentType } from '../types/Attachment';
 import type { PropsType } from './ForwardMessagesModal';
-import { ForwardMessagesModal } from './ForwardMessagesModal';
+import {
+  ForwardMessagesModal,
+  ForwardMessagesModalType,
+} from './ForwardMessagesModal';
 import { IMAGE_JPEG, VIDEO_MP4, stringToMIMEType } from '../types/MIME';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
@@ -67,6 +70,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     />
   ),
   showToast: action('showToast'),
+  type: ForwardMessagesModalType.Forward,
   theme: React.useContext(StorybookThemeContext),
   regionCode: 'US',
 });

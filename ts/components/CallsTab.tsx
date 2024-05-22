@@ -57,6 +57,10 @@ type CallsTabProps = Readonly<{
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
   peekNotConnectedGroupCall: (options: PeekNotConnectedGroupCallType) => void;
   preferredLeftPaneWidth: number;
+  renderCallLinkDetails: (
+    roomId: string,
+    callHistoryGroup: CallHistoryGroup
+  ) => JSX.Element;
   renderConversationDetails: (
     conversationId: string,
     callHistoryGroup: CallHistoryGroup | null
@@ -69,6 +73,18 @@ type CallsTabProps = Readonly<{
   startCallLinkLobbyByRoomId: (roomId: string) => void;
   togglePip: () => void;
 }>;
+
+export type CallsTabSelectedView =
+  | {
+      type: 'conversation';
+      conversationId: string;
+      callHistoryGroup: CallHistoryGroup | null;
+    }
+  | {
+      type: 'callLink';
+      roomId: string;
+      callHistoryGroup: CallHistoryGroup;
+    };
 
 export function CallsTab({
   activeCall,
@@ -93,6 +109,7 @@ export function CallsTab({
   onOutgoingVideoCallInConversation,
   peekNotConnectedGroupCall,
   preferredLeftPaneWidth,
+  renderCallLinkDetails,
   renderConversationDetails,
   renderToastManager,
   regionCode,
@@ -103,36 +120,30 @@ export function CallsTab({
   const [sidebarView, setSidebarView] = useState(
     CallsTabSidebarView.CallsListView
   );
-  const [selected, setSelected] = useState<{
-    conversationId: string;
-    callHistoryGroup: CallHistoryGroup | null;
-  } | null>(null);
+  const [selectedView, setSelectedViewInner] =
+    useState<CallsTabSelectedView | null>(null);
+  const [selectedViewKey, setSelectedViewKey] = useState(() => 1);
+
   const [
     confirmClearCallHistoryDialogOpen,
     setConfirmClearCallHistoryDialogOpen,
   ] = useState(false);
 
+  const updateSelectedView = useCallback(
+    (nextSelected: CallsTabSelectedView | null) => {
+      setSelectedViewInner(nextSelected);
+      setSelectedViewKey(key => key + 1);
+    },
+    []
+  );
+
   const updateSidebarView = useCallback(
     (newSidebarView: CallsTabSidebarView) => {
       setSidebarView(newSidebarView);
-      setSelected(null);
+      updateSelectedView(null);
     },
-    []
+    [updateSelectedView]
   );
-
-  const handleSelectCallHistoryGroup = useCallback(
-    (conversationId: string, callHistoryGroup: CallHistoryGroup) => {
-      setSelected({
-        conversationId,
-        callHistoryGroup,
-      });
-    },
-    []
-  );
-
-  const handleSelectConversation = useCallback((conversationId: string) => {
-    setSelected({ conversationId, callHistoryGroup: null });
-  }, []);
 
   useEscapeHandling(
     sidebarView === CallsTabSidebarView.NewCallView
@@ -167,12 +178,12 @@ export function CallsTab({
   );
 
   useEffect(() => {
-    if (selected?.callHistoryGroup != null) {
-      selected.callHistoryGroup.children.forEach(child => {
-        onMarkCallHistoryRead(selected.conversationId, child.callId);
+    if (selectedView?.type === 'conversation') {
+      selectedView.callHistoryGroup?.children.forEach(child => {
+        onMarkCallHistoryRead(selectedView.conversationId, child.callId);
       });
     }
-  }, [selected, onMarkCallHistoryRead]);
+  }, [selectedView, onMarkCallHistoryRead]);
 
   return (
     <>
@@ -255,8 +266,8 @@ export function CallsTab({
               getConversation={getConversation}
               hangUpActiveCall={hangUpActiveCall}
               i18n={i18n}
-              selectedCallHistoryGroup={selected?.callHistoryGroup ?? null}
-              onSelectCallHistoryGroup={handleSelectCallHistoryGroup}
+              selectedCallHistoryGroup={selectedView?.callHistoryGroup ?? null}
+              onChangeCallsTabSelectedView={updateSelectedView}
               onOutgoingAudioCallInConversation={
                 handleOutgoingAudioCallInConversation
               }
@@ -275,7 +286,7 @@ export function CallsTab({
               allConversations={allConversations}
               i18n={i18n}
               regionCode={regionCode}
-              onSelectConversation={handleSelectConversation}
+              onChangeCallsTabSelectedView={updateSelectedView}
               onOutgoingAudioCallInConversation={
                 handleOutgoingAudioCallInConversation
               }
@@ -285,7 +296,7 @@ export function CallsTab({
             />
           )}
         </NavSidebar>
-        {selected == null ? (
+        {selectedView == null ? (
           <div className="CallsTab__EmptyState">
             <div className="CallsTab__EmptyStateIcon" />
             <p className="CallsTab__EmptyStateLabel">
@@ -295,13 +306,19 @@ export function CallsTab({
         ) : (
           <div
             className="CallsTab__ConversationCallDetails"
-            // Force scrolling to top when a new conversation is selected.
-            key={selected.conversationId}
+            // Force scrolling to top when selection changes
+            key={selectedViewKey}
           >
-            {renderConversationDetails(
-              selected.conversationId,
-              selected.callHistoryGroup
-            )}
+            {selectedView.type === 'conversation' &&
+              renderConversationDetails(
+                selectedView.conversationId,
+                selectedView.callHistoryGroup
+              )}
+            {selectedView.type === 'callLink' &&
+              renderCallLinkDetails(
+                selectedView.roomId,
+                selectedView.callHistoryGroup
+              )}
           </div>
         )}
       </div>

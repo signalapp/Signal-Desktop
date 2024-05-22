@@ -37,6 +37,7 @@ import { getCallHistoryEdition } from '../selectors/callHistory';
 import { getHasPendingUpdate } from '../selectors/updates';
 import { getHasAnyFailedStorySends } from '../selectors/stories';
 import { getOtherTabsUnreadStats } from '../selectors/nav';
+import { SmartCallLinkDetails } from './CallLinkDetails';
 import type { CallLinkType } from '../../types/CallLink';
 import { filterCallLinks } from '../../util/filterCallLinks';
 
@@ -99,6 +100,15 @@ function getCallHistoryFilter({
     callLinkRoomIds,
     conversationIds,
   };
+}
+
+function renderCallLinkDetails(
+  roomId: string,
+  callHistoryGroup: CallHistoryGroup
+): JSX.Element {
+  return (
+    <SmartCallLinkDetails roomId={roomId} callHistoryGroup={callHistoryGroup} />
+  );
 }
 
 function renderConversationDetails(
@@ -225,6 +235,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       peekNotConnectedGroupCall={peekNotConnectedGroupCall}
       preferredLeftPaneWidth={preferredLeftPaneWidth}
+      renderCallLinkDetails={renderCallLinkDetails}
       renderConversationDetails={renderConversationDetails}
       renderToastManager={renderToastManager}
       regionCode={regionCode}

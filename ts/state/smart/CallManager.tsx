@@ -42,7 +42,6 @@ import { missingCaseError } from '../../util/missingCaseError';
 import { useAudioPlayerActions } from '../ducks/audioPlayer';
 import { getActiveCall, useCallingActions } from '../ducks/calling';
 import type { ConversationType } from '../ducks/conversations';
-import { useToastActions } from '../ducks/toast';
 import type { StateType } from '../reducer';
 import { getHasInitialLoadCompleted } from '../selectors/app';
 import {
@@ -453,7 +452,6 @@ export const SmartCallManager = memo(function SmartCallManager() {
     toggleScreenRecordingPermissionsDialog,
     toggleSettings,
   } = useCallingActions();
-  const { showToast } = useToastActions();
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
 
   return (
@@ -497,7 +495,6 @@ export const SmartCallManager = memo(function SmartCallManager() {
       setOutgoingRing={setOutgoingRing}
       setPresenting={setPresenting}
       setRendererCanvas={setRendererCanvas}
-      showToast={showToast}
       startCall={startCall}
       stopRingtone={stopRingtone}
       switchFromPresentationView={switchFromPresentationView}

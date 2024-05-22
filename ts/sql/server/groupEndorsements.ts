@@ -79,7 +79,9 @@ export async function getGroupSendCombinedEndorsementExpiration(
     SELECT expiration FROM groupSendCombinedEndorsement
     WHERE groupId = ${groupId};
   `;
-  const value = prepare(db, selectGroup).pluck().get(selectGroupParams);
+  const value = prepare<Array<unknown>>(db, selectGroup)
+    .pluck()
+    .get(selectGroupParams);
   if (value == null) {
     return null;
   }

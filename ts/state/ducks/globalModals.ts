@@ -37,6 +37,14 @@ import {
 import { isDownloaded } from '../../types/Attachment';
 import type { ButtonVariant } from '../../components/Button';
 import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation';
+import type { MessageForwardDraft } from '../../types/ForwardDraft';
+import { hydrateRanges } from '../../types/BodyRange';
+import {
+  getConversationSelector,
+  type GetConversationByIdType,
+} from '../selectors/conversations';
+import { missingCaseError } from '../../util/missingCaseError';
+import { ForwardMessagesModalType } from '../../components/ForwardMessagesModal';
 
 // State
 
@@ -53,7 +61,8 @@ export type DeleteMessagesPropsType = ReadonlyDeep<{
 }>;
 export type ForwardMessagePropsType = ReadonlyDeep<MessagePropsType>;
 export type ForwardMessagesPropsType = ReadonlyDeep<{
-  messages: Array<ForwardMessagePropsType>;
+  type: ForwardMessagesModalType;
+  messageDrafts: Array<MessageForwardDraft>;
   onForward?: () => void;
 }>;
 export type MessageRequestActionsConfirmationPropsType = ReadonlyDeep<{
@@ -522,8 +531,34 @@ function toggleDeleteMessagesModal(
   };
 }
 
+function toMessageForwardDraft(
+  props: ForwardMessagePropsType,
+  getConversation: GetConversationByIdType
+): MessageForwardDraft {
+  return {
+    attachments: props.attachments ?? [],
+    bodyRanges: hydrateRanges(props.bodyRanges, getConversation),
+    hasContact: Boolean(props.contact),
+    isSticker: Boolean(props.isSticker),
+    messageBody: props.text,
+    originalMessageId: props.id,
+    previews: props.previews ?? [],
+  };
+}
+
+export type ForwardMessagesPayload = ReadonlyDeep<
+  | {
+      type: ForwardMessagesModalType.Forward;
+      messageIds: ReadonlyArray<string>;
+    }
+  | {
+      type: ForwardMessagesModalType.ShareCallLink;
+      draft: MessageForwardDraft;
+    }
+>;
+
 function toggleForwardMessagesModal(
-  messageIds?: ReadonlyArray<string>,
+  payload: ForwardMessagesPayload | null,
   onForward?: () => void
 ): ThunkAction<
   void,
@@ -532,7 +567,7 @@ function toggleForwardMessagesModal(
   ToggleForwardMessagesModalActionType
 > {
   return async (dispatch, getState) => {
-    if (!messageIds) {
+    if (payload == null) {
       dispatch({
         type: TOGGLE_FORWARD_MESSAGES_MODAL,
         payload: undefined,
@@ -540,31 +575,46 @@ function toggleForwardMessagesModal(
       return;
     }
 
-    const messagesProps = await Promise.all(
-      messageIds.map(async messageId => {
-        const messageAttributes = await window.MessageCache.resolveAttributes(
-          'toggleForwardMessagesModal',
-          messageId
-        );
+    let messageDrafts: ReadonlyArray<MessageForwardDraft>;
 
-        const { attachments = [] } = messageAttributes;
-
-        if (!attachments.every(isDownloaded)) {
-          dispatch(
-            conversationsActions.kickOffAttachmentDownload({ messageId })
+    if (payload.type === ForwardMessagesModalType.Forward) {
+      messageDrafts = await Promise.all(
+        payload.messageIds.map(async messageId => {
+          const messageAttributes = await window.MessageCache.resolveAttributes(
+            'toggleForwardMessagesModal',
+            messageId
           );
-        }
 
-        const messagePropsSelector = getMessagePropsSelector(getState());
-        const messageProps = messagePropsSelector(messageAttributes);
+          const { attachments = [] } = messageAttributes;
 
-        return messageProps;
-      })
-    );
+          if (!attachments.every(isDownloaded)) {
+            dispatch(
+              conversationsActions.kickOffAttachmentDownload({ messageId })
+            );
+          }
+
+          const state = getState();
+          const messagePropsSelector = getMessagePropsSelector(state);
+          const conversationSelector = getConversationSelector(state);
+
+          const messageProps = messagePropsSelector(messageAttributes);
+          const messageDraft = toMessageForwardDraft(
+            messageProps,
+            conversationSelector
+          );
+
+          return messageDraft;
+        })
+      );
+    } else if (payload.type === ForwardMessagesModalType.ShareCallLink) {
+      messageDrafts = [payload.draft];
+    } else {
+      throw missingCaseError(payload);
+    }
 
     dispatch({
       type: TOGGLE_FORWARD_MESSAGES_MODAL,
-      payload: { messages: messagesProps, onForward },
+      payload: { type: payload.type, messageDrafts, onForward },
     });
   };
 }
@@ -802,15 +852,15 @@ function closeEditHistoryModal(): CloseEditHistoryModalActionType {
 }
 
 function copyOverMessageAttributesIntoForwardMessages(
-  messagesProps: ReadonlyArray<ForwardMessagePropsType>,
+  messageDrafts: ReadonlyArray<MessageForwardDraft>,
   attributes: ReadonlyDeep<MessageAttributesType>
-): ReadonlyArray<ForwardMessagePropsType> {
-  return messagesProps.map(messageProps => {
-    if (messageProps.id !== attributes.id) {
-      return messageProps;
+): ReadonlyArray<MessageForwardDraft> {
+  return messageDrafts.map(messageDraft => {
+    if (messageDraft.originalMessageId !== attributes.id) {
+      return messageDraft;
     }
     return {
-      ...messageProps,
+      ...messageDraft,
       attachments: attributes.attachments,
     };
   });
@@ -1078,8 +1128,8 @@ export function reducer(
   if (state.forwardMessagesProps != null) {
     if (action.type === MESSAGE_CHANGED) {
       if (
-        !state.forwardMessagesProps.messages.some(message => {
-          return message.id === action.payload.id;
+        !state.forwardMessagesProps.messageDrafts.some(message => {
+          return message.originalMessageId === action.payload.id;
         })
       ) {
         return state;
@@ -1089,8 +1139,8 @@ export function reducer(
         ...state,
         forwardMessagesProps: {
           ...state.forwardMessagesProps,
-          messages: copyOverMessageAttributesIntoForwardMessages(
-            state.forwardMessagesProps.messages,
+          messageDrafts: copyOverMessageAttributesIntoForwardMessages(
+            state.forwardMessagesProps.messageDrafts,
             action.payload.data
           ),
         },

@@ -7,6 +7,7 @@ import type { LocaleMessageType, LocaleMessagesType } from '../types/I18N';
 import type {
   LocalizerType,
   ICUStringMessageParamsByKeyType,
+  LocalizerOptions,
 } from '../types/Util';
 import { strictAssert } from './assert';
 import * as log from '../logging/log';
@@ -117,11 +118,14 @@ export function setupI18n(
     Key extends keyof ICUStringMessageParamsByKeyType
   >(
     key: Key,
-    substitutions: ICUStringMessageParamsByKeyType[Key]
+    substitutions: ICUStringMessageParamsByKeyType[Key],
+    options?: LocalizerOptions
   ) => {
     const result = intl.formatMessage(
       { id: key },
-      normalizeSubstitutions(substitutions)
+      options?.textIsBidiFreeSkipNormalization
+        ? substitutions
+        : normalizeSubstitutions(substitutions)
     );
 
     strictAssert(result !== key, `i18n: missing translation for "${key}"`);

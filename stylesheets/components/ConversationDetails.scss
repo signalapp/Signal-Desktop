@@ -189,6 +189,12 @@
         }
       }
 
+      &--forward {
+        &::after {
+          @include details-icon('../images/icons/v3/forward/forward.svg');
+        }
+      }
+
       &--down {
         border-radius: 18px;
         @include light-theme {
@@ -483,6 +489,15 @@
   }
   @include dark-theme {
     @include color-svg('../images/icons/v3/video/video.svg', $color-gray-15);
+  }
+}
+
+.ConversationDetails__CallHistoryGroup__ItemIcon--Adhoc {
+  @include light-theme {
+    @include color-svg('../images/icons/v3/link/link.svg', $color-black);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v3/link/link.svg', $color-gray-15);
   }
 }
 
