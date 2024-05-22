@@ -13,7 +13,7 @@ export type SessionWrapperModalType = {
   title?: string;
   showHeader?: boolean;
   onConfirm?: () => void;
-  onClose?: () => void;
+  onClose?: (event?: KeyboardEvent) => void;
   showClose?: boolean;
   confirmText?: string;
   cancelText?: string;
@@ -41,8 +41,8 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
 
   useKey(
     'Esc',
-    () => {
-      props.onClose?.();
+    event => {
+      props.onClose?.(event);
     },
     undefined,
     [props.onClose]
@@ -50,8 +50,8 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
 
   useKey(
     'Escape',
-    () => {
-      props.onClose?.();
+    event => {
+      props.onClose?.(event);
     },
     undefined,
     [props.onClose]
@@ -95,7 +95,9 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
                     <SessionIconButton
                       iconType="exit"
                       iconSize="small"
-                      onClick={props.onClose}
+                      onClick={() => {
+                        props.onClose?.();
+                      }}
                       padding={'5px'}
                       margin={'0'}
                       dataTestId="modal-close-button"
