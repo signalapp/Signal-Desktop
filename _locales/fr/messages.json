@@ -75,7 +75,7 @@
     "messageformat": "Supprimer définitivement toutes les données ?"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "Tout l’historique de vos messages et de vos fichiers sera définitivement supprimé de cet appareil. Vous pourrez utiliser Signal sur cet appareil après l’avoir relié. Cette action ne supprimera aucune donnée de votre téléphone."
+    "messageformat": "Tout l’historique de vos messages et tous les médias stockés sur Signal seront définitivement supprimés de cet appareil. Vous pourrez de nouveau utiliser Signal sur cet appareil après l’avoir réassocié. Cette action ne supprimera aucune donnée de votre téléphone."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "La version de votre base de données ne peut pas supporter cette version de Signal. Assurez-vous d’ouvrir la dernière version de Signal sur votre ordinateur."
@@ -279,7 +279,7 @@
     "messageformat": "Paramètres"
   },
   "icu:NavTabs__ItemLabel--Update": {
-    "messageformat": "Mettre Signal à jour"
+    "messageformat": "Installer la dernière version de Signal"
   },
   "icu:NavTabs__ItemLabel--Profile": {
     "messageformat": "Profil"
@@ -582,7 +582,7 @@
     "messageformat": "Vous ne pouvez pas joindre d’autres fichiers à ce message."
   },
   "icu:fileSizeWarning": {
-    "messageformat": "Désolé, le fichier sélectionné dépasse la limite de taille des messages. {limit,number} {units}"
+    "messageformat": "La taille du fichier sélectionné dépasse la limite autorisée. "
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Impossible de charger le fichier joint sélectionné."
@@ -1125,7 +1125,7 @@
     "messageformat": "Choisissez le nom de cet appareil"
   },
   "icu:finishLinkingPhone": {
-    "messageformat": "Terminer la liaison du téléphone"
+    "messageformat": "Finaliser l’association du téléphone"
   },
   "icu:initialSync": {
     "messageformat": "Synchronisation des contacts et groupes"
@@ -1137,10 +1137,10 @@
     "messageformat": "Échec de connexion au serveur."
   },
   "icu:installTooManyDevices": {
-    "messageformat": "Désolé, trop d’appareils sont déjà reliés. Essayez d’en supprimer."
+    "messageformat": "Vous avez déjà associé un trop grand nombre d’appareils. Veuillez en supprimer quelques-uns."
   },
   "icu:installTooOld": {
-    "messageformat": "Mettez Signal à jour sur cet appareil pour relier votre téléphone."
+    "messageformat": "Pour associer votre téléphone à cet appareil, installez la dernière version de Signal."
   },
   "icu:installErrorHeader": {
     "messageformat": "Une erreur s’est produite."
@@ -1260,7 +1260,7 @@
     "messageformat": "Réagir"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
-    "messageformat": "Le groupe est trop grand pour appeler tous les participants."
+    "messageformat": "Appel impossible : le groupe compte un trop grand nombre de participants."
   },
   "icu:CallingButton__ring-off": {
     "messageformat": "Désactiver la sonnerie"
@@ -1584,7 +1584,7 @@
     "messageformat": "Messages éphémères"
   },
   "icu:disappearingMessagesDisabled": {
-    "messageformat": "Les messages éphémères sont désactivés"
+    "messageformat": "Messages éphémères désactivés"
   },
   "icu:disappearingMessagesDisabledByMember": {
     "messageformat": "Un membre a désactivé les messages éphémères."
@@ -1761,7 +1761,7 @@
     "messageformat": "Cliquez pour relier Signal Desktop pour ordinateur à votre appareil mobile et continuer à communiquer."
   },
   "icu:unlinked": {
-    "messageformat": "Non relié"
+    "messageformat": "Dissocié"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Une mise à jour est disponible"
@@ -2109,7 +2109,7 @@
     "messageformat": "De tels messages futurs seront synchronisés, maintenant que vous utilisez une version à jour de Signal."
   },
   "icu:Message--update-signal": {
-    "messageformat": "Mettre Signal à jour"
+    "messageformat": "Installer la dernière version de Signal"
   },
   "icu:Message--tap-to-view-expired": {
     "messageformat": "Vu"
@@ -2469,7 +2469,7 @@
     "messageformat": "Vous pourrez échanger des messages et des appels."
   },
   "icu:MessageRequests--unblock-group-confirm-body": {
-    "messageformat": "Les membres du groupe pourront vous rajouter à ce groupe."
+    "messageformat": "Les membres pourront de nouveau vous ajouter à ce groupe."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Signalé comme indésirable et bloqué."
@@ -2484,7 +2484,7 @@
     "messageformat": "Bloquer et quitter {title} ?"
   },
   "icu:MessageRequests--block-group-confirm-body": {
-    "messageformat": "Vous ne recevrez plus ni message ni mise à jour de ce groupe et les membres ne pourront plus vous rajouter à ce groupe."
+    "messageformat": "Ce groupe ne pourra plus vous envoyer de messages, ni vous tenir informé des dernières actualités, et ses membres ne pourront plus vous y ajouter."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Signaler..."
@@ -2847,7 +2847,7 @@
     "messageformat": "{max, plural, one {{max,number} modification peut-être appliquée à ce message.} other {{max,number} modifications seulement peuvent être appliquées à ce message.}}"
   },
   "icu:unknown-sgnl-link": {
-    "messageformat": "Désolé, ce lien sgnl:// était invalide"
+    "messageformat": "Le lien sgnl:// est incorrect."
   },
   "icu:GroupV2--cannot-send": {
     "messageformat": "Vous ne pouvez pas envoyer de message à ce groupe."
@@ -5046,7 +5046,7 @@
     "messageformat": "{maxDurationInSec, plural, one {Impossible de poster la vidéo dans la Story car elle dure plus de 1 seconde.} other {Impossible de poster la vidéo dans la Story car elle dure plus de {maxDurationInSec,number} secondes.}}"
   },
   "icu:StoryCreator__error--video-too-big": {
-    "messageformat": "Impossible de poster la vidéo dans la Story car elle est plus lourde que {limit,number} {units}."
+    "messageformat": "La vidéo dépasse la limite de {limit,number} {units} : impossible de la publier dans la story."
   },
   "icu:StoryCreator__error--video-error": {
     "messageformat": "Impossible de charger la vidéo"

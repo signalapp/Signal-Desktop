@@ -324,7 +324,7 @@
     "messageformat": "Повідомлення"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Голосовий виклик"
+    "messageformat": "Аудіовиклик"
   },
   "icu:ContactListItem__menu__video-call": {
     "messageformat": "Відеовиклик"
@@ -393,7 +393,7 @@
     "messageformat": "{count, plural, one {{count,number} непрочитане повідомлення} few {{count,number} непрочитані повідомлення} many {{count,number} непрочитаних повідомлень} other {{count,number} непрочитаного повідомлення}}"
   },
   "icu:messageHistoryUnsynced": {
-    "messageformat": "Для вашої безпеки історія чатів не переноситься на нові зв'язані пристрої."
+    "messageformat": "З міркувань безпеки історія чатів не переноситься на нові зв'язані пристрої."
   },
   "icu:youMarkedAsVerified": {
     "messageformat": "Ви позначили, що код безпеки для чату з користувачем {name} перевірено"
@@ -498,7 +498,7 @@
     "messageformat": "Позначити як неперевірений"
   },
   "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Щоб перевірити наявність наскрізного шифрування з користувачем {name}, порівняйте наведені вище цифри із цифрами на пристрої вашого співрозмовника. Користувач також може відсканувати ваш код за допомогою свого пристрою."
+    "messageformat": "Щоб перевірити наявність наскрізного шифрування з користувачем {name}, порівняйте наведені вище цифри із цифрами на пристрої цього співрозмовника. Також користувач може зісканувати ваш код своїм пристроєм."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Дізнатися більше"
@@ -771,10 +771,10 @@
     "messageformat": "Сталася помилка з записувачем голосового повідомлення."
   },
   "icu:attachmentSaved": {
-    "messageformat": "Додаток збережено."
+    "messageformat": "Вкладення збережено."
   },
   "icu:attachmentSavedShow": {
-    "messageformat": "Показати у папці"
+    "messageformat": "Показати в папці"
   },
   "icu:you": {
     "messageformat": "Ви"
@@ -819,7 +819,7 @@
     "messageformat": "Швидше за все, Signal Desktop знаходиться в карантині macOS і не зможе автоматично оновлюватись. Будь ласка, спробуйте перемістити {app} в {folder} за допомогою Finder."
   },
   "icu:ok": {
-    "messageformat": "Добре"
+    "messageformat": "Зрозуміло"
   },
   "icu:cancel": {
     "messageformat": "Закрити"
@@ -1479,7 +1479,7 @@
     "messageformat": "Тільки ім'я"
   },
   "icu:newMessage": {
-    "messageformat": "Нове Повідомлення"
+    "messageformat": "Нове повідомлення"
   },
   "icu:notificationSenderInGroup": {
     "messageformat": "{sender} у {group}"
@@ -1551,7 +1551,7 @@
     "messageformat": "Щойно"
   },
   "icu:timestampFormat__long--today": {
-    "messageformat": "Сьогодні, {time}"
+    "messageformat": "сьогодні, {time}"
   },
   "icu:timestampFormat__long--yesterday": {
     "messageformat": "Учора, {time}"
@@ -2550,13 +2550,13 @@
     "messageformat": "{count, plural, one {{count,number} учасник} few {{count,number} учасники} many {{count,number} учасників} other {{count,number} учасника}}"
   },
   "icu:member-of-1-group": {
-    "messageformat": "Є учасником «{group}»"
+    "messageformat": "Учасник {group}"
   },
   "icu:member-of-2-groups": {
-    "messageformat": "Є учасником «{group1}» і «{group2}»"
+    "messageformat": "Учасник {group1} і {group2}"
   },
   "icu:member-of-3-groups": {
-    "messageformat": "Є учасником «{group1}», «{group2}» і «{group3}»"
+    "messageformat": "Учасник {group1}, {group2} і {group3}"
   },
   "icu:member-of-more-than-3-groups--one-more": {
     "messageformat": "Учасник {group1}, {group2}, {group3} та ще однієї"
@@ -2580,31 +2580,31 @@
     "messageformat": "Відхилити"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Ви відхилили голосовий виклик"
+    "messageformat": "Ви відхилили аудіовиклик"
   },
   "icu:declinedIncomingVideoCall": {
     "messageformat": "Ви відхилили відеодзвінок"
   },
   "icu:acceptedIncomingAudioCall": {
-    "messageformat": "Вхідний голосовий виклик"
+    "messageformat": "Вхідний аудіовиклик"
   },
   "icu:acceptedIncomingVideoCall": {
     "messageformat": "Вхідний відеодзвінок"
   },
   "icu:missedIncomingAudioCall": {
-    "messageformat": "Пропущений голосовий виклик"
+    "messageformat": "Пропущений аудіовиклик"
   },
   "icu:missedIncomingVideoCall": {
     "messageformat": "Пропущений відеодзвінок"
   },
   "icu:acceptedOutgoingAudioCall": {
-    "messageformat": "Вихідний голосовий виклик"
+    "messageformat": "Вихідний аудіовиклик"
   },
   "icu:acceptedOutgoingVideoCall": {
     "messageformat": "Вихідний відеодзвінок"
   },
   "icu:missedOrDeclinedOutgoingAudioCall": {
-    "messageformat": "Голосовий виклик без відповіді"
+    "messageformat": "Аудіовиклик без відповіді"
   },
   "icu:missedOrDeclinedOutgoingVideoCall": {
     "messageformat": "Відеодзвінок без відповіді"
@@ -2622,7 +2622,7 @@
     "messageformat": "Вхідний відеовиклик…"
   },
   "icu:outgoingAudioCall": {
-    "messageformat": "Вихідний голосовий виклик"
+    "messageformat": "Вихідний аудіовиклик"
   },
   "icu:outgoingVideoCall": {
     "messageformat": "Вихідний відеодзвінок"
@@ -2664,7 +2664,7 @@
     "messageformat": "{count, plural, one {{count,number} особи} few {{count,number} осіб} many {{count,number} осіб} other {{count,number} осіб}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Голосовий виклик"
+    "messageformat": "Аудіовиклик"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Посилання на виклик"
@@ -4242,7 +4242,7 @@
     "messageformat": "Не зараз"
   },
   "icu:ProfileEditor--edit-photo": {
-    "messageformat": "Редагувати фото"
+    "messageformat": "Змінити фото"
   },
   "icu:ProfileEditor--info--general": {
     "messageformat": "Ваш профіль і зміни в ньому бачитимуть ваші співрозмовники, контакти та групи."
@@ -4296,7 +4296,7 @@
     "messageformat": "адміністратори"
   },
   "icu:AvatarEditor--choose": {
-    "messageformat": "Обрати фото профілю"
+    "messageformat": "Оберіть аватар"
   },
   "icu:AvatarColorPicker--choose": {
     "messageformat": "Обрати колір"
@@ -4401,7 +4401,7 @@
     "messageformat": "Будь-яка людина, що має ваш номер телефону, бачитиме вас у Signal і зможе розпочати з вами розмову."
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
-    "messageformat": "Ніхто не бачитиме, що ви використовуєте Signal, окрім людей, з якими ви вже маєте чат або яким напишете повідомлення."
+    "messageformat": "Крім людей, яким ви напишете самі й з якими ви вже маєте спільний чат, ніхто не побачить, що ви зареєстровані в Signal."
   },
   "icu:Preferences__pnp__discoverability__everyone": {
     "messageformat": "Усі"
@@ -5332,16 +5332,16 @@
     "messageformat": "Немає результатів за запитом «{query}»"
   },
   "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Вихідний голосовий виклик} other {Вхідний голосовий виклик}}} Video {{direction, select, Outgoing {Вихідний відеодзвінок} other {Вхідний відеодзвінок}}} Group {{direction, select, Outgoing {Вихідний груповий дзвінок} other {Вхідний груповий дзвінок}}} other {{direction, select, Outgoing {Вихідний виклик} other {Вхідний виклик}}}}"
+    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Вихідний аудіовиклик} other {Вхідний аудіовиклик}}} Video {{direction, select, Outgoing {Вихідний відеодзвінок} other {Вхідний відеодзвінок}}} Group {{direction, select, Outgoing {Вихідний груповий дзвінок} other {Вхідний груповий дзвінок}}} other {{direction, select, Outgoing {Вихідний виклик} other {Вхідний виклик}}}}"
   },
   "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Пропущений голосовий виклик} Video {Пропущений відеодзвінок} Group {Пропущений груповий дзвінок} other {Пропущений виклик}}"
+    "messageformat": "{type, select, Audio {Пропущений аудіовиклик} Video {Пропущений відеодзвінок} Group {Пропущений груповий дзвінок} other {Пропущений виклик}}"
   },
   "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Голосовий виклик без відповіді} Video {Відеодзвінок без відповіді} Group {Груповий виклик без відповіді} other {Виклик без відповіді}}"
+    "messageformat": "{type, select, Audio {Аудіовиклик без відповіді} Video {Відеодзвінок без відповіді} Group {Груповий виклик без відповіді} other {Виклик без відповіді}}"
   },
   "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Відхилений голосовий виклик} Video {Відхилений відеовиклик} Group {Відхилений груповий виклик} other {Відхилений виклик}}"
+    "messageformat": "{type, select, Audio {Відхилений аудіовиклик} Video {Відхилений відеовиклик} Group {Відхилений груповий виклик} other {Відхилений виклик}}"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Посилання на виклик"

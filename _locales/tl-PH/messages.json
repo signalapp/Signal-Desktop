@@ -21,7 +21,7 @@
     "messageformat": "Ina-add si {contact}…"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Kanselahin"
+    "messageformat": "I-cancel"
   },
   "icu:RecordingComposer__send": {
     "messageformat": "I-send"
@@ -54,7 +54,7 @@
     "messageformat": "Apple silicon"
   },
   "icu:copyErrorAndQuit": {
-    "messageformat": "Copy error at mag-quit"
+    "messageformat": "Kopyahin ang error at mag-quit"
   },
   "icu:unknownContact": {
     "messageformat": "Unknown contact"
@@ -84,7 +84,7 @@
     "messageformat": "&File"
   },
   "icu:mainMenuCreateStickers": {
-    "messageformat": "Create/upload sticker pack"
+    "messageformat": "Gumawa/mag-upload sticker pack"
   },
   "icu:mainMenuEdit": {
     "messageformat": "&Edit"
@@ -105,13 +105,13 @@
     "messageformat": "Services"
   },
   "icu:appMenuHide": {
-    "messageformat": "I-hide"
+    "messageformat": "Itago"
   },
   "icu:appMenuHideOthers": {
-    "messageformat": "Hide Others"
+    "messageformat": "Itago ang Iba"
   },
   "icu:appMenuUnhide": {
-    "messageformat": "Show All"
+    "messageformat": "Ipakita Lahat"
   },
   "icu:appMenuQuit": {
     "messageformat": "I-close ang Signal App"

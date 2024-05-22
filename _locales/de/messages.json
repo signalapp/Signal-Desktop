@@ -3984,7 +3984,7 @@
     "messageformat": "Zurücksetzen"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "Möchtest du alle Chatfarben überschreiben?"
+    "messageformat": "Möchtest du alle Chatfarben zurücksetzen?"
   },
   "icu:ChatColorPicker__custom-color--label": {
     "messageformat": "Farbeditor anzeigen"
@@ -4953,7 +4953,7 @@
     "messageformat": "Stummschaltung aufheben"
   },
   "icu:StoryViewer__views-off": {
-    "messageformat": "Anzeigen aus"
+    "messageformat": "Aufrufe aus"
   },
   "icu:StoryViewer__sending": {
     "messageformat": "Wird gesendet …"

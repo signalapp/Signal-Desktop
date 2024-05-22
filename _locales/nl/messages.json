@@ -3045,7 +3045,7 @@
     "messageformat": "{inviteeName} heeft de groepsuitnodiging van {inviterName} geaccepteerd."
   },
   "icu:GroupV2--member-add--from-invite--other-no-from": {
-    "messageformat": "{inviteeName} heeft de groepsuitnodiging geaccepteerd."
+    "messageformat": "{inviteeName} heeft een groepsuitnodiging geaccepteerd."
   },
   "icu:GroupV2--member-add--from-invite--you": {
     "messageformat": "Je hebt de groepsuitnodiging van {inviterName} geaccepteerd."
