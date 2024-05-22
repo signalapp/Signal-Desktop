@@ -17,6 +17,7 @@ export type ThemeGlobals = {
   '--font-size-sm': string;
   '--font-size-md': string;
   '--font-size-lg': string;
+  '--font-size-xl': string;
   '--font-size-h1': string;
   '--font-size-h2': string;
   '--font-size-h3': string;
@@ -111,6 +112,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--font-size-sm': '13px',
   '--font-size-md': '15px',
   '--font-size-lg': '17px',
+  '--font-size-xl': '19px',
   '--font-size-h1': '30px',
   '--font-size-h2': '24px',
   '--font-size-h3': '20px',
