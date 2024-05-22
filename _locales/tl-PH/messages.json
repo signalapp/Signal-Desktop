@@ -21,7 +21,7 @@
     "messageformat": "Ina-add si {contact}…"
   },
   "icu:RecordingComposer__cancel": {
-    "messageformat": "Kanselahin"
+    "messageformat": "I-cancel"
   },
   "icu:RecordingComposer__send": {
     "messageformat": "I-send"
@@ -54,7 +54,7 @@
     "messageformat": "Apple silicon"
   },
   "icu:copyErrorAndQuit": {
-    "messageformat": "Copy error at mag-quit"
+    "messageformat": "Kopyahin ang error at mag-quit"
   },
   "icu:unknownContact": {
     "messageformat": "Unknown contact"
@@ -84,7 +84,7 @@
     "messageformat": "&File"
   },
   "icu:mainMenuCreateStickers": {
-    "messageformat": "Create/upload sticker pack"
+    "messageformat": "Gumawa/mag-upload sticker pack"
   },
   "icu:mainMenuEdit": {
     "messageformat": "&Edit"
@@ -105,13 +105,13 @@
     "messageformat": "Services"
   },
   "icu:appMenuHide": {
-    "messageformat": "I-hide"
+    "messageformat": "Itago"
   },
   "icu:appMenuHideOthers": {
-    "messageformat": "Hide Others"
+    "messageformat": "Itago ang Iba"
   },
   "icu:appMenuUnhide": {
-    "messageformat": "Show All"
+    "messageformat": "Ipakita Lahat"
   },
   "icu:appMenuQuit": {
     "messageformat": "I-close ang Signal App"
@@ -1033,6 +1033,9 @@
   },
   "icu:ChangeNumber--notification": {
     "messageformat": "Pinalitan ni {sender} ang kanyang phone number"
+  },
+  "icu:JoinedSignal--notification": {
+    "messageformat": "Contact joined Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "Magkaparehong account ang {obsoleteConversationTitle} at {conversationTitle}. Nandito ang inyong message history para sa parehong chats."
@@ -3866,11 +3869,17 @@
   "icu:ForwardMessageModal__title": {
     "messageformat": "I-forward Kay"
   },
+  "icu:ForwardMessageModal__ShareCallLink": {
+    "messageformat": "Share call link"
+  },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Magpatuloy"
   },
   "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
     "messageformat": "Hindi ma-forward ang messages na walang laman o binura na"
+  },
+  "icu:ShareCallLinkViaSignal__DraftMessageText": {
+    "messageformat": "Use this link to join a Signal call: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Matuto pa"
@@ -4347,7 +4356,7 @@
     "messageformat": "Gawing emoji ang typed emoticons"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "Halimbawa, ang :-) ay magiging 🙂"
+    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Advanced"
@@ -5325,11 +5334,29 @@
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "Call link"
   },
+  "icu:CallsList__ItemCallInfo--Active": {
+    "messageformat": "Active"
+  },
+  "icu:CallsList__LeaveCallDialogTitle": {
+    "messageformat": "Leave the current call?"
+  },
+  "icu:CallsList__LeaveCallDialogBody": {
+    "messageformat": "You must leave the current call before joining a new call."
+  },
+  "icu:CallsList__LeaveCallDialogButton--leave": {
+    "messageformat": "Leave call"
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Walang recent conversations."
   },
   "icu:CallsNewCall__EmptyState--hasQuery": {
     "messageformat": "Walang resulta para sa \"{query}\""
+  },
+  "icu:CallsNewCallButton--return": {
+    "messageformat": "Return"
+  },
+  "icu:CallsNewCallButtonTooltip--in-another-call": {
+    "messageformat": "You must leave the current call before joining a new call"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Outgoing voice call} other {Incoming voice call}}} Video {{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}} Group {{direction, select, Outgoing {Outgoing group call} other {Incoming group call}}} other {{direction, select, Outgoing {Outgoing  call} other {Incoming  call}}}}"
@@ -5345,6 +5372,15 @@
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Call link"
+  },
+  "icu:CallLinkDetails__Join": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkDetails__CopyLink": {
+    "messageformat": "Copy link"
+  },
+  "icu:CallLinkDetails__ShareLinkViaSignal": {
+    "messageformat": "Share link via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ang nagta-type.} other {{count,number} ang nagta-type.}}"
@@ -5385,5 +5421,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__v7.11--0": {
+    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
   }
 }
