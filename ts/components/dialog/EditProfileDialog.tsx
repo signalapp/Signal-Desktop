@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 
 import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
@@ -16,9 +17,73 @@ import { getThemeValue } from '../../themes/globals';
 import { setLastProfileUpdateTimestamp } from '../../util/storage';
 import { SessionQRCode } from '../SessionQRCode';
 import { SessionWrapperModal } from '../SessionWrapperModal';
-import { SessionButton, SessionButtonType } from '../basic/SessionButton';
+import { Flex } from '../basic/Flex';
+import { SessionButton } from '../basic/SessionButton';
+import { Spacer2XL, Spacer3XL, SpacerLG, SpacerSM, SpacerXL, SpacerXS } from '../basic/Text';
 import { SessionIconButton } from '../icon';
 import { SessionSpinner } from '../loading';
+
+const StyledEditProfileDialog = styled.div`
+  .session-modal {
+    width: 468px;
+    .session-modal__body {
+      overflow: initial;
+    }
+  }
+
+  .avatar-center-inner {
+    position: relative;
+
+    .qr-view-button {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      height: 34px;
+      width: 34px;
+      border-radius: 50%;
+      background-color: var(--white-color);
+      transition: var(--default-duration);
+
+      &:hover {
+        filter: brightness(90%);
+      }
+
+      .session-icon-button {
+        opacity: 1;
+      }
+    }
+  }
+`;
+
+const StyledProfileName = styled(Flex)`
+  input {
+    height: 38px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: var(--font-size-md);
+  }
+
+  &.uneditable {
+    p {
+      margin: 0;
+      padding: 0px var(--margins-lg) 0 var(--margins-sm);
+    }
+
+    .session-icon-button {
+      padding: 0px;
+    }
+  }
+`;
+
+const StyledSessionIdSection = styled(Flex)`
+  .session-button {
+    width: 160px;
+  }
+`;
 
 const QRView = ({ sessionID }: { sessionID: string }) => {
   const theme = useSelector(getTheme);
@@ -208,17 +273,28 @@ export const EditProfileDialog = () => {
     /* The <div> element has a child <input> element that allows keyboard interaction
     We use edit-profile-default class to prevent the qr icon on the avatar from clipping
     */
-    <div className="edit-profile-dialog" data-testid="edit-profile-dialog" onKeyUp={handleOnKeyUp}>
+    <StyledEditProfileDialog
+      className="edit-profile-dialog"
+      data-testid="edit-profile-dialog"
+      onKeyUp={handleOnKeyUp}
+    >
       <SessionWrapperModal
         title={window.i18n('editProfileModalTitle')}
         onClose={closeDialog}
         headerIconButtons={backButton}
+        headerReverse={true}
         showExitIcon={true}
         additionalClassName={mode === 'default' ? 'edit-profile-default' : undefined}
       >
-        {mode === 'qr' && <QRView sessionID={ourId} />}
+        {mode === 'qr' && (
+          <>
+            <QRView sessionID={ourId} />
+            <SpacerXS />
+          </>
+        )}
         {mode === 'default' && (
           <>
+            <SpacerSM />
             <ProfileHeader
               avatarPath={avatarPath}
               profileName={profileName}
@@ -226,17 +302,24 @@ export const EditProfileDialog = () => {
               onClick={handleProfileHeaderClick}
               setMode={setMode}
             />
-            <div className="profile-name-uneditable">
-              <p data-testid="your-profile-name">{updatedProfileName || profileName}</p>
+            <SpacerXL />
+            <StyledProfileName
+              container={true}
+              justifyContent="center"
+              alignItems="center"
+              className="uneditable"
+            >
               <SessionIconButton
                 iconType="pencil"
-                iconSize="medium"
+                iconSize="large"
                 onClick={() => {
                   setMode('edit');
                 }}
                 dataTestId="edit-profile-icon"
               />
-            </div>
+              <p data-testid="your-profile-name">{updatedProfileName || profileName}</p>
+            </StyledProfileName>
+            <Spacer3XL />
           </>
         )}
         {mode === 'edit' && (
@@ -248,10 +331,10 @@ export const EditProfileDialog = () => {
               onClick={handleProfileHeaderClick}
               setMode={setMode}
             />
-            <div className="profile-name">
+            <StyledProfileName container={true} justifyContent="center" alignItems="center">
+              {/* TODO swap with new session input */}
               <input
                 type="text"
-                className="profile-name-input"
                 value={profileName}
                 placeholder={window.i18n('displayName')}
                 onChange={onNameEdited}
@@ -261,39 +344,63 @@ export const EditProfileDialog = () => {
                 aria-required={true}
                 data-testid="profile-name-input"
               />
-            </div>
+            </StyledProfileName>
           </>
         )}
 
-        <div className="session-id-section">
+        <StyledSessionIdSection
+          container={true}
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          width="calc(100% - 80px)"
+        >
+          <SpacerLG />
           <YourSessionIDPill />
+          <SpacerLG />
           <YourSessionIDSelectable />
 
           <SessionSpinner loading={loading} />
+          <Spacer2XL />
 
           {mode === 'default' || mode === 'qr' ? (
-            <SessionButton
-              text={window.i18n('editMenuCopy')}
-              buttonType={SessionButtonType.Simple}
-              onClick={() => {
-                window.clipboard.writeText(ourId);
-                ToastUtils.pushCopiedToClipBoard();
-              }}
-              dataTestId="copy-button-profile-update"
-            />
+            <Flex
+              container={true}
+              justifyContent={mode === 'default' ? 'space-between' : 'center'}
+              alignItems="center"
+              width={'100%'}
+            >
+              <SessionButton
+                text={window.i18n('editMenuCopy')}
+                onClick={() => {
+                  window.clipboard.writeText(ourId);
+                  ToastUtils.pushCopiedToClipBoard();
+                }}
+                dataTestId="copy-button-profile-update"
+              />
+              {mode === 'default' ? (
+                <SessionButton
+                  text={window.i18n('qrView')}
+                  onClick={() => {
+                    setMode('qr');
+                  }}
+                  dataTestId="qr-view-profile-update"
+                />
+              ) : null}
+            </Flex>
           ) : (
             !loading && (
               <SessionButton
                 text={window.i18n('save')}
-                buttonType={SessionButtonType.Simple}
                 onClick={onClickOK}
                 disabled={loading}
                 dataTestId="save-button-profile-update"
               />
             )
           )}
-        </div>
+          <SpacerSM />
+        </StyledSessionIdSection>
       </SessionWrapperModal>
-    </div>
+    </StyledEditProfileDialog>
   );
 };
