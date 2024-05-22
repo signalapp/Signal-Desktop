@@ -106,7 +106,7 @@ export const OverlayCommunity = () => {
         onEnterPressed={onTryJoinRoom}
         error={groupUrlError}
         maxLength={VALIDATION.MAX_COMMUNITY_NAME_LENGTH}
-        biggerText={true}
+        fontSize="md"
         centerText={true}
         monospaced={true}
         isTextArea={true}

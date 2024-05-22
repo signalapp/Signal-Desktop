@@ -5,84 +5,16 @@ import { isEmpty, isEqual } from 'lodash';
 import styled, { CSSProperties } from 'styled-components';
 import { THEME_GLOBALS } from '../../themes/globals';
 import { useHTMLDirection } from '../../util/i18n';
-import { Flex } from '../basic/Flex';
+import { AnimatedFlex, Flex } from '../basic/Flex';
 import { SpacerMD } from '../basic/Text';
 import { SessionIconButton } from '../icon';
 
-const StyledInput = styled(motion.input)<{
+type TextSizes = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
+const StyledSessionInput = styled(Flex)<{
   error: boolean;
-  centerText?: boolean;
-  monospaced?: boolean;
+  fontSize?: TextSizes;
 }>`
-  border: 1px solid var(--input-border-color);
-  border-radius: 13px;
-  outline: 0;
-  width: 100%;
-  background: transparent;
-  color: ${props => (props.error ? 'var(--danger-color)' : 'var(--input-text-color)')};
-
-  font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
-  font-size: 12px;
-  line-height: 14px;
-  padding: var(--margins-lg);
-  ${props => props.centerText && 'text-align: center;'}
-
-  &::placeholder {
-    color: var(--input-text-placeholder-color);
-    ${props => props.centerText && 'text-align: center;'}
-  }
-`;
-
-const StyledTextAreaContainer = styled(motion.div)<{
-  error: boolean;
-  centerText?: boolean;
-  monospaced?: boolean;
-}>`
-  border: 1px solid var(--input-border-color);
-  border-radius: 13px;
-  outline: 0;
-  width: 100%;
-  background: transparent;
-  color: ${props => (props.error ? 'var(--danger-color)' : 'var(--input-text-color)')};
-
-  font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
-  font-size: 12px;
-  line-height: 14px;
-
-  ${props => props.centerText && 'text-align: center;'}
-
-  textarea {
-    width: 100%;
-    outline: 0;
-    border: none;
-    background: transparent;
-
-    resize: none;
-    overflow: hidden;
-    overflow-wrap: break-word;
-    user-select: all;
-
-    display: inline-block;
-    padding: var(--margins-lg);
-    margin: var(--margins-xs) 0;
-
-    ${props => props.centerText && 'text-align: center;'}
-
-    &:placeholder-shown {
-      font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
-      font-size: 12px;
-      height: 48px;
-      margin: var(--margins-md) 0;
-    }
-
-    &::placeholder {
-      color: var(--input-text-placeholder-color);
-      ${props => props.centerText && 'text-align: center;'}
-    }
-  }
-`;
-
-const StyledInputContainer = styled(Flex)<{ error: boolean; biggerText?: boolean }>`
   position: relative;
   width: 100%;
 
@@ -109,25 +41,105 @@ const StyledInputContainer = styled(Flex)<{ error: boolean; biggerText?: boolean
   }
 
   ${props =>
-    props.biggerText &&
+    props.fontSize &&
     `
   ${StyledInput} {
-    font-size: var(--font-size-md);
-    line-height: 18px;
+    font-size: var(--font-size-${props.fontSize});
   }
 
   ${StyledTextAreaContainer} {
-    font-size: var(--font-size-md);
-    line-height: 18px;
+    font-size: var(--font-size-${props.fontSize});
 
     textarea {
       &:placeholder-shown {
-        font-size: var(--font-size-md);
-        height: 56px;
+        font-size: var(--font-size-${props.fontSize});
       }
     }
   }
   `}
+`;
+
+const StyledBorder = styled(AnimatedFlex)`
+  position: relative;
+  border: 1px solid var(--input-border-color);
+  border-radius: 13px;
+`;
+
+const StyledInput = styled(motion.input)<{
+  error: boolean;
+  centerText?: boolean;
+  monospaced?: boolean;
+}>`
+  outline: 0;
+  border: none;
+  width: 100%;
+  padding: var(--margins-lg);
+  background: transparent;
+  color: ${props => (props.error ? 'var(--danger-color)' : 'var(--input-text-color)')};
+
+  font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
+  font-size: 12px;
+  line-height: 1.4;
+  ${props => props.centerText && 'text-align: center;'}
+
+  &::placeholder {
+    color: var(--input-text-placeholder-color);
+    ${props => props.centerText && 'text-align: center;'}
+  }
+`;
+
+const StyledTextAreaContainer = styled(motion.div)<{
+  error: boolean;
+  centerText?: boolean;
+  fontSize?: TextSizes;
+  monospaced?: boolean;
+}>`
+  overflow: hidden;
+  position: relative;
+  height: ${props => (props.fontSize ? `calc(var(--font-size-${props.fontSize}) * 4)` : '48px')};
+  width: 100%;
+  margin: var(--margins-sm) var(--margins-md);
+
+  background: transparent;
+  color: ${props => (props.error ? 'var(--danger-color)' : 'var(--input-text-color)')};
+  outline: 0;
+
+  font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
+  font-size: 12px;
+  line-height: 1.4;
+
+  ${props => props.centerText && 'text-align: center;'}
+
+  textarea {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    outline: 0;
+    border: none;
+    background: transparent;
+
+    position: absolute;
+    top: ${props =>
+      props.fontSize ? `calc(var(--font-size-${props.fontSize}) + 5px)` : 'calc(12px + 5px)'};
+
+    resize: none;
+    overflow-wrap: break-word;
+    user-select: all;
+
+    ${props => props.centerText && 'text-align: center;'}
+
+    &:placeholder-shown {
+      font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    &::placeholder {
+      color: var(--input-text-placeholder-color);
+      ${props => props.centerText && 'text-align: center;'}
+    }
+  }
 `;
 
 const ErrorItem = (props: { id: string; error: string }) => {
@@ -198,16 +210,19 @@ type Props = {
   onValueChanged?: (value: string) => any;
   onEnterPressed?: (value: string) => any;
   autoFocus?: boolean;
+  // TODO rename disableOnBlurEvent
   disabledOnBlur?: boolean;
-  ref?: any;
+  inputRef?: any;
   inputDataTestId?: string;
   id?: string;
   ctaButton?: ReactNode;
   monospaced?: boolean;
-  biggerText?: boolean;
+  fontSize?: TextSizes;
   centerText?: boolean;
   editable?: boolean;
   isTextArea?: boolean;
+  required?: boolean;
+  tabIndex?: number;
   className?: string;
 };
 
@@ -223,14 +238,17 @@ export const SessionInput = (props: Props) => {
     onEnterPressed,
     autoFocus,
     disabledOnBlur,
+    inputRef,
     inputDataTestId,
     id = 'session-input-floating-label',
     ctaButton,
     monospaced,
-    biggerText,
+    fontSize,
     centerText,
     editable = true,
     isTextArea,
+    required,
+    tabIndex,
     className,
   } = props;
   const [inputValue, setInputValue] = useState('');
@@ -261,6 +279,10 @@ export const SessionInput = (props: Props) => {
     maxLength,
     autoFocus,
     'data-testid': inputDataTestId,
+    required,
+    'aria-required': required,
+    tabIndex,
+    ref: inputRef,
     onChange: updateInputValue,
     style: { paddingInlineEnd: enableShowHide ? '48px' : undefined },
     // just in case onChange isn't triggered
@@ -282,18 +304,12 @@ export const SessionInput = (props: Props) => {
         setErrorString('');
       }
     },
-    initial: {
-      borderColor: errorString ? 'var(--input-border-color)' : undefined,
-    },
-    animate: {
-      borderColor: errorString ? 'var(--danger-color)' : undefined,
-    },
-    transition: { duration: THEME_GLOBALS['--default-duration-seconds'] },
   };
 
   const containerProps = {
     error: Boolean(error),
     centerText,
+    fontSize,
     monospaced,
   };
 
@@ -305,16 +321,27 @@ export const SessionInput = (props: Props) => {
   }, [error, errorString]);
 
   return (
-    <StyledInputContainer
+    <StyledSessionInput
       className={className}
       container={true}
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
       error={Boolean(errorString)}
-      biggerText={biggerText}
+      fontSize={fontSize}
     >
-      <Flex container={true} width="100%" alignItems="center" style={{ position: 'relative' }}>
+      <StyledBorder
+        container={true}
+        width="100%"
+        alignItems="center"
+        initial={{
+          borderColor: errorString ? 'var(--input-border-color)' : undefined,
+        }}
+        animate={{
+          borderColor: errorString ? 'var(--danger-color)' : undefined,
+        }}
+        transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
+      >
         {isTextArea ? (
           <StyledTextAreaContainer {...containerProps}>
             <textarea {...inputProps} />
@@ -331,7 +358,7 @@ export const SessionInput = (props: Props) => {
             error={Boolean(errorString)}
           />
         )}
-      </Flex>
+      </StyledBorder>
 
       {ctaButton || errorString ? <SpacerMD /> : null}
       {errorString ? <ErrorItem id={id} error={errorString} /> : null}
@@ -342,6 +369,6 @@ export const SessionInput = (props: Props) => {
       >
         {ctaButton}
       </StyledCtaContainer>
-    </StyledInputContainer>
+    </StyledSessionInput>
   );
 };

@@ -52,6 +52,12 @@ const StyledButtonerContainer = styled.div`
   }
 `;
 
+const StyledInputContainer = styled(Flex)`
+  textarea {
+    top: 8px;
+  }
+`;
+
 export const OverlayInvite = () => {
   const ourSessionID = UserUtils.getOurPubKeyStrFromCache();
 
@@ -75,15 +81,22 @@ export const OverlayInvite = () => {
     >
       {!idCopied ? (
         <>
-          <SessionInput
-            autoFocus={true}
-            type="text"
-            value={ourSessionID}
-            centerText={true}
-            editable={false}
-            isTextArea={true}
-            inputDataTestId="invite-account-id"
-          />
+          <StyledInputContainer
+            container={true}
+            width={'100%'}
+            justifyContent="center"
+            alignItems="center"
+          >
+            <SessionInput
+              autoFocus={true}
+              type="text"
+              value={ourSessionID}
+              editable={false}
+              centerText={true}
+              isTextArea={true}
+              inputDataTestId="invite-account-id"
+            />
+          </StyledInputContainer>
           <SpacerMD />
           <StyledDescription>{window.i18n('sessionInviteAFriendDescription')}</StyledDescription>
           <SpacerLG />
