@@ -17,12 +17,13 @@ export type MessageForwardDraft = Readonly<{
   hasContact: boolean;
   isSticker: boolean;
   messageBody?: string;
-  originalMessageId: string;
+  originalMessageId: string | null; // null for new messages
   previews: ReadonlyArray<LinkPreviewType>;
 }>;
 
 export type ForwardMessageData = Readonly<{
-  originalMessage: MessageAttributesType;
+  // only null for new messages
+  originalMessage: MessageAttributesType | null;
   draft: MessageForwardDraft;
 }>;
 
@@ -71,11 +72,14 @@ export function sortByMessageOrder<T>(
   items: ReadonlyArray<T>,
   getMesssage: (
     item: T
-  ) => Pick<MessageAttributesType, 'sent_at' | 'received_at'>
+  ) => Pick<MessageAttributesType, 'sent_at' | 'received_at'> | null
 ): Array<T> {
   return orderBy(
     items,
-    [item => getMesssage(item).received_at, item => getMesssage(item).sent_at],
+    [
+      item => getMesssage(item)?.received_at,
+      item => getMesssage(item)?.sent_at,
+    ],
     ['ASC', 'ASC']
   );
 }

@@ -42,6 +42,12 @@ import {
   isDraftForwardable,
   type MessageForwardDraft,
 } from '../types/ForwardDraft';
+import { missingCaseError } from '../util/missingCaseError';
+
+export enum ForwardMessagesModalType {
+  Forward,
+  ShareCallLink,
+}
 
 export type DataPropsType = {
   candidateConversations: ReadonlyArray<ConversationType>;
@@ -63,6 +69,7 @@ export type DataPropsType = {
   ) => unknown;
   regionCode: string | undefined;
   RenderCompositionTextArea: ComponentType<SmartCompositionTextAreaProps>;
+  type: ForwardMessagesModalType;
   showToast: ShowToastAction;
   theme: ThemeType;
 };
@@ -76,6 +83,7 @@ export type PropsType = DataPropsType & ActionPropsType;
 const MAX_FORWARD = 5;
 
 export function ForwardMessagesModal({
+  type,
   drafts,
   candidateConversations,
   doForwardMessages,
@@ -292,6 +300,15 @@ export function ForwardMessagesModal({
     </div>
   );
 
+  let title: string;
+  if (type === ForwardMessagesModalType.Forward) {
+    title = i18n('icu:ForwardMessageModal__title');
+  } else if (type === ForwardMessagesModalType.ShareCallLink) {
+    title = i18n('icu:ForwardMessageModal__ShareCallLink');
+  } else {
+    throw missingCaseError(type);
+  }
+
   return (
     <>
       {cannotMessage && (
@@ -311,7 +328,7 @@ export function ForwardMessagesModal({
         onClose={onClose}
         onBackButtonClick={isEditingMessage ? handleBackOrClose : undefined}
         moduleClassName="module-ForwardMessageModal"
-        title={i18n('icu:ForwardMessageModal__title')}
+        title={title}
         useFocusTrap={false}
         padded={false}
         modalFooter={footer}

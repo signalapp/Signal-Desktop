@@ -43,6 +43,7 @@ export enum AvatarSize {
   FORTY = 40,
   FORTY_EIGHT = 48,
   FIFTY_TWO = 52,
+  SIXTY_FOUR = 64,
   EIGHTY = 80,
   NINETY_SIX = 96,
   TWO_HUNDRED_SIXTEEN = 216,

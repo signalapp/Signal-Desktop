@@ -53,6 +53,7 @@ import {
   callLinkToConversation,
   getPlaceholderCallLinkConversation,
 } from '../util/callLinks';
+import type { CallsTabSelectedView } from './CallsTab';
 import type { CallStateType } from '../state/selectors/calling';
 import {
   isGroupOrAdhocCallMode,
@@ -143,10 +144,7 @@ type CallsListProps = Readonly<{
   selectedCallHistoryGroup: CallHistoryGroup | null;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
-  onSelectCallHistoryGroup: (
-    conversationId: string,
-    selectedCallHistoryGroup: CallHistoryGroup
-  ) => void;
+  onChangeCallsTabSelectedView: (selectedView: CallsTabSelectedView) => void;
   peekNotConnectedGroupCall: (options: PeekNotConnectedGroupCallType) => void;
   startCallLinkLobbyByRoomId: (roomId: string) => void;
   togglePip: () => void;
@@ -184,7 +182,7 @@ export function CallsList({
   selectedCallHistoryGroup,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
-  onSelectCallHistoryGroup,
+  onChangeCallsTabSelectedView,
   peekNotConnectedGroupCall,
   startCallLinkLobbyByRoomId,
   togglePip,
@@ -771,13 +769,22 @@ export function CallsList({
             }
             onClick={() => {
               if (isAdhoc) {
+                onChangeCallsTabSelectedView({
+                  type: 'callLink',
+                  roomId: item.peerId,
+                  callHistoryGroup: item,
+                });
                 return;
               }
 
               if (conversation == null) {
                 return;
               }
-              onSelectCallHistoryGroup(conversation.id, item);
+              onChangeCallsTabSelectedView({
+                type: 'conversation',
+                conversationId: conversation.id,
+                callHistoryGroup: item,
+              });
             }}
           />
         </div>
@@ -791,7 +798,7 @@ export function CallsList({
       getIsCallActive,
       getIsInCall,
       selectedCallHistoryGroup,
-      onSelectCallHistoryGroup,
+      onChangeCallsTabSelectedView,
       onOutgoingAudioCallInConversation,
       onOutgoingVideoCallInConversation,
       startCallLinkLobbyByRoomId,

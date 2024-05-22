@@ -72,6 +72,8 @@ import type { SmartCompositionRecordingProps } from '../state/smart/CompositionR
 import SelectModeActions from './conversation/SelectModeActions';
 import type { ShowToastAction } from '../state/ducks/toast';
 import type { DraftEditMessageType } from '../model-types.d';
+import type { ForwardMessagesPayload } from '../state/ducks/globalModals';
+import { ForwardMessagesModalType } from './ForwardMessagesModal';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest: boolean | null;
@@ -181,7 +183,7 @@ export type OwnProps = Readonly<{
   selectedMessageIds: ReadonlyArray<string> | undefined;
   toggleSelectMode: (on: boolean) => void;
   toggleForwardMessagesModal: (
-    messageIds: ReadonlyArray<string>,
+    payload: ForwardMessagesPayload,
     onForward: () => void
   ) => void;
 }>;
@@ -725,9 +727,15 @@ export const CompositionArea = memo(function CompositionArea({
         }}
         onForwardMessages={() => {
           if (selectedMessageIds.length > 0) {
-            toggleForwardMessagesModal(selectedMessageIds, () => {
-              toggleSelectMode(false);
-            });
+            toggleForwardMessagesModal(
+              {
+                type: ForwardMessagesModalType.Forward,
+                messageIds: selectedMessageIds,
+              },
+              () => {
+                toggleSelectMode(false);
+              }
+            );
           }
         }}
         showToast={showToast}

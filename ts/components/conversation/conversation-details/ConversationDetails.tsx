@@ -4,7 +4,6 @@
 import type { ReactNode } from 'react';
 import React, { useEffect, useState, useCallback } from 'react';
 
-import classNames from 'classnames';
 import { Button, ButtonIconType, ButtonVariant } from '../../Button';
 import { Tooltip } from '../../Tooltip';
 import type {
@@ -53,43 +52,11 @@ import type {
 import { isConversationMuted } from '../../../util/isConversationMuted';
 import { ConversationDetailsGroups } from './ConversationDetailsGroups';
 import { PanelType } from '../../../types/Panels';
-import type { CallStatus } from '../../../types/CallDisposition';
-import {
-  CallType,
-  type CallHistoryGroup,
-  CallDirection,
-  DirectCallStatus,
-  GroupCallStatus,
-} from '../../../types/CallDisposition';
-import { formatDate, formatTime } from '../../../util/timestamp';
+import { type CallHistoryGroup } from '../../../types/CallDisposition';
 import { NavTab } from '../../../state/ducks/nav';
 import { ContextMenu } from '../../ContextMenu';
 import { canHaveNicknameAndNote } from '../../../util/nicknames';
-
-function describeCallHistory(
-  i18n: LocalizerType,
-  type: CallType,
-  direction: CallDirection,
-  status: CallStatus
-): string {
-  if (type === CallType.Adhoc) {
-    return i18n('icu:CallHistory__Description--Adhoc');
-  }
-
-  if (status === DirectCallStatus.Missed || status === GroupCallStatus.Missed) {
-    if (direction === CallDirection.Incoming) {
-      return i18n('icu:CallHistory__Description--Missed', { type });
-    }
-    return i18n('icu:CallHistory__Description--Unanswered', { type });
-  }
-  if (
-    status === DirectCallStatus.Declined ||
-    status === GroupCallStatus.Declined
-  ) {
-    return i18n('icu:CallHistory__Description--Declined', { type });
-  }
-  return i18n('icu:CallHistory__Description--Default', { type, direction });
-}
+import { CallHistoryGroupPanelSection } from './CallHistoryGroupPanelSection';
 
 enum ModalState {
   AddingGroupMembers,
@@ -501,41 +468,10 @@ export function ConversationDetails({
       </div>
 
       {callHistoryGroup && (
-        <PanelSection title={formatDate(i18n, callHistoryGroup.timestamp)}>
-          <ol className="ConversationDetails__CallHistoryGroup__List">
-            {callHistoryGroup.children.map(child => {
-              return (
-                <li
-                  key={child.callId}
-                  className="ConversationDetails__CallHistoryGroup__Item"
-                >
-                  <span
-                    className={classNames(
-                      'ConversationDetails__CallHistoryGroup__ItemIcon',
-                      {
-                        'ConversationDetails__CallHistoryGroup__ItemIcon--Audio':
-                          callHistoryGroup.type === CallType.Audio,
-                        'ConversationDetails__CallHistoryGroup__ItemIcon--Video':
-                          callHistoryGroup.type !== CallType.Audio,
-                      }
-                    )}
-                  />
-                  <span className="ConversationDetails__CallHistoryGroup__ItemLabel">
-                    {describeCallHistory(
-                      i18n,
-                      callHistoryGroup.type,
-                      callHistoryGroup.direction,
-                      callHistoryGroup.status
-                    )}
-                  </span>
-                  <span className="ConversationDetails__CallHistoryGroup__ItemTimestamp">
-                    {formatTime(i18n, child.timestamp, Date.now(), false)}
-                  </span>
-                </li>
-              );
-            })}
-          </ol>
-        </PanelSection>
+        <CallHistoryGroupPanelSection
+          callHistoryGroup={callHistoryGroup}
+          i18n={i18n}
+        />
       )}
 
       <PanelSection>

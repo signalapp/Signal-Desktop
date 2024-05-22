@@ -28,6 +28,8 @@ import { usePrevious } from '../hooks/usePrevious';
 import { arrow } from '../util/keyboard';
 import { drop } from '../util/drop';
 import { isCmdOrCtrl } from '../hooks/useKeyboardShortcuts';
+import type { ForwardMessagesPayload } from '../state/ducks/globalModals';
+import { ForwardMessagesModalType } from './ForwardMessagesModal';
 
 export type PropsType = {
   children?: ReactNode;
@@ -39,7 +41,7 @@ export type PropsType = {
   playbackDisabled: boolean;
   saveAttachment: SaveAttachmentActionCreatorType;
   selectedIndex: number;
-  toggleForwardMessagesModal: (messageIds: ReadonlyArray<string>) => unknown;
+  toggleForwardMessagesModal: (payload: ForwardMessagesPayload) => unknown;
   onMediaPlaybackStart: () => void;
   onNextAttachment: () => void;
   onPrevAttachment: () => void;
@@ -195,7 +197,10 @@ export function Lightbox({
 
     closeLightbox();
     const mediaItem = media[selectedIndex];
-    toggleForwardMessagesModal([mediaItem.message.id]);
+    toggleForwardMessagesModal({
+      type: ForwardMessagesModalType.Forward,
+      messageIds: [mediaItem.message.id],
+    });
   };
 
   const onKeyDown = useCallback(

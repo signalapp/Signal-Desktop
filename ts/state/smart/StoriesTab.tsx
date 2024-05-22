@@ -34,6 +34,7 @@ import { getHasPendingUpdate } from '../selectors/updates';
 import { getOtherTabsUnreadStats } from '../selectors/nav';
 import { getIsStoriesSettingsVisible } from '../selectors/globalModals';
 import type { StoryViewType } from '../../types/Stories';
+import { ForwardMessagesModalType } from '../../components/ForwardMessagesModal';
 
 function renderStoryCreator(): JSX.Element {
   return <SmartStoryCreator />;
@@ -95,7 +96,10 @@ export const SmartStoriesTab = memo(function SmartStoriesTab() {
 
   const handleForwardStory = useCallback(
     (messageId: string) => {
-      toggleForwardMessagesModal([messageId]);
+      toggleForwardMessagesModal({
+        type: ForwardMessagesModalType.Forward,
+        messageIds: [messageId],
+      });
     },
     [toggleForwardMessagesModal]
   );

@@ -19,13 +19,14 @@ import { Avatar, AvatarSize } from './Avatar';
 import { I18n } from './I18n';
 import { SizeObserver } from '../hooks/useSizeObserver';
 import { CallType } from '../types/CallDisposition';
+import type { CallsTabSelectedView } from './CallsTab';
 import { Tooltip, TooltipPlacement } from './Tooltip';
 
 type CallsNewCallProps = Readonly<{
   hasActiveCall: boolean;
   allConversations: ReadonlyArray<ConversationType>;
   i18n: LocalizerType;
-  onSelectConversation: (conversationId: string) => void;
+  onChangeCallsTabSelectedView: (selectedView: CallsTabSelectedView) => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
   regionCode: string | undefined;
@@ -106,7 +107,7 @@ export function CallsNewCall({
   hasActiveCall,
   allConversations,
   i18n,
-  onSelectConversation,
+  onChangeCallsTabSelectedView,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
   regionCode,
@@ -262,7 +263,11 @@ export function CallsNewCall({
               </div>
             }
             onClick={() => {
-              onSelectConversation(item.conversation.id);
+              onChangeCallsTabSelectedView({
+                type: 'conversation',
+                conversationId: item.conversation.id,
+                callHistoryGroup: null,
+              });
             }}
           />
         </div>
@@ -272,7 +277,7 @@ export function CallsNewCall({
       rows,
       i18n,
       hasActiveCall,
-      onSelectConversation,
+      onChangeCallsTabSelectedView,
       onOutgoingAudioCallInConversation,
       onOutgoingVideoCallInConversation,
     ]

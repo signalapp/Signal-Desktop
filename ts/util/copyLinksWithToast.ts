@@ -7,3 +7,8 @@ export async function copyGroupLink(groupLink: string): Promise<void> {
   await window.navigator.clipboard.writeText(groupLink);
   window.reduxActions.toast.showToast({ toastType: ToastType.GroupLinkCopied });
 }
+
+export async function copyCallLink(callLink: string): Promise<void> {
+  await window.navigator.clipboard.writeText(callLink);
+  window.reduxActions.toast.showToast({ toastType: ToastType.CopiedCallLink });
+}

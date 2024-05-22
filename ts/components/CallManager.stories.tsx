@@ -100,7 +100,6 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   setPresenting: action('toggle-presenting'),
   setRendererCanvas: action('set-renderer-canvas'),
   setOutgoingRing: action('set-outgoing-ring'),
-  showToast: action('show-toast'),
   startCall: action('start-call'),
   stopRingtone: action('stop-ringtone'),
   switchToPresentationView: action('switch-to-presentation-view'),

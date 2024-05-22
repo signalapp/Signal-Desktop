@@ -53,10 +53,9 @@ import * as log from '../logging/log';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
 import { CallingAdhocCallInfo } from './CallingAdhocCallInfo';
 import { callLinkRootKeyToUrl } from '../util/callLinkRootKeyToUrl';
-import { ToastType } from '../types/Toast';
-import type { ShowToastAction } from '../state/ducks/toast';
 import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode';
 import { usePrevious } from '../hooks/usePrevious';
+import { copyCallLink } from '../util/copyLinksWithToast';
 
 const GROUP_CALL_RING_DURATION = 60 * 1000;
 
@@ -127,7 +126,6 @@ export type PropsType = {
   setOutgoingRing: (_: boolean) => void;
   setPresenting: (_?: PresentedSource) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
-  showToast: ShowToastAction;
   stopRingtone: () => unknown;
   switchToPresentationView: () => void;
   switchFromPresentationView: () => void;
@@ -186,7 +184,6 @@ function ActiveCallManager({
   setPresenting,
   setRendererCanvas,
   setOutgoingRing,
-  showToast,
   startCall,
   switchToPresentationView,
   switchFromPresentationView,
@@ -266,10 +263,9 @@ function ActiveCallManager({
 
     const link = callLinkRootKeyToUrl(callLink.rootKey);
     if (link) {
-      await window.navigator.clipboard.writeText(link);
-      showToast({ toastType: ToastType.CopiedCallLink });
+      await copyCallLink(link);
     }
-  }, [callLink, showToast]);
+  }, [callLink]);
 
   let isCallFull: boolean;
   let showCallLobby: boolean;
@@ -528,7 +524,6 @@ export function CallManager({
   setOutgoingRing,
   setPresenting,
   setRendererCanvas,
-  showToast,
   startCall,
   stopRingtone,
   switchFromPresentationView,
@@ -615,7 +610,6 @@ export function CallManager({
           setOutgoingRing={setOutgoingRing}
           setPresenting={setPresenting}
           setRendererCanvas={setRendererCanvas}
-          showToast={showToast}
           startCall={startCall}
           switchFromPresentationView={switchFromPresentationView}
           switchToPresentationView={switchToPresentationView}

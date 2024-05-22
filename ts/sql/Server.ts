@@ -3772,8 +3772,6 @@ function getCallHistoryGroupDataSync(
                 -- Desktop Constraints:
                 AND callsHistory.status IS c.status
                 AND ${filterClause}
-                -- Skip grouping logic for adhoc calls
-                AND callsHistory.mode IS NOT ${CALL_MODE_ADHOC}
               ORDER BY timestamp DESC
             ) as possibleChildren,
 
@@ -3893,17 +3891,21 @@ async function getCallHistoryGroups(
     })
     .reverse()
     .map(group => {
-      const { possibleChildren, inPeriod, ...rest } = group;
+      const { possibleChildren, inPeriod, type, ...rest } = group;
       const children = [];
 
       for (const child of possibleChildren) {
         if (!taken.has(child.callId) && inPeriod.has(child.callId)) {
           children.push(child);
           taken.add(child.callId);
+          if (type === CallType.Adhoc) {
+            // By spec, limit adhoc call history to the most recent call
+            break;
+          }
         }
       }
 
-      return callHistoryGroupSchema.parse({ ...rest, children });
+      return callHistoryGroupSchema.parse({ ...rest, type, children });
     })
     .reverse();
 }

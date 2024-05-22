@@ -9,6 +9,7 @@ import { drop } from '../util/drop';
 import { matchOrQueryFocusable } from '../util/focusableSelectors';
 import { getQuotedMessageSelector } from '../state/selectors/composer';
 import { removeLinkPreview } from './LinkPreview';
+import { ForwardMessagesModalType } from '../components/ForwardMessagesModal';
 
 export function addGlobalKeyboardShortcuts(): void {
   const isMacOS = window.platform === 'darwin';
@@ -492,7 +493,7 @@ export function addGlobalKeyboardShortcuts(): void {
         event.stopPropagation();
 
         window.reduxActions.globalModals.toggleForwardMessagesModal(
-          messageIds,
+          { type: ForwardMessagesModalType.Forward, messageIds },
           () => {
             if (selectedMessageIds != null) {
               window.reduxActions.conversations.toggleSelectMode(false);

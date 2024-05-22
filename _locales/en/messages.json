@@ -5134,6 +5134,10 @@
     "messageformat": "Forward To",
     "description": "Title for the forward a message modal dialog"
   },
+  "icu:ForwardMessageModal__ShareCallLink": {
+    "messageformat": "Share call link",
+    "description": "Title for the forward a message modal dialog in share call link mode"
+  },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Continue",
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
@@ -5141,6 +5145,10 @@
   "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
     "messageformat": "Cannot forward empty or deleted messages",
     "description": "Toast message shown when trying to forward an empty or deleted message"
+  },
+  "icu:ShareCallLinkViaSignal__DraftMessageText": {
+    "messageformat": "Use this link to join a Signal call: {url}",
+    "description": "Draft message text for sharing a call link"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Learn more",
@@ -7127,6 +7135,18 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Call link",
     "description": "Call History > Short description of call > When you joined a call link call"
+  },
+  "icu:CallLinkDetails__Join": {
+    "messageformat": "Join",
+    "description": "Call History > Call Link Details > Join Button"
+  },
+  "icu:CallLinkDetails__CopyLink": {
+    "messageformat": "Copy link",
+    "description": "Call History > Call Link Details > Copy Link Button"
+  },
+  "icu:CallLinkDetails__ShareLinkViaSignal": {
+    "messageformat": "Share link via Signal",
+    "description": "Call History > Call Link Details > Share Link via Signal Button"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {# other is} other {# others are}} typing.",
