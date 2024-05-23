@@ -83,7 +83,6 @@ async function doSearch(query: string): Promise<SearchResultsPayloadType> {
     queryMessages(processedQuery),
   ]);
   const { conversations, contacts } = discussions;
-  window.log.debug(`WIP: [doSearch] conversations: ${conversations} contacts: ${contacts}`);
   const contactsAndConversations = _.uniq([...conversations, ...contacts]);
   const filteredMessages = _.compact(messages);
 

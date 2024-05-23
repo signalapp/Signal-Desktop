@@ -1,8 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { compact, isEmpty } from 'lodash';
+import { compact, isEmpty, sortBy } from 'lodash';
 
 import { StateType } from '../reducer';
 
+import { UserUtils } from '../../session/utils';
 import { MessageResultProps } from '../../types/message';
 import { ConversationLookupType } from '../ducks/conversations';
 import { SearchStateType } from '../ducks/search';
@@ -67,18 +68,71 @@ export const getSearchResultsContactOnly = createSelector([getSearchResults], se
  * When type just has a conversationId field, we render a ConversationListItem.
  * When type is MessageResultProps we render a MessageSearchResult
  */
-export type SearchResultsMergedListItem = string | { contactConvoId: string } | MessageResultProps;
+export type SearchResultsMergedListItem =
+  | string
+  | { contactConvoId: string; displayName?: string }
+  | MessageResultProps;
 
 export const getSearchResultsList = createSelector([getSearchResults], searchState => {
   const { contactsAndConversations, messages } = searchState;
   const builtList: Array<SearchResultsMergedListItem> = [];
+
   if (contactsAndConversations.length) {
-    builtList.push(window.i18n('sessionConversations'));
-    builtList.push(...contactsAndConversations.map(m => ({ contactConvoId: m.id })));
+    const us = UserUtils.getOurPubKeyStrFromCache();
+    let usIndex: number = -1;
+
+    for (let i = 0; i < contactsAndConversations.length; i++) {
+      if (contactsAndConversations[i].id === us) {
+        usIndex = i;
+        break;
+      }
+    }
+
+    if (usIndex !== -1) {
+      contactsAndConversations.splice(usIndex, 1);
+    }
+
+    const idsAndDisplayNames = contactsAndConversations.map(m => ({
+      contactConvoId: m.id,
+      displayName: m.nickname || m.displayNameInProfile,
+    }));
+
+    const idsWithDisplayNames = sortBy(
+      idsAndDisplayNames.filter(m => Boolean(m.displayName)),
+      m => m.displayName?.toLowerCase()
+    );
+    if (idsWithDisplayNames.length) {
+      // add a break wherever needed
+      let currentChar = '';
+
+      idsWithDisplayNames.forEach(m => {
+        if (m.displayName && m.displayName[0].toLowerCase() !== currentChar) {
+          currentChar = m.displayName[0].toLowerCase();
+          builtList.push(currentChar.toUpperCase());
+        }
+        builtList.push(m);
+      });
+
+      if (usIndex !== -1) {
+        builtList.unshift({ contactConvoId: us, displayName: window.i18n('noteToSelf') });
+      }
+    }
+
+    const idsWithNoDisplayNames = sortBy(
+      idsAndDisplayNames.filter(m => !m.displayName),
+      'id'
+    );
+    if (idsWithNoDisplayNames.length) {
+      builtList.push(window.i18n('unknown'), ...idsWithNoDisplayNames);
+    }
+
+    builtList.unshift(window.i18n('sessionConversations'));
   }
+
   if (messages.length) {
     builtList.push(window.i18n('messages'));
     builtList.push(...messages);
   }
+
   return builtList;
 });

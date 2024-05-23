@@ -485,7 +485,7 @@ export const getDirectContactsByName = createSelector(
     );
     const extractedContactsWithDisplayName = sortBy(
       extractedContacts.filter(m => Boolean(m.displayName)),
-      'displayName'
+      m => m.displayName?.toLowerCase()
     );
 
     return [...extractedContactsWithDisplayName, ...extractedContactsNoDisplayName];
