@@ -6,6 +6,7 @@ import type { EditAttributesType } from '../messageModifiers/Edits';
 import type {
   EditHistoryType,
   MessageAttributesType,
+  QuotedAttachmentType,
   QuotedMessageType,
 } from '../model-types.d';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
@@ -143,7 +144,7 @@ export async function handleEditMessage(
   // and they have already been downloaded.
   const attachmentSignatures: Map<string, AttachmentType> = new Map();
   const previewSignatures: Map<string, LinkPreviewType> = new Map();
-  const quoteSignatures: Map<string, AttachmentType> = new Map();
+  const quoteSignatures: Map<string, QuotedAttachmentType> = new Map();
 
   mainMessage.attachments?.forEach(attachment => {
     const signature = getAttachmentSignatureSafe(attachment);
@@ -226,13 +227,13 @@ export async function handleEditMessage(
           return attachment;
         }
         const signature = getAttachmentSignatureSafe(attachment.thumbnail);
-        const existingThumbnail = signature
+        const existingQuoteAttachment = signature
           ? quoteSignatures.get(signature)
           : undefined;
-        if (existingThumbnail) {
+        if (existingQuoteAttachment) {
           return {
             ...attachment,
-            thumbnail: existingThumbnail,
+            thumbnail: existingQuoteAttachment.thumbnail,
           };
         }
 

@@ -10,7 +10,7 @@ import {
 } from '../textsecure/processDataMessage';
 import type { ProcessedAttachment } from '../textsecure/Types.d';
 import { SignalService as Proto } from '../protobuf';
-import { IMAGE_GIF } from '../types/MIME';
+import { IMAGE_GIF, IMAGE_JPEG } from '../types/MIME';
 import { generateAci } from '../types/ServiceId';
 
 const ACI_1 = generateAci();
@@ -142,7 +142,7 @@ describe('processDataMessage', () => {
       text: 'text',
       attachments: [
         {
-          contentType: 'image/jpeg',
+          contentType: IMAGE_JPEG,
           fileName: 'image.jpg',
           thumbnail: PROCESSED_ATTACHMENT,
         },

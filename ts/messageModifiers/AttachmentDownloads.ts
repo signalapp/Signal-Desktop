@@ -274,7 +274,7 @@ export async function addAttachmentToMessage(
             attachments: edit.quote.attachments.map(item => {
               const { thumbnail } = item;
               if (!thumbnail) {
-                return;
+                return item;
               }
 
               const newThumbnail = maybeReplaceAttachment(thumbnail);

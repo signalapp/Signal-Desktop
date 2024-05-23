@@ -174,9 +174,12 @@ describe('Message', () => {
           referencedMessageNotFound: false,
           attachments: [
             {
+              contentType: MIME.APPLICATION_OCTET_STREAM,
               thumbnail: {
                 path: 'ab/abcdefghi',
                 data: Bytes.fromString('It’s easy if you try'),
+                contentType: MIME.APPLICATION_OCTET_STREAM,
+                size: 128,
               },
             },
           ],
@@ -193,8 +196,11 @@ describe('Message', () => {
           referencedMessageNotFound: false,
           attachments: [
             {
+              contentType: MIME.APPLICATION_OCTET_STREAM,
               thumbnail: {
                 path: 'ab/abcdefghi',
+                contentType: MIME.APPLICATION_OCTET_STREAM,
+                size: 128,
               },
             },
           ],
@@ -707,7 +713,7 @@ describe('Message', () => {
           attachments: [
             {
               fileName: 'manifesto.txt',
-              contentType: 'text/plain',
+              contentType: MIME.TEXT_ATTACHMENT,
             },
           ],
           id: 34233,
@@ -726,7 +732,7 @@ describe('Message', () => {
     it('does not eliminate thumbnails with missing data field', async () => {
       const upgradeAttachment = sinon
         .stub()
-        .returns({ fileName: 'processed!' });
+        .returns({ contentType: MIME.IMAGE_GIF, size: 42 });
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
       const message = getDefaultMessage({
@@ -736,9 +742,10 @@ describe('Message', () => {
           attachments: [
             {
               fileName: 'cat.gif',
-              contentType: 'image/gif',
+              contentType: MIME.IMAGE_GIF,
               thumbnail: {
-                fileName: 'not yet downloaded!',
+                contentType: MIME.IMAGE_GIF,
+                size: 128,
               },
             },
           ],
@@ -754,10 +761,11 @@ describe('Message', () => {
           text: 'hey!',
           attachments: [
             {
-              contentType: 'image/gif',
+              contentType: MIME.IMAGE_GIF,
               fileName: 'cat.gif',
               thumbnail: {
-                fileName: 'processed!',
+                contentType: MIME.IMAGE_GIF,
+                size: 42,
               },
             },
           ],
@@ -777,6 +785,8 @@ describe('Message', () => {
     it('calls provided async function for each quoted attachment', async () => {
       const upgradeAttachment = sinon.stub().resolves({
         path: '/new/path/on/disk',
+        contentType: MIME.TEXT_ATTACHMENT,
+        size: 100,
       });
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
@@ -786,8 +796,11 @@ describe('Message', () => {
           text: 'hey!',
           attachments: [
             {
+              contentType: MIME.TEXT_ATTACHMENT,
               thumbnail: {
-                data: 'data is here',
+                contentType: MIME.TEXT_ATTACHMENT,
+                size: 100,
+                data: Buffer.from('data is here'),
               },
             },
           ],
@@ -803,7 +816,10 @@ describe('Message', () => {
           text: 'hey!',
           attachments: [
             {
+              contentType: MIME.TEXT_ATTACHMENT,
               thumbnail: {
+                contentType: MIME.TEXT_ATTACHMENT,
+                size: 100,
                 path: '/new/path/on/disk',
               },
             },

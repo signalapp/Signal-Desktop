@@ -3967,7 +3967,6 @@ export class ConversationModel extends window.Backbone
         };
       });
     }
-    message.cachedOutgoingQuoteData = quote;
     message.cachedOutgoingStickerData = sticker;
 
     const dbStart = Date.now();

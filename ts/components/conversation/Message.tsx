@@ -37,7 +37,7 @@ import { ImageGrid } from './ImageGrid';
 import { GIF } from './GIF';
 import { CurveType, Image } from './Image';
 import { ContactName } from './ContactName';
-import type { QuotedAttachmentType } from './Quote';
+import type { QuotedAttachmentForUIType } from './Quote';
 import { Quote } from './Quote';
 import { EmbeddedContact } from './EmbeddedContact';
 import type { OwnProps as ReactionViewerProps } from './ReactionViewer';
@@ -247,7 +247,7 @@ export type PropsData = {
     conversationTitle: string;
     customColor?: CustomColorType;
     text: string;
-    rawAttachment?: QuotedAttachmentType;
+    rawAttachment?: QuotedAttachmentForUIType;
     payment?: AnyPaymentEvent;
     isFromMe: boolean;
     sentAt: number;
@@ -267,7 +267,7 @@ export type PropsData = {
     customColor?: CustomColorType;
     emoji?: string;
     isFromMe: boolean;
-    rawAttachment?: QuotedAttachmentType;
+    rawAttachment?: QuotedAttachmentForUIType;
     storyId?: string;
     text: string;
   };

@@ -24,7 +24,7 @@ import { PaymentEventKind } from '../../types/Payment';
 import type {
   ConversationAttributesType,
   MessageAttributesType,
-  QuotedAttachment,
+  QuotedAttachmentType,
   QuotedMessageType,
 } from '../../model-types.d';
 import { drop } from '../../util/drop';
@@ -1622,7 +1622,7 @@ export class BackupExportStream extends Readable {
           : null,
       authorId,
       text: quote.text,
-      attachments: quote.attachments.map((attachment: QuotedAttachment) => {
+      attachments: quote.attachments.map((attachment: QuotedAttachmentType) => {
         return {
           contentType: attachment.contentType,
           fileName: attachment.fileName,

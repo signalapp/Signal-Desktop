@@ -13,6 +13,7 @@ import type {
   LastMessageStatus,
   MessageAttributesType,
   MessageReactionType,
+  QuotedAttachmentType,
   ShallowChallengeError,
 } from '../../model-types.d';
 
@@ -41,7 +42,6 @@ import type {
   ChangeType,
 } from '../../components/conversation/GroupNotification';
 import type { PropsType as ProfileChangeNotificationPropsType } from '../../components/conversation/ProfileChangeNotification';
-import type { QuotedAttachmentType } from '../../components/conversation/Quote';
 
 import { getDomain, isCallLink, isStickerPack } from '../../types/LinkPreview';
 import type {
@@ -1852,9 +1852,7 @@ export function getPropsForAttachment(
   };
 }
 
-function processQuoteAttachment(
-  attachment: AttachmentType
-): QuotedAttachmentType {
+function processQuoteAttachment(attachment: QuotedAttachmentType) {
   const { thumbnail } = attachment;
   const path =
     thumbnail && thumbnail.path && getAttachmentUrlForPath(thumbnail.path);

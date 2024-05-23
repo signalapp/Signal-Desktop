@@ -142,7 +142,9 @@ export function processQuote(
     text: dropNull(quote.text),
     attachments: (quote.attachments ?? []).map(attachment => {
       return {
-        contentType: dropNull(attachment.contentType),
+        contentType: attachment.contentType
+          ? stringToMIMEType(attachment.contentType)
+          : APPLICATION_OCTET_STREAM,
         fileName: dropNull(attachment.fileName),
         thumbnail: processAttachment(attachment.thumbnail),
       };

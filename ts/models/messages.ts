@@ -37,7 +37,6 @@ import type {
 } from '../textsecure/Types.d';
 import { SendMessageProtoError } from '../textsecure/Errors';
 import { getUserLanguages } from '../util/userLanguages';
-import { copyCdnFields } from '../util/attachments';
 
 import type { ReactionType } from '../types/Reactions';
 import { ReactionReadStatus } from '../types/Reactions';
@@ -188,8 +187,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   cachedOutgoingContactData?: Array<EmbeddedContactWithHydratedAvatar>;
 
   cachedOutgoingPreviewData?: Array<LinkPreviewWithHydratedData>;
-
-  cachedOutgoingQuoteData?: QuotedMessageType;
 
   cachedOutgoingStickerData?: StickerWithHydratedData;
 
@@ -849,7 +846,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     // We aren't trying to send this message anymore, so we'll delete these caches
     delete this.cachedOutgoingContactData;
     delete this.cachedOutgoingPreviewData;
-    delete this.cachedOutgoingQuoteData;
     delete this.cachedOutgoingStickerData;
 
     this.notifyStorySendFailed();
@@ -1127,7 +1123,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     if (isTotalSuccess) {
       delete this.cachedOutgoingContactData;
       delete this.cachedOutgoingPreviewData;
-      delete this.cachedOutgoingQuoteData;
       delete this.cachedOutgoingStickerData;
     }
 
@@ -1486,7 +1481,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   ): Promise<void> {
     const { attachments } = quote;
     const firstAttachment = attachments ? attachments[0] : undefined;
-    const firstThumbnailCdnFields = copyCdnFields(firstAttachment?.thumbnail);
 
     if (messageHasPaymentEvent(originalMessage.attributes)) {
       // eslint-disable-next-line no-param-reassign
@@ -1535,7 +1529,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     quote.bodyRanges = originalMessage.attributes.bodyRanges;
 
     if (firstAttachment) {
-      firstAttachment.thumbnail = null;
+      firstAttachment.thumbnail = undefined;
     }
 
     if (!firstAttachment || !firstAttachment.contentType) {
@@ -1571,14 +1565,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       if (thumbnail && thumbnail.path) {
         firstAttachment.thumbnail = {
-          ...firstThumbnailCdnFields,
           ...thumbnail,
           copied: true,
         };
       } else {
         firstAttachment.contentType = queryFirst.contentType;
         firstAttachment.fileName = queryFirst.fileName;
-        firstAttachment.thumbnail = null;
+        firstAttachment.thumbnail = undefined;
       }
     }
 
@@ -1589,7 +1582,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       if (image && image.path) {
         firstAttachment.thumbnail = {
-          ...firstThumbnailCdnFields,
           ...image,
           copied: true,
         };
@@ -1599,7 +1591,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const sticker = originalMessage.get('sticker');
     if (sticker && sticker.data && sticker.data.path) {
       firstAttachment.thumbnail = {
-        ...firstThumbnailCdnFields,
         ...sticker.data,
         copied: true,
       };

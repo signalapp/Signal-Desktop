@@ -185,12 +185,11 @@ export type AttachmentDraftType =
       size: number;
     };
 
-export type ThumbnailType = Pick<
-  AttachmentType,
-  'height' | 'width' | 'url' | 'contentType' | 'path' | 'data'
-> & {
+export type ThumbnailType = AttachmentType & {
   // Only used when quote needed to make an in-memory thumbnail
   objectUrl?: string;
+  // Whether the thumbnail has been copied from the original (quoted) message
+  copied?: boolean;
 };
 
 // // Incoming message attachment fields
@@ -452,6 +451,7 @@ export async function captureDimensionsAndScreenshot(
           contentType: THUMBNAIL_CONTENT_TYPE,
           width: THUMBNAIL_SIZE,
           height: THUMBNAIL_SIZE,
+          size: 100,
         },
       };
     } catch (error) {
@@ -511,6 +511,7 @@ export async function captureDimensionsAndScreenshot(
         contentType: THUMBNAIL_CONTENT_TYPE,
         width: THUMBNAIL_SIZE,
         height: THUMBNAIL_SIZE,
+        size: 100,
       },
       width,
       height,
@@ -873,7 +874,9 @@ export const isFile = (attachment: AttachmentType): boolean => {
   return true;
 };
 
-export const isVoiceMessage = (attachment: AttachmentType): boolean => {
+export const isVoiceMessage = (
+  attachment: Pick<AttachmentType, 'contentType' | 'fileName' | 'flags'>
+): boolean => {
   const flag = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
   const hasFlag =
     // eslint-disable-next-line no-bitwise
