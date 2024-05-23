@@ -13,17 +13,18 @@ import {
   getSearchTerm,
 } from '../../state/selectors/search';
 
-const StyledSeparatorSection = styled.div`
+const StyledSeparatorSection = styled.div<{ isSubtitle: boolean }>`
   height: 36px;
   line-height: 36px;
+  letter-spacing: 0;
 
   margin-inline-start: 16px;
-
-  color: var(--text-secondary-color);
-
-  font-size: var(--font-size-sm);
   font-weight: 400;
-  letter-spacing: 0;
+
+  ${props =>
+    props.isSubtitle
+      ? 'color: var(--text-secondary-color); font-size: var(--font-size-sm);'
+      : 'color: var(--text-primary-color); font-size: var(--font-size-lg);'}
 `;
 
 const SearchResultsContainer = styled.div`
@@ -40,7 +41,16 @@ const NoResults = styled.div`
 `;
 
 const SectionHeader = ({ title, style }: { title: string; style: CSSProperties }) => {
-  return <StyledSeparatorSection style={style}>{title}</StyledSeparatorSection>;
+  return (
+    <StyledSeparatorSection
+      isSubtitle={
+        title !== window.i18n('sessionConversations') && title !== window.i18n('messages')
+      }
+      style={style}
+    >
+      {title}
+    </StyledSeparatorSection>
+  );
 };
 
 function isContact(item: SearchResultsMergedListItem): item is { contactConvoId: string } {
