@@ -75,9 +75,6 @@ export type SearchResultsMergedListItem =
 
 export const getSearchResultsList = createSelector([getSearchResults], searchState => {
   const { contactsAndConversations, messages } = searchState;
-  window.log.debug(
-    `WIP: [getSearchResultsList] contactsAndConversations ${JSON.stringify(contactsAndConversations)}`
-  );
   const builtList: Array<SearchResultsMergedListItem> = [];
 
   if (contactsAndConversations.length) {

@@ -1,9 +1,7 @@
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { SectionType } from '../../state/ducks/section';
-import { getLeftPaneConversationIds } from '../../state/selectors/conversations';
-import { getHasSearchResults } from '../../state/selectors/search';
-import { getFocusedSection, getLeftOverlayMode } from '../../state/selectors/section';
+import { getFocusedSection } from '../../state/selectors/section';
 import { SessionToastContainer } from '../SessionToastContainer';
 import { CallInFullScreenContainer } from '../calling/CallInFullScreenContainer';
 import { DraggableCallContainer } from '../calling/DraggableCallContainer';
@@ -18,25 +16,11 @@ const StyledLeftPane = styled.div`
   width: ${leftPaneListWidth}px;
 `;
 
-const InnerLeftPaneMessageSection = () => {
-  const hasSearchResults = useSelector(getHasSearchResults);
-  const conversationIds = useSelector(getLeftPaneConversationIds);
-  const leftOverlayMode = useSelector(getLeftOverlayMode);
-
-  return (
-    <LeftPaneMessageSection
-      hasSearchResults={hasSearchResults}
-      conversationIds={conversationIds}
-      leftOverlayMode={leftOverlayMode}
-    />
-  );
-};
-
 const LeftPaneSection = () => {
   const focusedSection = useSelector(getFocusedSection);
 
   if (focusedSection === SectionType.Message) {
-    return <InnerLeftPaneMessageSection />;
+    return <LeftPaneMessageSection />;
   }
 
   if (focusedSection === SectionType.Settings) {

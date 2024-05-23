@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import { useSelector } from 'react-redux';
 import { AutoSizer, List, ListRowProps } from 'react-virtualized';
 import styled from 'styled-components';
@@ -5,7 +6,9 @@ import { SearchResults } from '../search/SearchResults';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { MessageRequestsBanner } from './MessageRequestsBanner';
 
-import { LeftOverlayMode, setLeftOverlayMode } from '../../state/ducks/section';
+import { setLeftOverlayMode } from '../../state/ducks/section';
+import { getLeftPaneConversationIds } from '../../state/selectors/conversations';
+import { getSearchTerm } from '../../state/selectors/search';
 import { getLeftOverlayMode } from '../../state/selectors/section';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
 import { SessionSearchInput } from '../SessionSearchInput';
@@ -17,12 +20,6 @@ import { OverlayInvite } from './overlay/OverlayInvite';
 import { OverlayMessage } from './overlay/OverlayMessage';
 import { OverlayMessageRequest } from './overlay/OverlayMessageRequest';
 import { OverlayChooseAction } from './overlay/choose-action/OverlayChooseAction';
-
-export interface Props {
-  conversationIds?: Array<string>;
-  hasSearchResults: boolean;
-  leftOverlayMode: LeftOverlayMode | undefined;
-}
 
 const StyledLeftPaneContent = styled.div`
   display: flex;
@@ -66,8 +63,10 @@ const ClosableOverlay = () => {
   }
 };
 
-export const LeftPaneMessageSection = (props: Props) => {
-  const { conversationIds, hasSearchResults, leftOverlayMode } = props;
+export const LeftPaneMessageSection = () => {
+  const conversationIds = useSelector(getLeftPaneConversationIds);
+  const leftOverlayMode = useSelector(getLeftOverlayMode);
+  const searchTerm = useSelector(getSearchTerm);
 
   const renderRow = ({ index, key, style }: ListRowProps): JSX.Element | null => {
     // assume conversations that have been marked unapproved should be filtered out by selector.
@@ -84,7 +83,7 @@ export const LeftPaneMessageSection = (props: Props) => {
   };
 
   const renderList = () => {
-    if (hasSearchResults) {
+    if (!isEmpty(searchTerm)) {
       return <SearchResults />;
     }
 

@@ -35,8 +35,8 @@ const SearchResultsContainer = styled.div`
   width: -webkit-fill-available;
 `;
 const NoResults = styled.div`
-  margin-top: 27px;
   width: 100%;
+  padding: var(--margins-xl) var(--margins-sm) 0;
   text-align: center;
 `;
 
