@@ -75,22 +75,14 @@ export type SearchResultsMergedListItem =
 
 export const getSearchResultsList = createSelector([getSearchResults], searchState => {
   const { contactsAndConversations, messages } = searchState;
+  window.log.debug(
+    `WIP: [getSearchResultsList] contactsAndConversations ${JSON.stringify(contactsAndConversations)}`
+  );
   const builtList: Array<SearchResultsMergedListItem> = [];
 
   if (contactsAndConversations.length) {
     const us = UserUtils.getOurPubKeyStrFromCache();
     let usIndex: number = -1;
-
-    for (let i = 0; i < contactsAndConversations.length; i++) {
-      if (contactsAndConversations[i].id === us) {
-        usIndex = i;
-        break;
-      }
-    }
-
-    if (usIndex !== -1) {
-      contactsAndConversations.splice(usIndex, 1);
-    }
 
     const idsAndDisplayNames = contactsAndConversations.map(m => ({
       contactConvoId: m.id,
@@ -104,14 +96,22 @@ export const getSearchResultsList = createSelector([getSearchResults], searchSta
     if (idsWithDisplayNames.length) {
       // add a break wherever needed
       let currentChar = '';
-
-      idsWithDisplayNames.forEach(m => {
-        if (m.displayName && m.displayName[0].toLowerCase() !== currentChar) {
+      for (let i = 0; i < idsWithDisplayNames.length; i++) {
+        const m = idsWithDisplayNames[i];
+        if (m.contactConvoId === us) {
+          usIndex = i;
+          continue;
+        }
+        if (
+          idsWithDisplayNames.length > 1 &&
+          m.displayName &&
+          m.displayName[0].toLowerCase() !== currentChar
+        ) {
           currentChar = m.displayName[0].toLowerCase();
           builtList.push(currentChar.toUpperCase());
         }
         builtList.push(m);
-      });
+      }
 
       if (usIndex !== -1) {
         builtList.unshift({ contactConvoId: us, displayName: window.i18n('noteToSelf') });

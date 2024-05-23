@@ -1,12 +1,11 @@
 import { Dispatch } from '@reduxjs/toolkit';
-import { debounce } from 'lodash';
+import { debounce, isEmpty } from 'lodash';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { clearSearch, search, updateSearchTerm } from '../state/ducks/search';
 import { getConversationsCount } from '../state/selectors/conversations';
 import { getLeftOverlayMode } from '../state/selectors/section';
-import { cleanSearchTerm } from '../util/cleanSearchTerm';
 import { SessionIconButton } from './icon';
 
 const StyledSearchInput = styled.div`
@@ -55,22 +54,13 @@ const doTheSearch = (dispatch: Dispatch<any>, cleanedTerm: string) => {
 const debouncedSearch = debounce(doTheSearch, 50);
 
 function updateSearch(dispatch: Dispatch<any>, searchTerm: string) {
-  if (!searchTerm) {
+  if (isEmpty(searchTerm)) {
     dispatch(clearSearch());
     return;
   }
 
   // this updates our current state and text field.
   dispatch(updateSearchTerm(searchTerm));
-
-  if (searchTerm.length < 2) {
-    return;
-  }
-  // this effectively trigger a search
-  const cleanedTerm = cleanSearchTerm(searchTerm);
-  if (!cleanedTerm) {
-    return;
-  }
 
   debouncedSearch(dispatch, searchTerm);
 }

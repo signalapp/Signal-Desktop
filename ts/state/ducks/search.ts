@@ -191,6 +191,7 @@ function getAdvancedSearchOptionsFromQuery(query: string): AdvancedSearchOptions
 async function queryMessages(query: string): Promise<Array<MessageResultProps>> {
   try {
     const trimmedQuery = query.trim();
+    // we clean the search term to avoid special characters since the query is referenced in the SQL query directly
     const normalized = cleanSearchTerm(trimmedQuery);
     // 200 on a large database is already pretty slow
     const limit = Math.min((trimmedQuery.length || 2) * 50, 200);
@@ -203,7 +204,9 @@ async function queryMessages(query: string): Promise<Array<MessageResultProps>> 
 
 async function queryConversationsAndContacts(providedQuery: string, options: SearchOptions) {
   const { ourNumber, noteToSelf, savedMessages, filter } = options;
+  // we don't need to use cleanSearchTerm here because the query is wrapped as a wild card and is not referenced in the SQL query directly
   const query = providedQuery.replace(/[+-.()]*/g, '');
+
   const contactsOnly = filter === 'contacts';
   const conversationsOnly = filter === 'conversations';
 
@@ -239,9 +242,14 @@ async function queryConversationsAndContacts(providedQuery: string, options: Sea
     }
   }
 
-  const queryLowered = providedQuery.toLowerCase();
+  const queryLowered = query.toLowerCase();
   // Inject synthetic Note to Self entry if query matches localized 'Note to Self'
-  if (noteToSelf.includes(queryLowered) || savedMessages.includes(queryLowered)) {
+  if (
+    noteToSelf.includes(query) ||
+    noteToSelf.includes(queryLowered) ||
+    savedMessages.includes(query) ||
+    savedMessages.includes(queryLowered)
+  ) {
     // Ensure that we don't have duplicates in our results
     contacts = contacts.filter(id => id !== ourNumber);
     conversations = conversations.filter(id => id !== ourNumber);
