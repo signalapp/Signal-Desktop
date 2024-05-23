@@ -4,32 +4,42 @@ import { useDispatch, useSelector } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 
+import { isEmpty } from 'lodash';
+import { MemberListItem } from '../../MemberListItem';
 import { SessionButton } from '../../basic/SessionButton';
 import { SessionSpinner } from '../../loading';
-import { MemberListItem } from '../../MemberListItem';
 
 import { useSet } from '../../../hooks/useSet';
 import { VALIDATION } from '../../../session/constants';
 import { createClosedGroup } from '../../../session/conversations/createClosedGroup';
+import { clearSearch } from '../../../state/ducks/search';
 import { resetLeftOverlayMode } from '../../../state/ducks/section';
 import { getPrivateContactsPubkeys } from '../../../state/selectors/conversations';
-import { getSearchResultsContactOnly, isSearching } from '../../../state/selectors/search';
+import {
+  getSearchResultsContactOnly,
+  getSearchTerm,
+  isSearching,
+} from '../../../state/selectors/search';
+import { SessionSearchInput } from '../../SessionSearchInput';
+import { Flex } from '../../basic/Flex';
 import { SpacerLG, SpacerMD } from '../../basic/Text';
 import { SessionInput } from '../../inputs';
-import { SessionSearchInput } from '../../SessionSearchInput';
 import { StyledLeftPaneOverlay } from './OverlayMessage';
 
 const StyledMemberListNoContacts = styled.div`
-  font-family: var(--font-mono), var(--font-default);
-  background: var(--background-secondary-color);
   text-align: center;
   padding: 20px;
 `;
 
-const StyledGroupMemberListContainer = styled.div`
-  padding: 2px 0px;
+const StyledNoResults = styled.div`
   width: 100%;
-  max-height: 400px;
+  padding: var(--margins-xl) var(--margins-sm);
+  text-align: center;
+`;
+
+const StyledGroupMemberListContainer = styled.div`
+  padding: 0;
+  width: 100%;
   overflow-y: auto;
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
@@ -99,9 +109,11 @@ export const OverlayClosedGroup = () => {
     removeFrom: removeFromSelected,
   } = useSet<string>([]);
   const isSearch = useSelector(isSearching);
+  const searchTerm = useSelector(getSearchTerm);
   const searchResultContactsOnly = useSelector(getSearchResultsContactOnly);
 
   function closeOverlay() {
+    dispatch(clearSearch());
     dispatch(resetLeftOverlayMode());
   }
 
@@ -126,9 +138,9 @@ export const OverlayClosedGroup = () => {
 
   useKey('Escape', closeOverlay);
 
-  const noContactsForClosedGroup = privateContactsPubkeys.length === 0;
-
   const contactsToRender = isSearch ? searchResultContactsOnly : privateContactsPubkeys;
+
+  const noContactsForClosedGroup = isEmpty(searchTerm) && contactsToRender.length === 0;
 
   const disableCreateButton = !selectedMemberIds.length && !groupName.length;
 
@@ -138,33 +150,36 @@ export const OverlayClosedGroup = () => {
       flexDirection={'column'}
       flexGrow={1}
       alignItems={'center'}
-      padding={'var(--margins-md)'}
     >
-      <SessionInput
-        autoFocus={true}
-        type="text"
-        placeholder={window.i18n('createClosedGroupPlaceholder')}
-        value={groupName}
-        onValueChanged={setGroupName}
-        onEnterPressed={onEnterPressed}
-        error={groupNameError}
-        maxLength={VALIDATION.MAX_GROUP_NAME_LENGTH}
-        textSize="md"
-        centerText={true}
-        monospaced={true}
-        isTextArea={true}
-        inputDataTestId="new-closed-group-name"
-      />
-      <SpacerMD />
-      <SessionSpinner loading={loading} />
-      <SpacerLG />
+      <Flex container={true} width={'100%'} flexDirection="column" padding={'var(--margins-md)'}>
+        <SessionInput
+          autoFocus={true}
+          type="text"
+          placeholder={window.i18n('createClosedGroupPlaceholder')}
+          value={groupName}
+          onValueChanged={setGroupName}
+          onEnterPressed={onEnterPressed}
+          error={groupNameError}
+          maxLength={VALIDATION.MAX_GROUP_NAME_LENGTH}
+          textSize="md"
+          centerText={true}
+          monospaced={true}
+          isTextArea={true}
+          inputDataTestId="new-closed-group-name"
+        />
+        <SpacerMD />
+        <SessionSpinner loading={loading} />
+        <SpacerLG />
+      </Flex>
 
       <SessionSearchInput />
       <StyledGroupMemberListContainer>
         {noContactsForClosedGroup ? (
           <NoContacts />
+        ) : !isEmpty(searchTerm) && contactsToRender.length === 0 ? (
+          <StyledNoResults>{window.i18n('noSearchResults', [searchTerm])}</StyledNoResults>
         ) : (
-          <StyledGroupMemberList className="group-member-list__selection">
+          <StyledGroupMemberList>
             {contactsToRender.map((memberPubkey: string) => (
               <MemberListItem
                 pubkey={memberPubkey}
@@ -172,21 +187,22 @@ export const OverlayClosedGroup = () => {
                 key={memberPubkey}
                 onSelect={addToSelected}
                 onUnselect={removeFromSelected}
-                disableBg={true}
               />
             ))}
           </StyledGroupMemberList>
         )}
       </StyledGroupMemberListContainer>
 
-      <SpacerLG />
-      <SessionButton
-        text={window.i18n('create')}
-        disabled={disableCreateButton}
-        onClick={onEnterPressed}
-        dataTestId="next-button"
-        margin="auto 0 0 " // just to keep that button at the bottom of the overlay (even with an empty list)
-      />
+      <SpacerLG style={{ flexShrink: 0 }} />
+      <Flex container={true} width={'100%'} flexDirection="column" padding={'var(--margins-md)'}>
+        <SessionButton
+          text={window.i18n('create')}
+          disabled={disableCreateButton}
+          onClick={onEnterPressed}
+          dataTestId="next-button"
+          margin="auto 0 0" // just to keep that button at the bottom of the overlay (even with an empty list)
+        />
+      </Flex>
       <SpacerLG />
     </StyledLeftPaneOverlay>
   );
