@@ -80,8 +80,8 @@ const ContactListItemSection = () => {
   // if the item is a string we consider it to be a break of that string
   const directContactsByNameWithBreaks: Array<DirectContactsByNameType | string> = [];
   directContactsByName.forEach(m => {
-    if (m.displayName && m.displayName[0] !== currentChar) {
-      currentChar = m.displayName[0];
+    if (m.displayName && m.displayName[0].toLowerCase() !== currentChar) {
+      currentChar = m.displayName[0].toLowerCase();
       directContactsByNameWithBreaks.push(currentChar.toUpperCase());
     } else if (!m.displayName && currentChar !== unknownSection) {
       currentChar = unknownSection;
