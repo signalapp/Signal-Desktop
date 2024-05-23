@@ -132,6 +132,13 @@ async function sandboxedEnv() {
         path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'app.tsx'),
         path.join(ROOT_DIR, 'ts', 'windows', 'screenShare', 'app.tsx'),
         path.join(ROOT_DIR, 'ts', 'windows', 'settings', 'app.tsx'),
+        path.join(
+          ROOT_DIR,
+          'ts',
+          'windows',
+          'callingtools',
+          'webrtc_internals.js'
+        ),
       ],
     },
     preloadConfig: {
@@ -142,6 +149,7 @@ async function sandboxedEnv() {
         path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'preload.ts'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'callingtools', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'screenShare', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'settings', 'preload.ts'),
       ],

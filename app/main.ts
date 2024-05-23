@@ -1237,6 +1237,67 @@ async function showScreenShareWindow(sourceName: string) {
   );
 }
 
+let callingDevToolsWindow: BrowserWindow | undefined;
+async function showCallingDevToolsWindow() {
+  if (callingDevToolsWindow) {
+    callingDevToolsWindow.show();
+    return;
+  }
+
+  const options = {
+    height: 1200,
+    width: 1000,
+    alwaysOnTop: false,
+    autoHideMenuBar: true,
+    backgroundColor: '#ffffff',
+    darkTheme: false,
+    frame: true,
+    fullscreenable: true,
+    maximizable: true,
+    minimizable: true,
+    resizable: true,
+    show: false,
+    title: getResolvedMessagesLocale().i18n('icu:callingDeveloperTools'),
+    titleBarStyle: nonMainTitleBarStyle,
+    webPreferences: {
+      ...defaultWebPrefs,
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      sandbox: true,
+      contextIsolation: true,
+      nativeWindowOpen: true,
+      preload: join(__dirname, '../bundles/callingtools/preload.js'),
+    },
+  };
+
+  callingDevToolsWindow = new BrowserWindow(options);
+
+  await handleCommonWindowEvents(callingDevToolsWindow);
+
+  callingDevToolsWindow.once('closed', () => {
+    callingDevToolsWindow = undefined;
+
+    mainWindow?.webContents.send('calling:set-rtc-stats-interval', null);
+  });
+
+  ipc.on('calling:set-rtc-stats-interval', (_, intervalMillis: number) => {
+    mainWindow?.webContents.send(
+      'calling:set-rtc-stats-interval',
+      intervalMillis
+    );
+  });
+
+  ipc.on('calling:rtc-stats-report', (_, report) => {
+    callingDevToolsWindow?.webContents.send('calling:rtc-stats-report', report);
+  });
+
+  await safeLoadURL(
+    callingDevToolsWindow,
+    await prepareFileUrl([__dirname, '../calling_tools.html'])
+  );
+  callingDevToolsWindow.show();
+}
+
 let aboutWindow: BrowserWindow | undefined;
 async function showAbout() {
   if (aboutWindow) {
@@ -2054,6 +2115,7 @@ function setupMenu(options?: Partial<CreateTemplateOptionsType>) {
     setupAsStandalone,
     showAbout,
     showDebugLog: showDebugLogWindow,
+    showCallingDevTools: showCallingDevToolsWindow,
     showKeyboardShortcuts,
     showSettings: showSettingsWindow,
     showWindow,

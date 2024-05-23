@@ -87,6 +87,8 @@ if (!isProduction(window.SignalContext.getVersion())) {
 
       window.Signal.Services.calling._iceServerOverride = override;
     },
+    setRtcStatsInterval: (intervalMillis: number) =>
+      window.Signal.Services.calling.setAllRtcStatsInterval(intervalMillis),
     sqlCall: (name: string, ...args: ReadonlyArray<unknown>) =>
       ipcInvoke(name, args),
     ...(window.SignalContext.config.ciMode === 'benchmark'

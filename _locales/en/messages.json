@@ -247,6 +247,10 @@
     "messageformat": "Toggle Developer Tools",
     "description": "View menu command to show or hide the developer tools"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools",
+    "description": "View menu command to open calling developer tools window"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Set Up as New Device",
     "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
@@ -870,6 +874,14 @@
   "icu:screenShareWindow": {
     "messageformat": "Sharing screen",
     "description": "Title for screen sharing window"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools",
+    "description": "Title for calling developer tools window"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls.",
+    "description": "Description displayed for calling developer tools window"
   },
   "icu:speech": {
     "messageformat": "Speech",
