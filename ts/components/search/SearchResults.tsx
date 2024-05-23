@@ -34,6 +34,7 @@ const SearchResultsContainer = styled.div`
   flex-grow: 1;
   width: -webkit-fill-available;
 `;
+
 const NoResults = styled.div`
   width: 100%;
   padding: var(--margins-xl) var(--margins-sm) 0;

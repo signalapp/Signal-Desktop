@@ -41,7 +41,7 @@ const StyledSessionMemberItem = styled.button<{
       ? 'var(--conversation-tab-background-selected-color) !important'
       : null};
 
-  :not(:last-child) {
+  &:not(button:last-child) {
     border-bottom: 1px solid var(--border-color);
   }
 `;
