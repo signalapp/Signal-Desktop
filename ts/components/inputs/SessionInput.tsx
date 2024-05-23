@@ -89,6 +89,7 @@ const StyledInput = styled(motion.input)<{
 `;
 
 const StyledTextAreaContainer = styled(motion.div)<{
+  noValue: boolean;
   error: boolean;
   centerText?: boolean;
   textSize?: TextSizes;
@@ -119,9 +120,10 @@ const StyledTextAreaContainer = styled(motion.div)<{
     border: none;
     background: transparent;
 
-    position: absolute;
-    top: ${props =>
-      props.textSize ? `calc(var(--font-size-${props.textSize}) + 5px)` : 'calc(12px + 5px)'};
+    ${props =>
+      props.noValue &&
+      `position: absolute;
+    top: ${props.textSize ? `calc(var(--font-size-${props.textSize}) + 5px)` : 'calc(12px + 5px)'};`}
 
     resize: none;
     overflow-wrap: break-word;
@@ -306,6 +308,7 @@ export const SessionInput = (props: Props) => {
   };
 
   const containerProps = {
+    noValue: isEmpty(value),
     error: Boolean(error),
     centerText,
     textSize,

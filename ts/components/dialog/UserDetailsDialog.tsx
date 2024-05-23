@@ -16,8 +16,6 @@ import { SessionWrapperModal } from '../SessionWrapperModal';
 
 const StyledInputContainer = styled(Flex)`
   textarea {
-    position: unset;
-    top: unset;
     overflow: hidden;
   }
 `;

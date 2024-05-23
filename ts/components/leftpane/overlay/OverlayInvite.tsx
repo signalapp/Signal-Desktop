@@ -54,6 +54,7 @@ const StyledButtonerContainer = styled.div`
 
 const StyledInputContainer = styled(Flex)`
   textarea {
+    position: absolute;
     top: 8px;
   }
 `;
