@@ -38,9 +38,6 @@ build/ICUMessageParams.d.ts
 app/*.js
 ts/**/*.js
 ts/protobuf/*.d.ts
-# allow js from callingtools
-!ts/windows/callingtools/**/*.js
-ts/windows/callingtools/preload.js
 
 # CSS Modules
 **/*.scss.d.ts

@@ -1266,7 +1266,7 @@ async function showCallingDevToolsWindow() {
       sandbox: true,
       contextIsolation: true,
       nativeWindowOpen: true,
-      preload: join(__dirname, '../bundles/callingtools/preload.js'),
+      preload: join(__dirname, '../bundles/calling-tools/preload.js'),
     },
   };
 

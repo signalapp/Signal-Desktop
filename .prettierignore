@@ -29,6 +29,7 @@ components/**
 js/curve/**
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
+js/calling-tools/**
 
 # Assets
 /images/
