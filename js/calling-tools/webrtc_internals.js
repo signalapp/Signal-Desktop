@@ -11,7 +11,7 @@ import {StatsRatesCalculator, StatsReport} from './stats_rates_calculator.js';
 import {StatsTable} from './stats_table.js';
 import {TabView} from './tab_view.js';
 import {UserMediaTable} from './user_media_table.js';
-import { i18n } from '../sandboxedInit.js';
+import { i18n } from '../../ts/windows/sandboxedInit.js';
 
 let tabView = null;
 let peerConnectionUpdateTable = null;

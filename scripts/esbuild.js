@@ -136,8 +136,8 @@ async function sandboxedEnv() {
           ROOT_DIR,
           'ts',
           'windows',
-          'callingtools',
-          'webrtc_internals.js'
+          'calling-tools',
+          'webrtc_internals.ts'
         ),
       ],
     },
@@ -149,7 +149,7 @@ async function sandboxedEnv() {
         path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'preload.ts'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'callingtools', 'preload.ts'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'calling-tools', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'screenShare', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'settings', 'preload.ts'),
       ],
