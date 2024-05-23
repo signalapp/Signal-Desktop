@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { clearSearch } from '../../state/ducks/search';
 import {
   SectionType,
   setLeftOverlayMode,
@@ -135,6 +136,9 @@ export const LeftPaneSectionHeader = () => {
 
   const dispatch = useDispatch();
   const returnToActionChooser = () => {
+    if (leftOverlayMode === 'closed-group') {
+      dispatch(clearSearch());
+    }
     dispatch(setLeftOverlayMode('choose-action'));
   };
 
