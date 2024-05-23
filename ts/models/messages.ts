@@ -1963,26 +1963,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         return sendState.isAllowedToReplyToStory !== false;
       });
 
-      if (storyContext && !storyQuote) {
-        if (!isDirectConversation(conversation.attributes)) {
-          log.warn(
-            `${idLog}: Received ${storyContextLogId} message in group but no matching story. Dropping.`
-          );
-
-          confirm();
-          return;
-        }
-
-        if (storyQuotes.length === 0) {
-          log.warn(
-            `${idLog}: Received ${storyContextLogId} message but no matching story. We'll try processing this message again later.`
-          );
-          return;
-        }
-
+      if (
+        storyContext &&
+        !storyQuote &&
+        !isDirectConversation(conversation.attributes)
+      ) {
         log.warn(
-          `${idLog}: Received ${storyContextLogId} message in 1:1 conversation but no matching story. Dropping.`
+          `${idLog}: Received ${storyContextLogId} message in group but no matching story. Dropping.`
         );
+
         confirm();
         return;
       }
