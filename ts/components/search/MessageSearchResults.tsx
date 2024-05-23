@@ -1,6 +1,12 @@
 import styled, { CSSProperties } from 'styled-components';
 
-import { useConversationUsername, useIsPrivate } from '../../hooks/useParamSelector';
+import {
+  useIsPrivate,
+  useIsPublic,
+  useNicknameOrProfileNameOrShortenedPubkey,
+} from '../../hooks/useParamSelector';
+import { isUsAnySogsFromCache } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { PubKey } from '../../session/types';
 import { UserUtils } from '../../session/utils';
 import { getOurPubKeyStrFromCache } from '../../session/utils/User';
 import { openConversationToSpecificMessage } from '../../state/ducks/conversations';
@@ -118,14 +124,18 @@ const FromUserInGroup = (props: { authorPubkey: string; conversationId: string }
   const { authorPubkey, conversationId } = props;
 
   const ourKey = getOurPubKeyStrFromCache();
+  const isPublic = useIsPublic(conversationId);
   const convoIsPrivate = useIsPrivate(conversationId);
-  const authorConvoName = useConversationUsername(authorPubkey);
+  const authorConvoName = useNicknameOrProfileNameOrShortenedPubkey(authorPubkey);
 
   if (convoIsPrivate) {
     return null;
   }
 
-  if (authorPubkey === ourKey) {
+  if (
+    authorPubkey === ourKey ||
+    (isPublic && PubKey.isBlinded(authorPubkey) && isUsAnySogsFromCache(authorPubkey))
+  ) {
     return (
       <StyledConversationFromUserInGroup>{window.i18n('you')}: </StyledConversationFromUserInGroup>
     );
