@@ -27,6 +27,7 @@ js/components.js
 js/util_worker.js
 libtextsecure/components.js
 stylesheets/*.css
+!stylesheets/webrtc_internals.css
 /storybook-static/
 preload.bundle.*
 bundles/
@@ -37,6 +38,9 @@ build/ICUMessageParams.d.ts
 app/*.js
 ts/**/*.js
 ts/protobuf/*.d.ts
+# allow js from callingtools
+!ts/windows/callingtools/**/*.js
+ts/windows/callingtools/preload.js
 
 # CSS Modules
 **/*.scss.d.ts
