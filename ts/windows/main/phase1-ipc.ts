@@ -245,7 +245,6 @@ ipc.on('additional-log-data-request', async event => {
     },
     user: {
       deviceId: window.textsecure.storage.user.getDeviceId(),
-      e164: window.textsecure.storage.user.getNumber(),
       uuid: ourAci,
       pni: ourPni,
       conversationId: ourConversation && ourConversation.id,
