@@ -20,8 +20,8 @@ const getSearchResults = createSelector(
   [getSearch, getConversationLookup],
   (searchState: SearchStateType, lookup: ConversationLookupType) => {
     return {
-      contactsAndGroups: compact(
-        searchState.contactsAndGroups
+      contactsAndConversations: compact(
+        searchState.contactsAndConversations
           .filter(id => {
             const value = lookup[id];
 
@@ -49,16 +49,16 @@ export const getSearchTerm = createSelector([getSearchResults], searchResult => 
 export const getSearchResultsIdsOnly = createSelector([getSearchResults], searchState => {
   return {
     ...searchState,
-    contactsAndGroupsIds: searchState.contactsAndGroups.map(m => m.id),
+    contactsAndConversationIds: searchState.contactsAndConversations.map(m => m.id),
   };
 });
 
 export const getHasSearchResults = createSelector([getSearchResults], searchState => {
-  return !isEmpty(searchState.contactsAndGroups) || !isEmpty(searchState.messages);
+  return !isEmpty(searchState.contactsAndConversations) || !isEmpty(searchState.messages);
 });
 
 export const getSearchResultsContactOnly = createSelector([getSearchResults], searchState => {
-  return searchState.contactsAndGroups.filter(m => m.isPrivate).map(m => m.id);
+  return searchState.contactsAndConversations.filter(m => m.isPrivate).map(m => m.id);
 });
 
 /**
@@ -70,14 +70,14 @@ export const getSearchResultsContactOnly = createSelector([getSearchResults], se
 export type SearchResultsMergedListItem = string | { contactConvoId: string } | MessageResultProps;
 
 export const getSearchResultsList = createSelector([getSearchResults], searchState => {
-  const { contactsAndGroups, messages } = searchState;
+  const { contactsAndConversations, messages } = searchState;
   const builtList: Array<SearchResultsMergedListItem> = [];
-  if (contactsAndGroups.length) {
-    builtList.push(window.i18n('conversationsHeader', [`${contactsAndGroups.length}`]));
-    builtList.push(...contactsAndGroups.map(m => ({ contactConvoId: m.id })));
+  if (contactsAndConversations.length) {
+    builtList.push(window.i18n('sessionConversations'));
+    builtList.push(...contactsAndConversations.map(m => ({ contactConvoId: m.id })));
   }
   if (messages.length) {
-    builtList.push(window.i18n('searchMessagesHeader', [`${messages.length}`]));
+    builtList.push(window.i18n('messages'));
     builtList.push(...messages);
   }
   return builtList;

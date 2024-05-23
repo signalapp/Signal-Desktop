@@ -66,6 +66,7 @@ import { MessageAttributes } from '../models/messageType';
 import { SignalService } from '../protobuf';
 import { Quote } from '../receiver/types';
 import { DURATION } from '../session/constants';
+import { ed25519Str } from '../session/utils/String';
 import {
   getSQLCipherIntegrityCheck,
   openAndMigrateDatabase,
@@ -79,7 +80,6 @@ import {
   initDbInstanceWith,
   isInstanceInitialized,
 } from './sqlInstance';
-import { ed25519Str } from '../session/utils/String';
 
 // eslint:disable: function-name non-literal-fs-path
 

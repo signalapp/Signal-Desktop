@@ -16,7 +16,7 @@ export type SearchStateType = {
   query: string;
   normalizedPhoneNumber?: string;
   // For conversations we store just the id, and pull conversation props in the selector
-  contactsAndGroups: Array<string>;
+  contactsAndConversations: Array<string>;
   messages?: Array<MessageResultProps>;
 };
 
@@ -24,7 +24,7 @@ export type SearchStateType = {
 type SearchResultsPayloadType = {
   query: string;
   normalizedPhoneNumber?: string;
-  contactsAndGroups: Array<string>;
+  contactsAndConversations: Array<string>;
   messages?: Array<MessageResultProps>;
 };
 
@@ -72,6 +72,7 @@ async function doSearch(query: string): Promise<SearchResultsPayloadType> {
     noteToSelf: window.i18n('noteToSelf').toLowerCase(),
     savedMessages: window.i18n('savedMessages').toLowerCase(),
     ourNumber: UserUtils.getOurPubKeyStrFromCache(),
+    filter: 'contacts',
   };
   const advancedSearchOptions = getAdvancedSearchOptionsFromQuery(query);
   const processedQuery = advancedSearchOptions.query;
@@ -82,13 +83,14 @@ async function doSearch(query: string): Promise<SearchResultsPayloadType> {
     queryMessages(processedQuery),
   ]);
   const { conversations, contacts } = discussions;
-  const contactsAndGroups = _.uniq([...conversations, ...contacts]);
+  window.log.debug(`WIP: [doSearch] conversations: ${conversations} contacts: ${contacts}`);
+  const contactsAndConversations = _.uniq([...conversations, ...contacts]);
   const filteredMessages = _.compact(messages);
 
   return {
     query,
     normalizedPhoneNumber: PubKey.normalize(query),
-    contactsAndGroups,
+    contactsAndConversations,
     messages: filteredMessages,
   };
 }
@@ -201,8 +203,10 @@ async function queryMessages(query: string): Promise<Array<MessageResultProps>> 
 }
 
 async function queryConversationsAndContacts(providedQuery: string, options: SearchOptions) {
-  const { ourNumber, noteToSelf, savedMessages } = options;
+  const { ourNumber, noteToSelf, savedMessages, filter } = options;
   const query = providedQuery.replace(/[+-.()]*/g, '');
+  const contactsOnly = filter === 'contacts';
+  const conversationsOnly = filter === 'conversations';
 
   const searchResults: Array<ReduxConversationType> = await Data.searchConversations(query);
 
@@ -213,16 +217,26 @@ async function queryConversationsAndContacts(providedQuery: string, options: Sea
   for (let i = 0; i < max; i += 1) {
     const conversation = searchResults[i];
 
-    if (conversation.id && conversation.activeAt) {
-      if (conversation.id === ourNumber) {
-        conversations.push(ourNumber);
-      } else {
+    if (!contactsOnly) {
+      if (conversation.id && conversation.activeAt) {
+        if (conversation.id === ourNumber) {
+          conversations.push(ourNumber);
+        } else {
+          conversations.push(conversation.id);
+        }
+      }
+
+      if (conversation.id && conversation.type !== ConversationTypeEnum.PRIVATE) {
         conversations.push(conversation.id);
       }
-    } else if (conversation.type === ConversationTypeEnum.PRIVATE) {
+    }
+
+    if (
+      !conversationsOnly &&
+      conversation.id &&
+      conversation.type === ConversationTypeEnum.PRIVATE
+    ) {
       contacts.push(conversation.id);
-    } else {
-      conversations.push(conversation.id);
     }
   }
 
@@ -243,7 +257,7 @@ async function queryConversationsAndContacts(providedQuery: string, options: Sea
 
 export const initialSearchState: SearchStateType = {
   query: '',
-  contactsAndGroups: [],
+  contactsAndConversations: [],
   messages: [],
 };
 
@@ -272,7 +286,7 @@ export function reducer(state: SearchStateType | undefined, action: SEARCH_TYPES
 
   if (action.type === 'SEARCH_RESULTS_FULFILLED') {
     const { payload } = action;
-    const { query, normalizedPhoneNumber, contactsAndGroups, messages } = payload;
+    const { query, normalizedPhoneNumber, contactsAndConversations, messages } = payload;
     // Reject if the associated query is not the most recent user-provided query
     if (state.query !== query) {
       return state;
@@ -282,7 +296,7 @@ export function reducer(state: SearchStateType | undefined, action: SEARCH_TYPES
       ...state,
       query,
       normalizedPhoneNumber,
-      contactsAndGroups,
+      contactsAndConversations,
       messages,
     };
   }
