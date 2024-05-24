@@ -114,6 +114,7 @@ const StyledButton = styled.button<{
 
 export type SessionButtonProps = {
   text?: string;
+  ariaLabel?: string;
   disabled?: boolean;
   buttonType?: SessionButtonType;
   buttonShape?: SessionButtonShape;
@@ -137,6 +138,7 @@ export const SessionButton = (props: SessionButtonProps) => {
     dataTestId,
     buttonColor,
     text,
+    ariaLabel,
     disabled = false,
     onClick = null,
     margin,
@@ -152,6 +154,7 @@ export const SessionButton = (props: SessionButtonProps) => {
 
   return (
     <StyledButton
+      aria-label={ariaLabel}
       color={buttonColor}
       buttonShape={buttonShape}
       buttonType={buttonType}

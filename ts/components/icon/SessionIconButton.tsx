@@ -13,6 +13,7 @@ export type SessionIconButtonProps = SessionIconProps & {
   dataTestIdIcon?: string;
   id?: string;
   title?: string;
+  ariaLabel?: string;
   tabIndex?: number;
   className?: string;
   children?: ReactNode;
@@ -60,6 +61,7 @@ const SessionIconButtonInner = forwardRef<HTMLButtonElement, SessionIconButtonPr
       margin,
       padding,
       id,
+      ariaLabel,
       title,
       dataTestId,
       dataTestIdIcon,
@@ -90,6 +92,7 @@ const SessionIconButtonInner = forwardRef<HTMLButtonElement, SessionIconButtonPr
         ref={ref}
         id={id}
         title={title}
+        aria-label={ariaLabel}
         onClick={clickHandler}
         style={{
           ...style,
