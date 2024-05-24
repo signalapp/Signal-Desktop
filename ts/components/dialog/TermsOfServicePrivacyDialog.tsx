@@ -35,6 +35,7 @@ export function TermsOfServicePrivacyDialog(props: TermsOfServicePrivacyDialogPr
       <SpacerSM />
       <ModalConfirmButtonContainer container={true} justifyContent="center" alignItems="center">
         <SessionButton
+          ariaLabel={'Terms of service button'}
           text={window.i18n('termsOfService')}
           buttonType={SessionButtonType.Ghost}
           onClick={() => {
@@ -43,6 +44,7 @@ export function TermsOfServicePrivacyDialog(props: TermsOfServicePrivacyDialogPr
           dataTestId="terms-of-service-button"
         />
         <SessionButton
+          ariaLabel={'Privacy policy button'}
           text={window.i18n('privacyPolicy')}
           buttonType={SessionButtonType.Ghost}
           onClick={() => {
