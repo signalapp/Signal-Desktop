@@ -105,6 +105,7 @@ export const OverlayInvite = () => {
             <CopyToClipboardButton
               copyContent={ourSessionID}
               onCopyComplete={() => setIdCopied(true)}
+              hotkey={true}
               dataTestId="invite-account-id-copy"
             />
           </StyledButtonerContainer>

@@ -4,7 +4,7 @@ import { KeyboardEvent, MouseEvent, ReactNode, forwardRef, memo } from 'react';
 import styled from 'styled-components';
 import { SessionIcon, SessionIconProps } from './SessionIcon';
 
-interface SProps extends SessionIconProps {
+export type SessionIconButtonProps = SessionIconProps & {
   onClick?: (e?: MouseEvent<HTMLButtonElement>) => void;
   isSelected?: boolean;
   isHidden?: boolean;
@@ -14,9 +14,10 @@ interface SProps extends SessionIconProps {
   id?: string;
   title?: string;
   tabIndex?: number;
+  className?: string;
   children?: ReactNode;
   disabled?: boolean;
-}
+};
 
 const StyledSessionIconButton = styled.button<{ color?: string; isSelected?: boolean }>`
   background-color: var(--button-icon-background-color);
@@ -41,80 +42,83 @@ const StyledSessionIconButton = styled.button<{ color?: string; isSelected?: boo
 `;
 
 // eslint-disable-next-line react/display-name
-const SessionIconButtonInner = forwardRef<HTMLButtonElement, SProps>((props, ref) => {
-  const {
-    iconType,
-    iconSize,
-    iconColor,
-    iconRotation,
-    isSelected,
-    glowDuration,
-    glowStartDelay,
-    noScale,
-    isHidden,
-    backgroundColor,
-    borderRadius,
-    iconPadding,
-    margin,
-    padding,
-    id,
-    title,
-    dataTestId,
-    dataTestIdIcon,
-    style,
-    tabIndex,
-    children,
-    disabled,
-  } = props;
-  const clickHandler = (e: MouseEvent<HTMLButtonElement>) => {
-    if (!disabled && props.onClick) {
-      e.stopPropagation();
-      props.onClick(e);
-    }
-  };
-  const keyPressHandler = (e: KeyboardEvent<HTMLButtonElement>) => {
-    if (e.currentTarget.tabIndex > -1 && e.key === 'Enter' && !disabled && props.onClick) {
-      e.stopPropagation();
-      props.onClick();
-    }
-  };
+const SessionIconButtonInner = forwardRef<HTMLButtonElement, SessionIconButtonProps>(
+  (props, ref) => {
+    const {
+      iconType,
+      iconSize,
+      iconColor,
+      iconRotation,
+      isSelected,
+      glowDuration,
+      glowStartDelay,
+      noScale,
+      isHidden,
+      backgroundColor,
+      borderRadius,
+      iconPadding,
+      margin,
+      padding,
+      id,
+      title,
+      dataTestId,
+      dataTestIdIcon,
+      style,
+      tabIndex,
+      className,
+      children,
+      disabled,
+    } = props;
+    const clickHandler = (e: MouseEvent<HTMLButtonElement>) => {
+      if (!disabled && props.onClick) {
+        e.stopPropagation();
+        props.onClick(e);
+      }
+    };
+    const keyPressHandler = (e: KeyboardEvent<HTMLButtonElement>) => {
+      if (e.currentTarget.tabIndex > -1 && e.key === 'Enter' && !disabled && props.onClick) {
+        e.stopPropagation();
+        props.onClick();
+      }
+    };
 
-  return (
-    <StyledSessionIconButton
-      color={iconColor}
-      isSelected={isSelected}
-      className={classNames('session-icon-button', iconSize)}
-      ref={ref}
-      id={id}
-      title={title}
-      onClick={clickHandler}
-      style={{
-        ...style,
-        display: style?.display ? style.display : isHidden ? 'none' : 'flex',
-        margin: margin || '',
-        padding: padding || '',
-      }}
-      tabIndex={tabIndex}
-      onKeyDown={keyPressHandler}
-      disabled={disabled}
-      data-testid={dataTestId}
-    >
-      <SessionIcon
-        iconType={iconType}
-        iconSize={iconSize}
-        iconColor={iconColor}
-        iconRotation={iconRotation}
-        glowDuration={glowDuration}
-        glowStartDelay={glowStartDelay}
-        noScale={noScale}
-        backgroundColor={backgroundColor}
-        borderRadius={borderRadius}
-        iconPadding={iconPadding}
-        dataTestId={dataTestIdIcon}
-      />
-      {children}
-    </StyledSessionIconButton>
-  );
-});
+    return (
+      <StyledSessionIconButton
+        color={iconColor}
+        isSelected={isSelected}
+        className={classNames('session-icon-button', iconSize, className)}
+        ref={ref}
+        id={id}
+        title={title}
+        onClick={clickHandler}
+        style={{
+          ...style,
+          display: style?.display ? style.display : isHidden ? 'none' : 'flex',
+          margin: margin || '',
+          padding: padding || '',
+        }}
+        tabIndex={tabIndex}
+        onKeyDown={keyPressHandler}
+        disabled={disabled}
+        data-testid={dataTestId}
+      >
+        <SessionIcon
+          iconType={iconType}
+          iconSize={iconSize}
+          iconColor={iconColor}
+          iconRotation={iconRotation}
+          glowDuration={glowDuration}
+          glowStartDelay={glowStartDelay}
+          noScale={noScale}
+          backgroundColor={backgroundColor}
+          borderRadius={borderRadius}
+          iconPadding={iconPadding}
+          dataTestId={dataTestIdIcon}
+        />
+        {children}
+      </StyledSessionIconButton>
+    );
+  }
+);
 
 export const SessionIconButton = memo(SessionIconButtonInner, _.isEqual);

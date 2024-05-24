@@ -245,27 +245,6 @@ export const EditProfileDialog = () => {
 
   useKey(
     (event: KeyboardEvent) => {
-      return event.key === 'c';
-    },
-    () => {
-      if (loading) {
-        return;
-      }
-      switch (mode) {
-        case 'default':
-        case 'qr':
-          if (copyButtonRef.current !== null) {
-            copyButtonRef.current.click();
-          }
-          break;
-        case 'edit':
-        default:
-      }
-    }
-  );
-
-  useKey(
-    (event: KeyboardEvent) => {
       return event.key === 'v';
     },
     () => {
@@ -446,6 +425,7 @@ export const EditProfileDialog = () => {
             >
               <CopyToClipboardButton
                 copyContent={ourId}
+                hotkey={true}
                 reference={copyButtonRef}
                 dataTestId="copy-button-profile-update"
               />

@@ -5,7 +5,6 @@ import useMount from 'react-use/lib/useMount';
 import styled from 'styled-components';
 import { usePasswordModal } from '../../../hooks/usePasswordModal';
 import { mnDecode } from '../../../session/crypto/mnemonic';
-import { ToastUtils } from '../../../session/utils';
 import { updateHideRecoveryPasswordModel } from '../../../state/ducks/modalDialog';
 import { showSettingsSection } from '../../../state/ducks/section';
 import { useHideRecoveryPasswordEnabled } from '../../../state/selectors/settings';
@@ -17,6 +16,7 @@ import { AnimatedFlex } from '../../basic/Flex';
 import { SessionButtonColor } from '../../basic/SessionButton';
 import { SessionHtmlRenderer } from '../../basic/SessionHTMLRenderer';
 import { SpacerMD, SpacerSM } from '../../basic/Text';
+import { CopyToClipboardIcon } from '../../buttons/CopyToClipboardButton';
 import { SessionIconButton } from '../../icon';
 import { SessionSettingButtonItem, SessionSettingsItemWrapper } from '../SessionSettingListItem';
 
@@ -62,11 +62,6 @@ export const SettingsCategoryRecoveryPassword = () => {
     },
   });
   const theme = useSelector(getTheme);
-
-  const copyRecoveryPhrase = (recoveryPhraseToCopy: string) => {
-    window.clipboard.writeText(recoveryPhraseToCopy);
-    ToastUtils.pushCopiedToClipBoard();
-  };
 
   const fetchRecoverPhrase = () => {
     const newRecoveryPhrase = getCurrentRecoveryPhrase();
@@ -134,17 +129,11 @@ export const SettingsCategoryRecoveryPassword = () => {
           >
             {recoveryPhrase}
             <SpacerSM />
-            <SessionIconButton
-              aria-label={'copy to clipboard button'}
-              iconType={'copy'}
+            <CopyToClipboardIcon
+              copyContent={recoveryPhrase}
               iconSize={'huge'}
               iconColor={'var(--text-primary-color)'}
-              onClick={() => {
-                if (isEmpty(recoveryPhrase)) {
-                  return;
-                }
-                copyRecoveryPhrase(recoveryPhrase);
-              }}
+              hotkey={true}
             />
           </StyledRecoveryPassword>
         )}

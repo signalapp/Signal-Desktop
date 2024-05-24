@@ -97,6 +97,7 @@ export const UserDetailsDialog = (props: UserDetailsModalState) => {
         <CopyToClipboardButton
           copyContent={props.conversationId}
           buttonType={SessionButtonType.Simple}
+          hotkey={true}
         />
       </div>
     </SessionWrapperModal>
