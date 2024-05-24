@@ -47,9 +47,23 @@ export type ThemeGlobals = {
   '--composition-container-height': string;
   '--search-input-height': string;
 
-  /* Animations */
+  /* Durations */
   '--default-duration': string;
   '--default-duration-seconds': string;
+  '--duration-message-highlight': string;
+  '--duration-message-highlight-seconds': string;
+  '--duration-typing-animation': string;
+  '--duration-session-spinner': string;
+  '--duration-spinner': string;
+  '--duration-pulse': string;
+  '--duration-right-panel': string;
+  '--duration-onion-status-glow': string;
+  '--duration-progress-bar': string;
+  '--duration-onboarding-container': string;
+  '--duration-modal-error-faded': string;
+  '--duration-modal-error-shown': string;
+  '--duration-modal-to-inbox': string;
+  '--duration-session-logo-text': string;
 
   /* Colors */
   '--green-color': string;
@@ -100,7 +114,6 @@ export type ThemeGlobals = {
   '--right-panel-height': string;
   '--right-panel-attachment-width': string;
   '--right-panel-attachment-height': string;
-  '--right-panel-duration': string;
 };
 
 // These are only set once in the global style (at root).
@@ -140,6 +153,20 @@ export const THEME_GLOBALS: ThemeGlobals = {
 
   '--default-duration': setDuration('0.25s'),
   '--default-duration-seconds': setDuration(0.25), // framer-motion requires a number
+  '--duration-message-highlight': setDuration('1s'),
+  '--duration-message-highlight-seconds': setDuration(1),
+  '--duration-typing-animation': setDuration('1600ms'),
+  '--duration-session-spinner': setDuration('0.6s'),
+  '--duration-spinner': setDuration('3000ms'),
+  '--duration-pulse': setDuration('1s'),
+  '--duration-right-panel': setDuration('0.3s'),
+  '--duration-onion-status-glow': setDuration(10),
+  '--duration-progress-bar': setDuration(0.5),
+  '--duration-onboarding-container': setDuration(1),
+  '--duration-modal-error-faded': setDuration('100ms'),
+  '--duration-modal-error-shown': setDuration(0.25),
+  '--duration-modal-to-inbox': setDuration('0.1s'),
+  '--duration-session-logo-text': setDuration('0s'),
 
   '--green-color': COLORS.PRIMARY.GREEN,
   '--blue-color': COLORS.PRIMARY.BLUE,
@@ -178,7 +205,6 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--right-panel-attachment-width': 'calc(var(--right-panel-width) - 2 * var(--margins-2xl) - 7px)',
   '--right-panel-attachment-height':
     'calc(var(--right-panel-height) - 2 * var(--margins-2xl) -7px)',
-  '--right-panel-duration': setDuration('0.3s'),
 };
 
 type ThemeKeys = ThemeGlobals & ThemeColorVariables;

@@ -6,7 +6,7 @@ import moment from 'moment';
 import autoBind from 'auto-bind';
 import MicRecorder from 'mic-recorder-to-mp3';
 import { Component } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Constants } from '../../session';
 import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
 import { ToastUtils } from '../../session/utils';
@@ -36,6 +36,32 @@ function getTimestamp() {
 interface StyledFlexWrapperProps {
   marginHorizontal: string;
 }
+
+const pulseColorAnimation = keyframes`
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(var(--session-recording-pulse-color), 0.7);
+    }
+
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(var(--session-recording-pulse-color), 0);
+    }
+
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(var(--session-recording-pulse-color), 0);
+    }
+`;
+
+const StyledRecordTimerLight = styled.div`
+  height: var(--margins-sm);
+  width: var(--margins-sm);
+  border-radius: 50%;
+  background-color: rgb(var(--session-recording-pulse-color));
+  margin: 0 var(--margins-sm);
+  animation: ${pulseColorAnimation} var(--duration-pulse) infinite;
+`;
 
 /**
  * Generic wrapper for quickly passing in theme constant values.
@@ -158,7 +184,7 @@ export class SessionRecording extends Component<Props, State> {
         {isRecording ? (
           <div className={classNames('session-recording--timer')}>
             {displayTimeString}
-            <div className="session-recording--timer-light" />
+            <StyledRecordTimerLight />
           </div>
         ) : null}
 

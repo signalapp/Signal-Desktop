@@ -204,4 +204,7 @@ export type ThemeColorVariables = {
   /* File Dropzone */
   '--file-dropzone-background-color': string;
   '--file-dropzone-border-color': string;
+
+  /* Session Recording */
+  '--session-recording-pulse-color': string;
 };

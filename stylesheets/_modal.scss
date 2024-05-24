@@ -78,28 +78,6 @@
   }
 }
 
-.add-moderators-dialog,
-.remove-moderators-dialog,
-.edit-profile-dialog {
-  .error-message {
-    text-align: center;
-    color: var(--danger-color);
-    display: block;
-    user-select: none;
-  }
-
-  .error-faded {
-    opacity: 0;
-    margin-top: -5px;
-    transition: all 100ms linear;
-  }
-
-  .error-shown {
-    opacity: 1;
-    transition: all 250ms linear;
-  }
-}
-
 .loki-dialog {
   display: flex;
   align-items: center;
@@ -132,7 +110,7 @@
 
 .loki-dialog {
   & ~ .index.inbox {
-    transition: filter 0.1s;
+    transition: filter var(--duration-modal-to-inbox);
   }
 
   input {

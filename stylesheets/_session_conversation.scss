@@ -178,15 +178,5 @@
         margin-left: auto;
       }
     }
-
-    &-light {
-      height: var(--margins-sm);
-      width: var(--margins-sm);
-      border-radius: 50%;
-      background-color: var(--danger-color);
-      margin: 0 var(--margins-sm);
-
-      @include pulse-color(var(--danger-color), 1s, infinite);
-    }
   }
 }
