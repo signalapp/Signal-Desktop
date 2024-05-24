@@ -3111,9 +3111,6 @@ async function updateGroup(
   const ourAci = window.textsecure.storage.user.getCheckedAci();
   const ourPni = window.textsecure.storage.user.getPni();
 
-  const startingRevision = conversation.get('revision');
-  const endingRevision = newAttributes.revision;
-
   const wasMemberOrPending =
     conversation.hasMember(ourAci) ||
     conversation.isMemberPending(ourAci) ||
@@ -3123,12 +3120,6 @@ async function updateGroup(
     newAttributes.pendingMembersV2?.some(
       item => item.serviceId === ourAci || item.serviceId === ourPni
     );
-  const isMemberOrPendingOrAwaitingApproval =
-    isMemberOrPending ||
-    newAttributes.pendingAdminApprovalV2?.some(item => item.aci === ourAci);
-
-  const isInitialDataFetch =
-    !isNumber(startingRevision) && isNumber(endingRevision);
 
   // Ensure that all generated messages are ordered properly.
   // Before the provided timestamp so update messages appear before the
@@ -3141,17 +3132,10 @@ async function updateGroup(
   const previousId = conversation.get('groupId');
   const idChanged = previousId && previousId !== newAttributes.groupId;
 
-  // By updating activeAt we force this conversation into the left pane if this is the
-  //   first time we've fetched data about it, and we were able to fetch its name. Nobody
-  //   likes to see Unknown Group in the left pane. After first fetch, we rely on normal
-  //   message activity (including group change messages) to set the timestamp properly.
+  // By updating activeAt we force this conversation into the left panel. We don't want
+  //   all groups to show up on link, and we don't want Unknown Group in the left pane.
   let activeAt = conversation.get('active_at') || null;
-  if (
-    !viaFirstStorageSync &&
-    isMemberOrPendingOrAwaitingApproval &&
-    isInitialDataFetch &&
-    newAttributes.name
-  ) {
+  if (!viaFirstStorageSync && newAttributes.name) {
     activeAt = initialSentAt;
   }
 
