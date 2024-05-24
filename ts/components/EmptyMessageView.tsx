@@ -22,7 +22,7 @@ const StyledSessionFullLogo = styled(Flex)`
   img:nth-child(2) {
     margin-top: 10px;
     width: 250px;
-    transition: 0s;
+    transition: var(--duration-session-logo-text);
     filter: var(--session-logo-text-current-filter);
     -webkit-user-drag: none;
   }

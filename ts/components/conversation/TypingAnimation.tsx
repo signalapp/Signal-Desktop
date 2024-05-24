@@ -64,7 +64,7 @@ const StyledTypingDot = styled.div<{ index: number }>`
         : props.index === 1
           ? 'typing-animation-second'
           : 'typing-animation-third'}
-    1600ms ease infinite;
+    var(--duration-typing-animation) ease infinite;
 `;
 
 const StyledSpacer = styled.div`
