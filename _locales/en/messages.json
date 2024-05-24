@@ -467,7 +467,7 @@
   "serverId": "Server ID",
   "sessionConversations": "Conversations",
   "sessionInviteAFriend": "Invite a Friend",
-  "sessionInviteAFriendDescription": "Copy your Account ID then share it with your friends so they can message you.",
+  "shareAccountIdDescription": "Invite your friend to chat with you on Session by sharing your Account ID with them.",
   "sessionInviteAFriendIDCopied": "Share with your friends wherever you usually speak with them — then move the conversation here.",
   "sessionMessenger": "Session",
   "sessionRecoveryPassword": "Recovery Password",

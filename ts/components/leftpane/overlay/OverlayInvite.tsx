@@ -42,7 +42,7 @@ const StyledDescription = styled.div`
   text-align: center;
   margin: 0 auto;
   text-align: center;
-  padding: 0 var(--margins-md);
+  padding: 0 var(--margins-sm);
 `;
 
 const StyledButtonerContainer = styled.div`
@@ -99,7 +99,7 @@ export const OverlayInvite = () => {
             />
           </StyledInputContainer>
           <SpacerMD />
-          <StyledDescription>{window.i18n('sessionInviteAFriendDescription')}</StyledDescription>
+          <StyledDescription>{window.i18n('shareAccountIdDescription')}</StyledDescription>
           <SpacerLG />
           <StyledButtonerContainer>
             <CopyToClipboardButton
