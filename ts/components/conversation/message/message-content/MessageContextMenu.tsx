@@ -4,7 +4,8 @@ import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 import { isNumber } from 'lodash';
 import { Item, ItemParams, Menu, useContextMenu } from 'react-contexify';
 import { useDispatch } from 'react-redux';
-import { useClickAway, useMouse } from 'react-use';
+import useClickAway from 'react-use/lib/useClickAway';
+import useMouse from 'react-use/lib/useMouse';
 import styled from 'styled-components';
 import { Data } from '../../../../data/data';
 

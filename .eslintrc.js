@@ -129,9 +129,8 @@ module.exports = {
           // There is an issue with the current version of react-use where it requires an arbitrary 'Locale' package on the window object which causes random app crashes on startup in some cases
           {
             name: 'react-use',
-            importNames: ['useMount'],
             message:
-              "Don't import it from 'react-use' directly. Please use a default import from 'react-use/lib/useMount' instead.",
+              "Don't import from 'react-use' directly. Please use a default import for each hook from 'react-use/lib' instead.",
           },
         ],
       },

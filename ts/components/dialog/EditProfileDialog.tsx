@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useKey } from 'react-use';
+import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 
