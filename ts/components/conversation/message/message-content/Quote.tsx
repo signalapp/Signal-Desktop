@@ -218,7 +218,8 @@ export const QuoteIconContainer = (
   if (MIME.isAudio(contentType)) {
     return <QuoteIcon icon="microphone" />;
   }
-  return null;
+
+  return <QuoteIcon icon="file" />;
 };
 
 export const QuoteText = (

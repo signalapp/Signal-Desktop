@@ -94,44 +94,38 @@ export const QuoteIconContainer = (
   }
 
   const { contentType, thumbnail } = attachment;
-  const isGenericFile =
-    !GoogleChrome.isVideoTypeSupported(contentType) &&
-    !GoogleChrome.isImageTypeSupported(contentType) &&
-    !MIME.isAudio(contentType);
+  const objectUrl = getObjectUrl(thumbnail);
 
-  if (isGenericFile) {
-    return <QuoteIcon icon="file" />;
+  if (GoogleChrome.isVideoTypeSupported(contentType)) {
+    return objectUrl && !imageBroken ? (
+      <QuoteImage
+        url={objectUrl}
+        contentType={MIME.IMAGE_JPEG}
+        showPlayButton={true}
+        imageBroken={imageBroken}
+        handleImageErrorBound={noop}
+      />
+    ) : (
+      <QuoteIcon icon="movie" />
+    );
   }
 
-  const objectUrl = getObjectUrl(thumbnail);
-  if (objectUrl) {
-    if (GoogleChrome.isVideoTypeSupported(contentType)) {
-      return (
-        <QuoteImage
-          url={objectUrl}
-          contentType={MIME.IMAGE_JPEG}
-          showPlayButton={true}
-          imageBroken={imageBroken}
-          handleImageErrorBound={noop}
-        />
-      );
-    }
-
-    if (GoogleChrome.isImageTypeSupported(contentType)) {
-      return (
-        <QuoteImage
-          url={objectUrl}
-          contentType={contentType}
-          imageBroken={imageBroken}
-          handleImageErrorBound={handleImageErrorBound}
-        />
-      );
-    }
+  if (GoogleChrome.isImageTypeSupported(contentType)) {
+    return objectUrl && !imageBroken ? (
+      <QuoteImage
+        url={objectUrl}
+        contentType={contentType}
+        imageBroken={imageBroken}
+        handleImageErrorBound={handleImageErrorBound}
+      />
+    ) : (
+      <QuoteIcon icon="image" />
+    );
   }
 
   if (MIME.isAudio(contentType)) {
     return <QuoteIcon icon="microphone" />;
   }
 
-  return null;
+  return <QuoteIcon icon="file" />;
 };
