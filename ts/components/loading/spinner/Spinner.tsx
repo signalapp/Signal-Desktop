@@ -23,7 +23,7 @@ const SpinnerArc = styled.svg`
   height: 56px;
   width: 56px;
 
-  animation: spinner-arc-animation 3000ms linear infinite;
+  animation: spinner-arc-animation var(--duration-spinner) linear infinite;
   animation-play-state: inherit;
 
   @keyframes spinner-arc-animation {

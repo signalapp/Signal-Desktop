@@ -18,6 +18,7 @@ import {
 import { Flex } from '../basic/Flex';
 
 import { Snode } from '../../data/types';
+import { THEME_GLOBALS } from '../../themes/globals';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionIcon, SessionIconButton } from '../icon';
 import { SessionSpinner } from '../loading';
@@ -218,6 +219,8 @@ export const ActionPanelOnionStatusLight = (props: {
   const firstPathLength = useFirstOnionPathLength();
   const isOnline = useIsOnline();
 
+  const glowDuration = Number(THEME_GLOBALS['--duration-onion-status-glow']); // 10
+
   // Set icon color based on result
   const errorColor = 'var(--button-path-error-color)';
   const defaultColor = 'var(--button-path-default-color)';
@@ -237,7 +240,7 @@ export const ActionPanelOnionStatusLight = (props: {
       iconType="circle"
       iconColor={iconColor}
       onClick={handleClick}
-      glowDuration={10}
+      glowDuration={glowDuration}
       glowStartDelay={0}
       noScale={true}
       isSelected={isSelected}

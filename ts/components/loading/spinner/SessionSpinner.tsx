@@ -26,19 +26,19 @@ const StyledSessionSpinner = styled.div<Props>`
   }
   div:nth-child(1) {
     left: 8px;
-    animation: session-loader1 0.6s infinite;
+    animation: session-loader1 var(--duration-session-spinner) infinite;
   }
   div:nth-child(2) {
     left: 8px;
-    animation: session-loader2 0.6s infinite;
+    animation: session-loader2 var(--duration-session-spinner) infinite;
   }
   div:nth-child(3) {
     left: 32px;
-    animation: session-loader2 0.6s infinite;
+    animation: session-loader2 var(--duration-session-spinner) infinite;
   }
   div:nth-child(4) {
     left: 56px;
-    animation: session-loader3 0.6s infinite;
+    animation: session-loader3 var(--duration-session-spinner) infinite;
   }
   @keyframes session-loader1 {
     0% {

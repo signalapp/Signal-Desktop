@@ -151,7 +151,13 @@ export const OverlayClosedGroup = () => {
       flexGrow={1}
       alignItems={'center'}
     >
-      <Flex container={true} width={'100%'} flexDirection="column" padding={'var(--margins-md)'}>
+      <Flex
+        container={true}
+        width={'100%'}
+        flexDirection="column"
+        alignItems="center"
+        padding={'var(--margins-md)'}
+      >
         <SessionInput
           autoFocus={true}
           type="text"
