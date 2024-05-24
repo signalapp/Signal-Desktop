@@ -63,7 +63,7 @@ const AvatarItem = () => {
 };
 type Props = { conversationId: string; style?: CSSProperties };
 
-const ConversationListItemInner = (props: Props) => {
+export const ConversationListItem = (props: Props) => {
   const { conversationId, style } = props;
   const key = `conversation-item-${conversationId}`;
 
@@ -137,5 +137,3 @@ const ConversationListItemInner = (props: Props) => {
     </ContextConversationProvider>
   );
 };
-
-export const ConversationListItem = ConversationListItemInner;

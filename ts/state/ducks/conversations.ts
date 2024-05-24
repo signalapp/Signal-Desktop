@@ -26,6 +26,7 @@ import {
   DisappearingMessageType,
 } from '../../session/disappearing_messages/types';
 import { ReactionList } from '../../types/Reaction';
+import { resetRightOverlayMode } from './section';
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
 
@@ -1184,6 +1185,7 @@ export async function openConversationWithMessages(args: {
       initialQuotes,
     })
   );
+  window.inboxStore?.dispatch(resetRightOverlayMode());
 }
 
 export async function openConversationToSpecificMessage(args: {
