@@ -612,7 +612,7 @@ async function showAbout() {
   const options = {
     width: 500,
     height: 500,
-    resizable: true,
+    resizable: false,
     title: locale.messages.about,
     autoHideMenuBar: true,
     backgroundColor: classicDark['--background-primary-color'],

@@ -78,6 +78,7 @@ declare global {
     getAppInstance: () => string;
     getCommitHash: () => string | undefined;
     getVersion: () => string;
+    getOSRelease: () => string;
     setAutoHideMenuBar: (val: boolean) => void;
     setMenuBarVisibility: (val: boolean) => void;
     contextMenuShown: boolean;

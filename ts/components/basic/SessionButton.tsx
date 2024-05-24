@@ -122,6 +122,7 @@ export type SessionButtonProps = {
   children?: ReactNode;
   margin?: string;
   reference?: any;
+  className?: string;
   dataTestId?: string;
 };
 
@@ -132,6 +133,7 @@ export const SessionButton = (props: SessionButtonProps) => {
       ? SessionButtonShape.None
       : SessionButtonShape.Round,
     reference,
+    className,
     dataTestId,
     buttonColor,
     text,
@@ -158,7 +160,8 @@ export const SessionButton = (props: SessionButtonProps) => {
         buttonShape,
         buttonType,
         buttonColor ?? '',
-        disabled && 'disabled'
+        disabled && 'disabled',
+        className
       )}
       role="button"
       onClick={onClickFn}

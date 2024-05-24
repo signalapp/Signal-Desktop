@@ -73,9 +73,9 @@ const DebugLogViewAndSave = () => {
   const [content, setContent] = useState(window.i18n('loading'));
 
   useEffect(() => {
-    const operatingSystemInfo = `Operating System: ${(window as any).getOSRelease()}`;
+    const operatingSystemInfo = `Operating System ${window.getOSRelease()}`;
 
-    const commitHashInfo = window.getCommitHash() ? `Commit Hash: ${window.getCommitHash()}` : '';
+    const commitHashInfo = window.getCommitHash() ? `Commit ${window.getCommitHash()}` : '';
 
     // eslint-disable-next-line more/no-then
     fetchNodeLog()
@@ -100,6 +100,7 @@ export const DebugLogView = () => {
     if (window.theme) {
       void switchThemeTo({
         theme: window.theme,
+        usePrimaryColor: true,
       });
     }
   }, []);
