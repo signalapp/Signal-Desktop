@@ -225,7 +225,7 @@ export const RestoreAccount = () => {
                 <OnboardDescription>{window.i18n('onboardingRecoveryPassword')}</OnboardDescription>
                 <SpacerLG />
                 <SessionInput
-                  ariaLabel="Recovery phrase input"
+                  ariaLabel="Recovery password input"
                   autoFocus={true}
                   disableOnBlurEvent={true}
                   type="password"
@@ -243,8 +243,8 @@ export const RestoreAccount = () => {
                   error={recoveryPasswordError}
                   enableShowHide={true}
                   showHideAriaLabels={{
-                    hide: 'Hide recovery phrase toggle',
-                    show: 'Reveal recovery phrase toggle',
+                    hide: 'Hide recovery password toggle',
+                    show: 'Reveal recovery password toggle',
                   }}
                   showHideDataTestIds={{
                     hide: 'hide-recovery-phrase-toggle',

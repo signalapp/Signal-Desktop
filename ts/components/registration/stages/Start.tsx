@@ -55,7 +55,7 @@ export const Start = () => {
       />
       <SpacerLG />
       <SessionButton
-        ariaLabel={'Restore your session button'}
+        ariaLabel={'Restore account button'}
         buttonColor={SessionButtonColor.White}
         onClick={() => {
           dispatch(setDirection('forward'));

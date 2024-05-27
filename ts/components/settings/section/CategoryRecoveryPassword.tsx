@@ -99,7 +99,7 @@ export const SettingsCategoryRecoveryPassword = () => {
         <SpacerMD />
         {isQRVisible ? (
           <SessionQRCode
-            id={'session-recovery-passwod'}
+            id={'session-recovery-password'}
             value={hexEncodedSeed}
             size={240}
             backgroundColor={getThemeValue(
@@ -114,7 +114,7 @@ export const SettingsCategoryRecoveryPassword = () => {
             logoIsSVG={true}
             theme={theme}
             ariaLabel={'Recovery Password QR Code'}
-            dataTestId={'session-recovery-passwod'}
+            dataTestId={'session-recovery-password'}
           />
         ) : (
           <StyledRecoveryPassword
