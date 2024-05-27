@@ -43,6 +43,7 @@ export const Start = () => {
   return (
     <StyledStart ready={ready}>
       <SessionButton
+        ariaLabel={'Create account button'}
         buttonColor={SessionButtonColor.White}
         onClick={() => {
           dispatch(setDirection('forward'));
@@ -54,6 +55,7 @@ export const Start = () => {
       />
       <SpacerLG />
       <SessionButton
+        ariaLabel={'Restore your session button'}
         buttonColor={SessionButtonColor.White}
         onClick={() => {
           dispatch(setDirection('forward'));

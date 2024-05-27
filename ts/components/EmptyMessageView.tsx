@@ -110,7 +110,9 @@ export const EmptyMessageView = () => {
       {!conversationCount ? (
         <>
           <StyledHR />
-          <StyledNoConversations>{window.i18n('conversationsNone')}</StyledNoConversations>
+          <StyledNoConversations data-testid="empty-conversation">
+            {window.i18n('conversationsNone')}
+          </StyledNoConversations>
           <SpacerXS />
           <StyledP style={{ width: '360px' }}>{window.i18n('onboardingHitThePlusButton')}</StyledP>
         </>

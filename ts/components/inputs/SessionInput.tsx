@@ -147,6 +147,7 @@ const StyledTextAreaContainer = styled(motion.div)<{
 const ErrorItem = (props: { id: string; error: string }) => {
   return (
     <motion.label
+      aria-label="Error message"
       htmlFor={props.id}
       className={'filled error'}
       initial={{ opacity: 0 }}
@@ -181,6 +182,7 @@ const ShowHideButton = (props: {
         iconSize="huge"
         onClick={props.toggleForceShow}
         style={style}
+        aria-label={'Show or hide input'}
         dataTestId="reveal-recovery-phrase-toggle"
       />
     );
@@ -207,6 +209,7 @@ type Props = {
   type?: string;
   value?: string;
   placeholder?: string;
+  ariaLabel?: string;
   maxLength?: number;
   enableShowHide?: boolean;
   onValueChanged?: (value: string) => any;
@@ -232,6 +235,7 @@ export const SessionInput = (props: Props) => {
     placeholder,
     type = 'text',
     value,
+    ariaLabel,
     maxLength,
     enableShowHide,
     error,
@@ -346,10 +350,14 @@ export const SessionInput = (props: Props) => {
       >
         {isTextArea ? (
           <StyledTextAreaContainer {...containerProps}>
-            <textarea {...inputProps} />
+            <textarea {...inputProps} aria-label={ariaLabel || 'session input text area'} />
           </StyledTextAreaContainer>
         ) : (
-          <StyledInput {...inputProps} {...containerProps} />
+          <StyledInput
+            {...inputProps}
+            {...containerProps}
+            aria-label={ariaLabel || 'session input'}
+          />
         )}
         {editable && enableShowHide && (
           <ShowHideButton

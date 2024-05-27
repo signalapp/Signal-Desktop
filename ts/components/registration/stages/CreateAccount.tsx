@@ -128,6 +128,7 @@ export const CreateAccount = () => {
         <OnboardDescription>{window.i18n('displayNameDescription')}</OnboardDescription>
         <SpacerLG />
         <SessionInput
+          ariaLabel={'Enter display name'}
           autoFocus={true}
           disableOnBlurEvent={true}
           type="text"
@@ -143,6 +144,7 @@ export const CreateAccount = () => {
         />
         <SpacerLG />
         <SessionButton
+          ariaLabel="Continue"
           buttonColor={SessionButtonColor.White}
           onClick={signUpWithDetails}
           text={window.i18n('continue')}

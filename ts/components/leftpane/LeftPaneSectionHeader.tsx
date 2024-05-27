@@ -120,6 +120,7 @@ export const LeftPaneBanner = () => {
         <p>{window.i18n('saveRecoveryPasswordDescription')}</p>
         <SpacerMD />
         <SessionButton
+          ariaLabel="Reveal recovery phrase button"
           text={window.i18n('continue')}
           onClick={showRecoveryPhraseModal}
           dataTestId="reveal-recovery-phrase"
