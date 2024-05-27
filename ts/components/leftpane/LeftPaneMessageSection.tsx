@@ -82,7 +82,7 @@ export const LeftPaneMessageSection = () => {
     return <ConversationListItem key={key} style={style} conversationId={conversationId} />;
   };
 
-  const ConversationList = () => {
+  const renderList = () => {
     if (!isEmpty(searchTerm)) {
       return <SearchResults />;
     }
@@ -113,7 +113,7 @@ export const LeftPaneMessageSection = () => {
     );
   };
 
-  const Conversations = () => {
+  const renderConversations = () => {
     return (
       <StyledConversationListContent>
         <SessionSearchInput />
@@ -122,7 +122,7 @@ export const LeftPaneMessageSection = () => {
             window.inboxStore?.dispatch(setLeftOverlayMode('message-requests'));
           }}
         />
-        <ConversationList />
+        {renderList()}
       </StyledConversationListContent>
     );
   };
@@ -130,7 +130,7 @@ export const LeftPaneMessageSection = () => {
   return (
     <StyledLeftPaneContent>
       <LeftPaneSectionHeader />
-      {leftOverlayMode ? <ClosableOverlay /> : <Conversations />}
+      {leftOverlayMode ? <ClosableOverlay /> : renderConversations()}
     </StyledLeftPaneContent>
   );
 };
