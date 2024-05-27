@@ -27,6 +27,7 @@ export const QRView = ({ sessionID }: { sessionID: string }) => {
       logoHeight={40}
       logoIsSVG={true}
       theme={theme}
+      ariaLabel={'Account ID QR code'}
       dataTestId={'your-qr-code'}
       style={{ marginTop: '-1px' }}
     />
