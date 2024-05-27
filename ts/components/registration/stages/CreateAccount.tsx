@@ -26,11 +26,10 @@ import {
 } from '../../../util/accountManager';
 import { Storage, setSignWithRecoveryPhrase } from '../../../util/storage';
 import { Flex } from '../../basic/Flex';
-import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG, SpacerSM } from '../../basic/Text';
 import { SessionInput } from '../../inputs';
 import { resetRegistration } from '../RegistrationStages';
-import { OnboardDescription, OnboardHeading } from '../components';
+import { ContinueButton, OnboardDescription, OnboardHeading } from '../components';
 import { BackButtonWithinContainer } from '../components/BackButton';
 import { displayNameIsValid, sanitizeDisplayNameOrToast } from '../utils';
 
@@ -143,13 +142,9 @@ export const CreateAccount = () => {
           inputDataTestId="display-name-input"
         />
         <SpacerLG />
-        <SessionButton
-          ariaLabel="Continue"
-          buttonColor={SessionButtonColor.White}
+        <ContinueButton
           onClick={signUpWithDetails}
-          text={window.i18n('continue')}
           disabled={isEmpty(displayName) || !isEmpty(displayNameError)}
-          dataTestId="continue-button"
         />
       </Flex>
     </BackButtonWithinContainer>

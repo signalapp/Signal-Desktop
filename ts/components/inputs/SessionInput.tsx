@@ -177,19 +177,21 @@ const ShowHideButton = (props: {
   if (props.forceShow) {
     return (
       <SessionIconButton
+        ariaLabel={'Hide recovery phrase toggle'}
         iconType={'eyeDisabled'}
         iconColor={props.error ? 'var(--danger-color)' : 'var(--text-primary-color)'}
         iconSize="huge"
         onClick={props.toggleForceShow}
         style={style}
         aria-label={'Show or hide input'}
-        dataTestId="reveal-recovery-phrase-toggle"
+        dataTestId="hide-recovery-phrase-toggle"
       />
     );
   }
 
   return (
     <SessionIconButton
+      ariaLabel={'Reveal recovery phrase toggle'}
       iconType={'eye'}
       iconColor={props.error ? 'var(--danger-color)' : 'var(--text-primary-color)'}
       iconSize="huge"
