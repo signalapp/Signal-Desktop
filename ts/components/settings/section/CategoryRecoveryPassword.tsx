@@ -113,9 +113,12 @@ export const SettingsCategoryRecoveryPassword = () => {
             logoHeight={56}
             logoIsSVG={true}
             theme={theme}
+            ariaLabel={'Recovery Password QR Code'}
+            dataTestId={'session-recovery-passwod'}
           />
         ) : (
           <StyledRecoveryPassword
+            aria-label="Recovery password"
             container={true}
             flexDirection={'row'}
             justifyContent={'space-between'}
@@ -125,7 +128,7 @@ export const SettingsCategoryRecoveryPassword = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
-            data-testid="recovery-phrase-seed-modal"
+            data-testid="recovery-password-seed-modal"
           >
             {recoveryPhrase}
             <SpacerSM />

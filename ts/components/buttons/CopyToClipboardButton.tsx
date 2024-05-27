@@ -89,7 +89,7 @@ export const CopyToClipboardIcon = (props: CopyToClipboardIconProps) => {
 
   return (
     <SessionIconButton
-      aria-label={'copy to clipboard button'}
+      aria-label={'copy to clipboard icon button'}
       {...props}
       className={className}
       iconType={'copy'}

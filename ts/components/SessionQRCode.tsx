@@ -39,6 +39,8 @@ export type SessionQRCodeProps = {
   logoIsSVG?: boolean;
   theme?: string;
   ignoreTheme?: boolean;
+  ariaLabel?: string;
+  dataTestId?: string;
   style?: CSSProperties;
 };
 
@@ -55,6 +57,8 @@ export function SessionQRCode(props: SessionQRCodeProps) {
     logoIsSVG,
     theme,
     ignoreTheme,
+    ariaLabel,
+    dataTestId,
     style,
   } = props;
 
@@ -110,7 +114,7 @@ export function SessionQRCode(props: SessionQRCodeProps) {
       container={true}
       justifyContent="center"
       alignItems="center"
-      aria-label={window.i18n('clickToTrustContact')}
+      aria-label={ariaLabel || 'QR code'}
       title={window.i18n('clickToTrustContact')}
       canvasId={id}
       size={size}
@@ -129,6 +133,7 @@ export function SessionQRCode(props: SessionQRCodeProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: loading ? 0 : 1 }}
       transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
+      data-testId={dataTestId || 'session-qr-code'}
       style={style}
     >
       <QRCode

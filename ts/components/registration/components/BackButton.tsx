@@ -41,6 +41,7 @@ export const BackButton = ({ callback }: { callback?: () => void }) => {
 
   return (
     <SessionIconButton
+      ariaLabel="Back button"
       iconSize="huge"
       iconType="chevron"
       iconColor="var(--color-text-primary)"
