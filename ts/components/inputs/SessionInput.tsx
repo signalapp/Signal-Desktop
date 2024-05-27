@@ -160,11 +160,24 @@ const ErrorItem = (props: { id: string; error: string }) => {
   );
 };
 
-const ShowHideButton = (props: {
+type ShowHideStrings = { hide: string; show: string };
+type ShowHideButtonProps = {
   forceShow: boolean;
   toggleForceShow: () => void;
   error: boolean;
-}) => {
+  ariaLabels?: ShowHideStrings;
+  dataTestIds?: ShowHideStrings;
+};
+
+const ShowHideButton = (props: ShowHideButtonProps) => {
+  const {
+    forceShow,
+    toggleForceShow,
+    error,
+    ariaLabels = { hide: 'Hide input text button', show: 'Show input text button' },
+    dataTestIds = { hide: 'hide-input-text-toggle', show: 'show-input-text-toggle' },
+  } = props;
+
   const htmlDirection = useHTMLDirection();
   const style: CSSProperties = {
     position: 'absolute',
@@ -174,30 +187,29 @@ const ShowHideButton = (props: {
     right: htmlDirection === 'ltr' ? 'var(--margins-sm)' : undefined,
   };
 
-  if (props.forceShow) {
+  if (forceShow) {
     return (
       <SessionIconButton
-        ariaLabel={'Hide recovery phrase toggle'}
+        ariaLabel={ariaLabels.hide}
         iconType={'eyeDisabled'}
-        iconColor={props.error ? 'var(--danger-color)' : 'var(--text-primary-color)'}
+        iconColor={error ? 'var(--danger-color)' : 'var(--text-primary-color)'}
         iconSize="huge"
-        onClick={props.toggleForceShow}
+        onClick={toggleForceShow}
         style={style}
-        aria-label={'Show or hide input'}
-        dataTestId="hide-recovery-phrase-toggle"
+        dataTestId={dataTestIds.hide}
       />
     );
   }
 
   return (
     <SessionIconButton
-      ariaLabel={'Reveal recovery phrase toggle'}
+      ariaLabel={ariaLabels.show}
       iconType={'eye'}
       iconColor={props.error ? 'var(--danger-color)' : 'var(--text-primary-color)'}
       iconSize="huge"
-      onClick={props.toggleForceShow}
+      onClick={toggleForceShow}
       style={style}
-      dataTestId="reveal-recovery-phrase-toggle"
+      dataTestId={dataTestIds.show}
     />
   );
 };
@@ -213,7 +225,6 @@ type Props = {
   placeholder?: string;
   ariaLabel?: string;
   maxLength?: number;
-  enableShowHide?: boolean;
   onValueChanged?: (value: string) => any;
   onEnterPressed?: (value: string) => any;
   autoFocus?: boolean;
@@ -221,6 +232,9 @@ type Props = {
   inputRef?: any;
   inputDataTestId?: string;
   id?: string;
+  enableShowHide?: boolean;
+  showHideAriaLabels?: ShowHideStrings;
+  showHideDataTestIds?: ShowHideStrings;
   ctaButton?: ReactNode;
   monospaced?: boolean;
   textSize?: TextSizes;
@@ -239,7 +253,6 @@ export const SessionInput = (props: Props) => {
     value,
     ariaLabel,
     maxLength,
-    enableShowHide,
     error,
     onValueChanged,
     onEnterPressed,
@@ -248,6 +261,9 @@ export const SessionInput = (props: Props) => {
     inputRef,
     inputDataTestId,
     id = 'session-input-floating-label',
+    enableShowHide,
+    showHideAriaLabels,
+    showHideDataTestIds,
     ctaButton,
     monospaced,
     textSize,
@@ -368,6 +384,8 @@ export const SessionInput = (props: Props) => {
               setForceShow(!forceShow);
             }}
             error={Boolean(errorString)}
+            ariaLabels={showHideAriaLabels}
+            dataTestIds={showHideDataTestIds}
           />
         )}
       </StyledBorder>

@@ -242,6 +242,14 @@ export const RestoreAccount = () => {
                   onEnterPressed={recoverAndFetchDisplayName}
                   error={recoveryPasswordError}
                   enableShowHide={true}
+                  showHideAriaLabels={{
+                    hide: 'Hide recovery phrase toggle',
+                    show: 'Reveal recovery phrase toggle',
+                  }}
+                  showHideDataTestIds={{
+                    hide: 'hide-recovery-phrase-toggle',
+                    show: 'reveal-recovery-phrase-toggle',
+                  }}
                   inputDataTestId="recovery-phrase-input"
                 />
                 <SpacerLG />
