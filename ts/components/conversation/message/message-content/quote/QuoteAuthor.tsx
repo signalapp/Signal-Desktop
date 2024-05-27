@@ -40,7 +40,6 @@ export const QuoteAuthor = (props: QuoteAuthorProps) => {
       <ContactName
         pubkey={PubKey.shorten(author)}
         name={authorName}
-        compact={true}
         shouldShowPubkey={Boolean(authorName && !isMe && isPublic)}
       />
     </StyledQuoteAuthor>
