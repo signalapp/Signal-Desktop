@@ -69,14 +69,14 @@ export const OverlayChooseAction = () => {
       >
         <ActionRow
           title={window.i18n('newMessage')}
-          ariaLabel={window.i18n('createConversationNewContact')}
+          ariaLabel={'New message button'}
           iconType={'chatBubble'}
           onClick={openNewMessage}
           dataTestId="chooser-new-conversation-button"
         />
         <ActionRow
           title={window.i18n('createGroup')}
-          ariaLabel={window.i18n('createConversationNewGroup')}
+          ariaLabel={'Create a group button'}
           iconType={'group'}
           iconSize={36}
           onClick={openCreateGroup}
@@ -84,17 +84,17 @@ export const OverlayChooseAction = () => {
         />
         <ActionRow
           title={window.i18n('joinOpenGroup')}
-          ariaLabel={window.i18n('joinACommunity')}
+          ariaLabel={'Join a community button'}
           iconType={'communities'}
           onClick={openJoinCommunity}
           dataTestId="chooser-new-community"
         />
         <ActionRow
           title={window.i18n('sessionInviteAFriend')}
-          ariaLabel={window.i18n('sessionInviteAFriend')}
+          ariaLabel={'Invite a friend button'}
           iconType={'addUser'}
           onClick={inviteAFriend}
-          dataTestId="invite-a-friend"
+          dataTestId="chooser-invite-friend"
         />
       </StyledActionRowContainer>
       <SpacerSM />

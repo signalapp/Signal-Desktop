@@ -1,7 +1,6 @@
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 
-import { shell } from 'electron';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { resetLeftOverlayMode } from '../../../state/ducks/section';
@@ -9,8 +8,9 @@ import { resetLeftOverlayMode } from '../../../state/ducks/section';
 import { UserUtils } from '../../../session/utils';
 import { Flex } from '../../basic/Flex';
 import { SpacerLG, SpacerMD, SpacerSM } from '../../basic/Text';
+import { HelpDeskButton } from '../../buttons';
 import { CopyToClipboardButton } from '../../buttons/CopyToClipboardButton';
-import { SessionIcon, SessionIconButton } from '../../icon';
+import { SessionIcon } from '../../icon';
 import { SessionInput } from '../../inputs';
 import { StyledLeftPaneOverlay } from './OverlayMessage';
 
@@ -95,7 +95,8 @@ export const OverlayInvite = () => {
               editable={false}
               centerText={true}
               isTextArea={true}
-              inputDataTestId="invite-account-id"
+              ariaLabel="Account ID"
+              inputDataTestId="your-account-id"
             />
           </StyledInputContainer>
           <SpacerMD />
@@ -106,7 +107,7 @@ export const OverlayInvite = () => {
               copyContent={ourSessionID}
               onCopyComplete={() => setIdCopied(true)}
               hotkey={true}
-              dataTestId="invite-account-id-copy"
+              dataTestId="copy-button-account-id"
             />
           </StyledButtonerContainer>
         </>
@@ -120,19 +121,9 @@ export const OverlayInvite = () => {
           <SpacerMD />
           <StyledHeadingContainer container={true} justifyContent="center" alignItems="center">
             <StyledHeading>{window.i18n('accountIDCopied')}</StyledHeading>
-            <SessionIconButton
-              aria-label="external link to Session Zendesk article explaing how Account IDs work"
-              iconType="question"
+            <HelpDeskButton
               iconColor={'var(--text-primary-color)'}
-              iconSize={10}
-              iconPadding="2px"
-              padding={'0'}
-              dataTestId="session-zendesk-account-ids"
-              onClick={() => {
-                void shell.openExternal(
-                  'https://sessionapp.zendesk.com/hc/en-us/articles/4439132747033-How-do-Session-ID-usernames-work'
-                );
-              }}
+              style={{ display: 'inline-flex' }}
             />
           </StyledHeadingContainer>
           <SpacerSM />

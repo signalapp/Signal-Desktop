@@ -192,10 +192,12 @@ export const LeftPaneSectionHeader = () => {
         leftOverlayMode !== 'choose-action' &&
         leftOverlayMode !== 'message-requests' ? (
           <SessionIconButton
+            ariaLabel="Back button"
             iconSize="medium"
             iconType="chevron"
             iconRotation={90}
             onClick={returnToActionChooser}
+            dataTestId="back-button"
           />
         ) : (
           <SpacerSM />

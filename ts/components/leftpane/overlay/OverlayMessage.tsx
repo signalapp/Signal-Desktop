@@ -2,7 +2,6 @@ import { useState } from 'react';
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 
-import { shell } from 'electron';
 import { motion } from 'framer-motion';
 import { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
@@ -19,7 +18,7 @@ import { NotFoundError, SnodeResponseError } from '../../../session/utils/errors
 import { THEME_GLOBALS } from '../../../themes/globals';
 import { Flex } from '../../basic/Flex';
 import { SpacerLG, SpacerMD } from '../../basic/Text';
-import { SessionIconButton } from '../../icon';
+import { HelpDeskButton } from '../../buttons';
 import { SessionInput } from '../../inputs';
 
 const StyledDescriptionContainer = styled(motion.div)`
@@ -157,6 +156,7 @@ export const OverlayMessage = () => {
       padding={'var(--margins-md)'}
     >
       <SessionInput
+        ariaLabel="New conversation input"
         autoFocus={true}
         type="text"
         placeholder={window.i18n('accountIdOrOnsEnter')}
@@ -180,20 +180,7 @@ export const OverlayMessage = () => {
             transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
           >
             <SessionIDDescription>{window.i18n('messageNewDescription')}</SessionIDDescription>
-            <SessionIconButton
-              aria-label="external link to Session Zendesk article explaing how Account IDs work"
-              iconType="question"
-              iconSize={10}
-              iconPadding="2px"
-              padding={'0'}
-              style={{ display: 'inline-flex' }}
-              dataTestId="session-zendesk-account-ids"
-              onClick={() => {
-                void shell.openExternal(
-                  'https://sessionapp.zendesk.com/hc/en-us/articles/4439132747033-How-do-Session-ID-usernames-work'
-                );
-              }}
-            />
+            <HelpDeskButton style={{ display: 'inline-flex' }} />
           </StyledDescriptionContainer>
           <SpacerLG />
         </>
@@ -201,6 +188,7 @@ export const OverlayMessage = () => {
 
       {!isEmpty(pubkeyOrOns) ? (
         <SessionButton
+          ariaLabel="Continue"
           text={window.i18n('continue')}
           disabled={disableNextButton}
           onClick={handleMessageButtonClick}
