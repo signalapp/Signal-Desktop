@@ -77,6 +77,45 @@ npm run dev:transpile # recompiles when you change .ts files
 npm run dev:sass      # recompiles when you change .scss files
 ```
 
+#### Known issues
+
+##### `yarn install` prints error 'Could not detect abi for version 30.0.6 and runtime electron'
+
+`yarn install` may print an error like the following, but it can be ignored because the overall operation succeeds.
+
+```
+$ ./node_modules/.bin/electron-builder install-app-deps
+
+  • electron-builder  version=24.6.3
+  • loaded configuration  file=package.json ("build" field)
+  • rebuilding native dependencies  dependencies=@nodert-win10-rs4/windows.data.xml.dom@0.4.4, @nodert-win10-rs4/windows.ui.notifications@0.4.4, @signalapp/better-sqlite3@8.7.1, @signalapp/windows-dummy-keystroke@1.0.0, bufferutil@4.0.7, fs-xattr@0.3.0, mac-screen-capture-permissions@2.0.0, utf-8-validate@5.0.10
+                                    platform=linux
+                                    arch=x64
+  • install prebuilt binary  name=mac-screen-capture-permissions version=2.0.0 platform=linux arch=x64 napi=
+  • build native dependency from sources  name=mac-screen-capture-permissions
+                                          version=2.0.0
+                                          platform=linux
+                                          arch=x64
+                                          napi=
+                                          reason=prebuild-install failed with error (run with env DEBUG=electron-builder to get more information)
+                                          error=/home/ben/sauce/Signal-Desktop/node_modules/node-abi/index.js:30
+      throw new Error('Could not detect abi for version ' + target + ' and runtime ' + runtime + '.  Updating "node-abi" might help solve this issue if it is a new release of ' + runtime)
+      ^
+
+    Error: Could not detect abi for version 30.0.6 and runtime electron.  Updating "node-abi" might help solve this issue if it is a new release of electron
+        at getAbi (/home/ben/sauce/Signal-Desktop/node_modules/node-abi/index.js:30:9)
+        at module.exports (/home/ben/sauce/Signal-Desktop/node_modules/prebuild-install/rc.js:53:57)
+        at Object.<anonymous> (/home/ben/sauce/Signal-Desktop/node_modules/prebuild-install/bin.js:8:25)
+        at Module._compile (node:internal/modules/cjs/loader:1376:14)
+        at Module._extensions..js (node:internal/modules/cjs/loader:1435:10)
+        at Module.load (node:internal/modules/cjs/loader:1207:32)
+        at Module._load (node:internal/modules/cjs/loader:1023:12)
+        at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:135:12)
+        at node:internal/main/run_main_module:28:49
+
+    Node.js v20.11.1
+```
+
 ### webpack
 
 Some parts of the app (such as the Sticker Creator) have moved to webpack.
