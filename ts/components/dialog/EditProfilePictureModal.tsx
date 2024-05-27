@@ -11,7 +11,7 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/S
 import { SpacerLG } from '../basic/Text';
 import { SessionIconButton } from '../icon';
 import { SessionSpinner } from '../loading';
-import { ProfileAvatar } from './EditProfileDialog';
+import { ProfileAvatar } from './edit-profile/components';
 
 const StyledAvatarContainer = styled.div`
   cursor: pointer;

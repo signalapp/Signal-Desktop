@@ -21,7 +21,6 @@ import {
 } from '../../state/selectors/modal';
 import { BanOrUnBanUserDialog } from './BanOrUnbanUserDialog';
 import { DeleteAccountModal } from './DeleteAccountModal';
-import { EditProfileDialog } from './EditProfileDialog';
 import { EditProfilePictureModal } from './EditProfilePictureModal';
 import { EnterPasswordModal } from './EnterPasswordModal';
 import { HideRecoveryPasswordDialog } from './HideRecoveryPasswordDialog';
@@ -37,6 +36,7 @@ import { SessionSetPasswordDialog } from './SessionSetPasswordDialog';
 import { UpdateGroupMembersDialog } from './UpdateGroupMembersDialog';
 import { UpdateGroupNameDialog } from './UpdateGroupNameDialog';
 import { UserDetailsDialog } from './UserDetailsDialog';
+import { EditProfileDialog } from './edit-profile/EditProfileDialog';
 
 export const ModalContainer = () => {
   const confirmModalState = useSelector(getConfirmModal);

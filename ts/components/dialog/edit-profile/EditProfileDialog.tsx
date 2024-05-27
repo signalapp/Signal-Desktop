@@ -1,30 +1,27 @@
 import { isEmpty } from 'lodash';
 import { useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
-import { Avatar, AvatarSize } from '../avatar/Avatar';
 
-import { SyncUtils, UserUtils } from '../../session/utils';
-import { YourSessionIDPill, YourSessionIDSelectable } from '../basic/YourSessionIDPill';
+import { SyncUtils, UserUtils } from '../../../session/utils';
+import { YourSessionIDPill, YourSessionIDSelectable } from '../../basic/YourSessionIDPill';
 
-import { useOurAvatarPath, useOurConversationUsername } from '../../hooks/useParamSelector';
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
-import { getConversationController } from '../../session/conversations';
-import { editProfileModal, updateEditProfilePictureModel } from '../../state/ducks/modalDialog';
-import { getTheme } from '../../state/selectors/theme';
-import { getThemeValue } from '../../themes/globals';
-import { setLastProfileUpdateTimestamp } from '../../util/storage';
-import { SessionQRCode } from '../SessionQRCode';
-import { SessionWrapperModal } from '../SessionWrapperModal';
-import { Flex } from '../basic/Flex';
-import { SessionButton } from '../basic/SessionButton';
-import { Spacer2XL, Spacer3XL, SpacerLG, SpacerSM, SpacerXL } from '../basic/Text';
-import { CopyToClipboardButton } from '../buttons/CopyToClipboardButton';
-import { SessionIconButton } from '../icon';
-import { SessionInput } from '../inputs';
-import { SessionSpinner } from '../loading';
-import { sanitizeDisplayNameOrToast } from '../registration/utils';
+import { useOurAvatarPath, useOurConversationUsername } from '../../../hooks/useParamSelector';
+import { ConversationTypeEnum } from '../../../models/conversationAttributes';
+import { getConversationController } from '../../../session/conversations';
+import { editProfileModal, updateEditProfilePictureModel } from '../../../state/ducks/modalDialog';
+import { setLastProfileUpdateTimestamp } from '../../../util/storage';
+import { SessionWrapperModal } from '../../SessionWrapperModal';
+import { Flex } from '../../basic/Flex';
+import { SessionButton } from '../../basic/SessionButton';
+import { Spacer2XL, Spacer3XL, SpacerLG, SpacerSM, SpacerXL } from '../../basic/Text';
+import { CopyToClipboardButton } from '../../buttons/CopyToClipboardButton';
+import { SessionInput } from '../../inputs';
+import { SessionSpinner } from '../../loading';
+import { sanitizeDisplayNameOrToast } from '../../registration/utils';
+import { ProfileHeader, ProfileName, QRView } from './components';
+import { handleKeyCancel, handleKeyEditMode, handleKeyEscape, handleKeyQRMode } from './shortcuts';
 
 const StyledEditProfileDialog = styled.div`
   .session-modal {
@@ -68,53 +65,11 @@ const StyledEditProfileDialog = styled.div`
   }
 `;
 
-// We center the name in the modal by offsetting the pencil icon
-// we have a transparent border to match the dimensions of the SessionInput
-const StyledProfileName = styled(Flex)`
-  margin-inline-start: calc((25px + var(--margins-sm)) * -1);
-  padding: 8px;
-  border: 1px solid var(--transparent-color);
-  p {
-    font-size: var(--font-size-xl);
-    line-height: 1.4;
-    margin: 0;
-    padding: 0px;
-  }
-
-  .session-icon-button {
-    padding: 0px;
-  }
-`;
-
 const StyledSessionIdSection = styled(Flex)`
   .session-button {
     width: 160px;
   }
 `;
-
-const QRView = ({ sessionID }: { sessionID: string }) => {
-  const theme = useSelector(getTheme);
-
-  return (
-    <SessionQRCode
-      id={'session-account-id'}
-      value={sessionID}
-      size={170}
-      backgroundColor={getThemeValue(
-        theme.includes('dark') ? '--text-primary-color' : '--background-primary-color'
-      )}
-      foregroundColor={getThemeValue(
-        theme.includes('dark') ? '--background-primary-color' : '--text-primary-color'
-      )}
-      logoImage={'./images/session/qr/brand.svg'}
-      logoWidth={40}
-      logoHeight={40}
-      logoIsSVG={true}
-      theme={theme}
-      style={{ marginTop: '-1px' }}
-    />
-  );
-};
 
 const updateDisplayName = async (newName: string) => {
   const ourNumber = UserUtils.getOurPubKeyStrFromCache();
@@ -130,52 +85,7 @@ const updateDisplayName = async (newName: string) => {
   await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
 };
 
-type ProfileAvatarProps = {
-  avatarPath: string | null;
-  newAvatarObjectUrl?: string | null;
-  profileName: string | undefined;
-  ourId: string;
-};
-
-export const ProfileAvatar = (props: ProfileAvatarProps) => {
-  const { newAvatarObjectUrl, avatarPath, profileName, ourId } = props;
-  return (
-    <Avatar
-      forcedAvatarPath={newAvatarObjectUrl || avatarPath}
-      forcedName={profileName || ourId}
-      size={AvatarSize.XL}
-      pubkey={ourId}
-    />
-  );
-};
-
-type ProfileHeaderProps = ProfileAvatarProps & {
-  onClick: () => void;
-  onQRClick: () => void;
-};
-
-const ProfileHeader = (props: ProfileHeaderProps) => {
-  const { avatarPath, profileName, ourId, onClick, onQRClick } = props;
-
-  return (
-    <div className="avatar-center">
-      <div className="avatar-center-inner">
-        <ProfileAvatar avatarPath={avatarPath} profileName={profileName} ourId={ourId} />
-        <div
-          className="image-upload-section"
-          role="button"
-          onClick={onClick}
-          data-testid="image-upload-section"
-        />
-        <div className="qr-view-button" onClick={onQRClick} role="button">
-          <SessionIconButton iconType="qr" iconSize={26} iconColor="var(--black-color)" />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-type ProfileDialogModes = 'default' | 'edit' | 'qr';
+export type ProfileDialogModes = 'default' | 'edit' | 'qr';
 
 export const EditProfileDialog = () => {
   const dispatch = useDispatch();
@@ -245,86 +155,46 @@ export const EditProfileDialog = () => {
 
   useKey(
     (event: KeyboardEvent) => {
-      return event.key === 'v';
+      return (
+        event.key === 'v' ||
+        event.key === 'Enter' ||
+        event.key === 'Backspace' ||
+        event.key === 'Esc' ||
+        event.key === 'Escape'
+      );
     },
-    () => {
-      if (loading) {
-        return;
-      }
-      switch (mode) {
-        case 'default':
-          setMode('qr');
-          break;
-        case 'qr':
-          setMode('default');
-          break;
-        case 'edit':
-        default:
-      }
-    }
-  );
-
-  useKey(
     (event: KeyboardEvent) => {
-      return event.key === 'Enter';
-    },
-    () => {
-      if (loading) {
-        return;
-      }
-      switch (mode) {
-        case 'default':
-          setMode('edit');
+      switch (event.key) {
+        case 'v':
+          handleKeyQRMode(mode, setMode, loading);
           break;
-        case 'edit':
-          void onClickOK();
+        case 'Enter':
+          handleKeyEditMode(mode, setMode, onClickOK, loading);
           break;
-        case 'qr':
+        case 'Backspace':
+          handleKeyCancel(
+            mode,
+            setMode,
+            inputRef,
+            updatedProfileName,
+            setProfileName,
+            setProfileNameError,
+            loading
+          );
+          break;
+        case 'Esc':
+        case 'Escape':
+          handleKeyEscape(
+            mode,
+            setMode,
+            updatedProfileName,
+            setProfileName,
+            setProfileNameError,
+            loading,
+            dispatch
+          );
+          break;
         default:
-      }
-    }
-  );
-
-  useKey(
-    (event: KeyboardEvent) => {
-      return event.key === 'Backspace';
-    },
-    () => {
-      if (loading) {
-        return;
-      }
-      switch (mode) {
-        case 'edit':
-        case 'qr':
-          if (inputRef.current !== null && document.activeElement === inputRef.current) {
-            return;
-          }
-          setMode('default');
-          if (mode === 'edit') {
-            setProfileNameError(undefined);
-            setProfileName(updatedProfileName);
-          }
-          break;
-        case 'default':
-        default:
-      }
-    }
-  );
-
-  useKey(
-    (event: KeyboardEvent) => {
-      return event.key === 'Esc' || event.key === 'Escape';
-    },
-    () => {
-      if (loading) {
-        return;
-      }
-      if (mode === 'edit') {
-        setMode('default');
-        setProfileNameError(undefined);
-        setProfileName(updatedProfileName);
-      } else {
-        window.inboxStore?.dispatch(editProfileModal(null));
       }
     }
   );
@@ -362,21 +232,15 @@ export const EditProfileDialog = () => {
         <SpacerLG />
 
         {mode === 'default' && (
-          <StyledProfileName container={true} justifyContent="center" alignItems="center">
-            <SessionIconButton
-              iconType="pencil"
-              iconSize="large"
-              onClick={() => {
-                if (loading) {
-                  return;
-                }
-                setMode('edit');
-              }}
-              dataTestId="edit-profile-icon"
-            />
-            <SpacerSM />
-            <p data-testid="your-profile-name">{updatedProfileName || profileName}</p>
-          </StyledProfileName>
+          <ProfileName
+            profileName={updatedProfileName || profileName}
+            onClick={() => {
+              if (loading) {
+                return;
+              }
+              setMode('edit');
+            }}
+          />
         )}
 
         {mode === 'edit' && (
@@ -435,7 +299,7 @@ export const EditProfileDialog = () => {
                   onClick={() => {
                     setMode('qr');
                   }}
-                  dataTestId="qr-view-profile-update"
+                  dataTestId="view-qr-code-button"
                 />
               ) : null}
             </Flex>
