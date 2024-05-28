@@ -3501,7 +3501,7 @@ export default class MessageReceiver
 
     logUnexpectedUrgentValue(envelope, 'callEventSync');
 
-    const { receivedAtCounter } = envelope;
+    const { receivedAtCounter, receivedAtDate: receivedAtMS } = envelope;
 
     const callEventDetails = getCallEventForProto(
       callEvent,
@@ -3512,6 +3512,7 @@ export default class MessageReceiver
       {
         callEventDetails,
         receivedAtCounter,
+        receivedAtMS,
       },
       this.removeFromCache.bind(this, envelope)
     );

@@ -2216,7 +2216,8 @@ export class CallingClass {
       );
       await updateCallHistoryFromLocalEvent(
         callEvent,
-        envelope.receivedAtCounter
+        envelope.receivedAtCounter,
+        envelope.receivedAtDate
       );
 
       return;
@@ -2500,7 +2501,7 @@ export class CallingClass {
         localEventForCall,
         'CallingClass.handleGroupCallRingUpdate'
       );
-      await updateCallHistoryFromLocalEvent(callEvent, null);
+      await updateCallHistoryFromLocalEvent(callEvent, null, null);
     }
   }
 
@@ -2588,7 +2589,7 @@ export class CallingClass {
           localCallEvent,
           'CallingClass.handleIncomingCall'
         );
-        await updateCallHistoryFromLocalEvent(callEvent, null);
+        await updateCallHistoryFromLocalEvent(callEvent, null, null);
 
         return false;
       }
@@ -2613,7 +2614,9 @@ export class CallingClass {
     callEndedReason: CallEndedReason,
     ageInSeconds: number,
     wasVideoCall: boolean,
-    receivedAtCounter: number | undefined
+    receivedAtCounter: number | undefined,
+    // TODO: DESKTOP-7145
+    receivedAtMS: number | undefined = undefined
   ) {
     const conversation = window.ConversationController.get(remoteUserId);
     if (!conversation) {
@@ -2645,7 +2648,11 @@ export class CallingClass {
       localCallEvent,
       'CallingClass.handleAutoEndedIncomingCallRequest'
     );
-    await updateCallHistoryFromLocalEvent(callEvent, receivedAtCounter ?? null);
+    await updateCallHistoryFromLocalEvent(
+      callEvent,
+      receivedAtCounter ?? null,
+      receivedAtMS ?? null
+    );
   }
 
   private attachToCall(conversation: ConversationModel, call: Call): void {
@@ -2679,7 +2686,7 @@ export class CallingClass {
           localCallEvent,
           'call.handleStateChanged'
         );
-        await updateCallHistoryFromLocalEvent(callEvent, null);
+        await updateCallHistoryFromLocalEvent(callEvent, null, null);
       }
 
       reduxInterface.callStateChange({
@@ -2966,7 +2973,7 @@ export class CallingClass {
         localCallEvent,
         'CallingClass.updateCallHistoryForGroupCallOnLocalChanged'
       );
-      await updateCallHistoryFromLocalEvent(callEvent, null);
+      await updateCallHistoryFromLocalEvent(callEvent, null, null);
     } catch (error) {
       log.error(
         'CallingClass.updateCallHistoryForGroupCallOnLocalChanged: Error updating state',
@@ -3022,7 +3029,7 @@ export class CallingClass {
           localCallEvent,
           'CallingClass.updateCallHistoryForGroupCallOnPeek'
         );
-        await updateCallHistoryFromLocalEvent(callEvent, null);
+        await updateCallHistoryFromLocalEvent(callEvent, null, null);
       }
     }
 

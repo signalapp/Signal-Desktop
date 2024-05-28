@@ -429,6 +429,7 @@ export class ViewSyncEvent extends ConfirmableEvent {
 export type CallEventSyncEventData = Readonly<{
   callEventDetails: CallEventDetails;
   receivedAtCounter: number;
+  receivedAtMS: number;
 }>;
 
 export class CallEventSyncEvent extends ConfirmableEvent {
