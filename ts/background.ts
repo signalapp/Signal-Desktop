@@ -86,6 +86,7 @@ import type {
   FetchLatestEvent,
   InvalidPlaintextEvent,
   KeysEvent,
+  DeleteForMeSyncEvent,
   MessageEvent,
   MessageEventData,
   MessageRequestResponseEvent,
@@ -111,21 +112,21 @@ import type { BadgesStateType } from './state/ducks/badges';
 import { areAnyCallsActiveOrRinging } from './state/selectors/calling';
 import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader';
 import * as Deletes from './messageModifiers/Deletes';
-import type { EditAttributesType } from './messageModifiers/Edits';
 import * as Edits from './messageModifiers/Edits';
-import type { ReactionAttributesType } from './messageModifiers/Reactions';
 import * as MessageReceipts from './messageModifiers/MessageReceipts';
 import * as MessageRequests from './messageModifiers/MessageRequests';
 import * as Reactions from './messageModifiers/Reactions';
 import * as ReadSyncs from './messageModifiers/ReadSyncs';
-import * as ViewSyncs from './messageModifiers/ViewSyncs';
 import * as ViewOnceOpenSyncs from './messageModifiers/ViewOnceOpenSyncs';
+import * as ViewSyncs from './messageModifiers/ViewSyncs';
 import type { DeleteAttributesType } from './messageModifiers/Deletes';
+import type { EditAttributesType } from './messageModifiers/Edits';
 import type { MessageReceiptAttributesType } from './messageModifiers/MessageReceipts';
 import type { MessageRequestAttributesType } from './messageModifiers/MessageRequests';
+import type { ReactionAttributesType } from './messageModifiers/Reactions';
 import type { ReadSyncAttributesType } from './messageModifiers/ReadSyncs';
-import type { ViewSyncAttributesType } from './messageModifiers/ViewSyncs';
 import type { ViewOnceOpenSyncAttributesType } from './messageModifiers/ViewOnceOpenSyncs';
+import type { ViewSyncAttributesType } from './messageModifiers/ViewSyncs';
 import { ReadStatus } from './messages/MessageReadStatus';
 import type { SendStateByConversationId } from './messages/MessageSendState';
 import { SendStatus } from './messages/MessageSendState';
@@ -201,6 +202,8 @@ import { getThemeType } from './util/getThemeType';
 import { AttachmentDownloadManager } from './jobs/AttachmentDownloadManager';
 import { onCallLinkUpdateSync } from './util/onCallLinkUpdateSync';
 import { CallMode } from './types/Calling';
+import { queueSyncTasks } from './util/syncTasks';
+import { isEnabled } from './RemoteConfig';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -558,6 +561,24 @@ export async function startApp(): Promise<void> {
       storage: window.storage,
       serverTrustRoot: window.getServerTrustRoot(),
     });
+    const onFirstEmpty = async () => {
+      log.info('onFirstEmpty: Starting');
+
+      // We want to remove this handler on the next tick so we don't interfere with
+      //   the other handlers being notified of this instance of the 'empty' event.
+      setTimeout(() => {
+        messageReceiver?.removeEventListener('empty', onFirstEmpty);
+      }, 1);
+
+      log.info('onFirstEmpty: Fetching sync tasks');
+      const syncTasks = await window.Signal.Data.getAllSyncTasks();
+
+      log.info(`onFirstEmpty: Queuing ${syncTasks.length} sync tasks`);
+      await queueSyncTasks(syncTasks, window.Signal.Data.removeSyncTaskById);
+
+      log.info('onFirstEmpty: Done');
+    };
+    messageReceiver.addEventListener('empty', onFirstEmpty);
 
     function queuedEventListener<E extends Event>(
       handler: (event: E) => Promise<void> | void,
@@ -690,6 +711,10 @@ export async function startApp(): Promise<void> {
     messageReceiver.addEventListener(
       'callLogEventSync',
       queuedEventListener(onCallLogEventSync, false)
+    );
+    messageReceiver.addEventListener(
+      'deleteForMeSync',
+      queuedEventListener(onDeleteForMeSync, false)
     );
 
     if (!window.storage.get('defaultConversationColor')) {
@@ -3383,6 +3408,41 @@ export async function startApp(): Promise<void> {
     };
 
     drop(MessageReceipts.onReceipt(attributes));
+  }
+
+  async function onDeleteForMeSync(ev: DeleteForMeSyncEvent) {
+    const { confirm, timestamp, envelopeId, deleteForMeSync } = ev;
+    const logId = `onDeleteForMeSync(${timestamp})`;
+
+    if (!isEnabled('desktop.deleteSync.receive')) {
+      confirm();
+      return;
+    }
+
+    // The user clearly knows about this feature; they did it on another device!
+    drop(window.storage.put('localDeleteWarningShown', true));
+
+    log.info(`${logId}: Saving ${deleteForMeSync.length} sync tasks`);
+
+    const now = Date.now();
+    const syncTasks = deleteForMeSync.map(item => ({
+      id: generateUuid(),
+      attempts: 1,
+      createdAt: now,
+      data: item,
+      envelopeId,
+      sentAt: timestamp,
+      type: item.type,
+    }));
+    await window.Signal.Data.saveSyncTasks(syncTasks);
+
+    confirm();
+
+    log.info(`${logId}: Queuing ${syncTasks.length} sync tasks`);
+
+    await queueSyncTasks(syncTasks, window.Signal.Data.removeSyncTaskById);
+
+    log.info(`${logId}: Done`);
   }
 }
 

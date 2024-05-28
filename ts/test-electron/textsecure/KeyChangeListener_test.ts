@@ -67,7 +67,7 @@ describe('KeyChangeListener', () => {
   });
 
   afterEach(async () => {
-    await window.Signal.Data.removeAllMessagesInConversation(convo.id, {
+    await window.Signal.Data.removeMessagesInConversation(convo.id, {
       logId: ourServiceIdWithKeyChange,
     });
     await window.Signal.Data.removeConversation(convo.id);
@@ -104,7 +104,7 @@ describe('KeyChangeListener', () => {
     });
 
     afterEach(async () => {
-      await window.Signal.Data.removeAllMessagesInConversation(groupConvo.id, {
+      await window.Signal.Data.removeMessagesInConversation(groupConvo.id, {
         logId: ourServiceIdWithKeyChange,
       });
       await window.Signal.Data.removeConversation(groupConvo.id);

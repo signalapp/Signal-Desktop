@@ -9,6 +9,7 @@ import type { SendStateByConversationId } from '../messages/MessageSendState';
 import * as Edits from '../messageModifiers/Edits';
 import * as log from '../logging/log';
 import * as Deletes from '../messageModifiers/Deletes';
+import * as DeletesForMe from '../messageModifiers/DeletesForMe';
 import * as MessageReceipts from '../messageModifiers/MessageReceipts';
 import * as Reactions from '../messageModifiers/Reactions';
 import * as ReadSyncs from '../messageModifiers/ReadSyncs';
@@ -29,6 +30,12 @@ import { missingCaseError } from './missingCaseError';
 import { reduce } from './iterables';
 import { strictAssert } from './assert';
 
+export enum ModifyTargetMessageResult {
+  Modified = 'Modified',
+  NotModified = 'MotModified',
+  Deleted = 'Deleted',
+}
+
 // This function is called twice - once from handleDataMessage, and then again from
 //    saveAndNotify, a function called at the end of handleDataMessage as a cleanup for
 //    any missed out-of-order events.
@@ -36,7 +43,7 @@ export async function modifyTargetMessage(
   message: MessageModel,
   conversation: ConversationModel,
   options?: { isFirstRun: boolean; skipEdits: boolean }
-): Promise<void> {
+): Promise<ModifyTargetMessageResult> {
   const { isFirstRun = false, skipEdits = false } = options ?? {};
 
   const logId = `modifyTargetMessage/${message.idForLogging()}`;
@@ -44,6 +51,15 @@ export async function modifyTargetMessage(
   let changed = false;
   const ourAci = window.textsecure.storage.user.getCheckedAci();
   const sourceServiceId = getSourceServiceId(message.attributes);
+
+  const syncDeletes = await DeletesForMe.forMessage(message.attributes);
+  if (syncDeletes.length) {
+    if (!isFirstRun) {
+      await window.Signal.Data.removeMessage(message.id);
+    }
+
+    return ModifyTargetMessageResult.Deleted;
+  }
 
   if (type === 'outgoing' || (type === 'story' && ourAci === sourceServiceId)) {
     const sendActions = MessageReceipts.forMessage(message).map(receipt => {
@@ -274,4 +290,8 @@ export async function modifyTargetMessage(
       )
     );
   }
+
+  return changed
+    ? ModifyTargetMessageResult.Modified
+    : ModifyTargetMessageResult.NotModified;
 }

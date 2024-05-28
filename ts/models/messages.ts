@@ -68,7 +68,11 @@ import {
 } from '../util/whatTypeOfConversation';
 import { handleMessageSend } from '../util/handleMessageSend';
 import { getSendOptions } from '../util/getSendOptions';
-import { modifyTargetMessage } from '../util/modifyTargetMessage';
+import {
+  modifyTargetMessage,
+  ModifyTargetMessageResult,
+} from '../util/modifyTargetMessage';
+
 import {
   getMessagePropStatus,
   hasErrors,
@@ -2177,7 +2181,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 receivedAt: message.get('received_at'),
                 receivedAtMS: message.get('received_at_ms'),
                 sentAt: message.get('sent_at'),
-                fromGroupUpdate: isGroupUpdate(message.attributes),
                 reason: idLog,
               });
             } else if (
@@ -2297,7 +2300,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
 
         const isFirstRun = true;
-        await this.modifyTargetMessage(conversation, isFirstRun);
+        const result = await this.modifyTargetMessage(conversation, isFirstRun);
+        if (result === ModifyTargetMessageResult.Deleted) {
+          confirm();
+          return;
+        }
 
         log.info(`${idLog}: Batching save`);
         void this.saveAndNotify(conversation, confirm);
@@ -2320,10 +2327,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     // Once the message is saved to DB, we queue attachment downloads
     await this.handleAttachmentDownloadsForNewMessage(conversation);
 
-    conversation.trigger('newmessage', this);
-
+    // We'd like to check for deletions before scheduling downloads, but if an edit comes
+    //   in, we want to have kicked off attachment downloads for the original message.
     const isFirstRun = false;
-    await this.modifyTargetMessage(conversation, isFirstRun);
+    const result = await this.modifyTargetMessage(conversation, isFirstRun);
+    if (result === ModifyTargetMessageResult.Deleted) {
+      confirm();
+      return;
+    }
+
+    conversation.trigger('newmessage', this);
 
     if (await shouldReplyNotifyUser(this.attributes, conversation)) {
       await conversation.notify(this);
@@ -2377,7 +2390,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   async modifyTargetMessage(
     conversation: ConversationModel,
     isFirstRun: boolean
-  ): Promise<void> {
+  ): Promise<ModifyTargetMessageResult> {
     return modifyTargetMessage(this, conversation, {
       isFirstRun,
       skipEdits: false,

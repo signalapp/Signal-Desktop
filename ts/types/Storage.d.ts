@@ -79,6 +79,7 @@ export type StorageAccessType = {
   lastAttemptedToRefreshProfilesAt: number;
   lastResortKeyUpdateTime: number;
   lastResortKeyUpdateTimePNI: number;
+  localDeleteWarningShown: boolean;
   masterKey: string;
   masterKeyLastRequestTime: number;
   maxPreKeyId: number;

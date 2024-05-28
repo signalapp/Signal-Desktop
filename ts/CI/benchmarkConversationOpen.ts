@@ -50,7 +50,7 @@ export async function populateConversationWithMessages({
   );
 
   log.info(`${logId}: destroying all messages in ${conversationId}`);
-  await conversation.destroyMessages();
+  await conversation.destroyMessages({ source: 'local-delete' });
 
   log.info(`${logId}: adding ${messageCount} messages to ${conversationId}`);
   let timestamp = Date.now();

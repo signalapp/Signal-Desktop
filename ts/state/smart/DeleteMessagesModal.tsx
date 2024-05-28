@@ -16,6 +16,12 @@ import {
   getLastSelectedMessage,
 } from '../selectors/conversations';
 import { getDeleteMessagesProps } from '../selectors/globalModals';
+import { useItemsActions } from '../ducks/items';
+import {
+  getLocalDeleteWarningShown,
+  getDeleteSyncSendEnabled,
+} from '../selectors/items';
+import { LocalDeleteWarningModal } from '../../components/LocalDeleteWarningModal';
 
 export const SmartDeleteMessagesModal = memo(
   function SmartDeleteMessagesModal() {
@@ -36,6 +42,7 @@ export const SmartDeleteMessagesModal = memo(
       [messageIds, isMe]
     );
     const canDeleteForEveryone = useSelector(getCanDeleteForEveryone);
+    const isDeleteSyncSendEnabled = useSelector(getDeleteSyncSendEnabled);
     const lastSelectedMessage = useSelector(getLastSelectedMessage);
     const i18n = useSelector(getIntl);
     const { toggleDeleteMessagesModal } = useGlobalModalActions();
@@ -69,11 +76,25 @@ export const SmartDeleteMessagesModal = memo(
       onDelete?.();
     }, [deleteMessagesForEveryone, messageIds, onDelete]);
 
+    const localDeleteWarningShown = useSelector(getLocalDeleteWarningShown);
+    const { putItem } = useItemsActions();
+    if (!localDeleteWarningShown && isDeleteSyncSendEnabled) {
+      return (
+        <LocalDeleteWarningModal
+          i18n={i18n}
+          onClose={() => {
+            putItem('localDeleteWarningShown', true);
+          }}
+        />
+      );
+    }
+
     return (
       <DeleteMessagesModal
         isMe={isMe}
         canDeleteForEveryone={canDeleteForEveryone}
         i18n={i18n}
+        isDeleteSyncSendEnabled={isDeleteSyncSendEnabled}
         messageCount={messageCount}
         onClose={handleClose}
         onDeleteForMe={handleDeleteForMe}

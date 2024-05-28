@@ -3,6 +3,7 @@
 /* eslint-disable max-classes-per-file */
 
 import type { PublicKey } from '@signalapp/libsignal-client';
+import { z } from 'zod';
 
 import type { SignalService as Proto } from '../protobuf';
 import type { ServiceIdString, AciString } from '../types/ServiceId';
@@ -15,6 +16,7 @@ import type {
 import type { ContactDetailsWithAvatar } from './ContactsParser';
 import type { CallEventDetails, CallLogEvent } from '../types/CallDisposition';
 import type { CallLinkUpdateSyncType } from '../types/CallLink';
+import { isAciString } from '../util/isAciString';
 
 export class EmptyEvent extends Event {
   constructor() {
@@ -453,6 +455,78 @@ export class CallLinkUpdateSyncEvent extends ConfirmableEvent {
     confirm: ConfirmCallback
   ) {
     super('callLinkUpdateSync', confirm);
+  }
+}
+
+const messageToDeleteSchema = z.union([
+  z.object({
+    type: z.literal('aci').readonly(),
+    authorAci: z.string().refine(isAciString),
+    sentAt: z.number(),
+  }),
+  z.object({
+    type: z.literal('e164').readonly(),
+    authorE164: z.string(),
+    sentAt: z.number(),
+  }),
+]);
+
+export type MessageToDelete = z.infer<typeof messageToDeleteSchema>;
+
+const conversationToDeleteSchema = z.union([
+  z.object({
+    type: z.literal('group').readonly(),
+    groupId: z.string(),
+  }),
+  z.object({
+    type: z.literal('aci').readonly(),
+    aci: z.string().refine(isAciString),
+  }),
+  z.object({
+    type: z.literal('e164').readonly(),
+    e164: z.string(),
+  }),
+]);
+
+export type ConversationToDelete = z.infer<typeof conversationToDeleteSchema>;
+
+export const deleteMessageSchema = z.object({
+  type: z.literal('delete-message').readonly(),
+  conversation: conversationToDeleteSchema,
+  message: messageToDeleteSchema,
+  timestamp: z.number(),
+});
+export type DeleteMessageSyncTarget = z.infer<typeof deleteMessageSchema>;
+export const deleteConversationSchema = z.object({
+  type: z.literal('delete-conversation').readonly(),
+  conversation: conversationToDeleteSchema,
+  mostRecentMessages: z.array(messageToDeleteSchema),
+  isFullDelete: z.boolean(),
+  timestamp: z.number(),
+});
+export const deleteLocalConversationSchema = z.object({
+  type: z.literal('delete-local-conversation').readonly(),
+  conversation: conversationToDeleteSchema,
+  timestamp: z.number(),
+});
+export const deleteForMeSyncTargetSchema = z.union([
+  deleteMessageSchema,
+  deleteConversationSchema,
+  deleteLocalConversationSchema,
+]);
+
+export type DeleteForMeSyncTarget = z.infer<typeof deleteForMeSyncTargetSchema>;
+
+export type DeleteForMeSyncEventData = ReadonlyArray<DeleteForMeSyncTarget>;
+
+export class DeleteForMeSyncEvent extends ConfirmableEvent {
+  constructor(
+    public readonly deleteForMeSync: DeleteForMeSyncEventData,
+    public readonly timestamp: number,
+    public readonly envelopeId: string,
+    confirm: ConfirmCallback
+  ) {
+    super('deleteForMeSync', confirm);
   }
 }
 

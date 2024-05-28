@@ -5010,6 +5010,10 @@
     "messageformat": "What devices would you like to delete {count, plural, one {this message} other {these messages}} from?",
     "description": "within note to self conversation > delete selected messages > confirmation modal > description"
   },
+  "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
+    "messageformat": "{count, plural, one {This message} other {These messages}} will be deleted from all your devices.",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
+  },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Delete for me",
     "description": "delete selected messages > confirmation modal > delete for me"
@@ -5025,6 +5029,10 @@
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Delete from all devices",
     "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
+  },
+  "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
+    "messageformat": "Delete",
+    "description": "When delete sync is enabled, there is only one Delete option in Note to Self"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "You can only select up to {count, plural, one {# message} other {# messages}} to delete for everyone",
@@ -6291,6 +6299,18 @@
   "icu:SignalConnectionsModal__footer": {
     "messageformat": "Your connections can see your name and photo, and can see posts to \"My Story\" unless you hide it from them",
     "description": "Additional information about signal connections and the stories they can see"
+  },
+  "icu:LocalDeleteWarningModal__header": {
+    "messageformat": "\"Delete for Me\" now deletes from all of your devices",
+    "description": "Emphasized text at the top of the explainer dialog you get when you first delete a message or conversation"
+  },
+  "icu:LocalDeleteWarningModal__description": {
+    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices.",
+    "description": "More detailed description of new delete behavior shown in explainer dialog"
+  },
+  "icu:LocalDeleteWarningModal__confirm": {
+    "messageformat": "Got it",
+    "description": "Button to dismiss the dialog explaining that 'delete for me' now syncs between devices"
   },
   "icu:Stories__title": {
     "messageformat": "Stories",

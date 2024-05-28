@@ -184,6 +184,9 @@ import {
   attachmentDownloadJobSchema,
   type AttachmentDownloadJobType,
 } from '../types/AttachmentDownload';
+import { MAX_SYNC_TASK_ATTEMPTS } from '../util/syncTasks.types';
+import type { SyncTaskType } from '../util/syncTasks';
+import { isMoreRecentThan } from '../util/timestamp';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -360,6 +363,11 @@ const dataInterface: ServerInterface = {
   getMessagesBetween,
   getNearbyMessageFromDeletedSet,
   saveEditedMessage,
+  getMostRecentAddressableMessages,
+
+  removeSyncTaskById,
+  saveSyncTasks,
+  getAllSyncTasks,
 
   getUnprocessedCount,
   getUnprocessedByIdsAndIncrementAttempts,
@@ -2064,6 +2072,131 @@ function hasUserInitiatedMessages(conversationId: string): boolean {
     .get({ conversationId });
 
   return exists !== 0;
+}
+
+async function getMostRecentAddressableMessages(
+  conversationId: string,
+  limit = 5
+): Promise<Array<MessageType>> {
+  const db = getReadonlyInstance();
+  return getMostRecentAddressableMessagesSync(db, conversationId, limit);
+}
+
+export function getMostRecentAddressableMessagesSync(
+  db: Database,
+  conversationId: string,
+  limit = 5
+): Array<MessageType> {
+  const [query, parameters] = sql`
+    SELECT json FROM messages
+    INDEXED BY messages_by_date_addressable
+    WHERE
+      conversationId IS ${conversationId} AND
+      isAddressableMessage = 1
+    ORDER BY received_at DESC, sent_at DESC
+    LIMIT ${limit};
+  `;
+
+  const rows = db.prepare(query).all(parameters);
+
+  return rows.map(row => jsonToObject(row.json));
+}
+
+async function removeSyncTaskById(id: string): Promise<void> {
+  const db = await getWritableInstance();
+  removeSyncTaskByIdSync(db, id);
+}
+export function removeSyncTaskByIdSync(db: Database, id: string): void {
+  const [query, parameters] = sql`
+    DELETE FROM syncTasks
+    WHERE id IS ${id}
+  `;
+
+  db.prepare(query).run(parameters);
+}
+async function saveSyncTasks(tasks: Array<SyncTaskType>): Promise<void> {
+  const db = await getWritableInstance();
+  return saveSyncTasksSync(db, tasks);
+}
+export function saveSyncTasksSync(
+  db: Database,
+  tasks: Array<SyncTaskType>
+): void {
+  return db.transaction(() => {
+    tasks.forEach(task => assertSync(saveSyncTaskSync(db, task)));
+  })();
+}
+export function saveSyncTaskSync(db: Database, task: SyncTaskType): void {
+  const { id, attempts, createdAt, data, envelopeId, sentAt, type } = task;
+
+  const [query, parameters] = sql`
+    INSERT INTO syncTasks (
+      id,
+      attempts,
+      createdAt,
+      data,
+      envelopeId,
+      sentAt,
+      type
+    ) VALUES (
+      ${id},
+      ${attempts},
+      ${createdAt},
+      ${objectToJSON(data)},
+      ${envelopeId},
+      ${sentAt},
+      ${type}
+    )
+  `;
+
+  db.prepare(query).run(parameters);
+}
+async function getAllSyncTasks(): Promise<Array<SyncTaskType>> {
+  const db = await getWritableInstance();
+  return getAllSyncTasksSync(db);
+}
+export function getAllSyncTasksSync(db: Database): Array<SyncTaskType> {
+  return db.transaction(() => {
+    const [selectAllQuery] = sql`
+      SELECT * FROM syncTasks ORDER BY createdAt ASC, sentAt ASC, id ASC
+    `;
+
+    const rows = db.prepare(selectAllQuery).all();
+
+    const tasks: Array<SyncTaskType> = rows.map(row => ({
+      ...row,
+      data: jsonToObject(row.data),
+    }));
+
+    const [query] = sql`
+      UPDATE syncTasks
+      SET attempts = attempts + 1
+    `;
+    db.prepare(query).run();
+
+    const [toDelete, toReturn] = partition(tasks, task => {
+      if (
+        isNormalNumber(task.attempts) &&
+        task.attempts < MAX_SYNC_TASK_ATTEMPTS
+      ) {
+        return false;
+      }
+      if (isMoreRecentThan(task.createdAt, durations.WEEK)) {
+        return false;
+      }
+
+      return true;
+    });
+
+    if (toDelete.length > 0) {
+      log.warn(`getAllSyncTasks: Removing ${toDelete.length} expired tasks`);
+      toDelete.forEach(task => {
+        assertSync(removeSyncTaskByIdSync(db, task.id));
+      });
+    }
+
+    return toReturn;
+  })();
 }
 
 function saveMessageSync(
@@ -6036,6 +6169,7 @@ async function removeAll(): Promise<void> {
       DELETE FROM storyDistributionMembers;
       DELETE FROM storyDistributions;
       DELETE FROM storyReads;
+      DELETE FROM syncTasks;
       DELETE FROM unprocessed;
       DELETE FROM uninstalled_sticker_packs;
 
@@ -6078,6 +6212,7 @@ async function removeAllConfiguration(): Promise<void> {
       DELETE FROM sendLogRecipients;
       DELETE FROM sessions;
       DELETE FROM signedPreKeys;
+      DELETE FROM syncTasks;
       DELETE FROM unprocessed;
       `
     );

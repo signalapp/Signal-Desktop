@@ -82,6 +82,13 @@ import {
 } from '../types/EmbeddedContact';
 import { missingCaseError } from '../util/missingCaseError';
 import { drop } from '../util/drop';
+import type {
+  ConversationToDelete,
+  DeleteForMeSyncEventData,
+  DeleteMessageSyncTarget,
+  MessageToDelete,
+} from './messageReceiverEvents';
+import { getConversationFromTarget } from '../util/deleteForMe';
 
 export type SendMetadataType = {
   [serviceId: ServiceIdString]: {
@@ -1475,6 +1482,91 @@ export default class MessageSender {
     };
   }
 
+  static getDeleteForMeSyncMessage(
+    data: DeleteForMeSyncEventData
+  ): SingleProtoJobData {
+    const myAci = window.textsecure.storage.user.getCheckedAci();
+
+    const deleteForMe = new Proto.SyncMessage.DeleteForMe();
+    const messageDeletes: Map<
+      string,
+      Array<DeleteMessageSyncTarget>
+    > = new Map();
+
+    data.forEach(item => {
+      if (item.type === 'delete-message') {
+        const conversation = getConversationFromTarget(item.conversation);
+        if (!conversation) {
+          throw new Error(
+            'getDeleteForMeSyncMessage: Failed to find conversation for delete-message'
+          );
+        }
+        const existing = messageDeletes.get(conversation.id);
+        if (existing) {
+          existing.push(item);
+        } else {
+          messageDeletes.set(conversation.id, [item]);
+        }
+      } else if (item.type === 'delete-conversation') {
+        const mostRecentMessages =
+          item.mostRecentMessages.map(toAddressableMessage);
+        const conversation = toConversationIdentifier(item.conversation);
+
+        deleteForMe.conversationDeletes = deleteForMe.conversationDeletes || [];
+        deleteForMe.conversationDeletes.push({
+          mostRecentMessages,
+          conversation,
+          isFullDelete: true,
+        });
+      } else if (item.type === 'delete-local-conversation') {
+        const conversation = toConversationIdentifier(item.conversation);
+
+        deleteForMe.localOnlyConversationDeletes =
+          deleteForMe.localOnlyConversationDeletes || [];
+        deleteForMe.localOnlyConversationDeletes.push({
+          conversation,
+        });
+      } else {
+        throw missingCaseError(item);
+      }
+    });
+
+    if (messageDeletes.size > 0) {
+      for (const items of messageDeletes.values()) {
+        const first = items[0];
+        if (!first) {
+          throw new Error('Failed to fetch first from items');
+        }
+        const messages = items.map(item => toAddressableMessage(item.message));
+        const conversation = toConversationIdentifier(first.conversation);
+
+        deleteForMe.messageDeletes = deleteForMe.messageDeletes || [];
+        deleteForMe.messageDeletes.push({
+          messages,
+          conversation,
+        });
+      }
+    }
+
+    const syncMessage = this.createSyncMessage();
+    syncMessage.deleteForMe = deleteForMe;
+    const contentMessage = new Proto.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
+    return {
+      contentHint: ContentHint.RESENDABLE,
+      serviceId: myAci,
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'deleteForMeSync',
+      urgent: false,
+    };
+  }
+
   async syncReadMessages(
     reads: ReadonlyArray<{
       senderAci?: AciString;
@@ -2252,4 +2344,38 @@ export default class MessageSender {
   ): Promise<void> {
     return this.server.sendChallengeResponse(challengeResponse);
   }
+}
+
+// Helpers
+
+function toAddressableMessage(message: MessageToDelete) {
+  const targetMessage = new Proto.SyncMessage.DeleteForMe.AddressableMessage();
+  targetMessage.sentTimestamp = Long.fromNumber(message.sentAt);
+
+  if (message.type === 'aci') {
+    targetMessage.authorAci = message.authorAci;
+  } else if (message.type === 'e164') {
+    targetMessage.authorE164 = message.authorE164;
+  } else {
+    throw missingCaseError(message);
+  }
+
+  return targetMessage;
+}
+
+function toConversationIdentifier(conversation: ConversationToDelete) {
+  const targetConversation =
+    new Proto.SyncMessage.DeleteForMe.ConversationIdentifier();
+
+  if (conversation.type === 'aci') {
+    targetConversation.threadAci = conversation.aci;
+  } else if (conversation.type === 'group') {
+    targetConversation.threadGroupId = Bytes.fromBase64(conversation.groupId);
+  } else if (conversation.type === 'e164') {
+    targetConversation.threadE164 = conversation.e164;
+  } else {
+    throw missingCaseError(conversation);
+  }
+
+  return targetConversation;
 }

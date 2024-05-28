@@ -18,6 +18,8 @@ export type ConfigKeyType =
   | 'desktop.calling.adhoc'
   | 'desktop.clientExpiration'
   | 'desktop.backup.credentialFetch'
+  | 'desktop.deleteSync.send'
+  | 'desktop.deleteSync.receive'
   | 'desktop.groupMultiTypingIndicators'
   | 'desktop.internalUser'
   | 'desktop.mediaQuality.levels'

@@ -80,10 +80,11 @@ import { updateToSchemaVersion1010 } from './1010-call-links-table';
 import { updateToSchemaVersion1020 } from './1020-self-merges';
 import { updateToSchemaVersion1030 } from './1030-unblock-event';
 import { updateToSchemaVersion1040 } from './1040-undownloaded-backed-up-media';
+import { updateToSchemaVersion1050 } from './1050-group-send-endorsements';
 import {
-  updateToSchemaVersion1050,
+  updateToSchemaVersion1060,
   version as MAX_VERSION,
-} from './1050-group-send-endorsements';
+} from './1060-addressable-messages-and-sync-tasks';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -2025,12 +2026,14 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion970,
   updateToSchemaVersion980,
   updateToSchemaVersion990,
+
   updateToSchemaVersion1000,
   updateToSchemaVersion1010,
   updateToSchemaVersion1020,
   updateToSchemaVersion1030,
   updateToSchemaVersion1040,
   updateToSchemaVersion1050,
+  updateToSchemaVersion1060,
 ];
 
 export class DBVersionFromFutureError extends Error {

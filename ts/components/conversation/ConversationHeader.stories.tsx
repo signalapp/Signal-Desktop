@@ -46,6 +46,10 @@ const commonProps = {
 
   i18n,
 
+  localDeleteWarningShown: true,
+  isDeleteSyncSendEnabled: true,
+  setLocalDeleteWarningShown: action('setLocalDeleteWarningShown'),
+
   onConversationAccept: action('onConversationAccept'),
   onConversationArchive: action('onConversationArchive'),
   onConversationBlock: action('onConversationBlock'),
@@ -411,4 +415,33 @@ export function Unaccepted(): JSX.Element {
       })}
     </>
   );
+}
+
+export function NeedsDeleteConfirmation(): JSX.Element {
+  const [localDeleteWarningShown, setLocalDeleteWarningShown] =
+    React.useState(false);
+  const props = {
+    ...commonProps,
+    conversation: getDefaultConversation(),
+    localDeleteWarningShown,
+    setLocalDeleteWarningShown: () => setLocalDeleteWarningShown(true),
+  };
+  const theme = useContext(StorybookThemeContext);
+
+  return <ConversationHeader {...props} theme={theme} />;
+}
+
+export function NeedsDeleteConfirmationButNotEnabled(): JSX.Element {
+  const [localDeleteWarningShown, setLocalDeleteWarningShown] =
+    React.useState(false);
+  const props = {
+    ...commonProps,
+    conversation: getDefaultConversation(),
+    localDeleteWarningShown,
+    isDeleteSyncSendEnabled: false,
+    setLocalDeleteWarningShown: () => setLocalDeleteWarningShown(true),
+  };
+  const theme = useContext(StorybookThemeContext);
+
+  return <ConversationHeader {...props} theme={theme} />;
 }

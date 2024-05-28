@@ -127,6 +127,13 @@ export const isInternalUser = createSelector(
   }
 );
 
+export const getDeleteSyncSendEnabled = createSelector(
+  getRemoteConfig,
+  (remoteConfig: ConfigMapType): boolean => {
+    return isRemoteConfigFlagEnabled(remoteConfig, 'desktop.deleteSync.send');
+  }
+);
+
 // Note: ts/util/stories is the other place this check is done
 export const getStoriesEnabled = createSelector(
   getItems,
@@ -241,4 +248,10 @@ export const getShowStickerPickerHint = createSelector(
   (state: ItemsStateType): boolean => {
     return state.showStickerPickerHint ?? false;
   }
+);
+
+export const getLocalDeleteWarningShown = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean =>
+    Boolean(state.localDeleteWarningShown ?? false)
 );

@@ -32,6 +32,7 @@ import type {
 import type { CallLinkStateType, CallLinkType } from '../types/CallLink';
 import type { AttachmentDownloadJobType } from '../types/AttachmentDownload';
 import type { GroupSendEndorsementsData } from '../types/GroupSendEndorsements';
+import type { SyncTaskType } from '../util/syncTasks';
 
 export type AdjacentMessagesByConversationOptionsType = Readonly<{
   conversationId: string;
@@ -716,6 +717,15 @@ export type DataInterface = {
     ourAci: AciString,
     opts: EditedMessageType
   ) => Promise<void>;
+  getMostRecentAddressableMessages: (
+    conversationId: string,
+    limit?: number
+  ) => Promise<Array<MessageType>>;
+
+  removeSyncTaskById: (id: string) => Promise<void>;
+  saveSyncTasks: (tasks: Array<SyncTaskType>) => Promise<void>;
+  getAllSyncTasks: () => Promise<Array<SyncTaskType>>;
+
   getUnprocessedCount: () => Promise<number>;
   getUnprocessedByIdsAndIncrementAttempts: (
     ids: ReadonlyArray<string>
@@ -1043,10 +1053,11 @@ export type ClientExclusiveInterface = {
   // Client-side only
 
   shutdown: () => Promise<void>;
-  removeAllMessagesInConversation: (
+  removeMessagesInConversation: (
     conversationId: string,
     options: {
       logId: string;
+      receivedAt?: number;
     }
   ) => Promise<void>;
   removeOtherData: () => Promise<void>;

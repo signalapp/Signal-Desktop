@@ -3,6 +3,7 @@
 
 import type { ThunkAction } from 'redux-thunk';
 import {
+  chunk,
   difference,
   fromPairs,
   isEqual,
@@ -184,6 +185,16 @@ import { getConversationIdForLogging } from '../../util/idForLogging';
 import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
 import MessageSender from '../../textsecure/SendMessage';
 import { AttachmentDownloadUrgency } from '../../jobs/AttachmentDownloadManager';
+import type {
+  DeleteForMeSyncEventData,
+  MessageToDelete,
+} from '../../textsecure/messageReceiverEvents';
+import {
+  getConversationToDelete,
+  getMessageToDelete,
+} from '../../util/deleteForMe';
+import { MAX_MESSAGE_COUNT } from '../../util/deleteForMe.types';
+import { isEnabled } from '../../RemoteConfig';
 
 // State
 
@@ -1703,21 +1714,27 @@ function deleteMessages({
       throw new Error('deleteMessage: No conversation found');
     }
 
-    await Promise.all(
-      messageIds.map(async messageId => {
-        const message = await __DEPRECATED$getMessageById(messageId);
-        if (!message) {
-          throw new Error(`deleteMessages: Message ${messageId} missing!`);
-        }
+    const messages = (
+      await Promise.all(
+        messageIds.map(
+          async (messageId): Promise<MessageToDelete | undefined> => {
+            const message = await __DEPRECATED$getMessageById(messageId);
+            if (!message) {
+              throw new Error(`deleteMessages: Message ${messageId} missing!`);
+            }
 
-        const messageConversationId = message.get('conversationId');
-        if (conversationId !== messageConversationId) {
-          throw new Error(
-            `deleteMessages: message conversation ${messageConversationId} doesn't match provided conversation ${conversationId}`
-          );
-        }
-      })
-    );
+            const messageConversationId = message.get('conversationId');
+            if (conversationId !== messageConversationId) {
+              throw new Error(
+                `deleteMessages: message conversation ${messageConversationId} doesn't match provided conversation ${conversationId}`
+              );
+            }
+
+            return getMessageToDelete(message.attributes);
+          }
+        )
+      )
+    ).filter(isNotNil);
 
     let nearbyMessageId: string | null = null;
 
@@ -1743,6 +1760,34 @@ function deleteMessages({
     if (nearbyMessageId != null) {
       dispatch(scrollToMessage(conversationId, nearbyMessageId));
     }
+
+    if (!isEnabled('desktop.deleteSync.send')) {
+      return;
+    }
+    if (messages.length === 0) {
+      return;
+    }
+
+    const chunks = chunk(messages, MAX_MESSAGE_COUNT);
+    const conversationToDelete = getConversationToDelete(
+      conversation.attributes
+    );
+    const timestamp = Date.now();
+
+    await Promise.all(
+      chunks.map(async items => {
+        const data: DeleteForMeSyncEventData = items.map(item => ({
+          conversation: conversationToDelete,
+          message: item,
+          timestamp,
+          type: 'delete-message' as const,
+        }));
+
+        await singleProtoJobQueue.add(
+          MessageSender.getDeleteForMeSyncMessage(data)
+        );
+      })
+    );
   };
 }
 
@@ -1770,7 +1815,7 @@ function destroyMessages(
           undefined
         );
 
-        await conversation.destroyMessages();
+        await conversation.destroyMessages({ source: 'local-delete' });
         drop(conversation.updateLastMessage());
       },
     });
