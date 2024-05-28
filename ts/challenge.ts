@@ -267,7 +267,11 @@ export class ChallengeHandler {
         data.options?.includes('recaptcha')
       )
     ) {
-      log.error(`${logId}: unexpected options ${JSON.stringify(data.options)}`);
+      const dataString = JSON.stringify(data.options);
+      log.error(
+        `${logId}: unexpected options ${dataString}. ${conversationId} is waiting.`
+      );
+      return;
     }
 
     if (!challenge.token) {
