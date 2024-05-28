@@ -165,6 +165,7 @@ import OS from '../util/os/osMain';
 import { getMessageAuthorText } from '../util/getMessageAuthorText';
 import { downscaleOutgoingAttachment } from '../util/attachments';
 import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent';
+import { getCallHistorySelector } from '../state/selectors/callHistory';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -4190,7 +4191,13 @@ export class ConversationModel extends window.Backbone
     let lastMessageReceivedAt = this.get('lastMessageReceivedAt');
     let lastMessageReceivedAtMs = this.get('lastMessageReceivedAtMs');
     if (activityMessage) {
+      const callId = activityMessage.get('callId');
+      const callHistory = callId
+        ? getCallHistorySelector(window.reduxStore.getState())(callId)
+        : undefined;
+
       timestamp =
+        callHistory?.timestamp ||
         activityMessage.get('editMessageTimestamp') ||
         activityMessage.get('sent_at') ||
         timestamp;

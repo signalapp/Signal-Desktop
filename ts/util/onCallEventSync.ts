@@ -13,7 +13,7 @@ export async function onCallEventSync(
   syncEvent: CallEventSyncEvent
 ): Promise<void> {
   const { callEvent, confirm } = syncEvent;
-  const { callEventDetails, receivedAtCounter } = callEvent;
+  const { callEventDetails, receivedAtCounter, receivedAtMS } = callEvent;
 
   if (
     callEventDetails.mode === CallMode.Direct ||
@@ -31,6 +31,10 @@ export async function onCallEventSync(
     }
   }
 
-  await updateCallHistoryFromRemoteEvent(callEventDetails, receivedAtCounter);
+  await updateCallHistoryFromRemoteEvent(
+    callEventDetails,
+    receivedAtCounter,
+    receivedAtMS
+  );
   confirm();
 }
