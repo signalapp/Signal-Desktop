@@ -136,6 +136,8 @@ async function lintMessages() {
 
   const jsonAst = parseJsonToAst(file);
 
+  let failed = false;
+
   assert(jsonAst.type === 'Object', 'Expected an object');
   for (const topProp of jsonAst.children) {
     if (topProp.key.value === 'smartling') {
@@ -202,7 +204,13 @@ async function lintMessages() {
       console.error(chalk`  {dim in ${key} is "}{red ${icuMessage}}{dim "}`);
       // eslint-disable-next-line no-console
       console.error();
+
+      failed = true;
     }
+  }
+
+  if (failed) {
+    process.exit(1);
   }
 }
 
