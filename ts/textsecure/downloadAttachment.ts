@@ -132,7 +132,7 @@ export async function downloadAttachment(
     window.Signal.Migrations.getAbsoluteAttachmentPath(downloadedPath);
 
   const { aesKey, macKey } = splitKeys(Bytes.fromBase64(key));
-  const { path, plaintextHash } = await decryptAttachmentV2({
+  const { path, plaintextHash, iv } = await decryptAttachmentV2({
     ciphertextPath: cipherTextAbsolutePath,
     idForLogging: logId,
     aesKey,
@@ -155,6 +155,7 @@ export async function downloadAttachment(
       ? MIME.stringToMIMEType(contentType)
       : MIME.APPLICATION_OCTET_STREAM,
     plaintextHash,
+    iv: Bytes.toBase64(iv),
   };
 }
 
