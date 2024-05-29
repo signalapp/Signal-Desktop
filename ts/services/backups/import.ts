@@ -671,12 +671,14 @@ export class BackupImportStream extends Writable {
     conversation.isArchived = chat.archived === true;
     conversation.isPinned = chat.pinnedOrder != null;
 
-    conversation.expireTimer = chat.expirationTimerMs
-      ? DurationInSeconds.fromMillis(chat.expirationTimerMs.toNumber())
-      : undefined;
-    conversation.muteExpiresAt = chat.muteUntilMs
-      ? getTimestampFromLong(chat.muteUntilMs)
-      : undefined;
+    conversation.expireTimer =
+      chat.expirationTimerMs && !chat.expirationTimerMs.isZero()
+        ? DurationInSeconds.fromMillis(chat.expirationTimerMs.toNumber())
+        : undefined;
+    conversation.muteExpiresAt =
+      chat.muteUntilMs && !chat.muteUntilMs.isZero()
+        ? getTimestampFromLong(chat.muteUntilMs)
+        : undefined;
     conversation.markedUnread = chat.markedUnread === true;
     conversation.dontNotifyForMentionsIfMuted =
       chat.dontNotifyForMentionsIfMuted === true;
@@ -715,7 +717,6 @@ export class BackupImportStream extends Writable {
 
     let attributes: MessageAttributesType = {
       id: generateUuid(),
-      canReplyToStory: false,
       conversationId: chatConvo.id,
       received_at: incrementMessageCounter(),
       sent_at: timestamp,
@@ -723,13 +724,14 @@ export class BackupImportStream extends Writable {
       sourceServiceId: authorConvo?.serviceId,
       timestamp,
       type: item.outgoing != null ? 'outgoing' : 'incoming',
-      unidentifiedDeliveryReceived: false,
-      expirationStartTimestamp: item.expireStartDate
-        ? getTimestampFromLong(item.expireStartDate)
-        : undefined,
-      expireTimer: item.expiresInMs
-        ? DurationInSeconds.fromMillis(item.expiresInMs.toNumber())
-        : undefined,
+      expirationStartTimestamp:
+        item.expireStartDate && !item.expireStartDate.isZero()
+          ? getTimestampFromLong(item.expireStartDate)
+          : undefined,
+      expireTimer:
+        item.expiresInMs && !item.expiresInMs.isZero()
+          ? DurationInSeconds.fromMillis(item.expiresInMs.toNumber())
+          : undefined,
     };
     const additionalMessages: Array<MessageAttributesType> = [];
 
@@ -1110,9 +1112,10 @@ export class BackupImportStream extends Writable {
       const { expiresInMs } = updateMessage.expirationTimerChange;
 
       const sourceServiceId = author?.serviceId ?? aboutMe.aci;
-      const expireTimer = isNumber(expiresInMs)
-        ? DurationInSeconds.fromMillis(expiresInMs)
-        : DurationInSeconds.fromSeconds(0);
+      const expireTimer =
+        isNumber(expiresInMs) && expiresInMs
+          ? DurationInSeconds.fromMillis(expiresInMs)
+          : DurationInSeconds.fromSeconds(0);
 
       return {
         message: {
@@ -1178,8 +1181,21 @@ export class BackupImportStream extends Writable {
       };
     }
 
+    if (updateMessage.sessionSwitchover) {
+      const { e164 } = updateMessage.sessionSwitchover;
+      strictAssert(e164 != null, 'sessionSwitchover must have an old e164');
+      return {
+        message: {
+          type: 'phone-number-discovery',
+          phoneNumberDiscovery: {
+            e164: `+${e164}`,
+          },
+        },
+        additionalMessages: [],
+      };
+    }
+
     // TODO (DESKTOP-6964): check these fields
-    //   updateMessage.sessionSwitchover
     //   updateMessage.callingMessage
 
     return undefined;
@@ -1703,9 +1719,10 @@ export class BackupImportStream extends Writable {
           );
         }
         const sourceServiceId = fromAciObject(Aci.fromUuidBytes(updaterAci));
-        const expireTimer = isNumber(expiresInMs)
-          ? DurationInSeconds.fromMillis(expiresInMs)
-          : undefined;
+        const expireTimer =
+          isNumber(expiresInMs) && expiresInMs
+            ? DurationInSeconds.fromMillis(expiresInMs)
+            : undefined;
         additionalMessages.push({
           type: 'timer-notification',
           sourceServiceId,
@@ -1840,6 +1857,13 @@ export class BackupImportStream extends Writable {
           payment: {
             kind: PaymentEventKind.ActivationRequest,
           },
+        };
+      case Type.UNSUPPORTED_PROTOCOL_MESSAGE:
+        return {
+          supportedVersionAtReceive:
+            SignalService.DataMessage.ProtocolVersion.CURRENT - 2,
+          requiredProtocolVersion:
+            SignalService.DataMessage.ProtocolVersion.CURRENT - 1,
         };
       default:
         throw new Error('Not implemented');
