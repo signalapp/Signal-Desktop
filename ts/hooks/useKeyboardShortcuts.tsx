@@ -203,10 +203,16 @@ export function useStartRecordingShortcut(
         return false;
       }
 
-      const { shiftKey } = ev;
       const key = KeyboardLayout.lookup(ev);
 
-      if (isCmdOrCtrl(ev) && shiftKey && (key === 'v' || key === 'V')) {
+      if (
+        hasExactModifiers(ev, {
+          controlOrMeta: true,
+          shift: true,
+          alt: false,
+        }) &&
+        (key === 'y' || key === 'Y')
+      ) {
         ev.preventDefault();
         ev.stopPropagation();
 
