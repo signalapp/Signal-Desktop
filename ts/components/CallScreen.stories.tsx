@@ -193,7 +193,6 @@ const createProps = (
   i18n,
   imageDataCache: React.createRef<CallingImageDataCache>(),
   isCallLinkAdmin: true,
-  isGroupCallRaiseHandEnabled: true,
   me: getDefaultConversation({
     color: AvatarColors[1],
     id: '6146087e-f7ef-457e-9a8d-47df1fdd6b25',
