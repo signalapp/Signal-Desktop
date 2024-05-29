@@ -30,15 +30,14 @@ describe('exponential backoff utilities', () => {
       const options = {
         maxBackoffTime: 10000,
         multiplier: 2,
-        firstBackoffTime: 1000,
+        firstBackoffs: [1000],
       };
-      assert.strictEqual(exponentialBackoffSleepTime(1, options), 0);
-      assert.strictEqual(exponentialBackoffSleepTime(2, options), 1000);
-      assert.strictEqual(exponentialBackoffSleepTime(3, options), 2000);
-      assert.strictEqual(exponentialBackoffSleepTime(4, options), 4000);
-      assert.strictEqual(exponentialBackoffSleepTime(5, options), 8000);
+      assert.strictEqual(exponentialBackoffSleepTime(1, options), 1000);
+      assert.strictEqual(exponentialBackoffSleepTime(2, options), 2000);
+      assert.strictEqual(exponentialBackoffSleepTime(3, options), 4000);
+      assert.strictEqual(exponentialBackoffSleepTime(4, options), 8000);
+      assert.strictEqual(exponentialBackoffSleepTime(5, options), 10000);
       assert.strictEqual(exponentialBackoffSleepTime(6, options), 10000);
-      assert.strictEqual(exponentialBackoffSleepTime(7, options), 10000);
     });
   });
 

@@ -7,13 +7,15 @@ import * as sinon from 'sinon';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 import { Backups } from '../../protobuf';
 import {
-  convertAttachmentToFilePointer,
+  getFilePointerForAttachment,
   convertFilePointerToAttachment,
+  maybeGetBackupJobForAttachmentAndFilePointer,
 } from '../../services/backups/util/filePointers';
 import { APPLICATION_OCTET_STREAM, IMAGE_PNG } from '../../types/MIME';
 import * as Bytes from '../../Bytes';
 import type { AttachmentType } from '../../types/Attachment';
 import { strictAssert } from '../../util/assert';
+import type { GetBackupCdnInfoType } from '../../services/backups/util/mediaId';
 
 describe('convertFilePointerToAttachment', () => {
   it('processes filepointer with attachmentLocator', () => {
@@ -167,6 +169,7 @@ function composeAttachment(
     path: 'path/to/file.png',
     key: 'key',
     digest: 'digest',
+    iv: 'iv',
     width: 100,
     height: 100,
     blurHash: 'blurhash',
@@ -227,21 +230,30 @@ const filePointerWithInvalidLocator = new Backups.FilePointer({
 async function testAttachmentToFilePointer(
   attachment: AttachmentType,
   filePointer: Backups.FilePointer,
-  options?: { backupLevel?: BackupLevel; backupCdnNumber?: number }
+  options?: {
+    backupLevel?: BackupLevel;
+    backupCdnNumber?: number;
+    updatedAttachment?: AttachmentType;
+  }
 ) {
   async function _doTest(withBackupLevel: BackupLevel) {
-    assert.deepStrictEqual(
-      await convertAttachmentToFilePointer({
+    assert.deepEqual(
+      await getFilePointerForAttachment({
         attachment,
         backupLevel: withBackupLevel,
-        getBackupTierInfo: _mediaName => {
+        getBackupCdnInfo: async _mediaId => {
           if (options?.backupCdnNumber != null) {
             return { isInBackupTier: true, cdnNumber: options.backupCdnNumber };
           }
           return { isInBackupTier: false };
         },
       }),
-      filePointer
+      {
+        filePointer,
+        ...(options?.updatedAttachment
+          ? { updatedAttachment: options?.updatedAttachment }
+          : {}),
+      }
     );
   }
 
@@ -253,7 +265,11 @@ async function testAttachmentToFilePointer(
   }
 }
 
-describe('convertAttachmentToFilePointer', () => {
+const notInBackupCdn: GetBackupCdnInfoType = async () => {
+  return { isInBackupTier: false };
+};
+
+describe('getFilePointerForAttachment', () => {
   describe('not downloaded locally', () => {
     const undownloadedAttachment = composeAttachment({ path: undefined });
     it('returns invalidAttachmentLocator if missing critical decryption info', async () => {
@@ -384,7 +400,7 @@ describe('convertAttachmentToFilePointer', () => {
       });
     });
     describe('BackupLevel.Media', () => {
-      describe('if missing critical decryption info', () => {
+      describe('if missing critical decryption / encryption info', () => {
         const FILE_PATH = join(__dirname, '../../../fixtures/ghost-kitty.mp4');
 
         let sandbox: sinon.SinonSandbox;
@@ -405,14 +421,14 @@ describe('convertAttachmentToFilePointer', () => {
           sandbox.restore();
         });
 
-        it('generates new key & digest and removes existing CDN info', async () => {
-          const result = await convertAttachmentToFilePointer({
+        it('if missing key, generates new key & digest and removes existing CDN info', async () => {
+          const { filePointer: result } = await getFilePointerForAttachment({
             attachment: {
               ...downloadedAttachment,
               key: undefined,
             },
             backupLevel: BackupLevel.Media,
-            getBackupTierInfo: () => ({ isInBackupTier: false }),
+            getBackupCdnInfo: notInBackupCdn,
           });
           const newKey = result.backupLocator?.key;
           const newDigest = result.backupLocator?.digest;
@@ -431,6 +447,53 @@ describe('convertAttachmentToFilePointer', () => {
                 transitCdnNumber: undefined,
               }),
             })
+          );
+        });
+
+        it('if not on backup tier, and missing iv, regenerates encryption info', async () => {
+          const { filePointer: result } = await getFilePointerForAttachment({
+            attachment: {
+              ...downloadedAttachment,
+              iv: undefined,
+            },
+            backupLevel: BackupLevel.Media,
+            getBackupCdnInfo: notInBackupCdn,
+          });
+
+          const newKey = result.backupLocator?.key;
+          const newDigest = result.backupLocator?.digest;
+
+          strictAssert(newDigest, 'must create new digest');
+          assert.deepStrictEqual(
+            result,
+            new Backups.FilePointer({
+              ...filePointerWithBackupLocator,
+              backupLocator: new Backups.FilePointer.BackupLocator({
+                ...defaultBackupLocator,
+                key: newKey,
+                digest: newDigest,
+                mediaName: Bytes.toBase64(newDigest),
+                transitCdnKey: undefined,
+                transitCdnNumber: undefined,
+              }),
+            })
+          );
+        });
+
+        it('if on backup tier, and not missing iv, does not regenerate encryption info', async () => {
+          await testAttachmentToFilePointer(
+            {
+              ...downloadedAttachment,
+              iv: undefined,
+            },
+            new Backups.FilePointer({
+              ...filePointerWithBackupLocator,
+              backupLocator: new Backups.FilePointer.BackupLocator({
+                ...defaultBackupLocator,
+                cdnNumber: 12,
+              }),
+            }),
+            { backupLevel: BackupLevel.Media, backupCdnNumber: 12 }
           );
         });
       });
@@ -457,5 +520,82 @@ describe('convertAttachmentToFilePointer', () => {
         );
       });
     });
+  });
+});
+
+describe('getBackupJobForAttachmentAndFilePointer', async () => {
+  const attachment = composeAttachment();
+
+  it('returns null if filePointer does not have backupLocator', async () => {
+    const { filePointer } = await getFilePointerForAttachment({
+      attachment,
+      backupLevel: BackupLevel.Messages,
+      getBackupCdnInfo: notInBackupCdn,
+    });
+    assert.strictEqual(
+      await maybeGetBackupJobForAttachmentAndFilePointer({
+        attachment,
+        filePointer,
+        messageReceivedAt: 100,
+        getBackupCdnInfo: notInBackupCdn,
+      }),
+      null
+    );
+  });
+
+  it('returns job if filePointer does have backupLocator', async () => {
+    const { filePointer, updatedAttachment } =
+      await getFilePointerForAttachment({
+        attachment,
+        backupLevel: BackupLevel.Media,
+        getBackupCdnInfo: notInBackupCdn,
+      });
+    const attachmentToUse = updatedAttachment ?? attachment;
+    assert.deepStrictEqual(
+      await maybeGetBackupJobForAttachmentAndFilePointer({
+        attachment: attachmentToUse,
+        filePointer,
+        messageReceivedAt: 100,
+        getBackupCdnInfo: notInBackupCdn,
+      }),
+      {
+        mediaName: 'digest',
+        receivedAt: 100,
+        type: 'standard',
+        data: {
+          path: 'path/to/file.png',
+          contentType: IMAGE_PNG,
+          keys: 'key',
+          digest: 'digest',
+          iv: 'iv',
+          size: 100,
+          transitCdnInfo: {
+            cdnKey: 'cdnKey',
+            cdnNumber: 2,
+            uploadTimestamp: 1234,
+          },
+        },
+      }
+    );
+  });
+  it('does not return job if already in backup tier', async () => {
+    const isInBackupTier = async () => ({
+      isInBackupTier: true,
+      cdnNumber: 42,
+    });
+    const { filePointer } = await getFilePointerForAttachment({
+      attachment,
+      backupLevel: BackupLevel.Media,
+      getBackupCdnInfo: isInBackupTier,
+    });
+    assert.deepStrictEqual(
+      await maybeGetBackupJobForAttachmentAndFilePointer({
+        attachment,
+        filePointer,
+        messageReceivedAt: 100,
+        getBackupCdnInfo: isInBackupTier,
+      }),
+      null
+    );
   });
 });

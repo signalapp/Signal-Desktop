@@ -2,15 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { omit } from 'lodash';
 
-import { drop } from '../util/drop';
 import * as durations from '../util/durations';
-import { missingCaseError } from '../util/missingCaseError';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import * as log from '../logging/log';
 import {
   type AttachmentDownloadJobTypeType,
   type AttachmentDownloadJobType,
-  attachmentDownloadJobSchema,
+  type CoreAttachmentDownloadJobType,
+  coreAttachmentDownloadJobSchema,
 } from '../types/AttachmentDownload';
 import {
   AttachmentNotFoundOnCdnError,
@@ -19,15 +17,7 @@ import {
 import dataInterface from '../sql/Client';
 import { getValue } from '../RemoteConfig';
 
-import {
-  explodePromise,
-  type ExplodePromiseResultType,
-} from '../util/explodePromise';
 import { isInCall as isInCallSelector } from '../state/selectors/calling';
-import {
-  type ExponentialBackoffOptionsType,
-  exponentialBackoffSleepTime,
-} from '../util/exponentialBackoff';
 import { AttachmentSizeError, type AttachmentType } from '../types/Attachment';
 import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
 import type { MessageModel } from '../models/messages';
@@ -39,19 +29,16 @@ import {
 import { addAttachmentToMessage } from '../messageModifiers/AttachmentDownloads';
 import * as Errors from '../types/errors';
 import { redactGenericText } from '../util/privacy';
+import {
+  JobManager,
+  type JobManagerParamsType,
+  type JobManagerJobResultType,
+} from './JobManager';
 
 export enum AttachmentDownloadUrgency {
   IMMEDIATE = 'immediate',
   STANDARD = 'standard',
 }
-
-const TICK_INTERVAL = durations.MINUTE;
-const MAX_CONCURRENT_JOBS = 3;
-
-type AttachmentDownloadJobIdentifiersType = Pick<
-  AttachmentDownloadJobType,
-  'messageId' | 'attachmentType' | 'digest'
->;
 
 // Type for adding a new job
 export type NewAttachmentDownloadJobType = {
@@ -63,117 +50,78 @@ export type NewAttachmentDownloadJobType = {
   urgency?: AttachmentDownloadUrgency;
 };
 
-const RETRY_CONFIG: Record<
-  'default',
-  { maxRetries: number; backoffConfig: ExponentialBackoffOptionsType }
-> = {
-  default: {
-    maxRetries: 4,
-    backoffConfig: {
-      // 30 seconds, 5 minutes, 50 minutes, (max) 6 hrs
-      multiplier: 10,
-      firstBackoffTime: 30 * durations.SECOND,
-      maxBackoffTime: 6 * durations.HOUR,
-    },
+const MAX_CONCURRENT_JOBS = 3;
+
+const DEFAULT_RETRY_CONFIG = {
+  maxAttempts: 5,
+  backoffConfig: {
+    // 30 seconds, 5 minutes, 50 minutes, (max) 6 hrs
+    multiplier: 10,
+    firstBackoffs: [30 * durations.SECOND],
+    maxBackoffTime: 6 * durations.HOUR,
   },
 };
-
-type AttachmentDownloadManagerParamsType = {
+type AttachmentDownloadManagerParamsType = Omit<
+  JobManagerParamsType<CoreAttachmentDownloadJobType>,
+  'getNextJobs'
+> & {
   getNextJobs: (options: {
     limit: number;
     prioritizeMessageIds?: Array<string>;
     timestamp?: number;
   }) => Promise<Array<AttachmentDownloadJobType>>;
-
-  saveJob: (job: AttachmentDownloadJobType) => Promise<void>;
-  removeJob: (job: AttachmentDownloadJobType) => Promise<unknown>;
-  runJob: (
-    job: AttachmentDownloadJobType,
-    isLastAttempt: boolean
-  ) => Promise<JobResultType>;
-  isInCall: () => boolean;
-  beforeStart?: () => Promise<void>;
-  maxAttempts: number;
 };
-export type JobResultType = { status: 'retry' | 'finished' };
-export class AttachmentDownloadManager {
-  private static _instance: AttachmentDownloadManager | undefined;
+
+function getJobId(job: CoreAttachmentDownloadJobType): string {
+  const { messageId, attachmentType, digest } = job;
+  return `${messageId}.${attachmentType}.${digest}`;
+}
+
+function getJobIdForLogging(job: CoreAttachmentDownloadJobType): string {
+  const { sentAt, attachmentType, digest } = job;
+  const redactedDigest = redactGenericText(digest);
+  return `${sentAt}.${attachmentType}.${redactedDigest}`;
+}
+
+export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownloadJobType> {
   private visibleTimelineMessages: Array<string> = [];
-  private enabled: boolean = false;
-  private activeJobs: Map<
-    string,
-    {
-      completionPromise: ExplodePromiseResultType<void>;
-      job: AttachmentDownloadJobType;
-    }
-  > = new Map();
-  private timeout: NodeJS.Timeout | null = null;
-  private jobStartPromises: Map<string, ExplodePromiseResultType<void>> =
-    new Map();
-  private jobCompletePromises: Map<string, ExplodePromiseResultType<void>> =
-    new Map();
+  private static _instance: AttachmentDownloadManager | undefined;
+  override logPrefix = 'AttachmentDownloadManager';
 
   static defaultParams: AttachmentDownloadManagerParamsType = {
-    beforeStart: dataInterface.resetAttachmentDownloadActive,
-    getNextJobs: dataInterface.getNextAttachmentDownloadJobs,
+    markAllJobsInactive: dataInterface.resetAttachmentDownloadActive,
     saveJob: dataInterface.saveAttachmentDownloadJob,
     removeJob: dataInterface.removeAttachmentDownloadJob,
+    getNextJobs: dataInterface.getNextAttachmentDownloadJobs,
     runJob: runDownloadAttachmentJob,
-    isInCall: () => {
+    shouldHoldOffOnStartingQueuedJobs: () => {
       const reduxState = window.reduxStore?.getState();
       if (reduxState) {
         return isInCallSelector(reduxState);
       }
       return false;
     },
-    maxAttempts: RETRY_CONFIG.default.maxRetries + 1,
+    getJobId,
+    getJobIdForLogging,
+    getRetryConfig: () => DEFAULT_RETRY_CONFIG,
+    maxConcurrentJobs: MAX_CONCURRENT_JOBS,
   };
 
-  readonly getNextJobs: AttachmentDownloadManagerParamsType['getNextJobs'];
-  readonly saveJob: AttachmentDownloadManagerParamsType['saveJob'];
-  readonly removeJob: AttachmentDownloadManagerParamsType['removeJob'];
-  readonly runJob: AttachmentDownloadManagerParamsType['runJob'];
-  readonly beforeStart: AttachmentDownloadManagerParamsType['beforeStart'];
-  readonly isInCall: AttachmentDownloadManagerParamsType['isInCall'];
-  readonly maxAttempts: number;
-
-  constructor(
-    params: AttachmentDownloadManagerParamsType = AttachmentDownloadManager.defaultParams
-  ) {
-    this.getNextJobs = params.getNextJobs;
-    this.saveJob = params.saveJob;
-    this.removeJob = params.removeJob;
-    this.runJob = params.runJob;
-    this.beforeStart = params.beforeStart;
-    this.isInCall = params.isInCall;
-    this.maxAttempts = params.maxAttempts;
+  constructor(params: AttachmentDownloadManagerParamsType) {
+    super({
+      ...params,
+      getNextJobs: ({ limit }) => {
+        return params.getNextJobs({
+          limit,
+          prioritizeMessageIds: this.visibleTimelineMessages,
+          timestamp: Date.now(),
+        });
+      },
+    });
   }
 
-  async start(): Promise<void> {
-    this.enabled = true;
-    await this.beforeStart?.();
-    this.tick();
-  }
-
-  async stop(): Promise<void> {
-    this.enabled = false;
-    clearTimeoutIfNecessary(this.timeout);
-    this.timeout = null;
-    await Promise.all(
-      [...this.activeJobs.values()].map(
-        ({ completionPromise }) => completionPromise.promise
-      )
-    );
-  }
-
-  tick(): void {
-    clearTimeoutIfNecessary(this.timeout);
-    this.timeout = null;
-    drop(this.maybeStartJobs());
-    this.timeout = setTimeout(() => this.tick(), TICK_INTERVAL);
-  }
-
-  async addJob(
+  // @ts-expect-error we are overriding the return type of JobManager's addJob
+  override async addJob(
     newJobData: NewAttachmentDownloadJobType
   ): Promise<AttachmentType> {
     const {
@@ -184,7 +132,7 @@ export class AttachmentDownloadManager {
       sentAt,
       urgency = AttachmentDownloadUrgency.STANDARD,
     } = newJobData;
-    const parseResult = attachmentDownloadJobSchema.safeParse({
+    const parseResult = coreAttachmentDownloadJobSchema.safeParse({
       messageId,
       receivedAt,
       sentAt,
@@ -193,10 +141,6 @@ export class AttachmentDownloadManager {
       contentType: attachment.contentType,
       size: attachment.size,
       attachment,
-      active: false,
-      attempts: 0,
-      retryAfter: null,
-      lastAttemptTimestamp: null,
     });
 
     if (!parseResult.success) {
@@ -208,42 +152,18 @@ export class AttachmentDownloadManager {
     }
 
     const newJob = parseResult.data;
-    const jobIdForLogging = getJobIdForLogging(newJob);
-    const logId = `AttachmentDownloadManager/addJob(${jobIdForLogging})`;
 
-    try {
-      const runningJob = this.getRunningJob(newJob);
-      if (runningJob) {
-        log.info(`${logId}: already running; resetting attempts`);
-        runningJob.attempts = 0;
+    const { isAlreadyRunning } = await this._addJob(newJob, {
+      forceStart: urgency === AttachmentDownloadUrgency.IMMEDIATE,
+    });
 
-        await this.saveJob({
-          ...runningJob,
-          attempts: 0,
-        });
-        return attachment;
-      }
-
-      await this.saveJob(newJob);
-    } catch (e) {
-      log.error(`${logId}: error saving job`, Errors.toLogFormat(e));
-    }
-
-    switch (urgency) {
-      case AttachmentDownloadUrgency.IMMEDIATE:
-        log.info(`${logId}: starting job immediately`);
-        drop(this.startJob(newJob));
-        break;
-      case AttachmentDownloadUrgency.STANDARD:
-        drop(this.maybeStartJobs());
-        break;
-      default:
-        throw missingCaseError(urgency);
+    if (isAlreadyRunning) {
+      return attachment;
     }
 
     return {
       ...attachment,
-      pending: !this.shouldHoldOffOnStartingQueuedJobs(),
+      pending: !this.params.shouldHoldOffOnStartingQueuedJobs?.(),
     };
   }
 
@@ -251,220 +171,11 @@ export class AttachmentDownloadManager {
     this.visibleTimelineMessages = messageIds;
   }
 
-  // used in testing
-  public waitForJobToBeStarted(job: AttachmentDownloadJobType): Promise<void> {
-    const id = this.getJobIdIncludingAttempts(job);
-    const existingPromise = this.jobStartPromises.get(id)?.promise;
-    if (existingPromise) {
-      return existingPromise;
-    }
-    const { promise, resolve, reject } = explodePromise<void>();
-    this.jobStartPromises.set(id, { promise, resolve, reject });
-    return promise;
-  }
-
-  public waitForJobToBeCompleted(
-    job: AttachmentDownloadJobType
-  ): Promise<void> {
-    const id = this.getJobIdIncludingAttempts(job);
-    const existingPromise = this.jobCompletePromises.get(id)?.promise;
-    if (existingPromise) {
-      return existingPromise;
-    }
-    const { promise, resolve, reject } = explodePromise<void>();
-    this.jobCompletePromises.set(id, { promise, resolve, reject });
-    return promise;
-  }
-
-  // Private methods
-
-  // maybeStartJobs is called:
-  // 1. every minute (via tick)
-  // 2. after a job is added (via addJob)
-  // 3. after a job finishes (via startJob)
-  // preventing re-entrancy allow us to simplify some logic and ensure we don't try to
-  // start too many jobs
-  private _inMaybeStartJobs = false;
-  private async maybeStartJobs(): Promise<void> {
-    if (this._inMaybeStartJobs) {
-      return;
-    }
-
-    try {
-      this._inMaybeStartJobs = true;
-
-      if (!this.enabled) {
-        log.info(
-          'AttachmentDownloadManager/_maybeStartJobs: not enabled, returning'
-        );
-        return;
-      }
-
-      const numJobsToStart = this.getMaximumNumberOfJobsToStart();
-
-      if (numJobsToStart <= 0) {
-        return;
-      }
-
-      const nextJobs = await this.getNextJobs({
-        limit: numJobsToStart,
-        // TODO (DESKTOP-6912): we'll want to prioritize more than just visible timeline
-        // messages, including:
-        // - media opened in lightbox
-        // - media for stories
-        prioritizeMessageIds: [...this.visibleTimelineMessages],
-        timestamp: Date.now(),
-      });
-
-      if (nextJobs.length === 0) {
-        return;
-      }
-
-      if (this.shouldHoldOffOnStartingQueuedJobs()) {
-        log.info(
-          `AttachmentDownloadManager/_maybeStartJobs: holding off on starting ${nextJobs.length} new job(s)`
-        );
-        return;
-      }
-
-      // TODO (DESKTOP-6913): if a prioritized job is selected, we will to update the
-      // in-memory job with that information so we can handle it differently, including
-      // e.g. downloading a thumbnail before the full-size version
-      for (const job of nextJobs) {
-        drop(this.startJob(job));
-      }
-    } finally {
-      this._inMaybeStartJobs = false;
-    }
-  }
-
-  private async startJob(job: AttachmentDownloadJobType): Promise<void> {
-    const logId = `AttachmentDownloadManager/startJob(${getJobIdForLogging(
-      job
-    )})`;
-    if (this.isJobRunning(job)) {
-      log.info(`${logId}: job is already running`);
-      return;
-    }
-    const isLastAttempt = job.attempts + 1 >= this.maxAttempts;
-
-    try {
-      log.info(`${logId}: starting job`);
-      this.addRunningJob(job);
-      await this.saveJob({ ...job, active: true });
-      this.handleJobStartPromises(job);
-
-      const { status } = await this.runJob(job, isLastAttempt);
-      log.info(`${logId}: job completed with status: ${status}`);
-
-      switch (status) {
-        case 'finished':
-          await this.removeJob(job);
-          return;
-        case 'retry':
-          if (isLastAttempt) {
-            throw new Error('Cannot retry on last attempt');
-          }
-          await this.retryJobLater(job);
-          return;
-        default:
-          throw missingCaseError(status);
-      }
-    } catch (e) {
-      log.error(`${logId}: error when running job`, e);
-      if (isLastAttempt) {
-        await this.removeJob(job);
-      } else {
-        await this.retryJobLater(job);
-      }
-    } finally {
-      this.removeRunningJob(job);
-      drop(this.maybeStartJobs());
-    }
-  }
-
-  private async retryJobLater(job: AttachmentDownloadJobType) {
-    const now = Date.now();
-    await this.saveJob({
-      ...job,
-      active: false,
-      attempts: job.attempts + 1,
-      // TODO (DESKTOP-6845): adjust retry based on job type (e.g. backup)
-      retryAfter:
-        now +
-        exponentialBackoffSleepTime(
-          job.attempts + 1,
-          RETRY_CONFIG.default.backoffConfig
-        ),
-      lastAttemptTimestamp: now,
-    });
-  }
-
-  private getActiveJobCount(): number {
-    return this.activeJobs.size;
-  }
-
-  private getMaximumNumberOfJobsToStart(): number {
-    return MAX_CONCURRENT_JOBS - this.getActiveJobCount();
-  }
-
-  private getRunningJob(
-    job: AttachmentDownloadJobIdentifiersType
-  ): AttachmentDownloadJobType | undefined {
-    const id = this.getJobId(job);
-    return this.activeJobs.get(id)?.job;
-  }
-
-  private isJobRunning(job: AttachmentDownloadJobType): boolean {
-    return Boolean(this.getRunningJob(job));
-  }
-
-  private removeRunningJob(job: AttachmentDownloadJobType) {
-    const idWithAttempts = this.getJobIdIncludingAttempts(job);
-    this.jobCompletePromises.get(idWithAttempts)?.resolve();
-    this.jobCompletePromises.delete(idWithAttempts);
-
-    const id = this.getJobId(job);
-    this.activeJobs.get(id)?.completionPromise.resolve();
-    this.activeJobs.delete(id);
-  }
-
-  private addRunningJob(job: AttachmentDownloadJobType) {
-    if (this.isJobRunning(job)) {
-      const jobIdForLogging = getJobIdForLogging(job);
-      log.warn(
-        `AttachmentDownloadManager/addRunningJob: job ${jobIdForLogging} is already running`
-      );
-    }
-    this.activeJobs.set(this.getJobId(job), {
-      completionPromise: explodePromise<void>(),
-      job,
-    });
-  }
-
-  private handleJobStartPromises(job: AttachmentDownloadJobType) {
-    const id = this.getJobIdIncludingAttempts(job);
-    this.jobStartPromises.get(id)?.resolve();
-    this.jobStartPromises.delete(id);
-  }
-
-  private getJobIdIncludingAttempts(job: AttachmentDownloadJobType) {
-    return `${this.getJobId(job)}.${job.attempts}`;
-  }
-
-  private getJobId(job: AttachmentDownloadJobIdentifiersType): string {
-    const { messageId, attachmentType, digest } = job;
-    return `${messageId}.${attachmentType}.${digest}`;
-  }
-
-  private shouldHoldOffOnStartingQueuedJobs(): boolean {
-    return this.isInCall();
-  }
-
-  // Static methods
   static get instance(): AttachmentDownloadManager {
     if (!AttachmentDownloadManager._instance) {
-      AttachmentDownloadManager._instance = new AttachmentDownloadManager();
+      AttachmentDownloadManager._instance = new AttachmentDownloadManager(
+        AttachmentDownloadManager.defaultParams
+      );
     }
     return AttachmentDownloadManager._instance;
   }
@@ -492,10 +203,13 @@ export class AttachmentDownloadManager {
   }
 }
 
+// TODO (DESKTOP-6913): if a prioritized job is selected, we will to update the
+// in-memory job with that information so we can handle it differently, including
+// e.g. downloading a thumbnail before the full-size version
 async function runDownloadAttachmentJob(
   job: AttachmentDownloadJobType,
   isLastAttempt: boolean
-): Promise<JobResultType> {
+): Promise<JobManagerJobResultType> {
   const jobIdForLogging = getJobIdForLogging(job);
   const logId = `AttachmentDownloadManager/runDownloadAttachmentJob/${jobIdForLogging}`;
 
@@ -639,10 +353,4 @@ function _markAttachmentAsTransientlyErrored(
   attachment: AttachmentType
 ): AttachmentType {
   return { ...attachment, pending: false, error: true };
-}
-
-function getJobIdForLogging(job: AttachmentDownloadJobType): string {
-  const { sentAt, attachmentType, digest } = job;
-  const redactedDigest = redactGenericText(digest);
-  return `${sentAt}.${attachmentType}.${redactedDigest}`;
 }

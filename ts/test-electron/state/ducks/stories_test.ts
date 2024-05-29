@@ -937,7 +937,10 @@ describe('both/state/ducks/stories', () => {
           },
         ],
       };
-
+      await window.Signal.Data.saveMessage(messageAttributes, {
+        forceSave: true,
+        ourAci: generateAci(),
+      });
       const rootState = getEmptyRootState();
 
       const getState = () => ({
@@ -1000,6 +1003,10 @@ describe('both/state/ducks/stories', () => {
         preview: [preview],
       };
 
+      await window.Signal.Data.saveMessage(messageAttributes, {
+        forceSave: true,
+        ourAci: generateAci(),
+      });
       const rootState = getEmptyRootState();
 
       const getState = () => ({

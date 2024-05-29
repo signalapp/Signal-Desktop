@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import { readFileSync, unlinkSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
-import { createCipheriv, randomBytes } from 'crypto';
+import { createCipheriv } from 'crypto';
 import * as log from '../logging/log';
 import * as Bytes from '../Bytes';
 import * as Curve from '../Curve';
@@ -38,13 +38,13 @@ import {
 } from '../Crypto';
 import {
   type HardcodedIVForEncryptionType,
-  KEY_SET_LENGTH,
   _generateAttachmentIv,
   decryptAttachmentV2,
   encryptAttachmentV2ToDisk,
   getAesCbcCiphertextLength,
   getAttachmentCiphertextLength,
   splitKeys,
+  generateAttachmentKeys,
 } from '../AttachmentCrypto';
 import { createTempDir, deleteTempDir } from '../updater/common';
 import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes';
@@ -535,10 +535,6 @@ describe('Crypto', () => {
     const FILE_CONTENTS = readFileSync(FILE_PATH);
     const FILE_HASH = sha256(FILE_CONTENTS);
     let tempDir: string;
-
-    function generateAttachmentKeys(): Uint8Array {
-      return randomBytes(KEY_SET_LENGTH);
-    }
 
     beforeEach(async () => {
       tempDir = await createTempDir();

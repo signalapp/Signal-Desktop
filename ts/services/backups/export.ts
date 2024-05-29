@@ -92,7 +92,13 @@ import {
   isGIF,
   isDownloaded,
 } from '../../types/Attachment';
-import { convertAttachmentToFilePointer } from './util/filePointers';
+import {
+  getFilePointerForAttachment,
+  maybeGetBackupJobForAttachmentAndFilePointer,
+} from './util/filePointers';
+import type { CoreAttachmentBackupJobType } from '../../types/AttachmentBackup';
+import { AttachmentBackupManager } from '../../jobs/AttachmentBackupManager';
+import { getBackupCdnInfo } from './util/mediaId';
 
 const MAX_CONCURRENCY = 10;
 
@@ -155,6 +161,7 @@ type NonBubbleResultType = Readonly<
 export class BackupExportStream extends Readable {
   private readonly backupTimeMs = getSafeLongFromTimestamp(Date.now());
   private readonly convoIdToRecipientId = new Map<string, number>();
+  private attachmentBackupJobs: Array<CoreAttachmentBackupJobType> = [];
   private buffers = new Array<Uint8Array>();
   private nextRecipientId = 0;
   private flushResolve: (() => void) | undefined;
@@ -163,6 +170,7 @@ export class BackupExportStream extends Readable {
     drop(
       (async () => {
         log.info('BackupExportStream: starting...');
+
         await Data.pauseWriteAccess();
         try {
           await this.unsafeRun(backupLevel);
@@ -170,6 +178,12 @@ export class BackupExportStream extends Readable {
           this.emit('error', error);
         } finally {
           await Data.resumeWriteAccess();
+          await Promise.all(
+            this.attachmentBackupJobs.map(job =>
+              AttachmentBackupManager.addJob(job)
+            )
+          );
+          drop(AttachmentBackupManager.start());
           log.info('BackupExportStream: finished');
         }
       })()
@@ -356,7 +370,10 @@ export class BackupExportStream extends Readable {
 
     await this.flush();
 
-    log.warn('backups: final stats', stats);
+    log.warn('backups: final stats', {
+      ...stats,
+      attachmentBackupJobs: this.attachmentBackupJobs.length,
+    });
 
     this.push(null);
   }
@@ -788,6 +805,7 @@ export class BackupExportStream extends Readable {
                 return this.processMessageAttachment({
                   attachment,
                   backupLevel,
+                  messageReceivedAt: message.received_at,
                 });
               })
             )
@@ -1693,13 +1711,16 @@ export class BackupExportStream extends Readable {
   private async processMessageAttachment({
     attachment,
     backupLevel,
+    messageReceivedAt,
   }: {
     attachment: AttachmentType;
     backupLevel: BackupLevel;
+    messageReceivedAt: number;
   }): Promise<Backups.MessageAttachment> {
     const filePointer = await this.processAttachment({
       attachment,
       backupLevel,
+      messageReceivedAt,
     });
 
     return new Backups.MessageAttachment({
@@ -1712,18 +1733,35 @@ export class BackupExportStream extends Readable {
   private async processAttachment({
     attachment,
     backupLevel,
+    messageReceivedAt,
   }: {
     attachment: AttachmentType;
     backupLevel: BackupLevel;
+    messageReceivedAt: number;
   }): Promise<Backups.FilePointer> {
-    const filePointer = await convertAttachmentToFilePointer({
-      attachment,
-      backupLevel,
-      // TODO (DESKTOP-6983) -- Retrieve & save backup tier media list
-      getBackupTierInfo: () => ({
-        isInBackupTier: false,
-      }),
+    const { filePointer, updatedAttachment } =
+      await getFilePointerForAttachment({
+        attachment,
+        backupLevel,
+        getBackupCdnInfo,
+      });
+
+    if (updatedAttachment) {
+      // TODO (DESKTOP-6688): ensure that we update the message/attachment in DB with the
+      // new keys so that we don't try to re-upload it again on the next export
+    }
+
+    const backupJob = await maybeGetBackupJobForAttachmentAndFilePointer({
+      attachment: updatedAttachment ?? attachment,
+      filePointer,
+      getBackupCdnInfo,
+      messageReceivedAt,
     });
+
+    if (backupJob) {
+      this.attachmentBackupJobs.push(backupJob);
+    }
+
     return filePointer;
   }
 

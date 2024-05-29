@@ -1,12 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { strictAssert } from './assert';
 import * as durations from './durations';
 
 const BACKOFF_FACTOR = 1.9;
 const MAX_BACKOFF = 15 * durations.MINUTE;
-const FIRST_BACKOFF = 100 * BACKOFF_FACTOR;
-
+const FIRST_BACKOFFS = [0, 190];
 /**
  * For a given attempt, how long should we sleep (in milliseconds)?
  *
@@ -21,24 +21,35 @@ const FIRST_BACKOFF = 100 * BACKOFF_FACTOR;
 export type ExponentialBackoffOptionsType = {
   maxBackoffTime: number;
   multiplier: number;
-  firstBackoffTime: number;
+  firstBackoffs: Array<number>;
 };
 export function exponentialBackoffSleepTime(
   attempt: number,
   options: ExponentialBackoffOptionsType = {
     maxBackoffTime: MAX_BACKOFF,
     multiplier: BACKOFF_FACTOR,
-    firstBackoffTime: FIRST_BACKOFF,
+    firstBackoffs: FIRST_BACKOFFS,
   }
 ): number {
-  if (attempt === 1) {
-    return 0;
+  const numHardcodedBackoffs = options.firstBackoffs.length;
+  strictAssert(
+    numHardcodedBackoffs > 0,
+    'must include explicit first backoffs'
+  );
+
+  if (attempt - 1 < numHardcodedBackoffs) {
+    return options.firstBackoffs[attempt - 1];
   }
 
+  const lastHardcodedBackoff = options.firstBackoffs.at(-1);
+  strictAssert(
+    lastHardcodedBackoff != null && lastHardcodedBackoff > 0,
+    'lastHardcodedBackoff must be a positive number'
+  );
   return Math.min(
     options.maxBackoffTime,
-    (options.firstBackoffTime / options.multiplier) *
-      options.multiplier ** (attempt - 1)
+    (lastHardcodedBackoff / options.multiplier) *
+      options.multiplier ** (attempt - numHardcodedBackoffs + 1)
   );
 }
 

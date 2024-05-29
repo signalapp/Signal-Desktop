@@ -38,11 +38,17 @@ const DIGEST_LENGTH = 32;
 const HEX_DIGEST_LENGTH = DIGEST_LENGTH * 2;
 const ATTACHMENT_MAC_LENGTH = 32;
 
+export class ReencyptedDigestMismatchError extends Error {}
+
 /** @private */
 export const KEY_SET_LENGTH = KEY_LENGTH + ATTACHMENT_MAC_LENGTH;
 
 export function _generateAttachmentIv(): Uint8Array {
   return randomBytes(IV_LENGTH);
+}
+
+export function generateAttachmentKeys(): Uint8Array {
+  return randomBytes(KEY_SET_LENGTH);
 }
 
 export type EncryptedAttachmentV2 = {
@@ -201,11 +207,12 @@ export async function encryptAttachmentV2({
 
   if (dangerousIv?.reason === 'reencrypting-for-backup') {
     if (!constantTimeEqual(ourDigest, dangerousIv.digestToMatch)) {
-      throw new Error(
+      throw new ReencyptedDigestMismatchError(
         `${logId}: iv was hardcoded for backup re-encryption, but digest does not match`
       );
     }
   }
+
   return {
     digest: ourDigest,
     iv,

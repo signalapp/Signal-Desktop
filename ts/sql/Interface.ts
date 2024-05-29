@@ -33,6 +33,7 @@ import type { CallLinkStateType, CallLinkType } from '../types/CallLink';
 import type { AttachmentDownloadJobType } from '../types/AttachmentDownload';
 import type { GroupSendEndorsementsData } from '../types/GroupSendEndorsements';
 import type { SyncTaskType } from '../util/syncTasks';
+import type { AttachmentBackupJobType } from '../types/AttachmentBackup';
 
 export type AdjacentMessagesByConversationOptionsType = Readonly<{
   conversationId: string;
@@ -425,6 +426,12 @@ export type EditedMessageType = Readonly<{
   readStatus: MessageType['readStatus'];
 }>;
 
+export type BackupCdnMediaObjectType = {
+  mediaId: string;
+  cdnNumber: number;
+  sizeOnBackupCdn: number;
+};
+
 export type DataInterface = {
   close: () => Promise<void>;
   pauseWriteAccess(): Promise<void>;
@@ -760,6 +767,22 @@ export type DataInterface = {
   removeAttachmentDownloadJob: (
     job: AttachmentDownloadJobType
   ) => Promise<void>;
+
+  getNextAttachmentBackupJobs: (options: {
+    limit: number;
+    timestamp?: number;
+  }) => Promise<Array<AttachmentBackupJobType>>;
+  saveAttachmentBackupJob: (job: AttachmentBackupJobType) => Promise<void>;
+  markAllAttachmentBackupJobsInactive: () => Promise<void>;
+  removeAttachmentBackupJob: (job: AttachmentBackupJobType) => Promise<void>;
+
+  clearAllBackupCdnObjectMetadata: () => Promise<void>;
+  saveBackupCdnObjectMetadata: (
+    mediaObjects: Array<BackupCdnMediaObjectType>
+  ) => Promise<void>;
+  getBackupCdnObjectMetadata: (
+    mediaId: string
+  ) => Promise<BackupCdnMediaObjectType | undefined>;
 
   createOrUpdateStickerPack: (pack: StickerPackType) => Promise<void>;
   updateStickerPackStatus: (

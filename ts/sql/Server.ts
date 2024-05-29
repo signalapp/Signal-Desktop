@@ -144,6 +144,7 @@ import type {
   UnprocessedUpdateType,
   GetNearbyMessageFromDeletedSetOptionsType,
   StoredKyberPreKeyType,
+  BackupCdnMediaObjectType,
 } from './Interface';
 import { SeenStatus } from '../MessageSeenStatus';
 import {
@@ -187,6 +188,11 @@ import {
 import { MAX_SYNC_TASK_ATTEMPTS } from '../util/syncTasks.types';
 import type { SyncTaskType } from '../util/syncTasks';
 import { isMoreRecentThan } from '../util/timestamp';
+import {
+  type AttachmentBackupJobType,
+  attachmentBackupJobSchema,
+} from '../types/AttachmentBackup';
+import { redactGenericText } from '../util/privacy';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -383,6 +389,15 @@ const dataInterface: ServerInterface = {
   saveAttachmentDownloadJob,
   resetAttachmentDownloadActive,
   removeAttachmentDownloadJob,
+
+  getNextAttachmentBackupJobs,
+  saveAttachmentBackupJob,
+  markAllAttachmentBackupJobsInactive,
+  removeAttachmentBackupJob,
+
+  clearAllBackupCdnObjectMetadata,
+  saveBackupCdnObjectMetadata,
+  getBackupCdnObjectMetadata,
 
   createOrUpdateStickerPack,
   updateStickerPackStatus,
@@ -4843,6 +4858,157 @@ async function removeAttachmentDownloadJob(
   return removeAttachmentDownloadJobSync(db, job);
 }
 
+// Backup Attachments
+
+async function markAllAttachmentBackupJobsInactive(): Promise<void> {
+  const db = await getWritableInstance();
+  db.prepare<EmptyQuery>(
+    `
+    UPDATE attachment_backup_jobs
+    SET active = 0;
+    `
+  ).run();
+}
+
+async function saveAttachmentBackupJob(
+  job: AttachmentBackupJobType
+): Promise<void> {
+  const db = await getWritableInstance();
+
+  const [query, params] = sql`
+    INSERT OR REPLACE INTO attachment_backup_jobs (
+      active,
+      attempts,
+      data,
+      lastAttemptTimestamp,
+      mediaName, 
+      receivedAt,
+      retryAfter,
+      type
+    ) VALUES (
+      ${job.active ? 1 : 0},
+      ${job.attempts},
+      ${objectToJSON(job.data)},
+      ${job.lastAttemptTimestamp},
+      ${job.mediaName},
+      ${job.receivedAt},
+      ${job.retryAfter},
+      ${job.type}
+    );
+  `;
+  db.prepare(query).run(params);
+}
+
+async function getNextAttachmentBackupJobs({
+  limit,
+  timestamp = Date.now(),
+}: {
+  limit: number;
+  timestamp?: number;
+}): Promise<Array<AttachmentBackupJobType>> {
+  const db = await getWritableInstance();
+
+  const [query, params] = sql`
+    SELECT * FROM attachment_backup_jobs
+    WHERE
+      active = 0
+    AND
+      (retryAfter is NULL OR retryAfter <= ${timestamp})
+    ORDER BY receivedAt DESC
+    LIMIT ${limit}
+  `;
+  const rows = db.prepare(query).all(params);
+  return rows
+    .map(row => {
+      const parseResult = attachmentBackupJobSchema.safeParse({
+        ...row,
+        active: Boolean(row.active),
+        data: jsonToObject(row.data),
+      });
+      if (!parseResult.success) {
+        const redactedMediaName = redactGenericText(row.mediaName);
+        logger.error(
+          `getNextAttachmentBackupJobs: invalid data, removing. mediaName: ${redactedMediaName}`,
+          Errors.toLogFormat(parseResult.error)
+        );
+        removeAttachmentBackupJobSync(db, { mediaName: row.mediaName });
+        return null;
+      }
+      return parseResult.data;
+    })
+    .filter(isNotNil);
+}
+
+async function removeAttachmentBackupJob(
+  job: Pick<AttachmentBackupJobType, 'mediaName'>
+): Promise<void> {
+  const db = await getWritableInstance();
+  return removeAttachmentBackupJobSync(db, job);
+}
+
+function removeAttachmentBackupJobSync(
+  db: Database,
+  job: Pick<AttachmentBackupJobType, 'mediaName'>
+): void {
+  const [query, params] = sql`
+  DELETE FROM attachment_backup_jobs
+  WHERE 
+    mediaName = ${job.mediaName};
+`;
+
+  db.prepare(query).run(params);
+}
+
+// Attachments on backup CDN
+async function clearAllBackupCdnObjectMetadata(): Promise<void> {
+  const db = await getWritableInstance();
+  db.prepare('DELETE FROM backup_cdn_object_metadata;').run();
+}
+
+function saveBackupCdnObjectMetadataSync(
+  db: Database,
+  storedMediaObject: BackupCdnMediaObjectType
+) {
+  const { mediaId, cdnNumber, sizeOnBackupCdn } = storedMediaObject;
+  const [query, params] = sql`
+    INSERT OR REPLACE INTO backup_cdn_object_metadata
+    (
+      mediaId,
+      cdnNumber,
+      sizeOnBackupCdn
+    ) VALUES (
+      ${mediaId},
+      ${cdnNumber},
+      ${sizeOnBackupCdn}
+    );
+  `;
+
+  db.prepare(query).run(params);
+}
+
+async function saveBackupCdnObjectMetadata(
+  storedMediaObjects: Array<BackupCdnMediaObjectType>
+): Promise<void> {
+  const db = await getWritableInstance();
+  db.transaction(() => {
+    for (const obj of storedMediaObjects) {
+      saveBackupCdnObjectMetadataSync(db, obj);
+    }
+  })();
+}
+
+async function getBackupCdnObjectMetadata(
+  mediaId: string
+): Promise<BackupCdnMediaObjectType | undefined> {
+  const db = getReadonlyInstance();
+  const [
+    query,
+    params,
+  ] = sql`SELECT * from backup_cdn_object_metadata WHERE mediaId = ${mediaId}`;
+
+  return db.prepare(query).get(params);
+}
+
 // Stickers
 
 async function createOrUpdateStickerPack(pack: StickerPackType): Promise<void> {
@@ -6140,6 +6306,8 @@ async function removeAll(): Promise<void> {
       DROP   TRIGGER messages_on_delete;
 
       DELETE FROM attachment_downloads;
+      DELETE FROM attachment_backup_jobs;
+      DELETE FROM backup_cdn_object_metadata;
       DELETE FROM badgeImageFiles;
       DELETE FROM badges;
       DELETE FROM callLinks;
@@ -6200,6 +6368,8 @@ async function removeAllConfiguration(): Promise<void> {
   db.transaction(() => {
     db.exec(
       `
+      DELETE FROM attachment_backup_jobs;
+      DELETE FROM backup_cdn_object_metadata;
       DELETE FROM groupSendCombinedEndorsement;
       DELETE FROM groupSendMemberEndorsement;
       DELETE FROM identityKeys;

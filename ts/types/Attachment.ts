@@ -1001,10 +1001,16 @@ export function getAttachmentSignature(attachment: AttachmentType): string {
 }
 
 type RequiredPropertiesForDecryption = 'key' | 'digest';
+type RequiredPropertiesForReencryption = 'key' | 'digest' | 'iv';
 
 type DecryptableAttachment = WithRequiredProperties<
   AttachmentType,
   RequiredPropertiesForDecryption
+>;
+
+type ReencryptableAttachment = WithRequiredProperties<
+  AttachmentType,
+  RequiredPropertiesForReencryption
 >;
 
 export type AttachmentDownloadableFromTransitTier = WithRequiredProperties<
@@ -1024,13 +1030,23 @@ export type LocallySavedAttachment = WithRequiredProperties<
 
 export type AttachmentReadyForBackup = WithRequiredProperties<
   LocallySavedAttachment,
-  RequiredPropertiesForDecryption
+  RequiredPropertiesForReencryption
 >;
 
-function isDecryptable(
+export function isDecryptable(
   attachment: AttachmentType
 ): attachment is DecryptableAttachment {
   return Boolean(attachment.key) && Boolean(attachment.digest);
+}
+
+export function isReencryptableToSameDigest(
+  attachment: AttachmentType
+): attachment is ReencryptableAttachment {
+  return (
+    Boolean(attachment.key) &&
+    Boolean(attachment.digest) &&
+    Boolean(attachment.iv)
+  );
 }
 
 export function isDownloadableFromTransitTier(

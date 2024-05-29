@@ -204,6 +204,7 @@ import { onCallLinkUpdateSync } from './util/onCallLinkUpdateSync';
 import { CallMode } from './types/Calling';
 import { queueSyncTasks } from './util/syncTasks';
 import { isEnabled } from './RemoteConfig';
+import { AttachmentBackupManager } from './jobs/AttachmentBackupManager';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -831,9 +832,10 @@ export async function startApp(): Promise<void> {
           'background/shutdown: waiting for all attachment downloads to finish'
         );
 
-        // Since we canceled the inflight requests earlier in shutdown, this should
+        // Since we canceled the inflight requests earlier in shutdown, these should
         // resolve quickly
         await AttachmentDownloadManager.stop();
+        await AttachmentBackupManager.stop();
 
         log.info('background/shutdown: closing the database');
 
@@ -1588,6 +1590,7 @@ export async function startApp(): Promise<void> {
 
       drop(challengeHandler?.onOffline());
       drop(AttachmentDownloadManager.stop());
+      drop(AttachmentBackupManager.stop());
       drop(messageReceiver?.drain());
 
       if (hasAppEverBeenRegistered) {
@@ -1725,6 +1728,7 @@ export async function startApp(): Promise<void> {
 
       if (isBackupEnabled()) {
         backupsService.start();
+        drop(AttachmentBackupManager.start());
       }
 
       if (connectCount === 0) {

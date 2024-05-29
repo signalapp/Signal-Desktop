@@ -1062,6 +1062,10 @@ export const backupMediaBatchResponseSchema = z.object({
       cdn: z.number(),
       mediaId: z.string(),
     })
+    .transform(response => ({
+      ...response,
+      isSuccess: isSuccess(response.status),
+    }))
     .array(),
 });
 

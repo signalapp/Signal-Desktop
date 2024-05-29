@@ -7,6 +7,7 @@ import { tmpdir } from 'os';
 import { sortBy } from 'lodash';
 import { createReadStream } from 'fs';
 import { mkdtemp, rm } from 'fs/promises';
+import * as sinon from 'sinon';
 
 import type { MessageAttributesType } from '../../model-types';
 import type {
@@ -128,6 +129,10 @@ export async function asymmetricRoundtripHarness(
   after: Array<MessageAttributesType>
 ): Promise<void> {
   const outDir = await mkdtemp(path.join(tmpdir(), 'signal-temp-'));
+  const fetchAndSaveBackupCdnObjectMetadata = sinon.stub(
+    backupsService,
+    'fetchAndSaveBackupCdnObjectMetadata'
+  );
   try {
     const targetOutputFile = path.join(outDir, 'backup.bin');
 
@@ -149,6 +154,7 @@ export async function asymmetricRoundtripHarness(
     const actual = sortAndNormalize(messagesFromDatabase);
     assert.deepEqual(expected, actual);
   } finally {
+    fetchAndSaveBackupCdnObjectMetadata.restore();
     await rm(outDir, { recursive: true });
   }
 }

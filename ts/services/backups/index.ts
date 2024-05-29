@@ -187,6 +187,51 @@ export class BackupsService {
     }
   }
 
+  public async fetchAndSaveBackupCdnObjectMetadata(): Promise<void> {
+    log.info('fetchAndSaveBackupCdnObjectMetadata: clearing existing metadata');
+    await window.Signal.Data.clearAllBackupCdnObjectMetadata();
+
+    let cursor: string | undefined;
+    const PAGE_SIZE = 1000;
+    let numObjects = 0;
+    do {
+      log.info('fetchAndSaveBackupCdnObjectMetadata: fetching next page');
+      // eslint-disable-next-line no-await-in-loop
+      const listResult = await this.api.listMedia({ cursor, limit: PAGE_SIZE });
+
+      // eslint-disable-next-line no-await-in-loop
+      await window.Signal.Data.saveBackupCdnObjectMetadata(
+        listResult.storedMediaObjects.map(object => ({
+          mediaId: object.mediaId,
+          cdnNumber: object.cdn,
+          sizeOnBackupCdn: object.objectLength,
+        }))
+      );
+      numObjects += listResult.storedMediaObjects.length;
+
+      cursor = listResult.cursor ?? undefined;
+    } while (cursor);
+
+    log.info(
+      `fetchAndSaveBackupCdnObjectMetadata: finished fetching metadata for ${numObjects} objects`
+    );
+  }
+
+  public async getBackupCdnInfo(
+    mediaId: string
+  ): Promise<
+    { isInBackupTier: true; cdnNumber: number } | { isInBackupTier: false }
+  > {
+    const storedInfo = await window.Signal.Data.getBackupCdnObjectMetadata(
+      mediaId
+    );
+    if (!storedInfo) {
+      return { isInBackupTier: false };
+    }
+
+    return { isInBackupTier: true, cdnNumber: storedInfo.cdnNumber };
+  }
+
   private async exportBackup(
     sink: Writable,
     backupLevel: BackupLevel = BackupLevel.Messages
@@ -197,9 +242,17 @@ export class BackupsService {
     this.isRunning = true;
 
     try {
-      const { aesKey, macKey } = getKeyMaterial();
+      // TODO (DESKTOP-7168): Update mock-server to support this endpoint
+      if (!window.SignalCI) {
+        // We first fetch the latest info on what's on the CDN, since this affects the
+        // filePointers we will generate during export
+        log.info('Fetching latest backup CDN metadata');
+        await this.fetchAndSaveBackupCdnObjectMetadata();
+      }
 
+      const { aesKey, macKey } = getKeyMaterial();
       const recordStream = new BackupExportStream();
+
       recordStream.run(backupLevel);
 
       const iv = randomBytes(IV_LENGTH);

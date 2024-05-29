@@ -17,6 +17,7 @@ import {
   encryptAttachmentV2ToDisk,
   safeUnlinkSync,
   type PlaintextSourceType,
+  type HardcodedIVForEncryptionType,
 } from '../AttachmentCrypto';
 import { missingCaseError } from './missingCaseError';
 
@@ -58,10 +59,12 @@ export async function uploadAttachment(
 export async function encryptAndUploadAttachment({
   plaintext,
   keys,
+  dangerousIv,
   uploadType,
 }: {
   plaintext: PlaintextSourceType;
   keys: Uint8Array;
+  dangerousIv?: HardcodedIVForEncryptionType;
   uploadType: 'standard' | 'backup';
 }): Promise<{
   cdnKey: string;
@@ -91,6 +94,7 @@ export async function encryptAndUploadAttachment({
     const encrypted = await encryptAttachmentV2ToDisk({
       plaintext,
       keys,
+      dangerousIv,
     });
 
     absoluteCiphertextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(

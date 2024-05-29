@@ -17,7 +17,7 @@ import dataInterface from '../../sql/Client';
 import { HOUR, MINUTE, SECOND } from '../../util/durations';
 import { type AciString } from '../../types/ServiceId';
 
-describe('AttachmentDownloadManager', () => {
+describe('AttachmentDownloadManager/JobManager', () => {
   let downloadManager: AttachmentDownloadManager | undefined;
   let runJob: sinon.SinonStub;
   let sandbox: sinon.SinonSandbox;
@@ -58,10 +58,10 @@ describe('AttachmentDownloadManager', () => {
     await dataInterface.removeAll();
 
     sandbox = sinon.createSandbox();
-    clock = sinon.useFakeTimers();
+    clock = sandbox.useFakeTimers();
 
-    isInCall = sinon.stub().returns(false);
-    runJob = sinon.stub().callsFake(async () => {
+    isInCall = sandbox.stub().returns(false);
+    runJob = sandbox.stub().callsFake(async () => {
       return new Promise<{ status: 'finished' | 'retry' }>(resolve => {
         Promise.resolve().then(() => {
           resolve({ status: 'finished' });
@@ -71,7 +71,7 @@ describe('AttachmentDownloadManager', () => {
 
     downloadManager = new AttachmentDownloadManager({
       ...AttachmentDownloadManager.defaultParams,
-      isInCall,
+      shouldHoldOffOnStartingQueuedJobs: isInCall,
       runJob,
     });
   });
@@ -287,7 +287,7 @@ describe('AttachmentDownloadManager', () => {
     assert.strictEqual(retriedJob?.attempts, 1);
     assert.isNumber(retriedJob?.retryAfter);
 
-    await advanceTime(30 * SECOND);
+    await advanceTime(60 * SECOND); // one tick
     await job1Attempts[1].completed;
     assert.strictEqual(runJob.callCount, 3);
 
@@ -331,7 +331,7 @@ describe('AttachmentDownloadManager', () => {
     await attempts[0].completed;
     assert.strictEqual(runJob.callCount, 1);
 
-    await advanceTime(30 * SECOND);
+    await advanceTime(1 * MINUTE);
     await attempts[1].completed;
     assert.strictEqual(runJob.callCount, 2);
 
@@ -340,12 +340,12 @@ describe('AttachmentDownloadManager', () => {
     assert.strictEqual(runJob.callCount, 3);
 
     // add the same job again and it should retry ASAP and reset attempts
-    attempts = getPromisesForAttempts(jobs[0], 4);
+    attempts = getPromisesForAttempts(jobs[0], 5);
     await downloadManager?.addJob(jobs[0]);
     await attempts[0].completed;
     assert.strictEqual(runJob.callCount, 4);
 
-    await advanceTime(30 * SECOND);
+    await advanceTime(1 * MINUTE);
     await attempts[1].completed;
     assert.strictEqual(runJob.callCount, 5);
 
@@ -358,7 +358,7 @@ describe('AttachmentDownloadManager', () => {
     assert.strictEqual(runJob.callCount, 7);
 
     await advanceTime(6 * HOUR);
-    await attempts[3].completed;
+    await attempts[4].completed;
     assert.strictEqual(runJob.callCount, 8);
 
     // Ensure it's been removed

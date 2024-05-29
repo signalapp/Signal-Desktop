@@ -14,7 +14,6 @@ import { AttachmentSizeError, type AttachmentType } from '../types/Attachment';
 import * as MIME from '../types/MIME';
 import * as Bytes from '../Bytes';
 import {
-  deriveMediaIdFromMediaName,
   deriveBackupMediaKeyMaterial,
   type BackupMediaKeyMaterialType,
 } from '../Crypto';
@@ -30,6 +29,7 @@ import { createName, getRelativePath } from '../windows/attachments';
 import { MediaTier } from '../types/AttachmentDownload';
 import { getBackupKey } from '../services/backups/crypto';
 import { backupsService } from '../services/backups';
+import { getMediaIdForAttachment } from '../services/backups/util/mediaId';
 
 const DEFAULT_BACKUP_CDN_NUMBER = 3;
 
@@ -39,23 +39,12 @@ export function getCdnKey(attachment: ProcessedAttachment): string {
   return cdnKey;
 }
 
-function getMediaIdBytes(attachment: ProcessedAttachment): Uint8Array {
-  const mediaName = attachment.backupLocator?.mediaName;
-  strictAssert(mediaName, 'Attachment was missing mediaName');
-  const backupKey = getBackupKey();
-  return deriveMediaIdFromMediaName(backupKey, mediaName);
-}
-
-function getMediaIdForBackupTier(attachment: ProcessedAttachment): string {
-  return Bytes.toBase64url(getMediaIdBytes(attachment));
-}
-
 function getBackupMediaKeyMaterial(
-  attachment: ProcessedAttachment
+  attachment: AttachmentType
 ): BackupMediaKeyMaterialType {
-  const mediaId = getMediaIdBytes(attachment);
+  const mediaId = getMediaIdForAttachment(attachment);
   const backupKey = getBackupKey();
-  return deriveBackupMediaKeyMaterial(backupKey, mediaId);
+  return deriveBackupMediaKeyMaterial(backupKey, mediaId.bytes);
 }
 
 async function getCdnNumberForBackupTier(
@@ -106,7 +95,7 @@ export async function downloadAttachment(
     });
     downloadedPath = await downloadToDisk({ downloadStream, size });
   } else {
-    const mediaId = getMediaIdForBackupTier(attachment);
+    const mediaId = getMediaIdForAttachment(attachment);
     const cdnNumber = await getCdnNumberForBackupTier(attachment);
     const cdnCredentials =
       await backupsService.credentials.getCDNReadCredentials(cdnNumber);
@@ -115,7 +104,7 @@ export async function downloadAttachment(
     const mediaDir = await backupsService.api.getMediaDir();
 
     const downloadStream = await server.getAttachmentFromBackupTier({
-      mediaId,
+      mediaId: mediaId.string,
       backupDir,
       mediaDir,
       headers: cdnCredentials.headers,
