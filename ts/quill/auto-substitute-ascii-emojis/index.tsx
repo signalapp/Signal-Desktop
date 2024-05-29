@@ -66,7 +66,7 @@ export class AutoSubstituteAsciiEmojis {
   }
 
   onTextChange(): void {
-    if (!window.storage.get('autoConvertEmoji', false)) {
+    if (!window.storage.get('autoConvertEmoji', true)) {
       return;
     }
 

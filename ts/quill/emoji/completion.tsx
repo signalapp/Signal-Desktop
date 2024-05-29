@@ -27,6 +27,14 @@ type EmojiPickerOptions = {
   search: SearchFnType;
 };
 
+export type InsertEmojiOptionsType = Readonly<{
+  shortName: string;
+  index: number;
+  range: number;
+  withTrailingSpace?: boolean;
+  justPressedColon?: boolean;
+}>;
+
 export class EmojiCompletion {
   results: Array<string>;
 
@@ -84,10 +92,13 @@ export class EmojiCompletion {
       () => this.onTextChange(true)
     );
 
-    this.quill.on(
-      'text-change',
-      _.debounce(() => this.onTextChange(), 100)
-    );
+    const debouncedOnTextChange = _.debounce(() => this.onTextChange(), 100);
+
+    this.quill.on('text-change', (_now, _before, source) => {
+      if (source === 'user') {
+        debouncedOnTextChange();
+      }
+    });
     this.quill.on('selection-change', this.onSelectionChange.bind(this));
   }
 
@@ -139,11 +150,12 @@ export class EmojiCompletion {
         if (isShortName(leftTokenText)) {
           const numberOfColons = isSelfClosing ? 2 : 1;
 
-          this.insertEmoji(
-            leftTokenText,
-            range.index - leftTokenText.length - numberOfColons,
-            leftTokenText.length + numberOfColons
-          );
+          this.insertEmoji({
+            shortName: leftTokenText,
+            index: range.index - leftTokenText.length - numberOfColons,
+            range: leftTokenText.length + numberOfColons,
+            justPressedColon,
+          });
           return INTERCEPT;
         }
         this.reset();
@@ -155,11 +167,12 @@ export class EmojiCompletion {
         const tokenText = leftTokenText + rightTokenText;
 
         if (isShortName(tokenText)) {
-          this.insertEmoji(
-            tokenText,
-            range.index - leftTokenText.length - 1,
-            tokenText.length + 2
-          );
+          this.insertEmoji({
+            shortName: tokenText,
+            index: range.index - leftTokenText.length - 1,
+            range: tokenText.length + 2,
+            justPressedColon,
+          });
           return INTERCEPT;
         }
       }
@@ -212,27 +225,33 @@ export class EmojiCompletion {
 
     const [, tokenText] = tokenTextMatch;
 
-    this.insertEmoji(
-      emoji,
-      range.index - tokenText.length - 1,
-      tokenText.length + 1,
-      true
-    );
+    this.insertEmoji({
+      shortName: emoji,
+      index: range.index - tokenText.length - 1,
+      range: tokenText.length + 1,
+      withTrailingSpace: true,
+    });
   }
 
-  insertEmoji(
-    shortName: string,
-    index: number,
-    range: number,
-    withTrailingSpace = false
-  ): void {
+  insertEmoji({
+    shortName,
+    index,
+    range,
+    withTrailingSpace = false,
+    justPressedColon = false,
+  }: InsertEmojiOptionsType): void {
     const emoji = convertShortName(shortName, this.options.skinTone);
+
+    let source = this.quill.getText(index, range);
+    if (justPressedColon) {
+      source += ':';
+    }
 
     const delta = new Delta()
       .retain(index)
       .delete(range)
       .insert({
-        emoji: { value: emoji },
+        emoji: { value: emoji, source },
       });
 
     if (withTrailingSpace) {

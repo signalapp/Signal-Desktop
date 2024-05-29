@@ -5,6 +5,7 @@ import { assert } from 'chai';
 import sinon from 'sinon';
 
 import { EmojiCompletion } from '../../../quill/emoji/completion';
+import type { InsertEmojiOptionsType } from '../../../quill/emoji/completion';
 import { createSearch } from '../../../components/emoji/lib';
 
 describe('emojiCompletion', () => {
@@ -15,6 +16,7 @@ describe('emojiCompletion', () => {
   beforeEach(function (this: Mocha.Context) {
     mockQuill = {
       getLeaf: sinon.stub(),
+      getText: sinon.stub(),
       getSelection: sinon.stub(),
       keyboard: {
         addBinding: sinon.stub(),
@@ -55,10 +57,7 @@ describe('emojiCompletion', () => {
   });
 
   describe('onTextChange', () => {
-    let insertEmojiStub: sinon.SinonStub<
-      [string, number, number, (boolean | undefined)?],
-      void
-    >;
+    let insertEmojiStub: sinon.SinonStub<[InsertEmojiOptionsType], void>;
 
     beforeEach(() => {
       emojiCompletion.results = ['joy'];
@@ -194,9 +193,9 @@ describe('emojiCompletion', () => {
         });
 
         it('inserts the emoji at the current cursor position', () => {
-          const [emoji, index, range] = insertEmojiStub.args[0];
+          const [{ shortName, index, range }] = insertEmojiStub.args[0];
 
-          assert.equal(emoji, 'smile');
+          assert.equal(shortName, 'smile');
           assert.equal(index, 0);
           assert.equal(range, 7);
         });
@@ -223,9 +222,9 @@ describe('emojiCompletion', () => {
         });
 
         it('inserts the emoji at the current cursor position', () => {
-          const [emoji, index, range] = insertEmojiStub.args[0];
+          const [{ shortName, index, range }] = insertEmojiStub.args[0];
 
-          assert.equal(emoji, 'smile');
+          assert.equal(shortName, 'smile');
           assert.equal(index, 7);
           assert.equal(range, 7);
         });
@@ -283,9 +282,9 @@ describe('emojiCompletion', () => {
         });
 
         it('inserts the emoji at the current cursor position', () => {
-          const [emoji, index, range] = insertEmojiStub.args[0];
+          const [{ shortName, index, range }] = insertEmojiStub.args[0];
 
-          assert.equal(emoji, 'smile');
+          assert.equal(shortName, 'smile');
           assert.equal(index, 0);
           assert.equal(range, validEmoji.length);
         });
@@ -332,9 +331,9 @@ describe('emojiCompletion', () => {
         });
 
         it('inserts the emoji at the current cursor position', () => {
-          const [emoji, index, range] = insertEmojiStub.args[0];
+          const [{ shortName, index, range }] = insertEmojiStub.args[0];
 
-          assert.equal(emoji, 'smile');
+          assert.equal(shortName, 'smile');
           assert.equal(index, 0);
           assert.equal(range, 6);
         });
@@ -347,10 +346,7 @@ describe('emojiCompletion', () => {
   });
 
   describe('completeEmoji', () => {
-    let insertEmojiStub: sinon.SinonStub<
-      [string, number, number, (boolean | undefined)?],
-      void
-    >;
+    let insertEmojiStub: sinon.SinonStub<[InsertEmojiOptionsType], void>;
 
     beforeEach(() => {
       emojiCompletion.results = ['smile', 'smile_cat'];
@@ -377,9 +373,10 @@ describe('emojiCompletion', () => {
       });
 
       it('inserts the currently selected emoji at the current cursor position', () => {
-        const [emoji, insertIndex, range] = insertEmojiStub.args[0];
+        const [{ shortName, index: insertIndex, range }] =
+          insertEmojiStub.args[0];
 
-        assert.equal(emoji, 'smile_cat');
+        assert.equal(shortName, 'smile_cat');
         assert.equal(insertIndex, 0);
         assert.equal(range, text.length);
       });
