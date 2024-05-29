@@ -620,12 +620,8 @@ export class BackupExportStream extends Readable {
     const isOutgoing = message.type === 'outgoing';
     const isIncoming = message.type === 'incoming';
 
-    if (isOutgoing) {
-      authorId = this.getOrPushPrivateRecipient({
-        serviceId: aboutMe.aci,
-      });
-      // Pacify typescript
-    } else if (message.sourceServiceId) {
+    // Pacify typescript
+    if (message.sourceServiceId) {
       authorId = this.getOrPushPrivateRecipient({
         serviceId: message.sourceServiceId,
         e164: message.source,
@@ -635,7 +631,15 @@ export class BackupExportStream extends Readable {
         serviceId: message.sourceServiceId,
         e164: message.source,
       });
+    } else {
+      strictAssert(!isIncoming, 'Incoming message must have source');
+
+      // Author must be always present, even if we are directionless
+      authorId = this.getOrPushPrivateRecipient({
+        serviceId: aboutMe.aci,
+      });
     }
+
     if (isOutgoing || isIncoming) {
       strictAssert(authorId, 'Incoming/outgoing messages require an author');
     }
@@ -1088,7 +1092,15 @@ export class BackupExportStream extends Readable {
     }
 
     if (isPhoneNumberDiscovery(message)) {
-      // TODO (DESKTOP-6964): need to add to protos
+      const e164 = message.phoneNumberDiscovery?.e164;
+      if (!e164) {
+        return { kind: NonBubbleResultKind.Drop };
+      }
+
+      updateMessage.sessionSwitchover = {
+        e164: Long.fromString(e164),
+      };
+      return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
     if (isUniversalTimerNotification(message)) {
@@ -1097,7 +1109,9 @@ export class BackupExportStream extends Readable {
     }
 
     if (isContactRemovedNotification(message)) {
-      // TODO (DESKTOP-6964): this doesn't appear to be in the protos at all
+      // Transient, drop it
+      // TODO: DESKTOP-7124
+      return { kind: NonBubbleResultKind.Drop };
     }
 
     if (isGiftBadge(message)) {
@@ -1111,10 +1125,14 @@ export class BackupExportStream extends Readable {
     }
 
     if (isUnsupportedMessage(message)) {
-      // TODO (DESKTOP-6964): need to add to protos
-    }
+      const simpleUpdate = new Backups.SimpleChatUpdate();
+      simpleUpdate.type =
+        Backups.SimpleChatUpdate.Type.UNSUPPORTED_PROTOCOL_MESSAGE;
 
-    // TODO (DESKTOP-6964): session switchover
+      updateMessage.simpleUpdate = simpleUpdate;
+
+      return { kind: NonBubbleResultKind.Directed, patch };
+    }
 
     if (isGroupV1Migration(message)) {
       const { groupMigration } = message;
@@ -1177,7 +1195,7 @@ export class BackupExportStream extends Readable {
 
       updateMessage.simpleUpdate = simpleUpdate;
 
-      return { kind: NonBubbleResultKind.Directionless, patch };
+      return { kind: NonBubbleResultKind.Directed, patch };
     }
 
     if (isChatSessionRefreshed(message)) {

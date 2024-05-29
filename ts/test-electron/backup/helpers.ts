@@ -4,13 +4,18 @@
 import { assert } from 'chai';
 import path from 'path';
 import { tmpdir } from 'os';
-import { pick, sortBy } from 'lodash';
+import { sortBy } from 'lodash';
 import { createReadStream } from 'fs';
 import { mkdtemp, rm } from 'fs/promises';
 
 import type { MessageAttributesType } from '../../model-types';
+import type {
+  SendStateByConversationId,
+  SendState,
+} from '../../messages/MessageSendState';
 
 import { backupsService } from '../../services/backups';
+import { isUnsupportedMessage } from '../../state/selectors/message';
 import { generateAci, generatePni } from '../../types/ServiceId';
 import Data from '../../sql/Client';
 import { getRandomBytes } from '../../Crypto';
@@ -37,37 +42,67 @@ function sortAndNormalize(
   messages: Array<MessageAttributesType>
 ): Array<unknown> {
   return sortBy(messages, 'sent_at').map(message => {
-    const shallow = pick(
-      message,
-      'contact',
-      'conversationMerge',
-      'droppedGV2MemberIds',
-      'expirationTimerUpdate',
-      'flags',
-      'groupMigration',
-      'groupV2Change',
-      'invitedGV2Members',
-      'isErased',
-      'payment',
-      'profileChange',
-      'sent_at',
-      'sticker',
-      'timestamp',
-      'type',
-      'verified'
-    );
+    const {
+      changedId,
+      conversationId,
+      editHistory,
+      key_changed: keyChanged,
+      reactions,
+      sendStateByConversationId,
+      verifiedChanged,
+
+      // This is not in the backup
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      id: _id,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      received_at: _receivedAt,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      sourceDevice: _sourceDevice,
+
+      ...rest
+    } = message;
+
+    function mapSendState(
+      sendState?: SendStateByConversationId
+    ): SendStateByConversationId | undefined {
+      if (sendState == null) {
+        return undefined;
+      }
+
+      const result: Record<string, SendState> = {};
+      for (const [id, state] of Object.entries(sendState)) {
+        result[mapConvoId(id) ?? id] = state;
+      }
+      return result;
+    }
 
     return {
-      ...shallow,
-      reactions: message.reactions?.map(({ fromId, ...rest }) => {
+      ...rest,
+      conversationId: mapConvoId(conversationId),
+      reactions: reactions?.map(({ fromId, ...restOfReaction }) => {
         return {
           from: mapConvoId(fromId),
-          ...rest,
+          ...restOfReaction,
         };
       }),
-      changedId: mapConvoId(message.changedId),
-      key_changed: mapConvoId(message.key_changed),
-      verifiedChanged: mapConvoId(message.verifiedChanged),
+      changedId: mapConvoId(changedId),
+      key_changed: mapConvoId(keyChanged),
+      verifiedChanged: mapConvoId(verifiedChanged),
+      sendStateByConverationId: mapSendState(sendStateByConversationId),
+      editHistory: editHistory?.map(history => {
+        const {
+          sendStateByConversationId: historySendState,
+          ...restOfHistory
+        } = history;
+
+        return {
+          ...restOfHistory,
+          sendStateByConversationId: mapSendState(historySendState),
+        };
+      }),
+
+      // Not an original property, but useful
+      isUnsupported: isUnsupportedMessage(message),
     };
   });
 }
@@ -83,7 +118,7 @@ async function updateConvoIdToTitle() {
   for (const convo of all) {
     CONVO_ID_TO_STABLE_ID.set(
       convo.id,
-      convo.serviceId ?? convo.e164 ?? convo.id
+      convo.serviceId ?? convo.e164 ?? convo.masterKey ?? convo.id
     );
   }
 }
