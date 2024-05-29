@@ -75,7 +75,6 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
   incomingCall: null,
   callLink: undefined,
-  isGroupCallRaiseHandEnabled: true,
   me: {
     ...getDefaultConversation({
       color: AvatarColors[0],

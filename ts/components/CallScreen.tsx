@@ -103,7 +103,6 @@ export type PropsType = {
   i18n: LocalizerType;
   imageDataCache: React.RefObject<CallingImageDataCache>;
   isCallLinkAdmin: boolean;
-  isGroupCallRaiseHandEnabled: boolean;
   me: ConversationType;
   openSystemPreferencesAction: () => unknown;
   renderReactionPicker: (
@@ -195,7 +194,6 @@ export function CallScreen({
   i18n,
   imageDataCache,
   isCallLinkAdmin,
-  isGroupCallRaiseHandEnabled,
   me,
   openSystemPreferencesAction,
   renderEmojiPicker,
@@ -908,7 +906,7 @@ export function CallScreen({
               onClick={toggleAudio}
               tooltipDirection={TooltipPlacement.Top}
             />
-            {isGroupCallRaiseHandEnabled && raiseHandButtonType && (
+            {raiseHandButtonType && (
               <CallingButton
                 buttonType={raiseHandButtonType}
                 i18n={i18n}
