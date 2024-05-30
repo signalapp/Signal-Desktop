@@ -26,8 +26,12 @@ import type { AnyPaymentEvent } from '../../types/Payment';
 import { PaymentEventKind } from '../../types/Payment';
 import { getPaymentEventNotificationText } from '../../messages/helpers';
 import { RenderLocation } from './MessageTextRenderer';
+import type { QuotedAttachmentType } from '../../model-types';
 
 const EMPTY_OBJECT = Object.freeze(Object.create(null));
+
+export type QuotedAttachmentForUIType = QuotedAttachmentType &
+  Pick<AttachmentType, 'isVoiceMessage' | 'fileName' | 'textAttachment'>;
 
 export type Props = {
   authorTitle: string;
@@ -44,7 +48,7 @@ export type Props = {
   onClick?: () => void;
   onClose?: () => void;
   text: string;
-  rawAttachment?: QuotedAttachmentType;
+  rawAttachment?: QuotedAttachmentForUIType;
   payment?: AnyPaymentEvent;
   isGiftBadge: boolean;
   isViewOnce: boolean;
@@ -52,11 +56,6 @@ export type Props = {
   referencedMessageNotFound: boolean;
   doubleCheckMissingQuoteReference?: () => unknown;
 };
-
-export type QuotedAttachmentType = Pick<
-  AttachmentType,
-  'contentType' | 'fileName' | 'isVoiceMessage' | 'thumbnail' | 'textAttachment'
->;
 
 function validateQuote(quote: Props): boolean {
   if (
@@ -86,9 +85,9 @@ function validateQuote(quote: Props): boolean {
 }
 
 // Long message attachments should not be shown.
-function getAttachment(
-  rawAttachment: undefined | QuotedAttachmentType
-): undefined | QuotedAttachmentType {
+function getAttachment<T extends Pick<QuotedAttachmentType, 'contentType'>>(
+  rawAttachment: T | undefined
+): T | undefined {
   return rawAttachment && !MIME.isLongMessage(rawAttachment.contentType)
     ? rawAttachment
     : undefined;

@@ -132,7 +132,7 @@ export type ProcessedGroupV2Context = {
 };
 
 export type ProcessedQuoteAttachment = {
-  contentType?: string;
+  contentType: MIMEType;
   fileName?: string;
   thumbnail?: ProcessedAttachment;
 };

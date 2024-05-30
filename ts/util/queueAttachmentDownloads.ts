@@ -12,7 +12,7 @@ import {
 } from '../types/Stickers';
 import dataInterface from '../sql/Client';
 
-import type { AttachmentType } from '../types/Attachment';
+import type { AttachmentType, ThumbnailType } from '../types/Attachment';
 import type { EmbeddedContactType } from '../types/EmbeddedContact';
 import type {
   EditHistoryType,
@@ -540,17 +540,17 @@ async function queueQuoteAttachments({
 
   // Similar to queueNormalAttachments' logic for detecting same attachments
   // except here we also pick by quote sent timestamp.
-  const thumbnailSignatures: Map<string, AttachmentType> = new Map();
+  const thumbnailSignatures: Map<string, ThumbnailType> = new Map();
   otherQuotes.forEach(otherQuote => {
     for (const attachment of otherQuote.attachments) {
       const signature = getQuoteThumbnailSignature(
         otherQuote,
         attachment.thumbnail
       );
-      if (!signature) {
+      if (!signature || !attachment.thumbnail) {
         continue;
       }
-      thumbnailSignatures.set(signature, attachment);
+      thumbnailSignatures.set(signature, attachment.thumbnail);
     }
   });
 

@@ -779,8 +779,7 @@ async function uploadMessageQuote({
     prop: 'quote',
     targetTimestamp,
   });
-  const loadedQuote =
-    message.cachedOutgoingQuoteData || (await loadQuoteData(startingQuote));
+  const loadedQuote = await loadQuoteData(startingQuote);
 
   if (!loadedQuote) {
     return undefined;
@@ -797,7 +796,10 @@ async function uploadMessageQuote({
           };
         }
 
-        const uploaded = await uploadAttachment(thumbnail);
+        const { data } = thumbnail;
+        strictAssert(data, 'data must be loaded into thumbnail');
+
+        const uploaded = await uploadAttachment({ ...thumbnail, data });
 
         return {
           contentType: attachment.contentType,
@@ -826,13 +828,9 @@ async function uploadMessageQuote({
       }
 
       strictAssert(
-        attachment.path === loadedQuote.attachments.at(index)?.path,
+        attachment.thumbnail.path ===
+          loadedQuote.attachments.at(index)?.thumbnail?.path,
         `${logId}: Quote attachment ${index} was updated from under us`
-      );
-
-      strictAssert(
-        attachment.thumbnail,
-        `${logId}: Quote attachment ${index} no longer has a thumbnail`
       );
 
       const attachmentAfterThumbnailUpload =

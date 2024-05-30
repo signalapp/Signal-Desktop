@@ -25,6 +25,7 @@ import type {
 
 import type {
   MessageAttributesType,
+  QuotedAttachmentType,
   QuotedMessageType,
 } from '../model-types.d';
 import type {
@@ -309,8 +310,8 @@ export const _mapQuotedAttachments =
     }
 
     const upgradeWithContext = async (
-      attachment: AttachmentType
-    ): Promise<AttachmentType> => {
+      attachment: QuotedAttachmentType
+    ): Promise<QuotedAttachmentType> => {
       const { thumbnail } = attachment;
       if (!thumbnail) {
         return attachment;
@@ -995,7 +996,7 @@ export const createAttachmentDataWriter = ({
       }
     });
 
-    const writeQuoteAttachment = async (attachment: AttachmentType) => {
+    const writeQuoteAttachment = async (attachment: QuotedAttachmentType) => {
       const { thumbnail } = attachment;
       if (!thumbnail) {
         return attachment;

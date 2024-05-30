@@ -26,6 +26,7 @@ export const fakeThumbnail = (url: string): ThumbnailType => ({
   path: url,
   url,
   width: 100,
+  size: 128,
 });
 
 export const fakeDraftAttachment = (
