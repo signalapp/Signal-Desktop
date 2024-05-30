@@ -9263,10 +9263,10 @@ electron-window@^0.8.0:
   dependencies:
     is-electron-renderer "^2.0.0"
 
-electron@30.0.8:
-  version "30.0.8"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-30.0.8.tgz#aa54bab26ce706c9e1b244d79047a451733eb4b0"
-  integrity sha512-ivzXJJ/9gdb4oOw+5SDuaZpSInz8C+Z021dKZfFLMltKbDa4sSqt5cRBiUg7J36Z2kdus+Jai0bdHWutYE9wAA==
+electron@30.0.9:
+  version "30.0.9"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-30.0.9.tgz#b11400e4642a4b635e79244ba365f1d401ee60b5"
+  integrity sha512-ArxgdGHVu3o5uaP+Tqj8cJDvU03R6vrGrOqiMs7JXLnvQHMqXJIIxmFKQAIdJW8VoT3ac3hD21tA7cPO10RLow==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^20.9.0"
