@@ -9,7 +9,7 @@ type GenericLinkPreviewType<Image> = {
   domain?: string;
   url: string;
   isStickerPack?: boolean;
-  isCallLink: boolean;
+  isCallLink?: boolean;
   image?: Readonly<Image>;
   date?: number;
 };

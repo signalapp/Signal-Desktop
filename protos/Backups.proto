@@ -479,7 +479,7 @@ message ContactAttachment {
   repeated Phone number = 3;
   repeated Email email = 4;
   repeated PostalAddress address = 5;
-  optional string avatarUrlPath = 6;
+  optional FilePointer avatar = 6;
   optional string organization = 7;
 }
 

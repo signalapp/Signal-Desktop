@@ -873,15 +873,32 @@ export class BackupImportStream extends Writable {
     data: Backups.IStandardMessage
   ): Partial<MessageAttributesType> {
     return {
-      body: data.text?.body ?? '',
-      attachments: data.attachments
-        ?.map(attachment => {
-          if (!attachment.pointer) {
-            return null;
-          }
-          return convertFilePointerToAttachment(attachment.pointer);
-        })
-        .filter(isNotNil),
+      body: data.text?.body || undefined,
+      attachments: data.attachments?.length
+        ? data.attachments
+            .map(attachment => {
+              if (!attachment.pointer) {
+                return null;
+              }
+              return convertFilePointerToAttachment(attachment.pointer);
+            })
+            .filter(isNotNil)
+        : undefined,
+      preview: data.linkPreview?.length
+        ? data.linkPreview.map(preview => {
+            const { url } = preview;
+            strictAssert(url, 'preview must have a URL');
+            return {
+              url,
+              title: dropNull(preview.title),
+              description: dropNull(preview.description),
+              date: getTimestampFromLong(preview.date),
+              image: preview.image
+                ? convertFilePointerToAttachment(preview.image)
+                : undefined,
+            };
+          })
+        : undefined,
       reactions: this.fromReactions(data.reactions),
     };
   }
@@ -889,6 +906,9 @@ export class BackupImportStream extends Writable {
   private fromReactions(
     reactions: ReadonlyArray<Backups.IReaction> | null | undefined
   ): Array<MessageReactionType> | undefined {
+    if (!reactions?.length) {
+      return undefined;
+    }
     return reactions?.map(
       ({ emoji, authorId, sentTimestamp, receivedTimestamp }) => {
         strictAssert(emoji != null, 'reaction must have an emoji');
@@ -938,14 +958,8 @@ export class BackupImportStream extends Writable {
       return {
         message: {
           contact: (chatItem.contactMessage.contact ?? []).map(details => {
-            const {
-              name,
-              number,
-              email,
-              address,
-              // TODO (DESKTOP-6845): properly handle avatarUrlPath
-              organization,
-            } = details;
+            const { avatar, name, number, email, address, organization } =
+              details;
 
             return {
               name: name
@@ -1016,6 +1030,12 @@ export class BackupImportStream extends Writable {
                   })
                 : undefined,
               organization: dropNull(organization),
+              avatar: avatar
+                ? {
+                    avatar: convertFilePointerToAttachment(avatar),
+                    isProfile: false,
+                  }
+                : undefined,
             };
           }),
           reactions: this.fromReactions(chatItem.contactMessage.reactions),
@@ -1038,7 +1058,7 @@ export class BackupImportStream extends Writable {
       );
       const {
         stickerMessage: {
-          sticker: { emoji, packId, packKey, stickerId },
+          sticker: { emoji, packId, packKey, stickerId, data },
         },
       } = chatItem;
       strictAssert(emoji != null, 'stickerMessage must have an emoji');
@@ -1059,6 +1079,7 @@ export class BackupImportStream extends Writable {
             packId: Bytes.toHex(packId),
             packKey: Bytes.toBase64(packKey),
             stickerId,
+            data: data ? convertFilePointerToAttachment(data) : undefined,
           },
           reactions: this.fromReactions(chatItem.stickerMessage.reactions),
         },

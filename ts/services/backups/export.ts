@@ -99,6 +99,7 @@ import {
 import type { CoreAttachmentBackupJobType } from '../../types/AttachmentBackup';
 import { AttachmentBackupManager } from '../../jobs/AttachmentBackupManager';
 import { getBackupCdnInfo } from './util/mediaId';
+import { ReadStatus } from '../../messages/MessageReadStatus';
 
 const MAX_CONCURRENCY = 10;
 
@@ -760,23 +761,30 @@ export class BackupExportStream extends Readable {
     } else if (contact && contact[0]) {
       const contactMessage = new Backups.ContactMessage();
 
-      // TODO (DESKTOP-6845): properly handle avatarUrlPath
-
-      contactMessage.contact = contact.map(contactDetails => ({
-        ...contactDetails,
-        number: contactDetails.number?.map(number => ({
-          ...number,
-          type: numberToPhoneType(number.type),
-        })),
-        email: contactDetails.email?.map(email => ({
-          ...email,
-          type: numberToPhoneType(email.type),
-        })),
-        address: contactDetails.address?.map(address => ({
-          ...address,
-          type: numberToAddressType(address.type),
-        })),
-      }));
+      contactMessage.contact = await Promise.all(
+        contact.map(async contactDetails => ({
+          ...contactDetails,
+          number: contactDetails.number?.map(number => ({
+            ...number,
+            type: numberToPhoneType(number.type),
+          })),
+          email: contactDetails.email?.map(email => ({
+            ...email,
+            type: numberToPhoneType(email.type),
+          })),
+          address: contactDetails.address?.map(address => ({
+            ...address,
+            type: numberToAddressType(address.type),
+          })),
+          avatar: contactDetails.avatar?.avatar
+            ? await this.processAttachment({
+                attachment: contactDetails.avatar.avatar,
+                backupLevel,
+                messageReceivedAt: message.received_at,
+              })
+            : undefined,
+        }))
+      );
 
       const reactions = this.getMessageReactions(message);
       if (reactions != null) {
@@ -790,7 +798,13 @@ export class BackupExportStream extends Readable {
       stickerProto.packId = Bytes.fromHex(sticker.packId);
       stickerProto.packKey = Bytes.fromBase64(sticker.packKey);
       stickerProto.stickerId = sticker.stickerId;
-      // TODO (DESKTOP-6845): properly handle data FilePointer
+      stickerProto.data = sticker.data
+        ? await this.processAttachment({
+            attachment: sticker.data,
+            backupLevel,
+            messageReceivedAt: message.received_at,
+          })
+        : undefined;
 
       result.stickerMessage = {
         sticker: stickerProto,
@@ -817,14 +831,25 @@ export class BackupExportStream extends Readable {
           bodyRanges: message.bodyRanges?.map(range => this.toBodyRange(range)),
         },
 
-        linkPreview: message.preview?.map(preview => {
-          return {
-            url: preview.url,
-            title: preview.title,
-            description: preview.description,
-            date: getSafeLongFromTimestamp(preview.date),
-          };
-        }),
+        linkPreview: message.preview
+          ? await Promise.all(
+              message.preview.map(async preview => {
+                return {
+                  url: preview.url,
+                  title: preview.title,
+                  description: preview.description,
+                  date: getSafeLongFromTimestamp(preview.date),
+                  image: preview.image
+                    ? await this.processAttachment({
+                        attachment: preview.image,
+                        backupLevel,
+                        messageReceivedAt: message.received_at,
+                      })
+                    : undefined,
+                };
+              })
+            )
+          : undefined,
         reactions: this.getMessageReactions(message),
       };
     }
@@ -1785,7 +1810,7 @@ export class BackupExportStream extends Readable {
   private getIncomingMessageDetails({
     received_at_ms: receivedAtMs,
     serverTimestamp,
-    readAt,
+    readStatus,
   }: MessageAttributesType): Backups.ChatItem.IIncomingMessageDetails {
     return {
       dateReceived:
@@ -1794,7 +1819,7 @@ export class BackupExportStream extends Readable {
         serverTimestamp != null
           ? getSafeLongFromTimestamp(serverTimestamp)
           : null,
-      read: Boolean(readAt),
+      read: readStatus === ReadStatus.Read,
     };
   }
 

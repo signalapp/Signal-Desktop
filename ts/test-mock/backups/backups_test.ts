@@ -152,6 +152,9 @@ describe('backups', function (this: Mocha.Suite) {
       );
     }
 
+    const backupPath = bootstrap.getBackupPath('backup.bin');
+    await app.exportBackupToDisk(backupPath);
+
     const comparator = await bootstrap.createScreenshotComparator(
       app,
       async (window, snapshot) => {
@@ -185,8 +188,6 @@ describe('backups', function (this: Mocha.Suite) {
       this.test
     );
 
-    const backupPath = bootstrap.getBackupPath('backup.bin');
-    await app.exportBackupToDisk(backupPath);
     await app.close();
 
     // Restart

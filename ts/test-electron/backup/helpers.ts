@@ -8,6 +8,7 @@ import { sortBy } from 'lodash';
 import { createReadStream } from 'fs';
 import { mkdtemp, rm } from 'fs/promises';
 import * as sinon from 'sinon';
+import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 
 import type { MessageAttributesType } from '../../model-types';
 import type {
@@ -109,9 +110,10 @@ function sortAndNormalize(
 }
 
 export async function symmetricRoundtripHarness(
-  messages: Array<MessageAttributesType>
+  messages: Array<MessageAttributesType>,
+  backupLevel: BackupLevel = BackupLevel.Messages
 ): Promise<void> {
-  return asymmetricRoundtripHarness(messages, messages);
+  return asymmetricRoundtripHarness(messages, messages, backupLevel);
 }
 
 async function updateConvoIdToTitle() {
@@ -126,7 +128,8 @@ async function updateConvoIdToTitle() {
 
 export async function asymmetricRoundtripHarness(
   before: Array<MessageAttributesType>,
-  after: Array<MessageAttributesType>
+  after: Array<MessageAttributesType>,
+  backupLevel: BackupLevel = BackupLevel.Messages
 ): Promise<void> {
   const outDir = await mkdtemp(path.join(tmpdir(), 'signal-temp-'));
   const fetchAndSaveBackupCdnObjectMetadata = sinon.stub(
@@ -138,7 +141,7 @@ export async function asymmetricRoundtripHarness(
 
     await Data.saveMessages(before, { forceSave: true, ourAci: OUR_ACI });
 
-    await backupsService.exportToDisk(targetOutputFile);
+    await backupsService.exportToDisk(targetOutputFile, backupLevel);
 
     await updateConvoIdToTitle();
 
