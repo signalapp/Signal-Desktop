@@ -124,7 +124,7 @@ type CreateAccountSharedOptionsType = Readonly<{
   aciKeyPair: KeyPairType;
   pniKeyPair: KeyPairType;
   profileKey: Uint8Array;
-  masterKey: Uint8Array | undefined;
+  masterKey: Uint8Array;
   backupFile?: Uint8Array;
 }>;
 
@@ -428,8 +428,9 @@ export default class AccountManager extends EventTarget {
         !provisionMessage.provisioningCode ||
         !provisionMessage.aciKeyPair ||
         !provisionMessage.pniKeyPair ||
-        !provisionMessage.profileKey ||
         !provisionMessage.aci ||
+        !Bytes.isNotEmpty(provisionMessage.profileKey) ||
+        !Bytes.isNotEmpty(provisionMessage.masterKey) ||
         !isUntaggedPniString(provisionMessage.untaggedPni)
       ) {
         throw new Error(
@@ -1261,13 +1262,11 @@ export default class AccountManager extends EventTarget {
     if (userAgent) {
       await storage.put('userAgent', userAgent);
     }
-    if (masterKey) {
-      await storage.put('masterKey', Bytes.toBase64(masterKey));
-      await storage.put(
-        'storageKey',
-        Bytes.toBase64(deriveStorageServiceKey(masterKey))
-      );
-    }
+    await storage.put('masterKey', Bytes.toBase64(masterKey));
+    await storage.put(
+      'storageKey',
+      Bytes.toBase64(deriveStorageServiceKey(masterKey))
+    );
 
     await storage.put('read-receipt-setting', Boolean(readReceipts));
 
