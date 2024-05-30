@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Alati za razvojne programere"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Postavi kao novi uređaj"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Svejedno se pridruži"
   },
-  "icu:continueCall": {
-    "messageformat": "Nastavi poziv"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Kada kliknete pošalji, vaš će zapisnik biti objavljen online 30 dana na jedinstvenom, neobjavljenom URL-u. Možete ga najprije spremiti lokalno."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Dijeli zaslon"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Govor"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} promijenio/la je svoj broj telefona"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Kontakt se pridružio/la Signalu"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} i {conversationTitle} pripadaju istom računu. Vaša povijest poruka za oba razgovora nalazi se ovdje."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Razgovor je označen kao nepročitan"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Uredi poruku"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Ako uredite poruku, izmjene će biti vidljive samo osobama koje koriste najnovije verzije Signala. Moći će vidjeti da ste uredili poruku."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Slanje oblikovanog teksta"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Neki korisnici možda koriste verziju Signala koja ne podržava oblikovani tekst. Te osobe neće moći vidjeti promjene oblikovanja koje ste unijeli u svoju poruku."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Želite li otvoriti Signalov alat za izradu naljepnica?"
@@ -3870,7 +3864,7 @@
     "messageformat": "Proslijedi kontaktu"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Podijeli poveznicu na poziv"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Nastavi"
@@ -3879,7 +3873,7 @@
     "messageformat": "Nije moguće proslijediti prazne ili izbrisane poruke"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Koristite ovu poveznicu da biste se pridružili Signal pozivu: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Saznajte više"
@@ -4356,7 +4350,7 @@
     "messageformat": "Pretvori tipkane emotikone u emoji"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Npr. :-) pretvorit će se u <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Napredno"
@@ -5335,16 +5329,16 @@
     "messageformat": "Poveznica na poziv"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Aktivan"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Napustiti trenutni poziv?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Morate napustiti trenutni poziv prije pridruživanja novome."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Napusti poziv"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Nema nedavnih razgovora."
@@ -5353,10 +5347,10 @@
     "messageformat": "Nema rezultata za \"{query}\""
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Povratak"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Morate napustiti trenutni poziv prije pridruživanja novome"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Odlazni glasovni poziv} other {Dolazni glasovni poziv}}} Video {{direction, select, Outgoing {Odlazni video poziv} other {Dolazni video poziv}}} Group {{direction, select, Outgoing {Odlazni grupni poziv} other {Dolazni grupni poziv}}} other {{direction, select, Outgoing {Odlazni poziv} other {Dolazni poziv}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "Poveznica na poziv"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Pridruži se"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopiraj poveznicu"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Podijeli poveznicu putem Signala"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} osoba tipka.} few {{count,number} osobe tipkaju.} many {{count,number} osoba tipka.} other {{count,number} osoba tipka.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Ovo ažuriranje ispravlja grešku u prikazu korisničkog sučelja za grupne pozive."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "開発者ツール"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "新規の端末として設定"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "それでも参加する"
   },
-  "icu:continueCall": {
-    "messageformat": "通話を続ける"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "「送信する」をクリックすると、このログがユニークな未公開のURLで30日間見られるようになります。\n「保存」をクリックすると、送信する前にあなたの端末にログを保存しておくこともできます。"
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "共有中の画面"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "スピーチ"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} は電話番号を変更しました"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "連絡先のSignal参加時"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} と {conversationTitle} は同じアカウントから発せられています。両方のチャットのメッセージ履歴はこちらです。"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "チャットを未読にしました"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "メッセージの編集"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "メッセージを編集した場合、Signalの最新バージョンを利用しているユーザーにのみ反映されます。そのユーザー達は、あなたが編集したメッセージを見ることができます。"
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "書式付きテキストの送信"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "書式付きテキストをサポートしていないバージョンの Signal を使用しているユーザーもいるかもしれません。その人たちは、あなたがメッセージに加えた書式の変更を見ることができません。"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Signal Sticker Pack Creatorを開きますか?"
@@ -3768,13 +3762,13 @@
     "messageformat": "自分の分だけ消去"
   },
   "icu:DeleteMessagesModal--deleteFromThisDevice": {
-    "messageformat": "この端末から消去しました"
+    "messageformat": "この端末から消去する"
   },
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "全員分を消去"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
-    "messageformat": "すべての端末から消去しました"
+    "messageformat": "すべての端末から消去する"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {一度に消去できるメッセージは、全員分で最大{count,number}件までです}}"
@@ -3870,7 +3864,7 @@
     "messageformat": "転送先"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "通話リンクを共有する"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "続ける"
@@ -3879,7 +3873,7 @@
     "messageformat": "空のメッセージや消去されたメッセージは転送できません"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "リンクを使用して Signal 通話に参加する　{url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "さらに詳しく"
@@ -4356,7 +4350,7 @@
     "messageformat": "入力した顔文字を絵文字に変換する"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "例：:-)は<emojify>🙂</emojify>に変換されます"
   },
   "icu:Preferences--advanced": {
     "messageformat": "詳細設定"
@@ -5335,16 +5329,16 @@
     "messageformat": "通話リンク"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "アクティブな通話"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "現在の通話を終了しますか？"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "新しい通話に参加するには、現在の通話を終了する必要があります"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "通話終了"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "最近の通話はありません。"
@@ -5353,10 +5347,10 @@
     "messageformat": "“{query}” の検索結果はありません"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "戻る"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "新しい通話に参加するには、現在の通話を終了する必要があります"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {音声通話発信} other {音声通話着信}}} Video {{direction, select, Outgoing {ビデオ通話発信} other {ビデオ通話着信}}} Group {{direction, select, Outgoing {グループ通話発信} other {グループ通話着信}}} other {{direction, select, Outgoing {発信} other {着信}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "通話リンク"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "参加する"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "リンクをコピーします"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Signal 経由でリンクを共有する"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} 人が入力中です。}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "このアップデートでは、グループ通話ユーザーインターフェイスにおけるレンダリングのエラーが修正されました。"
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "டெவலப்பர் கருவிகளை நிலைமாற்று"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "புதிய சாதனமாக அமைக்கவும்"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "பரவாயில்லை, ஏற்கிறேன்"
   },
-  "icu:continueCall": {
-    "messageformat": "அழைப்பைத் தொடரவும்"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "நீங்கள் சமர்ப்பி என்பதைக் கிளிக் செய்யும் போது, ​​உங்கள் பதிவு 30 நாட்களுக்கு ஒரு தனித்துவமான, வெளியிடப்படாத இணைப்பு மூலம் ஆன்லைனில் வெளியிடப்படும். நீங்கள் முதலில் அதை உள்நிலையில் சேமிக்கலாம்."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "திரையைப் பகிர்தல்"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "பேச்சு"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} அவர்களின் தொலைபேசி எண்ணை மாற்றியுள்ளார்"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "தொடர்பு Signal இல் இணைந்தது"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} மற்றும் {conversationTitle} ஆகியவை ஒரே கணக்கைச் சேர்ந்தவை. இரண்டு சாட்களுக்கான உங்கள் செய்தி வரலாறு இங்கே உள்ளது."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "சாட் படிக்காததாகக் குறிக்கப்பட்டது"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "மெசேஜைத் திருத்தவும்"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "நீங்கள் ஒரு மெசேஜைத் திருத்தினால், அது Signal பீட்டாவின் சமீபத்திய பதிப்பில் உள்ளவர்களுக்கு மட்டுமே தெரியும். நீங்கள் ஒரு செய்தியைத் திருத்தியிருப்பதை அவர்களால் பார்க்க முடியும்."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "வடிவமைக்கப்பட்ட உரையை அனுப்புகிறது"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "வடிவமைக்கப்பட்ட உரையை ஆதரிக்காத Signal இன் பதிப்பை சிலர் பயன்படுத்தலாம். உங்கள் மெசேஜில் நீங்கள் செய்த வடிவமைப்பு மாற்றங்களை அவர்களால் பார்க்க முடியாது."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Signal ஸ்டிக்கர் பேக் கிரியேட்டரைத் திறக்க விரும்புகிறீர்களா?"
@@ -3870,7 +3864,7 @@
     "messageformat": "இவருக்கு முன்னனுப்பு"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "அழைப்பு இணைப்பைப் பகிர்"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "தொடர்க"
@@ -3879,7 +3873,7 @@
     "messageformat": "வெற்று அல்லது நீக்கப்பட்ட மெசேஜ்களை அனுப்ப முடியாது"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "சிக்னல் அழைப்பில் சேர இந்த இணைப்பைப் பயன்படுத்தவும்: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "மேலும் அறிக"
@@ -4356,7 +4350,7 @@
     "messageformat": "டைப் செய்யப்பட்ட இமோடிகான்களை இமோஜியாக மாற்று"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "எடுத்துக்காட்டாக, :-) ஆனது <emojify>🙂</emojify> ஆக மாற்றப்படும்"
   },
   "icu:Preferences--advanced": {
     "messageformat": "மேம்படுத்தபட்ட"
@@ -5335,16 +5329,16 @@
     "messageformat": "அழைப்பு இணைப்பு"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "செயலில் உள்ளது"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "தற்போதைய அழைப்பிலிருந்து வெளியேறுகிறீர்களா?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "புதிய அழைப்பில் சேர்வதற்கு முன் தற்போதைய அழைப்பிலிருந்து வெளியேற வேண்டும்."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "அழைப்பிலிருந்து வெளியேறு"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "சமீபத்திய உரையாடல்கள் எதுவுமில்லை."
@@ -5353,10 +5347,10 @@
     "messageformat": "''{query}' க்கான முடிவுகள் எதுவும் கிடைக்கவில்லை"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "மீண்டும் இணைக"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "புதிய அழைப்பில் சேர்வதற்கு முன் தற்போதைய அழைப்பிலிருந்து வெளியேற வேண்டும்"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {வெளிச்செல்லும் குரல் அழைப்பு} other {உள்வரும் குரல் அழைப்பு}}} Video {{direction, select, Outgoing {வெளிச்செல்லும் காணொளி அழைப்பு} other {உள்வரும் காணொளி அழைப்பு}}} Group {{direction, select, Outgoing {வெளிச்செல்லும் குழு அழைப்பு} other {உள்வரும் குழு அழைப்பு}}} other {{direction, select, Outgoing {வெளிசெல்லும் அழைப்பு} other {உள்வரும் அழைப்பு}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "அழைப்பு இணைப்பு"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "இணைக"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "இணைப்பை நகலெடு"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "சிக்னல் மூலம் இணைப்பைப் பகிர்க"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {மேலும் {count,number} நபர் டைப் செய்கிறார்.} other {மேலும் {count,number} பேர் டைப் செய்கின்றனர்.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "இந்தப் பதிப்பு குழு அழைப்பு பயனர் முகப்பில் இருந்த ஒரு பிழையைச் சரிசெய்துள்ளது."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

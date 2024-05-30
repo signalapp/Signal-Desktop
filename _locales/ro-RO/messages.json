@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Comutare unelte dezvoltator"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Setează ca dispozitiv nou"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Alătură-te oricum"
   },
-  "icu:continueCall": {
-    "messageformat": "Continuă apelul"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Când apeși Trimite, jurnalul tău de depanare va fi postat online pentru 30 de zile cu un URL unic și nepublicat. Poți să-l salvezi local mai întâi."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Se partajează ecranul"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Vorbire"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} și-a schimbat numărul de telefon"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Un contact s-a alăturat pe Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} și {conversationTitle} sunt același cont. Istoricul de mesaje pentru ambele conversații sunt aici."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Conversație marcată necitită"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Editează Mesajul"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Dacă editezi un mesaj, acesta va fi vizibil numai pentru persoanele care au cea mai recentă versiune de Signal beta. Ei vor putea să vadă că ai editat un mesaj."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Se trimite text formatat"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Este posibil ca anumite persoane să folosească o versiune Signal care nu acceptă text formatat. Acele persoane nu vor vedea schimbările de formatare pe care le-ai făcut la mesajul tău."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Vrei să deschizi Signal Sticker Pack Creator?"
@@ -3870,7 +3864,7 @@
     "messageformat": "Redirecționează către"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Distribuie linkul apelului"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Continuă"
@@ -3879,7 +3873,7 @@
     "messageformat": "Nu se pot redirecționa mesaje goale sau șterse"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Folosește acest link pentru a te alătura unui apel Signal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Află mai multe"
@@ -4356,7 +4350,7 @@
     "messageformat": "Convertește emoticoanele tastate în emoji"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "De exemplu, :-) va fi convertit în <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Avansat"
@@ -5335,16 +5329,16 @@
     "messageformat": "Link de apel"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Activ"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Părăsești apelul curent?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Trebuie să părăsești apelul curent înainte de a intra într-un nou apel."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Părăsește apelul"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Fără conversații recente."
@@ -5353,10 +5347,10 @@
     "messageformat": "Fără rezultate pentru „{query}“"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Întoarce-te"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Trebuie să părăsești apelul curent înainte de a intra într-un nou apel"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Apel de ieșire vocal} other {Apel de intrare vocal}}} Video {{direction, select, Outgoing {Apel de ieșire video} other {Apel de intrare video}}} Group {{direction, select, Outgoing {Apel de ieșire de grup} other {Apel de intrare de grup}}} other {{direction, select, Outgoing {Apel de ieșire} other {Apel de intrare}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "Link de apel"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Alătură-te"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Copiază linkul"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Trimite linkul prin Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {încă {count,number} scrie.} few {încă {count,number} alții scriu.} other {încă {count,number} alții scriu.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Am remediat o eroare de redare care făcea ca pictograma contactelor să se spargă chiar lângă numele contactului în timpul vizualizării listei de participanți la un apel de grup. Probabil că ești foarte apropiat de contactele tale, dar uneori atât tu (cât și interfața de utilizator Signal Desktop) aveți nevoie de puțin spațiu."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

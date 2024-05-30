@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Nástroje pre vývojárov"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Nastaviť ako Nové Zariadenie"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Aj tak sa pripojiť"
   },
-  "icu:continueCall": {
-    "messageformat": "Pokračovať v hovore"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Keď kliknete na Odoslať, váš záznam bude zverejnený online na 30 dní na jedinečnej, nepublikovanej adrese URL. Najprv ho môžete uložiť lokálne."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Zdieľaná obrazovka"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Reč"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} zmenil/a svoje telefónne číslo"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Váš kontakt začal používať Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} a {conversationTitle} patria tomu istému účtu. Históriu správ pre oba čety nájdete tu."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Čet bol označený ako neprečítaný"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Upraviť správu"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Ak upravíte správu, zobrazí sa iba ľuďom, ktorí používajú najnovšie verzie Signalu. Uvidia, že ste upravili správu."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Posielanie formátovaného textu"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Niektorí ľudia môžu používať verziu Signalu, ktorá nepodporuje formátovaný text. Neuvidia preto zmeny formátovania vo vašej správe."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Chcete otvoriť nástroj na vytváranie balíčkov nálepiek Signal?"
@@ -3870,7 +3864,7 @@
     "messageformat": "Preposlať používateľovi"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Zdieľať odkaz na hovor"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Pokračovať"
@@ -3879,7 +3873,7 @@
     "messageformat": "Prázdne alebo odstránené správy sa nedajú preposlať"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Na pripojenie k Signal hovoru použite tento odkaz: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Dozvedieť sa viac"
@@ -4356,7 +4350,7 @@
     "messageformat": "Premeniť napísané emotikony na emoji"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Napríklad :-) sa zmení na <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Pokročilé"
@@ -5335,16 +5329,16 @@
     "messageformat": "Odkaz na hovor"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Aktívny"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Chcete opustiť aktuálny hovor?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Pred pripojením k novému hovoru musíte opustiť aktuálny hovor."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Opustiť hovor"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Žiadne nedávne konverzácie."
@@ -5353,10 +5347,10 @@
     "messageformat": "Žiadne výsledky pre „{query}“"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Naspäť"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Pred pripojením k novému hovoru musíte opustiť aktuálny hovor"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Odchádzajúci hlasový hovor} other {Prichádzajúci hlasový hovor}}} Video {{direction, select, Outgoing {Odchádzajúci videohovor} other {Prichádzajúci videohovor}}} Group {{direction, select, Outgoing {Odchádzajúci skupinový hovor} other {Prichádzajúci skupinový hovor}}} other {{direction, select, Outgoing {Odchádzajúci hovor} other {Prichádzajúci hovor}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "Odkaz na hovor"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Pridať sa"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Skopírovať odkaz"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Zdieľať odkaz cez Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ďalší píše.} few {{count,number} ďalší píšu.} many {{count,number} ďalšieho píše.} other {{count,number} ďalších píše.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Táto aktualizácia opravuje chybu vykresľovania v používateľskom rozhraní skupinového hovoru."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

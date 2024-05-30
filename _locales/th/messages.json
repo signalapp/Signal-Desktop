@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "เปิดปิดเครื่องมือนักพัฒนา"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "ตั้งค่าให้เป็นอุปกรณ์ใหม่"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "ยืนยันที่จะเข้าร่วม"
   },
-  "icu:continueCall": {
-    "messageformat": "ดำเนินการโทรต่อ"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "เมื่อคลิกส่ง ปูมของคุณจะได้รับการโพสต์ทางออนไลน์เป็นเวลา 30 วัน ผ่าน URL เฉพาะที่ไม่มีการเผยแพร่ คุณสามารถบันทึกไว้ในเครื่องก่อนได้"
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "กำลังแบ่งปันหน้าจอ"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "การพูด"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} เปลี่ยนหมายเลขโทรศัพท์แล้ว"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "มีผู้ติดต่อเริ่มใช้ Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} และ {conversationTitle} เป็นบัญชีเดียวกัน ประวัติการส่งข้อความสำหรับแชททั้งสองรายการอยู่ในนี้"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "แชทถูกทำเครื่องหมายว่ายังไม่ได้อ่าน"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "แก้ไขข้อความ"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "ผู้ติดต่อต้องใช้ Signal เวอร์ชันล่าสุดจึงจะสามารถเห็นข้อความที่คุณแก้ไขแล้ว และคนคนนั้นจะเห็นว่าคุณแก้ไขข้อความ"
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "การส่งข้อความที่ปรับแต่งตัวอักษร"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "ผู้ใช้บางคนอาจใช้ Signal ในเวอร์ชันซึ่งไม่รองรับข้อความที่ปรับแต่งตัวอักษร ผู้ใช้คนนั้นจะไม่เห็นการปรับแต่งตัวอักษรในข้อความของคุณ"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "คุณต้องการเปิดหน้าศูนย์สร้างสรรค์ชุดสติกเกอร์ Signal (Sticker Pack Creator) หรือไม่"
@@ -3870,7 +3864,7 @@
     "messageformat": "ส่งต่อไปยัง"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "แชร์ลิงก์การโทร"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "ดำเนินการต่อ"
@@ -3879,7 +3873,7 @@
     "messageformat": "ไม่สามารถส่งต่อข้อความเปล่าหรือข้อความที่ลบแล้วได้"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "ใช้ลิงก์นี้เพื่อเข้าร่วมการโทรของ Signal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "เรียนรู้เพิ่มเติม"
@@ -4356,7 +4350,7 @@
     "messageformat": "เปลี่ยนอีโมติคอนที่พิมพ์ให้กลายเป็นอีโมจิ"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "ตัวอย่างเช่น :-) จะถูกเปลี่ยนให้เป็น <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "ขั้นสูง"
@@ -5335,16 +5329,16 @@
     "messageformat": "ลิงก์การโทร"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "ใช้งานอยู่"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "ออกจากสายที่ใช้งานอยู่ใช่หรือไม่"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "คุณต้องออกจากสายที่กำลังใช้งานอยู่ก่อนที่จะเข้าร่วมการโทรสายใหม่"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "ออกจากสาย"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "ยังไม่มีการสนทนาล่าสุด"
@@ -5353,10 +5347,10 @@
     "messageformat": "ไม่พบผลลัพธ์สำหรับ “{query}”"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "กลับไปที่การโทรกลุ่ม"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "คุณต้องออกจากสายที่กำลังใช้งานอยู่ก่อนที่จะเข้าร่วมการโทรสายใหม่"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {การโทรด้วยเสียงขาออก} other {การโทรด้วยเสียงขาเข้า}}} Video {{direction, select, Outgoing {สายวิดีโอโทรออก} other {สายวิดีโอเรียกเข้า}}} Group {{direction, select, Outgoing {สายโทรกลุ่มขาออก} other {สายโทรกลุ่มขาเข้า}}} other {{direction, select, Outgoing {สายโทรออก} other {สายโทรเข้า}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "ลิงก์การโทร"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "เข้าร่วม"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "คัดลอกลิงก์"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "แชร์ลิงก์ผ่าน Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {อีก {count,number} คนกำลังพิมพ์}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "การอัปเดตครั้งนี้มาพร้อมการแก้ไขบั๊กเกี่ยวกับการแสดงผลในหน้าการโทรกลุ่ม"
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

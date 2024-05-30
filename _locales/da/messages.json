@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Vis udviklerværktøjer"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Opsæt som ny enhed"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Deltag alligevel"
   },
-  "icu:continueCall": {
-    "messageformat": "Fortsæt opkald"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Når du klikker på Indsend, bliver din log lagt online i 30 dage på en unik, ikke-offentliggjort URL-adresse. Du kan gemme den lokalt først."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Deling af skærm"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Tale"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} har ændret sit telefonnummer"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Kontakt er nu tilmeldt Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} og {conversationTitle} er den samme konto. Din beskedhistorik for begge chats er her."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Chat markeret ulæst"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Rediger besked"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Hvis du redigerer en besked, vil den kun være synlig for folk, der bruger de nyeste versioner af Signal. De vil kunne se, at du har redigeret en besked."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Sender formateret tekst"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Nogle personer bruger måske en version af Signal, der ikke understøtter formateret tekst. Vedkommende vil ikke kunne se de ændringer, du har foretaget i formateringen af din besked."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Vil du gerne åbne Signal Sticker Pack Creator?"
@@ -3870,7 +3864,7 @@
     "messageformat": "Videresend til"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Del opkaldslink"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Fortsæt"
@@ -3879,7 +3873,7 @@
     "messageformat": "Kan ikke videresende tomme eller slettede beskeder"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Brug dette link til at deltage i et Signal-opkald: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Læs mere"
@@ -4356,7 +4350,7 @@
     "messageformat": "Konvertér indtastede humørikoner til emoji"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "For eksempel vil :-) blive konverteret til <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Avanceret"
@@ -5335,16 +5329,16 @@
     "messageformat": "Opkaldslink"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Aktiv"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Forlad det aktuelle opkald?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Du skal forlade det aktuelle opkald, før du tilmelder dig et nyt opkald."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Forlad opkald"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Ingen nylige samtaler."
@@ -5353,10 +5347,10 @@
     "messageformat": "Ingen resultater for \"{query}\""
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Tilbage"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Du skal forlade det aktuelle opkald, før du deltager dig et nyt opkald"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Udgående stemmeopkald} other {Indgående stemmeopkald}}} Video {{direction, select, Outgoing {Udgående videoopkald} other {Indgående videoopkald}}} Group {{direction, select, Outgoing {Udgående gruppeopkald} other {Indgående gruppeopkald}}} other {{direction, select, Outgoing {Udgående opkald} other {Indkommende opkald}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "Opkaldslink"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Deltag"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopiér link"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Del link via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} anden skriver.} other {{count,number} andre skriver.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Vi har rettet en gengivelsesfejl, der fik kontaktikonet til at smadre sig selv lige ved siden af kontaktens navn, mens man så listen over deltagere i et gruppeopkald. Du er sandsynligvis virkelig tæt på dine kontakter, men nogle gange har du (og Signal Desktop-brugergrænsefladen) begge brug for lidt plads."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

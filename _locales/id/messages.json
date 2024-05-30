@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Beralih Ke Peralatan Pengembang"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Siapkan sebagai Perangkat Baru"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Lanjut bergabung"
   },
-  "icu:continueCall": {
-    "messageformat": "Lanjutkan Panggilan"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Saat Anda mengeklik Kirim, log Anda akan diposting online selama 30 hari pada URL unik yang tidak dipublikasikan. Anda dapat Simpan secara lokal terlebih dahulu."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Berbagi layar"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Bicara"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} mengubah nomornya"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Kontak bergabung ke Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} dan {conversationTitle} adalah milik akun yang sama. Riwayat pesan Anda untuk kedua obrolan ada di sini."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Obrolan ditandai belum dibaca"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Pesan"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Jika Anda mengedit pesan, pengeditan hanya bisa terlihat oleh pengguna Signal versi terbaru. Mereka akan dapat melihat bahwa Anda telah mengedit pesan."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Mengirim teks berformat"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Beberapa pengguna mungkin menggunakan versi Signal yang tidak mendukung teks berformat. Mereka tidak akan dapat melihat perubahan format yang Anda buat pada pesan."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Ingin membuka Pembuat Paket Stiker Signal?"
@@ -3870,7 +3864,7 @@
     "messageformat": "Teruskan Ke"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Bagikan tautan panggilan"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Lanjutkan"
@@ -3879,7 +3873,7 @@
     "messageformat": "Tidak dapat meneruskan pesan kosong atau pesan yang telah dihapus"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Gunakan tautan ini untuk gabung dalam panggilan Signal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Pelajari lebih lanjut"
@@ -4356,7 +4350,7 @@
     "messageformat": "Ubah emotikon ketik jadi emoji"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Contoh, :-) akan diubah jadi <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Lanjutan"
@@ -5335,16 +5329,16 @@
     "messageformat": "Tautan panggilan"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Aktif"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Tinggalkan panggilan saat ini?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Anda harus tinggalkan panggilan saat ini sebelum gabung ke panggilan baru."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Tinggalkan panggilan"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Tidak ada percakapan terkini."
@@ -5353,10 +5347,10 @@
     "messageformat": "Tidak ada hasil untuk “{query}”"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Kembali"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Anda harus tinggalkan panggilan saat ini sebelum gabung ke panggilan baru"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Panggilan suara keluar} other {Panggilan suara masuk}}} Video {{direction, select, Outgoing {Panggilan video keluar} other {Panggilan video masuk}}} Group {{direction, select, Outgoing {Panggilan grup keluar} other {Panggilan grup masuk}}} other {{direction, select, Outgoing {Panggilan keluar} other {Panggilan masuk}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "Tautan panggilan"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Gabung"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Salin tautan"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Bagikan tautan via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} orang lainnya sedang mengetik.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Pembaruan ini memperbaiki masalah rendering pada antarmuka panggilan grup."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

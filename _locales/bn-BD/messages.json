@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "বিকাশকারী সরঞ্জামগুলি দেখান"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "নতুন ডিভাইস হিসেবে সেট করুন"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "তারপরও যোগ দিন"
   },
-  "icu:continueCall": {
-    "messageformat": "কল চালিয়ে যান"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "'জমা দিন' ক্লিক করলে, আপনার লগ অনলাইনে 30 দিনের জন্য একটি ইউনিক, অপ্রকাশিত ইউআরএল-এ পোস্ট করা হবে৷ আপনি প্রথমে স্থানীয়ভাবে এটি সেভ করতে পারেন।"
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "স্ক্রিন শেয়ার করা"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "বক্তৃতা"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} তার ফোন নাম্বার পরিবর্তন করেছেন।"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "পরিচিতি Signal এ যোগ দিয়েছে"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} এবং {conversationTitle} একই অ্যাকাউন্ট। উভয় চ্যাট-এর জন্য আপনার ম্যাসেজের ইতিহাসই এখানে আছে।"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "চ্যাট অপঠিত হিসেবে চিহ্নিত হয়েছে"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "মেসেজ এডিট করুন"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "আপনি যদি কোনো মেসেজ এডিট করেন, তবে এটি শুধুমাত্র Signal-এর সর্বশেষ সংস্করণ ব্যবহারকারীদের কাছে দৃশ্যমান হবে। আপনি যে একটি মেসেজ এডিট করেছেন তারা তা দেখতে পাবেন।"
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "ফরম্যাটকৃত টেক্সট পাঠানো হচ্ছে"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "কিছু ব্যক্তি হয়তো Signal-এর এমন একটি সংস্করণ ব্যবহার করছেন যা ফরম্যাটকৃত টেক্সটকে সমর্থন করে না। আপনি আপনার ম্যাসেজের ফরম্যাটে যে পরিবর্তনগুলো করেছেন তারা তা দেখতে সক্ষম হবেন না।"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "আপনি কি Signal স্টিকার প্যাক ক্রিয়েটর খুলতে চান?"
@@ -3870,7 +3864,7 @@
     "messageformat": "ফরওয়ার্ড করুন"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "কলের লিংক শেয়ার করুন"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "চালিয়ে যান"
@@ -3879,7 +3873,7 @@
     "messageformat": "খালি বা মুছে ফেলা ম্যাসেজ ফরোয়ার্ড করা যাবে না"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Signal কলে যোগ দিতে এই লিংকটি ব্যবহার করুন: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "আরও জানুন"
@@ -4356,7 +4350,7 @@
     "messageformat": "টাইপ করা ইমোটিকনকে ইমোজিতে রূপান্তর করুন"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "উদাহরণস্বরূপ, :-) <emojify>🙂</emojify>-এ রূপান্তরিত হবে"
   },
   "icu:Preferences--advanced": {
     "messageformat": "অ্যাডভান্সড"
@@ -5335,16 +5329,16 @@
     "messageformat": "কলের লিংক"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "সক্রিয়"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "চলমান কলটি থেকে বের হয়ে যাবেন?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "কোনো নতুন কলে যোগ দেওয়ার আগে আপনাকে অবশ্যই বর্তমান কলটি কেটে দিতে হবে।"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "কল ছেড়ে যান"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "কোনো সাম্প্রতিক কথোপকথন নেই।"
@@ -5353,10 +5347,10 @@
     "messageformat": "“{query}”-এর জন্য কোনো ফলাফল পাওয়া যায়নি"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "ফিরে যান"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "কোনো নতুন কলে যোগ দেওয়ার আগে আপনাকে অবশ্যই বর্তমান কলটি কেটে দিতে হবে"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {ভয়েস কল যাচ্ছে} other {ভয়েস কল আসছে}}} Video {{direction, select, Outgoing {ভিডিও কল যাচ্ছে} other {ভিডিও কল আসছে}}} Group {{direction, select, Outgoing {আউটগোয়িং গ্রুপ কল} other {ইনকামিং গ্রুপ কল}}} other {{direction, select, Outgoing {আউটগোয়িং কল} other {আগত কল}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "কলের লিংক"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "যোগদান করুন"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "লিংক কপি করুন"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Signal-এর মাধ্যমে লিংক শেয়ার করুন"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {আরো {count,number} জন টাইপ করছেন।} other {আরো {count,number} জন টাইপ করছেন।}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "এই আপডেটটি গ্রুপ কল ইউজার ইন্টারফেসের একটি রেন্ডারিং বাগ সংশোধন করেছে।"
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

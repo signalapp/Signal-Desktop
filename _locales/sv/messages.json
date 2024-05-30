@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Slå på/av utvecklingsverktyg"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Ställ in som ny enhet"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Gå med ändå"
   },
-  "icu:continueCall": {
-    "messageformat": "Fortsätt samtalet"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "När du klickar på Skicka kommer din logg att läggas upp på nätet i 30 dagar på en unik, opublicerad webbadress. Du kan spara den lokalt först."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Skärmdelning"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Tal"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} ändrade sitt telefonnummer"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Kontakt anslöt sig till Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} och {conversationTitle} är samma konto. Din meddelandehistorik för båda chattarna finns här."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Chatt markerad oläst"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Redigera meddelande"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Om du redigerar ett meddelande kommer det bara att vara synligt för personer som använder de senaste versionerna av Signal. De kommer att kunna se att du redigerade ett meddelande."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Skicka formaterad text"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Vissa personer kanske använder en version av Signal som inte stöder formaterad text. De kommer inte att kunna se formateringsändringarna du har gjort i ditt meddelande."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Vill du öppna Skapare för Signal-klistermärkespaket?"
@@ -3870,7 +3864,7 @@
     "messageformat": "Vidarebefordra till"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Dela samtalslänk"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Fortsätt"
@@ -3879,7 +3873,7 @@
     "messageformat": "Det går inte att vidarebefordra tomma eller raderade meddelanden"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Använd den här länken för att gå med i ett Signal-samtal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Läs mer"
@@ -4356,7 +4350,7 @@
     "messageformat": "Konvertera skrivna uttryckssymboler till emojier"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Till exempel kommer :-) att konverteras till <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Avancerat"
@@ -5335,16 +5329,16 @@
     "messageformat": "Samtalslänk"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Aktivt"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Lämna det aktuella samtalet?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Du måste lämna det pågående samtalet innan du kan ansluta till ett nytt samtal."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Lämna samtalet"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Inga senaste konversationer."
@@ -5353,10 +5347,10 @@
     "messageformat": "Inga resultat för ”{query}”"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Återgå"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Du måste lämna det pågående samtalet innan du kan ansluta till ett nytt samtal"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Utgående röstsamtal} other {Inkommande röstsamtal}}} Video {{direction, select, Outgoing {Utgående videosamtal} other {Inkommande videosamtal}}} Group {{direction, select, Outgoing {Utgående gruppsamtal} other {Inkommande gruppsamtal}}} other {{direction, select, Outgoing {Utgående samtal} other {Inkommande samtal}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "Samtalslänk"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Gå med"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopiera länk"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Dela länk via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} annan skriver.} other {{count,number} andra skriver.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Den här uppdateringen åtgärdar en renderingsbugg i användargränssnittet för gruppsamtal."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

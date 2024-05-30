@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Näytä/piilota kehittäjätyökalut"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Asenna uutena laitteena"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Liity silti"
   },
-  "icu:continueCall": {
-    "messageformat": "Jatka puhelua"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Kun napsautat Lähetä, lokitiedosto lähetetään 30 päivän ajaksi verkkoon ja sille määritetään yksityinen URL-osoite. Voit tallentaa sen ensin myös paikallisesti."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Näytön jakaminen"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Puhe"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} on vaihtanut puhelinnumeronsa"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Yhteystieto liittyi Signaliin"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "Keskusteluissa {obsoleteConversationTitle} ja {conversationTitle} on kyse samasta tilistä. Molempien keskusteluiden viestihistoria on täällä."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Keskustelu merkitty lukemattomaksi"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Muokkaa viestiä"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Jos muokkaat viestiä, se näkyy vain Signalin uusimpien versioiden käyttäjille. He näkevät, että muokkasit viestiä."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Muotoillun tekstin lähettäminen"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Jotkut henkilöt saattavat käyttää Signal-versiota, joka ei tue muotoiltua tekstiä. He eivät voi nähdä viestiisi tekemiäsi muotoilumuutoksia."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Haluatko avata Signal-tarrapaketin luontityökalun?"
@@ -3870,7 +3864,7 @@
     "messageformat": "Välitä vastaanottajalle"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Jaa puhelulinkki"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Jatka"
@@ -3879,7 +3873,7 @@
     "messageformat": "Tyhjiä tai poistettuja viestejä ei voi välittää"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Liity Signal-puheluun tämän linkin avulla: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Lue lisää"
@@ -4356,7 +4350,7 @@
     "messageformat": "Muunna tekstihymiöt graafisiksi hymiöiksi"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Esimerkiksi :-) muunnetaan muotoon <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Lisäasetukset"
@@ -5335,16 +5329,16 @@
     "messageformat": "Puhelulinkki"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Aktiivinen"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Poistutaanko nykyisestä puhelusta?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Sinun on poistuttava nykyisestä puhelusta ennen kuin voit liittyä uuteen puheluun."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Poistu puhelusta"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Ei viimeaikaisia keskusteluja."
@@ -5353,10 +5347,10 @@
     "messageformat": "Ei tuloksia haulle \"{query}\""
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Palaa"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Sinun on poistuttava nykyisestä puhelusta ennen kuin voit liittyä uuteen puheluun"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Lähtevä äänipuhelu} other {Saapuva äänipuhelu}}} Video {{direction, select, Outgoing {Soitettu videopuhelu} other {Vastattu videopuhelu}}} Group {{direction, select, Outgoing {Lähtevä ryhmäpuhelu} other {Saapuva ryhmäpuhelu}}} other {{direction, select, Outgoing {Lähtevä puhelu} other {Saapuva puhelu}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "Puhelulinkki"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Liity"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopioi linkki"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Jaa linkki Signalissa"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} käyttäjä kirjoittaa.} other {{count,number} käyttäjää kirjoittaa.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Tämä päivitys korjaa renderöintivirheen ryhmäpuhelun käyttöliittymässä."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }
