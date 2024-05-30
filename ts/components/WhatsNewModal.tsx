@@ -44,6 +44,7 @@ export function WhatsNewModal({
     version: window.getVersion?.(),
     features: [
       <I18n i18n={i18n} id="icu:WhatsNew__v7.12--0" />,
+      <I18n i18n={i18n} id="icu:WhatsNew__v7.12--2" />,
       <I18n i18n={i18n} id="icu:WhatsNew__v7.12--1" />,
     ],
   };
