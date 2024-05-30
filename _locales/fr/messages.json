@@ -105,10 +105,10 @@
     "messageformat": "Services"
   },
   "icu:appMenuHide": {
-    "messageformat": "Cacher"
+    "messageformat": "Masquer"
   },
   "icu:appMenuHideOthers": {
-    "messageformat": "Cacher les autres"
+    "messageformat": "Masquer les autres fenêtres"
   },
   "icu:appMenuUnhide": {
     "messageformat": "Tout afficher"
@@ -171,7 +171,7 @@
     "messageformat": "Activer ou désactiver le plein écran"
   },
   "icu:viewMenuToggleDevTools": {
-    "messageformat": "Afficher ou cacher les outils pour développeurs"
+    "messageformat": "Afficher ou masquer les outils pour développeurs"
   },
   "icu:viewMenuOpenCallingDevTools": {
     "messageformat": "Open Calling Developer Tools"
@@ -657,7 +657,7 @@
     "messageformat": "Afficher"
   },
   "icu:hide": {
-    "messageformat": "Cacher"
+    "messageformat": "Masquer"
   },
   "icu:quit": {
     "messageformat": "Fermer"
@@ -4647,7 +4647,7 @@
     "messageformat": "{replyCount, plural, one {<strong>{replyCount,number}</strong> réponse} other {<strong>{replyCount,number}</strong> réponses}}"
   },
   "icu:MyStories__delete": {
-    "messageformat": "Supprimer cette Story ? Elle sera aussi supprimée pour quiconque l’a reçue."
+    "messageformat": "Supprimer cette story ? Cela la supprime aussi pour tous ses destinataires."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Vous avez initié une procédure de paiement pour {receiver}"
@@ -4755,7 +4755,7 @@
     "messageformat": "Cliquer pour réessayer"
   },
   "icu:Stories__placeholder--text": {
-    "messageformat": "Cliquez pour visualiser une Story"
+    "messageformat": "Cliquer sur une story pour l’afficher"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} à {group}"
@@ -4830,10 +4830,10 @@
     "messageformat": "Nommer la Story"
   },
   "icu:StoriesSettings__name-placeholder": {
-    "messageformat": "Nom de la Story (requis)"
+    "messageformat": "Titre de la story (requis)"
   },
   "icu:StoriesSettings__hide-story": {
-    "messageformat": "Cacher la Story pour"
+    "messageformat": "Masquer la story pour"
   },
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "Tous mes contacts Signal"
@@ -4860,7 +4860,7 @@
     "messageformat": "Qui peut voir cette story ?"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "Les membres de la conversation de groupe « {groupTitle} » peuvent consulter et interagir avec cette Story. Vous pouvez paramétrer les spectateurs depuis la conversation de groupe."
+    "messageformat": "Les membres de la conversation de groupe « {groupTitle} » peuvent afficher cette story et y réagir. Vous pouvez ajouter ou retirer des spectateurs depuis les paramètres du groupe."
   },
   "icu:GroupStorySettingsModal__remove_group": {
     "messageformat": "Supprimer la Story du groupe"
@@ -4896,7 +4896,7 @@
     "messageformat": "Nouvelle Story personnalisée"
   },
   "icu:SendStoryModal__new-custom--name-visibility": {
-    "messageformat": "Vous seul.e pouvez voir le nom de cette Story."
+    "messageformat": "Vous seul pouvez voir le titre de cette story."
   },
   "icu:SendStoryModal__new-custom--description": {
     "messageformat": "Visible pour certaines personnes seulement"
@@ -4998,7 +4998,7 @@
     "messageformat": "Réponses"
   },
   "icu:StoryViewsNRepliesModal__reacted": {
-    "messageformat": "A réagi à la Story"
+    "messageformat": "a réagi à la story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Vous ne pouvez pas interagir sur cette Story, car vous n'êtes plus membre de ce groupe."
@@ -5019,7 +5019,7 @@
     "messageformat": "Montrer les Stories"
   },
   "icu:StoryListItem__hide": {
-    "messageformat": "Cacher la Story"
+    "messageformat": "Masquer la story"
   },
   "icu:StoryListItem__go-to-chat": {
     "messageformat": "Accéder à la conversation"
@@ -5031,10 +5031,10 @@
     "messageformat": "Info"
   },
   "icu:StoryListItem__hide-modal--body": {
-    "messageformat": "Cacher la Story ? Les nouvelles mises à jour des Stories de {name} n’apparaîtront plus en haut de la liste des Stories."
+    "messageformat": "Masquer la story ? Les nouveaux contenus postés dans la story de {name} ne s’afficheront plus en haut de la liste des stories."
   },
   "icu:StoryListItem__hide-modal--confirm": {
-    "messageformat": "Cacher"
+    "messageformat": "Masquer"
   },
   "icu:StoryImage__error2": {
     "messageformat": "Impossible de télécharger la Story. {name} devra la partager à nouveau."
@@ -5115,22 +5115,22 @@
     "messageformat": "Story"
   },
   "icu:Quote__story-reaction": {
-    "messageformat": "A réagi à une Story de {name}"
+    "messageformat": "a réagi à une story de {name}"
   },
   "icu:Quote__story-reaction--you": {
-    "messageformat": "a réagi à votre Story"
+    "messageformat": "a réagi à votre story"
   },
   "icu:Quote__story-reaction--single": {
-    "messageformat": "A réagi à une Story"
+    "messageformat": "a réagi à une story"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "A réagi par {emoji} à votre Story"
+    "messageformat": "a réagi par {emoji} à votre story"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
-    "messageformat": "Vous avez réagi par {emoji} à une Story de {name}"
+    "messageformat": "Vous avez réagi par {emoji} à une story de {name}"
   },
   "icu:Quote__story-reaction-notification--outgoing--nameless": {
-    "messageformat": "Vous avez réagi par {emoji} à une Story"
+    "messageformat": "Vous avez réagi par {emoji} à une story"
   },
   "icu:Quote__story-unavailable": {
     "messageformat": "N’est plus proposée"
@@ -5296,7 +5296,7 @@
     "messageformat": "Journal d'appels vidé"
   },
   "icu:CallsTab__EmptyStateText": {
-    "messageformat": "Cliquer pour voir ou démarrer un onglet"
+    "messageformat": "Cliquer sur un appel pour l’afficher ou passer un nouvel appel"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Rechercher"
@@ -5424,5 +5424,8 @@
   },
   "icu:WhatsNew__v7.12--1": {
     "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
   }
 }
