@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "डेव्हलपर साधने टॉगल करा"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "नवीन डिव्हाईस म्हणून सेटअप करा"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "काहीही करून सामील व्हा"
   },
-  "icu:continueCall": {
-    "messageformat": "कॉल सुरू ठेवा"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "आपण जेव्हा सबमिट वर क्लिक कराल, आपला लॉग हा 30 दिवसासाठी एका असामान्य, प्रकाशित न केलेल्या URL वर पोस्ट केले जाईल. आपण ते प्रथम स्थानिक रित्या जतन करू शकता."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "स्क्रीन सामायिक करत आहे"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "वाचा"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} नी त्यांचा फोन नंबर बदलला आहे"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "संपर्क Signal मध्ये सामील झाला"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} आणि {conversationTitle} ही एकच खाती आहेत. दोन्ही चॅटस् साठीचा आपला संदेश इतिहास येथे आहे."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "न वाचलेला म्हणून चिन्हांकित चॅट"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "संदेश संपादित करा"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "आपण संदेश संपादित केल्यास, तो Signal च्या नवीनतम आवृत्तीवर असलेल्या लोकांनाच दृश्यमान असेल. ते आपला संपादित केलेला संदेश पाहू शकतील."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "स्वरूपित मजकूर पाठवत आहे"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "काही लोक स्वरुपित मजकूरला सपोर्ट करत नाही अशी Signal ची आवृत्ती वापरत असू शकतात. आपण आपल्या संदेशाच्या स्वरुपणामध्ये केलेले बदल ते पाहू शकणार नाहीत."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "आपणाला Signal स्टिकर पॅक निर्माता उघडणे आवडेल का?"
@@ -3870,7 +3864,7 @@
     "messageformat": "ला अग्रेषित केला"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "कॉल लिंक शेअर करा"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "सुरू ठेवा"
@@ -3879,7 +3873,7 @@
     "messageformat": "रिक्त किंवा हटवलेले संदेश अग्रेषित करु शकत नाही"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Signal कॉलमध्ये जॉईन होण्यासाठी या लिंकचा वापर करा: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "अधिक जाणा"
@@ -4356,7 +4350,7 @@
     "messageformat": "टाइप केलेल्या इमोटिकॉनना इमोजीमध्ये रूपांतरीत करा"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "उदाहरपणार्थ, :-) हे <emojify>🙂</emojify> मध्ये रूपांतरित केले जाईल"
   },
   "icu:Preferences--advanced": {
     "messageformat": "प्रगत"
@@ -5335,16 +5329,16 @@
     "messageformat": "कॉल लिंक"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "सक्रिय"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "वर्तमान कॉल सोडायचा का?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "नवीन कॉलमध्ये सामील होण्यापूर्वी आपण वर्तमान कॉल सोडणे आवश्यक आहे."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "कॉल सोडा"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "कोणतेही अलिकडील संभाषण नाही."
@@ -5353,10 +5347,10 @@
     "messageformat": "“{query}” साठी कोणतेही परिणाम नाहीत"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "परत जा"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "नवीन कॉलमध्ये सामील होण्यापूर्वी आपण वर्तमान कॉल सोडणे आवश्यक आहे"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {बाहेर जाणारा व्हाईस कॉल} other {येणारा व्हाईस कॉल}}} Video {{direction, select, Outgoing {जाणारा व्हिडिओ कॉल} other {येणारा व्हिडिओ कॉल}}} Group {{direction, select, Outgoing {बाहेर जाणारे ग्रुप कॉल} other {येणारे ग्रुप कॉल}}} other {{direction, select, Outgoing {जाणारा कॉल} other {येणारा कॉल}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "कॉल लिंक"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "सामील व्हा"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "लिंक कॉपी करा"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Signal मार्फत लिंक शेअर करा"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} इतर टाईप करत आहे.} other {{count,number} इतर टाईप करत आहेत.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "समूह कॉलमध्ये सहभागींची यादी पाहताना संपर्काच्या नावासमोरील संपर्काच्या आयकॉनला आपोआप स्मॅश करण्यासाठी कारणीभूत असलेल्या रेंडरिंग बगचे आम्ही निराकरण केले आहे. आपण कदाचित आपल्या संपर्काच्या अगदी जवळ असाल, परंतु काहीवेळा आपणाला (आणि Signal डेक्सटॉप वापरकर्ता इंटरफेस) दोघांनाही थोडी स्पेस हवी असते."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

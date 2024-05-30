@@ -631,10 +631,6 @@
     "messageformat": "Join anyway",
     "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
-  "icu:continueCall": {
-    "messageformat": "Continue Call",
-    "description": "(Deleted 2024/04/25) Used on a warning dialog to make it clear that it might be risky to continue the group call."
-  },
   "icu:debugLogExplanation": {
     "messageformat": "When you click Submit, your log will be posted online for 30 days at a unique, unpublished URL. You may Save it locally first.",
     "description": "Description of what will happen with your debug log"
@@ -881,7 +877,7 @@
   },
   "icu:callingDeveloperToolsDescription": {
     "messageformat": "This window is used during development to display diagnostics from ongoing calls.",
-    "description": "Description displayed for calling developer tools window"
+    "description": "(Deleted 2024/05/30) Description displayed for calling developer tools window"
   },
   "icu:speech": {
     "messageformat": "Speech",
@@ -3145,22 +3141,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "Chat marked unread",
     "description": "A toast that shows up when user marks a conversation as unread"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
-    "description": "(Deleted 2024/04/29) Title of the modal shown before sending your first edit message"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
-    "description": "(Deleted 2024/04/29) Body text of the modal shown before sending your first edit message"
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Sending formatted text",
-    "description": "(Deleted 2024/04/29) Title of the modal shown before sending your first formatting message"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
-    "description": "(Deleted 2024/04/29) Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Would you like to open Signal Sticker Pack Creator?",
@@ -7237,7 +7217,7 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space.",
-    "description": "Release notes for version 7.11"
+    "description": "(Deleted 2024/05/30) Release notes for version 7.11"
   },
   "icu:WhatsNew__v7.12--0": {
     "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\"",

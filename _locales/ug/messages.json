@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "ئاچقۇچىلار قوراللىرىغا ئالماشتۇرۇش"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "يېڭى ئۈسكۈنە قىلىپ سەپلەش"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "يەنىلا قوشۇلۇڭ"
   },
-  "icu:continueCall": {
-    "messageformat": "داۋاملىق چاقىر"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "«تاپشۇرۇش» نى چەكسىڭىز، خاتىرىڭىز خاس، ئېلان قىلىنمىغان URL بىلەن توردا 30 كۈن ئېلان قىلىنىدۇ. ئۇنى ئاۋۋال يەرلىكتە ساقلىۋېلىش تەۋسىيە قىلىنىدۇ."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "ئېكران ئورتاقلىشىش"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "سۆزلەش"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} تېلېفون نومۇرىنى ئۆزگەرتتى"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "ئالاقاداش Signal غا قېتىلدى"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} ۋە {conversationTitle} بولسا ئوخشاش بىر ھېسابات. ھەر ئىككى پاراڭلىشىش خاتىرىڭىز بۇ يەردە."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "پاراڭغا ئوقۇلمىغان دەپ بەلگە قويۇلدى"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "ئۇچۇر تەھرىرلەڭ"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "ئەگەر سىز ئۇچۇرنى تەھرىرلىسىڭىز، ئۇنى پەقەت Signalنىڭ ئەڭ يېڭى نەشرىنى ئىشلىتىۋاتقان كىشىلەرلا كۆرەلەيدۇ. ئۇلار سىزنىڭ ئۇچۇرنى تەھرىرلىگەنلىكىڭىزنى كۆرەلەيدۇ."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "فورماتلانغان تېكىست يوللاش"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "بەزى كىشىلەر Signal نىڭ فورماتلانغان تېكىستنى قوللىمايدىغان نەشرىنى ئىشلىتىۋاتقان بولۇشى مۇمكىن. ئۇلار سىزنىڭ تېكىستكە كىرگۈزگەن فورمات ئۆزگەرتىشلىرىڭىزنى كۆرەلمەيدۇ."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Signal چاپلاق بوغچىسى قۇرغۇچىنى ئاچامسىز؟"
@@ -3870,7 +3864,7 @@
     "messageformat": "ئۇلاپ يوللاش"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "چاقىرىق ئۇلانمىسى ئورتاقلىشىش"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "داۋاملاشتۇرۇش"
@@ -3879,7 +3873,7 @@
     "messageformat": "قۇرۇق ياكى ئۆچۈرۈلگەن ئۇچۇرلارنى ئۇلاپ يوللىغىلى بولمايدۇ"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "بۇ ئۇلانما بىلەن بىر سىگنال چاقىرىقىغا قېتىلىڭ: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "كۆپرەك ئۆگىنىش"
@@ -4356,7 +4350,7 @@
     "messageformat": "كىرگۈزگەن emoticons نى emoji غا ئايلاندۇرۇش"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "مەسىلەن، :-) <emojify>🙂</emojify> گە ئايلىنىدۇ"
   },
   "icu:Preferences--advanced": {
     "messageformat": "ئالىي"
@@ -5335,16 +5329,16 @@
     "messageformat": "چاقىرىق ئۇلانمىسى"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "ئاكتىپ"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "نۆۋەتتىكى چاقىرىقتىن چېكىنەمسىز؟"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "يېڭى چاقىرىققا قوشۇلۇشتىن بۇرۇن نۆۋەتتىكى چاقىرىقتىن چېكىنىشىڭىز كېرەك."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "چاقىرىقتىن ئايرىل"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "يېڭى بىر پاراڭ يوق."
@@ -5353,10 +5347,10 @@
     "messageformat": "{query} ئۈچۈن نەتىجە يوق"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "قايت"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "يېڭى چاقىرىققا قوشۇلۇش ئۈچۈن نۆۋەتتىكى چاقىرىقتىن چېكىنىشىڭىز كېرەك"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {ئۇرۇلغان ئاۋازلىق چاقىرىق} other {كەلگەن ئاۋازلىق چاقىرىق}}} Video {{direction, select, Outgoing {ئۇرۇلغان ۋىدېيولۇق چاقىرىق} other {كەلگەن ۋىدېيولۇق چاقىرىق}}} Group {{direction, select, Outgoing {ئۇرۇلغان گۇرۇپپا چاقىرىقى} other {كەلگەن گۇرۇپپا چاقىرىقى}}} other {{direction, select, Outgoing {قىلىنغان  چاقىرىق} other {كەلگەن  چاقىرىق}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "چاقىرىق ئۇلانمىسى"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "قوشۇلۇش"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "ئۇلانما كۆچۈر"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "ئۇلانمىنى Signal ئارقىلىق ئورتاقلىشىش"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} باشقىلار يېزىۋاتىدۇ.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "بىر كاشىلىنى ھەل قىلدۇق. بۇ كاشىلا گۇرۇپپا چاقىرىقىدا قاتناشقۇچىلار تىزىملىكىنى كۆرۈۋاتقاندا ئالاقىداشلار سىنبەلگىسىنىڭ ئالاقىداش نامىغا يېقىن چاپلىشىپ ئۆزلۈكىدىن پارچىلىنىپ كېتىشىنى كەلتۈرۈپ چىقارغان."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "تفعيل أو تعطيل أدوات المطورين"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "إعداد كجهاز جديد"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "انضم على أي حال"
   },
-  "icu:continueCall": {
-    "messageformat": "استئناف المكالمة"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "‫عند ضغطك على زر  الإرسال، سوف يُنشَر السجلّ على الانترنت لمدة 30 يوما، في عنوان فريد, يمكنك حفظه محليا أولا."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "مشاركة الشاشة"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "الحديث"
@@ -1035,7 +1041,7 @@
     "messageformat": "‫‏لقد تغير رقم هاتف {sender}"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "انضمّت جهة الاتصال إلى سيجنال"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} و {conversationTitle} هما نفس الحساب. سَتجد سِجل رسائلك مع الدردشتين هنا."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "تم تحديد الدردشة على أنها غير مقروءة"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "تعديل الرسالة"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "إذا قُمت بتعديل رسالة، فلن يظهر إلا للأشخاص الذين يستخدمون أحدث إصدار سيجنال. سَيتمكنون من رؤية أنك قمت بتعديل رسالة."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "إرسال نص منسق"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "قد يستخدم بعض الناس إصدارًا من سيجنال لا يتوفر على دعم للنص المنسق. لن يتمكنوا من رؤية تغييرات التنسيق التي أحدثتها على رسالتك."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "هل تود فتح مُنشيء حزمة الملصقات لسيجنال؟"
@@ -3870,7 +3864,7 @@
     "messageformat": "إعادة التوجيه نحو"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "مشاركة رابط المكالمة"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "الاستمرار"
@@ -3879,7 +3873,7 @@
     "messageformat": "لا يمكن إعادة توجيه الرسائل الفارغة أو المحذوفة"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "اِستخدم هذا الرابط للانضمام إلى مكالمة سيجنال: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "لمعرفة المزيد"
@@ -4356,7 +4350,7 @@
     "messageformat": "تحويل الرموز التعبيرية المكتوبة إلى وجوه تعبيرية"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "مثلاً، سَيتم تحويل :-) إلى <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "مُتقدِم"
@@ -5335,16 +5329,16 @@
     "messageformat": "اتصال بالرابط"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "جارية"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "مغادرة المكالمة الحالية؟"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "يجب عليك مغادرة المكالمة الحالية قبل الانضمام إلى مكالمة جديدة."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "مغادرة المكالمة"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "لا توجد محادثات حديثة."
@@ -5353,10 +5347,10 @@
     "messageformat": "لا توجد نتيجة لـ \"{query}\""
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "العودة"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "يَجب عليك مغادرة المكالمة الحالية قبل الانضمام إلى مكالمة جديدة"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {مكالمة صوتية صادرة} other {مكالمة صوتية واردة}}} Video {{direction, select, Outgoing {مكالمة فيديو صادرة} other {مكالمة فيديو واردة}}} Group {{direction, select, Outgoing {مكالمة جماعية صادرة} other {مكالمة جماعية واردة}}} other {{direction, select, Outgoing {مكالمة صادرة} other {مكالمة واردة}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "اتصال بالرابط"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "انضمام"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "نسخ الرابط"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "مشاركة الرابط عبر سيجنال"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, zero {{count,number} آخرون يكتبون.} one {{count,number} آخر يكتب.} two {{count,number} آخران يكتبان.} few {{count,number} آخرون يكتبون.} many {{count,number} آخرين يكتبون.} other {{count,number} آخرون يكتبون.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "يُصلح هذا التحديث عطلاً للعرض في واجهة المستخدم للمكالمات الجماعية."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

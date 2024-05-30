@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "切換開發者工具"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "設定新裝置"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "仍要加入"
   },
-  "icu:continueCall": {
-    "messageformat": "繼續通話"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "當你點擊提交時，你的日誌將在一個唯一的、未發布的 URL 上在線發布 30 天。你可以先將其保存在本地。"
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "分享畫面"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "語音"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} 變更了他們的電話號碼"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "聯絡人上線 Signal 通知"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} 及 {conversationTitle} 是相同的帳戶。兩個聊天的訊息紀錄均在此處。"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "聊天已標記為未讀"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "編輯訊息"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "只有使用最新 Signal 版本的用戶才能看到你的編輯訊息。他們將能看到你編輯了訊息。"
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "傳送格式化文字"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "有些人可能正在使用不支援格式化文字的 Signal 版本。他們將無法看到你對訊息作出的格式變更。"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "你要開啟 Signal 貼圖包製作器嗎？"
@@ -3870,7 +3864,7 @@
     "messageformat": "轉寄給"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "分享通話連結"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "繼續"
@@ -3879,7 +3873,7 @@
     "messageformat": "無法轉寄空白或已刪除的訊息"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "使用此連結加入 Signal 通話：{url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "了解更多"
@@ -4356,7 +4350,7 @@
     "messageformat": "將打出的表情字符轉換為表情符號"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "例如 :-) 將轉換為 <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "進階"
@@ -5335,16 +5329,16 @@
     "messageformat": "通話連結"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "使用中"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "要退出目前通話？"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "在加入新通話之前，你必須先退出目前通話。"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "離開通話"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "沒有最近的對話。"
@@ -5353,10 +5347,10 @@
     "messageformat": "沒有符合「{query}」的結果"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "返回"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "在加入新通話之前，你必須先退出目前通話"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {撥打語音通話} other {語音通話來電}}} Video {{direction, select, Outgoing {撥出視訊電話} other {視訊電話來電}}} Group {{direction, select, Outgoing {撥出群組通話} other {群組通話來電}}} other {{direction, select, Outgoing {撥出電話} other {來電}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "通話連結"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "加入"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "複製連結"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "透過 Signal 分享連結"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {其他 {count,number} 個人正在打字。}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "此更新修復了群組通話使用者界面的渲染錯誤。"
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

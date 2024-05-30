@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Pārslēgt uz izstrādātāja rīkiem"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Iestatīt kā jaunu ierīci"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Tomēr pievienoties"
   },
-  "icu:continueCall": {
-    "messageformat": "Turpināt zvanu"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Kad noklikšķināsiet uz \"Iesniegt\", jūsu žurnāls tiks publicēts un 30 dienas būs pieejams tiešsaistē ar unikālu, nepublisku URL. Varat to vispirms saglabāt lokāli."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Ekrāna kopīgošana"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Runa"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} nomainīja savu tālruņa numuru"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Kontakts pievienojās Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} un {conversationTitle} ir viens un tas pats konts. Šeit ir pieejama abu sarunu ziņu vēsture."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Saruna atzīmēta kā nelasīta"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Rediģēt ziņu"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Ja rediģēsiet ziņu, tā būs redzama tikai personām, kuras izmanto jaunākās Signal versijas. Šīs personas redzēs, ka ziņa ir rediģēta."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Formatēta teksta sūtīšana"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Daži lietotāji, iespējams, izmanto Signal versiju, kas neatbalsta formatētu tekstu. Viņi nevarēs redzēt jūsu ziņā veiktās formatējuma izmaiņas."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Vai vēlaties atvērt Signal uzlīmju komplekta izveides programmu?"
@@ -3870,7 +3864,7 @@
     "messageformat": "Pārsūtīt"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Zvana saites kopīgošana"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Turpināt"
@@ -3879,7 +3873,7 @@
     "messageformat": "Nevar pārsūtīt tukšas vai izdzēstas ziņas"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Izmantojiet šo saiti, lai pievienotos Signal zvanam: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Lasīt vairāk"
@@ -4356,7 +4350,7 @@
     "messageformat": "Pārvērst visas ievadītās emocijzīmes par emocijikonām"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Piemēram, :-) tiks pārvērsts par <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Papildu"
@@ -5335,16 +5329,16 @@
     "messageformat": "Zvana saite"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Aktīvs"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Vai pamest pašreizējo zvana?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Lai pievienotos citam zvanam, jums jāpamet pašreizējais zvans"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Pamest sarunu"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Nav neseno sarunu."
@@ -5353,10 +5347,10 @@
     "messageformat": "Vaicājumam “{query}” nav rezultātu"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Atgriezties"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Lai pievienotos citam zvanam, jums jāpamet pašreizējais zvans"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Izejošs balss zvans} other {Ienākošs balss zvans}}} Video {{direction, select, Outgoing {Izejošs videozvans} other {Ienākošs videozvans}}} Group {{direction, select, Outgoing {Izejošais grupas zvans} other {Ienākošais grupas zvans}}} other {{direction, select, Outgoing {Izejošais zvans} other {Ienākošs zvans}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "Zvana saite"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Pievienoties"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopēt saiti"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Kopīgot saiti caur Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, zero {{count,number} citi raksta.} one {{count,number} cits raksta.} other {{count,number} citi raksta.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Mēs izlabojām renderēšanas kļūdu: atverot grupas zvana dalībnieku sarakstu, kontaktpersonu ikonas parādījās pārāk tuvu šo kontaktpersonu vārdiem. Ļoti iespējams, ka starp jums un kontaktpersonām ir cieša saikne, taču dažreiz ikviens, tostarp arī jūs (un Signal Desktop lietotāju saskarne), vēlas baudīt nedaudz privātās telpas."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

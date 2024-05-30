@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Apri strumenti di sviluppo"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Configura come nuovo dispositivo"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Partecipa lo stesso"
   },
-  "icu:continueCall": {
-    "messageformat": "Continua chiamata"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Quando fai clic su Invia, il tuo log sarà pubblicato online per 30 giorni a un URL unico e non pubblicato. Puoi prima Salvarlo localmente."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Condivisione schermo"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Parlato"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} ha cambiato il suo numero di telefono"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Quando un contatto si unisce a Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} e {conversationTitle} appartengono allo stesso account. La cronologia dei messaggi per entrambe le chat è qui."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Chat segnata come non letta"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Modifica messaggio"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Se modifichi un messaggio, la modifica sarà visibile solamente alle persone che usano la versione più recente di Signal. Potranno quindi vedere che hai effettuato una modifica."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Invio del testo formattato in corso"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Alcuni utenti potrebbero usare una versione di Signal che non supporta il testo formattato. Queste persone non potranno vedere le modifiche che hai fatto alla formattazione del testo nei tuoi messaggi."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Vuoi aprire il creatore di pacchetti di sticker Signal?"
@@ -3870,7 +3864,7 @@
     "messageformat": "Inoltra a"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Condividi link chiamata"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Continua"
@@ -3879,7 +3873,7 @@
     "messageformat": "Impossibile inoltrare un messaggio vuoto o eliminato"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Usa questo link per unirti a una chiamata di Signal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Scopri di più"
@@ -4356,7 +4350,7 @@
     "messageformat": "Converti le emoticon \"scritte\" in emoji"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Per esempio :-) diventerà <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Avanzate"
@@ -5335,16 +5329,16 @@
     "messageformat": "Link chiamata"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "In corso"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Vuoi abbandonare la chiamata?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Per unirti a una nuova chiamata, devi prima uscire da quella in corso."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Esci"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Nessuna conversazione recente."
@@ -5353,10 +5347,10 @@
     "messageformat": "Nessun risultato per \"{query}\""
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Ritorna"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Per unirti a una nuova chiamata, devi prima uscire da quella in corso"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Chiamata in uscita} other {Chiamata in arrivo}}} Video {{direction, select, Outgoing {Videochiamata in uscita} other {Videochiamata in arrivo}}} Group {{direction, select, Outgoing {Chiamata di gruppo in uscita} other {Chiamata di gruppo in entrata}}} other {{direction, select, Outgoing {Chiamata in uscita} other {Chiamata in entrata}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "Link chiamata"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Unisciti"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Copia link"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Condividi il link via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} persona sta scrivendo.} other {{count,number} persone stanno scrivendo.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Abbiamo risolto un bug per cui l'icona dei contatti appariva vicino al nome del contatto durante la visualizzazione dell'elenco dei partecipanti a una chiamata di gruppo. Da ora le \"distanze di sicurezza\" verranno rispettate, promesso!"
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

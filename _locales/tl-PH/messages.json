@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Toggle Developer Tools"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Set Up as New Device"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Mag-join pa rin"
   },
-  "icu:continueCall": {
-    "messageformat": "Continue call"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Kapag na-click mo na ang Submit, ang iyong log ay ipo-post sa isang unique, unpublished URL online sa loob ng 30 days. Maaari mo muna itong i-Save locally."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Sharing screen"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Speech"
@@ -1035,7 +1041,7 @@
     "messageformat": "Pinalitan ni {sender} ang kanyang phone number"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Sumali ang kontak sa Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "Magkaparehong account ang {obsoleteConversationTitle} at {conversationTitle}. Nandito ang inyong message history para sa parehong chats."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Na-mark as unread na ang chat"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "I-edit ang message"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Kung mag-edit ka ng message, ang mga taong may latest versions lang ng Signal ang makakakita nito. Makikita nilang nag-edit ka ng message."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Pag-send ng formatted text"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "May ibang taong maaaring gumagamit ng version ng Signal na hindi sinusuportahan ang formatted text. Hindi nila makikita ang anumang formatting na ginawa mo sa iyong message."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Gusto mo bang buksan ang Signal Sticker Pack Creator?"
@@ -3870,7 +3864,7 @@
     "messageformat": "I-forward Kay"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "I-share ang call link"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Magpatuloy"
@@ -3879,7 +3873,7 @@
     "messageformat": "Hindi ma-forward ang messages na walang laman o binura na"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Gamitin ang link na ito para sumali sa Signal call: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Matuto pa"
@@ -4356,7 +4350,7 @@
     "messageformat": "Gawing emoji ang typed emoticons"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Halimbawa, ang :-) ay magiging <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Advanced"
@@ -5338,13 +5332,13 @@
     "messageformat": "Active"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Gusto mo bang umalis sa current call?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Kailangan mong umalis sa current call bago sumali sa bagong call"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Umalis sa call"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Walang recent conversations."
@@ -5353,10 +5347,10 @@
     "messageformat": "Walang resulta para sa \"{query}\""
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Bumalik"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Kailangan mong umalis sa current call bago sumali sa bagong call"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Outgoing voice call} other {Incoming voice call}}} Video {{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}} Group {{direction, select, Outgoing {Outgoing group call} other {Incoming group call}}} other {{direction, select, Outgoing {Outgoing  call} other {Incoming  call}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "Call link"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Sumali"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopyahin ang link"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "I-share ang link via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ang nagta-type.} other {{count,number} ang nagta-type.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Inaayos ng update na ito ang rendering bug sa group call user interface."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

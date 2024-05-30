@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Activa o desactiva les eines de desenvolupament"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Configura'l com a dispositiu nou"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Unir-me de totes maneres"
   },
-  "icu:continueCall": {
-    "messageformat": "Continua la trucada"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Quan cliqueu a Envia, el registre es penjarà en línia durant 30 dies en un URL únic i no publicat. Primer podeu desar-lo localment."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Compartició de pantalla"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Discurs"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} ha canviat el número de telèfon."
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "El contacte s'ha afegit al Signal."
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} i {conversationTitle} són el mateix compte. El teu historial de missatges per als dos xats és aquí."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Xat marcat com a no llegit"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Editar missatge"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Si edites un missatge, només serà visible per a aquelles persones que tinguin les darreres versions de Signal. Podran veure que has editat un missatge."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Enviant text amb format"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "És possible que algunes persones estiguin utilitzant una versió de Signal que no admet text amb format. No podran veure els canvis de format que has fet al teu missatge."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Vols obrir el Creador de paquets de stickers?"
@@ -3870,7 +3864,7 @@
     "messageformat": "Reenvia a"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Compatir enllaç de trucada"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Continua"
@@ -3879,7 +3873,7 @@
     "messageformat": "No es poden reenviar missatges buits o eliminats"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Utilitza aquest enllaç per unir-te a la trucada de Signal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Més informació"
@@ -4356,7 +4350,7 @@
     "messageformat": "Converteix les emoticones escrites en emoji"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Per exemple, :-) es convertirà a <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Avançada"
@@ -5335,16 +5329,16 @@
     "messageformat": "Enllaç de trucada"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "En actiu"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Vols sortir de la trucada actual?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Has de sortir de la trucada actual abans d'unir-te a una nova trucada."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Surt de la trucada"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "No hi ha converses recents."
@@ -5353,10 +5347,10 @@
     "messageformat": "No s'ha trobat cap resultat per a «{query}»"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Torna"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Has de sortir de la trucada actual abans d'unir-te a una nova trucada"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Trucada sortint} other {Trucada entrant}}} Video {{direction, select, Outgoing {Trucada de vídeo sortint} other {Trucada de vídeo entrant}}} Group {{direction, select, Outgoing {Trucada grupal sortint} other {Trucada grupal entrant}}} other {{direction, select, Outgoing {Telefonada feta} other {Telefonada rebuda}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "Enllaç de trucada"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Afegeix-m'hi"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Copiar l'enllaç"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Compartir enllaç per Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} persona més està escrivint.} other {{count,number} persones més estan escrivint.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Aquesta actualització corregeix un error de visualització a la pantalla de trucades grupals."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

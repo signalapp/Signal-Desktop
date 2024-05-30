@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "개발자 도구 전환"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "새 기기로 설정"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "보내기"
   },
-  "icu:continueCall": {
-    "messageformat": "계속 전화"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "제출을 클릭하면 게시되지 않은 고유 URL에서 로그가 30일 동안 온라인에 게시됩니다. 로컬로 먼저 저장할 수 있습니다."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "화면 공유하기"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "말하기"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} 님이 전화번호를 변경했습니다."
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "내 연락처가 Signal에 등록함"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} 님과 {conversationTitle} 님은 같은 계정입니다. 두 대화의 메시지 기록을 여기서 확인하세요."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "대화를 읽지 않음으로 표시"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "메시지 수정"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "메시지를 수정하면 Signal 최신 버전을 사용하는 사용자에게만 표시됩니다. 해당 사용자는 수정 메시지를 볼 수 있습니다."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "서식 지정 텍스트 보내기"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "일부 사용자가 서식 지정 텍스트를 지원하지 않는 Signal 버전을 사용 중일 수 있습니다. 이러한 사용자의 경우 메시지에 적용된 서식 변경 내용을 보지 못할 수 있습니다."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Signal 스티커 팩 생성기를 열까요?"
@@ -3870,7 +3864,7 @@
     "messageformat": "전달 대상"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "통화 링크 공유"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "계속"
@@ -3879,7 +3873,7 @@
     "messageformat": "빈 메시지나 삭제한 메시지는 전달할 수 없습니다."
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Signal 통화에 참여할 때 사용할 링크: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "더 알아보기"
@@ -4356,7 +4350,7 @@
     "messageformat": "글로 입력한 이모티콘을 이모지로 변환"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "예를 들어 :-) 기호를 입력하면 <emojify>🙂</emojify> 이모지로 변환됨"
   },
   "icu:Preferences--advanced": {
     "messageformat": "고급"
@@ -5335,16 +5329,16 @@
     "messageformat": "통화 링크"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "활성"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "현재 통화를 종료하시겠어요?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "새 통화에 참여하려면 먼저 현재 통화를 끝내야 합니다."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "통화 종료"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "최근 대화 없음."
@@ -5353,10 +5347,10 @@
     "messageformat": "“{query}” 검색 결과 없음"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "돌아가기"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "새 통화에 참여하려면 먼저 현재 통화를 끝내야 합니다."
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {발신 음성 통화} other {수신 음성 통화}}} Video {{direction, select, Outgoing {발신 영상 통화} other {수신 영상 통화}}} Group {{direction, select, Outgoing {발신 그룹 통화} other {수신 그룹 통화}}} other {{direction, select, Outgoing {발신 전화} other {수신 전화}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "통화 링크"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "참가"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "링크 복사"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Signal을 통해 링크 공유"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number}명이 입력하는 중입니다.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "이 업데이트는 그룹 통화 사용자 인터페이스의 렌더링 버그를 해결합니다."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

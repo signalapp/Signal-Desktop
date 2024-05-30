@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Εναλλαγή εργαλείων προγραμματιστή"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Παραμετροποίηση ως νέα συσκευή"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Συμμετοχή παρ' όλα αυτά"
   },
-  "icu:continueCall": {
-    "messageformat": "Συνέχεια κλήσης"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Όταν πατήσεις Υποβολή, το αρχείο καταγραφής θα αναρτηθεί στο διαδίκτυο για 30 ημέρες, σε ένα μοναδικό και μη δημοσιευμένο σύνδεσμο URL. Μπορείς να το αποθηκεύσεις πρώτα τοπικά."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Διαμοιρασμός οθόνης"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Ομιλία"
@@ -1035,7 +1041,7 @@
     "messageformat": "Ο/Η {sender} άλλαξε τον αριθμό τηλεφώνου του/της"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Επαφή που εγκατέστησε το Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "Οι συνομιλίες {obsoleteConversationTitle} και {conversationTitle} ανήκουν στον ίδιο λογαριασμό. Το ιστορικό των μηνυμάτων σου και για τις δύο συνομιλίες είναι εδώ."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Η συνομιλία επισημάνθηκε ως μη αναγνωσμένη"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Επεξεργασία μηνύματος"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Εάν επεξεργαστείς ένα μήνυμα, θα είναι ορατό μόνο σε άτομα που χρησιμοποιούν τις τελευταίες εκδόσεις του Signal. Δεν θα μπορούν να δουν ότι επεξεργάστηκες το μήνυμα."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Αποστολή μορφοποιημένου κειμένου"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Κάποια άτομα μπορεί να χρησιμοποιούν μια έκδοση του Signal που δεν υποστηρίζει μορφοποιημένο κείμενο. Δεν θα μπορούν να δουν τις αλλαγές μορφοποίησης που έχεις κάνει στο μήνυμά σου."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Θέλεις να ανοίξεις τον δημιουργό πακέτου αυτοκόλλητων Signal;"
@@ -3870,7 +3864,7 @@
     "messageformat": "Προώθηση σε"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Κοινοποίηση συνδέσμου κλήσης"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Συνέχεια"
@@ -3879,7 +3873,7 @@
     "messageformat": "Δεν είναι δυνατή η προώθηση κενών ή διαγραμμένων μηνυμάτων"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Χρησιμοποίησε αυτόν τον σύνδεσμο για να μπεις σε μια κλήση Signal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Μάθε περισσότερα"
@@ -4356,7 +4350,7 @@
     "messageformat": "Μετάτρεψε τα emoticon σε emoji"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Για παράδειγμα, το :-) θα μετατραπεί σε <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Για προχωρημένους"
@@ -5335,16 +5329,16 @@
     "messageformat": "Σύνδεσμος κλήσης"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Ενεργή"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Αποχώρηση από την τρέχουσα κλήση;"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Πρέπει να αποχωρήσεις από την τρέχουσα κλήση πριν συνδεθείς σε νέα."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Αποχώρηση από την κλήση"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Δεν υπάρχουν πρόσφατες συνομιλίες."
@@ -5353,10 +5347,10 @@
     "messageformat": "Δεν βρέθηκαν αποτελέσματα για “{query}”"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Επιστροφή"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Πρέπει να αποχωρήσεις από την τρέχουσα κλήση πριν συνδεθείς σε νέα"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Εξερχόμενη κλήση} other {Εισερχόμενη κλήση}}} Video {{direction, select, Outgoing {Εξερχόμενη βιντεοκλήση} other {Εισερχόμενη βιντεοκλήση}}} Group {{direction, select, Outgoing {Εξερχόμενη ομαδική κλήση} other {Εισερχόμενη ομαδική κλήση}}} other {{direction, select, Outgoing {Εξερχόμενη κλήση} other {Εισερχόμενη κλήση}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "Σύνδεσμος κλήσης"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Συμμετοχή"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Αντιγραφή συνδέσμου"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Κοινοποίηση συνδέσμου μέσω Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} άλλο άτομο πληκτρολογεί.} other {{count,number} άλλα άτομα πληκτρολογούν.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Αυτή η ενημέρωση διορθώνει ένα σφάλμα απεικόνισης στο περιβάλλον εργασίας χρήστη ομαδικών κλήσεων."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

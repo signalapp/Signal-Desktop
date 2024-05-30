@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Әзірлеуші құралдарына ауыстыру"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Жаңа құрылғы ретінде орнату"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Сонда да қосылу"
   },
-  "icu:continueCall": {
-    "messageformat": "Қоңырауды жалғастыру"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "\"Жіберу\" түймесін басқанда, сіздің журналыңыз 30 күнге бірегей жарияланбаған URL мекенжайына жарияланады. Оны алдымен жергілікті сақтап қоюыңызға болады."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Экранды бөлісу"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Сөйлеу"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} өзінің телефон нөмірін өзгертті"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Контакт Signal-ға қосылды"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} және {conversationTitle} екеуі – бір аккаунт. Екі чат үшін де хаттар тарихын осы жерден таба аласыз."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Чат оқылмады деп белгіленді"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Хатты өзгерту"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Егер сіз хатты түзетсеңіз, ол Signal-дың ең соңғы нұсқаларын пайдаланатындарға ғана көрінеді. Олар сіздің хатты өзгерткеніңізді көре алады."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Форматталған мәтін жіберілуде"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Кейбіреулер Signal-дың форматталған мәтін істемейтін нұсқасын пайдаланып жатқан болуы мүмкін. Олар хатыңызға енгізген форматтау өзгерістерін көре алмайды."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Signal стикерлер жинағының авторын ашқыңыз келе ме?"
@@ -3870,7 +3864,7 @@
     "messageformat": "Жіберілетін контакт"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Қоңырау сілтемесін бөлісу"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Жалғастыру"
@@ -3879,7 +3873,7 @@
     "messageformat": "Бос немесе жойылған хаттарды басқа біреуге жіберу мүмкін емес"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Signal қоңырауына қосылу үшін осы сілтемені пайдаланыңыз: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Толық ақпарат"
@@ -4356,7 +4350,7 @@
     "messageformat": "Терілген эмотикондарды эмодзилерге түрлендіру"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Мысалы, :-) деп терсеңіз, <emojify>🙂</emojify> болады"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Озық"
@@ -5335,16 +5329,16 @@
     "messageformat": "Қоңырау сілтемесі"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Белсенді"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Қазіргі қоңыраудан шығу керек пе?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Жаңа қоңырауға қосылмас бұрын, қазіргі қоңыраудан шығуыңыз керек."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Қоңыраудан шығу"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Соңғы сұхбаттар жоқ."
@@ -5353,10 +5347,10 @@
     "messageformat": "\"{query}\" бойынша нәтижелер жоқ"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Қайту"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Жаңа қоңырауға қосылмас бұрын, қазіргі қоңыраудан шығуыңыз керек"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Шығыс дауыстық қоңырау} other {Кіріс дауыстық қоңырау}}} Video {{direction, select, Outgoing {Шығыс видеоқоңырау} other {Кіріс видеоқоңырау}}} Group {{direction, select, Outgoing {Шығыс топтық қоңырау} other {Кіріс топтық қоңырау}}} other {{direction, select, Outgoing {Шығатын қоңырау} other {Келетін қоңырау }}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "Қоңырау сілтемесі"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Қосылу"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Сілтемені көшіру"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Сілтемені Signal арқылы бөлісу"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Тағы {count,number} адам жазып жатыр.} other {Тағы {count,number} адам жазып жатыр.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Топтық қоңырауға қатысушылардың тізімін көріп отырғанда контактінің атының тура жанындағы контактілер белгішесі бөлініп қалатын ақау түзетілді. Бәлкім сіз контактілеріңізге шынымен жақын шығарсыз, бірақ кейде сізге де (Signal Desktop пайдаланушы интерфейсіне де) аздаған орын керек болады."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

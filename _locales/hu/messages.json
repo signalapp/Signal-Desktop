@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Fejlesztői eszközök megjelenítése/elrejtése"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Beállítás új eszközként"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Csatlakozás mindenképp"
   },
-  "icu:continueCall": {
-    "messageformat": "Hívás folytatása"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "A Küldés gombra nyomva a hibanaplód egy egyedi, nem publikus online tárhelyre kerül feltöltésre, ahonnan 30 nap után törlődik. Ha gondolod, mentsd el előbb a készülékedre is."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Képernyő megosztása"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Beszéd"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} megváltoztatta a telefonszámát"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Ismerős csatlakozott a Signalhoz"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} és {conversationTitle} ugyanaz a fiók. Itt található mindkét csevegés üzenetelőzménye."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "A csevegés olvasatlanként megjelölve"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Üzenet szerkesztése"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Ha szerkesztesz egy üzenetet, azt csak azok láthatják, akik a Signal béta legújabb verzióját használják. Ők látni fogják, hogy szerkesztettél egy üzenetet."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Formázott szöveg küldése"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Előfordulhat, hogy egyesek a Signal olyan verzióját használják, amely nem támogatja a formázott szöveget. Nem fogják látni az üzeneten végzett formázási módosításokat."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Szeretnéd megnyitni a Signal matricacsomag-készítő alkalmazást?"
@@ -3870,7 +3864,7 @@
     "messageformat": "Továbbítás ide:"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Híváslink megosztása"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Folytatás"
@@ -3879,7 +3873,7 @@
     "messageformat": "Üres vagy törölt üzeneteket nem lehet továbbítani"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Ezzel a hivatkozással csatlakozhatsz egy Signal-híváshoz: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Tudj meg többet!"
@@ -4356,7 +4350,7 @@
     "messageformat": "A beírt hangulatjelek emodzsivá való átalakítása"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Például a :-) hangulatjel <emojify>🙂</emojify> hangulatjellé kerül átalakításra"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Haladó"
@@ -5335,16 +5329,16 @@
     "messageformat": "Híváshivatkozás"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Aktív"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Kilépsz az aktuális hívásból?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Egy új híváshoz való csatlakozáshoz előbb ki kell lépned az aktuális hívásból."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Kilépés a hívásból"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Nincsenek legutóbbi beszélgetések."
@@ -5353,10 +5347,10 @@
     "messageformat": "Nincs találat a következőre: „{query}”"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Vissza"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Egy új híváshoz való csatlakozáshoz előbb ki kell lépned az aktuális hívásból"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Kimenő hanghívás} other {Bejövő hanghívás}}} Video {{direction, select, Outgoing {Kimenő videóhívás} other {Bejövő videóhívás}}} Group {{direction, select, Outgoing {Kimenő csoportos hívás} other {Bejövő csoportos hívás}}} other {{direction, select, Outgoing {Kimenő hívás} other {Bejövő hívás}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "Híváshivatkozás"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Csatlakozás"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Hivatkozás másolása"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Hivatkozás megosztása a Signalon keresztül"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} másik személy ír.} other {{count,number} másik személy ír.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Ez a frissítés kijavít egy renderelési hibát a csoportos hívás felhasználói felületén."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }

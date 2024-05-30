@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Aktibatu/Desaktibatu Garatzaileen Tresnak"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Ezarri Gailu Berri Gisa"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Sartu hala ere"
   },
-  "icu:continueCall": {
-    "messageformat": "Deia jarraitu"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "\"Bidali\" sakatzen duzunean, erregistroa sarera kargatuko da 30 egunez, argitaratu gabeko URL esklusibo batean. Lehenik, gailuan gorde dezakezu."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Pantaila partekatzen"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Hizketa"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender}(e)k bere telefono-zenbakia aldatu du"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Kontaktua orain Signalen dago"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} eta {conversationTitle} kontu bera dira. Bi txatetako mezuen historia hemen dago."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Irakurri gabeko gisa markatu da txata"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Editatu mezua"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Mezu bat editatzen baduzu, Signal-en azken bertsioak darabiltzaten pertsonek soilik izango dute ikusgai. Mezu bat editatu duzula ikusi ahal izango dute."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Testu formatuduna bidaltzen"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Baliteke pertsona batzuek darabilten Signal-en bertsioak ez onartzea testu fomartuduna. Ezingo dituzte ikusi mezuan egin dituzun formatu-aldaketak."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Signal-en eranskailu-paketeen sortzailea ireki nahi duzu?"
@@ -3870,7 +3864,7 @@
     "messageformat": "Birbidali honi"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Partekatu deiaren esteka"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Jarraitu"
@@ -3879,7 +3873,7 @@
     "messageformat": "Ezin dira bidali hutsik dauden edo ezabatu diren mezuak"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Erabili esteka hau Signal-eko dei batean sartzeko: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Gehiago jakin"
@@ -4356,7 +4350,7 @@
     "messageformat": "Bihurtu idazten dituzun emotikonoak emoji"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Adibidez, :-) <emojify>🙂</emojify> bihurtuko da"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Aurreratua"
@@ -5335,16 +5329,16 @@
     "messageformat": "Deiaren esteka"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Aktibo"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Oraingo deitik irten nahi duzu?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Beste dei batean sartzeko, oraingo deitik irten behar duzu."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Deia utzi"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Ez dago duela gutxiko elkarrizketarik."
@@ -5353,10 +5347,10 @@
     "messageformat": "Ez dago honen emaitzarik: \"{query}\""
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Itzuli"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Beste dei batean sartzeko, oraingo deitik irten behar duzu"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Irteerako ahots-deia} other {Sarrerako ahots-deia}}} Video {{direction, select, Outgoing {Irteerako bideodeia} other {Sarrerako bideodeia}}} Group {{direction, select, Outgoing {Irteerako talde-deia} other {Sarrerako talde-deia}}} other {{direction, select, Outgoing {Irteerako deia} other {Sarrerako dei}}}}"
@@ -5374,13 +5368,13 @@
     "messageformat": "Deiaren esteka"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Sartu"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopiatu esteka"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Partekatu esteka Signal bidez"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Beste {count,number} idazten ari da.} other {Beste {count,number} idazten ari dira.}}"
@@ -5423,6 +5417,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Kontaktuen ikurra talde-dei batean parte-hartzaileen zerrendan kontaktuaren izenaren ondoan zanpatzea eragiten zuen errendimendu-errorea konpondu dugu. Ziurrenik zure kontaktuen eta zure arteko harremana oso estua da, baina batzuetan zure kontaktuekiko (eta Signal Desktop erabiltzailearen interfazeekiko) distantzia pixka bat gorde behar duzu."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
   }
 }
