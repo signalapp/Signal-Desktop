@@ -1167,10 +1167,10 @@
     "messageformat": "Здійснення викликів"
   },
   "icu:calling__call-back": {
-    "messageformat": "Перетелефонувати"
+    "messageformat": "Передзвонити"
   },
   "icu:calling__call-again": {
-    "messageformat": "Перетелефонувати"
+    "messageformat": "Передзвонити"
   },
   "icu:calling__join": {
     "messageformat": "Приєднатись"
@@ -2580,31 +2580,31 @@
     "messageformat": "Ви відхилили аудіовиклик"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Ви відхилили відеодзвінок"
+    "messageformat": "Ви відхилили відеовиклик"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Вхідний аудіовиклик"
   },
   "icu:acceptedIncomingVideoCall": {
-    "messageformat": "Вхідний відеодзвінок"
+    "messageformat": "Вхідний відеовиклик"
   },
   "icu:missedIncomingAudioCall": {
     "messageformat": "Пропущений аудіовиклик"
   },
   "icu:missedIncomingVideoCall": {
-    "messageformat": "Пропущений відеодзвінок"
+    "messageformat": "Пропущений відеовиклик"
   },
   "icu:acceptedOutgoingAudioCall": {
     "messageformat": "Вихідний аудіовиклик"
   },
   "icu:acceptedOutgoingVideoCall": {
-    "messageformat": "Вихідний відеодзвінок"
+    "messageformat": "Вихідний відеовиклик"
   },
   "icu:missedOrDeclinedOutgoingAudioCall": {
     "messageformat": "Аудіовиклик без відповіді"
   },
   "icu:missedOrDeclinedOutgoingVideoCall": {
-    "messageformat": "Відеодзвінок без відповіді"
+    "messageformat": "Відеовиклик без відповіді"
   },
   "icu:minimizeToTrayNotification--title": {
     "messageformat": "Signal продовжує працювати"
@@ -2622,7 +2622,7 @@
     "messageformat": "Вихідний аудіовиклик"
   },
   "icu:outgoingVideoCall": {
-    "messageformat": "Вихідний відеодзвінок"
+    "messageformat": "Вихідний відеовиклик"
   },
   "icu:incomingGroupCall__ringing-you": {
     "messageformat": "{ringer} телефонує вам"
@@ -2646,7 +2646,7 @@
     "messageformat": "Почати дзвінок"
   },
   "icu:makeOutgoingVideoCall": {
-    "messageformat": "Почати відеодзвінок"
+    "messageformat": "Почати відеовиклик"
   },
   "icu:joinOngoingCall": {
     "messageformat": "Приєднатись"
@@ -4719,7 +4719,7 @@
     "messageformat": "вони є в контактах вашого пристрою."
   },
   "icu:SignalConnectionsModal__footer": {
-    "messageformat": "Ваші контакти бачать ваше ім'я та фото, а також усе, що ви викладаєте в «Моїй історії», якщо ви її не приховали."
+    "messageformat": "Контакти Signal бачать ваше ім'я та фото, а також усе, що ви викладаєте в «Моїй історії», якщо ви її не приховали."
   },
   "icu:Stories__title": {
     "messageformat": "Історії"
@@ -4809,10 +4809,10 @@
     "messageformat": "Ця людина більше не зможе бачити вашу історію."
   },
   "icu:StoriesSettings__replies-reactions--title": {
-    "messageformat": "Відповіді і реакції"
+    "messageformat": "Відповіді й реакції"
   },
   "icu:StoriesSettings__replies-reactions--label": {
-    "messageformat": "Дозволити відповіді і реакції"
+    "messageformat": "Дозволити відповіді й реакції"
   },
   "icu:StoriesSettings__replies-reactions--description": {
     "messageformat": "Дозвольте глядачам ваших історій реагувати й відповідати на них."
@@ -4986,7 +4986,7 @@
     "messageformat": "Увімкніть відмітки про перегляд, щоб знати, хто переглянув ваші історії. Для цього відкрийте застосунок Signal на своєму мобільному пристрої: Налаштування > Історії."
   },
   "icu:StoryViewsNRepliesModal__no-replies": {
-    "messageformat": "Ще немає відповідей"
+    "messageformat": "Відповідей ще немає"
   },
   "icu:StoryViewsNRepliesModal__no-views": {
     "messageformat": "Ще немає переглядів"
@@ -5353,13 +5353,13 @@
     "messageformat": "Щоб приєднатися до іншого виклику, потрібно спочатку вийти з поточного"
   },
   "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Вихідний аудіовиклик} other {Вхідний аудіовиклик}}} Video {{direction, select, Outgoing {Вихідний відеодзвінок} other {Вхідний відеодзвінок}}} Group {{direction, select, Outgoing {Вихідний груповий дзвінок} other {Вхідний груповий дзвінок}}} other {{direction, select, Outgoing {Вихідний виклик} other {Вхідний виклик}}}}"
+    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Вихідний аудіовиклик} other {Вхідний аудіовиклик}}} Video {{direction, select, Outgoing {Вихідний відеовиклик} other {Вхідний відеовиклик}}} Group {{direction, select, Outgoing {Вихідний груповий дзвінок} other {Вхідний груповий дзвінок}}} other {{direction, select, Outgoing {Вихідний виклик} other {Вхідний виклик}}}}"
   },
   "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Пропущений аудіовиклик} Video {Пропущений відеодзвінок} Group {Пропущений груповий дзвінок} other {Пропущений виклик}}"
+    "messageformat": "{type, select, Audio {Пропущений аудіовиклик} Video {Пропущений відеовиклик} Group {Пропущений груповий дзвінок} other {Пропущений виклик}}"
   },
   "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Аудіовиклик без відповіді} Video {Відеодзвінок без відповіді} Group {Груповий виклик без відповіді} other {Виклик без відповіді}}"
+    "messageformat": "{type, select, Audio {Аудіовиклик без відповіді} Video {Відеовиклик без відповіді} Group {Груповий виклик без відповіді} other {Виклик без відповіді}}"
   },
   "icu:CallHistory__Description--Declined": {
     "messageformat": "{type, select, Audio {Відхилений аудіовиклик} Video {Відхилений відеовиклик} Group {Відхилений груповий виклик} other {Відхилений виклик}}"
@@ -5424,5 +5424,8 @@
   },
   "icu:WhatsNew__v7.12--1": {
     "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
   }
 }
