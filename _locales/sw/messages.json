@@ -33,7 +33,7 @@
     "messageformat": "Tayari ni mwanachama"
   },
   "icu:GroupListItem__message-pending": {
-    "messageformat": "Uanachama wake umesubirishwa"
+    "messageformat": "Uanachama wake unasubiri"
   },
   "icu:Preferences__sent-media-quality": {
     "messageformat": "Ubora wa media iliyotumwa"
@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} amebadili nambari yake ya simu"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Mwasiliani amejiunga na Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} na {conversationTitle} ni akaunti moja. Historia ya gumzo zote mbili zipo hapa."
@@ -3870,7 +3870,7 @@
     "messageformat": "Sambaza Kwa"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Shiriki kiungo cha Simu"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Endelea"
@@ -3879,7 +3879,7 @@
     "messageformat": "Huwezi kusambaza jumbe zisizopo au zilizofutwa"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Tumia kiungo hiki ili kujiunga na simu ya Signal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Jifunze zaidi"
@@ -4356,7 +4356,7 @@
     "messageformat": "Badili emoticons zilizoandikwa kuwa emoji"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Kwa mfano, :-) itabadilika kuwa <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "ya juu"
@@ -5335,16 +5335,16 @@
     "messageformat": "Kiungo cha simu"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Inaendelea"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Sitisha simu hii?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Ni lazima ukate simu hii kabla hujapiga simu mpya."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Ondoka kwenye mazungumzo ya simu"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Hakuna mazungungumzo ya hivi karibuni."
@@ -5353,10 +5353,10 @@
     "messageformat": "Hakuna matokeo ya \"{query}\""
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Rudi"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Ni lazima ukate simu hii kabla hujapiga simu mpya"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Simu ya kawaida uliyopiga} other {Simu ya kawaida inayopigwa}}} Video {{direction, select, Outgoing {Simu ya video uliyopiga} other {Simu ya video uliyopigiwa}}} Group {{direction, select, Outgoing {Kupiga simu ya kikundi} other {Simu ya kikundi inayopigwa}}} other {{direction, select, Outgoing {Simu inayotoka} other {Simu inaingia}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "Kiungo cha simu"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Jiunge"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Nakili kiungo"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Shiriki kiungo kupitia Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Mwingine {count,number} anaandika.} other {Wengine {count,number} wanaandika.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Tumerekebisha hitilafu ya muonekano iliyosababisha aikoni ya wawasiliani kukaa pembeni kabisa ya jina la muwasiliani wakati wa kutazama orodha ya washiriki kwenye simu ya kikundi. Inawezekana ukawa karibu sana na wawasiliani wako, lakini wakati mwingine nyote (pamoja na mtumiaji wa Signal Desktop) mnahitaji nafasi kidogo."
   }
 }

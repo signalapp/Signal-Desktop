@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} ha canviat el número de telèfon."
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "El contacte s'ha afegit al Signal."
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} i {conversationTitle} són el mateix compte. El teu historial de missatges per als dos xats és aquí."
@@ -3870,7 +3870,7 @@
     "messageformat": "Reenvia a"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Compatir enllaç de trucada"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Continua"
@@ -3879,7 +3879,7 @@
     "messageformat": "No es poden reenviar missatges buits o eliminats"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Utilitza aquest enllaç per unir-te a la trucada de Signal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Més informació"
@@ -4356,7 +4356,7 @@
     "messageformat": "Converteix les emoticones escrites en emoji"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Per exemple, :-) es convertirà a <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Avançada"
@@ -5335,16 +5335,16 @@
     "messageformat": "Enllaç de trucada"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "En actiu"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Vols sortir de la trucada actual?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Has de sortir de la trucada actual abans d'unir-te a una nova trucada."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Surt de la trucada"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "No hi ha converses recents."
@@ -5353,10 +5353,10 @@
     "messageformat": "No s'ha trobat cap resultat per a «{query}»"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Torna"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Has de sortir de la trucada actual abans d'unir-te a una nova trucada"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Trucada sortint} other {Trucada entrant}}} Video {{direction, select, Outgoing {Trucada de vídeo sortint} other {Trucada de vídeo entrant}}} Group {{direction, select, Outgoing {Trucada grupal sortint} other {Trucada grupal entrant}}} other {{direction, select, Outgoing {Telefonada feta} other {Telefonada rebuda}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "Enllaç de trucada"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Afegeix-m'hi"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Copiar l'enllaç"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Compartir enllaç per Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} persona més està escrivint.} other {{count,number} persones més estan escrivint.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Aquesta actualització corregeix un error de visualització a la pantalla de trucades grupals."
   }
 }

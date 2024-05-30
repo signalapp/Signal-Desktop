@@ -1035,7 +1035,7 @@
     "messageformat": "D'athraigh {sender} an uimhir ghutháin"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Chuaigh an teagmhálaí isteach in Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "Baineann {obsoleteConversationTitle} agus {conversationTitle} leis an gcuntas céanna. Tá stair na dteachtaireachtaí don dá chomhrá anseo."
@@ -3870,7 +3870,7 @@
     "messageformat": "Seol ar aghaidh Chuig"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Comhroinn nasc glao"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Ar aghaidh"
@@ -3879,7 +3879,7 @@
     "messageformat": "Ní féidir teachtaireachtaí folmha ná scriosta a sheoladh ar aghaidh"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Úsáid an nasc seo le dul isteach i nglao Signal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Foghlaim tuilleadh"
@@ -4356,7 +4356,7 @@
     "messageformat": "Tiontaigh straoiseoga clóscríofa ina emoji"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Mar shampla, tiontófar :-) ina <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Ardroghanna"
@@ -5335,16 +5335,16 @@
     "messageformat": "Nasc glao"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Gníomhach"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Imigh as an nglao reatha?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Ní mór duit imeacht as an nglao reatha chun dul isteach i nglao nua."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Imigh as an nglao"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Ní comhráite le déanaí ann."
@@ -5353,10 +5353,10 @@
     "messageformat": "Níl aon torthaí ar “{query}”"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Fill ar an nglao"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Ní mór duit imeacht as an nglao reatha chun dul isteach i nglao nua"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Guthghlao amach} other {Guthghlao isteach}}} Video {{direction, select, Outgoing {Físghlao amach} other {Físghlao isteach}}} Group {{direction, select, Outgoing {Grúpghlao amach} other {Grúpghlao isteach}}} other {{direction, select, Outgoing {Glao amach} other {Glao isteach}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "Nasc glao"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Téigh isteach ann"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Cóipeáil an nasc"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Comhroinn nasc trí Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Tá {count,number} duine eile ag clóscríobh.} two {Tá {count,number} dhuine eile ag clóscríobh.} few {Tá {count,number} dhuine eile ag clóscríobh.} many {Tá {count,number} nduine eile ag clóscríobh.} other {Tá {count,number} duine eile ag clóscríobh.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Réitíonn an nuashonrú seo fabht rindreála i gcomhéadan úsáideora an ghrúpghlao."
   }
 }

@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} изменил(-а) свой номер телефона"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Контакт присоединился к Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} и {conversationTitle} — это одна и та же учётная запись. История сообщений для обоих чатов находится здесь."
@@ -3870,7 +3870,7 @@
     "messageformat": "Переслать"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Поделиться ссылкой на звонок"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Продолжить"
@@ -3879,7 +3879,7 @@
     "messageformat": "Невозможно переслать пустые или удалённые сообщения"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Используйте эту ссылку, чтобы присоединиться к звонку Signal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Узнать больше"
@@ -4356,7 +4356,7 @@
     "messageformat": "Преобразование набранных смайликов в эмодзи"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Например, :-) будет преобразовано в <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Расширенные"
@@ -5335,16 +5335,16 @@
     "messageformat": "Ссылка на звонок"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Активный"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Покинуть текущий звонок?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Для присоединения к новому звонку нужно выйти из текущего звонка."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Покинуть звонок"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Нет последних разговоров."
@@ -5353,10 +5353,10 @@
     "messageformat": "Нет результатов для «{query}»"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Вернуться"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Для присоединения к новому звонку нужно выйти из текущего звонка"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Исходящий голосовой звонок} other {Входящий голосовой звонок}}} Video {{direction, select, Outgoing {Исходящий видеозвонок} other {Входящий видеозвонок}}} Group {{direction, select, Outgoing {Исходящий групповой звонок} other {Входящий групповой звонок}}} other {{direction, select, Outgoing {Исходящий звонок} other {Входящий вызов}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "Ссылка на звонок"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Войти"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Копировать ссылку"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Поделиться ссылкой через Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Ещё {count,number} печатает.} few {Ещё {count,number} печатают.} many {Ещё {count,number} печатают.} other {Ещё {count,number} печатают.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Исправлена ошибка визуализации, из-за которой значок контактов искажался рядом с именем контакта при просмотре списка участников группового звонка. Возможно, вы очень близки со своими контактами, но иногда вам (и пользовательскому интерфейсу Signal Desktop) требуется немного личного пространства."
   }
 }

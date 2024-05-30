@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} telefon numarasını değiştirdi"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Kontaklarınızdan biri Signal'e katıldı"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} ve {conversationTitle} aynı hesap. Her iki sohbetin mesaj geçmişi burada."
@@ -3870,7 +3870,7 @@
     "messageformat": "İlet:"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Arama bağlantısını paylaş"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Devam"
@@ -3879,7 +3879,7 @@
     "messageformat": "Boş veya silinmiş mesajlar iletilemez"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Bir Signal Aramasına katılmak için bu bağlantıyı kullan: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Dahasını öğrenin"
@@ -4356,7 +4356,7 @@
     "messageformat": "Yazılan ifadeleri emojiye dönüştür"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Örneğin :-) simgesi <emojify>🙂</emojify> simgesine dönüştürülecek"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Gelişmiş"
@@ -5335,16 +5335,16 @@
     "messageformat": "Arama bağlantısı"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Aktif"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Mevcut aramadan çıkılsın mı?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Yeni bir aramaya katılmadan önce mevcut aramadan ayrılmalısın."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Aramadan ayrıl"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Güncel konuşma yok."
@@ -5353,10 +5353,10 @@
     "messageformat": "\"{query}\" için sonuç yok"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Geri Dön"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Yeni bir aramaya katılmadan önce mevcut aramadan ayrılmalısın"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Giden sesli arama} other {Gelen sesli arama}}} Video {{direction, select, Outgoing {Giden görüntülü arama} other {Gelen görüntülü arama}}} Group {{direction, select, Outgoing {Giden grup araması} other {Gelen grup araması}}} other {{direction, select, Outgoing {Giden arama} other {Gelen arama}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "Arama bağlantısı"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Katıl"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Bağlantıyı kopyala"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Bağlantıyı Signal ile paylaş"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} kişi daha yazıyor.} other {{count,number} kişi daha yazıyor.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Bu güncelleme, grup araması kullanıcı arayüzündeki bir işleme hatasını düzeltmektedir. Böylece Signal Desktop kullanıcı arayüzünde grup aramaların sorunsuz geçer."
   }
 }

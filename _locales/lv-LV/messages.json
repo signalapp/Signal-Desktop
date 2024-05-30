@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} nomainīja savu tālruņa numuru"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Kontakts pievienojās Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} un {conversationTitle} ir viens un tas pats konts. Šeit ir pieejama abu sarunu ziņu vēsture."
@@ -3870,7 +3870,7 @@
     "messageformat": "Pārsūtīt"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Zvana saites kopīgošana"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Turpināt"
@@ -3879,7 +3879,7 @@
     "messageformat": "Nevar pārsūtīt tukšas vai izdzēstas ziņas"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Izmantojiet šo saiti, lai pievienotos Signal zvanam: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Lasīt vairāk"
@@ -4356,7 +4356,7 @@
     "messageformat": "Pārvērst visas ievadītās emocijzīmes par emocijikonām"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Piemēram, :-) tiks pārvērsts par <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Papildu"
@@ -5335,16 +5335,16 @@
     "messageformat": "Zvana saite"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Aktīvs"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Vai pamest pašreizējo zvana?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Lai pievienotos citam zvanam, jums jāpamet pašreizējais zvans"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Pamest sarunu"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Nav neseno sarunu."
@@ -5353,10 +5353,10 @@
     "messageformat": "Vaicājumam “{query}” nav rezultātu"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Atgriezties"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Lai pievienotos citam zvanam, jums jāpamet pašreizējais zvans"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Izejošs balss zvans} other {Ienākošs balss zvans}}} Video {{direction, select, Outgoing {Izejošs videozvans} other {Ienākošs videozvans}}} Group {{direction, select, Outgoing {Izejošais grupas zvans} other {Ienākošais grupas zvans}}} other {{direction, select, Outgoing {Izejošais zvans} other {Ienākošs zvans}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "Zvana saite"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Pievienoties"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopēt saiti"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Kopīgot saiti caur Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, zero {{count,number} citi raksta.} one {{count,number} cits raksta.} other {{count,number} citi raksta.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Mēs izlabojām renderēšanas kļūdu: atverot grupas zvana dalībnieku sarakstu, kontaktpersonu ikonas parādījās pārāk tuvu šo kontaktpersonu vārdiem. Ļoti iespējams, ka starp jums un kontaktpersonām ir cieša saikne, taču dažreiz ikviens, tostarp arī jūs (un Signal Desktop lietotāju saskarne), vēlas baudīt nedaudz privātās telpas."
   }
 }

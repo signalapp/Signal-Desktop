@@ -1035,7 +1035,7 @@
     "messageformat": "{sender}, nömrəsini dəyişdirdi"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Əlaqə Signal-a qoşuldu"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} və {conversationTitle} eyni hesaba aiddir. Hər iki çat üçün mesaj tarixçəniz buradadır."
@@ -3870,7 +3870,7 @@
     "messageformat": "Yönləndir"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Zəng keçidini paylaş"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Davam et"
@@ -3879,7 +3879,7 @@
     "messageformat": "Boş və ya silinmiş mesajları yönləndirmək mümkün deyil"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Signal zənginə qoşulmaq üçün bu keçiddən istifadə edin: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Daha ətraflı"
@@ -4356,7 +4356,7 @@
     "messageformat": "Əl ilə daxil edilən ifadələri avtomatik emojilərə çevirin"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Məsələn, :-) ifadəsi <emojify>🙂</emojify> emojisinə çevriləcək"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Qabaqcıl"
@@ -5335,16 +5335,16 @@
     "messageformat": "Zəng keçidi"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Aktiv"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Cariz zəngdən çıxılsın?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Yeni bir zəngə qoşulmazdan əvvəl cari zəngdən çıxmalısan."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Zəngi tərk et"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Yeni söhbət yoxdur."
@@ -5353,10 +5353,10 @@
     "messageformat": "“{query}” üçün heç bir nəticə yoxdur"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Qayıt"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Yeni bir zəngə qoşulmazdan əvvəl cari zəngdən çıxmalısan"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Gedən audio zəng} other {Gələn audio zəng}}} Video {{direction, select, Outgoing {Gedən görüntülü zəng} other {Görüntülü zəng gəlir}}} Group {{direction, select, Outgoing {Gedən qrup zəngi} other {Gələn qrup zəngi}}} other {{direction, select, Outgoing {Gedən zəng} other {Gələn zəng}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "Zəng keçidi"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Qoşul"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Keçidi kopyala"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Keçidi Signal vasitəsilə paylaş"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Əlavə {count,number} nəfər də yazır.} other {Əlavə {count,number} nəfər də yazır.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Qrup zəngində iştirakçı siyahısı göstərilərkən kontakt adının yanına sığışmayan kontaktlar piktoqramının bölünməsinə səbəb olan görünüş xətasını düzəltdik. Əlbəttə kontaktlarınıza çox yaxın ola bilərsiniz, lakin bəzən sizə də (və Signal Desktop istifadəçi interfeysinə) bir az yer lazımdır."
   }
 }

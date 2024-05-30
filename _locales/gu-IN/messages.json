@@ -1035,7 +1035,7 @@
     "messageformat": "{sender}એ તેમનો ફોન નંબર બદલ્યો"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "સંપર્ક Signal સાથે જોડાયો"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} અને {conversationTitle} એક જ એકાઉન્ટ છે. બંને ચેટ માટેની તમારી મેસેજ હિસ્ટ્રી અહીં છે."
@@ -3870,7 +3870,7 @@
     "messageformat": "આમને ફોરવર્ડ કરો"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "કૉલ લિંક શેર કરો"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "ચાલુ રાખો"
@@ -3879,7 +3879,7 @@
     "messageformat": "ખાલી અથવા ડિલીટ કરેલા મેસેજ ફોરવર્ડ કરી શકાતા નથી"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Signal કૉલમાં જોડાવા માટે આ લિંકનો ઉપયોગ કરો: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "વધુ શીખો"
@@ -4356,7 +4356,7 @@
     "messageformat": "ટાઇપ કરેલા ઇમોટિકન્સને ઇમોજીમાં કન્વર્ટ કરો"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "ઉદાહરણ તરીકે, :-) <emojify>🙂</emojify> માં કન્વર્ટ થઈ જશે"
   },
   "icu:Preferences--advanced": {
     "messageformat": "વધુ"
@@ -5335,16 +5335,16 @@
     "messageformat": "કૉલ લિંક"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "સક્રિય"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "હાલનો કૉલ છોડવો છે?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "નવા કૉલમાં જોડાતા પહેલાં તમારે હાલના કૉલને છોડવો આવશ્યક છે."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "કૉલ છોડો"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "કોઈ તાજેતરની વાતચીતો નથી."
@@ -5353,10 +5353,10 @@
     "messageformat": "“{query}” માટે કોઈ પરિણામ નથી"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "પાછા ફરો"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "નવા કૉલમાં જોડાતા પહેલાં તમારે હાલના કૉલને છોડવો આવશ્યક છે"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {આઉટગોઇંગ વૉઇસ કૉલ} other {ઇનકમિંગ વૉઇસ કૉલ}}} Video {{direction, select, Outgoing {આઉટગોઈંગ વિડિયો કૉલ} other {ઈનકમિંગ વિડિયો કૉલ}}} Group {{direction, select, Outgoing {આઉટગોઇંગ ગ્રૂપ કૉલ} other {ઇનકમિંગ ગ્રૂપ કૉલ}}} other {{direction, select, Outgoing {આઉટગોઇંગ કૉલ} other {આવી રહેલ કોલ}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "કૉલ લિંક"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "જોડાઓ"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "લિંક કૉપિ કરો"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Signal દ્વારા લિંક શેર કરો"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} અન્ય ટાઇપ કરી રહ્યા છે.} other {{count,number} અન્યો ટાઇપ કરી રહ્યાં છે.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "આ અપડેટ ગ્રૂપ કૉલ વપરાશકર્તા ઇન્ટરફેસમાં રેન્ડર થતાં બગને ઠીક કરે છે."
   }
 }

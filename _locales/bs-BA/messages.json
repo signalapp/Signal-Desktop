@@ -1035,7 +1035,7 @@
     "messageformat": "Pošiljaoc {sender} je promijenio broj telefona"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Kontakt je počeo koristiti Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} i {conversationTitle} predstavljaju isti račun. Vaša historija poruka za oba chata je ovdje."
@@ -3870,7 +3870,7 @@
     "messageformat": "Proslijedi"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Podijelite poveznicu za poziv"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Nastavi"
@@ -3879,7 +3879,7 @@
     "messageformat": "Nije moguće proslijediti prazne ili izbrisane poruke"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Koristite ovu poveznicu da se pridružite Signal pozivu: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Saznajte više"
@@ -4356,7 +4356,7 @@
     "messageformat": "Pretvorite otkucane emotikone u emoji naljepnice"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Na primjer, :-) će se pretvoriti u <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Napredno"
@@ -5335,16 +5335,16 @@
     "messageformat": "Link za poziv"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Aktivno"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Napustiti trenutni poziv?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Morate napustiti trenutni poziv prije nego što se pridružite novom pozivu."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Završi poziv"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Nema nedavnih razgovora."
@@ -5356,7 +5356,7 @@
     "messageformat": "Return"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Morate napustiti trenutni poziv prije nego što se pridružite novom pozivu"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Odlazni glasovni poziv} other {Dolazni glasovni poziv}}} Video {{direction, select, Outgoing {Odlazni video poziv} other {Dolazni video poziv}}} Group {{direction, select, Outgoing {Odlazni grupni poziv} other {Dolazni grupni poziv}}} other {{direction, select, Outgoing {Odlazni poziv} other {Dolazni poziv}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "Link za poziv"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Pristupi"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopiraj link"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Podijelite poveznicu putem Signala"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} druga osoba trenutno piše} few {{count,number} druge osobe trenutno pišu} many {{count,number} drugih osoba trenutno piše} other {{count,number} drugih osoba trenutno piše}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Ovo ažuriranje ispravlja grešku u prikazivanju u korisničkom sučelju grupnog poziva."
   }
 }

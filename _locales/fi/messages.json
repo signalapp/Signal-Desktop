@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} on vaihtanut puhelinnumeronsa"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Yhteystieto liittyi Signaliin"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "Keskusteluissa {obsoleteConversationTitle} ja {conversationTitle} on kyse samasta tilistä. Molempien keskusteluiden viestihistoria on täällä."
@@ -3870,7 +3870,7 @@
     "messageformat": "Välitä vastaanottajalle"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Jaa puhelulinkki"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Jatka"
@@ -3879,7 +3879,7 @@
     "messageformat": "Tyhjiä tai poistettuja viestejä ei voi välittää"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Liity Signal-puheluun tämän linkin avulla: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Lue lisää"
@@ -4356,7 +4356,7 @@
     "messageformat": "Muunna tekstihymiöt graafisiksi hymiöiksi"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Esimerkiksi :-) muunnetaan muotoon <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Lisäasetukset"
@@ -5335,16 +5335,16 @@
     "messageformat": "Puhelulinkki"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Aktiivinen"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Poistutaanko nykyisestä puhelusta?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Sinun on poistuttava nykyisestä puhelusta ennen kuin voit liittyä uuteen puheluun."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Poistu puhelusta"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Ei viimeaikaisia keskusteluja."
@@ -5353,10 +5353,10 @@
     "messageformat": "Ei tuloksia haulle \"{query}\""
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Palaa"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Sinun on poistuttava nykyisestä puhelusta ennen kuin voit liittyä uuteen puheluun"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Lähtevä äänipuhelu} other {Saapuva äänipuhelu}}} Video {{direction, select, Outgoing {Soitettu videopuhelu} other {Vastattu videopuhelu}}} Group {{direction, select, Outgoing {Lähtevä ryhmäpuhelu} other {Saapuva ryhmäpuhelu}}} other {{direction, select, Outgoing {Lähtevä puhelu} other {Saapuva puhelu}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "Puhelulinkki"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Liity"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopioi linkki"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Jaa linkki Signalissa"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} käyttäjä kirjoittaa.} other {{count,number} käyttäjää kirjoittaa.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Tämä päivitys korjaa renderöintivirheen ryhmäpuhelun käyttöliittymässä."
   }
 }

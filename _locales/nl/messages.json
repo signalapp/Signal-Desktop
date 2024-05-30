@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} heeft diens telefoonnummer gewijzigd"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Nieuw persoon bereikbaar via Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} en {conversationTitle} zijn hetzelfde account. Hier vind je je berichtengeschiedenis voor beide chats."
@@ -1851,7 +1851,7 @@
     "messageformat": "Spraakbericht"
   },
   "icu:message--getNotificationText--audio-message": {
-    "messageformat": "Audiobericht"
+    "messageformat": "Audiobestand"
   },
   "icu:message--getNotificationText--file": {
     "messageformat": "Bestand"
@@ -3729,7 +3729,7 @@
     "messageformat": "Personen in deze lijst proberen via de groepslink lid te worden van ‘{name}’."
   },
   "icu:PendingInvites--info": {
-    "messageformat": "Profielinformatie van personen die door andere groepsleden zijn uitgenodigd wordt niet weergegeven. Pas als een genodigde er voor kiest de uitnodiging te accepteren, dan zullen op dat moment diens profielnaam, -foto en -omschrijving zichtbaar worden voor de groep. Zolang deze personen de uitnodiging niet geaccepteerd hebben zullen ze nog geen groepsberichten ontvangen."
+    "messageformat": "Profielinformatie van personen die door andere groepsleden zijn uitgenodigd wordt pas weergegeven zodra ze de uitnodiging accepteren. Zolang deze personen de uitnodiging niet hebben geaccepteerd zullen ze nog geen groepsberichten ontvangen."
   },
   "icu:PendingRequests--block--button": {
     "messageformat": "Verzoek blokkeren"
@@ -3834,19 +3834,19 @@
     "messageformat": "Is al lid van deze groep"
   },
   "icu:MessageAudio--play": {
-    "messageformat": "Audiobericht afspelen"
+    "messageformat": "Audiobestand afspelen"
   },
   "icu:MessageAudio--pause": {
-    "messageformat": "Audiobericht pauzeren"
+    "messageformat": "Audiobestand pauzeren"
   },
   "icu:MessageAudio--download": {
-    "messageformat": "Audiobericht downloaden"
+    "messageformat": "Audiobestand downloaden"
   },
   "icu:MessageAudio--pending": {
-    "messageformat": "Audiobericht aan het downloaden…"
+    "messageformat": "Audiobestand aan het downloaden…"
   },
   "icu:MessageAudio--slider": {
-    "messageformat": "Afspeellengte van het audiobericht"
+    "messageformat": "Afspeellengte van het audiobestand"
   },
   "icu:MessageAudio--playbackRate1": {
     "messageformat": "1"
@@ -3870,7 +3870,7 @@
     "messageformat": "Doorsturen naar"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Oproeplink delen"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Doorgaan"
@@ -3879,7 +3879,7 @@
     "messageformat": "Kan lege of verwijderde berichten niet doorsturen"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Gebruik deze link om deel te nemen aan een Signal-oproep: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Meer informatie"
@@ -4356,7 +4356,7 @@
     "messageformat": "Converteer getypte emoticons naar emoji"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": ":-) wordt bijvoorbeeld <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Geavanceerd"
@@ -5302,7 +5302,7 @@
     "messageformat": "Oproepgeschiedenis gewist"
   },
   "icu:CallsTab__EmptyStateText": {
-    "messageformat": "Klik om te bekijken of een oproep te starten"
+    "messageformat": "Klik op een oproep om details te bekijken of start een oproep"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Zoeken"
@@ -5335,16 +5335,16 @@
     "messageformat": "Oproeplink"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Actief"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Huidige oproep verlaten?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Je moet de huidige oproep verlaten voordat je kunt deelnemen aan een nieuwe oproep."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Oproep verlaten"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Geen recente gesprekken."
@@ -5353,10 +5353,10 @@
     "messageformat": "Geen resultaten voor ‘{query}’"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Terugkeren"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Je moet de huidige oproep verlaten voordat je kunt deelnemen aan een nieuwe oproep"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Uitgaande spraakoproep} other {Inkomende spraakoproep}}} Video {{direction, select, Outgoing {Uitgaande video-oproep} other {Inkomende video-oproep}}} Group {{direction, select, Outgoing {Uitgaande groepsoproep} other {Inkomende groepsoproep}}} other {{direction, select, Outgoing {Uitgaande oproep} other {Inkomende oproep}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "Oproeplink"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Deelnemen"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Link kopiëren"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Link delen via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ander is aan het typen.} other {{count,number} anderen zijn aan het typen.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "We hebben een weergavebug opgelost. Deze zorgde ervoor dat het contactpictogram wel héél dicht tegen de naam van de contactpersoon stond wanneer je de deelnemerslijst van een groepsoproep bekeek. Je bent waarschijnlijk close met je contacten, maar soms hebben jij en de gebruikersinterface van Signal Desktop wat ruimte nodig."
   }
 }

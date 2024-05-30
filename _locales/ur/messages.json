@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} نے اپنا فون نمبر تبدیل کر دیا ہے"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "رابطہ Signal میں شامل ہو گیا"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} اور {conversationTitle} یکساں اکاؤنٹ ہیں۔ دونوں چیٹس کے لیے آپ کے میسج کی ہسٹری یہاں ہے۔"
@@ -3870,7 +3870,7 @@
     "messageformat": "فارورڈ بطرف"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "کال لنک شیئر کریں"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "جاری رکھیں"
@@ -3879,7 +3879,7 @@
     "messageformat": "خالی یا حذف کردہ میسجز فارورڈ نہیں کیے جا سکتے"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Signal کال میں شامل ہونے کے لیے اس لنک کا استعمال کریں: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "مزید پڑھیں"
@@ -4356,7 +4356,7 @@
     "messageformat": "ٹائپ کردہ ایموٹیکنز کو ایموجی میں تبدیل کریں"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "مثال کے طور پر، :-) <emojify>🙂</emojify> میں تبدیل ہو جائے گا"
   },
   "icu:Preferences--advanced": {
     "messageformat": "اعلی' درجے کی"
@@ -5335,16 +5335,16 @@
     "messageformat": "کال کا لنک"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "فعال"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "موجودہ کال سے نکلیں؟"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "نئی کال میں شامل ہونے سے پہلے آپ کو موجودہ کال سے نکلنا ہو گا۔"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "کال چھوڑو"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "کوئی حالیہ گفتگوئیں نہیں۔"
@@ -5353,10 +5353,10 @@
     "messageformat": "\"{query}\" کے لیے کوئی نتائج نہیں ہیں"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "واپس"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "نئی کال میں شامل ہونے سے پہلے آپ کو موجودہ کال سے نکلنا ہو گا"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {آؤٹ گوئنگ وائس کال} other {ان کمنگ وائس کال}}} Video {{direction, select, Outgoing {آؤٹ گوئنگ ویڈیو کال} other {آنے والی ویڈیو کال}}} Group {{direction, select, Outgoing {جانے والی گروپ کال} other {آنے والی گروپ کال}}} other {{direction, select, Outgoing {کی گئی کال} other {موصول ہونے والی کال}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "کال کا لنک"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "شامل ہوں"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "لنک کاپی کریں"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "بذریعہ Signal لنک شیئر کریں"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} دوسرا ٹائپ کر رہا ہے۔} other {{count,number} دوسرے ٹائپ کر رہے ہیں۔}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "یہ اپ ڈیٹ گروپ کال کے یوزر انٹرفیس میں ایک رینڈرنگ بگ کو درست کرتی ہے۔ ورژن 7.11 کے لیے ریلیز نوٹس"
   }
 }

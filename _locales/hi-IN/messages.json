@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} ने अपने फोन नंबर बदल लिए"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "संपर्क Signal में शामिल हो गए"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} और {conversationTitle} एक ही अकाउंट हैं। दोनों चैट हेतु आपकी संदेश हिस्ट्री यहाँ हैं।"
@@ -3870,7 +3870,7 @@
     "messageformat": "को फ़ॉरवर्ड करें"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "कॉल लिंक शेयर करें"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "आगे"
@@ -3879,7 +3879,7 @@
     "messageformat": "खाली या हटाए गए संदेशों को अग्रेषित नहीं कर सकते"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Signal कॉल से जुड़ने के लिए यह लिंक इस्तेमाल करें: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "अधिक जानें"
@@ -4356,7 +4356,7 @@
     "messageformat": "टाइप किए गए इमोटिकॉन्स को इमोजी में बदलें"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "उदाहरण के लिए, :-) को <emojify>🙂</emojify> में परिवर्तित किया जाएगा"
   },
   "icu:Preferences--advanced": {
     "messageformat": "अधिक"
@@ -5335,16 +5335,16 @@
     "messageformat": "कॉल लिंक"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "ऐक्टिव"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "मौज़ूदा कॉल छोड़ें?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "नई कॉल में शामिल होने से पहले आपको चल रहे कॉल को छोड़ना पड़ेगा।"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "कॉल छोड़ें"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "कोई हालिया बातचीत नहीं।"
@@ -5353,10 +5353,10 @@
     "messageformat": "“{query}” के लिए कोई परिणाम नहीं"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "वापस जाएँ"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "नई कॉल में शामिल होने से पहले आपको चल रहे कॉल को छोड़ना पड़ेगा"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {आउटगोइंग वॉयस कॉल} other {इनकमिंग वॉयस कॉल}}} Video {{direction, select, Outgoing {वीडियो कॉल की जा रही है} other {वीडियो कॉल आ रही है}}} Group {{direction, select, Outgoing {आउटगोइंग ग्रुप कॉल} other {इनकमिंग ग्रुप कॉल}}} other {{direction, select, Outgoing {जाने वाली कॉल} other {आने वाली कॉल}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "कॉल लिंक"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "जुड़ें"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "लिंक कॉपी करें"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Signal के माध्यम से लिंक साझा करें"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} अन्य टाइप कर रहा/रही है।} other {{count,number} अन्य टाइप कर रहे/रही हैं।}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "हमने एक रेंडरिंग बग ठीक किया जिसके कारण ग्रुप कॉल में प्रतिभागियों की सूची देखने के दौरान संपर्क आइकन संपर्क के नाम के ठीक बगल में ही स्मैश हो गया। असल में आप शायद अपने संपर्कों के करीब होंगे, लेकिन कभी-कभी आपको (और Signal डेस्कटॉप यूज़र इंटरफ़ेस), दोनों को थोड़ी जगह चाहिए।"
   }
 }

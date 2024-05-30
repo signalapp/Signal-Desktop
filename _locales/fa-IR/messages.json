@@ -1035,7 +1035,7 @@
     "messageformat": "{sender}شماره تلفن خود را تغییر داد"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "مخاطب به سیگنال پیوست"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} و {conversationTitle} یک حساب هستند. تاریخچه پیام هر دو گفتگوی شما اینجاست."
@@ -3870,7 +3870,7 @@
     "messageformat": "بازارسال به"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "هم‌رسانی پیوند تماس"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "ادامه"
@@ -3879,7 +3879,7 @@
     "messageformat": "امکان بازارسال پیام‌های خالی یا پاک‌شده وجود ندارد"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "با استفاده از این پیوند به تماس سیگنال بپیوندید: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "بیشتر یاد بگیرید"
@@ -4356,7 +4356,7 @@
     "messageformat": "تبدیل شکلک‌های تایپی به ایموجی"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "مثلاً :-) به <emojify>🙂</emojify> تبدیل خواهد شد"
   },
   "icu:Preferences--advanced": {
     "messageformat": "پیشرفته"
@@ -5335,16 +5335,16 @@
     "messageformat": "پیوند تماس"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "فعال"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "تماس فعلی را ترک می‌کنید؟"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "قبل از پیوستن به تماس جدید باید تماس فعلی را ترک کنید."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "ترک کردن تماس"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "مکالمه اخیری وجود ندارد."
@@ -5353,10 +5353,10 @@
     "messageformat": "نتیجه‌ای برای «{query}» پیدا نشد"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "بازگشت"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "قبل از پیوستن به تماس جدید باید تماس فعلی را ترک کنید"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {تماس صوتی خروجی} other {تماس صوتی دریافتی}}} Video {{direction, select, Outgoing {تماس تصویری خروجی} other {تماس صوتی دریافتی}}} Group {{direction, select, Outgoing {تماس گروهی خروجی} other {تماس گروهی ورودی}}} other {{direction, select, Outgoing {تماس خروجی} other {تماس ورودی}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "پیوند تماس"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "پیوستن"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "کپی کردن پیوند"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "اشتراک‌گذاری پیوند از طریق سیگنال"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} نفر دیگر در حال تایپ است.} other {{count,number} نفر دیگر در حال تایپ هستند.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "در این نسخه، یک اشکال رندر در رابط کاربری تماس‌های گروهی را رفع کرده‌ایم."
   }
 }

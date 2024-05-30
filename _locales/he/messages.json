@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} שינה/שינתה את מספר הטלפון שלו/שלה"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "איש קשר הצטרף אל Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} ו{conversationTitle} שייכים לאותו חשבון. היסטוריית ההודעות שלך לשני הצ׳אטים נמצאת כאן."
@@ -3870,7 +3870,7 @@
     "messageformat": "העברה אל"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "שיתוף לינק שיחה"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "המשך"
@@ -3879,7 +3879,7 @@
     "messageformat": "לא ניתן להעביר הודעות ריקות או מחוקות"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "אפשר להשתמש בלינק הזה כדי להצטרף לשיחת Signal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "למד עוד"
@@ -4356,7 +4356,7 @@
     "messageformat": "המרת אמוטיקונים מוקלדים לאימוג׳ים"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "למשל, :-) יומר ל–<emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "מתקדם"
@@ -5335,16 +5335,16 @@
     "messageformat": "לינק לשיחה"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "פעילה"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "לעזוב את השיחה הנוכחית?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "צריך לעזוב את השיחה הנוכחית לפני הצטרפות לשיחה חדשה"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "עזוב שיחה"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "אין שיחות חדשות."
@@ -5353,10 +5353,10 @@
     "messageformat": "אין תוצאות עבור ״{query}״"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "חזור"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "צריך לעזוב את השיחה הנוכחית לפני הצטרפות לשיחה חדשה"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {שיחה קולית יוצאת} other {שיחה קולית נכנסת}}} Video {{direction, select, Outgoing {שיחת וידאו יוצאת} other {שיחת וידאו נכנסת}}} Group {{direction, select, Outgoing {שיחה קבוצתית יוצאת} other {שיחה קבוצתית נכנסת}}} other {{direction, select, Outgoing {שיחה יוצאת} other {שיחה נכנסת}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "לינק לשיחה"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "הצטרפות"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "העתקת קישור"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "שיתוף לינק דרך Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {עוד {count,number} מקליד/ה.} two {עוד {count,number} מקלידים.} many {עוד {count,number} מקלידים.} other {עוד {count,number} מקלידים.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "העדכון הזה מתקן באג רינדור בממשק המשתמש של שיחה קבוצתית."
   }
 }

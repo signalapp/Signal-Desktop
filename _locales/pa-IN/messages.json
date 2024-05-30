@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} ਨੇ ਆਪਣਾ ਫ਼ੋਨ ਨੰਬਰ ਬਦਲਿਆ ਹੈ"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "ਸੰਪਰਕ Signal ਦਾ ਹਿੱਸਾ ਬਣਿਆ"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} ਅਤੇ {conversationTitle} ਇੱਕੋ ਖਾਤੇ ਨਾਲ ਸੰਬੰਧਿਤ ਹਨ। ਤੁਹਾਡੀਆਂ ਦੋਵਾਂ ਚੈਟਾਂ ਦੇ ਪੁਰਾਣੇ ਸੁਨੇਹੇ ਇੱਥੇ ਮੌਜੂਦ ਹਨ।"
@@ -3870,7 +3870,7 @@
     "messageformat": "ਇਹਨਾਂ ਨੂੰ ਅੱਗੇ ਭੇਜੋ"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "ਕਾਲ ਦਾ ਲਿੰਕ ਸਾਂਝਾ ਕਰੋ"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "ਜਾਰੀ ਰੱਖੋ"
@@ -3879,7 +3879,7 @@
     "messageformat": "ਖਾਲੀ ਜਾਂ ਮਿਟਾਏ ਗਏ ਸੁਨੇਹਿਆਂ ਨੂੰ ਅੱਗੇ ਨਹੀਂ ਭੇਜਿਆ ਜਾ ਸਕਦਾ"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Signal ਕਾਲ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਇਸ ਲਿੰਕ ਦੀ ਵਰਤੋਂ ਕਰੋ: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "ਹੋਰ ਜਾਣੋ"
@@ -4356,7 +4356,7 @@
     "messageformat": "ਟਾਈਪ ਕੀਤੇ ਇਮੋਟੀਕੋਨ ਨੂੰ ਇਮੋਜੀ ਵਿੱਚ ਬਦਲੋ"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "ਉਦਾਹਰਨ ਦੇ ਲਈ, :-) ਨੂੰ <emojify>🙂</emojify> ਵਿੱਚ ਬਦਲ ਦਿੱਤਾ ਜਾਵੇਗਾ"
   },
   "icu:Preferences--advanced": {
     "messageformat": "ਤਕਨੀਕੀ"
@@ -5335,16 +5335,16 @@
     "messageformat": "ਕਾਲ ਦਾ ਲਿੰਕ"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "ਕਿਰਿਆਸ਼ੀਲ"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "ਕੀ ਮੌਜੂਦਾ ਕਾਲ ਛੱਡਣੀ ਹੈ?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "ਨਵੀਂ ਕਾਲ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਨੂੰ ਮੌਜੂਦਾ ਕਾਲ ਛੱਡਣੀ ਪਵੇਗੀ।"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "ਕਾਲ ਨੂੰ ਛੱਡੋ"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "ਕੋਈ ਹਾਲੀਆ ਗੱਲਬਾਤ ਮੌਜੂਦ ਨਹੀਂ ਹੈ।"
@@ -5353,10 +5353,10 @@
     "messageformat": "“{query}” ਲਈ ਕੋਈ ਨਤੀਜੇ ਨਹੀਂ ਮਿਲੇ"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "ਵਾਪਸ ਜਾਓ"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "ਨਵੀਂ ਕਾਲ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਨੂੰ ਮੌਜੂਦਾ ਕਾਲ ਛੱਡਣੀ ਪਵੇਗੀ"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {ਆਊਟਗੋਇੰਗ ਵੌਇਸ ਕਾਲ} other {ਇਨਕਮਿੰਗ ਵੌਇਸ ਕਾਲ}}} Video {{direction, select, Outgoing {ਜਾਰੀ ਵੀਡੀਓ ਕਾਲ} other {ਆ ਰਹੀ ਵੀਡੀਓ ਕਾਲ}}} Group {{direction, select, Outgoing {ਆਊਟਗੋਇੰਗ ਗਰੁੱਪ ਕਾਲ} other {ਇਨਕਮਿੰਗ ਗਰੁੱਪ ਕਾਲ}}} other {{direction, select, Outgoing {ਬਾਹਰ ਜਾਣ ਵਾਲੀ ਕਾਲ} other {ਆਉਣ ਵਾਲੀ ਕਾਲ }}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "ਕਾਲ ਦਾ ਲਿੰਕ"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "ਸ਼ਾਮਲ ਹੋਵੋ"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "ਲਿੰਕ ਕਾਪੀ ਕਰੋ"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Signal ਰਾਹੀਂ ਲਿੰਕ ਸਾਂਝਾ ਕਰੋ"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ਹੋਰ ਵਰਤੋਂਕਾਰ ਲਿਖ ਰਿਹਾ ਹੈ।} other {{count,number} ਹੋਰ ਵਰਤੋਂਕਾਰ ਲਿਖ ਰਹੇ ਹਨ।}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "ਇਹ ਅੱਪਡੇਟ ਗਰੁੱਪ ਕਾਲ ਵਰਤੋਂਕਾਰ ਇੰਟਰਫੇਸ ਵਿੱਚ ਰੈਂਡਰਿੰਗ ਬੱਗ ਨੂੰ ਠੀਕ ਕਰਦੀ ਹੈ।"
   }
 }

@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} 已經轉咗電話冧把"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "聯絡人開咗 Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} 同 {conversationTitle} 係同一個帳戶。兩個聊天嘅訊息紀錄都喺晒度。"
@@ -3870,7 +3870,7 @@
     "messageformat": "轉寄俾"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "分享通話連結"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "繼續"
@@ -3879,7 +3879,7 @@
     "messageformat": "空白或者刪除咗嘅訊息唔可以轉寄"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "用呢條連結加入 Signal 通話：{url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "了解多啲"
@@ -4356,7 +4356,7 @@
     "messageformat": "自動將輸入嘅表情字符變成表情符號"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "例如：:-) 會變成 <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "進階"
@@ -5335,16 +5335,16 @@
     "messageformat": "通話連結"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "通話中"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "係咪要退出而家嘅通話呀？"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "喺加入新通話之前，你要退出而家嘅通話。"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "退出通話"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "冇最近嘅對話。"
@@ -5353,10 +5353,10 @@
     "messageformat": "冇同「{query}」相關嘅搜尋結果"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "返轉頭"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "喺加入新通話之前，你要退出而家嘅通話"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {打出嘅語音通話} other {語音通話來電}}} Video {{direction, select, Outgoing {打出去嘅視像通話} other {打入嚟嘅視像通話}}} Group {{direction, select, Outgoing {打出嘅群組通話} other {群組通話來電}}} other {{direction, select, Outgoing {打出嘅  通話} other {打入嚟嘅  通話}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "通話連結"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "加入"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "複製連結"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "透過 Signal 分享連結"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {另外有 {count,number} 個人打緊字。}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "今次更新修復咗一個群組通話用戶介面嘅渲染錯誤。"
   }
 }

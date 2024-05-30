@@ -1,6 +1,6 @@
 {
   "icu:AddUserToAnotherGroupModal__title": {
-    "messageformat": "Legg til gruppen"
+    "messageformat": "Legg til i gruppen"
   },
   "icu:AddUserToAnotherGroupModal__confirm-title": {
     "messageformat": "Vil du legge til et nytt medlem?"
@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} har byttet telefonnummer."
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Når kontakt installerer Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} og {conversationTitle} tilhører samme konto. Du finner meldingsloggene for begge samtalene her."
@@ -3870,7 +3870,7 @@
     "messageformat": "Videresend til"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Del anropslenke"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Fortsett"
@@ -3879,7 +3879,7 @@
     "messageformat": "Det er ikke mulig å videresende meldinger som er tomme eller slettet"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Bruk denne lenken for å bli med i en Signal-samtale: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Lær mer"
@@ -4356,7 +4356,7 @@
     "messageformat": "Gjør emoticons om til emojier"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Eks: :-) blir gjort om til <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Avansert"
@@ -5335,16 +5335,16 @@
     "messageformat": "Samtalelenke"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Aktiv"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Vil du forlate samtalen?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Du må forlate denne samtalen før du kan bli med i en annen."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Forlat samtalen"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Ingen nylige samtaler."
@@ -5353,10 +5353,10 @@
     "messageformat": "«{query}» ga ingen resultater"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Tilbake"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Du må forlate denne samtalen før du kan bli med i en annen"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Utgående taleanrop} other {Innkommende taleanrop}}} Video {{direction, select, Outgoing {Utgående videosamtale} other {Innkommende videosamtale}}} Group {{direction, select, Outgoing {Utgående gruppeanrop} other {Innkommende gruppeanrop}}} other {{direction, select, Outgoing {Utgående anrop} other {Innkommende anrop}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "Samtalelenke"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Bli med"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopier lenken"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Del lenken via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} annen person skriver.} other {{count,number} andre personer skriver.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "I denne oppdateringen har vi rettet opp i en gjengivelsesfeil i grensesnittet for gruppesamtaler."
   }
 }

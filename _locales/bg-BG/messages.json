@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} е сменил/а телефонния си номер"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Ваш контакт се присъедини към Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} и {conversationTitle} са един и същ акаунт. Вашата хронология на съобщенията и за двата чата е тук."
@@ -3870,7 +3870,7 @@
     "messageformat": "Препращане до"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Споделяне на линк за разговор"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Продължаване"
@@ -3879,7 +3879,7 @@
     "messageformat": "Не могат да се препращат празни или изтрити съобщения"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Използвайте този линк, за да се присъедините към повикване в Signal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Научете повече"
@@ -4356,7 +4356,7 @@
     "messageformat": "Превръщане на въведени емотикони в емоджита"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Например :-) ще се превръща в <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Допълнителни"
@@ -5335,16 +5335,16 @@
     "messageformat": "Линк за повикване"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Активно"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Излизане от текущия разговор?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Трябва да излезете от текущия разговор, преди да се присъедините към нов разговор."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Напускане на повикването"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Няма скорошни разговори."
@@ -5353,10 +5353,10 @@
     "messageformat": "Не са открити резултати за „{query}“"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Връщане"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Трябва да излезете от текущия разговор, преди да се присъедините към нов разговор"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Изходящо гласово повикване} other {Входящо гласово повикване}}} Video {{direction, select, Outgoing {Изходящо видео повикване} other {Входящо видео повикване}}} Group {{direction, select, Outgoing {Изходящо групово повикване} other {Входящо групово повикване}}} other {{direction, select, Outgoing {Изходящо повикване} other {Входящо обаждане}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "Линк за повикване"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Присъединяване"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Копиране на линка"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Споделяне на линк чрез Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} друг човек пише.} other {{count,number} други души пишат.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Тази актуализация коригира грешка при рендирането в потребителския интерфейс за групови разговори."
   }
 }

@@ -1035,7 +1035,7 @@
     "messageformat": "Pinalitan ni {sender} ang kanyang phone number"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Sumali ang kontak sa Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "Magkaparehong account ang {obsoleteConversationTitle} at {conversationTitle}. Nandito ang inyong message history para sa parehong chats."
@@ -3870,7 +3870,7 @@
     "messageformat": "I-forward Kay"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "I-share ang call link"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Magpatuloy"
@@ -3879,7 +3879,7 @@
     "messageformat": "Hindi ma-forward ang messages na walang laman o binura na"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Gamitin ang link na ito para sumali sa Signal call: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Matuto pa"
@@ -4356,7 +4356,7 @@
     "messageformat": "Gawing emoji ang typed emoticons"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Halimbawa, ang :-) ay magiging <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Advanced"
@@ -5338,13 +5338,13 @@
     "messageformat": "Active"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Gusto mo bang umalis sa current call?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Kailangan mong umalis sa current call bago sumali sa bagong call"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Umalis sa call"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Walang recent conversations."
@@ -5353,10 +5353,10 @@
     "messageformat": "Walang resulta para sa \"{query}\""
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Bumalik"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Kailangan mong umalis sa current call bago sumali sa bagong call"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Outgoing voice call} other {Incoming voice call}}} Video {{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}} Group {{direction, select, Outgoing {Outgoing group call} other {Incoming group call}}} other {{direction, select, Outgoing {Outgoing  call} other {Incoming  call}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "Call link"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Sumali"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopyahin ang link"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "I-share ang link via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ang nagta-type.} other {{count,number} ang nagta-type.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Inaayos ng update na ito ang rendering bug sa group call user interface."
   }
 }

@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} ತಮ್ಮ ಫೋನ್ ನಂಬರ್ ಬದಲಾಯಿಸಿದ್ದಾರೆ"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "ಸಂಪರ್ಕ Signal ಗೆ ಸೇರಿದ್ದಾರೆ"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} ಮತ್ತು {conversationTitle} ಒಂದೇ ಖಾತೆಯಾಗಿದೆ. ಎರಡೂ ಚಾಟ್‌ಗಳ ನಿಮ್ಮ ಸಂದೇಶ ಇತಿಹಾಸ ಇಲ್ಲಿದೆ."
@@ -3870,7 +3870,7 @@
     "messageformat": "ಇವರಿಗೆ ಫಾರ್ವರ್ಡ್ ಮಾಡಿ"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "ಕಾಲ್ ಲಿಂಕ್ ಹಂಚಿಕೊಳ್ಳಿ"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "ಮುಂದುವರಿಸಿ"
@@ -3879,7 +3879,7 @@
     "messageformat": "ಖಾಲಿ ಅಥವಾ ಅಳಿಸಿದ ಮೆಸೇಜ್‌ಗಳನ್ನು ಫಾರ್ವರ್ಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Signal ಕರೆಗೆ ಸೇರಲು ಈ ಲಿಂಕ್ ಅನ್ನು ಬಳಸಿ: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ"
@@ -4356,7 +4356,7 @@
     "messageformat": "ಟೈಪ್ ಮಾಡಿದ ಎಮೋಟಿಕಾನ್‌ಗಳನ್ನು ಎಮೋಜಿಗೆ ಪರಿವರ್ತಿಸಿ"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "ಉದಾಹರಣೆಗೆ, :-) ಅನ್ನು <emojify>🙂</emojify> ಗೆ ಪರಿವರ್ತಿಸಲಾಗುತ್ತದೆ"
   },
   "icu:Preferences--advanced": {
     "messageformat": "ಸುಧಾರಿತ"
@@ -5335,16 +5335,16 @@
     "messageformat": "ಕರೆ ಲಿಂಕ್"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "ಸಕ್ರಿಯ"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "ಪ್ರಸ್ತುತ ಕರೆಯನ್ನು ತೊರೆಯಬೇಕೇ?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "ಹೊಸ ಕರೆಗೆ ಸೇರುವ ಮೊದಲು ನೀವು ಪ್ರಸ್ತುತ ಕರೆಯನ್ನು ತೊರೆಯಬೇಕು."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "ಕರೆ ಬಿಡಿ"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "ಇತ್ತೀಚಿನ ಯಾವುದೇ ಸಂಭಾಷಣೆಗಳಿಲ್ಲ."
@@ -5353,10 +5353,10 @@
     "messageformat": "{query} ಗೆ ಫಲಿತಾಂಶಗಳು ಲಭ್ಯವಿಲ್ಲ"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "ಹಿಂತಿರುಗಿ"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "ಹೊಸ ಕರೆಗೆ ಸೇರುವ ಮೊದಲು ನೀವು ಪ್ರಸ್ತುತ ಕರೆಯನ್ನು ತೊರೆಯಬೇಕು"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {ಹೊರಹೋಗುವ ವಾಯ್ಸ್ ಕಾಲ್} other {ಒಳಬರುವ ವಾಯ್ಸ್ ಕಾಲ್}}} Video {{direction, select, Outgoing {ಹೊರಹೋಗುವ ವೀಡಿಯೊ ಕಾಲ್} other {ಒಳಬರುವ ವೀಡಿಯೊ ಕಾಲ್}}} Group {{direction, select, Outgoing {ಹೊರಹೋಗುವ ಗ್ರೂಪ್ ಕರೆ} other {ಒಳಬರುವ ಗ್ರೂಪ್ ಕರೆ}}} other {{direction, select, Outgoing {ಹೊರಹೋಗುವ ಕರೆ} other {ಒಳಬರುವ ಕರೆ}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "ಕರೆ ಲಿಂಕ್"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "ಸೇರಿಕೊಳ್ಳಿ"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "ಲಿಂಕ್ ನಕಲಿಸಿ"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Signal ಮೂಲಕ ಲಿಂಕ್ ಹಂಚಿಕೊಳ್ಳಿ"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ಇತರೆ ವ್ಯಕ್ತಿ ಟೈಪ್ ಮಾಡುತ್ತಿದ್ದಾರೆ.} other {{count,number} ಇತರ ಮಂದಿ ಟೈಪ್ ಮಾಡುತ್ತಿದ್ದಾರೆ.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "ಗುಂಪು ಕರೆಯಲ್ಲಿ ಭಾಗವಹಿಸುವವರ ಪಟ್ಟಿಯನ್ನು ವೀಕ್ಷಿಸುವಾಗ ಸಂಪರ್ಕಗಳ ಐಕಾನ್ ಅನ್ನು ಸಂಪರ್ಕದ ಹೆಸರಿನ ಪಕ್ಕದಲ್ಲಿಯೇ ಅಡಚಣೆಯಾಗಲು ಕಾರಣವಾದ ರೆಂಡರಿಂಗ್ ದೋಷವನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ. ನೀವು ಬಹುಶಃ ನಿಮ್ಮ ಸಂಪರ್ಕಗಳಿಗೆ ನಿಜವಾಗಿಯೂ ಆತ್ಮೀಯರಿರಬಹುದು, ಆದರೆ ಕೆಲವೊಮ್ಮೆ ನಿಮ್ಮಿಬ್ಬರಿಗೂ (ಮತ್ತು ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್ ಬಳಕೆದಾರರ ಇಂಟರ್‌ಫೇಸ್) ಸ್ವಲ್ಪ ವಿಶ್ರಾಂತಿ ಬೇಕಾಗುತ್ತದೆ."
   }
 }

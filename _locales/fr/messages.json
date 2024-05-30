@@ -48,7 +48,7 @@
     "messageformat": "Reconnaissance de logiciels"
   },
   "icu:privacyPolicy": {
-    "messageformat": "Conditions générales d’utilisation et politique de confidentialité"
+    "messageformat": "Conditions générales d’utilisation et règles de confidentialité"
   },
   "icu:appleSilicon": {
     "messageformat": "Apple silicon"
@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} a changé de numéro de téléphone"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Un contact a rejoint Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} et {conversationTitle} appartiennent au même compte. L’historique de vos conversations est ici."
@@ -2331,7 +2331,7 @@
     "messageformat": "Répondre à un appel sans vidéo"
   },
   "icu:Keyboard--start-audio-call": {
-    "messageformat": "Démarrer un appel vocal"
+    "messageformat": "Passer un appel vocal"
   },
   "icu:Keyboard--start-video-call": {
     "messageformat": "Lancer un appel vidéo"
@@ -3870,7 +3870,7 @@
     "messageformat": "Transférer à"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Partager le lien de l’appel"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Poursuivre"
@@ -3879,7 +3879,7 @@
     "messageformat": "Impossible de transférer des messages vides ou supprimés"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Je vous invite à un appel Signal. Suivez ce lien pour y participer : {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "En savoir plus"
@@ -4356,7 +4356,7 @@
     "messageformat": "Convertir les émoticônes en émojis"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Par exemple, :-) deviendra <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Avancés"
@@ -5335,16 +5335,16 @@
     "messageformat": "Lien d’appel"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Actif"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Quitter l’appel en cours ?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Pour rejoindre un nouvel appel, vous devez quitter l’appel en cours."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Quitter l’appel"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Aucune conversation récente."
@@ -5353,10 +5353,10 @@
     "messageformat": "Aucun résultat pour « {query} »"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Revenir"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Pour rejoindre un nouvel appel, quittez d’abord l’appel en cours."
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Appel vocal sortant} other {Appel vocal entrant}}} Video {{direction, select, Outgoing {Appel vidéo sortant} other {Appel vidéo entrant}}} Group {{direction, select, Outgoing {Appel de groupe sortant} other {Appel de groupe entrant}}} other {{direction, select, Outgoing {Appel sortant} other {Appel entrant}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "Lien d’appel"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Rejoindre"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Copier le lien"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Partager le lien via Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} autre personne est en train d’écrire.} other {{count,number} autres personnes sont en train d’écrire.}}"
@@ -5403,7 +5403,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "Plusieurs corrections de bugs ont été effectuées pour assurer le bon fonctionnement de votre application. D'autres changements passionnants sont à venir !",
+    "messageformat": "Nous avons corrigé différents bugs pour assurer le bon fonctionnement de votre application. D’autres changements passionnants se profilent à l’horizon.",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Et un bug de moins, un ! Lors des appels de groupe, dans la liste des participants, les icônes des contacts s’affichaient de manière trop compacte. Mais on a tous besoin d’un peu d’espace, même lorsqu’on est proches de nos contacts. Et l’interface de Signal Desktop avait aussi besoin d’un peu d’air."
   }
 }

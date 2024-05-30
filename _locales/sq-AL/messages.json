@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} ndryshoi numrin e vet të telefonit"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Kontakti zuri të përdorë Signal-in"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} dhe {conversationTitle} janë e njëjta llogari. Historiku yt i mesazheve për të dyja bisedat është këtu."
@@ -3870,7 +3870,7 @@
     "messageformat": "Përcille"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Ndaj lidhjen e thirrjes"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Vazhdo"
@@ -3879,7 +3879,7 @@
     "messageformat": "Mesazhet boshe ose të fshira nuk mund të përcillen"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Përdor këtë lidhje për t'iu bashkuar një telefonate në Signal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Mësoni më tepër"
@@ -4356,7 +4356,7 @@
     "messageformat": "Konverto emotikonat e shtypur në emoji"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Për shembull, :-) do të konvertohet në <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Të mëtejshme"
@@ -5335,16 +5335,16 @@
     "messageformat": "Lidhja e thirrjes"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Aktive"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Do të largohesh nga thirrja aktuale?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Duhet të largohesh nga thirrja aktuale përpara se t'i bashkohesh një thirrjeje të re."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Dilni nga thirrja"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Nuk ka biseda të fundit."
@@ -5353,10 +5353,10 @@
     "messageformat": "Nuk ka rezultate për \"{query}\""
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Kthehu"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Duhet të largohesh nga thirrja aktuale përpara se t'i bashkohesh një thirrjeje të re"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Thirrje zanore dalëse} other {Thirrje zanore hyrëse}}} Video {{direction, select, Outgoing {Thirrje video nga ju} other {Thirrje video ardhëse}}} Group {{direction, select, Outgoing {Thirrje dalëse në grup} other {Thirrje hyrëse në grup}}} other {{direction, select, Outgoing {Thirrje nga ju} other {Thirrje ardhëse}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "Lidhja e thirrjes"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Bashkohu"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopjo linkun"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Ndaj lidhjen përmes Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} tjetër po shkruan.} other {{count,number} tjerë po shkruajnë.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Defekti i paraqitjes që shkaktoi prishjen e ikonës së kontakteve pikërisht pranë emrit të kontaktit gjatë kohës së shikimit të listës së pjesëmarrësve në një telefonatë në grup u rregullua. Ndoshta je shumë afër kontakteve, por ndonjëherë, si ti (ashtu dhe ndërfaqja e përdoruesit Signal Desktop) keni nevojë për pak hapësirë."
   }
 }

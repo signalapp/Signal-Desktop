@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} បានផ្លាស់ប្តូរលេខទូរសព្ទរបស់ពួកគេ"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "ចូលរួមទំនាក់ទំនងតាមSignal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} និង {conversationTitle} គឺជាគណនីតែមួយ។ ប្រវត្តិសាររបស់អ្នកសម្រាប់ការជជែកទាំងពីរមាននៅទីនេះ។"
@@ -3870,7 +3870,7 @@
     "messageformat": "បញ្ជូនបន្តទៅកាន់"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "ចែករំលែកតំណហៅទូរសព្ទ"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "បន្ត"
@@ -3879,7 +3879,7 @@
     "messageformat": "មិនអាចបញ្ជូនបន្តសារទទេ ឬសារដែលបានលុបទេ"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "ប្រើតំណនេះដើម្បីចូលរួមការហៅតាម Signal៖ {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "សិក្សាបន្ថែម"
@@ -4356,7 +4356,7 @@
     "messageformat": "បំប្លែងសញ្ញាអារម្មណ៍ដែលបានវាយបញ្ចូលទៅជារូបអារម្មណ៍"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "ឧទាហរណ៍ :-) នឹងត្រូវបានបំប្លែងទៅជា <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "កម្រិតខ្ពស់"
@@ -5335,16 +5335,16 @@
     "messageformat": "តំណសម្រាប់ការហៅ"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "សកម្ម"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "ចាកចេញពីការហៅបច្ចុប្បន្នឬ?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "អ្នកត្រូវតែចាកចេញពីការហៅបច្ចុប្បន្ន មុនពេលចូលរួមការហៅថ្មី។"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "បិទការហៅ"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "គ្មានការសន្ទនាថ្មីៗនេះទេ។"
@@ -5353,10 +5353,10 @@
     "messageformat": "គ្មានលទ្ធផលសម្រាប់ “{query}”"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "ត្រឡប់"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "អ្នកត្រូវតែចាកចេញពីការហៅបច្ចុប្បន្ន មុនពេលចូលរួមការហៅថ្មី។"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {ការហៅចេញជាសំឡេង} other {ការហៅចូលជាសំឡេង}}} Video {{direction, select, Outgoing {ការហៅចេញជាវីដេអូ} other {ការហៅចូលជាវីដេអូ}}} Group {{direction, select, Outgoing {ការហៅចេញជាក្រុម} other {ការហៅចូលជាក្រុម}}} other {{direction, select, Outgoing {ហៅចេញក្រៅ} other {ការហៅចូល}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "តំណសម្រាប់ការហៅ"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "ចូលរួម"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "ចម្លងតំណ"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "ចែករំលែកតំណតាមរយៈ Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} នាក់ផ្សេងទៀតកំពុងវាយអក្សរ។}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "យើងបានដោះស្រាយបញ្ហាក្នុងការបង្ហាញដែលបណ្តាលឱ្យរូបតំណាងទំនាក់ទំនងវាយបំបែកខ្លួនវានៅជាប់នឹងឈ្មោះរបស់ទំនាក់ទំនង ខណៈពេលដែលកំពុងមើលបញ្ជីអ្នកចូលរួមក្នុងការហៅជាក្រុម។ អ្នកប្រហែលជានៅជិតទំនាក់ទំនងរបស់អ្នក ប៉ុន្តែពេលខ្លះអ្នក (និងអ៊ីនធើហ្វេសអ្នកប្រើ Signal Desktop) ទាំងពីរត្រូវការគម្លាតពីគ្នាបន្តិច។"
   }
 }

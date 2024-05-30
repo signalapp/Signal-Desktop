@@ -1035,7 +1035,7 @@
     "messageformat": "{sender} đã đổi số điện thoại của họ"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Contact joined Signal"
+    "messageformat": "Liên hệ bắt đầu dùng Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} và {conversationTitle} là cùng một tài khoản. Lịch sử tin nhắn của bạn của các cuộc trò chuyện ở hai bên đều ở đây."
@@ -3870,7 +3870,7 @@
     "messageformat": "Chuyển tiếp Đến"
   },
   "icu:ForwardMessageModal__ShareCallLink": {
-    "messageformat": "Share call link"
+    "messageformat": "Chia sẻ đường dẫn cuộc gọi"
   },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Tiếp tục"
@@ -3879,7 +3879,7 @@
     "messageformat": "Không thể chuyển tiếp tin nhắn trống hoặc đã xóa"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Use this link to join a Signal call: {url}"
+    "messageformat": "Sử dụng đường dẫn này để tham gia cuộc gọi Signal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Tìm hiểu thêm"
@@ -4356,7 +4356,7 @@
     "messageformat": "Chuyển đổi biểu tượng cảm xúc khi bạn nhập thành emoji"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>"
+    "messageformat": "Ví dụ, :-) sẽ được chuyển đổi thành <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Nâng cao"
@@ -5335,16 +5335,16 @@
     "messageformat": "Đường dẫn cuộc gọi"
   },
   "icu:CallsList__ItemCallInfo--Active": {
-    "messageformat": "Active"
+    "messageformat": "Đang hoạt động"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Leave the current call?"
+    "messageformat": "Rời khỏi cuộc gọi hiện tại?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call."
+    "messageformat": "Bạn phải rời khỏi cuộc gọi hiện tại trước khi tham gia một cuộc gọi mới."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Leave call"
+    "messageformat": "Rời cuộc gọi"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Không có cuộc trò chuyện gần đây."
@@ -5353,10 +5353,10 @@
     "messageformat": "Không có kết quả cho “{query}”"
   },
   "icu:CallsNewCallButton--return": {
-    "messageformat": "Return"
+    "messageformat": "Quay về"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "You must leave the current call before joining a new call"
+    "messageformat": "Bạn phải rời khỏi cuộc gọi hiện tại trước khi tham gia một cuộc gọi mới"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Cuộc gọi thoại đi} other {Cuộc gọi thoại đến}}} Video {{direction, select, Outgoing {Cuộc gọi video đang gọi đi} other {Cuộc gọi video đang đến}}} Group {{direction, select, Outgoing {Cuộc gọi nhóm đi} other {Cuộc gọi nhóm đến}}} other {{direction, select, Outgoing {Cuộc gọi đi} other {Cuộc gọi đến}}}}"
@@ -5374,13 +5374,13 @@
     "messageformat": "Đường dẫn cuộc gọi"
   },
   "icu:CallLinkDetails__Join": {
-    "messageformat": "Join"
+    "messageformat": "Tham gia"
   },
   "icu:CallLinkDetails__CopyLink": {
-    "messageformat": "Copy link"
+    "messageformat": "Sao chép đường dẫn"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
-    "messageformat": "Share link via Signal"
+    "messageformat": "Chia sẻ đường dẫn qua Signal"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} người khác đang nhập.}}"
@@ -5423,6 +5423,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We fixed a rendering bug that caused the contacts icon to smash itself right next to the contact's name while viewing the list of participants in a group call. You're probably really close to your contacts, but sometimes you (and the Signal Desktop user interface) both need a little space."
+    "messageformat": "Bản cập nhật này sửa một lỗi kết xuất trên giao diện người dùng của cuộc gọi nhóm."
   }
 }
