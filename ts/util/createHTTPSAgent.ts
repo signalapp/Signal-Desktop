@@ -41,7 +41,6 @@ const HOST_LOG_ALLOWLIST = new Set([
   'cdn.signal.org',
   'cdn2.signal.org',
   'cdn3.signal.org',
-  'create.signal.art',
 
   // Staging
   'chat.staging.signal.org',
