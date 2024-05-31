@@ -78,7 +78,7 @@ export async function sendProfileKey(
     return;
   }
 
-  if (!conversation.get('profileSharing')) {
+  if (!data?.isOneTimeSend && !conversation.get('profileSharing')) {
     log.info('No longer sharing profile. Cancelling job.');
     return;
   }
