@@ -168,6 +168,8 @@ const profileKeyJobDataSchema = z.object({
   conversationId: z.string(),
   // Note: we will use whichever recipients list is up to date when this job runs
   revision: z.number().optional(),
+  // Setting this to true lets you send profile key without adding to contacts
+  isOneTimeSend: z.boolean().optional(),
 });
 export type ProfileKeyJobData = z.infer<typeof profileKeyJobDataSchema>;
 

@@ -137,7 +137,10 @@ import {
   toAdminKeyBytes,
 } from '../util/callLinks';
 import { isAdhocCallingEnabled } from '../util/isAdhocCallingEnabled';
-import { conversationJobQueue } from '../jobs/conversationJobQueue';
+import {
+  conversationJobQueue,
+  conversationQueueJobEnum,
+} from '../jobs/conversationJobQueue';
 import type { ReadCallLinkState } from '../types/CallLink';
 
 const {
@@ -351,6 +354,10 @@ export class CallingClass {
 
   private callDebugNumber: number = 0;
 
+  // Send our profile key to other participants in call link calls to ensure they
+  // can see our profile info. Only send once per aci until the next app start.
+  private sendProfileKeysForAdhocCallCache: Set<AciString>;
+
   constructor() {
     this.videoCapturer = new GumVideoCapturer({
       maxWidth: REQUESTED_VIDEO_WIDTH,
@@ -360,6 +367,7 @@ export class CallingClass {
     this.videoRenderer = new CanvasVideoRenderer();
 
     this.callsLookup = {};
+    this.sendProfileKeysForAdhocCallCache = new Set();
   }
 
   initialize(reduxInterface: CallingReduxInterface, sfuUrl: string): void {
@@ -1118,6 +1126,7 @@ export class CallingClass {
                 peerId: conversationId,
                 eraId,
                 callMode,
+                peekInfo,
               })
             );
           }
@@ -1136,6 +1145,14 @@ export class CallingClass {
         );
 
         this.syncGroupCallToRedux(conversationId, groupCall, callMode);
+        if (callMode === CallMode.Adhoc) {
+          drop(
+            this.sendProfileKeysForAdhocCall({
+              roomId: conversationId,
+              peekInfo,
+            })
+          );
+        }
       },
       onAudioLevels: groupCall => {
         const remoteDeviceStates = groupCall.getRemoteDeviceStates();
@@ -1198,6 +1215,7 @@ export class CallingClass {
               peerId: conversationId,
               eraId,
               callMode,
+              peekInfo,
             })
           );
         }
@@ -1242,16 +1260,69 @@ export class CallingClass {
     callMode,
     peerId,
     eraId,
+    peekInfo,
   }: {
     callMode: CallMode.Group | CallMode.Adhoc;
     peerId: string;
     eraId: string;
+    peekInfo: PeekInfo | null;
   }): Promise<void> {
     if (callMode === CallMode.Group) {
       drop(this.sendGroupCallUpdateMessage(peerId, eraId));
     } else if (callMode === CallMode.Adhoc) {
       this.reduxInterface?.joinedAdhocCall(peerId);
+      drop(this.sendProfileKeysForAdhocCall({ roomId: peerId, peekInfo }));
     }
+  }
+
+  private async sendProfileKeysForAdhocCall({
+    roomId,
+    peekInfo,
+  }: {
+    roomId: string;
+    peekInfo: PeekInfo | null | undefined;
+  }): Promise<void> {
+    if (!peekInfo) {
+      return;
+    }
+
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const reason = `sendProfileKeysForAdhocCall(${roomId})`;
+    peekInfo.devices.forEach(async device => {
+      const aci = device.userId ? this.formatUserId(device.userId) : null;
+      if (
+        !aci ||
+        aci === ourAci ||
+        this.sendProfileKeysForAdhocCallCache.has(aci)
+      ) {
+        return;
+      }
+
+      const logId = `sendProfileKeysForAdhocCall aci=${aci}`;
+      const conversation = window.ConversationController.lookupOrCreate({
+        serviceId: aci,
+        reason,
+      });
+      if (!conversation) {
+        log.warn(`${logId}: Could not lookup or create conversation for aci`);
+        return;
+      }
+
+      if (conversation.isBlocked()) {
+        log.info(`${logId}: Skipping blocked aci`);
+        return;
+      }
+
+      log.info(`${logId}: Sending profile key`);
+      drop(
+        conversationJobQueue.add({
+          type: conversationQueueJobEnum.enum.ProfileKey,
+          conversationId: conversation.id,
+          isOneTimeSend: true,
+        })
+      );
+      this.sendProfileKeysForAdhocCallCache.add(aci);
+    });
   }
 
   public async joinCallLinkCall({
