@@ -4001,10 +4001,10 @@
     type-fest "^3.5.0"
     uuid "^8.3.0"
 
-"@signalapp/mock-server@6.4.3":
-  version "6.4.3"
-  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-6.4.3.tgz#5672fb2c0123998ece49b68232debb07715c55a9"
-  integrity sha512-6EnR4o349f+BO7fTCfkMzOYSzJcyhGvS7JExmp7YmKWQ+/YI5dgVQfsThw9uy/GUNDtfbVzUjMkPKI2kdDm2eA==
+"@signalapp/mock-server@6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-6.5.0.tgz#0fa420ff2d7386770b3c8dfe6f57be425816a130"
+  integrity sha512-QuEYX9EFFaPIvQzGlHkgfrnpnhs+Q8jOwk2UuE+5txJNXezrQnq1nRFChG+M/XAv0aSbc7thiq8iBxwpN2F2EA==
   dependencies:
     "@signalapp/libsignal-client" "^0.45.0"
     debug "^4.3.2"

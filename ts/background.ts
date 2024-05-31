@@ -3015,11 +3015,6 @@ export async function startApp(): Promise<void> {
     try {
       log.info('unlinkAndDisconnect: removing configuration');
 
-      // First, make changes to conversations in memory
-      window.getConversations().forEach(conversation => {
-        conversation.unset('senderKeyInfo');
-      });
-
       // We use username for integrity check
       const ourConversation =
         window.ConversationController.getOurConversation();
