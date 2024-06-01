@@ -356,7 +356,7 @@ export class SocketManager extends EventListener {
       version: this.options.version,
       proxyAgent,
       extraHeaders,
-
+      timeout: Math.min(30 * durations.SECOND, 10 * this.backOff.get()),
       createResource(socket: WebSocket): WebSocket {
         return socket;
       },
