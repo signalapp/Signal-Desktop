@@ -20,7 +20,6 @@ const FALLBACK_DOMAINS = [
   'cdn3.signal.org',
   'updates2.signal.org',
   'sfu.voip.signal.org',
-  'create.signal.art',
 ];
 
 async function main() {
