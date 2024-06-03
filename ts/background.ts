@@ -1172,6 +1172,12 @@ export async function startApp(): Promise<void> {
       window.reduxActions.expiration.hydrateExpirationStatus(
         window.getBuildExpiration()
       );
+
+      // Process crash reports if any. Note that the modal won't be visible
+      // until the app will finish loading.
+      window.reduxActions.crashReports.setCrashReportCount(
+        await window.IPC.crashReports.getCount()
+      );
     }
   });
   // end of window.storage.onready() callback
@@ -2051,11 +2057,6 @@ export async function startApp(): Promise<void> {
     setBatchingStrategy(false);
     StartupQueue.flush();
     await flushAttachmentDownloadQueue();
-
-    // Process crash reports if any
-    window.reduxActions.crashReports.setCrashReportCount(
-      await window.IPC.crashReports.getCount()
-    );
 
     // Kick off a profile refresh if necessary, but don't wait for it, as failure is
     //   tolerable.
