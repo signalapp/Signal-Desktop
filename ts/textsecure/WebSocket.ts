@@ -54,10 +54,16 @@ export function connect<Resource extends IResource>({
     ...extraHeaders,
     'User-Agent': getUserAgent(version),
   };
+
+  const http_agent_options = {
+    ...createHTTPSAgent().options,
+    connect_timeout_ms: timeout,
+  }
+
   const client = new WebSocketClient({
     tlsOptions: {
       ca: certificateAuthority,
-      agent: proxyAgent ?? createHTTPSAgent(),
+      agent: proxyAgent ?? createHTTPSAgent(http_agent_options),
     },
     maxReceivedFrameSize: 0x210000,
   });
@@ -69,7 +75,7 @@ export function connect<Resource extends IResource>({
   const { promise, resolve, reject } = explodePromise<Resource>();
 
   const timer = Timers.setTimeout(() => {
-    reject(new ConnectTimeoutError('Connection timed out'));
+    reject(new ConnectTimeoutError(`Connection timed out after ${timeout}ms`));
 
     client.abort();
   }, timeout);

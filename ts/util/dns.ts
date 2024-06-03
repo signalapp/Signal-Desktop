@@ -16,7 +16,7 @@ import { drop } from './drop';
 import type { DNSFallbackType } from '../types/DNSFallback';
 import { SECOND } from './durations';
 
-const LOOKUP_TIMEOUT_MS = 5 * SECOND;
+const LOOKUP_TIMEOUT_MS = 10 * SECOND;
 const fallbackAddrs = new Map<string, ReadonlyArray<ResolvedEndpoint>>();
 
 export function setFallback(dnsFallback: DNSFallbackType): void {

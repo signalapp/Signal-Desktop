@@ -29,7 +29,7 @@ const DELAY_MS = 500;
 // Warning threshold
 const CONNECT_THRESHOLD_MS = SECOND;
 
-const CONNECT_TIMEOUT_MS = 10 * SECOND;
+const DEFAULT_CONNECT_TIMEOUT_MS = 10 * SECOND;
 
 const electronLookup = promisify(electronLookupWithCb);
 
@@ -85,6 +85,7 @@ export class Agent extends HTTPSAgent {
         tlsOptions: {
           ca: options.ca,
           servername: options.servername ?? dropNull(options.host),
+          connect_timeout_ms: this.options?.connect_timeout_ms ?? DEFAULT_CONNECT_TIMEOUT_MS,
         },
       });
 
@@ -153,7 +154,7 @@ export async function happyEyeballs({
           tlsOptions,
           abortSignal: abortController.signal,
         }),
-        CONNECT_TIMEOUT_MS,
+        tlsOptions?.connect_timeout_ms ?? DEFAULT_CONNECT_TIMEOUT_MS,
         'createHTTPSAgent.connect: connection timed out'
       );
 

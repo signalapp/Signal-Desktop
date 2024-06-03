@@ -45,6 +45,8 @@ const FIVE_MINUTES = 5 * durations.MINUTE;
 
 const JITTER = 5 * durations.SECOND;
 
+const MAX_WEBSOCKET_CONNECTION_TIMEOUT = 60 * durations.SECOND;
+
 const OFFLINE_KEEPALIVE_TIMEOUT_MS = 5 * durations.SECOND;
 export const UNAUTHENTICATED_CHANNEL_NAME = 'unauthenticated';
 
@@ -356,7 +358,7 @@ export class SocketManager extends EventListener {
       version: this.options.version,
       proxyAgent,
       extraHeaders,
-      timeout: Math.min(30 * durations.SECOND, 10 * this.backOff.get()),
+      timeout: Math.min(MAX_WEBSOCKET_CONNECTION_TIMEOUT, 10 * this.backOff.get()),
       createResource(socket: WebSocket): WebSocket {
         return socket;
       },
@@ -687,6 +689,7 @@ export class SocketManager extends EventListener {
       proxyAgent,
 
       extraHeaders,
+      timeout: Math.min(MAX_WEBSOCKET_CONNECTION_TIMEOUT, 10 * this.backOff.get()),
 
       createResource(socket: WebSocket): WebSocketResource {
         const duration = (performance.now() - start).toFixed(1);
