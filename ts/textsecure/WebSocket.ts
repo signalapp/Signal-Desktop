@@ -58,7 +58,7 @@ export function connect<Resource extends IResource>({
   const http_agent_options = {
     ...createHTTPSAgent().options,
     connect_timeout_ms: timeout,
-  }
+  };
 
   const client = new WebSocketClient({
     tlsOptions: {

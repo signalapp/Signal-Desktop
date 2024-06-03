@@ -85,7 +85,8 @@ export class Agent extends HTTPSAgent {
         tlsOptions: {
           ca: options.ca,
           servername: options.servername ?? dropNull(options.host),
-          connect_timeout_ms: this.options?.connect_timeout_ms ?? DEFAULT_CONNECT_TIMEOUT_MS,
+          connect_timeout_ms:
+            this.options?.connect_timeout_ms ?? DEFAULT_CONNECT_TIMEOUT_MS,
         },
       });
 
