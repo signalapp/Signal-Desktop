@@ -60,6 +60,8 @@ function sortAndNormalize(
       received_at: _receivedAt,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       sourceDevice: _sourceDevice,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      editMessageReceivedAt: _editMessageReceivedAt,
 
       ...rest
     } = message;
@@ -94,6 +96,8 @@ function sortAndNormalize(
       editHistory: editHistory?.map(history => {
         const {
           sendStateByConversationId: historySendState,
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          received_at: _receivedAtHistory,
           ...restOfHistory
         } = history;
 
@@ -155,7 +159,7 @@ export async function asymmetricRoundtripHarness(
 
     const expected = sortAndNormalize(after);
     const actual = sortAndNormalize(messagesFromDatabase);
-    assert.deepEqual(expected, actual);
+    assert.deepEqual(actual, expected);
   } finally {
     fetchAndSaveBackupCdnObjectMetadata.restore();
     await rm(outDir, { recursive: true });

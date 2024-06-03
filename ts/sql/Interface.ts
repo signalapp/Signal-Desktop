@@ -556,7 +556,7 @@ export type DataInterface = {
   saveMessages: (
     arrayOfMessages: ReadonlyArray<MessageType>,
     options: { forceSave?: boolean; ourAci: AciString }
-  ) => Promise<void>;
+  ) => Promise<Array<string>>;
   removeMessage: (id: string) => Promise<void>;
   removeMessages: (ids: ReadonlyArray<string>) => Promise<void>;
   pageMessages: (
@@ -723,6 +723,11 @@ export type DataInterface = {
     mainMessage: MessageType,
     ourAci: AciString,
     opts: EditedMessageType
+  ) => Promise<void>;
+  saveEditedMessages: (
+    mainMessage: MessageType,
+    ourAci: AciString,
+    history: ReadonlyArray<EditedMessageType>
   ) => Promise<void>;
   getMostRecentAddressableMessages: (
     conversationId: string,

@@ -571,14 +571,16 @@ async function saveMessage(
 async function saveMessages(
   arrayOfMessages: ReadonlyArray<MessageType>,
   options: { forceSave?: boolean; ourAci: AciString }
-): Promise<void> {
-  await channels.saveMessages(
+): Promise<Array<string>> {
+  const result = await channels.saveMessages(
     arrayOfMessages.map(message => _cleanMessageData(message)),
     options
   );
 
   void expiringMessagesDeletionService.update();
   void tapToViewMessagesDeletionService.update();
+
+  return result;
 }
 
 async function removeMessage(id: string): Promise<void> {

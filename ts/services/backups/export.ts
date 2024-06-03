@@ -679,7 +679,9 @@ export class BackupExportStream extends Readable {
     const result: Backups.IChatItem = {
       chatId,
       authorId,
-      dateSent: getSafeLongFromTimestamp(message.sent_at),
+      dateSent: getSafeLongFromTimestamp(
+        message.editMessageTimestamp || message.sent_at
+      ),
       expireStartDate,
       expiresInMs,
       revisions: [],
@@ -708,7 +710,10 @@ export class BackupExportStream extends Readable {
         });
 
         if (authorId === me) {
-          result.outgoing = this.getOutgoingMessageDetails(message);
+          result.outgoing = this.getOutgoingMessageDetails(
+            message.sent_at,
+            message
+          );
         } else {
           result.incoming = this.getIncomingMessageDetails(message);
         }
@@ -811,51 +816,22 @@ export class BackupExportStream extends Readable {
         reactions: this.getMessageReactions(message),
       };
     } else {
-      result.standardMessage = {
-        quote: await this.toQuote(message.quote),
-        attachments: message.attachments
-          ? await Promise.all(
-              message.attachments.map(attachment => {
-                return this.processMessageAttachment({
-                  attachment,
-                  backupLevel,
-                  messageReceivedAt: message.received_at,
-                });
-              })
-            )
-          : undefined,
-        text: {
-          // Note that we store full text on the message model so we have to
-          // trim it before serializing.
-          body: message.body?.slice(0, LONG_ATTACHMENT_LIMIT),
-          bodyRanges: message.bodyRanges?.map(range => this.toBodyRange(range)),
-        },
-
-        linkPreview: message.preview
-          ? await Promise.all(
-              message.preview.map(async preview => {
-                return {
-                  url: preview.url,
-                  title: preview.title,
-                  description: preview.description,
-                  date: getSafeLongFromTimestamp(preview.date),
-                  image: preview.image
-                    ? await this.processAttachment({
-                        attachment: preview.image,
-                        backupLevel,
-                        messageReceivedAt: message.received_at,
-                      })
-                    : undefined,
-                };
-              })
-            )
-          : undefined,
-        reactions: this.getMessageReactions(message),
-      };
+      result.standardMessage = await this.toStandardMessage(
+        message,
+        backupLevel
+      );
+      result.revisions = await this.toChatItemRevisions(
+        result,
+        message,
+        backupLevel
+      );
     }
 
     if (isOutgoing) {
-      result.outgoing = this.getOutgoingMessageDetails(message);
+      result.outgoing = this.getOutgoingMessageDetails(
+        message.sent_at,
+        message
+      );
     } else {
       result.incoming = this.getIncomingMessageDetails(message);
     }
@@ -1792,7 +1768,9 @@ export class BackupExportStream extends Readable {
 
   private getMessageReactions({
     reactions,
-  }: MessageAttributesType): Array<Backups.IReaction> | undefined {
+  }: Pick<MessageAttributesType, 'reactions'>):
+    | Array<Backups.IReaction>
+    | undefined {
     return reactions?.map(reaction => {
       return {
         emoji: reaction.emoji,
@@ -1809,12 +1787,20 @@ export class BackupExportStream extends Readable {
 
   private getIncomingMessageDetails({
     received_at_ms: receivedAtMs,
+    editMessageReceivedAtMs,
     serverTimestamp,
     readStatus,
-  }: MessageAttributesType): Backups.ChatItem.IIncomingMessageDetails {
+  }: Pick<
+    MessageAttributesType,
+    | 'received_at_ms'
+    | 'editMessageReceivedAtMs'
+    | 'serverTimestamp'
+    | 'readStatus'
+  >): Backups.ChatItem.IIncomingMessageDetails {
+    const dateReceived = editMessageReceivedAtMs || receivedAtMs;
     return {
       dateReceived:
-        receivedAtMs != null ? getSafeLongFromTimestamp(receivedAtMs) : null,
+        dateReceived != null ? getSafeLongFromTimestamp(dateReceived) : null,
       dateServerSent:
         serverTimestamp != null
           ? getSafeLongFromTimestamp(serverTimestamp)
@@ -1823,10 +1809,12 @@ export class BackupExportStream extends Readable {
     };
   }
 
-  private getOutgoingMessageDetails({
-    sent_at: sentAt,
-    sendStateByConversationId = {},
-  }: MessageAttributesType): Backups.ChatItem.IOutgoingMessageDetails {
+  private getOutgoingMessageDetails(
+    sentAt: number,
+    {
+      sendStateByConversationId = {},
+    }: Pick<MessageAttributesType, 'sendStateByConversationId'>
+  ): Backups.ChatItem.IOutgoingMessageDetails {
     const BackupSendStatus = Backups.SendStatus.Status;
 
     const sendStatus = new Array<Backups.ISendStatus>();
@@ -1873,6 +1861,106 @@ export class BackupExportStream extends Readable {
     return {
       sendStatus,
     };
+  }
+
+  private async toStandardMessage(
+    message: Pick<
+      MessageAttributesType,
+      | 'quote'
+      | 'attachments'
+      | 'body'
+      | 'bodyRanges'
+      | 'preview'
+      | 'reactions'
+      | 'received_at'
+    >,
+    backupLevel: BackupLevel
+  ): Promise<Backups.IStandardMessage> {
+    return {
+      quote: await this.toQuote(message.quote),
+      attachments: message.attachments
+        ? await Promise.all(
+            message.attachments.map(attachment => {
+              return this.processMessageAttachment({
+                attachment,
+                backupLevel,
+                messageReceivedAt: message.received_at,
+              });
+            })
+          )
+        : undefined,
+      text: {
+        // Note that we store full text on the message model so we have to
+        // trim it before serializing.
+        body: message.body?.slice(0, LONG_ATTACHMENT_LIMIT),
+        bodyRanges: message.bodyRanges?.map(range => this.toBodyRange(range)),
+      },
+
+      linkPreview: message.preview
+        ? await Promise.all(
+            message.preview.map(async preview => {
+              return {
+                url: preview.url,
+                title: preview.title,
+                description: preview.description,
+                date: getSafeLongFromTimestamp(preview.date),
+                image: preview.image
+                  ? await this.processAttachment({
+                      attachment: preview.image,
+                      backupLevel,
+                      messageReceivedAt: message.received_at,
+                    })
+                  : undefined,
+              };
+            })
+          )
+        : undefined,
+      reactions: this.getMessageReactions(message),
+    };
+  }
+
+  private async toChatItemRevisions(
+    parent: Backups.IChatItem,
+    message: MessageAttributesType,
+    backupLevel: BackupLevel
+  ): Promise<Array<Backups.IChatItem> | undefined> {
+    const { editHistory } = message;
+    if (editHistory == null) {
+      return undefined;
+    }
+
+    const isOutgoing = message.type === 'outgoing';
+
+    return Promise.all(
+      editHistory
+        // The first history is the copy of the current message
+        .slice(1)
+        .map(async history => {
+          return {
+            // Required fields
+            chatId: parent.chatId,
+            authorId: parent.authorId,
+            dateSent: getSafeLongFromTimestamp(history.timestamp),
+            expireStartDate: parent.expireStartDate,
+            expiresInMs: parent.expiresInMs,
+            sms: parent.sms,
+
+            // Directional details
+            outgoing: isOutgoing
+              ? this.getOutgoingMessageDetails(history.timestamp, history)
+              : undefined,
+            incoming: isOutgoing
+              ? undefined
+              : this.getIncomingMessageDetails(history),
+
+            // Message itself
+            standardMessage: await this.toStandardMessage(history, backupLevel),
+          };
+
+          // Backups use oldest to newest order
+        })
+        .reverse()
+    );
   }
 }
 

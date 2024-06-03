@@ -369,6 +369,7 @@ const dataInterface: ServerInterface = {
   getMessagesBetween,
   getNearbyMessageFromDeletedSet,
   saveEditedMessage,
+  saveEditedMessages,
   getMostRecentAddressableMessages,
 
   removeSyncTaskById,
@@ -2450,15 +2451,17 @@ async function saveMessage(
 async function saveMessages(
   arrayOfMessages: ReadonlyArray<MessageType>,
   options: { forceSave?: boolean; ourAci: AciString }
-): Promise<void> {
+): Promise<Array<string>> {
   const db = await getWritableInstance();
 
-  db.transaction(() => {
+  return db.transaction(() => {
+    const result = new Array<string>();
     for (const message of arrayOfMessages) {
-      assertSync(
+      result.push(
         saveMessageSync(db, message, { ...options, alreadyInTransaction: true })
       );
     }
+    return result;
   })();
 }
 
@@ -7165,10 +7168,10 @@ async function removeAllProfileKeyCredentials(): Promise<void> {
   );
 }
 
-async function saveEditedMessage(
+async function saveEditedMessagesSync(
   mainMessage: MessageType,
   ourAci: AciString,
-  { conversationId, messageId, readStatus, sentAt }: EditedMessageType
+  history: ReadonlyArray<EditedMessageType>
 ): Promise<void> {
   const db = await getWritableInstance();
 
@@ -7180,22 +7183,40 @@ async function saveEditedMessage(
       })
     );
 
-    const [query, params] = sql`
-      INSERT INTO edited_messages (
-        conversationId,
-        messageId,
-        sentAt,
-        readStatus
-      ) VALUES (
-        ${conversationId},
-        ${messageId},
-        ${sentAt},
-        ${readStatus}
-      );
-    `;
+    for (const { conversationId, messageId, readStatus, sentAt } of history) {
+      const [query, params] = sql`
+        INSERT INTO edited_messages (
+          conversationId,
+          messageId,
+          sentAt,
+          readStatus
+        ) VALUES (
+          ${conversationId},
+          ${messageId},
+          ${sentAt},
+          ${readStatus}
+        );
+      `;
 
-    db.prepare(query).run(params);
+      db.prepare(query).run(params);
+    }
   })();
+}
+
+async function saveEditedMessage(
+  mainMessage: MessageType,
+  ourAci: AciString,
+  editedMessage: EditedMessageType
+): Promise<void> {
+  return saveEditedMessagesSync(mainMessage, ourAci, [editedMessage]);
+}
+
+async function saveEditedMessages(
+  mainMessage: MessageType,
+  ourAci: AciString,
+  editedMessages: ReadonlyArray<EditedMessageType>
+): Promise<void> {
+  return saveEditedMessagesSync(mainMessage, ourAci, editedMessages);
 }
 
 async function _getAllEditedMessages(): Promise<

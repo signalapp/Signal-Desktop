@@ -11,7 +11,7 @@ import { Backups, SignalService } from '../../protobuf';
 import Data from '../../sql/Client';
 import * as log from '../../logging/log';
 import { StorySendMode } from '../../types/Stories';
-import type { ServiceIdString } from '../../types/ServiceId';
+import type { ServiceIdString, AciString } from '../../types/ServiceId';
 import { fromAciObject, fromPniObject } from '../../types/ServiceId';
 import { isStoryDistributionId } from '../../types/StoryDistributionId';
 import * as Errors from '../../types/errors';
@@ -28,6 +28,7 @@ import type {
   ConversationAttributesType,
   MessageAttributesType,
   MessageReactionType,
+  EditHistoryType,
 } from '../../model-types.d';
 import { assertDev, strictAssert } from '../../util/assert';
 import { getTimestampFromLong } from '../../util/timestampLongUtils';
@@ -89,6 +90,45 @@ async function processConversationOpBatch(
 
   await Data.saveConversations(saves);
   await Data.updateConversations(updates);
+}
+async function processMessagesBatch(
+  ourAci: AciString,
+  batch: ReadonlyArray<MessageAttributesType>
+): Promise<void> {
+  const ids = await Data.saveMessages(batch, {
+    forceSave: true,
+    ourAci,
+  });
+  strictAssert(ids.length === batch.length, 'Should get same number of ids');
+
+  // TODO (DESKTOP-7402): consider re-saving after updating the pending state
+  for (const [index, rawAttributes] of batch.entries()) {
+    const attributes = {
+      ...rawAttributes,
+      id: ids[index],
+    };
+
+    const { editHistory } = attributes;
+
+    if (editHistory?.length) {
+      drop(
+        Data.saveEditedMessages(
+          attributes,
+          ourAci,
+          editHistory.slice(0, -1).map(({ timestamp }) => ({
+            conversationId: attributes.conversationId,
+            messageId: attributes.id,
+
+            // Main message will track this
+            readStatus: ReadStatus.Read,
+            sentAt: timestamp,
+          }))
+        )
+      );
+    }
+
+    drop(queueAttachmentDownloads(attributes));
+  }
 }
 
 function phoneToContactFormType(
@@ -181,18 +221,11 @@ export class BackupImportStream extends Writable {
     name: 'BackupImport.saveMessageBatcher',
     wait: 0,
     maxSize: 1000,
-    processBatch: async batch => {
+    processBatch: batch => {
       const ourAci = this.ourConversation?.serviceId;
       assertDev(isAciString(ourAci), 'Our conversation must have ACI');
-      await Data.saveMessages(batch, {
-        forceSave: true,
-        ourAci,
-      });
 
-      // TODO (DESKTOP-7402): consider re-saving after updating the pending state
-      for (const messageAttributes of batch) {
-        drop(queueAttachmentDownloads(messageAttributes));
-      }
+      return processMessagesBatch(ourAci, batch);
     },
   });
   private ourConversation?: ConversationAttributesType;
@@ -715,6 +748,19 @@ export class BackupImportStream extends Writable {
       ? this.recipientIdToConvo.get(item.authorId.toNumber())
       : undefined;
 
+    const {
+      patch: directionDetails,
+      newActiveAt,
+      unread,
+    } = this.fromDirectionDetails(item, timestamp);
+
+    if (newActiveAt != null) {
+      chatConvo.active_at = newActiveAt;
+    }
+    if (unread != null) {
+      chatConvo.unreadCount = (chatConvo.unreadCount ?? 0) + 1;
+    }
+
     let attributes: MessageAttributesType = {
       id: generateUuid(),
       conversationId: chatConvo.id,
@@ -732,16 +778,109 @@ export class BackupImportStream extends Writable {
         item.expiresInMs && !item.expiresInMs.isZero()
           ? DurationInSeconds.fromMillis(item.expiresInMs.toNumber())
           : undefined,
+      ...directionDetails,
     };
     const additionalMessages: Array<MessageAttributesType> = [];
 
-    const { outgoing, incoming, directionless } = item;
-    if (outgoing) {
+    if (item.incoming) {
+      strictAssert(
+        authorConvo && this.ourConversation.id !== authorConvo?.id,
+        `${logId}: message with incoming field must be incoming`
+      );
+    } else if (item.outgoing) {
       strictAssert(
         authorConvo && this.ourConversation.id === authorConvo?.id,
         `${logId}: outgoing message must have outgoing field`
       );
+    }
 
+    if (item.standardMessage) {
+      // TODO (DESKTOP-6964): gift badge
+
+      attributes = {
+        ...attributes,
+        ...this.fromStandardMessage(item.standardMessage),
+      };
+    } else {
+      const result = await this.fromNonBubbleChatItem(item, {
+        aboutMe,
+        author: authorConvo,
+        conversation: chatConvo,
+        timestamp,
+      });
+
+      if (!result) {
+        throw new Error(`${logId}: fromNonBubbleChat item returned nothing!`);
+      }
+
+      attributes = {
+        ...attributes,
+        ...result.message,
+      };
+
+      let sentAt = attributes.sent_at;
+      (result.additionalMessages || []).forEach(additional => {
+        sentAt -= 1;
+        additionalMessages.push({
+          ...attributes,
+          sent_at: sentAt,
+          ...additional,
+        });
+      });
+    }
+
+    if (item.revisions?.length) {
+      strictAssert(
+        item.standardMessage,
+        'Only standard message can have revisions'
+      );
+
+      const history = this.fromRevisions(attributes, item.revisions);
+      attributes.editHistory = history;
+
+      // Update timestamps on the parent message
+      const oldest = history.at(-1);
+
+      assertDev(oldest != null, 'History is non-empty');
+
+      attributes.editMessageReceivedAt = attributes.received_at;
+      attributes.editMessageReceivedAtMs = attributes.received_at_ms;
+      attributes.editMessageTimestamp = attributes.timestamp;
+
+      attributes.received_at = oldest.received_at;
+      attributes.received_at_ms = oldest.received_at_ms;
+      attributes.timestamp = oldest.timestamp;
+      attributes.sent_at = oldest.timestamp;
+    }
+
+    assertDev(
+      isAciString(this.ourConversation.serviceId),
+      `${logId}: Our conversation must have ACI`
+    );
+    this.saveMessage(attributes);
+    additionalMessages.forEach(additional => this.saveMessage(additional));
+
+    // TODO (DESKTOP-6964): We'll want to increment for more types here - stickers, etc.
+    if (item.standardMessage) {
+      if (item.outgoing != null) {
+        chatConvo.sentMessageCount = (chatConvo.sentMessageCount ?? 0) + 1;
+      } else {
+        chatConvo.messageCount = (chatConvo.messageCount ?? 0) + 1;
+      }
+    }
+    this.updateConversation(chatConvo);
+  }
+
+  private fromDirectionDetails(
+    item: Backups.IChatItem,
+    timestamp: number
+  ): {
+    patch: Partial<MessageAttributesType>;
+    newActiveAt?: number;
+    unread?: boolean;
+  } {
+    const { outgoing, incoming, directionless } = item;
+    if (outgoing) {
       const sendStateByConversationId: SendStateByConversationId = {};
 
       const BackupSendStatus = Backups.SendStatus.Status;
@@ -785,93 +924,54 @@ export class BackupImportStream extends Writable {
         sendStateByConversationId[target.id] = {
           status: sendStatus,
           updatedAt:
-            status.lastStatusUpdateTimestamp != null
+            status.lastStatusUpdateTimestamp != null &&
+            !status.lastStatusUpdateTimestamp.isZero()
               ? getTimestampFromLong(status.lastStatusUpdateTimestamp)
               : undefined,
         };
       }
 
-      attributes.sendStateByConversationId = sendStateByConversationId;
-      chatConvo.active_at = attributes.sent_at;
-    } else if (incoming) {
-      strictAssert(
-        authorConvo && this.ourConversation.id !== authorConvo?.id,
-        `${logId}: message with incoming field must be incoming`
-      );
-      attributes.received_at_ms =
-        incoming.dateReceived?.toNumber() ?? Date.now();
+      return {
+        patch: {
+          sendStateByConversationId,
+          received_at_ms: timestamp,
+        },
+        newActiveAt: timestamp,
+      };
+    }
+    if (incoming) {
+      const receivedAtMs = incoming.dateReceived?.toNumber() ?? Date.now();
 
       if (incoming.read) {
-        attributes.readStatus = ReadStatus.Read;
-        attributes.seenStatus = SeenStatus.Seen;
-      } else {
-        attributes.readStatus = ReadStatus.Unread;
-        attributes.seenStatus = SeenStatus.Unseen;
-        chatConvo.unreadCount = (chatConvo.unreadCount ?? 0) + 1;
+        return {
+          patch: {
+            readStatus: ReadStatus.Read,
+            seenStatus: SeenStatus.Seen,
+            received_at_ms: receivedAtMs,
+          },
+          newActiveAt: receivedAtMs,
+        };
       }
 
-      chatConvo.active_at = attributes.received_at_ms;
-    } else if (directionless) {
-      // Nothing to do
-    }
-
-    if (item.standardMessage) {
-      // TODO (DESKTOP-6964): add revisions to editHistory
-      //   gift badge
-
-      attributes = {
-        ...attributes,
-        ...this.fromStandardMessage(item.standardMessage),
+      return {
+        patch: {
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          received_at_ms: receivedAtMs,
+        },
+        newActiveAt: receivedAtMs,
+        unread: true,
       };
-    } else {
-      const result = await this.fromNonBubbleChatItem(item, {
-        aboutMe,
-        author: authorConvo,
-        conversation: chatConvo,
-        timestamp,
-      });
-
-      if (!result) {
-        throw new Error(`${logId}: fromNonBubbleChat item returned nothing!`);
-      }
-
-      attributes = {
-        ...attributes,
-        ...result.message,
-      };
-
-      let sentAt = attributes.sent_at;
-      (result.additionalMessages || []).forEach(additional => {
-        sentAt -= 1;
-        additionalMessages.push({
-          ...attributes,
-          sent_at: sentAt,
-          ...additional,
-        });
-      });
     }
 
-    assertDev(
-      isAciString(this.ourConversation.serviceId),
-      `${logId}: Our conversation must have ACI`
-    );
-    this.saveMessage(attributes);
-    additionalMessages.forEach(additional => this.saveMessage(additional));
-
-    // TODO (DESKTOP-6964): We'll want to increment for more types here - stickers, etc.
-    if (item.standardMessage) {
-      if (item.outgoing != null) {
-        chatConvo.sentMessageCount = (chatConvo.sentMessageCount ?? 0) + 1;
-      } else {
-        chatConvo.messageCount = (chatConvo.messageCount ?? 0) + 1;
-      }
-    }
-    this.updateConversation(chatConvo);
+    strictAssert(directionless, 'Absent direction state');
+    return { patch: {} };
   }
 
   private fromStandardMessage(
     data: Backups.IStandardMessage
   ): Partial<MessageAttributesType> {
+    // TODO (DESKTOP-6964): Quote, link preview
     return {
       body: data.text?.body || undefined,
       attachments: data.attachments?.length
@@ -903,13 +1003,63 @@ export class BackupImportStream extends Writable {
     };
   }
 
+  private fromRevisions(
+    mainMessage: MessageAttributesType,
+    revisions: ReadonlyArray<Backups.IChatItem>
+  ): Array<EditHistoryType> {
+    const result = revisions
+      .map(rev => {
+        strictAssert(
+          rev.standardMessage,
+          'Edit history has non-standard messages'
+        );
+
+        const timestamp = getTimestampFromLong(rev.dateSent);
+
+        const {
+          // eslint-disable-next-line camelcase
+          patch: { sendStateByConversationId, received_at_ms },
+        } = this.fromDirectionDetails(rev, timestamp);
+
+        return {
+          ...this.fromStandardMessage(rev.standardMessage),
+          timestamp,
+          received_at: incrementMessageCounter(),
+          sendStateByConversationId,
+          // eslint-disable-next-line camelcase
+          received_at_ms,
+        };
+      })
+      // Fix order: from newest to oldest
+      .reverse();
+
+    // See `ts/util/handleEditMessage.ts`, the first history entry is always
+    // the current message.
+    result.unshift({
+      attachments: mainMessage.attachments,
+      body: mainMessage.body,
+      bodyAttachment: mainMessage.bodyAttachment,
+      bodyRanges: mainMessage.bodyRanges,
+      preview: mainMessage.preview,
+      quote: mainMessage.quote,
+      sendStateByConversationId: mainMessage.sendStateByConversationId
+        ? { ...mainMessage.sendStateByConversationId }
+        : undefined,
+      timestamp: mainMessage.timestamp,
+      received_at: mainMessage.received_at,
+      received_at_ms: mainMessage.received_at_ms,
+    });
+
+    return result;
+  }
+
   private fromReactions(
     reactions: ReadonlyArray<Backups.IReaction> | null | undefined
   ): Array<MessageReactionType> | undefined {
     if (!reactions?.length) {
       return undefined;
     }
-    return reactions?.map(
+    return reactions.map(
       ({ emoji, authorId, sentTimestamp, receivedTimestamp }) => {
         strictAssert(emoji != null, 'reaction must have an emoji');
         strictAssert(authorId != null, 'reaction must have authorId');

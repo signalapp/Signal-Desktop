@@ -34,7 +34,7 @@ export async function migrateMessageData({
   saveMessages: (
     data: ReadonlyArray<MessageAttributesType>,
     options: { ourAci: AciString }
-  ) => Promise<void>;
+  ) => Promise<unknown>;
   maxVersion?: number;
 }>): Promise<
   | {
