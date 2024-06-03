@@ -70,6 +70,73 @@ index 7f37444..1a85145 100644
 +}
  //# sourceMappingURL=asarUtil.js.map
 \ No newline at end of file
+diff --git a/node_modules/app-builder-lib/out/electron/ElectronFramework.js b/node_modules/app-builder-lib/out/electron/ElectronFramework.js
+index 2b09620..a469506 100644
+--- a/node_modules/app-builder-lib/out/electron/ElectronFramework.js
++++ b/node_modules/app-builder-lib/out/electron/ElectronFramework.js
+@@ -9,6 +9,7 @@ const path = require("path");
+ const index_1 = require("../index");
+ const pathManager_1 = require("../util/pathManager");
+ const electronMac_1 = require("./electronMac");
++const electronWin_1 = require("./electronWin");
+ const electronVersion_1 = require("./electronVersion");
+ const fs = require("fs/promises");
+ const injectFFMPEG_1 = require("./injectFFMPEG");
+@@ -39,6 +40,9 @@ async function beforeCopyExtraFiles(options) {
+     else if (packager.platform === index_1.Platform.WINDOWS) {
+         const executable = path.join(appOutDir, `${packager.appInfo.productFilename}.exe`);
+         await (0, fs_extra_1.rename)(path.join(appOutDir, `${electronBranding.projectName}.exe`), executable);
++        if (options.asarIntegrity) {
++            await (0, electronWin_1.addWinAsarIntegrity)(executable, options.asarIntegrity);
++        }
+     }
+     else {
+         await (0, electronMac_1.createMacApp)(packager, appOutDir, options.asarIntegrity, options.platformName === "mas");
+diff --git a/node_modules/app-builder-lib/out/electron/electronWin.js b/node_modules/app-builder-lib/out/electron/electronWin.js
+new file mode 100644
+index 0000000..f198807
+--- /dev/null
++++ b/node_modules/app-builder-lib/out/electron/electronWin.js
+@@ -0,0 +1,39 @@
++"use strict";
++Object.defineProperty(exports, "__esModule", { value: true });
++exports.addWinAsarIntegrity = void 0;
++const promises_1 = require("fs/promises");
++const cjs_1 = require("resedit/cjs");
++const builder_util_1 = require("builder-util");
++/** @internal */
++async function addWinAsarIntegrity(executablePath, asarIntegrity) {
++    const resedit = await (0, cjs_1.load)();
++    const buffer = await (0, promises_1.readFile)(executablePath);
++    const executable = resedit.NtExecutable.from(buffer);
++    const resource = resedit.NtExecutableResource.from(executable);
++    const versionInfo = resedit.Resource.VersionInfo.fromEntries(resource.entries);
++    if (versionInfo.length !== 1) {
++        throw new Error(`Failed to parse version info in ${executablePath}`);
++    }
++    const languages = versionInfo[0].getAllLanguagesForStringValues();
++    if (languages.length !== 1) {
++        throw new Error(`Failed to locate languages in ${executablePath}`);
++    }
++    // See: https://github.com/electron/packager/blob/00d20b99cf4aa4621103dbbd09ff7de7d2f7f539/src/resedit.ts#L124
++    const integrityList = Array.from(Object.entries(asarIntegrity)).map(([file, { algorithm: alg, hash: value }]) => ({
++        file,
++        alg,
++        value,
++    }));
++    resource.entries.push({
++        type: "INTEGRITY",
++        id: "ELECTRONASAR",
++        bin: Buffer.from(JSON.stringify(integrityList)),
++        lang: languages[0].lang,
++        codepage: languages[0].codepage,
++    });
++    resource.outputResource(executable);
++    await (0, promises_1.writeFile)(executablePath, Buffer.from(executable.generate()));
++    builder_util_1.log.info({ executablePath }, "updating asar integrity executable resource");
++}
++exports.addWinAsarIntegrity = addWinAsarIntegrity;
++//# sourceMappingURL=electronWin.js.map
 diff --git a/node_modules/app-builder-lib/out/macPackager.js b/node_modules/app-builder-lib/out/macPackager.js
 index 9df12c4..465ffa3 100644
 --- a/node_modules/app-builder-lib/out/macPackager.js

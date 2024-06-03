@@ -320,6 +320,7 @@
     "pngjs": "7.0.0",
     "prettier": "2.8.0",
     "protobufjs-cli": "1.1.1",
+    "resedit": "2.0.2",
     "resolve-url-loader": "5.0.0",
     "sass": "1.49.7",
     "sass-loader": "10.2.0",
