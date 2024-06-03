@@ -2708,7 +2708,16 @@ export class SignalProtocolStore extends EventEmitter {
   }
 
   async removeAllConfiguration(): Promise<void> {
+    // Conversations. These properties are not present in redux.
+    window.getConversations().forEach(conversation => {
+      conversation.unset('storageID');
+      conversation.unset('needsStorageServiceSync');
+      conversation.unset('storageUnknownFields');
+      conversation.unset('senderKeyInfo');
+    });
+
     await window.Signal.Data.removeAllConfiguration();
+
     await this.hydrateCaches();
 
     window.storage.reset();

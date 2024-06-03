@@ -34,6 +34,7 @@ export type CIType = {
   ) => unknown;
   openSignalRoute(url: string): Promise<void>;
   exportBackupToDisk(path: string): Promise<void>;
+  unlink: () => void;
 };
 
 export type GetCIOptionsType = Readonly<{
@@ -162,6 +163,10 @@ export function getCI({ deviceName, backupData }: GetCIOptionsType): CIType {
     await backupsService.exportToDisk(path);
   }
 
+  function unlink() {
+    window.Whisper.events.trigger('unlinkAndDisconnect');
+  }
+
   return {
     deviceName,
     backupData,
@@ -173,5 +178,6 @@ export function getCI({ deviceName, backupData }: GetCIOptionsType): CIType {
     waitForEvent,
     openSignalRoute,
     exportBackupToDisk,
+    unlink,
   };
 }

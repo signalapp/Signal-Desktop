@@ -6372,7 +6372,6 @@ async function removeAllConfiguration(): Promise<void> {
       DELETE FROM backup_cdn_object_metadata;
       DELETE FROM groupSendCombinedEndorsement;
       DELETE FROM groupSendMemberEndorsement;
-      DELETE FROM identityKeys;
       DELETE FROM jobs;
       DELETE FROM kyberPreKeys;
       DELETE FROM preKeys;
@@ -6401,7 +6400,16 @@ async function removeAllConfiguration(): Promise<void> {
 
     db.exec(
       `
-      UPDATE conversations SET json = json_remove(json, '$.senderKeyInfo');
+      UPDATE conversations
+      SET
+        json = json_remove(
+          json,
+          '$.senderKeyInfo',
+          '$.storageID',
+          '$.needsStorageServiceSync',
+          '$.storageUnknownFields'
+        );
+
       UPDATE storyDistributions SET senderKeyInfoJson = NULL;
       `
     );

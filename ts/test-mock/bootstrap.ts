@@ -266,7 +266,7 @@ export class Bootstrap {
     return path.join(this.backupPath, fileName);
   }
 
-  public unlink(): Promise<void> {
+  public eraseStorage(): Promise<void> {
     return this.resetAppStorage();
   }
 
@@ -303,6 +303,18 @@ export class Bootstrap {
     debug('linking');
 
     const app = await this.startApp(extraConfig);
+
+    const window = await app.getWindow();
+    const qrCode = window.locator(
+      '.module-InstallScreenQrCodeNotScannedStep__qr-code__code'
+    );
+    const relinkButton = window.locator('.LeftPaneDialog__icon--relink');
+    await qrCode.or(relinkButton).waitFor();
+    if (await relinkButton.isVisible()) {
+      debug('unlinked, clicking left pane button');
+      await relinkButton.click();
+      await qrCode.waitFor();
+    }
 
     const provision = await this.server.waitForProvision();
 

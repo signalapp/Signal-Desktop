@@ -190,7 +190,7 @@ describe('backups', function (this: Mocha.Suite) {
     await app.close();
 
     // Restart
-    await bootstrap.unlink();
+    await bootstrap.eraseStorage();
     app = await bootstrap.link({
       ciBackupPath: backupPath,
     });
