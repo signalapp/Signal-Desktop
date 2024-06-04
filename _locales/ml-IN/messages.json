@@ -174,7 +174,7 @@
     "messageformat": "ഡവലപ്പര്‍ ടൂളുകള്‍"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "കോളിംഗ് ഡെവലപ്പർ ടൂളുകൾ തുറക്കുക"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "പുതിയ ഉപകരണമായി സജ്ജമാക്കുക"
@@ -645,10 +645,10 @@
     "messageformat": "സ്ക്രീൻ പങ്കിടൽ"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "കോളിംഗ് ഡെവലപ്പർ ടൂളുകൾ"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "നിലവിലുള്ള കോളുകളിൽ നിന്നുള്ള ഡയഗ്നോസ്റ്റിക്സ് പ്രദർശിപ്പിക്കുന്നതിന് ഈ വിൻഡോ ഡെവലപ്‌മെൻ്റ് വേളയിൽ ഉപയോഗിക്കുന്നു."
   },
   "icu:speech": {
     "messageformat": "സംസാരം"
@@ -5420,12 +5420,12 @@
     "messageformat": "ഒരു ഗ്രൂപ്പ് കോളിൽ പങ്കെടുക്കുന്നവരുടെ ലിസ്റ്റ് കാണുമ്പോൾ കോൺടാക്‌റ്റുകളുടെ പേരിന് തൊട്ടടുത്ത് തന്നെ കോൺടാക്‌റ്റ് ഐക്കൺ തകരാൻ കാരണമായ ഒരു റെൻഡറിംഗ് ബഗ് ഞങ്ങൾ പരിഹരിച്ചു. നിങ്ങൾ ഒരുപക്ഷേ നിങ്ങളുടെ കോൺടാക്റ്റുകളുമായി വളരെ അടുത്തായിരിക്കാം, എന്നാൽ ചിലപ്പോൾ നിങ്ങൾ ഇരുവർക്കും (ഒപ്പം Signal ഡെസ്ക്ടോപ്പ് ഉപയോക്തൃ ഇൻ്റർഫേസിനും) കുറച്ച് ഇടം ആവശ്യമാണ്."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "ഗ്രൂപ്പ് കോളുകൾക്കിടയിൽ ആശയവിനിമയം നടത്താൻ നിങ്ങൾ മറ്റൊരു മാർഗം നോക്കുകയാണെങ്കിൽ കൈ ഉയർത്തുക. ആരുടെയെങ്കിലും ശ്രദ്ധ നേടുന്നതിനോ ഒരു ചോദ്യം ചോദിക്കുന്നതിനോ അല്ലെങ്കിൽ \"ആരൊക്കെ അനുകൂലിക്കുന്നു?\" എന്ന് സുഹൃത്ത് ചോദിക്കുമ്പോൾ ഒരു ഗ്രൂപ്പ് നിർദ്ദേശത്തിന് ഏകകണ്ഠമായി വോട്ട് ചെയ്യുന്നതിനോ ഉള്ള ലളിതമായ ഒരു മാർഗമാണ് പുതിയ സവിശേഷതയായ കൈ ഉയർത്തൽ."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "ക്രോപ്പ് ടൂളിലെ ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചു, അതിനാൽ ഇപ്പോൾ നിങ്ങളുടെ എക്സിനെ (അല്ലെങ്കിൽ മറ്റെന്തെങ്കിലും) ചിത്രത്തിൽ നിന്ന് പുറത്താക്കുന്നത് എളുപ്പവും കൂടുതൽ ലളിതവുമാണ്."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Ctrl/Cmd+Shift+Y-ലേക്ക് ഒരു വോയ്‌സ് നോട്ട് അയയ്‌ക്കുന്നതിനുള്ള കീബോർഡ് കുറുക്കുവഴി ഞങ്ങൾ പരിഷ്‌ക്കരിച്ചതിനാൽ Windows-ലെയും Linux-ലെയും \"ഒട്ടിച്ച് പൊരുത്തപ്പെടുത്തൽ സ്റ്റൈൽ\" കുറുക്കുവഴിയുമായി ഇതിന് പൊരുത്തക്കേട് ഉണ്ടാകില്ല."
   }
 }

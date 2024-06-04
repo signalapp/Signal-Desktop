@@ -174,7 +174,7 @@
     "messageformat": "Cambiar ferramentas de desenvolvemento"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Abrir rexistro das ferramentas de desenvolvemento"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Definir como novo dispositivo"
@@ -645,10 +645,10 @@
     "messageformat": "Compartir pantalla"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Rexistro das ferramentas de desenvolvemento"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Esta xanela emprégase durante o desenvolvemento para mostrar os diagnósticos das chamadas en curso."
   },
   "icu:speech": {
     "messageformat": "Voz"
@@ -5420,12 +5420,12 @@
     "messageformat": "Esta actualización corrixe un erro de renderización na interface de usuario das chamadas de grupo."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "A nova función «Alzar a man» é a forma máis sinxela de chamar a atención de alguén ou facer unha pregunta durante as chamadas de grupo."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Esta actualización tamén inclúe unha ferramenta de recorte mellorada para editar imaxes."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Cambiamos o atallo para enviar unha nota de voz a Ctrl/Cmd+Shift+Y para que xa non se confunda co atallo «Pegar co mesmo estilo» en Windows e Linux."
   }
 }

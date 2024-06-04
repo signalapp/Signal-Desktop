@@ -174,7 +174,7 @@
     "messageformat": "Вклучи/исклучи алатки за развој"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Отвори ги програмерските алатки за повици"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Постави како нов уред"
@@ -645,10 +645,10 @@
     "messageformat": "Споделување на екранот"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Програмерски алатки за повици"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Овој прозор се користи во текот на развој за приказ на дијагностика од тековни повици."
   },
   "icu:speech": {
     "messageformat": "Говор"
@@ -5420,12 +5420,12 @@
     "messageformat": "Во оваа верзија е решен баг со визуелен приказ во интерфејсот на групни повици."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Новата функција „Кревање рака“ е едноставен начин да го привлечете вниманието на некој или да поставите прашање во текот на групни повици."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Оваа верзија вклучува и подобрена алатка за сечење и менување на големината на сликите."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Ја сменивме кратенката на тастатура за испраќање гласовна белешка во Ctrl/Cmd+Shift+Y за повеќе да не е во конфликт со кратенката „Вметнување со ист стил“ на Windows и Linux."
   }
 }

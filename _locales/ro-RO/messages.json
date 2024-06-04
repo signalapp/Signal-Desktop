@@ -174,7 +174,7 @@
     "messageformat": "Comutare unelte dezvoltator"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Deschide instrumentele de apelare a dezvoltatorilor"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Setează ca dispozitiv nou"
@@ -645,10 +645,10 @@
     "messageformat": "Se partajează ecranul"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Instrumente de apelare a dezvoltatorilor"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Această fereastră este utilizată în timpul dezvoltării pentru a afișa diagnosticele din apelurile în curs."
   },
   "icu:speech": {
     "messageformat": "Vorbire"
@@ -5420,12 +5420,12 @@
     "messageformat": "Am remediat o eroare de redare care făcea ca pictograma contactelor să se spargă chiar lângă numele contactului în timpul vizualizării listei de participanți la un apel de grup. Probabil că ești foarte apropiat de contactele tale, dar uneori atât tu (cât și interfața de utilizator Signal Desktop) aveți nevoie de puțin spațiu."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Ridică mâna dacă ai căutat o altă modalitate de a comunica în timpul apelurilor de grup. Noua funcție Ridică mâna este o modalitate simplă de a atrage atenția cuiva, de a pune o întrebare sau de a vota în unanimitate pentru o propunere de grup atunci când prietenul tău întreabă \"cine e pentru?\""
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Am eliminat o eroare a instrumentului de decupare, așa că acum este mai ușor și mai intuitiv să-ți tai fostul/fosta (sau orice altceva) din imagine."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Am modificat comanda rapidă de la tastatură pentru trimiterea unei note vocale la Ctrl/Cmd+Shift+Y, astfel încât să nu mai intre în conflict cu comanda rapidă \"Paste and Match Style\" pe Windows și Linux."
   }
 }

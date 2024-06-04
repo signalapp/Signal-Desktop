@@ -174,7 +174,7 @@
     "messageformat": "ဆော့ဖ်ဝဲရေးသားသူဆိုင်ရာ တူးလ်များကို ပြောင်းရန်"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "ဖုန်းခေါ်ဆိုမှုဆိုင်ရာ Developer Tools ကိုဖွင့်ရန်"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "စက်အသစ်အဖြစ် သတ်မှတ်ရန်"
@@ -645,10 +645,10 @@
     "messageformat": "စခရင် မျှဝေခြင်း"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "ဖုန်းခေါ်ဆိုမှုဆိုင်ရာ Developer Tools"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "လက်ရှိ ခေါ်ဆိုမှုများနှင့်ပတ်သက်သည့် ပြဿနာများကို ပြသရန် ဤဝင်းဒိုးကို ဖန်တီးလုပ်ဆောင်နေစဉ်အတွင်း အသုံးပြုပါသည်။"
   },
   "icu:speech": {
     "messageformat": "စကားပြော"
@@ -5420,12 +5420,12 @@
     "messageformat": "ဤအက်ပ်ဒိတ်၌ အဖွဲ့လိုက်ခေါ်ဆိုမှု အင်တာဖေ့စ်တွင် တင်ဆက်မှုချွတ်ယွင်းချက်တစ်ခုကို ပြင်ဆင်ထားသည်။"
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "★ လက်ထောင်သည့် အင်္ဂါရပ်အသစ်သည် အဖွဲ့ကောလ်အတွင်းတွင် တစ်စုံတစ်ဦး၏အာရုံစိုက်မှုကိုရရန် သို့မဟုတ် မေးခွန်းတစ်ခုမေးရန် လွယ်ကူရိုးရှင်းသည့်နည်းလမ်းတစ်ခု ဖြစ်သည်။"
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "ဤအက်ပ်ဒိတ်တွင် ပုံများကို အရွယ်အစားပြောင်းလဲရန် ဖြတ်တောက်သည့်တူးကို ပိုကောင်းအောင် လုပ်ထားပါသည်။"
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Windows နှင့် Linux ပေါ်ရှိ \"Paste and Match Style\" ရှော့တ်ကတ်နှင့် လွဲမှားမှု မရှိစေရန် Ctrl/Cmd+Shift+Y သို့ အသံမှတ်ချက်ပေးပို့ခြင်းအတွက် ကီးဘုတ်ရှော့တ်ကတ်ကို ကျွန်ုပ်တို့ ပြင်ဆင်မွမ်းမံထားပါသည်။"
   }
 }

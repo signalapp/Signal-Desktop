@@ -174,7 +174,7 @@
     "messageformat": "Pārslēgt uz izstrādātāja rīkiem"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Atvērt zvanīšanas rīkus izstrādātājiem"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Iestatīt kā jaunu ierīci"
@@ -645,10 +645,10 @@
     "messageformat": "Ekrāna kopīgošana"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Zvanīšanas rīki izstrādātājiem"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Šis logs tiek izmantots izstrādes laikā, lai parādītu notiekošo zvanu diagnostiku."
   },
   "icu:speech": {
     "messageformat": "Runa"
@@ -5420,12 +5420,12 @@
     "messageformat": "Mēs izlabojām renderēšanas kļūdu: atverot grupas zvana dalībnieku sarakstu, kontaktpersonu ikonas parādījās pārāk tuvu šo kontaktpersonu vārdiem. Ļoti iespējams, ka starp jums un kontaktpersonām ir cieša saikne, taču dažreiz ikviens, tostarp arī jūs (un Signal Desktop lietotāju saskarne), vēlas baudīt nedaudz privātās telpas."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Paceļ roku visi, kuri meklēja vēl vienu veidu, kā sazināties grupu zvanu laikā! Jaunā funkcija \"Pacelt roku\" ir vienkāršs veids, kā pievērst kāda uzmanību, uzdot jautājumu vai vienbalsīgi nobalsot par priekšlikumu, ko ierosina draugs, jautājot: \"Kurš balso par?\""
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Apgriešanas rīkā bija neliela kļūda, un mēs to izgriezām. Tagad jūs varat no attēla izgriezt savu bijušo partneri (vai jebko citu) daudz vieglāk."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Mēs modificējām tastatūras saīsni balss piezīmes nosūtīšanai — Ctrl/Cmd+Shift+Y. Tagad tā vairs nekonfliktē ar saīsni \"Ielīmēt un saskaņot stilu\" operētājsistēmās Windows un Linux."
   }
 }

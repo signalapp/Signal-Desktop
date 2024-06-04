@@ -174,7 +174,7 @@
     "messageformat": "Fejlesztői eszközök megjelenítése/elrejtése"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Hívással kapcsolatos fejlesztői eszközök megnyitása"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Beállítás új eszközként"
@@ -645,10 +645,10 @@
     "messageformat": "Képernyő megosztása"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Hívással kapcsolatos fejlesztői eszközök"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Ez az ablak a fejlesztés során a folyamatban lévő hívások diagnosztikájának megjelenítésére szolgál."
   },
   "icu:speech": {
     "messageformat": "Beszéd"
@@ -5420,12 +5420,12 @@
     "messageformat": "Ez a frissítés kijavít egy renderelési hibát a csoportos hívás felhasználói felületén."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Az új Felemelt kéz funkció egyszerű módja annak, hogy felhívd valaki figyelmét vagy kérdést tegyél fel csoportos hívások során."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Ez a frissítés egy továbbfejlesztett vágóeszközt is tartalmaz a képek átméretezéséhez."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Módosítottuk a hangjegyzet küldésére szolgáló billentyűparancsot a Ctrl/Cmd+Shift+Y billentyűkombinációra, hogy az többé ne ütközzön a „Beillesztés és stílusegyeztetés” billentyűparancsba Windows- és Linux-rendszeren."
   }
 }

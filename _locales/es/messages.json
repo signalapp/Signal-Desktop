@@ -3,7 +3,7 @@
     "messageformat": "Añadir a un grupo"
   },
   "icu:AddUserToAnotherGroupModal__confirm-title": {
-    "messageformat": "¿Añadir nuevx participante?"
+    "messageformat": "¿Añadir nuevo participante?"
   },
   "icu:AddUserToAnotherGroupModal__confirm-add": {
     "messageformat": "Añadir"
@@ -15,7 +15,7 @@
     "messageformat": "Buscar"
   },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
-    "messageformat": "Se ha añadido a {contact} a «{group}»"
+    "messageformat": "Se ha añadido a {contact} a {group}"
   },
   "icu:AddUserToAnotherGroupModal__toast--adding-user-to-group": {
     "messageformat": "Añadiendo a {contact}…"
@@ -36,7 +36,7 @@
     "messageformat": "Membresía pendiente"
   },
   "icu:Preferences__sent-media-quality": {
-    "messageformat": "Calidad de envío de fotos y vídeos"
+    "messageformat": "Calidad de envío de archivos multimedia"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Normal"
@@ -51,19 +51,19 @@
     "messageformat": "Términos y política de privacidad"
   },
   "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
+    "messageformat": "Apple Silicon"
   },
   "icu:copyErrorAndQuit": {
     "messageformat": "Copiar fallo y cerrar Signal"
   },
   "icu:unknownContact": {
-    "messageformat": "Persona desconocida"
+    "messageformat": "Contacto desconocido"
   },
   "icu:unknownGroup": {
-    "messageformat": "Grupo sin nombre"
+    "messageformat": "Grupo desconocido"
   },
   "icu:databaseError": {
-    "messageformat": "Fallo en la base de datos"
+    "messageformat": "Error en la base de datos"
   },
   "icu:databaseError__detail": {
     "messageformat": "Se produjo un error en la base de datos. Puedes copiar el error y ponerte en contacto con el soporte de Signal para ayudar a solucionar el problema. Si necesitas utilizar Signal de inmediato, puedes eliminar tus datos y reiniciar.\n\nPonte en contacto con el servicio de soporte: {link}"
@@ -96,10 +96,10 @@
     "messageformat": "&Ventana"
   },
   "icu:mainMenuHelp": {
-    "messageformat": "A&yuda"
+    "messageformat": "&Ayuda"
   },
   "icu:mainMenuSettings": {
-    "messageformat": "Ajustes…"
+    "messageformat": "Preferencias…"
   },
   "icu:appMenuServices": {
     "messageformat": "Servicios"
@@ -174,7 +174,7 @@
     "messageformat": "Activar herramientas de desarrollador"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Abrir Herramientas de desarrollador de llamada"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Configurar como nuevo dispositivo"
@@ -198,13 +198,13 @@
     "messageformat": "Ver archivo"
   },
   "icu:loading": {
-    "messageformat": "Cargando …"
+    "messageformat": "Cargando..."
   },
   "icu:optimizingApplication": {
-    "messageformat": "Optimizando la aplicación…"
+    "messageformat": "Optimizando aplicación..."
   },
   "icu:migratingToSQLCipher": {
-    "messageformat": "Optimizando mensajes… {status} completados."
+    "messageformat": "Optimizando mensajes... {status} completados."
   },
   "icu:archivedConversations": {
     "messageformat": "Chats archivados"
@@ -381,7 +381,7 @@
     "messageformat": "Ya no participas en este grupo."
   },
   "icu:invalidConversation": {
-    "messageformat": "Este grupo da problemas. Crea un nuevo grupo."
+    "messageformat": "Este grupo no es válido. Crea un nuevo grupo."
   },
   "icu:scrollDown": {
     "messageformat": "Desplazarse al final del chat"
@@ -399,22 +399,22 @@
     "messageformat": "Por tu seguridad, el historial de chats no se transfiere a dispositivos recién enlazados."
   },
   "icu:youMarkedAsVerified": {
-    "messageformat": "Has marcado tus cifras de seguridad con {name} como verificadas"
+    "messageformat": "Has marcado tu número de seguridad con {name} como verificado"
   },
   "icu:youMarkedAsNotVerified": {
-    "messageformat": "Has retirado la marca de verificación de tus cifras de seguridad con {name}"
+    "messageformat": "Has marcado tu número de seguridad con {name} como no verificado"
   },
   "icu:youMarkedAsVerifiedOtherDevice": {
-    "messageformat": "Has marcado tus cifras de seguridad con {name} como verificadas en otro dispositivo"
+    "messageformat": "Has marcado tu número de seguridad con {name} como verificado en otro dispositivo"
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
-    "messageformat": "Has retirado la marca de verificación de tus cifras de seguridad con {name} en otro dispositivo"
+    "messageformat": "Has marcado tu número de seguridad con {name} como no verificado en otro dispositivo"
   },
   "icu:changedRightAfterVerify": {
-    "messageformat": "Las cifras de seguridad que estás intentando verificar han cambiado. Revisa tus nuevas cifras de seguridad con {name1}. Recuerda que este cambio podría significar que alguien ha tratado de interceptar la comunicación o que {name2} simplemente ha reinstalado Signal."
+    "messageformat": "El número de seguridad que estás intentando verificar ha cambiado. Revisa tu nuevo número de seguridad con {name1}. Recuerda que este cambio podría significar que alguien ha tratado de interceptar la comunicación o simplemente que {name2} ha reinstalado Signal."
   },
   "icu:safetyNumberChangeDialog__message": {
-    "messageformat": "Las siguientes personas pueden haber reinstalado Signal o cambiado de dispositivo. Haz clic sobre un destinatario para confirmar su nuevo número de seguridad. Esto es opcional."
+    "messageformat": "Es posible que las siguientes personas hayan reinstalado Signal o cambiado de dispositivo. Si lo deseas, haz clic sobre un destinatario para confirmar su nuevo número de seguridad."
   },
   "icu:safetyNumberChangeDialog__pending-messages": {
     "messageformat": "Enviar mensajes pendientes"
@@ -426,7 +426,7 @@
     "messageformat": "{count, plural, one {{count,number} de tus contactos puede haber reinstalado Signal o cambiado de dispositivo. Antes de compartir tu historia con esta persona, revisa su número de seguridad o considera retirarle de tu historia.} other {{count,number} de tus contactos pueden haber reinstalado Signal o cambiado de dispositivo. Antes de compartir tu historia con estas personas, revisa sus números de seguridad o considera retirarles de tu historia.}}"
   },
   "icu:safetyNumberChangeDialog__post-review": {
-    "messageformat": "Se han revisado todos los contactos. Haz clic sobre enviar para continuar."
+    "messageformat": "Se han revisado todos los contactos. Haz clic en Enviar para continuar."
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
     "messageformat": "{count, plural, one {¿Seguro que quieres eliminar 1 destinatario de tu historia «{story}»?} other {¿Seguro que quieres eliminar {count,number} destinatarios de tu historia «{story}»?}}"
@@ -435,10 +435,10 @@
     "messageformat": "Eliminar todos"
   },
   "icu:safetyNumberChangeDialog__verify-number": {
-    "messageformat": "Verificar cifras de seguridad"
+    "messageformat": "Verificar número de seguridad"
   },
   "icu:safetyNumberChangeDialog__remove": {
-    "messageformat": "Retirar de la historia"
+    "messageformat": "Eliminar de la historia"
   },
   "icu:safetyNumberChangeDialog__actions-contact": {
     "messageformat": "Acciones para el contacto {contact}"
@@ -453,7 +453,7 @@
     "messageformat": "Enviar"
   },
   "icu:safetyNumberChangeDialog_done": {
-    "messageformat": "Hecho"
+    "messageformat": "Listo"
   },
   "icu:callAnyway": {
     "messageformat": "Llamar de todas formas"
@@ -462,7 +462,7 @@
     "messageformat": "Unirme de todos modos"
   },
   "icu:debugLogExplanation": {
-    "messageformat": "Cuando haces clic en enviar, tu log será publicado durante 30 días en una URL única y privada. Lo podrás guardar en tu dispositivo como primera opción."
+    "messageformat": "Cuando haces clic en Enviar, tu registro se publicará durante 30 días en una URL única y privada. Lo podrás guardar en tu dispositivo como primera opción."
   },
   "icu:debugLogError": {
     "messageformat": "Ha ocurrido un fallo con la transferencia. Por favor, escribe un correo a support@signal.org incluyendo el registro de depuración como archivo de texto."
@@ -513,7 +513,7 @@
     "messageformat": "Persona verificada"
   },
   "icu:newIdentity": {
-    "messageformat": "Nuevas cifras de seguridad"
+    "messageformat": "Nuevo número de seguridad"
   },
   "icu:incomingError": {
     "messageformat": "Fallo al procesar el mensaje recibido"
@@ -633,7 +633,7 @@
     "messageformat": "Probar la versión beta"
   },
   "icu:signalDesktopPreferences": {
-    "messageformat": "Ajustes de Signal Desktop"
+    "messageformat": "Preferencias de Signal Desktop"
   },
   "icu:signalDesktopStickerCreator": {
     "messageformat": "Creador de paquetes de stickers"
@@ -645,10 +645,10 @@
     "messageformat": "Compartir pantalla"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Herramientas de desarrollador de llamada"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Esta ventana se utiliza durante el desarrollo para mostrar los diagnósticos de las llamadas en curso."
   },
   "icu:speech": {
     "messageformat": "Dictar"
@@ -897,7 +897,7 @@
     "messageformat": "Mostrar participantes"
   },
   "icu:showSafetyNumber": {
-    "messageformat": "Ver cifras de seguridad"
+    "messageformat": "Ver número de seguridad"
   },
   "icu:AboutContactModal__title": {
     "messageformat": "Biografía"
@@ -1041,7 +1041,7 @@
     "messageformat": "{sender} ha cambiado su número de teléfono"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Alguien comienza a usar Signal"
+    "messageformat": "Un contacto ha comenzado a usar Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} y {conversationTitle} son la misma cuenta. Tu historial de mensajes para ambos chats está aquí."
@@ -1359,7 +1359,7 @@
     "messageformat": "No se puede recibir ni audio ni vídeo de {name}"
   },
   "icu:calling__missing-media-keys-info": {
-    "messageformat": "Esto se puede deber a que no han verificado el cambio de tus cifras de seguridad, hay un problema con su dispositivo, o te han bloqueado."
+    "messageformat": "Esto se puede deber a que no han verificado el cambio de tu número de seguridad, hay un problema con su dispositivo, o te han bloqueado."
   },
   "icu:calling__overflow__scroll-up": {
     "messageformat": "Desliza hacia arriba"
@@ -1404,7 +1404,7 @@
     "messageformat": "Signal necesita acceso a la grabación de pantalla."
   },
   "icu:calling__presenting--permission-instruction-step1": {
-    "messageformat": "Ve a preferencias del sistema."
+    "messageformat": "Ve a Preferencias del sistema."
   },
   "icu:calling__presenting--permission-instruction-step2": {
     "messageformat": "Haz clic sobre el candado en la esquina inferior izquierda e introduce la contraseña de tu usuari@."
@@ -1413,7 +1413,7 @@
     "messageformat": "A la derecha, marca la casilla al lado de Signal. Si no ves el icono de Signal en la lista, haz clic sobre + para añadirla."
   },
   "icu:calling__presenting--permission-open": {
-    "messageformat": "Ve a «Preferencias del sistema»"
+    "messageformat": "Abrir Preferencias del sistema"
   },
   "icu:calling__presenting--permission-cancel": {
     "messageformat": "Ignorar"
@@ -1626,25 +1626,25 @@
     "messageformat": "{oldProfile} ha cambiado su nombre de perfil a {newProfile}."
   },
   "icu:SafetyNumberModal__title": {
-    "messageformat": "Verificar cifras de seguridad"
+    "messageformat": "Verificar número de seguridad"
   },
   "icu:safetyNumberChanged": {
-    "messageformat": "Las cifras de seguridad han cambiado"
+    "messageformat": "El número de seguridad ha cambiado"
   },
   "icu:safetyNumberChanges": {
-    "messageformat": "Cambios en cifras de seguridad"
+    "messageformat": "Cambios en el número de seguridad"
   },
   "icu:safetyNumberChangedGroup": {
-    "messageformat": "Las cifras de seguridad con {name} han cambiado"
+    "messageformat": "El número de seguridad con {name} ha cambiado"
   },
   "icu:ConversationDetails__viewSafetyNumber": {
-    "messageformat": "Ver cifras de seguridad"
+    "messageformat": "Ver número de seguridad"
   },
   "icu:ConversationDetails__HeaderButton--Message": {
     "messageformat": "Mensaje"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
-    "messageformat": "Ver cifras de seguridad"
+    "messageformat": "Ver número de seguridad"
   },
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "Solo puedes verificar a esta persona una vez que hayáis intercambiado mensajes."
@@ -2166,7 +2166,7 @@
     "messageformat": "Siguiente chat con mensajes sin leer"
   },
   "icu:Keyboard--preferences": {
-    "messageformat": "Ajustes"
+    "messageformat": "Preferencias"
   },
   "icu:Keyboard--open-conversation-menu": {
     "messageformat": "Abrir el menú de chat"
@@ -2793,7 +2793,7 @@
     "messageformat": "No hay dispositivos disponibles"
   },
   "icu:callingDeviceSelection__select--default": {
-    "messageformat": "Por defecto"
+    "messageformat": "Predeterminado"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "Silenciar notificaciones"
@@ -3873,7 +3873,7 @@
     "messageformat": "No se pueden reenviar mensajes vacíos o eliminados"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Usa este enlace para unirte a llamada de Signal: {url}"
+    "messageformat": "Usa este enlace para unirte a una llamada de Signal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Saber más"
@@ -5420,12 +5420,12 @@
     "messageformat": "Esta actualización corrige un error de representación en la interfaz para llamadas grupales."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "La nueva función Levantar la mano es una forma sencilla de llamar la atención de alguien o hacer una pregunta durante las llamadas grupales."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Esta actualización también incluye una herramienta de recorte mejorada para cambiar el tamaño de una imagen."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Hemos modificado el atajo de teclado para enviar una nota de voz a Ctrl/Cmd+Mayús+Y para que ya no entre en conflicto con el atajo \"Pegar con el mismo estilo\" en Windows y Linux."
   }
 }

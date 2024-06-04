@@ -174,7 +174,7 @@
     "messageformat": "डेव्हलपर साधने टॉगल करा"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "कॉलिंग डेव्हलपर टूल उघडा"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "नवीन डिव्हाईस म्हणून सेटअप करा"
@@ -645,10 +645,10 @@
     "messageformat": "स्क्रीन सामायिक करत आहे"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "डेव्हलपर टूलला कॉल करत आहे"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "ह्या विंडोचा वापर विकासादरम्यान सुरू असलेल्या कॉलमधील निदान प्रदर्शित करण्यासाठी केला जातो."
   },
   "icu:speech": {
     "messageformat": "वाचा"
@@ -5420,12 +5420,12 @@
     "messageformat": "समूह कॉलमध्ये सहभागींची यादी पाहताना संपर्काच्या नावासमोरील संपर्काच्या आयकॉनला आपोआप स्मॅश करण्यासाठी कारणीभूत असलेल्या रेंडरिंग बगचे आम्ही निराकरण केले आहे. आपण कदाचित आपल्या संपर्काच्या अगदी जवळ असाल, परंतु काहीवेळा आपणाला (आणि Signal डेक्सटॉप वापरकर्ता इंटरफेस) दोघांनाही थोडी स्पेस हवी असते."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "गट कॉलदरम्यान संभाषणात भाग घेण्याच्या दुसऱ्या मार्गाच्या शोधात आपण असाल तर आपला हात वर करा. नवीन हात वर करा वैशिष्ट्य एखाद्याचे लक्ष वेधण्याचा, प्रश्न विचारण्याचा, किंवा जेव्हा आपले मित्र गट प्रस्तावाच्या वेळी \"ज्या सर्वांना मान्य आहे ?\" अशांनी हात वर करावा असा प्रश्न विचातील किंवा निनावीपणे मत देण्यासाठीचा एक सोपा मार्ग आहे"
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "आम्ही क्रॉप टूलममध्ये एका दोषाचे निवारण केले आहे, ज्यामुळे आता चित्रातून तुमच्या एक्सला (किंवा इतर कोणालाही) सहजपणे काढून टाकणे सोपे आणि अधिक अंतर्ज्ञानी आहे."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "आम्ही Ctrl/Cmd+Shift+Y वर व्हॉईस टीप पाठवण्यासाठी कीबोर्ड शॉर्टकट मध्ये सुधारणा केली आहे ज्यामुळे तो Windows आणि Linux वरील \"पेस्ट करा आणि शैली जुळवा\" शार्टकटला अडथळा करणार नाही."
   }
 }

@@ -174,7 +174,7 @@
     "messageformat": "開発者ツール"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "開発者ツール呼び出しを開く"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "新規の端末として設定"
@@ -645,10 +645,10 @@
     "messageformat": "共有中の画面"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "開発者ツール呼び出し"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "このウィンドウは、開発中に、進行中の通話からの診断情報を表示するために使用されます。"
   },
   "icu:speech": {
     "messageformat": "スピーチ"
@@ -5420,12 +5420,12 @@
     "messageformat": "このアップデートでは、グループ通話ユーザーインターフェイスにおけるレンダリングのエラーが修正されました。"
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "新しくなった「挙手」機能は、グループ通話中に他の参加者の注意を引いたり、質問をしたりするための簡単な方法です。"
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "このアップデートには、画像のサイズを変更するために改良されたトリミングツールも含まれます。"
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "音声メモを送信するキーボードのショートカットをCtrl/Cmd+Shift+Yに変更しました。これはWindowsと Linuxの「ペーストしてスタイルを合わせる」のショートカットと区別するためです。"
   }
 }

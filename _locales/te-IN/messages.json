@@ -174,7 +174,7 @@
     "messageformat": "డెవలపర్ సాధనాలను టోగుల్ చేయండి"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "కాలింగ్ డెవలపర్ టూల్స్‌ను తెరవండి"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "క్రొత్త పరికరంగా సెటప్ చేయండి"
@@ -645,10 +645,10 @@
     "messageformat": "స్క్రీన్ భాగస్వామ్యం"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "కాలింగ్ డెవలపర్ టూల్స్"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "కొనసాగుతున్న కాల్స్ నుండి సమస్య వివరాలను ప్రదర్శించడానికి అభివృద్ధి సమయంలో ఈ విండో ఉపయోగించబడుతుంది."
   },
   "icu:speech": {
     "messageformat": "ప్రసంగం"
@@ -5420,12 +5420,12 @@
     "messageformat": "గ్రూప్ కాల్ యూజర్ ఇంటర్‌ఫేస్‌లోని రెండరింగ్ బగ్‌ను ఈ అప్‌డేట్ పరిష్కరిస్తుంది. మీరు బహుశా మీ పరిచయాలకు చాలా దగ్గరగా ఉండవచ్చు, కానీ కొన్నిసార్లు మీకు (మరియు Signal Desktop యూజర్ ఇంటర్‌ఫేస్) ఇద్దరికీ కొంచెం ఎడము అవసరం."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "★ గ్రూప్ కాల్స్ సమయంలో కమ్యూనికేట్ చేయడానికి ఒకవేళ మీరు మరొక మార్గం కోసం చూస్తున్నట్లయితే మీ చేతిని పైకెత్తండి. గ్రూప్ కాల్స్ సమయంలో ప్రశ్న అడగడానికి లేదా ఒకరి దృష్టిని ఆకర్షించడానికి కొత్త రైజ్ హ్యాండ్ ఫీచర్ అనేది సులభమైన మార్గం."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "చిత్రాల పరిమాణాన్ని మార్చడానికి మెరుగైన క్రాప్ టూల్‌ను కూడా ఈ అప్‌డేట్ కలిగి ఉంది."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Ctrl/Cmd+Shift+Y కు స్వర గమనికను పంపడం కోసం కీబోర్డ్ షార్ట్‌కట్‌ను మేము సవరించాము, తద్వారా Windows మరియు Linux లో \"అతికించండి మరియు శైలిని సరిపోల్చండి\" షార్ట్‌కట్‌తో ఇది ఇకపై విభేదించదు."
   }
 }

@@ -174,7 +174,7 @@
     "messageformat": "Afficher ou masquer les outils pour développeurs"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Afficher les outils d’appel pour développeurs"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Configurer comme nouvel appareil"
@@ -429,7 +429,7 @@
     "messageformat": "Toutes les connexions ont été vérifiées, appuyez sur envoyer pour continuer."
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {Êtes-vous sûr de vouloir retirer {count,number} destinataire de la Story {story} ?} other {Êtes-vous sûr de vouloir retirer {count,number} destinataires de la Story {story} ?}}"
+    "messageformat": "{count, plural, one {Êtes-vous sûr de vouloir retirer {count,number} contact de la story {story} ?} other {Êtes-vous sûr de vouloir retirer {count,number} contacts de la story {story} ?}}"
   },
   "icu:safetyNumberChangeDialog__remove-all": {
     "messageformat": "Retirer tous"
@@ -438,7 +438,7 @@
     "messageformat": "Confirmer le numéro de sécurité"
   },
   "icu:safetyNumberChangeDialog__remove": {
-    "messageformat": "Retirer de la Story"
+    "messageformat": "Retirer de la story"
   },
   "icu:safetyNumberChangeDialog__actions-contact": {
     "messageformat": "Menu pour les contacts {contact}"
@@ -645,10 +645,10 @@
     "messageformat": "Partage d’écran"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Outils d’appel pour développeurs"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "En phase de développement, cette fenêtre sert à afficher les diagnostics des appels en cours."
   },
   "icu:speech": {
     "messageformat": "Parole"
@@ -4443,7 +4443,7 @@
     "messageformat": "Activer la fonction Stories"
   },
   "icu:Preferences__turn-stories-off": {
-    "messageformat": "Quitter la fonction Stories"
+    "messageformat": "Désactiver les stories"
   },
   "icu:Preferences__turn-stories-off--action": {
     "messageformat": "Désactiver"
@@ -4626,10 +4626,10 @@
     "messageformat": "Mes stories"
   },
   "icu:MyStories__story": {
-    "messageformat": "Votre Story"
+    "messageformat": "Votre story"
   },
   "icu:MyStories__download": {
-    "messageformat": "Télécharger la Story"
+    "messageformat": "Télécharger la story"
   },
   "icu:MyStories__more": {
     "messageformat": "Plus d’options"
@@ -4728,7 +4728,7 @@
     "messageformat": "Mes stories"
   },
   "icu:Stories__add": {
-    "messageformat": "Ajouter une Story"
+    "messageformat": "Ajouter une story"
   },
   "icu:Stories__add-story--text": {
     "messageformat": "Story texte"
@@ -4740,7 +4740,7 @@
     "messageformat": "Stories cachées"
   },
   "icu:Stories__list-empty": {
-    "messageformat": "Aucune Story récente à afficher pour l’instant"
+    "messageformat": "Aucune story récente à afficher pour le moment"
   },
   "icu:Stories__list--sending": {
     "messageformat": "Envoi…"
@@ -4767,16 +4767,16 @@
     "messageformat": "Réaction en cours…"
   },
   "icu:Stories__toast--hasNoSound": {
-    "messageformat": "Cette Story ne contient pas de sons"
+    "messageformat": "Story sans audio"
   },
   "icu:Stories__failed-send": {
-    "messageformat": "Cette Story n’a pas pu être envoyée à certaines personnes. Vérifiez votre connexion et réessayez."
+    "messageformat": "Impossible d’envoyer cette story à certains contacts. Vérifiez votre connexion et réessayez."
   },
   "icu:StoriesSettings__title": {
     "messageformat": "Confidentialité de la story"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Les Stories sont automatiquement supprimées après 24 heures. Identifiez les spectateurs autorisés à voir votre Story ou créez de nouvelles Stories en identifiant des spectateurs ou des groupes spécifiques."
+    "messageformat": "Les stories sont automatiquement supprimées au bout de 24 heures. Vous pouvez sélectionner les spectateurs autorisés à voir votre story ou créer de nouvelles stories, puis définir les contacts ou les groupes autorisés à les afficher."
   },
   "icu:StoriesSettings__my_stories": {
     "messageformat": "Mes stories"
@@ -4806,7 +4806,7 @@
     "messageformat": "Retirer {title}"
   },
   "icu:StoriesSettings__remove--body": {
-    "messageformat": "Cette personne ne verra plus votre Story."
+    "messageformat": "Ce contact n’aura plus accès à votre story."
   },
   "icu:StoriesSettings__replies-reactions--title": {
     "messageformat": "Réponses et réactions"
@@ -4815,7 +4815,7 @@
     "messageformat": "Autorisez les réponses et les réactions"
   },
   "icu:StoriesSettings__replies-reactions--description": {
-    "messageformat": "Permettez aux personnes qui peuvent voir votre Story de réagir et de répondre."
+    "messageformat": "Les spectateurs de votre story peuvent y réagir et y répondre."
   },
   "icu:StoriesSettings__delete-list": {
     "messageformat": "Supprimer la Story personnalisée"
@@ -4827,7 +4827,7 @@
     "messageformat": "Choisir les spectateurs"
   },
   "icu:StoriesSettings__name-story": {
-    "messageformat": "Nommer la Story"
+    "messageformat": "Nommer la story"
   },
   "icu:StoriesSettings__name-placeholder": {
     "messageformat": "Titre de la story (requis)"
@@ -4839,7 +4839,7 @@
     "messageformat": "Tous mes contacts Signal"
   },
   "icu:StoriesSettings__mine__exclude--label": {
-    "messageformat": "Tout le monde sauf…"
+    "messageformat": "Tous mes contacts Signal, sauf…"
   },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "Partager uniquement avec…"
@@ -4863,7 +4863,7 @@
     "messageformat": "Les membres de la conversation de groupe « {groupTitle} » peuvent afficher cette story et y réagir. Vous pouvez ajouter ou retirer des spectateurs depuis les paramètres du groupe."
   },
   "icu:GroupStorySettingsModal__remove_group": {
-    "messageformat": "Supprimer la Story du groupe"
+    "messageformat": "Supprimer la story de groupe"
   },
   "icu:StoriesSettings__remove_group--confirm": {
     "messageformat": "Voulez-vous vraiment supprimer « {groupTitle} » ?"
@@ -4929,10 +4929,10 @@
     "messageformat": "Partager et voir les Stories"
   },
   "icu:Stories__settings-toggle--description": {
-    "messageformat": "Si vous décidez de quitter la fonction Stories, vous ne pourrez plus en partager ni en consulter."
+    "messageformat": "Si vous décidez de désactiver les stories, vous ne pourrez plus en partager ni en consulter."
   },
   "icu:Stories__settings-toggle--button": {
-    "messageformat": "Quitter la fonction Stories"
+    "messageformat": "Désactiver les stories"
   },
   "icu:StoryViewer__pause": {
     "messageformat": "Mettre en pause"
@@ -5001,7 +5001,7 @@
     "messageformat": "a réagi à la story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "Vous ne pouvez pas interagir sur cette Story, car vous n'êtes plus membre de ce groupe."
+    "messageformat": "Vous ne pouvez pas interagir avec cette story, car vous n'êtes plus membre de ce groupe."
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
     "messageformat": "Supprimer pour moi"
@@ -5046,7 +5046,7 @@
     "messageformat": "La vidéo ne peut pas être publiée dans la Story, car son format n’est pas pris en charge"
   },
   "icu:StoryCreator__error--video-too-long": {
-    "messageformat": "{maxDurationInSec, plural, one {Impossible de poster la vidéo dans la Story car elle dure plus de 1 seconde.} other {Impossible de poster la vidéo dans la Story car elle dure plus de {maxDurationInSec,number} secondes.}}"
+    "messageformat": "{maxDurationInSec, plural, one {Impossible de publier la vidéo dans la story, car elle dure plus de 1 seconde.} other {Impossible de publier la vidéo dans la story, car elle dure plus de {maxDurationInSec,number} secondes.}}"
   },
   "icu:StoryCreator__error--video-too-big": {
     "messageformat": "La vidéo dépasse la limite de {limit,number} {units} : impossible de la publier dans la story."
@@ -5100,10 +5100,10 @@
     "messageformat": "Ajouter un lien pour les spectateurs de votre Story"
   },
   "icu:Stories__failed-send--full": {
-    "messageformat": "Échec de l’envoi de la Story"
+    "messageformat": "Impossible d’envoyer la story"
   },
   "icu:Stories__failed-send--partial": {
-    "messageformat": "La Story n’a pas pu être envoyée à tous les destinataires"
+    "messageformat": "Impossible d’envoyer cette story à certains destinataires."
   },
   "icu:TextAttachment__placeholder": {
     "messageformat": "Ajouter du texte"
@@ -5420,12 +5420,12 @@
     "messageformat": "Et un bug de moins, un ! Lors des appels de groupe, dans la liste des participants, les icônes des contacts s’affichaient de manière trop compacte. Mais on a tous besoin d’un peu d’espace, même lorsqu’on est proches de nos contacts. Et l’interface de Signal Desktop avait aussi besoin d’un peu d’air."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Vous rêviez d’un autre moyen de communiquer lors des appels de groupe ? La nouvelle fonctionnalité « Lever la main » est faite pour vous : elle vous permet d’attirer l’attention des participants, de poser des questions et même de voter pour prendre une décision en groupe."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Adieu, le bug de l’outil de recadrage. Il devient bien plus simple de faire disparaître votre ex (ou votre belle-mère, ou l’ex de votre belle-mère…) de vos photos."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Le raccourci clavier qui permet d’envoyer un message vocal devient Ctrl/Cmd+Maj+Y. Cela évite de le confondre avec le raccourci « Reproduire la mise en forme » sous Windows et Linux."
   }
 }

@@ -174,7 +174,7 @@
     "messageformat": "Scoránaigh Uirlisí Forbróirí"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Oscail Uirlisí Forbróra um Ghlaoch"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Socraigh mar Ghléas Nua"
@@ -645,10 +645,10 @@
     "messageformat": "Comhroinnt scáileáin"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Uirlisí Forbróra um Ghlaoch"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Úsáidtear an fhuinneog seo le linn na forbartha chun diagnóisic ó ghlaonna leanúnacha a thaispeáint."
   },
   "icu:speech": {
     "messageformat": "Labhairt"
@@ -5420,12 +5420,12 @@
     "messageformat": "Réitíonn an nuashonrú seo fabht rindreála i gcomhéadan úsáideora an ghrúpghlao."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Bealach simplí is ea an ghné nua \"Ardaigh Lámh\" chun aird duine a tharraingt nó ceist a chur le linn grúpghlaonna."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Áirítear sa nuashonrú seo freisin uirlis bhearrtha nua chun méid íomhánna a athrú."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Rinneamar aicearra an mhéarchláir chun guthnóta a sheoladh, a mhionathrú chuig Ctrl/Cmd+Shift+Y ionas nach mbeidh coimhlint ann níos mó leis an aicearra \"Greamaigh agus Meaitseáil Stíl\" ar Windows agus Linux."
   }
 }

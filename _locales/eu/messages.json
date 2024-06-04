@@ -174,7 +174,7 @@
     "messageformat": "Aktibatu/Desaktibatu Garatzaileen Tresnak"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Ireki deietarako garatzaile-tresnak"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Ezarri Gailu Berri Gisa"
@@ -645,10 +645,10 @@
     "messageformat": "Pantaila partekatzen"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Deietarako garatzaile-tresnak"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Leiho hau garapen-fasean erakusten da, abian diren deien diagnostikoak bistaratzeko."
   },
   "icu:speech": {
     "messageformat": "Hizketa"
@@ -5420,12 +5420,12 @@
     "messageformat": "Kontaktuen ikurra talde-dei batean parte-hartzaileen zerrendan kontaktuaren izenaren ondoan zanpatzea eragiten zuen errendimendu-errorea konpondu dugu. Ziurrenik zure kontaktuen eta zure arteko harremana oso estua da, baina batzuetan zure kontaktuekiko (eta Signal Desktop erabiltzailearen interfazeekiko) distantzia pixka bat gorde behar duzu."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "★ Jaso eskua taldeko deietan komunikatzeko beste modu baten bila egin bazara. Eskua jasotzeko eginbide berriaren bidez, taldeko deietan erraz erakarri ahalko duzu norbaiten arreta, galderak egin edo talde-proposamen baten alde modu anonimoan bozkatu, adibides, zure lagunak guztiok ados bazaudete galdetzen duenean."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Halaber, eguneratze honek irudien tamaina aldatzeko mozketa-tresna bat dakar."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Ahots-oharrak bidaltzeko teklatu-lasterbidea aldatu dugu; orain, Ktrl/Cmd + Maius + Y da. Horrela, ez da gatazkarik egongo \"Itsatsi eta bat etorrarazi estiloarekin\" lasterbidearekin Windows-en eta Linux-en."
   }
 }

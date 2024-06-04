@@ -174,7 +174,7 @@
     "messageformat": "Переключить инструменты разработчика"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Открыть инструменты разработчика для звонков"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Настроить как новое устройство"
@@ -645,10 +645,10 @@
     "messageformat": "Показ экрана"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Инструменты разработчика для звонков"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Это окно используется во время разработки для отображения диагностики из текущих звонков."
   },
   "icu:speech": {
     "messageformat": "Речь"
@@ -5420,12 +5420,12 @@
     "messageformat": "Исправлена ошибка визуализации, из-за которой значок контактов искажался рядом с именем контакта при просмотре списка участников группового звонка. Возможно, вы очень близки со своими контактами, но иногда вам (и пользовательскому интерфейсу Signal Desktop) требуется немного личного пространства."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Поднимите руку, если вам нужен другой способ общения во время групповых звонков. Новая функция «Поднять руку» — это отличный способ привлечь чьё-то внимание, задать вопрос или дружно проголосовать за предложение для всей группы, когда ваш друг спрашивает: «Все за?»."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Мы исправили ошибку в инструменте кадрирования, так что теперь стало проще вырезать своего бывшего, бывшую (или что-то ещё) из картины."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Мы изменили сочетание клавиш для отправки голосовой заметки на Ctrl/Cmd+Shift+Y, чтобы оно больше не конфликтовало с сочетанием клавиш «Вставить и сохранить стиль» в Windows и Linux."
   }
 }

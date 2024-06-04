@@ -174,7 +174,7 @@
     "messageformat": "ٹوگل ڈویلپر ٹولز"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "کالنگ ڈیولپر ٹولز کھولیں"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "نئی ڈیوائس کے طور پر مرتب کریں"
@@ -645,10 +645,10 @@
     "messageformat": "اسکرین کا اشتراک کرنا"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "کالنگ ڈیولپر ٹولز"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "یہ ونڈو ڈیولپمنٹ کے دوران جاری کالز سے تشخیصی ڈیٹا کو ظاہر کرنے کے لیے استعمال ہوتی ہے۔"
   },
   "icu:speech": {
     "messageformat": "تقریر"
@@ -5420,12 +5420,12 @@
     "messageformat": "یہ اپ ڈیٹ گروپ کال کے یوزر انٹرفیس میں ایک رینڈرنگ بگ کو درست کرتی ہے۔ ورژن 7.11 کے لیے ریلیز نوٹس"
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "ہاٹھ اٹھانے کی نئی فیچر گروپ کالز کے دوران کسی کی توجہ مبذول کرانے یا سوال پوچھنے ایک آسان طریقہ ہے۔"
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "اس اپ ڈیٹ میں تصاویر کو ری سائز کرنے کا بہتر کردہ کراپ ٹول بھی شامل ہے۔"
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "ہم نے صوتی نوٹ بھیجنے کے لیے کی بورڈ شارٹ کٹ کو Ctrl/Cmd+Shift+Y پر تبدیل کر دیا ہے تاکہ یہ Windows اور Linux پر \"پیسٹ اور میچ اسٹائل\" کے شارٹ کٹ سے متصادم نہ ہو۔"
   }
 }

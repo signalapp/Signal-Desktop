@@ -174,7 +174,7 @@
     "messageformat": "เปิดปิดเครื่องมือนักพัฒนา"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "เปิดเครื่องมือด้านการโทรสำหรับนักพัฒนา"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "ตั้งค่าให้เป็นอุปกรณ์ใหม่"
@@ -645,10 +645,10 @@
     "messageformat": "กำลังแบ่งปันหน้าจอ"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "เครื่องมือด้านการโทรสำหรับนักพัฒนา"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "ระบบจะใช้หน้าต่างนี้ในขั้นตอนการพัฒนาเพื่อแสดงผลการตรวจสอบจากการโทรที่กำลังใช้งานอยู่"
   },
   "icu:speech": {
     "messageformat": "การพูด"
@@ -5420,12 +5420,12 @@
     "messageformat": "การอัปเดตครั้งนี้มาพร้อมการแก้ไขบั๊กเกี่ยวกับการแสดงผลในหน้าการโทรกลุ่ม"
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "ขอแนะนำฟีเจอร์การยกมือ วิธีใหม่ที่จะช่วยให้คุณตั้งคำถามในระหว่างการโทรกลุ่มได้ง่ายดาย (หรือจะใช้เรียกความสนใจของเพื่อน ก่อนประกาศเรื่องสำคัญๆ ก็สะดวกไม่แพ้กัน)"
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "การอัปเดตครั้งนี้ยังมาพร้อมการยกระดับเครื่องมือครอบตัดขึ้นอีกขั้น เพื่อตอบโจทย์ให้การปรับขนาดรูปภาพง่ายยิ่งขึ้นอีก"
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "เราแก้ไขปุ่มลัดบนแป้นพิมพ์สำหรับการส่งข้อความเสียงให้เป็น Ctrl/Cmd Shift Y เพื่อไม่ให้ซ้ำกับปุ่มลัด \"วางและให้รูปแบบตรงกัน\" (Paste and Match Style) ของ Windows และ Linux"
   }
 }

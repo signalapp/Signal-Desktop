@@ -174,7 +174,7 @@
     "messageformat": "Vklopi razvojna orodja"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Odpri Razvojna orodja za klice"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Nastavi kot novo napravo"
@@ -645,10 +645,10 @@
     "messageformat": "Deljenje zaslona"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Razvojna orodja za klice"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "To okno se med razvojem uporablja za prikaz diagnostike tekočih klicev."
   },
   "icu:speech": {
     "messageformat": "Nagovor"
@@ -5420,12 +5420,12 @@
     "messageformat": "Odpravili smo napako pri upodabljanju, zaradi katere se je ikona stikov med pregledovanjem seznama udeležencev skupinskega klica razbila tik ob imenu stika. Verjetno ste si s svojimi stiki zelo blizu, vendar včasih vi (kakor tudi uporabniški vmesnik programa Signal Desktop) potrebujete malo prostora."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Dvignite roko, če ste iskali drug način komuniciranja med skupinskimi klici. Nova funkcija Dvig roke je preprost način, kako pritegniti pozornost nekoga, zastaviti vprašanje ali soglasno glasovati za predlog skupine, ko prijatelj vpraša \"Kdo je za?\""
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Odpravili smo napako v orodju za obrezovanje, zato je zdaj izrezovanje bivše_ga (ali česar koli drugega) s slike lažje in bolj intuitivno."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Bližnjico na tipkovnici za pošiljanje glasovnega sporočila smo spremenili v Ctrl/Cmd+Shift+Y, tako da ni več v nasprotju z bližnjico \"Prilepi in spoji oblikovanje\" v operacijskih sistemih Windows in Linux."
   }
 }

@@ -174,7 +174,7 @@
     "messageformat": "نمایش ابزارهای توسعه"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "باز کردن ابزارهای توسعه‌دهنده تماس"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "تنظیم به عنوان دستگاه جدید"
@@ -645,10 +645,10 @@
     "messageformat": "اشتراک صفحه"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "ابزارهای توسعه‌دهنده تماس"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "این پنجره حین توسعه برای نمایش عیب‌یابی تماس‌های جاری استفاده می‌شود."
   },
   "icu:speech": {
     "messageformat": "صحبت"
@@ -5420,12 +5420,12 @@
     "messageformat": "در این نسخه، یک اشکال رندر در رابط کاربری تماس‌های گروهی را رفع کرده‌ایم."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "ویژگی جدید «دست بلند کردن» راه ساده‌ای برای جلب توجه افراد یا پرسیدن سوال هنگام تماس‌های گروهی است."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "این نسخه جدید همچنین ابزار بُرش بهتری برای تغییر اندازه تصاویر دارد."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "میانبر صفحه‌کلید برای ارسال یادداشت صوتی را به Ctrl/Cmd+Shift+Y تغییر دادیم تا دیگر با میانبر \"چسباندن و تطابق سبک\" در ویندوز و لینوکس تداخل نداشته باشد."
   }
 }

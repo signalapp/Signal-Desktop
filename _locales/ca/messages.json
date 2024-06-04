@@ -174,7 +174,7 @@
     "messageformat": "Activa o desactiva les eines de desenvolupament"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Obrir Eines de desenvolupament de trucada"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Configura'l com a dispositiu nou"
@@ -645,10 +645,10 @@
     "messageformat": "Compartició de pantalla"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Eines de desenvolupament de trucada"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Aquesta finestra s'utilitza durant el desenvolupament per mostrar els diagnòstics de les trucades en curs."
   },
   "icu:speech": {
     "messageformat": "Discurs"
@@ -5420,12 +5420,12 @@
     "messageformat": "Aquesta actualització corregeix un error de visualització a la pantalla de trucades grupals."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "La nova funció Aixecar la mà és una manera senzilla de cridar l'atenció d'algú o fer una pregunta durant les trucades grupals."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Aquesta actualització també inclou una eina de retallar millorada per canviar la mida d'una imatge."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Hem modificat la drecera de teclat per enviar una nota de veu a Ctrl/Cmd+Maj+Y perquè ja no entri en conflicte amb la drecera \"Enganxar i copiar l'estil\" a Windows i Linux."
   }
 }

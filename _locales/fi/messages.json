@@ -174,7 +174,7 @@
     "messageformat": "Näytä/piilota kehittäjätyökalut"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Näytä soittamisen kehittäjätyökalut"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Asenna uutena laitteena"
@@ -645,10 +645,10 @@
     "messageformat": "Näytön jakaminen"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Soittamisen kehittäjätyökalut"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Tätä ikkunaa käytetään ohjelmistokehityksen aikana käynnissä olevien puhelujen diagnostiikkatietojen näyttämiseen."
   },
   "icu:speech": {
     "messageformat": "Puhe"
@@ -5420,12 +5420,12 @@
     "messageformat": "Tämä päivitys korjaa renderöintivirheen ryhmäpuhelun käyttöliittymässä."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "★ Uusi Nosta käsi -ominaisuus on helppo tapa kiinnittää jonkun huomio tai esittää kysymys ryhmäpuhelussa."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Päivitys sisältää myös parannetun rajaustyökalun kuvien koon muuttamiseen."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Muokkasimme äänihuomautuksen lähettämisen pikanäppäimiksi Ctrl/Cmd+Shift+Y, jotta se ei enää ole ristiriidassa ”Liitä ja sovita tyyli” -pikanäppäimen kanssa Windowsissa ja Linuxissa."
   }
 }

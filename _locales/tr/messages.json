@@ -174,7 +174,7 @@
     "messageformat": "Geliştirici Araçlarını Aç/Kapat"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Arama Geliştirici Araçlarını Aç"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Yeni Cihaz olarak kur"
@@ -645,10 +645,10 @@
     "messageformat": "Ekran paylaşımı"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Arama Geliştirici Araçları"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Bu pencere, geliştirme sırasında devam eden aramalardan gelen tanılamaları görüntülemek için kullanılır."
   },
   "icu:speech": {
     "messageformat": "Konuşma"
@@ -5420,12 +5420,12 @@
     "messageformat": "Bu güncelleme, grup araması kullanıcı arayüzündeki bir işleme hatasını düzeltmektedir. Böylece Signal Desktop kullanıcı arayüzünde grup aramaların sorunsuz geçer."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Grup aramaları sırasında iletişim kurmak için başka bir yol arıyorsan elini kaldır. Yeni El Kaldırma özelliği; birinin dikkatini çekmenin veya grup aramalarında soru sormanın basit bir yoludur."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Bu güncelleme, resimleri yeniden boyutlandırma için geliştirilmiş bir kırpma aracınını da içermektedir."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Sesli not göndermek için klavye kısayolunu Ctrl/Cmd+Shift+Y olarak değiştirdik; böylece artık Windows ve Linux'ta \"Yapıştır ve Eşleştir Stili\" kısayoluyla çakışmayacak."
   }
 }

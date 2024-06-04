@@ -174,7 +174,7 @@
     "messageformat": "Ferramentas de desenvolvimento"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Abrir ferramentas de desenvolvimento de chamadas"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Configurar como Novo Aparelho"
@@ -645,10 +645,10 @@
     "messageformat": "Você está apresentando"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Ferramentas de desenvolvimento de chamadas"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Durante o desenvolvimento, esta janela mostra diagnósticos das chamadas em progresso."
   },
   "icu:speech": {
     "messageformat": "Fala"
@@ -5420,12 +5420,12 @@
     "messageformat": "Corrigimos um bug de renderização que fazia o ícone de contatos ficar grudado no nome do contato ao visualizar a lista de participantes em uma chamada em grupo. Sabemos que você é próximo dos seus contatos, mas às vezes é bom dar um espacinho, tanto para você quanto para a interface do Signal Desktop."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Levante a mão se você estiver procurando outra maneira de se comunicar durante as chamadas em grupo. O recurso \"Levantar a Mão\" é perfeito para chamar a atenção de alguém, tirar dúvidas ou votar em grupo de forma unânime quando um amigo perguntar: 'Todos a favor?"
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Acabamos com um bug na ferramenta de recorte! Agora ficou mais fácil e intuitivo tirar seu ex (ou qualquer outra coisa) da foto."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Modificamos o atalho de teclado de enviar mensagens de voz para Ctrl/Cmd+Shift+Y, evitando conflito com o atalho 'Colar e Manter Estilo' no Windows e Linux."
   }
 }

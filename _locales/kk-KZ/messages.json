@@ -174,7 +174,7 @@
     "messageformat": "Әзірлеуші құралдарына ауыстыру"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Қоңырау функциясы әзірлеушісінің құралдарын ашу"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Жаңа құрылғы ретінде орнату"
@@ -645,10 +645,10 @@
     "messageformat": "Экранды бөлісу"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Қоңырау шалу функциясын әзірлеушінің құралдары"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Бұл терезе жүріп жатқан қоңыраулардың диагностикасын көрсету үшін әзірлеу барысында қолданылады."
   },
   "icu:speech": {
     "messageformat": "Сөйлеу"
@@ -5420,12 +5420,12 @@
     "messageformat": "Топтық қоңырауға қатысушылардың тізімін көріп отырғанда контактінің атының тура жанындағы контактілер белгішесі бөлініп қалатын ақау түзетілді. Бәлкім сіз контактілеріңізге шынымен жақын шығарсыз, бірақ кейде сізге де (Signal Desktop пайдаланушы интерфейсіне де) аздаған орын керек болады."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Топтық қоңырау кезінде хат-хабар алмасудың басқа жолын қарастырып жүрсеңіз, қолыңызды көтеріңіз. Жаңа «Қолды көтеру» функциясы – біреудің назарын аударудың, сұрақ қоюдың немесе досыңыз «Кім қосылады?» деп сұрағанда, бір ауыздан топтық ұсыныс үшін дауыс берудің ең қарапайым жолы."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Қиып алу құралындағы ақауды түзеттік, енді суреттен бұрынғы жігітіңізді/қызыңызды (немесе басқа нысандарды) қиып тастау оңай бола түсті."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Дауыстық ескертпе жіберуге арналған пернелер тіркесімін Ctrl/Cmd+Shift+Y деп өзгерттік, енді Windows және Linux жүйелеріндегі «Стильді қою және сәйкестендіру» пернелер тіркесімімен шатаспайды."
   }
 }

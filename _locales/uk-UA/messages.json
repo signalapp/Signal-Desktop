@@ -132,7 +132,7 @@
     "messageformat": "Вставити"
   },
   "icu:editMenuPasteAndMatchStyle": {
-    "messageformat": "Вставити без форматування"
+    "messageformat": "Вставити як звичайний текст"
   },
   "icu:editMenuDelete": {
     "messageformat": "Видалити"
@@ -174,7 +174,7 @@
     "messageformat": "Переключити Інструменти Розробника"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Відкрити інструменти розробника для викликів"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Налаштувати як новий пристрій"
@@ -378,7 +378,7 @@
     "messageformat": "Переглянути"
   },
   "icu:youLeftTheGroup": {
-    "messageformat": "Ви більше не учасник групи."
+    "messageformat": "Ви більше не учасник цієї групи."
   },
   "icu:invalidConversation": {
     "messageformat": "Ця група недійсна. Будь ласка, створіть нову групу."
@@ -600,10 +600,10 @@
     "messageformat": "Не займе багато часу"
   },
   "icu:offline": {
-    "messageformat": "Оффлайн"
+    "messageformat": "Поза мережею"
   },
   "icu:checkNetworkConnection": {
-    "messageformat": "Перевірте з'єднання"
+    "messageformat": "Перевірте з'єднання."
   },
   "icu:submitDebugLog": {
     "messageformat": "Журнал налагодження"
@@ -645,10 +645,10 @@
     "messageformat": "Показати екран"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Інструменти розробника для викликів"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Це вікно використовується під час розробки для показу діагностики поточних викликів."
   },
   "icu:speech": {
     "messageformat": "Розмова"
@@ -2547,19 +2547,19 @@
     "messageformat": "{count, plural, one {{count,number} учасник} few {{count,number} учасники} many {{count,number} учасників} other {{count,number} учасника}}"
   },
   "icu:member-of-1-group": {
-    "messageformat": "Учасник {group}"
+    "messageformat": "Учасник «{group}»"
   },
   "icu:member-of-2-groups": {
-    "messageformat": "Учасник {group1} і {group2}"
+    "messageformat": "Учасник «{group1}» і «{group2}»"
   },
   "icu:member-of-3-groups": {
-    "messageformat": "Учасник {group1}, {group2} і {group3}"
+    "messageformat": "Учасник «{group1}», «{group2}» і «{group3}»"
   },
   "icu:member-of-more-than-3-groups--one-more": {
-    "messageformat": "Учасник {group1}, {group2}, {group3} та ще однієї"
+    "messageformat": "Учасник «{group1}», «{group2}», «{group3}» і ще однієї групи"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "{remainingCount, plural, one {Учасник {group1}, {group2}, {group3} і ще {remainingCount,number} групи} few {Учасник {group1}, {group2}, {group3} і ще {remainingCount,number} груп} many {Учасник {group1}, {group2}, {group3} і ще {remainingCount,number} груп} other {Учасник {group1}, {group2}, {group3} і ще {remainingCount,number} групи}}"
+    "messageformat": "{remainingCount, plural, one {Учасник «{group1}», «{group2}», «{group3}» і ще {remainingCount,number} групи} few {Учасник «{group1}», «{group2}», «{group3}» і ще {remainingCount,number} груп} many {Учасник «{group1}», «{group2}», «{group3}» і ще {remainingCount,number} груп} other {Учасник «{group1}», «{group2}», «{group3}» і ще {remainingCount,number} групи}}"
   },
   "icu:no-groups-in-common": {
     "messageformat": "Спільних груп немає"
@@ -3063,7 +3063,7 @@
     "messageformat": "Учасник додав {memberName}."
   },
   "icu:GroupV2--member-add--you--other": {
-    "messageformat": "{memberName} додав вас до групи."
+    "messageformat": "Користувач {memberName} додав вас до групи."
   },
   "icu:GroupV2--member-add--you--you": {
     "messageformat": "Ви приєдналися до групи."
@@ -3144,7 +3144,7 @@
     "messageformat": "Один з адміністраторів відкликав ваші привілеї адміністратора."
   },
   "icu:GroupV2--pending-add--one--other--other": {
-    "messageformat": "{memberName} запросив (-ла) 1 людину в групу."
+    "messageformat": "Користувач {memberName} запросив 1 людину до групи."
   },
   "icu:GroupV2--pending-add--one--other--you": {
     "messageformat": "Ви запросили {inviteeName} в групу."
@@ -3153,7 +3153,7 @@
     "messageformat": "Одна людина була запрошена в групу."
   },
   "icu:GroupV2--pending-add--one--you--other": {
-    "messageformat": "{memberName} запросив (-ла) вас до групи."
+    "messageformat": "Користувач {memberName} запросив вас до групи."
   },
   "icu:GroupV2--pending-add--one--you--unknown": {
     "messageformat": "Ви були запрошені в групу."
@@ -5420,12 +5420,12 @@
     "messageformat": "Тепер під час перегляду учасників групового виклику значок контакту не тулитиметься прямо поруч з його іменем. Мабуть, у вас зі своїми контактами дуже близькі стосунки, але всім іноді потрібно трохи особистого простору — навіть інтерфейсу в Signal Desktop."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Підніміть руку, якщо під час групових викликів вам бракувало засобів комунікації. Нова функція «Підняти руку» допоможе привернути до себе увагу, поставити запитання чи одностайно проголосувати за пропозицію, коли друг питає групу: «Хто за?»."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Наші шляхи з помилкою в інструменті кадрування остаточно розійшлися, тож тепер вирізати з фотографій своїх колишніх (чи щось інше) стало простіше та інтуїтивно зрозуміліше."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Ми змінили сполучення клавіш для надсилання голосових нотаток на Ctrl / Cmd+Shift+Y. Тепер воно не конфліктує зі сполученням клавіш «Вставити як звичайний текст» на Windows і Linux."
   }
 }

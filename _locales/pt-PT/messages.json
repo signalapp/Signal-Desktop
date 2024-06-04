@@ -174,7 +174,7 @@
     "messageformat": "Ativar ferramentas do programador"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Abrir ferramentas de chamada do desenvolvedor"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Configurar como novo dispositivo"
@@ -645,10 +645,10 @@
     "messageformat": "A partilhar ecrã"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Ferramentas de chamada do programador"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Esta janela é utilizada durante o desenvolvimento para apresentar diagnósticos de chamadas em curso."
   },
   "icu:speech": {
     "messageformat": "Fala"
@@ -5420,12 +5420,12 @@
     "messageformat": "Esta atualização corrige um erro de renderização na interface de utilizador da chamada de grupo."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "A nova funcionalidade de levantar a mão é uma forma simples de chamar a atenção de alguém ou fazer uma pergunta durante chamadas de grupo."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Esta atualização também inclui uma ferramenta de corte melhorada para redimensionar imagens."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Modificámos o atalho de teclado para enviar uma nota de voz. Agora é Ctrl/Cmd+Shift+Y, para não entrar em conflito com o atalho \"Colar e manter o mesmo estilo\" no Windows e Linux."
   }
 }

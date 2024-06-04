@@ -174,7 +174,7 @@
     "messageformat": "Apri strumenti di sviluppo"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Apri gli strumenti di sviluppo"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Configura come nuovo dispositivo"
@@ -645,10 +645,10 @@
     "messageformat": "Condivisione schermo"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Apertura strumenti di sviluppo in corso"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Questa schermata viene usata durante la fase di sviluppo per mostrare i dati diagnostici legati alle chiamate in corso."
   },
   "icu:speech": {
     "messageformat": "Parlato"
@@ -5420,12 +5420,12 @@
     "messageformat": "Abbiamo risolto un bug per cui l'icona dei contatti appariva vicino al nome del contatto durante la visualizzazione dell'elenco dei partecipanti a una chiamata di gruppo. Da ora le \"distanze di sicurezza\" verranno rispettate, promesso!"
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Alza la mano se anche tu hai bisogno di un nuovo modo per attirare l'attenzione durante le chiamate di gruppo. Beh, da ora con la nuova funzione \"Alza la mano\" puoi farti notare durante le chiamate e prendere parola più velocemente!"
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Abbiamo risolto anche un bug nel sistema di ritaglio immagini: ora sarà molto più semplice tagliare l'ex dalle tue foto 👀"
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Abbiamo modificato la scorciatoia da tastiera per inviare un messaggio vocale in Ctrl/Cmd+Shift+Y così da evitare conflitti con altre scorciatoie presenti su Windows e Linux."
   }
 }

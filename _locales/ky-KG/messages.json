@@ -174,7 +174,7 @@
     "messageformat": "Иштеп чыгуучунун куралдарын иштетүү"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Чалууларга байланыштуу иштеп чыгуучулардын куралдарын ачуу"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Жаңы түзмөктү тууралоо"
@@ -645,10 +645,10 @@
     "messageformat": "Экран бөлүшүү"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Чалууларга байланыштуу иштеп чыгуучулардын куралдары"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Учурда болуп жаткан чалуулардын көрүнүшүндөгү мүчүлүштүктөрдү аныктоо үчүн колдонулат."
   },
   "icu:speech": {
     "messageformat": "Сүйлөө"
@@ -5420,12 +5420,12 @@
     "messageformat": "Топтук чалуудагы катышуучулардын тизмесин карап жатканда Байланыштар сүрөтчөсү өзүнөн өзү байланыштын ысымынын жанына жылып кеткен мүчүлүштүктү оңдодук. Байланыштарыңызга аябай эле жакын болсоңуз керек, бирок кээде сизге (жана Signal Desktop колдонуучу интерфейсине) бир аз орун керек."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "★ Топтук чалууда башкача жол менен сүйлөшкүңүз келген болсо, колуңузду көтөрүңүз. Кимдир бирөөнүн көңүлүн өзүңүзгө бургуңуз келсе, суроо бергиңиз келсе же \"Баарыңар макулсуңарбы?\" деген суроого жашыруун жооп бергиңиз келсе, \"Кол көтөр\" деген функцияны колдонсоңуз болот."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Кесүү куралындагы мүчүлүштүктү оңдодук. Эми сүрөттөгү кереги жок нерселерди оңой эле кесип саласыз."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Аудио билдирүүнү жөнөтүүчү баскычтар айкалышын Ctrl/Cmd+Shift+Y кылып өзгөрттүк. Эми ал Windows же Linux системасындагы \"Paste and Match Style\" деген баскычтар айкалышына алмашып калбайт."
   }
 }

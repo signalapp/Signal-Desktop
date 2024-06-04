@@ -174,7 +174,7 @@
     "messageformat": "ئاچقۇچىلار قوراللىرىغا ئالماشتۇرۇش"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "چاقىرىق ئاچقۇچىلار قوراللىرىنى ئېچىش"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "يېڭى ئۈسكۈنە قىلىپ سەپلەش"
@@ -645,10 +645,10 @@
     "messageformat": "ئېكران ئورتاقلىشىش"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "چاقىرىق ئاچقۇچىلار قوراللىرى"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "بۇ كۆزنەك داۋاملىشىۋاتقان چاقىرىقتىكى دىئاگنوز نەتىجىسىنى كۆرسىتىشنى ئېچىش ئۈچۈن ئىشلىتىلىدۇ."
   },
   "icu:speech": {
     "messageformat": "سۆزلەش"
@@ -5420,12 +5420,12 @@
     "messageformat": "بىر كاشىلىنى ھەل قىلدۇق. بۇ كاشىلا گۇرۇپپا چاقىرىقىدا قاتناشقۇچىلار تىزىملىكىنى كۆرۈۋاتقاندا ئالاقىداشلار سىنبەلگىسىنىڭ ئالاقىداش نامىغا يېقىن چاپلىشىپ ئۆزلۈكىدىن پارچىلىنىپ كېتىشىنى كەلتۈرۈپ چىقارغان."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "يېڭىدىن «قول كۆتۈرۈش» ئىقتىدارى قوشۇلغان بولۇپ، بۇ ئارقىلىق چاقىرىق جەريانىدا ئاسانلا باشقىلارنىڭ دىققىتىنى تارتالايسىز ياكى سوئال سورىيالايسىز."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "قىرقىش قورالىدىكى بىر كاشىلىنى ھەل قىلدۇق، ئەمدى رەسىمدىكى خالىمىغان قىسىملارنى كېسىپ چىقىرىۋېتىش تېخىمۇ ئاسانلاشتى."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "ئاۋازلىق خاتىرە يوللاش ئۈچۈن ئىشلىتىلىدىغان تېزلەتمە كۇنۇپكىنى Ctrl/Cmd+Shift+Y گە ئ‍ۆزگەرتتۇق. ئەمدى ئۇ Windows ۋە Linux دىكى «چاپلاش ۋە ئۇسلۇب ماسلاشتۇرۇش» تېزلەتمە كۇنۇپكىسى بىلەن توقۇنۇشۇپ قالمايدۇ."
   }
 }

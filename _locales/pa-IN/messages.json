@@ -174,7 +174,7 @@
     "messageformat": "ਡਿਵੈਲਪਰ ਟੂਲ ਲਈ ਬਦਲੋ"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "ਕਾਲਿੰਗ ਡਿਵੈਲਪਰ ਟੂਲਸ ਨੂੰ ਖੋਲ੍ਹੋ"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "ਨਵੇਂ ਡਿਵਾਈਸ ਵਜੋਂ ਸੈਟ ਅੱਪ ਕਰੋ"
@@ -645,10 +645,10 @@
     "messageformat": "ਸਕਰੀਨ ਸਾਂਝੀ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "ਕਾਲਿੰਗ ਡਿਵੈਲਪਰ ਟੂਲਸ"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "ਇਹ ਵਿੰਡੋ ਡਿਵੈਲਪਮੈਂਟ ਦੌਰਾਨ ਚੱਲ ਰਹੀਆਂ ਕਾਲਾਂ ਤੋਂ ਡਾਇਗਨੌਸਟਿਕਸ ਦਿਖਾਉਣ ਲਈ ਵਰਤੀ ਜਾਂਦੀ ਹੈ।"
   },
   "icu:speech": {
     "messageformat": "ਬੋਲੀ"
@@ -5420,12 +5420,12 @@
     "messageformat": "ਇਹ ਅੱਪਡੇਟ ਗਰੁੱਪ ਕਾਲ ਵਰਤੋਂਕਾਰ ਇੰਟਰਫੇਸ ਵਿੱਚ ਰੈਂਡਰਿੰਗ ਬੱਗ ਨੂੰ ਠੀਕ ਕਰਦੀ ਹੈ।"
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "★ ਨਵਾਂ ਹੱਥ ਉੱਪਰ ਕਰਨ ਵਾਲਾ ਫੀਚਰ ਗਰੁੱਪ ਕਾਲਾਂ ਦੌਰਾਨ ਕਿਸੇ ਦਾ ਧਿਆਨ ਖਿੱਚਣ ਜਾਂ ਸਵਾਲ ਪੁੱਛਣ ਦਾ ਇੱਕ ਸਰਲ ਤਰੀਕਾ ਹੈ।"
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "ਇਸ ਅੱਪਡੇਟ ਵਿੱਚ ਤਸਵੀਰਾਂ ਦਾ ਆਕਾਰ ਬਦਲਣ ਲਈ ਇੱਕ ਸੁਧਾਰਿਆ ਹੋਇਆ ਕ੍ਰੌਪ ਟੂਲ ਵੀ ਸ਼ਾਮਲ ਹੈ।"
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "ਅਸੀਂ ਵੌਇਸ ਨੋਟ ਭੇਜਣ ਲਈ ਕੀਬੋਰਡ ਸ਼ਾਰਟਕੱਟ ਨੂੰ Ctrl/Cmd+Shift+Y 'ਤੇ ਬਦਲ ਦਿੱਤਾ ਹੈ ਤਾਂ ਜੋ ਇਹ Windows ਅਤੇ Linux 'ਤੇ \"ਪੇਸਟ ਅਤੇ ਮੈਚ ਸਟਾਈਲ\" ਦੇ ਸ਼ਾਰਟਕੱਟ ਤੋਂ ਅਲੱਗ ਰਹੇ।"
   }
 }

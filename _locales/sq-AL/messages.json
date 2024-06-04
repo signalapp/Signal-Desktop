@@ -174,7 +174,7 @@
     "messageformat": "Shfaq/Fshih Mjete Zhvilluesi"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Hap mjetet e zhvillimit të thirrjeve"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Rregulloje si Pajisje të Re"
@@ -645,10 +645,10 @@
     "messageformat": "Ndarje ekrani me të tjerë"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Mjetet e zhvillimit të thirrjeve"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Dritarja përdoret gjatë zhvillimit për të shfaqur diagnostifikimin nga kryerja e telefonatave."
   },
   "icu:speech": {
     "messageformat": "E folur"
@@ -5420,12 +5420,12 @@
     "messageformat": "Defekti i paraqitjes që shkaktoi prishjen e ikonës së kontakteve pikërisht pranë emrit të kontaktit gjatë kohës së shikimit të listës së pjesëmarrësve në një telefonatë në grup u rregullua. Ndoshta je shumë afër kontakteve, por ndonjëherë, si ti (ashtu dhe ndërfaqja e përdoruesit Signal Desktop) keni nevojë për pak hapësirë."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "★ Ngri dorën nëse ke kërkuar një mënyrë tjetër komunikimi gjatë telefonatave në grup. Veçoria e re \"Ngri dorën\" është një mënyrë e thjeshtë për të tërhequr vëmendjen e dikujt, për të bërë pyetje ose për të votuar unanimisht për një propozim grupi kur kërkohet që \"të ngrenë dorën të gjithë personat që janë në favor?\""
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Ne u ndamë me një defekt në mjetin e prerjes, kështu që tani është më e lehtë dhe më intuitive ta heqësh ishin (ose çdo gjë tjetër) nga fotografia."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Ne modifikuam shkurtoren e tastierës për dërgimin e një shënimi zanor në Ctrl/Cmd+Shift+Y në mënyrë që të mos bie në konflikt me shkurtoren \"Paste and Match Style\" në Windows dhe Linux."
   }
 }

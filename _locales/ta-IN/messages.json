@@ -174,7 +174,7 @@
     "messageformat": "டெவலப்பர் கருவிகளை நிலைமாற்று"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "காலிங் டெவலப்பர் கருவிகளைத் திறக்கவும்"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "புதிய சாதனமாக அமைக்கவும்"
@@ -645,10 +645,10 @@
     "messageformat": "திரையைப் பகிர்தல்"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "காலிங் டெவலப்பர் கருவிகள்"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "இந்த விண்டோ டெவலப்மென்ட்டின் போது, செயலில் இருக்கும் அழைப்புகளிலிருந்து கண்டறிதல்களைக் காண்பிக்கப் பயன்படுகிறது."
   },
   "icu:speech": {
     "messageformat": "பேச்சு"
@@ -5420,12 +5420,12 @@
     "messageformat": "இந்தப் பதிப்பு குழு அழைப்பு பயனர் முகப்பில் இருந்த ஒரு பிழையைச் சரிசெய்துள்ளது."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "குழு அழைப்புகளின் போது ஒருவரின் கவனத்தை ஈர்ப்பதற்கான அல்லது ஒரு கேள்வியை கேட்பதற்கான எளிதான வழியாக கையை உயர்த்தும் புதிய அம்சம் உள்ளது."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "இந்தப் புதுப்பிப்பில் படங்களின் அளவை மாற்றுவதற்கான மேம்படுத்தப்பட்ட க்ராப் கருவியும் உள்ளது."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "குரல் குறிப்பை அனுப்புவதற்கு Ctrl/Cmd+Shift+Y என்ற விசைப்பலகை குறுக்குவழியை மாற்றியுள்ளோம், எனவே இது இனி விண்டோஸ் மற்றும் லினக்ஸில் \"பேஸ்ட் அண்ட் மேட்ச் ஸ்டைல்\" குறுக்குவழியுடன் முரண்படாது."
   }
 }

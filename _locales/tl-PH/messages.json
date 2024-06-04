@@ -174,7 +174,7 @@
     "messageformat": "Toggle Developer Tools"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Buksan ang Calling Developer Tools"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Set Up as New Device"
@@ -648,7 +648,7 @@
     "messageformat": "Calling Developer Tools"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Ginagamit ang window na ito sa development para i-display ang diagnostics mula sa ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Speech"
@@ -5420,12 +5420,12 @@
     "messageformat": "Inaayos ng update na ito ang rendering bug sa group call user interface."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Ang bagong Raise Hand feature ay isang simpleng paraan para makuha ang atensyon ng isang tao o mag-tanong habang nasa group call."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Kasama rin sa update na ito ang improved crop tool para sa pag-resize ng images."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Binago namin ang keyboard shortcut para sa pag-send ng voice note at ginawa itong Ctrl/Cmd+Shift+Y para hindi na ito magdulot ng problema sa \"Paste and Match Style\" shortcut sa Windows at Linux."
   }
 }

@@ -174,7 +174,7 @@
     "messageformat": "切換開發者工具"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "開啟通話中開發者工具"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "設定新裝置"
@@ -645,10 +645,10 @@
     "messageformat": "分享畫面"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "通話中開發者工具"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "此視窗在開發過程中用於顯示正在進行之通話的診斷資訊。"
   },
   "icu:speech": {
     "messageformat": "語音"
@@ -5420,12 +5420,12 @@
     "messageformat": "此更新修復了群組通話使用者界面的渲染錯誤。"
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "如果你一直尋找在群組通話期間的其他溝通方式，請「舉手」。新的「舉手」功能是一種簡單的方法，用來引起注意、提出問題或在小組提案時投一致贊成票。"
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "我們修復了裁剪工具中的錯誤，現在可以更輕鬆、更直觀地將任何東西從照片中刪除。"
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "我們將發送語音備註的鍵盤快捷鍵修改為 Ctrl/Cmd+Shift+Y，使其不再與 Windows 和 Linux 上「貼上並配合樣式」的快捷鍵產生衝突。"
   }
 }

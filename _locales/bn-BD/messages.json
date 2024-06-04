@@ -174,7 +174,7 @@
     "messageformat": "বিকাশকারী সরঞ্জামগুলি দেখান"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "\"ডেভেলপার টুল কল করা হচ্ছে\" খুলুন"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "নতুন ডিভাইস হিসেবে সেট করুন"
@@ -645,10 +645,10 @@
     "messageformat": "স্ক্রিন শেয়ার করা"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "ডেভেলপার টুল কল করা হচ্ছে"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "চলমান কল থেকে ডায়াগনস্টিক প্রদর্শন করতে এই উইন্ডোটি ডেভেলপমেন্ট করার সময় ব্যবহার করা হয়।"
   },
   "icu:speech": {
     "messageformat": "বক্তৃতা"
@@ -5420,12 +5420,12 @@
     "messageformat": "এই আপডেটটি গ্রুপ কল ইউজার ইন্টারফেসের একটি রেন্ডারিং বাগ সংশোধন করেছে।"
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "নতুন \"হাত তুলুন\" ফিচারটি হলো গ্রুপ কলের সময় কারো দৃষ্টি আকর্ষণ করার বা প্রশ্ন জিজ্ঞাসা করার একটি সহজ উপায়।"
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "এই আপডেটে ছবি রিসাইজ করার জন্য একটি উন্নত ক্রপ টুলও রয়েছে।"
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "আমরা ভয়েস নোট পাঠানোর জন্য কীবোর্ড শর্টকাট পরিবর্তন করে Ctrl/Cmd+Shift+Y করেছি, যাতে এটি Windows এবং Linux-এ \"পেস্ট এবং ম্যাচ স্টাইল\" শর্টকাটের সাথে আর সমস্যা না করে।"
   }
 }

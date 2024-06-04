@@ -174,7 +174,7 @@
     "messageformat": "개발자 도구 전환"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "통화 개발자 도구 열기"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "새 기기로 설정"
@@ -645,10 +645,10 @@
     "messageformat": "화면 공유하기"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "통화 개발자 도구"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "이 창은 개발 중 진행 중인 통화의 진단을 표시하는 데 사용됩니다."
   },
   "icu:speech": {
     "messageformat": "말하기"
@@ -5420,12 +5420,12 @@
     "messageformat": "이 업데이트는 그룹 통화 사용자 인터페이스의 렌더링 버그를 해결합니다."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "새로운 손 들기 기능으로 그룹 통화에서 쉽게 다른 사람의 주의를 끌거나 질문하세요."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "이 업데이트는 또한 이미지 크기를 조정하도록 향상된 자르기 도구를 포함합니다."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Windows와 Linux의 '붙여 넣기 및 서식 일치' 단축키와 충돌하지 않도록 음성 메모 전송 키보드 단축키를 Ctrl/Cmd+Shift+Y로 수정했습니다."
   }
 }

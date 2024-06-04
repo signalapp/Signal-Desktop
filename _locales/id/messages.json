@@ -174,7 +174,7 @@
     "messageformat": "Beralih Ke Peralatan Pengembang"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Buka Alat Pengembang Panggilan"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Siapkan sebagai Perangkat Baru"
@@ -645,10 +645,10 @@
     "messageformat": "Berbagi layar"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Alat Pengembang Panggilan"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Jendela ini digunakan selama proses pengembangan untuk menampilkan diagnostik dari panggilan yang berlangsung."
   },
   "icu:speech": {
     "messageformat": "Bicara"
@@ -5420,12 +5420,12 @@
     "messageformat": "Pembaruan ini memperbaiki masalah rendering pada antarmuka panggilan grup."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Fitur baru \"Angkat Tangan\" memudahkan pengguna saat ingin mendapatkan perhatian seseorang atau menyampaikan pertanyaan selama panggilan grup."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Pembaruan kali ini juga mencakup penyempurnaan alat pangkas untuk menyesuaikan ukuran gambar."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Pintasan papan ketik untuk mengirimkan catatan suara kini diubah jadi Ctrl/Cmd+Shift+Y agar tidak lagi bentrok dengan pintasan \"Paste and Match Style\" di Windows dan Linux."
   }
 }

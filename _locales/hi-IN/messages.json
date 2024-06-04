@@ -174,7 +174,7 @@
     "messageformat": "डेवलपर टूल्स दिखाएँ/हटाएँ"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "कॉलिंग डेवलपर टूल्स खोलें"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "नये डिवाइस कि तरह स्थापना करें"
@@ -645,10 +645,10 @@
     "messageformat": "स्क्रीन साझा करना"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "कॉलिंग डेवलपर टूल्स"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "इस विंडो का इस्तेमाल डेवलपमेंट के दौरान चल रही कॉल से डायग्नोस्टिक्स प्रदर्शित करने के लिए किया जाता है।"
   },
   "icu:speech": {
     "messageformat": "भाषण"
@@ -5420,12 +5420,12 @@
     "messageformat": "हमने एक रेंडरिंग बग ठीक किया जिसके कारण ग्रुप कॉल में प्रतिभागियों की सूची देखने के दौरान संपर्क आइकन संपर्क के नाम के ठीक बगल में ही स्मैश हो गया। असल में आप शायद अपने संपर्कों के करीब होंगे, लेकिन कभी-कभी आपको (और Signal डेस्कटॉप यूज़र इंटरफ़ेस), दोनों को थोड़ी जगह चाहिए।"
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "यदि आप ग्रुप कॉल के दौरान संवाद करने का कोई दूसरा तरीका खोज रहे हैं, तो अपना हाथ उठाएं। नया रेज हैंड फ़ीचर किसी का ध्यान आकर्षित करने, कोई प्रश्न पूछने या किसी समूह प्रस्ताव के लिए उस स्थिति में सर्वसम्मति से वोट करने का एक सरल तरीका है, जब आपका दोस्त पूछता है \"क्या सभी इसके पक्ष में हैं?\""
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "हमने क्रॉप टूल में एक बग को ठीक किया है, इसलिए अब अपने एक्स (या किसी और चीज़) को तस्वीर से हटाना आसान और अधिक सहज है।"
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "हमने वॉयस नोट भेजने के लिए कीबोर्ड शॉर्टकट को Ctrl/Cmd+Shift+Y कर दिया है, ताकि इसका Windows और Linux पर \"पेस्ट और मैच स्टाइल\" शॉर्टकट के साथ संघर्ष न हो।"
   }
 }

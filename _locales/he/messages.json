@@ -174,7 +174,7 @@
     "messageformat": "עורר כלי מפתחים"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "פתיחת כלים למפתחים בנושא שיחות"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "הגדר מכשיר חדש"
@@ -645,10 +645,10 @@
     "messageformat": "שיתוף מסך"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "כלים למפתחים בנושא שיחות"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "החלון הזה משמש בזמן הפיתוח כדי להציג נתונים משיחות פעילות."
   },
   "icu:speech": {
     "messageformat": "דיבור"
@@ -5420,12 +5420,12 @@
     "messageformat": "העדכון הזה מתקן באג רינדור בממשק המשתמש של שיחה קבוצתית."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "פיצ׳ר הרמת היד החדש הוא דרך פשוטה למשוך את תשומת הלב של מישהו או לשאול שאלה במהלך שיחות קבוצתיות."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "העדכון הזה כולל גם כלי חיתוך משופר לשינוי הגודל של תמונות."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "שינינו את קיצור המקלדת לשליחת הודעה קולית ל–Ctrl/Cmd+Shift+Y, כך שהוא כבר לא מתנגש עם הקיצור של ״הדבקה והתאמת סגנון״ ב–Windows ו–Linux."
   }
 }

@@ -174,7 +174,7 @@
     "messageformat": "Nástroje pre vývojárov"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Otvoriť nástroje pre vývojárov na hovory"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Nastaviť ako Nové Zariadenie"
@@ -645,10 +645,10 @@
     "messageformat": "Zdieľaná obrazovka"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Nástroje pre vývojárov na hovory"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Toto okno sa používa počas vývoja na zobrazenie diagnostiky z prebiehajúcich hovorov."
   },
   "icu:speech": {
     "messageformat": "Reč"
@@ -5420,12 +5420,12 @@
     "messageformat": "Táto aktualizácia opravuje chybu vykresľovania v používateľskom rozhraní skupinového hovoru."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Zdvihnite ruku všetci tí, čo hľadáte iný spôsob komunikácie počas skupinových hovorov. Nová funkcia Zdvihnúť ruku je jednoduchý spôsob, ako upútať niekoho pozornosť, položiť otázku alebo jednomyseľne zahlasovať za skupinový návrh, keď sa niekto spýta „všetci za?“"
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Táto aktualizácia taktiež prináša vylepšený nástroj na orezávanie a zmenšovanie obrázkov."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Upravili sme klávesovú skratku na odoslanie hlasovej poznámky na Ctrl/Cmd+Shift+Y, aby tak už nekolidovala so skratkou „Vložiť a prispôsobiť štýl“ v systémoch Windows a Linux."
   }
 }

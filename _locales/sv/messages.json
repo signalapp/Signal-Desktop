@@ -174,7 +174,7 @@
     "messageformat": "Slå på/av utvecklingsverktyg"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Öppna utvecklingsverktyg för samtal"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Ställ in som ny enhet"
@@ -645,10 +645,10 @@
     "messageformat": "Skärmdelning"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Utvecklingsverktyg för samtal"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Detta fönster används under utveckling för att visa diagnostik från pågående samtal."
   },
   "icu:speech": {
     "messageformat": "Tal"
@@ -5420,12 +5420,12 @@
     "messageformat": "Den här uppdateringen åtgärdar en renderingsbugg i användargränssnittet för gruppsamtal."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Den nya funktionen Räck upp handen är ett enkelt sätt att få någons uppmärksamhet eller ställa en fråga under gruppsamtal."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Denna uppdatering innehåller också ett förbättrat beskärningsverktyg för att ändra storlek på bilder."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Vi har ändrat kortkommandot för att skicka en röstanteckning till Ctrl/Cmd + Shift + Y så att det inte längre står i konflikt med kortkommandot Klistra in och matcha stil i Windows och Linux."
   }
 }

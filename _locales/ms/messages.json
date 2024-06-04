@@ -174,7 +174,7 @@
     "messageformat": "Togol Alat Pembangunan"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Buka Alat Pembangun Panggilan"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Pasang sebagai Peranti Baru"
@@ -645,10 +645,10 @@
     "messageformat": "Skrin perkongsian"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Alat Pembangun Panggilan"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Tetingkap ini digunakan semasa pembangunan untuk memaparkan diagnostik daripada panggilan berterusan."
   },
   "icu:speech": {
     "messageformat": "Pertuturan"
@@ -5420,12 +5420,12 @@
     "messageformat": "Kemas kini ini membaiki pepijat pemaparan dalam antara muka pengguna panggilan kumpulan."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Ciri Angkat Tangan ialah cara mudah untuk mendapatkan perhatian seseorang atau bertanya soalan semasa panggilan kumpulan."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Kemas kini juga termasuk alat pemotong yang ditingkatkan untuk mengubah saiz foto."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Kami mengubah suai pintasan papan kekunci untuk menghantar nota suara ke Ctrl/Cmd+Shift+Y supaya ia tidak lagi bercanggah dengan pintasan \"Tampal dan Padankan Gaya\" pada Windows dan Linux."
   }
 }

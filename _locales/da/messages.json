@@ -174,7 +174,7 @@
     "messageformat": "Vis udviklerværktøjer"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Åbn opkald til udviklerværktøjer"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Opsæt som ny enhed"
@@ -645,10 +645,10 @@
     "messageformat": "Deling af skærm"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Opkald til udviklerværktøjer"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Dette vindue bruges under udvikling for at vise diagnostik fra igangværende opkald."
   },
   "icu:speech": {
     "messageformat": "Tale"
@@ -5420,12 +5420,12 @@
     "messageformat": "Vi har rettet en gengivelsesfejl, der fik kontaktikonet til at smadre sig selv lige ved siden af kontaktens navn, mens man så listen over deltagere i et gruppeopkald. Du er sandsynligvis virkelig tæt på dine kontakter, men nogle gange har du (og Signal Desktop-brugergrænsefladen) begge brug for lidt plads."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Ræk hånden op, hvis du har ledt efter en anden måde at kommunikere på under gruppeopkald. Den nye Ræk hånden op-funktion er en enkel måde at få nogens opmærksomhed på, stille et spørgsmål eller enstemmigt stemme på et gruppeforslag, når din ven spørger \"hvem er for?\""
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Vi brød op med en fejl i beskæringsværktøjet, så nu er det nemmere og mere intuitivt at skære din eks (eller noget andet) ud af billedet."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Vi har ændret tastaturgenvejen til at sende en stemmenote til Ctrl / Cmd + Shift + Y, så den ikke længere er i konflikt med genvejen \"Indsæt og match stil\" på Windows og Linux."
   }
 }

@@ -174,7 +174,7 @@
     "messageformat": "Укључи/искључи алатке за програмере"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Отвори напредне алатке за позиве"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Подесите као нови уређај"
@@ -645,10 +645,10 @@
     "messageformat": "Дељење екрана"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Напредне алатке за позиве"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Овај прозор се користи током развоја за приказ дијагностике за текуће позиве."
   },
   "icu:speech": {
     "messageformat": "Говор"
@@ -5420,12 +5420,12 @@
     "messageformat": "У овом ажурирању је исправљена грешка приликом рендеровања у корисничком интерфејсу групног позива."
   },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Нова функционалност подизања руке је једноставан начин да привучете нечију пажњу или питате питање током групних позива."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Ово ажурирање такође обухвата побољшану алатку за изрезивање слика."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Променили смо пречицу на тастатури за слање гласовне белешке и сада је Ctrl/Cmd+Shift+Y, тако да више није у сукобу са пречицом „Налепи и уклопи стил“ на Windows-у и Linux-у."
   }
 }
