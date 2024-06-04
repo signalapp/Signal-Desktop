@@ -96,10 +96,7 @@ import { SeenStatus } from './MessageSeenStatus';
 import { incrementMessageCounter } from './util/incrementMessageCounter';
 import { sleep } from './util/sleep';
 import { groupInvitesRoute } from './util/signalRoutes';
-import {
-  decodeGroupSendEndorsementResponse,
-  isGroupSendEndorsementResponseEmpty,
-} from './util/groupSendEndorsements';
+import { decodeGroupSendEndorsementResponse } from './util/groupSendEndorsements';
 
 type AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 
@@ -1568,10 +1565,6 @@ export async function modifyGroupV2({
         const { groupChange, groupSendEndorsementResponse } =
           groupChangeResponse;
         strictAssert(groupChange, 'modifyGroupV2: missing groupChange');
-        strictAssert(
-          groupSendEndorsementResponse,
-          'modifyGroupV2: missing groupSendEndorsementResponse'
-        );
 
         const groupChangeBuffer =
           Proto.GroupChange.encode(groupChange).finish();
@@ -1606,16 +1599,21 @@ export async function modifyGroupV2({
         const { membersV2 } = conversation.attributes;
         strictAssert(membersV2, 'modifyGroupV2: missing membersV2');
 
-        const groupEndorsementData = decodeGroupSendEndorsementResponse({
-          groupId,
-          groupSendEndorsementResponse,
-          groupSecretParamsBase64: secretParams,
-          groupMembersV2: membersV2,
-        });
+        // If we are no longer a member - endorsement won't be present
+        if (Bytes.isNotEmpty(groupSendEndorsementResponse)) {
+          log.info(`modifyGroupV2/${logId}: Saving group endorsements`);
 
-        await dataInterface.replaceAllEndorsementsForGroup(
-          groupEndorsementData
-        );
+          const groupEndorsementData = decodeGroupSendEndorsementResponse({
+            groupId,
+            groupSendEndorsementResponse,
+            groupSecretParamsBase64: secretParams,
+            groupMembersV2: membersV2,
+          });
+
+          await dataInterface.replaceAllEndorsementsForGroup(
+            groupEndorsementData
+          );
+        }
       });
 
       // If we've gotten here with no error, we exit!
@@ -1920,7 +1918,7 @@ export async function createGroupV2(
 
     const { groupSendEndorsementResponse } = groupResponse;
     strictAssert(
-      groupSendEndorsementResponse,
+      Bytes.isNotEmpty(groupSendEndorsementResponse),
       'missing groupSendEndorsementResponse'
     );
 
@@ -2491,7 +2489,7 @@ export async function initiateMigrationToGroupV2(
       updateConversation(conversation.attributes);
 
       strictAssert(
-        groupSendEndorsementResponse,
+        Bytes.isNotEmpty(groupSendEndorsementResponse),
         'missing groupSendEndorsementResponse'
       );
 
@@ -2978,7 +2976,7 @@ export async function respondToGroupV2Migration({
     sentAt,
   });
 
-  if (!isGroupSendEndorsementResponseEmpty(groupSendEndorsementResponse)) {
+  if (Bytes.isNotEmpty(groupSendEndorsementResponse)) {
     const { membersV2 } = conversation.attributes;
     strictAssert(membersV2, 'missing membersV2');
 
@@ -3732,10 +3730,6 @@ async function updateGroupViaState({
 
   const { group: groupState, groupSendEndorsementResponse } = groupResponse;
   strictAssert(groupState, 'updateGroupViaState: Group state must be present');
-  strictAssert(
-    groupSendEndorsementResponse,
-    'updateGroupViaState: Endorsement must be present'
-  );
 
   const decryptedGroupState = decryptGroupState(
     groupState,
@@ -3754,14 +3748,13 @@ async function updateGroupViaState({
   });
 
   // If we're not in the group, we won't receive endorsements
-  if (
-    groupSendEndorsementResponse != null &&
-    groupSendEndorsementResponse.byteLength > 0
-  ) {
+  if (Bytes.isNotEmpty(groupSendEndorsementResponse)) {
     // Use the latest state of the group after applying changes
     const { groupId, membersV2 } = newAttributes;
     strictAssert(groupId, 'updateGroupViaState: Group must have groupId');
     strictAssert(membersV2, 'updateGroupViaState: Group must have membersV2');
+
+    log.info(`getCurrentGroupState/${logId}: Saving group endorsements`);
 
     const groupEndorsementData = decodeGroupSendEndorsementResponse({
       groupId,
@@ -3959,8 +3952,8 @@ async function updateGroupViaLogs({
   });
 
   // If we're not in the group, we won't receive endorsements
-  if (!isGroupSendEndorsementResponseEmpty(groupSendEndorsementResponse)) {
-    log.info('updateGroupViaLogs: Saving group endorsements');
+  if (Bytes.isNotEmpty(groupSendEndorsementResponse)) {
+    log.info(`updateGroupViaLogs/${logId}: Saving group endorsements`);
     // Use the latest state of the group after applying changes
     const { membersV2 } = updates.newAttributes;
     strictAssert(
