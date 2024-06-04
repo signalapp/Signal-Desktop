@@ -15,15 +15,6 @@ import { fromAciObject } from '../types/ServiceId';
 import * as log from '../logging/log';
 import type { GroupV2MemberType } from '../model-types';
 
-/**
- * Despite being optional, the protobufs decoding will create an empty uint8array
- */
-export function isGroupSendEndorsementResponseEmpty(
-  value: Uint8Array | null | undefined
-): value is null | undefined {
-  return value == null || value.byteLength === 0;
-}
-
 export function decodeGroupSendEndorsementResponse({
   groupId,
   groupSendEndorsementResponse,
