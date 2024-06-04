@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Pārslēgt uz izstrādātāja rīkiem"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Atvērt zvanīšanas rīkus izstrādātājiem"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Iestatīt kā jaunu ierīci"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Tomēr pievienoties"
   },
-  "icu:continueCall": {
-    "messageformat": "Turpināt zvanu"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Kad noklikšķināsiet uz \"Iesniegt\", jūsu žurnāls tiks publicēts un 30 dienas būs pieejams tiešsaistē ar unikālu, nepublisku URL. Varat to vispirms saglabāt lokāli."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Ekrāna kopīgošana"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Zvanīšanas rīki izstrādātājiem"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Šis logs tiek izmantots izstrādes laikā, lai parādītu notiekošo zvanu diagnostiku."
   },
   "icu:speech": {
     "messageformat": "Runa"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Saruna atzīmēta kā nelasīta"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Rediģēt ziņu"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Ja rediģēsiet ziņu, tā būs redzama tikai personām, kuras izmanto jaunākās Signal versijas. Šīs personas redzēs, ka ziņa ir rediģēta."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Formatēta teksta sūtīšana"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Daži lietotāji, iespējams, izmanto Signal versiju, kas neatbalsta formatētu tekstu. Viņi nevarēs redzēt jūsu ziņā veiktās formatējuma izmaiņas."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Vai vēlaties atvērt Signal uzlīmju komplekta izveides programmu?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Mēs izlabojām renderēšanas kļūdu: atverot grupas zvana dalībnieku sarakstu, kontaktpersonu ikonas parādījās pārāk tuvu šo kontaktpersonu vārdiem. Ļoti iespējams, ka starp jums un kontaktpersonām ir cieša saikne, taču dažreiz ikviens, tostarp arī jūs (un Signal Desktop lietotāju saskarne), vēlas baudīt nedaudz privātās telpas."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Paceļ roku visi, kuri meklēja vēl vienu veidu, kā sazināties grupu zvanu laikā! Jaunā funkcija \"Pacelt roku\" ir vienkāršs veids, kā pievērst kāda uzmanību, uzdot jautājumu vai vienbalsīgi nobalsot par priekšlikumu, ko ierosina draugs, jautājot: \"Kurš balso par?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Apgriešanas rīkā bija neliela kļūda, un mēs to izgriezām. Tagad jūs varat no attēla izgriezt savu bijušo partneri (vai jebko citu) daudz vieglāk."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Mēs modificējām tastatūras saīsni balss piezīmes nosūtīšanai — Ctrl/Cmd+Shift+Y. Tagad tā vairs nekonfliktē ar saīsni \"Ielīmēt un saskaņot stilu\" operētājsistēmās Windows un Linux."
   }
 }

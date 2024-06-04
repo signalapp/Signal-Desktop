@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "ဆော့ဖ်ဝဲရေးသားသူဆိုင်ရာ တူးလ်များကို ပြောင်းရန်"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "ဖုန်းခေါ်ဆိုမှုဆိုင်ရာ Developer Tools ကိုဖွင့်ရန်"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "စက်အသစ်အဖြစ် သတ်မှတ်ရန်"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "မည်သို့ပင်ဖြစ်စေ ပါဝင်မည်"
   },
-  "icu:continueCall": {
-    "messageformat": "ခေါ်ဆိုမှုသို့ ဆက်မယ်"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "ပေးပို့ရန်ကို နှိပ်သည့်အခါ သင့်မှတ်တမ်းကို သီးခြား အများနှင့်မဆိုင်သော URL တွင် ရက် ၃၀ ကြာ ပို့စ်တင်ထားပါမည်။ ဦးစွာ ၎င်းကို စက်တွင်း သိမ်းထားနိုင်ပါသည်။"
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "စခရင် မျှဝေခြင်း"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "ဖုန်းခေါ်ဆိုမှုဆိုင်ရာ Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "လက်ရှိ ခေါ်ဆိုမှုများနှင့်ပတ်သက်သည့် ပြဿနာများကို ပြသရန် ဤဝင်းဒိုးကို ဖန်တီးလုပ်ဆောင်နေစဉ်အတွင်း အသုံးပြုပါသည်။"
   },
   "icu:speech": {
     "messageformat": "စကားပြော"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "ချက်(တ်)ကို မဖတ်ရသေးဟု မှတ်သားပြီး"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "မက်ဆေ့ချ် တည်းဖြတ်ရန်"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "မက်ဆေ့ချ်တစ်စောင်ကို တည်းဖြတ်ပါက ၎င်းကို Signal နောက်ဆုံးထွက်ဗားရှင်းများကို သုံးနေသူများသာ မြင်ရပါမည်။ ၎င်းတို့သည် မက်ဆေ့ချ်တစ်စောင်ကို သင် တည်းဖြတ်လိုက်ကြောင်း တွေ့မြင်ရပါမည်။"
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "ဖောမတ်လုပ်ထားသည့် စာသားကို ပေးပို့ခြင်း"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "အချို့သောသူများသည် ဖောမတ်လုပ်ထားသည့်စာသားကို မပံ့ပိုးပေးသော Signal ဗားရှင်းကို အသုံးပြုနေနိုင်ပါသည်။ သင့်မက်ဆေ့ချ်တွင် ပြုလုပ်ထားသော ဖောမတ်ပုံစံပြောင်းလဲမှုများကို ၎င်းတို့ တွေ့မြင်နိုင်မည် မဟုတ်ပါ။"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Signal Sticker Pack Creator ကို သင် ဖွင့်လိုပါသလား။"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "ဤအက်ပ်ဒိတ်၌ အဖွဲ့လိုက်ခေါ်ဆိုမှု အင်တာဖေ့စ်တွင် တင်ဆက်မှုချွတ်ယွင်းချက်တစ်ခုကို ပြင်ဆင်ထားသည်။"
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "★ လက်ထောင်သည့် အင်္ဂါရပ်အသစ်သည် အဖွဲ့ကောလ်အတွင်းတွင် တစ်စုံတစ်ဦး၏အာရုံစိုက်မှုကိုရရန် သို့မဟုတ် မေးခွန်းတစ်ခုမေးရန် လွယ်ကူရိုးရှင်းသည့်နည်းလမ်းတစ်ခု ဖြစ်သည်။"
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "ဤအက်ပ်ဒိတ်တွင် ပုံများကို အရွယ်အစားပြောင်းလဲရန် ဖြတ်တောက်သည့်တူးကို ပိုကောင်းအောင် လုပ်ထားပါသည်။"
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Windows နှင့် Linux ပေါ်ရှိ \"Paste and Match Style\" ရှော့တ်ကတ်နှင့် လွဲမှားမှု မရှိစေရန် Ctrl/Cmd+Shift+Y သို့ အသံမှတ်ချက်ပေးပို့ခြင်းအတွက် ကီးဘုတ်ရှော့တ်ကတ်ကို ကျွန်ုပ်တို့ ပြင်ဆင်မွမ်းမံထားပါသည်။"
   }
 }

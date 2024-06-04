@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Ferramentas de desenvolvimento"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Abrir ferramentas de desenvolvimento de chamadas"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Configurar como Novo Aparelho"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Entrar mesmo assim"
   },
-  "icu:continueCall": {
-    "messageformat": "Continuar a chamada"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Ao clicar no botão Enviar, seu registro será postado online por 30 dias via uma URL original e inédita. Você pode salvá-la localmente primeiro."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Você está apresentando"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Ferramentas de desenvolvimento de chamadas"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Durante o desenvolvimento, esta janela mostra diagnósticos das chamadas em progresso."
   },
   "icu:speech": {
     "messageformat": "Fala"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Chat marcado como não lido"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Editar mensagem"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Se você editar uma mensagem, ela ficará visível para pessoas que estejam usando as versões mais recentes do Signal. Elas poderão ver que você editou a mensagem."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Enviando texto formatado"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "É possível que algumas pessoas tenham uma versão do Signal não compatível com texto formatado. Essas pessoas não conseguirão ver as alterações de formatação que você fez na mensagem."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Gostaria de abrir o criador de pacotes de figurinhas do Signal?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Corrigimos um bug de renderização que fazia o ícone de contatos ficar grudado no nome do contato ao visualizar a lista de participantes em uma chamada em grupo. Sabemos que você é próximo dos seus contatos, mas às vezes é bom dar um espacinho, tanto para você quanto para a interface do Signal Desktop."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Levante a mão se você estiver procurando outra maneira de se comunicar durante as chamadas em grupo. O recurso \"Levantar a Mão\" é perfeito para chamar a atenção de alguém, tirar dúvidas ou votar em grupo de forma unânime quando um amigo perguntar: 'Todos a favor?"
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Acabamos com um bug na ferramenta de recorte! Agora ficou mais fácil e intuitivo tirar seu ex (ou qualquer outra coisa) da foto."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Modificamos o atalho de teclado de enviar mensagens de voz para Ctrl/Cmd+Shift+Y, evitando conflito com o atalho 'Colar e Manter Estilo' no Windows e Linux."
   }
 }

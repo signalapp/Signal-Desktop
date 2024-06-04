@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Narzędzia dla programistów"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Otwórz narzędzia programistyczne do połączeń"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Skonfiguruj jako nowe urządzenie"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Dołącz mimo to"
   },
-  "icu:continueCall": {
-    "messageformat": "Kontynuuj rozmowę"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Gdy klikniesz Wyślij, twój log zostanie upubliczniony online na 30 dni, dostępny pod unikalnym, niepublicznym adresem URL. Możesz najpierw zapisać log lokalnie."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Udostępnianie ekranu"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Narzędzia programistyczne do połączeń"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "To okno służy podczas programowania do wyświetlania diagnostyki bieżących połączeń."
   },
   "icu:speech": {
     "messageformat": "Mów"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Czat oznaczony jako nieprzeczytany"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edytuj wiadomość"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Twoje zmiany w wiadomości będą widoczne wyłącznie u osób, które używają najnowszej wersji Signal. Osoby te będą mogły zobaczyć Twoją edycję wiadomości."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Wysyłanie sformatowanego tekstu"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Część użytkowników może używać wersji Signal nieobsługującej sformatowanego tekstu. Nie będą oni mogli zobaczyć zmian w formatowaniu, które zostały przez Ciebie wprowadzone do wiadomości."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Czy chcesz otworzyć Kreator pakietów naklejek Signal?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Naprawiliśmy błąd renderowania, który powodował, że podczas wyświetlania listy uczestników połączenia grupowego ikona kontaktów „zapadała się” tuż obok nazwy kontaktu. Bo zdrowy dystans to podstawa — nie tylko w relacjach, ale i w interfejsie."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Podnieś rękę, jeśli szukasz innego sposobu komunikowania się podczas rozmów grupowych. Nowa funkcja podnoszenia ręki to prosty sposób na przyciągnięcie uwagi, zadanie pytania lub szybkie głosowanie na hasło „wszyscy za?”."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Naprawiliśmy błąd w narzędziu do przycinania, więc teraz jeszcze łatwiej wytniesz ze zdjęć twarz swojego byłego (lub dowolny inny element)."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Zmodyfikowaliśmy skrót klawiaturowy do wysyłania notatki głosowej, tak żeby nie kolidował ze skrótem do opcji „Wklej i dopasuj styl” w systemach Windows i Linux. Teraz to Ctrl/Cmd+Shift+Y."
   }
 }

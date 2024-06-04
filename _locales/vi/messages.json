@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Bật tắt Công cụ Nhà phát triển"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Mở Công cụ Nhà phát triển của Cuộc gọi"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Thiết lập như Thiết bị Mới"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Tiếp tục tham gia"
   },
-  "icu:continueCall": {
-    "messageformat": "Tiếp tục Cuộc gọi"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Khi bạn bấm Gửi, nhật ký của bạn sẽ được đăng online trong 30 ngày tại một URL độc nhất, chưa được xuất bản. Bạn có thể Lưu trên thiết bị trước."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Chia sẻ màn hình"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Công cụ Nhà phát triển của Cuộc gọi"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Cửa sổ này được sử dụng trong quá trình phát triển để hiển thị thông tin chẩn đoán từ những cuộc gọi đang diễn ra."
   },
   "icu:speech": {
     "messageformat": "Nói"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Cuộc trò chuyện đã được đánh dấu chưa đọc"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Chỉnh sửa Tin nhắn"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Nếu bạn sửa một tin nhắn, thông tin về việc thay đổi sẽ chỉ hiển thị với người dùng các phiên bản mới nhất của Signal. Những người dùng này sẽ có thể thấy bạn đã chỉnh sửa một tin nhắn."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Đang gửi văn bản đã được định dạng"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Một số người có thể đang sử dụng phiên bản Signal không hỗ trợ văn bản đã được định dạng. Họ sẽ không thể thấy các thay đổi về định dạng bạn đã thực hiện trong tin nhắn."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Bạn có muốn mở Công Cụ Tạo Gói Nhãn Dán Signal?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Bản cập nhật này sửa một lỗi kết xuất trên giao diện người dùng của cuộc gọi nhóm."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Tính năng Giơ Tay mới là một phương thức đơn giản để thu hút sự chú ý của một người hoặc hỏi câu hỏi trong các cuộc gọi nhóm."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Bản cập nhật này cũng mang đến công cụ cắt ảnh đã được nâng cấp cho tác vụ thay đổi kích cỡ ảnh."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Chúng tôi đã sửa phím tắt cho thao tác gửi một ghi chú âm thanh thành Ctrl/Cmd+Shift+Y để không còn bị xung đột với phím tắt \"Dán và Khớp Phong cách\" trên Windows và Linux."
   }
 }

@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Toggle Developer Tools"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Buksan ang Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Set Up as New Device"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Mag-join pa rin"
   },
-  "icu:continueCall": {
-    "messageformat": "Continue call"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Kapag na-click mo na ang Submit, ang iyong log ay ipo-post sa isang unique, unpublished URL online sa loob ng 30 days. Maaari mo muna itong i-Save locally."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Sharing screen"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Ginagamit ang window na ito sa development para i-display ang diagnostics mula sa ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Speech"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Na-mark as unread na ang chat"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "I-edit ang message"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Kung mag-edit ka ng message, ang mga taong may latest versions lang ng Signal ang makakakita nito. Makikita nilang nag-edit ka ng message."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Pag-send ng formatted text"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "May ibang taong maaaring gumagamit ng version ng Signal na hindi sinusuportahan ang formatted text. Hindi nila makikita ang anumang formatting na ginawa mo sa iyong message."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Gusto mo bang buksan ang Signal Sticker Pack Creator?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Inaayos ng update na ito ang rendering bug sa group call user interface."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Ang bagong Raise Hand feature ay isang simpleng paraan para makuha ang atensyon ng isang tao o mag-tanong habang nasa group call."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Kasama rin sa update na ito ang improved crop tool para sa pag-resize ng images."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Binago namin ang keyboard shortcut para sa pag-send ng voice note at ginawa itong Ctrl/Cmd+Shift+Y para hindi na ito magdulot ng problema sa \"Paste and Match Style\" shortcut sa Windows at Linux."
   }
 }

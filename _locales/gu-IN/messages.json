@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "ટોગલ ડેવલપર્સના ટૂલ"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "કૉલિંગ ડેવલપર્સના ટૂલ ખોલો"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "નવા ડિવાઇસ તરીકે સેટ અપ કરો"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "તો પણ જોડાઓ"
   },
-  "icu:continueCall": {
-    "messageformat": "કૉલ ચાલુ રાખો"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "તમે સબમિટ પર ક્લિક કરશો ત્યારે લૉગ 30 દિવસ માટે ઓનલાઇન એક અનન્ય, અપ્રકાશિત URL પર પોસ્ટ થશે. તમે પહેલાં તેને સ્થાનિક રીતે સેવ કરી શકો છો."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "શેરિંગ સ્ક્રીન"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "કૉલિંગ ડેવલપર્સના ટૂલ"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "આ વિન્ડોનો ઉપયોગ વિકાસ દરમિયાન ચાલુ કૉલમાંથી ડાયગ્નોસ્ટિક્સ પ્રદર્શિત કરવા માટે થાય છે."
   },
   "icu:speech": {
     "messageformat": "સ્પીચ"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "ચેટને ન વાંચેલ તરીકે માર્ક કરી"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "મેસેજમાં ફેરફાર કરો"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "જો તમે મેસેજમાં ફેરફાર કરો છો, તો તે ફક્ત Signalના લેટેસ્ટ વર્ઝન પર હોય તે લોકોને જ દેખાશે. તેઓ જોઈ શકશે કે તમે મેસેજમાં ફેરફાર કર્યો છે."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "ફોર્મેટ કરેલો ટેક્સ્ટ મોકલાઈ રહ્યો છે"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "કેટલાક લોકો Signalના એવા વર્ઝનનો ઉપયોગ કરતા હોઈ શકે છે જે ફોર્મેટ કરેલા ટેક્સ્ટને સપોર્ટ કરતું ન હોય. તેઓ તમારા દ્વારા તમારા મેસેજમાં કરેલા ફોર્મેટિંગ ફેરફારો જોઈ શકશે નહીં."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "શું તમે Signal સ્ટિકર પેક ક્રિએટર ખોલવા માગો છો?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "આ અપડેટ ગ્રૂપ કૉલ વપરાશકર્તા ઇન્ટરફેસમાં રેન્ડર થતાં બગને ઠીક કરે છે."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "નવું 'હાથ ઊંચો કરો' ફીચર એ ગ્રૂપ કૉલ દરમિયાન કોઈનું ધ્યાન મેળવવા અથવા કોઈ પ્રશ્ન પૂછવા માટેની સરળ રીત છે."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "આ અપડેટમાં ઇમેજની સાઇઝ બદલવા માટેનું એક સુધારેલું ક્રોપ ટૂલ પણ શામેલ છે."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "અમે Ctrl/Cmd+Shift+Y પર વૉઇસ નોટ મોકલવા માટે કીબોર્ડ શોર્ટકટમાં ફેરફાર કર્યો છે જેથી Windows અને Linux પર \"પેસ્ટ કરો અને સ્ટાઇલ મેચ કરો\" શોર્ટકટ સાથે તેનો વિરોધાભાસ ન થાય."
   }
 }

@@ -132,7 +132,7 @@
     "messageformat": "Вставити"
   },
   "icu:editMenuPasteAndMatchStyle": {
-    "messageformat": "Вставити без форматування"
+    "messageformat": "Вставити як звичайний текст"
   },
   "icu:editMenuDelete": {
     "messageformat": "Видалити"
@@ -172,6 +172,9 @@
   },
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Переключити Інструменти Розробника"
+  },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Відкрити інструменти розробника для викликів"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Налаштувати як новий пристрій"
@@ -375,7 +378,7 @@
     "messageformat": "Переглянути"
   },
   "icu:youLeftTheGroup": {
-    "messageformat": "Ви більше не учасник групи."
+    "messageformat": "Ви більше не учасник цієї групи."
   },
   "icu:invalidConversation": {
     "messageformat": "Ця група недійсна. Будь ласка, створіть нову групу."
@@ -457,9 +460,6 @@
   },
   "icu:joinAnyway": {
     "messageformat": "Усе одно приєднатися"
-  },
-  "icu:continueCall": {
-    "messageformat": "Продовжити дзвінок"
   },
   "icu:debugLogExplanation": {
     "messageformat": "Коли ви натиснете «Надіслати», журнал буде вивантажено в мережу на 30 днів за унікальною URL-адресою, до якої немає загального доступу. Перед надсиланням його також можна зберегти на пристрої."
@@ -600,10 +600,10 @@
     "messageformat": "Не займе багато часу"
   },
   "icu:offline": {
-    "messageformat": "Оффлайн"
+    "messageformat": "Поза мережею"
   },
   "icu:checkNetworkConnection": {
-    "messageformat": "Перевірте з'єднання"
+    "messageformat": "Перевірте з'єднання."
   },
   "icu:submitDebugLog": {
     "messageformat": "Журнал налагодження"
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Показати екран"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Інструменти розробника для викликів"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Це вікно використовується під час розробки для показу діагностики поточних викликів."
   },
   "icu:speech": {
     "messageformat": "Розмова"
@@ -1161,10 +1167,10 @@
     "messageformat": "Здійснення викликів"
   },
   "icu:calling__call-back": {
-    "messageformat": "Перетелефонувати"
+    "messageformat": "Передзвонити"
   },
   "icu:calling__call-again": {
-    "messageformat": "Перетелефонувати"
+    "messageformat": "Передзвонити"
   },
   "icu:calling__join": {
     "messageformat": "Приєднатись"
@@ -2366,18 +2372,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "Чат позначено як непрочитаний"
   },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Змінити повідомлення"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Якщо ви відредагуєте повідомлення, воно буде показано тільки користувачам останніх версій Signal. Такі користувачі зможуть побачити, що ви відредагували повідомлення."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Надсилання форматованого тексту"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Деякі люди використовують версію Signal, яка не підтримує форматований текст. Такі користувачі не зможуть переглянути зміни форматування, які ви додали."
-  },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Відкрити конструктор наборів стікерів для Signal?"
   },
@@ -2553,19 +2547,19 @@
     "messageformat": "{count, plural, one {{count,number} учасник} few {{count,number} учасники} many {{count,number} учасників} other {{count,number} учасника}}"
   },
   "icu:member-of-1-group": {
-    "messageformat": "Учасник {group}"
+    "messageformat": "Учасник «{group}»"
   },
   "icu:member-of-2-groups": {
-    "messageformat": "Учасник {group1} і {group2}"
+    "messageformat": "Учасник «{group1}» і «{group2}»"
   },
   "icu:member-of-3-groups": {
-    "messageformat": "Учасник {group1}, {group2} і {group3}"
+    "messageformat": "Учасник «{group1}», «{group2}» і «{group3}»"
   },
   "icu:member-of-more-than-3-groups--one-more": {
-    "messageformat": "Учасник {group1}, {group2}, {group3} та ще однієї"
+    "messageformat": "Учасник «{group1}», «{group2}», «{group3}» і ще однієї групи"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "{remainingCount, plural, one {Учасник {group1}, {group2}, {group3} і ще {remainingCount,number} групи} few {Учасник {group1}, {group2}, {group3} і ще {remainingCount,number} груп} many {Учасник {group1}, {group2}, {group3} і ще {remainingCount,number} груп} other {Учасник {group1}, {group2}, {group3} і ще {remainingCount,number} групи}}"
+    "messageformat": "{remainingCount, plural, one {Учасник «{group1}», «{group2}», «{group3}» і ще {remainingCount,number} групи} few {Учасник «{group1}», «{group2}», «{group3}» і ще {remainingCount,number} груп} many {Учасник «{group1}», «{group2}», «{group3}» і ще {remainingCount,number} груп} other {Учасник «{group1}», «{group2}», «{group3}» і ще {remainingCount,number} групи}}"
   },
   "icu:no-groups-in-common": {
     "messageformat": "Спільних груп немає"
@@ -2586,31 +2580,31 @@
     "messageformat": "Ви відхилили аудіовиклик"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Ви відхилили відеодзвінок"
+    "messageformat": "Ви відхилили відеовиклик"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Вхідний аудіовиклик"
   },
   "icu:acceptedIncomingVideoCall": {
-    "messageformat": "Вхідний відеодзвінок"
+    "messageformat": "Вхідний відеовиклик"
   },
   "icu:missedIncomingAudioCall": {
     "messageformat": "Пропущений аудіовиклик"
   },
   "icu:missedIncomingVideoCall": {
-    "messageformat": "Пропущений відеодзвінок"
+    "messageformat": "Пропущений відеовиклик"
   },
   "icu:acceptedOutgoingAudioCall": {
     "messageformat": "Вихідний аудіовиклик"
   },
   "icu:acceptedOutgoingVideoCall": {
-    "messageformat": "Вихідний відеодзвінок"
+    "messageformat": "Вихідний відеовиклик"
   },
   "icu:missedOrDeclinedOutgoingAudioCall": {
     "messageformat": "Аудіовиклик без відповіді"
   },
   "icu:missedOrDeclinedOutgoingVideoCall": {
-    "messageformat": "Відеодзвінок без відповіді"
+    "messageformat": "Відеовиклик без відповіді"
   },
   "icu:minimizeToTrayNotification--title": {
     "messageformat": "Signal продовжує працювати"
@@ -2628,7 +2622,7 @@
     "messageformat": "Вихідний аудіовиклик"
   },
   "icu:outgoingVideoCall": {
-    "messageformat": "Вихідний відеодзвінок"
+    "messageformat": "Вихідний відеовиклик"
   },
   "icu:incomingGroupCall__ringing-you": {
     "messageformat": "{ringer} телефонує вам"
@@ -2652,7 +2646,7 @@
     "messageformat": "Почати дзвінок"
   },
   "icu:makeOutgoingVideoCall": {
-    "messageformat": "Почати відеодзвінок"
+    "messageformat": "Почати відеовиклик"
   },
   "icu:joinOngoingCall": {
     "messageformat": "Приєднатись"
@@ -3069,7 +3063,7 @@
     "messageformat": "Учасник додав {memberName}."
   },
   "icu:GroupV2--member-add--you--other": {
-    "messageformat": "{memberName} додав вас до групи."
+    "messageformat": "Користувач {memberName} додав вас до групи."
   },
   "icu:GroupV2--member-add--you--you": {
     "messageformat": "Ви приєдналися до групи."
@@ -3150,7 +3144,7 @@
     "messageformat": "Один з адміністраторів відкликав ваші привілеї адміністратора."
   },
   "icu:GroupV2--pending-add--one--other--other": {
-    "messageformat": "{memberName} запросив (-ла) 1 людину в групу."
+    "messageformat": "Користувач {memberName} запросив 1 людину до групи."
   },
   "icu:GroupV2--pending-add--one--other--you": {
     "messageformat": "Ви запросили {inviteeName} в групу."
@@ -3159,7 +3153,7 @@
     "messageformat": "Одна людина була запрошена в групу."
   },
   "icu:GroupV2--pending-add--one--you--other": {
-    "messageformat": "{memberName} запросив (-ла) вас до групи."
+    "messageformat": "Користувач {memberName} запросив вас до групи."
   },
   "icu:GroupV2--pending-add--one--you--unknown": {
     "messageformat": "Ви були запрошені в групу."
@@ -4725,7 +4719,7 @@
     "messageformat": "вони є в контактах вашого пристрою."
   },
   "icu:SignalConnectionsModal__footer": {
-    "messageformat": "Ваші контакти бачать ваше ім'я та фото, а також усе, що ви викладаєте в «Моїй історії», якщо ви її не приховали."
+    "messageformat": "Контакти Signal бачать ваше ім'я та фото, а також усе, що ви викладаєте в «Моїй історії», якщо ви її не приховали."
   },
   "icu:Stories__title": {
     "messageformat": "Історії"
@@ -4815,10 +4809,10 @@
     "messageformat": "Ця людина більше не зможе бачити вашу історію."
   },
   "icu:StoriesSettings__replies-reactions--title": {
-    "messageformat": "Відповіді і реакції"
+    "messageformat": "Відповіді й реакції"
   },
   "icu:StoriesSettings__replies-reactions--label": {
-    "messageformat": "Дозволити відповіді і реакції"
+    "messageformat": "Дозволити відповіді й реакції"
   },
   "icu:StoriesSettings__replies-reactions--description": {
     "messageformat": "Дозвольте глядачам ваших історій реагувати й відповідати на них."
@@ -4992,7 +4986,7 @@
     "messageformat": "Увімкніть відмітки про перегляд, щоб знати, хто переглянув ваші історії. Для цього відкрийте застосунок Signal на своєму мобільному пристрої: Налаштування > Історії."
   },
   "icu:StoryViewsNRepliesModal__no-replies": {
-    "messageformat": "Ще немає відповідей"
+    "messageformat": "Відповідей ще немає"
   },
   "icu:StoryViewsNRepliesModal__no-views": {
     "messageformat": "Ще немає переглядів"
@@ -5359,13 +5353,13 @@
     "messageformat": "Щоб приєднатися до іншого виклику, потрібно спочатку вийти з поточного"
   },
   "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Вихідний аудіовиклик} other {Вхідний аудіовиклик}}} Video {{direction, select, Outgoing {Вихідний відеодзвінок} other {Вхідний відеодзвінок}}} Group {{direction, select, Outgoing {Вихідний груповий дзвінок} other {Вхідний груповий дзвінок}}} other {{direction, select, Outgoing {Вихідний виклик} other {Вхідний виклик}}}}"
+    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Вихідний аудіовиклик} other {Вхідний аудіовиклик}}} Video {{direction, select, Outgoing {Вихідний відеовиклик} other {Вхідний відеовиклик}}} Group {{direction, select, Outgoing {Вихідний груповий дзвінок} other {Вхідний груповий дзвінок}}} other {{direction, select, Outgoing {Вихідний виклик} other {Вхідний виклик}}}}"
   },
   "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Пропущений аудіовиклик} Video {Пропущений відеодзвінок} Group {Пропущений груповий дзвінок} other {Пропущений виклик}}"
+    "messageformat": "{type, select, Audio {Пропущений аудіовиклик} Video {Пропущений відеовиклик} Group {Пропущений груповий дзвінок} other {Пропущений виклик}}"
   },
   "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Аудіовиклик без відповіді} Video {Відеодзвінок без відповіді} Group {Груповий виклик без відповіді} other {Виклик без відповіді}}"
+    "messageformat": "{type, select, Audio {Аудіовиклик без відповіді} Video {Відеовиклик без відповіді} Group {Груповий виклик без відповіді} other {Виклик без відповіді}}"
   },
   "icu:CallHistory__Description--Declined": {
     "messageformat": "{type, select, Audio {Відхилений аудіовиклик} Video {Відхилений відеовиклик} Group {Відхилений груповий виклик} other {Відхилений виклик}}"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Тепер під час перегляду учасників групового виклику значок контакту не тулитиметься прямо поруч з його іменем. Мабуть, у вас зі своїми контактами дуже близькі стосунки, але всім іноді потрібно трохи особистого простору — навіть інтерфейсу в Signal Desktop."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Підніміть руку, якщо під час групових викликів вам бракувало засобів комунікації. Нова функція «Підняти руку» допоможе привернути до себе увагу, поставити запитання чи одностайно проголосувати за пропозицію, коли друг питає групу: «Хто за?»."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Наші шляхи з помилкою в інструменті кадрування остаточно розійшлися, тож тепер вирізати з фотографій своїх колишніх (чи щось інше) стало простіше та інтуїтивно зрозуміліше."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Ми змінили сполучення клавіш для надсилання голосових нотаток на Ctrl / Cmd+Shift+Y. Тепер воно не конфліктує зі сполученням клавіш «Вставити як звичайний текст» на Windows і Linux."
   }
 }

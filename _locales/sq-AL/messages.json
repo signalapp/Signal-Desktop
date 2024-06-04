@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Shfaq/Fshih Mjete Zhvilluesi"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Hap mjetet e zhvillimit të thirrjeve"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Rregulloje si Pajisje të Re"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Bashkohu, sidoqoftë"
   },
-  "icu:continueCall": {
-    "messageformat": "Vazhdoje Thirrjen"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Kur klikoni mbi Parashtroje, regjistri juaj do të postohet në internet për 30 ditë, te një URL unike, e pabotuar më parë. Mundeni ta Ruani lokalisht, së pari."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Ndarje ekrani me të tjerë"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Mjetet e zhvillimit të thirrjeve"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Dritarja përdoret gjatë zhvillimit për të shfaqur diagnostifikimin nga kryerja e telefonatave."
   },
   "icu:speech": {
     "messageformat": "E folur"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Biseda u shënua si e palexuar"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Përpuno mesazhin"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Nëse përpunon një mesazh, ai do të jetë i dukshëm vetëm për personat që kanë versionin më të fundit të Signal. Ata do shohin se ti ke redaktuar një mesazh."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Teksti i formatuar po dërgohet"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Disa njerëz mund të përdorin një version të Signal që nuk e mbështet tekstin e formatuar. Ata nuk do të mund të shohin ndryshimet e formatimit që i ke bërë mesazhit."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Dëshiron të hapësh Krijuesin e Pakove të Ngjitësve të Signal?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Defekti i paraqitjes që shkaktoi prishjen e ikonës së kontakteve pikërisht pranë emrit të kontaktit gjatë kohës së shikimit të listës së pjesëmarrësve në një telefonatë në grup u rregullua. Ndoshta je shumë afër kontakteve, por ndonjëherë, si ti (ashtu dhe ndërfaqja e përdoruesit Signal Desktop) keni nevojë për pak hapësirë."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "★ Ngri dorën nëse ke kërkuar një mënyrë tjetër komunikimi gjatë telefonatave në grup. Veçoria e re \"Ngri dorën\" është një mënyrë e thjeshtë për të tërhequr vëmendjen e dikujt, për të bërë pyetje ose për të votuar unanimisht për një propozim grupi kur kërkohet që \"të ngrenë dorën të gjithë personat që janë në favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Ne u ndamë me një defekt në mjetin e prerjes, kështu që tani është më e lehtë dhe më intuitive ta heqësh ishin (ose çdo gjë tjetër) nga fotografia."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Ne modifikuam shkurtoren e tastierës për dërgimin e një shënimi zanor në Ctrl/Cmd+Shift+Y në mënyrë që të mos bie në konflikt me shkurtoren \"Paste and Match Style\" në Windows dhe Linux."
   }
 }

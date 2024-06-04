@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "开发者工具开关"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "打开调用开发者工具"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "设置为新设备"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "仍然加入"
   },
-  "icu:continueCall": {
-    "messageformat": "继续通话"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "当您点击提交后，您的日志将会在一个唯一的未发布 URL 中在线发布 30 天。您可以先将其保存在本地。"
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "屏幕共享"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "调用开发者工具"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "此窗口用于在开发过程中显示正在进行的调用诊断信息。"
   },
   "icu:speech": {
     "messageformat": "语音"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "聊天已标记为未读"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "编辑消息"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "如果您编辑消息，其将仅对使用最新版 Signal 的用户可见。这些用户将会看到您编辑了消息。"
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "发送格式文本"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "有些会员使用的 Signal 版本不支持格式文本功能。他们将无法看到消息中的格式变化。"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "要打开 Signal 贴纸包创建器吗？"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "此次更新修复了群组通话用户界面中的渲染错误。"
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "新推出的举手功能可方便用户在群组通话过程中引起注意或提出问题。"
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "此更新还包括经过改进的裁剪工具，便于用于调整图片尺寸。"
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "我们已将发送语音备忘录的键盘快捷键修改为 Ctrl/Cmd+Shift+Y，避免其与 Windows 和 Linux 上的“粘贴并匹配目标样式”快捷键冲突。"
   }
 }

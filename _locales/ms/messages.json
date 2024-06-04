@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Togol Alat Pembangunan"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Buka Alat Pembangun Panggilan"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Pasang sebagai Peranti Baru"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Sertai juga"
   },
-  "icu:continueCall": {
-    "messageformat": "Teruskan Panggilan"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Apabila anda klik Hantar, log anda akan disiarkan selama 30 hari pada URL unik, tidak diterbitkan. Anda boleh Simpan ia secara tempatan dahulu."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Skrin perkongsian"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Alat Pembangun Panggilan"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Tetingkap ini digunakan semasa pembangunan untuk memaparkan diagnostik daripada panggilan berterusan."
   },
   "icu:speech": {
     "messageformat": "Pertuturan"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Sembang ditanda belum dibaca"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit mesej"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Jika anda mengedit mesej, ia hanya akan kelihatan kepada orang yang menggunakan versi terkini Signal. Mereka akan dapat melihat anda mengedit mesej."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Menghantar teks berformat"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Sesetengah orang mungkin menggunakan versi Signal yang tidak menyokong teks berformat. Mereka tidak akan dapat melihat perubahan pemformatan yang anda telah buat pada mesej anda."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Adakah anda mahu membuka Pencipta Pek Pelekat Signal?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Kemas kini ini membaiki pepijat pemaparan dalam antara muka pengguna panggilan kumpulan."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Ciri Angkat Tangan ialah cara mudah untuk mendapatkan perhatian seseorang atau bertanya soalan semasa panggilan kumpulan."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Kemas kini juga termasuk alat pemotong yang ditingkatkan untuk mengubah saiz foto."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Kami mengubah suai pintasan papan kekunci untuk menghantar nota suara ke Ctrl/Cmd+Shift+Y supaya ia tidak lagi bercanggah dengan pintasan \"Tampal dan Padankan Gaya\" pada Windows dan Linux."
   }
 }

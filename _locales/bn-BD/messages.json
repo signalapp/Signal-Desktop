@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "বিকাশকারী সরঞ্জামগুলি দেখান"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "\"ডেভেলপার টুল কল করা হচ্ছে\" খুলুন"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "নতুন ডিভাইস হিসেবে সেট করুন"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "তারপরও যোগ দিন"
   },
-  "icu:continueCall": {
-    "messageformat": "কল চালিয়ে যান"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "'জমা দিন' ক্লিক করলে, আপনার লগ অনলাইনে 30 দিনের জন্য একটি ইউনিক, অপ্রকাশিত ইউআরএল-এ পোস্ট করা হবে৷ আপনি প্রথমে স্থানীয়ভাবে এটি সেভ করতে পারেন।"
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "স্ক্রিন শেয়ার করা"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "ডেভেলপার টুল কল করা হচ্ছে"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "চলমান কল থেকে ডায়াগনস্টিক প্রদর্শন করতে এই উইন্ডোটি ডেভেলপমেন্ট করার সময় ব্যবহার করা হয়।"
   },
   "icu:speech": {
     "messageformat": "বক্তৃতা"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "চ্যাট অপঠিত হিসেবে চিহ্নিত হয়েছে"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "মেসেজ এডিট করুন"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "আপনি যদি কোনো মেসেজ এডিট করেন, তবে এটি শুধুমাত্র Signal-এর সর্বশেষ সংস্করণ ব্যবহারকারীদের কাছে দৃশ্যমান হবে। আপনি যে একটি মেসেজ এডিট করেছেন তারা তা দেখতে পাবেন।"
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "ফরম্যাটকৃত টেক্সট পাঠানো হচ্ছে"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "কিছু ব্যক্তি হয়তো Signal-এর এমন একটি সংস্করণ ব্যবহার করছেন যা ফরম্যাটকৃত টেক্সটকে সমর্থন করে না। আপনি আপনার ম্যাসেজের ফরম্যাটে যে পরিবর্তনগুলো করেছেন তারা তা দেখতে সক্ষম হবেন না।"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "আপনি কি Signal স্টিকার প্যাক ক্রিয়েটর খুলতে চান?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "এই আপডেটটি গ্রুপ কল ইউজার ইন্টারফেসের একটি রেন্ডারিং বাগ সংশোধন করেছে।"
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "নতুন \"হাত তুলুন\" ফিচারটি হলো গ্রুপ কলের সময় কারো দৃষ্টি আকর্ষণ করার বা প্রশ্ন জিজ্ঞাসা করার একটি সহজ উপায়।"
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "এই আপডেটে ছবি রিসাইজ করার জন্য একটি উন্নত ক্রপ টুলও রয়েছে।"
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "আমরা ভয়েস নোট পাঠানোর জন্য কীবোর্ড শর্টকাট পরিবর্তন করে Ctrl/Cmd+Shift+Y করেছি, যাতে এটি Windows এবং Linux-এ \"পেস্ট এবং ম্যাচ স্টাইল\" শর্টকাটের সাথে আর সমস্যা না করে।"
   }
 }

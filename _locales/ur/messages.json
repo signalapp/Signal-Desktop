@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "ٹوگل ڈویلپر ٹولز"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "کالنگ ڈیولپر ٹولز کھولیں"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "نئی ڈیوائس کے طور پر مرتب کریں"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "بہرصورت شامل ہوں"
   },
-  "icu:continueCall": {
-    "messageformat": "کال جاری رکھیں"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "آپ کے جمع کروائیں پر کلک کرنے پر، آپ کا لاگ ایک منفرد، غیر پبلش شدہ URL پر 30 دنوں کے لیے آن لائن پوسٹ کر دیا جائے گا۔ آپ پہلے اسے مقامی طور پر محفوظ کر سکتے ہیں۔"
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "اسکرین کا اشتراک کرنا"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "کالنگ ڈیولپر ٹولز"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "یہ ونڈو ڈیولپمنٹ کے دوران جاری کالز سے تشخیصی ڈیٹا کو ظاہر کرنے کے لیے استعمال ہوتی ہے۔"
   },
   "icu:speech": {
     "messageformat": "تقریر"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "چیٹ کو بغیر پڑھی ہوئی نشان زد کیا گیا"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "میسج میں ترمیم کریں"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "اگر آپ کسی میسج میں تدوین کرتے ہیں، تو یہ صرف ان لوگوں کو نظر آئے گی جو Signal کے تازہ ترین ورژنز پر ہیں۔ وہ یہ دیکھ سکیں گے کہ آپ نے کسی میسج میں ترمیم کی ہے۔"
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "فارمیٹ کردہ ٹیکسٹ بھیجا جا رہا ہے"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "ہو سکتا ہے کچھ لوگ Signal کا وہ ورژن استعمال کر رہے ہوں جو فارمیٹ کردہ ٹیکسٹ کو سپورٹ نہیں کرتا۔ وہ آپ کی طرف سے اپنے میسج پر کی گئیں فارمیٹ کی تبدیلیوں کو دیکھنے کے قابل نہیں ہوں گے۔"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "کیا آپ Signal اسٹیکر پیک کے تخلیق کار کو کھولنا چاہتے ہیں؟"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "یہ اپ ڈیٹ گروپ کال کے یوزر انٹرفیس میں ایک رینڈرنگ بگ کو درست کرتی ہے۔ ورژن 7.11 کے لیے ریلیز نوٹس"
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "ہاٹھ اٹھانے کی نئی فیچر گروپ کالز کے دوران کسی کی توجہ مبذول کرانے یا سوال پوچھنے ایک آسان طریقہ ہے۔"
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "اس اپ ڈیٹ میں تصاویر کو ری سائز کرنے کا بہتر کردہ کراپ ٹول بھی شامل ہے۔"
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "ہم نے صوتی نوٹ بھیجنے کے لیے کی بورڈ شارٹ کٹ کو Ctrl/Cmd+Shift+Y پر تبدیل کر دیا ہے تاکہ یہ Windows اور Linux پر \"پیسٹ اور میچ اسٹائل\" کے شارٹ کٹ سے متصادم نہ ہو۔"
   }
 }

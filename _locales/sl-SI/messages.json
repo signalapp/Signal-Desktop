@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Vklopi razvojna orodja"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Odpri Razvojna orodja za klice"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Nastavi kot novo napravo"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Vseeno se pridruži"
   },
-  "icu:continueCall": {
-    "messageformat": "Nadaljuj s klicem"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "S klikom na Oddaj bo vaša zabeležba za 30 dni objavljena na edinstvenem URL naslovu. Lahko jo pred tem shranite lokalno."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Deljenje zaslona"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Razvojna orodja za klice"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "To okno se med razvojem uporablja za prikaz diagnostike tekočih klicev."
   },
   "icu:speech": {
     "messageformat": "Nagovor"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Klepet je označen kot neprebran"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Uredi sporočilo"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Če uredite sporočilo, bo vidno samo ljudem, ki uporabljajo najnovejše različice Signala. Videli bodo lahko, da ste uredili sporočilo."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Pošiljanje oblikovanega besedila"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Nekateri ljudje morda uporabljajo različico Signala, ki ne podpira oblikovanega besedila. Ti ne bodo mogli videti sprememb oblikovanja, ki ste jih naredili v svojem sporočilu."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Ali želite odpreti Signalov Ustvarjalnik paketov nalepk?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Odpravili smo napako pri upodabljanju, zaradi katere se je ikona stikov med pregledovanjem seznama udeležencev skupinskega klica razbila tik ob imenu stika. Verjetno ste si s svojimi stiki zelo blizu, vendar včasih vi (kakor tudi uporabniški vmesnik programa Signal Desktop) potrebujete malo prostora."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Dvignite roko, če ste iskali drug način komuniciranja med skupinskimi klici. Nova funkcija Dvig roke je preprost način, kako pritegniti pozornost nekoga, zastaviti vprašanje ali soglasno glasovati za predlog skupine, ko prijatelj vpraša \"Kdo je za?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Odpravili smo napako v orodju za obrezovanje, zato je zdaj izrezovanje bivše_ga (ali česar koli drugega) s slike lažje in bolj intuitivno."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Bližnjico na tipkovnici za pošiljanje glasovnega sporočila smo spremenili v Ctrl/Cmd+Shift+Y, tako da ni več v nasprotju z bližnjico \"Prilepi in spoji oblikovanje\" v operacijskih sistemih Windows in Linux."
   }
 }

@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Aktibatu/Desaktibatu Garatzaileen Tresnak"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Ireki deietarako garatzaile-tresnak"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Ezarri Gailu Berri Gisa"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Sartu hala ere"
   },
-  "icu:continueCall": {
-    "messageformat": "Deia jarraitu"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "\"Bidali\" sakatzen duzunean, erregistroa sarera kargatuko da 30 egunez, argitaratu gabeko URL esklusibo batean. Lehenik, gailuan gorde dezakezu."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Pantaila partekatzen"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Deietarako garatzaile-tresnak"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Leiho hau garapen-fasean erakusten da, abian diren deien diagnostikoak bistaratzeko."
   },
   "icu:speech": {
     "messageformat": "Hizketa"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Irakurri gabeko gisa markatu da txata"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Editatu mezua"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Mezu bat editatzen baduzu, Signal-en azken bertsioak darabiltzaten pertsonek soilik izango dute ikusgai. Mezu bat editatu duzula ikusi ahal izango dute."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Testu formatuduna bidaltzen"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Baliteke pertsona batzuek darabilten Signal-en bertsioak ez onartzea testu fomartuduna. Ezingo dituzte ikusi mezuan egin dituzun formatu-aldaketak."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Signal-en eranskailu-paketeen sortzailea ireki nahi duzu?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Kontaktuen ikurra talde-dei batean parte-hartzaileen zerrendan kontaktuaren izenaren ondoan zanpatzea eragiten zuen errendimendu-errorea konpondu dugu. Ziurrenik zure kontaktuen eta zure arteko harremana oso estua da, baina batzuetan zure kontaktuekiko (eta Signal Desktop erabiltzailearen interfazeekiko) distantzia pixka bat gorde behar duzu."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "★ Jaso eskua taldeko deietan komunikatzeko beste modu baten bila egin bazara. Eskua jasotzeko eginbide berriaren bidez, taldeko deietan erraz erakarri ahalko duzu norbaiten arreta, galderak egin edo talde-proposamen baten alde modu anonimoan bozkatu, adibides, zure lagunak guztiok ados bazaudete galdetzen duenean."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Halaber, eguneratze honek irudien tamaina aldatzeko mozketa-tresna bat dakar."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Ahots-oharrak bidaltzeko teklatu-lasterbidea aldatu dugu; orain, Ktrl/Cmd + Maius + Y da. Horrela, ez da gatazkarik egongo \"Itsatsi eta bat etorrarazi estiloarekin\" lasterbidearekin Windows-en eta Linux-en."
   }
 }

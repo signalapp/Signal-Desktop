@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "تفعيل أو تعطيل أدوات المطورين"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "فتح أدوات المطورين للاتصالات"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "إعداد كجهاز جديد"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "انضم على أي حال"
   },
-  "icu:continueCall": {
-    "messageformat": "استئناف المكالمة"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "‫عند ضغطك على زر  الإرسال، سوف يُنشَر السجلّ على الانترنت لمدة 30 يوما، في عنوان فريد, يمكنك حفظه محليا أولا."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "مشاركة الشاشة"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "أدوات المُطورين للاتصالات"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "تُستخدم هذه النافذة خلال تطوير لِعرض تشخيصات المكالمات الجارية."
   },
   "icu:speech": {
     "messageformat": "الحديث"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "تم تحديد الدردشة على أنها غير مقروءة"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "تعديل الرسالة"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "إذا قُمت بتعديل رسالة، فلن يظهر إلا للأشخاص الذين يستخدمون أحدث إصدار سيجنال. سَيتمكنون من رؤية أنك قمت بتعديل رسالة."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "إرسال نص منسق"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "قد يستخدم بعض الناس إصدارًا من سيجنال لا يتوفر على دعم للنص المنسق. لن يتمكنوا من رؤية تغييرات التنسيق التي أحدثتها على رسالتك."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "هل تود فتح مُنشيء حزمة الملصقات لسيجنال؟"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "يُصلح هذا التحديث عطلاً للعرض في واجهة المستخدم للمكالمات الجماعية."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "ميزة رفع اليد الجديدة طريقة سهلة لِجذب انتباه شخص ما أو طرح سؤال خلال مكالمة جماعية."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "يَتضمن هذا التحديث أداة اقتصاص محسّنة أيضا لتغيير حجم الصور."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "لقد غيّرنا اختصار لوحة المفاتيح لإرسال ملاحظة صوتية إلى Ctrl/Cmd+Shift+Y لكي لا تتعارض مع اختصار \"لصق ومطابقة النمط\" على ويندوز ولينكس."
   }
 }

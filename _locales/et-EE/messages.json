@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Lülita arendusvahendid sisse/välja"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Seadista uue seadmena"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Liitu siiski"
   },
-  "icu:continueCall": {
-    "messageformat": "Kõnega jätkamine"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Kui klõpsad \"Saada\", postitatakse sinu logi 30 päevaks veebi unikaalsele avaldamata URL-aadressile. Soovi korral võid selle enne kohalikult salvestada."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Ekraani jagamine"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Kõne"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Vestlus märgiti mitteloetuks"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Muuda sõnumit"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Kui sõnumit muudad, on see nähtav ainult inimestele, kellel on Signali uusimad versioonid. Nad näevad, et oled sõnumit muutnud."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Vormindatud teksti saatmine"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Mõned kasutavad sellist Signali versiooni, mis vormindatud teksti ei toeta. Nemad ei näe vormingumuutusi, mille sõnumile lisasid."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Kas soovid avada Signali kleebiste komplekti loomiskeskkonna?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Selle uuendusega parandatakse grupikõne kasutajaliidese renderdamisviga."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
   }
 }

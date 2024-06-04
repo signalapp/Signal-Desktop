@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Entwicklerwerkzeuge ein/aus"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Entwicklerwerkzeuge für Anrufe öffnen"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Einrichten als neues Gerät"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Trotzdem beitreten"
   },
-  "icu:continueCall": {
-    "messageformat": "Anruf fortsetzen"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Wenn du auf »Abschicken« klickst, wird dein Diagnoseprotokoll unter einer eindeutigen, unveröffentlichten Internetadresse für 30 Tage online gestellt. Du kannst es aber auch erst lokal speichern."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Teilen des Bildschirms"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Entwicklerwerkzeuge für Anrufe"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Dieses Fenster wird während der Entwicklung verwendet, um die Diagnosen laufender Aufrufe anzuzeigen."
   },
   "icu:speech": {
     "messageformat": "Sprachausgabe"
@@ -1035,7 +1041,7 @@
     "messageformat": "Die Telefonnummer von {sender} hat sich geändert"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Neue Signal-Kontakte"
+    "messageformat": "Kontakt ist Signal beigetreten"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} und {conversationTitle} gehören zum selben Konto. Deinen Nachrichtenverlauf für beide Chats findest du hier."
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Chat als ungelesen markiert"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Nachricht bearbeiten"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Wenn du eine Nachricht bearbeitest, ist sie nur für Personen sichtbar, die die neuesten Versionen von Signal verwenden. Sie können dann sehen, dass du eine Nachricht bearbeitet hast."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Formatierten Text senden"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Einige Leute benutzen möglicherweise eine Version von Signal, die keinen formatierten Text unterstützt. Sie können die Formatierungen, die du an deiner Nachricht vorgenommen hast, nicht sehen."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Möchtest du den Signal Sticker-Set-Creator öffnen?"
@@ -5423,6 +5417,15 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "Wir haben einen Darstellungsfehler behoben, der dazu führte, dass sich das Kontaktsymbol direkt neben dem Namen des Kontakts auflöste, wenn die Teilnehmerliste eines Gruppenanrufs angezeigt wurde. Wahrscheinlich stehst du deinen Kontakten sehr nahe, aber manchmal brauchen du (und die Signal Desktop-Benutzeroberfläche) ein wenig Abstand."
+    "messageformat": "Wir haben einen Darstellungsfehler behoben, der dazu führte, dass das Kontaktsymbol zu nahe an dem Namen des Kontakts war, wenn die Teilnehmerliste eines Gruppenanrufs angezeigt wurde. Wahrscheinlich stehst du deinen Kontakten sehr nahe, aber manchmal brauchen du (und die Signal Desktop-Benutzeroberfläche) ein wenig Abstand."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Hebe die Hand, wenn auch du nach einer weiteren Möglichkeit gesucht hast, bei Gruppenanrufen zu kommunizieren. Dank der neuen Funktion »Hand heben« kannst du ganz einfach auf dich aufmerksam machen, eine Frage stellen oder für einen Gruppenvorschlag stimmen, wenn jemand »Sind alle dafür?« fragt."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Wir haben einen Fehler beim Zuschneiden-Werkzeug behoben, sodass es jetzt einfacher und intuitiver ist, deine*n Ex (oder irgendwas anderes) aus dem Bild herauszuschneiden."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Die Tastenkombination für das Senden einer Sprachnachricht haben wir in Strg/Cmd+Umschalttaste+Y geändert, damit es in Windows und Linux keine Probleme mit der Tastenkombination für »Einfügen und Stil anpassen« gibt."
   }
 }

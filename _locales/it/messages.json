@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Apri strumenti di sviluppo"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Apri gli strumenti di sviluppo"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Configura come nuovo dispositivo"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Partecipa lo stesso"
   },
-  "icu:continueCall": {
-    "messageformat": "Continua chiamata"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Quando fai clic su Invia, il tuo log sarà pubblicato online per 30 giorni a un URL unico e non pubblicato. Puoi prima Salvarlo localmente."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Condivisione schermo"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Apertura strumenti di sviluppo in corso"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Questa schermata viene usata durante la fase di sviluppo per mostrare i dati diagnostici legati alle chiamate in corso."
   },
   "icu:speech": {
     "messageformat": "Parlato"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Chat segnata come non letta"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Modifica messaggio"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Se modifichi un messaggio, la modifica sarà visibile solamente alle persone che usano la versione più recente di Signal. Potranno quindi vedere che hai effettuato una modifica."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Invio del testo formattato in corso"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Alcuni utenti potrebbero usare una versione di Signal che non supporta il testo formattato. Queste persone non potranno vedere le modifiche che hai fatto alla formattazione del testo nei tuoi messaggi."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Vuoi aprire il creatore di pacchetti di sticker Signal?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Abbiamo risolto un bug per cui l'icona dei contatti appariva vicino al nome del contatto durante la visualizzazione dell'elenco dei partecipanti a una chiamata di gruppo. Da ora le \"distanze di sicurezza\" verranno rispettate, promesso!"
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Alza la mano se anche tu hai bisogno di un nuovo modo per attirare l'attenzione durante le chiamate di gruppo. Beh, da ora con la nuova funzione \"Alza la mano\" puoi farti notare durante le chiamate e prendere parola più velocemente!"
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Abbiamo risolto anche un bug nel sistema di ritaglio immagini: ora sarà molto più semplice tagliare l'ex dalle tue foto 👀"
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Abbiamo modificato la scorciatoia da tastiera per inviare un messaggio vocale in Ctrl/Cmd+Shift+Y così da evitare conflitti con altre scorciatoie presenti su Windows e Linux."
   }
 }

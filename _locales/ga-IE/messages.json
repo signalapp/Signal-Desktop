@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Scoránaigh Uirlisí Forbróirí"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Oscail Uirlisí Forbróra um Ghlaoch"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Socraigh mar Ghléas Nua"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Téigh isteach ar aon nós"
   },
-  "icu:continueCall": {
-    "messageformat": "Continue Call"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Nuair a chliceálann tú Cuir Isteach, postálfar do loga ar líne go ceann 30 lá ag URL uathúil neamhfhoilsithe. Is féidir leat é a shábháil go logánta ar dtús."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Comhroinnt scáileáin"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Uirlisí Forbróra um Ghlaoch"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Úsáidtear an fhuinneog seo le linn na forbartha chun diagnóisic ó ghlaonna leanúnacha a thaispeáint."
   },
   "icu:speech": {
     "messageformat": "Labhairt"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Comhrá marcáilte mar neamhléite"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Cuir Teachtaireacht in Eagar"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Má chuirfidh tú teachtaireacht in eagar, ní fheicfidh ach na daoine a bhfuil na leaganacha is déanaí de Signal acu í. Feicfidh siad gur chuir tú teachtaireacht in eagar."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Téacs formáidithe a sheoladh"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Seans go bhfuil roinnt daoine ag úsáid leagan de Signal nach dtacaíonn le téacs formáidithe. Ní bheidh siad in ann na hathruithe formáidithe a rinne tú ar do theachtaireacht a fheiceáil."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Ar mhaith leat Cruthaitheoir Pacáiste Greamán Signal a oscailt?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Réitíonn an nuashonrú seo fabht rindreála i gcomhéadan úsáideora an ghrúpghlao."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Bealach simplí is ea an ghné nua \"Ardaigh Lámh\" chun aird duine a tharraingt nó ceist a chur le linn grúpghlaonna."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Áirítear sa nuashonrú seo freisin uirlis bhearrtha nua chun méid íomhánna a athrú."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Rinneamar aicearra an mhéarchláir chun guthnóta a sheoladh, a mhionathrú chuig Ctrl/Cmd+Shift+Y ionas nach mbeidh coimhlint ann níos mó leis an aicearra \"Greamaigh agus Meaitseáil Stíl\" ar Windows agus Linux."
   }
 }

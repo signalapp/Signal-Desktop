@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Přepnout na nástroje vývojáře"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Otevřít vývojářské nástroje pro volání"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Nastavit jako nové zařízení"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Připojit se i tak"
   },
-  "icu:continueCall": {
-    "messageformat": "Pokračovat ve volání"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Po kliknutí na tlačítko Odeslat bude váš protokol zveřejněn online po dobu 30 dnů na jedinečné neveřejné adrese URL. Nejprve jej můžete uložit lokálně."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Sdílení obrazovky"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Vývojářské nástroje pro volání"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Toto okno slouží během vývoje k zobrazení diagnostiky probíhajících volání."
   },
   "icu:speech": {
     "messageformat": "Řeč"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Chat označen jako nepřečtený"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Úprava zprávy"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Pokud zprávu upravíte, zobrazí se jen lidem, kteří používají nejnovější verzi aplikace Signal. Ti uvidí, že jste zprávu upravili."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Odesílání formátovaného textu"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Někteří lidé mohou používat verzi aplikace Signal, která nepodporuje formátovaný text. Změny formátování, které jste ve zprávě provedli, se jim nezobrazí."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Chcete otevřít nástroj pro tvorbu balíčků nálepek Signal?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Tato aktualizace opravuje chybu vykreslování v uživatelském rozhraní skupinového hovoru. Poznámky k verzi 7.11"
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Zvedněte ruku, pokud hledáte jiný způsob komunikace během skupinových hovorů. Nová funkce Zvedni ruku představuje jednoduchý způsob, jak upoutat něčí pozornost nebo položit otázku během skupinových hovorů."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Tato aktualizace také obsahuje vylepšený nástroj pro ořezávání obrázků a změnu jejich velikosti."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Upravili jsme klávesovou zkratku pro odeslání hlasové poznámky na Ctrl/Cmd+Shift+Y, aby už nedocházelo ke konfliktu se zkratkou „Vložit a použít styl“ v systémech Windows a Linux."
   }
 }

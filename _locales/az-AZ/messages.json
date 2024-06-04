@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Tərtibatçı alətlərini aç/bağla"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Zənglərlə əlaqəli tərtibatçı alətləri"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Yeni cihaz kimi quraşdır"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Yenə də qoşul"
   },
-  "icu:continueCall": {
-    "messageformat": "Zəngə davam et"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "\"Göndər\"ə kliklədiyinizdə, jurnalınızın unikal və dərc edilməmiş URL-də 30 gün ərzində onlayn paylaşılacaq. Əvvəlcə yerli yaddaşda saxlaya bilərsiniz."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Ekran paylaşımı"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Zənglərlə əlaqəli tərtibatçı alətləri"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Bu pəncərə tərtibat zamanı davam edən zənglərin diaqnostikalarını göstərmək üçün istifadə olunur."
   },
   "icu:speech": {
     "messageformat": "Danışma"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Çat oxunmamış kimi işarələndi"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Mesajı redaktə et"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Bir mesajı redaktə etsəniz, onu yalnız Signal-ın son versiyasından istifadə edən şəxslər görə biləcək. Onlar bir mesajı redaktə etdiyinizi görə biləcək."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Formatlanmış mətn göndərilir"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Bəzi insanlar Signal-ın formatlanmış mətni dəstəkləməyən versiyasından istifadə edə bilər. Onlar mesajınızdakı format dəyişikliklərini görə bilməyəcəklər."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Signal Stiker Paket Yaradıcısını açmaq istərdinizmi?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Qrup zəngində iştirakçı siyahısı göstərilərkən kontakt adının yanına sığışmayan kontaktlar piktoqramının bölünməsinə səbəb olan görünüş xətasını düzəltdik. Əlbəttə kontaktlarınıza çox yaxın ola bilərsiniz, lakin bəzən sizə də (və Signal Desktop istifadəçi interfeysinə) bir az yer lazımdır."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Qrup zənglərində əl qaldırma funksiyasından istifadə edərək də ünsiyyət qura bilərsiniz. Yeni \"Əl qaldırma\" funksiyası birinin diqqətini çəkmək, sual vermək, yaxud da dostunuzun xahişi ilə qrup təklifinə anonim səs vermək üçün sadə bir yoldur."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Bu yeniləmə sayəsində artıq şəkillərin ölçülərini yenidən təyin etmək üçün təkmilləşdirilmiş kəsmə aləti təqim olunur."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Biz Ctrl/Cmd+Shift+Y basaraq səsli qeyd göndərmək üçün klaviatura qısayolunu elə dəyişdirdik ki, artıq Windows və Linux-da \"Üslubu əlavə et və uyğunlaşdır\" qısayolu ilə ziddiyyət təşkil etməsin."
   }
 }

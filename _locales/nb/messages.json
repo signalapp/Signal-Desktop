@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Skru av/på Utviklerverktøy"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Åpne utviklerverktøy for anrop"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Sett Opp som Ny Enhet"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Bli med likevel"
   },
-  "icu:continueCall": {
-    "messageformat": "Fortsett samtale"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Når du klikker på Send inn, legges loggen din ut i 30 dager på en unik og upublisert nettadresse. Du kan også lagre den lokalt først."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Skjermdeling"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Utviklerverktøy for anrop"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Dette vinduet viser utviklere diagnostikk fra pågående samtaler."
   },
   "icu:speech": {
     "messageformat": "Tale"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Samtalen er merket som ulest"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Rediger melding"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Hvis du redigerer en melding, vises endringen kun for personer som bruker den nyeste versjonen av Signal. De kan se at du redigerte en melding."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Sender formatert tekst"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Enkelte bruker en versjon av Signal som ikke støtter formatert tekst. De vil ikke kunne se den nye formateringen av meldingen."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Vil du åpne verktøyet for opprettelse av Signal-klistremerkepakker?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "I denne oppdateringen har vi rettet opp i en gjengivelsesfeil i grensesnittet for gruppesamtaler."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Nå kan du rekke opp hånden for å stille spørsmål eller be om oppmerksomheten i gruppesamtaler."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Vi har også gjort beskjæringsverktøyet for bilder litt bedre i denne oppdateringen."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "I tillegg har vi byttet ut hurtigtasten for å sende talenotater, slik at den ikke er den samme som snarveien for «lim inn og matche stil» i Windows og Linux. Den nye hurtigtasten er Ctrl/Cmd+Shift+Y."
   }
 }

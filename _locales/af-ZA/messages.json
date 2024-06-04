@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Wissel ontwikkelaarsnutsgoed"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Maak Skakel Ontwikkelaarhulpmiddels oop"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Stel op as 'n nuwe toestel"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Sluit in elk geval aan"
   },
-  "icu:continueCall": {
-    "messageformat": "Sit oproep voort"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Wanneer jy op Dien in klik, sal jou log vir 30 dae aanlyn op 'n unieke, ongepubliseerde URL geplaas word. Jy kan dit eers plaaslik stoor."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Besig om skerm te deel"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Skakel Ontwikkelaarhulpmiddels"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Hierdie venster word tydens ontwikkeling gebruik om diagnostiek te vertoon van oproepe wat aan die gang is."
   },
   "icu:speech": {
     "messageformat": "Spraak"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Klets as ongelees gemerk"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Wysig boodskap"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Indien jy 'n boodskap wysig, sal dit slegs sigbaar wees vir mense wat op die jongste weergawes van Signal is. Hulle sal kan sien dat jy 'n boodskap gewysig het."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Stuur tans geformateerde teks"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Sommige mense gebruik dalk 'n weergawe van Signal wat nie geformateerde teks ondersteun nie. Hulle sal nie die formateringveranderinge kan sien wat jy aan jou boodskap gemaak het nie."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Wil jy die Signal-plakkerpakket-skepper oopmaak?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Hierdie opdatering het 'n grafika-bufferfout in die gebruikerskoppelvlak vir groepoproepe reggestel."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Steek jou hand op as jy na 'n ander manier gesoek het om tydens groepoproepe te kommunikeer. Die nuwe Handopsteek-kenmerk is 'n eenvoudige manier om iemand se aandag te trek, 'n vraag te vra of eenparig vir 'n groepvoorstel te stem wanneer jou vriend vra, \"Almal ten gunste daarvan?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Hierdie opdatering sluit 'n verbeterde \"snoei\"-hulpmiddel in om foto's of prente kleiner te knip."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Ons het die sleutelbord-kortpad vir die stuur van 'n stemboodskap gewysig na Ctrl/Cmd+Shift+Y sodat dit nie meer met die \"Plak en Pas Styl Aan\"-kortpad op Windows en Linux bots nie."
   }
 }

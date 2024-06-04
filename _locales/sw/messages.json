@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Zana za Kugura za Msanidi Programu"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Fungua Zana za Usanidi Programu za Kupiga Simu"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Weka kama Kifaa Kipya"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Jiunge hata hivyo"
   },
-  "icu:continueCall": {
-    "messageformat": "Endelea na Mazungumzo ya Simu"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Ukibonyeza Wasilisha, logi yako itachapishwa mtandaoni kwa siku 30 katika anuani ya URL ya kipekee ambayo haijachapishwa. Unaweza kuihifadhi kwenye simu kwanza."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Kushiriki skrini"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Zana za Wasanidi Programu za Kupiga Simu"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Dirisha hili linatumika wakati wa usanidi ili kuonyesha matengenezo kutoka kwenye simu zinazoendelea."
   },
   "icu:speech": {
     "messageformat": "Hotuba"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Gumzo limealamishwa haijasomwa"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Hariri Ujumbe"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Ukihariri ujumbe, utaonekana kwa watu walio kwenye toleo jipya la Signal pekee. Wataweza kuona kuwa umehariri ujumbe."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Inatuma maandishi yaliyoumbizwa"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Huenda baadhi ya watu wanatumia toleo la Signal ambalo halitumii maandishi yaliyoumbizwa. Hawataweza kuona mabadiliko ya umbizo ambalo umefanya kwenye ujumbe wako."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Ungependa kufungua Signal Sticker Pack Creator?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Tumerekebisha hitilafu ya muonekano iliyosababisha aikoni ya wawasiliani kukaa pembeni kabisa ya jina la muwasiliani wakati wa kutazama orodha ya washiriki kwenye simu ya kikundi. Inawezekana ukawa karibu sana na wawasiliani wako, lakini wakati mwingine nyote (pamoja na mtumiaji wa Signal Desktop) mnahitaji nafasi kidogo."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Inua mkono wako kama umekuwa ukitafuta njia nyingine ya kuwasiliana kwenye simu za vikundi. Kipengele kipya cha Inua Mkono ni njia rahisi ya kupata uzingativu wa mtu, kuuliza swali au kupiga kura kwa kauli moja kwa ajili ya pendekezo la kikundi pale rafiki yako anapouliza \"wote wanaounga mkono?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Tumeondoa hitilafu kwenye zana ya kukata, sasa ni rahisi zaidi kumuondoa mpenzi wako wa zamani (au kitu kingine chochote) kwenye picha hii."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Tumerekebisha njia za mkato za kibodi ya kutuma kidokezo kwa Ctrl/Cmd+Shift+Y ili isigongane tena na njia ya mkato ya \"Bandika na Ulinganishe\" kwenye Windows na Linux."
   }
 }

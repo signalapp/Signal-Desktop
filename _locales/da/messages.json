@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Vis udviklerværktøjer"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Åbn opkald til udviklerværktøjer"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Opsæt som ny enhed"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Deltag alligevel"
   },
-  "icu:continueCall": {
-    "messageformat": "Fortsæt opkald"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Når du klikker på Indsend, bliver din log lagt online i 30 dage på en unik, ikke-offentliggjort URL-adresse. Du kan gemme den lokalt først."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Deling af skærm"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Opkald til udviklerværktøjer"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Dette vindue bruges under udvikling for at vise diagnostik fra igangværende opkald."
   },
   "icu:speech": {
     "messageformat": "Tale"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Chat markeret ulæst"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Rediger besked"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Hvis du redigerer en besked, vil den kun være synlig for folk, der bruger de nyeste versioner af Signal. De vil kunne se, at du har redigeret en besked."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Sender formateret tekst"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Nogle personer bruger måske en version af Signal, der ikke understøtter formateret tekst. Vedkommende vil ikke kunne se de ændringer, du har foretaget i formateringen af din besked."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Vil du gerne åbne Signal Sticker Pack Creator?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Vi har rettet en gengivelsesfejl, der fik kontaktikonet til at smadre sig selv lige ved siden af kontaktens navn, mens man så listen over deltagere i et gruppeopkald. Du er sandsynligvis virkelig tæt på dine kontakter, men nogle gange har du (og Signal Desktop-brugergrænsefladen) begge brug for lidt plads."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Ræk hånden op, hvis du har ledt efter en anden måde at kommunikere på under gruppeopkald. Den nye Ræk hånden op-funktion er en enkel måde at få nogens opmærksomhed på, stille et spørgsmål eller enstemmigt stemme på et gruppeforslag, når din ven spørger \"hvem er for?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Vi brød op med en fejl i beskæringsværktøjet, så nu er det nemmere og mere intuitivt at skære din eks (eller noget andet) ud af billedet."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Vi har ændret tastaturgenvejen til at sende en stemmenote til Ctrl / Cmd + Shift + Y, så den ikke længere er i konflikt med genvejen \"Indsæt og match stil\" på Windows og Linux."
   }
 }

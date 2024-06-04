@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Укључи/искључи алатке за програмере"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Отвори напредне алатке за позиве"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Подесите као нови уређај"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Свеједно се придружите"
   },
-  "icu:continueCall": {
-    "messageformat": "Настави са позивом"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Када кликнете на „Пошаљи“, ваш извештај ће бити постављен онлајн 30 дана на јединственој, необјављеној URL адреси. Можете га прво сачувати локално."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Дељење екрана"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Напредне алатке за позиве"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Овај прозор се користи током развоја за приказ дијагностике за текуће позиве."
   },
   "icu:speech": {
     "messageformat": "Говор"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Ћаскање је означено као непрочитано"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Измените поруку"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Ако измените поруку, она ће бити видљива само људима који су на најновијим верзијама Signal-а. Они ће моћи да виде да сте изменили поруку."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Слање форматираног текста"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Неки људи можда користе верзију Signal-а која не подржава форматирани текст. Они неће моћи да виде промене форматирања које сте направили у поруци."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Желите ли да отворите креатор пакета налепница у Signal-у?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "У овом ажурирању је исправљена грешка приликом рендеровања у корисничком интерфејсу групног позива."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Нова функционалност подизања руке је једноставан начин да привучете нечију пажњу или питате питање током групних позива."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Ово ажурирање такође обухвата побољшану алатку за изрезивање слика."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Променили смо пречицу на тастатури за слање гласовне белешке и сада је Ctrl/Cmd+Shift+Y, тако да више није у сукобу са пречицом „Налепи и уклопи стил“ на Windows-у и Linux-у."
   }
 }

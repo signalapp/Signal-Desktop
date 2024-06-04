@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Ativar ferramentas do programador"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Abrir ferramentas de chamada do desenvolvedor"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Configurar como novo dispositivo"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Aderir na mesma"
   },
-  "icu:continueCall": {
-    "messageformat": "Continuar chamada"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Ao clicar em 'Enviar', o seu histórico será postado online durante 30 dias num URL exclusivo e não publicado. Você pode guardá-lo localmente primeiro."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "A partilhar ecrã"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Ferramentas de chamada do programador"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Esta janela é utilizada durante o desenvolvimento para apresentar diagnósticos de chamadas em curso."
   },
   "icu:speech": {
     "messageformat": "Fala"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Chat marcado como não lido"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Editar mensagem"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Se editar uma mensagem, esta só ficará visível para pessoas que estejam na versão beta do Signal. Elas poderão ver que editou uma mensagem."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Enviar texto formatado"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Algumas pessoas podem estar a usar uma versão do Signal que não suporta texto formatado. Não conseguirão ver as alterações de formatação que fez à sua mensagem."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Quer abrir o Criador de pacotes de autocolantes do Signal?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Esta atualização corrige um erro de renderização na interface de utilizador da chamada de grupo."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "A nova funcionalidade de levantar a mão é uma forma simples de chamar a atenção de alguém ou fazer uma pergunta durante chamadas de grupo."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Esta atualização também inclui uma ferramenta de corte melhorada para redimensionar imagens."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Modificámos o atalho de teclado para enviar uma nota de voz. Agora é Ctrl/Cmd+Shift+Y, para não entrar em conflito com o atalho \"Colar e manter o mesmo estilo\" no Windows e Linux."
   }
 }

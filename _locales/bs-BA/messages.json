@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Uključi/isključi programerske alate"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Otvori Alate za programere povezane s pozivima"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Postavi kao novi uređaj"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Svejedno se pridruži"
   },
-  "icu:continueCall": {
-    "messageformat": "Nastavite poziv"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Kada kliknete Pošalji, vaš zapisnik će se objaviti online u trajanju od 30 dana na jedinstvenom, neobjavljenom URL-u. Možete ga najprije sačuvati lokalno."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Dijeljenje ekrana"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Alati za programere povezani s pozivima"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Ovaj prozor se koristi tokom razvoja za prikaz dijagnostike iz odlaznih poziva."
   },
   "icu:speech": {
     "messageformat": "Govor"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Chat je označen kao nepročitan"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Uredi poruku"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Ako uredite poruku, bit će vidljiva samo osobama koje koriste najnovije verzije Signala. Moći će vidjeti da ste uredili poruku."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Slanje formatiranog teksta"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Neki možda koriste verziju Signala koja ne podržava formatirani tekst. Te osobe neće moći vidjeti promjene formatiranja koje ste unijeli u svoju poruku."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Želite li otvoriti Signal kreator paketa naljepnica?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Ovo ažuriranje ispravlja grešku u prikazivanju u korisničkom sučelju grupnog poziva."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Nova značajka Podigni ruku jednostavan je način da privučete nečiju pozornost ili postavite pitanje tijekom grupnih poziva."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Ovo ažuriranje također uključuje poboljšani alat za rezanje za promjenu veličine slika."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Izmijenili smo tipkovni prečac za slanje glasovne bilješke na Ctrl/Cmd+Shift+Y tako da se više ne podudara s opcijom \"Zalijepi i spoji\"."
   }
 }

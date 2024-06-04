@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "切換開發者工具"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "開啟通話中開發者工具"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "設定新裝置"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "仍要加入"
   },
-  "icu:continueCall": {
-    "messageformat": "繼續通話"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "當你點擊提交時，你的日誌將在一個唯一的、未發布的 URL 上在線發布 30 天。你可以先將其保存在本地。"
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "分享畫面"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "通話中開發者工具"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "此視窗在開發過程中用於顯示正在進行之通話的診斷資訊。"
   },
   "icu:speech": {
     "messageformat": "語音"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "聊天已標記為未讀"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "編輯訊息"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "只有使用最新 Signal 版本的用戶才能看到你的編輯訊息。他們將能看到你編輯了訊息。"
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "傳送格式化文字"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "有些人可能正在使用不支援格式化文字的 Signal 版本。他們將無法看到你對訊息作出的格式變更。"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "你要開啟 Signal 貼圖包製作器嗎？"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "此更新修復了群組通話使用者界面的渲染錯誤。"
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "如果你一直尋找在群組通話期間的其他溝通方式，請「舉手」。新的「舉手」功能是一種簡單的方法，用來引起注意、提出問題或在小組提案時投一致贊成票。"
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "我們修復了裁剪工具中的錯誤，現在可以更輕鬆、更直觀地將任何東西從照片中刪除。"
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "我們將發送語音備註的鍵盤快捷鍵修改為 Ctrl/Cmd+Shift+Y，使其不再與 Windows 和 Linux 上「貼上並配合樣式」的快捷鍵產生衝突。"
   }
 }

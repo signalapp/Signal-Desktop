@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Activa o desactiva les eines de desenvolupament"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Obrir Eines de desenvolupament de trucada"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Configura'l com a dispositiu nou"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Unir-me de totes maneres"
   },
-  "icu:continueCall": {
-    "messageformat": "Continua la trucada"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Quan cliqueu a Envia, el registre es penjarà en línia durant 30 dies en un URL únic i no publicat. Primer podeu desar-lo localment."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Compartició de pantalla"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Eines de desenvolupament de trucada"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Aquesta finestra s'utilitza durant el desenvolupament per mostrar els diagnòstics de les trucades en curs."
   },
   "icu:speech": {
     "messageformat": "Discurs"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Xat marcat com a no llegit"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Editar missatge"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Si edites un missatge, només serà visible per a aquelles persones que tinguin les darreres versions de Signal. Podran veure que has editat un missatge."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Enviant text amb format"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "És possible que algunes persones estiguin utilitzant una versió de Signal que no admet text amb format. No podran veure els canvis de format que has fet al teu missatge."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Vols obrir el Creador de paquets de stickers?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Aquesta actualització corregeix un error de visualització a la pantalla de trucades grupals."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "La nova funció Aixecar la mà és una manera senzilla de cridar l'atenció d'algú o fer una pregunta durant les trucades grupals."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Aquesta actualització també inclou una eina de retallar millorada per canviar la mida d'una imatge."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Hem modificat la drecera de teclat per enviar una nota de veu a Ctrl/Cmd+Maj+Y perquè ja no entri en conflicte amb la drecera \"Enganxar i copiar l'estil\" a Windows i Linux."
   }
 }

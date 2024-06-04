@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "نمایش ابزارهای توسعه"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "باز کردن ابزارهای توسعه‌دهنده تماس"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "تنظیم به عنوان دستگاه جدید"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "به هر حال می‌پیوندم"
   },
-  "icu:continueCall": {
-    "messageformat": "ادامه تماس"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "وقتی روی ارسال کلیک می‌کنید، گزارش شما به مدت 30 روز به صورت آنلاین در یک URL منحصربه‌فرد و منتشرنشده پست می‌شود. می‌توانید ابتدا آن را در دستگاه خود ذخیره کنید."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "اشتراک صفحه"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "ابزارهای توسعه‌دهنده تماس"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "این پنجره حین توسعه برای نمایش عیب‌یابی تماس‌های جاری استفاده می‌شود."
   },
   "icu:speech": {
     "messageformat": "صحبت"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "گفتگو به‌عنوان خوانده‌نشده علامت‌گذاری شد"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "ویرایش پیام"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "اگر پیامی را ویرایش کنید، فقط برای افرادی که از تازه‌ترین نسخه سیگنال استفاده می‌کنند قابل مشاهده خواهد بود. آن‌ها می‌توانند ببینند که پیامی را ویرایش کرده‌اید."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "در حال ارسال متن قالب‌بندی‌شده"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "برخی افراد ممکن است از نسخه‌ای از سیگنال استفاده می‌کنند که از متن قالب‌بندی‌شده پشتیبانی نمی‌کند. آن‌ها قادر به مشاهده تغییرات قالبی که در پیام‌تان اعمال کرده‌اید نخواهند بود."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "می‌خواهید «سازنده بسته استیکر سیگنال» را باز کنید؟"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "در این نسخه، یک اشکال رندر در رابط کاربری تماس‌های گروهی را رفع کرده‌ایم."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "ویژگی جدید «دست بلند کردن» راه ساده‌ای برای جلب توجه افراد یا پرسیدن سوال هنگام تماس‌های گروهی است."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "این نسخه جدید همچنین ابزار بُرش بهتری برای تغییر اندازه تصاویر دارد."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "میانبر صفحه‌کلید برای ارسال یادداشت صوتی را به Ctrl/Cmd+Shift+Y تغییر دادیم تا دیگر با میانبر \"چسباندن و تطابق سبک\" در ویندوز و لینوکس تداخل نداشته باشد."
   }
 }

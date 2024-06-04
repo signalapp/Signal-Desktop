@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Ontwikkelopties weergeven"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Ontwikkelopties voor oproepen openen"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Instellen als nieuw apparaat"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Toch deelnemen"
   },
-  "icu:continueCall": {
-    "messageformat": "Oproep voortzetten"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Dit log bevat geen persoonlijke details zoals telefoonnummers. Als je op uploaden klikt dan wordt dit log 30 dagen lang online beschikbaar gesteld op een unieke nergens onthulde URL. Die URL kun je zelf naar de ontwikkelaars sturen. Je kunt dit log ook offline op je eigen apparaat opslaan."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Scherm laten zien"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Ontwikkelopties voor oproepen"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Dit venster wordt gebruikt tijdens de ontwikkelfase om diagnostische gegevens van lopende oproepen weer te geven."
   },
   "icu:speech": {
     "messageformat": "Spraak"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Chat gemarkeerd als ongelezen"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Bericht bewerken"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Als je een bericht bewerkt, is dat alleen zichtbaar voor mensen met de laatste versie van Signal. Ze kunnen zien dat je een bericht hebt bewerkt."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Opgemaakte tekst versturen"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Sommige mensen gebruiken mogelijk een versie van Signal die geen opgemaakte tekst ondersteunt. Ze kunnen de opmaakwijzigingen die jij in je bericht hebt aangebracht niet zien."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Wil je de Signal Sticker Pack Creator openen?"
@@ -4866,7 +4860,7 @@
     "messageformat": "Wie kan dit verhaal bekijken"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "Leden van de groepschat {groupTitle} kunnen dit verhaal bekijken en erop reageren. Je kunt het lidmaatschap voor deze chat bijwerken in de groep."
+    "messageformat": "Leden van de groep ‘{groupTitle}’ kunnen dit verhaal bekijken en erop reageren. Je kunt het lidmaatschap van deze groep wijzigen via de groepsinstellingen."
   },
   "icu:GroupStorySettingsModal__remove_group": {
     "messageformat": "Groepsverhaal verwijderen"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "We hebben een weergavebug opgelost. Deze zorgde ervoor dat het contactpictogram wel héél dicht tegen de naam van de contactpersoon stond wanneer je de deelnemerslijst van een groepsoproep bekeek. Je bent waarschijnlijk close met je contacten, maar soms hebben jij en de gebruikersinterface van Signal Desktop wat ruimte nodig."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Steek je hand op als je op zoek bent naar een andere manier om te communiceren tijdens groepsoproepen. De nieuwe functionaliteit van Hand opsteken maakt het gemakkelijk iemands aandacht te vragen, een vraag te stellen of te stemmen voor een groepsvoorstel als je contact vraagt “iedereen voor”?"
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "We hebben een bug verwijderd in de tool voor bijsnijden. Je kunt nu gemakkelijk en intuïtief je ex (of iets anders) uit een foto verwijderen."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "We hebben de sneltoets voor het verzenden van een spraakbericht aangepast naar Ctrl/Cmd+Shift+Y. Deze conflicteert nu niet langer met de sneltoets voor ‘Plakken en stijl overnemen’ in Windows en Linux."
   }
 }

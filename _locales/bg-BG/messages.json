@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Превключи уреди за разработчици"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Отваряне на инструментите за разговори за разработчици"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Инсталиране като ново устройство"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Включване въпреки това"
   },
-  "icu:continueCall": {
-    "messageformat": "Продължи обаждането"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Когато кликнете „Изпрати“, вашият регистър ще бъде публикуван онлайн за 30 дни на уникален, непубликуван URL адрес. Може преди това да го запазите локално."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Сподели екрана"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Инструменти за разговори за разработчици"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Този прозорец се използва по време на разработката за показване на диагностика от текущи разговори."
   },
   "icu:speech": {
     "messageformat": "Говор"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Чатът е маркиран като непрочетен"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Редактиране на съобщение"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Ако редактирате съобщение, то ще се вижда само от хора, които използват най-новите версии на Signal. Те ще виждат, че сте редактирали съобщението."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Изпращане на форматиран текст"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Възможно е някои хора да използват версия на Signal, която не поддържа форматиран текст. Те няма да виждат промените във форматирането на вашето съобщение."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Искате ли да отворите Signal Sticker Pack Creator?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Тази актуализация коригира грешка при рендирането в потребителския интерфейс за групови разговори."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Новата функция „Вдигане на ръка“ е лесен начин да привлечете вниманието на някого или да зададете въпрос по време на групови разговори."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Тази актуализация включва и усъвършенстван инструмент за изрязване и преоразмеряване на изображения."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Променихме клавишната комбинация за изпращане на гласова бележка на Ctrl/Cmd+Shift+Y, така че вече да не е в конфликт с прекия път за „Поставяне със съответствие на стила“ в Windows и Linux."
   }
 }

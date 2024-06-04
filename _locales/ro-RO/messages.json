@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Comutare unelte dezvoltator"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Deschide instrumentele de apelare a dezvoltatorilor"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Setează ca dispozitiv nou"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Alătură-te oricum"
   },
-  "icu:continueCall": {
-    "messageformat": "Continuă apelul"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Când apeși Trimite, jurnalul tău de depanare va fi postat online pentru 30 de zile cu un URL unic și nepublicat. Poți să-l salvezi local mai întâi."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Se partajează ecranul"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Instrumente de apelare a dezvoltatorilor"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Această fereastră este utilizată în timpul dezvoltării pentru a afișa diagnosticele din apelurile în curs."
   },
   "icu:speech": {
     "messageformat": "Vorbire"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Conversație marcată necitită"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Editează Mesajul"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Dacă editezi un mesaj, acesta va fi vizibil numai pentru persoanele care au cea mai recentă versiune de Signal beta. Ei vor putea să vadă că ai editat un mesaj."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Se trimite text formatat"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Este posibil ca anumite persoane să folosească o versiune Signal care nu acceptă text formatat. Acele persoane nu vor vedea schimbările de formatare pe care le-ai făcut la mesajul tău."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Vrei să deschizi Signal Sticker Pack Creator?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Am remediat o eroare de redare care făcea ca pictograma contactelor să se spargă chiar lângă numele contactului în timpul vizualizării listei de participanți la un apel de grup. Probabil că ești foarte apropiat de contactele tale, dar uneori atât tu (cât și interfața de utilizator Signal Desktop) aveți nevoie de puțin spațiu."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Ridică mâna dacă ai căutat o altă modalitate de a comunica în timpul apelurilor de grup. Noua funcție Ridică mâna este o modalitate simplă de a atrage atenția cuiva, de a pune o întrebare sau de a vota în unanimitate pentru o propunere de grup atunci când prietenul tău întreabă \"cine e pentru?\""
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Am eliminat o eroare a instrumentului de decupare, așa că acum este mai ușor și mai intuitiv să-ți tai fostul/fosta (sau orice altceva) din imagine."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Am modificat comanda rapidă de la tastatură pentru trimiterea unei note vocale la Ctrl/Cmd+Shift+Y, astfel încât să nu mai intre în conflict cu comanda rapidă \"Paste and Match Style\" pe Windows și Linux."
   }
 }

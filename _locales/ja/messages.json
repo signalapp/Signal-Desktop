@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "開発者ツール"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "開発者ツール呼び出しを開く"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "新規の端末として設定"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "それでも参加する"
   },
-  "icu:continueCall": {
-    "messageformat": "通話を続ける"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "「送信する」をクリックすると、このログがユニークな未公開のURLで30日間見られるようになります。\n「保存」をクリックすると、送信する前にあなたの端末にログを保存しておくこともできます。"
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "共有中の画面"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "開発者ツール呼び出し"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "このウィンドウは、開発中に、進行中の通話からの診断情報を表示するために使用されます。"
   },
   "icu:speech": {
     "messageformat": "スピーチ"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "チャットを未読にしました"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "メッセージの編集"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "メッセージを編集した場合、Signalの最新バージョンを利用しているユーザーにのみ反映されます。そのユーザー達は、あなたが編集したメッセージを見ることができます。"
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "書式付きテキストの送信"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "書式付きテキストをサポートしていないバージョンの Signal を使用しているユーザーもいるかもしれません。その人たちは、あなたがメッセージに加えた書式の変更を見ることができません。"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Signal Sticker Pack Creatorを開きますか?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "このアップデートでは、グループ通話ユーザーインターフェイスにおけるレンダリングのエラーが修正されました。"
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "新しくなった「挙手」機能は、グループ通話中に他の参加者の注意を引いたり、質問をしたりするための簡単な方法です。"
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "このアップデートには、画像のサイズを変更するために改良されたトリミングツールも含まれます。"
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "音声メモを送信するキーボードのショートカットをCtrl/Cmd+Shift+Yに変更しました。これはWindowsと Linuxの「ペーストしてスタイルを合わせる」のショートカットと区別するためです。"
   }
 }

@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Beralih Ke Peralatan Pengembang"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Buka Alat Pengembang Panggilan"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Siapkan sebagai Perangkat Baru"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Lanjut bergabung"
   },
-  "icu:continueCall": {
-    "messageformat": "Lanjutkan Panggilan"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Saat Anda mengeklik Kirim, log Anda akan diposting online selama 30 hari pada URL unik yang tidak dipublikasikan. Anda dapat Simpan secara lokal terlebih dahulu."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Berbagi layar"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Alat Pengembang Panggilan"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Jendela ini digunakan selama proses pengembangan untuk menampilkan diagnostik dari panggilan yang berlangsung."
   },
   "icu:speech": {
     "messageformat": "Bicara"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Obrolan ditandai belum dibaca"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Pesan"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Jika Anda mengedit pesan, pengeditan hanya bisa terlihat oleh pengguna Signal versi terbaru. Mereka akan dapat melihat bahwa Anda telah mengedit pesan."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Mengirim teks berformat"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Beberapa pengguna mungkin menggunakan versi Signal yang tidak mendukung teks berformat. Mereka tidak akan dapat melihat perubahan format yang Anda buat pada pesan."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Ingin membuka Pembuat Paket Stiker Signal?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Pembaruan ini memperbaiki masalah rendering pada antarmuka panggilan grup."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Fitur baru \"Angkat Tangan\" memudahkan pengguna saat ingin mendapatkan perhatian seseorang atau menyampaikan pertanyaan selama panggilan grup."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Pembaruan kali ini juga mencakup penyempurnaan alat pangkas untuk menyesuaikan ukuran gambar."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Pintasan papan ketik untuk mengirimkan catatan suara kini diubah jadi Ctrl/Cmd+Shift+Y agar tidak lagi bentrok dengan pintasan \"Paste and Match Style\" di Windows dan Linux."
   }
 }

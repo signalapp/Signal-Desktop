@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "ਡਿਵੈਲਪਰ ਟੂਲ ਲਈ ਬਦਲੋ"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "ਕਾਲਿੰਗ ਡਿਵੈਲਪਰ ਟੂਲਸ ਨੂੰ ਖੋਲ੍ਹੋ"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "ਨਵੇਂ ਡਿਵਾਈਸ ਵਜੋਂ ਸੈਟ ਅੱਪ ਕਰੋ"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "ਫਿਰ ਵੀ ਸ਼ਾਮਲ ਹੋਵੋ"
   },
-  "icu:continueCall": {
-    "messageformat": "ਕਾਲ ਜਾਰੀ ਰੱਖੋ"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "ਜਦੋਂ ਤੁਸੀਂ ਦਰਜ ਕਰੋ 'ਤੇ ਕਲਿੱਕ ਕਰਦੇ ਹੋ, ਤਾਂ ਤੁਹਾਡਾ ਲੌਗ 30 ਦਿਨਾਂ ਲਈ ਇੱਕ ਵਿਲੱਖਣ, ਗੈਰ-ਪ੍ਰਕਾਸ਼ਿਤ URL 'ਤੇ ਆਨਲਾਈਨ ਪੋਸਟ ਕਰ ਦਿੱਤਾ ਜਾਵੇਗਾ। ਤੁਸੀਂ ਇਸਨੂੰ ਪਹਿਲਾਂ ਸਥਾਨਕ ਤੌਰ 'ਤੇ ਸੇਵ ਕਰ ਸਕਦੇ ਹੋ।"
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "ਸਕਰੀਨ ਸਾਂਝੀ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "ਕਾਲਿੰਗ ਡਿਵੈਲਪਰ ਟੂਲਸ"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "ਇਹ ਵਿੰਡੋ ਡਿਵੈਲਪਮੈਂਟ ਦੌਰਾਨ ਚੱਲ ਰਹੀਆਂ ਕਾਲਾਂ ਤੋਂ ਡਾਇਗਨੌਸਟਿਕਸ ਦਿਖਾਉਣ ਲਈ ਵਰਤੀ ਜਾਂਦੀ ਹੈ।"
   },
   "icu:speech": {
     "messageformat": "ਬੋਲੀ"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "ਚੈਟ ਨੂੰ ਪੜ੍ਹਿਆ ਗਿਆ ਵਜੋਂ ਚਿੰਨ੍ਹਿਤ ਕੀਤਾ ਗਿਆ"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "ਸੁਨੇਹੇ ਨੂੰ ਸੋਧੋ"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "ਜੇਕਰ ਤੁਸੀਂ ਕਿਸੇ ਸੁਨੇਹੇ ਨੂੰ ਸੋਧਦੇ ਹੋ, ਤਾਂ ਇਹ ਸਿਰਫ਼ ਉਹਨਾਂ ਲੋਕਾਂ ਨੂੰ ਦਿਖਾਈ ਦੇਵੇਗਾ ਜਿਹਨਾਂ ਕੋਲ Signal ਦਾ ਨਵਾਂ ਵਰਜ਼ਨ ਹੈ। ਉਹ ਇਹ ਦੇਖ ਸਕਣਗੇ ਕਿ ਤੁਸੀਂ ਸੁਨੇਹਾ ਸੋਧਿਆ ਹੈ।"
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "ਫਾਰਮੈਟਿਡ ਟੈਕਸਟ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "ਕੁਝ ਲੋਕ ਸ਼ਾਇਦ Signal ਦਾ ਅਜਿਹਾ ਵਰਜ਼ਨ ਵਰਤ ਰਹੇ ਹਨ ਜੋ ਫਾਰਮੈਟਿਡ ਟੈਕਸਟ ਦਾ ਸਮਰਥਨ ਨਹੀਂ ਕਰਦਾ ਹੈ। ਉਹ ਤੁਹਾਡੇ ਸੁਨੇਹੇ ਵਿੱਚ ਤੁਹਾਡੇ ਵੱਲੋਂ ਕੀਤੀਆਂ ਗਈਆਂ ਫਾਰਮੈਟਿੰਗ ਤਬਦੀਲੀਆਂ ਨੂੰ ਦੇਖ ਨਹੀਂ ਸਕਣਗੇ।"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "ਕੀ ਤੁਸੀਂ Signal ਸਟਿੱਕਰ ਪੈਕ ਕ੍ਰੀਏਟਰ ਨੂੰ ਖੋਲ੍ਹਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "ਇਹ ਅੱਪਡੇਟ ਗਰੁੱਪ ਕਾਲ ਵਰਤੋਂਕਾਰ ਇੰਟਰਫੇਸ ਵਿੱਚ ਰੈਂਡਰਿੰਗ ਬੱਗ ਨੂੰ ਠੀਕ ਕਰਦੀ ਹੈ।"
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "★ ਨਵਾਂ ਹੱਥ ਉੱਪਰ ਕਰਨ ਵਾਲਾ ਫੀਚਰ ਗਰੁੱਪ ਕਾਲਾਂ ਦੌਰਾਨ ਕਿਸੇ ਦਾ ਧਿਆਨ ਖਿੱਚਣ ਜਾਂ ਸਵਾਲ ਪੁੱਛਣ ਦਾ ਇੱਕ ਸਰਲ ਤਰੀਕਾ ਹੈ।"
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "ਇਸ ਅੱਪਡੇਟ ਵਿੱਚ ਤਸਵੀਰਾਂ ਦਾ ਆਕਾਰ ਬਦਲਣ ਲਈ ਇੱਕ ਸੁਧਾਰਿਆ ਹੋਇਆ ਕ੍ਰੌਪ ਟੂਲ ਵੀ ਸ਼ਾਮਲ ਹੈ।"
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "ਅਸੀਂ ਵੌਇਸ ਨੋਟ ਭੇਜਣ ਲਈ ਕੀਬੋਰਡ ਸ਼ਾਰਟਕੱਟ ਨੂੰ Ctrl/Cmd+Shift+Y 'ਤੇ ਬਦਲ ਦਿੱਤਾ ਹੈ ਤਾਂ ਜੋ ਇਹ Windows ਅਤੇ Linux 'ਤੇ \"ਪੇਸਟ ਅਤੇ ਮੈਚ ਸਟਾਈਲ\" ਦੇ ਸ਼ਾਰਟਕੱਟ ਤੋਂ ਅਲੱਗ ਰਹੇ।"
   }
 }

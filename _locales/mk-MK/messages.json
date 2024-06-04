@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Вклучи/исклучи алатки за развој"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Отвори ги програмерските алатки за повици"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Постави како нов уред"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Приклучи се сепак"
   },
-  "icu:continueCall": {
-    "messageformat": "Продолжи повик"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Кога ќе кликнете на „Поднеси“, вашиот запис ќе биде објавен онлајн на 30 дена со единствена, необјавена URL-адреса. Можете прво да ја зачувате локално."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Споделување на екранот"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Програмерски алатки за повици"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Овој прозор се користи во текот на развој за приказ на дијагностика од тековни повици."
   },
   "icu:speech": {
     "messageformat": "Говор"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Разговорот е обележан како непрочитан"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Измени ја пораката"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Ако измените порака, ќе биде видлива само за лицата кои ја користат последната верзија на Signal. Ќе можат да видат дека ја имате изменето пораката."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Се испраќа форматираниот текст"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Некои лица можеби користат верзија на Signal која не поддржува форматиран текст. Тие нема да можат да ги видат промените кои ги направивте во форматот на вашата порака."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Дали сакате да го отворите креаторот на пакет налепници на Signal?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Во оваа верзија е решен баг со визуелен приказ во интерфејсот на групни повици."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Новата функција „Кревање рака“ е едноставен начин да го привлечете вниманието на некој или да поставите прашање во текот на групни повици."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Оваа верзија вклучува и подобрена алатка за сечење и менување на големината на сликите."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Ја сменивме кратенката на тастатура за испраќање гласовна белешка во Ctrl/Cmd+Shift+Y за повеќе да не е во конфликт со кратенката „Вметнување со ист стил“ на Windows и Linux."
   }
 }

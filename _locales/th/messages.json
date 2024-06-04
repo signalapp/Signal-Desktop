@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "เปิดปิดเครื่องมือนักพัฒนา"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "เปิดเครื่องมือด้านการโทรสำหรับนักพัฒนา"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "ตั้งค่าให้เป็นอุปกรณ์ใหม่"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "ยืนยันที่จะเข้าร่วม"
   },
-  "icu:continueCall": {
-    "messageformat": "ดำเนินการโทรต่อ"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "เมื่อคลิกส่ง ปูมของคุณจะได้รับการโพสต์ทางออนไลน์เป็นเวลา 30 วัน ผ่าน URL เฉพาะที่ไม่มีการเผยแพร่ คุณสามารถบันทึกไว้ในเครื่องก่อนได้"
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "กำลังแบ่งปันหน้าจอ"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "เครื่องมือด้านการโทรสำหรับนักพัฒนา"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "ระบบจะใช้หน้าต่างนี้ในขั้นตอนการพัฒนาเพื่อแสดงผลการตรวจสอบจากการโทรที่กำลังใช้งานอยู่"
   },
   "icu:speech": {
     "messageformat": "การพูด"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "แชทถูกทำเครื่องหมายว่ายังไม่ได้อ่าน"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "แก้ไขข้อความ"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "ผู้ติดต่อต้องใช้ Signal เวอร์ชันล่าสุดจึงจะสามารถเห็นข้อความที่คุณแก้ไขแล้ว และคนคนนั้นจะเห็นว่าคุณแก้ไขข้อความ"
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "การส่งข้อความที่ปรับแต่งตัวอักษร"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "ผู้ใช้บางคนอาจใช้ Signal ในเวอร์ชันซึ่งไม่รองรับข้อความที่ปรับแต่งตัวอักษร ผู้ใช้คนนั้นจะไม่เห็นการปรับแต่งตัวอักษรในข้อความของคุณ"
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "คุณต้องการเปิดหน้าศูนย์สร้างสรรค์ชุดสติกเกอร์ Signal (Sticker Pack Creator) หรือไม่"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "การอัปเดตครั้งนี้มาพร้อมการแก้ไขบั๊กเกี่ยวกับการแสดงผลในหน้าการโทรกลุ่ม"
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "ขอแนะนำฟีเจอร์การยกมือ วิธีใหม่ที่จะช่วยให้คุณตั้งคำถามในระหว่างการโทรกลุ่มได้ง่ายดาย (หรือจะใช้เรียกความสนใจของเพื่อน ก่อนประกาศเรื่องสำคัญๆ ก็สะดวกไม่แพ้กัน)"
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "การอัปเดตครั้งนี้ยังมาพร้อมการยกระดับเครื่องมือครอบตัดขึ้นอีกขั้น เพื่อตอบโจทย์ให้การปรับขนาดรูปภาพง่ายยิ่งขึ้นอีก"
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "เราแก้ไขปุ่มลัดบนแป้นพิมพ์สำหรับการส่งข้อความเสียงให้เป็น Ctrl/Cmd Shift Y เพื่อไม่ให้ซ้ำกับปุ่มลัด \"วางและให้รูปแบบตรงกัน\" (Paste and Match Style) ของ Windows และ Linux"
   }
 }

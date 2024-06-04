@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Cambiar ferramentas de desenvolvemento"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Abrir rexistro das ferramentas de desenvolvemento"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Definir como novo dispositivo"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Unirse igualmente"
   },
-  "icu:continueCall": {
-    "messageformat": "Continuar a chamada"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Cando premes Enviar, o teu rexistro publicarase durante 30 días nunha URL única privada. Podes gardalo primeiro no teu dispositivo."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Compartir pantalla"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Rexistro das ferramentas de desenvolvemento"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Esta xanela emprégase durante o desenvolvemento para mostrar os diagnósticos das chamadas en curso."
   },
   "icu:speech": {
     "messageformat": "Voz"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Marcouse a conversa como sen ler"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Editar mensaxe"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Se editas unha mensaxe, só será visible para as persoas que teñan as últimas versións de Signal. Poderán ver que editaches a mensaxe."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Enviando texto con formato"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Algunhas persoas poden estar empregando unha versión de Signal que non admite texto con formato. No poderán ver os cambios no formato que fixeches na túa mensaxe."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Queres abrir o creador de paquetes de stickers para Signal?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Esta actualización corrixe un erro de renderización na interface de usuario das chamadas de grupo."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "A nova función «Alzar a man» é a forma máis sinxela de chamar a atención de alguén ou facer unha pregunta durante as chamadas de grupo."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Esta actualización tamén inclúe unha ferramenta de recorte mellorada para editar imaxes."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Cambiamos o atallo para enviar unha nota de voz a Ctrl/Cmd+Shift+Y para que xa non se confunda co atallo «Pegar co mesmo estilo» en Windows e Linux."
   }
 }

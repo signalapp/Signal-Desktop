@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "개발자 도구 전환"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "통화 개발자 도구 열기"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "새 기기로 설정"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "보내기"
   },
-  "icu:continueCall": {
-    "messageformat": "계속 전화"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "제출을 클릭하면 게시되지 않은 고유 URL에서 로그가 30일 동안 온라인에 게시됩니다. 로컬로 먼저 저장할 수 있습니다."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "화면 공유하기"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "통화 개발자 도구"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "이 창은 개발 중 진행 중인 통화의 진단을 표시하는 데 사용됩니다."
   },
   "icu:speech": {
     "messageformat": "말하기"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "대화를 읽지 않음으로 표시"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "메시지 수정"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "메시지를 수정하면 Signal 최신 버전을 사용하는 사용자에게만 표시됩니다. 해당 사용자는 수정 메시지를 볼 수 있습니다."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "서식 지정 텍스트 보내기"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "일부 사용자가 서식 지정 텍스트를 지원하지 않는 Signal 버전을 사용 중일 수 있습니다. 이러한 사용자의 경우 메시지에 적용된 서식 변경 내용을 보지 못할 수 있습니다."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Signal 스티커 팩 생성기를 열까요?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "이 업데이트는 그룹 통화 사용자 인터페이스의 렌더링 버그를 해결합니다."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "새로운 손 들기 기능으로 그룹 통화에서 쉽게 다른 사람의 주의를 끌거나 질문하세요."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "이 업데이트는 또한 이미지 크기를 조정하도록 향상된 자르기 도구를 포함합니다."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Windows와 Linux의 '붙여 넣기 및 서식 일치' 단축키와 충돌하지 않도록 음성 메모 전송 키보드 단축키를 Ctrl/Cmd+Shift+Y로 수정했습니다."
   }
 }

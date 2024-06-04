@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "עורר כלי מפתחים"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "פתיחת כלים למפתחים בנושא שיחות"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "הגדר מכשיר חדש"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "להצטרף בכל זאת"
   },
-  "icu:continueCall": {
-    "messageformat": "המשך שיחה"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "כשאתה לוחץ הגש, היומן שלך יפורסם באופן מקוון למשך 30 ימים במען ייחודי, בלתי מפורסם. אתה יכול לשמור אותו באופן מקומי תחילה."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "שיתוף מסך"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "כלים למפתחים בנושא שיחות"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "החלון הזה משמש בזמן הפיתוח כדי להציג נתונים משיחות פעילות."
   },
   "icu:speech": {
     "messageformat": "דיבור"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "צ'אט סומן כלא נקרא"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "עריכת הודעה"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "אם עורכים הודעה, היא תהיה זמינה רק לאנשים שמשתמשים בגרסאות האחרונות של Signal. הם יוכלו לראות שערכת הודעה."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "שליחת טקסט מעוצב"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "יתכן שחלק מהאנשים משתמשים בגרסה של Signal שלא תומכת בטקסט מעוצב. הם לא יוכלו לראות את שינויי העיצוב שביצעת בהודעה שלך."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "בא לך לפתוח את יוצר חבילות הסטיקרים של Signal?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "העדכון הזה מתקן באג רינדור בממשק המשתמש של שיחה קבוצתית."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "פיצ׳ר הרמת היד החדש הוא דרך פשוטה למשוך את תשומת הלב של מישהו או לשאול שאלה במהלך שיחות קבוצתיות."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "העדכון הזה כולל גם כלי חיתוך משופר לשינוי הגודל של תמונות."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "שינינו את קיצור המקלדת לשליחת הודעה קולית ל–Ctrl/Cmd+Shift+Y, כך שהוא כבר לא מתנגש עם הקיצור של ״הדבקה והתאמת סגנון״ ב–Windows ו–Linux."
   }
 }

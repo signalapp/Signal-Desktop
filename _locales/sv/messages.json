@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Slå på/av utvecklingsverktyg"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Öppna utvecklingsverktyg för samtal"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Ställ in som ny enhet"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Gå med ändå"
   },
-  "icu:continueCall": {
-    "messageformat": "Fortsätt samtalet"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "När du klickar på Skicka kommer din logg att läggas upp på nätet i 30 dagar på en unik, opublicerad webbadress. Du kan spara den lokalt först."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Skärmdelning"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Utvecklingsverktyg för samtal"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Detta fönster används under utveckling för att visa diagnostik från pågående samtal."
   },
   "icu:speech": {
     "messageformat": "Tal"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Chatt markerad oläst"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Redigera meddelande"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Om du redigerar ett meddelande kommer det bara att vara synligt för personer som använder de senaste versionerna av Signal. De kommer att kunna se att du redigerade ett meddelande."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Skicka formaterad text"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Vissa personer kanske använder en version av Signal som inte stöder formaterad text. De kommer inte att kunna se formateringsändringarna du har gjort i ditt meddelande."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Vill du öppna Skapare för Signal-klistermärkespaket?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Den här uppdateringen åtgärdar en renderingsbugg i användargränssnittet för gruppsamtal."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Den nya funktionen Räck upp handen är ett enkelt sätt att få någons uppmärksamhet eller ställa en fråga under gruppsamtal."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Denna uppdatering innehåller också ett förbättrat beskärningsverktyg för att ändra storlek på bilder."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Vi har ändrat kortkommandot för att skicka en röstanteckning till Ctrl/Cmd + Shift + Y så att det inte längre står i konflikt med kortkommandot Klistra in och matcha stil i Windows och Linux."
   }
 }

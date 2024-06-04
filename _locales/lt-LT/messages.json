@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Perjungti kūrėjo įrankius"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Atverti kūrėjo įrankius skambučiams"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Nusistatyti kaip naują įrenginį"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Vis tiek prisijungti"
   },
-  "icu:continueCall": {
-    "messageformat": "Tęsti skambutį"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Kai spustelėsite „Pateikti“, jūsų žurnalas bus 30-čiai dienų paskelbtas internete unikaliu neskelbiamu URL adresu. Galite, iš pradžių, įsirašyti jį savo įrenginyje."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Ekrano bendrinimas"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Kūrėjo įrankiai skambučiams"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Šis langas naudojamas kuriant programinę įrangą, kad būtų rodoma vykstančių skambučių diagnostika."
   },
   "icu:speech": {
     "messageformat": "Šneka"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Pokalbis pažymėtas kaip neskaitytas"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Redaguoti žinutę"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Jei redaguosi žinutę, tai bus matoma tik naujausias „Signal“ versijas naudojantiems žmonėms. Jie matys, kad redagavai žinutę."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Suformatuoto teksto siuntimas"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Gali būti, kad kai kurie žmonės naudoja suformatuoto teksto nepalaikančią „Signal“ versiją. Jie nematys šioje žinutėje tavo atliktų formatavimo pakeitimų."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Ar nori atverti „Signal“ lipdukų paketo kūrimą?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Šiuo naujiniu ištaisėme atvaizdavimo klaidą grupės skambučio naudotojo sąsajoje."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Naujoji funkcija „Pakelti ranką“ – tai paprastas būdas atkreipti kieno nors dėmesį arba užduoti klausimą grupės skambutyje."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Be to, šis atnaujinimas pasižymi patobulintu apkarpymo įrankiu, skirtu pakeisti paveikslo dydį."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Pakeitėme balso pastabos siuntimo spartųjį klavišą į Ctrl/Cmd+Shift+Y, kad nekiltų konfliktas su sparčiuoju klavišu „Įdėti ir atitikti stilių“ sistemose „Windows“ ir „Linux“."
   }
 }

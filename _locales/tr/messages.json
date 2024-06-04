@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Geliştirici Araçlarını Aç/Kapat"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Arama Geliştirici Araçlarını Aç"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Yeni Cihaz olarak kur"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Yine de katıl"
   },
-  "icu:continueCall": {
-    "messageformat": "Aramaya Devam Et"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Gönder'i tıkladığınızda, günlüğünüz benzersiz, yayınlanmamış bir URL'de 30 gün boyunca çevrimiçi olarak yayınlanacaktır. Önce yerel olarak kaydedebilirsiniz."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Ekran paylaşımı"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Arama Geliştirici Araçları"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Bu pencere, geliştirme sırasında devam eden aramalardan gelen tanılamaları görüntülemek için kullanılır."
   },
   "icu:speech": {
     "messageformat": "Konuşma"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Sohbet okunmadı olarak işaretlendi"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Mesajı Düzenle"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Bir mesajı düzenlersen yaptığın düzenleme yalnızca Signal'in son sürümlerini kullanan kişiler tarafından görülebilir. Bir mesajı düzenlediğini görebilecekler."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Biçimlendirilmiş metin gönderme"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Bazı kişiler biçimlendirilmiş metni desteklemeyen bir Signal sürümü kullanıyor olabilir. Bu kişiler mesajında yaptığın biçimlendirme değişikliklerini göremezler."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Signal Çıkartma Paketi Oluşturucu'yu açmak ister misin?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Bu güncelleme, grup araması kullanıcı arayüzündeki bir işleme hatasını düzeltmektedir. Böylece Signal Desktop kullanıcı arayüzünde grup aramaların sorunsuz geçer."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Grup aramaları sırasında iletişim kurmak için başka bir yol arıyorsan elini kaldır. Yeni El Kaldırma özelliği; birinin dikkatini çekmenin veya grup aramalarında soru sormanın basit bir yoludur."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Bu güncelleme, resimleri yeniden boyutlandırma için geliştirilmiş bir kırpma aracınını da içermektedir."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Sesli not göndermek için klavye kısayolunu Ctrl/Cmd+Shift+Y olarak değiştirdik; böylece artık Windows ve Linux'ta \"Yapıştır ve Eşleştir Stili\" kısayoluyla çakışmayacak."
   }
 }

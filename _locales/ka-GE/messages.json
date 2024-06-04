@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "დეველოპერის ინსტრუმენტებზე გადართვა"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "დეველიპერის ზარების ხელსაწყოების გახსნა"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "ახალ მოწყობილობად დაყენება"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "მაინც შესვლა"
   },
-  "icu:continueCall": {
-    "messageformat": "ზარის გაგრძელება"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "როცა \"გაგზავნა\"-ზე დააწკაპუნებ, შენი რეესტრი ინტერნეტში გამოქვეყნდება 30 დღით უნიკალურ, გამოუქვეყნებელ URL-ზე. შეგიძლია ის ჯერ ადგილობრივად შეინახო."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "ეკრანის გაზიარება"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "დეველიპერის ზარების ხელსაწყოები"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "ეს ფანჯარა გამოიყენება დეველოპმენტის დროს, რათა მიმდინარე ზარებიდან დიაგნოსტიკა აჩვენოს."
   },
   "icu:speech": {
     "messageformat": "მეტყველება"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "ჩატი წაუკითხავად მოინიშნა"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "შეტყობინების რედაქტირება"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "თუ ამ შეტყობინებას დაარედაქტირებ, მას მხოლოდ Signal-ის უახლესი ვერსიის მომხმარებლები ნახავენ. იმათ შესაძლებლობა ექნებათ ნახონ, რომ შეტყობინება დაარედაქტირე."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "ვაგზავნით ფორმატირებულ ტექსტს"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "ზოგი შეიძლება Signal-ის ისეთ ვერსიას იყენებდეს, რომელსაც ფორმატირებული ტექსტის მხარდაჭერა არ აქვს. ისინი შენს წერილში შეტანილ ფორმატირების ცვლილებებს ვერ ნახავენ."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "გსურს, გახსნა Signal-ის Sticker Pack Creator?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "ამ განახლებაში გამოსწორებულია მომხმარებლის ინტერფეისის ჯგუფური ზარის რენდერინგის ხარვეზი."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "ახალი Raise Hand ფუნქცია არის მარტივი გზა სხვისი ყურადღების მიქცევისთვის ან კითხვის დასმისთვის ჯგუფური ზარის დროს."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "ეს განახლება ასევე შეიცავს მოჭრის გაუმჯობესებულ ფუნქციას სურათების ზომის შესაცვლელად."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "კლავიატურის მალსახმობი ხმოვანი ჩანიშვნის გასაგზავნად Ctrl/Cmd+Shift+Y-ით შევცვალეთ, რათა ის Windows-სა და Linux-ზე „Paste and Match Style“ მალსახმობს აღარ ეწინააღმდეგებოდეს."
   }
 }

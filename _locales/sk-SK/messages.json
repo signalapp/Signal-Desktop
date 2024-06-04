@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Nástroje pre vývojárov"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Otvoriť nástroje pre vývojárov na hovory"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Nastaviť ako Nové Zariadenie"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Aj tak sa pripojiť"
   },
-  "icu:continueCall": {
-    "messageformat": "Pokračovať v hovore"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "Keď kliknete na Odoslať, váš záznam bude zverejnený online na 30 dní na jedinečnej, nepublikovanej adrese URL. Najprv ho môžete uložiť lokálne."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Zdieľaná obrazovka"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Nástroje pre vývojárov na hovory"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Toto okno sa používa počas vývoja na zobrazenie diagnostiky z prebiehajúcich hovorov."
   },
   "icu:speech": {
     "messageformat": "Reč"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Čet bol označený ako neprečítaný"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Upraviť správu"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Ak upravíte správu, zobrazí sa iba ľuďom, ktorí používajú najnovšie verzie Signalu. Uvidia, že ste upravili správu."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Posielanie formátovaného textu"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Niektorí ľudia môžu používať verziu Signalu, ktorá nepodporuje formátovaný text. Neuvidia preto zmeny formátovania vo vašej správe."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Chcete otvoriť nástroj na vytváranie balíčkov nálepiek Signal?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Táto aktualizácia opravuje chybu vykresľovania v používateľskom rozhraní skupinového hovoru."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Zdvihnite ruku všetci tí, čo hľadáte iný spôsob komunikácie počas skupinových hovorov. Nová funkcia Zdvihnúť ruku je jednoduchý spôsob, ako upútať niekoho pozornosť, položiť otázku alebo jednomyseľne zahlasovať za skupinový návrh, keď sa niekto spýta „všetci za?“"
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Táto aktualizácia taktiež prináša vylepšený nástroj na orezávanie a zmenšovanie obrázkov."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Upravili sme klávesovú skratku na odoslanie hlasovej poznámky na Ctrl/Cmd+Shift+Y, aby tak už nekolidovala so skratkou „Vložiť a prispôsobiť štýl“ v systémoch Windows a Linux."
   }
 }

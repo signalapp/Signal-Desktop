@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Fejlesztői eszközök megjelenítése/elrejtése"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Hívással kapcsolatos fejlesztői eszközök megnyitása"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Beállítás új eszközként"
   },
@@ -458,9 +461,6 @@
   "icu:joinAnyway": {
     "messageformat": "Csatlakozás mindenképp"
   },
-  "icu:continueCall": {
-    "messageformat": "Hívás folytatása"
-  },
   "icu:debugLogExplanation": {
     "messageformat": "A Küldés gombra nyomva a hibanaplód egy egyedi, nem publikus online tárhelyre kerül feltöltésre, ahonnan 30 nap után törlődik. Ha gondolod, mentsd el előbb a készülékedre is."
   },
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Képernyő megosztása"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Hívással kapcsolatos fejlesztői eszközök"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Ez az ablak a fejlesztés során a folyamatban lévő hívások diagnosztikájának megjelenítésére szolgál."
   },
   "icu:speech": {
     "messageformat": "Beszéd"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "A csevegés olvasatlanként megjelölve"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Üzenet szerkesztése"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Ha szerkesztesz egy üzenetet, azt csak azok láthatják, akik a Signal béta legújabb verzióját használják. Ők látni fogják, hogy szerkesztettél egy üzenetet."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Formázott szöveg küldése"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Előfordulhat, hogy egyesek a Signal olyan verzióját használják, amely nem támogatja a formázott szöveget. Nem fogják látni az üzeneten végzett formázási módosításokat."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "Szeretnéd megnyitni a Signal matricacsomag-készítő alkalmazást?"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Ez a frissítés kijavít egy renderelési hibát a csoportos hívás felhasználói felületén."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "Az új Felemelt kéz funkció egyszerű módja annak, hogy felhívd valaki figyelmét vagy kérdést tegyél fel csoportos hívások során."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Ez a frissítés egy továbbfejlesztett vágóeszközt is tartalmaz a képek átméretezéséhez."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Módosítottuk a hangjegyzet küldésére szolgáló billentyűparancsot a Ctrl/Cmd+Shift+Y billentyűkombinációra, hogy az többé ne ütközzön a „Beillesztés és stílusegyeztetés” billentyűparancsba Windows- és Linux-rendszeren."
   }
 }

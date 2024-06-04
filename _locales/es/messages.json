@@ -3,7 +3,7 @@
     "messageformat": "Añadir a un grupo"
   },
   "icu:AddUserToAnotherGroupModal__confirm-title": {
-    "messageformat": "¿Añadir nuevx participante?"
+    "messageformat": "¿Añadir nuevo participante?"
   },
   "icu:AddUserToAnotherGroupModal__confirm-add": {
     "messageformat": "Añadir"
@@ -15,7 +15,7 @@
     "messageformat": "Buscar"
   },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
-    "messageformat": "Se ha añadido a {contact} a «{group}»"
+    "messageformat": "Se ha añadido a {contact} a {group}"
   },
   "icu:AddUserToAnotherGroupModal__toast--adding-user-to-group": {
     "messageformat": "Añadiendo a {contact}…"
@@ -36,7 +36,7 @@
     "messageformat": "Membresía pendiente"
   },
   "icu:Preferences__sent-media-quality": {
-    "messageformat": "Calidad de envío de fotos y vídeos"
+    "messageformat": "Calidad de envío de archivos multimedia"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Normal"
@@ -51,19 +51,19 @@
     "messageformat": "Términos y política de privacidad"
   },
   "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
+    "messageformat": "Apple Silicon"
   },
   "icu:copyErrorAndQuit": {
     "messageformat": "Copiar fallo y cerrar Signal"
   },
   "icu:unknownContact": {
-    "messageformat": "Persona desconocida"
+    "messageformat": "Contacto desconocido"
   },
   "icu:unknownGroup": {
-    "messageformat": "Grupo sin nombre"
+    "messageformat": "Grupo desconocido"
   },
   "icu:databaseError": {
-    "messageformat": "Fallo en la base de datos"
+    "messageformat": "Error en la base de datos"
   },
   "icu:databaseError__detail": {
     "messageformat": "Se produjo un error en la base de datos. Puedes copiar el error y ponerte en contacto con el soporte de Signal para ayudar a solucionar el problema. Si necesitas utilizar Signal de inmediato, puedes eliminar tus datos y reiniciar.\n\nPonte en contacto con el servicio de soporte: {link}"
@@ -96,10 +96,10 @@
     "messageformat": "&Ventana"
   },
   "icu:mainMenuHelp": {
-    "messageformat": "A&yuda"
+    "messageformat": "&Ayuda"
   },
   "icu:mainMenuSettings": {
-    "messageformat": "Ajustes…"
+    "messageformat": "Preferencias…"
   },
   "icu:appMenuServices": {
     "messageformat": "Servicios"
@@ -173,6 +173,9 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Activar herramientas de desarrollador"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Abrir Herramientas de desarrollador de llamada"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Configurar como nuevo dispositivo"
   },
@@ -195,13 +198,13 @@
     "messageformat": "Ver archivo"
   },
   "icu:loading": {
-    "messageformat": "Cargando …"
+    "messageformat": "Cargando..."
   },
   "icu:optimizingApplication": {
-    "messageformat": "Optimizando la aplicación…"
+    "messageformat": "Optimizando aplicación..."
   },
   "icu:migratingToSQLCipher": {
-    "messageformat": "Optimizando mensajes… {status} completados."
+    "messageformat": "Optimizando mensajes... {status} completados."
   },
   "icu:archivedConversations": {
     "messageformat": "Chats archivados"
@@ -378,7 +381,7 @@
     "messageformat": "Ya no participas en este grupo."
   },
   "icu:invalidConversation": {
-    "messageformat": "Este grupo da problemas. Crea un nuevo grupo."
+    "messageformat": "Este grupo no es válido. Crea un nuevo grupo."
   },
   "icu:scrollDown": {
     "messageformat": "Desplazarse al final del chat"
@@ -457,9 +460,6 @@
   },
   "icu:joinAnyway": {
     "messageformat": "Unirme de todos modos"
-  },
-  "icu:continueCall": {
-    "messageformat": "Continuar llamada"
   },
   "icu:debugLogExplanation": {
     "messageformat": "Cuando haces clic en enviar, tu log será publicado durante 30 días en una URL única y privada. Lo podrás guardar en tu dispositivo como primera opción."
@@ -633,7 +633,7 @@
     "messageformat": "Probar la versión beta"
   },
   "icu:signalDesktopPreferences": {
-    "messageformat": "Ajustes de Signal Desktop"
+    "messageformat": "Preferencias de Signal Desktop"
   },
   "icu:signalDesktopStickerCreator": {
     "messageformat": "Creador de paquetes de stickers"
@@ -643,6 +643,12 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Compartir pantalla"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Herramientas de desarrollador de llamada"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "Esta ventana se utiliza durante el desarrollo para mostrar los diagnósticos de las llamadas en curso."
   },
   "icu:speech": {
     "messageformat": "Dictar"
@@ -1035,7 +1041,7 @@
     "messageformat": "{sender} ha cambiado su número de teléfono"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Alguien comienza a usar Signal"
+    "messageformat": "Un contacto ha comenzado a usar Signal"
   },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} y {conversationTitle} son la misma cuenta. Tu historial de mensajes para ambos chats está aquí."
@@ -1398,7 +1404,7 @@
     "messageformat": "Signal necesita acceso a la grabación de pantalla."
   },
   "icu:calling__presenting--permission-instruction-step1": {
-    "messageformat": "Ve a preferencias del sistema."
+    "messageformat": "Ve a Preferencias del sistema."
   },
   "icu:calling__presenting--permission-instruction-step2": {
     "messageformat": "Haz clic sobre el candado en la esquina inferior izquierda e introduce la contraseña de tu usuari@."
@@ -1407,7 +1413,7 @@
     "messageformat": "A la derecha, marca la casilla al lado de Signal. Si no ves el icono de Signal en la lista, haz clic sobre + para añadirla."
   },
   "icu:calling__presenting--permission-open": {
-    "messageformat": "Ve a «Preferencias del sistema»"
+    "messageformat": "Abrir Preferencias del sistema"
   },
   "icu:calling__presenting--permission-cancel": {
     "messageformat": "Ignorar"
@@ -2160,7 +2166,7 @@
     "messageformat": "Siguiente chat con mensajes sin leer"
   },
   "icu:Keyboard--preferences": {
-    "messageformat": "Ajustes"
+    "messageformat": "Preferencias"
   },
   "icu:Keyboard--open-conversation-menu": {
     "messageformat": "Abrir el menú de chat"
@@ -2365,18 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Chat marcado como no leído"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Editar mensaje"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "Si editas un mensaje, solo será visible para las personas que tengan las últimas versiones de Signal. Podrán ver que has editado un mensaje."
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Enviando texto formateado"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Algunas personas pueden estar usando una versión de Signal que no admite texto formateado. No podrán ver los cambios de formato que has realizado en tu mensaje."
   },
   "icu:AuthArtCreator--dialog--message": {
     "messageformat": "¿Te gustaría abrir el Creador de Paquetes de Stickers de Signal?"
@@ -2799,7 +2793,7 @@
     "messageformat": "No hay dispositivos disponibles"
   },
   "icu:callingDeviceSelection__select--default": {
-    "messageformat": "Por defecto"
+    "messageformat": "Predeterminado"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "Silenciar notificaciones"
@@ -3879,7 +3873,7 @@
     "messageformat": "No se pueden reenviar mensajes vacíos o eliminados"
   },
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
-    "messageformat": "Usa este enlace para unirte a llamada de Signal: {url}"
+    "messageformat": "Usa este enlace para unirte a una llamada de Signal: {url}"
   },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Saber más"
@@ -5424,5 +5418,14 @@
   },
   "icu:WhatsNew__v7.11--0": {
     "messageformat": "Esta actualización corrige un error de representación en la interfaz para llamadas grupales."
+  },
+  "icu:WhatsNew__v7.12--0": {
+    "messageformat": "La nueva función Levantar la mano es una forma sencilla de llamar la atención de alguien o hacer una pregunta durante las llamadas grupales."
+  },
+  "icu:WhatsNew__v7.12--1": {
+    "messageformat": "Esta actualización también incluye una herramienta de recorte mejorada para cambiar el tamaño de una imagen."
+  },
+  "icu:WhatsNew__v7.12--2": {
+    "messageformat": "Hemos modificado el atajo de teclado para enviar una nota de voz a Ctrl/Cmd+Mayús+Y para que ya no entre en conflicto con el atajo \"Pegar con el mismo estilo\" en Windows y Linux."
   }
 }
