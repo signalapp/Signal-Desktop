@@ -36,7 +36,6 @@ export function ProfileEditorModal({
   hasError,
   i18n,
   initialEditState,
-  isUsernameDeletionEnabled,
   markCompletedUsernameLinkOnboarding,
   myProfileChanged,
   onSetSkinTone,
@@ -109,7 +108,6 @@ export function ProfileEditorModal({
         hasCompletedUsernameLinkOnboarding={hasCompletedUsernameLinkOnboarding}
         i18n={i18n}
         initialEditState={initialEditState}
-        isUsernameDeletionEnabled={isUsernameDeletionEnabled}
         markCompletedUsernameLinkOnboarding={
           markCompletedUsernameLinkOnboarding
         }

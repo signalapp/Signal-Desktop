@@ -21,7 +21,6 @@ import {
   getUsernameLink,
   getUsernameLinkColor,
   getUsernameLinkCorrupted,
-  isInternalUser,
 } from '../selectors/items';
 import { getIntl } from '../selectors/user';
 import {
@@ -55,7 +54,6 @@ export const SmartProfileEditorModal = memo(function SmartProfileEditorModal() {
   );
   const hasError = useSelector(getProfileEditorHasError);
   const initialEditState = useSelector(getProfileEditorInitialEditState);
-  const isUsernameDeletionEnabled = useSelector(isInternalUser);
   const recentEmojis = useSelector(selectRecentEmojis);
   const skinTone = useSelector(getEmojiSkinTone);
   const usernameCorrupted = useSelector(getUsernameCorrupted);
@@ -99,7 +97,6 @@ export const SmartProfileEditorModal = memo(function SmartProfileEditorModal() {
       hasError={hasError}
       i18n={i18n}
       initialEditState={initialEditState}
-      isUsernameDeletionEnabled={isUsernameDeletionEnabled}
       markCompletedUsernameLinkOnboarding={markCompletedUsernameLinkOnboarding}
       myProfileChanged={myProfileChanged}
       onSetSkinTone={onSetSkinTone}
