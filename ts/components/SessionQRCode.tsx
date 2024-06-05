@@ -83,9 +83,6 @@ export function SessionQRCode(props: SessionQRCodeProps) {
         }
 
         setSvgDataURL(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}`);
-        window.log.debug(
-          `WIP: [SessionQRCode] SVG logo fetched: ${logoImage} data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}`
-        );
       } catch (error) {
         window.log.error('Error fetching the QR Code logo which is an svg:', error);
       }

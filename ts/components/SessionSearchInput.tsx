@@ -1,5 +1,5 @@
 import { Dispatch } from '@reduxjs/toolkit';
-import { debounce, isEmpty } from 'lodash';
+import { debounce } from 'lodash';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -54,7 +54,7 @@ const doTheSearch = (dispatch: Dispatch<any>, cleanedTerm: string) => {
 const debouncedSearch = debounce(doTheSearch, 50);
 
 function updateSearch(dispatch: Dispatch<any>, searchTerm: string) {
-  if (isEmpty(searchTerm)) {
+  if (!searchTerm) {
     dispatch(clearSearch());
     return;
   }
