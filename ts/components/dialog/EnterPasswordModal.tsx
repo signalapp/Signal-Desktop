@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import { useRef } from 'react';
 import { ToastUtils } from '../../session/utils';
 import { matchesHash } from '../../util/passwordUtils';
 
@@ -25,6 +26,8 @@ export type EnterPasswordModalProps = {
 
 export const EnterPasswordModal = (props: EnterPasswordModalProps) => {
   const { passwordHash, setPasswordValid, onClickOk, onClickClose, title } = props;
+
+  const passwordInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
   const onClose = () => {
@@ -35,15 +38,13 @@ export const EnterPasswordModal = (props: EnterPasswordModalProps) => {
   };
 
   const confirmPassword = () => {
-    const passwordValue = (document.getElementById('seed-input-password') as any)?.value;
-    const isPasswordValid = matchesHash(passwordValue as string, passwordHash);
-
+    const passwordValue = passwordInputRef.current?.value;
     if (!passwordValue) {
       ToastUtils.pushToastError('enterPasswordErrorToast', window.i18n('noGivenPassword'));
-
       return;
     }
 
+    const isPasswordValid = matchesHash(passwordValue as string, passwordHash);
     if (passwordHash && !isPasswordValid) {
       ToastUtils.pushToastError('enterPasswordErrorToast', window.i18n('invalidPassword'));
       return;
@@ -76,7 +77,7 @@ export const EnterPasswordModal = (props: EnterPasswordModalProps) => {
         <div className="session-modal__input-group">
           <input
             type="password"
-            id="seed-input-password"
+            ref={passwordInputRef}
             data-testid="password-input"
             placeholder={window.i18n('enterPassword')}
             onKeyUp={onEnter}
