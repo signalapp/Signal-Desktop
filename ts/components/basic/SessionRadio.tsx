@@ -5,7 +5,7 @@ import { Flex } from './Flex';
 const StyledButton = styled.button<{ disabled: boolean }>`
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   min-height: 30px;
-  background-color: var(--transparent-color) !important;
+  background-color: var(--transparent-color);
 `;
 
 const StyledInput = styled.input<{

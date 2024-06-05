@@ -49,12 +49,6 @@ const StyledGroupMemberListContainer = styled.div`
   }
 `;
 
-const StyledGroupMemberList = styled.div`
-  button {
-    background-color: var(--background-secondary-color);
-  }
-`;
-
 const NoContacts = () => {
   return (
     <StyledMemberListNoContacts>{window.i18n('noContactsForGroup')}</StyledMemberListNoContacts>
@@ -185,7 +179,7 @@ export const OverlayClosedGroup = () => {
         ) : !isEmpty(searchTerm) && contactsToRender.length === 0 ? (
           <StyledNoResults>{window.i18n('noSearchResults', [searchTerm])}</StyledNoResults>
         ) : (
-          <StyledGroupMemberList>
+          <div>
             {contactsToRender.map((memberPubkey: string) => (
               <MemberListItem
                 pubkey={memberPubkey}
@@ -195,7 +189,7 @@ export const OverlayClosedGroup = () => {
                 onUnselect={removeFromSelected}
               />
             ))}
-          </StyledGroupMemberList>
+          </div>
         )}
       </StyledGroupMemberListContainer>
 
