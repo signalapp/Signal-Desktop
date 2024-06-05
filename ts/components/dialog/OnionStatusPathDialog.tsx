@@ -219,7 +219,7 @@ export const ActionPanelOnionStatusLight = (props: {
   const firstPathLength = useFirstOnionPathLength();
   const isOnline = useIsOnline();
 
-  const glowDuration = Number(THEME_GLOBALS['--duration-onion-status-glow']); // 10
+  const glowDuration = Number(THEME_GLOBALS['--duration-onion-status-glow']); // 10 seconds
 
   // Set icon color based on result
   const errorColor = 'var(--button-path-error-color)';
