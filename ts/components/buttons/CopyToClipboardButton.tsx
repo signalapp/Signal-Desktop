@@ -11,13 +11,12 @@ type CopyProps = {
   copyContent: string;
   onCopyComplete?: (copiedValue: string | undefined) => void;
   hotkey?: boolean;
-  className?: string;
 };
 
 type CopyToClipboardButtonProps = Omit<SessionButtonProps, 'children' | 'onClick'> & CopyProps;
 
 export const CopyToClipboardButton = (props: CopyToClipboardButtonProps) => {
-  const { className, copyContent, onCopyComplete, hotkey = false, text } = props;
+  const { copyContent, onCopyComplete, hotkey = false, text } = props;
   const [copied, setCopied] = useState(false);
 
   const [{ value }, copyToClipboard] = useCopyToClipboard();
@@ -47,7 +46,6 @@ export const CopyToClipboardButton = (props: CopyToClipboardButtonProps) => {
     <SessionButton
       aria-label={'copy to clipboard button'}
       {...props}
-      className={className}
       text={
         !isEmpty(text)
           ? text
@@ -64,7 +62,7 @@ type CopyToClipboardIconProps = Omit<SessionIconButtonProps, 'children' | 'onCli
   CopyProps;
 
 export const CopyToClipboardIcon = (props: CopyToClipboardIconProps) => {
-  const { className, copyContent, onCopyComplete, hotkey = false } = props;
+  const { copyContent, onCopyComplete, hotkey = false } = props;
   const [{ value }, copyToClipboard] = useCopyToClipboard();
 
   const onClick = () => {
@@ -91,7 +89,6 @@ export const CopyToClipboardIcon = (props: CopyToClipboardIconProps) => {
     <SessionIconButton
       aria-label={'copy to clipboard icon button'}
       {...props}
-      className={className}
       iconType={'copy'}
       onClick={onClick}
     />
