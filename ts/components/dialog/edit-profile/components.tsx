@@ -85,16 +85,17 @@ const StyledProfileName = styled(Flex)`
   margin-inline-start: calc((25px + var(--margins-sm)) * -1);
   padding: 8px;
   border: 1px solid var(--transparent-color);
-  p {
-    font-size: var(--font-size-xl);
-    line-height: 1.4;
-    margin: 0;
-    padding: 0px;
-  }
 
   .session-icon-button {
     padding: 0px;
   }
+`;
+
+const StyledName = styled.p`
+  font-size: var(--font-size-xl);
+  line-height: 1.4;
+  margin: 0;
+  padding: 0px;
 `;
 
 export const ProfileName = (props: { profileName: string; onClick: () => void }) => {
@@ -109,7 +110,7 @@ export const ProfileName = (props: { profileName: string; onClick: () => void })
         dataTestId="edit-profile-icon"
       />
       <SpacerSM />
-      <p data-testid="your-profile-name">{profileName}</p>
+      <StyledName data-testid="your-profile-name">{profileName}</StyledName>
     </StyledProfileName>
   );
 };
