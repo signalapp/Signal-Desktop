@@ -243,10 +243,10 @@ const StyledSendMessageInput = styled.div<{ dir?: HTMLDirection }>`
 class CompositionBoxInner extends Component<Props, State> {
   private readonly textarea: RefObject<any>;
   private readonly fileInput: RefObject<HTMLInputElement>;
+  private container: RefObject<HTMLDivElement>;
   private readonly emojiPanel: RefObject<HTMLDivElement>;
   private readonly emojiPanelButton: any;
   private linkPreviewAbortController?: AbortController;
-  private container: HTMLDivElement | null;
 
   constructor(props: Props) {
     super(props);
@@ -254,8 +254,8 @@ class CompositionBoxInner extends Component<Props, State> {
 
     this.textarea = createRef();
     this.fileInput = createRef();
+    this.container = createRef();
 
-    this.container = null;
     // Emojis
     this.emojiPanel = createRef();
     this.emojiPanelButton = createRef();
@@ -265,17 +265,17 @@ class CompositionBoxInner extends Component<Props, State> {
 
   public componentDidMount() {
     setTimeout(this.focusCompositionBox, 500);
-
-    const div = this.container;
-    div?.addEventListener('paste', this.handlePaste);
+    if (this.container.current) {
+      this.container.current.addEventListener('paste', this.handlePaste);
+    }
   }
 
   public componentWillUnmount() {
     this.linkPreviewAbortController?.abort();
     this.linkPreviewAbortController = undefined;
-
-    const div = this.container;
-    div?.removeEventListener('paste', this.handlePaste);
+    if (this.container.current) {
+      this.container.current.removeEventListener('paste', this.handlePaste);
+    }
   }
 
   public componentDidUpdate(prevProps: Props, _prevState: State) {
@@ -414,9 +414,7 @@ class CompositionBoxInner extends Component<Props, State> {
           role="main"
           dir={this.props.htmlDirection}
           onClick={this.focusCompositionBox} // used to focus on the textarea when clicking in its container
-          ref={el => {
-            this.container = el;
-          }}
+          ref={this.container}
           data-testid="message-input"
         >
           <CompositionTextArea

@@ -39,7 +39,7 @@ const sendMessageStyle = (dir?: HTMLDirection) => {
 type Props = {
   draft: string;
   setDraft: (draft: string) => void;
-  container: HTMLDivElement | null;
+  container: RefObject<HTMLDivElement>;
   textAreaRef: RefObject<HTMLTextAreaElement>;
   fetchUsersForGroup: (query: string, callback: (data: any) => void) => void;
   typingEnabled: boolean;
@@ -123,7 +123,7 @@ export const CompositionTextArea = (props: Props) => {
       rows={1}
       data-testid="message-input-text-area"
       style={style}
-      suggestionsPortalHost={container as any}
+      suggestionsPortalHost={container.current || undefined}
       forceSuggestionsAboveCursor={true} // force mentions to be rendered on top of the cursor, this is working with a fork of react-mentions for now
     >
       <Mention
