@@ -35,7 +35,6 @@ window.sessionFeatureFlags = {
   debug: {
     debugLogging: !_.isEmpty(process.env.SESSION_DEBUG),
     debugLibsessionDumps: !_.isEmpty(process.env.SESSION_DEBUG_LIBSESSION_DUMPS),
-    debugLibsessionDumps: true,
     debugFileServerRequests: false,
     debugNonSnodeRequests: false,
     debugOnionRequests: false,
