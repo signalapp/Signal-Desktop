@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { ReactNode } from 'react';
+import { ReactNode, RefObject } from 'react';
 import styled from 'styled-components';
 
 export enum SessionButtonType {
@@ -122,7 +122,7 @@ export type SessionButtonProps = {
   onClick?: any;
   children?: ReactNode;
   margin?: string;
-  reference?: any;
+  reference?: RefObject<HTMLButtonElement>;
   className?: string;
   dataTestId?: string;
 };

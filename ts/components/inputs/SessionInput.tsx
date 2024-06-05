@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactNode, useEffect, useState } from 'react';
+import { ChangeEvent, ReactNode, RefObject, useEffect, useState } from 'react';
 
 import { motion } from 'framer-motion';
 import { isEmpty, isEqual } from 'lodash';
@@ -229,7 +229,7 @@ type Props = {
   onEnterPressed?: (value: string) => any;
   autoFocus?: boolean;
   disableOnBlurEvent?: boolean;
-  inputRef?: any;
+  inputRef?: RefObject<HTMLInputElement | HTMLTextAreaElement>;
   inputDataTestId?: string;
   id?: string;
   enableShowHide?: boolean;
