@@ -163,7 +163,14 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
       .locator('.conversation-details-panel >> "Leave group"')
       .click();
 
-    await window.locator('.module-Modal button >> "Leave"').click();
+    await window
+      .getByTestId('ConfirmationDialog.ConversationDetailsAction.confirmLeave')
+      .getByRole('button', { name: 'Leave' })
+      .click();
+
+    debug('Get back to timeline');
+
+    await window.locator('.ConversationPanel__header__back-button').click();
 
     debug('Waiting for final group update');
     group = await phone.waitForGroupUpdate(group);
@@ -173,6 +180,11 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     assert(!group.getMemberByServiceId(desktop.pni));
     assert(!group.getPendingMemberByServiceId(desktop.aci));
     assert(group.getPendingMemberByServiceId(desktop.pni));
+
+    debug('Waiting for notification');
+    await window
+      .locator('.SystemMessage:has-text("You left the group")')
+      .waitFor();
   });
 
   it('should decline PNI invite and modify the group state', async () => {
