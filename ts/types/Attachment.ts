@@ -453,7 +453,7 @@ export async function captureDimensionsAndScreenshot(
           contentType: THUMBNAIL_CONTENT_TYPE,
           width: THUMBNAIL_SIZE,
           height: THUMBNAIL_SIZE,
-          size: 100,
+          size: thumbnailBuffer.byteLength,
         },
       };
     } catch (error) {
@@ -513,7 +513,7 @@ export async function captureDimensionsAndScreenshot(
         contentType: THUMBNAIL_CONTENT_TYPE,
         width: THUMBNAIL_SIZE,
         height: THUMBNAIL_SIZE,
-        size: 100,
+        size: thumbnailBuffer.byteLength,
       },
       width,
       height,
