@@ -2,6 +2,8 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { useRef } from 'react';
+import useKey from 'react-use/lib/useKey';
+import useMount from 'react-use/lib/useMount';
 import { ToastUtils } from '../../session/utils';
 import { matchesHash } from '../../util/passwordUtils';
 
@@ -52,18 +54,27 @@ export const EnterPasswordModal = (props: EnterPasswordModalProps) => {
 
     setPasswordValid(true);
 
-    window.removeEventListener('keyup', onEnter);
-
     if (onClickOk) {
       void onClickOk();
     }
   };
 
-  const onEnter = (event: any) => {
-    if (event.key === 'Enter') {
-      confirmPassword();
+  useMount(() => {
+    if (passwordInputRef.current) {
+      passwordInputRef.current.focus();
     }
-  };
+  });
+
+  useKey(
+    (event: KeyboardEvent) => event.key === 'Enter',
+    (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        if (event.target === passwordInputRef.current) {
+          confirmPassword();
+        }
+      }
+    }
+  );
 
   return (
     <SessionWrapperModal
@@ -80,7 +91,6 @@ export const EnterPasswordModal = (props: EnterPasswordModalProps) => {
             ref={passwordInputRef}
             data-testid="password-input"
             placeholder={window.i18n('enterPassword')}
-            onKeyUp={onEnter}
           />
         </div>
 
