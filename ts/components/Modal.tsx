@@ -170,6 +170,7 @@ export function ModalPage({
   i18n,
   modalFooter,
   modalHeaderChildren,
+  modalName,
   moduleClassName,
   onBackButtonClick,
   onClose,
@@ -220,6 +221,7 @@ export function ModalPage({
         tabIndex={-1}
         aria-labelledby={title ? `${id}-title` : undefined}
         aria-describedby={ariaDescribedBy}
+        data-testid={modalName}
         onClick={event => {
           event.stopPropagation();
         }}
