@@ -87,10 +87,10 @@ import {
   numberToPhoneType,
 } from '../../types/EmbeddedContact';
 import {
-  isVoiceMessage,
   type AttachmentType,
   isGIF,
   isDownloaded,
+  isVoiceMessage as isVoiceMessageAttachment,
 } from '../../types/Attachment';
 import {
   getFilePointerForAttachment,
@@ -1692,7 +1692,7 @@ export class BackupExportStream extends Readable {
   private getMessageAttachmentFlag(
     attachment: AttachmentType
   ): Backups.MessageAttachment.Flag {
-    if (isVoiceMessage(attachment)) {
+    if (isVoiceMessageAttachment(attachment)) {
       return Backups.MessageAttachment.Flag.VOICE_MESSAGE;
     }
     if (isGIF([attachment])) {
@@ -1876,6 +1876,9 @@ export class BackupExportStream extends Readable {
     >,
     backupLevel: BackupLevel
   ): Promise<Backups.IStandardMessage> {
+    const isVoiceMessage = message.attachments?.some(isVoiceMessageAttachment);
+    const includeText = !isVoiceMessage;
+
     return {
       quote: await this.toQuote(message.quote),
       attachments: message.attachments
@@ -1889,13 +1892,17 @@ export class BackupExportStream extends Readable {
             })
           )
         : undefined,
-      text: {
-        // Note that we store full text on the message model so we have to
-        // trim it before serializing.
-        body: message.body?.slice(0, LONG_ATTACHMENT_LIMIT),
-        bodyRanges: message.bodyRanges?.map(range => this.toBodyRange(range)),
-      },
-
+      text: includeText
+        ? {
+            // TODO (DESKTOP-7207): handle long message text attachments
+            // Note that we store full text on the message model so we have to
+            // trim it before serializing.
+            body: message.body?.slice(0, LONG_ATTACHMENT_LIMIT),
+            bodyRanges: message.bodyRanges?.map(range =>
+              this.toBodyRange(range)
+            ),
+          }
+        : undefined,
       linkPreview: message.preview
         ? await Promise.all(
             message.preview.map(async preview => {

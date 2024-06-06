@@ -20,7 +20,7 @@ import {
   isDecryptable,
   isReencryptableToSameDigest,
 } from '../../../types/Attachment';
-import { Backups } from '../../../protobuf';
+import { Backups, SignalService } from '../../../protobuf';
 import * as Bytes from '../../../Bytes';
 import { getTimestampFromLong } from '../../../util/timestampLongUtils';
 import {
@@ -36,6 +36,7 @@ import {
   getMediaNameForAttachment,
 } from './mediaId';
 import { redactGenericText } from '../../../util/privacy';
+import { missingCaseError } from '../../../util/missingCaseError';
 
 export function convertFilePointerToAttachment(
   filePointer: Backups.FilePointer
@@ -121,6 +122,35 @@ export function convertFilePointerToAttachment(
   }
 
   throw new Error('convertFilePointerToAttachment: mising locator');
+}
+
+export function convertBackupMessageAttachmentToAttachment(
+  messageAttachment: Backups.IMessageAttachment
+): AttachmentType | null {
+  if (!messageAttachment.pointer) {
+    return null;
+  }
+  const result = convertFilePointerToAttachment(messageAttachment.pointer);
+  switch (messageAttachment.flag) {
+    case Backups.MessageAttachment.Flag.VOICE_MESSAGE:
+      result.flags = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
+      break;
+    case Backups.MessageAttachment.Flag.BORDERLESS:
+      result.flags = SignalService.AttachmentPointer.Flags.BORDERLESS;
+      break;
+    case Backups.MessageAttachment.Flag.GIF:
+      result.flags = SignalService.AttachmentPointer.Flags.GIF;
+      break;
+    case Backups.MessageAttachment.Flag.NONE:
+    case null:
+    case undefined:
+      result.flags = undefined;
+      break;
+    default:
+      throw missingCaseError(messageAttachment.flag);
+  }
+
+  return result;
 }
 
 /**

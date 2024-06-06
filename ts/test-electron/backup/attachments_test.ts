@@ -13,10 +13,11 @@ import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SeenStatus } from '../../MessageSeenStatus';
 import { loadCallsHistory } from '../../services/callHistoryLoader';
 import { setupBasics, asymmetricRoundtripHarness } from './helpers';
-import { IMAGE_JPEG } from '../../types/MIME';
+import { AUDIO_MP3, IMAGE_JPEG } from '../../types/MIME';
 import type { MessageAttributesType } from '../../model-types';
-import type { AttachmentType } from '../../types/Attachment';
+import { isVoiceMessage, type AttachmentType } from '../../types/Attachment';
 import { strictAssert } from '../../util/assert';
+import { SignalService } from '../../protobuf';
 
 const CONTACT_A = generateAci();
 
@@ -118,6 +119,33 @@ describe('backup/attachments', () => {
           composeMessage(1, {
             // path, iv, and uploadTimestamp will not be roundtripped,
             // but there will be a backupLocator
+            attachments: [
+              {
+                ...omit(attachment, ['path', 'iv', 'uploadTimestamp']),
+                backupLocator: { mediaName: attachment.digest },
+              },
+            ],
+          }),
+        ],
+        BackupLevel.Media
+      );
+    });
+    it('roundtrips voice message attachments', async () => {
+      const attachment = composeAttachment(1);
+      attachment.contentType = AUDIO_MP3;
+      attachment.flags = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
+
+      strictAssert(isVoiceMessage(attachment), 'it is a voice attachment');
+      strictAssert(attachment.digest, 'digest exists');
+
+      await asymmetricRoundtripHarness(
+        [
+          composeMessage(1, {
+            attachments: [attachment],
+          }),
+        ],
+        [
+          composeMessage(1, {
             attachments: [
               {
                 ...omit(attachment, ['path', 'iv', 'uploadTimestamp']),

@@ -58,7 +58,10 @@ import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { drop } from '../../util/drop';
 import { isNotNil } from '../../util/isNotNil';
 import { isGroup } from '../../util/whatTypeOfConversation';
-import { convertFilePointerToAttachment } from './util/filePointers';
+import {
+  convertBackupMessageAttachmentToAttachment,
+  convertFilePointerToAttachment,
+} from './util/filePointers';
 
 const MAX_CONCURRENCY = 10;
 
@@ -976,12 +979,7 @@ export class BackupImportStream extends Writable {
       body: data.text?.body || undefined,
       attachments: data.attachments?.length
         ? data.attachments
-            .map(attachment => {
-              if (!attachment.pointer) {
-                return null;
-              }
-              return convertFilePointerToAttachment(attachment.pointer);
-            })
+            .map(convertBackupMessageAttachmentToAttachment)
             .filter(isNotNil)
         : undefined,
       preview: data.linkPreview?.length
