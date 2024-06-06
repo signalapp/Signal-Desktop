@@ -881,6 +881,10 @@ export const getConversationByAnyIdSelector = createSelector(
         return undefined;
       }
 
+      const onGroupId = getOwn(byGroupId, id);
+      if (onGroupId) {
+        return onGroupId;
+      }
       const onServiceId = getOwn(
         byServiceId,
         normalizeServiceId(id, 'getConversationSelector')
@@ -891,10 +895,6 @@ export const getConversationByAnyIdSelector = createSelector(
       const onE164 = getOwn(byE164, id);
       if (onE164) {
         return onE164;
-      }
-      const onGroupId = getOwn(byGroupId, id);
-      if (onGroupId) {
-        return onGroupId;
       }
       const onId = getOwn(byId, id);
       if (onId) {
