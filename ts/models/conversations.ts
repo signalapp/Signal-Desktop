@@ -3956,26 +3956,6 @@ export class ConversationModel extends window.Backbone
       model,
       'enqueueMessageForSend'
     );
-    message.cachedOutgoingContactData = contact;
-
-    // Attach path to preview images so that sendNormalMessage can use them to
-    // update digests on attachments.
-    if (preview) {
-      message.cachedOutgoingPreviewData = preview.map((item, index) => {
-        if (!item.image) {
-          return item;
-        }
-
-        return {
-          ...item,
-          image: {
-            ...item.image,
-            path: attributes.preview?.at(index)?.image?.path,
-          },
-        };
-      });
-    }
-    message.cachedOutgoingStickerData = sticker;
 
     const dbStart = Date.now();
 

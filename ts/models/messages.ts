@@ -109,10 +109,7 @@ import {
   NotificationType,
   notificationService,
 } from '../services/notifications';
-import type {
-  LinkPreviewType,
-  LinkPreviewWithHydratedData,
-} from '../types/message/LinkPreviews';
+import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import * as log from '../logging/log';
 import { cleanupMessage, deleteMessageData } from '../util/cleanup';
 import {
@@ -130,11 +127,9 @@ import { queueAttachmentDownloads } from '../util/queueAttachmentDownloads';
 import { findStoryMessages } from '../util/findStoryMessage';
 import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
 import { shouldDownloadStory } from '../util/shouldDownloadStory';
-import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact';
 import { SeenStatus } from '../MessageSeenStatus';
 import { isNewReactionReplacingPrevious } from '../reactions/util';
 import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer';
-import type { StickerWithHydratedData } from '../types/Stickers';
 
 import {
   addToAttachmentDownloadQueue,
@@ -187,12 +182,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   private pendingMarkRead?: number;
 
   syncPromise?: Promise<CallbackResultType | void>;
-
-  cachedOutgoingContactData?: Array<EmbeddedContactWithHydratedAvatar>;
-
-  cachedOutgoingPreviewData?: Array<LinkPreviewWithHydratedData>;
-
-  cachedOutgoingStickerData?: StickerWithHydratedData;
 
   public registerLocations: Set<string>;
 
@@ -847,11 +836,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       this.set(attributesToUpdate);
     }
 
-    // We aren't trying to send this message anymore, so we'll delete these caches
-    delete this.cachedOutgoingContactData;
-    delete this.cachedOutgoingPreviewData;
-    delete this.cachedOutgoingStickerData;
-
     this.notifyStorySendFailed();
   }
 
@@ -1120,15 +1104,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     await Promise.all(promises);
-
-    const isTotalSuccess: boolean =
-      result.success && !this.get('errors')?.length;
-
-    if (isTotalSuccess) {
-      delete this.cachedOutgoingContactData;
-      delete this.cachedOutgoingPreviewData;
-      delete this.cachedOutgoingStickerData;
-    }
 
     updateLeftPane();
   }
