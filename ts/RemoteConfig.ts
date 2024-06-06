@@ -20,7 +20,6 @@ export type ConfigKeyType =
   | 'desktop.backup.credentialFetch'
   | 'desktop.deleteSync.send'
   | 'desktop.deleteSync.receive'
-  | 'desktop.groupMultiTypingIndicators'
   | 'desktop.internalUser'
   | 'desktop.mediaQuality.levels'
   | 'desktop.messageCleanup'
