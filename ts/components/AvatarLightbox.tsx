@@ -49,10 +49,11 @@ export function AvatarLightbox({
         isGroup={isGroup}
         style={{
           fontSize: '16em',
-          height: '2em',
-          maxHeight: 512,
-          maxWidth: 512,
-          width: '2em',
+          width: 'auto',
+          minHeight: '64px',
+          height: '100%',
+          maxHeight: `min(${512}px, 100%)`,
+          aspectRatio: '1 / 1',
         }}
       />
     </Lightbox>
