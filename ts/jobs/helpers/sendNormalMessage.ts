@@ -889,9 +889,7 @@ async function uploadMessagePreviews({
     targetTimestamp,
   });
 
-  const loadedPreviews =
-    message.cachedOutgoingPreviewData ||
-    (await loadPreviewData(startingPreview));
+  const loadedPreviews = await loadPreviewData(startingPreview);
 
   if (!loadedPreviews) {
     return undefined;
@@ -973,9 +971,7 @@ async function uploadMessageSticker(
   // See uploadMessageQuote for comment on how we do caching for these
   // attachments.
   const startingSticker = message.get('sticker');
-  const stickerWithData =
-    message.cachedOutgoingStickerData ||
-    (await loadStickerData(startingSticker));
+  const stickerWithData = await loadStickerData(startingSticker);
 
   if (!stickerWithData) {
     return undefined;
@@ -1019,9 +1015,7 @@ async function uploadMessageContacts(
 
   // See uploadMessageQuote for comment on how we do caching for these
   // attachments.
-  const contacts =
-    message.cachedOutgoingContactData ||
-    (await loadContactData(message.get('contact')));
+  const contacts = await loadContactData(message.get('contact'));
 
   if (!contacts) {
     return undefined;
