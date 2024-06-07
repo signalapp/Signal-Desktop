@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { isEmpty } from 'lodash';
+import { isEmpty, pick } from 'lodash';
 import { ReactNode } from 'react';
 import { Flex } from '../basic/Flex';
 import {
@@ -93,7 +93,7 @@ export const SettingsTitleAndDescription = (props: {
         {!isEmpty(icon) ? (
           <>
             <SpacerSM />
-            <SessionIcon {...icon} />
+            <SessionIcon {...pick(icon, ['iconType', 'iconSize', 'iconColor'])} />
           </>
         ) : null}
       </Flex>
