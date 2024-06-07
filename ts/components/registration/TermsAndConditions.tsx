@@ -22,7 +22,7 @@ export const TermsAndConditions = () => {
   return (
     <StyledTermsAndConditions
       onClick={() => dispatch(updateTermsOfServicePrivacyModal({ show: true }))}
-      data-testid="terms-of-service-link"
+      data-testid="open-url"
     >
       <SessionHtmlRenderer html={window.i18n('onboardingTosPrivacy')} />
     </StyledTermsAndConditions>
