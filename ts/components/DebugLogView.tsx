@@ -42,8 +42,9 @@ const StyledContent = styled.div`
     resize: none;
     min-height: 100px;
 
-    font-family: Monaco, Consolas, 'Courier New', Courier, monospace;
+    font-family: var(--font-debug);
     font-size: 12px;
+    line-height: 18px;
   }
 `;
 
