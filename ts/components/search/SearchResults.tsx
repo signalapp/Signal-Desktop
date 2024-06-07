@@ -41,14 +41,17 @@ const NoResults = styled.div`
   text-align: center;
 `;
 
-const SectionHeader = ({ title, style }: { title: string; style: CSSProperties }) => {
+const SectionHeader = ({
+  title,
+  isSubtitle,
+  style,
+}: {
+  title: string;
+  isSubtitle: boolean;
+  style: CSSProperties;
+}) => {
   return (
-    <StyledSeparatorSection
-      isSubtitle={
-        title !== window.i18n('sessionConversations') && title !== window.i18n('messages')
-      }
-      style={style}
-    >
+    <StyledSeparatorSection isSubtitle={isSubtitle} style={style}>
       {title}
     </StyledSeparatorSection>
   );
@@ -75,7 +78,16 @@ const VirtualizedList = () => {
               return null;
             }
             if (isString(row)) {
-              return <SectionHeader title={row} style={style as CSSProperties} key={key} />;
+              return (
+                <SectionHeader
+                  key={key}
+                  title={row}
+                  isSubtitle={
+                    row !== window.i18n('sessionConversations') && row !== window.i18n('messages')
+                  }
+                  style={style as CSSProperties}
+                />
+              );
             }
             if (isContact(row)) {
               return (
