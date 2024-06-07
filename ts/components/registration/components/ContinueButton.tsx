@@ -10,7 +10,7 @@ export const ContinueButton = (props: Props) => {
 
   return (
     <SessionButton
-      ariaLabel="Continue"
+      ariaLabel={window.i18n('continue')}
       buttonColor={SessionButtonColor.White}
       onClick={onClick}
       text={window.i18n('continue')}

@@ -188,7 +188,7 @@ export const OverlayMessage = () => {
 
       {!isEmpty(pubkeyOrOns) ? (
         <SessionButton
-          ariaLabel="Continue"
+          ariaLabel={window.i18n('continue')}
           text={window.i18n('continue')}
           disabled={disableNextButton}
           onClick={handleMessageButtonClick}
