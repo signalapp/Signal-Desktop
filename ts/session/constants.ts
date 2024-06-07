@@ -17,6 +17,15 @@ export const DURATION = {
   WEEKS: days * 7,
 };
 
+export const FILESIZE = {
+  /** 1KB */
+  KB: 1024,
+  /** 1MB */
+  MB: 1024 * 1024,
+  /** 1GB */
+  GB: 1024 * 1024 * 1024,
+};
+
 export const TTL_DEFAULT = {
   /** 20 seconds */
   TYPING_MESSAGE: 20 * DURATION.SECONDS,

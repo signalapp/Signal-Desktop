@@ -291,7 +291,6 @@ const QuoteAuthor = (props: QuoteAuthorProps) => {
           pubkey={PubKey.shorten(author)}
           name={authorName}
           profileName={authorProfileName}
-          compact={true}
           shouldShowPubkey={Boolean(props.showPubkeyForAuthor)}
         />
       )}

@@ -1,6 +1,5 @@
 import { isString } from 'lodash';
 import { LocaleMessagesType } from './locale';
-import { Noop } from '../types/Util';
 
 export const createTemplate = (
   options: {
@@ -157,7 +156,7 @@ export const createTemplate = (
 function updateForMac(
   template: any,
   messages: LocaleMessagesType,
-  options: { showAbout: Noop; showWindow: Noop }
+  options: { showAbout: () => void; showWindow: () => void }
 ) {
   const { showAbout, showWindow } = options;
 

@@ -12,6 +12,7 @@ import {
   differenceBy,
   forEach,
   fromPairs,
+  intersection,
   isArray,
   isEmpty,
   isNumber,
@@ -78,6 +79,7 @@ import {
   initDbInstanceWith,
   isInstanceInitialized,
 } from './sqlInstance';
+import { ed25519Str } from '../session/utils/String';
 
 // eslint:disable: function-name non-literal-fs-path
 
@@ -396,6 +398,32 @@ function updateSwarmNodesForPubkey(pubkey: string, snodeEdKeys: Array<string>) {
       pubkey,
       json: objectToJSON(snodeEdKeys),
     });
+}
+
+function clearOutAllSnodesNotInPool(edKeysOfSnodePool: Array<string>) {
+  const allSwarms = assertGlobalInstance()
+    .prepare(`SELECT * FROM ${NODES_FOR_PUBKEY_TABLE};`)
+    .all();
+
+  allSwarms.forEach(swarm => {
+    try {
+      const json = JSON.parse(swarm.json);
+      if (isArray(json)) {
+        const intersect = intersection(json, edKeysOfSnodePool);
+        if (intersect.length !== json.length) {
+          updateSwarmNodesForPubkey(swarm.pubkey, intersect);
+          console.info(
+            `clearOutAllSnodesNotInPool: updating swarm of ${ed25519Str(swarm.pubkey)} to `,
+            intersect
+          );
+        }
+      }
+    } catch (e) {
+      console.warn(
+        `Failed to parse swarm while iterating in clearOutAllSnodesNotInPool for pk: ${ed25519Str(swarm?.pubkey)}`
+      );
+    }
+  });
 }
 
 function getConversationCount() {
@@ -2449,6 +2477,7 @@ export const sqlNode = {
 
   getSwarmNodesForPubkey,
   updateSwarmNodesForPubkey,
+  clearOutAllSnodesNotInPool,
   getGuardNodes,
   updateGuardNodes,
 

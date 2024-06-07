@@ -7,13 +7,12 @@ import { Data } from '../../data/data';
 import { ToastUtils } from '../../session/utils';
 import { sessionPassword } from '../../state/ducks/modalDialog';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
+import type { PasswordAction } from '../../types/ReduxTypes';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
 import { matchesHash, validatePassword } from '../../util/passwordUtils';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SpacerSM } from '../basic/Text';
-
-export type PasswordAction = 'set' | 'change' | 'remove' | 'enter';
 
 interface Props {
   passwordAction: PasswordAction;

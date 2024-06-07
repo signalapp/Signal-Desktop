@@ -71,3 +71,5 @@ export const sanitizeSessionUsername = (inputName: string) => {
 
   return validChars;
 };
+
+export const ed25519Str = (ed25519Key: string) => `(...${ed25519Key.substr(58)})`;
