@@ -63,74 +63,78 @@ const ClosableOverlay = () => {
   }
 };
 
-export const LeftPaneMessageSection = () => {
-  const conversationIds = useSelector(getLeftPaneConversationIds);
-  const leftOverlayMode = useSelector(getLeftOverlayMode);
+const ConversationRow = (
+  conversationIds: Array<string>,
+  { index, key, style }: ListRowProps
+): JSX.Element | null => {
+  // assume conversations that have been marked unapproved should be filtered out by selector.
+  if (!conversationIds) {
+    throw new Error('ConversationRow: Tried to render without conversations');
+  }
+
+  const conversationId = conversationIds[index];
+  if (!conversationId) {
+    throw new Error(
+      'ConversationRow: conversations selector returned element containing falsy value.'
+    );
+  }
+
+  return <ConversationListItem key={key} style={style} conversationId={conversationId} />;
+};
+
+const ConversationList = () => {
   const searchTerm = useSelector(getSearchTerm);
+  const conversationIds = useSelector(getLeftPaneConversationIds);
 
-  const renderRow = ({ index, key, style }: ListRowProps): JSX.Element | null => {
-    // assume conversations that have been marked unapproved should be filtered out by selector.
-    if (!conversationIds) {
-      throw new Error('renderRow: Tried to render without conversations');
-    }
+  if (!isEmpty(searchTerm)) {
+    return <SearchResults />;
+  }
 
-    const conversationId = conversationIds[index];
-    if (!conversationId) {
-      throw new Error('renderRow: conversations selector returned element containing falsy value.');
-    }
-
-    return <ConversationListItem key={key} style={style} conversationId={conversationId} />;
-  };
-
-  const renderList = () => {
-    if (!isEmpty(searchTerm)) {
-      return <SearchResults />;
-    }
-
-    if (!conversationIds) {
-      throw new Error('render: must provided conversations if no search results are provided');
-    }
-
-    const length = conversationIds.length;
-
-    return (
-      <StyledLeftPaneList key={0}>
-        <AutoSizer>
-          {({ height, width }) => (
-            <List
-              className="module-left-pane__virtual-list"
-              height={height}
-              rowCount={length}
-              rowHeight={64}
-              rowRenderer={renderRow}
-              width={width}
-              autoHeight={false}
-              conversationIds={conversationIds}
-            />
-          )}
-        </AutoSizer>
-      </StyledLeftPaneList>
+  if (!conversationIds) {
+    throw new Error(
+      'ConversationList: must provided conversations if no search results are provided'
     );
-  };
+  }
 
-  const renderConversations = () => {
-    return (
-      <StyledConversationListContent>
-        <SessionSearchInput />
-        <MessageRequestsBanner
-          handleOnClick={() => {
-            window.inboxStore?.dispatch(setLeftOverlayMode('message-requests'));
-          }}
-        />
-        {renderList()}
-      </StyledConversationListContent>
-    );
-  };
+  return (
+    <StyledLeftPaneList key={`conversation-list-0`}>
+      <AutoSizer>
+        {({ height, width }) => (
+          <List
+            className="module-left-pane__virtual-list"
+            height={height}
+            rowCount={conversationIds.length}
+            rowHeight={64}
+            rowRenderer={props => ConversationRow(conversationIds, props)}
+            width={width}
+            autoHeight={false}
+            conversationIds={conversationIds}
+          />
+        )}
+      </AutoSizer>
+    </StyledLeftPaneList>
+  );
+};
+
+export const LeftPaneMessageSection = () => {
+  const leftOverlayMode = useSelector(getLeftOverlayMode);
 
   return (
     <StyledLeftPaneContent>
       <LeftPaneSectionHeader />
-      {leftOverlayMode ? <ClosableOverlay /> : renderConversations()}
+      {leftOverlayMode ? (
+        <ClosableOverlay />
+      ) : (
+        <StyledConversationListContent>
+          <SessionSearchInput />
+          <MessageRequestsBanner
+            handleOnClick={() => {
+              window.inboxStore?.dispatch(setLeftOverlayMode('message-requests'));
+            }}
+          />
+          <ConversationList />
+        </StyledConversationListContent>
+      )}
     </StyledLeftPaneContent>
   );
 };

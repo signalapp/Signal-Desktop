@@ -166,7 +166,7 @@
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "@types/react-redux": "^7.1.24",
-    "@types/react-virtualized": "9.18.12",
+    "@types/react-virtualized": "^9.21.30",
     "@types/redux-logger": "3.0.7",
     "@types/rimraf": "2.0.2",
     "@types/semver": "5.5.0",
