@@ -4,7 +4,7 @@ import { sanitizeSessionUsername } from '../../../session/utils/String';
 export function sanitizeDisplayNameOrToast(
   displayName: string,
   // can be a useState or redux function
-  setDisplayNameError: (error: string | undefined) => any,
+  onDisplayNameError: (error: string | undefined) => any,
   dispatch?: Dispatch
 ) {
   try {
@@ -12,17 +12,17 @@ export function sanitizeDisplayNameOrToast(
     const trimName = sanitizedName.trim();
     const errorString = !trimName ? window.i18n('displayNameEmpty') : undefined;
     if (dispatch) {
-      dispatch(setDisplayNameError(errorString));
+      dispatch(onDisplayNameError(errorString));
     } else {
-      setDisplayNameError(errorString);
+      onDisplayNameError(errorString); // this is is either calling dispatch in the caller or just `setDisplayNameError`
     }
 
     return sanitizedName;
   } catch (e) {
     if (dispatch) {
-      dispatch(setDisplayNameError(window.i18n('displayNameErrorDescriptionShorter')));
+      dispatch(onDisplayNameError(window.i18n('displayNameErrorDescriptionShorter')));
     } else {
-      setDisplayNameError(window.i18n('displayNameErrorDescriptionShorter'));
+      onDisplayNameError(window.i18n('displayNameErrorDescriptionShorter'));
     }
     return displayName;
   }
