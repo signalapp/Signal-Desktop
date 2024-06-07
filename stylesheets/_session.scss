@@ -93,13 +93,13 @@ textarea {
   font-weight: bold;
   width: 100%;
   display: flex;
-  font-size: $session-font-md;
+  font-size: var(--font-size-md);
 
   &-text {
     color: var(--text-primary-color);
     font-weight: 400;
-    font-size: $session-font-sm;
-    line-height: $session-font-sm;
+    font-size: var(--font-size-sm);
+    line-height: var(--font-size-sm);
   }
 
   .module-contact-name {
@@ -198,8 +198,8 @@ label {
   &__body {
     padding: 0px var(--margins-lg) var(--margins-lg) var(--margins-lg);
     font-family: var(--font-default);
-    line-height: $session-font-md;
-    font-size: $session-font-md;
+    line-height: var(--font-size-md);
+    font-size: var(--font-size-md);
     overflow-y: auto;
     overflow-x: hidden;
 
@@ -245,9 +245,9 @@ label {
 
     color: var(--black-color);
 
-    font-family: monospace;
+    font-family: var(--font-mono);
     font-style: normal;
-    font-size: $session-font-xs;
+    font-size: var(--font-size-xs);
   }
 }
 
@@ -264,7 +264,7 @@ label {
   }
 
   &-main-message {
-    font-size: $session-font-md;
+    font-size: var(--font-size-md);
     line-height: 1.5;
   }
 

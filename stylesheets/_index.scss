@@ -39,27 +39,3 @@
     display: flex;
   }
 }
-
-.scrollable {
-  height: 100%;
-  overflow: auto;
-}
-
-.section-conversations-container {
-  display: flex;
-  flex-direction: row;
-  margin-inline-end: 3rem;
-  align-items: center;
-
-  h4 {
-    flex: 1;
-  }
-}
-
-.left-pane-placeholder {
-  flex-grow: 1;
-  display: flex;
-}
-.left-pane-wrapper {
-  flex: 1;
-}
