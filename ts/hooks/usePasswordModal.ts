@@ -2,8 +2,8 @@ import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useMount from 'react-use/lib/useMount';
-import { Data } from '../data/data';
 import { updateEnterPasswordModal } from '../state/ducks/modalDialog';
+import { getPasswordHash } from '../util/storage';
 
 /**
  * Password protection for a component if a password has been set
@@ -27,15 +27,15 @@ export function usePasswordModal({
 
   const dispatch = useDispatch();
 
-  const validateAccess = async () => {
+  const validateAccess = () => {
     if (!isEmpty(passwordHash)) {
       return;
     }
 
-    const hash = await Data.getPasswordHash();
+    const hash = getPasswordHash();
     setHasPassword(!!hash);
 
-    if (hash && !isEmpty(hash)) {
+    if (hash) {
       setPasswordHash(hash);
       dispatch(
         updateEnterPasswordModal({
@@ -63,7 +63,7 @@ export function usePasswordModal({
   };
 
   useMount(() => {
-    void validateAccess();
+    validateAccess();
   });
 
   return { hasPassword, passwordValid };

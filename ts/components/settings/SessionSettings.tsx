@@ -10,10 +10,10 @@ import { SessionIconButton } from '../icon';
 
 import { SessionNotificationGroupSettings } from './SessionNotificationGroupSettings';
 
-import { Data } from '../../data/data';
 import { sessionPassword } from '../../state/ducks/modalDialog';
 import { SectionType, showLeftPaneSection } from '../../state/ducks/section';
 import type { PasswordAction, SessionSettingCategory } from '../../types/ReduxTypes';
+import { getPasswordHash } from '../../util/storage';
 import { SettingsCategoryAppearance } from './section/CategoryAppearance';
 import { CategoryConversations } from './section/CategoryConversations';
 import { SettingsCategoryHelp } from './section/CategoryHelp';
@@ -148,16 +148,8 @@ export const SessionSettingsView = (props: SettingsViewProps) => {
 
   const [hasPassword, setHasPassword] = useState(true);
   useMount(() => {
-    let isMounted = true;
-    // eslint-disable-next-line more/no-then
-    void Data.getPasswordHash().then(hash => {
-      if (isMounted) {
-        setHasPassword(!!hash);
-      }
-    });
-    return () => {
-      isMounted = false;
-    };
+    const hash = getPasswordHash();
+    setHasPassword(!!hash);
   });
 
   function onPasswordUpdated(action: string) {

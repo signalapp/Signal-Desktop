@@ -2,13 +2,13 @@
 
 import autoBind from 'auto-bind';
 import { Component } from 'react';
-import { Data } from '../../data/data';
 import { ToastUtils } from '../../session/utils';
 import { sessionPassword } from '../../state/ducks/modalDialog';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 import type { PasswordAction } from '../../types/ReduxTypes';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
 import { matchesHash, validatePassword } from '../../util/passwordUtils';
+import { getPasswordHash } from '../../util/storage';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SpacerSM } from '../basic/Text';
@@ -146,9 +146,9 @@ export class SessionSetPasswordDialog extends Component<Props, State> {
     );
   }
 
-  public async validatePasswordHash(password: string | null) {
+  public validatePasswordHash(password: string | null) {
     // Check if the password matches the hash we have stored
-    const hash = await Data.getPasswordHash();
+    const hash = getPasswordHash();
     if (hash && !matchesHash(password, hash)) {
       return false;
     }
@@ -224,7 +224,7 @@ export class SessionSetPasswordDialog extends Component<Props, State> {
       return;
     }
 
-    const isValidWithStoredInDB = Boolean(await this.validatePasswordHash(oldPassword));
+    const isValidWithStoredInDB = this.validatePasswordHash(oldPassword);
     if (!isValidWithStoredInDB) {
       this.setState({
         error: window.i18n('changePasswordInvalid'),
@@ -246,7 +246,7 @@ export class SessionSetPasswordDialog extends Component<Props, State> {
 
   private async handleActionRemove(oldPassword: string) {
     // We don't validate oldPassword on change: this is validate on the validatePasswordHash below
-    const isValidWithStoredInDB = Boolean(await this.validatePasswordHash(oldPassword));
+    const isValidWithStoredInDB = this.validatePasswordHash(oldPassword);
     if (!isValidWithStoredInDB) {
       this.setState({
         error: window.i18n('removePasswordInvalid'),
@@ -279,7 +279,7 @@ export class SessionSetPasswordDialog extends Component<Props, State> {
       return;
     }
 
-    const isValidWithStoredInDB = Boolean(await this.validatePasswordHash(enteredPassword));
+    const isValidWithStoredInDB = this.validatePasswordHash(enteredPassword);
     if (!isValidWithStoredInDB) {
       this.setState({
         error: window.i18n('invalidPassword'),

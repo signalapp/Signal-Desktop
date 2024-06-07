@@ -1059,7 +1059,7 @@ ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
       return;
     }
 
-    if (_.isEmpty(passPhrase)) {
+    if (isEmpty(passPhrase)) {
       const defaultKey = getDefaultSQLKey();
       sqlNode.setSQLPassword(defaultKey);
       sqlNode.removePasswordHash();
@@ -1070,7 +1070,6 @@ ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
       sqlNode.savePasswordHash(newHash);
       userConfig.set('dbHasPassword', true);
     }
-
     sendResponse(undefined);
   } catch (e) {
     const localisedError = locale.messages.setPasswordFail;
