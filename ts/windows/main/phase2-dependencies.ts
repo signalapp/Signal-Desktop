@@ -37,7 +37,6 @@ window.WebAPI = window.textsecure.WebAPI.initialize({
   contentProxyUrl: config.contentProxyUrl,
   proxyUrl: config.proxyUrl,
   version: config.version,
-  libsignalNetEnvironment: config.libsignalNetEnvironment,
   disableIPv6: config.disableIPv6,
 });
 

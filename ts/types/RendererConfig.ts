@@ -73,7 +73,6 @@ export const rendererConfigSchema = z.object({
   resourcesUrl: configRequiredStringSchema,
   userDataPath: configRequiredStringSchema,
   version: configRequiredStringSchema,
-  libsignalNetEnvironment: configOptionalStringSchema,
   directoryConfig: directoryConfigSchema,
 
   // Only used by main window
