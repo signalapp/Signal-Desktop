@@ -265,7 +265,7 @@ export const RestoreAccount = () => {
                 <OnboardDescription>{window.i18n('displayNameErrorNew')}</OnboardDescription>
                 <SpacerLG />
                 <SessionInput
-                  ariaLabel="Enter display name"
+                  ariaLabel={window.i18n('enterDisplayName')}
                   autoFocus={true}
                   disableOnBlurEvent={true}
                   type="text"

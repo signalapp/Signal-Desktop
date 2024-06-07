@@ -127,7 +127,7 @@ export const CreateAccount = () => {
         <OnboardDescription>{window.i18n('displayNameDescription')}</OnboardDescription>
         <SpacerLG />
         <SessionInput
-          ariaLabel={'Enter display name'}
+          ariaLabel={window.i18n('enterDisplayName')}
           autoFocus={true}
           disableOnBlurEvent={true}
           type="text"
