@@ -56,8 +56,8 @@ const StyledBanner = styled(Flex)`
 `;
 
 const StyledBannerTitle = styled.p`
-  font-size: var(--font-size-lg);
-  font-weight: 700;
+  font-size: var(--font-size-h4);
+  font-weight: 500;
   line-height: 1;
 `;
 
