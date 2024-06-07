@@ -13,12 +13,12 @@ import { Data } from '../../data/data';
 import { deleteAllLogs } from '../../node/logs';
 import { clearInbox } from '../../session/apis/open_group_api/sogsv3/sogsV3ClearInbox';
 import { getAllValidOpenGroupV2ConversationRoomInfos } from '../../session/apis/open_group_api/utils/OpenGroupUtils';
-import { SessionRadioGroup } from '../basic/SessionRadioGroup';
 import { ed25519Str } from '../../session/utils/String';
+import { SessionRadioGroup } from '../basic/SessionRadioGroup';
 
 const deleteDbLocally = async () => {
   window?.log?.info('last message sent successfully. Deleting everything');
-  window.persistStore?.purge();
+  await window.persistStore?.purge();
   window?.log?.info('store purged');
 
   await deleteAllLogs();

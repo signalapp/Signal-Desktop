@@ -29,8 +29,8 @@ const StyledContent = styled(Flex)`
     font-size: var(--font-size-sm);
     font-weight: 400;
     min-height: var(--font-size-sm);
-    height: font-size: var(--font-size-sm);
-    margin-bottom: var(--margins-xs;
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--margins-xs);
   }
 `;
 
