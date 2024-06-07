@@ -1,6 +1,5 @@
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getTheme } from '../../../state/selectors/theme';
+import { useIsDarkTheme, useTheme } from '../../../state/selectors/theme';
 import { getThemeValue } from '../../../themes/globals';
 import { SessionQRCode } from '../../SessionQRCode';
 import { Avatar, AvatarSize } from '../../avatar/Avatar';
@@ -9,7 +8,8 @@ import { SpacerSM } from '../../basic/Text';
 import { SessionIconButton } from '../../icon';
 
 export const QRView = ({ sessionID }: { sessionID: string }) => {
-  const theme = useSelector(getTheme);
+  const theme = useTheme();
+  const isDarkTheme = useIsDarkTheme();
 
   return (
     <SessionQRCode
@@ -17,10 +17,10 @@ export const QRView = ({ sessionID }: { sessionID: string }) => {
       value={sessionID}
       size={170}
       backgroundColor={getThemeValue(
-        theme.includes('dark') ? '--text-primary-color' : '--background-primary-color'
+        isDarkTheme ? '--text-primary-color' : '--background-primary-color'
       )}
       foregroundColor={getThemeValue(
-        theme.includes('dark') ? '--background-primary-color' : '--text-primary-color'
+        isDarkTheme ? '--background-primary-color' : '--text-primary-color'
       )}
       logoImage={'./images/session/qr/brand.svg'}
       logoWidth={40}

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getPrimaryColor } from '../../state/selectors/primaryColor';
-import { getTheme } from '../../state/selectors/theme';
+import { useTheme } from '../../state/selectors/theme';
 import {
   StyleSessionSwitcher,
   getPrimaryColors,
@@ -73,7 +73,7 @@ const ThemePreview = (props: { style: StyleSessionSwitcher }) => {
 
 const Themes = () => {
   const themes = getThemeColors();
-  const selectedTheme = useSelector(getTheme);
+  const selectedTheme = useTheme();
   const dispatch = useDispatch();
 
   return (

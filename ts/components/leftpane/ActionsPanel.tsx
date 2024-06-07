@@ -43,7 +43,7 @@ import {
   getFreshSwarmFor,
 } from '../../session/apis/snode_api/snodePool';
 import { ConfigurationSync } from '../../session/utils/job_runners/jobs/ConfigurationSyncJob';
-import { isDarkTheme } from '../../state/selectors/theme';
+import { useIsDarkTheme } from '../../state/selectors/theme';
 import { switchThemeTo } from '../../themes/switchTheme';
 import { ReleasedFeatures } from '../../util/releaseFeature';
 import { getOppositeTheme } from '../../util/theme';
@@ -55,7 +55,7 @@ const Section = (props: { type: SectionType }) => {
   const dispatch = useDispatch();
   const { type } = props;
 
-  const isDarkMode = useSelector(isDarkTheme);
+  const isDarkTheme = useIsDarkTheme();
   const focusedSection = useSelector(getFocusedSection);
   const isSelected = focusedSection === props.type;
 
@@ -132,7 +132,7 @@ const Section = (props: { type: SectionType }) => {
       return (
         <SessionIconButton
           iconSize="medium"
-          iconType={isDarkMode ? 'moon' : 'sun'}
+          iconType={isDarkTheme ? 'moon' : 'sun'}
           dataTestId="theme-section"
           onClick={handleClick}
           isSelected={isSelected}

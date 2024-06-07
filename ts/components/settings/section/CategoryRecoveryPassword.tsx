@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import useMount from 'react-use/lib/useMount';
 import styled from 'styled-components';
 import { usePasswordModal } from '../../../hooks/usePasswordModal';
@@ -8,7 +8,7 @@ import { mnDecode } from '../../../session/crypto/mnemonic';
 import { updateHideRecoveryPasswordModel } from '../../../state/ducks/modalDialog';
 import { showSettingsSection } from '../../../state/ducks/section';
 import { useHideRecoveryPasswordEnabled } from '../../../state/selectors/settings';
-import { getTheme } from '../../../state/selectors/theme';
+import { useIsDarkTheme, useTheme } from '../../../state/selectors/theme';
 import { THEME_GLOBALS, getThemeValue } from '../../../themes/globals';
 import { getCurrentRecoveryPhrase } from '../../../util/storage';
 import { SessionQRCode } from '../../SessionQRCode';
@@ -61,7 +61,8 @@ export const SettingsCategoryRecoveryPassword = () => {
       dispatch(showSettingsSection('privacy'));
     },
   });
-  const theme = useSelector(getTheme);
+  const theme = useTheme();
+  const isDarkTheme = useIsDarkTheme();
 
   const fetchRecoverPhrase = () => {
     const newRecoveryPhrase = getCurrentRecoveryPhrase();
@@ -103,10 +104,10 @@ export const SettingsCategoryRecoveryPassword = () => {
             value={hexEncodedSeed}
             size={240}
             backgroundColor={getThemeValue(
-              theme.includes('dark') ? '--text-primary-color' : '--background-primary-color'
+              isDarkTheme ? '--text-primary-color' : '--background-primary-color'
             )}
             foregroundColor={getThemeValue(
-              theme.includes('dark') ? '--background-primary-color' : '--text-primary-color'
+              isDarkTheme ? '--background-primary-color' : '--text-primary-color'
             )}
             logoImage={'./images/session/qr/shield.svg'}
             logoWidth={56}
@@ -124,7 +125,7 @@ export const SettingsCategoryRecoveryPassword = () => {
             justifyContent={'space-between'}
             alignItems={'center'}
             width={'100%'}
-            color={theme.includes('dark') ? 'var(--primary-color)' : 'var(--text-primary-color)'}
+            color={isDarkTheme ? 'var(--primary-color)' : 'var(--text-primary-color)'}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}

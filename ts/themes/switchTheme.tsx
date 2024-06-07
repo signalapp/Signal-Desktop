@@ -1,6 +1,6 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import { classicDark, classicLight, oceanDark, oceanLight } from '.';
-import { applyTheme } from '../state/ducks/theme';
+import { updateTheme } from '../state/ducks/theme';
 import { THEMES, ThemeStateType, convertThemeStateToName } from './constants/colors';
 import { setThemeValues } from './globals';
 import { findPrimaryColorId, switchPrimaryColorTo } from './switchPrimaryColor';
@@ -43,7 +43,7 @@ export async function switchThemeTo(props: SwitchThemeProps) {
     }
 
     if (dispatch) {
-      dispatch(applyTheme(newTheme));
+      dispatch(updateTheme(newTheme));
       if (usePrimaryColor) {
         // Set primary color after the theme is loaded so that it's not overwritten
         const primaryColor = window.Events.getPrimaryColorSetting();

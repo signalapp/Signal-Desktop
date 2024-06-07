@@ -1,10 +1,12 @@
 import { isEmpty } from 'lodash';
-import { CSSProperties, MouseEvent, useCallback, useEffect, useState } from 'react';
+import { MouseEvent, useCallback, useEffect, useState } from 'react';
 import { QRCode } from 'react-qrcode-logo';
 import useMount from 'react-use/lib/useMount';
-import styled from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
+import { ThemeStateType } from '../themes/constants/colors';
 import { THEME_GLOBALS, getThemeValue } from '../themes/globals';
 import { saveQRCode } from '../util/saveQRCode';
+import { checkDarkTheme } from '../util/theme';
 import { AnimatedFlex } from './basic/Flex';
 
 /** AnimatedFlex because we fade in the QR code to hide the logo flickering on first render
@@ -37,7 +39,7 @@ export type SessionQRCodeProps = {
   logoWidth?: number;
   logoHeight?: number;
   logoIsSVG?: boolean;
-  theme?: string;
+  theme?: ThemeStateType;
   ignoreTheme?: boolean;
   ariaLabel?: string;
   dataTestId?: string;
@@ -77,7 +79,7 @@ export function SessionQRCode(props: SessionQRCodeProps) {
           svgString = svgString.replaceAll(
             'black',
             getThemeValue(
-              theme.includes('dark') ? '--background-primary-color' : '--text-primary-color'
+              checkDarkTheme(theme) ? '--background-primary-color' : '--text-primary-color'
             )
           );
         }

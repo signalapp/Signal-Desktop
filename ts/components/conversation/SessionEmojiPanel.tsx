@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { getPrimaryColor } from '../../state/selectors/primaryColor';
-import { getTheme, isDarkTheme } from '../../state/selectors/theme';
+import { useIsDarkTheme, useTheme } from '../../state/selectors/theme';
 import {
   COLORS,
   ColorsType,
@@ -105,8 +105,8 @@ const pickerProps = {
 export const SessionEmojiPanel = forwardRef<HTMLDivElement, Props>((props: Props, ref) => {
   const { onEmojiClicked, show, isModal = false, onKeyDown } = props;
   const primaryColor = useSelector(getPrimaryColor);
-  const theme = useSelector(getTheme);
-  const isDarkMode = useSelector(isDarkTheme);
+  const theme = useTheme();
+  const isDarkTheme = useIsDarkTheme();
 
   let panelBackgroundRGB = hexColorToRGB(THEMES.CLASSIC_DARK.COLOR1);
   let panelTextRGB = hexColorToRGB(THEMES.CLASSIC_DARK.COLOR6);
@@ -142,7 +142,7 @@ export const SessionEmojiPanel = forwardRef<HTMLDivElement, Props>((props: Props
       ref={ref}
     >
       <Picker
-        theme={isDarkMode ? 'dark' : 'light'}
+        theme={isDarkTheme ? 'dark' : 'light'}
         i18n={i18nEmojiData}
         onEmojiSelect={onEmojiClicked}
         onKeyDown={onKeyDown}
