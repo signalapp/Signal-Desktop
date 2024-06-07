@@ -45,12 +45,6 @@ const SpinnerContainer = styled.div`
   position: relative;
   height: 56px;
   width: 56px;
-
-  /* &:hover {
-    animation-play-state: running;
-  }
-  animation-play-state: paused;
-  */
   animation-play-state: running;
 `;
 
