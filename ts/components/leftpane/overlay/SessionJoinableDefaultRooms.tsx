@@ -4,12 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { parseOpenGroupV2 } from '../../../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
 import { sogsV3FetchPreviewBase64 } from '../../../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
-import { updateDefaultBase64RoomData } from '../../../state/ducks/defaultRooms';
+import { DefaultRoomsState, updateDefaultBase64RoomData } from '../../../state/ducks/defaultRooms';
 import { StateType } from '../../../state/reducer';
+import { useHTMLDirection } from '../../../util/i18n';
 import { Avatar, AvatarSize } from '../../avatar/Avatar';
 import { Flex } from '../../basic/Flex';
+import { H4 } from '../../basic/Heading';
 import { PillContainerHoverable, StyledPillContainerHoverable } from '../../basic/PillContainer';
-import { H3, SpacerSM } from '../../basic/Text';
+import { SpacerXS } from '../../basic/Text';
 import { SessionSpinner } from '../../loading';
 
 export type JoinableRoomProps = {
@@ -23,6 +25,7 @@ export type JoinableRoomProps = {
 
 const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     let isCancelled = false;
 
@@ -81,10 +84,11 @@ const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
 };
 
 const StyledRoomName = styled(Flex)`
+  font-size: var(--font-size-md);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  padding: 0 10px;
+  margin: 0 var(--margins-sm);
 `;
 
 const SessionJoinableRoomName = (props: JoinableRoomProps) => {
@@ -100,8 +104,12 @@ const SessionJoinableRoomRow = (props: JoinableRoomProps) => {
     : undefined;
 
   return (
-    <StyledPillContainerHoverable>
-      <PillContainerHoverable onClick={onClickWithUrl} margin="5px" padding="5px">
+    <StyledPillContainerHoverable container={true} alignItems="center" flexShrink={0} width={'70%'}>
+      <PillContainerHoverable
+        onClick={onClickWithUrl}
+        margin={'var(--margins-sm)'}
+        padding="var(--margins-xs) var(--margins-sm)"
+      >
         <SessionJoinableRoomAvatar {...props} />
         <SessionJoinableRoomName {...props} />
       </PillContainerHoverable>
@@ -110,14 +118,13 @@ const SessionJoinableRoomRow = (props: JoinableRoomProps) => {
 };
 
 const JoinableRooms = (props: {
+  joinableRooms: DefaultRoomsState;
   alreadyJoining: boolean;
   onJoinClick?: (completeUrl: string) => void;
 }) => {
-  const joinableRooms = useSelector((state: StateType) => state.defaultRooms);
-
   return (
     <>
-      {joinableRooms.rooms.map(r => {
+      {props.joinableRooms.rooms.map(r => {
         return (
           <SessionJoinableRoomRow
             key={r.id}
@@ -138,6 +145,7 @@ export const SessionJoinableRooms = (props: {
   onJoinClick?: (completeUrl: string) => void;
   alreadyJoining: boolean;
 }) => {
+  const htmlDirection = useHTMLDirection();
   const joinableRooms = useSelector((state: StateType) => state.defaultRooms);
 
   if (!joinableRooms.inProgress && !joinableRooms.rooms?.length) {
@@ -146,14 +154,35 @@ export const SessionJoinableRooms = (props: {
   }
 
   return (
-    <Flex container={true} flexGrow={1} flexDirection="column" width="93%">
-      <H3 text={window.i18n('orJoinOneOfThese')} />
-      <SpacerSM />
-      <Flex container={true} flexGrow={0} flexWrap="wrap" justifyContent="center">
+    <Flex
+      container={true}
+      flexGrow={1}
+      flexDirection="column"
+      alignItems="center"
+      dir={htmlDirection}
+      width="100%"
+    >
+      <H4>{window.i18n('orJoinOneOfThese')}</H4>
+      <SpacerXS />
+      <Flex
+        container={true}
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        flexGrow={0}
+        flexWrap="wrap"
+        dir={htmlDirection}
+        width={'100%'}
+        margin={'0 0 0 calc(var(--margins-md) * -1)'}
+      >
         {joinableRooms.inProgress ? (
           <SessionSpinner loading={true} />
         ) : (
-          <JoinableRooms {...props} />
+          <JoinableRooms
+            joinableRooms={joinableRooms}
+            alreadyJoining={props.alreadyJoining}
+            onJoinClick={props.onJoinClick}
+          />
         )}
       </Flex>
     </Flex>

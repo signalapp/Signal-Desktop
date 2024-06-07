@@ -78,16 +78,3 @@ export const Spacer2XL = (props: { style?: CSSProperties }) => {
 export const Spacer3XL = (props: { style?: CSSProperties }) => {
   return <Spacer size="3xl" style={props.style} />;
 };
-
-type H3Props = {
-  text: string;
-};
-
-const StyledH3 = styled.div<H3Props>`
-  transition: var(--default-duration);
-  font-family: var(--font-default);
-  font-size: var(--font-size-md);
-  font-weight: 700;
-`;
-
-export const H3 = (props: H3Props) => <StyledH3 {...props}>{props.text}</StyledH3>;

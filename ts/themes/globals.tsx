@@ -13,25 +13,28 @@ export type ThemeGlobals = {
   '--font-default': string;
   '--font-accent': string;
   '--font-mono': string;
-  '--font-size-xs': string;
-  '--font-size-sm': string;
-  '--font-size-md': string;
-  '--font-size-lg': string;
+  '--font-debug': string;
+
   '--font-size-xl': string;
+  '--font-size-lg': string;
+  '--font-size-md': string;
+  '--font-size-sm': string;
+  '--font-size-xs': string;
+
   '--font-size-h1': string;
   '--font-size-h2': string;
   '--font-size-h3': string;
   '--font-size-h4': string;
 
   /* Margins */
-  '--margins-xxs': string;
-  '--margins-xs': string;
-  '--margins-sm': string;
-  '--margins-md': string;
-  '--margins-lg': string;
-  '--margins-xl': string;
-  '--margins-2xl': string;
   '--margins-3xl': string;
+  '--margins-2xl': string;
+  '--margins-xl': string;
+  '--margins-lg': string;
+  '--margins-md': string;
+  '--margins-sm': string;
+  '--margins-xs': string;
+  '--margins-xxs': string;
 
   /* Padding */
   '--padding-message-content': string;
@@ -121,24 +124,27 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--font-default': 'Roboto',
   '--font-accent': 'Loor',
   '--font-mono': 'SpaceMono',
-  '--font-size-xs': '11px',
-  '--font-size-sm': '13px',
-  '--font-size-md': '15px',
-  '--font-size-lg': '17px',
+  '--font-debug': "Monaco, Consolas, 'Courier New', Courier, monospace",
+
   '--font-size-xl': '19px',
+  '--font-size-lg': '17px',
+  '--font-size-md': '15px',
+  '--font-size-sm': '13px',
+  '--font-size-xs': '11px',
+
   '--font-size-h1': '30px',
   '--font-size-h2': '24px',
   '--font-size-h3': '20px',
   '--font-size-h4': '16px',
 
-  '--margins-xxs': '2.5px',
-  '--margins-xs': '5px',
-  '--margins-sm': '10px',
-  '--margins-md': '15px',
-  '--margins-lg': '20px',
-  '--margins-xl': '25px',
-  '--margins-2xl': '30px',
   '--margins-3xl': '35px',
+  '--margins-2xl': '30px',
+  '--margins-xl': '25px',
+  '--margins-lg': '20px',
+  '--margins-md': '15px',
+  '--margins-sm': '10px',
+  '--margins-xs': '5px',
+  '--margins-xxs': '2.5px',
 
   '--padding-message-content': '7px 13px',
   '--padding-link-preview': '-7px -13px 7px -13px', // bottom has positive value because a link preview has always a body below
