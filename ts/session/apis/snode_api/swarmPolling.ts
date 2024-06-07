@@ -1,17 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable more/no-then */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import {
-  compact,
-  concat,
-  difference,
-  flatten,
-  isEmpty,
-  last,
-  sample,
-  toNumber,
-  uniqBy,
-} from 'lodash';
+import { compact, concat, flatten, isEmpty, last, sample, toNumber, uniqBy } from 'lodash';
 import { Data, Snode } from '../../../data/data';
 import { SignalService } from '../../../protobuf';
 import * as Receiver from '../../../receiver/receiver';
@@ -237,10 +227,16 @@ export class SwarmPolling {
     namespaces: Array<SnodeNamespaces>
   ) {
     const polledPubkey = pubkey.key;
-    const toPollFrom = await this.getNodesToPollFrom(pubkey.key);
-
     let resultsFromAllNamespaces: RetrieveMessagesResultsBatched | null;
+
+    const swarmSnodes = await snodePool.getSwarmFor(polledPubkey);
+    let toPollFrom: Snode | undefined;
     try {
+      toPollFrom = sample(swarmSnodes);
+
+      if (!toPollFrom) {
+        throw new Error(`pollOnceForKey: no snode in swarm for ${ed25519Str(polledPubkey)}`);
+      }
       // Note: always print something so we know if the polling is hanging
       window.log.info(
         `about to pollNodeForKey of ${ed25519Str(pubkey.key)} from snode: ${ed25519Str(toPollFrom.pubkey_ed25519)} namespaces: ${namespaces} `
@@ -570,22 +566,6 @@ export class SwarmPolling {
     }
   }
 
-  private async getNodesToPollFrom(polledPubkey: string) {
-    const swarmSnodes = await snodePool.getSwarmFor(polledPubkey);
-
-    // Select nodes for which we already have lastHashes
-    const alreadyPolled = swarmSnodes.filter((n: Snode) => this.lastHashes[n.pubkey_ed25519]);
-    let toPollFrom = alreadyPolled.length ? alreadyPolled[0] : null;
-
-    // If we need more nodes, select randomly from the remaining nodes:
-    if (!toPollFrom) {
-      const notPolled = difference(swarmSnodes, alreadyPolled);
-      toPollFrom = sample(notPolled) as Snode;
-    }
-
-    return toPollFrom;
-  }
-
   private loadGroupIds() {
     const convos = getConversationController().getConversations();
 
@@ -694,13 +674,26 @@ export class SwarmPolling {
     }
 
     const pubkey = UserUtils.getOurPubKeyFromCache();
-    const toPollFrom = await this.getNodesToPollFrom(pubkey.key);
+
+    const swarmSnodes = await snodePool.getSwarmFor(pubkey.key);
+    const toPollFrom = sample(swarmSnodes);
+
+    if (!toPollFrom) {
+      throw new Error(
+        `[pollOnceForOurDisplayName] no snode in swarm for ${ed25519Str(pubkey.key)}`
+      );
+    }
 
     if (abortSignal?.aborted) {
       throw new NotFoundError(
         '[pollOnceForOurDisplayName] aborted after selecting nodes to poll from'
       );
     }
+
+    // Note: always print something so we know if the polling is hanging
+    window.log.info(
+      `WIP: [onboarding] about to pollOnceForOurDisplayName of ${ed25519Str(pubkey.key)} from snode: ${ed25519Str(toPollFrom.pubkey_ed25519)} namespaces: ${[SnodeNamespaces.UserProfile]} `
+    );
 
     const resultsFromUserProfile = await SnodeAPIRetrieve.retrieveNextMessages(
       toPollFrom,
@@ -709,6 +702,11 @@ export class SwarmPolling {
       [SnodeNamespaces.UserProfile],
       pubkey.key,
       null
+    );
+
+    // Note: always print something so we know if the polling is hanging
+    window.log.info(
+      `WIP: [onboarding] pollOnceForOurDisplayName of ${ed25519Str(pubkey.key)} from snode: ${ed25519Str(toPollFrom.pubkey_ed25519)} namespaces: ${[SnodeNamespaces.UserProfile]} returned: ${resultsFromUserProfile?.length}`
     );
 
     // check if we just fetched the details from the config namespaces.
