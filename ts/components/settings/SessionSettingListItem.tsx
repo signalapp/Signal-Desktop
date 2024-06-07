@@ -75,8 +75,8 @@ const StyledSettingItemClickable = styled(StyledSettingItemInline)`
 `;
 
 export const SettingsTitleAndDescription = (props: {
-  title?: string | ReactNode;
-  description?: string | ReactNode;
+  title?: ReactNode;
+  description?: ReactNode;
   childrenDescription?: ReactNode;
   icon?: SessionIconProps;
 }) => {

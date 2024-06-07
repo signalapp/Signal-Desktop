@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import styled, { CSSProperties } from 'styled-components';
 
 export type HeadingProps = {
-  children: string | ReactNode;
+  children: ReactNode;
   color?: string;
   style?: CSSProperties;
   /** center | start (left) | end (right) */
