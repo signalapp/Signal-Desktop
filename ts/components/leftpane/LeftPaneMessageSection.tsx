@@ -64,8 +64,8 @@ const ClosableOverlay = () => {
 };
 
 const ConversationRow = (
-  conversationIds: Array<string>,
-  { index, key, style }: ListRowProps
+  { index, key, style }: ListRowProps,
+  conversationIds: Array<string>
 ): JSX.Element | null => {
   // assume conversations that have been marked unapproved should be filtered out by selector.
   if (!conversationIds) {
@@ -105,7 +105,7 @@ const ConversationList = () => {
             height={height}
             rowCount={conversationIds.length}
             rowHeight={64}
-            rowRenderer={props => ConversationRow(conversationIds, props)}
+            rowRenderer={props => ConversationRow(props, conversationIds)}
             width={width}
             autoHeight={false}
             conversationIds={conversationIds}

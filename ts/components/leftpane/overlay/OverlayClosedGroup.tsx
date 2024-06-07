@@ -5,7 +5,7 @@ import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 
 import { isEmpty } from 'lodash';
-import { MemberListItem } from '../../MemberListItem';
+import { AutoSizer, List, ListRowProps } from 'react-virtualized';
 import { SessionButton } from '../../basic/SessionButton';
 import { SessionSpinner } from '../../loading';
 
@@ -20,6 +20,7 @@ import {
   getSearchTerm,
   isSearching,
 } from '../../../state/selectors/search';
+import { MemberListItem } from '../../MemberListItem';
 import { SessionSearchInput } from '../../SessionSearchInput';
 import { Flex } from '../../basic/Flex';
 import { SpacerLG, SpacerMD } from '../../basic/Text';
@@ -40,6 +41,8 @@ const StyledNoResults = styled.div`
 const StyledGroupMemberListContainer = styled.div`
   padding: 0;
   width: 100%;
+  height: 100%;
+  overflow-x: hidden;
   overflow-y: auto;
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
@@ -55,21 +58,49 @@ const NoContacts = () => {
   );
 };
 
+const MemberRow = (
+  { index, key }: ListRowProps,
+  contactsToRender: Array<string>,
+  selectedMemberIds: Array<string>,
+  addToSelected: (memberId: string) => void,
+  removeFromSelected: (memberId: string) => void
+): JSX.Element | null => {
+  // assume conversations that have been marked unapproved should be filtered out by selector.
+  if (!contactsToRender) {
+    throw new Error('MemberRow: Tried to render without contacts');
+  }
+
+  const memberPubkey = contactsToRender[index];
+  if (!memberPubkey) {
+    throw new Error('MemberRow: contact selector returned element containing falsy value.');
+  }
+
+  return (
+    <MemberListItem
+      key={key}
+      pubkey={memberPubkey}
+      isSelected={selectedMemberIds.some(m => m === memberPubkey)}
+      onSelect={addToSelected}
+      onUnselect={removeFromSelected}
+    />
+  );
+};
+
 /**
  * Makes some validity check and return true if the group was indead created
  */
 async function createClosedGroupWithErrorHandling(
   groupName: string,
   groupMemberIds: Array<string>,
-  errorHandler: (error: string) => void
+  onError: (error: string) => void
 ): Promise<boolean> {
   // Validate groupName and groupMembers length
   if (groupName.length === 0) {
-    errorHandler(window.i18n('invalidGroupNameTooShort'));
+    onError(window.i18n('invalidGroupNameTooShort'));
     return false;
   }
   if (groupName.length > VALIDATION.MAX_GROUP_NAME_LENGTH) {
-    errorHandler(window.i18n('invalidGroupNameTooLong'));
+    onError(window.i18n('invalidGroupNameTooLong'));
     return false;
   }
 
@@ -77,11 +108,11 @@ async function createClosedGroupWithErrorHandling(
   // the same is valid with groups count < 1
 
   if (groupMemberIds.length < 1) {
-    errorHandler(window.i18n('pickClosedGroupMember'));
+    onError(window.i18n('pickClosedGroupMember'));
     return false;
   }
   if (groupMemberIds.length >= VALIDATION.CLOSED_GROUP_SIZE_LIMIT) {
-    errorHandler(window.i18n('closedGroupMaxSize'));
+    onError(window.i18n('closedGroupMaxSize'));
     return false;
   }
 
@@ -173,23 +204,32 @@ export const OverlayClosedGroup = () => {
       </Flex>
 
       <SessionSearchInput />
-      <StyledGroupMemberListContainer>
+      <StyledGroupMemberListContainer key={`member-list-0`}>
         {noContactsForClosedGroup ? (
           <NoContacts />
-        ) : !isEmpty(searchTerm) && contactsToRender.length === 0 ? (
+        ) : searchTerm && !contactsToRender.length ? (
           <StyledNoResults>{window.i18n('noSearchResults', [searchTerm])}</StyledNoResults>
         ) : (
-          <div>
-            {contactsToRender.map((memberPubkey: string) => (
-              <MemberListItem
-                pubkey={memberPubkey}
-                isSelected={selectedMemberIds.some(m => m === memberPubkey)}
-                key={memberPubkey}
-                onSelect={addToSelected}
-                onUnselect={removeFromSelected}
+          <AutoSizer>
+            {({ height, width }) => (
+              <List
+                height={height}
+                width={width}
+                autoHeight={true}
+                rowCount={contactsToRender.length}
+                rowHeight={50}
+                rowRenderer={props =>
+                  MemberRow(
+                    props,
+                    contactsToRender,
+                    selectedMemberIds,
+                    addToSelected,
+                    removeFromSelected
+                  )
+                }
               />
-            ))}
-          </div>
+            )}
+          </AutoSizer>
         )}
       </StyledGroupMemberListContainer>
 
