@@ -82,7 +82,7 @@ const DEFAULT_TIMEOUT = 30 * SECOND;
 // (and other connectivity params) of the services.
 function resolveLibsignalNetEnvironment(
   appEnv: Environment,
-  libsignalNetEnv: string | undefined
+  url: string
 ): Net.Environment {
   switch (appEnv) {
     case Environment.Production:
@@ -91,12 +91,10 @@ function resolveLibsignalNetEnvironment(
       // In the case of the `Development` Desktop env,
       // we should be checking the provided string value
       // of `libsignalNetEnv`
-      switch (libsignalNetEnv) {
-        case 'production':
-          return Net.Environment.Production;
-        default:
-          return Net.Environment.Staging;
+      if (/staging/i.test(url)) {
+        return Net.Environment.Staging;
       }
+      return Net.Environment.Production;
     case Environment.Test:
     case Environment.Staging:
     default:
@@ -654,7 +652,6 @@ type InitializeOptionsType = {
   proxyUrl: string | undefined;
   version: string;
   directoryConfig: DirectoryConfigType;
-  libsignalNetEnvironment: string | undefined;
   disableIPv6: boolean;
 };
 
@@ -1498,7 +1495,6 @@ export function initialize({
   contentProxyUrl,
   proxyUrl,
   version,
-  libsignalNetEnvironment,
   disableIPv6,
 }: InitializeOptionsType): WebAPIConnectType {
   if (!isString(url)) {
@@ -1542,10 +1538,7 @@ export function initialize({
   // for providing network layer API and related functionality.
   // It's important to have a single instance of this class as it holds
   // resources that are shared across all other use cases.
-  const env = resolveLibsignalNetEnvironment(
-    getEnvironment(),
-    libsignalNetEnvironment
-  );
+  const env = resolveLibsignalNetEnvironment(getEnvironment(), url);
   log.info(`libsignal net environment resolved to [${Net.Environment[env]}]`);
   const libsignalNet = new Net.Net(env, getUserAgent(version));
   libsignalNet.setIpv6Enabled(!disableIPv6);
