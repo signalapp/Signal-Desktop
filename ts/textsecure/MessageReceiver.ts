@@ -3,7 +3,7 @@
 
 /* eslint-disable no-bitwise */
 
-import { isBoolean, isNumber, isString, omit } from 'lodash';
+import { isBoolean, isNumber, isString, noop, omit } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { existsSync } from 'fs';
@@ -2523,23 +2523,32 @@ export default class MessageReceiver
       p = this.handleEndSession(envelope, sourceAci);
     }
 
-    if (msg.flags && msg.flags & Proto.DataMessage.Flags.PROFILE_KEY_UPDATE) {
-      strictAssert(
-        msg.profileKey != null && msg.profileKey.length > 0,
-        'PROFILE_KEY_UPDATE without profileKey'
-      );
+    const { profileKey } = msg;
+    const hasProfileKey = profileKey && profileKey.length > 0;
+    const isProfileKeyUpdate =
+      msg.flags && msg.flags & Proto.DataMessage.Flags.PROFILE_KEY_UPDATE;
 
+    if (isProfileKeyUpdate) {
+      strictAssert(hasProfileKey, 'PROFILE_KEY_UPDATE without profileKey');
       logUnexpectedUrgentValue(envelope, 'profileKeyUpdate');
+    }
 
+    if (hasProfileKey) {
       const ev = new ProfileKeyUpdateEvent(
         {
           source: envelope.source,
           sourceAci,
-          profileKey: Bytes.toBase64(msg.profileKey),
+          profileKey: Bytes.toBase64(profileKey),
         },
-        this.removeFromCache.bind(this, envelope)
+        isProfileKeyUpdate ? 'profileKeyUpdate' : 'profileKeyHarvest',
+        isProfileKeyUpdate ? this.removeFromCache.bind(this, envelope) : noop
       );
-      return this.dispatchAndWait(logId, ev);
+
+      if (isProfileKeyUpdate) {
+        return this.dispatchAndWait(logId, ev);
+      }
+
+      drop(this.dispatchAndWait(logId, ev));
     }
     await p;
 
