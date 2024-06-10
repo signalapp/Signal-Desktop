@@ -6,6 +6,7 @@ import type { ConversationModel } from '../models/conversations';
 import type {
   CustomError,
   MessageAttributesType,
+  QuotedAttachmentType,
   QuotedMessageType,
 } from '../model-types.d';
 import type { ServiceIdString } from '../types/ServiceId';
@@ -135,6 +136,31 @@ export function isQuoteAMatch(
     getAuthorId(message) === authorConversation?.id
   );
 }
+
+export const shouldTryToCopyFromQuotedMessage = ({
+  referencedMessageNotFound,
+  quoteAttachment,
+}: {
+  referencedMessageNotFound: boolean;
+  quoteAttachment: QuotedAttachmentType | undefined;
+}): boolean => {
+  // If we've tried and can't find the message, try again.
+  if (referencedMessageNotFound === true) {
+    return true;
+  }
+
+  // Otherwise, try again in case we have not yet copied over the thumbnail from the
+  // original attachment (maybe it had not been downloaded when we first checked)
+  if (!quoteAttachment?.thumbnail) {
+    return false;
+  }
+
+  if (quoteAttachment.thumbnail.copied === true) {
+    return false;
+  }
+
+  return true;
+};
 
 export function getAuthorId(
   message: Pick<MessageAttributesType, 'type' | 'source' | 'sourceServiceId'>

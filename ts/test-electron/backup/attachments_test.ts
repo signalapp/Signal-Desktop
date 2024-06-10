@@ -8,13 +8,16 @@ import { omit } from 'lodash';
 import type { ConversationModel } from '../../models/conversations';
 import * as Bytes from '../../Bytes';
 import Data from '../../sql/Client';
-import { generateAci } from '../../types/ServiceId';
+import { type AciString, generateAci } from '../../types/ServiceId';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SeenStatus } from '../../MessageSeenStatus';
 import { loadCallsHistory } from '../../services/callHistoryLoader';
 import { setupBasics, asymmetricRoundtripHarness } from './helpers';
-import { AUDIO_MP3, IMAGE_JPEG } from '../../types/MIME';
-import type { MessageAttributesType } from '../../model-types';
+import { AUDIO_MP3, IMAGE_JPEG, IMAGE_PNG, VIDEO_MP4 } from '../../types/MIME';
+import type {
+  MessageAttributesType,
+  QuotedMessageType,
+} from '../../model-types';
 import { isVoiceMessage, type AttachmentType } from '../../types/Attachment';
 import { strictAssert } from '../../util/assert';
 import { SignalService } from '../../protobuf';
@@ -58,6 +61,13 @@ describe('backup/attachments', () => {
       contentType: IMAGE_JPEG,
       path: `/path/to/file${index}.png`,
       uploadTimestamp: index,
+      thumbnail: {
+        size: 1024,
+        width: 150,
+        height: 150,
+        contentType: IMAGE_PNG,
+        path: '/path/to/thumbnail.png',
+      },
       ...overrides,
     };
   }
@@ -73,7 +83,7 @@ describe('backup/attachments', () => {
       received_at: timestamp,
       received_at_ms: timestamp,
       sourceServiceId: CONTACT_A,
-      sourceDevice: timestamp,
+      sourceDevice: 1,
       sent_at: timestamp,
       timestamp,
       readStatus: ReadStatus.Read,
@@ -97,8 +107,8 @@ describe('backup/attachments', () => {
         [
           composeMessage(1, {
             attachments: [
-              omit(attachment1, ['path', 'iv']),
-              omit(attachment2, ['path', 'iv']),
+              omit(attachment1, ['path', 'iv', 'thumbnail']),
+              omit(attachment2, ['path', 'iv', 'thumbnail']),
             ],
           }),
         ],
@@ -121,7 +131,12 @@ describe('backup/attachments', () => {
             // but there will be a backupLocator
             attachments: [
               {
-                ...omit(attachment, ['path', 'iv', 'uploadTimestamp']),
+                ...omit(attachment, [
+                  'path',
+                  'iv',
+                  'thumbnail',
+                  'uploadTimestamp',
+                ]),
                 backupLocator: { mediaName: attachment.digest },
               },
             ],
@@ -148,7 +163,12 @@ describe('backup/attachments', () => {
           composeMessage(1, {
             attachments: [
               {
-                ...omit(attachment, ['path', 'iv', 'uploadTimestamp']),
+                ...omit(attachment, [
+                  'path',
+                  'iv',
+                  'thumbnail',
+                  'uploadTimestamp',
+                ]),
                 backupLocator: { mediaName: attachment.digest },
               },
             ],
@@ -173,7 +193,11 @@ describe('backup/attachments', () => {
         [
           composeMessage(1, {
             preview: [
-              { url: 'url', date: 1, image: omit(attachment, ['path', 'iv']) },
+              {
+                url: 'url',
+                date: 1,
+                image: omit(attachment, ['path', 'iv', 'thumbnail']),
+              },
             ],
           }),
         ],
@@ -209,7 +233,12 @@ describe('backup/attachments', () => {
                 image: {
                   // path, iv, and uploadTimestamp will not be roundtripped,
                   // but there will be a backupLocator
-                  ...omit(attachment, ['path', 'iv', 'uploadTimestamp']),
+                  ...omit(attachment, [
+                    'path',
+                    'iv',
+                    'thumbnail',
+                    'uploadTimestamp',
+                  ]),
                   backupLocator: { mediaName: attachment.digest },
                 },
               },
@@ -237,7 +266,7 @@ describe('backup/attachments', () => {
             contact: [
               {
                 avatar: {
-                  avatar: omit(attachment, ['path', 'iv']),
+                  avatar: omit(attachment, ['path', 'iv', 'thumbnail']),
                   isProfile: false,
                 },
               },
@@ -265,7 +294,12 @@ describe('backup/attachments', () => {
               {
                 avatar: {
                   avatar: {
-                    ...omit(attachment, ['path', 'iv', 'uploadTimestamp']),
+                    ...omit(attachment, [
+                      'path',
+                      'iv',
+                      'thumbnail',
+                      'uploadTimestamp',
+                    ]),
                     backupLocator: { mediaName: attachment.digest },
                   },
                   isProfile: false,
@@ -273,6 +307,157 @@ describe('backup/attachments', () => {
               },
             ],
           }),
+        ],
+        BackupLevel.Media
+      );
+    });
+  });
+
+  describe('quotes', () => {
+    it('BackupLevel.Messages, roundtrips quote attachments', async () => {
+      const attachment = composeAttachment(1);
+      const authorAci = generateAci();
+      const quotedMessage: QuotedMessageType = {
+        authorAci,
+        isViewOnce: false,
+        id: Date.now(),
+        referencedMessageNotFound: false,
+        messageId: '',
+        isGiftBadge: true,
+        attachments: [{ thumbnail: attachment, contentType: VIDEO_MP4 }],
+      };
+
+      await asymmetricRoundtripHarness(
+        [
+          composeMessage(1, {
+            quote: quotedMessage,
+          }),
+        ],
+        // path & iv will not be roundtripped
+        [
+          composeMessage(1, {
+            quote: {
+              ...quotedMessage,
+              referencedMessageNotFound: true,
+              attachments: [
+                {
+                  thumbnail: omit(attachment, ['iv', 'path', 'thumbnail']),
+                  contentType: VIDEO_MP4,
+                },
+              ],
+            },
+          }),
+        ],
+        BackupLevel.Messages
+      );
+    });
+    it('BackupLevel.Media, roundtrips quote attachments', async () => {
+      const attachment = composeAttachment(1);
+      strictAssert(attachment.digest, 'digest exists');
+      const authorAci = generateAci();
+      const quotedMessage: QuotedMessageType = {
+        authorAci,
+        isViewOnce: false,
+        id: Date.now(),
+        referencedMessageNotFound: false,
+        messageId: '',
+        isGiftBadge: true,
+        attachments: [{ thumbnail: attachment, contentType: VIDEO_MP4 }],
+      };
+
+      await asymmetricRoundtripHarness(
+        [
+          composeMessage(1, {
+            quote: quotedMessage,
+          }),
+        ],
+        [
+          composeMessage(1, {
+            quote: {
+              ...quotedMessage,
+              referencedMessageNotFound: true,
+              attachments: [
+                {
+                  thumbnail: {
+                    ...omit(attachment, [
+                      'iv',
+                      'path',
+                      'uploadTimestamp',
+                      'thumbnail',
+                    ]),
+                    backupLocator: { mediaName: attachment.digest },
+                  },
+                  contentType: VIDEO_MP4,
+                },
+              ],
+            },
+          }),
+        ],
+        BackupLevel.Media
+      );
+    });
+
+    it('Copies data from message if it exists', async () => {
+      const existingAttachment = composeAttachment(1);
+      const existingMessageTimestamp = Date.now();
+      const existingMessage = composeMessage(existingMessageTimestamp, {
+        attachments: [existingAttachment],
+      });
+
+      const quoteAttachment = composeAttachment(2);
+      delete quoteAttachment.thumbnail;
+
+      strictAssert(quoteAttachment.digest, 'digest exists');
+      strictAssert(existingAttachment.digest, 'digest exists');
+      const quotedMessage: QuotedMessageType = {
+        authorAci: existingMessage.sourceServiceId as AciString,
+        isViewOnce: false,
+        id: existingMessageTimestamp,
+        referencedMessageNotFound: false,
+        messageId: '',
+        isGiftBadge: false,
+        attachments: [{ thumbnail: quoteAttachment, contentType: VIDEO_MP4 }],
+      };
+
+      const quoteMessage = composeMessage(existingMessageTimestamp + 1, {
+        quote: quotedMessage,
+      });
+
+      await asymmetricRoundtripHarness(
+        [existingMessage, quoteMessage],
+        [
+          {
+            ...existingMessage,
+            attachments: [
+              {
+                ...omit(existingAttachment, [
+                  'path',
+                  'iv',
+                  'uploadTimestamp',
+                  'thumbnail',
+                ]),
+                backupLocator: { mediaName: existingAttachment.digest },
+              },
+            ],
+          },
+          {
+            ...quoteMessage,
+            quote: {
+              ...quotedMessage,
+              referencedMessageNotFound: false,
+              attachments: [
+                {
+                  // The thumbnail will not have been copied over yet since it has not yet
+                  // been downloaded
+                  thumbnail: {
+                    ...omit(quoteAttachment, ['iv', 'path', 'uploadTimestamp']),
+                    backupLocator: { mediaName: quoteAttachment.digest },
+                  },
+                  contentType: VIDEO_MP4,
+                },
+              ],
+            },
+          },
         ],
         BackupLevel.Media
       );

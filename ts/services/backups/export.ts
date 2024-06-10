@@ -1627,14 +1627,18 @@ export class BackupExportStream extends Readable {
     return groupUpdate;
   }
 
-  private async toQuote(
-    quote?: QuotedMessageType
-  ): Promise<Backups.IQuote | null> {
+  private async toQuote({
+    quote,
+    backupLevel,
+    messageReceivedAt,
+  }: {
+    quote?: QuotedMessageType;
+    backupLevel: BackupLevel;
+    messageReceivedAt: number;
+  }): Promise<Backups.IQuote | null> {
     if (!quote) {
       return null;
     }
-
-    const quotedMessage = await Data.getMessageById(quote.messageId);
 
     let authorId: Long;
     if (quote.authorAci) {
@@ -1653,19 +1657,28 @@ export class BackupExportStream extends Readable {
     }
 
     return {
-      targetSentTimestamp:
-        quotedMessage && !quote.referencedMessageNotFound
-          ? Long.fromNumber(quotedMessage.sent_at)
-          : null,
+      targetSentTimestamp: Long.fromNumber(quote.id),
       authorId,
       text: quote.text,
-      attachments: quote.attachments.map((attachment: QuotedAttachmentType) => {
-        return {
-          contentType: attachment.contentType,
-          fileName: attachment.fileName,
-          thumbnail: null,
-        };
-      }),
+      attachments: await Promise.all(
+        quote.attachments.map(
+          async (
+            attachment: QuotedAttachmentType
+          ): Promise<Backups.Quote.IQuotedAttachment> => {
+            return {
+              contentType: attachment.contentType,
+              fileName: attachment.fileName,
+              thumbnail: attachment.thumbnail
+                ? await this.processMessageAttachment({
+                    attachment: attachment.thumbnail,
+                    backupLevel,
+                    messageReceivedAt,
+                  })
+                : undefined,
+            };
+          }
+        )
+      ),
       bodyRanges: quote.bodyRanges?.map(range => this.toBodyRange(range)),
       type: quote.isGiftBadge
         ? Backups.Quote.Type.GIFTBADGE
@@ -1880,7 +1893,11 @@ export class BackupExportStream extends Readable {
     const includeText = !isVoiceMessage;
 
     return {
-      quote: await this.toQuote(message.quote),
+      quote: await this.toQuote({
+        quote: message.quote,
+        backupLevel,
+        messageReceivedAt: message.received_at,
+      }),
       attachments: message.attachments
         ? await Promise.all(
             message.attachments.map(attachment => {

@@ -29,6 +29,7 @@ import type {
   MessageAttributesType,
   MessageReactionType,
   EditHistoryType,
+  QuotedMessageType,
 } from '../../model-types.d';
 import { assertDev, strictAssert } from '../../util/assert';
 import { getTimestampFromLong } from '../../util/timestampLongUtils';
@@ -62,6 +63,9 @@ import {
   convertBackupMessageAttachmentToAttachment,
   convertFilePointerToAttachment,
 } from './util/filePointers';
+import { filterAndClean } from '../../types/BodyRange';
+import { APPLICATION_OCTET_STREAM, stringToMIMEType } from '../../types/MIME';
+import { copyFromQuotedMessage } from '../../messages/copyQuote';
 
 const MAX_CONCURRENCY = 10;
 
@@ -110,6 +114,8 @@ async function processMessagesBatch(
       ...rawAttributes,
       id: ids[index],
     };
+
+    window.MessageCache.__DEPRECATED$unregister(attributes.id);
 
     const { editHistory } = attributes;
 
@@ -388,14 +394,28 @@ export class BackupImportStream extends Writable {
   }
 
   private saveConversation(attributes: ConversationAttributesType): void {
+    // add the conversation into memory without saving it to DB (that will happen in
+    // batcher); if we didn't do this, when we register messages to MessageCache, it would
+    // automatically create (and save to DB) a duplicate conversation which would have to
+    // be later merged
+    window.ConversationController.dangerouslyCreateAndAdd(attributes);
     this.conversationOpBatcher.add({ isUpdate: false, attributes });
   }
 
   private updateConversation(attributes: ConversationAttributesType): void {
+    const existing = window.ConversationController.get(attributes.id);
+    if (existing) {
+      existing.set(attributes);
+    }
     this.conversationOpBatcher.add({ isUpdate: true, attributes });
   }
 
   private saveMessage(attributes: MessageAttributesType): void {
+    window.MessageCache.__DEPRECATED$register(
+      attributes.id,
+      attributes,
+      'import.saveMessage'
+    );
     this.saveMessageBatcher.add(attributes);
   }
 
@@ -802,7 +822,7 @@ export class BackupImportStream extends Writable {
 
       attributes = {
         ...attributes,
-        ...this.fromStandardMessage(item.standardMessage),
+        ...(await this.fromStandardMessage(item.standardMessage, chatConvo.id)),
       };
     } else {
       const result = await this.fromNonBubbleChatItem(item, {
@@ -838,7 +858,7 @@ export class BackupImportStream extends Writable {
         'Only standard message can have revisions'
       );
 
-      const history = this.fromRevisions(attributes, item.revisions);
+      const history = await this.fromRevisions(attributes, item.revisions);
       attributes.editHistory = history;
 
       // Update timestamps on the parent message
@@ -971,10 +991,10 @@ export class BackupImportStream extends Writable {
     return { patch: {} };
   }
 
-  private fromStandardMessage(
-    data: Backups.IStandardMessage
-  ): Partial<MessageAttributesType> {
-    // TODO (DESKTOP-6964): Quote, link preview
+  private async fromStandardMessage(
+    data: Backups.IStandardMessage,
+    conversationId: string
+  ): Promise<Partial<MessageAttributesType>> {
     return {
       body: data.text?.body || undefined,
       attachments: data.attachments?.length
@@ -998,38 +1018,46 @@ export class BackupImportStream extends Writable {
           })
         : undefined,
       reactions: this.fromReactions(data.reactions),
+      quote: data.quote
+        ? await this.fromQuote(data.quote, conversationId)
+        : undefined,
     };
   }
 
-  private fromRevisions(
+  private async fromRevisions(
     mainMessage: MessageAttributesType,
     revisions: ReadonlyArray<Backups.IChatItem>
-  ): Array<EditHistoryType> {
-    const result = revisions
-      .map(rev => {
-        strictAssert(
-          rev.standardMessage,
-          'Edit history has non-standard messages'
-        );
+  ): Promise<Array<EditHistoryType>> {
+    const result = await Promise.all(
+      revisions
+        .map(async rev => {
+          strictAssert(
+            rev.standardMessage,
+            'Edit history has non-standard messages'
+          );
 
-        const timestamp = getTimestampFromLong(rev.dateSent);
+          const timestamp = getTimestampFromLong(rev.dateSent);
 
-        const {
-          // eslint-disable-next-line camelcase
-          patch: { sendStateByConversationId, received_at_ms },
-        } = this.fromDirectionDetails(rev, timestamp);
+          const {
+            // eslint-disable-next-line camelcase
+            patch: { sendStateByConversationId, received_at_ms },
+          } = this.fromDirectionDetails(rev, timestamp);
 
-        return {
-          ...this.fromStandardMessage(rev.standardMessage),
-          timestamp,
-          received_at: incrementMessageCounter(),
-          sendStateByConversationId,
-          // eslint-disable-next-line camelcase
-          received_at_ms,
-        };
-      })
-      // Fix order: from newest to oldest
-      .reverse();
+          return {
+            ...(await this.fromStandardMessage(
+              rev.standardMessage,
+              mainMessage.conversationId
+            )),
+            timestamp,
+            received_at: incrementMessageCounter(),
+            sendStateByConversationId,
+            // eslint-disable-next-line camelcase
+            received_at_ms,
+          };
+        })
+        // Fix order: from newest to oldest
+        .reverse()
+    );
 
     // See `ts/util/handleEditMessage.ts`, the first history entry is always
     // the current message.
@@ -1049,6 +1077,71 @@ export class BackupImportStream extends Writable {
     });
 
     return result;
+  }
+
+  private convertQuoteType(
+    type: Backups.Quote.Type | null | undefined
+  ): SignalService.DataMessage.Quote.Type {
+    switch (type) {
+      case Backups.Quote.Type.GIFTBADGE:
+        return SignalService.DataMessage.Quote.Type.GIFT_BADGE;
+      case Backups.Quote.Type.NORMAL:
+      case Backups.Quote.Type.UNKNOWN:
+      case null:
+      case undefined:
+        return SignalService.DataMessage.Quote.Type.NORMAL;
+      default:
+        throw missingCaseError(type);
+    }
+  }
+
+  private async fromQuote(
+    quote: Backups.IQuote,
+    conversationId: string
+  ): Promise<QuotedMessageType> {
+    strictAssert(quote.authorId != null, 'quote must have an authorId');
+
+    const authorConvo = this.recipientIdToConvo.get(quote.authorId.toNumber());
+    strictAssert(authorConvo !== undefined, 'author conversation not found');
+    strictAssert(
+      isAciString(authorConvo.serviceId),
+      'must have ACI for authorId in quote'
+    );
+
+    return copyFromQuotedMessage(
+      {
+        id: getTimestampFromLong(quote.targetSentTimestamp),
+        authorAci: authorConvo.serviceId,
+        text: dropNull(quote.text),
+        bodyRanges: quote.bodyRanges?.length
+          ? filterAndClean(
+              quote.bodyRanges.map(range => ({
+                ...range,
+                mentionAci: range.mentionAci
+                  ? Aci.parseFromServiceIdBinary(
+                      Buffer.from(range.mentionAci)
+                    ).getServiceIdString()
+                  : undefined,
+              }))
+            )
+          : undefined,
+        attachments:
+          quote.attachments?.map(quotedAttachment => {
+            const { fileName, contentType, thumbnail } = quotedAttachment;
+            return {
+              fileName: dropNull(fileName),
+              contentType: contentType
+                ? stringToMIMEType(contentType)
+                : APPLICATION_OCTET_STREAM,
+              thumbnail: thumbnail?.pointer
+                ? convertFilePointerToAttachment(thumbnail.pointer)
+                : undefined,
+            };
+          }) ?? [],
+        type: this.convertQuoteType(quote.type),
+      },
+      conversationId
+    );
   }
 
   private fromReactions(

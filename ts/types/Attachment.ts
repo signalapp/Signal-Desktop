@@ -1073,6 +1073,13 @@ export function isDownloadableFromBackupTier(
   return false;
 }
 
+export function isDownloadable(attachment: AttachmentType): boolean {
+  return (
+    isDownloadableFromTransitTier(attachment) ||
+    isDownloadableFromBackupTier(attachment)
+  );
+}
+
 export function isAttachmentLocallySaved(
   attachment: AttachmentType
 ): attachment is LocallySavedAttachment {

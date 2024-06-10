@@ -24,7 +24,10 @@ import { getClassNamesFor } from '../../util/getClassNamesFor';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 import type { AnyPaymentEvent } from '../../types/Payment';
 import { PaymentEventKind } from '../../types/Payment';
-import { getPaymentEventNotificationText } from '../../messages/helpers';
+import {
+  getPaymentEventNotificationText,
+  shouldTryToCopyFromQuotedMessage,
+} from '../../messages/helpers';
 import { RenderLocation } from './MessageTextRenderer';
 import type { QuotedAttachmentType } from '../../model-types';
 
@@ -165,10 +168,19 @@ export function Quote(props: Props): JSX.Element | null {
   const getClassName = getClassNamesFor('module-quote', moduleClassName);
 
   useEffect(() => {
-    if (referencedMessageNotFound) {
+    if (
+      shouldTryToCopyFromQuotedMessage({
+        referencedMessageNotFound,
+        quoteAttachment: rawAttachment,
+      })
+    ) {
       doubleCheckMissingQuoteReference?.();
     }
-  }, [referencedMessageNotFound, doubleCheckMissingQuoteReference]);
+  }, [
+    referencedMessageNotFound,
+    rawAttachment,
+    doubleCheckMissingQuoteReference,
+  ]);
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLButtonElement>) {
     // This is important to ensure that using this quote to navigate to the referenced

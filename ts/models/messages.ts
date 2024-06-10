@@ -17,7 +17,6 @@ import type {
   CustomError,
   MessageAttributesType,
   MessageReactionType,
-  QuotedMessageType,
 } from '../model-types.d';
 import { filter, find, map, repeat, zipObject } from '../util/iterables';
 import * as GoogleChrome from '../util/GoogleChrome';
@@ -31,7 +30,6 @@ import { drop } from '../util/drop';
 import type { ConversationModel } from './conversations';
 import type {
   ProcessedDataMessage,
-  ProcessedQuote,
   ProcessedUnidentifiedDeliveryStatus,
   CallbackResultType,
 } from '../textsecure/Types.d';
@@ -45,7 +43,7 @@ import { normalizeServiceId } from '../types/ServiceId';
 import { isAciString } from '../util/isAciString';
 import * as reactionUtil from '../reactions/util';
 import * as Errors from '../types/errors';
-import type { AttachmentType } from '../types/Attachment';
+import { type AttachmentType } from '../types/Attachment';
 import * as MIME from '../types/MIME';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import type { SendStateByConversationId } from '../messages/MessageSendState';
@@ -119,6 +117,7 @@ import {
   messageHasPaymentEvent,
   isQuoteAMatch,
   getAuthor,
+  shouldTryToCopyFromQuotedMessage,
 } from '../messages/helpers';
 import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue';
 import { getMessageIdForLogging } from '../util/idForLogging';
@@ -136,7 +135,6 @@ import {
   shouldUseAttachmentDownloadQueue,
 } from '../util/attachmentDownloadQueue';
 import dataInterface from '../sql/Client';
-import { getQuoteBodyText } from '../util/getQuoteBodyText';
 import { shouldReplyNotifyUser } from '../util/shouldReplyNotifyUser';
 import type { RawBodyRange } from '../types/BodyRange';
 import { BodyRange } from '../types/BodyRange';
@@ -154,6 +152,10 @@ import {
 } from '../util/editHelpers';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 import type { AttachmentDownloadUrgency } from '../jobs/AttachmentDownloadManager';
+import {
+  copyFromQuotedMessage,
+  copyQuoteContentFromOriginal,
+} from '../messages/copyQuote';
 
 /* eslint-disable more/no-then */
 
@@ -448,10 +450,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     // Is the quote really without a reference? Check with our in memory store
     // first to make sure it's not there.
-    if (referencedMessageNotFound && contact) {
-      log.info(
-        `doubleCheckMissingQuoteReference/${logId}: Verifying reference to ${sentAt}`
-      );
+    if (
+      contact &&
+      shouldTryToCopyFromQuotedMessage({
+        referencedMessageNotFound,
+        quoteAttachment: quote.attachments.at(0),
+      })
+    ) {
       const inMemoryMessages = window.MessageCache.__DEPRECATED$filterBySentAt(
         Number(sentAt)
       );
@@ -492,7 +497,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         `doubleCheckMissingQuoteReference/${logId}: Found match for ${sentAt}, updating.`
       );
 
-      await this.copyQuoteContentFromOriginal(matchingMessage, quote);
+      await copyQuoteContentFromOriginal(matchingMessage, quote);
       this.set({
         quote: {
           ...quote,
@@ -1392,190 +1397,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     });
   }
 
-  async copyFromQuotedMessage(
-    quote: ProcessedQuote | undefined,
-    conversationId: string
-  ): Promise<QuotedMessageType | undefined> {
-    if (!quote) {
-      return undefined;
-    }
-
-    const { id } = quote;
-    strictAssert(id, 'Quote must have an id');
-
-    const result: QuotedMessageType = {
-      ...quote,
-
-      id,
-
-      attachments: quote.attachments.slice(),
-      bodyRanges: quote.bodyRanges?.slice(),
-
-      // Just placeholder values for the fields
-      referencedMessageNotFound: false,
-      isGiftBadge: quote.type === Proto.DataMessage.Quote.Type.GIFT_BADGE,
-      isViewOnce: false,
-      messageId: '',
-    };
-
-    const inMemoryMessages =
-      window.MessageCache.__DEPRECATED$filterBySentAt(id);
-    const matchingMessage = find(inMemoryMessages, item =>
-      isQuoteAMatch(item.attributes, conversationId, result)
-    );
-
-    let queryMessage: undefined | MessageModel;
-
-    if (matchingMessage) {
-      queryMessage = matchingMessage;
-    } else {
-      log.info('copyFromQuotedMessage: db lookup needed', id);
-      const messages = await window.Signal.Data.getMessagesBySentAt(id);
-      const found = messages.find(item =>
-        isQuoteAMatch(item, conversationId, result)
-      );
-
-      if (!found) {
-        result.referencedMessageNotFound = true;
-        return result;
-      }
-
-      queryMessage = window.MessageCache.__DEPRECATED$register(
-        found.id,
-        found,
-        'copyFromQuotedMessage'
-      );
-    }
-
-    if (queryMessage) {
-      await this.copyQuoteContentFromOriginal(queryMessage, result);
-    }
-
-    return result;
-  }
-
-  async copyQuoteContentFromOriginal(
-    originalMessage: MessageModel,
-    quote: QuotedMessageType
-  ): Promise<void> {
-    const { attachments } = quote;
-    const firstAttachment = attachments ? attachments[0] : undefined;
-
-    if (messageHasPaymentEvent(originalMessage.attributes)) {
-      // eslint-disable-next-line no-param-reassign
-      quote.payment = originalMessage.get('payment');
-    }
-
-    if (isTapToView(originalMessage.attributes)) {
-      // eslint-disable-next-line no-param-reassign
-      quote.text = undefined;
-      // eslint-disable-next-line no-param-reassign
-      quote.attachments = [
-        {
-          contentType: MIME.IMAGE_JPEG,
-        },
-      ];
-      // eslint-disable-next-line no-param-reassign
-      quote.isViewOnce = true;
-
-      return;
-    }
-
-    const isMessageAGiftBadge = isGiftBadge(originalMessage.attributes);
-    if (isMessageAGiftBadge !== quote.isGiftBadge) {
-      log.warn(
-        `copyQuoteContentFromOriginal: Quote.isGiftBadge: ${quote.isGiftBadge}, isGiftBadge(message): ${isMessageAGiftBadge}`
-      );
-      // eslint-disable-next-line no-param-reassign
-      quote.isGiftBadge = isMessageAGiftBadge;
-    }
-    if (isMessageAGiftBadge) {
-      // eslint-disable-next-line no-param-reassign
-      quote.text = undefined;
-      // eslint-disable-next-line no-param-reassign
-      quote.attachments = [];
-
-      return;
-    }
-
-    // eslint-disable-next-line no-param-reassign
-    quote.isViewOnce = false;
-
-    // eslint-disable-next-line no-param-reassign
-    quote.text = getQuoteBodyText(originalMessage.attributes, quote.id);
-
-    // eslint-disable-next-line no-param-reassign
-    quote.bodyRanges = originalMessage.attributes.bodyRanges;
-
-    if (firstAttachment) {
-      firstAttachment.thumbnail = undefined;
-    }
-
-    if (!firstAttachment || !firstAttachment.contentType) {
-      return;
-    }
-
-    try {
-      const schemaVersion = originalMessage.get('schemaVersion');
-      if (
-        schemaVersion &&
-        schemaVersion < TypedMessage.VERSION_NEEDED_FOR_DISPLAY
-      ) {
-        const upgradedMessage = await upgradeMessageSchema(
-          originalMessage.attributes
-        );
-        originalMessage.set(upgradedMessage);
-        await window.Signal.Data.saveMessage(upgradedMessage, {
-          ourAci: window.textsecure.storage.user.getCheckedAci(),
-        });
-      }
-    } catch (error) {
-      log.error(
-        'Problem upgrading message quoted message from database',
-        Errors.toLogFormat(error)
-      );
-      return;
-    }
-
-    const queryAttachments = originalMessage.get('attachments') || [];
-    if (queryAttachments.length > 0) {
-      const queryFirst = queryAttachments[0];
-      const { thumbnail } = queryFirst;
-
-      if (thumbnail && thumbnail.path) {
-        firstAttachment.thumbnail = {
-          ...thumbnail,
-          copied: true,
-        };
-      } else {
-        firstAttachment.contentType = queryFirst.contentType;
-        firstAttachment.fileName = queryFirst.fileName;
-        firstAttachment.thumbnail = undefined;
-      }
-    }
-
-    const queryPreview = originalMessage.get('preview') || [];
-    if (queryPreview.length > 0) {
-      const queryFirst = queryPreview[0];
-      const { image } = queryFirst;
-
-      if (image && image.path) {
-        firstAttachment.thumbnail = {
-          ...image,
-          copied: true,
-        };
-      }
-    }
-
-    const sticker = originalMessage.get('sticker');
-    if (sticker && sticker.data && sticker.data.path) {
-      firstAttachment.thumbnail = {
-        ...sticker.data,
-        copied: true,
-      };
-    }
-  }
-
   async handleDataMessage(
     initialMessage: ProcessedDataMessage,
     confirm: () => void,
@@ -1911,7 +1732,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
 
       const [quote, storyQuotes] = await Promise.all([
-        this.copyFromQuotedMessage(initialMessage.quote, conversation.id),
+        initialMessage.quote
+          ? copyFromQuotedMessage(initialMessage.quote, conversation.id)
+          : undefined,
         findStoryMessages(conversation.id, storyContext),
       ]);
 

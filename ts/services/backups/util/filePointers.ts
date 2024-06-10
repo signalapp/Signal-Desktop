@@ -289,37 +289,41 @@ export async function getFilePointerForAttachment({
     };
   }
 
-  // From here on, this attachment is headed to (or already on) the backup tier!
-  const mediaNameForCurrentVersionOfAttachment =
-    getMediaNameForAttachment(attachment);
+  // Some attachments (e.g. those quoted ones copied from the original message) may not
+  // have any encryption info, including a digest!
+  if (attachment.digest) {
+    // From here on, this attachment is headed to (or already on) the backup tier!
+    const mediaNameForCurrentVersionOfAttachment =
+      getMediaNameForAttachment(attachment);
 
-  const backupCdnInfo = await getBackupCdnInfo(
-    getMediaIdFromMediaName(mediaNameForCurrentVersionOfAttachment).string
-  );
+    const backupCdnInfo = await getBackupCdnInfo(
+      getMediaIdFromMediaName(mediaNameForCurrentVersionOfAttachment).string
+    );
 
-  // We can generate a backupLocator for this mediaName iff
-  // 1. we have iv, key, and digest so we can re-encrypt to the existing digest when
-  //    uploading, or
-  // 2. the mediaId is already in the backup tier and we have the key & digest to decrypt
-  //    and verify it
-  if (
-    isReencryptableToSameDigest(attachment) ||
-    (backupCdnInfo.isInBackupTier && isDecryptable(attachment))
-  ) {
-    return {
-      filePointer: new Backups.FilePointer({
-        ...filePointerRootProps,
-        backupLocator: getBackupLocator({
-          ...attachment,
-          backupLocator: {
-            mediaName: mediaNameForCurrentVersionOfAttachment,
-            cdnNumber: backupCdnInfo.isInBackupTier
-              ? backupCdnInfo.cdnNumber
-              : undefined,
-          },
+    // We can generate a backupLocator for this mediaName iff
+    // 1. we have iv, key, and digest so we can re-encrypt to the existing digest when
+    //    uploading, or
+    // 2. the mediaId is already in the backup tier and we have the key & digest to
+    //    decrypt and verify it
+    if (
+      isReencryptableToSameDigest(attachment) ||
+      (backupCdnInfo.isInBackupTier && isDecryptable(attachment))
+    ) {
+      return {
+        filePointer: new Backups.FilePointer({
+          ...filePointerRootProps,
+          backupLocator: getBackupLocator({
+            ...attachment,
+            backupLocator: {
+              mediaName: mediaNameForCurrentVersionOfAttachment,
+              cdnNumber: backupCdnInfo.isInBackupTier
+                ? backupCdnInfo.cdnNumber
+                : undefined,
+            },
+          }),
         }),
-      }),
-    };
+      };
+    }
   }
 
   log.info(`${logId}: Generating new encryption info for attachment`);

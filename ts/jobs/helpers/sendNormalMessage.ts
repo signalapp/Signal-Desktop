@@ -789,17 +789,17 @@ async function uploadMessageQuote({
     loadedQuote.attachments.map(
       attachment => async (): Promise<OutgoingQuoteAttachmentType> => {
         const { thumbnail } = attachment;
-        if (!thumbnail) {
+        if (!thumbnail || !thumbnail.data) {
           return {
             contentType: attachment.contentType,
             fileName: attachment.fileName,
           };
         }
 
-        const { data } = thumbnail;
-        strictAssert(data, 'data must be loaded into thumbnail');
-
-        const uploaded = await uploadAttachment({ ...thumbnail, data });
+        const uploaded = await uploadAttachment({
+          ...thumbnail,
+          data: thumbnail.data,
+        });
 
         return {
           contentType: attachment.contentType,
