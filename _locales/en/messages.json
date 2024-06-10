@@ -5539,7 +5539,7 @@
     "description": "Shown if user has attempted to begin their username with a number"
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have a least {min, number} characters.",
+    "messageformat": "Usernames must have at least {min, number} characters.",
     "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
   },
   "icu:ProfileEditor--username--check-character-max": {
