@@ -1278,10 +1278,11 @@ function getAccessKey(
     return accessKey || undefined;
   }
 
-  if (
-    sealedSender === SEALED_SENDER.UNKNOWN ||
-    sealedSender === SEALED_SENDER.UNRESTRICTED
-  ) {
+  if (sealedSender === SEALED_SENDER.UNKNOWN) {
+    return accessKey || ZERO_ACCESS_KEY;
+  }
+
+  if (sealedSender === SEALED_SENDER.UNRESTRICTED) {
     return ZERO_ACCESS_KEY;
   }
 
