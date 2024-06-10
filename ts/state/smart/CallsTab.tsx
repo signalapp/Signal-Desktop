@@ -1,6 +1,6 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback, useEffect } from 'react';
+import React, { memo, useCallback, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useItemsActions } from '../ducks/items';
 import {
@@ -40,6 +40,8 @@ import { getOtherTabsUnreadStats } from '../selectors/nav';
 import { SmartCallLinkDetails } from './CallLinkDetails';
 import type { CallLinkType } from '../../types/CallLink';
 import { filterCallLinks } from '../../util/filterCallLinks';
+import { useGlobalModalActions } from '../ducks/globalModals';
+import { isCallLinksCreateEnabled } from '../../util/callLinks';
 
 function getCallHistoryFilter({
   allCallLinks,
@@ -151,7 +153,12 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
 
+  const canCreateCallLinks = useMemo(() => {
+    return isCallLinksCreateEnabled();
+  }, []);
+
   const {
+    createCallLink,
     hangUpActiveCall,
     onOutgoingAudioCallInConversation,
     onOutgoingVideoCallInConversation,
@@ -164,6 +171,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
     markCallHistoryRead,
     markCallsTabViewed,
   } = useCallHistoryActions();
+  const { toggleCallLinkEditModal } = useGlobalModalActions();
 
   const getCallHistoryGroupsCount = useCallback(
     async (options: CallHistoryFilterOptions) => {
@@ -207,6 +215,12 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
     [allCallLinks, allConversations, regionCode]
   );
 
+  const handleCreateCallLink = useCallback(() => {
+    createCallLink(roomId => {
+      toggleCallLinkEditModal(roomId);
+    });
+  }, [createCallLink, toggleCallLinkEditModal]);
+
   useEffect(() => {
     markCallsTabViewed();
   }, [markCallsTabViewed]);
@@ -223,6 +237,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
       getCall={getCall}
       getCallLink={getCallLink}
       callHistoryEdition={callHistoryEdition}
+      canCreateCallLinks={canCreateCallLinks}
       hangUpActiveCall={hangUpActiveCall}
       hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}
@@ -231,6 +246,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
       onClearCallHistory={clearCallHistory}
       onMarkCallHistoryRead={markCallHistoryRead}
       onToggleNavTabsCollapse={toggleNavTabsCollapse}
+      onCreateCallLink={handleCreateCallLink}
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       peekNotConnectedGroupCall={peekNotConnectedGroupCall}

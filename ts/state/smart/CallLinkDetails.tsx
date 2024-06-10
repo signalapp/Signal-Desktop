@@ -10,8 +10,6 @@ import { useGlobalModalActions } from '../ducks/globalModals';
 import { useCallingActions } from '../ducks/calling';
 import * as log from '../../logging/log';
 import { strictAssert } from '../../util/assert';
-import { linkCallRoute } from '../../util/signalRoutes';
-import { ForwardMessagesModalType } from '../../components/ForwardMessagesModal';
 
 export type SmartCallLinkDetailsProps = Readonly<{
   roomId: string;
@@ -25,40 +23,14 @@ export const SmartCallLinkDetails = memo(function SmartCallLinkDetails({
   const i18n = useSelector(getIntl);
   const callLinkSelector = useSelector(getCallLinkSelector);
   const { startCallLinkLobby } = useCallingActions();
-  const { toggleForwardMessagesModal } = useGlobalModalActions();
+  const { showShareCallLinkViaSignal } = useGlobalModalActions();
 
   const callLink = callLinkSelector(roomId);
 
   const handleShareCallLinkViaSignal = useCallback(() => {
     strictAssert(callLink != null, 'callLink not found');
-    const url = linkCallRoute
-      .toWebUrl({
-        key: callLink.rootKey,
-      })
-      .toString();
-    toggleForwardMessagesModal({
-      type: ForwardMessagesModalType.ShareCallLink,
-      draft: {
-        originalMessageId: null,
-        hasContact: false,
-        isSticker: false,
-        previews: [
-          {
-            title: callLink.name,
-            url,
-            isCallLink: true,
-          },
-        ],
-        messageBody: i18n(
-          'icu:ShareCallLinkViaSignal__DraftMessageText',
-          {
-            url,
-          },
-          { textIsBidiFreeSkipNormalization: true }
-        ),
-      },
-    });
-  }, [callLink, i18n, toggleForwardMessagesModal]);
+    showShareCallLinkViaSignal(callLink, i18n);
+  }, [callLink, i18n, showShareCallLinkViaSignal]);
 
   const handleStartCallLinkLobby = useCallback(() => {
     strictAssert(callLink != null, 'callLink not found');

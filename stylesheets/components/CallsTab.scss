@@ -161,7 +161,7 @@
   @include NavTabs__Scroller;
 }
 
-.CallsList__List--loading {
+.CallsList__List--disableScrolling {
   overflow: hidden !important;
 }
 

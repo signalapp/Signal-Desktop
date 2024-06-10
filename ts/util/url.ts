@@ -37,3 +37,7 @@ export function urlPathFromComponents(
 ): string {
   return `/${components.filter(Boolean).map(encodeURIComponent).join('/')}`;
 }
+
+export function formatUrlWithoutProtocol(url: Readonly<URL>): string {
+  return `${url.hostname}${url.pathname}${url.search}${url.hash}`;
+}

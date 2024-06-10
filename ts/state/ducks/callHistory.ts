@@ -115,7 +115,9 @@ function markCallsTabViewed(): ThunkAction<
   };
 }
 
-function addCallHistory(callHistory: CallHistoryDetails): CallHistoryAdd {
+export function addCallHistory(
+  callHistory: CallHistoryDetails
+): CallHistoryAdd {
   return {
     type: CALL_HISTORY_ADD,
     payload: callHistory,

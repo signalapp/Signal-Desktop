@@ -45,6 +45,13 @@ import { uniqBy, noop, compact } from 'lodash';
 
 import Long from 'long';
 import type { CallLinkAuthCredentialPresentation } from '@signalapp/libsignal-client/zkgroup';
+import {
+  CallLinkSecretParams,
+  CreateCallLinkCredentialRequestContext,
+  CreateCallLinkCredentialResponse,
+  GenericServerPublicParams,
+} from '@signalapp/libsignal-client/zkgroup';
+import { Aci } from '@signalapp/libsignal-client';
 import type {
   ActionsType as CallingReduxActionsType,
   GroupCallParticipantInfoType,
@@ -135,13 +142,20 @@ import {
   getRoomIdFromRootKey,
   getCallLinkAuthCredentialPresentation,
   toAdminKeyBytes,
+  callLinkRestrictionsToRingRTC,
+  callLinkStateFromRingRTC,
 } from '../util/callLinks';
 import { isAdhocCallingEnabled } from '../util/isAdhocCallingEnabled';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue';
-import type { ReadCallLinkState } from '../types/CallLink';
+import type {
+  CallLinkType,
+  CallLinkStateType,
+  ReadCallLinkState,
+} from '../types/CallLink';
+import { CallLinkRestrictions } from '../types/CallLink';
 
 const {
   processGroupCallRingCancellation,
@@ -584,6 +598,162 @@ export class CallingClass {
     if (conversationId) {
       this.getGroupCall(conversationId)?.disconnect();
     }
+  }
+
+  async createCallLink(): Promise<CallLinkType> {
+    strictAssert(
+      this._sfuUrl,
+      'createCallLink() missing SFU URL; not creating call link'
+    );
+
+    const sfuUrl = this._sfuUrl;
+    const userId = Aci.parseFromServiceIdString(
+      window.textsecure.storage.user.getCheckedAci()
+    );
+
+    const rootKey = CallLinkRootKey.generate();
+    const roomId = rootKey.deriveRoomId();
+    const roomIdHex = roomId.toString('hex');
+    const logId = `createCallLink(${roomIdHex})`;
+
+    log.info(`${logId}: Creating call link`);
+
+    const adminKey = CallLinkRootKey.generateAdminPassKey();
+
+    const context = CreateCallLinkCredentialRequestContext.forRoomId(roomId);
+    const requestBase64 = Bytes.toBase64(context.getRequest().serialize());
+
+    strictAssert(
+      window.textsecure.messaging,
+      'createCallLink(): We are offline'
+    );
+    const { credential: credentialBase64 } =
+      await window.textsecure.messaging.server.callLinkCreateAuth(
+        requestBase64
+      );
+
+    const response = new CreateCallLinkCredentialResponse(
+      Buffer.from(credentialBase64, 'base64')
+    );
+
+    const genericServerPublicParams = new GenericServerPublicParams(
+      Buffer.from(window.getGenericServerPublicParams(), 'base64')
+    );
+    const credential = context.receive(
+      response,
+      userId,
+      genericServerPublicParams
+    );
+
+    const secretParams = CallLinkSecretParams.deriveFromRootKey(rootKey.bytes);
+
+    const credentialPresentation = credential
+      .present(roomId, userId, genericServerPublicParams, secretParams)
+      .serialize();
+    const serializedPublicParams = secretParams.getPublicParams().serialize();
+
+    const result = await RingRTC.createCallLink(
+      sfuUrl,
+      credentialPresentation,
+      rootKey,
+      adminKey,
+      serializedPublicParams
+    );
+
+    if (!result.success) {
+      const message = `Failed to create call link: ${result.errorStatusCode}`;
+      log.error(`${logId}: ${message}`);
+      throw new Error(message);
+    }
+
+    log.info(`${logId}: success`);
+    const state = callLinkStateFromRingRTC(result.value);
+
+    return {
+      roomId: roomIdHex,
+      rootKey: rootKey.toString(),
+      adminKey: adminKey.toString('base64'),
+      ...state,
+    };
+  }
+
+  async updateCallLinkName(
+    callLink: CallLinkType,
+    name: string
+  ): Promise<CallLinkStateType> {
+    strictAssert(
+      this._sfuUrl,
+      'updateCallLinkName() missing SFU URL; not update call link name'
+    );
+    const sfuUrl = this._sfuUrl;
+    const logId = `updateCallLinkName(${callLink.roomId})`;
+
+    log.info(`${logId}: Updating call link name`);
+
+    const callLinkRootKey = CallLinkRootKey.parse(callLink.rootKey);
+    strictAssert(callLink.adminKey, 'Missing admin key');
+    const callLinkAdminKey = toAdminKeyBytes(callLink.adminKey);
+    const authCredentialPresentation =
+      await getCallLinkAuthCredentialPresentation(callLinkRootKey);
+    const result = await RingRTC.updateCallLinkName(
+      sfuUrl,
+      authCredentialPresentation.serialize(),
+      callLinkRootKey,
+      callLinkAdminKey,
+      name
+    );
+
+    if (!result.success) {
+      const message = `Failed to update call link name: ${result.errorStatusCode}`;
+      log.error(`${logId}: ${message}`);
+      throw new Error(message);
+    }
+
+    log.info(`${logId}: success`);
+    return callLinkStateFromRingRTC(result.value);
+  }
+
+  async updateCallLinkRestrictions(
+    callLink: CallLinkType,
+    restrictions: CallLinkRestrictions
+  ): Promise<CallLinkStateType> {
+    strictAssert(
+      this._sfuUrl,
+      'updateCallLinkRestrictions() missing SFU URL; not update call link restrictions'
+    );
+    const sfuUrl = this._sfuUrl;
+    const logId = `updateCallLinkRestrictions(${callLink.roomId})`;
+
+    log.info(`${logId}: Updating call link restrictions`);
+
+    const callLinkRootKey = CallLinkRootKey.parse(callLink.rootKey);
+    strictAssert(callLink.adminKey, 'Missing admin key');
+    const callLinkAdminKey = toAdminKeyBytes(callLink.adminKey);
+    const authCredentialPresentation =
+      await getCallLinkAuthCredentialPresentation(callLinkRootKey);
+
+    const newRestrictions = callLinkRestrictionsToRingRTC(restrictions);
+    strictAssert(
+      newRestrictions !== CallLinkRestrictions.Unknown,
+      'Invalid call link restrictions value'
+    );
+
+    const result = await RingRTC.updateCallLinkRestrictions(
+      sfuUrl,
+      authCredentialPresentation.serialize(),
+      callLinkRootKey,
+      callLinkAdminKey,
+      newRestrictions
+    );
+
+    if (!result.success) {
+      const message = `Failed to update call link restrictions: ${result.errorStatusCode}`;
+      log.error(`${logId}: ${message}`);
+      throw new Error(message);
+    }
+
+    log.info(`${logId}: success`);
+    return callLinkStateFromRingRTC(result.value);
   }
 
   async readCallLink({
@@ -1348,9 +1518,7 @@ export class CallingClass {
     const callLinkRootKey = CallLinkRootKey.parse(rootKey);
     const authCredentialPresentation =
       await getCallLinkAuthCredentialPresentation(callLinkRootKey);
-    const adminPasskey = adminKey
-      ? Buffer.from(toAdminKeyBytes(adminKey))
-      : undefined;
+    const adminPasskey = adminKey ? toAdminKeyBytes(adminKey) : undefined;
 
     // RingRTC reuses the same type GroupCall between Adhoc and Group calls.
     const groupCall = this.connectCallLinkCall({

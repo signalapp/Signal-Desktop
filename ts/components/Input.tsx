@@ -32,6 +32,7 @@ export type PropsType = {
   maxLengthCount?: number;
   moduleClassName?: string;
   onChange: (value: string) => unknown;
+  onBlur?: () => unknown;
   onEnter?: () => unknown;
   placeholder: string;
   value?: string;
@@ -76,6 +77,7 @@ export const Input = forwardRef<
     maxLengthCount = 0,
     moduleClassName,
     onChange,
+    onBlur,
     onEnter,
     placeholder,
     value = '',
@@ -214,6 +216,7 @@ export const Input = forwardRef<
     id,
     spellCheck: !disableSpellcheck,
     onChange: handleChange,
+    onBlur,
     onKeyDown: handleKeyDown,
     onPaste: handlePaste,
     placeholder,

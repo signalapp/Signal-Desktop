@@ -7080,6 +7080,10 @@
     "messageformat": "No results for “{query}”",
     "description": "Calls Tab > Calls List > When no results found > With a search query"
   },
+  "icu:CallsList__CreateCallLink": {
+    "messageformat": "Create a Call Link",
+    "description": "Calls Tab > Calls List > Create Call Link Button"
+  },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Incoming",
     "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was incoming"
@@ -7163,6 +7167,30 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Share link via Signal",
     "description": "Call History > Call Link Details > Share Link via Signal Button"
+  },
+  "icu:CallLinkEditModal__Title": {
+    "messageformat": "Call link details",
+    "description": "Call Link Edit Modal > Title"
+  },
+  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
+    "messageformat": "Name",
+    "description": "Call Link Edit Modal > Name Input > Label (for screenreaders)"
+  },
+  "icu:CallLinkEditModal__JoinButtonLabel": {
+    "messageformat": "Join",
+    "description": "Call Link Edit Modal > Join Button > Label"
+  },
+  "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
+    "messageformat": "Approve all members",
+    "description": "Call Link Edit Modal > Approve All Members Checkbox > Label"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
+    "messageformat": "Off",
+    "description": "Call Link Edit Modal > Approve All Members Checkbox > Option > Off"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
+    "messageformat": "On",
+    "description": "Call Link Edit Modal > Approve All Members Checkbox > Option > On"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {# other is} other {# others are}} typing.",

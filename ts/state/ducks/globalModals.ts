@@ -45,6 +45,9 @@ import {
 } from '../selectors/conversations';
 import { missingCaseError } from '../../util/missingCaseError';
 import { ForwardMessagesModalType } from '../../components/ForwardMessagesModal';
+import type { CallLinkType } from '../../types/CallLink';
+import type { LocalizerType } from '../../types/I18N';
+import { linkCallRoute } from '../../util/signalRoutes';
 
 // State
 
@@ -88,6 +91,7 @@ type MigrateToGV2PropsType = ReadonlyDeep<{
 export type GlobalModalsStateType = ReadonlyDeep<{
   addUserToAnotherGroupModalContactId?: string;
   aboutContactModalContactId?: string;
+  callLinkEditModalRoomId: string | null;
   contactModalState?: ContactModalStateType;
   deleteMessagesProps?: DeleteMessagesPropsType;
   editHistoryMessages?: EditHistoryMessagesType;
@@ -139,6 +143,7 @@ export const TOGGLE_PROFILE_EDITOR_ERROR =
 const TOGGLE_SAFETY_NUMBER_MODAL = 'globalModals/TOGGLE_SAFETY_NUMBER_MODAL';
 const TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL =
   'globalModals/TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL';
+const TOGGLE_CALL_LINK_EDIT_MODAL = 'globalModals/TOGGLE_CALL_LINK_EDIT_MODAL';
 const TOGGLE_ABOUT_MODAL = 'globalModals/TOGGLE_ABOUT_MODAL';
 const TOGGLE_SIGNAL_CONNECTIONS_MODAL =
   'globalModals/TOGGLE_SIGNAL_CONNECTIONS_MODAL';
@@ -237,6 +242,11 @@ type ToggleSafetyNumberModalActionType = ReadonlyDeep<{
 type ToggleAddUserToAnotherGroupModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL;
   payload: string | undefined;
+}>;
+
+type ToggleCallLinkEditModalActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_CALL_LINK_EDIT_MODAL;
+  payload: string | null;
 }>;
 
 type ToggleAboutContactModalActionType = ReadonlyDeep<{
@@ -364,6 +374,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | StartMigrationToGV2ActionType
   | ToggleAboutContactModalActionType
   | ToggleAddUserToAnotherGroupModalActionType
+  | ToggleCallLinkEditModalActionType
   | ToggleConfirmationModalActionType
   | ToggleDeleteMessagesModalActionType
   | ToggleForwardMessagesModalActionType
@@ -395,6 +406,7 @@ export const actions = {
   toggleEditNicknameAndNoteModal,
   toggleMessageRequestActionsConfirmation,
   showGV2MigrationDialog,
+  showShareCallLinkViaSignal,
   showShortcutGuideModal,
   showStickerPackPreview,
   showStoriesSettings,
@@ -402,6 +414,7 @@ export const actions = {
   showWhatsNewModal,
   toggleAboutContactModal,
   toggleAddUserToAnotherGroupModal,
+  toggleCallLinkEditModal,
   toggleConfirmationModal,
   toggleDeleteMessagesModal,
   toggleForwardMessagesModal,
@@ -619,6 +632,48 @@ function toggleForwardMessagesModal(
   };
 }
 
+function showShareCallLinkViaSignal(
+  callLink: CallLinkType,
+  i18n: LocalizerType
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ToggleForwardMessagesModalActionType
+> {
+  return dispatch => {
+    const url = linkCallRoute
+      .toWebUrl({
+        key: callLink.rootKey,
+      })
+      .toString();
+    dispatch(
+      toggleForwardMessagesModal({
+        type: ForwardMessagesModalType.ShareCallLink,
+        draft: {
+          originalMessageId: null,
+          hasContact: false,
+          isSticker: false,
+          previews: [
+            {
+              title: callLink.name,
+              url,
+              isCallLink: true,
+            },
+          ],
+          messageBody: i18n(
+            'icu:ShareCallLinkViaSignal__DraftMessageText',
+            {
+              url,
+            },
+            { textIsBidiFreeSkipNormalization: true }
+          ),
+        },
+      })
+    );
+  };
+}
+
 function toggleNotePreviewModal(
   payload: NotePreviewModalPropsType | null
 ): ToggleNotePreviewModalActionType {
@@ -653,6 +708,15 @@ function toggleAddUserToAnotherGroupModal(
   return {
     type: TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL,
     payload: contactId,
+  };
+}
+
+function toggleCallLinkEditModal(
+  roomId: string | null
+): ToggleCallLinkEditModalActionType {
+  return {
+    type: TOGGLE_CALL_LINK_EDIT_MODAL,
+    payload: roomId,
   };
 }
 
@@ -871,6 +935,7 @@ function copyOverMessageAttributesIntoForwardMessages(
 export function getEmptyState(): GlobalModalsStateType {
   return {
     hasConfirmationModal: false,
+    callLinkEditModalRoomId: null,
     editNicknameAndNoteModalProps: null,
     isProfileEditorVisible: false,
     isShortcutGuideModalVisible: false,
@@ -981,6 +1046,13 @@ export function reducer(
     return {
       ...state,
       addUserToAnotherGroupModalContactId: action.payload,
+    };
+  }
+
+  if (action.type === TOGGLE_CALL_LINK_EDIT_MODAL) {
+    return {
+      ...state,
+      callLinkEditModalRoomId: action.payload,
     };
   }
 

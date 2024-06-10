@@ -22,6 +22,11 @@ export const isShowingAnyModal = createSelector(
     })
 );
 
+export const getCallLinkEditModalRoomId = createSelector(
+  getGlobalModalsState,
+  ({ callLinkEditModalRoomId }) => callLinkEditModalRoomId
+);
+
 export const getContactModalState = createSelector(
   getGlobalModalsState,
   ({ contactModalState }) => contactModalState

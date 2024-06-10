@@ -570,6 +570,7 @@ const URL_CALLS = {
   backupMedia: 'v1/archives/media',
   backupMediaBatch: 'v1/archives/media/batch',
   backupMediaDelete: 'v1/archives/media/delete',
+  callLinkCreateAuth: 'v1/call-link/create-auth',
   registration: 'v1/registration',
   registerCapabilities: 'v1/devices/capabilities',
   reportMessage: 'v1/messages/report',
@@ -666,7 +667,7 @@ type AjaxOptionsType = {
   basicAuth?: string;
   call: keyof typeof URL_CALLS;
   contentType?: string;
-  data?: Uint8Array | Buffer | Uint8Array | string;
+  data?: Buffer | Uint8Array | string;
   disableSessionResumption?: boolean;
   headers?: HeaderListType;
   host?: string;
@@ -1148,6 +1149,14 @@ export type GetBackupInfoResponseType = z.infer<
   typeof getBackupInfoResponseSchema
 >;
 
+export type CallLinkCreateAuthResponseType = Readonly<{
+  credential: string;
+}>;
+
+export const callLinkCreateAuthResponseSchema = z.object({
+  credential: z.string(),
+}) satisfies z.ZodSchema<CallLinkCreateAuthResponseType>;
+
 const StickerPackUploadAttributesSchema = z.object({
   acl: z.string(),
   algorithm: z.string(),
@@ -1384,6 +1393,9 @@ export type WebAPIType = {
     options: BackupListMediaOptionsType
   ) => Promise<BackupListMediaResponseType>;
   backupDeleteMedia: (options: BackupDeleteMediaOptionsType) => Promise<void>;
+  callLinkCreateAuth: (
+    requestBase64: string
+  ) => Promise<CallLinkCreateAuthResponseType>;
   setPhoneNumberDiscoverability: (newValue: boolean) => Promise<void>;
   updateDeviceName: (deviceName: string) => Promise<void>;
   uploadAvatar: (
@@ -1666,6 +1678,7 @@ export function initialize({
       checkAccountExistence,
       checkSockets,
       createAccount,
+      callLinkCreateAuth,
       createFetchForAttachmentUpload,
       confirmUsername,
       createGroup,
@@ -2957,6 +2970,18 @@ export function initialize({
       });
 
       return backupListMediaResponseSchema.parse(res);
+    }
+
+    async function callLinkCreateAuth(
+      requestBase64: string
+    ): Promise<CallLinkCreateAuthResponseType> {
+      const response = await _ajax({
+        call: 'callLinkCreateAuth',
+        httpType: 'POST',
+        responseType: 'json',
+        jsonData: { createCallLinkCredentialRequest: requestBase64 },
+      });
+      return callLinkCreateAuthResponseSchema.parse(response);
     }
 
     async function setPhoneNumberDiscoverability(newValue: boolean) {
