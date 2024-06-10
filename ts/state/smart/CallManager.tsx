@@ -53,6 +53,7 @@ import { getIntl } from '../selectors/user';
 import { SmartCallingDeviceSelection } from './CallingDeviceSelection';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { renderReactionPicker } from './renderReactionPicker';
+import { isSharingPhoneNumberWithEverybody as getIsSharingPhoneNumberWithEverybody } from '../../util/phoneNumberSharingMode';
 
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
@@ -468,6 +469,9 @@ export const SmartCallManager = memo(function SmartCallManager() {
       declineCall={declineCall}
       denyUser={denyUser}
       getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+      getIsSharingPhoneNumberWithEverybody={
+        getIsSharingPhoneNumberWithEverybody
+      }
       getPresentingSources={getPresentingSources}
       hangUpActiveCall={hangUpActiveCall}
       hasInitialLoadCompleted={hasInitialLoadCompleted}

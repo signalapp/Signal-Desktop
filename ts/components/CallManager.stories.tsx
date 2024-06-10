@@ -7,6 +7,7 @@ import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallManager';
 import { CallManager } from './CallManager';
 import {
+  type ActiveGroupCallType,
   CallEndedReason,
   CallMode,
   CallState,
@@ -25,6 +26,12 @@ import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGr
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import { StorySendMode } from '../types/Stories';
+import {
+  FAKE_CALL_LINK,
+  getDefaultCallLinkConversation,
+} from '../test-both/helpers/fakeCallLink';
+import { allRemoteParticipants } from './CallScreen.stories';
+import { getPlaceholderContact } from '../state/selectors/conversations';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -41,6 +48,11 @@ const getConversation = () =>
     type: 'direct' as ConversationTypeType,
     lastUpdated: Date.now(),
   });
+
+const getUnknownContact = (): ConversationType => ({
+  ...getPlaceholderContact(),
+  serviceId: generateAci(),
+});
 
 const getCommonActiveCallData = () => ({
   conversation: getConversation(),
@@ -69,12 +81,13 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   denyUser: action('deny-user'),
   getGroupCallVideoFrameSource: (_: string, demuxId: number) =>
     fakeGetGroupCallVideoFrameSource(demuxId),
+  getIsSharingPhoneNumberWithEverybody: () => false,
   getPresentingSources: action('get-presenting-sources'),
   hangUpActiveCall: action('hang-up-active-call'),
   hasInitialLoadCompleted: true,
   i18n,
   incomingCall: null,
-  callLink: undefined,
+  callLink: storyProps.callLink ?? undefined,
   me: {
     ...getDefaultConversation({
       color: AvatarColors[0],
@@ -112,6 +125,38 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   isConversationTooBigToRing: false,
   pauseVoiceNotePlayer: action('pause-audio-player'),
 });
+
+const getActiveCallForCallLink = (
+  overrideProps: Partial<ActiveGroupCallType> = {}
+): ActiveGroupCallType => {
+  return {
+    conversation: getDefaultCallLinkConversation(),
+    joinedAt: Date.now(),
+    hasLocalAudio: true,
+    hasLocalVideo: true,
+    localAudioLevel: 0,
+    viewMode: CallViewMode.Paginated,
+    outgoingRing: false,
+    pip: false,
+    settingsDialogOpen: false,
+    showParticipantsList: overrideProps.showParticipantsList ?? true,
+    callMode: CallMode.Adhoc,
+    connectionState: GroupCallConnectionState.NotConnected,
+    conversationsByDemuxId: new Map<number, ConversationType>(),
+    deviceCount: 0,
+    joinState: GroupCallJoinState.NotJoined,
+    localDemuxId: 1,
+    maxDevices: 5,
+    groupMembers: [],
+    isConversationTooBigToRing: false,
+    peekedParticipants:
+      overrideProps.peekedParticipants ?? allRemoteParticipants.slice(0, 3),
+    remoteParticipants: overrideProps.remoteParticipants ?? [],
+    pendingParticipants: [],
+    raisedHands: new Set<number>(),
+    remoteAudioLevels: new Map<number, number>(),
+  };
+};
 
 export default {
   title: 'Components/CallManager',
@@ -222,6 +267,96 @@ export function CallRequestNeeded(): JSX.Element {
             { hasRemoteVideo: true, presenting: false, title: 'Mike' },
           ],
         },
+      })}
+    />
+  );
+}
+
+export function CallLinkLobbyParticipantsKnown(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: getActiveCallForCallLink(),
+        callLink: FAKE_CALL_LINK,
+      })}
+    />
+  );
+}
+
+export function CallLinkLobbyParticipants1Unknown(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: getActiveCallForCallLink({
+          peekedParticipants: [getPlaceholderContact()],
+        }),
+        callLink: FAKE_CALL_LINK,
+      })}
+    />
+  );
+}
+
+export function CallLinkLobbyParticipants1Known1Unknown(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: getActiveCallForCallLink({
+          peekedParticipants: [allRemoteParticipants[0], getUnknownContact()],
+        }),
+        callLink: FAKE_CALL_LINK,
+      })}
+    />
+  );
+}
+
+export function CallLinkLobbyParticipants1Known2Unknown(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: getActiveCallForCallLink({
+          peekedParticipants: [
+            getUnknownContact(),
+            allRemoteParticipants[0],
+            getUnknownContact(),
+          ],
+        }),
+        callLink: FAKE_CALL_LINK,
+      })}
+    />
+  );
+}
+
+export function CallLinkLobbyParticipants1Known12Unknown(): JSX.Element {
+  const peekedParticipants: Array<ConversationType> = [
+    allRemoteParticipants[0],
+  ];
+  for (let n = 12; n > 0; n -= 1) {
+    peekedParticipants.push(getUnknownContact());
+  }
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: getActiveCallForCallLink({
+          peekedParticipants,
+        }),
+        callLink: FAKE_CALL_LINK,
+      })}
+    />
+  );
+}
+
+export function CallLinkLobbyParticipants3Unknown(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: getActiveCallForCallLink({
+          peekedParticipants: [
+            getUnknownContact(),
+            getUnknownContact(),
+            getUnknownContact(),
+          ],
+        }),
+        callLink: FAKE_CALL_LINK,
       })}
     />
   );
