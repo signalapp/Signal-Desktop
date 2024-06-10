@@ -29,6 +29,9 @@ export type PropsType = {
   // AddUserToAnotherGroupModal
   addUserToAnotherGroupModalContactId: string | undefined;
   renderAddUserToAnotherGroup: () => JSX.Element;
+  // CallLinkEditModal
+  callLinkEditModalRoomId: string | null;
+  renderCallLinkEditModal: () => JSX.Element;
   // ContactModal
   contactModalState: ContactModalStateType | undefined;
   renderContactModal: () => JSX.Element;
@@ -102,6 +105,9 @@ export function GlobalModalContainer({
   // AddUserToAnotherGroupModal
   addUserToAnotherGroupModalContactId,
   renderAddUserToAnotherGroup,
+  // CallLinkEditModal
+  callLinkEditModalRoomId,
+  renderCallLinkEditModal,
   // ContactModal
   contactModalState,
   renderContactModal,
@@ -164,7 +170,8 @@ export function GlobalModalContainer({
   // We want the following dialogs to show in this order:
   // 1. Errors
   // 2. Safety Number Changes
-  // 3. The Rest (in no particular order, but they're ordered alphabetically)
+  // 3. Forward Modal, so other modals can open it
+  // 4. The Rest (in no particular order, but they're ordered alphabetically)
 
   // Errors
   if (errorModalProps) {
@@ -176,10 +183,19 @@ export function GlobalModalContainer({
     return renderSendAnywayDialog();
   }
 
+  // Forward Modal
+  if (forwardMessagesProps) {
+    return renderForwardMessagesModal();
+  }
+
   // The Rest
 
   if (addUserToAnotherGroupModalContactId) {
     return renderAddUserToAnotherGroup();
+  }
+
+  if (callLinkEditModalRoomId) {
+    return renderCallLinkEditModal();
   }
 
   if (editHistoryMessages) {
@@ -192,10 +208,6 @@ export function GlobalModalContainer({
 
   if (deleteMessagesProps) {
     return renderDeleteMessagesModal();
-  }
-
-  if (forwardMessagesProps) {
-    return renderForwardMessagesModal();
   }
 
   if (messageRequestActionsConfirmationProps) {

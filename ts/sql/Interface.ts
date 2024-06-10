@@ -707,7 +707,7 @@ export type DataInterface = {
   updateCallLinkState(
     roomId: string,
     callLinkState: CallLinkStateType
-  ): Promise<void>;
+  ): Promise<CallLinkType>;
   migrateConversationMessages: (
     obsoleteId: string,
     currentId: string

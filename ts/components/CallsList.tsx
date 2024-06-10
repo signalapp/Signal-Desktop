@@ -127,6 +127,7 @@ const defaultPendingState: SearchState = {
 
 type CallsListProps = Readonly<{
   activeCall: ActiveCallStateType | undefined;
+  canCreateCallLinks: boolean;
   getCallHistoryGroupsCount: (
     options: CallHistoryFilterOptions
   ) => Promise<number>;
@@ -142,6 +143,7 @@ type CallsListProps = Readonly<{
   hangUpActiveCall: (reason: string) => void;
   i18n: LocalizerType;
   selectedCallHistoryGroup: CallHistoryGroup | null;
+  onCreateCallLink: () => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
   onChangeCallsTabSelectedView: (selectedView: CallsTabSelectedView) => void;
@@ -157,10 +159,6 @@ const INACTIVE_CALL_LINK_PEEK_INTERVAL = 5 * MINUTE;
 const PEEK_BATCH_COUNT = 10;
 const PEEK_QUEUE_INTERVAL = 30 * SECOND;
 
-function rowHeight() {
-  return CALL_LIST_ITEM_ROW_HEIGHT;
-}
-
 function isSameOptions(
   a: CallHistoryFilterOptions,
   b: CallHistoryFilterOptions
@@ -168,8 +166,12 @@ function isSameOptions(
   return a.query === b.query && a.status === b.status;
 }
 
+type SpecialRows = 'CreateCallLink' | 'EmptyState';
+type Row = CallHistoryGroup | SpecialRows;
+
 export function CallsList({
   activeCall,
+  canCreateCallLinks,
   getCallHistoryGroupsCount,
   getCallHistoryGroups,
   callHistoryEdition,
@@ -180,6 +182,7 @@ export function CallsList({
   hangUpActiveCall,
   i18n,
   selectedCallHistoryGroup,
+  onCreateCallLink,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
   onChangeCallsTabSelectedView,
@@ -190,7 +193,7 @@ export function CallsList({
   const infiniteLoaderRef = useRef<InfiniteLoader>(null);
   const listRef = useRef<List>(null);
   const [queryInput, setQueryInput] = useState('');
-  const [status, setStatus] = useState(CallHistoryFilterStatus.All);
+  const [statusInput, setStatusInput] = useState(CallHistoryFilterStatus.All);
   const [searchState, setSearchState] = useState(defaultInitState);
   const [isLeaveCallDialogVisible, setIsLeaveCallDialogVisible] =
     useState(false);
@@ -200,6 +203,27 @@ export function CallsList({
   const getCallHistoryGroupsCountRef = useRef(getCallHistoryGroupsCount);
   const getCallHistoryGroupsRef = useRef(getCallHistoryGroups);
 
+  const searchStateQuery = searchState.options?.query ?? '';
+  const searchStateStatus =
+    searchState.options?.status ?? CallHistoryFilterStatus.All;
+  const searchFiltering =
+    searchStateQuery !== '' ||
+    searchStateStatus !== CallHistoryFilterStatus.All;
+  const searchPending = searchState.state === 'pending';
+
+  const rows = useMemo(() => {
+    let results: ReadonlyArray<Row> = searchState.results?.items ?? [];
+    if (results.length === 0) {
+      results = ['EmptyState'];
+    }
+    if (!searchFiltering && canCreateCallLinks) {
+      results = ['CreateCallLink', ...results];
+    }
+    return results;
+  }, [searchState.results?.items, searchFiltering, canCreateCallLinks]);
+
+  const rowCount = rows.length;
+
   const searchStateItemsRef = useRef<ReadonlyArray<CallHistoryGroup> | null>(
     null
   );
@@ -208,17 +232,14 @@ export function CallsList({
     new Map()
   );
   const inactiveCallLinksPeekedAtRef = useRef<Map<string, number>>(new Map());
-
   const peekQueueTimerRef = useRef<NodeJS.Timeout | null>(null);
-  function clearPeekQueueTimer() {
-    if (peekQueueTimerRef.current != null) {
-      clearInterval(peekQueueTimerRef.current);
-      peekQueueTimerRef.current = null;
-    }
-  }
+
   useEffect(() => {
     return () => {
-      clearPeekQueueTimer();
+      if (peekQueueTimerRef.current != null) {
+        clearInterval(peekQueueTimerRef.current);
+        peekQueueTimerRef.current = null;
+      }
     };
   }, []);
 
@@ -489,7 +510,7 @@ export function CallsList({
     async function search() {
       const options: CallHistoryFilterOptions = {
         query: queryInput.toLowerCase().normalize().trim(),
-        status,
+        status: statusInput,
       };
 
       let timer = setTimeout(() => {
@@ -560,7 +581,7 @@ export function CallsList({
     return () => {
       controller.abort();
     };
-  }, [queryInput, status, callHistoryEdition, enqueueCallPeeks]);
+  }, [queryInput, statusInput, callHistoryEdition, enqueueCallPeeks]);
 
   const loadMoreRows = useCallback(
     async (props: IndexRange) => {
@@ -625,9 +646,72 @@ export function CallsList({
     [searchState]
   );
 
+  const rowHeight = useCallback(
+    ({ index }: Index) => {
+      const item = rows.at(index) ?? null;
+
+      if (item === 'EmptyState') {
+        // arbitary large number so the empty state can be as big as it wants,
+        // scrolling should always be locked when the list is empty
+        return 9999;
+      }
+
+      return CALL_LIST_ITEM_ROW_HEIGHT;
+    },
+    [rows]
+  );
+
   const rowRenderer = useCallback(
     ({ key, index, style }: ListRowProps) => {
-      const item = searchState.results?.items.at(index) ?? null;
+      const item = rows.at(index) ?? null;
+
+      if (item === 'CreateCallLink') {
+        return (
+          <div key={key} style={style}>
+            <ListTile
+              moduleClassName="CallsList__ItemTile"
+              title={
+                <span className="CallsList__ItemTitle">
+                  {i18n('icu:CallsList__CreateCallLink')}
+                </span>
+              }
+              leading={
+                <Avatar
+                  acceptedMessageRequest
+                  conversationType="callLink"
+                  i18n={i18n}
+                  isMe={false}
+                  title=""
+                  sharedGroupNames={[]}
+                  size={AvatarSize.THIRTY_SIX}
+                  badge={undefined}
+                  className="CallsList__ItemAvatar"
+                />
+              }
+              onClick={onCreateCallLink}
+            />
+          </div>
+        );
+      }
+
+      if (item === 'EmptyState') {
+        return (
+          <div key={key} className="CallsList__EmptyState" style={style}>
+            {searchStateQuery === '' ? (
+              i18n('icu:CallsList__EmptyState--noQuery')
+            ) : (
+              <I18n
+                i18n={i18n}
+                id="icu:CallsList__EmptyState--hasQuery"
+                components={{
+                  query: <UserText text={searchStateQuery} />,
+                }}
+              />
+            )}
+          </div>
+        );
+      }
+
       const conversation = getConversationForItem(item);
       const activeCallConversationId = activeCall?.conversationId;
 
@@ -647,11 +731,7 @@ export function CallsList({
       );
       const isActiveVisible = Boolean(isCallButtonVisible && item && isActive);
 
-      if (
-        searchState.state === 'pending' ||
-        item == null ||
-        conversation == null
-      ) {
+      if (searchPending || item == null || conversation == null) {
         return (
           <div key={key} style={style}>
             <ListTile
@@ -697,6 +777,7 @@ export function CallsList({
         <div
           key={key}
           style={style}
+          data-type={item.type}
           className={classNames('CallsList__Item', {
             'CallsList__Item--selected': isSelected,
             'CallsList__Item--missed': wasMissed,
@@ -792,13 +873,16 @@ export function CallsList({
     },
     [
       activeCall,
-      searchState,
+      rows,
+      searchStateQuery,
+      searchPending,
       getCallLink,
       getConversationForItem,
       getIsCallActive,
       getIsInCall,
       selectedCallHistoryGroup,
       onChangeCallsTabSelectedView,
+      onCreateCallLink,
       onOutgoingAudioCallInConversation,
       onOutgoingVideoCallInConversation,
       startCallLinkLobbyByRoomId,
@@ -819,17 +903,12 @@ export function CallsList({
   }, []);
 
   const handleStatusToggle = useCallback(() => {
-    setStatus(prevStatus => {
+    setStatusInput(prevStatus => {
       return prevStatus === CallHistoryFilterStatus.All
         ? CallHistoryFilterStatus.Missed
         : CallHistoryFilterStatus.All;
     });
   }, []);
-
-  const filteringByMissed = status === CallHistoryFilterStatus.Missed;
-
-  const hasEmptyResults = searchState.results?.count === 0;
-  const currentQuery = searchState.options?.query ?? '';
 
   return (
     <>
@@ -874,10 +953,11 @@ export function CallsList({
         >
           <button
             className={classNames('CallsList__ToggleFilterByMissed', {
-              'CallsList__ToggleFilterByMissed--pressed': filteringByMissed,
+              'CallsList__ToggleFilterByMissed--pressed':
+                statusInput === CallHistoryFilterStatus.Missed,
             })}
             type="button"
-            aria-pressed={filteringByMissed}
+            aria-pressed={statusInput === CallHistoryFilterStatus.Missed}
             aria-roledescription={i18n(
               'icu:CallsList__ToggleFilterByMissed__RoleDescription'
             )}
@@ -890,22 +970,6 @@ export function CallsList({
         </Tooltip>
       </NavSidebarSearchHeader>
 
-      {hasEmptyResults && (
-        <p className="CallsList__EmptyState">
-          {currentQuery === '' ? (
-            i18n('icu:CallsList__EmptyState--noQuery')
-          ) : (
-            <I18n
-              i18n={i18n}
-              id="icu:CallsList__EmptyState--hasQuery"
-              components={{
-                query: <UserText text={currentQuery} />,
-              }}
-            />
-          )}
-        </p>
-      )}
-
       <SizeObserver>
         {(ref, size) => {
           return (
@@ -915,7 +979,7 @@ export function CallsList({
                   ref={infiniteLoaderRef}
                   isRowLoaded={isRowLoaded}
                   loadMoreRows={loadMoreRows}
-                  rowCount={searchState.results?.count}
+                  rowCount={rowCount}
                   minimumBatchSize={100}
                   threshold={30}
                 >
@@ -923,13 +987,14 @@ export function CallsList({
                     return (
                       <List
                         className={classNames('CallsList__List', {
-                          'CallsList__List--loading':
-                            searchState.state === 'pending',
+                          'CallsList__List--disableScrolling':
+                            searchState.results == null ||
+                            searchState.results.count === 0,
                         })}
                         ref={refMerger(listRef, registerChild)}
                         width={size.width}
                         height={size.height}
-                        rowCount={searchState.results?.count ?? 0}
+                        rowCount={rowCount}
                         rowHeight={rowHeight}
                         rowRenderer={rowRenderer}
                         onRowsRendered={onRowsRendered}

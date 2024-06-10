@@ -92,7 +92,7 @@ export async function insertCallLink(callLink: CallLinkType): Promise<void> {
 export async function updateCallLinkState(
   roomId: string,
   callLinkState: CallLinkStateType
-): Promise<void> {
+): Promise<CallLinkType> {
   const { name, restrictions, expiration, revoked } = callLinkState;
   const db = await getWritableInstance();
   const restrictionsValue = callLinkRestrictionsSchema.parse(restrictions);
@@ -103,9 +103,12 @@ export async function updateCallLinkState(
       restrictions = ${restrictionsValue},
       expiration = ${expiration},
       revoked = ${revoked ? 1 : 0}
-    WHERE roomId = ${roomId};
+    WHERE roomId = ${roomId}
+    RETURNING *;
   `;
-  db.prepare(query).run(params);
+  const row = db.prepare(query).get(params);
+  strictAssert(row, 'Expected row to be returned');
+  return callLinkFromRecord(callLinkRecordSchema.parse(row));
 }
 
 export async function updateCallLinkAdminKeyByRoomId(

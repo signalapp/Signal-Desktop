@@ -41,6 +41,7 @@ type CallsTabProps = Readonly<{
     pagination: CallHistoryPagination
   ) => Promise<Array<CallHistoryGroup>>;
   callHistoryEdition: number;
+  canCreateCallLinks: boolean;
   getAdhocCall: (roomId: string) => CallStateType | undefined;
   getCall: (id: string) => CallStateType | undefined;
   getCallLink: (id: string) => CallLinkType | undefined;
@@ -53,6 +54,7 @@ type CallsTabProps = Readonly<{
   onClearCallHistory: () => void;
   onMarkCallHistoryRead: (conversationId: string, callId: string) => void;
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
+  onCreateCallLink: () => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
   peekNotConnectedGroupCall: (options: PeekNotConnectedGroupCallType) => void;
@@ -93,6 +95,7 @@ export function CallsTab({
   getCallHistoryGroupsCount,
   getCallHistoryGroups,
   callHistoryEdition,
+  canCreateCallLinks,
   getAdhocCall,
   getCall,
   getCallLink,
@@ -105,6 +108,7 @@ export function CallsTab({
   onClearCallHistory,
   onMarkCallHistoryRead,
   onToggleNavTabsCollapse,
+  onCreateCallLink,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
   peekNotConnectedGroupCall,
@@ -257,6 +261,7 @@ export function CallsTab({
             <CallsList
               key={CallsTabSidebarView.CallsListView}
               activeCall={activeCall}
+              canCreateCallLinks={canCreateCallLinks}
               getCallHistoryGroupsCount={getCallHistoryGroupsCount}
               getCallHistoryGroups={getCallHistoryGroups}
               callHistoryEdition={callHistoryEdition}
@@ -268,6 +273,7 @@ export function CallsTab({
               i18n={i18n}
               selectedCallHistoryGroup={selectedView?.callHistoryGroup ?? null}
               onChangeCallsTabSelectedView={updateSelectedView}
+              onCreateCallLink={onCreateCallLink}
               onOutgoingAudioCallInConversation={
                 handleOutgoingAudioCallInConversation
               }

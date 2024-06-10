@@ -1,7 +1,13 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { CallLinkRootKey } from '@signalapp/ringrtc';
+import type { CallLinkState as RingRTCCallLinkState } from '@signalapp/ringrtc';
+import {
+  CallLinkRootKey,
+  CallLinkRestrictions as RingRTCCallLinkRestrictions,
+} from '@signalapp/ringrtc';
 import { Aci } from '@signalapp/libsignal-client';
+import { z } from 'zod';
+import * as RemoteConfig from '../RemoteConfig';
 import type { CallLinkAuthCredentialPresentation } from './zkgroup';
 import {
   CallLinkAuthCredential,
@@ -15,6 +21,7 @@ import type {
   CallLinkConversationType,
   CallLinkType,
   CallLinkRecord,
+  CallLinkStateType,
 } from '../types/CallLink';
 import {
   callLinkRecordSchema,
@@ -22,6 +29,7 @@ import {
   toCallLinkRestrictions,
 } from '../types/CallLink';
 import type { LocalizerType } from '../types/Util';
+import { isTestOrMockEnvironment } from '../environment';
 
 export const CALL_LINK_DEFAULT_STATE = {
   name: '',
@@ -29,6 +37,13 @@ export const CALL_LINK_DEFAULT_STATE = {
   revoked: false,
   expiration: null,
 };
+
+export function isCallLinksCreateEnabled(): boolean {
+  if (isTestOrMockEnvironment()) {
+    return true;
+  }
+  return RemoteConfig.getValue('desktop.calling.adhoc.create') === 'TRUE';
+}
 
 export function getRoomIdFromRootKey(rootKey: CallLinkRootKey): string {
   return rootKey.deriveRoomId().toString('hex');
@@ -112,12 +127,37 @@ export function fromRootKeyBytes(rootKey: Uint8Array): string {
   return CallLinkRootKey.fromBytes(rootKey as Buffer).toString();
 }
 
-export function toAdminKeyBytes(adminKey: string): Uint8Array {
-  return Bytes.fromBase64(adminKey);
+export function toAdminKeyBytes(adminKey: string): Buffer {
+  return Buffer.from(adminKey, 'base64');
 }
 
 export function fromAdminKeyBytes(adminKey: Uint8Array): string {
   return Bytes.toBase64(adminKey);
+}
+
+/**
+ * RingRTC conversions
+ */
+
+export function callLinkStateFromRingRTC(
+  state: RingRTCCallLinkState
+): CallLinkStateType {
+  return {
+    name: state.name,
+    restrictions: toCallLinkRestrictions(state.restrictions),
+    revoked: state.revoked,
+    expiration: state.expiration.getTime(),
+  };
+}
+
+const RingRTCCallLinkRestrictionsSchema = z.nativeEnum(
+  RingRTCCallLinkRestrictions
+);
+
+export function callLinkRestrictionsToRingRTC(
+  restrictions: CallLinkRestrictions
+): RingRTCCallLinkRestrictions {
+  return RingRTCCallLinkRestrictionsSchema.parse(restrictions);
 }
 
 /**

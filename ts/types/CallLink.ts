@@ -3,6 +3,7 @@
 import type { ReadonlyDeep } from 'type-fest';
 import { z } from 'zod';
 import type { ConversationType } from '../state/ducks/conversations';
+import { safeParseInteger } from '../util/numbers';
 
 export enum CallLinkUpdateSyncType {
   Update = 'Update',
@@ -28,9 +29,9 @@ export enum CallLinkRestrictions {
 export const callLinkRestrictionsSchema = z.nativeEnum(CallLinkRestrictions);
 
 export function toCallLinkRestrictions(
-  restrictions: number
+  restrictions: number | string
 ): CallLinkRestrictions {
-  return callLinkRestrictionsSchema.parse(restrictions);
+  return callLinkRestrictionsSchema.parse(safeParseInteger(restrictions));
 }
 
 /**
