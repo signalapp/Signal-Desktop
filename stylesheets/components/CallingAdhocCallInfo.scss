@@ -52,10 +52,10 @@
 .CallingAdhocCallInfo__MenuItemIcon {
   background: $color-gray-65;
   display: flex;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   margin-inline-end: 8px;
-  border-radius: 32px;
+  border-radius: 36px;
   align-items: center;
   justify-content: center;
 }
@@ -92,4 +92,48 @@
   height: 16px;
   margin-inline: 8px;
   background: $color-white;
+}
+
+.CallingAdhocCallInfo__UnknownContactInfoButton {
+  @include button-reset;
+  @include color-svg('../images/icons/v3/info/info.svg', $color-white);
+  display: flex;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-inline: 8px;
+}
+
+.CallingAdhocCallInfo__UnknownContactInfoButton:focus {
+  @include keyboard-mode {
+    background: $color-ultramarine;
+  }
+}
+
+.CallingAdhocCallInfo__UnknownContactInfoDialog__body {
+  padding-block-start: 22px;
+  padding-block-end: 8px;
+}
+
+.CallingAdhocCallInfo__UnknownContactAvatarSet {
+  height: 36px;
+}
+
+.CallingAdhocCallInfo__UnknownContactAvatar {
+  &:not(:first-child) {
+    margin-inline-start: -24px;
+  }
+
+  .module-Avatar__contents {
+    outline: 2px solid;
+    outline-color: $color-gray-80;
+  }
+}
+
+.CallingAdhocCallInfo
+  .module-calling-participants-list__contact:hover
+  .CallingAdhocCallInfo__UnknownContactAvatar
+  .module-Avatar__contents {
+  // Should match background of .module-calling-participants-list__contact:hover
+  outline-color: $color-gray-62;
 }

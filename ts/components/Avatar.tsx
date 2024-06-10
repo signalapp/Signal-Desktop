@@ -38,6 +38,7 @@ export enum AvatarSize {
   TWENTY = 20,
   TWENTY_FOUR = 24,
   TWENTY_EIGHT = 28,
+  THIRTY = 30,
   THIRTY_TWO = 32,
   THIRTY_SIX = 36,
   FORTY = 40,
@@ -86,6 +87,7 @@ export type Props = {
 
 const BADGE_PLACEMENT_BY_SIZE = new Map<number, BadgePlacementType>([
   [28, { bottom: -4, right: -2 }],
+  [30, { bottom: -4, right: -2 }],
   [32, { bottom: -4, right: -2 }],
   [36, { bottom: -3, right: 0 }],
   [40, { bottom: -6, right: -4 }],
@@ -159,7 +161,10 @@ export function Avatar({
   const initials = getInitials(title);
   const hasImage = !noteToSelf && avatarPath && !imageBroken;
   const shouldUseInitials =
-    !hasImage && conversationType === 'direct' && Boolean(initials);
+    !hasImage &&
+    conversationType === 'direct' &&
+    Boolean(initials) &&
+    title !== i18n('icu:unknownContact');
 
   let contentsChildren: ReactNode;
   if (loading) {

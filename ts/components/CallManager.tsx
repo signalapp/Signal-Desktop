@@ -53,7 +53,6 @@ import * as log from '../logging/log';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
 import { CallingAdhocCallInfo } from './CallingAdhocCallInfo';
 import { callLinkRootKeyToUrl } from '../util/callLinkRootKeyToUrl';
-import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode';
 import { usePrevious } from '../hooks/usePrevious';
 import { copyCallLink } from '../util/copyLinksWithToast';
 
@@ -90,6 +89,7 @@ export type PropsType = {
     conversationId: string,
     demuxId: number
   ) => VideoFrameSource;
+  getIsSharingPhoneNumberWithEverybody: () => boolean;
   getPresentingSources: () => void;
   incomingCall: DirectIncomingCall | GroupIncomingCall | null;
   renderDeviceSelection: () => JSX.Element;
@@ -146,7 +146,6 @@ type ActiveCallManagerPropsType = {
   | 'declineCall'
   | 'hasInitialLoadCompleted'
   | 'incomingCall'
-  | 'isConversationTooBigToRin'
   | 'notifyForCall'
   | 'playRingtone'
   | 'setIsCallActive'
@@ -165,6 +164,7 @@ function ActiveCallManager({
   denyUser,
   hangUpActiveCall,
   i18n,
+  getIsSharingPhoneNumberWithEverybody,
   getGroupCallVideoFrameSource,
   getPresentingSources,
   me,
@@ -349,7 +349,9 @@ function ActiveCallManager({
           isAdhocJoinRequestPending={isAdhocJoinRequestPending}
           isCallFull={isCallFull}
           isConversationTooBigToRing={isConvoTooBigToRing}
-          isSharingPhoneNumberWithEverybody={isSharingPhoneNumberWithEverybody()}
+          getIsSharingPhoneNumberWithEverybody={
+            getIsSharingPhoneNumberWithEverybody
+          }
           me={me}
           onCallCanceled={cancelActiveCall}
           onJoinCall={joinActiveCall}
@@ -501,6 +503,7 @@ export function CallManager({
   i18n,
   incomingCall,
   isConversationTooBigToRing,
+  getIsSharingPhoneNumberWithEverybody,
   me,
   notifyForCall,
   openSystemPreferencesAction,
@@ -589,6 +592,9 @@ export function CallManager({
           getPresentingSources={getPresentingSources}
           hangUpActiveCall={hangUpActiveCall}
           i18n={i18n}
+          getIsSharingPhoneNumberWithEverybody={
+            getIsSharingPhoneNumberWithEverybody
+          }
           me={me}
           openSystemPreferencesAction={openSystemPreferencesAction}
           pauseVoiceNotePlayer={pauseVoiceNotePlayer}

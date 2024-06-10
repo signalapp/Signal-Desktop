@@ -235,6 +235,7 @@ export default {
   title: 'Components/CallScreen',
   argTypes: {},
   args: {},
+  excludeStories: ['allRemoteParticipants'],
 } satisfies Meta<PropsType>;
 
 export function Default(): JSX.Element {
@@ -378,7 +379,7 @@ export function GroupCallYourHandRaised(): JSX.Element {
 const PARTICIPANT_EMOJIS = ['❤️', '🤔', '✨', '😂', '🦄'] as const;
 
 // We generate these upfront so that the list is stable when you move the slider.
-const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => {
+export const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => {
   const mediaKeysReceived = (index + 1) % 20 !== 0;
 
   return {
