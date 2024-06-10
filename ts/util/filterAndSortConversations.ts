@@ -9,6 +9,7 @@ import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse';
 import { countConversationUnreadStats, hasUnread } from './countUnreadStats';
 import { getE164 } from './getE164';
 import { removeDiacritics } from './removeDiacritics';
+import { isAciString } from './isAciString';
 
 // Fuse.js scores have order of 0.01
 const ACTIVE_AT_SCORE_FACTOR = (1 / WEEK) * 0.01;
@@ -67,6 +68,12 @@ COMMANDS.set('serviceIdEndsWith', (conversations, query) => {
   return conversations.filter(convo => convo.serviceId?.endsWith(query));
 });
 
+COMMANDS.set('aciEndsWith', (conversations, query) => {
+  return conversations.filter(
+    convo => isAciString(convo.serviceId) && convo.serviceId.endsWith(query)
+  );
+});
+
 COMMANDS.set('pniEndsWith', (conversations, query) => {
   return conversations.filter(convo => convo.pni?.endsWith(query));
 });
@@ -83,9 +90,11 @@ COMMANDS.set('groupIdEndsWith', (conversations, query) => {
   return conversations.filter(convo => convo.groupId?.endsWith(query));
 });
 
-COMMANDS.set('unread', conversations => {
+COMMANDS.set('unread', (conversations, query) => {
   const includeMuted =
-    window.storage.get('badge-count-muted-conversations') || false;
+    /^(?:m|muted)$/i.test(query) ||
+    window.storage.get('badge-count-muted-conversations') ||
+    false;
   return conversations.filter(conversation => {
     return hasUnread(
       countConversationUnreadStats(conversation, { includeMuted })
