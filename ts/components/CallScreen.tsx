@@ -3,7 +3,7 @@
 
 import type { ReactNode } from 'react';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { isEqual, noop, sortBy } from 'lodash';
+import { isEqual, noop } from 'lodash';
 import classNames from 'classnames';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type {
@@ -553,24 +553,34 @@ export function CallScreen({
   }
 
   const renderRaisedHandsToast = React.useCallback(
-    (hands: Array<number>) => {
-      // Sort "You" to the front.
-      const names = sortBy(hands, demuxId =>
-        demuxId === localDemuxId ? 0 : 1
-      ).map(demuxId =>
-        demuxId === localDemuxId
-          ? i18n('icu:you')
-          : conversationsByDemuxId.get(demuxId)?.title
-      );
+    (demuxIds: Array<number>) => {
+      const names: Array<string> = [];
+      let isYourHandRaised = false;
+      for (const demuxId of demuxIds) {
+        if (demuxId === localDemuxId) {
+          isYourHandRaised = true;
+          continue;
+        }
+
+        const handConversation = conversationsByDemuxId.get(demuxId);
+        if (!handConversation) {
+          continue;
+        }
+
+        names.push(handConversation.title);
+      }
+
+      const count = names.length;
+      const name = names[0] ?? '';
+      const otherName = names[1] ?? '';
 
       let message: string;
       let buttonOverride: JSX.Element | undefined;
-      const count = names.length;
       switch (count) {
         case 0:
           return undefined;
         case 1:
-          if (names[0] === i18n('icu:you')) {
+          if (isYourHandRaised) {
             message = i18n('icu:CallControls__RaiseHandsToast--you');
             buttonOverride = (
               <button
@@ -583,22 +593,37 @@ export function CallScreen({
             );
           } else {
             message = i18n('icu:CallControls__RaiseHandsToast--one', {
-              name: names[0] ?? '',
+              name,
             });
           }
           break;
         case 2:
-          message = i18n('icu:CallControls__RaiseHandsToast--two', {
-            name: names[0] ?? '',
-            otherName: names[1] ?? '',
-          });
+          if (isYourHandRaised) {
+            message = i18n('icu:CallControls__RaiseHandsToast--you-and-one', {
+              otherName,
+            });
+          } else {
+            message = i18n('icu:CallControls__RaiseHandsToast--two', {
+              name,
+              otherName,
+            });
+          }
           break;
-        default:
-          message = i18n('icu:CallControls__RaiseHandsToast--more', {
-            name: names[0] ?? '',
-            otherName: names[1] ?? '',
-            overflowCount: names.length - 2,
-          });
+        default: {
+          const overflowCount = count - 2;
+          if (isYourHandRaised) {
+            message = i18n('icu:CallControls__RaiseHandsToast--you-and-more', {
+              otherName,
+              overflowCount,
+            });
+          } else {
+            message = i18n('icu:CallControls__RaiseHandsToast--more', {
+              name: names[0] ?? '',
+              otherName,
+              overflowCount,
+            });
+          }
+        }
       }
       return (
         <div className="CallingRaisedHandsToast__Content">

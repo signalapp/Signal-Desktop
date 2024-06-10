@@ -3563,8 +3563,16 @@
     "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "Your hand is raised.",
+    "messageformat": "You raised a hand.",
     "description": "Shown in a call when the user raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-one": {
+    "messageformat": "You and {otherName} raised a hand.",
+    "description": "Shown in a call when the user and one other person raise their hands."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-more": {
+    "messageformat": "You, {otherName}, and {overflowCount, plural, one {#} other {#}} more raised a hand.",
+    "description": "Shown in a call when the user and 2 or more other persons raise their hands."
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} raised a hand.",
