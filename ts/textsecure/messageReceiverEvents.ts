@@ -213,6 +213,7 @@ export type ProfileKeyUpdateData = Readonly<{
 export class ProfileKeyUpdateEvent extends ConfirmableEvent {
   constructor(
     public readonly data: ProfileKeyUpdateData,
+    public readonly reason: string,
     confirm: ConfirmCallback
   ) {
     super('profileKeyUpdate', confirm);

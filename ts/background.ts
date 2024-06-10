@@ -205,6 +205,7 @@ import { CallMode } from './types/Calling';
 import { queueSyncTasks } from './util/syncTasks';
 import { isEnabled } from './RemoteConfig';
 import { AttachmentBackupManager } from './jobs/AttachmentBackupManager';
+import { getConversationIdForLogging } from './util/idForLogging';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -690,7 +691,7 @@ export async function startApp(): Promise<void> {
     );
     messageReceiver.addEventListener(
       'profileKeyUpdate',
-      queuedEventListener(onProfileKeyUpdate)
+      queuedEventListener(onProfileKey)
     );
     messageReceiver.addEventListener(
       'fetchLatest',
@@ -2523,24 +2524,30 @@ export async function startApp(): Promise<void> {
     drop(message.handleDataMessage(data.message, event.confirm));
   }
 
-  async function onProfileKeyUpdate({
+  async function onProfileKey({
     data,
+    reason,
     confirm,
   }: ProfileKeyUpdateEvent): Promise<void> {
+    const logId = `onProfileKey/${reason}`;
     const { conversation } = window.ConversationController.maybeMergeContacts({
       aci: data.sourceAci,
       e164: data.source,
-      reason: 'onProfileKeyUpdate',
+      reason: logId,
     });
+    const idForLogging = getConversationIdForLogging(conversation.attributes);
 
     if (!data.profileKey) {
-      log.error('onProfileKeyUpdate: missing profileKey', data.profileKey);
+      log.error(
+        `${logId}: missing profileKey for ${idForLogging}`,
+        data.profileKey
+      );
       confirm();
       return;
     }
 
     log.info(
-      'onProfileKeyUpdate: updating profileKey for',
+      `${logId}: updating profileKey for ${idForLogging}`,
       data.sourceAci,
       data.source
     );
