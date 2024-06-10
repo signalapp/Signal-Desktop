@@ -154,6 +154,8 @@ export type StorageAccessType = {
   areWeASubscriber: boolean;
   subscriberId: Uint8Array;
   subscriberCurrencyCode: string;
+  backupsSubscriberId: Uint8Array;
+  backupsSubscriberCurrencyCode: string;
   displayBadgesOnProfile: boolean;
   keepMutedChatsArchived: boolean;
   usernameLastIntegrityCheck: number;

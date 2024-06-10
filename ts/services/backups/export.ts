@@ -70,6 +70,7 @@ import {
   isVerifiedChange,
   isChangeNumberNotification,
   isJoinedSignalNotification,
+  isTitleTransitionNotification,
 } from '../../state/selectors/message';
 import * as Bytes from '../../Bytes';
 import { canBeSynced as canPreferredReactionEmojiBeSynced } from '../../reactions/preferredReactionEmoji';
@@ -258,16 +259,21 @@ export class BackupExportStream extends Readable {
         recipient: {
           id: this.getDistributionListRecipientId(),
           distributionList: {
-            name: list.name,
             distributionId: uuidToBytes(list.id),
-            allowReplies: list.allowsReplies,
             deletionTimestamp: list.deletedAtTimestamp
               ? Long.fromNumber(list.deletedAtTimestamp)
               : null,
-            privacyMode,
-            memberRecipientIds: list.members.map(serviceId =>
-              this.getOrPushPrivateRecipient({ serviceId })
-            ),
+
+            distributionList: list.deletedAtTimestamp
+              ? null
+              : {
+                  name: list.name,
+                  allowReplies: list.allowsReplies,
+                  privacyMode,
+                  memberRecipientIds: list.members.map(serviceId =>
+                    this.getOrPushPrivateRecipient({ serviceId })
+                  ),
+                },
           },
         },
       });
@@ -451,6 +457,9 @@ export class BackupExportStream extends Readable {
 
     const usernameLink = storage.get('usernameLink');
 
+    const subscriberId = storage.get('subscriberId');
+    const backupsSubscriberId = storage.get('backupsSubscriberId');
+
     return {
       profileKey: storage.get('profileKey'),
       username: me.get('username') || null,
@@ -465,8 +474,18 @@ export class BackupExportStream extends Readable {
       givenName: me.get('profileName'),
       familyName: me.get('profileFamilyName'),
       avatarUrlPath: storage.get('avatarUrl'),
-      subscriberId: storage.get('subscriberId'),
-      subscriberCurrencyCode: storage.get('subscriberCurrencyCode'),
+      backupsSubscriberData: Bytes.isNotEmpty(backupsSubscriberId)
+        ? {
+            subscriberId: backupsSubscriberId,
+            currencyCode: storage.get('backupsSubscriberCurrencyCode'),
+          }
+        : null,
+      donationSubscriberData: Bytes.isNotEmpty(subscriberId)
+        ? {
+            subscriberId,
+            currencyCode: storage.get('subscriberCurrencyCode'),
+          }
+        : null,
       accountSettings: {
         readReceipts: storage.get('read-receipt-setting'),
         sealedSenderIndicators: storage.get('sealedSenderIndicators'),
@@ -567,7 +586,17 @@ export class BackupExportStream extends Readable {
     if (isMe(convo)) {
       res.self = {};
     } else if (isDirectConversation(convo)) {
-      const { Registered } = Backups.Contact;
+      let visibility: Backups.Contact.Visibility;
+      if (convo.removalStage == null) {
+        visibility = Backups.Contact.Visibility.VISIBLE;
+      } else if (convo.removalStage === 'justNotification') {
+        visibility = Backups.Contact.Visibility.HIDDEN;
+      } else if (convo.removalStage === 'messageRequest') {
+        visibility = Backups.Contact.Visibility.HIDDEN_MESSAGE_REQUEST;
+      } else {
+        throw missingCaseError(convo.removalStage);
+      }
+
       res.contact = {
         aci:
           convo.serviceId && convo.serviceId !== convo.pni
@@ -581,13 +610,18 @@ export class BackupExportStream extends Readable {
         blocked: convo.serviceId
           ? window.storage.blocked.isServiceIdBlocked(convo.serviceId)
           : null,
-        hidden: convo.removalStage !== undefined,
-        registered: isConversationUnregistered(convo)
-          ? Registered.NOT_REGISTERED
-          : Registered.REGISTERED,
-        unregisteredTimestamp: convo.firstUnregisteredAt
-          ? Long.fromNumber(convo.firstUnregisteredAt)
-          : null,
+        visibility,
+        ...(isConversationUnregistered(convo)
+          ? {
+              notRegistered: {
+                unregisteredTimestamp: convo.firstUnregisteredAt
+                  ? Long.fromNumber(convo.firstUnregisteredAt)
+                  : null,
+              },
+            }
+          : {
+              registered: {},
+            }),
         profileKey: convo.profileKey
           ? Bytes.fromBase64(convo.profileKey)
           : null,
@@ -1089,6 +1123,27 @@ export class BackupExportStream extends Readable {
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
+    if (isTitleTransitionNotification(message)) {
+      strictAssert(
+        message.titleTransition != null,
+        'Missing title transition data'
+      );
+      const { renderInfo } = message.titleTransition;
+      if (renderInfo.e164) {
+        updateMessage.learnedProfileChange = {
+          e164: Long.fromString(renderInfo.e164),
+        };
+      } else {
+        strictAssert(
+          renderInfo.username,
+          'Title transition must have username or e164'
+        );
+        updateMessage.learnedProfileChange = { username: renderInfo.username };
+      }
+
+      return { kind: NonBubbleResultKind.Directionless, patch };
+    }
+
     if (isDeliveryIssue(message)) {
       updateMessage.simpleUpdate = {
         type: Backups.SimpleChatUpdate.Type.BAD_DECRYPT,
@@ -1129,7 +1184,6 @@ export class BackupExportStream extends Readable {
 
     if (isContactRemovedNotification(message)) {
       // Transient, drop it
-      // TODO: DESKTOP-7124
       return { kind: NonBubbleResultKind.Drop };
     }
 
@@ -1138,9 +1192,8 @@ export class BackupExportStream extends Readable {
     }
 
     if (isGroupUpdate(message)) {
-      // TODO (DESKTOP-6964)
-      // these old-school message types are no longer generated but we probably
-      //   still want to render them
+      // GV1 is deprecated.
+      return { kind: NonBubbleResultKind.Drop };
     }
 
     if (isUnsupportedMessage(message)) {

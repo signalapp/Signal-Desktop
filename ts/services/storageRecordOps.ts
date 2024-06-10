@@ -388,12 +388,24 @@ export function toAccountRecord(
   accountRecord.pinnedConversations = pinnedConversations;
 
   const subscriberId = window.storage.get('subscriberId');
-  if (subscriberId instanceof Uint8Array) {
+  if (Bytes.isNotEmpty(subscriberId)) {
     accountRecord.subscriberId = subscriberId;
   }
-  const subscriberCurrencyCode = window.storage.get('subscriberCurrencyCode');
+  const subscriberCurrencyCode = window.storage.get(
+    'backupsSubscriberCurrencyCode'
+  );
   if (typeof subscriberCurrencyCode === 'string') {
     accountRecord.subscriberCurrencyCode = subscriberCurrencyCode;
+  }
+  const backupsSubscriberId = window.storage.get('backupsSubscriberId');
+  if (Bytes.isNotEmpty(backupsSubscriberId)) {
+    accountRecord.backupsSubscriberId = backupsSubscriberId;
+  }
+  const backupsSubscriberCurrencyCode = window.storage.get(
+    'backupsSubscriberCurrencyCode'
+  );
+  if (typeof backupsSubscriberCurrencyCode === 'string') {
+    accountRecord.backupsSubscriberCurrencyCode = backupsSubscriberCurrencyCode;
   }
   const displayBadgesOnProfile = window.storage.get('displayBadgesOnProfile');
   if (displayBadgesOnProfile !== undefined) {
@@ -1223,6 +1235,8 @@ export async function mergeAccountRecord(
     preferredReactionEmoji: rawPreferredReactionEmoji,
     subscriberId,
     subscriberCurrencyCode,
+    backupsSubscriberId,
+    backupsSubscriberCurrencyCode,
     displayBadgesOnProfile,
     keepMutedChatsArchived,
     hasCompletedUsernameOnboarding,
@@ -1428,11 +1442,20 @@ export async function mergeAccountRecord(
     );
   }
 
-  if (subscriberId instanceof Uint8Array) {
+  if (Bytes.isNotEmpty(subscriberId)) {
     await window.storage.put('subscriberId', subscriberId);
   }
   if (typeof subscriberCurrencyCode === 'string') {
     await window.storage.put('subscriberCurrencyCode', subscriberCurrencyCode);
+  }
+  if (Bytes.isNotEmpty(backupsSubscriberId)) {
+    await window.storage.put('backupsSubscriberId', backupsSubscriberId);
+  }
+  if (typeof backupsSubscriberCurrencyCode === 'string') {
+    await window.storage.put(
+      'backupsSubscriberCurrencyCode',
+      backupsSubscriberCurrencyCode
+    );
   }
   await window.storage.put(
     'displayBadgesOnProfile',
