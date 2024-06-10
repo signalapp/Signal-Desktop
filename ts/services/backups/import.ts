@@ -9,6 +9,7 @@ import { isNumber } from 'lodash';
 
 import { Backups, SignalService } from '../../protobuf';
 import Data from '../../sql/Client';
+import type { StoryDistributionWithMembersType } from '../../sql/Interface';
 import * as log from '../../logging/log';
 import { StorySendMode } from '../../types/Stories';
 import type { ServiceIdString } from '../../types/ServiceId';
@@ -370,8 +371,8 @@ export class BackupImportStream extends Writable {
     givenName,
     familyName,
     avatarUrlPath,
-    subscriberId,
-    subscriberCurrencyCode,
+    backupsSubscriberData,
+    donationSubscriberData,
     accountSettings,
   }: Backups.IAccountData): Promise<void> {
     strictAssert(this.ourConversation === undefined, 'Duplicate AccountData');
@@ -410,11 +411,23 @@ export class BackupImportStream extends Writable {
     if (avatarUrlPath != null) {
       await storage.put('avatarUrl', avatarUrlPath);
     }
-    if (subscriberId != null) {
-      await storage.put('subscriberId', subscriberId);
+    if (donationSubscriberData != null) {
+      const { subscriberId, currencyCode } = donationSubscriberData;
+      if (Bytes.isNotEmpty(subscriberId)) {
+        await storage.put('subscriberId', subscriberId);
+      }
+      if (currencyCode != null) {
+        await storage.put('subscriberCurrencyCode', currencyCode);
+      }
     }
-    if (subscriberCurrencyCode != null) {
-      await storage.put('subscriberCurrencyCode', subscriberCurrencyCode);
+    if (backupsSubscriberData != null) {
+      const { subscriberId, currencyCode } = backupsSubscriberData;
+      if (Bytes.isNotEmpty(subscriberId)) {
+        await storage.put('backupsSubscriberId', subscriberId);
+      }
+      if (currencyCode != null) {
+        await storage.put('backupsSubscriberCurrencyCode', currencyCode);
+      }
     }
 
     await storage.put(
@@ -520,6 +533,20 @@ export class BackupImportStream extends Writable {
       : undefined;
     const e164 = contact.e164 ? `+${contact.e164}` : undefined;
 
+    let removalStage: 'justNotification' | 'messageRequest' | undefined;
+    switch (contact.visibility) {
+      case Backups.Contact.Visibility.HIDDEN:
+        removalStage = 'justNotification';
+        break;
+      case Backups.Contact.Visibility.HIDDEN_MESSAGE_REQUEST:
+        removalStage = 'messageRequest';
+        break;
+      case Backups.Contact.Visibility.VISIBLE:
+      default:
+        removalStage = undefined;
+        break;
+    }
+
     const attrs: ConversationAttributesType = {
       id: generateUuid(),
       type: 'private',
@@ -527,7 +554,7 @@ export class BackupImportStream extends Writable {
       serviceId: aci ?? pni,
       pni,
       e164,
-      removalStage: contact.hidden ? 'messageRequest' : undefined,
+      removalStage,
       profileKey: contact.profileKey
         ? Bytes.toBase64(contact.profileKey)
         : undefined,
@@ -537,10 +564,16 @@ export class BackupImportStream extends Writable {
       hideStory: contact.hideStory === true,
     };
 
-    if (contact.registered === Backups.Contact.Registered.NOT_REGISTERED) {
-      const timestamp = contact.unregisteredTimestamp?.toNumber() ?? Date.now();
+    if (contact.notRegistered) {
+      const timestamp =
+        contact.notRegistered.unregisteredTimestamp?.toNumber() ?? Date.now();
       attrs.discoveredUnregisteredAt = timestamp;
       attrs.firstUnregisteredAt = timestamp;
+    } else {
+      strictAssert(
+        contact.registered,
+        'contact is either registered or unregistered'
+      );
     }
 
     if (contact.blocked) {
@@ -588,71 +621,91 @@ export class BackupImportStream extends Writable {
   }
 
   private async fromDistributionList(
-    list: Backups.IDistributionList
+    listItem: Backups.IDistributionListItem
   ): Promise<void> {
     strictAssert(
-      Bytes.isNotEmpty(list.distributionId),
+      Bytes.isNotEmpty(listItem.distributionId),
       'Missing distribution list id'
     );
 
-    const id = bytesToUuid(list.distributionId);
+    const id = bytesToUuid(listItem.distributionId);
     strictAssert(isStoryDistributionId(id), 'Invalid distribution list id');
 
-    strictAssert(
-      list.privacyMode != null,
-      'Missing distribution list privacy mode'
-    );
-
-    let isBlockList: boolean;
-    const { PrivacyMode } = Backups.DistributionList;
-    switch (list.privacyMode) {
-      case PrivacyMode.ALL:
-        strictAssert(
-          !list.memberRecipientIds?.length,
-          'Distribution list with ALL privacy mode has members'
-        );
-        isBlockList = true;
-        break;
-      case PrivacyMode.ALL_EXCEPT:
-        strictAssert(
-          list.memberRecipientIds?.length,
-          'Distribution list with ALL_EXCEPT privacy mode has no members'
-        );
-        isBlockList = true;
-        break;
-      case PrivacyMode.ONLY_WITH:
-        isBlockList = false;
-        break;
-      case PrivacyMode.UNKNOWN:
-        throw new Error('Invalid privacy mode for distribution list');
-      default:
-        throw missingCaseError(list.privacyMode);
-    }
-
-    const result = {
+    const commonFields = {
       id,
-      name: list.name ?? '',
-      deletedAtTimestamp:
-        list.deletionTimestamp == null
-          ? undefined
-          : getTimestampFromLong(list.deletionTimestamp),
-      allowsReplies: list.allowReplies === true,
-      isBlockList,
-      members: (list.memberRecipientIds || []).map(recipientId => {
-        const convo = this.recipientIdToConvo.get(recipientId.toNumber());
-        strictAssert(convo != null, 'Missing story distribution list member');
-        strictAssert(
-          convo.serviceId,
-          'Story distribution list member has no serviceId'
-        );
-
-        return convo.serviceId;
-      }),
 
       // Default values
       senderKeyInfo: undefined,
       storageNeedsSync: false,
     };
+
+    let result: StoryDistributionWithMembersType;
+    if (listItem.deletionTimestamp == null) {
+      const { distributionList: list } = listItem;
+      strictAssert(
+        list != null,
+        'Distribution list is either present or deleted'
+      );
+
+      strictAssert(
+        list.privacyMode != null,
+        'Missing distribution list privacy mode'
+      );
+
+      let isBlockList: boolean;
+      const { PrivacyMode } = Backups.DistributionList;
+      switch (list.privacyMode) {
+        case PrivacyMode.ALL:
+          strictAssert(
+            !list.memberRecipientIds?.length,
+            'Distribution list with ALL privacy mode has members'
+          );
+          isBlockList = true;
+          break;
+        case PrivacyMode.ALL_EXCEPT:
+          strictAssert(
+            list.memberRecipientIds?.length,
+            'Distribution list with ALL_EXCEPT privacy mode has no members'
+          );
+          isBlockList = true;
+          break;
+        case PrivacyMode.ONLY_WITH:
+          isBlockList = false;
+          break;
+        case PrivacyMode.UNKNOWN:
+          throw new Error('Invalid privacy mode for distribution list');
+        default:
+          throw missingCaseError(list.privacyMode);
+      }
+
+      result = {
+        ...commonFields,
+        name: list.name ?? '',
+        allowsReplies: list.allowReplies === true,
+        isBlockList,
+        members: (list.memberRecipientIds || []).map(recipientId => {
+          const convo = this.recipientIdToConvo.get(recipientId.toNumber());
+          strictAssert(convo != null, 'Missing story distribution list member');
+          strictAssert(
+            convo.serviceId,
+            'Story distribution list member has no serviceId'
+          );
+
+          return convo.serviceId;
+        }),
+      };
+    } else {
+      result = {
+        ...commonFields,
+
+        name: '',
+        allowsReplies: false,
+        isBlockList: false,
+        members: [],
+
+        deletedAtTimestamp: getTimestampFromLong(listItem.deletionTimestamp),
+      };
+    }
 
     await Data.createNewStoryDistribution(result);
   }
@@ -1158,6 +1211,27 @@ export class BackupImportStream extends Writable {
             type: 'name',
             oldName,
             newName,
+          },
+        },
+        additionalMessages: [],
+      };
+    }
+
+    if (updateMessage.learnedProfileChange) {
+      const { e164, username } = updateMessage.learnedProfileChange;
+      strictAssert(
+        e164 != null || username != null,
+        'learnedProfileChange must have an old name'
+      );
+      return {
+        message: {
+          type: 'title-transition-notification',
+          titleTransition: {
+            renderInfo: {
+              type: 'private',
+              e164: e164 && !e164.isZero() ? `+${e164}` : undefined,
+              username: dropNull(username),
+            },
           },
         },
         additionalMessages: [],

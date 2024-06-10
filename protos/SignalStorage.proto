@@ -206,6 +206,8 @@ message AccountRecord {
   optional string username = 33;
   optional bool hasCompletedUsernameOnboarding = 34;
   optional UsernameLink usernameLink = 35;
+  optional bytes backupsSubscriberId = 36;
+  optional string backupsSubscriberCurrencyCode = 37;
 }
 
 message StoryDistributionListRecord {

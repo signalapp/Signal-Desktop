@@ -80,16 +80,21 @@ message AccountData {
     ChatStyle defaultChatStyle = 18;
   }
 
+  message SubscriberData {
+    bytes subscriberId = 1;
+    string currencyCode = 2;
+    bool manuallyCancelled = 3;
+  }
+
   bytes profileKey = 1;
   optional string username = 2;
   UsernameLink usernameLink = 3;
   string givenName = 4;
   string familyName = 5;
   string avatarUrlPath = 6;
-  bytes subscriberId = 7;
-  string subscriberCurrencyCode = 8;
-  bool subscriptionManuallyCancelled = 9;
-  AccountSettings accountSettings = 10;
+  SubscriberData donationSubscriberData = 7;
+  SubscriberData backupsSubscriberData = 8;
+  AccountSettings accountSettings = 9;
 }
 
 message Recipient {
@@ -97,7 +102,7 @@ message Recipient {
   oneof destination {
     Contact contact = 2;
     Group group = 3;
-    DistributionList distributionList = 4;
+    DistributionListItem distributionList = 4;
     Self self = 5;
     ReleaseNotes releaseNotes = 6;
     CallLink callLink = 7;
@@ -105,10 +110,15 @@ message Recipient {
 }
 
 message Contact {
-  enum Registered {
-    UNKNOWN = 0;
-    REGISTERED = 1;
-    NOT_REGISTERED = 2;
+  message Registered { }
+  message NotRegistered {
+    uint64 unregisteredTimestamp = 1;
+  }
+
+  enum Visibility {
+    VISIBLE = 0;
+    HIDDEN = 1;
+    HIDDEN_MESSAGE_REQUEST = 2;
   }
 
   optional bytes aci = 1; // should be 16 bytes
@@ -116,9 +126,13 @@ message Contact {
   optional string username = 3;
   optional uint64 e164 = 4;
   bool blocked = 5;
-  bool hidden = 6;
-  Registered registered = 7;
-  uint64 unregisteredTimestamp = 8;
+  Visibility visibility = 6;
+
+  oneof registration {
+    Registered registered = 7;
+    NotRegistered notRegistered = 8;
+  }
+
   optional bytes profileKey = 9;
   bool profileSharing = 10;
   optional string profileGivenName = 11;
@@ -267,6 +281,15 @@ message AdHocCall {
   uint64 callTimestamp = 4;
 }
 
+message DistributionListItem {
+  bytes distributionId = 1; // distribution list ids are uuids
+
+  oneof item {
+    uint64 deletionTimestamp = 2;
+    DistributionList distributionList = 3;
+  }
+}
+
 message DistributionList {
   enum PrivacyMode {
     UNKNOWN = 0;
@@ -276,11 +299,9 @@ message DistributionList {
   }
 
   string name = 1;
-  bytes distributionId = 2; // distribution list ids are uuids
-  bool allowReplies = 3;
-  uint64 deletionTimestamp = 4;
-  PrivacyMode privacyMode = 5;
-  repeated uint64 memberRecipientIds = 6; // generated recipient id
+  bool allowReplies = 2;
+  PrivacyMode privacyMode = 3;
+  repeated uint64 memberRecipientIds = 4; // generated recipient id
 }
 
 message Identity {
@@ -646,6 +667,7 @@ message ChatUpdateMessage {
     SessionSwitchoverChatUpdate sessionSwitchover = 6;
     IndividualCall individualCall = 7;
     GroupCall groupCall = 8;
+    LearnedProfileChatUpdate learnedProfileChange = 9;
   }
 }
 
@@ -741,6 +763,13 @@ message ExpirationTimerChatUpdate {
 message ProfileChangeChatUpdate {
   string previousName = 1;
   string newName = 2;
+}
+
+message LearnedProfileChatUpdate {
+  oneof previousName {
+    uint64 e164 = 1;
+    string username = 2;
+  }
 }
 
 message ThreadMergeChatUpdate {

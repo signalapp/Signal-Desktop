@@ -418,6 +418,26 @@ describe('backup/non-bubble messages', () => {
     ]);
   });
 
+  it('roundtrips title transition notification', async () => {
+    await symmetricRoundtripHarness([
+      {
+        conversationId: contactA.id,
+        id: generateGuid(),
+        type: 'title-transition-notification',
+        received_at: 1,
+        sent_at: 1,
+        timestamp: 1,
+        sourceServiceId: CONTACT_A,
+        titleTransition: {
+          renderInfo: {
+            type: 'private',
+            e164: '+12125551234',
+          },
+        },
+      },
+    ]);
+  });
+
   it('roundtrips thread merge', async () => {
     await symmetricRoundtripHarness([
       {

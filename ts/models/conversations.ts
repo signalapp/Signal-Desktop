@@ -3373,6 +3373,10 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
+    if (this.attributes.removalStage !== 'justNotification') {
+      return;
+    }
+
     if (this.get('pendingRemovedContactNotification')) {
       return;
     }
@@ -4138,6 +4142,11 @@ export class ConversationModel extends window.Backbone
     drop(
       this.queueJob('maybeSetPendingUniversalTimer', async () =>
         this.maybeSetPendingUniversalTimer(stats.hasUserInitiatedMessages)
+      )
+    );
+    drop(
+      this.queueJob('maybeAddRemovedNotificaiton', async () =>
+        this.maybeSetContactRemoved()
       )
     );
 
