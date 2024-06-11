@@ -55,10 +55,10 @@ const pathError = '#EA5545';
 const transparent = 'transparent';
 
 // White
-const white = '#FFFFFF';
+const white = '#FFF';
 
 // Black
-const black = '#000000';
+const black = '#000';
 
 // Grey
 const grey = '#616161';
