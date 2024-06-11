@@ -16,6 +16,7 @@ import * as Bytes from '../../Bytes';
 import type { AttachmentType } from '../../types/Attachment';
 import { strictAssert } from '../../util/assert';
 import type { GetBackupCdnInfoType } from '../../services/backups/util/mediaId';
+import { MASTER_KEY } from './helpers';
 
 describe('convertFilePointerToAttachment', () => {
   it('processes filepointer with attachmentLocator', () => {
@@ -270,6 +271,22 @@ const notInBackupCdn: GetBackupCdnInfoType = async () => {
 };
 
 describe('getFilePointerForAttachment', () => {
+  let sandbox: sinon.SinonSandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    sandbox.stub(window.storage, 'get').callsFake(key => {
+      if (key === 'masterKey') {
+        return MASTER_KEY;
+      }
+      return undefined;
+    });
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('not downloaded locally', () => {
     const undownloadedAttachment = composeAttachment({ path: undefined });
     it('returns invalidAttachmentLocator if missing critical decryption info', async () => {
@@ -402,11 +419,7 @@ describe('getFilePointerForAttachment', () => {
     describe('BackupLevel.Media', () => {
       describe('if missing critical decryption / encryption info', () => {
         const FILE_PATH = join(__dirname, '../../../fixtures/ghost-kitty.mp4');
-
-        let sandbox: sinon.SinonSandbox;
-
         beforeEach(() => {
-          sandbox = sinon.createSandbox();
           sandbox
             .stub(window.Signal.Migrations, 'getAbsoluteAttachmentPath')
             .callsFake(relPath => {
@@ -415,10 +428,6 @@ describe('getFilePointerForAttachment', () => {
               }
               return relPath;
             });
-        });
-
-        afterEach(() => {
-          sandbox.restore();
         });
 
         it('if missing key, generates new key & digest and removes existing CDN info', async () => {
@@ -447,6 +456,18 @@ describe('getFilePointerForAttachment', () => {
                 transitCdnNumber: undefined,
               }),
             })
+          );
+        });
+
+        it('if file does not exist at local path, returns invalid attachment locator', async () => {
+          await testAttachmentToFilePointer(
+            {
+              ...downloadedAttachment,
+              path: 'no/file/here.png',
+              key: undefined,
+            },
+            filePointerWithInvalidLocator,
+            { backupLevel: BackupLevel.Media }
           );
         });
 

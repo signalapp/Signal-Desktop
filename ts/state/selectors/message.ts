@@ -59,7 +59,11 @@ import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { getMentionsRegex } from '../../types/Message';
 import { SignalService as Proto } from '../../protobuf';
 import type { AttachmentType } from '../../types/Attachment';
-import { isVoiceMessage, canBeDownloaded } from '../../types/Attachment';
+import {
+  isVoiceMessage,
+  canBeDownloaded,
+  defaultBlurHash,
+} from '../../types/Attachment';
 import { type DefaultConversationColorType } from '../../types/Colors';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 
@@ -301,16 +305,14 @@ export const getAttachmentsForMessage = ({
   if (sticker && sticker.data) {
     const { data } = sticker;
 
-    // We don't show anything if we don't have the sticker or the blurhash...
-    if (!data.blurHash && (data.pending || !data.path)) {
-      return [];
-    }
-
     return [
       {
         ...data,
         // We want to show the blurhash for stickers, not the spinner
         pending: false,
+        // Stickers are not guaranteed to have a blurhash (e.g. if imported but
+        // undownloaded from backup), so we want to make sure we have something to show
+        blurHash: data.blurHash ?? defaultBlurHash(),
         url: data.path
           ? window.Signal.Migrations.getAbsoluteAttachmentPath(data.path)
           : undefined,

@@ -10,7 +10,11 @@ import { mkdtemp, rm } from 'fs/promises';
 import * as sinon from 'sinon';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 
-import type { MessageAttributesType } from '../../model-types';
+import type {
+  EditHistoryType,
+  MessageAttributesType,
+  MessageReactionType,
+} from '../../model-types';
 import type {
   SendStateByConversationId,
   SendState,
@@ -31,18 +35,27 @@ export const PROFILE_KEY = getRandomBytes(32);
 // This is preserved across data erasure
 const CONVO_ID_TO_STABLE_ID = new Map<string, string>();
 
-function mapConvoId(id?: string | null): string | undefined | null {
+function mapConvoId(id?: string | null): string | undefined {
   if (id == null) {
-    return id;
+    return undefined;
   }
 
   return CONVO_ID_TO_STABLE_ID.get(id) ?? id;
 }
 
+type MessageAttributesForComparisonType = Omit<
+  MessageAttributesType,
+  'id' | 'received_at' | 'editHistory' | 'reactions' | 'conversationId'
+> & {
+  conversationId: string | undefined;
+  editHistory?: Array<Omit<EditHistoryType, 'received_at'>>;
+  reactions?: Array<Omit<MessageReactionType, 'fromId'>>;
+};
+
 // We need to eliminate fields that won't stay stable through import/export
 function sortAndNormalize(
   messages: Array<MessageAttributesType>
-): Array<unknown> {
+): Array<MessageAttributesForComparisonType> {
   return sortBy(messages, 'sent_at').map(message => {
     const {
       changedId,
@@ -113,11 +126,19 @@ function sortAndNormalize(
   });
 }
 
+type HarnessOptionsType = {
+  backupLevel: BackupLevel;
+  comparator?: (
+    msgBefore: MessageAttributesForComparisonType,
+    msgAfter: MessageAttributesForComparisonType
+  ) => void;
+};
+
 export async function symmetricRoundtripHarness(
   messages: Array<MessageAttributesType>,
-  backupLevel: BackupLevel = BackupLevel.Messages
+  options: HarnessOptionsType = { backupLevel: BackupLevel.Messages }
 ): Promise<void> {
-  return asymmetricRoundtripHarness(messages, messages, backupLevel);
+  return asymmetricRoundtripHarness(messages, messages, options);
 }
 
 async function updateConvoIdToTitle() {
@@ -133,7 +154,7 @@ async function updateConvoIdToTitle() {
 export async function asymmetricRoundtripHarness(
   before: Array<MessageAttributesType>,
   after: Array<MessageAttributesType>,
-  backupLevel: BackupLevel = BackupLevel.Messages
+  options: HarnessOptionsType = { backupLevel: BackupLevel.Messages }
 ): Promise<void> {
   const outDir = await mkdtemp(path.join(tmpdir(), 'signal-temp-'));
   const fetchAndSaveBackupCdnObjectMetadata = sinon.stub(
@@ -145,7 +166,7 @@ export async function asymmetricRoundtripHarness(
 
     await Data.saveMessages(before, { forceSave: true, ourAci: OUR_ACI });
 
-    await backupsService.exportToDisk(targetOutputFile, backupLevel);
+    await backupsService.exportToDisk(targetOutputFile, options.backupLevel);
 
     await updateConvoIdToTitle();
 
@@ -159,7 +180,15 @@ export async function asymmetricRoundtripHarness(
 
     const expected = sortAndNormalize(after);
     const actual = sortAndNormalize(messagesFromDatabase);
-    assert.deepEqual(actual, expected);
+
+    if (options.comparator) {
+      assert.strictEqual(actual.length, expected.length);
+      for (let i = 0; i < actual.length; i += 1) {
+        options.comparator(expected[i], actual[i]);
+      }
+    } else {
+      assert.deepEqual(actual, expected);
+    }
   } finally {
     fetchAndSaveBackupCdnObjectMetadata.restore();
     await rm(outDir, { recursive: true });

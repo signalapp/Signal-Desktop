@@ -4,6 +4,9 @@
 import { v4 as generateGuid } from 'uuid';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 import { omit } from 'lodash';
+import * as sinon from 'sinon';
+import { join } from 'path';
+import { assert } from 'chai';
 
 import type { ConversationModel } from '../../models/conversations';
 import * as Bytes from '../../Bytes';
@@ -13,7 +16,13 @@ import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SeenStatus } from '../../MessageSeenStatus';
 import { loadCallsHistory } from '../../services/callHistoryLoader';
 import { setupBasics, asymmetricRoundtripHarness } from './helpers';
-import { AUDIO_MP3, IMAGE_JPEG, IMAGE_PNG, VIDEO_MP4 } from '../../types/MIME';
+import {
+  AUDIO_MP3,
+  IMAGE_JPEG,
+  IMAGE_PNG,
+  IMAGE_WEBP,
+  VIDEO_MP4,
+} from '../../types/MIME';
 import type {
   MessageAttributesType,
   QuotedMessageType,
@@ -21,10 +30,12 @@ import type {
 import { isVoiceMessage, type AttachmentType } from '../../types/Attachment';
 import { strictAssert } from '../../util/assert';
 import { SignalService } from '../../protobuf';
+import { getRandomBytes } from '../../Crypto';
 
 const CONTACT_A = generateAci();
 
 describe('backup/attachments', () => {
+  let sandbox: sinon.SinonSandbox;
   let contactA: ConversationModel;
 
   beforeEach(async () => {
@@ -41,6 +52,25 @@ describe('backup/attachments', () => {
     );
 
     await loadCallsHistory();
+
+    sandbox = sinon.createSandbox();
+    const getAbsoluteAttachmentPath = sandbox.stub(
+      window.Signal.Migrations,
+      'getAbsoluteAttachmentPath'
+    );
+    getAbsoluteAttachmentPath.callsFake(path => {
+      if (path === 'path/to/sticker') {
+        return join(__dirname, '../../../fixtures/kitten-3-64-64.jpg');
+      }
+      if (path === 'path/to/thumbnail') {
+        return join(__dirname, '../../../fixtures/kitten-3-64-64.jpg');
+      }
+      return getAbsoluteAttachmentPath.wrappedMethod(path);
+    });
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   function getBase64(str: string): string {
@@ -66,7 +96,7 @@ describe('backup/attachments', () => {
         width: 150,
         height: 150,
         contentType: IMAGE_PNG,
-        path: '/path/to/thumbnail.png',
+        path: 'path/to/thumbnail',
       },
       ...overrides,
     };
@@ -112,7 +142,7 @@ describe('backup/attachments', () => {
             ],
           }),
         ],
-        BackupLevel.Messages
+        { backupLevel: BackupLevel.Messages }
       );
     });
     it('BackupLevel.Media, roundtrips normal attachments', async () => {
@@ -142,7 +172,7 @@ describe('backup/attachments', () => {
             ],
           }),
         ],
-        BackupLevel.Media
+        { backupLevel: BackupLevel.Media }
       );
     });
     it('roundtrips voice message attachments', async () => {
@@ -174,7 +204,7 @@ describe('backup/attachments', () => {
             ],
           }),
         ],
-        BackupLevel.Media
+        { backupLevel: BackupLevel.Media }
       );
     });
   });
@@ -201,7 +231,7 @@ describe('backup/attachments', () => {
             ],
           }),
         ],
-        BackupLevel.Messages
+        { backupLevel: BackupLevel.Messages }
       );
     });
     it('BackupLevel.Media, roundtrips preview attachments', async () => {
@@ -245,7 +275,7 @@ describe('backup/attachments', () => {
             ],
           }),
         ],
-        BackupLevel.Media
+        { backupLevel: BackupLevel.Media }
       );
     });
   });
@@ -273,7 +303,7 @@ describe('backup/attachments', () => {
             ],
           }),
         ],
-        BackupLevel.Messages
+        { backupLevel: BackupLevel.Messages }
       );
     });
     it('BackupLevel.Media, roundtrips contact attachments', async () => {
@@ -308,7 +338,7 @@ describe('backup/attachments', () => {
             ],
           }),
         ],
-        BackupLevel.Media
+        { backupLevel: BackupLevel.Media }
       );
     });
   });
@@ -348,7 +378,7 @@ describe('backup/attachments', () => {
             },
           }),
         ],
-        BackupLevel.Messages
+        { backupLevel: BackupLevel.Messages }
       );
     });
     it('BackupLevel.Media, roundtrips quote attachments', async () => {
@@ -393,7 +423,7 @@ describe('backup/attachments', () => {
             },
           }),
         ],
-        BackupLevel.Media
+        { backupLevel: BackupLevel.Media }
       );
     });
 
@@ -459,8 +489,241 @@ describe('backup/attachments', () => {
             },
           },
         ],
-        BackupLevel.Media
+        { backupLevel: BackupLevel.Media }
       );
+    });
+
+    it('handles quotes which have been copied over from the original (and lack all encryption info)', async () => {
+      const originalMessage = composeMessage(1);
+      const quotedMessage: QuotedMessageType = {
+        authorAci: originalMessage.sourceServiceId as AciString,
+        isViewOnce: false,
+        id: originalMessage.timestamp,
+        referencedMessageNotFound: false,
+        messageId: '',
+        isGiftBadge: false,
+        attachments: [
+          {
+            thumbnail: {
+              contentType: IMAGE_PNG,
+              size: 100,
+              path: 'path/to/thumbnail',
+            },
+            contentType: VIDEO_MP4,
+          },
+        ],
+      };
+
+      const quoteMessage = composeMessage(originalMessage.timestamp + 1, {
+        quote: quotedMessage,
+      });
+
+      await asymmetricRoundtripHarness(
+        [originalMessage, quoteMessage],
+        [
+          originalMessage,
+          {
+            ...quoteMessage,
+            quote: {
+              ...quotedMessage,
+              referencedMessageNotFound: false,
+              attachments: [
+                {
+                  // will do custom comparison for thumbnail below
+                  contentType: VIDEO_MP4,
+                },
+              ],
+            },
+          },
+        ],
+        {
+          backupLevel: BackupLevel.Media,
+          comparator: (msgBefore, msgAfter) => {
+            if (msgBefore.timestamp === originalMessage.timestamp) {
+              return assert.deepStrictEqual(msgBefore, msgAfter);
+            }
+
+            const thumbnail = msgAfter.quote?.attachments[0]?.thumbnail;
+            strictAssert(thumbnail, 'quote thumbnail exists');
+
+            assert.deepStrictEqual(
+              omit(msgBefore, 'quote.attachments[0].thumbnail'),
+              omit(msgAfter, 'quote.attachments[0].thumbnail')
+            );
+
+            const { key, digest } = thumbnail;
+            strictAssert(digest, 'quote digest was created');
+            strictAssert(key, 'quote digest was created');
+
+            assert.deepStrictEqual(thumbnail, {
+              contentType: IMAGE_PNG,
+              size: 100,
+              key,
+              digest,
+              backupLocator: {
+                mediaName: digest,
+              },
+            });
+          },
+        }
+      );
+    });
+  });
+
+  describe('sticker attachments', () => {
+    const packId = Bytes.toHex(getRandomBytes(16));
+    const packKey = Bytes.toBase64(getRandomBytes(32));
+
+    describe('when copied over from sticker pack (i.e. missing encryption info)', () => {
+      it('BackupLevel.Media, generates new encryption info', async () => {
+        await asymmetricRoundtripHarness(
+          [
+            composeMessage(1, {
+              sticker: {
+                emoji: '🐒',
+                packId,
+                packKey,
+                stickerId: 0,
+                data: {
+                  contentType: IMAGE_WEBP,
+                  path: 'path/to/sticker',
+                  size: 5322,
+                  width: 512,
+                  height: 512,
+                },
+              },
+            }),
+          ],
+          [
+            composeMessage(1, {
+              sticker: {
+                emoji: '🐒',
+                packId,
+                packKey,
+                stickerId: 0,
+                data: {
+                  contentType: IMAGE_WEBP,
+                  size: 5322,
+                  width: 512,
+                  height: 512,
+                },
+              },
+            }),
+          ],
+          {
+            backupLevel: BackupLevel.Media,
+            comparator: (msgBefore, msgAfter) => {
+              assert.deepStrictEqual(
+                omit(msgBefore, 'sticker.data'),
+                omit(msgAfter, 'sticker.data')
+              );
+              strictAssert(msgAfter.sticker?.data, 'sticker data exists');
+
+              const { key, digest } = msgAfter.sticker.data;
+              strictAssert(digest, 'sticker digest was created');
+
+              assert.equal(Bytes.fromBase64(digest ?? '').byteLength, 32);
+              assert.equal(Bytes.fromBase64(key ?? '').byteLength, 64);
+
+              assert.deepStrictEqual(msgAfter.sticker.data, {
+                contentType: IMAGE_WEBP,
+                size: 5322,
+                width: 512,
+                height: 512,
+                key,
+                digest,
+                backupLocator: {
+                  mediaName: digest,
+                },
+              });
+            },
+          }
+        );
+      });
+      it('BackupLevel.Messages, generates invalid attachment locator', async () => {
+        // since we aren't re-uploading with new encryption info, we can't include this
+        // attachment in the backup proto
+        await asymmetricRoundtripHarness(
+          [
+            composeMessage(1, {
+              sticker: {
+                emoji: '🐒',
+                packId,
+                packKey,
+                stickerId: 0,
+                data: {
+                  contentType: IMAGE_WEBP,
+                  path: 'path/to/sticker',
+                  size: 5322,
+                  width: 512,
+                  height: 512,
+                },
+              },
+            }),
+          ],
+          [
+            composeMessage(1, {
+              sticker: {
+                emoji: '🐒',
+                packId,
+                packKey,
+                stickerId: 0,
+                data: {
+                  contentType: IMAGE_WEBP,
+                  size: 0,
+                  error: true,
+                  height: 512,
+                  width: 512,
+                },
+              },
+            }),
+          ],
+          {
+            backupLevel: BackupLevel.Messages,
+          }
+        );
+      });
+    });
+    describe('when this device sent sticker (i.e. encryption info exists on message)', () => {
+      it('roundtrips sticker', async () => {
+        const attachment = composeAttachment(1);
+        strictAssert(attachment.digest, 'digest exists');
+        await asymmetricRoundtripHarness(
+          [
+            composeMessage(1, {
+              sticker: {
+                emoji: '🐒',
+                packId,
+                packKey,
+                stickerId: 0,
+                data: attachment,
+              },
+            }),
+          ],
+          [
+            composeMessage(1, {
+              sticker: {
+                emoji: '🐒',
+                packId,
+                packKey,
+                stickerId: 0,
+                data: {
+                  ...omit(attachment, [
+                    'iv',
+                    'path',
+                    'thumbnail',
+                    'uploadTimestamp',
+                  ]),
+                  backupLocator: { mediaName: attachment.digest },
+                },
+              },
+            }),
+          ],
+          {
+            backupLevel: BackupLevel.Media,
+          }
+        );
+      });
     });
   });
 });

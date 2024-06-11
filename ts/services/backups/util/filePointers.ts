@@ -37,6 +37,7 @@ import {
 } from './mediaId';
 import { redactGenericText } from '../../../util/privacy';
 import { missingCaseError } from '../../../util/missingCaseError';
+import { toLogFormat } from '../../../types/errors';
 
 export function convertFilePointerToAttachment(
   filePointer: Backups.FilePointer
@@ -225,6 +226,16 @@ export async function getFilePointerForAttachment({
     attachment.digest ?? ''
   )})`;
 
+  if (attachment.size == null) {
+    log.warn(`${logId}: attachment had nullish size, dropping`);
+    return {
+      filePointer: new Backups.FilePointer({
+        ...filePointerRootProps,
+        invalidAttachmentLocator: getInvalidAttachmentLocator(),
+      }),
+    };
+  }
+
   if (!isAttachmentLocallySaved(attachment)) {
     // 1. If the attachment is undownloaded, we cannot trust its digest / mediaName. Thus,
     // we only include a BackupLocator if this attachment already had one (e.g. we
@@ -290,7 +301,7 @@ export async function getFilePointerForAttachment({
   }
 
   // Some attachments (e.g. those quoted ones copied from the original message) may not
-  // have any encryption info, including a digest!
+  // have any encryption info, including a digest.
   if (attachment.digest) {
     // From here on, this attachment is headed to (or already on) the backup tier!
     const mediaNameForCurrentVersionOfAttachment =
@@ -326,9 +337,25 @@ export async function getFilePointerForAttachment({
     }
   }
 
-  log.info(`${logId}: Generating new encryption info for attachment`);
-  const attachmentWithNewEncryptionInfo =
-    await generateNewEncryptionInfoForAttachment(attachment);
+  let attachmentWithNewEncryptionInfo: AttachmentReadyForBackup | undefined;
+  try {
+    log.info(`${logId}: Generating new encryption info for attachment`);
+    attachmentWithNewEncryptionInfo =
+      await generateNewEncryptionInfoForAttachment(attachment);
+  } catch (e) {
+    log.error(
+      `${logId}: Error when generating new encryption info for attachment`,
+      toLogFormat(e)
+    );
+
+    return {
+      filePointer: new Backups.FilePointer({
+        ...filePointerRootProps,
+        invalidAttachmentLocator: getInvalidAttachmentLocator(),
+      }),
+    };
+  }
+
   return {
     filePointer: new Backups.FilePointer({
       ...filePointerRootProps,
