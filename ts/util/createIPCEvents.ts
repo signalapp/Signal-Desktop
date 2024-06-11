@@ -19,7 +19,7 @@ import type { ConversationType } from '../state/ducks/conversations';
 import { calling } from '../services/calling';
 import { resolveUsernameByLinkBase64 } from '../services/username';
 import { writeProfile } from '../services/writeProfile';
-import { isInCall as getIsInCall } from '../state/selectors/calling';
+import { isInCall } from '../state/selectors/calling';
 import { getConversationsWithCustomColorSelector } from '../state/selectors/conversations';
 import { getCustomColors } from '../state/selectors/items';
 import { themeChanged } from '../shims/themeChanged';
@@ -128,7 +128,8 @@ export type IPCEventsCallbacksType = {
   showGroupViaLink: (value: string) => Promise<void>;
   showReleaseNotes: () => void;
   showStickerPack: (packId: string, key: string) => void;
-  maybeRequestCloseConfirmation: () => Promise<boolean>;
+  requestCloseConfirmation: () => Promise<boolean>;
+  getIsInCall: () => boolean;
   shutdown: () => Promise<void>;
   unknownSignalLink: () => void;
   getCustomColors: () => Record<string, CustomColorType>;
@@ -632,12 +633,7 @@ export function createIPCEvents(
       showUnknownSgnlLinkModal();
     },
 
-    maybeRequestCloseConfirmation: async (): Promise<boolean> => {
-      const isInCall = getIsInCall(window.reduxStore.getState());
-      if (!isInCall) {
-        return true;
-      }
-
+    requestCloseConfirmation: async (): Promise<boolean> => {
       try {
         await new Promise<void>((resolve, reject) => {
           showConfirmationDialog({
@@ -655,18 +651,20 @@ export function createIPCEvents(
             resolve: () => resolve(),
           });
         });
-        log.info('Close confirmed by user.');
-        if (isInCall) {
-          window.reduxActions.calling.hangUpActiveCall(
-            'User confirmed in-call close.'
-          );
-        }
+        log.info('requestCloseConfirmation: Close confirmed by user.');
+        window.reduxActions.calling.hangUpActiveCall(
+          'User confirmed in-call close.'
+        );
 
         return true;
       } catch {
-        log.info('Close cancelled by user.');
+        log.info('requestCloseConfirmation: Close cancelled by user.');
         return false;
       }
+    },
+
+    getIsInCall: (): boolean => {
+      return isInCall(window.reduxStore.getState());
     },
 
     unknownSignalLink: () => {
