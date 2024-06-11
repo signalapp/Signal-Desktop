@@ -454,6 +454,7 @@ export function Quote(props: Props): JSX.Element | null {
 
     return (
       <div
+        dir="auto"
         className={classNames(
           getClassName('__primary__author'),
           isIncoming ? getClassName('__primary__author--incoming') : null
