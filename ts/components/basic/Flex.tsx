@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { HTMLMotionProps, motion } from 'framer-motion';
 import styled from 'styled-components';
 import { HTMLDirection } from '../../util/i18n';
 
@@ -62,7 +62,7 @@ export const Flex = styled.div<FlexProps>`
   direction: ${props => props.dir || undefined};
 `;
 
-export const AnimatedFlex = styled(motion.div)<FlexProps>`
+export const AnimatedFlex = styled(motion.div)<HTMLMotionProps<'div'> & FlexProps>`
   display: ${props => (props.container ? 'flex' : 'block')};
   justify-content: ${props => props.justifyContent || 'flex-start'};
   flex-direction: ${props => props.flexDirection || 'row'};
