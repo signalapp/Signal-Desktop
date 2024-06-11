@@ -102,7 +102,7 @@ export const SettingsCategoryRecoveryPassword = () => {
           <SessionQRCode
             id={'session-recovery-password'}
             value={hexEncodedSeed}
-            size={240}
+            size={260}
             backgroundColor={getThemeValue(
               isDarkTheme ? '--text-primary-color' : '--background-primary-color'
             )}

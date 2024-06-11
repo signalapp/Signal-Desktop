@@ -15,7 +15,7 @@ export const QRView = ({ sessionID }: { sessionID: string }) => {
     <SessionQRCode
       id={'session-account-id'}
       value={sessionID}
-      size={170}
+      size={190}
       backgroundColor={getThemeValue(
         isDarkTheme ? '--text-primary-color' : '--background-primary-color'
       )}

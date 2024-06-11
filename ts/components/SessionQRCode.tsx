@@ -1,33 +1,9 @@
-import { isEmpty } from 'lodash';
-import { MouseEvent, useCallback, useEffect, useState } from 'react';
+import { MouseEvent, useRef } from 'react';
 import { QRCode } from 'react-qrcode-logo';
-import useMount from 'react-use/lib/useMount';
-import styled, { CSSProperties } from 'styled-components';
+import { CSSProperties } from 'styled-components';
 import { ThemeStateType } from '../themes/constants/colors';
-import { THEME_GLOBALS, getThemeValue } from '../themes/globals';
-import { saveQRCode } from '../util/saveQRCode';
-import { checkDarkTheme } from '../util/theme';
+import { THEME_GLOBALS } from '../themes/globals';
 import { AnimatedFlex } from './basic/Flex';
-
-/** AnimatedFlex because we fade in the QR code to hide the logo flickering on first render
- * The container controls the visible width and height of the QR code because we lose quality if the html canvas size is too small so we scale down with CSS.
- */
-const StyledQRView = styled(AnimatedFlex)<{
-  canvasId?: string;
-  size?: number;
-  backgroundColor?: string;
-}>`
-  cursor: pointer;
-  border-radius: 10px;
-  overflow: hidden;
-
-  ${props => props.backgroundColor && ` background-color: ${props.backgroundColor}`};
-  ${props => props.size && `width: ${props.size + 20}px; height: ${props.size + 20}px; }`}
-  ${props =>
-    props.canvasId &&
-    props.size &&
-    `#${props.canvasId} { width: ${props.size}px !important; height: ${props.size}px !important; }`}
-`;
 
 export type SessionQRCodeProps = {
   id: string;
@@ -64,90 +40,95 @@ export function SessionQRCode(props: SessionQRCodeProps) {
     style,
   } = props;
 
-  const [svgDataURL, setSvgDataURL] = useState('');
-  const [currentTheme, setCurrentTheme] = useState(theme);
-  const [loading, setLoading] = useState(false);
+  const qrRef = useRef<QRCode>(null);
 
-  const loadLogoImage = useCallback(async () => {
-    if (logoImage && logoIsSVG) {
-      setLoading(true);
-      try {
-        const response = await fetch(logoImage);
-        let svgString = await response.text();
+  // const [svgDataURL, setSvgDataURL] = useState('');
+  // const [currentTheme, setCurrentTheme] = useState(theme);
+  // const [loading, setLoading] = useState(false);
 
-        if (!ignoreTheme && theme && !isEmpty(theme)) {
-          svgString = svgString.replaceAll(
-            'black',
-            getThemeValue(
-              checkDarkTheme(theme) ? '--background-primary-color' : '--text-primary-color'
-            )
-          );
-        }
+  // const loadLogoImage = useCallback(async () => {
+  //   if (logoImage && logoIsSVG) {
+  //     setLoading(true);
+  //     try {
+  //       const response = await fetch(logoImage);
+  //       let svgString = await response.text();
 
-        setSvgDataURL(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}`);
-      } catch (error) {
-        window.log.error('Error fetching the QR Code logo which is an svg:', error);
-      }
-      setLoading(false);
-    }
-  }, [ignoreTheme, logoImage, logoIsSVG, theme]);
+  //       if (!ignoreTheme && theme && !isEmpty(theme)) {
+  //         svgString = svgString.replaceAll(
+  //           'black',
+  //           getThemeValue(
+  //             checkDarkTheme(theme) ? '--background-primary-color' : '--text-primary-color'
+  //           )
+  //         );
+  //       }
 
-  useMount(() => {
-    void loadLogoImage();
-  });
+  //       setSvgDataURL(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}`);
+  //     } catch (error) {
+  //       window.log.error('Error fetching the QR Code logo which is an svg:', error);
+  //     }
+  //     setLoading(false);
+  //   }
+  // }, [ignoreTheme, logoImage, logoIsSVG, theme]);
 
-  useEffect(() => {
-    if (theme && theme !== currentTheme) {
-      setCurrentTheme(theme);
-      void loadLogoImage();
-    }
-  }, [currentTheme, loadLogoImage, theme]);
+  // useMount(() => {
+  //   void loadLogoImage();
+  // });
+
+  // useEffect(() => {
+  //   if (theme && theme !== currentTheme) {
+  //     setCurrentTheme(theme);
+  //     void loadLogoImage();
+  //   }
+  // }, [currentTheme, loadLogoImage, theme]);
 
   const qrCanvasSize = 1000;
   const canvasLogoWidth =
     logoWidth && logoHeight ? (qrCanvasSize * 0.25 * logoWidth) / logoHeight : undefined;
   const canvasLogoHeight = logoHeight ? (qrCanvasSize * 0.25 * logoHeight) / logoHeight : undefined;
 
+  // We use an AnimatedFlex because we fade in the QR code to hide the logo flickering on first render
   return (
-    <StyledQRView
+    <AnimatedFlex
       container={true}
       justifyContent="center"
       alignItems="center"
+      width={`${size}px`}
+      height={`${size}px`}
+      id={id}
       aria-label={ariaLabel || 'QR code'}
       title={window.i18n('clickToTrustContact')}
-      canvasId={id}
-      size={size}
-      backgroundColor={backgroundColor}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
       onClick={(event: MouseEvent<HTMLDivElement>) => {
         event.preventDefault();
-        void saveQRCode(id, {
-          ...props,
-          id: `temp-${props.id}`,
-          backgroundColor: 'white',
-          foregroundColor: 'black',
-          ignoreTheme: true,
-          style: { display: 'none' },
-        });
+        qrRef.current?.download('jpg', id);
       }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: loading ? 0 : 1 }}
-      transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
       data-testId={dataTestId || 'session-qr-code'}
       style={style}
     >
       <QRCode
-        id={id}
+        ref={qrRef}
+        id={`${id}-canvas`}
         value={value}
         ecLevel={'Q'}
         size={qrCanvasSize}
         bgColor={backgroundColor}
         fgColor={foregroundColor}
-        quietZone={0}
-        logoImage={logoIsSVG ? svgDataURL : logoImage}
+        quietZone={40}
+        logoImage={logoImage}
         logoWidth={canvasLogoWidth}
         logoHeight={canvasLogoHeight}
         removeQrCodeBehindLogo={true}
+        logoOnLoad={e => window.log.debug(`WIP: [SessionQRCode] logo loaded`, e)}
+        style={{
+          borderRadius: '10px',
+          cursor: 'pointer',
+          overflow: 'hidden',
+          width: size,
+          height: size,
+        }}
       />
-    </StyledQRView>
+    </AnimatedFlex>
   );
 }
