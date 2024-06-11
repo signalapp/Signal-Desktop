@@ -194,7 +194,6 @@ import {
   getMessageToDelete,
 } from '../../util/deleteForMe';
 import { MAX_MESSAGE_COUNT } from '../../util/deleteForMe.types';
-import { isEnabled } from '../../RemoteConfig';
 
 // State
 
@@ -1761,7 +1760,8 @@ function deleteMessages({
       dispatch(scrollToMessage(conversationId, nearbyMessageId));
     }
 
-    if (!isEnabled('desktop.deleteSync.send')) {
+    const enabled = false;
+    if (!enabled) {
       return;
     }
     if (messages.length === 0) {

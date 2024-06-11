@@ -129,8 +129,8 @@ export const isInternalUser = createSelector(
 
 export const getDeleteSyncSendEnabled = createSelector(
   getRemoteConfig,
-  (remoteConfig: ConfigMapType): boolean => {
-    return isRemoteConfigFlagEnabled(remoteConfig, 'desktop.deleteSync.send');
+  (): boolean => {
+    return false;
   }
 );
 
