@@ -90,29 +90,28 @@ export const getSearchResultsList = createSelector([getSearchResults], searchSta
       idsAndDisplayNames.filter(m => Boolean(m.displayName)),
       m => m.displayName?.toLowerCase()
     );
-    if (idsWithDisplayNames.length) {
-      // add a break wherever needed
-      let currentChar = '';
-      for (let i = 0; i < idsWithDisplayNames.length; i++) {
-        const m = idsWithDisplayNames[i];
-        if (m.contactConvoId === us) {
-          usIndex = i;
-          continue;
-        }
-        if (
-          idsWithDisplayNames.length > 1 &&
-          m.displayName &&
-          m.displayName[0].toLowerCase() !== currentChar
-        ) {
-          currentChar = m.displayName[0].toLowerCase();
-          builtList.push(currentChar.toUpperCase());
-        }
-        builtList.push(m);
-      }
 
-      if (usIndex !== -1) {
-        builtList.unshift({ contactConvoId: us, displayName: window.i18n('noteToSelf') });
+    // add a break wherever needed
+    let currentChar = '';
+    for (let i = 0; i < idsWithDisplayNames.length; i++) {
+      const m = idsWithDisplayNames[i];
+      if (m.contactConvoId === us) {
+        usIndex = i;
+        continue;
       }
+      if (
+        idsWithDisplayNames.length > 1 &&
+        m.displayName &&
+        m.displayName[0].toLowerCase() !== currentChar
+      ) {
+        currentChar = m.displayName[0].toLowerCase();
+        builtList.push(currentChar.toUpperCase());
+      }
+      builtList.push(m);
+    }
+
+    if (usIndex !== -1) {
+      builtList.unshift({ contactConvoId: us, displayName: window.i18n('noteToSelf') });
     }
 
     const idsWithNoDisplayNames = sortBy(
