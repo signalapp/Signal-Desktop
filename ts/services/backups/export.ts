@@ -12,6 +12,7 @@ import { Backups, SignalService } from '../../protobuf';
 import Data from '../../sql/Client';
 import type { PageMessagesCursorType } from '../../sql/Interface';
 import * as log from '../../logging/log';
+import { GiftBadgeStates } from '../../components/conversation/Message';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories';
 import {
   isPniString,
@@ -478,12 +479,20 @@ export class BackupExportStream extends Readable {
         ? {
             subscriberId: backupsSubscriberId,
             currencyCode: storage.get('backupsSubscriberCurrencyCode'),
+            manuallyCancelled: storage.get(
+              'backupsSubscriptionManuallyCancelled',
+              false
+            ),
           }
         : null,
       donationSubscriberData: Bytes.isNotEmpty(subscriberId)
         ? {
             subscriberId,
             currencyCode: storage.get('subscriberCurrencyCode'),
+            manuallyCancelled: storage.get(
+              'donorSubscriptionManuallyCancelled',
+              false
+            ),
           }
         : null,
       accountSettings: {
@@ -506,6 +515,9 @@ export class BackupExportStream extends Readable {
         storyViewReceiptsEnabled: storage.get('storyViewReceiptsEnabled'),
         hasCompletedUsernameOnboarding: storage.get(
           'hasCompletedUsernameOnboarding'
+        ),
+        hasSeenGroupStoryEducationSheet: storage.get(
+          'hasSeenGroupStoryEducationSheet'
         ),
         phoneNumberSharingMode,
       },
@@ -849,6 +861,31 @@ export class BackupExportStream extends Readable {
         sticker: stickerProto,
         reactions: this.getMessageReactions(message),
       };
+    } else if (isGiftBadge(message)) {
+      const { giftBadge } = message;
+      strictAssert(giftBadge != null, 'Message must have gift badge');
+
+      let state: Backups.GiftBadge.State;
+      switch (giftBadge.state) {
+        case GiftBadgeStates.Unopened:
+          state = Backups.GiftBadge.State.UNOPENED;
+          break;
+        case GiftBadgeStates.Opened:
+          state = Backups.GiftBadge.State.OPENED;
+          break;
+        case GiftBadgeStates.Redeemed:
+          state = Backups.GiftBadge.State.REDEEMED;
+          break;
+        default:
+          throw missingCaseError(giftBadge.state);
+      }
+
+      result.giftBadge = {
+        receiptCredentialPresentation: Bytes.fromBase64(
+          giftBadge.receiptCredentialPresentation
+        ),
+        state,
+      };
     } else {
       result.standardMessage = await this.toStandardMessage(
         message,
@@ -1185,10 +1222,6 @@ export class BackupExportStream extends Readable {
     if (isContactRemovedNotification(message)) {
       // Transient, drop it
       return { kind: NonBubbleResultKind.Drop };
-    }
-
-    if (isGiftBadge(message)) {
-      // TODO (DESKTOP-6964): reuse quote's handling
     }
 
     if (isGroupUpdate(message)) {
@@ -1837,7 +1870,11 @@ export class BackupExportStream extends Readable {
   }: Pick<MessageAttributesType, 'reactions'>):
     | Array<Backups.IReaction>
     | undefined {
-    return reactions?.map(reaction => {
+    if (reactions == null) {
+      return undefined;
+    }
+
+    return reactions?.map((reaction, sortOrder) => {
       return {
         emoji: reaction.emoji,
         authorId: this.getOrPushPrivateRecipient({
@@ -1847,6 +1884,7 @@ export class BackupExportStream extends Readable {
         receivedTimestamp: getSafeLongFromTimestamp(
           reaction.receivedAtDate ?? reaction.timestamp
         ),
+        sortOrder: Long.fromNumber(sortOrder),
       };
     });
   }
@@ -1856,12 +1894,14 @@ export class BackupExportStream extends Readable {
     editMessageReceivedAtMs,
     serverTimestamp,
     readStatus,
+    unidentifiedDeliveryReceived,
   }: Pick<
     MessageAttributesType,
     | 'received_at_ms'
     | 'editMessageReceivedAtMs'
     | 'serverTimestamp'
     | 'readStatus'
+    | 'unidentifiedDeliveryReceived'
   >): Backups.ChatItem.IIncomingMessageDetails {
     const dateReceived = editMessageReceivedAtMs || receivedAtMs;
     return {
@@ -1872,6 +1912,7 @@ export class BackupExportStream extends Readable {
           ? getSafeLongFromTimestamp(serverTimestamp)
           : null,
       read: readStatus === ReadStatus.Read,
+      sealedSender: unidentifiedDeliveryReceived === true,
     };
   }
 
@@ -1879,9 +1920,21 @@ export class BackupExportStream extends Readable {
     sentAt: number,
     {
       sendStateByConversationId = {},
-    }: Pick<MessageAttributesType, 'sendStateByConversationId'>
+      unidentifiedDeliveries = [],
+      errors = [],
+    }: Pick<
+      MessageAttributesType,
+      'sendStateByConversationId' | 'unidentifiedDeliveries' | 'errors'
+    >
   ): Backups.ChatItem.IOutgoingMessageDetails {
     const BackupSendStatus = Backups.SendStatus.Status;
+
+    const sealedSenderServiceIds = new Set(unidentifiedDeliveries);
+    const errorMap = new Map(
+      errors.map(({ serviceId, name }) => {
+        return [serviceId, name];
+      })
+    );
 
     const sendStatus = new Array<Backups.ISendStatus>();
     for (const [id, entry] of Object.entries(sendStateByConversationId)) {
@@ -1915,6 +1968,19 @@ export class BackupExportStream extends Readable {
           throw missingCaseError(entry.status);
       }
 
+      const { serviceId } = target.attributes;
+      let networkFailure = false;
+      let identityKeyMismatch = false;
+      let sealedSender = false;
+      if (serviceId) {
+        const errorName = errorMap.get(serviceId);
+        if (errorName !== undefined) {
+          identityKeyMismatch = errorName === 'OutgoingIdentityKeyError';
+          networkFailure = !identityKeyMismatch;
+        }
+        sealedSender = sealedSenderServiceIds.has(serviceId);
+      }
+
       sendStatus.push({
         recipientId: this.getOrPushPrivateRecipient(target.attributes),
         lastStatusUpdateTimestamp:
@@ -1922,6 +1988,9 @@ export class BackupExportStream extends Readable {
             ? getSafeLongFromTimestamp(entry.updatedAt)
             : null,
         deliveryStatus,
+        networkFailure,
+        identityKeyMismatch,
+        sealedSender,
       });
     }
     return {

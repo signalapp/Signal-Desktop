@@ -195,6 +195,7 @@ message AccountRecord {
   optional bytes subscriberId = 21;
   optional string subscriberCurrencyCode = 22;
   optional bool displayBadgesOnProfile = 23;
+  optional bool donorSubscriptionManuallyCancelled = 24;
   optional bool keepMutedChatsArchived = 25;
   optional bool hasSetMyStoriesPrivacy = 26;
   optional bool hasViewedOnboardingStory = 27;
@@ -202,12 +203,13 @@ message AccountRecord {
   optional bool storiesDisabled = 29;
   optional OptionalBool storyViewReceiptsEnabled = 30;
   reserved 31; // hasReadOnboardingStory
-  reserved 32; // hasSeenGroupStoryEducationSheet
+  optional bool hasSeenGroupStoryEducationSheet = 32;
   optional string username = 33;
   optional bool hasCompletedUsernameOnboarding = 34;
   optional UsernameLink usernameLink = 35;
   optional bytes backupsSubscriberId = 36;
   optional string backupsSubscriberCurrencyCode = 37;
+  optional bool backupsSubscriptionManuallyCancelled = 38;
 }
 
 message StoryDistributionListRecord {

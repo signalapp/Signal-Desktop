@@ -93,36 +93,39 @@ function sortAndNormalize(
       return result;
     }
 
-    return {
-      ...rest,
-      conversationId: mapConvoId(conversationId),
-      reactions: reactions?.map(({ fromId, ...restOfReaction }) => {
-        return {
-          from: mapConvoId(fromId),
-          ...restOfReaction,
-        };
-      }),
-      changedId: mapConvoId(changedId),
-      key_changed: mapConvoId(keyChanged),
-      verifiedChanged: mapConvoId(verifiedChanged),
-      sendStateByConverationId: mapSendState(sendStateByConversationId),
-      editHistory: editHistory?.map(history => {
-        const {
-          sendStateByConversationId: historySendState,
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          received_at: _receivedAtHistory,
-          ...restOfHistory
-        } = history;
+    // Get rid of unserializable `undefined` values.
+    return JSON.parse(
+      JSON.stringify({
+        ...rest,
+        conversationId: mapConvoId(conversationId),
+        reactions: reactions?.map(({ fromId, ...restOfReaction }) => {
+          return {
+            from: mapConvoId(fromId),
+            ...restOfReaction,
+          };
+        }),
+        changedId: mapConvoId(changedId),
+        key_changed: mapConvoId(keyChanged),
+        verifiedChanged: mapConvoId(verifiedChanged),
+        sendStateByConverationId: mapSendState(sendStateByConversationId),
+        editHistory: editHistory?.map(history => {
+          const {
+            sendStateByConversationId: historySendState,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            received_at: _receivedAtHistory,
+            ...restOfHistory
+          } = history;
 
-        return {
-          ...restOfHistory,
-          sendStateByConversationId: mapSendState(historySendState),
-        };
-      }),
+          return {
+            ...restOfHistory,
+            sendStateByConversationId: mapSendState(historySendState),
+          };
+        }),
 
-      // Not an original property, but useful
-      isUnsupported: isUnsupportedMessage(message),
-    };
+        // Not an original property, but useful
+        isUnsupported: isUnsupportedMessage(message),
+      })
+    );
   });
 }
 

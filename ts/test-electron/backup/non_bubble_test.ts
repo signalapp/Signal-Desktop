@@ -66,6 +66,7 @@ describe('backup/non-bubble messages', () => {
         sourceDevice: 1,
         readStatus: ReadStatus.Unread,
         seenStatus: SeenStatus.Unseen,
+        unidentifiedDeliveryReceived: true,
         flags: Proto.DataMessage.Flags.END_SESSION,
       },
     ]);
@@ -204,6 +205,7 @@ describe('backup/non-bubble messages', () => {
         timestamp: 1,
         readStatus: ReadStatus.Unread,
         seenStatus: SeenStatus.Unseen,
+        unidentifiedDeliveryReceived: true,
       },
     ]);
   });
@@ -224,12 +226,12 @@ describe('backup/non-bubble messages', () => {
         timestamp: 1,
         readStatus: ReadStatus.Unread,
         seenStatus: SeenStatus.Unseen,
+        unidentifiedDeliveryReceived: true,
       },
     ]);
   });
 
-  // TODO: DESKTOP-7122
-  it.skip('roundtrips bare payments notification', async () => {
+  it('roundtrips bare payments notification', async () => {
     await symmetricRoundtripHarness([
       {
         conversationId: contactA.id,
@@ -243,6 +245,7 @@ describe('backup/non-bubble messages', () => {
         sourceDevice: 1,
         readStatus: ReadStatus.Unread,
         seenStatus: SeenStatus.Unseen,
+        unidentifiedDeliveryReceived: true,
         payment: {
           kind: PaymentEventKind.Notification,
           note: 'note with text',
@@ -251,8 +254,7 @@ describe('backup/non-bubble messages', () => {
     ]);
   });
 
-  // TODO: DESKTOP-7122
-  it.skip('roundtrips full payments notification', async () => {
+  it('roundtrips full payments notification', async () => {
     await symmetricRoundtripHarness([
       {
         conversationId: contactA.id,
@@ -266,6 +268,7 @@ describe('backup/non-bubble messages', () => {
         sourceDevice: 1,
         readStatus: ReadStatus.Unread,
         seenStatus: SeenStatus.Unseen,
+        unidentifiedDeliveryReceived: true,
         payment: {
           kind: PaymentEventKind.Notification,
           note: 'note with text',
@@ -297,6 +300,7 @@ describe('backup/non-bubble messages', () => {
         sourceDevice: 1,
         readStatus: ReadStatus.Unread,
         seenStatus: SeenStatus.Unseen,
+        unidentifiedDeliveryReceived: true,
         contact: [
           {
             name: {
@@ -339,6 +343,7 @@ describe('backup/non-bubble messages', () => {
         sourceDevice: 1,
         readStatus: ReadStatus.Unread,
         seenStatus: SeenStatus.Unseen,
+        unidentifiedDeliveryReceived: true,
         // TODO (DESKTOP-6845): properly handle data FilePointer
         sticker: {
           emoji: '👍',
@@ -373,6 +378,7 @@ describe('backup/non-bubble messages', () => {
         sourceDevice: 1,
         readStatus: ReadStatus.Unread,
         seenStatus: SeenStatus.Unseen,
+        unidentifiedDeliveryReceived: true,
         isErased: true,
       },
     ]);
@@ -475,8 +481,7 @@ describe('backup/non-bubble messages', () => {
     ]);
   });
 
-  // TODO: DESKTOP-7122
-  it.skip('roundtrips unsupported message', async () => {
+  it('roundtrips unsupported message', async () => {
     await symmetricRoundtripHarness([
       {
         conversationId: contactA.id,
@@ -490,8 +495,9 @@ describe('backup/non-bubble messages', () => {
         timestamp: 1,
         readStatus: ReadStatus.Unread,
         seenStatus: SeenStatus.Unseen,
-        supportedVersionAtReceive: 1,
-        requiredProtocolVersion: 2,
+        unidentifiedDeliveryReceived: true,
+        supportedVersionAtReceive: 5,
+        requiredProtocolVersion: 6,
       },
     ]);
   });
