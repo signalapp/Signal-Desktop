@@ -174,7 +174,7 @@
     "messageformat": "개발자 도구 전환"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "통화 개발자 도구 열기"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "새 기기로 설정"
@@ -645,10 +645,10 @@
     "messageformat": "화면 공유하기"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "통화 개발자 도구"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "이 창은 개발 중 진행 중인 통화의 진단을 표시하는 데 사용됩니다."
   },
   "icu:speech": {
     "messageformat": "말하기"
@@ -2688,7 +2688,13 @@
     "messageformat": "통화 꺼짐"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "손을 들었습니다."
+    "messageformat": "You raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-one": {
+    "messageformat": "You and {otherName} raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-more": {
+    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} 님이 손을 들었습니다."
@@ -2779,6 +2785,21 @@
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "이 사용자를 통화에서 제거"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel": {
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
+    "messageformat": "+{count,number} more"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
+    "messageformat": "More info about new contacts"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
+    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
+    "messageformat": "Got it"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "동영상"
@@ -3758,6 +3779,9 @@
   "icu:DeleteMessagesModal--description--noteToSelf": {
     "messageformat": "{count, plural, other {이 메시지를 어떤 기기에서 삭제하시겠습니까?}}"
   },
+  "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
+    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+  },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "나에게서 삭제"
   },
@@ -3769,6 +3793,9 @@
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "모든 기기에서 삭제"
+  },
+  "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
+    "messageformat": "Delete"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {모든 사용자에 대해 삭제할 메시지를 최대 {count,number}개 까지만 선택할 수 있습니다}}"
@@ -4170,7 +4197,7 @@
     "messageformat": "사용자 이름은 숫자로 시작할 수 없습니다."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "사용자명은 {min,number}자 이상이어야 합니다."
+    "messageformat": "Usernames must have at least {min,number} characters."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "사용자명은 {max,number}자 이하여야 합니다."
@@ -4720,6 +4747,15 @@
   },
   "icu:SignalConnectionsModal__footer": {
     "messageformat": "커넥션은 내 이름과 사진을 볼 수 있고, 스토리를 따로 숨기지 않는 한 '내 스토리'의 게시물을 볼 수 있습니다."
+  },
+  "icu:LocalDeleteWarningModal__header": {
+    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+  },
+  "icu:LocalDeleteWarningModal__description": {
+    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+  },
+  "icu:LocalDeleteWarningModal__confirm": {
+    "messageformat": "Got it"
   },
   "icu:Stories__title": {
     "messageformat": "스토리"
@@ -5313,6 +5349,9 @@
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}” 검색 결과 없음"
   },
+  "icu:CallsList__CreateCallLink": {
+    "messageformat": "Create a Call Link"
+  },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "수신"
   },
@@ -5376,6 +5415,24 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Signal을 통해 링크 공유"
   },
+  "icu:CallLinkEditModal__Title": {
+    "messageformat": "Call link details"
+  },
+  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
+    "messageformat": "Name"
+  },
+  "icu:CallLinkEditModal__JoinButtonLabel": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
+    "messageformat": "Approve all members"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
+    "messageformat": "Off"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
+    "messageformat": "On"
+  },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number}명이 입력하는 중입니다.}}"
   },
@@ -5416,16 +5473,19 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.11--0": {
-    "messageformat": "이 업데이트는 그룹 통화 사용자 인터페이스의 렌더링 버그를 해결합니다."
-  },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "새로운 손 들기 기능으로 그룹 통화에서 쉽게 다른 사람의 주의를 끌거나 질문하세요."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "이 업데이트는 또한 이미지 크기를 조정하도록 향상된 자르기 도구를 포함합니다."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Windows와 Linux의 '붙여 넣기 및 서식 일치' 단축키와 충돌하지 않도록 음성 메모 전송 키보드 단축키를 Ctrl/Cmd+Shift+Y로 수정했습니다."
+  },
+  "icu:WhatsNew__v7.13--0": {
+    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+  },
+  "icu:WhatsNew__v7.13--1": {
+    "messageformat": "This update also improves the display of quoted replies in RTL languages."
   }
 }

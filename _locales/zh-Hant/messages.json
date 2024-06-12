@@ -174,7 +174,7 @@
     "messageformat": "切換開發者工具"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "開啟通話中開發者工具"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "設定新裝置"
@@ -645,10 +645,10 @@
     "messageformat": "分享畫面"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "通話中開發者工具"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "此視窗在開發過程中用於顯示正在進行之通話的診斷資訊。"
   },
   "icu:speech": {
     "messageformat": "語音"
@@ -2688,7 +2688,13 @@
     "messageformat": "關閉響鈴"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "你舉了手。"
+    "messageformat": "You raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-one": {
+    "messageformat": "You and {otherName} raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-more": {
+    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} 舉了手。"
@@ -2779,6 +2785,21 @@
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "將此人從通話中移除"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel": {
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
+    "messageformat": "+{count,number} more"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
+    "messageformat": "More info about new contacts"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
+    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
+    "messageformat": "Got it"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "影片"
@@ -3758,6 +3779,9 @@
   "icu:DeleteMessagesModal--description--noteToSelf": {
     "messageformat": "{count, plural, other {你想從哪些裝置刪除這些訊息？}}"
   },
+  "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
+    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+  },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "為我刪除"
   },
@@ -3769,6 +3793,9 @@
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "從所有裝置中刪除"
+  },
+  "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
+    "messageformat": "Delete"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {你只能為所有人選取最多 {count,number} 則要刪除的訊息}}"
@@ -4170,7 +4197,7 @@
     "messageformat": "用戶名稱不得以數字開首。"
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "使用者名稱必須至少包含{min,number} 個字符。"
+    "messageformat": "Usernames must have at least {min,number} characters."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "使用者名稱最多只能包含{max,number}個字符。"
@@ -4720,6 +4747,15 @@
   },
   "icu:SignalConnectionsModal__footer": {
     "messageformat": "除非你選擇隱藏，否則你的聯絡人能看到你的名稱、照片和「我的限時動態」貼文"
+  },
+  "icu:LocalDeleteWarningModal__header": {
+    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+  },
+  "icu:LocalDeleteWarningModal__description": {
+    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+  },
+  "icu:LocalDeleteWarningModal__confirm": {
+    "messageformat": "Got it"
   },
   "icu:Stories__title": {
     "messageformat": "報導"
@@ -5313,6 +5349,9 @@
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "沒有符合「{query}」的結果"
   },
+  "icu:CallsList__CreateCallLink": {
+    "messageformat": "Create a Call Link"
+  },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "來電"
   },
@@ -5376,6 +5415,24 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "透過 Signal 分享連結"
   },
+  "icu:CallLinkEditModal__Title": {
+    "messageformat": "Call link details"
+  },
+  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
+    "messageformat": "Name"
+  },
+  "icu:CallLinkEditModal__JoinButtonLabel": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
+    "messageformat": "Approve all members"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
+    "messageformat": "Off"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
+    "messageformat": "On"
+  },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {其他 {count,number} 個人正在打字。}}"
   },
@@ -5416,16 +5473,19 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.11--0": {
-    "messageformat": "此更新修復了群組通話使用者界面的渲染錯誤。"
-  },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "如果你一直尋找在群組通話期間的其他溝通方式，請「舉手」。新的「舉手」功能是一種簡單的方法，用來引起注意、提出問題或在小組提案時投一致贊成票。"
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "我們修復了裁剪工具中的錯誤，現在可以更輕鬆、更直觀地將任何東西從照片中刪除。"
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "我們將發送語音備註的鍵盤快捷鍵修改為 Ctrl/Cmd+Shift+Y，使其不再與 Windows 和 Linux 上「貼上並配合樣式」的快捷鍵產生衝突。"
+  },
+  "icu:WhatsNew__v7.13--0": {
+    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+  },
+  "icu:WhatsNew__v7.13--1": {
+    "messageformat": "This update also improves the display of quoted replies in RTL languages."
   }
 }

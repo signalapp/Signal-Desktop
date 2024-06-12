@@ -174,7 +174,7 @@
     "messageformat": "Pārslēgt uz izstrādātāja rīkiem"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Atvērt zvanīšanas rīkus izstrādātājiem"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Iestatīt kā jaunu ierīci"
@@ -645,10 +645,10 @@
     "messageformat": "Ekrāna kopīgošana"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Zvanīšanas rīki izstrādātājiem"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Šis logs tiek izmantots izstrādes laikā, lai parādītu notiekošo zvanu diagnostiku."
   },
   "icu:speech": {
     "messageformat": "Runa"
@@ -2688,7 +2688,13 @@
     "messageformat": "Zvana signāls izslēgts"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "Jūs pacēlāt roku."
+    "messageformat": "You raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-one": {
+    "messageformat": "You and {otherName} raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-more": {
+    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} pacēla roku."
@@ -2779,6 +2785,21 @@
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Noņemt šo personu no zvana"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel": {
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
+    "messageformat": "+{count,number} more"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
+    "messageformat": "More info about new contacts"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
+    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
+    "messageformat": "Got it"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3758,6 +3779,9 @@
   "icu:DeleteMessagesModal--description--noteToSelf": {
     "messageformat": "{count, plural, zero {No kurām ierīcēm vēlaties dzēst šīs ziņas?} one {No kurām ierīcēm vēlaties dzēst šo ziņu?} other {No kurām ierīcēm vēlaties dzēst šīs ziņas?}}"
   },
+  "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
+    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+  },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Dzēst man"
   },
@@ -3769,6 +3793,9 @@
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Dzēst no visām ierīcēm"
+  },
+  "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
+    "messageformat": "Delete"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, zero {Varat atlasīt ne vairāk kā {count,number} ziņas, ko dzēst visiem} one {Varat atlasīt ne vairāk kā {count,number} ziņu, ko dzēst visiem} other {Varat atlasīt ne vairāk kā {count,number} ziņas, ko dzēst visiem}}"
@@ -4170,7 +4197,7 @@
     "messageformat": "Lietotājvārdi nevar sākties ar skaitli."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Lietotājvārdiem jāsatur vismaz {min,number} rakstzīmes."
+    "messageformat": "Usernames must have at least {min,number} characters."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Lietotājvārdi nedrīkst būt garāki par {max,number} rakstzīmēm."
@@ -4720,6 +4747,15 @@
   },
   "icu:SignalConnectionsModal__footer": {
     "messageformat": "Jūsu kontakti var redzēt jūsu vārdu un attēlu, kā arī sadaļā \"Mani stāsti\" publicēto, ja šis saturs nav paslēpts no viņiem"
+  },
+  "icu:LocalDeleteWarningModal__header": {
+    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+  },
+  "icu:LocalDeleteWarningModal__description": {
+    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+  },
+  "icu:LocalDeleteWarningModal__confirm": {
+    "messageformat": "Got it"
   },
   "icu:Stories__title": {
     "messageformat": "Stāsti"
@@ -5313,6 +5349,9 @@
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Vaicājumam “{query}” nav rezultātu"
   },
+  "icu:CallsList__CreateCallLink": {
+    "messageformat": "Create a Call Link"
+  },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Ienākošs"
   },
@@ -5376,6 +5415,24 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Kopīgot saiti caur Signal"
   },
+  "icu:CallLinkEditModal__Title": {
+    "messageformat": "Call link details"
+  },
+  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
+    "messageformat": "Name"
+  },
+  "icu:CallLinkEditModal__JoinButtonLabel": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
+    "messageformat": "Approve all members"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
+    "messageformat": "Off"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
+    "messageformat": "On"
+  },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, zero {{count,number} citi raksta.} one {{count,number} cits raksta.} other {{count,number} citi raksta.}}"
   },
@@ -5416,16 +5473,19 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.11--0": {
-    "messageformat": "Mēs izlabojām renderēšanas kļūdu: atverot grupas zvana dalībnieku sarakstu, kontaktpersonu ikonas parādījās pārāk tuvu šo kontaktpersonu vārdiem. Ļoti iespējams, ka starp jums un kontaktpersonām ir cieša saikne, taču dažreiz ikviens, tostarp arī jūs (un Signal Desktop lietotāju saskarne), vēlas baudīt nedaudz privātās telpas."
-  },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Paceļ roku visi, kuri meklēja vēl vienu veidu, kā sazināties grupu zvanu laikā! Jaunā funkcija \"Pacelt roku\" ir vienkāršs veids, kā pievērst kāda uzmanību, uzdot jautājumu vai vienbalsīgi nobalsot par priekšlikumu, ko ierosina draugs, jautājot: \"Kurš balso par?\""
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Apgriešanas rīkā bija neliela kļūda, un mēs to izgriezām. Tagad jūs varat no attēla izgriezt savu bijušo partneri (vai jebko citu) daudz vieglāk."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Mēs modificējām tastatūras saīsni balss piezīmes nosūtīšanai — Ctrl/Cmd+Shift+Y. Tagad tā vairs nekonfliktē ar saīsni \"Ielīmēt un saskaņot stilu\" operētājsistēmās Windows un Linux."
+  },
+  "icu:WhatsNew__v7.13--0": {
+    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+  },
+  "icu:WhatsNew__v7.13--1": {
+    "messageformat": "This update also improves the display of quoted replies in RTL languages."
   }
 }

@@ -174,7 +174,7 @@
     "messageformat": "ટોગલ ડેવલપર્સના ટૂલ"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "કૉલિંગ ડેવલપર્સના ટૂલ ખોલો"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "નવા ડિવાઇસ તરીકે સેટ અપ કરો"
@@ -645,10 +645,10 @@
     "messageformat": "શેરિંગ સ્ક્રીન"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "કૉલિંગ ડેવલપર્સના ટૂલ"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "આ વિન્ડોનો ઉપયોગ વિકાસ દરમિયાન ચાલુ કૉલમાંથી ડાયગ્નોસ્ટિક્સ પ્રદર્શિત કરવા માટે થાય છે."
   },
   "icu:speech": {
     "messageformat": "સ્પીચ"
@@ -2688,7 +2688,13 @@
     "messageformat": "રિંગ બંધ છે"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "તમારો હાથ ઊંચો છે."
+    "messageformat": "You raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-one": {
+    "messageformat": "You and {otherName} raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-more": {
+    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name}એ હાથ ઊંચો કર્યો."
@@ -2779,6 +2785,21 @@
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "આ વ્યક્તિને કૉલમાંથી દૂર કરો"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel": {
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
+    "messageformat": "+{count,number} more"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
+    "messageformat": "More info about new contacts"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
+    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
+    "messageformat": "Got it"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "વિડિયો"
@@ -3758,6 +3779,9 @@
   "icu:DeleteMessagesModal--description--noteToSelf": {
     "messageformat": "{count, plural, one {તમે આ મેસેજ કયા ડિવાઇસમાંથી ડિલીટ કરવા માગો છો?} other {તમે આ મેસેજ કયા ડિવાઇસમાંથી ડિલીટ કરવા માગો છો?}}"
   },
+  "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
+    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+  },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "મારા માટે ડિલીટ કરો"
   },
@@ -3769,6 +3793,9 @@
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "બધા ડિવાઇસમાંથી ડિલીટ કરો"
+  },
+  "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
+    "messageformat": "Delete"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {તમે બધા માટે ડિલીટ કરવા માટે માત્ર {count,number} મેસેજ સુધી જ પસંદ કરી શકો છો} other {તમે બધા માટે ડિલીટ કરવા માટે માત્ર {count,number} જેટલા મેસેજ પસંદ કરી શકો છો}}"
@@ -4170,7 +4197,7 @@
     "messageformat": "યુઝરનેમ સંખ્યા સાથે શરૂ થઈ શકતા નથી."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "યુઝરનેમમાં ઓછામાં ઓછા {min,number} અક્ષરો હોવા જોઈએ."
+    "messageformat": "Usernames must have at least {min,number} characters."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "યુઝરનેમમાં વધુમાં વધુ {max,number} અક્ષરો હોવા જોઈએ."
@@ -4720,6 +4747,15 @@
   },
   "icu:SignalConnectionsModal__footer": {
     "messageformat": "તમારા કનેક્શન તમારું નામ અને ફોટો જોઈ શકે છે, અને તમે તેમનાથી છુપાવો નહીં ત્યાં સુધી \"મારી સ્ટોરી\" પરની પોસ્ટ જોઈ શકે છે"
+  },
+  "icu:LocalDeleteWarningModal__header": {
+    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+  },
+  "icu:LocalDeleteWarningModal__description": {
+    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+  },
+  "icu:LocalDeleteWarningModal__confirm": {
+    "messageformat": "Got it"
   },
   "icu:Stories__title": {
     "messageformat": "સ્ટોરી"
@@ -5313,6 +5349,9 @@
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}” માટે કોઈ પરિણામ નથી"
   },
+  "icu:CallsList__CreateCallLink": {
+    "messageformat": "Create a Call Link"
+  },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "ઇનકમિંગ"
   },
@@ -5376,6 +5415,24 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Signal દ્વારા લિંક શેર કરો"
   },
+  "icu:CallLinkEditModal__Title": {
+    "messageformat": "Call link details"
+  },
+  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
+    "messageformat": "Name"
+  },
+  "icu:CallLinkEditModal__JoinButtonLabel": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
+    "messageformat": "Approve all members"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
+    "messageformat": "Off"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
+    "messageformat": "On"
+  },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} અન્ય ટાઇપ કરી રહ્યા છે.} other {{count,number} અન્યો ટાઇપ કરી રહ્યાં છે.}}"
   },
@@ -5416,16 +5473,19 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.11--0": {
-    "messageformat": "આ અપડેટ ગ્રૂપ કૉલ વપરાશકર્તા ઇન્ટરફેસમાં રેન્ડર થતાં બગને ઠીક કરે છે."
-  },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "નવું 'હાથ ઊંચો કરો' ફીચર એ ગ્રૂપ કૉલ દરમિયાન કોઈનું ધ્યાન મેળવવા અથવા કોઈ પ્રશ્ન પૂછવા માટેની સરળ રીત છે."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "આ અપડેટમાં ઇમેજની સાઇઝ બદલવા માટેનું એક સુધારેલું ક્રોપ ટૂલ પણ શામેલ છે."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "અમે Ctrl/Cmd+Shift+Y પર વૉઇસ નોટ મોકલવા માટે કીબોર્ડ શોર્ટકટમાં ફેરફાર કર્યો છે જેથી Windows અને Linux પર \"પેસ્ટ કરો અને સ્ટાઇલ મેચ કરો\" શોર્ટકટ સાથે તેનો વિરોધાભાસ ન થાય."
+  },
+  "icu:WhatsNew__v7.13--0": {
+    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+  },
+  "icu:WhatsNew__v7.13--1": {
+    "messageformat": "This update also improves the display of quoted replies in RTL languages."
   }
 }

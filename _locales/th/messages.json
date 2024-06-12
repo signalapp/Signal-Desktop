@@ -174,7 +174,7 @@
     "messageformat": "เปิดปิดเครื่องมือนักพัฒนา"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "เปิดเครื่องมือด้านการโทรสำหรับนักพัฒนา"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "ตั้งค่าให้เป็นอุปกรณ์ใหม่"
@@ -645,10 +645,10 @@
     "messageformat": "กำลังแบ่งปันหน้าจอ"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "เครื่องมือด้านการโทรสำหรับนักพัฒนา"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "ระบบจะใช้หน้าต่างนี้ในขั้นตอนการพัฒนาเพื่อแสดงผลการตรวจสอบจากการโทรที่กำลังใช้งานอยู่"
   },
   "icu:speech": {
     "messageformat": "การพูด"
@@ -2688,7 +2688,13 @@
     "messageformat": "การส่งเสียงเรียกสายปิดอยู่"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "คุณยกมืออยู่"
+    "messageformat": "You raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-one": {
+    "messageformat": "You and {otherName} raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-more": {
+    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} ยกมือ"
@@ -2779,6 +2785,21 @@
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "ลบผู้ใช้คนนี้ออกจากการโทร"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel": {
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
+    "messageformat": "+{count,number} more"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
+    "messageformat": "More info about new contacts"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
+    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
+    "messageformat": "Got it"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "วิดีโอ"
@@ -3758,6 +3779,9 @@
   "icu:DeleteMessagesModal--description--noteToSelf": {
     "messageformat": "{count, plural, other {คุณต้องการลบข้อความนี้จากอุปกรณ์เครื่องใด}}"
   },
+  "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
+    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+  },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "ลบของฉัน"
   },
@@ -3769,6 +3793,9 @@
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "ลบจากอุปกรณ์ทุกเครื่อง"
+  },
+  "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
+    "messageformat": "Delete"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {คุณสามารถเลือกลบข้อความสำหรับทุกคนได้สูงสุด {count,number} ข้อความ}}"
@@ -4170,7 +4197,7 @@
     "messageformat": "ชื่อผู้ใช้ไม่สามารถเริ่มต้นด้วยตัวเลข"
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "ชื่อผู้ใช้ต้องมีอักขระอย่างน้อย {min,number} ตัว"
+    "messageformat": "Usernames must have at least {min,number} characters."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "ชื่อผู้ใช้มีอักขระได้มากสุด {max,number} ตัว"
@@ -4720,6 +4747,15 @@
   },
   "icu:SignalConnectionsModal__footer": {
     "messageformat": "เครือข่ายของคุณจะสามารถมองเห็นชื่อและรูปภาพของคุณ รวมถึงโพสต์ใน \"สตอรี่ของฉัน\" เว้นแต่ว่าคุณจะซ่อนสตอรี่นั้นจากพวกเขา"
+  },
+  "icu:LocalDeleteWarningModal__header": {
+    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+  },
+  "icu:LocalDeleteWarningModal__description": {
+    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+  },
+  "icu:LocalDeleteWarningModal__confirm": {
+    "messageformat": "Got it"
   },
   "icu:Stories__title": {
     "messageformat": "สตอรี่"
@@ -5313,6 +5349,9 @@
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "ไม่พบผลลัพธ์สำหรับ “{query}”"
   },
+  "icu:CallsList__CreateCallLink": {
+    "messageformat": "Create a Call Link"
+  },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "โทรเข้า"
   },
@@ -5376,6 +5415,24 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "แชร์ลิงก์ผ่าน Signal"
   },
+  "icu:CallLinkEditModal__Title": {
+    "messageformat": "Call link details"
+  },
+  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
+    "messageformat": "Name"
+  },
+  "icu:CallLinkEditModal__JoinButtonLabel": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
+    "messageformat": "Approve all members"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
+    "messageformat": "Off"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
+    "messageformat": "On"
+  },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {อีก {count,number} คนกำลังพิมพ์}}"
   },
@@ -5416,16 +5473,19 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.11--0": {
-    "messageformat": "การอัปเดตครั้งนี้มาพร้อมการแก้ไขบั๊กเกี่ยวกับการแสดงผลในหน้าการโทรกลุ่ม"
-  },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "ขอแนะนำฟีเจอร์การยกมือ วิธีใหม่ที่จะช่วยให้คุณตั้งคำถามในระหว่างการโทรกลุ่มได้ง่ายดาย (หรือจะใช้เรียกความสนใจของเพื่อน ก่อนประกาศเรื่องสำคัญๆ ก็สะดวกไม่แพ้กัน)"
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "การอัปเดตครั้งนี้ยังมาพร้อมการยกระดับเครื่องมือครอบตัดขึ้นอีกขั้น เพื่อตอบโจทย์ให้การปรับขนาดรูปภาพง่ายยิ่งขึ้นอีก"
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "เราแก้ไขปุ่มลัดบนแป้นพิมพ์สำหรับการส่งข้อความเสียงให้เป็น Ctrl/Cmd Shift Y เพื่อไม่ให้ซ้ำกับปุ่มลัด \"วางและให้รูปแบบตรงกัน\" (Paste and Match Style) ของ Windows และ Linux"
+  },
+  "icu:WhatsNew__v7.13--0": {
+    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+  },
+  "icu:WhatsNew__v7.13--1": {
+    "messageformat": "This update also improves the display of quoted replies in RTL languages."
   }
 }

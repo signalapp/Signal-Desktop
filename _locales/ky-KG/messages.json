@@ -174,7 +174,7 @@
     "messageformat": "Иштеп чыгуучунун куралдарын иштетүү"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Чалууларга байланыштуу иштеп чыгуучулардын куралдарын ачуу"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Жаңы түзмөктү тууралоо"
@@ -645,10 +645,10 @@
     "messageformat": "Экран бөлүшүү"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Чалууларга байланыштуу иштеп чыгуучулардын куралдары"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Учурда болуп жаткан чалуулардын көрүнүшүндөгү мүчүлүштүктөрдү аныктоо үчүн колдонулат."
   },
   "icu:speech": {
     "messageformat": "Сүйлөө"
@@ -2688,7 +2688,13 @@
     "messageformat": "Шыңгырды өчүрүү"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "Колуңузду көтөрдүңүз."
+    "messageformat": "You raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-one": {
+    "messageformat": "You and {otherName} raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-more": {
+    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} колун көтөрдү."
@@ -2779,6 +2785,21 @@
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Бул адамды чалуудан алып салуу"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel": {
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
+    "messageformat": "+{count,number} more"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
+    "messageformat": "More info about new contacts"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
+    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
+    "messageformat": "Got it"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Видео"
@@ -3758,6 +3779,9 @@
   "icu:DeleteMessagesModal--description--noteToSelf": {
     "messageformat": "{count, plural, other {Бул билдирүүлөрдү кайсы түзмөктөрдөн өчүрөсүз?}}"
   },
+  "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
+    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+  },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Өзүмдө эле өчсүн"
   },
@@ -3769,6 +3793,9 @@
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Бардык түзмөктөрдөн өчүрүү"
+  },
+  "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
+    "messageformat": "Delete"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {Баарында өчүрүлө турган {count,number} чейин билдирүү гана тандай аласыз}}"
@@ -4170,7 +4197,7 @@
     "messageformat": "Колдонуучунун аты сандан башталбайт."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Колдонуучунун аты кеминде {min,number} белгиден турушу керек."
+    "messageformat": "Usernames must have at least {min,number} characters."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Колдонуучунун аты эң көп дегенде {max,number} белгиден турушу керек."
@@ -4720,6 +4747,15 @@
   },
   "icu:SignalConnectionsModal__footer": {
     "messageformat": "Байланыштарыңыз аты-жөнүңүздү жана сүрөтүңүздү, \"Менин окуям\" бөлүмүндөгү постторду көрө алышат (эгер аларды жашырып койбосоңуз)"
+  },
+  "icu:LocalDeleteWarningModal__header": {
+    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+  },
+  "icu:LocalDeleteWarningModal__description": {
+    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+  },
+  "icu:LocalDeleteWarningModal__confirm": {
+    "messageformat": "Got it"
   },
   "icu:Stories__title": {
     "messageformat": "Окуялар"
@@ -5313,6 +5349,9 @@
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}” боюнча эч нерсе табылган жок"
   },
+  "icu:CallsList__CreateCallLink": {
+    "messageformat": "Create a Call Link"
+  },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Келген чалуулар"
   },
@@ -5376,6 +5415,24 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Шилтемени Signal аркылуу бөлүшүү"
   },
+  "icu:CallLinkEditModal__Title": {
+    "messageformat": "Call link details"
+  },
+  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
+    "messageformat": "Name"
+  },
+  "icu:CallLinkEditModal__JoinButtonLabel": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
+    "messageformat": "Approve all members"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
+    "messageformat": "Off"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
+    "messageformat": "On"
+  },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {Дагы {count,number} адам жазып жатат.}}"
   },
@@ -5416,16 +5473,19 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.11--0": {
-    "messageformat": "Топтук чалуудагы катышуучулардын тизмесин карап жатканда Байланыштар сүрөтчөсү өзүнөн өзү байланыштын ысымынын жанына жылып кеткен мүчүлүштүктү оңдодук. Байланыштарыңызга аябай эле жакын болсоңуз керек, бирок кээде сизге (жана Signal Desktop колдонуучу интерфейсине) бир аз орун керек."
-  },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "★ Топтук чалууда башкача жол менен сүйлөшкүңүз келген болсо, колуңузду көтөрүңүз. Кимдир бирөөнүн көңүлүн өзүңүзгө бургуңуз келсе, суроо бергиңиз келсе же \"Баарыңар макулсуңарбы?\" деген суроого жашыруун жооп бергиңиз келсе, \"Кол көтөр\" деген функцияны колдонсоңуз болот."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Кесүү куралындагы мүчүлүштүктү оңдодук. Эми сүрөттөгү кереги жок нерселерди оңой эле кесип саласыз."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Аудио билдирүүнү жөнөтүүчү баскычтар айкалышын Ctrl/Cmd+Shift+Y кылып өзгөрттүк. Эми ал Windows же Linux системасындагы \"Paste and Match Style\" деген баскычтар айкалышына алмашып калбайт."
+  },
+  "icu:WhatsNew__v7.13--0": {
+    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+  },
+  "icu:WhatsNew__v7.13--1": {
+    "messageformat": "This update also improves the display of quoted replies in RTL languages."
   }
 }

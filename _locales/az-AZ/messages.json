@@ -174,7 +174,7 @@
     "messageformat": "Tərtibatçı alətlərini aç/bağla"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Zənglərlə əlaqəli tərtibatçı alətləri"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Yeni cihaz kimi quraşdır"
@@ -645,10 +645,10 @@
     "messageformat": "Ekran paylaşımı"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Zənglərlə əlaqəli tərtibatçı alətləri"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Bu pəncərə tərtibat zamanı davam edən zənglərin diaqnostikalarını göstərmək üçün istifadə olunur."
   },
   "icu:speech": {
     "messageformat": "Danışma"
@@ -2688,7 +2688,13 @@
     "messageformat": "Zəng qeyri-aktivdir"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "Əlinizi qaldırmısınız."
+    "messageformat": "You raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-one": {
+    "messageformat": "You and {otherName} raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-more": {
+    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} əlini qaldırdı."
@@ -2779,6 +2785,21 @@
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Bu şəxsi zəngdən çıxar"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel": {
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
+    "messageformat": "+{count,number} more"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
+    "messageformat": "More info about new contacts"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
+    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
+    "messageformat": "Got it"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3758,6 +3779,9 @@
   "icu:DeleteMessagesModal--description--noteToSelf": {
     "messageformat": "{count, plural, one {Bu mesajı hansı cihazlardan silmək istəyirsiniz?} other {Bu mesajları hansı cihazlardan silmək istəyirsiniz?}}"
   },
+  "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
+    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+  },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Məndən sil"
   },
@@ -3769,6 +3793,9 @@
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Bütün cihazlardan sil"
+  },
+  "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
+    "messageformat": "Delete"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Hər kəsdən silmək üçün maksimum {count,number} mesaj seçə bilərsiniz} other {Hər kəsdən silmək üçün maksimum {count,number} mesaj seçə bilərsiniz}}"
@@ -4170,7 +4197,7 @@
     "messageformat": "İstifadəçi adı nömrə ilə başlaya bilməz."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "İstifadəçi adında ən azı {min,number} simvol olmalıdır."
+    "messageformat": "Usernames must have at least {min,number} characters."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "İstifadəçi adında ən çoxu {max,number} simvol olmalıdır."
@@ -4720,6 +4747,15 @@
   },
   "icu:SignalConnectionsModal__footer": {
     "messageformat": "Kontaktlarınız adınızı və fotoşəklinizi, o cümlədən onlardan gizlətməmisinizsə, \"Hekayəm\" səhifəsindəki yazılarınızı görə bilər."
+  },
+  "icu:LocalDeleteWarningModal__header": {
+    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+  },
+  "icu:LocalDeleteWarningModal__description": {
+    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+  },
+  "icu:LocalDeleteWarningModal__confirm": {
+    "messageformat": "Got it"
   },
   "icu:Stories__title": {
     "messageformat": "Hekayələr"
@@ -5313,6 +5349,9 @@
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}” üçün heç bir nəticə yoxdur"
   },
+  "icu:CallsList__CreateCallLink": {
+    "messageformat": "Create a Call Link"
+  },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Gələn zəng"
   },
@@ -5376,6 +5415,24 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Keçidi Signal vasitəsilə paylaş"
   },
+  "icu:CallLinkEditModal__Title": {
+    "messageformat": "Call link details"
+  },
+  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
+    "messageformat": "Name"
+  },
+  "icu:CallLinkEditModal__JoinButtonLabel": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
+    "messageformat": "Approve all members"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
+    "messageformat": "Off"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
+    "messageformat": "On"
+  },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Əlavə {count,number} nəfər də yazır.} other {Əlavə {count,number} nəfər də yazır.}}"
   },
@@ -5416,16 +5473,19 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.11--0": {
-    "messageformat": "Qrup zəngində iştirakçı siyahısı göstərilərkən kontakt adının yanına sığışmayan kontaktlar piktoqramının bölünməsinə səbəb olan görünüş xətasını düzəltdik. Əlbəttə kontaktlarınıza çox yaxın ola bilərsiniz, lakin bəzən sizə də (və Signal Desktop istifadəçi interfeysinə) bir az yer lazımdır."
-  },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Qrup zənglərində əl qaldırma funksiyasından istifadə edərək də ünsiyyət qura bilərsiniz. Yeni \"Əl qaldırma\" funksiyası birinin diqqətini çəkmək, sual vermək, yaxud da dostunuzun xahişi ilə qrup təklifinə anonim səs vermək üçün sadə bir yoldur."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Bu yeniləmə sayəsində artıq şəkillərin ölçülərini yenidən təyin etmək üçün təkmilləşdirilmiş kəsmə aləti təqim olunur."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Biz Ctrl/Cmd+Shift+Y basaraq səsli qeyd göndərmək üçün klaviatura qısayolunu elə dəyişdirdik ki, artıq Windows və Linux-da \"Üslubu əlavə et və uyğunlaşdır\" qısayolu ilə ziddiyyət təşkil etməsin."
+  },
+  "icu:WhatsNew__v7.13--0": {
+    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+  },
+  "icu:WhatsNew__v7.13--1": {
+    "messageformat": "This update also improves the display of quoted replies in RTL languages."
   }
 }
