@@ -43,6 +43,7 @@ import {
   type MessageForwardDraft,
 } from '../types/ForwardDraft';
 import { missingCaseError } from '../util/missingCaseError';
+import { Theme } from '../util/theme';
 
 export enum ForwardMessagesModalType {
   Forward,
@@ -58,6 +59,7 @@ export type DataPropsType = {
   drafts: ReadonlyArray<MessageForwardDraft>;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
+  isInFullScreenCall: boolean;
 
   linkPreviewForSource: (
     source: LinkPreviewSourceType
@@ -90,6 +92,7 @@ export function ForwardMessagesModal({
   linkPreviewForSource,
   getPreferredBadge,
   i18n,
+  isInFullScreenCall,
   onClose,
   onChange,
   removeLinkPreview,
@@ -309,6 +312,8 @@ export function ForwardMessagesModal({
     throw missingCaseError(type);
   }
 
+  const modalTheme = isInFullScreenCall ? Theme.Dark : undefined;
+
   return (
     <>
       {cannotMessage && (
@@ -329,7 +334,8 @@ export function ForwardMessagesModal({
         onBackButtonClick={isEditingMessage ? handleBackOrClose : undefined}
         moduleClassName="module-ForwardMessageModal"
         title={title}
-        useFocusTrap={false}
+        theme={modalTheme}
+        useFocusTrap={isInFullScreenCall}
         padded={false}
         modalFooter={footer}
         noMouseClose

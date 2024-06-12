@@ -11,6 +11,7 @@ import * as Errors from '../../types/errors';
 import { getAllComposableConversations } from '../selectors/conversations';
 import { getIntl, getTheme, getRegionCode } from '../selectors/user';
 import { getLinkPreview } from '../selectors/linkPreviews';
+import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { maybeForwardMessages } from '../../util/maybeForwardMessages';
 import {
@@ -57,17 +58,19 @@ function SmartForwardMessagesModalInner({
 }: {
   forwardMessagesProps: ForwardMessagesPropsType;
 }): JSX.Element | null {
+  const { type } = forwardMessagesProps;
+
   const candidateConversations = useSelector(getAllComposableConversations);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const i18n = useSelector(getIntl);
   const linkPreviewForSource = useSelector(getLinkPreview);
   const regionCode = useSelector(getRegionCode);
   const theme = useSelector(getTheme);
+  const isInFullScreenCall = useSelector(getIsInFullScreenCall);
 
   const { removeLinkPreview } = useLinkPreviewActions();
   const { toggleForwardMessagesModal } = useGlobalModalActions();
   const { showToast } = useToastActions();
-  const { type } = forwardMessagesProps;
 
   const [drafts, setDrafts] = useState<ReadonlyArray<MessageForwardDraft>>(
     () => {
@@ -153,6 +156,7 @@ function SmartForwardMessagesModalInner({
       linkPreviewForSource={linkPreviewForSource}
       getPreferredBadge={getPreferredBadge}
       i18n={i18n}
+      isInFullScreenCall={isInFullScreenCall}
       onClose={closeModal}
       onChange={handleChange}
       regionCode={regionCode}

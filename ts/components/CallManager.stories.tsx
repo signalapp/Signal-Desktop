@@ -113,6 +113,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   setPresenting: action('toggle-presenting'),
   setRendererCanvas: action('set-renderer-canvas'),
   setOutgoingRing: action('set-outgoing-ring'),
+  showShareCallLinkViaSignal: action('show-share-call-link-via-signal'),
   startCall: action('start-call'),
   stopRingtone: action('stop-ringtone'),
   switchToPresentationView: action('switch-to-presentation-view'),
