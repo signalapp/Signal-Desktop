@@ -714,7 +714,7 @@ function searchConversations(query: string) {
       displayNameInProfile LIKE $displayNameInProfile OR
       nickname LIKE $nickname OR
       (id LIKE $id AND
-        (displayNameInProfile IS NULL OR displayNameInProfile = '') AND (nickname IS NULL  OR nickname = '')
+        (displayNameInProfile IS NULL OR displayNameInProfile = '') AND (nickname IS NULL OR nickname = '')
       )
     ) AND active_at > 0
     ORDER BY active_at DESC
