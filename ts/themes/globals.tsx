@@ -8,7 +8,7 @@ function setDuration(duration: number | string) {
 }
 
 // These variables are independent of the current theme
-export type ThemeGlobals = {
+type ThemeGlobals = {
   /* Fonts */
   '--font-default': string;
   '--font-accent': string;
@@ -119,6 +119,21 @@ export type ThemeGlobals = {
   '--right-panel-attachment-height': string;
 };
 
+type Theme = ThemeGlobals | ThemeColorVariables;
+
+export type ThemeKeys = keyof ThemeGlobals | keyof ThemeColorVariables;
+
+export function getThemeValue(key: ThemeKeys) {
+  return getComputedStyle(document.documentElement).getPropertyValue(key);
+}
+
+export function setThemeValues(variables: Theme) {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [key, value] of Object.entries(variables)) {
+    document.documentElement.style.setProperty(key, value);
+  }
+}
+
 // These are only set once in the global style (at root).
 export const THEME_GLOBALS: ThemeGlobals = {
   '--font-default': 'Roboto',
@@ -212,16 +227,3 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--right-panel-attachment-height':
     'calc(var(--right-panel-height) - 2 * var(--margins-2xl) -7px)',
 };
-
-type ThemeKeys = ThemeGlobals & ThemeColorVariables;
-
-export function getThemeValue(key: keyof ThemeKeys) {
-  return getComputedStyle(document.documentElement).getPropertyValue(key);
-}
-
-export function setThemeValues(variables: ThemeGlobals | ThemeColorVariables) {
-  // eslint-disable-next-line no-restricted-syntax
-  for (const [key, value] of Object.entries(variables)) {
-    document.documentElement.style.setProperty(key, value);
-  }
-}
