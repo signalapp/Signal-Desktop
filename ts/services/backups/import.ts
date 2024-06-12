@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Aci, Pni } from '@signalapp/libsignal-client';
+import { ReceiptCredentialPresentation } from '@signalapp/libsignal-client/zkgroup';
 import { v4 as generateUuid } from 'uuid';
 import pMap from 'p-map';
 import { Writable } from 'stream';
@@ -11,6 +12,7 @@ import { Backups, SignalService } from '../../protobuf';
 import Data from '../../sql/Client';
 import type { StoryDistributionWithMembersType } from '../../sql/Interface';
 import * as log from '../../logging/log';
+import { GiftBadgeStates } from '../../components/conversation/Message';
 import { StorySendMode } from '../../types/Stories';
 import type { ServiceIdString, AciString } from '../../types/ServiceId';
 import { fromAciObject, fromPniObject } from '../../types/ServiceId';
@@ -27,6 +29,7 @@ import {
 } from '../../types/Stickers';
 import type {
   ConversationAttributesType,
+  CustomError,
   MessageAttributesType,
   MessageReactionType,
   EditHistoryType,
@@ -34,7 +37,7 @@ import type {
 } from '../../model-types.d';
 import { assertDev, strictAssert } from '../../util/assert';
 import { getTimestampFromLong } from '../../util/timestampLongUtils';
-import { DurationInSeconds } from '../../util/durations';
+import { DurationInSeconds, SECOND } from '../../util/durations';
 import { dropNull } from '../../util/dropNull';
 import {
   deriveGroupID,
@@ -468,21 +471,35 @@ export class BackupImportStream extends Writable {
       await storage.put('avatarUrl', avatarUrlPath);
     }
     if (donationSubscriberData != null) {
-      const { subscriberId, currencyCode } = donationSubscriberData;
+      const { subscriberId, currencyCode, manuallyCancelled } =
+        donationSubscriberData;
       if (Bytes.isNotEmpty(subscriberId)) {
         await storage.put('subscriberId', subscriberId);
       }
       if (currencyCode != null) {
         await storage.put('subscriberCurrencyCode', currencyCode);
       }
+      if (manuallyCancelled != null) {
+        await storage.put(
+          'donorSubscriptionManuallyCancelled',
+          manuallyCancelled
+        );
+      }
     }
     if (backupsSubscriberData != null) {
-      const { subscriberId, currencyCode } = backupsSubscriberData;
+      const { subscriberId, currencyCode, manuallyCancelled } =
+        backupsSubscriberData;
       if (Bytes.isNotEmpty(subscriberId)) {
         await storage.put('backupsSubscriberId', subscriberId);
       }
       if (currencyCode != null) {
         await storage.put('backupsSubscriberCurrencyCode', currencyCode);
+      }
+      if (manuallyCancelled != null) {
+        await storage.put(
+          'backupsSubscriptionManuallyCancelled',
+          manuallyCancelled
+        );
       }
     }
 
@@ -503,6 +520,12 @@ export class BackupImportStream extends Writable {
       'preferContactAvatars',
       accountSettings?.preferContactAvatars === true
     );
+    if (accountSettings?.universalExpireTimer) {
+      await storage.put(
+        'universalExpireTimer',
+        accountSettings.universalExpireTimer
+      );
+    }
     await storage.put(
       'displayBadgesOnProfile',
       accountSettings?.displayBadgesOnProfile === true
@@ -532,8 +555,8 @@ export class BackupImportStream extends Writable {
       accountSettings?.hasCompletedUsernameOnboarding === true
     );
     await storage.put(
-      'preferredReactionEmoji',
-      accountSettings?.preferredReactionEmoji || []
+      'hasSeenGroupStoryEducationSheet',
+      accountSettings?.hasSeenGroupStoryEducationSheet === true
     );
     await storage.put(
       'preferredReactionEmoji',
@@ -618,6 +641,7 @@ export class BackupImportStream extends Writable {
       profileName: dropNull(contact.profileGivenName),
       profileFamilyName: dropNull(contact.profileFamilyName),
       hideStory: contact.hideStory === true,
+      username: dropNull(contact.username),
     };
 
     if (contact.notRegistered) {
@@ -871,8 +895,6 @@ export class BackupImportStream extends Writable {
     }
 
     if (item.standardMessage) {
-      // TODO (DESKTOP-6964): gift badge
-
       attributes = {
         ...attributes,
         ...(await this.fromStandardMessage(item.standardMessage, chatConvo.id)),
@@ -961,6 +983,8 @@ export class BackupImportStream extends Writable {
 
       const BackupSendStatus = Backups.SendStatus.Status;
 
+      const unidentifiedDeliveries = new Array<ServiceIdString>();
+      const errors = new Array<CustomError>();
       for (const status of outgoing.sendStatus ?? []) {
         strictAssert(
           status.recipientId,
@@ -997,6 +1021,28 @@ export class BackupImportStream extends Writable {
             break;
         }
 
+        if (target.serviceId) {
+          if (status.sealedSender) {
+            unidentifiedDeliveries.push(target.serviceId);
+          }
+
+          if (status.identityKeyMismatch) {
+            errors.push({
+              serviceId: target.serviceId,
+              name: 'OutgoingIdentityKeyError',
+              // See: ts/textsecure/Errors
+              message: `The identity of ${target.serviceId} has changed.`,
+            });
+          } else if (status.networkFailure) {
+            errors.push({
+              serviceId: target.serviceId,
+              name: 'OutgoingMessageError',
+              // See: ts/textsecure/Errors
+              message: 'no http error',
+            });
+          }
+        }
+
         sendStateByConversationId[target.id] = {
           status: sendStatus,
           updatedAt:
@@ -1011,6 +1057,10 @@ export class BackupImportStream extends Writable {
         patch: {
           sendStateByConversationId,
           received_at_ms: timestamp,
+          unidentifiedDeliveries: unidentifiedDeliveries.length
+            ? unidentifiedDeliveries
+            : undefined,
+          errors: errors.length ? errors : undefined,
         },
         newActiveAt: timestamp,
       };
@@ -1018,12 +1068,15 @@ export class BackupImportStream extends Writable {
     if (incoming) {
       const receivedAtMs = incoming.dateReceived?.toNumber() ?? Date.now();
 
+      const unidentifiedDeliveryReceived = incoming.sealedSender === true;
+
       if (incoming.read) {
         return {
           patch: {
             readStatus: ReadStatus.Read,
             seenStatus: SeenStatus.Seen,
             received_at_ms: receivedAtMs,
+            unidentifiedDeliveryReceived,
           },
           newActiveAt: receivedAtMs,
         };
@@ -1034,6 +1087,7 @@ export class BackupImportStream extends Writable {
           readStatus: ReadStatus.Unread,
           seenStatus: SeenStatus.Unseen,
           received_at_ms: receivedAtMs,
+          unidentifiedDeliveryReceived,
         },
         newActiveAt: receivedAtMs,
         unread: true,
@@ -1203,8 +1257,15 @@ export class BackupImportStream extends Writable {
     if (!reactions?.length) {
       return undefined;
     }
-    return reactions.map(
-      ({ emoji, authorId, sentTimestamp, receivedTimestamp }) => {
+    return reactions
+      .slice()
+      .sort((a, b) => {
+        if (a.sortOrder && b.sortOrder) {
+          return a.sortOrder.comp(b.sortOrder);
+        }
+        return 0;
+      })
+      .map(({ emoji, authorId, sentTimestamp, receivedTimestamp }) => {
         strictAssert(emoji != null, 'reaction must have an emoji');
         strictAssert(authorId != null, 'reaction must have authorId');
         strictAssert(
@@ -1229,8 +1290,7 @@ export class BackupImportStream extends Writable {
           receivedAtDate: getTimestampFromLong(receivedTimestamp),
           timestamp: getTimestampFromLong(sentTimestamp),
         };
-      }
-    );
+      });
   }
 
   private async fromNonBubbleChatItem(
@@ -1396,6 +1456,52 @@ export class BackupImportStream extends Writable {
                   ).finish()
                 )
               : undefined,
+          },
+        },
+        additionalMessages: [],
+      };
+    }
+    if (chatItem.giftBadge) {
+      const { giftBadge } = chatItem;
+      strictAssert(
+        Bytes.isNotEmpty(giftBadge.receiptCredentialPresentation),
+        'Gift badge must have a presentation'
+      );
+
+      let state: GiftBadgeStates;
+      switch (giftBadge.state) {
+        case Backups.GiftBadge.State.OPENED:
+          state = GiftBadgeStates.Opened;
+          break;
+
+        case Backups.GiftBadge.State.FAILED:
+        case Backups.GiftBadge.State.REDEEMED:
+          state = GiftBadgeStates.Redeemed;
+          break;
+
+        case Backups.GiftBadge.State.UNOPENED:
+          state = GiftBadgeStates.Unopened;
+          break;
+
+        default:
+          state = GiftBadgeStates.Unopened;
+          break;
+      }
+
+      const receipt = new ReceiptCredentialPresentation(
+        Buffer.from(giftBadge.receiptCredentialPresentation)
+      );
+
+      return {
+        message: {
+          giftBadge: {
+            receiptCredentialPresentation: Bytes.toBase64(
+              giftBadge.receiptCredentialPresentation
+            ),
+            expiration: Number(receipt.getReceiptExpirationTime()) * SECOND,
+            id: undefined,
+            level: Number(receipt.getReceiptLevel()),
+            state,
           },
         },
         additionalMessages: [],

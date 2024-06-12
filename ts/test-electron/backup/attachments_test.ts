@@ -118,6 +118,7 @@ describe('backup/attachments', () => {
       timestamp,
       readStatus: ReadStatus.Read,
       seenStatus: SeenStatus.Seen,
+      unidentifiedDeliveryReceived: true,
       ...overrides,
     };
   }

@@ -349,6 +349,7 @@ message ChatItem {
     RemoteDeletedMessage remoteDeletedMessage = 14;
     ChatUpdateMessage updateMessage = 15;
     PaymentNotification paymentNotification = 16;
+    GiftBadge giftBadge = 17;
   }
 }
 
@@ -437,6 +438,18 @@ message PaymentNotification {
   optional string note = 3;
   TransactionDetails transactionDetails = 4;
   
+}
+
+message GiftBadge {
+  enum State {
+    UNOPENED = 0;
+    OPENED = 1;
+    REDEEMED = 2;
+    FAILED = 3;
+  }
+
+  bytes receiptCredentialPresentation = 1;
+  State state = 2;
 }
 
 message ContactAttachment {
