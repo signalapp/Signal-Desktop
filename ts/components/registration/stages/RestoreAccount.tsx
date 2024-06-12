@@ -241,12 +241,12 @@ export const RestoreAccount = () => {
                   }}
                   onEnterPressed={recoverAndFetchDisplayName}
                   error={recoveryPasswordError}
-                  enableShowHide={true}
-                  showHideAriaLabels={{
+                  enableShowHideButton={true}
+                  showHideButtonAriaLabels={{
                     hide: 'Hide recovery password toggle',
                     show: 'Reveal recovery password toggle',
                   }}
-                  showHideDataTestIds={{
+                  showHideButtonDataTestIds={{
                     hide: 'hide-recovery-phrase-toggle',
                     show: 'reveal-recovery-phrase-toggle',
                   }}

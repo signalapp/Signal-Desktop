@@ -160,13 +160,13 @@ const ErrorItem = (props: { id: string; error: string }) => {
   );
 };
 
-type ShowHideStrings = { hide: string; show: string };
+type ShowHideButtonStrings = { hide: string; show: string };
 type ShowHideButtonProps = {
   forceShow: boolean;
   toggleForceShow: () => void;
   error: boolean;
-  ariaLabels?: ShowHideStrings;
-  dataTestIds?: ShowHideStrings;
+  ariaLabels?: ShowHideButtonStrings;
+  dataTestIds?: ShowHideButtonStrings;
 };
 
 const ShowHideButton = (props: ShowHideButtonProps) => {
@@ -232,9 +232,9 @@ type Props = {
   inputRef?: RefObject<HTMLInputElement | HTMLTextAreaElement>;
   inputDataTestId?: string;
   id?: string;
-  enableShowHide?: boolean;
-  showHideAriaLabels?: ShowHideStrings;
-  showHideDataTestIds?: ShowHideStrings;
+  enableShowHideButton?: boolean;
+  showHideButtonAriaLabels?: ShowHideButtonStrings;
+  showHideButtonDataTestIds?: ShowHideButtonStrings;
   ctaButton?: ReactNode;
   monospaced?: boolean;
   textSize?: TextSizes;
@@ -261,9 +261,9 @@ export const SessionInput = (props: Props) => {
     inputRef,
     inputDataTestId,
     id = 'session-input-floating-label',
-    enableShowHide,
-    showHideAriaLabels,
-    showHideDataTestIds,
+    enableShowHideButton,
+    showHideButtonAriaLabels,
+    showHideButtonDataTestIds,
     ctaButton,
     monospaced,
     textSize,
@@ -307,7 +307,7 @@ export const SessionInput = (props: Props) => {
     tabIndex,
     ref: inputRef,
     onChange: updateInputValue,
-    style: { paddingInlineEnd: enableShowHide ? '48px' : undefined },
+    style: { paddingInlineEnd: enableShowHideButton ? '48px' : undefined },
     // just in case onChange isn't triggered
     onBlur: (event: ChangeEvent<HTMLInputElement>) => {
       if (editable && !disableOnBlurEvent) {
@@ -377,15 +377,15 @@ export const SessionInput = (props: Props) => {
             aria-label={ariaLabel || 'session input'}
           />
         )}
-        {editable && enableShowHide && (
+        {editable && enableShowHideButton && (
           <ShowHideButton
             forceShow={forceShow}
             toggleForceShow={() => {
               setForceShow(!forceShow);
             }}
             error={Boolean(errorString)}
-            ariaLabels={showHideAriaLabels}
-            dataTestIds={showHideDataTestIds}
+            ariaLabels={showHideButtonAriaLabels}
+            dataTestIds={showHideButtonDataTestIds}
           />
         )}
       </StyledBorder>
