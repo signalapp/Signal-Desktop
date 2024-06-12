@@ -708,7 +708,7 @@ export class SwarmPolling {
 
     // Note: always print something so we know if the polling is hanging
     window.log.info(
-      `WIP: [onboarding] about to pollOnceForOurDisplayName of ${ed25519Str(pubkey.key)} from snode: ${ed25519Str(toPollFrom.pubkey_ed25519)} namespaces: ${[SnodeNamespaces.UserProfile]} `
+      `[onboarding] about to pollOnceForOurDisplayName of ${ed25519Str(pubkey.key)} from snode: ${ed25519Str(toPollFrom.pubkey_ed25519)} namespaces: ${[SnodeNamespaces.UserProfile]} `
     );
 
     const resultsFromUserProfile = await SnodeAPIRetrieve.retrieveNextMessages(
@@ -722,7 +722,7 @@ export class SwarmPolling {
 
     // Note: always print something so we know if the polling is hanging
     window.log.info(
-      `WIP: [onboarding] pollOnceForOurDisplayName of ${ed25519Str(pubkey.key)} from snode: ${ed25519Str(toPollFrom.pubkey_ed25519)} namespaces: ${[SnodeNamespaces.UserProfile]} returned: ${resultsFromUserProfile?.length}`
+      `[onboarding] pollOnceForOurDisplayName of ${ed25519Str(pubkey.key)} from snode: ${ed25519Str(toPollFrom.pubkey_ed25519)} namespaces: ${[SnodeNamespaces.UserProfile]} returned: ${resultsFromUserProfile?.length}`
     );
 
     // check if we just fetched the details from the config namespaces.

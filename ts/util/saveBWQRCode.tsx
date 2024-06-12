@@ -49,6 +49,6 @@ export async function saveBWQRCode(filename: string, props: SessionQRCodeProps):
     reactRoot?.unmount();
     root?.removeChild(divElement);
   } catch (err) {
-    window.log.error('WIP: [saveBWQRCode] failed', err);
+    window.log.error(`[saveBWQRCode] failed for ${filename}`, err);
   }
 }
