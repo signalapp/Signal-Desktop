@@ -1,9 +1,10 @@
 import { isEmpty } from 'lodash';
-import { useRef, useState } from 'react';
+import { RefObject, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 
+import { Dispatch } from '@reduxjs/toolkit';
 import { SyncUtils, UserUtils } from '../../../session/utils';
 import { YourSessionIDPill, YourSessionIDSelectable } from '../../basic/YourSessionIDPill';
 
@@ -21,7 +22,102 @@ import { SessionInput } from '../../inputs';
 import { SessionSpinner } from '../../loading';
 import { sanitizeDisplayNameOrToast } from '../../registration/utils';
 import { ProfileHeader, ProfileName, QRView } from './components';
-import { handleKeyCancel, handleKeyEditMode, handleKeyEscape, handleKeyQRMode } from './shortcuts';
+
+// #region Shortcuts
+const handleKeyQRMode = (
+  mode: ProfileDialogModes,
+  setMode: (mode: ProfileDialogModes) => void,
+  loading: boolean
+) => {
+  if (loading) {
+    return;
+  }
+  switch (mode) {
+    case 'default':
+      setMode('qr');
+      break;
+    case 'qr':
+      setMode('default');
+      break;
+    case 'edit':
+    default:
+  }
+};
+
+const handleKeyEditMode = (
+  mode: ProfileDialogModes,
+  setMode: (mode: ProfileDialogModes) => void,
+  onClick: () => Promise<void>,
+  loading: boolean
+) => {
+  if (loading) {
+    return;
+  }
+  switch (mode) {
+    case 'default':
+      setMode('edit');
+      break;
+    case 'edit':
+      void onClick();
+      break;
+    case 'qr':
+    default:
+  }
+};
+
+const handleKeyCancel =
+  (
+    mode: ProfileDialogModes,
+    setMode: (mode: ProfileDialogModes) => void,
+    inputRef: RefObject<HTMLInputElement>,
+    updatedProfileName: string,
+    setProfileName: (name: string) => void,
+    setProfileNameError: (error: string | undefined) => void,
+    loading: boolean
+  ) =>
+  () => {
+    if (loading) {
+      return;
+    }
+    switch (mode) {
+      case 'edit':
+      case 'qr':
+        if (inputRef.current !== null && document.activeElement === inputRef.current) {
+          return;
+        }
+        setMode('default');
+        if (mode === 'edit') {
+          setProfileNameError(undefined);
+          setProfileName(updatedProfileName);
+        }
+        break;
+      case 'default':
+      default:
+    }
+  };
+
+const handleKeyEscape = (
+  mode: ProfileDialogModes,
+  setMode: (mode: ProfileDialogModes) => void,
+  updatedProfileName: string,
+  setProfileName: (name: string) => void,
+  setProfileNameError: (error: string | undefined) => void,
+  loading: boolean,
+  dispatch: Dispatch
+) => {
+  if (loading) {
+    return;
+  }
+  if (mode === 'edit') {
+    setMode('default');
+    setProfileNameError(undefined);
+    setProfileName(updatedProfileName);
+  } else {
+    dispatch(editProfileModal(null));
+  }
+};
+
+// #endregion
 
 const StyledEditProfileDialog = styled.div`
   .session-modal {
