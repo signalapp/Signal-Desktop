@@ -1,6 +1,6 @@
-import path from 'path';
 import { readFileSync } from 'fs-extra';
 import { isEmpty } from 'lodash';
+import path from 'path';
 
 describe('Updater', () => {
   it.skip('isUpdateAvailable', () => {});
