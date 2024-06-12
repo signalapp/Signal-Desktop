@@ -22,9 +22,9 @@ export type SessionQRCodeProps = {
   id: string;
   value: string;
   size: number;
-  hasLogo?: QRCodeLogoProps;
   backgroundColor?: string;
   foregroundColor?: string;
+  hasLogo?: QRCodeLogoProps;
   logoImage?: string;
   logoSize?: number;
   ariaLabel?: string;

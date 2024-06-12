@@ -24,7 +24,7 @@ export const convertIconToImageURL = async (
     isDarkTheme?: boolean;
   }
 ): Promise<{ dataUrl: string; bgColor: string; fgColor: string }> => {
-  const { isThemed, isDarkTheme, iconType, iconSize } = props;
+  const { iconType, iconSize, isThemed, isDarkTheme } = props;
 
   const fgColor = chooseIconColors(
     '--black-color',

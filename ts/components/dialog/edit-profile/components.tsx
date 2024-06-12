@@ -7,8 +7,8 @@ import { SpacerSM } from '../../basic/Text';
 import { SessionIconButton } from '../../icon';
 
 const qrLogoProps: QRCodeLogoProps = {
-  iconType: 'brand',
-  iconSize: 40,
+  iconType: 'brandThin',
+  iconSize: 42,
 };
 
 export const QRView = ({ sessionID }: { sessionID: string }) => {
