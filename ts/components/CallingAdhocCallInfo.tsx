@@ -39,6 +39,7 @@ export type PropsType = {
   readonly participants: Array<ParticipantType>;
   readonly onClose: () => void;
   readonly onCopyCallLink: () => void;
+  readonly onShareCallLinkViaSignal: () => void;
   readonly removeClient: ((payload: RemoveClientType) => void) | null;
 };
 
@@ -142,6 +143,7 @@ export function CallingAdhocCallInfo({
   participants,
   onClose,
   onCopyCallLink,
+  onShareCallLinkViaSignal,
   removeClient,
 }: PropsType): JSX.Element | null {
   const [isUnknownContactDialogVisible, setIsUnknownContactDialogVisible] =
@@ -150,6 +152,10 @@ export function CallingAdhocCallInfo({
     () => setIsUnknownContactDialogVisible(false),
     [setIsUnknownContactDialogVisible]
   );
+  const onClickShareCallLinkViaSignal = React.useCallback(() => {
+    onClose();
+    onShareCallLinkViaSignal();
+  }, [onClose, onShareCallLinkViaSignal]);
 
   const [knownParticipants, unknownParticipants] = React.useMemo<
     [Array<ParticipantType>, Array<ParticipantType>]
@@ -321,6 +327,16 @@ export function CallingAdhocCallInfo({
               <span className="CallingAdhocCallInfo__MenuItemIcon CallingAdhocCallInfo__MenuItemIcon--copy-link" />
               <span className="CallingAdhocCallInfo__MenuItemText">
                 {i18n('icu:CallingAdhocCallInfo__CopyLink')}
+              </span>
+            </button>
+            <button
+              className="CallingAdhocCallInfo__MenuItem"
+              onClick={onClickShareCallLinkViaSignal}
+              type="button"
+            >
+              <span className="CallingAdhocCallInfo__MenuItemIcon CallingAdhocCallInfo__MenuItemIcon--share-via-signal" />
+              <span className="CallingAdhocCallInfo__MenuItemText">
+                {i18n('icu:CallingAdhocCallInfo__ShareViaSignal')}
               </span>
             </button>
           </div>

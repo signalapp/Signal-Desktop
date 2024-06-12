@@ -66,6 +66,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   participants: overrideProps.participants || [],
   onClose: action('on-close'),
   onCopyCallLink: action('on-copy-call-link'),
+  onShareCallLinkViaSignal: action('on-share-call-link-via-signal'),
   removeClient: overrideProps.removeClient || action('remove-client'),
 });
 

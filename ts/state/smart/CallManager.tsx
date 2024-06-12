@@ -55,6 +55,7 @@ import { SmartCallingDeviceSelection } from './CallingDeviceSelection';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { renderReactionPicker } from './renderReactionPicker';
 import { isSharingPhoneNumberWithEverybody as getIsSharingPhoneNumberWithEverybody } from '../../util/phoneNumberSharingMode';
+import { useGlobalModalActions } from '../ducks/globalModals';
 
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
@@ -454,6 +455,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
     toggleSettings,
   } = useCallingActions();
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
+  const { showShareCallLinkViaSignal } = useGlobalModalActions();
 
   return (
     <CallManager
@@ -499,6 +501,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
       setOutgoingRing={setOutgoingRing}
       setPresenting={setPresenting}
       setRendererCanvas={setRendererCanvas}
+      showShareCallLinkViaSignal={showShareCallLinkViaSignal}
       startCall={startCall}
       stopRingtone={stopRingtone}
       switchFromPresentationView={switchFromPresentationView}

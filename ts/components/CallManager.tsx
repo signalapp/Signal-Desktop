@@ -126,6 +126,10 @@ export type PropsType = {
   setOutgoingRing: (_: boolean) => void;
   setPresenting: (_?: PresentedSource) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
+  showShareCallLinkViaSignal: (
+    callLink: CallLinkType,
+    i18n: LocalizerType
+  ) => void;
   stopRingtone: () => unknown;
   switchToPresentationView: () => void;
   switchFromPresentationView: () => void;
@@ -184,6 +188,7 @@ function ActiveCallManager({
   setPresenting,
   setRendererCanvas,
   setOutgoingRing,
+  showShareCallLinkViaSignal,
   startCall,
   switchToPresentationView,
   switchFromPresentationView,
@@ -266,6 +271,15 @@ function ActiveCallManager({
       await copyCallLink(link);
     }
   }, [callLink]);
+
+  const handleShareCallLinkViaSignal = useCallback(() => {
+    if (!callLink) {
+      log.error('Missing call link');
+      return;
+    }
+
+    showShareCallLinkViaSignal(callLink, i18n);
+  }, [callLink, i18n, showShareCallLinkViaSignal]);
 
   let isCallFull: boolean;
   let showCallLobby: boolean;
@@ -379,6 +393,7 @@ function ActiveCallManager({
               participants={peekedParticipants}
               onClose={toggleParticipants}
               onCopyCallLink={onCopyCallLink}
+              onShareCallLinkViaSignal={handleShareCallLinkViaSignal}
               removeClient={removeClient}
             />
           ) : (
@@ -472,6 +487,7 @@ function ActiveCallManager({
             participants={groupCallParticipantsForParticipantsList}
             onClose={toggleParticipants}
             onCopyCallLink={onCopyCallLink}
+            onShareCallLinkViaSignal={handleShareCallLinkViaSignal}
             removeClient={removeClient}
           />
         ) : (
@@ -527,6 +543,7 @@ export function CallManager({
   setOutgoingRing,
   setPresenting,
   setRendererCanvas,
+  showShareCallLinkViaSignal,
   startCall,
   stopRingtone,
   switchFromPresentationView,
@@ -616,6 +633,7 @@ export function CallManager({
           setOutgoingRing={setOutgoingRing}
           setPresenting={setPresenting}
           setRendererCanvas={setRendererCanvas}
+          showShareCallLinkViaSignal={showShareCallLinkViaSignal}
           startCall={startCall}
           switchFromPresentationView={switchFromPresentationView}
           switchToPresentationView={switchToPresentationView}

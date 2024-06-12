@@ -52,6 +52,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   doForwardMessages: action('doForwardMessages'),
   getPreferredBadge: () => undefined,
   i18n,
+  isInFullScreenCall: false,
   linkPreviewForSource: () => undefined,
   onClose: action('onClose'),
   onChange: action('onChange'),

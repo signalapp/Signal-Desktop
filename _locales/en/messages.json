@@ -3690,6 +3690,10 @@
     "messageformat": "Copy call link",
     "description": "Menu item in the in-call info popup for call link calls. The action is to add the call link to the clipboard."
   },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal",
+    "description": "Menu item in the in-call info popup for call link calls. Clicking the item opens the sharing dialog where you can send the call link to your Signal contacts or groups."
+  },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Remove this person from the call",
     "description": "Button in the in-call info popup for call link calls showing all participants. The action is to remove the participant from the call."
