@@ -2,8 +2,9 @@ import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { QRCode } from 'react-qrcode-logo';
 import styled, { CSSProperties } from 'styled-components';
 import { THEME_GLOBALS } from '../themes/globals';
-import { saveQRCode } from '../util/saveQRCode';
+import { saveBWQRCode } from '../util/saveBWQRCode';
 import { AnimatedFlex } from './basic/Flex';
+import { SessionIconType } from './icon';
 
 // AnimatedFlex because we fade in the QR code a flicker on first render
 const StyledQRView = styled(AnimatedFlex)<{
@@ -15,19 +16,22 @@ const StyledQRView = styled(AnimatedFlex)<{
   ${props => props.size && `width: ${props.size}px; height: ${props.size}px;`}
 `;
 
+export type QRCodeLogoProps = { iconType: SessionIconType; iconSize: number };
+
 export type SessionQRCodeProps = {
   id: string;
   value: string;
   size: number;
-  hasLogo: boolean;
+  hasLogo?: QRCodeLogoProps;
   backgroundColor?: string;
   foregroundColor?: string;
   logoImage?: string;
   logoSize?: number;
-  loading: boolean;
   ariaLabel?: string;
   dataTestId?: string;
   style?: CSSProperties;
+  loading?: boolean;
+  saveWithTheme?: boolean;
 };
 
 export function SessionQRCode(props: SessionQRCodeProps) {
@@ -42,8 +46,9 @@ export function SessionQRCode(props: SessionQRCodeProps) {
     logoSize,
     ariaLabel,
     dataTestId,
-    loading,
     style,
+    loading,
+    saveWithTheme = false,
   } = props;
   const [logo, setLogo] = useState(logoImage);
   const [bgColor, setBgColor] = useState(backgroundColor);
@@ -52,6 +57,26 @@ export function SessionQRCode(props: SessionQRCodeProps) {
   const qrRef = useRef<QRCode>(null);
   const qrCanvasSize = 1000;
   const canvasLogoSize = logoSize ? (qrCanvasSize * 0.25 * logoSize) / logoSize : 250;
+
+  const saveQRCode = async () => {
+    const fileName = `${id}-${new Date().toISOString()}.jpg`;
+    try {
+      if (saveWithTheme) {
+        qrRef.current?.download('jpg', fileName);
+      } else {
+        void saveBWQRCode(fileName, {
+          id: `${id}-save`,
+          value,
+          size,
+          hasLogo,
+          logoImage,
+          logoSize,
+        });
+      }
+    } catch (err) {
+      window.log.error(`QR code save failed! ${fileName}\n${err}`);
+    }
+  };
 
   useEffect(() => {
     // Don't pass the component props to the QR component directly instead update it's props in the next render cycle to prevent janky renders
@@ -83,11 +108,7 @@ export function SessionQRCode(props: SessionQRCodeProps) {
       title={window.i18n('clickToTrustContact')}
       onClick={(event: MouseEvent<HTMLDivElement>) => {
         event.preventDefault();
-        void saveQRCode(id, {
-          ...props,
-          id: `temp-${props.id}`,
-          style: { display: 'none' },
-        });
+        void saveQRCode();
       }}
       data-testId={dataTestId || 'session-qr-code'}
       initial={{ opacity: 0 }}

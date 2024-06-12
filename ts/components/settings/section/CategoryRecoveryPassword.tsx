@@ -12,7 +12,7 @@ import { useHideRecoveryPasswordEnabled } from '../../../state/selectors/setting
 import { useIsDarkTheme } from '../../../state/selectors/theme';
 import { THEME_GLOBALS } from '../../../themes/globals';
 import { getCurrentRecoveryPhrase } from '../../../util/storage';
-import { SessionQRCode } from '../../SessionQRCode';
+import { QRCodeLogoProps, SessionQRCode } from '../../SessionQRCode';
 import { AnimatedFlex } from '../../basic/Flex';
 import { SessionButtonColor } from '../../basic/SessionButton';
 import { SessionHtmlRenderer } from '../../basic/SessionHTMLRenderer';
@@ -46,6 +46,11 @@ const StyledRecoveryPassword = styled(AnimatedFlex)<{ color: string }>`
   color: ${props => props.color};
 `;
 
+const qrLogoProps: QRCodeLogoProps = {
+  iconType: 'shield',
+  iconSize: 56,
+};
+
 export const SettingsCategoryRecoveryPassword = () => {
   const [loadingSeed, setLoadingSeed] = useState(true);
   const [recoveryPhrase, setRecoveryPhrase] = useState('');
@@ -55,10 +60,7 @@ export const SettingsCategoryRecoveryPassword = () => {
   const hideRecoveryPassword = useHideRecoveryPasswordEnabled();
 
   const isDarkTheme = useIsDarkTheme();
-  const { dataURL, iconSize, iconColor, backgroundColor, loading } = useIconToImageURL({
-    iconType: 'shield',
-    iconSize: 56,
-  });
+  const { dataURL, iconSize, iconColor, backgroundColor, loading } = useIconToImageURL(qrLogoProps);
 
   const dispatch = useDispatch();
 
@@ -108,9 +110,9 @@ export const SettingsCategoryRecoveryPassword = () => {
             id={'session-recovery-password'}
             value={hexEncodedSeed}
             size={260}
-            hasLogo={true}
             backgroundColor={backgroundColor}
             foregroundColor={iconColor}
+            hasLogo={qrLogoProps}
             logoImage={dataURL}
             logoSize={iconSize}
             loading={loading}

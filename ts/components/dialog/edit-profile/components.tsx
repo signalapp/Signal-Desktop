@@ -1,25 +1,27 @@
 import styled from 'styled-components';
 import { useIconToImageURL } from '../../../hooks/useIconToImageURL';
-import { SessionQRCode } from '../../SessionQRCode';
+import { QRCodeLogoProps, SessionQRCode } from '../../SessionQRCode';
 import { Avatar, AvatarSize } from '../../avatar/Avatar';
 import { Flex } from '../../basic/Flex';
 import { SpacerSM } from '../../basic/Text';
 import { SessionIconButton } from '../../icon';
 
+const qrLogoProps: QRCodeLogoProps = {
+  iconType: 'brand',
+  iconSize: 40,
+};
+
 export const QRView = ({ sessionID }: { sessionID: string }) => {
-  const { dataURL, iconSize, iconColor, backgroundColor, loading } = useIconToImageURL({
-    iconType: 'brand',
-    iconSize: 40,
-  });
+  const { dataURL, iconSize, iconColor, backgroundColor, loading } = useIconToImageURL(qrLogoProps);
 
   return (
     <SessionQRCode
       id={'session-account-id'}
       value={sessionID}
       size={190}
-      hasLogo={true}
       backgroundColor={backgroundColor}
       foregroundColor={iconColor}
+      hasLogo={qrLogoProps}
       logoImage={dataURL}
       logoSize={iconSize}
       loading={loading}

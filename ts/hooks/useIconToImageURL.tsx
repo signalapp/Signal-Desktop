@@ -7,47 +7,45 @@ import { useIsDarkTheme } from '../state/selectors/theme';
 import { ThemeKeys, getThemeValue } from '../themes/globals';
 
 const chooseIconColors = (
-  isThemed: boolean,
-  isDarkTheme: boolean,
-  darkColor: ThemeKeys,
-  lightColor: ThemeKeys,
-  fallbackColor: ThemeKeys
+  defaultColor: ThemeKeys,
+  darkColor?: ThemeKeys,
+  lightColor?: ThemeKeys,
+  isThemed?: boolean,
+  isDarkTheme?: boolean
 ) => {
-  return getThemeValue(isThemed ? (isDarkTheme ? darkColor : lightColor) : fallbackColor);
+  return getThemeValue(
+    isThemed && darkColor && lightColor ? (isDarkTheme ? darkColor : lightColor) : defaultColor
+  );
 };
 
-const convertIconToImageURL = async (
-  props: { isThemed: boolean; isDarkTheme: boolean } & Pick<
-    SessionIconProps,
-    'iconType' | 'iconSize' | 'iconColor' | 'backgroundColor'
-  >
+export const convertIconToImageURL = async (
+  props: Pick<SessionIconProps, 'iconType' | 'iconSize'> & {
+    isThemed?: boolean;
+    isDarkTheme?: boolean;
+  }
 ): Promise<{ dataUrl: string; bgColor: string; fgColor: string }> => {
   const { isThemed, isDarkTheme, iconType, iconSize } = props;
-  let { iconColor, backgroundColor } = props;
 
-  if (!backgroundColor) {
-    backgroundColor = chooseIconColors(
-      isThemed,
-      isDarkTheme,
-      '--text-primary-color',
-      '--background-primary-color',
-      '--white-color'
-    );
-  }
+  const fgColor = chooseIconColors(
+    '--black-color',
+    '--background-primary-color',
+    '--text-primary-color',
+    isThemed,
+    isDarkTheme
+  );
 
-  if (!iconColor) {
-    iconColor = chooseIconColors(
-      isThemed,
-      isDarkTheme,
-      '--background-primary-color',
-      '--text-primary-color',
-      '--black-color'
-    );
-  }
+  const bgColor = chooseIconColors(
+    '--white-color',
+    '--text-primary-color',
+    '--background-primary-color',
+    isThemed,
+    isDarkTheme
+  );
 
   const root = document.querySelector('#root');
   const divElement = document.createElement('div');
   divElement.id = 'icon-to-image-url';
+  divElement.style.display = 'none';
   root?.appendChild(divElement);
 
   const reactRoot = createRoot(divElement!);
@@ -55,21 +53,23 @@ const convertIconToImageURL = async (
     <SessionIcon
       iconType={iconType}
       iconSize={iconSize}
-      iconColor={iconColor}
-      backgroundColor={backgroundColor}
+      iconColor={fgColor}
+      backgroundColor={bgColor}
     />
   );
   // wait for it to render
   await sleepFor(100);
+
   const svg = root?.querySelector(`#icon-to-image-url svg`);
   svg?.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
   const svgString = svg?.outerHTML;
+
   reactRoot?.unmount();
   root?.removeChild(divElement);
 
   return {
-    bgColor: backgroundColor,
-    fgColor: iconColor,
+    bgColor,
+    fgColor,
     dataUrl: svgString ? `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}` : '',
   };
 };
@@ -101,18 +101,17 @@ export const useIconToImageURL = ({
         bgColor,
         fgColor,
       } = await convertIconToImageURL({
-        isThemed,
-        isDarkTheme,
         iconType,
         iconSize,
-        iconColor,
-        backgroundColor,
+        isThemed,
+        isDarkTheme,
       });
 
       if (!newURL) {
         throw new Error('[useIconToImageURL] Failed to convert icon to URL');
       }
 
+      setInDarkTheme(isDarkTheme);
       setBackgroundColor(bgColor);
       setIconColor(fgColor);
       setDataURL(newURL);
@@ -121,11 +120,10 @@ export const useIconToImageURL = ({
         setMounted(true);
       }
       setLoading(false);
-      setInDarkTheme(!!isThemed && isDarkTheme);
     } catch (error) {
       window.log.error('[useIconToImageURL] Error fetching icon data url', error);
     }
-  }, [backgroundColor, iconColor, iconSize, iconType, isDarkTheme, isThemed, mounted]);
+  }, [iconSize, iconType, isDarkTheme, isThemed, mounted]);
 
   useMount(() => {
     void loadURL();
