@@ -17,6 +17,7 @@ import { getCountryCode } from './types/PhoneNumber';
 export type ConfigKeyType =
   | 'desktop.calling.adhoc'
   | 'desktop.calling.adhoc.create'
+  | 'desktop.calling.raiseHand'
   | 'desktop.clientExpiration'
   | 'desktop.backup.credentialFetch'
   | 'desktop.deleteSync.send'
