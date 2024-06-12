@@ -22,13 +22,11 @@ const convertIconToImageURL = async (
     'iconType' | 'iconSize' | 'iconColor' | 'backgroundColor'
   >
 ): Promise<{ dataUrl: string; bgColor: string; fgColor: string }> => {
-  const { isThemed, isDarkTheme, iconType, iconSize, iconColor, backgroundColor } = props;
+  const { isThemed, isDarkTheme, iconType, iconSize } = props;
+  let { iconColor, backgroundColor } = props;
 
-  let bgColor = backgroundColor;
-  let fgColor = iconColor;
-
-  if (!bgColor) {
-    bgColor = chooseIconColors(
+  if (!backgroundColor) {
+    backgroundColor = chooseIconColors(
       isThemed,
       isDarkTheme,
       '--text-primary-color',
@@ -37,8 +35,8 @@ const convertIconToImageURL = async (
     );
   }
 
-  if (!fgColor) {
-    fgColor = chooseIconColors(
+  if (!iconColor) {
+    iconColor = chooseIconColors(
       isThemed,
       isDarkTheme,
       '--background-primary-color',
@@ -70,8 +68,8 @@ const convertIconToImageURL = async (
   root?.removeChild(divElement);
 
   return {
-    bgColor,
-    fgColor,
+    bgColor: backgroundColor,
+    fgColor: iconColor,
     dataUrl: svgString ? `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}` : '',
   };
 };
