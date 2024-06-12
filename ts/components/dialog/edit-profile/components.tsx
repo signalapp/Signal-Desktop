@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { useIsDarkTheme, useTheme } from '../../../state/selectors/theme';
-import { getThemeValue } from '../../../themes/globals';
+import { useIconToImageURL } from '../../../hooks/useIconToImageURL';
 import { SessionQRCode } from '../../SessionQRCode';
 import { Avatar, AvatarSize } from '../../avatar/Avatar';
 import { Flex } from '../../basic/Flex';
@@ -8,25 +7,22 @@ import { SpacerSM } from '../../basic/Text';
 import { SessionIconButton } from '../../icon';
 
 export const QRView = ({ sessionID }: { sessionID: string }) => {
-  const theme = useTheme();
-  const isDarkTheme = useIsDarkTheme();
+  const { dataURL, iconSize, iconColor, backgroundColor, loading } = useIconToImageURL({
+    iconType: 'brand',
+    iconSize: 40,
+  });
 
   return (
     <SessionQRCode
       id={'session-account-id'}
       value={sessionID}
       size={190}
-      backgroundColor={getThemeValue(
-        isDarkTheme ? '--text-primary-color' : '--background-primary-color'
-      )}
-      foregroundColor={getThemeValue(
-        isDarkTheme ? '--background-primary-color' : '--text-primary-color'
-      )}
-      logoImage={'./images/session/qr/brand.svg'}
-      logoWidth={40}
-      logoHeight={40}
-      logoIsSVG={true}
-      theme={theme}
+      hasLogo={true}
+      backgroundColor={backgroundColor}
+      foregroundColor={iconColor}
+      logoImage={dataURL}
+      logoSize={iconSize}
+      loading={loading}
       ariaLabel={'Account ID QR code'}
       dataTestId={'your-qr-code'}
       style={{ marginTop: '-1px' }}

@@ -3,13 +3,14 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useMount from 'react-use/lib/useMount';
 import styled from 'styled-components';
+import { useIconToImageURL } from '../../../hooks/useIconToImageURL';
 import { usePasswordModal } from '../../../hooks/usePasswordModal';
 import { mnDecode } from '../../../session/crypto/mnemonic';
 import { updateHideRecoveryPasswordModel } from '../../../state/ducks/modalDialog';
 import { showSettingsSection } from '../../../state/ducks/section';
 import { useHideRecoveryPasswordEnabled } from '../../../state/selectors/settings';
-import { useIsDarkTheme, useTheme } from '../../../state/selectors/theme';
-import { THEME_GLOBALS, getThemeValue } from '../../../themes/globals';
+import { useIsDarkTheme } from '../../../state/selectors/theme';
+import { THEME_GLOBALS } from '../../../themes/globals';
 import { getCurrentRecoveryPhrase } from '../../../util/storage';
 import { SessionQRCode } from '../../SessionQRCode';
 import { AnimatedFlex } from '../../basic/Flex';
@@ -53,6 +54,12 @@ export const SettingsCategoryRecoveryPassword = () => {
 
   const hideRecoveryPassword = useHideRecoveryPasswordEnabled();
 
+  const isDarkTheme = useIsDarkTheme();
+  const { dataURL, iconSize, iconColor, backgroundColor, loading } = useIconToImageURL({
+    iconType: 'shield',
+    iconSize: 56,
+  });
+
   const dispatch = useDispatch();
 
   const { hasPassword, passwordValid } = usePasswordModal({
@@ -61,8 +68,6 @@ export const SettingsCategoryRecoveryPassword = () => {
       dispatch(showSettingsSection('privacy'));
     },
   });
-  const theme = useTheme();
-  const isDarkTheme = useIsDarkTheme();
 
   const fetchRecoverPhrase = () => {
     const newRecoveryPhrase = getCurrentRecoveryPhrase();
@@ -103,17 +108,12 @@ export const SettingsCategoryRecoveryPassword = () => {
             id={'session-recovery-password'}
             value={hexEncodedSeed}
             size={260}
-            backgroundColor={getThemeValue(
-              isDarkTheme ? '--text-primary-color' : '--background-primary-color'
-            )}
-            foregroundColor={getThemeValue(
-              isDarkTheme ? '--background-primary-color' : '--text-primary-color'
-            )}
-            logoImage={'./images/session/qr/shield.svg'}
-            logoWidth={56}
-            logoHeight={56}
-            logoIsSVG={true}
-            theme={theme}
+            hasLogo={true}
+            backgroundColor={backgroundColor}
+            foregroundColor={iconColor}
+            logoImage={dataURL}
+            logoSize={iconSize}
+            loading={loading}
             ariaLabel={'Recovery Password QR Code'}
             dataTestId={'session-recovery-password'}
           />
