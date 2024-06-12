@@ -1043,16 +1043,7 @@ message GroupExpirationTimerUpdate {
 message StickerPack {
   bytes packId = 1;
   bytes packKey = 2;
-  string title = 3;
-  string author = 4;
-  repeated StickerPackSticker stickers = 5; // First one should be cover sticker.
 }
-
-message StickerPackSticker {
-  string emoji = 1;
-  uint32 id = 2;
-}
-
 
 message ChatStyle {
   message Gradient {

@@ -26,6 +26,7 @@ import {
 import {
   STICKERPACK_ID_BYTE_LEN,
   STICKERPACK_KEY_BYTE_LEN,
+  downloadStickerPack,
 } from '../../types/Stickers';
 import type {
   ConversationAttributesType,
@@ -386,6 +387,8 @@ export class BackupImportStream extends Writable {
         }
 
         await this.fromChatItem(frame.chatItem, { aboutMe });
+      } else if (frame.stickerPack) {
+        await this.fromStickerPack(frame.stickerPack);
       } else {
         log.warn(`${this.logId}: unsupported frame item ${frame.item}`);
       }
@@ -2310,5 +2313,27 @@ export class BackupImportStream extends Writable {
       default:
         throw new Error('Not implemented');
     }
+  }
+
+  private async fromStickerPack({
+    packId: id,
+    packKey: key,
+  }: Backups.IStickerPack): Promise<void> {
+    strictAssert(
+      id?.length === STICKERPACK_ID_BYTE_LEN,
+      'Sticker pack must have a valid pack id'
+    );
+
+    const logId = `fromStickerPack(${Bytes.toHex(id).slice(-2)})`;
+    strictAssert(
+      key?.length === STICKERPACK_KEY_BYTE_LEN,
+      `${logId}: must have a valid pack key`
+    );
+
+    drop(
+      downloadStickerPack(Bytes.toHex(id), Bytes.toBase64(key), {
+        fromBackup: true,
+      })
+    );
   }
 }

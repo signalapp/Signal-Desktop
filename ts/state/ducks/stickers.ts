@@ -214,7 +214,11 @@ function downloadStickerPack(
 function installStickerPack(
   packId: string,
   packKey: string,
-  options: { fromSync?: boolean; fromStorageService?: boolean } = {}
+  options: {
+    fromSync?: boolean;
+    fromStorageService?: boolean;
+    fromBackup?: boolean;
+  } = {}
 ): InstallStickerPackAction {
   return {
     type: 'stickers/INSTALL_STICKER_PACK',
@@ -224,19 +228,27 @@ function installStickerPack(
 async function doInstallStickerPack(
   packId: string,
   packKey: string,
-  options: { fromSync?: boolean; fromStorageService?: boolean } = {}
+  options: {
+    fromSync?: boolean;
+    fromStorageService?: boolean;
+    fromBackup?: boolean;
+  } = {}
 ): Promise<InstallStickerPackPayloadType> {
-  const { fromSync = false, fromStorageService = false } = options;
+  const {
+    fromSync = false,
+    fromStorageService = false,
+    fromBackup = false,
+  } = options;
 
   const timestamp = Date.now();
   await dataInterface.installStickerPack(packId, timestamp);
 
-  if (!fromSync && !fromStorageService) {
+  if (!fromSync && !fromStorageService && !fromBackup) {
     // Kick this off, but don't wait for it
     void sendStickerPackSync(packId, packKey, true);
   }
 
-  if (!fromStorageService) {
+  if (!fromStorageService && !fromBackup) {
     storageServiceUploadJob();
   }
 
