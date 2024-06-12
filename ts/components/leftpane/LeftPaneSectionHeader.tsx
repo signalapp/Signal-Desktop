@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { clearSearch } from '../../state/ducks/search';
 import {
+  LeftOverlayMode,
   SectionType,
   setLeftOverlayMode,
   showLeftPaneSection,
@@ -79,6 +80,44 @@ const StyledLeftPaneBanner = styled.div`
   border-bottom: 1px solid var(--border-color);
 `;
 
+function getLeftPaneHeaderLabel(
+  leftOverlayMode: LeftOverlayMode | undefined,
+  focusedSection: SectionType
+): string {
+  let label = '';
+
+  switch (leftOverlayMode) {
+    case 'open-group':
+      label = window.i18n('joinOpenGroup');
+      break;
+    case 'closed-group':
+      label = window.i18n('createGroup');
+      break;
+    case 'message':
+      label = window.i18n('newMessage');
+      break;
+    case 'message-requests':
+      label = window.i18n('messageRequests');
+      break;
+    case 'invite-a-friend':
+      label = window.i18n('sessionInviteAFriend');
+      break;
+    case 'choose-action':
+    default:
+      label = window.i18n('messagesHeader');
+  }
+
+  switch (focusedSection) {
+    case SectionType.Settings:
+      label = window.i18n('settingsHeader');
+      break;
+    case SectionType.Message:
+    default:
+  }
+
+  return label;
+}
+
 export const LeftPaneBanner = () => {
   const isDarkTheme = useIsDarkTheme();
   const section = useSelector(getFocusedSection);
@@ -143,42 +182,8 @@ export const LeftPaneSectionHeader = () => {
     dispatch(setLeftOverlayMode('choose-action'));
   };
 
-  let label: string | undefined;
-
+  const label = getLeftPaneHeaderLabel(leftOverlayMode, focusedSection);
   const isMessageSection = focusedSection === SectionType.Message;
-
-  let leftOverlayHeading = '';
-
-  switch (leftOverlayMode) {
-    case 'open-group':
-      leftOverlayHeading = window.i18n('joinOpenGroup');
-      break;
-    case 'closed-group':
-      leftOverlayHeading = window.i18n('createGroup');
-      break;
-    case 'message':
-      leftOverlayHeading = window.i18n('newMessage');
-      break;
-    case 'message-requests':
-      leftOverlayHeading = window.i18n('messageRequests');
-      break;
-    case 'invite-a-friend':
-      leftOverlayHeading = window.i18n('sessionInviteAFriend');
-      break;
-    case 'choose-action':
-    default:
-      leftOverlayHeading = window.i18n('messagesHeader');
-  }
-
-  switch (focusedSection) {
-    case SectionType.Settings:
-      label = window.i18n('settingsHeader');
-      break;
-    case SectionType.Message:
-      label = leftOverlayHeading;
-      break;
-    default:
-  }
 
   return (
     <Flex flexDirection="column">
