@@ -174,7 +174,7 @@
     "messageformat": "Aktibatu/Desaktibatu Garatzaileen Tresnak"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Ireki deietarako garatzaile-tresnak"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Ezarri Gailu Berri Gisa"
@@ -645,10 +645,10 @@
     "messageformat": "Pantaila partekatzen"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Deietarako garatzaile-tresnak"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Leiho hau garapen-fasean erakusten da, abian diren deien diagnostikoak bistaratzeko."
   },
   "icu:speech": {
     "messageformat": "Hizketa"
@@ -2688,7 +2688,13 @@
     "messageformat": "Dei-tonua desaktibatuta"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "Eskua jaso duzu."
+    "messageformat": "You raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-one": {
+    "messageformat": "You and {otherName} raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-more": {
+    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} erabiltzaileak eskua jaso du."
@@ -2779,6 +2785,21 @@
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Kendu pertsona hau deitik"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel": {
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
+    "messageformat": "+{count,number} more"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
+    "messageformat": "More info about new contacts"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
+    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
+    "messageformat": "Got it"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Bideoa"
@@ -3758,6 +3779,9 @@
   "icu:DeleteMessagesModal--description--noteToSelf": {
     "messageformat": "{count, plural, one {Zein gailutatik ezabatu nahi duzu mezu hau?} other {Zein gailutatik ezabatu nahi dituzu mezu hauek?}}"
   },
+  "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
+    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+  },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Ezabatu niretzat"
   },
@@ -3769,6 +3793,9 @@
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Ezabatu gailu guztietatik"
+  },
+  "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
+    "messageformat": "Delete"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Gehienez {count,number} mezu hauta dezakezu guztientzat ezabatzeko} other {Gehienez {count,number} mezu hauta ditzakezu guztientzat ezabatzeko}}"
@@ -4170,7 +4197,7 @@
     "messageformat": "Erabiltzaile-izenak ezin dira zenbaki batez hasi."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Erabiltzaile-izenek gutxienez {min,number} karaktere izan behar dituzte."
+    "messageformat": "Usernames must have at least {min,number} characters."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Erabiltzaile-izenek gehienez {max,number} karaktere izan behar dituzte."
@@ -4720,6 +4747,15 @@
   },
   "icu:SignalConnectionsModal__footer": {
     "messageformat": "Konexioek zure izena eta argazkia ikus ditzakete, bai eta \"Nire istorioa\" ataleko argitalpenak ere, zuk eskuz ezkutatu ezean."
+  },
+  "icu:LocalDeleteWarningModal__header": {
+    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+  },
+  "icu:LocalDeleteWarningModal__description": {
+    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+  },
+  "icu:LocalDeleteWarningModal__confirm": {
+    "messageformat": "Got it"
   },
   "icu:Stories__title": {
     "messageformat": "Istorioak"
@@ -5313,6 +5349,9 @@
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Ez dago honen emaitzarik: \"{query}\""
   },
+  "icu:CallsList__CreateCallLink": {
+    "messageformat": "Create a Call Link"
+  },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Sarrerako"
   },
@@ -5376,6 +5415,24 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Partekatu esteka Signal bidez"
   },
+  "icu:CallLinkEditModal__Title": {
+    "messageformat": "Call link details"
+  },
+  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
+    "messageformat": "Name"
+  },
+  "icu:CallLinkEditModal__JoinButtonLabel": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
+    "messageformat": "Approve all members"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
+    "messageformat": "Off"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
+    "messageformat": "On"
+  },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Beste {count,number} idazten ari da.} other {Beste {count,number} idazten ari dira.}}"
   },
@@ -5416,16 +5473,19 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.11--0": {
-    "messageformat": "Kontaktuen ikurra talde-dei batean parte-hartzaileen zerrendan kontaktuaren izenaren ondoan zanpatzea eragiten zuen errendimendu-errorea konpondu dugu. Ziurrenik zure kontaktuen eta zure arteko harremana oso estua da, baina batzuetan zure kontaktuekiko (eta Signal Desktop erabiltzailearen interfazeekiko) distantzia pixka bat gorde behar duzu."
-  },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "★ Jaso eskua taldeko deietan komunikatzeko beste modu baten bila egin bazara. Eskua jasotzeko eginbide berriaren bidez, taldeko deietan erraz erakarri ahalko duzu norbaiten arreta, galderak egin edo talde-proposamen baten alde modu anonimoan bozkatu, adibides, zure lagunak guztiok ados bazaudete galdetzen duenean."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Halaber, eguneratze honek irudien tamaina aldatzeko mozketa-tresna bat dakar."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Ahots-oharrak bidaltzeko teklatu-lasterbidea aldatu dugu; orain, Ktrl/Cmd + Maius + Y da. Horrela, ez da gatazkarik egongo \"Itsatsi eta bat etorrarazi estiloarekin\" lasterbidearekin Windows-en eta Linux-en."
+  },
+  "icu:WhatsNew__v7.13--0": {
+    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+  },
+  "icu:WhatsNew__v7.13--1": {
+    "messageformat": "This update also improves the display of quoted replies in RTL languages."
   }
 }

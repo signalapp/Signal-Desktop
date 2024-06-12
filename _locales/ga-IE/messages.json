@@ -174,7 +174,7 @@
     "messageformat": "Scoránaigh Uirlisí Forbróirí"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Oscail Uirlisí Forbróra um Ghlaoch"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Socraigh mar Ghléas Nua"
@@ -645,10 +645,10 @@
     "messageformat": "Comhroinnt scáileáin"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Uirlisí Forbróra um Ghlaoch"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Úsáidtear an fhuinneog seo le linn na forbartha chun diagnóisic ó ghlaonna leanúnacha a thaispeáint."
   },
   "icu:speech": {
     "messageformat": "Labhairt"
@@ -2688,7 +2688,13 @@
     "messageformat": "Glaoch as"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "Tá do lámh ardaithe."
+    "messageformat": "You raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-one": {
+    "messageformat": "You and {otherName} raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-more": {
+    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "D'ardaigh {name} lámh."
@@ -2779,6 +2785,21 @@
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Bain an duine seo den ghlao"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel": {
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
+    "messageformat": "+{count,number} more"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
+    "messageformat": "More info about new contacts"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
+    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
+    "messageformat": "Got it"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Físeán"
@@ -3758,6 +3779,9 @@
   "icu:DeleteMessagesModal--description--noteToSelf": {
     "messageformat": "{count, plural, one {Cé acu gléasanna ar mhaith leat an teachtaireacht seo a scriosadh uathu?} two {Cé acu gléasanna ar mhaith leat na teachtaireachtaí seo a scriosadh uathu?} few {Cé acu gléasanna ar mhaith leat na teachtaireachtaí seo a scriosadh uathu?} many {Cé acu gléasanna ar mhaith leat na teachtaireachtaí seo a scriosadh uathu?} other {Cé acu gléasanna ar mhaith leat na teachtaireachtaí seo a scriosadh uathu?}}"
   },
+  "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
+    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+  },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Scrios domsa"
   },
@@ -3769,6 +3793,9 @@
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Scrios ó na gléasanna uile"
+  },
+  "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
+    "messageformat": "Delete"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Ní féidir leat ach {count,number} teachtaireacht a roghnú lena scriosadh do chách} two {Ní féidir leat ach {count,number} theachtaireacht a roghnú lena scriosadh do chách} few {Ní féidir leat ach {count,number} theachtaireacht a roghnú lena scriosadh do chách} many {Ní féidir leat ach {count,number} dteachtaireacht a roghnú lena scriosadh do chách} other {Ní féidir leat ach {count,number} teachtaireacht a roghnú lena scriosadh do chách}}"
@@ -4170,7 +4197,7 @@
     "messageformat": "Ní cheadaítear uimhir ag tús ainm úsáideora."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Ní mór go mbeidh an líon seo carachtar ar a laghad in ainmneacha úsáideora: {min,number}."
+    "messageformat": "Usernames must have at least {min,number} characters."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Ní mór go mbeidh an líon seo carachtar ar a mhó in ainmneacha úsáideora: {max,number}."
@@ -4720,6 +4747,15 @@
   },
   "icu:SignalConnectionsModal__footer": {
     "messageformat": "Is féidir le do theagmhálaithe d'ainm agus do ghrianghraf, agus postálacha \"Mo Scéal\", a fheiceáil, mura gcuireann tú na rudaí sin i bhfolach orthu"
+  },
+  "icu:LocalDeleteWarningModal__header": {
+    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+  },
+  "icu:LocalDeleteWarningModal__description": {
+    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+  },
+  "icu:LocalDeleteWarningModal__confirm": {
+    "messageformat": "Got it"
   },
   "icu:Stories__title": {
     "messageformat": "Scéalta"
@@ -5313,6 +5349,9 @@
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Níl aon torthaí ar “{query}”"
   },
+  "icu:CallsList__CreateCallLink": {
+    "messageformat": "Create a Call Link"
+  },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Isteach"
   },
@@ -5376,6 +5415,24 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Comhroinn nasc trí Signal"
   },
+  "icu:CallLinkEditModal__Title": {
+    "messageformat": "Call link details"
+  },
+  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
+    "messageformat": "Name"
+  },
+  "icu:CallLinkEditModal__JoinButtonLabel": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
+    "messageformat": "Approve all members"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
+    "messageformat": "Off"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
+    "messageformat": "On"
+  },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Tá {count,number} duine eile ag clóscríobh.} two {Tá {count,number} dhuine eile ag clóscríobh.} few {Tá {count,number} dhuine eile ag clóscríobh.} many {Tá {count,number} nduine eile ag clóscríobh.} other {Tá {count,number} duine eile ag clóscríobh.}}"
   },
@@ -5416,16 +5473,19 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.11--0": {
-    "messageformat": "Réitíonn an nuashonrú seo fabht rindreála i gcomhéadan úsáideora an ghrúpghlao."
-  },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Bealach simplí is ea an ghné nua \"Ardaigh Lámh\" chun aird duine a tharraingt nó ceist a chur le linn grúpghlaonna."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Áirítear sa nuashonrú seo freisin uirlis bhearrtha nua chun méid íomhánna a athrú."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Rinneamar aicearra an mhéarchláir chun guthnóta a sheoladh, a mhionathrú chuig Ctrl/Cmd+Shift+Y ionas nach mbeidh coimhlint ann níos mó leis an aicearra \"Greamaigh agus Meaitseáil Stíl\" ar Windows agus Linux."
+  },
+  "icu:WhatsNew__v7.13--0": {
+    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+  },
+  "icu:WhatsNew__v7.13--1": {
+    "messageformat": "This update also improves the display of quoted replies in RTL languages."
   }
 }

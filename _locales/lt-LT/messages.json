@@ -174,7 +174,7 @@
     "messageformat": "Perjungti kūrėjo įrankius"
   },
   "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools"
+    "messageformat": "Atverti kūrėjo įrankius skambučiams"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Nusistatyti kaip naują įrenginį"
@@ -645,10 +645,10 @@
     "messageformat": "Ekrano bendrinimas"
   },
   "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
+    "messageformat": "Kūrėjo įrankiai skambučiams"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls."
+    "messageformat": "Šis langas naudojamas kuriant programinę įrangą, kad būtų rodoma vykstančių skambučių diagnostika."
   },
   "icu:speech": {
     "messageformat": "Šneka"
@@ -2688,7 +2688,13 @@
     "messageformat": "Skambėjimas išjungtas"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "Jūsų ranka pakelta."
+    "messageformat": "You raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-one": {
+    "messageformat": "You and {otherName} raised a hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-more": {
+    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} pakėlė ranką."
@@ -2779,6 +2785,21 @@
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Pašalinti šį asmenį iš skambučio"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel": {
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
+    "messageformat": "+{count,number} more"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
+    "messageformat": "More info about new contacts"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
+    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
+    "messageformat": "Got it"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Vaizdo įrašas"
@@ -3758,6 +3779,9 @@
   "icu:DeleteMessagesModal--description--noteToSelf": {
     "messageformat": "{count, plural, one {Iš kokių įrenginių norėtum ištrinti šią žinutę?} few {Iš kokių įrenginių norėtum ištrinti šias žinutes?} many {Iš kokių įrenginių norėtum ištrinti šias žinutes?} other {Iš kokių įrenginių norėtum ištrinti šias žinutes?}}"
   },
+  "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
+    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+  },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Ištrinti man"
   },
@@ -3769,6 +3793,9 @@
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Ištrinti iš visų įrenginių"
+  },
+  "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
+    "messageformat": "Delete"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Gali pasirinkti ištrinti visiems ne daugiau kaip {count,number} žinutę} few {Gali pasirinkti ištrinti visiems ne daugiau kaip {count,number} žinutes} many {Gali pasirinkti ištrinti visiems ne daugiau kaip {count,number} žinutės} other {Gali pasirinkti ištrinti visiems ne daugiau kaip {count,number} žinučių}}"
@@ -4170,7 +4197,7 @@
     "messageformat": "Naudotojo vardai negali prasidėti skaitmenimi."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Naudotojo varduose privalo turi bent {min,number} simboliai."
+    "messageformat": "Usernames must have at least {min,number} characters."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Naudotojo varduose privalo būti ne daugiau kaip {max,number} simboliai."
@@ -4720,6 +4747,15 @@
   },
   "icu:SignalConnectionsModal__footer": {
     "messageformat": "Tavo kontaktai mato tavo vardą ir nuotrauką, ir gali matyti „Mano istorijos“ įrašus, nebent nuo jų paslėpsi"
+  },
+  "icu:LocalDeleteWarningModal__header": {
+    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+  },
+  "icu:LocalDeleteWarningModal__description": {
+    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+  },
+  "icu:LocalDeleteWarningModal__confirm": {
+    "messageformat": "Got it"
   },
   "icu:Stories__title": {
     "messageformat": "Istorijos"
@@ -5313,6 +5349,9 @@
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Paieška „{query}“ be rezultatų"
   },
+  "icu:CallsList__CreateCallLink": {
+    "messageformat": "Create a Call Link"
+  },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Gaunamasis"
   },
@@ -5376,6 +5415,24 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Bendrinti nuorodą per „Signal“"
   },
+  "icu:CallLinkEditModal__Title": {
+    "messageformat": "Call link details"
+  },
+  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
+    "messageformat": "Name"
+  },
+  "icu:CallLinkEditModal__JoinButtonLabel": {
+    "messageformat": "Join"
+  },
+  "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
+    "messageformat": "Approve all members"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
+    "messageformat": "Off"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
+    "messageformat": "On"
+  },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} žmogus rašo.} few {{count,number} žmonės rašo.} many {{count,number} žmonių rašo.} other {{count,number} žmonių rašo.}}"
   },
@@ -5416,16 +5473,19 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.11--0": {
-    "messageformat": "Šiuo naujiniu ištaisėme atvaizdavimo klaidą grupės skambučio naudotojo sąsajoje."
-  },
   "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\""
+    "messageformat": "Naujoji funkcija „Pakelti ranką“ – tai paprastas būdas atkreipti kieno nors dėmesį arba užduoti klausimą grupės skambutyje."
   },
   "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture."
+    "messageformat": "Be to, šis atnaujinimas pasižymi patobulintu apkarpymo įrankiu, skirtu pakeisti paveikslo dydį."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux."
+    "messageformat": "Pakeitėme balso pastabos siuntimo spartųjį klavišą į Ctrl/Cmd+Shift+Y, kad nekiltų konfliktas su sparčiuoju klavišu „Įdėti ir atitikti stilių“ sistemose „Windows“ ir „Linux“."
+  },
+  "icu:WhatsNew__v7.13--0": {
+    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+  },
+  "icu:WhatsNew__v7.13--1": {
+    "messageformat": "This update also improves the display of quoted replies in RTL languages."
   }
 }
