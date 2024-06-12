@@ -1,13 +1,13 @@
 import { isEmpty } from 'lodash';
 import { RefObject, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 
 import { Dispatch } from '@reduxjs/toolkit';
 import { SyncUtils, UserUtils } from '../../../session/utils';
 import { YourSessionIDPill, YourSessionIDSelectable } from '../../basic/YourSessionIDPill';
 
+import { useHotkey } from '../../../hooks/useHotkey';
 import { useOurAvatarPath, useOurConversationUsername } from '../../../hooks/useParamSelector';
 import { ConversationTypeEnum } from '../../../models/conversationAttributes';
 import { getConversationController } from '../../../session/conversations';
@@ -65,36 +65,34 @@ const handleKeyEditMode = (
   }
 };
 
-const handleKeyCancel =
-  (
-    mode: ProfileDialogModes,
-    setMode: (mode: ProfileDialogModes) => void,
-    inputRef: RefObject<HTMLInputElement>,
-    updatedProfileName: string,
-    setProfileName: (name: string) => void,
-    setProfileNameError: (error: string | undefined) => void,
-    loading: boolean
-  ) =>
-  () => {
-    if (loading) {
-      return;
-    }
-    switch (mode) {
-      case 'edit':
-      case 'qr':
-        if (inputRef.current !== null && document.activeElement === inputRef.current) {
-          return;
-        }
-        setMode('default');
-        if (mode === 'edit') {
-          setProfileNameError(undefined);
-          setProfileName(updatedProfileName);
-        }
-        break;
-      case 'default':
-      default:
-    }
-  };
+const handleKeyCancel = (
+  mode: ProfileDialogModes,
+  setMode: (mode: ProfileDialogModes) => void,
+  inputRef: RefObject<HTMLInputElement>,
+  updatedProfileName: string,
+  setProfileName: (name: string) => void,
+  setProfileNameError: (error: string | undefined) => void,
+  loading: boolean
+) => {
+  if (loading) {
+    return;
+  }
+  switch (mode) {
+    case 'edit':
+    case 'qr':
+      if (inputRef.current !== null && document.activeElement === inputRef.current) {
+        return;
+      }
+      setMode('default');
+      if (mode === 'edit') {
+        setProfileNameError(undefined);
+        setProfileName(updatedProfileName);
+      }
+      break;
+    case 'default':
+    default:
+  }
+};
 
 const handleKeyEscape = (
   mode: ProfileDialogModes,
@@ -249,50 +247,35 @@ export const EditProfileDialog = () => {
     );
   };
 
-  useKey(
-    (event: KeyboardEvent) => {
-      return (
-        event.key === 'v' ||
-        event.key === 'Enter' ||
-        event.key === 'Backspace' ||
-        event.key === 'Esc' ||
-        event.key === 'Escape'
-      );
-    },
-    (event: KeyboardEvent) => {
-      switch (event.key) {
-        case 'v':
-          handleKeyQRMode(mode, setMode, loading);
-          break;
-        case 'Enter':
-          handleKeyEditMode(mode, setMode, onClickOK, loading);
-          break;
-        case 'Backspace':
-          handleKeyCancel(
-            mode,
-            setMode,
-            inputRef,
-            updatedProfileName,
-            setProfileName,
-            setProfileNameError,
-            loading
-          );
-          break;
-        case 'Esc':
-        case 'Escape':
-          handleKeyEscape(
-            mode,
-            setMode,
-            updatedProfileName,
-            setProfileName,
-            setProfileNameError,
-            loading,
-            dispatch
-          );
-          break;
-        default:
-      }
-    }
+  useHotkey('v', () => handleKeyQRMode(mode, setMode, loading), loading);
+  useHotkey('Enter', () => handleKeyEditMode(mode, setMode, onClickOK, loading), loading);
+  useHotkey(
+    'Backspace',
+    () =>
+      handleKeyCancel(
+        mode,
+        setMode,
+        inputRef,
+        updatedProfileName,
+        setProfileName,
+        setProfileNameError,
+        loading
+      ),
+    loading
+  );
+  useHotkey(
+    'Escape',
+    () =>
+      handleKeyEscape(
+        mode,
+        setMode,
+        updatedProfileName,
+        setProfileName,
+        setProfileNameError,
+        loading,
+        dispatch
+      ),
+    loading
   );
 
   return (

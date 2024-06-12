@@ -2,7 +2,6 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { useRef } from 'react';
-import useKey from 'react-use/lib/useKey';
 import useMount from 'react-use/lib/useMount';
 import { ToastUtils } from '../../session/utils';
 import { matchesHash } from '../../util/passwordUtils';
@@ -10,6 +9,7 @@ import { matchesHash } from '../../util/passwordUtils';
 import { updateEnterPasswordModal } from '../../state/ducks/modalDialog';
 import { SpacerSM } from '../basic/Text';
 
+import { useHotkey } from '../../hooks/useHotkey';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 
@@ -65,16 +65,11 @@ export const EnterPasswordModal = (props: EnterPasswordModalProps) => {
     }
   });
 
-  useKey(
-    (event: KeyboardEvent) => event.key === 'Enter',
-    (event: KeyboardEvent) => {
-      if (event.key === 'Enter') {
-        if (event.target === passwordInputRef.current) {
-          confirmPassword();
-        }
-      }
+  useHotkey('Enter', (event: KeyboardEvent) => {
+    if (event.target === passwordInputRef.current) {
+      confirmPassword();
     }
-  );
+  });
 
   return (
     <SessionWrapperModal

@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import useCopyToClipboard from 'react-use/lib/useCopyToClipboard';
-import useKey from 'react-use/lib/useKey';
+import { useHotkey } from '../../hooks/useHotkey';
 import { ToastUtils } from '../../session/utils';
 import { SessionButton, SessionButtonProps } from '../basic/SessionButton';
 import { SessionIconButton } from '../icon';
@@ -30,17 +30,7 @@ export const CopyToClipboardButton = (props: CopyToClipboardButtonProps) => {
     }
   };
 
-  useKey(
-    (event: KeyboardEvent) => {
-      return event.key === 'c';
-    },
-    () => {
-      if (!hotkey) {
-        return;
-      }
-      onClick();
-    }
-  );
+  useHotkey('c', onClick, !hotkey);
 
   return (
     <SessionButton
@@ -73,17 +63,7 @@ export const CopyToClipboardIcon = (props: CopyToClipboardIconProps) => {
     }
   };
 
-  useKey(
-    (event: KeyboardEvent) => {
-      return event.key === 'c';
-    },
-    () => {
-      if (!hotkey) {
-        return;
-      }
-      onClick();
-    }
-  );
+  useHotkey('c', onClick, !hotkey);
 
   return (
     <SessionIconButton
