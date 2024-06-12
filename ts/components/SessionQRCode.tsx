@@ -1,9 +1,19 @@
 import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { QRCode } from 'react-qrcode-logo';
-import { CSSProperties } from 'styled-components';
-import { COLORS } from '../themes/constants/colors';
+import styled, { CSSProperties } from 'styled-components';
+import { THEME_GLOBALS } from '../themes/globals';
 import { saveQRCode } from '../util/saveQRCode';
-import { Flex } from './basic/Flex';
+import { AnimatedFlex } from './basic/Flex';
+
+// AnimatedFlex because we fade in the QR code a flicker on first render
+const StyledQRView = styled(AnimatedFlex)<{
+  size: number;
+}>`
+  cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
+  ${props => props.size && `width: ${props.size}px; height: ${props.size}px;`}
+`;
 
 export type SessionQRCodeProps = {
   id: string;
@@ -25,8 +35,8 @@ export function SessionQRCode(props: SessionQRCodeProps) {
     id,
     value,
     size,
-    backgroundColor = COLORS.WHITE,
-    foregroundColor = COLORS.BLACK,
+    backgroundColor,
+    foregroundColor,
     hasLogo,
     logoImage,
     logoSize,
@@ -45,32 +55,32 @@ export function SessionQRCode(props: SessionQRCodeProps) {
 
   useEffect(() => {
     // Don't pass the component props to the QR component directly instead update it's props in the next render cycle to prevent janky renders
-    if (!loading && hasLogo && logo !== logoImage) {
+    if (loading) {
+      return;
+    }
+
+    if (bgColor !== backgroundColor) {
       setBgColor(backgroundColor);
+    }
+
+    if (fgColor !== foregroundColor) {
       setFgColor(foregroundColor);
+    }
+
+    if (hasLogo && logo !== logoImage) {
       setLogo(logoImage);
     }
-  }, [backgroundColor, foregroundColor, hasLogo, loading, logo, logoImage]);
+  }, [backgroundColor, bgColor, fgColor, foregroundColor, hasLogo, loading, logo, logoImage]);
 
   return (
-    <Flex
+    <StyledQRView
       container={true}
       justifyContent="center"
       alignItems="center"
-      width={`${size}px`}
-      height={`${size}px`}
+      size={size}
       id={id}
       aria-label={ariaLabel || 'QR code'}
       title={window.i18n('clickToTrustContact')}
-      // onClick={(event: MouseEvent<HTMLDivElement>) => {
-      //   event.preventDefault();
-      //   const fileName = `${id}-${new Date().toISOString()}.png`;
-      //   try {
-      //     qrRef.current?.download('png', fileName);
-      //   } catch (e) {
-      //     window.log.error(`Error downloading QR code: ${fileName}\n${e}`);
-      //   }
-      // }}
       onClick={(event: MouseEvent<HTMLDivElement>) => {
         event.preventDefault();
         void saveQRCode(id, {
@@ -80,6 +90,9 @@ export function SessionQRCode(props: SessionQRCodeProps) {
         });
       }}
       data-testId={dataTestId || 'session-qr-code'}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: loading ? 0 : 1 }}
+      transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
       style={style}
     >
       <QRCode
@@ -96,13 +109,10 @@ export function SessionQRCode(props: SessionQRCodeProps) {
         logoHeight={canvasLogoSize}
         removeQrCodeBehindLogo={true}
         style={{
-          borderRadius: '10px',
-          cursor: 'pointer',
-          overflow: 'hidden',
           width: size,
           height: size,
         }}
       />
-    </Flex>
+    </StyledQRView>
   );
 }
