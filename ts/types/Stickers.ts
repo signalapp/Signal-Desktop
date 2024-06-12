@@ -552,6 +552,7 @@ export type DownloadStickerPackOptions = Readonly<{
   messageId?: string;
   fromSync?: boolean;
   fromStorageService?: boolean;
+  fromBackup?: boolean;
   finalStatus?: StickerPackStatusType;
   suppressError?: boolean;
 }>;
@@ -582,6 +583,7 @@ async function doDownloadStickerPack(
     messageId,
     fromSync = false,
     fromStorageService = false,
+    fromBackup = false,
     suppressError = false,
   }: DownloadStickerPackOptions
 ): Promise<void> {
@@ -703,7 +705,7 @@ async function doDownloadStickerPack(
       status: 'pending',
       createdAt: Date.now(),
       stickers: {},
-      storageNeedsSync: !fromStorageService,
+      storageNeedsSync: !fromStorageService && !fromBackup,
       title: proto.title ?? '',
       author: proto.author ?? '',
     };
@@ -788,6 +790,7 @@ async function doDownloadStickerPack(
       await installStickerPack(packId, packKey, {
         fromSync,
         fromStorageService,
+        fromBackup,
       });
     } else {
       // Mark the pack as complete

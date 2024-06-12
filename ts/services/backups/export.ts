@@ -212,6 +212,7 @@ export class BackupExportStream extends Readable {
       distributionLists: 0,
       messages: 0,
       skippedMessages: 0,
+      stickerPacks: 0,
     };
 
     for (const { attributes } of window.ConversationController.getAll()) {
@@ -282,6 +283,21 @@ export class BackupExportStream extends Readable {
       // eslint-disable-next-line no-await-in-loop
       await this.flush();
       stats.distributionLists += 1;
+    }
+
+    const stickerPacks = await Data.getInstalledStickerPacks();
+
+    for (const { id, key } of stickerPacks) {
+      this.pushFrame({
+        stickerPack: {
+          packId: Bytes.fromHex(id),
+          packKey: Bytes.fromBase64(key),
+        },
+      });
+
+      // eslint-disable-next-line no-await-in-loop
+      await this.flush();
+      stats.stickerPacks += 1;
     }
 
     const pinnedConversationIds =
