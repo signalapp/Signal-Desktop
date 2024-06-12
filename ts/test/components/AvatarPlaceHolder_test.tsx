@@ -1,4 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
+import { cleanup, waitFor } from '@testing-library/react';
 import chai, { expect } from 'chai';
 import chaiDom from 'chai-dom';
 import Sinon from 'sinon';
@@ -7,7 +8,7 @@ import { AvatarPlaceHolder } from '../../components/avatar/AvatarPlaceHolder/Ava
 import { MemberAvatarPlaceHolder } from '../../components/icon/MemberAvatarPlaceHolder';
 import { COLORS } from '../../themes/constants/colors';
 import { TestUtils } from '../test-utils';
-import { cleanup, renderComponent, waitFor } from './renderComponent';
+import { renderComponent } from './renderComponent';
 
 chai.use(chaiDom);
 

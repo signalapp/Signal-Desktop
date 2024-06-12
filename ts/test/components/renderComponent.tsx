@@ -15,5 +15,4 @@ const Providers = ({ children }: { children: ReactNode }) => {
 const renderComponent = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
   render(ui, { wrapper: Providers, ...options });
 
-export * from '@testing-library/react';
 export { renderComponent };
