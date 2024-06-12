@@ -106,6 +106,7 @@ export type PropsType = {
   denyUser: (payload: PendingUserActionPayloadType) => void;
   hasInitialLoadCompleted: boolean;
   i18n: LocalizerType;
+  isGroupCallRaiseHandEnabled: boolean;
   me: ConversationType;
   notifyForCall: (
     conversationId: string,
@@ -165,6 +166,7 @@ function ActiveCallManager({
   denyUser,
   hangUpActiveCall,
   i18n,
+  isGroupCallRaiseHandEnabled,
   getGroupCallVideoFrameSource,
   getPresentingSources,
   me,
@@ -427,6 +429,7 @@ function ActiveCallManager({
         i18n={i18n}
         imageDataCache={imageDataCache}
         isCallLinkAdmin={isCallLinkAdmin}
+        isGroupCallRaiseHandEnabled={isGroupCallRaiseHandEnabled}
         me={me}
         openSystemPreferencesAction={openSystemPreferencesAction}
         renderEmojiPicker={renderEmojiPicker}
@@ -501,6 +504,7 @@ export function CallManager({
   i18n,
   incomingCall,
   isConversationTooBigToRing,
+  isGroupCallRaiseHandEnabled,
   me,
   notifyForCall,
   openSystemPreferencesAction,
@@ -589,6 +593,7 @@ export function CallManager({
           getPresentingSources={getPresentingSources}
           hangUpActiveCall={hangUpActiveCall}
           i18n={i18n}
+          isGroupCallRaiseHandEnabled={isGroupCallRaiseHandEnabled}
           me={me}
           openSystemPreferencesAction={openSystemPreferencesAction}
           pauseVoiceNotePlayer={pauseVoiceNotePlayer}
