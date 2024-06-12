@@ -9,7 +9,7 @@
     "messageformat": "Añadir"
   },
   "icu:AddUserToAnotherGroupModal__confirm-message": {
-    "messageformat": "Añadir a \"{contact}\" al grupo \"{group}\""
+    "messageformat": "Añadir a «{contact}» al grupo «{group}»"
   },
   "icu:AddUserToAnotherGroupModal__search-placeholder": {
     "messageformat": "Buscar"
@@ -33,7 +33,7 @@
     "messageformat": "Ya participa en el grupo"
   },
   "icu:GroupListItem__message-pending": {
-    "messageformat": "Membresía pendiente"
+    "messageformat": "Aceptación de nuevo participante pendiente"
   },
   "icu:Preferences__sent-media-quality": {
     "messageformat": "Calidad de envío de archivos multimedia"
@@ -48,7 +48,7 @@
     "messageformat": "Agradecimientos del software usado"
   },
   "icu:privacyPolicy": {
-    "messageformat": "Términos y política de privacidad"
+    "messageformat": "Términos y Política de privacidad"
   },
   "icu:appleSilicon": {
     "messageformat": "Apple Silicon"
@@ -63,7 +63,7 @@
     "messageformat": "Grupo desconocido"
   },
   "icu:databaseError": {
-    "messageformat": "Error en la base de datos"
+    "messageformat": "Fallo en la base de datos"
   },
   "icu:databaseError__detail": {
     "messageformat": "Se produjo un error en la base de datos. Puedes copiar el error y ponerte en contacto con el soporte de Signal para ayudar a solucionar el problema. Si necesitas utilizar Signal de inmediato, puedes eliminar tus datos y reiniciar.\n\nPonte en contacto con el servicio de soporte: {link}"
@@ -204,7 +204,7 @@
     "messageformat": "Optimizando aplicación..."
   },
   "icu:migratingToSQLCipher": {
-    "messageformat": "Optimizando mensajes... {status} completados."
+    "messageformat": "Optimizando mensajes… {status} completados."
   },
   "icu:archivedConversations": {
     "messageformat": "Chats archivados"
@@ -324,7 +324,7 @@
     "messageformat": "Administrar Contactos"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Mensaje"
+    "messageformat": "Enviar mensaje"
   },
   "icu:ContactListItem__menu__audio-call": {
     "messageformat": "Llamada de voz"
@@ -462,19 +462,19 @@
     "messageformat": "Unirme de todos modos"
   },
   "icu:debugLogExplanation": {
-    "messageformat": "Cuando haces clic en Enviar, tu registro se publicará durante 30 días en una URL única y privada. Lo podrás guardar en tu dispositivo como primera opción."
+    "messageformat": "Si haces clic en Enviar, tu registro se publicará durante 30 días en una URL única y privada. Lo podrás guardar en tu dispositivo como primera opción."
   },
   "icu:debugLogError": {
-    "messageformat": "Ha ocurrido un fallo con la transferencia. Por favor, escribe un correo a support@signal.org incluyendo el registro de depuración como archivo de texto."
+    "messageformat": "No se ha podido completar la carga. Envía el registro de depuración en un archivo de texto a support@signal.org."
   },
   "icu:debugLogSuccess": {
     "messageformat": "Registro de depuración enviado"
   },
   "icu:debugLogSuccessNextSteps": {
-    "messageformat": "Registro de depuración transferido. Cuando contactes con el soporte, copia la URL debajo y adjúntala con una descripción del problema que has tenido y los pasos para reproducirlo."
+    "messageformat": "Se ha completado la carga del registro de depuración. Cuando contactes con el servicio de soporte, copia la URL debajo y envíala junto con una descripción del problema que has tenido y los pasos para reproducirlo."
   },
   "icu:debugLogLogIsIncomplete": {
-    "messageformat": "… para ver el registro de depuración completo, haz clic en guardar"
+    "messageformat": "… para ver el registro de depuración completo, haz clic en Guardar"
   },
   "icu:debugLogCopy": {
     "messageformat": "Copiar enlace"
@@ -486,7 +486,7 @@
     "messageformat": "Enlace copiado al portapapeles"
   },
   "icu:reportIssue": {
-    "messageformat": "Contactar con el soporte técnico"
+    "messageformat": "Contactar con el servicio de soporte"
   },
   "icu:submit": {
     "messageformat": "Enviar"
@@ -519,13 +519,13 @@
     "messageformat": "Fallo al procesar el mensaje recibido"
   },
   "icu:media": {
-    "messageformat": "Archivos adjuntos"
+    "messageformat": "Archivos multimedia"
   },
   "icu:mediaEmptyState": {
     "messageformat": "No hay ningún archivo multimedia en este chat"
   },
   "icu:allMedia": {
-    "messageformat": "Archivos adjuntos"
+    "messageformat": "Todos los archivos multimedia"
   },
   "icu:documents": {
     "messageformat": "Documentos"
@@ -555,10 +555,10 @@
     "messageformat": "Tipo de archivo adjunto no permitido por razones se seguridad"
   },
   "icu:loadingPreview": {
-    "messageformat": "Cargando vista previa…"
+    "messageformat": "Cargando vista previa..."
   },
   "icu:stagedPreviewThumbnail": {
-    "messageformat": "Preparando miniatura de vista previa de enlace para {domain}"
+    "messageformat": "Preparando miniatura de vista previa del enlace para {domain}"
   },
   "icu:previewThumbnail": {
     "messageformat": "Miniatura de vista previa para {domain}"
@@ -567,19 +567,19 @@
     "messageformat": "Imagen adjunta preliminar: {path}"
   },
   "icu:decryptionErrorToast": {
-    "messageformat": "Fallo encontrado al descifrar un mensaje de {name}, dispositivo {deviceId}"
+    "messageformat": "Ha ocurrido un fallo al descifrar un mensaje de {name} en el dispositivo {deviceId}"
   },
   "icu:decryptionErrorToastAction": {
-    "messageformat": "Enviar el registro de depuración"
+    "messageformat": "Enviar registro"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
-    "messageformat": "No puedes seleccionar fotos y videos junto a archivos."
+    "messageformat": "No se puede seleccionar fotos y vídeos junto con archivos."
   },
   "icu:cannotSelectMultipleFileAttachments": {
-    "messageformat": "Solo puede seleccionar un archivo a la vez."
+    "messageformat": "Se puede seleccionar solo un archivo a la vez."
   },
   "icu:maximumAttachments": {
-    "messageformat": "No se pueden adjuntar más archivos a este mensaje."
+    "messageformat": "No se puede adjuntar más archivos a este mensaje."
   },
   "icu:fileSizeWarning": {
     "messageformat": "Lo sentimos, el archivo seleccionado excede las restricciones de tamaño. {limit,number} {units}"
@@ -591,16 +591,16 @@
     "messageformat": "Desconectado"
   },
   "icu:connecting": {
-    "messageformat": "Conectando…"
+    "messageformat": "Conectando..."
   },
   "icu:connect": {
     "messageformat": "Haz clic para volver a conectar."
   },
   "icu:connectingHangOn": {
-    "messageformat": "No tomará mucho tiempo"
+    "messageformat": "No llevará mucho tiempo"
   },
   "icu:offline": {
-    "messageformat": "Desconectado"
+    "messageformat": "Sin conexión"
   },
   "icu:checkNetworkConnection": {
     "messageformat": "Comprueba la conexión de red."
@@ -618,7 +618,7 @@
     "messageformat": "Mostrar atajos de teclado"
   },
   "icu:contactUs": {
-    "messageformat": "Contáctanos"
+    "messageformat": "Contacta con nosotros"
   },
   "icu:goToReleaseNotes": {
     "messageformat": "Ir a las notas de versión"
@@ -1155,7 +1155,7 @@
     "messageformat": "¡Algo ha salido mal!"
   },
   "icu:installUnknownError": {
-    "messageformat": "Ha ocurrido un fallo inesperado. Por favor, inténtalo de nuevo."
+    "messageformat": "Ha ocurrido un fallo inesperado. Inténtalo de nuevo."
   },
   "icu:installTryAgain": {
     "messageformat": "Inténtalo de nuevo"
@@ -1518,7 +1518,7 @@
     "messageformat": "Eliminado parcialmente, haz clic para intentarlo de nuevo"
   },
   "icu:expiredWarning": {
-    "messageformat": "Esta versión de Signal Desktop ha caducado. Por favor, actualiza a la última versión para seguir enviando mensajes."
+    "messageformat": "Esta versión de Signal Desktop ha caducado. Actualiza a la última versión para seguir enviando mensajes."
   },
   "icu:upgrade": {
     "messageformat": "Haz clic para abrir signal.org/download"
@@ -1692,7 +1692,7 @@
     "messageformat": "Se ha eliminado a {title}."
   },
   "icu:Toast--error": {
-    "messageformat": "Un error ha ocurrido"
+    "messageformat": "Se ha producido un fallo"
   },
   "icu:Toast--error--action": {
     "messageformat": "Enviar el registro de depuración"
@@ -2832,7 +2832,7 @@
     "messageformat": "¡Algo ha salido mal!"
   },
   "icu:ErrorModal--description": {
-    "messageformat": "Por favor, inténtalo de nuevo o contacta con nuestro soporte."
+    "messageformat": "Inténtalo de nuevo o contacta con nuestro servicio de soporte."
   },
   "icu:Confirmation--confirm": {
     "messageformat": "De acuerdo"
@@ -3939,7 +3939,7 @@
     "messageformat": "Verificar para continuar chateando"
   },
   "icu:CaptchaDialog__first-paragraph": {
-    "messageformat": "Para prevenir el spam en Signal, completa por favor la verificación."
+    "messageformat": "Para ayudarnos a prevenir el spam en Signal, completa la verificación."
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "Tras la verificación, podrás seguir enviando mensajes. Todos los mensajes pausados se enviarán."
@@ -3957,10 +3957,10 @@
     "messageformat": "Verificación completada."
   },
   "icu:verificationFailed": {
-    "messageformat": "Fallo al verificar. Inténtalo más tarde."
+    "messageformat": "Fallo al realizar la verificación. Inténtalo de nuevo más tarde."
   },
   "icu:deleteForEveryoneFailed": {
-    "messageformat": "Fallo al eliminar el mensaje para todxs. Inténtalo más tarde."
+    "messageformat": "Fallo al eliminar el mensaje para todos. Inténtalo de nuevo más tarde."
   },
   "icu:ChatColorPicker__delete--title": {
     "messageformat": "Eliminar color"
@@ -4287,7 +4287,7 @@
     "messageformat": "Alias"
   },
   "icu:ProfileEditorModal--error": {
-    "messageformat": "Fallo al actualizar tu perfil. Por favor, inténtalo de nuevo más tarde."
+    "messageformat": "Fallo al actualizar tu perfil. Inténtalo de nuevo más tarde."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Contactar con un admin"
@@ -4510,7 +4510,7 @@
     "ignoreUnused": true
   },
   "icu:NSIS__retry-dialog--second-line": {
-    "messageformat": "Por favor, cierra la aplicación manualmente y haz clic en reintentar para continuar.",
+    "messageformat": "Cierra la aplicación manualmente y haz clic en Reintentar para continuar.",
     "ignoreUnused": true
   },
   "icu:NSIS__appRunning": {
@@ -4548,7 +4548,7 @@
     "messageformat": "Haz clic para reemplazar un emoji"
   },
   "icu:CustomizingPreferredReactions__had-save-error": {
-    "messageformat": "Ha ocurrido un fallo al guardar tus ajustes. Por favor, inténtalo de nuevo."
+    "messageformat": "Ha ocurrido un fallo al guardar tus ajustes. Inténtalo de nuevo."
   },
   "icu:MediaEditor__input-placeholder": {
     "messageformat": "Mensaje"
@@ -5335,7 +5335,7 @@
     "messageformat": "¿Abandonar la llamada actual?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "Debes abandonar la llamada actual antes de unirte a una nueva llamada."
+    "messageformat": "Debes abandonar la llamada actual antes de unirte a una llamada nueva."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Abandonar llamada"
@@ -5350,7 +5350,7 @@
     "messageformat": "Atrás"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Debes abandonar la llamada actual antes de unirte a una nueva llamada"
+    "messageformat": "Debes abandonar la llamada actual antes de unirte a una llamada nueva"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Llamada realizada} other {Llamada entrante}}} Video {{direction, select, Outgoing {Videollamada realizada} other {Videollamada entrante}}} Group {{direction, select, Outgoing {Llamada grupal realizada} other {Llamada grupal entrante}}} other {{direction, select, Outgoing {Realizando llamada} other {Recibiendo llamada}}}}"
@@ -5426,6 +5426,6 @@
     "messageformat": "Esta actualización también incluye una herramienta de recorte mejorada para cambiar el tamaño de una imagen."
   },
   "icu:WhatsNew__v7.12--2": {
-    "messageformat": "Hemos modificado el atajo de teclado para enviar una nota de voz a Ctrl/Cmd+Mayús+Y para que ya no entre en conflicto con el atajo \"Pegar con el mismo estilo\" en Windows y Linux."
+    "messageformat": "Hemos modificado el atajo de teclado para enviar una nota de voz a Ctrl/Cmd+Mayús+Y para que ya no entre en conflicto con el atajo «Pegar con el mismo estilo» en Windows y Linux."
   }
 }

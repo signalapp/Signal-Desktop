@@ -1509,7 +1509,7 @@
     "messageformat": "တည်းဖြတ်မှု မအောင်မြင်ပါ၊ အသေးစိတ်ကြည့်ရန် နှိပ်ပါ"
   },
   "icu:sendPaused": {
-    "messageformat": "áá±áá­á¯á·áá¾á¯áá­á¯ áááºááá·áºáá²á·áááº"
+    "messageformat": "ပေးပို့မှု ခေတ္တရပ်နေသည်"
   },
   "icu:partiallySent": {
     "messageformat": "တစ်စိတ်တစ်ပိုင်း ပို့ပြီး၊ အသေးစိတ်အတွက် နှိပ်ပါ"
@@ -4098,7 +4098,7 @@
     "messageformat": "မီဒီယာ အရည်အသွေး"
   },
   "icu:MediaQualitySelector--standard-quality-title": {
-    "messageformat": "áá¯á¶áá¾ááº á¡ááá·áºááá·áº"
+    "messageformat": "ပုံမှန်အရည်အသွေး"
   },
   "icu:MediaQualitySelector--standard-quality-description": {
     "messageformat": "ပိုမြန်ဆန်ပြီး ဒေတာ နည်းနည်းသာ လိုသည်"

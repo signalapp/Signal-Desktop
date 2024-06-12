@@ -1482,7 +1482,7 @@
     "messageformat": "Name, Inhalt und Aktionen"
   },
   "icu:noNameOrMessage": {
-    "messageformat": "Kein Name oder Inhalt"
+    "messageformat": "Kein Name und Inhalt"
   },
   "icu:nameOnly": {
     "messageformat": "Nur Name"
@@ -2031,7 +2031,7 @@
     "messageformat": "Hier werden die zuletzt verwendeten Sticker angezeigt."
   },
   "icu:stickers__StickerPicker__recent": {
-    "messageformat": "Letzte Anrufe"
+    "messageformat": "Zuletzt verwendet"
   },
   "icu:stickers__StickerPicker__featured": {
     "messageformat": "Ausgewählt"
@@ -2058,7 +2058,7 @@
     "messageformat": "Hautfarbe {tone}"
   },
   "icu:EmojiPicker__button--recents": {
-    "messageformat": "Letzte Anrufe"
+    "messageformat": "Zuletzt verwendet"
   },
   "icu:EmojiPicker__button--emoji": {
     "messageformat": "Emoji"
@@ -5224,7 +5224,7 @@
     "messageformat": "QR-Codes und Links"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "Nutzernamen haben einen einzigartigen QR-Code und einen Link, den du mit Freund*innen teilen kannst, damit diese schnell einen Chat mit dir beginnen können."
+    "messageformat": "Nutzernamen haben einen einzigartigen QR-Code und einen Link, den du mit Personen teilen kannst, damit diese schnell einen Chat mit dir beginnen können."
   },
   "icu:UsernameOnboardingModalBody__continue": {
     "messageformat": "Nutzernamen einrichten"

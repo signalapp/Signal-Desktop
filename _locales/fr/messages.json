@@ -1353,7 +1353,7 @@
     "messageformat": "Vous avez bloqué {name}"
   },
   "icu:calling__block-info": {
-    "messageformat": "Vous ne recevrez ni leur message vocal ni leur vidéo et ils ne recevront pas les vôtres."
+    "messageformat": "Vous ne recevez ni l’audio, ni la vidéo de cet utilisateur et il ne reçoit pas les vôtres."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Impossible de recevoir l’audio et la vidéo de {name}"
@@ -2349,7 +2349,7 @@
     "messageformat": "Raccrocher"
   },
   "icu:close-popup": {
-    "messageformat": "Fermer la fenêtre surgissante"
+    "messageformat": "Fermer la fenêtre contextuelle"
   },
   "icu:addImageOrVideoattachment": {
     "messageformat": "Joindre une image ou une vidéo"
@@ -4245,7 +4245,7 @@
     "messageformat": "Pas maintenant"
   },
   "icu:ProfileEditor--edit-photo": {
-    "messageformat": "Modifier la photo"
+    "messageformat": "Changer de photo"
   },
   "icu:ProfileEditor--info--general": {
     "messageformat": "Vos contacts, vos groupes et les personnes avec qui vous échangez des messages peuvent voir votre profil et les modifications que vous y apportez."
@@ -4510,7 +4510,7 @@
     "ignoreUnused": true
   },
   "icu:NSIS__retry-dialog--second-line": {
-    "messageformat": "Veuillez la fermer manuellement et cliquez sur Réessayer pour continuer.",
+    "messageformat": "Fermez l’appli manuellement, puis cliquez sur <strong>Réessayer</strong> pour continuer.",
     "ignoreUnused": true
   },
   "icu:NSIS__appRunning": {
@@ -4677,7 +4677,7 @@
     "messageformat": "Paiement"
   },
   "icu:payment-event-notification-check-primary-device": {
-    "messageformat": "Veuillez consulter votre appareil principal pour vérifier l'état de ce paiement."
+    "messageformat": "Pour vérifier l’état de ce paiement, utilisez votre appareil principal."
   },
   "icu:MessageRequestResponseNotification__Message--Accepted": {
     "messageformat": "Vous avez accepté l’invitation par message"
@@ -5046,7 +5046,7 @@
     "messageformat": "La vidéo ne peut pas être publiée dans la Story, car son format n’est pas pris en charge"
   },
   "icu:StoryCreator__error--video-too-long": {
-    "messageformat": "{maxDurationInSec, plural, one {Impossible de publier la vidéo dans la story, car elle dure plus de 1 seconde.} other {Impossible de publier la vidéo dans la story, car elle dure plus de {maxDurationInSec,number} secondes.}}"
+    "messageformat": "{maxDurationInSec, plural, one {Impossible de publier la vidéo dans la story, car elle dure plus de {maxDurationInSec,number} seconde.} other {Impossible de publier la vidéo dans la story, car elle dure plus de {maxDurationInSec,number} secondes.}}"
   },
   "icu:StoryCreator__error--video-too-big": {
     "messageformat": "La vidéo dépasse la limite de {limit,number} {units} : impossible de la publier dans la story."

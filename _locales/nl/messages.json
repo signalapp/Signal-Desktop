@@ -63,7 +63,7 @@
     "messageformat": "Onbekende groep"
   },
   "icu:databaseError": {
-    "messageformat": "Databankfout"
+    "messageformat": "Databasefout"
   },
   "icu:databaseError__detail": {
     "messageformat": "Er is een databasefout opgetreden. Je kunt de foutmelding kopiëren en contact opnemen met Signal Support om het probleem op te lossen. Als je Signal meteen wilt gebruiken, kun je je gegevens wissen en opnieuw opstarten.\n\nGa naar {link} voor contact met support"
@@ -75,7 +75,7 @@
     "messageformat": "Alle gegevens definitief wissen?"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "Je gespreksgeschiedenis en media worden permanent van dit apparaat verwijderd. Je kunt Signal op dit apparaat gebruiken nadat je het opnieuw hebt gekoppeld. Er worden geen gegevens van je telefoon verwijderd."
+    "messageformat": "Je chatgeschiedenis en media worden permanent van dit apparaat verwijderd. Je kunt Signal op dit apparaat gebruiken nadat je het opnieuw hebt gekoppeld. Er worden geen gegevens van je telefoon verwijderd."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "De versie van je database komt niet overeen met deze versie van Signal. Zorg ervoor dat je de nieuwste versie van Signal op je computer opent."
@@ -108,7 +108,7 @@
     "messageformat": "Verbergen"
   },
   "icu:appMenuHideOthers": {
-    "messageformat": "Anderen verbergen"
+    "messageformat": "Andere verbergen"
   },
   "icu:appMenuUnhide": {
     "messageformat": "Alles weergeven"
@@ -201,7 +201,7 @@
     "messageformat": "Bezig met laden…"
   },
   "icu:optimizingApplication": {
-    "messageformat": "Toepassing aan het optimaliseren…"
+    "messageformat": "Applicatie aan het optimaliseren…"
   },
   "icu:migratingToSQLCipher": {
     "messageformat": "Bezig met optimaliseren van berichten… {status} voltooid."
@@ -297,7 +297,7 @@
     "messageformat": "Geen gearchiveerde chats."
   },
   "icu:archiveConversation": {
-    "messageformat": "Gesprek archiveren"
+    "messageformat": "Archiveren"
   },
   "icu:markUnread": {
     "messageformat": "Markeren als ongelezen"
@@ -321,7 +321,7 @@
     "messageformat": "Chat verwijderen"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Contactpersonen beheren"
+    "messageformat": "Contacten beheren"
   },
   "icu:ContactListItem__menu__message": {
     "messageformat": "Bericht"
@@ -525,7 +525,7 @@
     "messageformat": "Deze chat bevat geen media"
   },
   "icu:allMedia": {
-    "messageformat": "Alle media uit dit gesprek"
+    "messageformat": "Alle media"
   },
   "icu:documents": {
     "messageformat": "Documenten"
@@ -678,7 +678,7 @@
     "messageformat": "Geen resultaten voor ‘{searchTerm}’"
   },
   "icu:noSearchResults--sms-only": {
-    "messageformat": "Personen met wie je uitsluitend over sms- of mms-gesprekken voert zijn niet beschikbaar in Signal Desktop."
+    "messageformat": "Personen met wie je uitsluitend over sms- of mms gesprekken voert zijn niet beschikbaar in Signal Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Geen resultaten voor ‘{searchTerm}’ in ‘{conversationName}’"
@@ -687,7 +687,7 @@
     "messageformat": "Chats"
   },
   "icu:contactsHeader": {
-    "messageformat": "Contactpersonen"
+    "messageformat": "Contact"
   },
   "icu:groupsHeader": {
     "messageformat": "Groepen"
@@ -714,7 +714,7 @@
     "messageformat": "Animatie voor typen voor deze chat"
   },
   "icu:contactInAddressBook": {
-    "messageformat": "Deze persoon staat ook in de systeemcontactenlijst van je telefoon."
+    "messageformat": "Deze persoon staat in je telefooncontacten"
   },
   "icu:contactAvatarAlt": {
     "messageformat": "Afbeelding voor contact {name}"
@@ -927,7 +927,7 @@
     "messageformat": "Signal-contact"
   },
   "icu:AboutContactModal__system-contact": {
-    "messageformat": "{name} staat in je systeemcontactenlijst"
+    "messageformat": "{name} staat in je telefooncontacten"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notitie"
@@ -1014,7 +1014,7 @@
     "messageformat": "Meer informatie"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Het kan soms nodig zijn om je chatsessie te vernieuwen. Dit heeft geen invloed op de beveiliging van je chat, maar het is mogelijk dat je een bericht van je contactpersoon hebt gemist. Je kunt je contactpersoon vragen om hun meest recente berichten opnieuw te sturen."
+    "messageformat": "Het kan soms nodig zijn om je chatsessie te vernieuwen. Dit heeft geen invloed op de beveiliging van je chat, maar het is mogelijk dat je een bericht van je contact hebt gemist. Je kunt je contact vragen om hun meest recente berichten opnieuw te sturen."
   },
   "icu:ChatRefresh--contactSupport": {
     "messageformat": "Neem contact op met ondersteuning"
@@ -1032,7 +1032,7 @@
     "messageformat": "Afleveringsprobleem"
   },
   "icu:DeliveryIssue--summary": {
-    "messageformat": "Een bericht, media, sticker, emoji-reactie, of leesbevestiging van {sender} kon niet aan jou worden afgeleverd. Het kan zijn dat deze persoon iets naar je probeerde te verzenden in een één-op-één-chat of in een groepsgesprek."
+    "messageformat": "Een bericht, media, sticker, emoji-reactie, of leesbevestiging van {sender} kon niet aan jou worden afgeleverd. Het kan zijn dat deze persoon iets naar je probeerde te verzenden in een één-op-één-chat of in een groepschat."
   },
   "icu:DeliveryIssue--summary--group": {
     "messageformat": "Een bericht, media, sticker, emoji-reactie of een bevestiging dat een bericht gelezen is van {sender} kan in deze chat niet aan jou worden afgeleverd."
@@ -1044,13 +1044,13 @@
     "messageformat": "Nieuw persoon bereikbaar via Signal"
   },
   "icu:ConversationMerge--notification": {
-    "messageformat": "{obsoleteConversationTitle} en {conversationTitle} zijn hetzelfde account. Hier vind je je berichtengeschiedenis voor beide chats."
+    "messageformat": "{obsoleteConversationTitle} en {conversationTitle} zijn hetzelfde account. Hier vind je je chatgeschiedenis voor beide chats."
   },
   "icu:ConversationMerge--notification--with-e164": {
-    "messageformat": "Je berichtengeschiedenis met {conversationTitle} en het nummer {obsoleteConversationNumber} zijn samengevoegd."
+    "messageformat": "Je chatgeschiedenis met {conversationTitle} en het nummer {obsoleteConversationNumber} zijn samengevoegd."
   },
   "icu:ConversationMerge--notification--no-title": {
-    "messageformat": "Je berichtengeschiedenis met {conversationTitle} en een andere chat met hem of haar zijn samengevoegd."
+    "messageformat": "Je chatgeschiedenis met {conversationTitle} en een andere chat met hem of haar zijn samengevoegd."
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Meer lezen"
@@ -1059,7 +1059,7 @@
     "messageformat": "Na een bericht met {obsoleteConversationTitle} heb je begrepen dat dit nummer van {conversationTitle} is. Hun telefoonnummer is privé."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
-    "messageformat": "Je berichtengeschiedenis voor beide chats is hier samengevoegd."
+    "messageformat": "Je chatgeschiedenis voor beide chats is hier samengevoegd."
   },
   "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
     "messageformat": "{phoneNumber} is van {conversationTitle}. Jullie zijn allebei lid van {sharedGroup}."
@@ -1137,7 +1137,7 @@
     "messageformat": "Koppelen van telefoon voltooien"
   },
   "icu:initialSync": {
-    "messageformat": "Contactpersonen en groepen worden gesynchroniseerd"
+    "messageformat": "Contacten en groepen worden gesynchroniseerd"
   },
   "icu:initialSync__subtitle": {
     "messageformat": "Opmerking: Je eerdere chatgeschiedenis wordt niet gesynchroniseerd naar dit apparaat"
@@ -1353,7 +1353,7 @@
     "messageformat": "Je hebt {name} geblokkeerd"
   },
   "icu:calling__block-info": {
-    "messageformat": "Je ontvangt hun spraakberichten of video's niet, en zij de jouwe ook niet."
+    "messageformat": "Je kunt hen niet zien of horen en zij kunnen jou niet zien of horen."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Kan geen audio en video van {name} ontvangen"
@@ -1473,7 +1473,7 @@
     "messageformat": "Aan het ontkoppelen en alle gegevens aan het wissen"
   },
   "icu:deleteOldIndexedDBData": {
-    "messageformat": "Je hebt nog overbodige gegevens op je apparaat van een eerdere installatie van Signal Desktop. Als je er voor kiest om verder te gaan, dan zullen alle gegevens inclusief al je gesprekken worden gewist van Signal Desktop en zal je met een schone installatie beginnen."
+    "messageformat": "Je hebt nog overbodige gegevens op je apparaat van een eerdere installatie van Signal Desktop. Als je er voor kiest om verder te gaan, dan zullen alle gegevens inclusief al je chats worden gewist van Signal Desktop en zal je met een schone installatie beginnen."
   },
   "icu:deleteOldData": {
     "messageformat": "Oude gegevens wissen"
@@ -1527,7 +1527,7 @@
     "messageformat": "Mediabericht"
   },
   "icu:sync": {
-    "messageformat": "Contactpersonen importeren"
+    "messageformat": "Contacten importeren"
   },
   "icu:syncExplanation": {
     "messageformat": "Importeer alle Signal-groepen en -contacten van je mobiele apparaat."
@@ -1680,7 +1680,7 @@
     "messageformat": "Naam, gebruikersnaam of telefoonnummer"
   },
   "icu:noContactsFound": {
-    "messageformat": "Geen contactpersonen gevonden"
+    "messageformat": "Geen contacten gevonden"
   },
   "icu:noGroupsFound": {
     "messageformat": "Geen groep gevonden."
@@ -1779,7 +1779,7 @@
     "messageformat": "Probeer Signal opnieuw bij te werken"
   },
   "icu:autoUpdateContactSupport": {
-    "messageformat": "contact op met ondersteuning"
+    "messageformat": "contact opnemen met ondersteuning"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Klik hier om Signal opnieuw te starten"
@@ -2190,7 +2190,7 @@
     "messageformat": "Invoerveld focus geven"
   },
   "icu:Keyboard--open-all-media-view": {
-    "messageformat": "Alle media uit dit gesprek weergeven"
+    "messageformat": "Alle media uit een chat weergeven"
   },
   "icu:Keyboard--open-emoji-chooser": {
     "messageformat": "Emoji-keuzemenu openen"
@@ -2349,7 +2349,7 @@
     "messageformat": "Oproep beëindigen"
   },
   "icu:close-popup": {
-    "messageformat": "Verschijning sluiten"
+    "messageformat": "Pop-up sluiten"
   },
   "icu:addImageOrVideoattachment": {
     "messageformat": "Afbeelding of video toevoegen"
@@ -2529,7 +2529,7 @@
     "messageformat": "Verwijderen en verlaten"
   },
   "icu:MessageRequests--delete-group-confirm-body": {
-    "messageformat": "Je zult deze groep verlaten en het gesprek zal van al je apparaten worden verwijderd."
+    "messageformat": "Je zult deze groep verlaten en de chat zal van al je apparaten worden verwijderd."
   },
   "icu:MessageRequests--accept": {
     "messageformat": "Accepteren"
@@ -3366,10 +3366,10 @@
     "messageformat": "Nieuwe-stijl groepen hebben functionaliteiten waaronder @vermeldingen en groepsbeheer en in de toekomst zullen er meer functionaliteiten aan worden toegevoegd."
   },
   "icu:GroupV1--Migration--info--keep-history": {
-    "messageformat": "Alle gespreksgeschiedenis en media van voor het omzetten zijn behouden gebleven."
+    "messageformat": "Alle chatgeschiedenis en media van voor het omzetten zijn behouden gebleven."
   },
   "icu:GroupV1--Migration--migrate--keep-history": {
-    "messageformat": "Alle gespreksgeschiedenis en media van voor het omzetten zullen behouden blijven."
+    "messageformat": "Alle chatgeschiedenis en media van voor het omzetten zullen behouden blijven."
   },
   "icu:GroupV1--Migration--info--invited--you": {
     "messageformat": "Om weer lid te worden van deze groep zul je een uitnodiging moeten accepteren. Je zult geen berichten van deze groep ontvangen zolang je dat nog niet hebt gedaan."
@@ -3468,7 +3468,7 @@
     "messageformat": "Bericht bewerken"
   },
   "icu:countMutedConversationsDescription": {
-    "messageformat": "Gedempte chats opnemen in de notificatiebadge"
+    "messageformat": "Gedempte chats meetellen in de notificatiebadge"
   },
   "icu:ContactModal--nickname": {
     "messageformat": "Bijnaam"
@@ -3480,7 +3480,7 @@
     "messageformat": "Beheerder maken"
   },
   "icu:ContactModal--make-admin-info": {
-    "messageformat": "{contact} kan de groepsinformatie en groepslidmaatschap bewerken."
+    "messageformat": "{contact} zal de groepsinformatie en groepslidmaatschap kunnen bewerken."
   },
   "icu:ContactModal--rm-admin-info": {
     "messageformat": "De beheerdersbevoegdheden van {contact} intrekken?"
@@ -3777,7 +3777,7 @@
     "messageformat": "Je kunt maximaal 30 berichten doorsturen"
   },
   "icu:ContactPill--remove": {
-    "messageformat": "Contactpersoon verwijderen"
+    "messageformat": "Contact verwijderen"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, one {Uitnodiging verstuurd} other {{count,number} uitnodigingen verstuurd}}"
@@ -3855,7 +3855,7 @@
     "messageformat": "0,5"
   },
   "icu:emptyInboxMessage": {
-    "messageformat": "Klik op de {composeIcon} hierboven en zoek een contactpersoon of groep om een bericht naar te verzenden."
+    "messageformat": "Klik op de {composeIcon} hierboven en zoek een contact of groep om een bericht naar te verzenden."
   },
   "icu:composeIcon": {
     "messageformat": "Opstelknop"
@@ -3888,7 +3888,7 @@
     "messageformat": "Over gespreksverzoeken"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Beoordeel verzoeken zorgvuldig. Signal heeft een ander contactpersoon gevonden met dezelfde naam. <reviewRequestLink>Verzoek bekijken</reviewRequestLink>"
+    "messageformat": "Beoordeel verzoeken zorgvuldig. Signal heeft een ander contact gevonden met dezelfde naam. <reviewRequestLink>Verzoek bekijken</reviewRequestLink>"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
     "messageformat": "{count, plural, one {{count,number} groepslid heeft dezelfde naam. <reviewRequestLink>Leden bekijken</reviewRequestLink>} other {{count,number} groepsleden hebben dezelfde naam. <reviewRequestLink>Leden bekijken</reviewRequestLink>}}"
@@ -4716,7 +4716,7 @@
     "messageformat": "Een gespreksverzoek van ze te accepteren"
   },
   "icu:SignalConnectionsModal__bullet--3": {
-    "messageformat": "Ze in je systeemcontactenlijst te hebben staan"
+    "messageformat": "Ze in je telefooncontacten te hebben staan"
   },
   "icu:SignalConnectionsModal__footer": {
     "messageformat": "Je Signal-contacten kunnen jouw profielnaam, -foto en -omschrijving zien en kunnen zien wat je deelt in ‘Mijn verhaal’ tenzij je dat voor hen verbergt."
@@ -5308,7 +5308,7 @@
     "messageformat": "Schuifschakelaar"
   },
   "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "Geen recente oproepen. Ga aan de slag door een contact te bellen."
+    "messageformat": "Geen recente oproepen. Begin door een contact te bellen."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Geen resultaten voor ‘{query}’"
@@ -5417,7 +5417,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.11--0": {
-    "messageformat": "We hebben een weergavebug opgelost. Deze zorgde ervoor dat het contactpictogram wel héél dicht tegen de naam van de contactpersoon stond wanneer je de deelnemerslijst van een groepsoproep bekeek. Je bent waarschijnlijk close met je contacten, maar soms hebben jij en de gebruikersinterface van Signal Desktop wat ruimte nodig."
+    "messageformat": "We hebben een weergavebug opgelost. Deze zorgde ervoor dat het contactpictogram wel héél dicht tegen de naam van het contact stond wanneer je de deelnemerslijst van een groepsoproep bekeek. Je bent waarschijnlijk close met je contacten, maar soms hebben jij en de gebruikersinterface van Signal Desktop wat ruimte nodig."
   },
   "icu:WhatsNew__v7.12--0": {
     "messageformat": "Steek je hand op als je op zoek bent naar een andere manier om te communiceren tijdens groepsoproepen. De nieuwe functionaliteit van Hand opsteken maakt het gemakkelijk iemands aandacht te vragen, een vraag te stellen of te stemmen voor een groepsvoorstel als je contact vraagt “iedereen voor”?"
