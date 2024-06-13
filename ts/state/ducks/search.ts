@@ -4,7 +4,6 @@ import { Data } from '../../data/data';
 import { AdvancedSearchOptions, SearchOptions } from '../../types/Search';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { PubKey } from '../../session/types';
 import { UserUtils } from '../../session/utils';
 import { MessageResultProps } from '../../types/message';
@@ -16,7 +15,7 @@ export type SearchStateType = {
   query: string;
   normalizedPhoneNumber?: string;
   // For conversations we store just the id, and pull conversation props in the selector
-  contactsAndConversations: Array<string>;
+  contactsAndGroups: Array<string>;
   messages?: Array<MessageResultProps>;
 };
 
@@ -24,7 +23,7 @@ export type SearchStateType = {
 type SearchResultsPayloadType = {
   query: string;
   normalizedPhoneNumber?: string;
-  contactsAndConversations: Array<string>;
+  contactsAndGroups: Array<string>;
   messages?: Array<MessageResultProps>;
 };
 
@@ -72,24 +71,21 @@ async function doSearch(query: string): Promise<SearchResultsPayloadType> {
     noteToSelf: window.i18n('noteToSelf').toLowerCase(),
     savedMessages: window.i18n('savedMessages').toLowerCase(),
     ourNumber: UserUtils.getOurPubKeyStrFromCache(),
-    filter: 'contacts',
   };
   const advancedSearchOptions = getAdvancedSearchOptionsFromQuery(query);
   const processedQuery = advancedSearchOptions.query;
   // const isAdvancedQuery = query !== processedQuery;
 
-  const [discussions, messages] = await Promise.all([
-    queryConversationsAndContacts(processedQuery, options),
+  const [contactsAndGroups, messages] = await Promise.all([
+    queryContactsAndGroups(processedQuery, options),
     queryMessages(processedQuery),
   ]);
-  const { conversations, contacts } = discussions;
-  const contactsAndConversations = _.uniq([...conversations, ...contacts]);
   const filteredMessages = _.compact(messages);
 
   return {
     query,
     normalizedPhoneNumber: PubKey.normalize(query),
-    contactsAndConversations,
+    contactsAndGroups,
     messages: filteredMessages,
   };
 }
@@ -202,45 +198,13 @@ async function queryMessages(query: string): Promise<Array<MessageResultProps>> 
   }
 }
 
-async function queryConversationsAndContacts(providedQuery: string, options: SearchOptions) {
-  const { ourNumber, noteToSelf, savedMessages, filter } = options;
+async function queryContactsAndGroups(providedQuery: string, options: SearchOptions) {
+  const { ourNumber, noteToSelf, savedMessages } = options;
   // we don't need to use cleanSearchTerm here because the query is wrapped as a wild card and is not referenced in the SQL query directly
   const query = providedQuery.replace(/[+-.()]*/g, '');
-
-  const contactsOnly = filter === 'contacts';
-  const conversationsOnly = filter === 'conversations';
-
   const searchResults: Array<ReduxConversationType> = await Data.searchConversations(query);
 
-  // Split into two groups - active conversations and items just from address book
-  let conversations: Array<string> = [];
-  let contacts: Array<string> = [];
-  const max = searchResults.length;
-  for (let i = 0; i < max; i += 1) {
-    const conversation = searchResults[i];
-
-    if (!contactsOnly) {
-      if (conversation.id && conversation.activeAt) {
-        if (conversation.id === ourNumber) {
-          conversations.push(ourNumber);
-        } else {
-          conversations.push(conversation.id);
-        }
-      }
-
-      if (conversation.id && conversation.type !== ConversationTypeEnum.PRIVATE) {
-        conversations.push(conversation.id);
-      }
-    }
-
-    if (
-      !conversationsOnly &&
-      conversation.id &&
-      conversation.type === ConversationTypeEnum.PRIVATE
-    ) {
-      contacts.push(conversation.id);
-    }
-  }
+  let contactsAndGroups: Array<string> = searchResults.map(conversation => conversation.id);
 
   const queryLowered = query.toLowerCase();
   // Inject synthetic Note to Self entry if query matches localized 'Note to Self'
@@ -251,20 +215,18 @@ async function queryConversationsAndContacts(providedQuery: string, options: Sea
     savedMessages.includes(queryLowered)
   ) {
     // Ensure that we don't have duplicates in our results
-    contacts = contacts.filter(id => id !== ourNumber);
-    conversations = conversations.filter(id => id !== ourNumber);
-
-    contacts.unshift(ourNumber);
+    contactsAndGroups = contactsAndGroups.filter(id => id !== ourNumber);
+    contactsAndGroups.unshift(ourNumber);
   }
 
-  return { conversations, contacts };
+  return contactsAndGroups;
 }
 
 // Reducer
 
 export const initialSearchState: SearchStateType = {
   query: '',
-  contactsAndConversations: [],
+  contactsAndGroups: [],
   messages: [],
 };
 
@@ -293,7 +255,7 @@ export function reducer(state: SearchStateType | undefined, action: SEARCH_TYPES
 
   if (action.type === 'SEARCH_RESULTS_FULFILLED') {
     const { payload } = action;
-    const { query, normalizedPhoneNumber, contactsAndConversations, messages } = payload;
+    const { query, normalizedPhoneNumber, contactsAndGroups, messages } = payload;
     // Reject if the associated query is not the most recent user-provided query
     if (state.query !== query) {
       return state;
@@ -303,7 +265,7 @@ export function reducer(state: SearchStateType | undefined, action: SEARCH_TYPES
       ...state,
       query,
       normalizedPhoneNumber,
-      contactsAndConversations,
+      contactsAndGroups,
       messages,
     };
   }

@@ -1,8 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { compact, isEmpty, sortBy } from 'lodash';
+import { compact, isEmpty, remove, sortBy } from 'lodash';
 
 import { StateType } from '../reducer';
 
+import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { UserUtils } from '../../session/utils';
 import { MessageResultProps } from '../../types/message';
 import { ConversationLookupType } from '../ducks/conversations';
@@ -21,8 +22,8 @@ const getSearchResults = createSelector(
   [getSearch, getConversationLookup],
   (searchState: SearchStateType, lookup: ConversationLookupType) => {
     return {
-      contactsAndConversations: compact(
-        searchState.contactsAndConversations
+      contactsAndGroups: compact(
+        searchState.contactsAndGroups
           .filter(id => {
             const value = lookup[id];
 
@@ -50,16 +51,16 @@ export const getSearchTerm = createSelector([getSearchResults], searchResult => 
 export const getSearchResultsIdsOnly = createSelector([getSearchResults], searchState => {
   return {
     ...searchState,
-    contactsAndConversationIds: searchState.contactsAndConversations.map(m => m.id),
+    contactsAndGroupsIds: searchState.contactsAndGroups.map(m => m.id),
   };
 });
 
 export const getHasSearchResults = createSelector([getSearchResults], searchState => {
-  return !isEmpty(searchState.contactsAndConversations) || !isEmpty(searchState.messages);
+  return !isEmpty(searchState.contactsAndGroups) || !isEmpty(searchState.messages);
 });
 
 export const getSearchResultsContactOnly = createSelector([getSearchResults], searchState => {
-  return searchState.contactsAndConversations.filter(m => m.isPrivate).map(m => m.id);
+  return searchState.contactsAndGroups.filter(m => m.isPrivate).map(m => m.id);
 });
 
 /**
@@ -74,33 +75,39 @@ export type SearchResultsMergedListItem =
   | MessageResultProps;
 
 export const getSearchResultsList = createSelector([getSearchResults], searchState => {
-  const { contactsAndConversations, messages } = searchState;
+  const { contactsAndGroups, messages } = searchState;
   const builtList: Array<SearchResultsMergedListItem> = [];
 
-  if (contactsAndConversations.length) {
+  if (contactsAndGroups.length) {
     const us = UserUtils.getOurPubKeyStrFromCache();
     let usIndex: number = -1;
 
-    const idsAndDisplayNames = contactsAndConversations.map(m => ({
+    const idsWithNameAndType = contactsAndGroups.map(m => ({
       contactConvoId: m.id,
       displayName: m.nickname || m.displayNameInProfile,
+      type: m.type,
     }));
 
-    const idsWithDisplayNames = sortBy(
-      idsAndDisplayNames.filter(m => Boolean(m.displayName)),
+    const groupsAndCommunities = sortBy(
+      remove(idsWithNameAndType, m => m.type === ConversationTypeEnum.GROUP),
       m => m.displayName?.toLowerCase()
+    );
+
+    const idsWithNoDisplayNames = sortBy(
+      remove(idsWithNameAndType, m => !m.displayName),
+      m => m.contactConvoId
     );
 
     // add a break wherever needed
     let currentChar = '';
-    for (let i = 0; i < idsWithDisplayNames.length; i++) {
-      const m = idsWithDisplayNames[i];
+    for (let i = 0; i < idsWithNameAndType.length; i++) {
+      const m = idsWithNameAndType[i];
       if (m.contactConvoId === us) {
         usIndex = i;
         continue;
       }
       if (
-        idsWithDisplayNames.length > 1 &&
+        idsWithNameAndType.length > 1 &&
         m.displayName &&
         m.displayName[0].toLowerCase() !== currentChar
       ) {
@@ -110,18 +117,15 @@ export const getSearchResultsList = createSelector([getSearchResults], searchSta
       builtList.push(m);
     }
 
+    builtList.unshift(...groupsAndCommunities);
+
+    if (idsWithNoDisplayNames.length) {
+      builtList.push('#', ...idsWithNoDisplayNames);
+    }
+
     if (usIndex !== -1) {
       builtList.unshift({ contactConvoId: us, displayName: window.i18n('noteToSelf') });
     }
-
-    const idsWithNoDisplayNames = sortBy(
-      idsAndDisplayNames.filter(m => !m.displayName),
-      'id'
-    );
-    if (idsWithNoDisplayNames.length) {
-      builtList.push(window.i18n('unknown'), ...idsWithNoDisplayNames);
-    }
-
     builtList.unshift(window.i18n('sessionConversations'));
   }
 

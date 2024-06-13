@@ -30,10 +30,6 @@ export function useHotkey(
     const lowerKey = key.toLowerCase();
     const eventKey = event.key.toLowerCase();
 
-    window.log.debug(
-      `WIP: [useHotkey] key: ${key} lowerKey: ${lowerKey} eventKey: ${eventKey} event.target: ${JSON.stringify(event)}`
-    );
-
     switch (lowerKey) {
       case 'esc':
       case 'escape':
@@ -45,20 +41,15 @@ export function useHotkey(
 
   const handler: Handler = event => {
     if (disabled) {
-      window.log.debug(`WIP: [useHotkey] '${key}' is disabled. Triggered by ${event.key}`);
       return;
     }
 
     const specialKeys = specialKeyPressed(event);
 
     if (specialKeys) {
-      window.log.debug(
-        `WIP: [useHotkey] '${key}' was ignored because it was pressed with ${specialKeys}. Triggered by ${event.key} + ${specialKeys}`
-      );
       return;
     }
 
-    window.log.debug(`WIP: [useHotkey] '${key}' onPress event. Triggered by ${event.key}`);
     void onPress(event);
   };
 

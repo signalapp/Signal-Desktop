@@ -711,13 +711,13 @@ function searchConversations(query: string) {
     .prepare(
       `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE
     (
-      displayNameInProfile LIKE $displayNameInProfile OR
-      nickname LIKE $nickname OR
+      displayNameInProfile LIKE $displayNameInProfile COLLATE NOCASE OR
+      nickname LIKE $nickname COLLATE NOCASE OR
       (id LIKE $id AND
         (displayNameInProfile IS NULL OR displayNameInProfile = '') AND (nickname IS NULL OR nickname = '')
       )
     ) AND active_at > 0
-    ORDER BY active_at DESC
+    ORDER BY (COALESCE(NULLIF(nickname, ''), displayNameInProfile) COLLATE NOCASE)
     LIMIT $limit`
     )
     .all({

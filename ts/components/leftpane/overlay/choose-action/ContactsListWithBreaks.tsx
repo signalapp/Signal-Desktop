@@ -85,7 +85,7 @@ const ContactListItemSection = () => {
       directContactsByNameWithBreaks.push(currentChar.toUpperCase());
     } else if (!m.displayName && currentChar !== unknownSection) {
       currentChar = unknownSection;
-      directContactsByNameWithBreaks.push(window.i18n('unknown'));
+      directContactsByNameWithBreaks.push('#');
     }
     directContactsByNameWithBreaks.push(m);
   });
