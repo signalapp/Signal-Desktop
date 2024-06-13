@@ -67,6 +67,7 @@ function mockMessageTimelineItem(
       isMessageRequestAccepted: true,
       isSelected: false,
       isSelectMode: false,
+      isSMS: false,
       isSpoilerExpanded: {},
       previews: [],
       readStatus: ReadStatus.Read,

@@ -27,6 +27,7 @@ type PropsType = {
   i18n: LocalizerType;
   id: string;
   isEditedMessage?: boolean;
+  isSMS?: boolean;
   isInline?: boolean;
   isOutlineOnlyBubble?: boolean;
   isShowingImage: boolean;
@@ -56,6 +57,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       i18n,
       id,
       isEditedMessage,
+      isSMS,
       isOutlineOnlyBubble,
       isInline,
       isShowingImage,
@@ -211,6 +213,11 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
           </button>
         )}
         {timestampNode}
+        {isSMS ? (
+          <div
+            className={`module-message__metadata__sms module-message__metadata__sms--${direction}`}
+          />
+        ) : null}
         {expirationLength ? (
           <ExpireTimer
             direction={metadataDirection}

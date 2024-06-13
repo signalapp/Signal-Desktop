@@ -761,6 +761,7 @@ export const getPropsForMessage = (
     isMessageRequestAccepted: conversation?.acceptedMessageRequest ?? true,
     isSelected,
     isSelectMode,
+    isSMS: message.sms === true,
     isSpoilerExpanded: message.isSpoilerExpanded,
     isSticker: Boolean(sticker),
     isTargeted,

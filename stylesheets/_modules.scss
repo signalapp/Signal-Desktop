@@ -1205,6 +1205,29 @@ $message-padding-horizontal: 12px;
   }
 }
 
+.module-message__metadata__sms {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  margin-inline-start: 6px;
+  // High margin to leave space for the increase when we go to two checks
+  margin-bottom: 2px;
+
+  @include color-svg(
+    '../images/icons/v2/lock-unlock-outline-12.svg',
+    $color-white
+  );
+}
+
+.module-message__metadata__sms--incoming {
+  @include light-theme {
+    background-color: $color-gray-60;
+  }
+  @include dark-theme {
+    background-color: $color-gray-25;
+  }
+}
+
 .module-message__container--outgoing .module-message__metadata__edited {
   color: $color-white-alpha-80;
 }
