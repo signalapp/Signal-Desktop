@@ -492,6 +492,7 @@ function ForwardMessageEditor({
       <RenderCompositionTextArea
         bodyRanges={draft.bodyRanges ?? null}
         draftText={draft.messageBody ?? ''}
+        isActive
         onChange={onChange}
         onSubmit={onSubmit}
         theme={theme}

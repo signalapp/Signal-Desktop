@@ -8,6 +8,7 @@ import { useEscapeHandling } from '../../hooks/useEscapeHandling';
 export type PropsType = {
   conversationId: string;
   hasOpenModal: boolean;
+  hasOpenPanel: boolean;
   isSelectMode: boolean;
   onExitSelectMode: () => void;
   processAttachments: (options: {
@@ -24,6 +25,7 @@ export type PropsType = {
 export function ConversationView({
   conversationId,
   hasOpenModal,
+  hasOpenPanel,
   isSelectMode,
   onExitSelectMode,
   processAttachments,
@@ -57,6 +59,10 @@ export function ConversationView({
 
   const onPaste = React.useCallback(
     (event: React.ClipboardEvent<HTMLDivElement>) => {
+      if (hasOpenModal || hasOpenPanel) {
+        return;
+      }
+
       if (!event.clipboardData) {
         return;
       }
@@ -102,7 +108,7 @@ export function ConversationView({
         event.preventDefault();
       }
     },
-    [conversationId, processAttachments]
+    [conversationId, processAttachments, hasOpenModal, hasOpenPanel]
   );
 
   useEscapeHandling(

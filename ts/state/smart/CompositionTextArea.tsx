@@ -15,6 +15,7 @@ export type SmartCompositionTextAreaProps = Pick<
   CompositionTextAreaProps,
   | 'bodyRanges'
   | 'draftText'
+  | 'isActive'
   | 'placeholder'
   | 'onChange'
   | 'onScroll'
@@ -43,6 +44,7 @@ export const SmartCompositionTextArea = memo(function SmartCompositionTextArea(
       {...props}
       getPreferredBadge={getPreferredBadge}
       i18n={i18n}
+      isActive
       isFormattingEnabled={isFormattingEnabled}
       onPickEmoji={onPickEmoji}
       onSetSkinTone={onSetSkinTone}

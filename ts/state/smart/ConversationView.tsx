@@ -61,6 +61,7 @@ export const SmartConversationView = memo(
       <ConversationView
         conversationId={conversationId}
         hasOpenModal={hasOpenModal}
+        hasOpenPanel={activePanel != null}
         isSelectMode={isSelectMode}
         onExitSelectMode={onExitSelectMode}
         processAttachments={processAttachments}

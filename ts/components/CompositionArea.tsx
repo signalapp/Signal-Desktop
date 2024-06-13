@@ -111,6 +111,7 @@ export type OwnProps = Readonly<{
   isGroupV1AndDisabled: boolean | null;
   isMissingMandatoryProfileSharing: boolean | null;
   isSignalConversation: boolean | null;
+  isActive: boolean;
   lastEditableMessageId: string | null;
   recordingState: RecordingState;
   messageCompositionId: string;
@@ -236,6 +237,7 @@ export const CompositionArea = memo(function CompositionArea({
   imageToBlurHash,
   isDisabled,
   isSignalConversation,
+  isActive,
   lastEditableMessageId,
   messageCompositionId,
   pushPanelForConversation,
@@ -1001,6 +1003,7 @@ export const CompositionArea = memo(function CompositionArea({
             i18n={i18n}
             inputApi={inputApiRef}
             isFormattingEnabled={isFormattingEnabled}
+            isActive={isActive}
             large={large}
             linkPreviewLoading={linkPreviewLoading}
             linkPreviewResult={linkPreviewResult}

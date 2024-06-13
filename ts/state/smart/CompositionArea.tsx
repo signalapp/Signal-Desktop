@@ -64,6 +64,7 @@ import { useEmojisActions } from '../ducks/emojis';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStickersActions } from '../ducks/stickers';
 import { useToastActions } from '../ducks/toast';
+import { isShowingAnyModal } from '../selectors/globalModals';
 
 function renderSmartCompositionRecording(
   recProps: SmartCompositionRecordingProps
@@ -107,6 +108,8 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
   const errorDialogAudioRecorderType = useSelector(
     getErrorDialogAudioRecorderType
   );
+  const hasGlobalModalOpen = useSelector(isShowingAnyModal);
+  const hasPanelOpen = useSelector(getHasPanelOpen);
   const getGroupAdmins = useSelector(getGroupAdminsSelector);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const composerStateForConversationIdSelector = useSelector(
@@ -125,6 +128,10 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     sendCounter,
     shouldSendHighQualityAttachments,
   } = composerState;
+
+  const isActive = useMemo(() => {
+    return !hasGlobalModalOpen && !hasPanelOpen;
+  }, [hasGlobalModalOpen, hasPanelOpen]);
 
   const groupAdmins = useMemo(() => {
     return getGroupAdmins(id);
@@ -244,6 +251,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       i18n={i18n}
       isDisabled={isDisabled}
       isFormattingEnabled={isFormattingEnabled}
+      isActive={isActive}
       lastEditableMessageId={lastEditableMessageId ?? null}
       messageCompositionId={messageCompositionId}
       platform={platform}
