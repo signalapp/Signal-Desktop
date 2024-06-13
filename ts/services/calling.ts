@@ -52,6 +52,7 @@ import {
   GenericServerPublicParams,
 } from '@signalapp/libsignal-client/zkgroup';
 import { Aci } from '@signalapp/libsignal-client';
+import type { GumVideoCaptureOptions } from '@signalapp/ringrtc/dist/ringrtc/VideoSupport';
 import type {
   ActionsType as CallingReduxActionsType,
   GroupCallParticipantInfoType,
@@ -156,6 +157,7 @@ import type {
   ReadCallLinkState,
 } from '../types/CallLink';
 import { CallLinkRestrictions } from '../types/CallLink';
+import { getConversationIdForLogging } from '../util/idForLogging';
 
 const {
   processGroupCallRingCancellation,
@@ -1197,6 +1199,7 @@ export class CallingClass {
       return;
     }
 
+    const logId = `joinGroupCall(${getConversationIdForLogging(conversation)})`;
     const haveMediaPermissions = await this.requestPermissions(hasLocalVideo);
     if (!haveMediaPermissions) {
       log.info('Permissions were denied, but allow joining group call');
@@ -1212,7 +1215,7 @@ export class CallingClass {
 
     groupCall.setOutgoingAudioMuted(!hasLocalAudio);
     groupCall.setOutgoingVideoMuted(!hasLocalVideo);
-    this.videoCapturer.enableCaptureAndSend(groupCall);
+    drop(this.enableCaptureAndSend(groupCall, null, logId));
 
     if (shouldRing) {
       groupCall.ringAll();
@@ -1234,6 +1237,10 @@ export class CallingClass {
       callMode === CallMode.Group
         ? this.updateCallHistoryForGroupCallOnPeek
         : this.updateCallHistoryForAdhocCall;
+    const logId =
+      callMode === CallMode.Group
+        ? `groupv2(${conversationId})`
+        : `adhoc(${conversationId})`;
 
     return {
       onLocalDeviceStateChanged: groupCall => {
@@ -1280,7 +1287,7 @@ export class CallingClass {
           if (localDeviceState.videoMuted) {
             this.disableLocalVideo();
           } else {
-            this.videoCapturer.enableCaptureAndSend(groupCall);
+            drop(this.enableCaptureAndSend(groupCall, null, logId));
           }
 
           // Call enters the Joined state, once per call.
@@ -1530,7 +1537,7 @@ export class CallingClass {
 
     groupCall.setOutgoingAudioMuted(!hasLocalAudio);
     groupCall.setOutgoingVideoMuted(!hasLocalVideo);
-    this.videoCapturer.enableCaptureAndSend(groupCall);
+    drop(this.enableCaptureAndSend(groupCall));
 
     groupCall.join();
   }
@@ -2043,13 +2050,15 @@ export class CallingClass {
     this.videoCapturer.disable();
     if (source) {
       this.hadLocalVideoBeforePresenting = hasLocalVideo;
-      this.videoCapturer.enableCaptureAndSend(call, {
-        // 15fps is much nicer but takes up a lot more CPU.
-        maxFramerate: 5,
-        maxHeight: 1800,
-        maxWidth: 2880,
-        screenShareSourceId: source.id,
-      });
+      drop(
+        this.enableCaptureAndSend(call, {
+          // 15fps is much nicer but takes up a lot more CPU.
+          maxFramerate: 5,
+          maxHeight: 1800,
+          maxWidth: 2880,
+          screenShareSourceId: source.id,
+        })
+      );
       this.setOutgoingVideo(conversationId, true);
     } else {
       this.setOutgoingVideo(
@@ -2350,7 +2359,24 @@ export class CallingClass {
   }
 
   enableLocalCamera(): void {
-    this.videoCapturer.enableCapture();
+    drop(this.videoCapturer.enableCapture());
+  }
+
+  async enableCaptureAndSend(
+    call: GroupCall | Call,
+    options?: GumVideoCaptureOptions | null,
+    logId?: string
+  ): Promise<void> {
+    try {
+      await this.videoCapturer.enableCaptureAndSend(call, options ?? undefined);
+    } catch (err) {
+      log.error(
+        `${
+          logId ?? 'enableCaptureAndSend'
+        }: Failed to enable camera and start sending:`,
+        Errors.toLogFormat(err)
+      );
+    }
   }
 
   disableLocalVideo(): void {
@@ -2470,17 +2496,17 @@ export class CallingClass {
 
     log.info(`${logId}: Handling in RingRTC`);
 
-    RingRTC.handleCallingMessage(
+    RingRTC.handleCallingMessage(protoToCallingMessage(callingMessage), {
       remoteUserId,
-      sourceServiceId ? Buffer.from(sourceServiceId) : null,
+      remoteUuid: sourceServiceId ? Buffer.from(sourceServiceId) : undefined,
       remoteDeviceId,
-      this.localDeviceId,
-      messageAgeSec,
-      envelope.receivedAtCounter,
-      protoToCallingMessage(callingMessage),
-      Buffer.from(senderIdentityKey),
-      Buffer.from(receiverIdentityKey)
-    );
+      localDeviceId: this.localDeviceId,
+      ageSec: messageAgeSec,
+      receivedAtCounter: envelope.receivedAtCounter,
+      receivedAtDate: envelope.receivedAtDate,
+      senderIdentityKey: Buffer.from(senderIdentityKey),
+      receiverIdentityKey: Buffer.from(receiverIdentityKey),
+    });
   }
 
   private async selectPreferredDevices(
@@ -2854,7 +2880,6 @@ export class CallingClass {
     ageInSeconds: number,
     wasVideoCall: boolean,
     receivedAtCounter: number | undefined,
-    // TODO: DESKTOP-7145
     receivedAtMS: number | undefined = undefined
   ) {
     const conversation = window.ConversationController.get(remoteUserId);
