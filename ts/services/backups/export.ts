@@ -747,7 +747,7 @@ export class BackupExportStream extends Readable {
       expireStartDate,
       expiresInMs,
       revisions: [],
-      sms: false,
+      sms: message.sms === true,
     };
 
     if (!isNormalBubble(message)) {

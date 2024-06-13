@@ -295,6 +295,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isSelectMode: isBoolean(overrideProps.isSelectMode)
     ? overrideProps.isSelectMode
     : false,
+  isSMS: isBoolean(overrideProps.isSMS) ? overrideProps.isSMS : false,
   isSpoilerExpanded: overrideProps.isSpoilerExpanded || {},
   isTapToView: overrideProps.isTapToView,
   isTapToViewError: overrideProps.isTapToViewError,
@@ -2058,6 +2059,12 @@ PaymentNotification.args = {
     kind: PaymentEventKind.Notification,
     note: 'Hello there',
   },
+};
+
+export const SMS = Template.bind({});
+SMS.args = {
+  isSMS: true,
+  text: 'hello',
 };
 
 function MultiSelectMessage() {

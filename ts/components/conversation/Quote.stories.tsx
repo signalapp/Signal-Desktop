@@ -105,6 +105,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   isMessageRequestAccepted: true,
   isSelected: false,
   isSelectMode: false,
+  isSMS: false,
   isSpoilerExpanded: {},
   toggleSelectMessage: action('toggleSelectMessage'),
   kickOffAttachmentDownload: action('default--kickOffAttachmentDownload'),

@@ -881,6 +881,7 @@ export class BackupImportStream extends Writable {
         item.expiresInMs && !item.expiresInMs.isZero()
           ? DurationInSeconds.fromMillis(item.expiresInMs.toNumber())
           : undefined,
+      sms: item.sms === true ? true : undefined,
       ...directionDetails,
     };
     const additionalMessages: Array<MessageAttributesType> = [];

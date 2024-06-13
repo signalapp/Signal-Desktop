@@ -99,6 +99,7 @@ import { UserText } from '../UserText';
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
+const GUESS_METADATA_WIDTH_SMS_SIZE = 18;
 const GUESS_METADATA_WIDTH_EDITED_SIZE = 40;
 const GUESS_METADATA_WIDTH_OUTGOING_SIZE: Record<MessageStatusType, number> = {
   delivered: 24,
@@ -218,6 +219,7 @@ export type PropsData = {
   isTargetedCounter?: number;
   isSelected: boolean;
   isSelectMode: boolean;
+  isSMS: boolean;
   isSpoilerExpanded?: Record<number, boolean>;
   direction: DirectionType;
   timestamp: number;
@@ -628,7 +630,8 @@ export class Message extends React.PureComponent<Props, State> {
    * because it can reduce layout jumpiness.
    */
   private guessMetadataWidth(): number {
-    const { direction, expirationLength, status, isEditedMessage } = this.props;
+    const { direction, expirationLength, isSMS, status, isEditedMessage } =
+      this.props;
 
     let result = GUESS_METADATA_WIDTH_TIMESTAMP_SIZE;
 
@@ -639,6 +642,10 @@ export class Message extends React.PureComponent<Props, State> {
     const hasExpireTimer = Boolean(expirationLength);
     if (hasExpireTimer) {
       result += GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE;
+    }
+
+    if (isSMS) {
+      result += GUESS_METADATA_WIDTH_SMS_SIZE;
     }
 
     if (direction === 'outgoing' && status) {
@@ -811,6 +818,7 @@ export class Message extends React.PureComponent<Props, State> {
       i18n,
       id,
       isEditedMessage,
+      isSMS,
       isSticker,
       isTapToViewExpired,
       retryMessageSend,
@@ -834,6 +842,7 @@ export class Message extends React.PureComponent<Props, State> {
         i18n={i18n}
         id={id}
         isEditedMessage={isEditedMessage}
+        isSMS={isSMS}
         isInline={isInline}
         isOutlineOnlyBubble={
           deletedForEveryone || (attachmentDroppedDueToSize && !text)
