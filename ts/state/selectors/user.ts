@@ -3,12 +3,13 @@
 
 import { createSelector } from 'reselect';
 
-import type { LocalizerType, ThemeType } from '../../types/Util';
+import { type LocalizerType, ThemeType } from '../../types/Util';
 import type { AciString, PniString } from '../../types/ServiceId';
 import type { LocaleMessagesType } from '../../types/I18N';
 import type { MenuOptionsType } from '../../types/menu';
 
 import type { StateType } from '../reducer';
+import type { CallingStateType } from '../ducks/calling';
 import type { UserStateType } from '../ducks/user';
 
 import { isAlpha, isBeta } from '../../util/version';
@@ -80,9 +81,24 @@ export const getTempPath = createSelector(
   (state: UserStateType): string => state.tempPath
 );
 
-export const getTheme = createSelector(
+export const getPreferredTheme = createSelector(
   getUser,
   (state: UserStateType): ThemeType => state.theme
+);
+
+// Also defined in calling selectors, redefined to avoid circular dependency
+const getIsInFullScreenCall = createSelector(
+  (state: StateType): CallingStateType => state.calling,
+  (state: CallingStateType): boolean =>
+    Boolean(state.activeCallState && !state.activeCallState.pip)
+);
+
+export const getTheme = createSelector(
+  getPreferredTheme,
+  getIsInFullScreenCall,
+  (theme: ThemeType, isInCall: boolean): ThemeType => {
+    return isInCall ? ThemeType.dark : theme;
+  }
 );
 
 const getVersion = createSelector(
