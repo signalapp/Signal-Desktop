@@ -5,6 +5,7 @@ import type UpdatedDelta from 'quill-delta';
 import type { MentionCompletion } from './mentions/completion';
 import type { EmojiCompletion } from './emoji/completion';
 import type { FormattingMenu } from './formatting/menu';
+import type { SignalClipboard } from './signal-clipboard';
 
 declare module 'react-quill' {
   // `react-quill` uses a different but compatible version of Delta
@@ -88,6 +89,7 @@ declare module 'quill' {
     getModule(module: 'formattingMenu'): FormattingMenu;
     getModule(module: 'history'): HistoryStatic;
     getModule(module: 'mentionCompletion'): MentionCompletion;
+    getModule(module: 'signalClipboard'): SignalClipboard;
     getModule(module: string): unknown;
 
     selection: SelectionStatic;

@@ -105,6 +105,7 @@ export type Props = Readonly<{
   large: boolean | null;
   inputApi: React.MutableRefObject<InputApi | undefined> | null;
   isFormattingEnabled: boolean;
+  isActive: boolean;
   sendCounter: number;
   skinTone: NonNullable<EmojiPickDataType['skinTone']> | null;
   draftText: string | null;
@@ -158,6 +159,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     i18n,
     inputApi,
     isFormattingEnabled,
+    isActive,
     large,
     linkPreviewLoading,
     linkPreviewResult,
@@ -409,8 +411,13 @@ export function CompositionInput(props: Props): React.ReactElement {
     isMouseDown,
     previousFormattingEnabled,
     previousIsMouseDown,
-    quillRef,
   ]);
+
+  React.useEffect(() => {
+    quillRef.current?.getModule('signalClipboard').updateOptions({
+      isDisabled: !isActive,
+    });
+  }, [isActive]);
 
   const onEnter = (): boolean => {
     const quill = quillRef.current;
@@ -702,7 +709,9 @@ export function CompositionInput(props: Props): React.ReactElement {
           defaultValue={delta}
           modules={{
             toolbar: false,
-            signalClipboard: true,
+            signalClipboard: {
+              isDisabled: !isActive,
+            },
             clipboard: {
               matchers: [
                 ['IMG', matchEmojiImage],

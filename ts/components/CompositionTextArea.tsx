@@ -21,6 +21,7 @@ import * as grapheme from '../util/grapheme';
 export type CompositionTextAreaProps = {
   bodyRanges: HydratedBodyRangesType | null;
   i18n: LocalizerType;
+  isActive: boolean;
   isFormattingEnabled: boolean;
   maxLength?: number;
   placeholder?: string;
@@ -58,6 +59,7 @@ export function CompositionTextArea({
   draftText,
   getPreferredBadge,
   i18n,
+  isActive,
   isFormattingEnabled,
   maxLength,
   onChange,
@@ -139,6 +141,7 @@ export function CompositionTextArea({
         getPreferredBadge={getPreferredBadge}
         getQuotedMessage={noop}
         i18n={i18n}
+        isActive={isActive}
         isFormattingEnabled={isFormattingEnabled}
         inputApi={inputApiRef}
         large

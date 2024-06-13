@@ -236,6 +236,7 @@ export function StoryViewsNRepliesModal({
               getPreferredBadge={getPreferredBadge}
               i18n={i18n}
               inputApi={inputApiRef}
+              isActive
               isFormattingEnabled={isFormattingEnabled}
               moduleClassName="StoryViewsNRepliesModal__input"
               onCloseLinkPreview={noop}

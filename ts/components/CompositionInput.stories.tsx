@@ -33,6 +33,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => {
     clearQuotedMessage: action('clearQuotedMessage'),
     getPreferredBadge: () => undefined,
     getQuotedMessage: action('getQuotedMessage'),
+    isActive: true,
     isFormattingEnabled:
       overrideProps.isFormattingEnabled === false
         ? overrideProps.isFormattingEnabled

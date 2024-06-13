@@ -19,16 +19,30 @@ const prepareText = (text: string) => {
   return `<span>${escapedEntities}</span>`;
 };
 
+type ClipboardOptions = Readonly<{
+  isDisabled: boolean;
+}>;
+
 export class SignalClipboard {
   quill: Quill;
+  options: ClipboardOptions;
 
-  constructor(quill: Quill) {
+  constructor(quill: Quill, options: ClipboardOptions) {
     this.quill = quill;
+    this.options = options;
 
     this.quill.root.addEventListener('paste', e => this.onCapturePaste(e));
   }
 
+  updateOptions(options: Partial<ClipboardOptions>): void {
+    this.options = { ...this.options, ...options };
+  }
+
   onCapturePaste(event: ClipboardEvent): void {
+    if (this.options.isDisabled) {
+      return;
+    }
+
     if (event.clipboardData == null) {
       event.preventDefault();
       event.stopPropagation();
