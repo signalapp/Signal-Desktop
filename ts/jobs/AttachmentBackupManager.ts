@@ -25,7 +25,6 @@ import {
   ReencyptedDigestMismatchError,
 } from '../AttachmentCrypto';
 import { getBackupKey } from '../services/backups/crypto';
-import { isMoreRecentThan } from '../util/timestamp';
 import type {
   AttachmentBackupJobType,
   CoreAttachmentBackupJobType,
@@ -35,8 +34,8 @@ import { encryptAndUploadAttachment } from '../util/uploadAttachment';
 import { getMediaIdFromMediaName } from '../services/backups/util/mediaId';
 import { fromBase64 } from '../Bytes';
 import type { WebAPIType } from '../textsecure/WebAPI';
+import { mightStillBeOnTransitTier } from '../types/Attachment';
 
-const TIME_ON_TRANSIT_TIER = 30 * durations.DAY;
 const MAX_CONCURRENT_JOBS = 3;
 const RETRY_CONFIG = {
   // As long as we have the file locally, we're always going to keep trying
@@ -195,13 +194,7 @@ async function runAttachmentBackupJobInner(
       cdnNumber: transitCdnNumber,
       uploadTimestamp: transitCdnUploadTimestamp,
     } = transitCdnInfo;
-    if (
-      transitCdnKey &&
-      transitCdnNumber != null &&
-      (!transitCdnUploadTimestamp ||
-        isMoreRecentThan(transitCdnUploadTimestamp, TIME_ON_TRANSIT_TIER))
-    ) {
-      // If we have transit CDN info, optimistically try to copy to the backup tier
+    if (mightStillBeOnTransitTier(transitCdnInfo)) {
       try {
         await copyToBackupTier({
           cdnKey: transitCdnKey,

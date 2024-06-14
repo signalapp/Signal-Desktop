@@ -28,6 +28,8 @@ import { ReadStatus } from '../messages/MessageReadStatus';
 import type { MessageStatusType } from '../components/conversation/Message';
 import { strictAssert } from '../util/assert';
 import type { SignalService as Proto } from '../protobuf';
+import { isMoreRecentThan } from '../util/timestamp';
+import { DAY } from '../util/durations';
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
@@ -1049,13 +1051,48 @@ export function isReencryptableToSameDigest(
   );
 }
 
+const TIME_ON_TRANSIT_TIER = 30 * DAY;
+// Extend range in case the attachment is actually still there (this function is meant to
+// be optimistic)
+const BUFFERED_TIME_ON_TRANSIT_TIER = TIME_ON_TRANSIT_TIER + 5 * DAY;
+
+export function mightStillBeOnTransitTier(
+  attachment: Pick<AttachmentType, 'cdnKey' | 'cdnNumber' | 'uploadTimestamp'>
+): boolean {
+  if (!attachment.cdnKey) {
+    return false;
+  }
+  if (attachment.cdnNumber == null) {
+    return false;
+  }
+
+  if (!attachment.uploadTimestamp) {
+    // Let's be conservative and still assume it might be downloadable
+    return true;
+  }
+
+  if (
+    isMoreRecentThan(attachment.uploadTimestamp, BUFFERED_TIME_ON_TRANSIT_TIER)
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+export function mightBeOnBackupTier(
+  attachment: Pick<AttachmentType, 'backupLocator'>
+): boolean {
+  return Boolean(attachment.backupLocator?.mediaName);
+}
+
 export function isDownloadableFromTransitTier(
   attachment: AttachmentType
 ): attachment is AttachmentDownloadableFromTransitTier {
   if (!isDecryptable(attachment)) {
     return false;
   }
-  if (attachment.cdnKey && attachment.cdnNumber) {
+  if (attachment.cdnKey && attachment.cdnNumber != null) {
     return true;
   }
   return false;

@@ -10,7 +10,11 @@ import { ensureFile } from 'fs-extra';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { strictAssert } from '../util/assert';
-import { AttachmentSizeError, type AttachmentType } from '../types/Attachment';
+import {
+  AttachmentSizeError,
+  mightBeOnBackupTier,
+  type AttachmentType,
+} from '../types/Attachment';
 import * as MIME from '../types/MIME';
 import * as Bytes from '../Bytes';
 import {
@@ -47,16 +51,25 @@ function getBackupMediaKeyMaterial(
   return deriveBackupMediaKeyMaterial(backupKey, mediaId.bytes);
 }
 
-async function getCdnNumberForBackupTier(
+export async function getCdnNumberForBackupTier(
   attachment: ProcessedAttachment
 ): Promise<number> {
   strictAssert(
     attachment.backupLocator,
     'Attachment was missing backupLocator'
   );
-  const backupCdnNumber = attachment.backupLocator.cdnNumber;
-  // TODO (DESKTOP-6983): get backupNumber by querying for all media
-  return backupCdnNumber || DEFAULT_BACKUP_CDN_NUMBER;
+  let backupCdnNumber = attachment.backupLocator.cdnNumber;
+
+  if (backupCdnNumber == null) {
+    const mediaId = getMediaIdForAttachment(attachment);
+    const backupCdnInfo = await backupsService.getBackupCdnInfo(mediaId.string);
+    if (backupCdnInfo.isInBackupTier) {
+      backupCdnNumber = backupCdnInfo.cdnNumber;
+    } else {
+      backupCdnNumber = DEFAULT_BACKUP_CDN_NUMBER;
+    }
+  }
+  return backupCdnNumber;
 }
 
 export async function downloadAttachment(
@@ -65,11 +78,11 @@ export async function downloadAttachment(
   options?: {
     disableRetries?: boolean;
     timeout?: number;
-    onlyFromTransitTier?: boolean;
+    mediaTier?: MediaTier;
     logPrefix?: string;
   }
 ): Promise<AttachmentType> {
-  const logId = `${options?.logPrefix}/downloadAttachmentV2`;
+  const logId = `${options?.logPrefix}/downloadAttachment`;
 
   const { digest, key, size, contentType } = attachment;
 
@@ -77,11 +90,9 @@ export async function downloadAttachment(
   strictAssert(key, `${logId}: missing key`);
   strictAssert(isNumber(size), `${logId}: missing size`);
 
-  // TODO (DESKTOP-7043): allow downloading from transit tier even if there is a backup
-  // locator (as fallback)
-  const mediaTier = attachment.backupLocator
-    ? MediaTier.BACKUP
-    : MediaTier.STANDARD;
+  const mediaTier =
+    options?.mediaTier ??
+    (mightBeOnBackupTier(attachment) ? MediaTier.BACKUP : MediaTier.STANDARD);
 
   let downloadedPath: string;
   if (mediaTier === MediaTier.STANDARD) {
