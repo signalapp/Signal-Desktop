@@ -43,12 +43,14 @@ export const EnterPasswordModal = (props: EnterPasswordModalProps) => {
     const passwordValue = passwordInputRef.current?.value;
     if (!passwordValue) {
       ToastUtils.pushToastError('enterPasswordErrorToast', window.i18n('noGivenPassword'));
+
       return;
     }
 
     const isPasswordValid = matchesHash(passwordValue as string, passwordHash);
     if (passwordHash && !isPasswordValid) {
       ToastUtils.pushToastError('enterPasswordErrorToast', window.i18n('invalidPassword'));
+
       return;
     }
 

@@ -304,6 +304,7 @@
       "ts/**/*.js",
       "ts/*.js",
       "!dist/**",
+      "stylesheets/fonts.css",
       "stylesheets/dist/*",
       "!js/register.js",
       "preload.js",
