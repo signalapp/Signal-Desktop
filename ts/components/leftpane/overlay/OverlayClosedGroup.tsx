@@ -79,7 +79,7 @@ const MemberRow = (
     <MemberListItem
       key={key}
       pubkey={memberPubkey}
-      isSelected={selectedMemberIds.some(m => m === memberPubkey)}
+      isSelected={selectedMemberIds.includes(memberPubkey)}
       onSelect={addToSelected}
       onUnselect={removeFromSelected}
     />

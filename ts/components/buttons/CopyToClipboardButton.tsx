@@ -8,7 +8,7 @@ import { SessionIconButton } from '../icon';
 import { SessionIconButtonProps } from '../icon/SessionIconButton';
 
 type CopyProps = {
-  copyContent: string;
+  copyContent?: string;
   onCopyComplete?: (copiedValue: string | undefined) => void;
   hotkey?: boolean;
 };
@@ -22,11 +22,24 @@ export const CopyToClipboardButton = (props: CopyToClipboardButtonProps) => {
   const [{ value }, copyToClipboard] = useCopyToClipboard();
 
   const onClick = () => {
-    copyToClipboard(copyContent);
-    ToastUtils.pushCopiedToClipBoard();
-    setCopied(true);
-    if (onCopyComplete) {
-      onCopyComplete(value);
+    try {
+      if (!copyContent && !text) {
+        throw Error('Nothing to copy!');
+      }
+
+      if (copyContent) {
+        copyToClipboard(copyContent);
+      } else if (text) {
+        copyToClipboard(text);
+      }
+
+      ToastUtils.pushCopiedToClipBoard();
+      setCopied(true);
+      if (onCopyComplete) {
+        onCopyComplete(value);
+      }
+    } catch (err) {
+      window.log.error('CopyToClipboard:', err);
     }
   };
 
@@ -51,7 +64,7 @@ export const CopyToClipboardButton = (props: CopyToClipboardButtonProps) => {
 type CopyToClipboardIconProps = Omit<SessionIconButtonProps, 'children' | 'onClick' | 'iconType'> &
   CopyProps;
 
-export const CopyToClipboardIcon = (props: CopyToClipboardIconProps) => {
+export const CopyToClipboardIcon = (props: CopyToClipboardIconProps & { copyContent: string }) => {
   const { copyContent, onCopyComplete, hotkey = false } = props;
   const [{ value }, copyToClipboard] = useCopyToClipboard();
 

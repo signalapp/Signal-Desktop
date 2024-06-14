@@ -58,7 +58,7 @@ export function SessionQRCode(props: SessionQRCodeProps) {
   const qrCanvasSize = 1000;
   const canvasLogoSize = logoSize ? (qrCanvasSize * 0.25 * logoSize) / logoSize : 250;
 
-  const saveQRCode = async () => {
+  const saveQRCode = () => {
     const fileName = `${id}-${new Date().toISOString()}.jpg`;
     try {
       if (saveWithTheme) {

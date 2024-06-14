@@ -72,25 +72,17 @@ export const AboutView = () => {
         <CopyToClipboardButton
           className="version"
           text={versionInfo}
-          copyContent={versionInfo}
           buttonType={SessionButtonType.Simple}
         />
         <CopyToClipboardButton
           className="commitHash"
           text={commitInfo}
-          copyContent={commitInfo}
           buttonType={SessionButtonType.Simple}
         />
-        <CopyToClipboardButton
-          className="os"
-          text={osInfo}
-          copyContent={osInfo}
-          buttonType={SessionButtonType.Simple}
-        />
+        <CopyToClipboardButton className="os" text={osInfo} buttonType={SessionButtonType.Simple} />
         <CopyToClipboardButton
           className="environment"
           text={states.join(' - ')}
-          copyContent={states.join(' - ')}
           buttonType={SessionButtonType.Simple}
         />
         <a href="https://getsession.org">https://getsession.org</a>
