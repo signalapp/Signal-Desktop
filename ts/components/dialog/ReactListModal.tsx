@@ -14,6 +14,7 @@ import {
 } from '../../state/ducks/modalDialog';
 import {
   useSelectedIsPublic,
+  useSelectedWeAreAdmin,
   useSelectedWeAreModerator,
 } from '../../state/selectors/selectedConversation';
 import { SortedReactionList } from '../../types/Reaction';
@@ -48,6 +49,11 @@ const StyledSendersContainer = styled(Flex)`
   overflow-x: hidden;
   overflow-y: auto;
   padding: 0 16px 16px;
+`;
+
+const StyledContactContainer = styled.span`
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const StyledReactionBar = styled(Flex)`
@@ -132,7 +138,7 @@ const ReactionSenders = (props: ReactionSendersProps) => {
           justifyContent={'space-between'}
           alignItems={'center'}
         >
-          <Flex container={true} alignItems={'center'}>
+          <Flex container={true} alignItems={'center'} style={{ overflow: 'hidden' }}>
             <Avatar
               size={AvatarSize.XS}
               pubkey={sender}
@@ -143,11 +149,13 @@ const ReactionSenders = (props: ReactionSendersProps) => {
             {sender === me ? (
               window.i18n('you')
             ) : (
-              <ContactName
-                pubkey={sender}
-                module="module-conversation__user"
-                shouldShowPubkey={false}
-              />
+              <StyledContactContainer>
+                <ContactName
+                  pubkey={sender}
+                  module="module-conversation__user"
+                  shouldShowPubkey={false}
+                />
+              </StyledContactContainer>
             )}
           </Flex>
           {sender === me && (
@@ -231,6 +239,7 @@ export const ReactListModal = (props: Props) => {
 
   const msgProps = useMessageReactsPropsById(messageId);
   const isPublic = useSelectedIsPublic();
+  const weAreAdmin = useSelectedWeAreAdmin();
   const weAreModerator = useSelectedWeAreModerator();
   const me = UserUtils.getOurPubKeyStrFromCache();
 
@@ -362,7 +371,7 @@ export const ReactListModal = (props: Props) => {
                   </>
                 )}
               </p>
-              {isPublic && weAreModerator && (
+              {isPublic && (weAreAdmin || weAreModerator) && (
                 <SessionButton
                   text={window.i18n('clearAll')}
                   buttonColor={SessionButtonColor.Danger}

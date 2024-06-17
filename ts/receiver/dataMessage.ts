@@ -251,7 +251,9 @@ export async function handleSwarmDataMessage({
   }
 
   let msgModel =
-    isSyncedMessage || (envelope.senderIdentity && isUsFromCache(envelope.senderIdentity))
+    isSyncedMessage ||
+    (envelope.senderIdentity && isUsFromCache(envelope.senderIdentity)) ||
+    (envelope.source && isUsFromCache(envelope.source))
       ? createSwarmMessageSentFromUs({
           conversationId: convoIdToAddTheMessageTo,
           messageHash,
