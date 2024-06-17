@@ -69,6 +69,7 @@ import {
   conversationQueueJobEnum,
 } from '../../jobs/conversationJobQueue';
 import { ReceiptType } from '../../types/Receipt';
+import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
 
 export type StoryDataType = ReadonlyDeep<
   {
@@ -284,7 +285,7 @@ function deleteGroupStoryReply(
   messageId: string
 ): ThunkAction<void, RootStateType, unknown, StoryReplyDeletedActionType> {
   return async dispatch => {
-    await window.Signal.Data.removeMessage(messageId);
+    await window.Signal.Data.removeMessage(messageId, { singleProtoJobQueue });
     dispatch({
       type: STORY_REPLY_DELETED,
       payload: messageId,
@@ -1408,10 +1409,7 @@ function removeAllContactStories(
 
     log.info(`${logId}: removing ${messages.length} stories`);
 
-    await Promise.all([
-      messages.map(m => m.cleanup()),
-      await dataInterface.removeMessages(messageIds),
-    ]);
+    await dataInterface.removeMessages(messageIds, { singleProtoJobQueue });
 
     dispatch({
       type: 'NOOP',

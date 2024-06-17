@@ -1,7 +1,8 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AciString } from '../types/ServiceId';
+import { z } from 'zod';
+
 import type { MessageModel } from '../models/messages';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
@@ -14,58 +15,69 @@ import { isMessageUnread } from '../util/isMessageUnread';
 import { notificationService } from '../services/notifications';
 import { queueUpdateMessage } from '../util/messageBatcher';
 import { strictAssert } from '../util/assert';
-import { generateCacheKey } from './generateCacheKey';
+import { isAciString } from '../util/isAciString';
+import dataInterface from '../sql/Client';
+
+const { removeSyncTaskById } = dataInterface;
+
+export const readSyncTaskSchema = z.object({
+  type: z.literal('ReadSync').readonly(),
+  readAt: z.number(),
+  sender: z.string().optional(),
+  senderAci: z.string().refine(isAciString),
+  senderId: z.string(),
+  timestamp: z.number(),
+});
+
+export type ReadSyncTaskType = z.infer<typeof readSyncTaskSchema>;
 
 export type ReadSyncAttributesType = {
   envelopeId: string;
-  readAt: number;
-  removeFromMessageReceiverCache: () => unknown;
-  sender?: string;
-  senderAci: AciString;
-  senderId: string;
-  timestamp: number;
+  syncTaskId: string;
+  readSync: ReadSyncTaskType;
 };
 
 const readSyncs = new Map<string, ReadSyncAttributesType>();
 
-function remove(sync: ReadSyncAttributesType): void {
-  readSyncs.delete(
-    generateCacheKey({
-      sender: sync.senderId,
-      timestamp: sync.timestamp,
-      type: 'readsync',
-    })
-  );
-  sync.removeFromMessageReceiverCache();
+async function remove(sync: ReadSyncAttributesType): Promise<void> {
+  const { syncTaskId } = sync;
+  readSyncs.delete(syncTaskId);
+  await removeSyncTaskById(syncTaskId);
 }
 
 async function maybeItIsAReactionReadSync(
   sync: ReadSyncAttributesType
 ): Promise<void> {
-  const logId = `ReadSyncs.onSync(timestamp=${sync.timestamp})`;
+  const { readSync } = sync;
+  const logId = `ReadSyncs.onSync(timestamp=${readSync.timestamp})`;
 
   const readReaction = await window.Signal.Data.markReactionAsRead(
-    sync.senderAci,
-    Number(sync.timestamp)
+    readSync.senderAci,
+    Number(readSync.timestamp)
   );
 
   if (
     !readReaction ||
     readReaction?.targetAuthorAci !== window.storage.user.getCheckedAci()
   ) {
-    log.info(`${logId} not found:`, sync.senderId, sync.sender, sync.senderAci);
+    log.info(
+      `${logId} not found:`,
+      readSync.senderId,
+      readSync.sender,
+      readSync.senderAci
+    );
     return;
   }
 
   log.info(
     `${logId} read reaction sync found:`,
     readReaction.conversationId,
-    sync.senderId,
-    sync.sender,
-    sync.senderAci
+    readSync.senderId,
+    readSync.sender,
+    readSync.senderAci
   );
 
-  remove(sync);
+  await remove(sync);
 
   notificationService.removeBy({
     conversationId: readReaction.conversationId,
@@ -75,9 +87,9 @@ async function maybeItIsAReactionReadSync(
   });
 }
 
-export function forMessage(
+export async function forMessage(
   message: MessageModel
-): ReadSyncAttributesType | null {
+): Promise<ReadSyncAttributesType | null> {
   const logId = `ReadSyncs.forMessage(${getMessageIdForLogging(
     message.attributes
   )})`;
@@ -92,13 +104,17 @@ export function forMessage(
   });
   const readSyncValues = Array.from(readSyncs.values());
   const foundSync = readSyncValues.find(item => {
-    return item.senderId === sender?.id && item.timestamp === messageTimestamp;
+    const { readSync } = item;
+    return (
+      readSync.senderId === sender?.id &&
+      readSync.timestamp === messageTimestamp
+    );
   });
   if (foundSync) {
     log.info(
-      `${logId}: Found early read sync for message ${foundSync.timestamp}`
+      `${logId}: Found early read sync for message ${foundSync.readSync.timestamp}`
     );
-    remove(foundSync);
+    await remove(foundSync);
     return foundSync;
   }
 
@@ -106,20 +122,15 @@ export function forMessage(
 }
 
 export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
-  readSyncs.set(
-    generateCacheKey({
-      sender: sync.senderId,
-      timestamp: sync.timestamp,
-      type: 'readsync',
-    }),
-    sync
-  );
+  const { readSync, syncTaskId } = sync;
 
-  const logId = `ReadSyncs.onSync(timestamp=${sync.timestamp})`;
+  readSyncs.set(syncTaskId, sync);
+
+  const logId = `ReadSyncs.onSync(timestamp=${readSync.timestamp})`;
 
   try {
     const messages = await window.Signal.Data.getMessagesBySentAt(
-      sync.timestamp
+      readSync.timestamp
     );
 
     const found = messages.find(item => {
@@ -129,7 +140,7 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
         reason: logId,
       });
 
-      return isIncoming(item) && sender?.id === sync.senderId;
+      return isIncoming(item) && sender?.id === readSync.senderId;
     });
 
     if (!found) {
@@ -144,8 +155,8 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
       found,
       'ReadSyncs.onSync'
     );
-    const readAt = Math.min(sync.readAt, Date.now());
-    const newestSentAt = sync.timestamp;
+    const readAt = Math.min(readSync.readAt, Date.now());
+    const newestSentAt = readSync.timestamp;
 
     // If message is unread, we mark it read. Otherwise, we update the expiration
     //   timer to the time specified by the read sync if it's earlier than
@@ -193,9 +204,9 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
 
     queueUpdateMessage(message.attributes);
 
-    remove(sync);
+    await remove(sync);
   } catch (error) {
-    remove(sync);
     log.error(`${logId} error:`, Errors.toLogFormat(error));
+    await remove(sync);
   }
 }

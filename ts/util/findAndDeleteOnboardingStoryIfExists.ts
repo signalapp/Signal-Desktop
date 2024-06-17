@@ -4,6 +4,7 @@
 import * as log from '../logging/log';
 import { calculateExpirationTimestamp } from './expirationTimer';
 import { DAY } from './durations';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 
 export async function findAndDeleteOnboardingStoryIfExists(): Promise<void> {
   const existingOnboardingStoryMessageIds = window.storage.get(
@@ -43,7 +44,9 @@ export async function findAndDeleteOnboardingStoryIfExists(): Promise<void> {
 
   log.info('findAndDeleteOnboardingStoryIfExists: removing onboarding stories');
 
-  await window.Signal.Data.removeMessages(existingOnboardingStoryMessageIds);
+  await window.Signal.Data.removeMessages(existingOnboardingStoryMessageIds, {
+    singleProtoJobQueue,
+  });
 
   await window.storage.put('existingOnboardingStoryMessageIds', undefined);
 

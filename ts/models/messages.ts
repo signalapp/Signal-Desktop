@@ -109,7 +109,7 @@ import {
 } from '../services/notifications';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import * as log from '../logging/log';
-import { cleanupMessage, deleteMessageData } from '../util/cleanup';
+import { deleteMessageData } from '../util/cleanup';
 import {
   getSource,
   getSourceServiceId,
@@ -313,10 +313,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   merge(model: MessageModel): void {
     const attributes = model.attributes || model;
     this.set(attributes);
-  }
-
-  async cleanup(): Promise<void> {
-    await cleanupMessage(this.attributes);
   }
 
   async deleteData(): Promise<void> {

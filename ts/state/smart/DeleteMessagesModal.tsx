@@ -17,10 +17,8 @@ import {
 } from '../selectors/conversations';
 import { getDeleteMessagesProps } from '../selectors/globalModals';
 import { useItemsActions } from '../ducks/items';
-import {
-  getLocalDeleteWarningShown,
-  getDeleteSyncSendEnabled,
-} from '../selectors/items';
+import { getLocalDeleteWarningShown } from '../selectors/items';
+import { getDeleteSyncSendEnabled } from '../selectors/items-extra';
 import { LocalDeleteWarningModal } from '../../components/LocalDeleteWarningModal';
 
 export const SmartDeleteMessagesModal = memo(

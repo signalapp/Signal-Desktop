@@ -4,6 +4,7 @@
 import { z } from 'zod';
 import type { ZodSchema } from 'zod';
 
+import { drop } from './drop';
 import * as log from '../logging/log';
 import * as DeletesForMe from '../messageModifiers/DeletesForMe';
 import {
@@ -11,18 +12,31 @@ import {
   deleteConversationSchema,
   deleteLocalConversationSchema,
 } from '../textsecure/messageReceiverEvents';
-
+import {
+  receiptSyncTaskSchema,
+  onReceipt,
+} from '../messageModifiers/MessageReceipts';
 import {
   deleteConversation,
   deleteLocalOnlyConversation,
   getConversationFromTarget,
 } from './deleteForMe';
-import { drop } from './drop';
+import {
+  onSync as onReadSync,
+  readSyncTaskSchema,
+} from '../messageModifiers/ReadSyncs';
+import {
+  onSync as onViewSync,
+  viewSyncTaskSchema,
+} from '../messageModifiers/ViewSyncs';
 
 const syncTaskDataSchema = z.union([
   deleteMessageSchema,
   deleteConversationSchema,
   deleteLocalConversationSchema,
+  receiptSyncTaskSchema,
+  readSyncTaskSchema,
+  viewSyncTaskSchema,
 ]);
 export type SyncTaskData = z.infer<typeof syncTaskDataSchema>;
 
@@ -40,6 +54,11 @@ const SCHEMAS_BY_TYPE: Record<SyncTaskData['type'], ZodSchema> = {
   'delete-message': deleteMessageSchema,
   'delete-conversation': deleteConversationSchema,
   'delete-local-conversation': deleteLocalConversationSchema,
+  Delivery: receiptSyncTaskSchema,
+  Read: receiptSyncTaskSchema,
+  View: receiptSyncTaskSchema,
+  ReadSync: readSyncTaskSchema,
+  ViewSync: viewSyncTaskSchema,
 };
 
 function toLogId(task: SyncTaskType) {
@@ -77,14 +96,15 @@ export async function queueSyncTasks(
     const { data: parsed } = parseResult;
 
     if (parsed.type === 'delete-message') {
-      // eslint-disable-next-line no-await-in-loop
-      await DeletesForMe.onDelete({
-        conversation: parsed.conversation,
-        envelopeId,
-        message: parsed.message,
-        syncTaskId: id,
-        timestamp: sentAt,
-      });
+      drop(
+        DeletesForMe.onDelete({
+          conversation: parsed.conversation,
+          envelopeId,
+          message: parsed.message,
+          syncTaskId: id,
+          timestamp: sentAt,
+        })
+      );
     } else if (parsed.type === 'delete-conversation') {
       const {
         conversation: targetConversation,
@@ -133,6 +153,39 @@ export async function queueSyncTasks(
           log.info(`${logId}: Done; result=${result}`);
         })
       );
+    } else if (
+      parsed.type === 'Delivery' ||
+      parsed.type === 'Read' ||
+      parsed.type === 'View'
+    ) {
+      drop(
+        onReceipt({
+          envelopeId,
+          receiptSync: parsed,
+          syncTaskId: id,
+        })
+      );
+    } else if (parsed.type === 'ReadSync') {
+      drop(
+        onReadSync({
+          envelopeId,
+          readSync: parsed,
+          syncTaskId: id,
+        })
+      );
+    } else if (parsed.type === 'ViewSync') {
+      drop(
+        onViewSync({
+          envelopeId,
+          viewSync: parsed,
+          syncTaskId: id,
+        })
+      );
+    } else {
+      const parsedType: never = parsed.type;
+      log.error(`${logId}: Encountered job of type ${parsedType}, removing`);
+      // eslint-disable-next-line no-await-in-loop
+      await removeSyncTaskById(id);
     }
   }
 }

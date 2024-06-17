@@ -59,9 +59,9 @@ describe('filterAndSortConversations', () => {
     check({
       searchTerm: '9876',
       input: [
-        { title: 'no' },
+        { title: 'no', e164: undefined },
         { title: 'yes', e164: '+16505559876' },
-        { title: 'no' },
+        { title: 'no', e164: undefined },
       ],
       expected: [{ title: 'yes' }],
     });

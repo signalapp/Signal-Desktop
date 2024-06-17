@@ -7,7 +7,7 @@ import type { ConversationAttributesType } from '../model-types.d';
 import { hasErrors } from '../state/selectors/message';
 import { readSyncJobQueue } from '../jobs/readSyncJobQueue';
 import { notificationService } from '../services/notifications';
-import { expiringMessagesDeletionService } from '../services/expiringMessagesDeletion';
+import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion';
 import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService';
 import { isGroup, isDirectConversation } from './whatTypeOfConversation';
 import * as log from '../logging/log';
@@ -196,7 +196,7 @@ export async function markConversationRead(
     }
   }
 
-  void expiringMessagesDeletionService.update();
+  void updateExpiringMessagesService();
   void tapToViewMessagesDeletionService.update();
 
   return true;

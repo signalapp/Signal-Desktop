@@ -41,10 +41,8 @@ import {
 import { getHasStoriesSelector } from '../selectors/stories2';
 import { getIntl, getTheme, getUserACI } from '../selectors/user';
 import { useItemsActions } from '../ducks/items';
-import {
-  getDeleteSyncSendEnabled,
-  getLocalDeleteWarningShown,
-} from '../selectors/items';
+import { getLocalDeleteWarningShown } from '../selectors/items';
+import { getDeleteSyncSendEnabled } from '../selectors/items-extra';
 
 export type OwnProps = {
   id: string;

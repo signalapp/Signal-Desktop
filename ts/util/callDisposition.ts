@@ -280,7 +280,7 @@ function shouldSyncStatus(callStatus: CallStatus) {
   return statusToProto[callStatus] != null;
 }
 
-function getProtoForCallHistory(
+export function getProtoForCallHistory(
   callHistory: CallHistoryDetails
 ): Proto.SyncMessage.ICallEvent | null {
   const event = statusToProto[callHistory.status];
@@ -1026,7 +1026,10 @@ async function saveCallHistory({
 
   if (isDeleted) {
     if (prevMessage != null) {
-      await window.Signal.Data.removeMessage(prevMessage.id);
+      await window.Signal.Data.removeMessage(prevMessage.id, {
+        fromSync: true,
+        singleProtoJobQueue,
+      });
     }
     return callHistory;
   }
@@ -1209,32 +1212,10 @@ export async function clearCallHistoryDataAndSync(): Promise<void> {
       window.MessageCache.__DEPRECATED$unregister(messageId);
     });
 
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
-
-    const callLogEvent = new Proto.SyncMessage.CallLogEvent({
-      type: Proto.SyncMessage.CallLogEvent.Type.CLEAR,
-      timestamp: Long.fromNumber(timestamp),
-    });
-
-    const syncMessage = MessageSender.createSyncMessage();
-    syncMessage.callLogEvent = callLogEvent;
-
-    const contentMessage = new Proto.Content();
-    contentMessage.syncMessage = syncMessage;
-
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     log.info('clearCallHistory: Queueing sync message');
-    await singleProtoJobQueue.add({
-      contentHint: ContentHint.RESENDABLE,
-      serviceId: ourAci,
-      isSyncMessage: true,
-      protoBase64: Bytes.toBase64(
-        Proto.Content.encode(contentMessage).finish()
-      ),
-      type: 'callLogEventSync',
-      urgent: false,
-    });
+    await singleProtoJobQueue.add(
+      MessageSender.getClearCallHistoryMessage(timestamp)
+    );
   } catch (error) {
     log.error('clearCallHistory: Failed to clear call history', error);
   }

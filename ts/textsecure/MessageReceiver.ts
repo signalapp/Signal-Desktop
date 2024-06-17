@@ -137,6 +137,8 @@ import type {
   DeleteForMeSyncEventData,
   DeleteForMeSyncTarget,
   ConversationToDelete,
+  ViewSyncEventData,
+  ReadSyncEventData,
 } from './messageReceiverEvents';
 import * as log from '../logging/log';
 import * as durations from '../util/durations';
@@ -1728,15 +1730,17 @@ export default class MessageReceiver
     await this.dispatchAndWait(
       getEnvelopeId(envelope),
       new DeliveryEvent(
-        {
-          envelopeId: envelope.id,
-          timestamp: envelope.timestamp,
-          envelopeTimestamp: envelope.timestamp,
-          source: envelope.source,
-          sourceServiceId: envelope.sourceServiceId,
-          sourceDevice: envelope.sourceDevice,
-          wasSentEncrypted: false,
-        },
+        [
+          {
+            timestamp: envelope.timestamp,
+            source: envelope.source,
+            sourceServiceId: envelope.sourceServiceId,
+            sourceDevice: envelope.sourceDevice,
+            wasSentEncrypted: false,
+          },
+        ],
+        envelope.id,
+        envelope.timestamp,
         this.removeFromCache.bind(this, envelope)
       )
     );
@@ -2907,22 +2911,22 @@ export default class MessageReceiver
 
     const logId = getEnvelopeId(envelope);
 
-    await Promise.all(
-      receiptMessage.timestamp.map(async rawTimestamp => {
-        const ev = new EventClass(
-          {
-            envelopeId: envelope.id,
-            timestamp: rawTimestamp?.toNumber(),
-            envelopeTimestamp: envelope.timestamp,
-            source: envelope.source,
-            sourceServiceId: envelope.sourceServiceId,
-            sourceDevice: envelope.sourceDevice,
-            wasSentEncrypted: true,
-          },
-          this.removeFromCache.bind(this, envelope)
-        );
-        await this.dispatchAndWait(logId, ev);
-      })
+    const receipts = receiptMessage.timestamp.map(rawTimestamp => ({
+      timestamp: rawTimestamp?.toNumber(),
+      source: envelope.source,
+      sourceServiceId: envelope.sourceServiceId,
+      sourceDevice: envelope.sourceDevice,
+      wasSentEncrypted: true as const,
+    }));
+
+    await this.dispatchAndWait(
+      logId,
+      new EventClass(
+        receipts,
+        envelope.id,
+        envelope.timestamp,
+        this.removeFromCache.bind(this, envelope)
+      )
     );
   }
 
@@ -3469,23 +3473,27 @@ export default class MessageReceiver
 
     logUnexpectedUrgentValue(envelope, 'readSync');
 
-    const results = [];
-    for (const { timestamp, sender, senderAci } of read) {
-      const ev = new ReadSyncEvent(
-        {
-          envelopeId: envelope.id,
-          envelopeTimestamp: envelope.timestamp,
-          timestamp: timestamp?.toNumber(),
-          sender: dropNull(sender),
-          senderAci: senderAci
-            ? normalizeAci(senderAci, 'handleRead.senderAci')
-            : undefined,
-        },
+    const reads = read.map(
+      ({ timestamp, sender, senderAci }): ReadSyncEventData => ({
+        envelopeId: envelope.id,
+        envelopeTimestamp: envelope.timestamp,
+        timestamp: timestamp?.toNumber(),
+        sender: dropNull(sender),
+        senderAci: senderAci
+          ? normalizeAci(senderAci, 'handleRead.senderAci')
+          : undefined,
+      })
+    );
+
+    await this.dispatchAndWait(
+      logId,
+      new ReadSyncEvent(
+        reads,
+        envelope.id,
+        envelope.timestamp,
         this.removeFromCache.bind(this, envelope)
-      );
-      results.push(this.dispatchAndWait(logId, ev));
-    }
-    await Promise.all(results);
+      )
+    );
   }
 
   private async handleViewed(
@@ -3497,22 +3505,24 @@ export default class MessageReceiver
 
     logUnexpectedUrgentValue(envelope, 'viewSync');
 
-    await Promise.all(
-      viewed.map(async ({ timestamp, senderE164, senderAci }) => {
-        const ev = new ViewSyncEvent(
-          {
-            envelopeId: envelope.id,
-            envelopeTimestamp: envelope.timestamp,
-            timestamp: timestamp?.toNumber(),
-            senderE164: dropNull(senderE164),
-            senderAci: senderAci
-              ? normalizeAci(senderAci, 'handleViewed.senderAci')
-              : undefined,
-          },
-          this.removeFromCache.bind(this, envelope)
-        );
-        await this.dispatchAndWait(logId, ev);
+    const views = viewed.map(
+      ({ timestamp, senderE164, senderAci }): ViewSyncEventData => ({
+        timestamp: timestamp?.toNumber(),
+        senderE164: dropNull(senderE164),
+        senderAci: senderAci
+          ? normalizeAci(senderAci, 'handleViewed.senderAci')
+          : undefined,
       })
+    );
+
+    await this.dispatchAndWait(
+      logId,
+      new ViewSyncEvent(
+        views,
+        envelope.id,
+        envelope.timestamp,
+        this.removeFromCache.bind(this, envelope)
+      )
     );
   }
 
@@ -3663,19 +3673,28 @@ export default class MessageReceiver
                 ? processConversationToDelete(item.conversation, logId)
                 : undefined;
 
-              if (messages?.length && conversation) {
-                // We want each message in its own task
-                return messages.map(innerItem => {
-                  return {
-                    type: 'delete-message' as const,
-                    message: innerItem,
-                    conversation,
-                    timestamp,
-                  };
-                });
+              if (!conversation) {
+                log.warn(
+                  `${logId}/handleDeleteForMeSync/messageDeletes: No target conversation`
+                );
+                return undefined;
+              }
+              if (!messages?.length) {
+                log.warn(
+                  `${logId}/handleDeleteForMeSync/messageDeletes: No target messages`
+                );
+                return undefined;
               }
 
-              return undefined;
+              // We want each message in its own task
+              return messages.map(innerItem => {
+                return {
+                  type: 'delete-message' as const,
+                  message: innerItem,
+                  conversation,
+                  timestamp,
+                };
+              });
             })
             .filter(isNotNil);
 
@@ -3692,17 +3711,26 @@ export default class MessageReceiver
                 ? processConversationToDelete(item.conversation, logId)
                 : undefined;
 
-              if (mostRecentMessages?.length && conversation) {
-                return {
-                  type: 'delete-conversation' as const,
-                  conversation,
-                  isFullDelete: Boolean(item.isFullDelete),
-                  mostRecentMessages,
-                  timestamp,
-                };
+              if (!conversation) {
+                log.warn(
+                  `${logId}/handleDeleteForMeSync/conversationDeletes: No target conversation`
+                );
+                return undefined;
+              }
+              if (!mostRecentMessages?.length) {
+                log.warn(
+                  `${logId}/handleDeleteForMeSync/conversationDeletes: No target messages`
+                );
+                return undefined;
               }
 
-              return undefined;
+              return {
+                type: 'delete-conversation' as const,
+                conversation,
+                isFullDelete: Boolean(item.isFullDelete),
+                mostRecentMessages,
+                timestamp,
+              };
             })
             .filter(isNotNil);
 
@@ -3716,15 +3744,18 @@ export default class MessageReceiver
                 ? processConversationToDelete(item.conversation, logId)
                 : undefined;
 
-              if (conversation) {
-                return {
-                  type: 'delete-local-conversation' as const,
-                  conversation,
-                  timestamp,
-                };
+              if (!conversation) {
+                log.warn(
+                  `${logId}/handleDeleteForMeSync/localOnlyConversationDeletes: No target conversation`
+                );
+                return undefined;
               }
 
-              return undefined;
+              return {
+                type: 'delete-local-conversation' as const,
+                conversation,
+                timestamp,
+              };
             })
             .filter(isNotNil);
 
@@ -3969,15 +4000,32 @@ function processMessageToDelete(
     return undefined;
   }
 
-  if (target.authorAci) {
-    return {
-      type: 'aci' as const,
-      authorAci: normalizeAci(
-        target.authorAci,
-        `${logId}/processMessageToDelete`
-      ),
-      sentAt,
-    };
+  const { authorServiceId } = target;
+  if (authorServiceId) {
+    if (isAciString(authorServiceId)) {
+      return {
+        type: 'aci' as const,
+        authorAci: normalizeAci(
+          authorServiceId,
+          `${logId}/processMessageToDelete/aci`
+        ),
+        sentAt,
+      };
+    }
+    if (isPniString(authorServiceId)) {
+      return {
+        type: 'pni' as const,
+        authorPni: normalizePni(
+          authorServiceId,
+          `${logId}/processMessageToDelete/pni`
+        ),
+        sentAt,
+      };
+    }
+    log.error(
+      `${logId}/processMessageToDelete: invalid authorServiceId, Dropping AddressableMessage.`
+    );
+    return undefined;
   }
   if (target.authorE164) {
     return {
@@ -3997,13 +4045,25 @@ function processConversationToDelete(
   target: Proto.SyncMessage.DeleteForMe.IConversationIdentifier,
   logId: string
 ): ConversationToDelete | undefined {
-  const { threadAci, threadGroupId, threadE164 } = target;
+  const { threadServiceId, threadGroupId, threadE164 } = target;
 
-  if (threadAci) {
-    return {
-      type: 'aci' as const,
-      aci: normalizeAci(threadAci, `${logId}/threadAci`),
-    };
+  if (threadServiceId) {
+    if (isAciString(threadServiceId)) {
+      return {
+        type: 'aci' as const,
+        aci: normalizeAci(threadServiceId, `${logId}/aci`),
+      };
+    }
+    if (isPniString(threadServiceId)) {
+      return {
+        type: 'pni' as const,
+        pni: normalizePni(threadServiceId, `${logId}/pni`),
+      };
+    }
+    log.error(
+      `${logId}/processConversationToDelete: Invalid threadServiceId, dropping ConversationIdentifier.`
+    );
+    return undefined;
   }
   if (threadGroupId) {
     return {

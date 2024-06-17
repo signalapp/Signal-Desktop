@@ -6,7 +6,11 @@ import type { PublicKey } from '@signalapp/libsignal-client';
 import { z } from 'zod';
 
 import type { SignalService as Proto } from '../protobuf';
-import type { ServiceIdString, AciString } from '../types/ServiceId';
+import {
+  type ServiceIdString,
+  type AciString,
+  isPniString,
+} from '../types/ServiceId';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import type {
   ProcessedEnvelope,
@@ -93,7 +97,6 @@ export class EnvelopeUnsealedEvent extends Event {
   }
 }
 
-// Emitted when we queue previously-decrypted events from the cache
 export class EnvelopeQueuedEvent extends Event {
   constructor(public readonly envelope: ProcessedEnvelope) {
     super('envelopeQueued');
@@ -113,9 +116,7 @@ export class ConfirmableEvent extends Event {
 }
 
 export type DeliveryEventData = Readonly<{
-  envelopeId: string;
   timestamp: number;
-  envelopeTimestamp: number;
   source?: string;
   sourceServiceId?: ServiceIdString;
   sourceDevice?: number;
@@ -124,7 +125,9 @@ export type DeliveryEventData = Readonly<{
 
 export class DeliveryEvent extends ConfirmableEvent {
   constructor(
-    public readonly deliveryReceipt: DeliveryEventData,
+    public readonly deliveryReceipts: ReadonlyArray<DeliveryEventData>,
+    public readonly envelopeId: string,
+    public readonly envelopeTimestamp: number,
     confirm: ConfirmCallback
   ) {
     super('delivery', confirm);
@@ -245,9 +248,7 @@ export class MessageEvent extends ConfirmableEvent {
 }
 
 export type ReadOrViewEventData = Readonly<{
-  envelopeId: string;
   timestamp: number;
-  envelopeTimestamp: number;
   source?: string;
   sourceServiceId?: ServiceIdString;
   sourceDevice?: number;
@@ -256,7 +257,9 @@ export type ReadOrViewEventData = Readonly<{
 
 export class ReadEvent extends ConfirmableEvent {
   constructor(
-    public readonly receipt: ReadOrViewEventData,
+    public readonly receipts: ReadonlyArray<ReadOrViewEventData>,
+    public readonly envelopeId: string,
+    public readonly envelopeTimestamp: number,
     confirm: ConfirmCallback
   ) {
     super('read', confirm);
@@ -265,7 +268,9 @@ export class ReadEvent extends ConfirmableEvent {
 
 export class ViewEvent extends ConfirmableEvent {
   constructor(
-    public readonly receipt: ReadOrViewEventData,
+    public readonly receipts: ReadonlyArray<ReadOrViewEventData>,
+    public readonly envelopeId: string,
+    public readonly envelopeTimestamp: number,
     confirm: ConfirmCallback
   ) {
     super('view', confirm);
@@ -405,7 +410,9 @@ export type ReadSyncEventData = Readonly<{
 
 export class ReadSyncEvent extends ConfirmableEvent {
   constructor(
-    public readonly read: ReadSyncEventData,
+    public readonly reads: ReadonlyArray<ReadSyncEventData>,
+    public readonly envelopeId: string,
+    public readonly envelopeTimestamp: number,
     confirm: ConfirmCallback
   ) {
     super('readSync', confirm);
@@ -413,16 +420,16 @@ export class ReadSyncEvent extends ConfirmableEvent {
 }
 
 export type ViewSyncEventData = Readonly<{
-  envelopeId: string;
   timestamp?: number;
-  envelopeTimestamp: number;
   senderE164?: string;
   senderAci?: AciString;
 }>;
 
 export class ViewSyncEvent extends ConfirmableEvent {
   constructor(
-    public readonly view: ViewSyncEventData,
+    public readonly views: ReadonlyArray<ViewSyncEventData>,
+    public readonly envelopeId: string,
+    public readonly envelopeTimestamp: number,
     confirm: ConfirmCallback
   ) {
     super('viewSync', confirm);
@@ -470,15 +477,16 @@ const messageToDeleteSchema = z.union([
     authorE164: z.string(),
     sentAt: z.number(),
   }),
+  z.object({
+    type: z.literal('pni').readonly(),
+    authorPni: z.string().refine(isPniString),
+    sentAt: z.number(),
+  }),
 ]);
 
 export type MessageToDelete = z.infer<typeof messageToDeleteSchema>;
 
 const conversationToDeleteSchema = z.union([
-  z.object({
-    type: z.literal('group').readonly(),
-    groupId: z.string(),
-  }),
   z.object({
     type: z.literal('aci').readonly(),
     aci: z.string().refine(isAciString),
@@ -486,6 +494,14 @@ const conversationToDeleteSchema = z.union([
   z.object({
     type: z.literal('e164').readonly(),
     e164: z.string(),
+  }),
+  z.object({
+    type: z.literal('group').readonly(),
+    groupId: z.string(),
+  }),
+  z.object({
+    type: z.literal('pni').readonly(),
+    pni: z.string().refine(isPniString),
   }),
 ]);
 
