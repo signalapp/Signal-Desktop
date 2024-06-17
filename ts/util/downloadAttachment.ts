@@ -1,19 +1,29 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentType } from '../types/Attachment';
+import { type AttachmentType, mightBeOnBackupTier } from '../types/Attachment';
 import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment';
+import { MediaTier } from '../types/AttachmentDownload';
+import * as log from '../logging/log';
+import { redactGenericText } from './privacy';
+import { HTTPError } from '../textsecure/Errors';
+import { toLogFormat } from '../types/errors';
 
-export class AttachmentNotFoundOnCdnError extends Error {}
+export class AttachmentPermanentlyUndownloadableError extends Error {}
+
 export async function downloadAttachment(
-  attachmentData: AttachmentType
+  attachmentData: AttachmentType,
+  dependencies = { downloadAttachmentFromServer: doDownloadAttachment }
 ): Promise<AttachmentType> {
-  let migratedAttachment: AttachmentType;
+  const redactedDigest = redactGenericText(attachmentData.digest ?? '');
+  const logId = `downloadAttachment(${redactedDigest})`;
 
   const { server } = window.textsecure;
   if (!server) {
     throw new Error('window.textsecure.server is not available!');
   }
+
+  let migratedAttachment: AttachmentType;
 
   const { id: legacyId } = attachmentData;
   if (legacyId === undefined) {
@@ -25,17 +35,54 @@ export async function downloadAttachment(
     };
   }
 
-  let downloaded;
-  try {
-    downloaded = await doDownloadAttachment(server, migratedAttachment);
-  } catch (error) {
-    // Attachments on the server expire after 30 days, then start returning 404 or 403
-    if (error && (error.code === 404 || error.code === 403)) {
-      throw new AttachmentNotFoundOnCdnError(error.code);
+  if (mightBeOnBackupTier(migratedAttachment)) {
+    try {
+      return await dependencies.downloadAttachmentFromServer(
+        server,
+        migratedAttachment,
+        {
+          mediaTier: MediaTier.BACKUP,
+        }
+      );
+    } catch (error) {
+      if (error instanceof HTTPError && error.code === 404) {
+        // This is an expected occurrence if restoring from a backup before the
+        // attachment has been moved to the backup tier
+        log.warn(`${logId}: attachment not found on backup CDN`);
+      } else {
+        // We also just log this error instead of throwing, since we want to still try to
+        // find it on the attachment tier.
+        log.error(
+          `${logId}: error when downloading from backup CDN`,
+          toLogFormat(error)
+        );
+      }
     }
-
-    throw error;
   }
 
-  return downloaded;
+  try {
+    return await dependencies.downloadAttachmentFromServer(
+      server,
+      migratedAttachment,
+      {
+        mediaTier: MediaTier.STANDARD,
+      }
+    );
+  } catch (error) {
+    if (mightBeOnBackupTier(migratedAttachment)) {
+      // We don't want to throw the AttachmentPermanentlyUndownloadableError because we
+      // may just need to wait for this attachment to end up on the backup tier
+      throw error;
+    }
+    // Attachments on the transit tier expire after 30 days, then start returning 404 or
+    // 403
+    if (
+      error instanceof HTTPError &&
+      (error.code === 404 || error.code === 403)
+    ) {
+      throw new AttachmentPermanentlyUndownloadableError();
+    } else {
+      throw error;
+    }
+  }
 }

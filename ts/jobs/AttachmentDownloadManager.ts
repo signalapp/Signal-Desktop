@@ -11,7 +11,7 @@ import {
   coreAttachmentDownloadJobSchema,
 } from '../types/AttachmentDownload';
 import {
-  AttachmentNotFoundOnCdnError,
+  AttachmentPermanentlyUndownloadableError,
   downloadAttachment,
 } from '../util/downloadAttachment';
 import dataInterface from '../sql/Client';
@@ -240,7 +240,7 @@ async function runDownloadAttachmentJob(
       return { status: 'finished' };
     }
 
-    if (error instanceof AttachmentNotFoundOnCdnError) {
+    if (error instanceof AttachmentPermanentlyUndownloadableError) {
       await addAttachmentToMessage(
         message.id,
         _markAttachmentAsPermanentlyErrored(job.attachment),
