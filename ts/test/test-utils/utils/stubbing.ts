@@ -5,6 +5,8 @@ import { ConfigDumpData } from '../../../data/configDump/configDump';
 import { Data } from '../../../data/data';
 import { OpenGroupData } from '../../../data/opengroups';
 
+import { load } from '../../../node/locale';
+import { setupi18n } from '../../../util/i18n';
 import * as libsessionWorker from '../../../webworker/workers/browser/libsession_worker_interface';
 import * as utilWorker from '../../../webworker/workers/browser/util_worker_interface';
 
@@ -99,6 +101,23 @@ export const stubWindowFeatureFlags = () => {
   stubWindow('sessionFeatureFlags', { debug: {} } as any);
 };
 
+export const stubWindowWhisper = () => {
+  stubWindow('Whisper', {
+    events: {
+      on: (name: string, callback: (param1?: any, param2?: any) => void) => {
+        if (enableLogRedirect) {
+          console.info(`Whisper Event registered ${name} ${callback}`);
+        }
+        callback();
+      },
+      trigger: (name: string, param1?: any, param2?: any) =>
+        enableLogRedirect
+          ? console.info(`Whisper Event triggered ${name} ${param1} ${param2}`)
+          : {},
+    },
+  });
+};
+
 export async function expectAsyncToThrow(toAwait: () => Promise<any>, errorMessageToCatch: string) {
   try {
     await toAwait();
@@ -108,3 +127,31 @@ export async function expectAsyncToThrow(toAwait: () => Promise<any>, errorMessa
     expect(e.message).to.be.eq(errorMessageToCatch);
   }
 }
+
+/** You must call stubWindowLog() before using */
+export const stubI18n = () => {
+  const locale = load({ appLocale: 'en', logger: window.log });
+  stubWindow('i18n', setupi18n('en', locale.messages));
+};
+
+export const stubStorage = () => {
+  return {
+    get: (key: string, defaultValue?: any) => {
+      if (enableLogRedirect) {
+        console.info(`Storage.get ${key} returns ${defaultValue || key}`);
+      }
+
+      return defaultValue || key;
+    },
+    put: (key: string, value: any) => {
+      if (enableLogRedirect) {
+        console.info(`Storage.put ${key} with ${value}`);
+      }
+    },
+    remove: (key: string) => {
+      if (enableLogRedirect) {
+        console.info(`Storage.remove ${key}`);
+      }
+    },
+  };
+};

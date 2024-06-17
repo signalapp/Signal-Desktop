@@ -11,7 +11,7 @@ export type SessionSettingCategory =
   | 'appearance'
   | 'permissions'
   | 'help'
-  | 'recoveryPhrase'
+  | 'recoveryPassword'
   | 'clearData';
 
 export type PasswordAction = 'set' | 'change' | 'remove' | 'enter';

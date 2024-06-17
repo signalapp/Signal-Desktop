@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import React from 'react';
 
 import autoBind from 'auto-bind';
 import { blobToArrayBuffer } from 'blob-util';
 import loadImage from 'blueimp-load-image';
 import classNames from 'classnames';
+import { Component, RefObject, createRef } from 'react';
 import styled from 'styled-components';
 import {
   CompositionBox,
@@ -45,7 +45,7 @@ import {
 } from '../../types/attachments/VisualAttachment';
 import { AttachmentUtil, GoogleChrome, arrayBufferToObjectURL } from '../../util';
 import { getCurrentRecoveryPhrase } from '../../util/storage';
-import { MessageView } from '../MainViewController';
+import { EmptyMessageView } from '../EmptyMessageView';
 import { SplitViewContainer } from '../SplitViewContainer';
 import { SessionButtonColor } from '../basic/SessionButton';
 import { InConversationCallContainer } from '../calling/InConversationCallContainer';
@@ -56,10 +56,11 @@ import { ConversationHeaderWithDetails } from './header/ConversationHeader';
 import { isAudio } from '../../types/MIME';
 import { HTMLDirection } from '../../util/i18n';
 import { NoticeBanner } from '../NoticeBanner';
-import { SessionSpinner } from '../basic/SessionSpinner';
+import { SessionSpinner } from '../loading';
 import { RightPanel, StyledRightPanelContainer } from './right-panel/RightPanel';
 
 const DEFAULT_JPEG_QUALITY = 0.85;
+
 interface State {
   isDraggingFile: boolean;
 }
@@ -102,8 +103,8 @@ const ConvoLoadingSpinner = () => {
   );
 };
 
-export class SessionConversation extends React.Component<Props, State> {
-  private readonly messageContainerRef: React.RefObject<HTMLDivElement>;
+export class SessionConversation extends Component<Props, State> {
+  private readonly messageContainerRef: RefObject<HTMLDivElement>;
   private dragCounter: number;
   private publicMembersRefreshTimeout?: NodeJS.Timeout;
   private readonly updateMemberList: () => any;
@@ -114,7 +115,7 @@ export class SessionConversation extends React.Component<Props, State> {
     this.state = {
       isDraggingFile: false,
     };
-    this.messageContainerRef = React.createRef();
+    this.messageContainerRef = createRef();
     this.dragCounter = 0;
     this.updateMemberList = _.debounce(this.updateMemberListBouncy.bind(this), 10000);
 
@@ -208,8 +209,8 @@ export class SessionConversation extends React.Component<Props, State> {
     if (msg.body.replace(/\s/g, '').includes(recoveryPhrase.replace(/\s/g, ''))) {
       window.inboxStore?.dispatch(
         updateConfirmModal({
-          title: window.i18n('sendRecoveryPhraseTitle'),
-          message: window.i18n('sendRecoveryPhraseMessage'),
+          title: window.i18n('warning'),
+          message: window.i18n('recoveryPasswordWarningSendDescription'),
           okTheme: SessionButtonColor.Danger,
           onClickOk: () => {
             void sendAndScroll();
@@ -243,8 +244,7 @@ export class SessionConversation extends React.Component<Props, State> {
     } = this.props;
 
     if (!selectedConversation || !messagesProps) {
-      // return an empty message view
-      return <MessageView />;
+      return <EmptyMessageView />;
     }
     // TODOLATER break selectionMode into it's own container component so we can use hooks to fetch relevant state from the store
     const selectionMode = selectedMessages.length > 0;

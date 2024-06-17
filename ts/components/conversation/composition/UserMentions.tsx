@@ -1,4 +1,3 @@
-import React from 'react';
 import { SuggestionDataItem } from 'react-mentions';
 import { HTMLDirection } from '../../../util/i18n';
 import { MemberListItem } from '../../MemberListItem';

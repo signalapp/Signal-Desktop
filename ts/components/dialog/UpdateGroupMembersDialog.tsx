@@ -1,4 +1,3 @@
-import React from 'react';
 import _ from 'lodash';
 import { useDispatch } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
@@ -6,11 +5,11 @@ import styled from 'styled-components';
 
 import { ToastUtils, UserUtils } from '../../session/utils';
 
-import { SpacerLG, Text } from '../basic/Text';
 import { updateGroupMembersModal } from '../../state/ducks/modalDialog';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { MemberListItem } from '../MemberListItem';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SpacerLG, Text } from '../basic/Text';
 
 import { useConversationPropsById, useWeAreAdmin } from '../../hooks/useParamSelector';
 

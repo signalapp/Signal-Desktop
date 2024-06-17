@@ -35,12 +35,7 @@ import { assertUnreachable } from '../types/sqlSharedTypes';
 import { BlockedNumberController } from '../util';
 import { Registration } from '../util/registration';
 import { ReleasedFeatures } from '../util/releaseFeature';
-import {
-  Storage,
-  getLastProfileUpdateTimestamp,
-  isSignInByLinking,
-  setLastProfileUpdateTimestamp,
-} from '../util/storage';
+import { Storage, isSignInByLinking, setLastProfileUpdateTimestamp } from '../util/storage';
 
 // eslint-disable-next-line import/no-unresolved
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
@@ -858,6 +853,7 @@ async function processMergingResults(results: Map<ConfigWrapperObjectTypes, Inco
             window.log.warn('assertUnreachable failed', e.message);
           }
       }
+
       const variant = LibSessionUtil.kindToVariant(kind);
       try {
         await updateLibsessionLatestProcessedUserTimestamp(
@@ -918,6 +914,7 @@ async function handleConfigMessagesViaLibSession(
   );
 
   const incomingMergeResult = await mergeConfigsWithIncomingUpdates(configMessages);
+
   await processMergingResults(incomingMergeResult);
 }
 
@@ -941,32 +938,6 @@ async function updateOurProfileLegacyOrViaLibSession({
     trigger(configurationMessageReceived, displayName);
   } else {
     window?.log?.warn('Got a configuration message but the display name is empty');
-  }
-}
-
-async function handleOurProfileUpdateLegacy(
-  sentAt: number | Long,
-  configMessage: SignalService.ConfigurationMessage
-) {
-  const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
-  // we want to allow if we are not registered, as we might need to fetch an old config message (can be removed once we released for a weeks the libsession util)
-  if (userConfigLibsession && !isSignInByLinking()) {
-    return;
-  }
-  const latestProfileUpdateTimestamp = getLastProfileUpdateTimestamp();
-  if (!latestProfileUpdateTimestamp || sentAt > latestProfileUpdateTimestamp) {
-    window?.log?.info(
-      `Handling our profileUdpate ourLastUpdate:${latestProfileUpdateTimestamp}, envelope sent at: ${sentAt}`
-    );
-    const { profileKey, profilePicture, displayName } = configMessage;
-
-    await updateOurProfileLegacyOrViaLibSession({
-      sentAt: toNumber(sentAt),
-      displayName,
-      profileUrl: profilePicture,
-      profileKey,
-      priority: null, // passing null to say do not set the priority, as we do not get one from the legacy config message
-    });
   }
 }
 
@@ -1139,7 +1110,6 @@ async function handleConfigurationMessageLegacy(
     return;
   }
 
-  await handleOurProfileUpdateLegacy(envelope.timestamp, configurationMessage);
   await handleGroupsAndContactsFromConfigMessageLegacy(envelope, configurationMessage);
   await removeFromCache(envelope);
 }

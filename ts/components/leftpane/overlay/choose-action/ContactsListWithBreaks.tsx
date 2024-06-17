@@ -1,5 +1,5 @@
 import { isString } from 'lodash';
-import React from 'react';
+
 import { useSelector } from 'react-redux';
 import { AutoSizer, Index, List, ListRowProps } from 'react-virtualized';
 import styled, { CSSProperties } from 'styled-components';

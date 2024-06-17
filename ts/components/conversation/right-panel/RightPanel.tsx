@@ -1,5 +1,3 @@
-import React from 'react';
-
 import styled from 'styled-components';
 import { useRightOverlayMode } from '../../../hooks/useUI';
 import { isRtlBody } from '../../../util/i18n';
@@ -11,23 +9,18 @@ import { OverlayMessageInfo } from './overlay/message-info/OverlayMessageInfo';
 export const StyledRightPanelContainer = styled.div`
   position: absolute;
   height: var(--right-panel-height);
+  width: var(--right-panel-width);
   right: 0vw;
 
-  transition: transform var(--default-duration) ease-in-out;
+  transition: transform var(--right-panel-duration) linear;
   transform: translateX(100%);
-  will-change: transform;
-  width: var(--right-panel-width);
-  z-index: 5;
+  z-index: 3;
 
   background-color: var(--background-primary-color);
   border-left: 1px solid var(--border-color);
-  visibility: hidden;
 
   &.show {
-    transform: none;
-    transition: transform var(--default-duration) ease-in-out;
-    z-index: 3;
-    visibility: visible;
+    transform: translateX(0);
   }
 `;
 

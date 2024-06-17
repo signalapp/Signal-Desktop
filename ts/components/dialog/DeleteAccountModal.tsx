@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { SnodeAPI } from '../../session/apis/snode_api/SNodeAPI';
 
@@ -6,19 +6,19 @@ import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/sync/sync
 import { updateConfirmModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { SessionSpinner } from '../basic/SessionSpinner';
 import { SpacerLG } from '../basic/Text';
+import { SessionSpinner } from '../loading';
 
 import { Data } from '../../data/data';
 import { deleteAllLogs } from '../../node/logs';
 import { clearInbox } from '../../session/apis/open_group_api/sogsv3/sogsV3ClearInbox';
 import { getAllValidOpenGroupV2ConversationRoomInfos } from '../../session/apis/open_group_api/utils/OpenGroupUtils';
-import { SessionRadioGroup } from '../basic/SessionRadioGroup';
 import { ed25519Str } from '../../session/utils/String';
+import { SessionRadioGroup } from '../basic/SessionRadioGroup';
 
 const deleteDbLocally = async () => {
   window?.log?.info('last message sent successfully. Deleting everything');
-  window.persistStore?.purge();
+  await window.persistStore?.purge();
   window?.log?.info('store purged');
 
   await deleteAllLogs();

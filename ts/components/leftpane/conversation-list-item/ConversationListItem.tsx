@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { isNil } from 'lodash';
-import React, { useCallback } from 'react';
+import { MouseEvent, ReactNode, useCallback } from 'react';
 import { contextMenu } from 'react-contexify';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,7 +34,7 @@ type PropsHousekeeping = {
 
 type Props = { conversationId: string } & PropsHousekeeping;
 
-const Portal = ({ children }: { children: React.ReactNode }) => {
+const Portal = ({ children }: { children: ReactNode }) => {
   return createPortal(children, document.querySelector('.inbox.index') as Element);
 };
 
@@ -88,7 +88,7 @@ const ConversationListItemInner = (props: Props) => {
   const triggerId = `${key}-ctxmenu`;
 
   const openConvo = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
+    (e: MouseEvent<HTMLDivElement>) => {
       // mousedown is invoked sooner than onClick, but for both right and left click
       if (e.button === 0) {
         void openConversationWithMessages({ conversationKey: conversationId, messageId: null });

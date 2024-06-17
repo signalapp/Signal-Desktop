@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import styled, { CSSProperties } from 'styled-components';
 
 type TextProps = {
@@ -26,62 +26,57 @@ export const Text = (props: TextProps) => {
   return <StyledDefaultText {...props}>{props.text}</StyledDefaultText>;
 };
 
-export const TextWithChildren = (
-  props: Omit<TextProps, 'text'> & { children: React.ReactNode }
-) => {
+export const TextWithChildren = (props: Omit<TextProps, 'text'> & { children: ReactNode }) => {
   return <StyledDefaultText {...props}>{props.children}</StyledDefaultText>;
 };
 
 type SpacerProps = {
-  size: 'xl' | 'lg' | 'md' | 'sm' | 'xs';
+  size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
   style?: CSSProperties;
 };
 
 const SpacerStyled = styled.div<SpacerProps>`
-  height: ${props =>
-    props.size === 'xl'
-      ? 'var(--margins-xl)'
-      : props.size === 'lg'
-        ? 'var(--margins-lg)'
-        : props.size === 'md'
-          ? 'var(--margins-md)'
-          : props.size === 'sm'
-            ? 'var(--margins-sm)'
-            : 'var(--margins-xs)'};
-
-  width: ${props =>
-    props.size === 'xl'
-      ? 'var(--margins-xl)'
-      : props.size === 'lg'
-        ? 'var(--margins-lg)'
-        : props.size === 'md'
-          ? 'var(--margins-md)'
-          : props.size === 'sm'
-            ? 'var(--margins-sm)'
-            : 'var(--margins-xs)'};
+  width: ${props => `var(--margins-${props.size})`};
+  height: ${props => `var(--margins-${props.size})`};
 `;
 
 const Spacer = (props: SpacerProps) => {
   return <SpacerStyled {...props} />;
 };
 
-export const SpacerXL = (props: { style?: CSSProperties }) => {
-  return <Spacer size="xl" style={props.style} />;
+/** --margins-xs 5px */
+export const SpacerXS = (props: { style?: CSSProperties }) => {
+  return <Spacer size="xs" style={props.style} />;
 };
 
-export const SpacerLG = (props: { style?: CSSProperties }) => {
-  return <Spacer size="lg" style={props.style} />;
-};
-
-export const SpacerMD = (props: { style?: CSSProperties }) => {
-  return <Spacer size="md" style={props.style} />;
-};
+/** --margins-sm 10px */
 export const SpacerSM = (props: { style?: CSSProperties }) => {
   return <Spacer size="sm" style={props.style} />;
 };
 
-export const SpacerXS = (props: { style?: CSSProperties }) => {
-  return <Spacer size="xs" style={props.style} />;
+/** --margins-md 15px */
+export const SpacerMD = (props: { style?: CSSProperties }) => {
+  return <Spacer size="md" style={props.style} />;
+};
+
+/** --margins-lg 20px */
+export const SpacerLG = (props: { style?: CSSProperties }) => {
+  return <Spacer size="lg" style={props.style} />;
+};
+
+/** --margins-xl 25px */
+export const SpacerXL = (props: { style?: CSSProperties }) => {
+  return <Spacer size="xl" style={props.style} />;
+};
+
+/** --margins-2xl 30px */
+export const Spacer2XL = (props: { style?: CSSProperties }) => {
+  return <Spacer size="2xl" style={props.style} />;
+};
+
+/** --margins-3xl 35px */
+export const Spacer3XL = (props: { style?: CSSProperties }) => {
+  return <Spacer size="3xl" style={props.style} />;
 };
 
 type H3Props = {

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { clone } from 'lodash';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../../../data/data';
@@ -28,7 +28,7 @@ import {
   isVideo,
 } from '../../../../types/Attachment';
 import { saveAttachmentToDisk } from '../../../../util/attachmentsUtil';
-import { Spinner } from '../../../basic/Spinner';
+import { Spinner } from '../../../loading';
 import { AudioPlayerWithEncryptedFile } from '../../H5AudioPlayer';
 import { ImageGrid } from '../../ImageGrid';
 import { LightBoxOptions } from '../../SessionConversation';

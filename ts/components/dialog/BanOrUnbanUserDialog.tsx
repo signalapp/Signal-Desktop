@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useFocusMount } from '../../hooks/useFocusMount';
@@ -17,8 +17,8 @@ import { SessionHeaderSearchInput } from '../SessionHeaderSearchInput';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { SessionSpinner } from '../basic/SessionSpinner';
 import { SpacerSM } from '../basic/Text';
+import { SessionSpinner } from '../loading';
 
 async function banOrUnBanUserCall(
   convo: ConversationModel,
@@ -108,7 +108,7 @@ export const BanOrUnBanUserDialog = (props: {
   const chatName = convo.getNicknameOrRealUsernameOrPlaceholder();
   const title = `${isBan ? window.i18n('banUser') : window.i18n('unbanUser')}: ${chatName}`;
 
-  const onPubkeyBoxChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onPubkeyBoxChanges = (e: ChangeEvent<HTMLInputElement>) => {
     setInputBoxValue(e.target.value?.trim() || '');
   };
 
@@ -134,7 +134,7 @@ export const BanOrUnBanUserDialog = (props: {
           ref={inputRef}
           type="text"
           darkMode={darkMode}
-          placeholder={i18n('enterSessionID')}
+          placeholder={i18n('accountIdEnter')}
           dir="auto"
           onChange={onPubkeyBoxChanges}
           disabled={inProgress || wasGivenAPubkey}

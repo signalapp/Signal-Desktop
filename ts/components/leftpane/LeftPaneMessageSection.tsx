@@ -1,5 +1,6 @@
 import autoBind from 'auto-bind';
-import React from 'react';
+
+import { Component } from 'react';
 import { useSelector } from 'react-redux';
 import { AutoSizer, List, ListRowProps } from 'react-virtualized';
 import styled from 'styled-components';
@@ -65,7 +66,7 @@ const ClosableOverlay = () => {
   }
 };
 
-export class LeftPaneMessageSection extends React.Component<Props> {
+export class LeftPaneMessageSection extends Component<Props> {
   public constructor(props: Props) {
     super(props);
     autoBind(this);

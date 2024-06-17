@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React from 'react';
 
 import useUpdate from 'react-use/lib/useUpdate';
 import { SettingsKey } from '../../../data/settings-key';
@@ -110,7 +109,7 @@ export const SettingsCategoryPrivacy = (props: {
 
       {!props.hasPassword ? (
         <SessionSettingButtonItem
-          title={window.i18n('setAccountPasswordTitle')}
+          title={window.i18n('lockApp')}
           description={window.i18n('setAccountPasswordDescription')}
           onClick={() => {
             displayPasswordModal('set', props.onPasswordUpdated);

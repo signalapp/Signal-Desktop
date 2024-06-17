@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import useInterval from 'react-use/lib/useInterval';
 import styled, { CSSProperties } from 'styled-components';

@@ -1,6 +1,6 @@
-// const $body = $(document.body);
-
-import React from 'react';
+import { createRoot } from 'react-dom/client';
 import { AboutView } from '../components/AboutView';
 
-window.ReactDOM.render(<AboutView />, document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container!);
+root.render(<AboutView />);

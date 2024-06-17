@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useIsIncomingRequest } from '../../hooks/useParamSelector';
@@ -47,7 +46,7 @@ export const ConversationRequestExplanation = () => {
 
   return (
     <Container>
-      <TextInner>{window.i18n('respondingToRequestWarning')}</TextInner>
+      <TextInner>{window.i18n('messageRequestsAcceptDescription')}</TextInner>
     </Container>
   );
 };

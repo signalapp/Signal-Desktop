@@ -1,5 +1,5 @@
 import { ipcRenderer, shell } from 'electron';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 import useHover from 'react-use/lib/useHover';
@@ -19,8 +19,8 @@ import {
 import { Flex } from '../basic/Flex';
 
 import { SessionWrapperModal } from '../SessionWrapperModal';
-import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIcon, SessionIconButton } from '../icon';
+import { SessionSpinner } from '../loading';
 
 export type StatusLightType = {
   glowStartDelay: number;

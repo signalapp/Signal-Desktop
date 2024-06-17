@@ -1,6 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
 import { isEmpty } from 'lodash';
+import styled from 'styled-components';
 
 import { useDisableDrag } from '../../../../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../../../../hooks/useEncryptedFileFetch';

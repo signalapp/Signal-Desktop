@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { UserUtils } from '../../session/utils';
 
@@ -28,7 +27,7 @@ export const YourSessionIDPill = () => {
   return (
     <StyledPillDivider>
       <StyledPillDividerLine />
-      <StyledPillSpan>{window.i18n('yourSessionID')}</StyledPillSpan>
+      <StyledPillSpan>{window.i18n('accountIdYours')}</StyledPillSpan>
       <StyledPillDividerLine />
     </StyledPillDivider>
   );

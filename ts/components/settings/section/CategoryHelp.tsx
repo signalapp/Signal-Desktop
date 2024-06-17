@@ -1,5 +1,5 @@
 import { ipcRenderer, shell } from 'electron';
-import React from 'react';
+
 import { SessionButtonShape, SessionButtonType } from '../../basic/SessionButton';
 
 import { SessionSettingButtonItem, SessionSettingsTitleWithLink } from '../SessionSettingListItem';

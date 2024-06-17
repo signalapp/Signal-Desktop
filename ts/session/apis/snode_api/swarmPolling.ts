@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable more/no-then */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { compact, concat, flatten, last, sample, toNumber, uniqBy } from 'lodash';
+import { compact, concat, flatten, isEmpty, last, sample, toNumber, uniqBy } from 'lodash';
 import { Data, Snode } from '../../../data/data';
 import { SignalService } from '../../../protobuf';
 import * as Receiver from '../../../receiver/receiver';
@@ -17,17 +17,19 @@ import { updateIsOnline } from '../../../state/ducks/onion';
 import { ReleasedFeatures } from '../../../util/releaseFeature';
 import {
   GenericWrapperActions,
+  UserConfigWrapperActions,
   UserGroupsWrapperActions,
 } from '../../../webworker/workers/browser/libsession_worker_interface';
 import { DURATION, SWARM_POLLING_TIMEOUT } from '../../constants';
 import { getConversationController } from '../../conversations';
 import { IncomingMessage } from '../../messages/incoming/IncomingMessage';
 import { StringUtils, UserUtils } from '../../utils';
+import { ed25519Str } from '../../utils/String';
+import { NotFoundError } from '../../utils/errors';
 import { LibSessionUtil } from '../../utils/libsession/libsession_utils';
 import { SnodeNamespace, SnodeNamespaces } from './namespaces';
 import { SnodeAPIRetrieve } from './retrieveRequest';
 import { RetrieveMessageItem, RetrieveMessagesResultsBatched } from './types';
-import { ed25519Str } from '../../utils/String';
 
 export function extractWebSocketContent(
   message: string,
@@ -101,13 +103,11 @@ export class SwarmPolling {
     this.hasStarted = false;
   }
 
-  // TODO[epic=ses-50] this is a temporary solution until onboarding is merged
-  public stop(e: Error) {
-    window.log.error(`[swarmPolling] stopped polling due to error: ${e.message || e}`);
+  public stop(e?: Error) {
+    window.log.info('[swarmPolling] stopped swarm polling', e?.message || e || '');
 
     for (let i = 0; i < timeouts.length; i++) {
       clearTimeout(timeouts[i]);
-      window.log.debug(`[swarmPolling] cleared timeout ${timeouts[i]} `);
     }
     this.resetSwarmPolling();
   }
@@ -365,7 +365,10 @@ export class SwarmPolling {
     }
   }
 
-  private async handleSharedConfigMessages(userConfigMessagesMerged: Array<RetrieveMessageItem>) {
+  private async handleSharedConfigMessages(
+    userConfigMessagesMerged: Array<RetrieveMessageItem>,
+    returnDisplayNameOnly?: boolean
+  ): Promise<string> {
     const extractedUserConfigMessage = compact(
       userConfigMessagesMerged.map((m: RetrieveMessageItem) => {
         return extractWebSocketContent(m.data, m.hash);
@@ -410,6 +413,42 @@ export class SwarmPolling {
         window.log.info(
           `handleConfigMessagesViaLibSession of "${allDecryptedConfigMessages.length}" messages with libsession`
         );
+
+        if (returnDisplayNameOnly) {
+          try {
+            const keypair = await UserUtils.getUserED25519KeyPairBytes();
+            if (!keypair || !keypair.privKeyBytes) {
+              throw new Error('edkeypair not found for current user');
+            }
+
+            const privateKeyEd25519 = keypair.privKeyBytes;
+
+            // we take the lastest config message to create the wrapper in memory
+            const incomingConfigMessages = allDecryptedConfigMessages.map(m => ({
+              data: m.message.data,
+              hash: m.messageHash,
+            }));
+
+            await GenericWrapperActions.init('UserConfig', privateKeyEd25519, null);
+            await GenericWrapperActions.merge('UserConfig', incomingConfigMessages);
+
+            const userInfo = await UserConfigWrapperActions.getUserInfo();
+            if (!userInfo) {
+              throw new Error('UserInfo not found');
+            }
+            return userInfo.name;
+          } catch (e) {
+            window.log.warn(
+              'LibSessionUtil.initializeLibSessionUtilWrappers failed with',
+              e.message
+            );
+          } finally {
+            await GenericWrapperActions.free('UserConfig');
+          }
+
+          return '';
+        }
+
         await ConfigMessageHandler.handleConfigMessagesViaLibSession(allDecryptedConfigMessages);
       } catch (e) {
         const allMessageHases = allDecryptedConfigMessages.map(m => m.messageHash).join(',');
@@ -418,6 +457,7 @@ export class SwarmPolling {
         );
       }
     }
+    return '';
   }
 
   // Fetches messages for `pubkey` from `node` potentially updating
@@ -626,5 +666,79 @@ export class SwarmPolling {
     }
     // return the cached value
     return this.lastHashes[nodeEdKey][pubkey][namespace];
+  }
+
+  public async pollOnceForOurDisplayName(abortSignal?: AbortSignal): Promise<string> {
+    if (abortSignal?.aborted) {
+      throw new NotFoundError('[pollOnceForOurDisplayName] aborted right away');
+    }
+
+    const pubkey = UserUtils.getOurPubKeyFromCache();
+
+    const swarmSnodes = await snodePool.getSwarmFor(pubkey.key);
+    const toPollFrom = sample(swarmSnodes);
+
+    if (!toPollFrom) {
+      throw new Error(
+        `[pollOnceForOurDisplayName] no snode in swarm for ${ed25519Str(pubkey.key)}`
+      );
+    }
+
+    if (abortSignal?.aborted) {
+      throw new NotFoundError(
+        '[pollOnceForOurDisplayName] aborted after selecting nodes to poll from'
+      );
+    }
+
+    // Note: always print something so we know if the polling is hanging
+    window.log.info(
+      `WIP: [onboarding] about to pollOnceForOurDisplayName of ${ed25519Str(pubkey.key)} from snode: ${ed25519Str(toPollFrom.pubkey_ed25519)} namespaces: ${[SnodeNamespaces.UserProfile]} `
+    );
+
+    const resultsFromUserProfile = await SnodeAPIRetrieve.retrieveNextMessages(
+      toPollFrom,
+      [''],
+      pubkey.key,
+      [SnodeNamespaces.UserProfile],
+      pubkey.key,
+      null
+    );
+
+    // Note: always print something so we know if the polling is hanging
+    window.log.info(
+      `WIP: [onboarding] pollOnceForOurDisplayName of ${ed25519Str(pubkey.key)} from snode: ${ed25519Str(toPollFrom.pubkey_ed25519)} namespaces: ${[SnodeNamespaces.UserProfile]} returned: ${resultsFromUserProfile?.length}`
+    );
+
+    // check if we just fetched the details from the config namespaces.
+    // If yes, merge them together and exclude them from the rest of the messages.
+    if (!resultsFromUserProfile?.length) {
+      throw new NotFoundError('[pollOnceForOurDisplayName] resultsFromUserProfile is empty');
+    }
+
+    if (abortSignal?.aborted) {
+      throw new NotFoundError(
+        '[pollOnceForOurDisplayName] aborted after retrieving user profile config messages'
+      );
+    }
+
+    const userConfigMessages = resultsFromUserProfile
+      .filter(m => SnodeNamespace.isUserConfigNamespace(m.namespace))
+      .map(r => r.messages.messages);
+
+    const userConfigMessagesMerged = flatten(compact(userConfigMessages));
+    if (!userConfigMessagesMerged.length) {
+      throw new NotFoundError(
+        '[pollOnceForOurDisplayName] after merging there are no user config messages'
+      );
+    }
+    const displayName = await this.handleSharedConfigMessages(userConfigMessagesMerged, true);
+
+    if (isEmpty(displayName)) {
+      throw new NotFoundError(
+        '[pollOnceForOurDisplayName] Got a config message from network but without a displayName...'
+      );
+    }
+
+    return displayName;
   }
 }

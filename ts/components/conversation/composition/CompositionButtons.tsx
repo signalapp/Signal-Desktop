@@ -1,4 +1,4 @@
-import React from 'react';
+import { forwardRef } from 'react';
 import styled from 'styled-components';
 import { SessionIconButton } from '../../icon';
 
@@ -49,7 +49,7 @@ export const StartRecordingButton = (props: { onClick: () => void }) => {
 };
 
 // eslint-disable-next-line react/display-name
-export const ToggleEmojiButton = React.forwardRef<HTMLButtonElement, { onClick: () => void }>(
+export const ToggleEmojiButton = forwardRef<HTMLButtonElement, { onClick: () => void }>(
   (props, ref) => {
     return (
       <StyledChatButtonContainer>
@@ -71,7 +71,7 @@ export const ToggleEmojiButton = React.forwardRef<HTMLButtonElement, { onClick: 
 
 export const SendMessageButton = (props: { onClick: () => void }) => {
   return (
-    <StyledChatButtonContainer className="send-message-button">
+    <StyledChatButtonContainer>
       <SessionIconButton
         iconType="send"
         backgroundColor={'var(--chat-buttons-background-color)'}

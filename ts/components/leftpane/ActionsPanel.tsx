@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { debounce, isEmpty, isString } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
@@ -172,7 +172,7 @@ const setupTheme = async () => {
   await switchThemeTo(themeConfig);
 };
 
-// Do this only if we created a new Session ID, or if we already received the initial configuration message
+// Do this only if we created a new account id, or if we already received the initial configuration message
 const triggerSyncIfNeeded = async () => {
   const us = UserUtils.getOurPubKeyStrFromCache();
   await getConversationController().get(us).setDidApproveMe(true, true);

@@ -1,5 +1,5 @@
 import { shell } from 'electron';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import { useDispatch } from 'react-redux';
@@ -13,12 +13,12 @@ import { SessionNotificationGroupSettings } from './SessionNotificationGroupSett
 import { Data } from '../../data/data';
 import { sessionPassword } from '../../state/ducks/modalDialog';
 import { SectionType, showLeftPaneSection } from '../../state/ducks/section';
+import type { PasswordAction, SessionSettingCategory } from '../../types/ReduxTypes';
 import { SettingsCategoryAppearance } from './section/CategoryAppearance';
 import { CategoryConversations } from './section/CategoryConversations';
 import { SettingsCategoryHelp } from './section/CategoryHelp';
 import { SettingsCategoryPermissions } from './section/CategoryPermissions';
 import { SettingsCategoryPrivacy } from './section/CategoryPrivacy';
-import type { SessionSettingCategory, PasswordAction } from '../../types/ReduxTypes';
 
 export function displayPasswordModal(
   passwordAction: PasswordAction,
@@ -119,7 +119,7 @@ const SettingInCategory = (props: {
     // these three down there have no options, they are just a button
     case 'clearData':
     case 'messageRequests':
-    case 'recoveryPhrase':
+    case 'recoveryPassword':
     default:
       return null;
   }

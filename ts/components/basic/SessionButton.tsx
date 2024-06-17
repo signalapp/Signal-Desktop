@@ -1,16 +1,18 @@
 import classNames from 'classnames';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import styled from 'styled-components';
 
 export enum SessionButtonType {
   Outline = 'outline',
   Simple = 'simple',
   Solid = 'solid',
+  Ghost = 'ghost',
 }
 
 export enum SessionButtonShape {
   Round = 'round',
   Square = 'square',
+  None = 'none',
 }
 
 // NOTE References ts/themes/colors.tsx
@@ -33,7 +35,7 @@ const StyledButton = styled.button<{
   buttonType: SessionButtonType;
   buttonShape: SessionButtonShape;
 }>`
-  width: auto;
+  width: ${props => (props.buttonType === SessionButtonType.Ghost ? '100%' : 'auto')};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,8 +47,9 @@ const StyledButton = styled.button<{
   transition: var(--default-duration);
   background-repeat: no-repeat;
   overflow: hidden;
-  height: 34px;
-  padding: 0px 18px;
+  height: ${props => (props.buttonType === SessionButtonType.Ghost ? undefined : '34px')};
+  padding: ${props =>
+    props.buttonType === SessionButtonType.Ghost ? '16px 24px 24px' : '0px 18px'};
   background-color: ${props =>
     props.buttonType === SessionButtonType.Solid && props.color
       ? `var(--${props.color}-color)`
@@ -65,7 +68,12 @@ const StyledButton = styled.button<{
   ${props =>
     props.buttonType === SessionButtonType.Solid &&
     'box-shadow: 0px 0px 6px var(--button-solid-shadow-color);'}
-  border-radius: ${props => (props.buttonShape === SessionButtonShape.Round ? '17px' : '6px')};
+  border-radius: ${props =>
+    props.buttonShape === SessionButtonShape.Round
+      ? '17px'
+      : props.buttonShape === SessionButtonShape.Square
+        ? '6px'
+        : '0px'};
 
   .session-icon {
     fill: var(--background-primary-color);
@@ -106,18 +114,28 @@ const StyledButton = styled.button<{
 type Props = {
   text?: string;
   disabled?: boolean;
-  buttonType: SessionButtonType;
-  buttonShape: SessionButtonShape;
+  buttonType?: SessionButtonType;
+  buttonShape?: SessionButtonShape;
   buttonColor?: SessionButtonColor; // will override theme
-  onClick: any;
+  onClick?: any;
   children?: ReactNode;
   margin?: string;
   dataTestId?: string;
 };
 
 export const SessionButton = (props: Props) => {
-  const { buttonType, buttonShape, dataTestId, buttonColor, text, disabled, onClick, margin } =
-    props;
+  const {
+    buttonType = SessionButtonType.Outline,
+    buttonShape = buttonType === SessionButtonType.Ghost
+      ? SessionButtonShape.None
+      : SessionButtonShape.Round,
+    dataTestId,
+    buttonColor,
+    text,
+    disabled = false,
+    onClick = null,
+    margin,
+  } = props;
 
   const clickHandler = (e: any) => {
     if (onClick) {
@@ -148,10 +166,3 @@ export const SessionButton = (props: Props) => {
     </StyledButton>
   );
 };
-
-SessionButton.defaultProps = {
-  disabled: false,
-  buttonShape: SessionButtonShape.Round,
-  buttonType: SessionButtonType.Outline,
-  onClick: null,
-} as Partial<Props>;

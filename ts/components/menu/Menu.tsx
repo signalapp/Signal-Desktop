@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Item, Submenu } from 'react-contexify';
 import { useDispatch, useSelector } from 'react-redux';
 import { useConvoIdFromContext } from '../../contexts/ConvoIdContext';
@@ -303,7 +301,7 @@ export const CopyMenuItem = (): JSX.Element | null => {
   // we want to show the copyId for open groups and private chats only
 
   if ((isPrivate && !isBlinded) || isPublic) {
-    const copyIdLabel = isPublic ? window.i18n('copyOpenGroupURL') : window.i18n('copySessionID');
+    const copyIdLabel = isPublic ? window.i18n('copyOpenGroupURL') : window.i18n('accountIDCopy');
     return (
       <Item
         onClick={() => {

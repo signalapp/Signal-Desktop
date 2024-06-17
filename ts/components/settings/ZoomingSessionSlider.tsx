@@ -1,5 +1,5 @@
 import Slider from 'rc-slider';
-import React from 'react';
+
 import { isNumber } from 'lodash';
 
 import useUpdate from 'react-use/lib/useUpdate';

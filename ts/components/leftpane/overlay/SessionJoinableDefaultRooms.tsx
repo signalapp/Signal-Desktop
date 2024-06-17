@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components';
@@ -9,8 +9,8 @@ import { StateType } from '../../../state/reducer';
 import { Avatar, AvatarSize } from '../../avatar/Avatar';
 import { Flex } from '../../basic/Flex';
 import { PillContainerHoverable, StyledPillContainerHoverable } from '../../basic/PillContainer';
-import { SessionSpinner } from '../../basic/SessionSpinner';
 import { H3 } from '../../basic/Text';
+import { SessionSpinner } from '../../loading';
 
 export type JoinableRoomProps = {
   completeUrl: string;

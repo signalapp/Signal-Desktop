@@ -1,9 +1,9 @@
+import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import React, { useRef, useState } from 'react';
 
-import styled from 'styled-components';
-import useInterval from 'react-use/lib/useInterval';
 import moment from 'moment';
+import useInterval from 'react-use/lib/useInterval';
+import styled from 'styled-components';
 import { CallManager, UserUtils } from '../../session/utils';
 import {
   getCallIsInFullScreen,
@@ -13,15 +13,15 @@ import {
   getHasOngoingCallWithFocusedConvo,
   getHasOngoingCallWithPubkey,
 } from '../../state/selectors/call';
-import { StyledVideoElement } from './DraggableCallContainer';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
+import { StyledVideoElement } from './DraggableCallContainer';
 
-import { useVideoCallEventsListener } from '../../hooks/useVideoEventListener';
 import { useModuloWithTripleDots } from '../../hooks/useModuloWithTripleDots';
-import { CallWindowControls } from './CallButtons';
+import { useVideoCallEventsListener } from '../../hooks/useVideoEventListener';
 import { DEVICE_DISABLED_DEVICE_ID } from '../../session/utils/calling/CallManager';
+import { CallWindowControls } from './CallButtons';
 
-import { SessionSpinner } from '../basic/SessionSpinner';
+import { SessionSpinner } from '../loading';
 
 const VideoContainer = styled.div`
   height: 100%;

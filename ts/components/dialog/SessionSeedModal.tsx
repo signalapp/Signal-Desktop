@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import { QRCode } from 'react-qr-svg';
 import { useDispatch } from 'react-redux';
 import useMount from 'react-use/lib/useMount';
@@ -223,7 +223,7 @@ const SessionSeedModalInner = (props: ModalInnerProps) => {
     <>
       {!loadingSeed && (
         <SessionWrapperModal
-          title={window.i18n('showRecoveryPhrase')}
+          title={window.i18n('sessionRecoveryPassword')}
           onClose={onClose}
           showExitIcon={true}
         >

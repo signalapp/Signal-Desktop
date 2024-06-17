@@ -102,9 +102,9 @@ async function copyFromQuotedMessage(
       : quotedMessage.propsForMessage.text) || '';
 
   if (isMessageModel(quotedMessage)) {
-    window.inboxStore.dispatch(pushQuotedMessageDetails(quotedMessage.getMessageModelProps()));
+    window.inboxStore?.dispatch(pushQuotedMessageDetails(quotedMessage.getMessageModelProps()));
   } else {
-    window.inboxStore.dispatch(pushQuotedMessageDetails(quotedMessage));
+    window.inboxStore?.dispatch(pushQuotedMessageDetails(quotedMessage));
   }
 
   // no attachments, just save the quote with the body

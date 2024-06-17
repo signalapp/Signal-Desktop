@@ -1,9 +1,10 @@
-import React, { forwardRef } from 'react';
-import classNames from 'classnames';
-import styled from 'styled-components';
-import { useSelector } from 'react-redux';
 import Picker from '@emoji-mart/react';
+import classNames from 'classnames';
+import { forwardRef } from 'react';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 
+import { getPrimaryColor } from '../../state/selectors/primaryColor';
 import { getTheme, isDarkTheme } from '../../state/selectors/theme';
 import {
   COLORS,
@@ -11,12 +12,10 @@ import {
   PrimaryColorStateType,
   THEMES,
   ThemeStateType,
-  // eslint-disable-next-line import/extensions
-} from '../../themes/constants/colors.js';
-import { hexColorToRGB } from '../../util/hexColorToRGB';
-import { getPrimaryColor } from '../../state/selectors/primaryColor';
-import { i18nEmojiData } from '../../util/emoji';
+} from '../../themes/constants/colors';
 import { FixedBaseEmoji } from '../../types/Reaction';
+import { i18nEmojiData } from '../../util/emoji';
+import { hexColorToRGB } from '../../util/hexColorToRGB';
 
 export const StyledEmojiPanel = styled.div<{
   isModal: boolean;

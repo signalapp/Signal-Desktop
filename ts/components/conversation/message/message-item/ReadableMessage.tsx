@@ -1,5 +1,13 @@
 import { debounce, noop } from 'lodash';
-import React, { AriaRole, MouseEventHandler, useCallback, useLayoutEffect, useState } from 'react';
+import {
+  AriaRole,
+  MouseEvent,
+  MouseEventHandler,
+  ReactNode,
+  useCallback,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import { InView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useScrollToLoadedMessage } from '../../../../contexts/ScrollToLoadedMessage';
@@ -24,7 +32,7 @@ import { getIsAppFocused } from '../../../../state/selectors/section';
 import { useSelectedConversationKey } from '../../../../state/selectors/selectedConversation';
 
 export type ReadableMessageProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   messageId: string;
   className?: string;
   receivedAt: number | undefined;
@@ -33,7 +41,7 @@ export type ReadableMessageProps = {
   onDoubleClickCapture?: MouseEventHandler<HTMLElement>;
   role?: AriaRole;
   dataTestId: string;
-  onContextMenu?: (e: React.MouseEvent<HTMLElement>) => void;
+  onContextMenu?: (e: MouseEvent<HTMLElement>) => void;
   isControlMessage?: boolean;
 };
 

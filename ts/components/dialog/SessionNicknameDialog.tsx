@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
 import _ from 'lodash';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { getConversationController } from '../../session/conversations';
 
-import { SpacerLG } from '../basic/Text';
 import { changeNickNameModal } from '../../state/ducks/modalDialog';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SpacerLG } from '../basic/Text';
 
 type Props = {
   conversationId: string;

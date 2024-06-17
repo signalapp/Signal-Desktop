@@ -1,13 +1,12 @@
-import React from 'react';
 import { isEmpty, noop } from 'lodash';
 import styled from 'styled-components';
 
-import { QuotedAttachmentThumbnailType, QuoteProps } from './Quote';
-import { GoogleChrome } from '../../../../../util';
 import { MIME } from '../../../../../types';
+import { GoogleChrome } from '../../../../../util';
+import { QuotedAttachmentThumbnailType, QuoteProps } from './Quote';
 
-import { QuoteImage } from './QuoteImage';
 import { icons, SessionIconType } from '../../../../icon';
+import { QuoteImage } from './QuoteImage';
 
 function getObjectUrl(thumbnail: QuotedAttachmentThumbnailType | undefined): string | undefined {
   if (thumbnail && thumbnail.objectUrl) {

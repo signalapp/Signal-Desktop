@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
 
@@ -14,7 +14,7 @@ import { ToastUtils } from '../../../session/utils';
 import { resetLeftOverlayMode } from '../../../state/ducks/section';
 import { SessionButton } from '../../basic/SessionButton';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
-import { SessionSpinner } from '../../basic/SessionSpinner';
+import { SessionSpinner } from '../../loading';
 import { OverlayHeader } from './OverlayHeader';
 
 import {

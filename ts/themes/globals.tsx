@@ -2,6 +2,10 @@ import { isTestIntegration } from '../shared/env_vars';
 import { hexColorToRGB } from '../util/hexColorToRGB';
 import { COLORS } from './constants/colors';
 
+function setDuration(duration: number | string) {
+  return `${!isTestIntegration() ? duration : typeof duration === 'string' ? '0s' : '0'}`;
+}
+
 // These variables are independent of the current theme
 export type ThemeGlobals = {
   /* Fonts */
@@ -25,6 +29,7 @@ export type ThemeGlobals = {
   '--margins-lg': string;
   '--margins-xl': string;
   '--margins-2xl': string;
+  '--margins-3xl': string;
 
   /* Padding */
   '--padding-message-content': string;
@@ -42,6 +47,7 @@ export type ThemeGlobals = {
 
   /* Animations */
   '--default-duration': string;
+  '--default-duration-seconds': string;
 
   /* Colors */
   '--green-color': string;
@@ -92,6 +98,7 @@ export type ThemeGlobals = {
   '--right-panel-height': string;
   '--right-panel-attachment-width': string;
   '--right-panel-attachment-height': string;
+  '--right-panel-duration': string;
 };
 
 // These are only set once in the global style (at root).
@@ -115,6 +122,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--margins-lg': '20px',
   '--margins-xl': '25px',
   '--margins-2xl': '30px',
+  '--margins-3xl': '35px',
 
   '--padding-message-content': '7px 13px',
   '--padding-link-preview': '-7px -13px 7px -13px', // bottom has positive value because a link preview has always a body below
@@ -127,7 +135,8 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--composition-container-height': '60px',
   '--search-input-height': '34px',
 
-  '--default-duration': isTestIntegration() ? '0s' : '0.25s',
+  '--default-duration': setDuration('0.25s'),
+  '--default-duration-seconds': setDuration(0.25), // framer-motion requires a number
 
   '--green-color': COLORS.PRIMARY.GREEN,
   '--blue-color': COLORS.PRIMARY.BLUE,
@@ -166,6 +175,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--right-panel-attachment-width': 'calc(var(--right-panel-width) - 2 * var(--margins-2xl) - 7px)',
   '--right-panel-attachment-height':
     'calc(var(--right-panel-height) - 2 * var(--margins-2xl) -7px)',
+  '--right-panel-duration': setDuration('0.3s'),
 };
 
 // These should only be needed for the global style (at root).

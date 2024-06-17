@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 // eslint-disable-next-line import/no-named-default
-import { ChangeEvent, MouseEvent, default as React, useState } from 'react';
+import { ChangeEvent, MouseEvent, useState } from 'react';
 import { QRCode } from 'react-qr-svg';
 import styled from 'styled-components';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
@@ -10,7 +10,7 @@ import { YourSessionIDPill, YourSessionIDSelectable } from '../basic/YourSession
 
 import { useOurAvatarPath, useOurConversationUsername } from '../../hooks/useParamSelector';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
-import { MAX_USERNAME_BYTES } from '../../session/constants';
+import { MAX_NAME_LENGTH_BYTES } from '../../session/constants';
 import { getConversationController } from '../../session/conversations';
 import { sanitizeSessionUsername } from '../../session/utils/String';
 import { editProfileModal, updateEditProfilePictureModel } from '../../state/ducks/modalDialog';
@@ -18,8 +18,8 @@ import { saveQRCode } from '../../util/saveQRCode';
 import { setLastProfileUpdateTimestamp } from '../../util/storage';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
-import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
+import { SessionSpinner } from '../loading';
 
 const handleSaveQRCode = (event: MouseEvent) => {
   event.preventDefault();
@@ -152,7 +152,7 @@ export const EditProfileDialog = () => {
     try {
       const newName = profileName ? profileName.trim() : '';
 
-      if (newName.length === 0 || newName.length > MAX_USERNAME_BYTES) {
+      if (newName.length === 0 || newName.length > MAX_NAME_LENGTH_BYTES) {
         return;
       }
 
@@ -257,7 +257,7 @@ export const EditProfileDialog = () => {
                 value={profileName}
                 placeholder={window.i18n('displayName')}
                 onChange={onNameEdited}
-                maxLength={MAX_USERNAME_BYTES}
+                maxLength={MAX_NAME_LENGTH_BYTES}
                 tabIndex={0}
                 required={true}
                 aria-required={true}

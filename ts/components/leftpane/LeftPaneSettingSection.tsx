@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -11,9 +10,9 @@ import {
   showSettingsSection,
 } from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
+import type { SessionSettingCategory } from '../../types/ReduxTypes';
 import { SessionIcon } from '../icon';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
-import type { SessionSettingCategory } from '../../types/ReduxTypes';
 
 const StyledSettingsSectionTitle = styled.strong`
   font-family: var(--font-accent), var(--font-default);
@@ -73,8 +72,8 @@ const getCategories = (): Array<{ id: SessionSettingCategory; title: string }> =
       title: window.i18n('helpSettingsTitle'),
     },
     {
-      id: 'recoveryPhrase' as const,
-      title: window.i18n('recoveryPhrase'),
+      id: 'recoveryPassword' as const,
+      title: window.i18n('sessionRecoveryPassword'),
     },
     {
       id: 'clearData' as const,
@@ -108,7 +107,7 @@ const LeftPaneSettingsCategoryRow = (props: {
             dispatch(setLeftOverlayMode('message-requests'));
             dispatch(resetConversationExternal());
             break;
-          case 'recoveryPhrase':
+          case 'recoveryPassword':
             dispatch(recoveryPhraseModal({}));
             break;
           case 'clearData':

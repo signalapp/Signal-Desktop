@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import autoBind from 'auto-bind';
 import classNames from 'classnames';
-import React from 'react';
 
+import { Component } from 'react';
 import { ConversationModel } from '../../models/conversation';
 import { Constants } from '../../session';
 import { getConversationController } from '../../session/conversations';
@@ -27,7 +27,7 @@ interface State {
   newAvatarObjecturl: string | null;
 }
 
-export class UpdateGroupNameDialog extends React.Component<Props, State> {
+export class UpdateGroupNameDialog extends Component<Props, State> {
   private readonly convo: ConversationModel;
 
   constructor(props: Props) {

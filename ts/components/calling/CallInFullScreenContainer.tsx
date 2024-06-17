@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import useKey from 'react-use/lib/useKey';
@@ -52,8 +52,8 @@ export const CallInFullScreenContainer = () => {
     localStreamVideoIsMuted,
   } = useVideoCallEventsListener('CallInFullScreenContainer', true);
 
-  const videoRefRemote = React.useRef<HTMLVideoElement>(null);
-  const videoRefLocal = React.useRef<HTMLVideoElement>(null);
+  const videoRefRemote = useRef<HTMLVideoElement>(null);
+  const videoRefLocal = useRef<HTMLVideoElement>(null);
 
   function toggleFullScreenOFF() {
     dispatch(setFullScreenCall(false));

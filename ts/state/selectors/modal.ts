@@ -1,6 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { StateType } from '../reducer';
 import {
   AddModeratorsModalState,
   BanOrUnbanUserModalState,
@@ -20,6 +19,7 @@ import {
   UpdateGroupNameModalState,
   UserDetailsModalState,
 } from '../ducks/modalDialog';
+import { StateType } from '../reducer';
 
 export const getModal = (state: StateType): ModalState => {
   return state.modals;

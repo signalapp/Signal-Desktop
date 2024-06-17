@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useCallback, useState } from 'react';
+import { MouseEvent, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useIsDetailMessageView } from '../../../../contexts/isDetailViewContext';
@@ -66,7 +66,7 @@ export const MessageContentWithStatuses = (props: Props) => {
   const multiSelectMode = useSelector(isMessageSelectionMode);
 
   const onClickOnMessageOuterContainer = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
+    (event: MouseEvent<HTMLDivElement>) => {
       if (multiSelectMode && props?.messageId) {
         event.preventDefault();
         event.stopPropagation();
@@ -76,7 +76,7 @@ export const MessageContentWithStatuses = (props: Props) => {
     [dispatch, props?.messageId, multiSelectMode]
   );
 
-  const onDoubleClickReplyToMessage = (e: React.MouseEvent<HTMLDivElement>) => {
+  const onDoubleClickReplyToMessage = (e: MouseEvent<HTMLDivElement>) => {
     const currentSelection = window.getSelection();
     const currentSelectionString = currentSelection?.toString() || undefined;
 

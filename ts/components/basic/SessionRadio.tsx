@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import { ChangeEvent, SyntheticEvent } from 'react';
 import styled, { CSSProperties } from 'styled-components';
 import { Flex } from './Flex';
 
@@ -75,7 +75,7 @@ export const SessionRadio = (props: SessionRadioProps) => {
     style,
   } = props;
 
-  const clickHandler = (e: React.SyntheticEvent<any>) => {
+  const clickHandler = (e: SyntheticEvent<any>) => {
     if (!disabled && onClick) {
       // let something else catch the event if our click handler is not set
       e.stopPropagation();

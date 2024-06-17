@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useRef } from 'react';
+import { ReactNode, useRef } from 'react';
 import useKey from 'react-use/lib/useKey';
 
 import { SessionIconButton } from './icon';
@@ -17,7 +17,7 @@ export type SessionWrapperModalType = {
   cancelText?: string;
   showExitIcon?: boolean;
   headerIconButtons?: Array<any>;
-  children: React.ReactNode;
+  children: ReactNode;
   headerReverse?: boolean;
   additionalClassName?: string;
 };

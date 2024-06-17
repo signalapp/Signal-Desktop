@@ -267,7 +267,7 @@ const handleMessagesResponseV4 = async (
     );
 
     const roomDetails: OpenGroupRequestCommonType = pick(roomInfos, 'serverUrl', 'roomId');
-    // then we try to find matching real session ids with the blinded ids we have.
+    // then we try to find matching real account ids with the blinded ids we have.
     // this is where we override the blindedId with the real one in case we already know that user real sessionId
 
     const messagesWithResolvedBlindedIdsIfFound = [];

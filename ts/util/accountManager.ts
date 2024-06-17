@@ -1,23 +1,19 @@
+import { isEmpty } from 'lodash';
 import { getConversationController } from '../session/conversations';
 import { getSodiumRenderer } from '../session/crypto';
 import { fromArrayBufferToBase64, fromHex, toHex } from '../session/utils/String';
-import { getOurPubKeyStrFromCache } from '../session/utils/User';
-import { trigger } from '../shims/events';
+import { configurationMessageReceived, trigger } from '../shims/events';
 
-import { actions as userActions } from '../state/ducks/user';
-import { mnDecode, mnEncode } from '../session/crypto/mnemonic';
 import { SettingsKey } from '../data/settings-key';
-import {
-  saveRecoveryPhrase,
-  setLastProfileUpdateTimestamp,
-  setLocalPubKey,
-  setSignInByLinking,
-  Storage,
-} from './storage';
-import { Registration } from './registration';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { SessionKeyPair } from '../receiver/keypairs';
+import { getSwarmPollingInstance } from '../session/apis/snode_api';
+import { mnDecode, mnEncode } from '../session/crypto/mnemonic';
+import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
+import { actions as userActions } from '../state/ducks/user';
+import { Registration } from './registration';
+import { Storage, saveRecoveryPhrase, setLocalPubKey, setSignInByLinking } from './storage';
 
 /**
  * Might throw
@@ -60,71 +56,83 @@ const generateKeypair = async (
 };
 
 /**
- * Sign in with a recovery phrase. We won't try to recover an existing profile name
- * @param mnemonic the mnemonic the user duly saved in a safe place. We will restore his sessionID based on this.
- * @param mnemonicLanguage 'english' only is supported
- * @param profileName the displayName to use for this user
- */
-export async function signInWithRecovery(
-  mnemonic: string,
-  mnemonicLanguage: string,
-  profileName: string
-) {
-  return registerSingleDevice(mnemonic, mnemonicLanguage, profileName);
-}
-
-/**
- * Sign in with a recovery phrase but trying to recover display name and avatar from the first encountered configuration message.
- * @param mnemonic the mnemonic the user duly saved in a safe place. We will restore his sessionID based on this.
- * @param mnemonicLanguage 'english' only is supported
- */
-export async function signInByLinkingDevice(mnemonic: string, mnemonicLanguage: string) {
-  if (!mnemonic) {
-    throw new Error('Session always needs a mnemonic. Either generated or given by the user');
-  }
-  if (!mnemonicLanguage) {
-    throw new Error('We always needs a mnemonicLanguage');
-  }
-
-  const identityKeyPair = await generateKeypair(mnemonic, mnemonicLanguage);
-  await setSignInByLinking(true);
-  await createAccount(identityKeyPair);
-  await saveRecoveryPhrase(mnemonic);
-  const pubKeyString = toHex(identityKeyPair.pubKey);
-
-  // await for the first configuration message to come in.
-  await registrationDone(pubKeyString, '');
-  return pubKeyString;
-}
-/**
- * This is a signup. User has no recovery and does not try to link a device
+ * This registers a user account. It can also be used if an account restore fails and the user instead registers a new display name
  * @param mnemonic The mnemonic generated on first app loading and to use for this brand new user
  * @param mnemonicLanguage only 'english' is supported
- * @param profileName the display name to register toi
+ * @param displayName the display name to register, character limit is MAX_NAME_LENGTH_BYTES
+ * @param registerCallback when restoring an account, registration completion is handled elsewhere so we need to pass the pubkey back up to the caller
  */
 export async function registerSingleDevice(
   generatedMnemonic: string,
   mnemonicLanguage: string,
-  profileName: string
+  displayName: string,
+  registerCallback?: (pubkey: string) => Promise<void>
 ) {
-  if (!generatedMnemonic) {
+  if (isEmpty(generatedMnemonic)) {
     throw new Error('Session always needs a mnemonic. Either generated or given by the user');
   }
-  if (!profileName) {
-    throw new Error('We always needs a profileName');
+  if (isEmpty(mnemonicLanguage)) {
+    throw new Error('We always need a mnemonicLanguage');
   }
-  if (!mnemonicLanguage) {
-    throw new Error('We always needs a mnemonicLanguage');
+  if (isEmpty(displayName)) {
+    throw new Error('We always need a displayName');
   }
 
   const identityKeyPair = await generateKeypair(generatedMnemonic, mnemonicLanguage);
 
   await createAccount(identityKeyPair);
   await saveRecoveryPhrase(generatedMnemonic);
-  await setLastProfileUpdateTimestamp(Date.now());
 
   const pubKeyString = toHex(identityKeyPair.pubKey);
-  await registrationDone(pubKeyString, profileName);
+  if (isEmpty(pubKeyString)) {
+    throw new Error("We don't have a pubkey from the recovery password...");
+  }
+
+  if (registerCallback) {
+    await registerCallback(pubKeyString);
+  } else {
+    await registrationDone(pubKeyString, displayName);
+  }
+}
+
+/**
+ * Restores a users account with their recovery password and try to recover display name and avatar from the first encountered configuration message.
+ * @param mnemonic the mnemonic the user duly saved in a safe place. We will restore his sessionID based on this.
+ * @param mnemonicLanguage 'english' only is supported
+ * @param loadingAnimationCallback a callback to trigger a loading animation while fetching
+ *
+ * @returns the display name of the user if found on the network
+ */
+export async function signInByLinkingDevice(
+  mnemonic: string,
+  mnemonicLanguage: string,
+  abortSignal?: AbortSignal
+) {
+  if (isEmpty(mnemonic)) {
+    throw new Error('Session always needs a mnemonic. Either generated or given by the user');
+  }
+  if (isEmpty(mnemonicLanguage)) {
+    throw new Error('We always need a mnemonicLanguage');
+  }
+
+  const identityKeyPair = await generateKeypair(mnemonic, mnemonicLanguage);
+
+  await setSignInByLinking(true);
+  await createAccount(identityKeyPair);
+  await saveRecoveryPhrase(mnemonic);
+
+  const pubKeyString = toHex(identityKeyPair.pubKey);
+
+  if (isEmpty(pubKeyString)) {
+    throw new Error("We don't have a pubkey from the recovery password...");
+  }
+
+  const displayName = await getSwarmPollingInstance().pollOnceForOurDisplayName(abortSignal);
+
+  // NOTE the registration is not yet finished until the configurationMessageReceived event has been processed
+  trigger(configurationMessageReceived, pubKeyString, displayName);
+  // for testing purposes
+  return { displayName, pubKeyString };
 }
 
 export async function generateMnemonic() {
@@ -177,12 +185,14 @@ async function createAccount(identityKeyPair: SessionKeyPair) {
 }
 
 /**
- *
+ * When a user sucessfully registers, we need to initialise the libession wrappers and create a conversation for the user
  * @param ourPubkey the pubkey recovered from the seed
- * @param displayName the display name entered by the user, if any. This is not a display name found from a config message in the network.
+ * @param displayName the display name entered by the user. Can be what is fetched from the last config message or what is entered manually by the user
  */
-async function registrationDone(ourPubkey: string, displayName: string) {
-  window?.log?.info(`registration done with user provided displayName "${displayName}"`);
+export async function registrationDone(ourPubkey: string, displayName: string) {
+  window?.log?.info(
+    `[onboarding] registration done with user provided displayName "${displayName}" and pubkey "${ourPubkey}"`
+  );
 
   // initializeLibSessionUtilWrappers needs our publicKey to be set
   await Storage.put('primaryDevicePubKey', ourPubkey);
@@ -191,8 +201,13 @@ async function registrationDone(ourPubkey: string, displayName: string) {
   try {
     await LibSessionUtil.initializeLibSessionUtilWrappers();
   } catch (e) {
-    window.log.warn('LibSessionUtil.initializeLibSessionUtilWrappers failed with', e.message);
+    window.log.warn(
+      '[onboarding] registration done but LibSessionUtil.initializeLibSessionUtilWrappers failed with',
+      e.message || e
+    );
+    throw e;
   }
+
   // Ensure that we always have a conversation for ourself
   const conversation = await getConversationController().getOrCreateAndWait(
     ourPubkey,
@@ -213,7 +228,7 @@ async function registrationDone(ourPubkey: string, displayName: string) {
   };
   window.inboxStore?.dispatch(userActions.userChanged(user));
 
-  window?.log?.info('dispatching registration event');
-  // this will make the poller start fetching messages, needed to find a configuration message
+  window?.log?.info('[onboarding] dispatching registration event');
+  // this will make the poller start fetching messages
   trigger('registration_done');
 }

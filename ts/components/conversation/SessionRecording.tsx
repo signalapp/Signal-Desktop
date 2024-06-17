@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React from 'react';
+
 import classNames from 'classnames';
 import moment from 'moment';
 
 import autoBind from 'auto-bind';
 import MicRecorder from 'mic-recorder-to-mp3';
+import { Component } from 'react';
 import styled from 'styled-components';
-import { SessionIconButton } from '../icon';
 import { Constants } from '../../session';
-import { ToastUtils } from '../../session/utils';
 import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
+import { ToastUtils } from '../../session/utils';
+import { SessionIconButton } from '../icon';
 
 interface Props {
   onExitVoiceNoteView: () => void;
@@ -49,7 +50,7 @@ const StyledFlexWrapper = styled.div<StyledFlexWrapperProps>`
   }
 `;
 
-export class SessionRecording extends React.Component<Props, State> {
+export class SessionRecording extends Component<Props, State> {
   private recorder?: any;
   private audioBlobMp3?: Blob;
   private audioElement?: HTMLAudioElement | null;
@@ -162,12 +163,7 @@ export class SessionRecording extends React.Component<Props, State> {
         ) : null}
 
         {!isRecording && (
-          <div
-            className={classNames(
-              'send-message-button',
-              hasRecording && 'send-message-button---scale'
-            )}
-          >
+          <div>
             <SessionIconButton
               iconType="send"
               iconSize={'large'}

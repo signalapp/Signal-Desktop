@@ -1,5 +1,5 @@
 import { shell } from 'electron';
-import React, { Dispatch, useEffect, useState } from 'react';
+import { Dispatch, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
@@ -14,9 +14,9 @@ import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { SessionRadioGroup, SessionRadioItems } from '../basic/SessionRadioGroup';
-import { SessionSpinner } from '../basic/SessionSpinner';
 import { SpacerLG } from '../basic/Text';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
+import { SessionSpinner } from '../loading';
 
 const StyledSubText = styled(SessionHtmlRenderer)<{ textLength: number }>`
   font-size: var(--font-size-md);

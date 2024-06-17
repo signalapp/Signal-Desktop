@@ -1,20 +1,22 @@
 import classNames from 'classnames';
 import _ from 'lodash';
-import React, { KeyboardEvent } from 'react';
+import { KeyboardEvent, MouseEvent, ReactNode, forwardRef, memo } from 'react';
 import styled from 'styled-components';
 import { SessionIcon, SessionIconProps } from './SessionIcon';
 
 interface SProps extends SessionIconProps {
-  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (e?: MouseEvent<HTMLButtonElement>) => void;
   isSelected?: boolean;
   isHidden?: boolean;
   margin?: string;
+  padding?: string;
   dataTestId?: string;
   dataTestIdIcon?: string;
   id?: string;
+  title?: string;
   style?: object;
   tabIndex?: number;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 const StyledSessionIconButton = styled.button<{ color?: string; isSelected?: boolean }>`
@@ -38,7 +40,7 @@ const StyledSessionIconButton = styled.button<{ color?: string; isSelected?: boo
 `;
 
 // eslint-disable-next-line react/display-name
-const SessionIconButtonInner = React.forwardRef<HTMLButtonElement, SProps>((props, ref) => {
+const SessionIconButtonInner = forwardRef<HTMLButtonElement, SProps>((props, ref) => {
   const {
     iconType,
     iconSize,
@@ -53,14 +55,16 @@ const SessionIconButtonInner = React.forwardRef<HTMLButtonElement, SProps>((prop
     borderRadius,
     iconPadding,
     margin,
+    padding,
     id,
+    title,
     dataTestId,
     dataTestIdIcon,
     style,
     tabIndex,
     children,
   } = props;
-  const clickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const clickHandler = (e: MouseEvent<HTMLButtonElement>) => {
     if (props.onClick) {
       e.stopPropagation();
       props.onClick(e);
@@ -80,10 +84,16 @@ const SessionIconButtonInner = React.forwardRef<HTMLButtonElement, SProps>((prop
       className={classNames('session-icon-button', iconSize)}
       ref={ref}
       id={id}
+      title={title}
       onClick={clickHandler}
-      style={{ ...style, display: isHidden ? 'none' : 'flex', margin: margin || '' }}
+      style={{
+        ...style,
+        display: isHidden ? 'none' : 'flex',
+        margin: margin || '',
+        padding: padding || '',
+      }}
       tabIndex={tabIndex}
-      onKeyPress={keyPressHandler}
+      onKeyDown={keyPressHandler}
       data-testid={dataTestId}
     >
       <SessionIcon
@@ -104,4 +114,4 @@ const SessionIconButtonInner = React.forwardRef<HTMLButtonElement, SProps>((prop
   );
 });
 
-export const SessionIconButton = React.memo(SessionIconButtonInner, _.isEqual);
+export const SessionIconButton = memo(SessionIconButtonInner, _.isEqual);

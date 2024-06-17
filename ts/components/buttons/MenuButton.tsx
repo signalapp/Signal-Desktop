@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { resetLeftOverlayMode, setLeftOverlayMode } from '../../state/ducks/section';
@@ -14,7 +13,8 @@ const StyledMenuButton = styled.button`
   align-items: center;
   background: var(--menu-button-background-color);
 
-  border-radius: 2px;
+  border: 1.5px solid var(--menu-button-border-color);
+  border-radius: 7px;
   width: 51px;
   height: 33px;
   cursor: pointer;
@@ -23,6 +23,10 @@ const StyledMenuButton = styled.button`
 
   :hover {
     background: var(--menu-button-background-hover-color);
+    border-color: var(--menu-button-border-hover-color);
+    svg path {
+      fill: var(--menu-button-icon-hover-color);
+    }
   }
 `;
 
@@ -42,10 +46,11 @@ export const MenuButton = () => {
   return (
     <StyledMenuButton data-testid="new-conversation-button" onClick={onClickFn}>
       <SessionIcon
-        iconSize="small"
-        iconType="plusFat"
+        iconSize="medium"
+        iconType="plus"
         iconColor="var(--menu-button-icon-color)"
         iconRotation={isToggled ? 45 : 0}
+        iconPadding="2px"
         aria-label={window.i18n('chooseAnAction')}
       />
     </StyledMenuButton>

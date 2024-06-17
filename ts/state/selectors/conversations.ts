@@ -443,6 +443,13 @@ export const getLeftPaneConversationIds = createSelector(
   _getLeftPaneConversationIds
 );
 
+export const getLeftPaneConversationIdsCount = createSelector(
+  getLeftPaneConversationIds,
+  (convoIds: Array<string>) => {
+    return convoIds.length;
+  }
+);
+
 const getDirectContacts = createSelector(getSortedConversations, _getPrivateFriendsConversations);
 
 export const getPrivateContactsPubkeys = createSelector(getDirectContacts, state =>
