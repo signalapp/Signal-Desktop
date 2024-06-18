@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { noop } from 'lodash';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
-import { usePrevious } from '../hooks/usePrevious';
 import type { HideToastAction, ShowToastAction } from '../state/ducks/toast';
 import type { InMemoryAttachmentDraftType } from '../types/Attachment';
 import { ErrorDialogAudioRecorderType } from '../types/AudioRecorder';
@@ -18,7 +17,6 @@ import { RecordingComposer } from './RecordingComposer';
 
 export type Props = {
   i18n: LocalizerType;
-  conversationId: string;
   onCancel: () => void;
   onSend: () => void;
   errorRecording: (e: ErrorDialogAudioRecorderType) => unknown;
@@ -31,47 +29,30 @@ export type Props = {
     conversationId: string,
     onRecordingComplete: (rec: InMemoryAttachmentDraftType) => unknown
   ) => unknown;
+  saveDraftRecordingIfNeeded: () => void;
   showToast: ShowToastAction;
   hideToast: HideToastAction;
 };
 
 export function CompositionRecording({
   i18n,
-  conversationId,
   onCancel,
   onSend,
   errorRecording,
   errorDialogAudioRecorderType,
-  addAttachment,
-  completeRecording,
+  saveDraftRecordingIfNeeded,
   showToast,
   hideToast,
 }: Props): JSX.Element {
   useEscapeHandling(onCancel);
 
-  // when interrupted (blur, switching convos)
-  // stop recording and save draft
-  const handleRecordingInterruption = useCallback(() => {
-    completeRecording(conversationId, attachment => {
-      addAttachment(conversationId, attachment);
-    });
-  }, [conversationId, completeRecording, addAttachment]);
-
   // switched to another app
   useEffect(() => {
-    window.addEventListener('blur', handleRecordingInterruption);
+    window.addEventListener('blur', saveDraftRecordingIfNeeded);
     return () => {
-      window.removeEventListener('blur', handleRecordingInterruption);
+      window.removeEventListener('blur', saveDraftRecordingIfNeeded);
     };
-  }, [handleRecordingInterruption]);
-
-  // switched conversations
-  const previousConversationId = usePrevious(conversationId, conversationId);
-  useEffect(() => {
-    if (previousConversationId !== conversationId) {
-      handleRecordingInterruption();
-    }
-  });
+  }, [saveDraftRecordingIfNeeded]);
 
   useEffect(() => {
     const toast: AnyToast = { toastType: ToastType.VoiceNoteLimit };

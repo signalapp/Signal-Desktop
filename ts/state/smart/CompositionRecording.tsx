@@ -23,7 +23,8 @@ export const SmartCompositionRecording = memo(
     const { errorRecording, cancelRecording, completeRecording } =
       useAudioRecorderActions();
 
-    const { sendMultiMediaMessage, addAttachment } = useComposerActions();
+    const { sendMultiMediaMessage, addAttachment, saveDraftRecordingIfNeeded } =
+      useComposerActions();
     const { hideToast, showToast } = useToastActions();
 
     const handleCancel = useCallback(() => {
@@ -53,12 +54,12 @@ export const SmartCompositionRecording = memo(
     return (
       <CompositionRecording
         i18n={i18n}
-        conversationId={selectedConversationId}
         onCancel={handleCancel}
         onSend={handleSend}
         errorRecording={errorRecording}
         addAttachment={addAttachment}
         completeRecording={completeRecording}
+        saveDraftRecordingIfNeeded={saveDraftRecordingIfNeeded}
         showToast={showToast}
         hideToast={hideToast}
       />

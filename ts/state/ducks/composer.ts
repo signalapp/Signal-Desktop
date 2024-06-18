@@ -33,8 +33,7 @@ import {
 } from './linkPreviews';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
 import type { AciString } from '../../types/ServiceId';
-import { completeRecording } from './audioRecorder';
-import { RecordingState } from '../../types/AudioRecorder';
+import { completeRecording, getIsRecording } from './audioRecorder';
 import { SHOW_TOAST } from './toast';
 import type { AnyToast } from '../../types/Toast';
 import { ToastType } from '../../types/Toast';
@@ -243,6 +242,7 @@ export const actions = {
   removeAttachment,
   replaceAttachments,
   resetComposer,
+  saveDraftRecordingIfNeeded,
   scrollToQuotedMessage,
   sendEditedMessage,
   sendMultiMediaMessage,
@@ -363,23 +363,33 @@ function scrollToQuotedMessage({
   };
 }
 
-export function handleLeaveConversation(
-  conversationId: string
-): ThunkAction<void, RootStateType, unknown, never> {
+export function saveDraftRecordingIfNeeded(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  never
+> {
   return (dispatch, getState) => {
-    const { audioRecorder } = getState();
+    const { conversations, audioRecorder } = getState();
+    const { selectedConversationId: conversationId } = conversations;
 
-    if (audioRecorder.recordingState !== RecordingState.Recording) {
+    if (!getIsRecording(audioRecorder) || !conversationId) {
       return;
     }
 
-    // save draft of voice note
     dispatch(
       completeRecording(conversationId, attachment => {
         dispatch(
           addPendingAttachment(conversationId, { ...attachment, pending: true })
         );
         dispatch(addAttachment(conversationId, attachment));
+
+        const conversation = window.ConversationController.get(conversationId);
+        if (!conversation) {
+          throw new Error('saveDraftRecordingIfNeeded: No conversation found');
+        }
+
+        drop(conversation.updateLastMessage());
       })
     );
   };
@@ -1014,11 +1024,9 @@ function processAttachments({
       return;
     }
 
-    const state = getState();
-    const isRecording =
-      state.audioRecorder.recordingState === RecordingState.Recording;
+    const { audioRecorder } = getState();
 
-    if (hasLinkPreviewLoaded() || isRecording) {
+    if (hasLinkPreviewLoaded() || getIsRecording(audioRecorder)) {
       return;
     }
 

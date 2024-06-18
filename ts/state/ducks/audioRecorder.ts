@@ -65,6 +65,10 @@ type AudioPlayerActionType = ReadonlyDeep<
   | StartRecordingAction
 >;
 
+export function getIsRecording(audioRecorder: AudioRecorderStateType): boolean {
+  return audioRecorder.recordingState === RecordingState.Recording;
+}
+
 // Action Creators
 
 export const actions = {

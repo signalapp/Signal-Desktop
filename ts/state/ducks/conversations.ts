@@ -168,7 +168,7 @@ import {
   setComposerFocus,
   setQuoteByMessageId,
   resetComposer,
-  handleLeaveConversation,
+  saveDraftRecordingIfNeeded,
 } from './composer';
 import { ReceiptType } from '../../types/Receipt';
 import { Sound, SoundType } from '../../util/Sound';
@@ -4254,7 +4254,7 @@ function showConversation({
 
     // notify composer in case we need to stop recording a voice note
     if (conversations.selectedConversationId) {
-      dispatch(handleLeaveConversation(conversations.selectedConversationId));
+      saveDraftRecordingIfNeeded()(dispatch, getState, undefined);
       dispatch(
         onConversationClosed(
           conversations.selectedConversationId,
