@@ -3703,7 +3703,7 @@
     "description": "Label showing number of unknown contacts in the in-call participant info popup for call links."
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count, number} more",
+    "messageformat": "{count, plural, one {+# more} other {+# more}}",
     "description": "Label showing number of unknown contacts in the in-call participant info popup for call links, when known contacts are also present in the call."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
