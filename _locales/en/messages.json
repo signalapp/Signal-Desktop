@@ -6329,11 +6329,11 @@
     "description": "Additional information about signal connections and the stories they can see"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices",
+    "messageformat": "Deleting is synced across your devices",
     "description": "Emphasized text at the top of the explainer dialog you get when you first delete a message or conversation"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices.",
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices.",
     "description": "More detailed description of new delete behavior shown in explainer dialog"
   },
   "icu:LocalDeleteWarningModal__confirm": {
