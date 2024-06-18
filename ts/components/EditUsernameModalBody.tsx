@@ -179,12 +179,12 @@ export function EditUsernameModalBody({
       return undefined;
     }
     if (error === UsernameReservationError.NotEnoughCharacters) {
-      return i18n('icu:ProfileEditor--username--check-character-min', {
+      return i18n('icu:ProfileEditor--username--check-character-min-plural', {
         min: minNickname,
       });
     }
     if (error === UsernameReservationError.TooManyCharacters) {
-      return i18n('icu:ProfileEditor--username--check-character-max', {
+      return i18n('icu:ProfileEditor--username--check-character-max-plural', {
         max: maxNickname,
       });
     }

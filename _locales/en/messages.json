@@ -5588,10 +5588,18 @@
   },
   "icu:ProfileEditor--username--check-character-min": {
     "messageformat": "Usernames must have at least {min, number} characters.",
-    "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
+    "description": "(Deleted 2024/06/13) Shown if user has attempted to enter a username with too few characters - currently min is 3"
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Usernames must have at most {max, number} characters.",
+    "description": "(Deleted 2024/06/13) Shown if user has attempted to enter a username with too many characters - currently min is 25"
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "Usernames must have at least {min, plural, one {# character} other {# characters}}.",
+    "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "Usernames must have at most {max, plural, one {# character} other {# characters}}.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
