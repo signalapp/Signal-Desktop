@@ -195,6 +195,7 @@ import {
 } from '../../util/deleteForMe';
 import { MAX_MESSAGE_COUNT } from '../../util/deleteForMe.types';
 import { isEnabled } from '../../RemoteConfig';
+import type { CapabilitiesType } from '../../textsecure/WebAPI';
 
 // State
 
@@ -265,6 +266,7 @@ export type ConversationType = ReadonlyDeep<
     firstName?: string;
     profileName?: string;
     profileLastUpdatedAt?: number;
+    capabilities?: CapabilitiesType;
     username?: string;
     about?: string;
     aboutText?: string;
@@ -1753,7 +1755,9 @@ function deleteMessages({
       }
     }
 
-    await window.Signal.Data.removeMessages(messageIds);
+    await window.Signal.Data.removeMessages(messageIds, {
+      singleProtoJobQueue,
+    });
 
     popPanelForConversation()(dispatch, getState, undefined);
 
@@ -1761,7 +1765,11 @@ function deleteMessages({
       dispatch(scrollToMessage(conversationId, nearbyMessageId));
     }
 
-    if (!isEnabled('desktop.deleteSync.send')) {
+    const ourConversation =
+      window.ConversationController.getOurConversationOrThrow();
+    const capable = Boolean(ourConversation.get('capabilities')?.deleteSync);
+
+    if (!capable || !isEnabled('desktop.deleteSync.send')) {
       return;
     }
     if (messages.length === 0) {

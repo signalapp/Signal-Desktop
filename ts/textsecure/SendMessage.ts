@@ -89,6 +89,14 @@ import type {
   MessageToDelete,
 } from './messageReceiverEvents';
 import { getConversationFromTarget } from '../util/deleteForMe';
+import type { CallDetails } from '../types/CallDisposition';
+import {
+  AdhocCallStatus,
+  DirectCallStatus,
+  GroupCallStatus,
+} from '../types/CallDisposition';
+import { getProtoForCallHistory } from '../util/callDisposition';
+import { CallMode } from '../types/Calling';
 
 export type SendMetadataType = {
   [serviceId: ServiceIdString]: {
@@ -1567,6 +1575,71 @@ export default class MessageSender {
     };
   }
 
+  static getClearCallHistoryMessage(timestamp: number): SingleProtoJobData {
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const callLogEvent = new Proto.SyncMessage.CallLogEvent({
+      type: Proto.SyncMessage.CallLogEvent.Type.CLEAR,
+      timestamp: Long.fromNumber(timestamp),
+    });
+
+    const syncMessage = MessageSender.createSyncMessage();
+    syncMessage.callLogEvent = callLogEvent;
+
+    const contentMessage = new Proto.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
+    return {
+      contentHint: ContentHint.RESENDABLE,
+      serviceId: ourAci,
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'callLogEventSync',
+      urgent: false,
+    };
+  }
+
+  static getDeleteCallEvent(callDetails: CallDetails): SingleProtoJobData {
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const { mode } = callDetails;
+    let status;
+    if (mode === CallMode.Adhoc) {
+      status = AdhocCallStatus.Deleted;
+    } else if (mode === CallMode.Direct) {
+      status = DirectCallStatus.Deleted;
+    } else if (mode === CallMode.Group) {
+      status = GroupCallStatus.Deleted;
+    } else {
+      throw missingCaseError(mode);
+    }
+    const callEvent = getProtoForCallHistory({
+      ...callDetails,
+      status,
+    });
+
+    const syncMessage = MessageSender.createSyncMessage();
+    syncMessage.callEvent = callEvent;
+
+    const contentMessage = new Proto.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
+    return {
+      contentHint: ContentHint.RESENDABLE,
+      serviceId: ourAci,
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'callLogEventSync',
+      urgent: false,
+    };
+  }
+
   async syncReadMessages(
     reads: ReadonlyArray<{
       senderAci?: AciString;
@@ -2353,9 +2426,11 @@ function toAddressableMessage(message: MessageToDelete) {
   targetMessage.sentTimestamp = Long.fromNumber(message.sentAt);
 
   if (message.type === 'aci') {
-    targetMessage.authorAci = message.authorAci;
+    targetMessage.authorServiceId = message.authorAci;
   } else if (message.type === 'e164') {
     targetMessage.authorE164 = message.authorE164;
+  } else if (message.type === 'pni') {
+    targetMessage.authorServiceId = message.authorPni;
   } else {
     throw missingCaseError(message);
   }
@@ -2368,7 +2443,9 @@ function toConversationIdentifier(conversation: ConversationToDelete) {
     new Proto.SyncMessage.DeleteForMe.ConversationIdentifier();
 
   if (conversation.type === 'aci') {
-    targetConversation.threadAci = conversation.aci;
+    targetConversation.threadServiceId = conversation.aci;
+  } else if (conversation.type === 'pni') {
+    targetConversation.threadServiceId = conversation.pni;
   } else if (conversation.type === 'group') {
     targetConversation.threadGroupId = Bytes.fromBase64(conversation.groupId);
   } else if (conversation.type === 'e164') {

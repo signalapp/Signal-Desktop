@@ -4,18 +4,21 @@
 import { batch } from 'react-redux';
 import { debounce } from 'lodash';
 
-import type { MessageModel } from '../models/messages';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { sleep } from '../util/sleep';
 import { SECOND } from '../util/durations';
 import * as Errors from '../types/errors';
+import * as log from '../logging/log';
+
+import type { MessageModel } from '../models/messages';
+import type { SingleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 
 class ExpiringMessagesDeletionService {
   public update: typeof this.checkExpiringMessages;
 
   private timeout?: ReturnType<typeof setTimeout>;
 
-  constructor() {
+  constructor(private readonly singleProtoJobQueue: SingleProtoJobQueue) {
     this.update = debounce(this.checkExpiringMessages, 1000);
   }
 
@@ -42,7 +45,9 @@ class ExpiringMessagesDeletionService {
         inMemoryMessages.push(message);
       });
 
-      await window.Signal.Data.removeMessages(messageIds);
+      await window.Signal.Data.removeMessages(messageIds, {
+        singleProtoJobQueue: this.singleProtoJobQueue,
+      });
 
       batch(() => {
         inMemoryMessages.forEach(message => {
@@ -108,5 +113,21 @@ class ExpiringMessagesDeletionService {
   }
 }
 
-export const expiringMessagesDeletionService =
-  new ExpiringMessagesDeletionService();
+// Because this service is used inside of Client.ts, it can't directly reference
+//   SingleProtoJobQueue. Instead of direct access, it is provided once on startup.
+export function initialize(singleProtoJobQueue: SingleProtoJobQueue): void {
+  if (instance) {
+    log.warn('Expiring Messages Deletion service is already initialized!');
+    return;
+  }
+  instance = new ExpiringMessagesDeletionService(singleProtoJobQueue);
+}
+
+export async function update(): Promise<void> {
+  if (!instance) {
+    throw new Error('Expiring Messages Deletion service not yet initialized!');
+  }
+  await instance.update();
+}
+
+let instance: ExpiringMessagesDeletionService;

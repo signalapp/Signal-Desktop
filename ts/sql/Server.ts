@@ -347,6 +347,7 @@ const dataInterface: ServerInterface = {
   getLastConversationMessage,
   getAllCallHistory,
   clearCallHistory,
+  markCallHistoryDeleted,
   cleanupCallHistoryMessages,
   getCallHistoryUnreadCount,
   markCallHistoryRead,
@@ -3633,6 +3634,19 @@ async function clearCallHistory(
 
     return messageIds;
   })();
+}
+
+async function markCallHistoryDeleted(callId: string): Promise<void> {
+  const db = await getWritableInstance();
+  const [query, params] = sql`
+    UPDATE callsHistory
+    SET
+      status = ${DirectCallStatus.Deleted},
+      timestamp = ${Date.now()}
+    WHERE callId = ${callId};
+  `;
+
+  db.prepare(query).run(params);
 }
 
 async function cleanupCallHistoryMessages(): Promise<void> {

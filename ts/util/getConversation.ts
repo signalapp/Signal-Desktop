@@ -217,6 +217,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     profileName: getProfileName(attributes),
     profileSharing: attributes.profileSharing,
     profileLastUpdatedAt: attributes.profileLastUpdatedAt,
+    capabilities: attributes.capabilities,
     sharingPhoneNumber: attributes.sharingPhoneNumber,
     publicParams: attributes.publicParams,
     secretParams: attributes.secretParams,

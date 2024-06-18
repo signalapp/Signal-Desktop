@@ -24,7 +24,9 @@ import type {
   ConversationToDelete,
   MessageToDelete,
 } from '../textsecure/messageReceiverEvents';
-import type { AciString } from '../types/ServiceId';
+import { isPniString } from '../types/ServiceId';
+import type { AciString, PniString } from '../types/ServiceId';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 
 const {
   getMessagesBySentAt,
@@ -48,12 +50,16 @@ export function doesMessageMatch({
   const conversationMatches = message.conversationId === conversationId;
   const aciMatches =
     query.authorAci && author?.attributes.serviceId === query.authorAci;
+  const pniMatches =
+    query.authorPni && author?.attributes.serviceId === query.authorPni;
   const e164Matches =
     query.authorE164 && author?.attributes.e164 === query.authorE164;
   const timestampMatches = sentTimestamps.has(query.sentAt);
 
   return Boolean(
-    conversationMatches && timestampMatches && (aciMatches || e164Matches)
+    conversationMatches &&
+      timestampMatches &&
+      (aciMatches || e164Matches || pniMatches)
   );
 }
 
@@ -91,7 +97,10 @@ export async function deleteMessage(
     return false;
   }
 
-  await deleteAndCleanup([found], logId);
+  await deleteAndCleanup([found], logId, {
+    fromSync: true,
+    singleProtoJobQueue,
+  });
 
   return true;
 }
@@ -113,8 +122,10 @@ export async function deleteConversation(
     const { received_at: receivedAt } = newestMessage;
 
     await removeMessagesInConversation(conversation.id, {
+      fromSync: true,
       receivedAt,
       logId: `${logId}(receivedAt=${receivedAt})`,
+      singleProtoJobQueue,
     });
   }
 
@@ -170,6 +181,9 @@ export function getConversationFromTarget(
   if (type === 'e164') {
     return window.ConversationController.get(targetConversation.e164);
   }
+  if (type === 'pni') {
+    return window.ConversationController.get(targetConversation.pni);
+  }
 
   throw missingCaseError(type);
 }
@@ -178,6 +192,7 @@ type MessageQuery = {
   sentAt: number;
   authorAci?: AciString;
   authorE164?: string;
+  authorPni?: PniString;
 };
 
 export function getMessageQueryFromTarget(
@@ -191,6 +206,13 @@ export function getMessageQueryFromTarget(
     }
     return { sentAt, authorAci: targetMessage.authorAci };
   }
+  if (type === 'pni') {
+    if (!isPniString(targetMessage.authorPni)) {
+      throw new Error('Provided authorPni was not a PNI!');
+    }
+    return { sentAt, authorPni: targetMessage.authorPni };
+  }
+
   if (type === 'e164') {
     return { sentAt, authorE164: targetMessage.authorE164 };
   }

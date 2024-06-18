@@ -2945,6 +2945,13 @@ export class ConversationModel extends window.Backbone
       senderAci,
     });
 
+    if (!this.get('active_at')) {
+      log.warn(
+        `addDeliveryIssue: ${this.idForLogging()} has no active_at, dropping delivery issue instead of adding`
+      );
+      return;
+    }
+
     const message = {
       conversationId: this.id,
       type: 'delivery-issue',
@@ -3363,7 +3370,9 @@ export class ConversationModel extends window.Backbone
 
     const message = window.MessageCache.__DEPRECATED$getById(notificationId);
     if (message) {
-      await window.Signal.Data.removeMessage(message.id);
+      await window.Signal.Data.removeMessage(message.id, {
+        singleProtoJobQueue,
+      });
     }
     return true;
   }
@@ -3404,7 +3413,9 @@ export class ConversationModel extends window.Backbone
 
     const message = window.MessageCache.__DEPRECATED$getById(notificationId);
     if (message) {
-      await window.Signal.Data.removeMessage(message.id);
+      await window.Signal.Data.removeMessage(message.id, {
+        singleProtoJobQueue,
+      });
     }
 
     return true;
@@ -5003,7 +5014,14 @@ export class ConversationModel extends window.Backbone
     });
     window.Signal.Data.updateConversation(this.attributes);
 
-    if (source === 'local-delete' && isEnabled('desktop.deleteSync.send')) {
+    const ourConversation =
+      window.ConversationController.getOurConversationOrThrow();
+    const capable = Boolean(ourConversation.get('capabilities')?.deleteSync);
+    if (
+      source === 'local-delete' &&
+      capable &&
+      isEnabled('desktop.deleteSync.send')
+    ) {
       log.info(`${logId}: Preparing sync message`);
       const timestamp = Date.now();
 
@@ -5044,7 +5062,9 @@ export class ConversationModel extends window.Backbone
 
     log.info(`${logId}: Starting delete`);
     await window.Signal.Data.removeMessagesInConversation(this.id, {
+      fromSync: source !== 'local-delete-sync',
       logId: this.idForLogging(),
+      singleProtoJobQueue,
     });
     log.info(`${logId}: Delete complete`);
   }

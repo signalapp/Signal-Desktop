@@ -29,6 +29,7 @@ import { getSourceServiceId } from '../messages/helpers';
 import { missingCaseError } from './missingCaseError';
 import { reduce } from './iterables';
 import { strictAssert } from './assert';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 
 export enum ModifyTargetMessageResult {
   Modified = 'Modified',
@@ -55,24 +56,28 @@ export async function modifyTargetMessage(
   const syncDeletes = await DeletesForMe.forMessage(message.attributes);
   if (syncDeletes.length) {
     if (!isFirstRun) {
-      await window.Signal.Data.removeMessage(message.id);
+      await window.Signal.Data.removeMessage(message.id, {
+        fromSync: true,
+        singleProtoJobQueue,
+      });
     }
 
     return ModifyTargetMessageResult.Deleted;
   }
 
   if (type === 'outgoing' || (type === 'story' && ourAci === sourceServiceId)) {
-    const sendActions = MessageReceipts.forMessage(message).map(receipt => {
+    const receipts = await MessageReceipts.forMessage(message);
+    const sendActions = receipts.map(({ receiptSync }) => {
       let sendActionType: SendActionType;
-      const receiptType = receipt.type;
+      const receiptType = receiptSync.type;
       switch (receiptType) {
-        case MessageReceipts.MessageReceiptType.Delivery:
+        case MessageReceipts.messageReceiptTypeSchema.enum.Delivery:
           sendActionType = SendActionType.GotDeliveryReceipt;
           break;
-        case MessageReceipts.MessageReceiptType.Read:
+        case MessageReceipts.messageReceiptTypeSchema.enum.Read:
           sendActionType = SendActionType.GotReadReceipt;
           break;
-        case MessageReceipts.MessageReceiptType.View:
+        case MessageReceipts.messageReceiptTypeSchema.enum.View:
           sendActionType = SendActionType.GotViewedReceipt;
           break;
         default:
@@ -80,10 +85,10 @@ export async function modifyTargetMessage(
       }
 
       return {
-        destinationConversationId: receipt.sourceConversationId,
+        destinationConversationId: receiptSync.sourceConversationId,
         action: {
           type: sendActionType,
-          updatedAt: receipt.receiptTimestamp,
+          updatedAt: receiptSync.receiptTimestamp,
         },
       };
     });
@@ -123,10 +128,10 @@ export async function modifyTargetMessage(
   if (type === 'incoming') {
     // In a followup (see DESKTOP-2100), we want to make `ReadSyncs#forMessage` return
     //   an array, not an object. This array wrapping makes that future a bit easier.
-    const readSync = ReadSyncs.forMessage(message);
-    const readSyncs = readSync ? [readSync] : [];
+    const maybeSingleReadSync = await ReadSyncs.forMessage(message);
+    const readSyncs = maybeSingleReadSync ? [maybeSingleReadSync] : [];
 
-    const viewSyncs = ViewSyncs.forMessage(message);
+    const viewSyncs = await ViewSyncs.forMessage(message);
 
     const isGroupStoryReply =
       isGroup(conversation.attributes) && message.get('storyId');
@@ -134,8 +139,8 @@ export async function modifyTargetMessage(
     if (readSyncs.length !== 0 || viewSyncs.length !== 0) {
       const markReadAt = Math.min(
         Date.now(),
-        ...readSyncs.map(sync => sync.readAt),
-        ...viewSyncs.map(sync => sync.viewedAt)
+        ...readSyncs.map(({ readSync }) => readSync.readAt),
+        ...viewSyncs.map(({ viewSync }) => viewSync.viewedAt)
       );
 
       if (message.get('expireTimer')) {
@@ -180,7 +185,7 @@ export async function modifyTargetMessage(
     if (!isFirstRun && message.getPendingMarkRead()) {
       const markReadAt = message.getPendingMarkRead();
       message.setPendingMarkRead(undefined);
-      const newestSentAt = readSync?.timestamp;
+      const newestSentAt = maybeSingleReadSync?.readSync.timestamp;
 
       // This is primarily to allow the conversation to mark all older
       // messages as read, as is done when we receive a read sync for
@@ -207,7 +212,7 @@ export async function modifyTargetMessage(
   }
 
   if (isStory(message.attributes)) {
-    const viewSyncs = ViewSyncs.forMessage(message);
+    const viewSyncs = await ViewSyncs.forMessage(message);
 
     if (viewSyncs.length !== 0) {
       message.set({
@@ -218,7 +223,7 @@ export async function modifyTargetMessage(
 
       const markReadAt = Math.min(
         Date.now(),
-        ...viewSyncs.map(sync => sync.viewedAt)
+        ...viewSyncs.map(({ viewSync }) => viewSync.viewedAt)
       );
       message.setPendingMarkRead(
         Math.min(message.getPendingMarkRead() ?? Date.now(), markReadAt)

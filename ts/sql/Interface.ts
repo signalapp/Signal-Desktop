@@ -34,6 +34,7 @@ import type { AttachmentDownloadJobType } from '../types/AttachmentDownload';
 import type { GroupSendEndorsementsData } from '../types/GroupSendEndorsements';
 import type { SyncTaskType } from '../util/syncTasks';
 import type { AttachmentBackupJobType } from '../types/AttachmentBackup';
+import type { SingleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 
 export type AdjacentMessagesByConversationOptionsType = Readonly<{
   conversationId: string;
@@ -557,8 +558,6 @@ export type DataInterface = {
     arrayOfMessages: ReadonlyArray<MessageType>,
     options: { forceSave?: boolean; ourAci: AciString }
   ) => Promise<Array<string>>;
-  removeMessage: (id: string) => Promise<void>;
-  removeMessages: (ids: ReadonlyArray<string>) => Promise<void>;
   pageMessages: (
     cursor?: PageMessagesCursorType
   ) => Promise<PageMessagesResultType>;
@@ -667,6 +666,7 @@ export type DataInterface = {
     conversationId: string;
   }): Promise<MessageType | undefined>;
   getAllCallHistory: () => Promise<ReadonlyArray<CallHistoryDetails>>;
+  markCallHistoryDeleted: (callId: string) => Promise<void>;
   clearCallHistory: (beforeTimestamp: number) => Promise<Array<string>>;
   cleanupCallHistoryMessages: () => Promise<void>;
   getCallHistoryUnreadCount(): Promise<number>;
@@ -929,6 +929,8 @@ export type ServerInterface = DataInterface & {
     options?: { limit?: number };
     contactServiceIdsMatchingQuery?: Array<ServiceIdString>;
   }) => Promise<Array<ServerSearchResultMessageType>>;
+  removeMessage: (id: string) => Promise<void>;
+  removeMessages: (ids: ReadonlyArray<string>) => Promise<void>;
 
   getRecentStoryReplies(
     storyId: string,
@@ -1022,6 +1024,20 @@ export type ClientExclusiveInterface = {
   removeConversation: (id: string) => Promise<void>;
   flushUpdateConversationBatcher: () => Promise<void>;
 
+  removeMessage: (
+    id: string,
+    options: {
+      fromSync?: boolean;
+      singleProtoJobQueue: SingleProtoJobQueue;
+    }
+  ) => Promise<void>;
+  removeMessages: (
+    ids: ReadonlyArray<string>,
+    options: {
+      fromSync?: boolean;
+      singleProtoJobQueue: SingleProtoJobQueue;
+    }
+  ) => Promise<void>;
   searchMessages: ({
     query,
     conversationId,
@@ -1084,8 +1100,10 @@ export type ClientExclusiveInterface = {
   removeMessagesInConversation: (
     conversationId: string,
     options: {
+      fromSync?: boolean;
       logId: string;
       receivedAt?: number;
+      singleProtoJobQueue: SingleProtoJobQueue;
     }
   ) => Promise<void>;
   removeOtherData: () => Promise<void>;
