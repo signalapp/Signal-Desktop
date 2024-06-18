@@ -43,9 +43,11 @@ function createParticipant(
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
+  conversationId: 'fake-conversation-id',
   onClose: action('on-close'),
   ourServiceId: generateAci(),
   participants: overrideProps.participants || [],
+  showContactModal: action('show-contact-modal'),
 });
 
 export default {

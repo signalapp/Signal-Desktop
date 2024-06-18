@@ -9,7 +9,10 @@ import { getIntl, getTheme } from '../selectors/user';
 import { getBadgesSelector } from '../selectors/badges';
 import { getConversationSelector } from '../selectors/conversations';
 import { getHasStoriesSelector } from '../selectors/stories2';
-import { getActiveCallState } from '../selectors/calling';
+import {
+  getActiveCallState,
+  isInFullScreenCall as getIsInFullScreenCall,
+} from '../selectors/calling';
 import { useStoriesActions } from '../ducks/stories';
 import { useConversationsActions } from '../ducks/conversations';
 import { useGlobalModalActions } from '../ducks/globalModals';
@@ -24,6 +27,7 @@ export const SmartContactModal = memo(function SmartContactModal() {
   const conversationSelector = useSelector(getConversationSelector);
   const hasStoriesSelector = useSelector(getHasStoriesSelector);
   const activeCallState = useSelector(getActiveCallState);
+  const isInFullScreenCall = useSelector(getIsInFullScreenCall);
   const badgesSelector = useSelector(getBadgesSelector);
   const areWeASubscriber = useSelector(getAreWeASubscriber);
 
@@ -62,6 +66,7 @@ export const SmartContactModal = memo(function SmartContactModal() {
   const {
     onOutgoingVideoCallInConversation,
     onOutgoingAudioCallInConversation,
+    togglePip,
   } = useCallingActions();
 
   const handleOpenEditNicknameAndNoteModal = useCallback(() => {
@@ -82,6 +87,7 @@ export const SmartContactModal = memo(function SmartContactModal() {
       hideContactModal={hideContactModal}
       i18n={i18n}
       isAdmin={isAdmin}
+      isInFullScreenCall={isInFullScreenCall}
       isMember={isMember}
       onOpenEditNicknameAndNoteModal={handleOpenEditNicknameAndNoteModal}
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
@@ -92,6 +98,7 @@ export const SmartContactModal = memo(function SmartContactModal() {
       toggleAboutContactModal={toggleAboutContactModal}
       toggleAddUserToAnotherGroupModal={toggleAddUserToAnotherGroupModal}
       toggleAdmin={toggleAdmin}
+      togglePip={togglePip}
       toggleSafetyNumberModal={toggleSafetyNumberModal}
       updateConversationModelSharedGroups={updateConversationModelSharedGroups}
       viewUserStories={viewUserStories}

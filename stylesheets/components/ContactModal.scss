@@ -309,4 +309,8 @@
 
     margin-block: 8px 5px;
   }
+
+  &__tooltip {
+    @include tooltip;
+  }
 }

@@ -41,6 +41,10 @@ export type PropsType = {
   readonly onCopyCallLink: () => void;
   readonly onShareCallLinkViaSignal: () => void;
   readonly removeClient: ((payload: RemoveClientType) => void) | null;
+  readonly showContactModal: (
+    contactId: string,
+    conversationId?: string
+  ) => void;
 };
 
 type UnknownContactsPropsType = {
@@ -145,6 +149,7 @@ export function CallingAdhocCallInfo({
   onCopyCallLink,
   onShareCallLinkViaSignal,
   removeClient,
+  showContactModal,
 }: PropsType): JSX.Element | null {
   const [isUnknownContactDialogVisible, setIsUnknownContactDialogVisible] =
     React.useState(false);
@@ -173,12 +178,23 @@ export function CallingAdhocCallInfo({
 
   const renderParticipant = React.useCallback(
     (participant: ParticipantType, key: React.Key) => (
-      <li
+      <button
+        aria-label={i18n('icu:calling__ParticipantInfoButton')}
         className="module-calling-participants-list__contact"
+        disabled={participant.isMe}
         // It's tempting to use `participant.serviceId` as the `key`
         //   here, but that can result in duplicate keys for
         //   participants who have joined on multiple devices.
         key={key}
+        onClick={() => {
+          if (participant.isMe) {
+            return;
+          }
+
+          onClose();
+          showContactModal(participant.id);
+        }}
+        type="button"
       >
         <div className="module-calling-participants-list__avatar-and-name">
           <Avatar
@@ -250,18 +266,28 @@ export function CallingAdhocCallInfo({
               'module-calling-participants-list__status-icon',
               'module-calling-participants-list__remove'
             )}
-            onClick={() => {
+            onClick={event => {
               if (!participant.demuxId) {
                 return;
               }
+
+              event.stopPropagation();
+              event.preventDefault();
               removeClient({ demuxId: participant.demuxId });
             }}
             type="button"
           />
         ) : null}
-      </li>
+      </button>
     ),
-    [i18n, isCallLinkAdmin, ourServiceId, removeClient]
+    [
+      i18n,
+      isCallLinkAdmin,
+      onClose,
+      ourServiceId,
+      removeClient,
+      showContactModal,
+    ]
   );
 
   return (

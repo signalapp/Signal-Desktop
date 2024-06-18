@@ -68,6 +68,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   onCopyCallLink: action('on-copy-call-link'),
   onShareCallLinkViaSignal: action('on-share-call-link-via-signal'),
   removeClient: overrideProps.removeClient || action('remove-client'),
+  showContactModal: action('show-contact-modal'),
 });
 
 export default {

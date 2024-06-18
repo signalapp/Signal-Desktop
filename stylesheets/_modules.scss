@@ -4450,16 +4450,22 @@ button.module-image__border-overlay:focus {
 
   &__contact {
     @include font-body-1;
+    @include button-reset;
     display: flex;
     align-items: center;
+    width: 100%;
     margin-block: 2px;
     padding-block: 8px;
     padding-inline-start: 10px;
     padding-inline-end: 2px;
     list-style-type: none;
     border-radius: 6px;
+    cursor: auto;
     &:hover {
       background-color: $color-gray-62;
+    }
+    &[disabled] {
+      cursor: auto;
     }
   }
 
@@ -4549,6 +4555,10 @@ button.module-image__border-overlay:focus {
       $color-white
     );
   }
+}
+
+button.module-calling-participants-list__contact {
+  cursor: pointer;
 }
 
 .module-call-need-permission-screen {
