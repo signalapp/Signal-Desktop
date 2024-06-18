@@ -96,6 +96,7 @@ import {
 } from '../../types/CallDisposition';
 import type { CallHistoryAdd } from './callHistory';
 import { addCallHistory } from './callHistory';
+import { saveDraftRecordingIfNeeded } from './composer';
 
 // State
 
@@ -925,6 +926,8 @@ function acceptCall(
       log.error('Trying to accept a non-existent call');
       return;
     }
+
+    saveDraftRecordingIfNeeded()(dispatch, getState, undefined);
 
     switch (call.callMode) {
       case CallMode.Direct:

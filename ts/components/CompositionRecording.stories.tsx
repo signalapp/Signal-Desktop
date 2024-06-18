@@ -45,12 +45,12 @@ export function Default(): JSX.Element {
       {active && (
         <CompositionRecording
           i18n={i18n}
-          conversationId="convo-id"
           onCancel={handleCancel}
           onSend={handleSend}
           errorRecording={_ => action('error')()}
           addAttachment={action('addAttachment')}
           completeRecording={action('completeRecording')}
+          saveDraftRecordingIfNeeded={action('saveDraftRecordingIfNeeded')}
           showToast={action('showToast')}
           hideToast={action('hideToast')}
         />
