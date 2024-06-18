@@ -455,7 +455,8 @@ export const SmartCallManager = memo(function SmartCallManager() {
     toggleSettings,
   } = useCallingActions();
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
-  const { showShareCallLinkViaSignal } = useGlobalModalActions();
+  const { showContactModal, showShareCallLinkViaSignal } =
+    useGlobalModalActions();
 
   return (
     <CallManager
@@ -501,6 +502,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
       setOutgoingRing={setOutgoingRing}
       setPresenting={setPresenting}
       setRendererCanvas={setRendererCanvas}
+      showContactModal={showContactModal}
       showShareCallLinkViaSignal={showShareCallLinkViaSignal}
       startCall={startCall}
       stopRingtone={stopRingtone}

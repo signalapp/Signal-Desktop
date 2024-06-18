@@ -96,6 +96,7 @@ export type PropsType = {
   renderReactionPicker: (
     props: React.ComponentProps<typeof SmartReactionPicker>
   ) => JSX.Element;
+  showContactModal: (contactId: string, conversationId?: string) => void;
   startCall: (payload: StartCallType) => void;
   toggleParticipants: () => void;
   acceptCall: (_: AcceptCallType) => void;
@@ -188,6 +189,7 @@ function ActiveCallManager({
   setPresenting,
   setRendererCanvas,
   setOutgoingRing,
+  showContactModal,
   showShareCallLinkViaSignal,
   startCall,
   switchToPresentationView,
@@ -395,13 +397,16 @@ function ActiveCallManager({
               onCopyCallLink={onCopyCallLink}
               onShareCallLinkViaSignal={handleShareCallLinkViaSignal}
               removeClient={removeClient}
+              showContactModal={showContactModal}
             />
           ) : (
             <CallingParticipantsList
+              conversationId={conversation.id}
               i18n={i18n}
               onClose={toggleParticipants}
               ourServiceId={me.serviceId}
               participants={peekedParticipants}
+              showContactModal={showContactModal}
             />
           ))}
       </>
@@ -489,13 +494,16 @@ function ActiveCallManager({
             onCopyCallLink={onCopyCallLink}
             onShareCallLinkViaSignal={handleShareCallLinkViaSignal}
             removeClient={removeClient}
+            showContactModal={showContactModal}
           />
         ) : (
           <CallingParticipantsList
+            conversationId={conversation.id}
             i18n={i18n}
             onClose={toggleParticipants}
             ourServiceId={me.serviceId}
             participants={groupCallParticipantsForParticipantsList}
+            showContactModal={showContactModal}
           />
         ))}
     </>
@@ -543,6 +551,7 @@ export function CallManager({
   setOutgoingRing,
   setPresenting,
   setRendererCanvas,
+  showContactModal,
   showShareCallLinkViaSignal,
   startCall,
   stopRingtone,
@@ -633,6 +642,7 @@ export function CallManager({
           setOutgoingRing={setOutgoingRing}
           setPresenting={setPresenting}
           setRendererCanvas={setRendererCanvas}
+          showContactModal={showContactModal}
           showShareCallLinkViaSignal={showShareCallLinkViaSignal}
           startCall={startCall}
           switchFromPresentationView={switchFromPresentationView}

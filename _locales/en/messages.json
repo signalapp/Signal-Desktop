@@ -3686,6 +3686,10 @@
     "messageformat": "A window",
     "description": "Title for the select your screen sharing sources modal"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact",
+    "description": "Aria label for clickable contact info button in the in-call participant info popup. When clicked a popup appears with the contact's details and options to message them."
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Copy call link",
     "description": "Menu item in the in-call info popup for call link calls. The action is to add the call link to the clipboard."
@@ -4665,6 +4669,10 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Remove from group",
     "description": "Button text for remove from group button in Group Contact Details modal"
+  },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call",
+    "description": "Tooltip text for video or audio call button in Contact Details modal"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Chat color",

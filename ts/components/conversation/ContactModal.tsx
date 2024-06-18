@@ -26,6 +26,9 @@ import { Button, ButtonIconType, ButtonVariant } from '../Button';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 import { InContactsIcon } from '../InContactsIcon';
 import { canHaveNicknameAndNote } from '../../util/nicknames';
+import { Tooltip, TooltipPlacement } from '../Tooltip';
+import { offsetDistanceModifier } from '../../util/popperUtil';
+import { getThemeByThemeType } from '../../util/theme';
 
 export type PropsDataType = {
   areWeASubscriber: boolean;
@@ -39,6 +42,7 @@ export type PropsDataType = {
   isMember: boolean;
   theme: ThemeType;
   hasActiveCall: boolean;
+  isInFullScreenCall: boolean;
 };
 
 type PropsActionType = {
@@ -51,6 +55,7 @@ type PropsActionType = {
   showConversation: ShowConversationType;
   toggleAdmin: (conversationId: string, contactId: string) => void;
   toggleAboutContactModal: (conversationId: string) => unknown;
+  togglePip: () => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
   toggleAddUserToAnotherGroupModal: (conversationId: string) => void;
   updateConversationModelSharedGroups: (conversationId: string) => void;
@@ -82,6 +87,7 @@ export function ContactModal({
   hasActiveCall,
   hasStories,
   hideContactModal,
+  isInFullScreenCall,
   i18n,
   isAdmin,
   isMember,
@@ -94,6 +100,7 @@ export function ContactModal({
   toggleAboutContactModal,
   toggleAddUserToAnotherGroupModal,
   toggleAdmin,
+  togglePip,
   toggleSafetyNumberModal,
   updateConversationModelSharedGroups,
   viewUserStories,
@@ -106,6 +113,7 @@ export function ContactModal({
   const [subModalState, setSubModalState] = useState<SubModalState>(
     SubModalState.None
   );
+  const modalTheme = getThemeByThemeType(theme);
 
   useEffect(() => {
     if (contact?.id) {
@@ -113,6 +121,94 @@ export function ContactModal({
       updateConversationModelSharedGroups(contact.id);
     }
   }, [contact?.id, updateConversationModelSharedGroups]);
+
+  const renderQuickActions = React.useCallback(
+    (conversationId: string) => {
+      const videoCallButton = (
+        <Button
+          icon={ButtonIconType.video}
+          variant={ButtonVariant.Details}
+          disabled={hasActiveCall}
+          onClick={() => {
+            hideContactModal();
+            onOutgoingVideoCallInConversation(conversationId);
+          }}
+        >
+          {i18n('icu:video')}
+        </Button>
+      );
+      const audioCallButton = (
+        <Button
+          icon={ButtonIconType.audio}
+          variant={ButtonVariant.Details}
+          disabled={hasActiveCall}
+          onClick={() => {
+            hideContactModal();
+            onOutgoingAudioCallInConversation(conversationId);
+          }}
+        >
+          {i18n('icu:audio')}
+        </Button>
+      );
+
+      return (
+        <div className="ContactModal__quick-actions">
+          <Button
+            icon={ButtonIconType.message}
+            variant={ButtonVariant.Details}
+            onClick={() => {
+              hideContactModal();
+              showConversation({
+                conversationId,
+                switchToAssociatedView: true,
+              });
+              if (isInFullScreenCall) {
+                togglePip();
+              }
+            }}
+          >
+            {i18n('icu:ConversationDetails__HeaderButton--Message')}
+          </Button>
+          {hasActiveCall ? (
+            <Tooltip
+              className="ContactModal__tooltip"
+              wrapperClassName="ContactModal__tooltip-wrapper"
+              content={i18n('icu:ContactModal--already-in-call')}
+              direction={TooltipPlacement.Top}
+              popperModifiers={[offsetDistanceModifier(5)]}
+            >
+              {videoCallButton}
+            </Tooltip>
+          ) : (
+            videoCallButton
+          )}
+          {hasActiveCall ? (
+            <Tooltip
+              className="ContactModal__tooltip"
+              wrapperClassName="ContactModal__tooltip-wrapper"
+              content={i18n('icu:ContactModal--already-in-call')}
+              direction={TooltipPlacement.Top}
+              popperModifiers={[offsetDistanceModifier(5)]}
+            >
+              {audioCallButton}
+            </Tooltip>
+          ) : (
+            audioCallButton
+          )}
+        </div>
+      );
+    },
+    [
+      hasActiveCall,
+      hideContactModal,
+      i18n,
+      isInFullScreenCall,
+      onOutgoingAudioCallInConversation,
+      onOutgoingVideoCallInConversation,
+      showConversation,
+      togglePip,
+    ]
+  );
 
   let modalNode: ReactNode;
   switch (subModalState) {
@@ -213,6 +309,7 @@ export function ContactModal({
           i18n={i18n}
           onClose={hideContactModal}
           padded={false}
+          theme={modalTheme}
         >
           <div className="ContactModal">
             <Avatar
@@ -265,45 +362,7 @@ export function ContactModal({
               </div>
               <i className="ContactModal__name__chevron" />
             </button>
-            {!contact.isMe && (
-              <div className="ContactModal__quick-actions">
-                <Button
-                  icon={ButtonIconType.message}
-                  variant={ButtonVariant.Details}
-                  onClick={() => {
-                    hideContactModal();
-                    showConversation({
-                      conversationId: contact?.id,
-                      switchToAssociatedView: true,
-                    });
-                  }}
-                >
-                  {i18n('icu:ConversationDetails__HeaderButton--Message')}
-                </Button>
-                <Button
-                  icon={ButtonIconType.video}
-                  variant={ButtonVariant.Details}
-                  disabled={hasActiveCall}
-                  onClick={() => {
-                    hideContactModal();
-                    onOutgoingVideoCallInConversation(contact.id);
-                  }}
-                >
-                  {i18n('icu:video')}
-                </Button>
-                <Button
-                  icon={ButtonIconType.audio}
-                  variant={ButtonVariant.Details}
-                  disabled={hasActiveCall}
-                  onClick={() => {
-                    hideContactModal();
-                    onOutgoingAudioCallInConversation(contact.id);
-                  }}
-                >
-                  {i18n('icu:audio')}
-                </Button>
-              </div>
-            )}
+            {!contact.isMe && renderQuickActions(contact.id)}
             <div className="ContactModal__divider" />
             <div className="ContactModal__button-container">
               {canHaveNicknameAndNote(contact) && (
@@ -319,20 +378,32 @@ export function ContactModal({
                 </button>
               )}
 
-              {!contact.isMe && (
-                <button
-                  type="button"
-                  className="ContactModal__button ContactModal__block"
-                  onClick={() =>
-                    setSubModalState(SubModalState.ConfirmingBlock)
-                  }
-                >
-                  <div className="ContactModal__bubble-icon">
-                    <div className="ContactModal__block__bubble-icon" />
+              {!contact.isMe &&
+                (contact.isBlocked ? (
+                  <div className="ContactModal__button ContactModal__block">
+                    <div className="ContactModal__bubble-icon">
+                      <div className="ContactModal__block__bubble-icon" />
+                    </div>
+                    <span>
+                      {i18n('icu:AboutContactModal__blocked', {
+                        name: contact.title,
+                      })}
+                    </span>
                   </div>
-                  <span>{i18n('icu:MessageRequests--block')}</span>
-                </button>
-              )}
+                ) : (
+                  <button
+                    type="button"
+                    className="ContactModal__button ContactModal__block"
+                    onClick={() =>
+                      setSubModalState(SubModalState.ConfirmingBlock)
+                    }
+                  >
+                    <div className="ContactModal__bubble-icon">
+                      <div className="ContactModal__block__bubble-icon" />
+                    </div>
+                    <span>{i18n('icu:MessageRequests--block')}</span>
+                  </button>
+                ))}
               {!contact.isMe && (
                 <button
                   type="button"
