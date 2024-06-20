@@ -2688,13 +2688,13 @@
     "messageformat": "铃声关闭"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "您举手了。"
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "您和{otherName}举手了。"
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, other {您、{otherName}和其他 {overflowCount,number} 人举手了。}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name}举手了。"
@@ -2787,19 +2787,19 @@
     "messageformat": "将此人移除出通话"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, other {{count,number} 人}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+其他 {count,number} 人"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "新联系人详情"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "在加入通话前，您只能看到手机联系人、同群组成员或与您进行过一对一聊天的人的名称。加入通话后，您将会看到所有名称和头像。"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "知道了"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "视频"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, other {您想要从哪些设备上删除这些消息？}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, other {这些消息将会从您的所有设备上删除。}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "为我删除"
@@ -3795,7 +3795,7 @@
     "messageformat": "从所有设备中删除"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "删除"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {您至多只能选择对所有人删除 {count,number} 条消息}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "用户名不能以数字开头。"
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "用户名必须至少包含 {min,number} 个字符。"
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "用户名至多只能包含 {max,number} 个字符。"
@@ -4749,13 +4749,13 @@
     "messageformat": "您的密友能看到您的名称和照片，还能看到您在“我的动态”中发布的帖子，除非您向对方隐藏动态。"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "“为我删除”功能现可在所有设备上同步删除"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "当您删除聊天中的消息时，该消息将会从您的手机和所有已链接设备上同步删除。"
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "知道了"
   },
   "icu:Stories__title": {
     "messageformat": "动态"
@@ -5350,7 +5350,7 @@
     "messageformat": "没有找到“{query}”的相关结果"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "创建通话链接"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "来电"
@@ -5416,22 +5416,22 @@
     "messageformat": "通过 Signal 分享链接"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "通话链接详情"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "名称"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "加入"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "批准所有成员"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "关"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "开"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {其他 {count,number} 人正在输入。}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "我们已将发送语音备忘录的键盘快捷键修改为 Ctrl/Cmd+Shift+Y，避免其与 Windows 和 Linux 上的“粘贴并匹配目标样式”快捷键冲突。"
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "我们修复了一个图片长宽比显示错误的漏洞。如果用户在查看其他人的个人资料照片时调整 Signal 桌面版窗口的尺寸。7.13 版本说明。"
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "此次更新还优化了右对齐语言引用回复的显示。"
   }
 }

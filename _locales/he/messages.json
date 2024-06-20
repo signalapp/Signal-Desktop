@@ -2688,13 +2688,13 @@
     "messageformat": "צלצול מושבת"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "הרמת יד."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "את/ה ו{otherName} הרמתם יד."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {את/ה, {otherName}, ועוד {overflowCount,number} הרמתם יד.} two {את/ה, {otherName}, ועוד {overflowCount,number} הרמתם יד.} many {את/ה, {otherName}, ועוד {overflowCount,number} הרמתם יד.} other {את/ה, {otherName}, ועוד {overflowCount,number} הרמתם יד.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} הרימ/ה יד."
@@ -2787,19 +2787,19 @@
     "messageformat": "להסיר את אדם זה מהשיחה"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {איש {count,number}} two {{count,number} אנשים} many {{count,number} אנשים} other {{count,number} אנשים}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+עוד {count,number}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "מידע נוסף על אנשי קשר חדשים"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "לפני הצטרפות לשיחה, אפשר לראות רק את השמות של משתתפים שהם אנשי קשר שלך בטלפון, אנשים שאיתך בקבוצה, או אנשים ששוחחת איתם אחד על אחד. תהיה לך אפשרות לראות את כל השמות והתמונות לאחר שהצטרפת לשיחה."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "הבנתי"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "סרטון"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {מאילו מכשירים בא לך למחוק את ההודעה הזו?} two {מאילו מכשירים בא לך למחוק את ההודעות האלה?} many {מאילו מכשירים בא לך למחוק את ההודעות האלה?} other {מאילו מכשירים בא לך למחוק את ההודעות האלה?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {ההודעה הזו תימחק מכל המכשירים שלך.} two {ההודעות האלה יימחקו מכל המכשירים שלך.} many {ההודעות האלה יימחקו מכל המכשירים שלך.} other {ההודעות האלה יימחקו מכל המכשירים שלך.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "מחיקה עבורי"
@@ -3795,7 +3795,7 @@
     "messageformat": "מחיקה מכל המכשירים"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "מחיקה"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {אפשר לבחור עד הודעה {count,number} למחוק עבור כולם} two {אפשר לבחור עד {count,number} הודעות למחוק עבור כולם} many {אפשר לבחור עד {count,number} הודעות למחוק עבור כולם} other {אפשר לבחור עד {count,number} הודעות למחוק עבור כולם}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "שמות משתמש אינם יכולים להתחיל במספר."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "שמות משתמש חייבים להכיל לפחות {min,number} תווים."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "שמות משתמש חייבים להכיל לכל היותר {max,number} תווים."
@@ -4749,13 +4749,13 @@
     "messageformat": "חברי ה-Signal שלך יכולים לראות את השם והתמונה שלך, והם יכולים גם לראות פוסטים תחת ״הסטורי שלי״ אלא אם כן בחרת להסתיר אותם מהם"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "האפשרות ״מחקו בשבילי״ מוחקת עכשיו מכל המכשירים שלך"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "בעת מחיקת הודעות בצ׳אט כלשהו, הן יימחקו מהטלפון שלך ומכל המכשירים המקושרים."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "הבנתי"
   },
   "icu:Stories__title": {
     "messageformat": "סטוריז"
@@ -5350,7 +5350,7 @@
     "messageformat": "אין תוצאות עבור ״{query}״"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "יצירת לינק לשיחה"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "שיחה נכנסת"
@@ -5416,22 +5416,22 @@
     "messageformat": "שיתוף לינק דרך Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "פרטי לינק שיחה"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "שם"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "הצטרפות"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "אישור כל החברים"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "כבוי"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "מופעל"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {עוד {count,number} מקליד/ה.} two {עוד {count,number} מקלידים.} many {עוד {count,number} מקלידים.} other {עוד {count,number} מקלידים.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "שינינו את קיצור המקלדת לשליחת הודעה קולית ל–Ctrl/Cmd+Shift+Y, כך שהוא כבר לא מתנגש עם הקיצור של ״הדבקה והתאמת סגנון״ ב–Windows ו–Linux."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "תיקנו באג שהציג תמונות עם יחס גובה‑רוחב שגוי כשהתבצע שינוי בגודל חלון Signal לשולחן העבודה בעת צפייה בתמונת פרופיל של מישהו/י."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "העדכון הזה גם משפר את הצגת התגובות המצוטטות בשפות שנקראות ונכתבות מימין לשמאל."
   }
 }

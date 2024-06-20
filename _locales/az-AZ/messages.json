@@ -2688,13 +2688,13 @@
     "messageformat": "Zəng qeyri-aktivdir"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Əl qaldırdınız."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Siz və {otherName} əl qaldırdınız."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Siz, {otherName} və daha {overflowCount,number} nəfər əl qaldırdınız.} other {Siz, {otherName} və daha {overflowCount,number} nəfər əl qaldırdınız.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} əlini qaldırdı."
@@ -2787,19 +2787,19 @@
     "messageformat": "Bu şəxsi zəngdən çıxar"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} nəfər} other {{count,number} nəfər}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "daha +{count,number} nəfər"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Yeni kontaktlar haqqında əlavə məlumat"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Zəngə qoşulmazdan əvvəl yalnız eyni qrupda olduğunuz və ya birə-bir çatlaşdığıınız telefon kontaktlarının adlarını görə bilərsiniz. Zəngə qoşulduqdan dərhal sonra bütün adları və fotoları görəcəksiniz."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Anladım"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {Bu mesajı hansı cihazlardan silmək istəyirsiniz?} other {Bu mesajları hansı cihazlardan silmək istəyirsiniz?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Bu mesaj bütün cihazlarınızdan silinəcək.} other {Bu mesajlar bütün cihazlarınızdan silinəcək.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Məndən sil"
@@ -3795,7 +3795,7 @@
     "messageformat": "Bütün cihazlardan sil"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Sil"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Hər kəsdən silmək üçün maksimum {count,number} mesaj seçə bilərsiniz} other {Hər kəsdən silmək üçün maksimum {count,number} mesaj seçə bilərsiniz}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "İstifadəçi adı nömrə ilə başlaya bilməz."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "İstifadəçi adlarında ən azı {min,number} simvol olmalıdır."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "İstifadəçi adında ən çoxu {max,number} simvol olmalıdır."
@@ -4749,13 +4749,13 @@
     "messageformat": "Kontaktlarınız adınızı və fotoşəklinizi, o cümlədən onlardan gizlətməmisinizsə, \"Hekayəm\" səhifəsindəki yazılarınızı görə bilər."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Artıq \"Mənim üçün sil\" funksiyası bütün cihazlarınızdan silir"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "Bir çatdan mesaj sildiyiniz zaman həmin mesaj həm telefonunuzdan, həm də əlaqələndirilmiş cihazlardan silinir."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Anladım"
   },
   "icu:Stories__title": {
     "messageformat": "Hekayələr"
@@ -5350,7 +5350,7 @@
     "messageformat": "“{query}” üçün heç bir nəticə yoxdur"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Zəng Keçidi yarat"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Gələn zəng"
@@ -5416,22 +5416,22 @@
     "messageformat": "Keçidi Signal vasitəsilə paylaş"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Zəng keçidi təfərrüatları"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Ad"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Qoşul"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Bütün üzvləri təsdiqlə"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Bağlı"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Açıq"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Əlavə {count,number} nəfər də yazır.} other {Əlavə {count,number} nəfər də yazır.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "Biz Ctrl/Cmd+Shift+Y basaraq səsli qeyd göndərmək üçün klaviatura qısayolunu elə dəyişdirdik ki, artıq Windows və Linux-da \"Üslubu əlavə et və uyğunlaşdır\" qısayolu ilə ziddiyyət təşkil etməsin."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Birinin profil şəklinə baxarkən Signal Desktop pəncərəsinin ölçüsünü dəyişirsinizsə, təsvirlərin səhv ölçülərdə görünməsinə səbəb olan nasazlığı aradan qaldırdıq. Sevdiyiniz insanların şəkli artıq ekranda kiçildilmiş formada görünməyəcək."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Həmçinin bu yeniləmə sağdan sola yazılan dillərdə cavab verərkən sitatların görünüşünü də təkmilləşdirir."
   }
 }

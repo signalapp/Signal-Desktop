@@ -2688,13 +2688,13 @@
     "messageformat": "Dzwonek wył."
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Podnosisz rękę."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Podnoszą rękę: Ty i {otherName}."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Podnoszą rękę: Ty, {otherName} i {overflowCount,number} inna osoba.} few {Podnoszą rękę: Ty, {otherName} i {overflowCount,number} inne osoby.} many {Podnoszą rękę: Ty, {otherName} i {overflowCount,number} innych osób.} other {Podnoszą rękę: Ty, {otherName} i {overflowCount,number} innej osoby.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} podnosi rękę."
@@ -2787,19 +2787,19 @@
     "messageformat": "Usuń tę osobę z połączenia"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} osoba} few {{count,number} osoby} many {{count,number} osób} other {{count,number} osoby}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+{count,number} innych użytkowników"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Więcej informacji o nowych kontaktach"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Przed dołączeniem do rozmowy zobaczysz tylko nazwy kontaktów z telefonu, osób, z którymi jesteś w grupie, lub osób, z którymi zdarzyło Ci się rozmawiać 1:1. Wszystkie imiona i nazwiska oraz zdjęcia zobaczysz po dołączeniu do rozmowy."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Rozumiem"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Wideo"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {Z których urządzeń chcesz usunąć tę wiadomość?} few {Z których urządzeń chcesz usunąć te wiadomości?} many {Z których urządzeń chcesz usunąć te wiadomości?} other {Z których urządzeń chcesz usunąć te wiadomości?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Ta wiadomość zostanie usunięta ze wszystkich Twoich urządzeń.} few {Te wiadomości zostaną usunięte ze wszystkich Twoich urządzeń.} many {Te wiadomości zostaną usunięte ze wszystkich Twoich urządzeń.} other {Te wiadomości zostaną usunięte ze wszystkich Twoich urządzeń.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Usuń u mnie"
@@ -3795,7 +3795,7 @@
     "messageformat": "Usuń ze wszystkich urządzeń"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Usuń"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Możesz wybrać maksymalnie {count,number} wiadomość do usunięcia u wszystkich} few {Możesz wybrać maksymalnie {count,number} wiadomości do usunięcia u wszystkich} many {Możesz wybrać maksymalnie {count,number} wiadomości do usunięcia u wszystkich} other {Możesz wybrać maksymalnie {count,number} wiadomości do usunięcia u wszystkich}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "Nazwy użytkowników nie mogą zaczynać się od cyfry."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Nazwa użytkownika musi mieć co najmniej {min,number} znaki."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Nazwa użytkownika może mieć długość najwyżej {max,number} znaków."
@@ -4749,13 +4749,13 @@
     "messageformat": "Twoje kontakty widzą Twoje imię i zdjęcie oraz posty w „Mojej relacji” – chyba że je przed nimi ukryjesz."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Opcja „Usuń dla mnie” od teraz powoduje usunięcie ze wszystkich urządzeń użytkownika"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "Gdy usuniesz wiadomości z czatu, zostanie ona usunięta z telefonu i wszystkich powiązanych urządzeń."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Rozumiem"
   },
   "icu:Stories__title": {
     "messageformat": "Relacje"
@@ -5350,7 +5350,7 @@
     "messageformat": "Brak wyników dla „{query}”"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Utwórz link do połączenia"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Przychodzące"
@@ -5416,22 +5416,22 @@
     "messageformat": "Udostępnij link za pomocą Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Szczegóły linku do połączenia"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Imię i nazwisko"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Dołącz"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Zatwierdź wszystkich członków"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Wyłączone"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Włączone"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} inna osoba pisze.} few {{count,number} inne osoby piszą.} many {{count,number} innych osób pisze.} other {{count,number} innej osoby pisze.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "Zmodyfikowaliśmy skrót klawiaturowy do wysyłania notatki głosowej, tak żeby nie kolidował ze skrótem do opcji „Wklej i dopasuj styl” w systemach Windows i Linux. Teraz to Ctrl/Cmd+Shift+Y."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Usunęliśmy błąd, który pojawiał się w wersji Signal Desktop podczas wyświetlania czyjegoś zdjęcia profilowego i powodował nieprawidłowe proporcje wyświetlanego obrazu po zmianie rozmiaru okna. Bo nikt nie lubi, gdy mu ciasno — no chyba że go przytulasz."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "W ramach tej aktualizacji poprawiliśmy również wyświetlanie odpowiedzi w cudzysłowie w językach zapisywanych od prawej do lewej strony."
   }
 }

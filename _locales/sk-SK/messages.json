@@ -2688,13 +2688,13 @@
     "messageformat": "Zvonenie vypnuté"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Zdvihli ste ruku."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Vy a {otherName} ste zdvihli ruku."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Vy, {otherName} a {overflowCount,number} ďalší zdvihli ruku.} few {Vy, {otherName} a {overflowCount,number} ďalší zdvihli ruku.} many {Vy, {otherName} a {overflowCount,number} ďalšieho zdvihlo ruku.} other {Vy, {otherName} a {overflowCount,number} ďalších zdvihlo ruku.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "Používateľ {name} zdvihol ruku."
@@ -2787,19 +2787,19 @@
     "messageformat": "Odstrániť tohto používateľa z hovoru"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} osoba} few {{count,number} ľudia} many {{count,number} ľudí} other {{count,number} ľudí}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+{count,number} ďalších"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Viac informácií o nových kontaktoch"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Pred pripojením k hovoru môžete vidieť iba mená telefónnych kontaktov, ľudí, s ktorými ste v skupine, alebo ľudí, s ktorými ste četovali 1:1. Po pripojení k hovoru uvidíte všetky mená a fotografie."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Rozumiem"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {Z ktorých zariadení by ste chceli túto správu odstrániť?} few {Z ktorých zariadení by ste chceli tieto správy odstrániť?} many {Z ktorých zariadení by ste chceli tieto správy odstrániť?} other {Z ktorých zariadení by ste chceli tieto správy odstrániť?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Táto správa bude vymazaná zo všetkých vašich zariadení.} few {Tieto správy budú vymazané zo všetkých vašich zariadení.} many {Tieto správy budú vymazané zo všetkých vašich zariadení.} other {Tieto správy budú vymazané zo všetkých vašich zariadení.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Vymazať pre mňa"
@@ -3795,7 +3795,7 @@
     "messageformat": "Vymazať zo všetkých zariadení"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Vymazať"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Môžete vybrať maximálne {count,number} správu, ktorá sa vymaže pre všetkých} few {Môžete vybrať maximálne {count,number} správy, ktoré sa vymažú pre všetkých} many {Môžete vybrať maximálne {count,number} správy, ktorá sa vymaže pre všetkých} other {Môžete vybrať maximálne {count,number} správ, ktoré sa vymažú pre všetkých}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "Používateľské mená nemôžu začínať číslicou."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Používateľské mená musia mať aspoň {min,number} znaky."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Používateľské mená môžu mať najviac {max,number} znakov."
@@ -4749,13 +4749,13 @@
     "messageformat": "Vaše kontakty môžu vidieť vaše meno a fotografiu, ako aj príspevky v časti „Môj príbeh“, pokiaľ ich pred nimi neskryjete"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "„Vymazať pre mňa“ teraz vymaže správy zo všetkých vašich zariadení"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "Keď vymažete správu v čete, správa sa vymaže z vášho telefónu a všetkých vašich prepojených zariadení."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Rozumiem"
   },
   "icu:Stories__title": {
     "messageformat": "Príbehy"
@@ -5350,7 +5350,7 @@
     "messageformat": "Žiadne výsledky pre „{query}“"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Vytvoriť odkaz na hovor"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Prichádzajúci"
@@ -5416,22 +5416,22 @@
     "messageformat": "Zdieľať odkaz cez Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Podrobnosti odkazu na hovor"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Meno"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Pridať sa"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Schváliť všetkých členov"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Vyp."
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Zap."
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ďalší píše.} few {{count,number} ďalší píšu.} many {{count,number} ďalšieho píše.} other {{count,number} ďalších píše.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "Upravili sme klávesovú skratku na odoslanie hlasovej poznámky na Ctrl/Cmd+Shift+Y, aby tak už nekolidovala so skratkou „Vložiť a prispôsobiť štýl“ v systémoch Windows a Linux."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Opravili sme chybu, ktorá zobrazovala obrázky s nesprávnym pomerom strán, ak ste zmenili veľkosť okna Signal Desktop pri prezeraní niekoho profilového obrázka."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Táto aktualizácia tiež zlepšuje zobrazovanie citovaných odpovedí v jazykoch písaných sprava doľava."
   }
 }

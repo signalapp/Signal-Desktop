@@ -2688,13 +2688,13 @@
     "messageformat": "Glaoch as"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "D'ardaigh tú lámh."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "D'ardaigh tú féin agus {otherName} lámh."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {D'ardaigh tú féin, {otherName} agus {overflowCount,number} duine eile lámh.} two {D'ardaigh tú féin, {otherName} agus {overflowCount,number} dhuine eile lámh.} few {D'ardaigh tú féin, {otherName} agus {overflowCount,number} dhuine eile lámh.} many {D'ardaigh tú féin, {otherName} agus {overflowCount,number} nduine eile lámh.} other {D'ardaigh tú féin, {otherName} agus {overflowCount,number} duine eile lámh.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "D'ardaigh {name} lámh."
@@ -2787,19 +2787,19 @@
     "messageformat": "Bain an duine seo den ghlao"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} duine} two {{count,number} dhuine} few {{count,number} dhuine} many {{count,number} nduine} other {{count,number} duine}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+{count,number} eile"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Tuilleadh faisnéise faoi theagmhálaithe nua"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Sula dtéann tú isteach i nglao, ní bheidh tú in ann a fheiceáil ach ainmneacha do theagmhálaithe gutháin, ainmneacha na ndaoine atá i ngrúpa leat, nó ainmneacha na ndaoine a raibh comhrá duine le duine agat leo. Feicfidh tú gach ainm agus grianghraf tar éis duit dul isteach sa ghlao."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Tuigim"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Físeán"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {Cé acu gléasanna ar mhaith leat an teachtaireacht seo a scriosadh uathu?} two {Cé acu gléasanna ar mhaith leat na teachtaireachtaí seo a scriosadh uathu?} few {Cé acu gléasanna ar mhaith leat na teachtaireachtaí seo a scriosadh uathu?} many {Cé acu gléasanna ar mhaith leat na teachtaireachtaí seo a scriosadh uathu?} other {Cé acu gléasanna ar mhaith leat na teachtaireachtaí seo a scriosadh uathu?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Scriosfar an teachtaireacht seo ó do ghléasanna uile.} two {Scriosfar na teachtaireachtaí seo ó do ghléasanna uile.} few {Scriosfar na teachtaireachtaí seo ó do ghléasanna uile.} many {Scriosfar na teachtaireachtaí seo ó do ghléasanna uile.} other {Scriosfar na teachtaireachtaí seo ó do ghléasanna uile.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Scrios domsa"
@@ -3795,7 +3795,7 @@
     "messageformat": "Scrios ó na gléasanna uile"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Scrios"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Ní féidir leat ach {count,number} teachtaireacht a roghnú lena scriosadh do chách} two {Ní féidir leat ach {count,number} theachtaireacht a roghnú lena scriosadh do chách} few {Ní féidir leat ach {count,number} theachtaireacht a roghnú lena scriosadh do chách} many {Ní féidir leat ach {count,number} dteachtaireacht a roghnú lena scriosadh do chách} other {Ní féidir leat ach {count,number} teachtaireacht a roghnú lena scriosadh do chách}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "Ní cheadaítear uimhir ag tús ainm úsáideora."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Ní mór {min,number} charachtar ar a laghad a bheith in ainmneacha úsáideora."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Ní mór go mbeidh an líon seo carachtar ar a mhó in ainmneacha úsáideora: {max,number}."
@@ -4749,13 +4749,13 @@
     "messageformat": "Is féidir le do theagmhálaithe d'ainm agus do ghrianghraf, agus postálacha \"Mo Scéal\", a fheiceáil, mura gcuireann tú na rudaí sin i bhfolach orthu"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Scriosann \"Scrios domsa\" ó do ghléasanna uile anois"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "Nuair a scriosann tú teachtaireacht i gcomhrá, scriosfar an teachtaireacht ó do ghuthán agus ó gach gléas nasctha."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Tuigim"
   },
   "icu:Stories__title": {
     "messageformat": "Scéalta"
@@ -5350,7 +5350,7 @@
     "messageformat": "Níl aon torthaí ar “{query}”"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Cruthaigh Nasc Glao"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Isteach"
@@ -5416,22 +5416,22 @@
     "messageformat": "Comhroinn nasc trí Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Sonraí ar an nasc glao"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Ainm"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Téigh isteach ann"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Faomh gach ball"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "As"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Air"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Tá {count,number} duine eile ag clóscríobh.} two {Tá {count,number} dhuine eile ag clóscríobh.} few {Tá {count,number} dhuine eile ag clóscríobh.} many {Tá {count,number} nduine eile ag clóscríobh.} other {Tá {count,number} duine eile ag clóscríobh.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "Rinneamar aicearra an mhéarchláir chun guthnóta a sheoladh, a mhionathrú chuig Ctrl/Cmd+Shift+Y ionas nach mbeidh coimhlint ann níos mó leis an aicearra \"Greamaigh agus Meaitseáil Stíl\" ar Windows agus Linux."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Réitíomar fabht a thaispeáin íomhánna leis an gcóimheas treoíochta mícheart má d'athraigh tú méid fhuinneog Signal Desktop agus tú ag féachaint ar phictiúr próifíle duine."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Feabhsaíonn an nuashonrú seo taispeáint na bhfreagraí i dteangacha deas go clé freisin."
   }
 }

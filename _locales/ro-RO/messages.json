@@ -2688,13 +2688,13 @@
     "messageformat": "Sunet de apel dezactivat"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Ai ridicat mâna."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Tu și {otherName} ați ridicat mâna."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Tu, {otherName}, și încă {overflowCount,number} ați ridicat mâna.} few {Tu, {otherName}, și încă {overflowCount,number} ați ridicat mâna.} other {Tu, {otherName}, și încă {overflowCount,number} ați ridicat mâna.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} a ridicat mâna."
@@ -2787,19 +2787,19 @@
     "messageformat": "Scoate această persoană din apel"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} persoană} few {{count,number} persoane} other {{count,number} persoane}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+ încă {count,number}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Mai multe informații despre noile contacte"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Înainte de a te alătura unui apel, poți vedea doar numele contactelor telefonice, ale persoanelor cu care ești într-un grup sau ale persoanelor cu care ai discutat pe chat 1:1. Vei vedea toate numele și fotografiile după ce te vei alătura apelului."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Am înțeles"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {De pe ce dispozitive ai dori să ștergi acest mesaj?} few {De pe ce dispozitive ai dori să ștergi acest mesaje?} other {De pe ce dispozitive ai dori să ștergi aceste mesaje?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Acest mesaj va fi eliminat de pe toate dispozitivele tale.} few {Acest mesaje vor fi eliminate de pe toate dispozitivele tale.} other {Aceste mesaje vor fi eliminate de pe toate dispozitivele tale.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Șterge doar pentru mine"
@@ -3795,7 +3795,7 @@
     "messageformat": "Șterge de pe toate dispozitivele"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Șterge"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Poți selecta până la {count,number} mesaj de șters pentru toată lumea} few {Poți selecta până la {count,number} mesaje de șters pentru toată lumea} other {Poți selecta până la {count,number} de mesaje de șters pentru toată lumea}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "Numele de utilizator nu pot începe cu un număr."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Numele de utilizatori trebuie sa aibă cel puțin {min,number} caractere."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Numele de utilizatori trebuie sa aibă cel mult {max,number} de caractere."
@@ -4749,13 +4749,13 @@
     "messageformat": "Conexiunile tale îți pot vedea numele și fotografia și pot vedea postările din „Povestea Mea” cu excepția cazului în care le ascunzi"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "„Elimină pentru mine\" elimină acum de pe toate dispozitivele tale"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "Atunci când ștergi un mesaj dintr-o conversație, mesajul va fi șters de pe telefon și de pe toate dispozitivele conectate."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Am înțeles"
   },
   "icu:Stories__title": {
     "messageformat": "Povești"
@@ -5350,7 +5350,7 @@
     "messageformat": "Fără rezultate pentru „{query}“"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Creează un Link de Apel"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Primite"
@@ -5416,22 +5416,22 @@
     "messageformat": "Trimite linkul prin Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Detalii despre linkul apelului"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Nume"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Alătură-te"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Aprobă toți membrii"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Dezactivat"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Activat"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {încă {count,number} scrie.} few {încă {count,number} alții scriu.} other {încă {count,number} alții scriu.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "Am modificat comanda rapidă de la tastatură pentru trimiterea unei note vocale la Ctrl/Cmd+Shift+Y, astfel încât să nu mai intre în conflict cu comanda rapidă \"Paste and Match Style\" pe Windows și Linux."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Am remediat o eroare care afișa imagini cu un raport de aspect greșit dacă redimensionai fereastra Signal Desktop în timp ce vizualizai poza de profil a cuiva. Persoanele pe care le iubești ar trebui să fie strânse doar dacă le dai o îmbrățișare."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Această actualizare îmbunătățește, de asemenea, afișarea răspunsurilor citate în limbile RTL."
   }
 }

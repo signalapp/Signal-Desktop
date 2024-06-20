@@ -2688,13 +2688,13 @@
     "messageformat": "Звъненето е изключено"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Вие вдигнахте ръка."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Вие и {otherName} вдигнахте ръка."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Вие, {otherName} и още {overflowCount,number} човек вдигнахте ръка.} other {Вие, {otherName} и още {overflowCount,number} души вдигнахте ръка.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} вдигна ръка."
@@ -2787,19 +2787,19 @@
     "messageformat": "Премахване на този човек от разговора"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} човек} other {{count,number} души}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+ още {count,number}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Повече инфо за нови контакти"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Преди да се присъедините към разговор, можете да видите само имената на телефонните контакти, хората, с които сте в група, или хората, с които сте разговаряли 1:1. След като се присъедините към разговора, ще виждате всички имена и снимки."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Ясно"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Видео"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {От кои устройства желаете да изтриете това съобщение?} other {От кои устройства желаете да изтриете тези съобщения?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Това съобщение ще бъде изтрито от всички ваши устройства.} other {Тези съобщения ще бъдат изтрити от всички ваши устройства.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Изтриване за мен"
@@ -3795,7 +3795,7 @@
     "messageformat": "Изтриване от всички устройства"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Изтриване"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Можете да изберете само до {count,number} съобщение за изтриване за всички} other {Можете да изберете само до {count,number} съобщения за изтриване за всички}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "Потребителските имена не могат да започват с цифра."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Потребителските имена трябва да съдържат поне {min,number} знака."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Потребителските имена трябва да съдържат най-много {max,number} знака."
@@ -4749,13 +4749,13 @@
     "messageformat": "Вашите връзки виждат името и снимката ви и могат да виждат публикациите в „Моята история“, освен ако не ги скриете от тях"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "„Изтриване за мен“ вече изтрива избраното от всички ваши устройства"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "Когато изтриете съобщение в чат, съобщението ще бъде изтрито от телефона ви и всички свързани устройства."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Ясно"
   },
   "icu:Stories__title": {
     "messageformat": "Истории"
@@ -5350,7 +5350,7 @@
     "messageformat": "Не са открити резултати за „{query}“"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Създаване на линк за обаждането"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Входящи"
@@ -5416,22 +5416,22 @@
     "messageformat": "Споделяне на линк чрез Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Подробности за линк за разговор"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Име"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Присъединяване"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Одобряване на всички членове"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Изкл."
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Вкл."
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} друг човек пише.} other {{count,number} други души пишат.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "Променихме клавишната комбинация за изпращане на гласова бележка на Ctrl/Cmd+Shift+Y, така че вече да не е в конфликт с прекия път за „Поставяне със съответствие на стила“ в Windows и Linux."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Коригирахте грешка, която показваше изображения с грешно съотношение на страните, ако преоразмерите прозореца на Signal Desktop, докато гледате нечия профилна снимка."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Тази актуализация също така подобрява показването на цитирани отговори на езици, които се пишат от дясно наляво."
   }
 }

@@ -2688,13 +2688,13 @@
     "messageformat": "Zvonjenje je izključeno"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Dvignili ste roko."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Vi in {otherName} sta dvignila_i roko."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Vi, {otherName} in še {overflowCount,number} oseba ste dvignili roko.} two {Vi, {otherName} in še {overflowCount,number} osebi ste dvignili roko.} few {Vi, {otherName} in še {overflowCount,number} osebe ste dvignili roko.} other {Vi, {otherName} in še {overflowCount,number} oseb ste dvignili roko.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} je dvignil_a roko."
@@ -2787,19 +2787,19 @@
     "messageformat": "Odstrani te osebe iz klica"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} oseba} two {{count,number} osebi} few {{count,number} osebe} other {{count,number} ljudi}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+ še {count,number}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Več informacij o novih stikih"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Preden se pridružite klicu, lahko vidite le imena telefonskih stikov, ljudi, s katerimi ste v skupini, ali ljudi, s katerimi ste se pogovarjali ena na ena. Ko se boste pridružili klicu, boste videli vsa imena in fotografije."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Razumem"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {Iz katerih naprav želite izbrisati to sporočilo?} two {Iz katerih naprav želite izbrisati ti sporočili?} few {Iz katerih naprav želite izbrisati ta sporočila?} other {Iz katerih naprav želite izbrisati ta sporočila?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {To sporočilo bo izbrisano iz vseh vaših naprav.} two {Ti sporočili bosta izbrisani iz vseh vaših naprav.} few {Ta sporočila bodo izbrisana iz vseh vaših naprav.} other {Ta sporočila bodo izbrisana iz vseh vaših naprav.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Izbriši zame"
@@ -3795,7 +3795,7 @@
     "messageformat": "Izbriši iz vseh naprav"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Izbriši"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Izberete lahko do {count,number} sporočilo, ki ga želite izbrisati za vse} two {Izberete lahko do {count,number} sporočili, ki ju želite izbrisati za vse} few {Izberete lahko do {count,number} sporočila, ki jih želite izbrisati za vse} other {Izberete lahko do {count,number} sporočil, ki jih želite izbrisati za vse}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "Uporabniška imena se ne smejo začeti s števikami."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Uporabniško ime mora vsebovati vsaj {min,number} znake."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Uporabniško ime lahko vsebuje največ  {max,number} znakov."
@@ -4749,13 +4749,13 @@
     "messageformat": "Vaše povezave lahko vidijo vaše ime in fotografijo ter vaše objave pod \"Moja zgodba\", razen če jih skrijete pred njimi"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "\"Izbriši zame\" zdaj izbriše iz vseh vaših naprav"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "Ko izbrišete sporočilo v klepetu, se sporočilo izbriše iz telefona in vseh povezanih naprav."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Razumem"
   },
   "icu:Stories__title": {
     "messageformat": "Zgodbe"
@@ -5350,7 +5350,7 @@
     "messageformat": "Ni rezultatov za “{query}”"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Ustvari povezavo do klica"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Dohodni"
@@ -5416,22 +5416,22 @@
     "messageformat": "Deli povezavo prek Signala"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Podrobnosti o klicni povezavi"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Ime"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Pridruži se"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Odobritev vseh članov_ic"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Izklopljeno"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Vklopljeno"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Še ena oseba tipka.} two {Še {count,number} osebi tipkata.} few {Še {count,number} osebe tipkajo.} other {Še {count,number} oseb tipka.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "Bližnjico na tipkovnici za pošiljanje glasovnega sporočila smo spremenili v Ctrl/Cmd+Shift+Y, tako da ni več v nasprotju z bližnjico \"Prilepi in spoji oblikovanje\" v operacijskih sistemih Windows in Linux."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Odpravili smo napako, zaradi katere so bile slike prikazane z napačnim razmerjem stranic, če ste med ogledovanjem slike profila neke osebe spremenili velikost okna namizja Signal Desktop. Ljudje, ki jih imate radi, naj bodo videti stisnjeni le, če jih objemate."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Ta posodobitev izboljšuje tudi prikaz citiranih odgovorov za jezike, ki pišejo z leve proti desni."
   }
 }

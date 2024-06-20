@@ -2688,13 +2688,13 @@
     "messageformat": "ზარის ხმა გამორთულია"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "შენ ხელი აწიე."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "შენ და {otherName}-მა ხელი აწიეთ."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {შენ, {otherName}-მა და {overflowCount,number}-მა ხელი აწიეთ.} other {შენ, {otherName}-მა და კიდევ {overflowCount,number}-მა ხელი აწიეთ.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name}-მა ხელი აწია."
@@ -2787,19 +2787,19 @@
     "messageformat": "ამ ადამიანის ზარიდან გაგდება"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} ადამიანი} other {{count,number} ადამიანი}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+{count,number} მეტი"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "მეტი ინფორმაცია ახალ კონტაქტებზე"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "ზარზე შესვლამდე შეგიძლია ნახო მხოლოდ სატელეფონო კონტაქტების სახელები, იმ ადამიანების სახელები, რომლებთანაც ჯგუფში ხარ ან ერთი ერთზე მიმოწერა გაქვს. როგორც კი ზარზე შეხვალ, ყველას სახელსა და ფოტოს ნახავ."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "გასაგებია"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "ვიდეო"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {რომელი მოწყობილობებიდან გსურს ამ წერილის წაშლა?} other {რომელი მოწყობილობებიდან გსურს ამ წერილების წაშლა?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {ეს წერილი შენი ყველა მოწყობილობიდან წაიშლება.} other {ეს წერილები შენი ყველა მოწყობილობიდან წაიშლება.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "ჩემთან წაშლა"
@@ -3795,7 +3795,7 @@
     "messageformat": "ყველა მოწყობილობიდან წაშლა"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "წაშლა"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {ყველასთვის წასაშლელად მხოლოდ {count,number} შეტყობინების არჩევა შეგიძლია} other {ყველასთვის წასაშლელად მხოლოდ {count,number}-მდე შეტყობინების არჩევა შეგიძლია}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "მომხმარებლის სახელი ციფრით ვერ დაიწყება."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "მომხმარებლის სახელი მინიმუმ {min,number} სიმბოლოს უნდა შეიცავდეს."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "მომხმარებლის სახელი მაქსიმუმ {max,number} სიმბოლოს უნდა შეიცავდეს."
@@ -4749,13 +4749,13 @@
     "messageformat": "შენს კონტაქტებს შეუძლიათ ნახონ შენი სახელი და ფოტო, და “ჩემი Story-ი”-ს პოსტები მანამ, სანამ ამას მათთვის არ დამალავ"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "\"ჩემთვის წაშლა\" ახლა შენი ყველა მოწყობილობიდან შლის"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "როცა ჩატში შეტყობინებას შლი, ის შენი მობილურიდან და ყველა დაკავშირებული მოწყობილობიდან იშლება."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "გასაგებია"
   },
   "icu:Stories__title": {
     "messageformat": "Stories-ები"
@@ -5350,7 +5350,7 @@
     "messageformat": "„{query}“-ზე ვერაფერი მოიძებნა"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "ზარის ბმულის შექმნა"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "შემომავალი"
@@ -5416,22 +5416,22 @@
     "messageformat": "ბმულის Signal-ით გაზიარება"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "ზარის ბმულის დეტალები"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "სახელი"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "შეუერთდი"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "ყველა წევრის დადასტურება"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "გამორთული"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "ჩართული"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} სხვა ბეჭდავს.} other {{count,number} სხვა ბეჭდავს.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "კლავიატურის მალსახმობი ხმოვანი ჩანიშვნის გასაგზავნად Ctrl/Cmd+Shift+Y-ით შევცვალეთ, რათა ის Windows-სა და Linux-ზე „Paste and Match Style“ მალსახმობს აღარ ეწინააღმდეგებოდეს."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "ჩვენ გამოვასწორეთ ხარვეზი, რომელიც სხვისი პროფილის სურათის ნახვისას Signal Desktop-ის ფანჯრის ზომის შეცვლის შემთხვევაში არასწორი თანაფარდობით ჩვენებას იწვევდა."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "ასევე, ამ განახლებაში RTL (მარცხნიდან მარჯვნივ) ენებზე ციტირებული პასუხების ჩვენება გაუმჯობესდა."
   }
 }

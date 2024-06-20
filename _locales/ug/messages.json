@@ -2688,13 +2688,13 @@
     "messageformat": "قوڭغۇراق ئېتىك"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "قول كۆتۈردىڭىز."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "سىز ۋە {otherName} قول كۆتۈردى."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, other {سىز، {otherName} ۋە باشقا {overflowCount,number} قول كۆتۈردى.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} قول كۆتۈردى."
@@ -2787,19 +2787,19 @@
     "messageformat": "بۇ كىشىنى چاقىرىقتىن چىقىرىۋېتىش"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, other {{count,number} كىشى}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "باشقا +{count,number}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "يېڭى ئالاقىداشلار ھەققىدىكى تېخى كۆپ ئۇچۇرلار"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "چاقىرىققا قوشۇلۇشتىن بۇرۇن سىز پەقەت تېلېفوندىكى ئالاقىداشلارنىڭ ئىسمىنى، گۇرۇپپىدىكى كىشىلەرنى ياكى سىز بىرمۇ-بىر پاراڭلاشقان كىشىلەرنىلا كۆرەلەيسىز. چاقىرىققا قوشۇلغاندىن كېيىن بارلىق ئىسىم ۋە رەسىملەرنى كۆرەلەيسىز."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "بىلدىم"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "سىن"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, other {بۇ ئۇچۇرلارنى قايسى ئۈسكۈنىلەردىن ئ‍ۆچۈرمەكچى؟}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, other {بۇ ئۇچۇرلار بارلىق ئۈسكۈنىڭىزدىن ئۆچۈرۈلىدۇ.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "مەن ئۈچۈن ئ‍ۆچۈرۈش"
@@ -3795,7 +3795,7 @@
     "messageformat": "بارلىق ئۈسكۈنىلەردىن ئ‍ۆچۈرۈش"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "ئۆچۈر"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {ھەممەيلەن ئۈچۈن ئۆچۈرۈشكە كۆپ بولغاندا {count,number} ئۇچۇرنى تاللىيالايسىز}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "ئىشلەتكۈچى ئىسمى ساندىن باشلانمايدۇ."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "ئىشلەتكۈچى نامى ئەڭ ئاز دېگەندە {min,number} ھەرپتىن تۈزۈلۈشى كېرەك."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "ئىشلەتكۈچى نامى ئەڭ كۆپ بولغاندا {max,number} ھەرپ بولۇشى كېرەك."
@@ -4749,13 +4749,13 @@
     "messageformat": "ئالاقىداشلىرىڭىز سىزنىڭ ئىسمىڭىز ۋە رەسىمىڭىزنى كۆرەلەيدۇ. ئەگەر «ھېكايەم» دىكى يازمىلارنى ئۇلاردىن يوشۇرۇپ قويمىغان بولسىڭىز ئۇلارنىمۇ كۆرەلەيدۇ"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "«مەن ئۈچۈن ئۆچۈرۈش» ھازىر بارلىق ئۈسكۈنىلەردىن ئۆچۈرىدۇ"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "پاراڭدىن بىر ئۇچۇرنى ئۆچۈرسىڭىز، بۇ ئۇچۇر تېلېفونىڭىزدىن ۋە بارلىق ئۇلانغان ئۈسكۈنىلەردىن ئۆچۈرۈلىدۇ."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "بىلدىم"
   },
   "icu:Stories__title": {
     "messageformat": "ھېكايىلەر"
@@ -5350,7 +5350,7 @@
     "messageformat": "{query} ئۈچۈن نەتىجە يوق"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "چاقىرىق ئۇلانمىسى قۇرۇش"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "كېلىۋاتقان"
@@ -5416,22 +5416,22 @@
     "messageformat": "ئۇلانمىنى Signal ئارقىلىق ئورتاقلىشىش"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "چاقىرىق ئۇلانمىسى تەپسىلاتى"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "ئىسمىڭىز"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "قوشۇلۇش"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "بارلىق ئەزلارغا رۇخسەت"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "ئېتىش"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "ئېچىش"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} باشقىلار يېزىۋاتىدۇ.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "ئاۋازلىق خاتىرە يوللاش ئۈچۈن ئىشلىتىلىدىغان تېزلەتمە كۇنۇپكىنى Ctrl/Cmd+Shift+Y گە ئ‍ۆزگەرتتۇق. ئەمدى ئۇ Windows ۋە Linux دىكى «چاپلاش ۋە ئۇسلۇب ماسلاشتۇرۇش» تېزلەتمە كۇنۇپكىسى بىلەن توقۇنۇشۇپ قالمايدۇ."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "باشقىلارنىڭ ئارخىپ رەسىمىنى كۆرۈۋاتقاندا Signal ئۈستەليۈزى نۇسخىسى كۆزنىكىنىڭ چوڭلۇقىنى ئۆزگەرتسىڭىز رەسىملەر خاتا نىسبەتتە كۆرۈنىدىغان مەسىلىنى ھەل قىلدۇق."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "بۇ يېڭىلاشتا ئوڭدىن سولغا يېزىلىدىغان تىللارنىڭ نەقىل قىلىپ جاۋاب قايتۇرۇش كۆرۈنۈشى ياخشىلاندى."
   }
 }

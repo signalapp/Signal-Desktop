@@ -267,7 +267,7 @@
     "messageformat": "Не прочитано {count,number}"
   },
   "icu:NavTabs__ItemIconLabel--MarkedUnread": {
-    "messageformat": "Позначений як непрочитаний"
+    "messageformat": "Позначені як непрочитані"
   },
   "icu:NavTabs__ItemLabel--Chats": {
     "messageformat": "Чати"
@@ -510,7 +510,7 @@
     "messageformat": "Дізнатися більше"
   },
   "icu:verified": {
-    "messageformat": "Підтверджено"
+    "messageformat": "Перевірено"
   },
   "icu:newIdentity": {
     "messageformat": "Новий код безпеки"
@@ -867,7 +867,7 @@
     "messageformat": "Це повідомлення буде видалено з цього пристрою."
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "Це повідомлення буде видалено для всіх у цьому чаті, якщо вони використовують найновішу версію Signal. Ці користувачі зможуть побачити, що ви видалили повідомлення."
+    "messageformat": "Це повідомлення буде видалено для всіх у цьому чаті, якщо вони використовують найновішу версію Signal. Учасники чату побачать, що ви видалили повідомлення."
   },
   "icu:from": {
     "messageformat": "Від кого"
@@ -912,7 +912,7 @@
     "messageformat": "{title} — це ім'я, яке сам користувач встановив у своєму профілі Signal."
   },
   "icu:AboutContactModal__verified": {
-    "messageformat": "Підтверджено"
+    "messageformat": "Перевірено"
   },
   "icu:AboutContactModal__blocked": {
     "messageformat": "Користувача {name} заблоковано"
@@ -1359,7 +1359,7 @@
     "messageformat": "Неможливо отримати аудіо та відео від {name}"
   },
   "icu:calling__missing-media-keys-info": {
-    "messageformat": "Це могло статися через те, що користувач не підтвердив вашу зміну коду безпеки, зіткнувся з проблемою з пристроєм або заблокував вас."
+    "messageformat": "Це могло статися через те, що користувач не позначив ваш змінений код безпеки як перевірений, має проблему з пристроєм або заблокував вас."
   },
   "icu:calling__overflow__scroll-up": {
     "messageformat": "Прокрутити вгору"
@@ -1479,7 +1479,7 @@
     "messageformat": "Видалити застарілі дані"
   },
   "icu:nameAndMessage": {
-    "messageformat": "Ім'я, вміст, дії"
+    "messageformat": "Ім'я, вміст і дії"
   },
   "icu:noNameOrMessage": {
     "messageformat": "Без імені й вмісту"
@@ -1647,7 +1647,7 @@
     "messageformat": "Переглянути код безпеки"
   },
   "icu:cannotGenerateSafetyNumber": {
-    "messageformat": "Цього користувача неможливо завірити, допоки ви не обміняєтесь повідомленнями."
+    "messageformat": "Цього користувача неможливо позначити як перевіреного, доки ви не обміняєтеся повідомленнями."
   },
   "icu:themeLight": {
     "messageformat": "Світла"
@@ -2688,13 +2688,13 @@
     "messageformat": "Дзвінок вимкнено"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Ви підняли руку."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Ви й {otherName} підняли руки."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Ви, {otherName} і ще {overflowCount,number} користувач підняли руки.} few {Ви, {otherName} і ще {overflowCount,number} користувачі підняли руки.} many {Ви, {otherName} і ще {overflowCount,number} користувачів підняли руки.} other {Ви, {otherName} і ще {overflowCount,number} користувача підняли руки.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} підіймає руку."
@@ -2787,19 +2787,19 @@
     "messageformat": "Вилучити з виклику"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} особа} few {{count,number} особи} many {{count,number} осіб} other {{count,number} особи}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "Ще {count,number}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Додаткова інформація про нові контакти"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Поки ви не приєдналися до виклику, ви бачите лише імена людей, яких маєте в контактах телефона, учасників спільних груп і користувачів, з якими спілкувалися в особистому чаті. Приєднавшись до виклику, ви побачите імена й фотографії всіх учасників."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Зрозуміло"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Камера"
@@ -2919,7 +2919,7 @@
     "messageformat": "Відкликати запит"
   },
   "icu:GroupV2--join--cancel-request-to-join--confirmation": {
-    "messageformat": "Скасувати ваш запит на приєднання до цієї групи?"
+    "messageformat": "Скасувати запит на приєднання до цієї групи?"
   },
   "icu:GroupV2--join--cancel-request-to-join--yes": {
     "messageformat": "Так"
@@ -3036,7 +3036,7 @@
     "messageformat": "Ви відключили схвалення адміністратора для посилання на групу."
   },
   "icu:GroupV2--access-invite-link--disabled--other": {
-    "messageformat": "{adminName} відключив (-ла) схвалення адміністратора для посилання на групу."
+    "messageformat": "Користувач {adminName} вимкнув адміністраторське затвердження для посилання на групу."
   },
   "icu:GroupV2--access-invite-link--disabled--unknown": {
     "messageformat": "Схвалення адміністратора для посилання на групу було відключено."
@@ -3045,7 +3045,7 @@
     "messageformat": "Ви включили схвалення адміністратора для посилання на групу."
   },
   "icu:GroupV2--access-invite-link--enabled--other": {
-    "messageformat": "{adminName}включив (-ла) схвалення адміністратора для посилання на групу."
+    "messageformat": "Користувач {adminName} увімкнув адміністраторське затвердження для посилання на групу."
   },
   "icu:GroupV2--access-invite-link--enabled--unknown": {
     "messageformat": "Схвалення адміністратора для посилання на групу було включено."
@@ -3057,13 +3057,13 @@
     "messageformat": "{memberName} додали запрошеного учасника {inviteeName}."
   },
   "icu:GroupV2--member-add--invited--unknown": {
-    "messageformat": "Учасник додав (-ла) запрошеного учасника {inviteeName}."
+    "messageformat": "Один з учасників додав запрошеного учасника {inviteeName}."
   },
   "icu:GroupV2--member-add--from-invite--other": {
-    "messageformat": "{inviteeName} прийняв (-ла) запрошення в групу від {inviterName}."
+    "messageformat": "Користувач {inviteeName} прийняв запрошення в групу від користувача {inviterName}."
   },
   "icu:GroupV2--member-add--from-invite--other-no-from": {
-    "messageformat": "{inviteeName} прийняв (-ла) запрошення в групу."
+    "messageformat": "Користувач {inviteeName} прийняв запрошення в групу."
   },
   "icu:GroupV2--member-add--from-invite--you": {
     "messageformat": "Ви прийняли запрошення в групу від {inviterName}."
@@ -3075,7 +3075,7 @@
     "messageformat": "{inviteeName} прийняли ваше запрошення в групу."
   },
   "icu:GroupV2--member-add--other--other": {
-    "messageformat": "{adderName} додав (-ла) {addeeName}."
+    "messageformat": "Користувач {adderName} додав користувача {addeeName}."
   },
   "icu:GroupV2--member-add--other--you": {
     "messageformat": "Ви додали {memberName}."
@@ -3342,7 +3342,7 @@
     "messageformat": "{memberName} змінив (-ла) опис групи."
   },
   "icu:GroupV2--description--change--unknown": {
-    "messageformat": "Опис групи змінено."
+    "messageformat": "Змінився опис групи."
   },
   "icu:GroupV2--announcements--admin--you": {
     "messageformat": "Ви змінили налаштування групи, щоб лише адміністратори мали змогу відправляти повідомлення."
@@ -3480,7 +3480,7 @@
     "messageformat": "Перевіряємо, чи зареєстрований контакт в Signal"
   },
   "icu:CompositionArea__edit-action--discard": {
-    "messageformat": "Скасувати повідомлення"
+    "messageformat": "Скасувати правки"
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Надіслати відредаговане повідомлення"
@@ -3573,7 +3573,7 @@
     "messageformat": "Виберіть, хто може надсилати повідомлення до цієї групи."
   },
   "icu:ConversationDetails--requests-and-invites": {
-    "messageformat": "Запити та запрошення"
+    "messageformat": "Запити і запрошення"
   },
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Вийти з групи"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {З яких пристроїв видалити це повідомлення?} few {З яких пристроїв видалити ці повідомлення?} many {З яких пристроїв видалити ці повідомлення?} other {З яких пристроїв видалити ці повідомлення?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Повідомлення буде видалено з усіх ваших пристроїв.} few {Ці повідомлення буде видалено з усіх ваших пристроїв.} many {Ці повідомлення буде видалено з усіх ваших пристроїв.} other {Ці повідомлення буде видалено з усіх ваших пристроїв.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Видалити для мене"
@@ -3795,7 +3795,7 @@
     "messageformat": "Видалити з усіх пристроїв"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Видалити"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Видалення для всіх можливо максимум для {count,number} повідомлення} few {Видалення для всіх можливо максимум для {count,number} повідомлень} many {Видалення для всіх можливо максимум для {count,number} повідомлень} other {Видалення для всіх можливо максимум для {count,number} повідомлення}}"
@@ -3951,7 +3951,7 @@
     "messageformat": "Контакт Signal"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
-    "messageformat": "Ім'я профілю нещодавно змінено з {oldName} на {newName}"
+    "messageformat": "Ім'я профілю недавно змінено з {oldName} на {newName}"
   },
   "icu:RemoveGroupMemberConfirmation__remove-button": {
     "messageformat": "Видалити з групи"
@@ -4197,7 +4197,7 @@
     "messageformat": "Ім'я користувача не може починатися з цифри."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Ім'я користувача повинне містити принаймні {min,number} символи."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Імена користувачів мають містити щонайбільше {max,number} символів."
@@ -4749,13 +4749,13 @@
     "messageformat": "Контакти Signal бачать ваше ім'я та фото, а також усе, що ви викладаєте в «Моїй історії», якщо ви її не приховали."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "«Видалити для мене» тепер означає видалення на всіх ваших пристроях"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "Коли ви видаляєте повідомлення в чаті, вони зникають на вашому телефоні й усіх зв'язаних пристроях."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Зрозуміло"
   },
   "icu:Stories__title": {
     "messageformat": "Історії"
@@ -5151,7 +5151,7 @@
     "messageformat": "Історія"
   },
   "icu:Quote__story-reaction": {
-    "messageformat": "Реакція на історію від користувача {name}"
+    "messageformat": "Реакція на історію користувача {name}"
   },
   "icu:Quote__story-reaction--you": {
     "messageformat": "Реакція на вашу історію"
@@ -5169,7 +5169,7 @@
     "messageformat": "Ваша реакція на історію: {emoji}"
   },
   "icu:Quote__story-unavailable": {
-    "messageformat": "Більше недоступна"
+    "messageformat": "Уже недоступна"
   },
   "icu:ContextMenu--button": {
     "messageformat": "Контекстне меню"
@@ -5323,7 +5323,7 @@
     "messageformat": "Очистити історію викликів?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "Ця дія назавжди видалить усю історію викликів"
+    "messageformat": "Історію всіх викликів буде видалено остаточно"
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Видалити"
@@ -5350,7 +5350,7 @@
     "messageformat": "Немає результатів за запитом «{query}»"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Створити посилання на виклик"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Вхідний"
@@ -5416,22 +5416,22 @@
     "messageformat": "Поділитися посиланням у Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Додатково про посилання на виклик"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Назва"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Приєднатися"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Затверджувати всіх учасників"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Вимк."
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Увімк."
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Ще {count,number} пише.} few {Ще {count,number} пишуть.} many {Ще {count,number} пишуть.} other {Ще {count,number} пише.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "Ми змінили сполучення клавіш для надсилання голосових нотаток на Ctrl / Cmd+Shift+Y. Тепер воно не конфліктує зі сполученням клавіш «Вставити як звичайний текст» на Windows і Linux."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Тепер, переглядаючи фото профілю близької людини, ви можете змінити розмір вікна Signal Desktop і не боятися, що зображення стиснеться. Дорогих людей треба стискати лише в обіймах."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "У цьому оновленні ми також поліпшили вигляд цитованих відповідей для мов з написанням справа наліво."
   }
 }

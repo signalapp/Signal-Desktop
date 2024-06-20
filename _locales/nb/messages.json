@@ -2688,13 +2688,13 @@
     "messageformat": "Ringing av"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Du rakk opp hånden."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Du og {otherName} rakk opp hånden."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Du, {otherName} og {overflowCount,number} annen rakk opp hånden.} other {Du, {otherName} og {overflowCount,number} andre rakk opp hånden.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} rakk opp hånden."
@@ -2787,19 +2787,19 @@
     "messageformat": "Fjern personen fra samtalen"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} personer}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+{count,number} andre"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Mer info om nye kontakter"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Før du blir med i samtalen får du kun se navnene på de som står i kontaktlisten din, de som du har chattet med tidligere, og de som er medlem av samme gruppe som deg. Alle navnene og bildene blir synlige når du blir med i samtalen."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Skjønner"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {Hvilke enheter vil du at meldingen skal slettes fra?} other {Hvilke enheter vil du at meldingene skal slettes fra?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Denne meldingen slettes fra alle enhetene dine.} other {Disse meldingene slettes fra alle enhetene dine.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Slett for meg"
@@ -3795,7 +3795,7 @@
     "messageformat": "Slett fra alle enhetene"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Slett"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Du kan slette opptil {count,number} melding om gangen} other {Du kan slette opptil {count,number} meldinger om gangen}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "Brukernavn kan ikke begynne med et tall."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Brukernavn må bestå av minst {min,number} tegn."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Brukernavn kan ha maks. {max,number} tegn."
@@ -4749,13 +4749,13 @@
     "messageformat": "Kontaktene dine kan se navnet og profilbildet ditt, i tillegg til det du deler på Min story, med mindre du skjuler det for dem"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "«Slett for meg» betyr at det slettes fra alle enhetene dine"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "Når du sletter en melding fra en samtale, slettes den også fra mobilen din og alle andre tilkoblede enheter."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Skjønner"
   },
   "icu:Stories__title": {
     "messageformat": "Storyer"
@@ -5350,7 +5350,7 @@
     "messageformat": "«{query}» ga ingen resultater"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Opprett en samtalelenke"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Innkommende"
@@ -5416,22 +5416,22 @@
     "messageformat": "Del lenken via Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Informasjon om anropslenke"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Navn"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Bli med"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Godkjenn alle medlemmene"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Av"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "På"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} annen person skriver.} other {{count,number} andre personer skriver.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "I tillegg har vi byttet ut hurtigtasten for å sende talenotater, slik at den ikke er den samme som snarveien for «lim inn og matche stil» i Windows og Linux. Den nye hurtigtasten er Ctrl/Cmd+Shift+Y."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Vi rettet opp i en feil som førte til at bilder ble vist i feil størrelse hvis man endrer størrelsen på Signal Desktop-vinduet når man ser på et profilbilde."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "I denne oppdateringen har vi også gjort visningen av siterte svar bedre i høyre til venstre-språk."
   }
 }

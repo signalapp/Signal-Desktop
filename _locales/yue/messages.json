@@ -2688,13 +2688,13 @@
     "messageformat": "鈴聲閂咗"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "你舉咗手。"
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "你同{otherName}舉咗手。"
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, other {你、{otherName}同另外 {overflowCount,number} 個人舉咗手。}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} 舉咗手。"
@@ -2787,19 +2787,19 @@
     "messageformat": "喺通話度移除呢個人"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, other {{count,number} 個人}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+另外 {count,number} 個人"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "更多有關新聯絡人嘅資料"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "喺加入通話之前，你只會睇到手機聯絡人、同你有共同群組，或者曾經同你單對單聊天嘅人名。加入通話之後，你就可以睇到晒所有名同相。"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "明白"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "影片"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, other {你想喺邊啲裝置度刪除呢啲訊息呀？}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, other {呢啲訊息會喺你所有裝置上面刪除。}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "喺我自己部機度刪除"
@@ -3795,7 +3795,7 @@
     "messageformat": "喺所有裝置度刪除"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "刪除"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {你最多只可以揀 {count,number} 個訊息嚟喺所有人部機度刪除}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "用戶名稱冇得用數目字開頭。"
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "用戶名稱最少要有 {min,number} 個字元。"
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "用戶名稱最多只可以有 {max,number} 個字元。"
@@ -4749,13 +4749,13 @@
     "messageformat": "你嘅人脈可以見到你嘅名同相。如果你冇隱藏嘅話，對方仲可以睇到你嘅限時動態添"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "「喺我部機度刪除」而家會喺你所有嘅裝置度刪除"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "當你刪除聊天入面嘅訊息時，系統會同時喺你部手機同埋所有連結咗嘅裝置度剷走嗰個訊息。"
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "明白"
   },
   "icu:Stories__title": {
     "messageformat": "限時動態"
@@ -5350,7 +5350,7 @@
     "messageformat": "冇同「{query}」相關嘅搜尋結果"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "建立通話連結"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "來電"
@@ -5416,22 +5416,22 @@
     "messageformat": "透過 Signal 分享連結"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "通話連結詳情"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "姓名"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "加入"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "批准所有成員"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "閂"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "開"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {另外有 {count,number} 個人打緊字。}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "我哋將傳送語音備註嘅鍵盤快捷鍵改咗做「Ctrl/Cmd+Shift+Y」，咁就唔使再同 Windows 同 Linux 上面嘅「貼上並配合樣式」快捷鍵撞啦。"
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "我哋修復咗一個錯誤，以後當你喺睇緊其他人嘅個人頭像時調整 Signal 桌面版視窗嘅大小，就唔會再顯示錯嘅長寬比圖像。"
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "呢次更新仲改善咗由右至左 (RTL) 語言入面嘅引用回覆顯示方式。"
   }
 }

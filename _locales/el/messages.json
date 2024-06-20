@@ -2688,13 +2688,13 @@
     "messageformat": "Κουδούνισμα ανενεργό"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Σήκωσες το χέρι σου."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Εσύ και ο χρήστης {otherName} σηκώσατε το χέρι σας."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Εσύ, ο χρήστης {otherName} και {overflowCount,number} ακόμη σηκώσατε το χέρι σας.} other {Εσύ, ο χρήστης {otherName}, και {overflowCount,number} ακόμη σηκώσατε το χέρι σας.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "Ο χρήστης {name} σήκωσε το χέρι του."
@@ -2787,19 +2787,19 @@
     "messageformat": "Αφαίρεση αυτού του ατόμου από την κλήση"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} άτομο} other {{count,number} άτομα}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+{count,number} ακόμα"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Περισσότερες πληροφορίες για τις νέες επαφές"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Πριν από τη συμμετοχή σε μια κλήση μπορείς να δεις μόνο τα ονόματα των τηλεφωνικών επαφών, των ατόμων με τα οποία είσαι σε μια ομάδα ή των ατόμων με τα οποία έχεις συνομιλήσει προσωπικά. Θα δεις όλα τα ονόματα και τις φωτογραφίες μόλις μπεις στην κλήση."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Εντάξει"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Βίντεο"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {Από ποιες συσκευές θέλεις να διαγράψεις αυτό το μήνυμα;} other {Από ποιες συσκευές θέλεις να διαγράψεις αυτά τα μηνύματα;}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Αυτό το μήνυμα θα διαγραφεί από όλες τις συσκευές σου.} other {Αυτά τα μηνύματα θα διαγραφούν από όλες τις συσκευές σου.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Διαγραφή για μένα"
@@ -3795,7 +3795,7 @@
     "messageformat": "Διαγραφή από όλες τις συσκευές"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Διαγραφή"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Μπορείς να επιλέξεις έως {count,number} μήνυμα για να διαγραφεί για όλους} other {Μπορείς να επιλέξεις έως {count,number} μηνύματα για να διαγραφούν για όλους}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "Τα ονόματα χρήστη δεν μπορούν να αρχίζουν με αριθμό"
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Τα ονόματα χρήστη πρέπει να αποτελούνται από τουλάχιστον {min,number} χαρακτήρες."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Τα ονόματα χρήστη πρέπει να αποτελούνται το πολύ από {max,number} χαρακτήρες."
@@ -4749,13 +4749,13 @@
     "messageformat": "Οι επαφές σου μπορούν να δουν το όνομα και τη φωτογραφία σου, και μπορούν να δουν δημοσιεύσεις στην ενότητα \"Η ιστορία μου\", εκτός αν την κρύψεις από αυτές."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Η επιλογή \"Διαγραφή για μένα\" διαγράφει πλέον από όλες τις συσκευές σου"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "Όταν διαγράφεις ένα μήνυμα σε μία συνομιλία, το μήνυμα θα διαγραφεί από το τηλέφωνό σου και από όλες τις συνδεδεμένες συσκευές."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Εντάξει"
   },
   "icu:Stories__title": {
     "messageformat": "Ιστορίες"
@@ -5350,7 +5350,7 @@
     "messageformat": "Δεν βρέθηκαν αποτελέσματα για “{query}”"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Δημιουργήστε σύνδεσμο κλήσης"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Εισερχόμενη"
@@ -5416,22 +5416,22 @@
     "messageformat": "Κοινοποίηση συνδέσμου μέσω Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Λεπτομέρειες συνδέσμου κλήσης"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Όνομα"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Συμμετοχή"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Έγκριση όλων των μελών"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Ανενεργό"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Ενεργό"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} άλλο άτομο πληκτρολογεί.} other {{count,number} άλλα άτομα πληκτρολογούν.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "Τροποποιήσαμε τη συντόμευση πληκτρολογίου για την αποστολή μιας φωνητικής σημείωσης σε Ctrl/Cmd+Shift+Y, ώστε να μην έρχεται πλέον σε σύγκρουση με τη συντόμευση \"Επικόλληση και αντιστοίχιση στυλ\" στα Windows και το Linux."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Διορθώσαμε ένα σφάλμα που εμφάνιζε εικόνες με λανθασμένη αναλογία διαστάσεων αν άλλαζες το μέγεθος του παραθύρου του Signal Desktop κατά την προβολή της εικόνας προφίλ κάποιου χρήστη."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Αυτή η ενημέρωση βελτιώνει επίσης την εμφάνιση των απαντήσεων με εισαγωγικά σε γλώσσες από τα αριστερά προς τα δεξιά."
   }
 }

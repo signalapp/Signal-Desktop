@@ -2688,13 +2688,13 @@
     "messageformat": "Csengés ki"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Felemelted a kezed."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Te és {otherName} felemelte a kezét."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Te, {otherName} és további {overflowCount,number} személy felemelte a kezét.} other {Te, {otherName} és további {overflowCount,number} személy felemelte a kezét.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} felemelte a kezét."
@@ -2787,19 +2787,19 @@
     "messageformat": "E személy eltávolítása a hívásból"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} személy} other {{count,number} személy}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+{count,number} további"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "További információ az új névjegyekről"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Mielőtt csatlakoznál egy híváshoz, csak azon telefonos névjegyek nevét láthatod, akikkel egy csoportban vagy, vagy akikkel 1:1 arányban csevegtél. Miután csatlakoztál a híváshoz, látni fogod az összes nevet és fényképet."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Rendben"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Videó"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {Milyen eszközökről szeretnéd törölni ezt az üzenetet?} other {Milyen eszközökről szeretnéd törölni ezeket az üzeneteket?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Ez az üzenet minden eszközödön törlésre kerül.} other {Ezek az üzenetek minden eszközödön törlésre kerülnek.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Törlés számomra"
@@ -3795,7 +3795,7 @@
     "messageformat": "Törlés az összes eszközről"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Törlés"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Maximum {count,number} üzenetet választhatsz ki, ha mindenki számára szeretnéd törölni} other {Maximum {count,number} üzenetet választhatsz ki, ha mindenki számára szeretnéd törölni}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "A felhasználónevek nem kezdődhetnek számmal."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "A felhasználónevek hossza legalább {min,number} karakter."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "A felhasználónevek hossza maximum {max,number} karakter"
@@ -4749,13 +4749,13 @@
     "messageformat": "A névjegyeid láthatják a neved és a képed, valamint megtekinthetik a „Történeteim” részt, kivéve, ha elrejted előlük"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "A „Törlés magamnak” funkció most minden eszközödről törli"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "Amikor törölsz egy üzenetet vagy csevegést, az üzenet a telefonodról és az összes kapcsolt eszközről is törlésre kerül."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Rendben"
   },
   "icu:Stories__title": {
     "messageformat": "Történetek"
@@ -5350,7 +5350,7 @@
     "messageformat": "Nincs találat a következőre: „{query}”"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Híváshivatkozás létrehozása"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Bejövő"
@@ -5416,22 +5416,22 @@
     "messageformat": "Hivatkozás megosztása a Signalon keresztül"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Híváslink részletei"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Név"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Csatlakozás"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Összes tag jóváhagyása"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Ki"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Be"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} másik személy ír.} other {{count,number} másik személy ír.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "Módosítottuk a hangjegyzet küldésére szolgáló billentyűparancsot a Ctrl/Cmd+Shift+Y billentyűkombinációra, hogy az többé ne ütközzön a „Beillesztés és stílusegyeztetés” billentyűparancsba Windows- és Linux-rendszeren."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Javítottunk egy hibát, amely rossz képarányú képeket jelenített meg, ha valaki profilképének megtekintése közben átméretezted a Signal Desktop ablakát."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Ez a frissítés javítja az idézett válaszok megjelenítését is a jobbról balra olvasandó nyelveken."
   }
 }

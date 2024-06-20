@@ -2688,13 +2688,13 @@
     "messageformat": "Soittoääni pois päältä"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Nostit kätesi."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Sinä ja {otherName} muu nostitte käden."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Sinä, {otherName} ja {overflowCount,number} muu nostivat kätensä.} other {Sinä, {otherName} ja {overflowCount,number} muuta nostivat kätensä.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} nosti kätensä."
@@ -2787,19 +2787,19 @@
     "messageformat": "Poista tämä henkilö puhelusta"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} henkilöä} other {{count,number} henkilöä}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+{count,number} muuta"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Lisätietoja uusista yhteystiedoista"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Ennen puheluun liittymistä näet nimet vain ihmisistä, jotka ovat puhelimen yhteystiedoissa, kanssasi yhteisen ryhmän jäseniä, tai niistä, joiden kanssa olet keskustellut kahden. Näet kaikki nimet ja kuvat, kun olet liittynyt puheluun."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Selvä"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {Miltä laitteilta haluat poistaa tämän viestin?} other {Miltä laitteita haluat poistaa nämä viestit?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Tämä viesti poistetaan kaikista laitteistasi.} other {Nämä viestit poistetaan kaikista laitteistasi.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Poista minulta"
@@ -3795,7 +3795,7 @@
     "messageformat": "Poista kaikilta laitteilta"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Poista"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Voit valita enintään {count,number} viestin poistettavaksi kaikilta} other {Voit valita enintään {count,number} viestiä poistettavaksi kaikilta}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "Käyttäjänimi ei voi alkaa numerolla."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Käyttäjänimessä on oltava vähintään {min,number} merkkiä."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Käyttäjänimessä voi olla enintään {max,number} merkkiä."
@@ -4749,13 +4749,13 @@
     "messageformat": "Kontaktisi näkevät nimesi ja valokuvasi sekä Omaan tarinaan tekemäsi julkaisut, ellet piilota sitä heiltä"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "”Poista minulta” poistaa kohteen nyt kaikilta laitteiltasi"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "Kun poistat viestin keskustelusta, viesti poistetaan puhelimestasi ja kaikista yhdistetyistä laitteista."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Selvä"
   },
   "icu:Stories__title": {
     "messageformat": "Tarinat"
@@ -5350,7 +5350,7 @@
     "messageformat": "Ei tuloksia haulle \"{query}\""
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Luo puhelulinkki"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Saapuva"
@@ -5416,22 +5416,22 @@
     "messageformat": "Jaa linkki Signalissa"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Puhelulinkin tiedot"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Nimi"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Liity"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Kaikkien jäsenten hyväksyntä"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Ei käytössä"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Käytössä"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} käyttäjä kirjoittaa.} other {{count,number} käyttäjää kirjoittaa.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "Muokkasimme äänihuomautuksen lähettämisen pikanäppäimiksi Ctrl/Cmd+Shift+Y, jotta se ei enää ole ristiriidassa ”Liitä ja sovita tyyli” -pikanäppäimen kanssa Windowsissa ja Linuxissa."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Korjasimme virheen, joka näytti kuvat väärällä kuvasuhteella, jos muutit Signal Desktop -ikkunan kokoa katsoessasi jonkun profiilikuvaa."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Tämä päivitys parantaa myös lainattujen vastausten näyttöä RTL-kielillä."
   }
 }

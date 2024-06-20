@@ -2688,13 +2688,13 @@
     "messageformat": "បានបិទសំឡេងរោទ៍"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "អ្នកបានលើកដៃ។"
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "អ្នក និង {otherName} បានលើកដៃ។"
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, other {អ្នក, {otherName} និង {overflowCount,number} នាក់ទៀតបានលើកដៃ។}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} បានលើកដៃ។"
@@ -2787,19 +2787,19 @@
     "messageformat": "ដកម្នាក់នេះចេញពីការហៅ"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, other {មនុស្ស {count,number} នាក់}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+{count,number} នាក់ទៀត"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "ព័ត៌មានបន្ថែមអំពីទំនាក់ទំនងថ្មីៗ"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "មុនពេលចូលរួមការហៅទូរសព្ទ អ្នកអាចមើលឃើញតែឈ្មោះរបស់ទំនាក់ទំនងទូរសព្ទ មនុស្សដែលអ្នកនៅក្នុងក្រុមជាមួយ ឬមនុស្សដែលអ្នកបានជជែកជាមួយមួយទល់មួយប៉ុណ្ណោះ។ អ្នកនឹងឃើញឈ្មោះ និងរូបថតទាំងអស់នៅពេលដែលអ្នកបានចូលរួមការហៅ។"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "យល់ហើយ"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "វីដេអូ"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, other {តើអ្នកចង់លុបសារទាំងនេះចេញពីឧបករណ៍ណាខ្លះ?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, other {សារទាំងនេះនឹងត្រូវបានលុបចេញពីឧបករណ៍ទាំងអស់របស់អ្នក។}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "លុបសម្រាប់ខ្ញុំ"
@@ -3795,7 +3795,7 @@
     "messageformat": "លុបចេញពីឧបករណ៍ទាំងអស់"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "លុប"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {អ្នកអាចជ្រើសរើសបានរហូតដល់ {count,number} សារប៉ុណ្ណោះដើម្បីលុបសម្រាប់អ្នករាល់គ្នា}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "ឈ្មោះអ្នកប្រើមិនអាចចាប់ផ្តើមដោយលេខបានទេ។"
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "ឈ្មោះអ្នកប្រើត្រូវតែមានយ៉ាងតិច {min,number} តួអក្សរ។"
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "ឈ្មោះអ្នកប្រើត្រូវតែមានយ៉ាងច្រើនបំផុត {max,number} តួអក្សរ។"
@@ -4749,13 +4749,13 @@
     "messageformat": "អ្នកភ្ជាប់ទំនាក់ទំនងរបស់អ្នកអាចមើលឃើញឈ្មោះ និងរូបថតរបស់អ្នក ហើយអាចឃើញសារបង្ហោះទៅ \"រឿងរ៉ាវរបស់ខ្ញុំ\" លើកលែងតែអ្នកលាក់វាពីពួកគេ"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "\"លុបសម្រាប់ខ្ញុំ\" ឥឡូវនេះលុបចេញពីឧបករណ៍ទាំងអស់របស់អ្នក"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "នៅពេលអ្នកលុបសារមួយនៅក្នុងការជជែក សារនោះនឹងត្រូវបានលុបចេញពីទូរសព្ទរបស់អ្នក និងឧបករណ៍ដែលបានភ្ជាប់ទាំងអស់។"
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "យល់ហើយ"
   },
   "icu:Stories__title": {
     "messageformat": "រឿងរ៉ាវ"
@@ -5350,7 +5350,7 @@
     "messageformat": "គ្មានលទ្ធផលសម្រាប់ “{query}”"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "បង្កើតតំណហៅទូរសព្ទ"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "ហៅចូល"
@@ -5416,22 +5416,22 @@
     "messageformat": "ចែករំលែកតំណតាមរយៈ Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "ព័ត៌មានលម្អិតអំពីតំណហៅទូរសព្ទ"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "ឈ្មោះ"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "ចូលរួម"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "អនុញ្ញាតសមាជិកទាំងអស់"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "បិទ"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "បើក"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} នាក់ផ្សេងទៀតកំពុងវាយអក្សរ។}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "យើងបានកែប្រែផ្លូវកាត់ក្តារចុចសម្រាប់ការផ្ញើកំណត់ចំណាំជាសំឡេងទៅជា Ctrl/Cmd+Shift+Y ដូច្នេះវាលែងជាន់គ្នាជាមួយផ្លូវកាត់ \"បិទភ្ជាប់ និងផ្គូផ្គងរចនាប័ទ្ម\" នៅលើ Windows និង Linux ទៀតហើយ។"
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "យើងបានដោះស្រាយបញ្ហាដែលបង្ហាញរូបភាពខុសសមាមាត្រ ប្រសិនបើអ្នកប្តូរទំហំវីនដូ Signal Desktop ពេលកំពុងមើលរូបភាពប្រូហ្វាល់របស់នរណាម្នាក់។ មនុស្សដែលអ្នកស្រឡាញ់គួរតែមើលទៅរួមតូច ប្រសិនបើអ្នកកំពុងឱបពួកគេ។"
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "ការធ្វើបច្ចុប្បន្នភាពនេះក៏បានកែលម្អនូវការបង្ហាញនៃការឆ្លើយតបដែលបានដកស្រង់ជាភាសាពីស្តាំទៅឆ្វេងផងដែរ។"
   }
 }

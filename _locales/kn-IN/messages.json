@@ -2688,13 +2688,13 @@
     "messageformat": "ರಿಂಗಿಂಗ್ ಆಫ್"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "ನೀವು ಕೈ ಎತ್ತಿದ್ದೀರಿ."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "ನೀವು ಮತ್ತು {otherName} ಕೈ ಎತ್ತಿದ್ದೀರಿ."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {ನೀವು, {otherName} ಮತ್ತು ಇನ್ನೂ {overflowCount,number} ಮಂದಿ ಕೈ ಎತ್ತಿದ್ದೀರಿ.} other {ನೀವು, {otherName} ಮತ್ತು ಇನ್ನೂ {overflowCount,number} ಮಂದಿ ಕೈ ಎತ್ತಿದ್ದೀರಿ.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} ಕೈ ಎತ್ತಿದರು."
@@ -2787,19 +2787,19 @@
     "messageformat": "ಈ ವ್ಯಕ್ತಿಯನ್ನು ಕರೆಯಿಂದ ತೆಗೆದುಹಾಕಿ"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} ಜನರು}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "ಇನ್ನೂ +{count,number} ಮಂದಿ"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "ಹೊಸ ಸಂಪರ್ಕಗಳನ್ನು ಕುರಿತು ಹೆಚ್ಚಿನ ಮಾಹಿತಿ"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "ಕರೆಗೆ ಸೇರುವ ಮೊದಲು ನೀವು ಫೋನ್ ಸಂಪರ್ಕಗಳ ಹೆಸರುಗಳು, ನೀವು ಇರುವ ಗ್ರೂಪ್‍ಗಳಲ್ಲಿನ ಜನರು ಅಥವಾ ನೀವು 1:1 ಚಾಟ್ ಮಾಡಿದ ಜನರನ್ನು ಮಾತ್ರ ನೋಡಬಹುದು. ನೀವು ಕರೆಗೆ ಸೇರಿದ ನಂತರ ಎಲ್ಲಾ ಹೆಸರುಗಳು ಮತ್ತು ಫೊಟೋಗಳನ್ನು ನೀವು ನೋಡುತ್ತೀರಿ."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "ಅರ್ಥವಾಯಿತು"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "ವೀಡಿಯೊ"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {ಯಾವ ಸಾಧನಗಳಿಂದ ನೀವು ಈ ಮೆಸೇಜ್ ಅನ್ನು ಅಳಿಸಲು ಬಯಸುತ್ತೀರಿ?} other {ಯಾವ ಸಾಧನಗಳಿಂದ ನೀವು ಈ ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಲು ಬಯಸುತ್ತೀರಿ?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {ಈ ಮೆಸೇಜ್ ಅನ್ನು ನಿಮ್ಮ ಎಲ್ಲಾ ಸಾಧನಗಳಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ.} other {ಈ ಮೆಸೇಜ್‌ಗಳನ್ನು ನಿಮ್ಮ ಎಲ್ಲಾ ಸಾಧನಗಳಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "ನನಗೆ ಮಾತ್ರ ಅಳಿಸಿ"
@@ -3795,7 +3795,7 @@
     "messageformat": "ಎಲ್ಲಾ ಸಾಧನಗಳಿಂದ ಅಳಿಸಿ"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "ಅಳಿಸಿ"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {ಎಲ್ಲರಿಗೂ ಅಳಿಸಲು ನೀವು {count,number} ತನಕ ಮಾತ್ರ ಮೆಸೇಜ್‌ ಅನ್ನು ಆಯ್ಕೆ ಮಾಡಬಹುದು} other {ಎಲ್ಲರಿಗೂ ಅಳಿಸಲು ನೀವು {count,number} ತನಕ ಮಾತ್ರ ಮೆಸೇಜ್‌ಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಬಹುದು}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "ಯೂಸರ್ ನೇಮ್ ಗಳು ಸಂಖ್ಯೆಯಿಂದ ಪ್ರಾರಂಭವಾಗುವುದಿಲ್ಲ."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "ಯೂಸರ್‌ನೇಮ್‌ಗಳು ಕನಿಷ್ಠ {min,number} ಅಕ್ಷರಗಳನ್ನು ಹೊಂದಿರಬೇಕು."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "ಯೂಸರ್‌ನೇಮ್‌ಗಳು ಗರಿಷ್ಠ {max,number} ಅಕ್ಷರಗಳನ್ನು ಹೊಂದಿರಬೇಕು."
@@ -4749,13 +4749,13 @@
     "messageformat": "ನಿಮ್ಮ ಸಂಪರ್ಕಗಳು ನಿಮ್ಮ ಹೆಸರು ಮತ್ತು ಫೊಟೋವನ್ನು ನೋಡಬಹುದು ಮತ್ತು ನೀವು ಅವರಿಂದ ಮರೆಮಾಡದ ಹೊರತಾಗಿ, \"ನನ್ನ ಸ್ಟೋರಿ\" ಯ ಪೋಸ್ಟ್ ಗಳನ್ನು ನೋಡಬಹುದು"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "\"ನನಗಾಗಿ ಅಳಿಸಿ\" ಎಂಬುದು ಈಗ ನಿಮ್ಮ ಎಲ್ಲಾ ಸಾಧನಗಳಿಂದ ಅಳಿಸುತ್ತದೆ"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "ಚಾಟ್‌ನಲ್ಲಿ ನೀವು ಮೆಸೇಜ್ ಅಳಿಸಿದಾಗ, ನಿಮ್ಮ ಫೋನ್ ಮತ್ತು ಲಿಂಕ್ ಆದ ಎಲ್ಲಾ ಸಾಧನಗಳಿಂದ ಮೆಸೇಜ್ ಅನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "ಅರ್ಥವಾಯಿತು"
   },
   "icu:Stories__title": {
     "messageformat": "ಸ್ಟೋರೀಸ್"
@@ -5350,7 +5350,7 @@
     "messageformat": "{query} ಗೆ ಫಲಿತಾಂಶಗಳು ಲಭ್ಯವಿಲ್ಲ"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "ಒಂದು ಕರೆ ಲಿಂಕ್ ರಚಿಸಿ"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "ಒಳಬರುವ"
@@ -5416,22 +5416,22 @@
     "messageformat": "Signal ಮೂಲಕ ಲಿಂಕ್ ಹಂಚಿಕೊಳ್ಳಿ"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "ಕಾಲ್ ಲಿಂಕ್ ವಿವರಗಳು"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "ಹೆಸರು"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "ಸೇರಿಕೊಳ್ಳಿ"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "ಎಲ್ಲಾ ಸದಸ್ಯರನ್ನು ಅನುಮೋದಿಸಿ"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "ಆಫ಼್"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "ಆನ್"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ಇತರೆ ವ್ಯಕ್ತಿ ಟೈಪ್ ಮಾಡುತ್ತಿದ್ದಾರೆ.} other {{count,number} ಇತರ ಮಂದಿ ಟೈಪ್ ಮಾಡುತ್ತಿದ್ದಾರೆ.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "Ctrl/Cmd+Shift+Y ಗೆ ಧ್ವನಿ ಟಿಪ್ಪಣಿಯನ್ನು ಕಳುಹಿಸಲು ನಾವು ಕೀಬೋರ್ಡ್ ಶಾರ್ಟ್‌ಕಟ್ ಅನ್ನು ಮಾರ್ಪಡಿಸಿದ್ದೇವೆ ಇದರಿಂದ ಅದು ಇನ್ನು ಮುಂದೆ Windows ಮತ್ತು Linux ನಲ್ಲಿ \"ಅಂಟಿಸಿ ಮತ್ತು ಹೊಂದಾಣಿಕೆ ಶೈಲಿ\" ಶಾರ್ಟ್‌ಕಟ್‌ನೊಂದಿಗೆ ಸಂಘರ್ಷಗೊಳ್ಳುವುದಿಲ್ಲ."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "ಯಾರದ್ದಾದರೂ ಪ್ರೊಫೈಲ್ ಚಿತ್ರವನ್ನು ವೀಕ್ಷಿಸುವಾಗ ನೀವು ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್ ವಿಂಡೋವನ್ನು ಮರುಗಾತ್ರಗೊಳಿಸಿದರೆ ತಪ್ಪಾದ ಆಕಾರ ಅನುಪಾತದೊಂದಿಗೆ ಚಿತ್ರಗಳನ್ನು ಪ್ರದರ್ಶಿಸುವ ದೋಷವನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ. ನೀವು ಪ್ರೀತಿಸುವ ಜನರಿಗೆ ನೀವು ಅಪ್ಪುಗೆಯನ್ನು ನೀಡುತ್ತಿದ್ದರೆ ಮಾತ್ರ ಅವರು ಹಿಂಡಿಹೋದಂತೆ ಕಾಣಬೇಕು."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "ಈ ಅಪ್‌ಡೇಟ್ RTL ಭಾಷೆಗಳಲ್ಲಿ ಉಲ್ಲೇಖಿಸಲಾದ ಪ್ರತ್ಯುತ್ತರಗಳ ಪ್ರದರ್ಶನವನ್ನು ಸಹ ಸುಧಾರಿಸುತ್ತದೆ."
   }
 }

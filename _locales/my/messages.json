@@ -2688,13 +2688,13 @@
     "messageformat": "ဖုန်းမြည်သံ ပိတ်ထားသည်"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "သင် လက်ထောင်ထားသည်။"
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "သင်နှင့် {otherName} လက်ထောင်ထားသည်။"
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, other {သင်၊ {otherName} နှင့် အခြား{overflowCount,number} ဦး လက်ထောင်ထားသည်။}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} လက်မြှောက်ထားပါသည်။"
@@ -2787,19 +2787,19 @@
     "messageformat": "ဤလူကို ခေါ်ဆိုမှုမှ ဖယ်ရှားသည်"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, other {{count,number} ဦး}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+အခြား {count,number} ဦး"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "အဆက်အသွယ်အသစ်များအကြောင်း နောက်ထပ်အချက်အလက်များ"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "ခေါ်ဆိုမှုတစ်ခုတွင် မပါဝင်မီ ဖုန်းအဆက်အသွယ်များ၊ သင်နှင့်အတူအုပ်စုဖွဲ့ထားသူများ သို့မဟုတ် သင်နှင့် 1:1 ချက်(တ်)ထားသည့် လူများ၏ အမည်များကိုသာ မြင်တွေ့နိုင်သည်။ ခေါ်ဆိုမှုတွင် ပါဝင်ပြီးသည်နှင့် အမည်များနှင့် ဓာတ်ပုံများအားလုံးကို မြင်တွေ့ရမည်ဖြစ်သည်။"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "ရပြီ"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "ရုပ်မြင်သံကြား"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, other {ထိုမက်ဆေ့ချ်များကို မည်သည့်စက်များမှ ဖျက်ချင်သနည်း။}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, other {ဤမက်ဆေ့ချ်များကို သင့်စက်အားလုံးမှ ဖျက်လိုက်ပါမည်။}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "ကျွန်ုပ်အတွက် ဖျက်ရန်"
@@ -3795,7 +3795,7 @@
     "messageformat": "စက်အားလုံးမှ ဖျက်ရန်"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "ဖျက်ရန်"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {လူတိုင်းအတွက် ဖျက်ရန် မက်ဆေ့ချ် {count,number} စောင်အထိသာ ရွေးချယ်နိုင်သည်}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "သုံးစွဲသူအမည်များသည် နံပါတ်နှင့် စတင်၍ မရပါ။"
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "သုံးစွဲသူအမည်များတွင် အနည်းဆုံး အက္ခရာ {min,number} လုံး ရှိရပါမည်။"
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "သုံးစွဲသူအမည်များတွင် အက္ခရာ {max,number} လုံး အများဆုံး ရှိရပါမည်။"
@@ -4749,13 +4749,13 @@
     "messageformat": "သင့်အဆက်အသွယ်များက သင့်အမည်နှင့် ဓာတ်ပုံကို မြင်နိုင်ပြီး ၎င်းတို့အတွက် မဝှက်ထားပါက \"ကျွန်ုပ်၏ စတိုရီ\" ရှိ ပို့စ်များကို မြင်နိုင်ပါသည်"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "\"မိမိအတွက်ဖျက်ရန်\" သည် ယခုအခါ သင့်စက်အားလုံးမှ ဖျက်လိုက်ပါသည်"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "သင်ချက်(တ်)တစ်ခုတွင် မက်ဆေ့ချ်တစ်ခုကို ဖျက်လိုက်သောအခါ ထိုမက်ဆေ့ချ်ကို သင့်ဖုန်းနှင့် အခြားချိတ်ထားသော စက်များအားလုံးမှ ဖျက်လိုက်ပါမည်။"
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "ရပြီ"
   },
   "icu:Stories__title": {
     "messageformat": "စတိုရီများ"
@@ -5350,7 +5350,7 @@
     "messageformat": "“{query}” အတွက် ရလဒ်မရှိပါ"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "ကောလ်လင့်ခ်တစ်ခု ဖန်တီးရန်"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "အဝင်"
@@ -5416,22 +5416,22 @@
     "messageformat": "Signal မှတစ်ဆင့် လင့်ခ်ဝေမျှရန်"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Signal ဖြင့်ဖုန်းခေါ်ဆိုရန် လင့်ခ်အသေးစိတ်"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "အမည်"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "ပါဝင်မည်"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "မန်ဘာအားလုံးကို အတည်ပြုရန်"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "ပိတ်မည်"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "ဖွင့်မည်"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {အခြား {count,number} ဦး စာရိုက်နေသည်။}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "Windows နှင့် Linux ပေါ်ရှိ \"Paste and Match Style\" ရှော့တ်ကတ်နှင့် လွဲမှားမှု မရှိစေရန် Ctrl/Cmd+Shift+Y သို့ အသံမှတ်ချက်ပေးပို့ခြင်းအတွက် ကီးဘုတ်ရှော့တ်ကတ်ကို ကျွန်ုပ်တို့ ပြင်ဆင်မွမ်းမံထားပါသည်။"
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "တစ်စုံတစ်ဦး၏ပရိုဖိုင်ပုံကိုကြည့်ရှုနေစဉ် Signal Desktop ဝင်းဒိုးကို အရွယ်အစားပြောင်းပါက အချိုးမညီသော ပုံများကိုပြသသည့် ချွတ်ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ပြင်ဆင်ထားပါသည်။"
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "ဤအပ်ဒိတ်သည် RTL ဘာသာစကားများဖြင့် ကိုးကားထားသော အကြောင်းပြန်စာများ၏ ဖော်ပြမှုကိုလည်း ပိုမိုကောင်းမွန်စေသည်။"
   }
 }

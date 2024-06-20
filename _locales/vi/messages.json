@@ -2688,13 +2688,13 @@
     "messageformat": "Đổ chuông đang tắt"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Bạn giơ tay."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Bạn và {otherName} giơ tay."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, other {Bạn, {otherName} và {overflowCount,number} giơ tay.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} giơ tay."
@@ -2787,19 +2787,19 @@
     "messageformat": "Gỡ người này khỏi cuộc gọi"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, other {{count,number} người}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+{count,number} người khác"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Thông tin thêm về những liên hệ mới"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Trước khi tham gia một cuộc gọi, bạn chỉ có thể thấy tên của những liên hệ có trên điện thoại, những người ở trong cùng một nhóm với bạn, hoặc những người bạn đã trò chuyện trực tiếp. Bạn sẽ thấy tất cả tên và ảnh khi bạn đã tham gia cuộc gọi."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Đã hiểu"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, other {Bạn muốn xóa các tin nhắn này trên thiết bị nào?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, other {Những tin nhắn này sẽ được xóa trên tất cả thiết bị của bạn.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Xóa cho tôi"
@@ -3795,7 +3795,7 @@
     "messageformat": "Xóa trên tất cả thiết bị"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Xóa"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {Bạn chỉ có thể chọn tối đa {count,number} tin nhắn để xóa cho mọi người}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "Tên người dùng không thể bắt đầu bằng một chữ số."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Tên người dùng phải có ít nhất {min,number} ký tự."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Tên người dùng phải có tối đa {max,number} ký tự."
@@ -4749,13 +4749,13 @@
     "messageformat": "Các liên hệ của bạn có thể thấy tên và ảnh của bạn, và có thể thấy các bài đăng lên \"Story của tôi\" trừ khi bạn ẩn story với các liên hệ"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "\"Xóa cho tôi\" giờ đây xóa khỏi tất cả thiết bị của bạn"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "Khi bạn xóa tin nhắn trong một cuộc trò chuyện, tin nhắn đó sẽ được xóa trên điện thoại của bạn và tất cả thiết bị đã liên kết."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Đã hiểu"
   },
   "icu:Stories__title": {
     "messageformat": "Các Story"
@@ -5350,7 +5350,7 @@
     "messageformat": "Không có kết quả cho “{query}”"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Tạo Đường dẫn Cuộc gọi"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Cuộc gọi đến"
@@ -5416,22 +5416,22 @@
     "messageformat": "Chia sẻ đường dẫn qua Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Chi tiết đường dẫn cuộc gọi"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Tên"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Tham gia"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Chấp nhận tất cả thành viên"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Tắt"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Bật"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} người khác đang nhập.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "Chúng tôi đã sửa phím tắt cho thao tác gửi một ghi chú âm thanh thành Ctrl/Cmd+Shift+Y để không còn bị xung đột với phím tắt \"Dán và Khớp Phong cách\" trên Windows và Linux."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Chúng tôi đã sửa một lỗi hiển thị ảnh sai tỷ lệ nếu bạn thay đổi kích thước cửa sổ Signal Desktop khi đang xem ảnh hồ sơ của một người."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Bản cập nhật này cũng cải thiện việc hiển thị câu trả lời được trích dẫn bằng ngôn ngữ RTL."
   }
 }

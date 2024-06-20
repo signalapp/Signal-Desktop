@@ -2688,13 +2688,13 @@
     "messageformat": "So desactivat"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Has aixecat la mà."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Tu i {otherName} heu aixecat la mà."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Tu, {otherName} i {overflowCount,number} persona més heu aixecat la mà.} other {Tu, {otherName} i {overflowCount,number} persones més heu aixecat la mà.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} ha aixecat la mà."
@@ -2787,19 +2787,19 @@
     "messageformat": "Expulsar a aquesta persona de la trucada"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} persona} other {{count,number} persones}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "+{count,number} més"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Més informació sobre nous contactes"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Abans d'unir-te a una trucada, només podràs veure els noms d'aquelles persones que tinguis desades com a contactes al teu telèfon, amb les quals estàs en un grup o amb les quals ja has xatejat. Un cop t'hagis unit a la trucada, veuràs els noms i les fotos de tothom."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Entesos"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Vídeo"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {De quins dispositius t'agradaria eliminar aquest missatge?} other {De quins dispositius t'agradaria eliminar aquests missatges?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Aquest missatge s'eliminarà de tots els teus dispositius.} other {Aquests missatges s'eliminaran de tots els teus dispositius.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Eliminar per a mi"
@@ -3795,7 +3795,7 @@
     "messageformat": "Eliminar de tots els dispositius"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Suprimeix"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Només pots seleccionar {count,number} missatge per eliminar per a tothom} other {Només pots seleccionar {count,number} missatges per eliminar per a tothom}}"
@@ -4197,7 +4197,7 @@
     "messageformat": "Els àlies no poden començar amb un número."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Els àlies han de tenir un mínim de {min,number} caràcters."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Els àlies han de tenir un màxim de{max,number} caràcters."
@@ -4749,13 +4749,13 @@
     "messageformat": "Els teus contactes poden veure el teu nom i la teva foto, i poden veure el que pugis a \"La meva història\" tret que decideixis ocultar-los-hi."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "\"Eliminar per mi\" ara elimina el contingut de tots els teus dispositius"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "Quan elimines un missatge d'un xat, el missatge s'elimina del teu telèfon i de tots els dispositius connectats."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Entesos"
   },
   "icu:Stories__title": {
     "messageformat": "Històries"
@@ -5350,7 +5350,7 @@
     "messageformat": "No s'ha trobat cap resultat per a «{query}»"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Crear un enllaç de trucada"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Entrant"
@@ -5416,22 +5416,22 @@
     "messageformat": "Compartir enllaç per Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Detalls de l'enllaç de trucada"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Nom"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Afegeix-m'hi"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Aprovar tots els membres"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Inactiu"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Actiu"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} persona més està escrivint.} other {{count,number} persones més estan escrivint.}}"
@@ -5483,9 +5483,9 @@
     "messageformat": "Hem modificat la drecera de teclat per enviar una nota de veu a Ctrl/Cmd+Maj+Y perquè ja no entri en conflicte amb la drecera \"Enganxar i copiar l'estil\" a Windows i Linux."
   },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Hem solucionat un error a la versió per a Escriptori de Signal, on es mostraven les imatges amb una proporció incorrecta si canviaves la mida de la finestra al mirar la foto de perfil d'algú."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Aquesta actualització també millora la visualització de les respostes citades per als idiomes RTL."
   }
 }
