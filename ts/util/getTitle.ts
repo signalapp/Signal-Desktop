@@ -9,7 +9,6 @@ import { combineNames } from './combineNames';
 import { getRegionCodeForNumber } from './libphonenumberUtil';
 import { isDirectConversation } from './whatTypeOfConversation';
 import { getE164 } from './getE164';
-import { areNicknamesEnabled } from './nicknames';
 
 type TitleOptions = {
   isShort?: boolean;
@@ -42,7 +41,7 @@ export function getTitleNoDefault(
   const { username } = attributes;
 
   let nicknameValue: string | undefined;
-  if (areNicknamesEnabled() && !ignoreNickname) {
+  if (!ignoreNickname) {
     nicknameValue =
       (isShort ? attributes.nicknameGivenName : undefined) ||
       getNicknameName(attributes);
@@ -114,10 +113,6 @@ export function getNicknameName(
     'nicknameGivenName' | 'nicknameFamilyName' | 'type'
   >
 ): string | undefined {
-  if (!areNicknamesEnabled()) {
-    return undefined;
-  }
-
   if (isDirectConversation(attributes)) {
     return combineNames(
       attributes.nicknameGivenName ?? undefined,
