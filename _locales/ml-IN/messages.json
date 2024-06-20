@@ -2372,15 +2372,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "ചാറ്റ് വായിച്ചിട്ടില്ലെന്ന് അടയാളപ്പെടുത്തി"
   },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "Signal സ്റ്റിക്കർ പായ്ക്ക് ക്രിയേറ്റർ തുറക്കണോ?"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "സ്ഥിരീകരിക്കുക"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "ഒഴിവാക്കുക"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "സ്റ്റിക്കർ പായ്ക്ക് സ്രഷ്ടാവ് ഉപയോഗിക്കുന്നതിന് നിങ്ങളുടെ ഫോണിലും ഡെസ്ക്ടോപ്പിലും Signal സജ്ജീകരിക്കുക"
   },
@@ -2688,13 +2679,13 @@
     "messageformat": "റിംഗിംഗ് ഓഫാണ്"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "നിങ്ങൾ ഒരു കൈ ഉയർത്തി."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "നിങ്ങളും {otherName} എന്നയാളും ഒരു കൈ ഉയർത്തി."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {നിങ്ങൾ, {otherName}, കൂടാതെ {overflowCount,number} ആൾ കൂടി കൈ ഉയർത്തി.} other {നിങ്ങൾ, {otherName}, കൂടാതെ {overflowCount,number} പേർ കൂടി കൈ ഉയർത്തി.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} ഒരു കൈ ഉയർത്തി."
@@ -2780,26 +2771,32 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "ഒരു വിൻഡോ"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact"
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "കോൾ ലിങ്ക് പകർത്തുക"
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "കോളിൽ നിന്ന് ഈ വ്യക്തിയെ നീക്കം ചെയ്യുക"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} ആൾ} other {{count,number} പേര്‍}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "പുതിയ കോൺടാക്റ്റുകളെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങൾ"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "ഒരു കോളിൽ ചേരുന്നതിന് മുമ്പ് നിങ്ങൾക്ക് ഫോൺ കോൺടാക്‌റ്റുകളുടെ പേരുകൾ, നിങ്ങളോടൊപ്പം ഒരു ഗ്രൂപ്പിലുള്ള ആളുകൾ അല്ലെങ്കിൽ നിങ്ങൾ 1:1 ചാറ്റ് ചെയ്‌ത ആളുകൾ എന്നിവരെ മാത്രമേ കാണാനാകൂ. നിങ്ങൾ കോളിൽ ചേർന്നുകഴിഞ്ഞാൽ എല്ലാ പേരുകളും ഫോട്ടോകളും കാണും."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "മനസ്സിലായി"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "വീഡിയോ"
@@ -3512,6 +3509,9 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്യൂ"
   },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "ചാറ്റ് നിറം"
   },
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {ഏതൊക്കെ ഡിവൈസുകളിൽ നിന്ന് ഈ സന്ദേശം ഇല്ലാതാക്കണം?} other {ഏതൊക്കെ ഡിവൈസുകളിൽ നിന്ന് ഈ സന്ദേശങ്ങൾ ഇല്ലാതാക്കണം?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {നിങ്ങളുടെ എല്ലാ ഉപകരണങ്ങളിൽ നിന്നും ഈ സന്ദേശം ഇല്ലാതാക്കപ്പെടും.} other {നിങ്ങളുടെ എല്ലാ ഉപകരണങ്ങളിൽ നിന്നും ഈ സന്ദേശങ്ങൾ ഇല്ലാതാക്കപ്പെടും.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "എനിക്കായി ഇല്ലാതാക്കൂ"
@@ -3795,7 +3795,7 @@
     "messageformat": "എല്ലാ ഉപകരണങ്ങളിൽ നിന്നും ഇല്ലാതാക്കൂ"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "ഇല്ലാതാക്കൂ"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {എല്ലാവർക്കുമായി ഇല്ലാതാക്കാൻ {count,number} സന്ദേശം വരെയെ നിങ്ങൾക്ക് തിരഞ്ഞെടുക്കാനാകൂ} other {എല്ലാവർക്കുമായി ഇല്ലാതാക്കാൻ {count,number} സന്ദേശങ്ങൾ വരെയെ നിങ്ങൾക്ക് തിരഞ്ഞെടുക്കാനാകൂ}}"
@@ -4197,10 +4197,16 @@
     "messageformat": "ഉപയോക്തൃനാമം ഒരു നമ്പറിൽ ആരംഭിക്കാൻ കഴിയില്ല."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "ഉപയോക്തൃനാമത്തിൽ കുറഞ്ഞത് {min,number} പ്രതീകങ്ങൾ ഉണ്ടായിരിക്കണം."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "ഉപയോക്തൃനാമത്തിൽ പരമാവധി {max,number} പ്രതീകങ്ങൾ മാത്രമേ പാടുള്ളു."
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "ഉപയോക്തൃനാമം അസാധുവാണ്, കുറഞ്ഞത് 2 അക്കങ്ങൾ നൽകുക."
@@ -4749,13 +4755,13 @@
     "messageformat": "നിങ്ങളുടെ കണക്ഷനുകൾക്ക് നിങ്ങളുടെ പേരും ഫോട്ടോയും കാണാനാകും, മാത്രമല്ല മറയ്ക്കാത്ത പക്ഷം \"എന്‍റെ സ്റ്റോറിയിൽ\" നിങ്ങൾ ചേർക്കുന്ന പോസ്റ്റുകളും അവർക്ക് കാണാനാകും."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Deleting is synced across your devices"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "മനസ്സിലായി"
   },
   "icu:Stories__title": {
     "messageformat": "സ്റ്റോറികൾ"
@@ -5350,7 +5356,7 @@
     "messageformat": "\"{query}\" എന്നതിന് ഫലങ്ങളൊന്നുമില്ല"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "കോൾ ലിങ്ക് സൃഷ്ടിക്കൂ"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "ഇൻകമിംഗ്"
@@ -5416,22 +5422,22 @@
     "messageformat": "Signal-ലൂടെ ലിങ്ക് പങ്കിടൂ"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "കോൾ ലിങ്ക് വിശദാംശങ്ങൾ"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "പേര്"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "ചേരുക"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "എല്ലാ അംഗങ്ങളെയും അംഗീകരിക്കൂ"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "ഓഫ്"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "ഓൺ"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {മറ്റ് {count,number} ആൾ ടൈപ്പ് ചെയ്യുന്നു.} other {മറ്റ് {count,number} പേർ ടൈപ്പ് ചെയ്യുന്നു.}}"
@@ -5473,19 +5479,13 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "ഗ്രൂപ്പ് കോളുകൾക്കിടയിൽ ആശയവിനിമയം നടത്താൻ നിങ്ങൾ മറ്റൊരു മാർഗം നോക്കുകയാണെങ്കിൽ കൈ ഉയർത്തുക. ആരുടെയെങ്കിലും ശ്രദ്ധ നേടുന്നതിനോ ഒരു ചോദ്യം ചോദിക്കുന്നതിനോ അല്ലെങ്കിൽ \"ആരൊക്കെ അനുകൂലിക്കുന്നു?\" എന്ന് സുഹൃത്ത് ചോദിക്കുമ്പോൾ ഒരു ഗ്രൂപ്പ് നിർദ്ദേശത്തിന് ഏകകണ്ഠമായി വോട്ട് ചെയ്യുന്നതിനോ ഉള്ള ലളിതമായ ഒരു മാർഗമാണ് പുതിയ സവിശേഷതയായ കൈ ഉയർത്തൽ."
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "ക്രോപ്പ് ടൂളിലെ ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചു, അതിനാൽ ഇപ്പോൾ നിങ്ങളുടെ എക്സിനെ (അല്ലെങ്കിൽ മറ്റെന്തെങ്കിലും) ചിത്രത്തിൽ നിന്ന് പുറത്താക്കുന്നത് എളുപ്പവും കൂടുതൽ ലളിതവുമാണ്."
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "Ctrl/Cmd+Shift+Y-ലേക്ക് ഒരു വോയ്‌സ് നോട്ട് അയയ്‌ക്കുന്നതിനുള്ള കീബോർഡ് കുറുക്കുവഴി ഞങ്ങൾ പരിഷ്‌ക്കരിച്ചതിനാൽ Windows-ലെയും Linux-ലെയും \"ഒട്ടിച്ച് പൊരുത്തപ്പെടുത്തൽ സ്റ്റൈൽ\" കുറുക്കുവഴിയുമായി ഇതിന് പൊരുത്തക്കേട് ഉണ്ടാകില്ല."
-  },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "ഒരാളുടെ പ്രൊഫൈൽ ചിത്രം കാണുമ്പോൾ നിങ്ങൾ Signal ഡെസ്ക്ടോപ്പ് വിൻഡോയുടെ വലുപ്പം മാറ്റുകയാണെങ്കിൽ, തെറ്റായ വീക്ഷണാനുപാതത്തിൽ ചിത്രങ്ങൾ പ്രദർശിപ്പിക്കുന്ന ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചു. നിങ്ങൾ സ്‌നേഹിക്കുന്ന ആളുകളെ ആലിംഗനം ചെയ്യുമ്പോൾ മാത്രമേ അവർ അതിൽ ഞെരിഞ്ഞ് അമർന്നത് പോലെ കാണപ്പെടൂ."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "ഈ അപ്‌ഡേറ്റ് വലത്തുനിന്നും ഇടത്തേക്ക് എഴുതുന്ന ഭാഷകളിൽ ഉദ്ധരിച്ച മറുപടികളുടെ പ്രദർശനവും മെച്ചപ്പെടുത്തുന്നു."
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
   }
 }

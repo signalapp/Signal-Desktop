@@ -2372,15 +2372,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "Obrolan ditandai belum dibaca"
   },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "Ingin membuka Pembuat Paket Stiker Signal?"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "Konfirmasi"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "Tutup"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Siapkan Signal di ponsel dan komputer Anda untuk menggunakan Pembuat Paket Stiker"
   },
@@ -2688,13 +2679,13 @@
     "messageformat": "Dering nonaktif"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Anda mengangkat tangan."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Anda dan {otherName} mengangkat tangan."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, other {Anda, {otherName}, dan {overflowCount,number} lainnya mengangkat tangan.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} mengangkat tangan."
@@ -2780,26 +2771,32 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "Sebuah jendela"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact"
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Salin tautan panggilan"
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Keluarkan orang ini dari panggilan"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, other {{count,number} orang}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Info selengkapnya tentang kontak baru"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Sebelum gabung di panggilan, Anda hanya bisa melihat nama kontak di ponsel, orang yang satu grup bersama Anda, atau orang yang telah ngobrol 1:1 dengan Anda. Anda akan melihat semua nama dan foto setelah bergabung dalam panggilan."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Mengerti"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3512,6 +3509,9 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Keluarkan dari grup"
   },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Warna obrolan"
   },
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, other {Anda ingin pesan ini dihapus dari perangkat mana?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, other {Pesan ini akan dihapus dari semua perangkat Anda.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Hapus untuk saya"
@@ -3795,7 +3795,7 @@
     "messageformat": "Hapus dari semua perangkat"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Hapus"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {Anda hanya bisa memilih maksimal {count,number} pesan untuk dihapus bagi semua orang}}"
@@ -4197,10 +4197,16 @@
     "messageformat": "Nama pengguna tidak boleh dimulai dengan angka."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Nama pengguna harus memiliki minimal {min,number} karakter."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Nama pengguna harus memiliki maksimal {max,number} karakter."
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Nama pengguna tidak valid, masukkan minimal 2 angka."
@@ -4749,13 +4755,13 @@
     "messageformat": "Koneksi Anda bisa melihat nama dan foto Anda, dan bisa melihat postingan di \"Cerita Saya\" kecuali Anda menyembunyikannya dari mereka"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Deleting is synced across your devices"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Mengerti"
   },
   "icu:Stories__title": {
     "messageformat": "Cerita"
@@ -5350,7 +5356,7 @@
     "messageformat": "Tidak ada hasil untuk “{query}”"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Buat Tautan Panggilan"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Panggilan Masuk"
@@ -5416,22 +5422,22 @@
     "messageformat": "Bagikan tautan via Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Detail tautan panggilan"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Nama"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Gabung"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Setujui semua anggota"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Nonaktif"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Aktif"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} orang lainnya sedang mengetik.}}"
@@ -5473,19 +5479,13 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Fitur baru \"Angkat Tangan\" memudahkan pengguna saat ingin mendapatkan perhatian seseorang atau menyampaikan pertanyaan selama panggilan grup."
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "Pembaruan kali ini juga mencakup penyempurnaan alat pangkas untuk menyesuaikan ukuran gambar."
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "Pintasan papan ketik untuk mengirimkan catatan suara kini diubah jadi Ctrl/Cmd+Shift+Y agar tidak lagi bentrok dengan pintasan \"Paste and Match Style\" di Windows dan Linux."
-  },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Kami memperbaiki bug yang menampilkan gambar dengan rasio aspek yang salah jika Anda mengubah ukuran jendela Signal Desktop saat melihat foto profil seseorang."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Pembaruan ini juga menyempurnakan tampilan balasan yang dikutip untuk bahasa yang penulisannya kanan-ke-kiri (RTL)."
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
   }
 }

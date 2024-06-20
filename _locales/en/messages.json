@@ -3142,18 +3142,6 @@
     "messageformat": "Chat marked unread",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "Would you like to open Signal Sticker Pack Creator?",
-    "description": "(Deleted 2024/05/15) A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "Confirm",
-    "description": "(Deleted 2024/05/15) A buttle title for confirming Signal Sticker Pack Creator dialog"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "Dismiss",
-    "description": "(Deleted 2024/05/15) A buttle title for dismissing Signal Sticker Pack Creator dialog"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
@@ -7293,11 +7281,11 @@
   },
   "icu:WhatsNew__v7.13--0": {
     "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug.",
-    "description": "Release notes for version 7.13"
+    "description": "(Deleted 2024/06/20) Release notes for version 7.13"
   },
   "icu:WhatsNew__v7.13--1": {
     "messageformat": "This update also improves the display of quoted replies in RTL languages.",
-    "description": "Release notes for version 7.13"
+    "description": "(Deleted 2024/06/20) Release notes for version 7.13"
   },
   "icu:WhatsNew__v7.14--0": {
     "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat.",

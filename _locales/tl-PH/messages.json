@@ -2372,15 +2372,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "Na-mark as unread na ang chat"
   },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "Gusto mo bang buksan ang Signal Sticker Pack Creator?"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "Kumpirmahin"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "I-dismiss"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "I-set up ang Signal sa iyong phone at desktop para magamit ang Sticker Pack Creator"
   },
@@ -2688,13 +2679,13 @@
     "messageformat": "Naka-off ang pag-ring"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Nagtaas ka ng kamay."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Ikaw at si {otherName} ay nagtaas ng kamay."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Ikaw, si {otherName}, at {overflowCount,number} pa ay nagtaas ng kamay.} other {Ikaw, si {otherName}, at {overflowCount,number} pa ay nagtaas ng kamay.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "Nagtaas ng kamay si {name}."
@@ -2780,8 +2771,14 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "A window"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact"
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Kopyahin ang call link"
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Tanggalin ang taong ito sa call"
@@ -2790,16 +2787,16 @@
     "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Iba pang info tungkol sa bagong contacts"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Bago ka sumali ng call, makikita mo lang ang mga pangalan ng phone contacts mo, mga taong kasama mo sa isang group, o mga taong naka-chat mo na nang 1:1. Makikita mo na ng pangalan at photos ng lahat kapag sumali ka na sa call."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "OK"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3512,6 +3509,9 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Tanggalin mula sa group"
   },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Chat color"
   },
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {Saang devices mo gustong burahin ang message na ito?} other {Saang devices mo gustong burahin ang messages na ito?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Ang message na ito'y buburahin sa lahat ng devices mo.} other {Ang messages na ito'y buburahin sa lahat ng devices mo.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Burahin sa 'kin"
@@ -3795,7 +3795,7 @@
     "messageformat": "Burahin sa lahat ng devices"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Burahin"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Pwede kang pumili ng {count,number} message para burahin sa lahat} other {Pwede kang pumili ng {count,number} messages para burahin sa lahat}}"
@@ -4197,10 +4197,16 @@
     "messageformat": "Ang mga username ay hindi puwedeng magsimula sa numero."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Ang mga username ay dapat may hindi bababa sa {min,number} characters."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Ang maximum characters ng isang username ay {max,number}."
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Invalid username, maglagay ng minimum of 2 digits."
@@ -4749,13 +4755,13 @@
     "messageformat": "Makikita ng connections mo ang pangalan at photo mo, pati na rin ang posts sa \"My Story\" maliban na lang kung pinili mong i-hide ito mula sa kanila"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Deleting is synced across your devices"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "OK"
   },
   "icu:Stories__title": {
     "messageformat": "Stories"
@@ -5350,7 +5356,7 @@
     "messageformat": "Walang resulta para sa \"{query}\""
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Gumawa ng Call Link"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Incoming"
@@ -5416,16 +5422,16 @@
     "messageformat": "I-share ang link via Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Detalye ng call link"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Pangalan"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Sumali"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "I-approve ang lahat ng members"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
     "messageformat": "Off"
@@ -5473,19 +5479,13 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Ang bagong Raise Hand feature ay isang simpleng paraan para makuha ang atensyon ng isang tao o mag-tanong habang nasa group call."
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "Kasama rin sa update na ito ang improved crop tool para sa pag-resize ng images."
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "Binago namin ang keyboard shortcut para sa pag-send ng voice note at ginawa itong Ctrl/Cmd+Shift+Y para hindi na ito magdulot ng problema sa \"Paste and Match Style\" shortcut sa Windows at Linux."
-  },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "May inayos kaming bug kung saan ipinapakita ang images sa maling aspect ratio kapag nag-resize ka ng Signal Desktop window habang tumitingin ka sa profile picture ng isang tao."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Mas pinaganda rin ng update na ito ang pagpakita ng quoted replies sa RTL languages."
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
   }
 }

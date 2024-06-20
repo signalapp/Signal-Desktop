@@ -2372,15 +2372,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "சாட் படிக்காததாகக் குறிக்கப்பட்டது"
   },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "Signal ஸ்டிக்கர் பேக் கிரியேட்டரைத் திறக்க விரும்புகிறீர்களா?"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "உறுதிப்படுத்துக"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "நிராகரி"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "ஸ்டிக்கர் பேக் கிரியேட்டரைப் பயன்படுத்த உங்கள் ஃபோன் மற்றும் டெஸ்க்டாப்பில் Signalஐ அமைக்கவும்"
   },
@@ -2688,13 +2679,13 @@
     "messageformat": "ரிங்கிங்கை ஆஃப் செய்யும்"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "நீங்கள் கையை உயர்த்தியுள்ளீர்கள்."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "நீங்களும் மற்றும் {otherName} நபரும் கையை உயர்த்தியுள்ளீர்கள்."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {நீங்கள், {otherName}, மற்றும் {overflowCount,number} நபர்கள் கையை உயர்த்தியுள்ளார்.} other {நீங்கள், {otherName}, மற்றும் {overflowCount,number} நபர்கள் கையை உயர்த்தியுள்ளனர்.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} கையை உயர்த்தியுள்ளார்."
@@ -2780,26 +2771,32 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "ஒரு ஜன்னல்"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact"
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "அழைப்பு இணைப்பை நகலெடு"
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "அழைப்பிலிருந்து இந்த நபரை அகற்று"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} நபர்} other {{count,number} நபர்கள்}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "புதிய தொடர்புகள் பற்றிய கூடுதல் தகவல்"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "அழைப்பில் சேர்வதற்கு முன், தொலைபேசி தொடர்புகளின் பெயர்கள், நீங்கள் இணைந்துள்ள குழுக்களில் உள்ள நபர்கள் அல்லது நீங்கள் 1:1 முறையில் நீங்கள் சாட் செய்தவர்களின் பெயர்களை மட்டுமே பார்க்க முடியும். நீங்கள் அழைப்பில் சேர்ந்தவுடன் அனைத்து பெயர்களையும் படங்களையும் பார்ப்பீர்கள்."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "அறிந்துகொண்டேன்"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "காணொளி"
@@ -3512,6 +3509,9 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "குழுவிலிருந்து அகற்று"
   },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "சாட் கலர்"
   },
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {எந்த டிவைஸ்களிலிருந்து இந்த மெசேஜை நீக்க விரும்புகிறீர்கள்?} other {எந்த டிவைஸ்களிலிருந்து இந்த மெசேஜ்களை நீக்க விரும்புகிறீர்கள்?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {இந்த மெசேஜ் உங்களின் அனைத்து சாதனங்களிலிருந்தும் அழிக்கப்படும்.} other {இந்த மெசேஜ்கள் உங்களின் அனைத்து சாதனத்திலிருந்தும் அழிக்கப்படும்.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "எனக்கு மட்டும் நீக்குக"
@@ -3795,7 +3795,7 @@
     "messageformat": "அனைத்து டிவைஸ்களிலிருந்தும் நீக்குக"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "நீக்கு"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {அனைவருக்கும் நீக்க {count,number} மெசேஜை மட்டுமே நீங்கள் தேர்ந்தெடுக்க முடியும்} other {அனைவருக்கும் நீக்க {count,number} மெசேஜ்களை மட்டுமே நீங்கள் தேர்ந்தெடுக்க முடியும்}}"
@@ -4197,10 +4197,16 @@
     "messageformat": "பயனர் பெயர் எண்ணுடன் தொடங்க முடியாது."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "பயனர் பெயர்களில் குறைந்தபட்சம் {min,number} எழுத்துக்கள் இருக்க வேண்டும்."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "பயனர் பெயர்களில் அதிகபட்சம் {max,number} எழுத்துக்கள் இருக்க வேண்டும்."
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "தவறான பயனர் பெயர், குறைந்தபட்சம் 2 எண்களை உள்ளிடவும்."
@@ -4749,13 +4755,13 @@
     "messageformat": "உங்கள் இணைப்புகள் உங்கள் பெயரையும் புகைப்படத்தையும் பார்க்க முடியும், மேலும் \"மை ஸ்டோரி\"க்கான போஸ்டுகளை நீங்கள் அவர்களிடம் இருந்து மறைக்காதவரை பார்க்க முடியும்"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Deleting is synced across your devices"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "அறிந்துகொண்டேன்"
   },
   "icu:Stories__title": {
     "messageformat": "ஸ்டோரீஸ்"
@@ -5350,7 +5356,7 @@
     "messageformat": "''{query}' க்கான முடிவுகள் எதுவும் கிடைக்கவில்லை"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "அழைப்பு இணைப்பை உருவாக்கவும்"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "உள்வரும்"
@@ -5416,22 +5422,22 @@
     "messageformat": "சிக்னல் மூலம் இணைப்பைப் பகிர்க"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "அழைப்பு இணைப்பு விவரங்கள்"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "பெயர்"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "இணைக"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "அனைத்து உறுப்பினர்களையும் அங்கீகரிக்கவும்"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "அணை"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "இயக்கு"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {மேலும் {count,number} நபர் டைப் செய்கிறார்.} other {மேலும் {count,number} பேர் டைப் செய்கின்றனர்.}}"
@@ -5473,19 +5479,13 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "குழு அழைப்புகளின் போது ஒருவரின் கவனத்தை ஈர்ப்பதற்கான அல்லது ஒரு கேள்வியை கேட்பதற்கான எளிதான வழியாக கையை உயர்த்தும் புதிய அம்சம் உள்ளது."
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "இந்தப் புதுப்பிப்பில் படங்களின் அளவை மாற்றுவதற்கான மேம்படுத்தப்பட்ட க்ராப் கருவியும் உள்ளது."
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "குரல் குறிப்பை அனுப்புவதற்கு Ctrl/Cmd+Shift+Y என்ற விசைப்பலகை குறுக்குவழியை மாற்றியுள்ளோம், எனவே இது இனி விண்டோஸ் மற்றும் லினக்ஸில் \"பேஸ்ட் அண்ட் மேட்ச் ஸ்டைல்\" குறுக்குவழியுடன் முரண்படாது."
-  },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "ஒருவரின் சுயவிவரப் படத்தைப் பார்க்கும்போது சிக்னல் டெஸ்க்டாப் சாளரத்தின் அளவை மாற்றினால், தவறானத் தோற்ற விகிதத்துடன் படங்களைக் காண்பிக்கும் பிழையை நாங்கள் சரிசெய்துள்ளோம். நீங்கள் விரும்பும் நபர்களை அரவணைத்தால் மட்டுமே அவர்களை உற்று நோக்க வேண்டும்."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "இந்தப் புதுப்பிப்பு RTL மொழிகளில் மேற்கோள் காட்டப்பட்ட பதில்களின் காட்சியையும் மேம்படுத்துகிறது."
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
   }
 }

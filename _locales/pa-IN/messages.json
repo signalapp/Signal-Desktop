@@ -2372,15 +2372,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "ਚੈਟ ਨੂੰ ਪੜ੍ਹਿਆ ਗਿਆ ਵਜੋਂ ਚਿੰਨ੍ਹਿਤ ਕੀਤਾ ਗਿਆ"
   },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "ਕੀ ਤੁਸੀਂ Signal ਸਟਿੱਕਰ ਪੈਕ ਕ੍ਰੀਏਟਰ ਨੂੰ ਖੋਲ੍ਹਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "ਪੁਸ਼ਟੀ ਕਰੋ"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "ਖਾਰਜ ਕਰੋ"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "ਸਟਿੱਕਰ ਪੈਕ ਕ੍ਰੀਏਟਰ ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਫ਼ੋਨ ਅਤੇ ਡੈਸਕਟਾਪ ਉੱਤੇ Signal ਨੂੰ ਸੈੱਟ ਅੱਪ ਕਰੋ"
   },
@@ -2688,13 +2679,13 @@
     "messageformat": "ਰਿੰਗ ਬੰਦ ਹੈ"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "ਤੁਸੀਂ ਹੱਥ ਉੱਪਰ ਕੀਤਾ ਹੈ।"
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "ਤੁਸੀਂ ਅਤੇ {otherName} ਨੇ ਹੱਥ ਉੱਪਰ ਕੀਤਾ ਹੈ।"
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {ਤੁਸੀਂ, {otherName}, ਅਤੇ {overflowCount,number} ਹੋਰ ਵਿਅਕਤੀ ਨੇ ਹੱਥ ਉੱਪਰ ਕੀਤਾ ਹੈ।} other {ਤੁਸੀਂ, {otherName}, ਅਤੇ {overflowCount,number} ਹੋਰ ਲੋਕਾਂ ਨੇ ਹੱਥ ਉੱਪਰ ਕੀਤਾ ਹੈ।}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} ਨੇ ਹੱਥ ਉੱਪਰ ਕੀਤਾ ਹੈ।"
@@ -2780,26 +2771,32 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "ਵਿੰਡੋ"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact"
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "ਕਾਲ ਲਿੰਕ ਕਾਪੀ ਕਰੋ"
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "ਇਸ ਵਿਅਕਤੀ ਨੂੰ ਕਾਲ ਵਿੱਚੋਂ ਹਟਾਓ"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} ਵਿਅਕਤੀ} other {{count,number} ਲੋਕ}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "ਨਵੇਂ ਸੰਪਰਕਾਂ ਬਾਰੇ ਹੋਰ ਜਾਣਕਾਰੀ"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "ਕਿਸੇ ਕਾਲ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਤੋਂ ਪਹਿਲਾਂ ਤੁਸੀਂ ਸਿਰਫ਼ ਉਹਨਾਂ ਲੋਕਾਂ ਦੇ ਨਾਮ ਦੇਖ ਸਕਦੇ ਹੋ ਜਿਹਨਾਂ ਦਾ ਨੰਬਰ ਤੁਹਾਡੇ ਫ਼ੋਨ ਦੇ ਸੰਪਰਕਾਂ ਵਿੱਚ ਮੌਜੂਦ ਹੈ, ਜਿਹਨਾਂ ਨਾਲ ਤੁਸੀਂ ਇੱਕ ਗਰੁੱਪ ਵਿੱਚ ਹੋ ਜਾਂ ਜਿਹਨਾਂ ਲੋਕਾਂ ਨਾਲ ਤੁਸੀਂ ਸਿੱਧਾ ਚੈਟ ਕੀਤੀ ਹੈ। ਇੱਕ ਵਾਰ ਜਦੋਂ ਤੁਸੀਂ ਕਾਲ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋ ਜਾਂਦੇ ਹੋ ਤਾਂ ਤੁਹਾਨੂੰ ਸਾਰੇ ਨਾਮ ਅਤੇ ਫ਼ੋਟੋਆਂ ਦਿਖਾਈ ਦੇਣਗੀਆਂ।"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "ਸਮਝ ਗਏ"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "ਵੀਡੀਓ"
@@ -3512,6 +3509,9 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "ਗਰੁੱਪ ਵਿੱਚੋਂ ਹਟਾਓ"
   },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "ਚੈਟ ਦਾ ਰੰਗ"
   },
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {ਤੁਸੀਂ ਇਹ ਸੁਨੇਹਾ ਕਿਹੜੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਹਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?} other {ਤੁਸੀਂ ਇਹਨਾਂ ਸੁਨੇਹਿਆਂ ਨੂੰ ਕਿਹੜੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਹਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {ਇਹ ਸੁਨੇਹਾ ਤੁਹਾਡੇ ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।} other {ਇਹ ਸੁਨੇਹੇ ਤੁਹਾਡੇ ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤੇ ਜਾਣਗੇ।}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "ਮੇਰੇ ਲਈ ਮਿਟਾਓ"
@@ -3795,7 +3795,7 @@
     "messageformat": "ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਮਿਟਾਓ"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "ਮਿਟਾਓ"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {ਤੁਸੀਂ ਹਰੇਕ ਲਈ ਮਿਟਾਉਣ ਵਾਸਤੇ ਵੱਧ ਤੋਂ ਵੱਧ {count,number} ਸੁਨੇਹਾ ਚੁਣ ਸਕਦੇ ਹੋ} other {ਤੁਸੀਂ ਹਰੇਕ ਲਈ ਮਿਟਾਉਣ ਵਾਸਤੇ ਵੱਧ ਤੋਂ ਵੱਧ {count,number} ਸੁਨੇਹੇ ਚੁਣ ਸਕਦੇ ਹੋ}}"
@@ -4197,10 +4197,16 @@
     "messageformat": "ਵਰਤੋਂਕਾਰ ਨਾਂ ਅੰਕ ਨਾਲ ਸ਼ੁਰੂ ਨਹੀਂ ਹੋ ਸਕਦਾ ਹੈ।"
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "ਵਰਤੋਂਕਾਰ ਨਾਂ ਵਿੱਚ ਘੱਟ ਤੋਂ ਘੱਟ {min,number} ਅੱਖਰ ਹੋਣੇ ਲਾਜ਼ਮੀ ਹਨ।"
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "ਵਰਤੋਂਕਾਰ ਨਾਂ ਵਿੱਚ ਵੱਧ ਤੋਂ ਵੱਧ {max,number} ਅੱਖਰ ਹੋਣੇ ਲਾਜ਼ਮੀ ਹਨ।"
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "ਵਰਤੋਂਕਾਰ ਨਾਂ ਅਵੈਧ ਹੈ, ਘੱਟ ਤੋਂ ਘੱਟ 2 ਅੰਕ ਦਰਜ ਕਰੋ।"
@@ -4749,13 +4755,13 @@
     "messageformat": "ਤੁਹਾਡੇ ਕਨੈਕਸ਼ਨ ਤੁਹਾਡਾ ਨਾਮ ਅਤੇ ਫ਼ੋਟੋ ਦੇਖ ਸਕਦੇ ਹਨ ਅਤੇ \"ਮੇਰੀ ਸਟੋਰੀ\" ਵਿਚਲੀਆਂ ਪੋਸਟਾਂ ਦੇਖ ਸਕਦੇ ਹਨ, ਬਸ਼ਰਤੇ ਤੁਸੀਂ ਉਹਨਾਂ ਕੋਲੋਂ ਇਸ ਨੂੰ ਲੁਕਾਇਆ ਨਾ ਹੋਵੇ"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Deleting is synced across your devices"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "ਸਮਝ ਗਏ"
   },
   "icu:Stories__title": {
     "messageformat": "ਸਟੋਰੀਆਂ"
@@ -5350,7 +5356,7 @@
     "messageformat": "“{query}” ਲਈ ਕੋਈ ਨਤੀਜੇ ਨਹੀਂ ਮਿਲੇ"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "ਕਾਲ ਦਾ ਲਿੰਕ ਬਣਾਓ"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "ਇਨਕਮਿੰਗ ਕਾਲ"
@@ -5416,22 +5422,22 @@
     "messageformat": "Signal ਰਾਹੀਂ ਲਿੰਕ ਸਾਂਝਾ ਕਰੋ"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "ਕਾਲ ਲਿੰਕ ਵੇਰਵੇ"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "ਨਾਂ"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "ਸ਼ਾਮਲ ਹੋਵੋ"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "ਸਾਰੇ ਮੈਂਬਰਾਂ ਨੂੰ ਮਨਜ਼ੂਰੀ ਦਿਓ"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "ਬੰਦ"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "ਚਾਲੂ"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ਹੋਰ ਵਰਤੋਂਕਾਰ ਲਿਖ ਰਿਹਾ ਹੈ।} other {{count,number} ਹੋਰ ਵਰਤੋਂਕਾਰ ਲਿਖ ਰਹੇ ਹਨ।}}"
@@ -5473,19 +5479,13 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "★ ਨਵਾਂ ਹੱਥ ਉੱਪਰ ਕਰਨ ਵਾਲਾ ਫੀਚਰ ਗਰੁੱਪ ਕਾਲਾਂ ਦੌਰਾਨ ਕਿਸੇ ਦਾ ਧਿਆਨ ਖਿੱਚਣ ਜਾਂ ਸਵਾਲ ਪੁੱਛਣ ਦਾ ਇੱਕ ਸਰਲ ਤਰੀਕਾ ਹੈ।"
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "ਇਸ ਅੱਪਡੇਟ ਵਿੱਚ ਤਸਵੀਰਾਂ ਦਾ ਆਕਾਰ ਬਦਲਣ ਲਈ ਇੱਕ ਸੁਧਾਰਿਆ ਹੋਇਆ ਕ੍ਰੌਪ ਟੂਲ ਵੀ ਸ਼ਾਮਲ ਹੈ।"
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "ਅਸੀਂ ਵੌਇਸ ਨੋਟ ਭੇਜਣ ਲਈ ਕੀਬੋਰਡ ਸ਼ਾਰਟਕੱਟ ਨੂੰ Ctrl/Cmd+Shift+Y 'ਤੇ ਬਦਲ ਦਿੱਤਾ ਹੈ ਤਾਂ ਜੋ ਇਹ Windows ਅਤੇ Linux 'ਤੇ \"ਪੇਸਟ ਅਤੇ ਮੈਚ ਸਟਾਈਲ\" ਦੇ ਸ਼ਾਰਟਕੱਟ ਤੋਂ ਅਲੱਗ ਰਹੇ।"
-  },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "ਜਦੋਂ ਕਿਸੇ ਦੀ ਪ੍ਰੋਫਾਈਲ ਤਸਵੀਰ ਦੇਖਦੇ ਸਮੇਂ ਤੁਸੀਂ Signal Desktop ਵਿੰਡੋ ਦਾ ਆਕਾਰ ਬਦਲਦੇ ਸੀ ਤਾਂ ਗਲਤ ਅਨੁਪਾਤ ਵਿੱਚ ਚਿੱਤਰ ਦਿਖਾਈ ਦਿੰਦੇ ਸਨ, ਅਸੀਂ ਉਸ ਬੱਗ ਨੂੰ ਠੀਕ ਕੀਤਾ ਹੈ।"
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "ਇਹ ਅੱਪਡੇਟ ਸੱਜੇ-ਤੋਂ-ਖੱਬੇ ਵੱਲ ਲਿਖੀਆਂ ਜਾਣ ਵਾਲੀਆਂ ਭਾਸ਼ਾਵਾਂ ਲਈ ਹਵਾਲਾ ਦਿੰਦੇ ਹੋਏ ਦਿੱਤੇ ਜਵਾਬਾਂ ਦੀ ਡਿਸਪਲੇ ਵਿੱਚ ਵੀ ਸੁਧਾਰ ਕਰਦੀ ਹੈ।"
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
   }
 }

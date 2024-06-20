@@ -1437,7 +1437,7 @@
     "messageformat": "Activer le correcteur d’orthographe dans le champ de saisie des messages"
   },
   "icu:textFormattingDescription": {
-    "messageformat": "Montrer la fenêtre contextuelle de mise en forme du texte lorsque le texte est sélectionné"
+    "messageformat": "Afficher la fenêtre contextuelle de mise en forme lorsque du texte est sélectionné"
   },
   "icu:spellCheckWillBeEnabled": {
     "messageformat": "La vérification orthographique sera activée au prochain démarrage de Signal."
@@ -2211,7 +2211,7 @@
     "messageformat": "Ouvrir ou fermer la réponse au message sélectionné"
   },
   "icu:Keyboard--toggle-reaction-picker": {
-    "messageformat": "Ouvrir ou fermer le sélecteur de réaction-émoji pour le message sélectionné"
+    "messageformat": "Ouvrir ou fermer le sélecteur d’émoji pour le message sélectionné"
   },
   "icu:Keyboard--save-attachment": {
     "messageformat": "Enregistrer le fichier joint du message sélectionné"
@@ -2283,7 +2283,7 @@
     "messageformat": "Mettre le texte sélectionné en gras"
   },
   "icu:Keyboard--composer--italic": {
-    "messageformat": "Italiser le texte sélectionné"
+    "messageformat": "Mettre le texte sélectionné en italiques"
   },
   "icu:Keyboard--composer--strikethrough": {
     "messageformat": "Barrer le texte sélectionné"
@@ -2371,15 +2371,6 @@
   },
   "icu:conversationMarkedUnread": {
     "messageformat": "Conversation marquée comme non lue"
-  },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "Ouvrir l’outil de création de packs de stickers ?"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "Confirmer"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "Fermer"
   },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Pour utiliser l’outil de création de packs de stickers, configurez Signal sur votre téléphone et votre ordinateur"
@@ -2469,7 +2460,7 @@
     "messageformat": "Les membres pourront de nouveau vous ajouter à ce groupe."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
-    "messageformat": "Signalé comme indésirable et bloqué."
+    "messageformat": "Signalé comme spam et bloqué."
   },
   "icu:MessageRequests--block-direct-confirm-title": {
     "messageformat": "Bloquer {title} ?"
@@ -2484,7 +2475,7 @@
     "messageformat": "Ce groupe ne pourra plus vous envoyer de messages, ni vous tenir informé des dernières actualités, et ses membres ne pourront plus vous y ajouter."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
-    "messageformat": "Signaler..."
+    "messageformat": "Signaler"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-title": {
     "messageformat": "Signaler comme spam ?"
@@ -2688,13 +2679,13 @@
     "messageformat": "Sonnerie désactivée"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Vous avez levé la main."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Vous et {otherName} avez levé la main."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Vous et {otherName} avez levé la main, ainsi qu’{overflowCount,number} autre personne.} other {Vous et {otherName} avez levé la main, ainsi que {overflowCount,number} autres personnes.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} a levé la main."
@@ -2780,26 +2771,32 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "Une fenêtre"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact"
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Copier le lien d’appel"
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Retirer cet utilisateur de l’appel"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} personne} other {{count,number} personnes}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Plus d’infos sur les nouveaux contacts"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Avant de rejoindre un appel, seuls les noms de certaines personnes s’affichent : contacts de votre téléphone, utilisateurs faisant partie des mêmes groupes que vous ou avec qui vous avez discuté en privé. Les noms et les photos de tous les participants s’affichent une fois que vous avez rejoint l’appel."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "J’ai compris"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Vidéo"
@@ -3453,7 +3450,7 @@
     "messageformat": "Faire un don à Signal"
   },
   "icu:BadgeSustainerInstructions__subheader": {
-    "messageformat": "Signal est alimenté par des gens comme vous. Contribuez et recevez un macaron."
+    "messageformat": "Signal dépend de personnes comme vous. Donnez-nous un coup de pouce et recevez un macaron."
   },
   "icu:BadgeSustainerInstructions__instructions__1": {
     "messageformat": "Ouvrez Signal sur votre téléphone"
@@ -3511,6 +3508,9 @@
   },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Retirer du groupe"
+  },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Couleur de la conversation"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {De quels appareils voulez-vous supprimer ce message ?} other {De quels appareils voulez-vous supprimer ces messages ?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Ce message sera supprimé de tous vos appareils.} other {Ces messages seront supprimés de tous vos appareils.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Supprimer pour moi"
@@ -3795,7 +3795,7 @@
     "messageformat": "Supprimer de tous les appareils"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Supprimer"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Vous ne pouvez sélectionner qu’un maximum de {count,number} message à supprimer pour tous.} other {Vous ne pouvez sélectionner qu’un maximum de {count,number} messages à supprimer pour tous.}}"
@@ -3921,7 +3921,7 @@
     "messageformat": "{count, plural, one {{count,number} membre du groupe porte le même nom. <reviewRequestLink>Examiner les membres</reviewRequestLink>} other {{count,number} membres du groupe portent le même nom. <reviewRequestLink>Examiner les membres</reviewRequestLink>}}"
   },
   "icu:ContactSpoofing__same-names-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} cas de nom dupliqué a été constaté dans ce groupe. <reviewRequestLink>Examiner les membres</reviewRequestLink>} other {{count,number} cas de nom dupliqué ont été constatés dans ce groupe. <reviewRequestLink>Examiner les membres</reviewRequestLink>}}"
+    "messageformat": "{count, plural, one {Nous avons trouvé {count,number} conflit de noms dans ce groupe. <reviewRequestLink>Vérifiez les membres</reviewRequestLink>} other {Nous avons trouvé {count,number} conflits de noms dans ce groupe. <reviewRequestLink>Vérifiez les membres</reviewRequestLink>}}"
   },
   "icu:ContactSpoofingReviewDialog__title": {
     "messageformat": "Examiner la demande"
@@ -3942,7 +3942,7 @@
     "messageformat": "{count, plural, one {{count,number} membre du groupe porte le même nom. Examinez-le ci-dessous et choisissez l’action appropriée.} other {{count,number} membres du groupe portent le même nom. Examinez la liste ci-dessous et choisissez l’action appropriée.}}"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
-    "messageformat": "{count, plural, one {{count,number} cas de nom dupliqué a été constaté dans ce groupe. Examinez les membres ci-dessous ou agissez dès maintenant.} other {{count,number} cas de nom dupliqué ont été constatés dans ce groupe. Examinez les membres ou agissez dès maintenant.}}"
+    "messageformat": "{count, plural, one {Nous avons trouvé {count,number} conflit de noms dans ce groupe. Vérifiez les membres ci-dessous et choisissez l’action appropriée.} other {Nous avons trouvé {count,number} conflits de noms dans ce groupe. Vérifiez les membres ci-dessous et choisissez l’action appropriée.}}"
   },
   "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
     "messageformat": "Aucun autre groupe en commun"
@@ -3966,7 +3966,7 @@
     "messageformat": "Vérifier pour continuer à communiquer"
   },
   "icu:CaptchaDialog__first-paragraph": {
-    "messageformat": "Pour aider à prévenir les indésirables sur Signal, veuillez procéder à la confirmation."
+    "messageformat": "Pour lutter contre le spam sur Signal, merci de terminer la vérification."
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "Après la vérification, vous pourrez continuer à communiquer. Tous les messages en attente seront automatiquement envoyés."
@@ -4026,7 +4026,7 @@
     "messageformat": "Une autre bulle"
   },
   "icu:ChatColorPicker__sampleBubble3": {
-    "messageformat": "La couleur n’est visible que par vous."
+    "messageformat": "Vous seul pouvez voir cette couleur."
   },
   "icu:ChatColorPicker__context--edit": {
     "messageformat": "Modifier la couleur"
@@ -4113,10 +4113,10 @@
     "messageformat": "Lire la suite"
   },
   "icu:EditConversationAttributesModal__description-warning": {
-    "messageformat": "Les descriptions de groupe seront visibles aux membres de ce groupe et aux personnes qui ont été invitées."
+    "messageformat": "La description du groupe sera visible aux membres de ce groupe et aux personnes invitées."
   },
   "icu:ConversationDetailsHeader--add-group-description": {
-    "messageformat": "Ajouter une description au groupe…"
+    "messageformat": "Ajouter une description du groupe…"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Sélectionner la qualité des médias"
@@ -4197,10 +4197,16 @@
     "messageformat": "Un nom d’utilisateur ne peut pas commencer par un chiffre."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Le nom d’utilisateur doit comporter au moins {min,number} caractères."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Le nom d’utilisateur doit comporter au maximum {max,number} caractères."
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Nom d’utilisateur non valide. Veuillez saisir au moins 2 chiffres."
@@ -4560,7 +4566,7 @@
     "messageformat": "L’application a planté"
   },
   "icu:CrashReportDialog__body": {
-    "messageformat": "Signal a redémarré après un plantage. Vous pouvez envoyer un rapport de plantage pour aider Signal à enquêter sur le problème."
+    "messageformat": "Signal a planté et redémarré. Vous pouvez envoyer un rapport d’erreur pour nous aider à analyser le problème."
   },
   "icu:CrashReportDialog__submit": {
     "messageformat": "Envoyer"
@@ -4686,7 +4692,7 @@
     "messageformat": "{sender} a initié une procédure de paiement pour vous"
   },
   "icu:payment-event-activation-request-label": {
-    "messageformat": "{sender} souhaite que vous activiez les paiements. Envoyez des paiements uniquement aux personnes en qui vous avez confiance. Les paiements peuvent être activés depuis votre téléphone mobile en vous rendant dans Paramètres -> Paiements."
+    "messageformat": "{sender} souhaite que vous activiez les paiements. N’envoyez de paiements qu’aux personnes en qui vous avez confiance. Vous pouvez activer les paiements depuis votre téléphone mobile via <strong>Paramètres</strong> > <strong>Paiements</strong>."
   },
   "icu:payment-event-activation-request-you-label": {
     "messageformat": "Vous avez envoyé une demande d’activation des paiements à {receiver}"
@@ -4749,13 +4755,13 @@
     "messageformat": "Vos contacts peuvent voir votre nom et votre photo de profil. Ils peuvent aussi afficher vos stories, sauf si vous décidez de les masquer."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Deleting is synced across your devices"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "J’ai compris"
   },
   "icu:Stories__title": {
     "messageformat": "Stories"
@@ -4773,7 +4779,7 @@
     "messageformat": "Photo ou vidéo"
   },
   "icu:Stories__hidden-stories": {
-    "messageformat": "Stories cachées"
+    "messageformat": "Stories masquées"
   },
   "icu:Stories__list-empty": {
     "messageformat": "Aucune story récente à afficher pour le moment"
@@ -5350,7 +5356,7 @@
     "messageformat": "Aucun résultat pour « {query} »"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Générer un lien d’appel"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Entrant"
@@ -5416,22 +5422,22 @@
     "messageformat": "Partager le lien via Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Détails du lien d’appel"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Nom"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Rejoindre"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Approuver tous les membres"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Désactivé"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Activé"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} autre personne est en train d’écrire.} other {{count,number} autres personnes sont en train d’écrire.}}"
@@ -5473,19 +5479,13 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Vous rêviez d’un autre moyen de communiquer lors des appels de groupe ? La nouvelle fonctionnalité « Lever la main » est faite pour vous : elle vous permet d’attirer l’attention des participants, de poser des questions et même de voter pour prendre une décision en groupe."
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "Adieu, le bug de l’outil de recadrage. Il devient bien plus simple de faire disparaître votre ex (ou votre belle-mère, ou l’ex de votre belle-mère…) de vos photos."
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "Le raccourci clavier qui permet d’envoyer un message vocal devient Ctrl/Cmd+Maj+Y. Cela évite de le confondre avec le raccourci « Reproduire la mise en forme » sous Windows et Linux."
-  },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Et encore un bug corrigé ! Vous avez peut-être remarqué en modifiant la taille de la fenêtre Signal Desktop que les photos de profil devenaient disproportionnées. Mais personne n’aime avoir l’air déformé (sans vouloir offenser les fans de caricatures !)."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Bonne nouvelle pour les polyglottes : dans les langues qui se lisent de droite à gauche, les réponses aux messages s’affichent désormais bien mieux."
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
   }
 }

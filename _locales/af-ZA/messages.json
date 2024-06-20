@@ -2372,15 +2372,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "Klets as ongelees gemerk"
   },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "Wil jy die Signal-plakkerpakket-skepper oopmaak?"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "Bevestig"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "Wys weg"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Stel Signal op jou foon en tafelblad in om die Plakkerpakket-skepper te gebruik"
   },
@@ -2688,13 +2679,13 @@
     "messageformat": "Lui afgeskakel"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Jy het 'n hand opgesteek."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Jy en {otherName} het 'n hand opgesteek."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Jy, {otherName} en nog {overflowCount,number} het 'n hand opgesteek.} other {Jy, {otherName} en nog {overflowCount,number} het 'n hand opgesteek.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} het 'n hand opgesteek."
@@ -2780,26 +2771,32 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "'n Venster"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact"
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Kopieer oproepskakel"
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Verwyder hierdie persoon uit die oproep"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} mens} other {{count,number} mense}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Meer inligting oor nuwe kontakte"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Voordat jy by 'n oproep aansluit, kan jy slegs die name van telefoonkontakte sien, mense saam met wie jy in 'n groep is, of mense met wie jy 1:1 gesels het. Jy sal alle name en foto's sien sodra jy by die oproep aangesluit het."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Ek verstaan"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3512,6 +3509,9 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Verwyder uit groep"
   },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Kletskleur"
   },
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {Van watter toestelle wil jy hierdie boodskap skrap?} other {Van watter toestelle wil jy hierdie boodskappe skrap?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Hierdie boodskap sal van al jou toestelle geskrap word.} other {Hierdie boodskappe sal van al jou toestelle geskrap word.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Skrap vir my"
@@ -3795,7 +3795,7 @@
     "messageformat": "Skrap van alle toestelle"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Skrap"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Jy kan slegs tot {count,number} boodskap kies om vir almal uit te vee} other {Jy kan slegs tot {count,number} boodskappe kies om vir almal uit te vee}}"
@@ -4197,10 +4197,16 @@
     "messageformat": "Gebruikersname kan nie met 'n syfer begin nie."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Gebruikersname moet minstens {min,number} karakters bevat."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Gebruikersname moet hoogstens {max,number} karakters bevat."
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Ongeldige gebruikersnaam, voer 'n minimum van 2 syfers in."
@@ -4749,13 +4755,13 @@
     "messageformat": "Jou verbindings kan jou naam en foto sien, en kan plasings in \"My Storie\" sien, tensy jy dit vir hulle versteek."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Deleting is synced across your devices"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Ek verstaan"
   },
   "icu:Stories__title": {
     "messageformat": "Stories"
@@ -5350,7 +5356,7 @@
     "messageformat": "Geen resultate vir \"{query}\" nie"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Skep 'n Oproepskakel"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Inkomend"
@@ -5416,22 +5422,22 @@
     "messageformat": "Deel skakel d.m.v. Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Oproepskakelbesonderhede"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Naam"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Sluit aan"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Keur alle lede goed"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Af"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Aan"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ander persoon is besig om te tik.} other {{count,number} ander persone is besig om te tik.}}"
@@ -5473,19 +5479,13 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Steek jou hand op as jy na 'n ander manier gesoek het om tydens groepoproepe te kommunikeer. Die nuwe Handopsteek-kenmerk is 'n eenvoudige manier om iemand se aandag te trek, 'n vraag te vra of eenparig vir 'n groepvoorstel te stem wanneer jou vriend vra, \"Almal ten gunste daarvan?\""
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "Hierdie opdatering sluit 'n verbeterde \"snoei\"-hulpmiddel in om foto's of prente kleiner te knip."
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "Ons het die sleutelbord-kortpad vir die stuur van 'n stemboodskap gewysig na Ctrl/Cmd+Shift+Y sodat dit nie meer met die \"Plak en Pas Styl Aan\"-kortpad op Windows en Linux bots nie."
-  },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Ons het 'n fout herstel wat beelde in die verkeerde beeldverhouding vertoon het as jy die grootte van die Signal Desktop-venster verander het terwyl jy iemand se profielfoto bekyk het."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Hierdie opdatering verbeter ook die vertoon van aangehaalde antwoorde in regs-na-links-tale."
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
   }
 }

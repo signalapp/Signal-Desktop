@@ -2372,15 +2372,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "聊天已標記為未讀"
   },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "你要開啟 Signal 貼圖包製作器嗎？"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "確認"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "忽略"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "請在手機和桌上型電腦設定 Signal 以使用貼圖包編輯器"
   },
@@ -2688,13 +2679,13 @@
     "messageformat": "關閉響鈴"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "你舉了手。"
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "你和{otherName}舉了手。"
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, other {你、{otherName}和另外 {overflowCount,number} 個人舉了手。}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} 舉了手。"
@@ -2780,26 +2771,32 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "一個視窗"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact"
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "複製通話連結"
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "將此人從通話中移除"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, other {{count,number} 人}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "有關新聯絡人的更多資料"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "加入通話之前，你只能看到電話聯絡人、與你同群組的成員或與你進行 1:1 聊天者的姓名。加入通話後，你將看到所有姓名和照片。"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "收到"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "影片"
@@ -3512,6 +3509,9 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "從群組中移除"
   },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "聊天的顏色"
   },
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, other {你想從哪些裝置刪除這些訊息？}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, other {這些訊息將會從你所有裝置中永久刪除。}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "為我刪除"
@@ -3795,7 +3795,7 @@
     "messageformat": "從所有裝置中刪除"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "刪除"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {你只能為所有人選取最多 {count,number} 則要刪除的訊息}}"
@@ -4197,10 +4197,16 @@
     "messageformat": "用戶名稱不得以數字開首。"
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "用戶名稱必須至少包含 {min,number} 個字符。"
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "使用者名稱最多只能包含{max,number}個字符。"
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "無效的用戶名稱，輸入至少 2 位數。"
@@ -4749,13 +4755,13 @@
     "messageformat": "除非你選擇隱藏，否則你的聯絡人能看到你的名稱、照片和「我的限時動態」貼文"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Deleting is synced across your devices"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "收到"
   },
   "icu:Stories__title": {
     "messageformat": "報導"
@@ -5350,7 +5356,7 @@
     "messageformat": "沒有符合「{query}」的結果"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "建立通話連結"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "來電"
@@ -5416,22 +5422,22 @@
     "messageformat": "透過 Signal 分享連結"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "通話連結詳情"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "姓名"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "加入"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "批准全部成員"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "關"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "開"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {其他 {count,number} 個人正在打字。}}"
@@ -5473,19 +5479,13 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "如果你一直尋找在群組通話期間的其他溝通方式，請「舉手」。新的「舉手」功能是一種簡單的方法，用來引起注意、提出問題或在小組提案時投一致贊成票。"
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "我們修復了裁剪工具中的錯誤，現在可以更輕鬆、更直觀地將任何東西從照片中刪除。"
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "我們將發送語音備註的鍵盤快捷鍵修改為 Ctrl/Cmd+Shift+Y，使其不再與 Windows 和 Linux 上「貼上並配合樣式」的快捷鍵產生衝突。"
-  },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "我們修復了一個錯誤，就是如果你在查看某人的個人資料圖像時調整了 Signal 桌面版視窗的大小，則會顯示長寬比錯誤的圖像。"
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "此更新還改進了從右到左 (RTL) 語言中引用回覆的顯示。"
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
   }
 }

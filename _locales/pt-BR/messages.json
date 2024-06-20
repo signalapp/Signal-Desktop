@@ -2372,15 +2372,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "Chat marcado como não lido"
   },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "Gostaria de abrir o criador de pacotes de figurinhas do Signal?"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "Confirmar"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "Ignorar"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Configure o Signal no seu telefone e desktop para usar o Criador de pacote de figurinhas"
   },
@@ -2688,13 +2679,13 @@
     "messageformat": "Toque desligado"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Você levantou a mão."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Você e {otherName} levantaram a mão."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Você, {otherName} e mais {overflowCount,number} pessoa levantaram a mão.} other {Você, {otherName} e outras {overflowCount,number} pessoas levantaram a mão.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} levantou a mão."
@@ -2780,26 +2771,32 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "Uma janela"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact"
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Copiar link da chamada"
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Remover esta pessoa da chamada"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} pessoa} other {{count,number} pessoas}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Mais informações sobre novos contatos"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Antes de entrar na chamada, você verá apenas os nomes dos contatos do seu telefone, das pessoas que estão nos mesmos grupos que você ou com quem conversou individualmente. Todos os nomes e fotos ficarão disponíveis somente após entrar na chamada."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Entendi"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Vídeo"
@@ -3512,6 +3509,9 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Excluir do grupo"
   },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Cor do chat"
   },
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {Em quais dispositivos você quer excluir essa mensagem?} other {Em quais dispositivos você quer excluir essas mensagens?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Esta mensagem será apagada de todos os seus dispositivos.} other {Estas mensagens serão apagadas de todos os seus dispositivos.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Excluir para mim"
@@ -3795,7 +3795,7 @@
     "messageformat": "Excluir de todos dispositivos"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Apagar"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Você só pode selecionar até {count,number} mensagem para excluir para todos} other {Você só pode selecionar até {count,number} mensagens para excluir para todos}}"
@@ -4197,10 +4197,16 @@
     "messageformat": "Os nomes de usuários não podem começar com um número."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Nomes de usuário devem ter pelo menos {min,number} caracteres."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Os nomes de usuário devem ter no máximo {max,number} caracteres."
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Nome de usuário inválido, insira no mínimo 2 dígitos."
@@ -4749,13 +4755,13 @@
     "messageformat": "Seus contatos conseguem ver seu nome, foto e publicações nos seus stories, a menos que você oculte esse conteúdo"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Deleting is synced across your devices"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Entendi"
   },
   "icu:Stories__title": {
     "messageformat": "Stories"
@@ -5350,7 +5356,7 @@
     "messageformat": "Nenhum resultado encontrado para “{query}”"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Criar um link de chamada"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Recebida"
@@ -5416,22 +5422,22 @@
     "messageformat": "Compartilhar link via Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Detalhes do link de chamada"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Nome"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Participar"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Aprovar todos os membros"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Desligado"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Ligado"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} outra pessoa está digitando.} other {{count,number} outras pessoas estão digitando.}}"
@@ -5473,19 +5479,13 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Levante a mão se você estiver procurando outra maneira de se comunicar durante as chamadas em grupo. O recurso \"Levantar a Mão\" é perfeito para chamar a atenção de alguém, tirar dúvidas ou votar em grupo de forma unânime quando um amigo perguntar: 'Todos a favor?"
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "Acabamos com um bug na ferramenta de recorte! Agora ficou mais fácil e intuitivo tirar seu ex (ou qualquer outra coisa) da foto."
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "Modificamos o atalho de teclado de enviar mensagens de voz para Ctrl/Cmd+Shift+Y, evitando conflito com o atalho 'Colar e Manter Estilo' no Windows e Linux."
-  },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Corrigimos um bug que exibia imagens com a proporção errada ao redimensionar a janela do Signal Desktop durante a visualização da foto de perfil de alguém. As pessoas que você ama não vão mais parecer espremidas, a menos que você as esteja abraçando, é claro."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Essa atualização também melhora a exibição de respostas citadas em idiomas com leitura da direita para esquerda."
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
   }
 }
