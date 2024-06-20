@@ -321,7 +321,7 @@
     "messageformat": "Chat verwijderen"
   },
   "icu:ContactListItem__menu": {
-    "messageformat": "Contacten beheren"
+    "messageformat": "Contact beheren"
   },
   "icu:ContactListItem__menu__message": {
     "messageformat": "Bericht"
@@ -687,7 +687,7 @@
     "messageformat": "Chats"
   },
   "icu:contactsHeader": {
-    "messageformat": "Contact"
+    "messageformat": "Contacten"
   },
   "icu:groupsHeader": {
     "messageformat": "Groepen"
@@ -2372,15 +2372,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "Chat gemarkeerd als ongelezen"
   },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "Wil je de Signal Sticker Pack Creator openen?"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "Bevestigen"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "Sluiten"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Je moet eerst Signal in gebruik nemen op je telefoon en op je desktop voor je de stickermaker kunt gebruiken"
   },
@@ -2484,7 +2475,7 @@
     "messageformat": "Je zult niet langer berichten of meldingen van deze groep ontvangen, en de leden kunnen je niet opnieuw aan de groep toevoegen."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
-    "messageformat": "Rapporteren…"
+    "messageformat": "Rapporteren"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-title": {
     "messageformat": "Spam melden?"
@@ -2688,22 +2679,22 @@
     "messageformat": "Bellen uit"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Je steekt je hand op."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Jij en {otherName} steken een hand op."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Jij, {otherName} en {overflowCount,number} ander steken een hand op.} other {Jij, {otherName} en {overflowCount,number} anderen steken een hand op.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
-    "messageformat": "{name} steekt hand op."
+    "messageformat": "{name} steekt een hand op."
   },
   "icu:CallControls__RaiseHandsToast--two": {
-    "messageformat": "{name} en {otherName} steken hun hand op."
+    "messageformat": "{name} en {otherName} steken een hand op."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{overflowCount, plural, one {{name}, {otherName} en {overflowCount,number} steken hun hand op.} other {{name}, {otherName} en {overflowCount,number} steken hun hand op.}}"
+    "messageformat": "{overflowCount, plural, one {{name}, {otherName} en {overflowCount,number} ander steken een hand op.} other {{name}, {otherName} en {overflowCount,number} anderen steken een hand op.}}"
   },
   "icu:CallControls__RaiseHands--open-queue": {
     "messageformat": "Wachtrij openen"
@@ -2780,26 +2771,32 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "Een bepaald venster"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact"
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Oproeplink kopiëren"
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Deze persoon uit de oproep verwijderen"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} persoon} other {{count,number} personen}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Meer info over nieuwe contacten"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Voordat je deelneemt aan een oproep, kun je alleen de namen zien van telefooncontacten, mensen met wie je in een groep zit of mensen met wie je 1:1 hebt gechat. Je ziet alle namen en profielfoto's zodra je deelneemt aan de oproep."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Begrepen"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3512,6 +3509,9 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Uit de groep verwijderen"
   },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Chatkleur"
   },
@@ -3573,7 +3573,7 @@
     "messageformat": "Kies wie berichten aan de groep mogen verzenden en oproepen mogen beginnen."
   },
   "icu:ConversationDetails--requests-and-invites": {
-    "messageformat": "Verzoeken & uitnodiging"
+    "messageformat": "Verzoeken & uitnodigingen"
   },
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Groep verlaten"
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {Van welk apparaat wil je dit bericht verwijderen?} other {Van welke apparaten wil je deze berichten verwijderen?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Dit bericht wordt op al je apparaten verwijderd.} other {Deze berichten worden op al je apparaten verwijderd.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Verwijderen voor mezelf"
@@ -3795,7 +3795,7 @@
     "messageformat": "Verwijderen van alle apparaten"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Verwijderen"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Je kunt maximaal {count,number} bericht selecteren om voor iedereen te verwijderen} other {Je kunt maximaal {count,number} berichten selecteren om voor iedereen te verwijderen}}"
@@ -4197,10 +4197,16 @@
     "messageformat": "Gebruikersnamen mogen niet met een cijfer beginnen."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Gebruikersnamen moeten uit minimaal {min,number} karakters bestaan."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Gebruikersnamen mogen uit maximaal {max,number} karakters bestaan."
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Ongeldige gebruikersnaam, voer minimaal 2 cijfers in."
@@ -4749,13 +4755,13 @@
     "messageformat": "Je Signal-contacten kunnen jouw profielnaam, -foto en -omschrijving zien en kunnen zien wat je deelt in ‘Mijn verhaal’ tenzij je dat voor hen verbergt."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Deleting is synced across your devices"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Begrepen"
   },
   "icu:Stories__title": {
     "messageformat": "Verhalen"
@@ -5350,7 +5356,7 @@
     "messageformat": "Geen resultaten voor ‘{query}’"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Oproeplink maken"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Inkomend"
@@ -5416,22 +5422,22 @@
     "messageformat": "Link delen via Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Oproeplinkdetails"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Naam"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Deelnemen"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Alle deelnemers goedkeuren"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Uit"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Aan"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ander is aan het typen.} other {{count,number} anderen zijn aan het typen.}}"
@@ -5473,19 +5479,13 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Steek je hand op als je op zoek bent naar een andere manier om te communiceren tijdens groepsoproepen. De nieuwe functionaliteit van Hand opsteken maakt het gemakkelijk iemands aandacht te vragen, een vraag te stellen of te stemmen voor een groepsvoorstel als je contact vraagt “iedereen voor”?"
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We hebben een bug verwijderd in de tool voor bijsnijden. Je kunt nu gemakkelijk en intuïtief je ex (of iets anders) uit een foto verwijderen."
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We hebben de sneltoets voor het verzenden van een spraakbericht aangepast naar Ctrl/Cmd+Shift+Y. Deze conflicteert nu niet langer met de sneltoets voor ‘Plakken en stijl overnemen’ in Windows en Linux."
-  },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "We hebben een bug opgelost waarbij profielfoto's met de verkeerde beeldverhouding werden weergegeven wanneer je het Signal Desktop-venster schaalde. Je wilt natuurlijk wel een goede verhouding houden met je vrienden."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Deze update verbetert ook de weergave van geciteerde antwoorden in RTL-talen."
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
   }
 }

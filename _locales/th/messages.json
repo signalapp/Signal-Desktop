@@ -2372,15 +2372,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "แชทถูกทำเครื่องหมายว่ายังไม่ได้อ่าน"
   },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "คุณต้องการเปิดหน้าศูนย์สร้างสรรค์ชุดสติกเกอร์ Signal (Sticker Pack Creator) หรือไม่"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "ยืนยัน"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "ปิด"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "กรุณาติดตั้ง Signal บนมือถือและเดสก์ท็อป เพื่อใช้งานศูนย์สร้างสรรค์ชุดสติกเกอร์ (Sticker Pack Creator)"
   },
@@ -2688,13 +2679,13 @@
     "messageformat": "การส่งเสียงเรียกสายปิดอยู่"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "คุณยกมือ"
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "คุณและ {otherName} ยกมือ"
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, other {คุณ, {otherName} และอีก {overflowCount,number} คนยกมือ}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} ยกมือ"
@@ -2780,26 +2771,32 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "หน้าต่าง"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact"
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "คัดลอกลิงก์การโทร"
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "ลบผู้ใช้คนนี้ออกจากการโทร"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, other {{count,number} คน}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "ข้อมูลเพิ่มเติมเกี่ยวกับผู้ติดต่อใหม่"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "ก่อนเข้าร่วมการโทร คุณจะเห็นเฉพาะชื่อของผู้ติดต่อที่บันทึกไว้ในโทรศัพท์ รวมถึงผู้ใช้ที่เป็นสมาชิกในกลุ่มเดียวกับคุณ และคนที่คุณเคยแชทส่วนตัวด้วย โดยคุณจะเห็นชื่อและรูปภาพของสมาชิกทุกคนเมื่อเข้าร่วมการโทรแล้ว"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "เข้าใจแล้ว"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "วิดีโอ"
@@ -3512,6 +3509,9 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "ลบจากกลุ่ม"
   },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "สีแชท"
   },
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, other {คุณต้องการลบข้อความนี้จากอุปกรณ์เครื่องใด}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, other {ข้อความนี้จะถูกลบออกจากอุปกรณ์ทุกเครื่องของคุณ}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "ลบของฉัน"
@@ -3795,7 +3795,7 @@
     "messageformat": "ลบจากอุปกรณ์ทุกเครื่อง"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "ลบ"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {คุณสามารถเลือกลบข้อความสำหรับทุกคนได้สูงสุด {count,number} ข้อความ}}"
@@ -4197,10 +4197,16 @@
     "messageformat": "ชื่อผู้ใช้ไม่สามารถเริ่มต้นด้วยตัวเลข"
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "ชื่อผู้ใช้ต้องมีอักขระอย่างน้อย {min,number} ตัว"
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "ชื่อผู้ใช้มีอักขระได้มากสุด {max,number} ตัว"
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "ชื่อผู้ใช้ไม่ถูกต้อง ต้องกรอกตัวเลขอย่างน้อย 2 หลัก"
@@ -4749,13 +4755,13 @@
     "messageformat": "เครือข่ายของคุณจะสามารถมองเห็นชื่อและรูปภาพของคุณ รวมถึงโพสต์ใน \"สตอรี่ของฉัน\" เว้นแต่ว่าคุณจะซ่อนสตอรี่นั้นจากพวกเขา"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Deleting is synced across your devices"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "เข้าใจแล้ว"
   },
   "icu:Stories__title": {
     "messageformat": "สตอรี่"
@@ -5350,7 +5356,7 @@
     "messageformat": "ไม่พบผลลัพธ์สำหรับ “{query}”"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "สร้างลิงก์การโทร"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "โทรเข้า"
@@ -5416,22 +5422,22 @@
     "messageformat": "แชร์ลิงก์ผ่าน Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "รายละเอียดลิงก์การโทร"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "ชื่อ"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "เข้าร่วม"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "อนุมัติสำหรับสมาชิกทุกคน"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "ปิด"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "เปิด"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {อีก {count,number} คนกำลังพิมพ์}}"
@@ -5473,19 +5479,13 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "ขอแนะนำฟีเจอร์การยกมือ วิธีใหม่ที่จะช่วยให้คุณตั้งคำถามในระหว่างการโทรกลุ่มได้ง่ายดาย (หรือจะใช้เรียกความสนใจของเพื่อน ก่อนประกาศเรื่องสำคัญๆ ก็สะดวกไม่แพ้กัน)"
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "การอัปเดตครั้งนี้ยังมาพร้อมการยกระดับเครื่องมือครอบตัดขึ้นอีกขั้น เพื่อตอบโจทย์ให้การปรับขนาดรูปภาพง่ายยิ่งขึ้นอีก"
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "เราแก้ไขปุ่มลัดบนแป้นพิมพ์สำหรับการส่งข้อความเสียงให้เป็น Ctrl/Cmd Shift Y เพื่อไม่ให้ซ้ำกับปุ่มลัด \"วางและให้รูปแบบตรงกัน\" (Paste and Match Style) ของ Windows และ Linux"
-  },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "เราแก้ไขบั๊กที่ทำให้การแสดงรูปภาพดูผิดอัตราส่วนในกรณีที่มีการปรับขนาดหน้าต่าง Signal เดสก์ท็อประหว่างที่เปิดดูรูปโปรไฟล์ของผู้ติดต่อ"
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "การอัปเดตนี้ยังมาพร้อมการปรับปรุงหน้าตาของการตอบกลับข้อความสำหรับภาษาที่อ่านจากขวาไปซ้ายอีกด้วย"
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
   }
 }

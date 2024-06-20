@@ -2372,15 +2372,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "Chatt markerad oläst"
   },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "Vill du öppna Skapare för Signal-klistermärkespaket?"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "Bekräfta"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "Avfärda"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Ställ in Signal på din telefon och ditt skrivbord för att använda skaparen av klistermärkespaket"
   },
@@ -2688,13 +2679,13 @@
     "messageformat": "Ringsignal av"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Du räcker upp handen."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Du och {otherName} räcker upp handen."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Du, {otherName} och {overflowCount,number} till räcker upp handen.} other {Du, {otherName} och {overflowCount,number} till räcker upp handen.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} räcker upp handen."
@@ -2780,26 +2771,32 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "Ett fönster"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact"
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Kopiera samtalslänk"
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Ta bort den här personen från samtalet"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} personer}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Mer information om nya kontakter"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Innan du går med i ett samtal kan du bara se namnen på telefonkontakter, personer som är med i samma grupp som du eller personer som du har chattat med privat. Du ser alla namn och foton när du är ansluten till samtalet."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Uppfattat"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3512,6 +3509,9 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Ta bort från grupp"
   },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Chattfärg"
   },
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {Vilka enheter vill du ta bort det här meddelandet från?} other {Vilka enheter vill du ta bort de här meddelandena från?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Detta meddelande kommer att raderas från alla dina enheter.} other {Dessa meddelanden kommer att raderas från alla dina enheter.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Ta bort för mig"
@@ -3795,7 +3795,7 @@
     "messageformat": "Ta bort från alla enheter"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Ta bort"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Du kan bara välja upp till {count,number} meddelande som ska tas bort för alla} other {Du kan bara välja upp till {count,number} meddelanden som ska tas bort för alla}}"
@@ -4197,10 +4197,16 @@
     "messageformat": "Användarnamn kan inte börja med en siffra."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Användarnamn måste ha minst {min,number} tecken."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Användarnamn får högst ha {max,number} tecken."
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Ogiltigt användarnamn. Ange minst 2 siffror"
@@ -4749,13 +4755,13 @@
     "messageformat": "Dina förbindelser kan se ditt namn och foto, och kan se inlägg på \"Min Story\" om du inte döljer det från dem."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Deleting is synced across your devices"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Uppfattat"
   },
   "icu:Stories__title": {
     "messageformat": "Stories"
@@ -5350,7 +5356,7 @@
     "messageformat": "Inga resultat för ”{query}”"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Skapa en samtalslänk"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Inkommande"
@@ -5416,22 +5422,22 @@
     "messageformat": "Dela länk via Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Uppgifter om samtalslänk"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Namn"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Gå med"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Godkänn alla medlemmar"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Av"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "På"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} annan skriver.} other {{count,number} andra skriver.}}"
@@ -5473,19 +5479,13 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Den nya funktionen Räck upp handen är ett enkelt sätt att få någons uppmärksamhet eller ställa en fråga under gruppsamtal."
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "Denna uppdatering innehåller också ett förbättrat beskärningsverktyg för att ändra storlek på bilder."
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "Vi har ändrat kortkommandot för att skicka en röstanteckning till Ctrl/Cmd + Shift + Y så att det inte längre står i konflikt med kortkommandot Klistra in och matcha stil i Windows och Linux."
-  },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Vi har åtgärdat en bugg som gjorde att bilder visades med fel bildförhållande om du ändrade storlek på Signal Desktop-fönstret när du tittade på någons profilbild."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Denna uppdatering förbättrar också visningen av citerade svar på höger-till-vänster-språk."
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
   }
 }

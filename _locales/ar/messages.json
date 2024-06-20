@@ -2372,15 +2372,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "تم تحديد الدردشة على أنها غير مقروءة"
   },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "هل تود فتح مُنشيء حزمة الملصقات لسيجنال؟"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "تأكيد"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "تجاهُل"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "يُرجى إعداد سيجنال في هاتفك وفي الحاسوب لاستخدام مُنشئ حزم الملصقات"
   },
@@ -2688,13 +2679,13 @@
     "messageformat": "تم إيقاف الرنين"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "رفعتَ يدكَ."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "أنت و{otherName} رفعتُما يديكما."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, zero {أنت، و{otherName} و{overflowCount,number} آخرين رفعتم أيديكم.} one {أنت، و{otherName} و{overflowCount,number} آخرين رفعتم أيديكم.} two {أنت، و{otherName} و{overflowCount,number} آخرين رفعتم أيديكم.} few {أنت، و{otherName} و{overflowCount,number} آخرين رفعتم أيديكم.} many {أنت، و{otherName} و{overflowCount,number} آخرين رفعتم أيديكم.} other {أنت، و{otherName} و{overflowCount,number} آخرين رفعتم أيديكم.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} رفع يده."
@@ -2780,26 +2771,32 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "النافذة"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact"
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "نسخ رابط المكالمة"
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "إزالة هذا الشخص من المكالمة"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, zero {لا أحد ({count,number})} one {شخص واحد ({count,number})} two {شخصان ({count,number})} few {{count,number} أفراد} many {{count,number} فردا} other {{count,number} فرد}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "مزيد من المعلومات عن جهات الاتصال الجديدة"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "قبل الانضمام إلى مُكالمة، يمكنك فقط رؤية أسماء جهات الاتصال الموجودة على هاتفك، والأشخاص الموجودين في مجموعة معك، أو الأشخاص الذين تحدثت معهم فرديًا. سَتظهر لك كل الأسماء والصور عندما تنضمّ إلى المكالمة."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "عُلم"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "ڤيديو"
@@ -3512,6 +3509,9 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "الإزالة من المجموعة"
   },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "لون الدردشة"
   },
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, zero {ما هي الأجهزة التي تريد حذف هذه الرسائل منها؟} one {ما هي الأجهزة التي تريد حذف هذه الرسالة منها؟} two {ما هي الأجهزة التي تريد حذف هاتين الرسالتين منها؟} few {ما هي الأجهزة التي تريد حذف هذه الرسائل منها؟} many {ما هي الأجهزة التي تريد حذف هذه الرسالة منها؟} other {ما هي الأجهزة التي تريد حذف هذه الرسالة منها؟}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, zero {سيتم حذف هذه الرسائل من كل أجهزتك.} one {سيتم حذف هذه الرسائل من جهازك.} two {سيتم حذف هذه الرسائل من كلا جهازيك.} few {سيتم حذف هذه الرسائل من كل أجهزتك.} many {سيتم حذف هذه الرسائل من كل أجهزتك.} other {سيتم حذف هذه الرسائل من كل أجهزتك.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "احذف بالنسبة لي"
@@ -3795,7 +3795,7 @@
     "messageformat": "احذف من كل الأجهزة"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "حذف"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, zero {يمكنك اختيار فقط ما يصل إلى {count,number} رسائل لتحذفها بالنسبة للجميع} one {يمكنك اختيار فقط ما يصل إلى {count,number} رسالة لتحذفها بالنسبة للجميع} two {يمكنك اختيار فقط ما يصل إلى {count,number} رسالتين لتحذفهما بالنسبة للجميع} few {يمكنك اختيار فقط ما يصل إلى {count,number} رسائل لتحذفها بالنسبة للجميع} many {يمكنك اختيار فقط ما يصل إلى {count,number} رسالة لتحذفها بالنسبة للجميع} other {يمكنك اختيار فقط ما يصل إلى {count,number} رسالة لتحذفها بالنسبة للجميع}}"
@@ -4197,10 +4197,16 @@
     "messageformat": "اسم المُستخدم لا يمكن أن يبدأ برقم."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "يَجب أن يحتوي اسم المُستخدم على {min,number} رموز على الأقل."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "يجب أن تحتوي أسماء المُستخدمين على {max,number} رموز كحد أقصى."
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "اسم مستخدم غير صحيح، أدخل رمزيْن على الأقل."
@@ -4749,13 +4755,13 @@
     "messageformat": "يُمكن لِمعارفك رؤية اسمك وصورتك، كما يُمكنهم الاطلاع على منشوراتك في \"قِصتي\" إلاّ إذا أخفيتها عنهم."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Deleting is synced across your devices"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "عُلم"
   },
   "icu:Stories__title": {
     "messageformat": "القِصص"
@@ -5350,7 +5356,7 @@
     "messageformat": "لا توجد نتيجة لـ \"{query}\""
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "إنشاء رابط المكالمة"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "واردة"
@@ -5416,22 +5422,22 @@
     "messageformat": "مشاركة الرابط عبر سيجنال"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "تفاصيل رابط المكالمة"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "اِسم"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "انضمام"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "الموافقة على جميع الأعضاء"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "مُعطَّل"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "مُفعَّل"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, zero {{count,number} آخرون يكتبون.} one {{count,number} آخر يكتب.} two {{count,number} آخران يكتبان.} few {{count,number} آخرون يكتبون.} many {{count,number} آخرين يكتبون.} other {{count,number} آخرون يكتبون.}}"
@@ -5473,19 +5479,13 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "ميزة رفع اليد الجديدة طريقة سهلة لِجذب انتباه شخص ما أو طرح سؤال خلال مكالمة جماعية."
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "يَتضمن هذا التحديث أداة اقتصاص محسّنة أيضا لتغيير حجم الصور."
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "لقد غيّرنا اختصار لوحة المفاتيح لإرسال ملاحظة صوتية إلى Ctrl/Cmd+Shift+Y لكي لا تتعارض مع اختصار \"لصق ومطابقة النمط\" على ويندوز ولينكس."
-  },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "لقد أصلحنا خطأ كان يعرض الصور بنسبة أبعاد خاطئة عند تغيير حجم نافذة سيجنال Desktop أثناء عرض صور الحساب الشخصي لِشخص ما."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "يحسّن هذا التحديث عرض الردود المقتبسة في اللغات التي تُكتب من اليمين إلى اليسار."
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
   }
 }

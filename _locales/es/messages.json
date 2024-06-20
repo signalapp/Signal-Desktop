@@ -54,7 +54,7 @@
     "messageformat": "Apple Silicon"
   },
   "icu:copyErrorAndQuit": {
-    "messageformat": "Copiar fallo y cerrar Signal"
+    "messageformat": "Copiar error y cerrar Signal"
   },
   "icu:unknownContact": {
     "messageformat": "Contacto desconocido"
@@ -63,7 +63,7 @@
     "messageformat": "Grupo desconocido"
   },
   "icu:databaseError": {
-    "messageformat": "Fallo en la base de datos"
+    "messageformat": "Error en la base de datos"
   },
   "icu:databaseError__detail": {
     "messageformat": "Se produjo un error en la base de datos. Puedes copiar el error y ponerte en contacto con el soporte de Signal para ayudar a solucionar el problema. Si necesitas utilizar Signal de inmediato, puedes eliminar tus datos y reiniciar.\n\nPonte en contacto con el servicio de soporte: {link}"
@@ -396,7 +396,7 @@
     "messageformat": "{count, plural, one {{count,number} mensaje sin leer} other {{count,number} mensajes sin leer}}"
   },
   "icu:messageHistoryUnsynced": {
-    "messageformat": "Por tu seguridad, el historial de chats no se transfiere a dispositivos recién enlazados."
+    "messageformat": "Por tu seguridad, el historial de chats no se transfiere a dispositivos recién vinculados."
   },
   "icu:youMarkedAsVerified": {
     "messageformat": "Has marcado tu número de seguridad con {name} como verificado"
@@ -504,7 +504,7 @@
     "messageformat": "Saber más"
   },
   "icu:SafetyNumberNotReady__body": {
-    "messageformat": "Se creará un número de seguridad con esta persona una vez intercambien mensajes."
+    "messageformat": "Se creará un número de seguridad con esta persona una vez que se intercambien mensajes."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Saber más"
@@ -516,7 +516,7 @@
     "messageformat": "Nuevo número de seguridad"
   },
   "icu:incomingError": {
-    "messageformat": "Fallo al procesar el mensaje recibido"
+    "messageformat": "Error al procesar el mensaje recibido"
   },
   "icu:media": {
     "messageformat": "Archivos multimedia"
@@ -567,7 +567,7 @@
     "messageformat": "Imagen adjunta preliminar: {path}"
   },
   "icu:decryptionErrorToast": {
-    "messageformat": "Ha ocurrido un fallo al descifrar un mensaje de {name} en el dispositivo {deviceId}"
+    "messageformat": "Ha ocurrido un error al descifrar un mensaje de {name} en el dispositivo {deviceId}"
   },
   "icu:decryptionErrorToastAction": {
     "messageformat": "Enviar registro"
@@ -1089,7 +1089,7 @@
     "messageformat": "Reiniciar"
   },
   "icu:linkedDevices": {
-    "messageformat": "Dispositivos enlazados"
+    "messageformat": "Dispositivos vinculados"
   },
   "icu:linkNewDevice": {
     "messageformat": "Enlazar nuevo dispositivo"
@@ -1119,7 +1119,7 @@
     "messageformat": "¿Necesitas ayuda?"
   },
   "icu:Install__choose-device-name__description": {
-    "messageformat": "Este nombre aparecerá bajo «Dispositivos enlazados» en tu celular/móvil"
+    "messageformat": "Este nombre aparecerá bajo «Dispositivos vinculados» en tu teléfono"
   },
   "icu:Install__choose-device-name__placeholder": {
     "messageformat": "Computadora/ordenador"
@@ -1155,7 +1155,7 @@
     "messageformat": "¡Algo ha salido mal!"
   },
   "icu:installUnknownError": {
-    "messageformat": "Ha ocurrido un fallo inesperado. Inténtalo de nuevo."
+    "messageformat": "Ha ocurrido un error inesperado. Inténtalo de nuevo."
   },
   "icu:installTryAgain": {
     "messageformat": "Inténtalo de nuevo"
@@ -1359,7 +1359,7 @@
     "messageformat": "No se puede recibir ni audio ni vídeo de {name}"
   },
   "icu:calling__missing-media-keys-info": {
-    "messageformat": "Esto se puede deber a que no han verificado el cambio de tu número de seguridad, hay un problema con su dispositivo, o te han bloqueado."
+    "messageformat": "Esto puede deberse a que no han verificado el cambio de tu número de seguridad, hay un problema con su dispositivo o te han bloqueado."
   },
   "icu:calling__overflow__scroll-up": {
     "messageformat": "Desliza hacia arriba"
@@ -1467,7 +1467,7 @@
     "messageformat": "¿Eliminar todos los datos?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "¿Eliminar todos los datos y mensajes de esta versión de Signal para Escritorio? Siempre puedes volver a vincular este escritorio, pero tus mensajes no se restaurarán. Tu cuenta de Signal y los datos de tu teléfono u otros dispositivos vinculados no se eliminarán."
+    "messageformat": "¿Eliminar todos los datos y mensajes de esta versión de Signal Desktop? Siempre puedes volver a vincular este escritorio, pero tus mensajes no se restaurarán. No se eliminará tu cuenta de Signal ni los datos de tu teléfono u otros dispositivos vinculados."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Desconectando y borrando datos"
@@ -1662,7 +1662,7 @@
     "messageformat": "Notas privadas"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "En este chat puedes añadir notas, mensajes personales, fotos… que solo tú puedes ver. Si tu cuenta tiene dispositivos enlazados, el contenido nuevo se sincronizará."
+    "messageformat": "En este chat puedes añadir notas que solo tú podrás ver. Si tu cuenta tiene dispositivos vinculados, las notas nuevas se sincronizarán."
   },
   "icu:notificationDrawAttention": {
     "messageformat": "Cambiar el foco a esta ventana cuando llega una notificación"
@@ -2372,15 +2372,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "Chat marcado como no leído"
   },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "¿Te gustaría abrir el Creador de Paquetes de Stickers de Signal?"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "Confirmar"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "Ignorar"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Por favor, configura Signal en tu móvil y enlázalo con Signal Desktop para usar el Creador de Paquetes de Stickers"
   },
@@ -2484,7 +2475,7 @@
     "messageformat": "No podrás enviar ni recibir más mensajes de este grupo y sus participantes no podrán agregarte de nuevo al grupo."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
-    "messageformat": "Denunciar…"
+    "messageformat": "Denunciar"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-title": {
     "messageformat": "¿Denunciar como spam?"
@@ -2688,13 +2679,13 @@
     "messageformat": "Sonido desactivado"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Has levantado la mano."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Tú y {otherName} levantaron la mano."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Tú, {otherName} y {overflowCount,number} persona más levantaron la mano.} other {Tú, {otherName} y {overflowCount,number} personas más levantaron la mano.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} ha levantado la mano."
@@ -2780,26 +2771,32 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "Ventana"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact"
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Copiar enlace de llamada"
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Eliminar a esta persona de la llamada"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} persona} other {{count,number} personas}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Más información sobre nuevos contactos"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Antes de unirte a una llamada, solo podrás ver los nombres de las personas que tengas como contactos en tu teléfono, con las que estás en un grupo o con las que hayas chateado en privado. Verás todos los nombres y las fotos una vez que te hayas unido a la llamada."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Entendido"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Vídeo"
@@ -3512,6 +3509,9 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Expulsar del grupo"
   },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Color del chat"
   },
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {¿De qué dispositivos quieres eliminar este mensaje?} other {¿De qué dispositivos quieres eliminar estos mensajes?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Se eliminará este mensaje de todos tus dispositivos.} other {Se eliminarán estos mensajes de todos tus dispositivos.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Eliminar solo para mí"
@@ -3795,7 +3795,7 @@
     "messageformat": "Eliminar de todos los dispositivos"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Eliminar"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Solo puedes seleccionar hasta {count,number} mensaje para eliminar para todxs} other {Solo puedes seleccionar hasta {count,number} mensajes para eliminar para todxs}}"
@@ -4197,10 +4197,16 @@
     "messageformat": "El alias no puede comenzar por un número."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Los alias deben contener al menos {min,number} caracteres."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Los alias pueden contener {max,number} caracteres como máximo."
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Alias no válido, ingresa un mínimo de 2 dígitos."
@@ -4530,7 +4536,7 @@
     "messageformat": "Reinicia Signal para instalar la actualización."
   },
   "icu:InstallScreenUpdateDialog--cannot-update__body": {
-    "messageformat": "Signal para Escritorio no se ha actualizado, pero hay una nueva versión disponible. Ve a {downloadUrl} e instala la nueva versión manualmente, luego ponte en contacto con el soporte o presenta un informe sobre este problema."
+    "messageformat": "Signal Desktop no se ha actualizado, pero hay una nueva versión disponible. Ve a {downloadUrl} e instala la nueva versión manualmente, luego ponte en contacto con el soporte o presenta un informe sobre este problema."
   },
   "icu:NSIS__retry-dialog--first-line": {
     "messageformat": "No se puede cerrar Signal.",
@@ -4575,7 +4581,7 @@
     "messageformat": "Haz clic para reemplazar un emoji"
   },
   "icu:CustomizingPreferredReactions__had-save-error": {
-    "messageformat": "Ha ocurrido un fallo al guardar tus ajustes. Inténtalo de nuevo."
+    "messageformat": "Ha ocurrido un error al guardar tus ajustes. Inténtalo de nuevo."
   },
   "icu:MediaEditor__input-placeholder": {
     "messageformat": "Mensaje"
@@ -4749,13 +4755,13 @@
     "messageformat": "Tus contactos pueden ver tu nombre y tu foto, y pueden ver lo que subas a \"Mi historia\" salvo que decidas ocultárselo"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Deleting is synced across your devices"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Entendido"
   },
   "icu:Stories__title": {
     "messageformat": "Historias"
@@ -5350,7 +5356,7 @@
     "messageformat": "No se encontraron resultados para «{query}»"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Crear un enlace de llamada"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Entrante"
@@ -5416,22 +5422,22 @@
     "messageformat": "Compartir enlace vía Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Detalles del enlace de llamada"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Nombre"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Unirse"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Aprobar todas las solicitudes"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Inactivo"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Activo"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} persona más está escribiendo.} other {{count,number} personas más están escribiendo.}}"
@@ -5473,19 +5479,13 @@
     "messageformat": "Pequeños ajustes, soluciones a errores y mejoras al desempeño. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "La nueva función Levantar la mano es una forma sencilla de llamar la atención de alguien o hacer una pregunta durante las llamadas grupales."
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "Esta actualización también incluye una herramienta de recorte mejorada para cambiar el tamaño de una imagen."
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "Hemos modificado el atajo de teclado para enviar una nota de voz a Ctrl/Cmd+Mayús+Y para que ya no entre en conflicto con el atajo «Pegar con el mismo estilo» en Windows y Linux."
-  },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Hemos corregido un error que mostraba las imágenes con una relación de aspecto incorrecta si se cambiaba el tamaño de la ventana en Signal Desktop mientras se visualizaba la foto de perfil de alguien."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "En los idiomas que se escriben de derecha a izquierda, esta actualización también mejora la visualización cuando citas un mensaje para responder."
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
   }
 }

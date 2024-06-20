@@ -2372,15 +2372,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "Irakurri gabeko gisa markatu da txata"
   },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "Signal-en eranskailu-paketeen sortzailea ireki nahi duzu?"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "Onartu"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "Baztertu"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Eranskailu-paketeen sortzailea erabili ahal izateko, konfiguratu Signal telefonoan eta ordenagailuan"
   },
@@ -2688,13 +2679,13 @@
     "messageformat": "Dei-tonua desaktibatuta"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Eskua jaso duzu."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Zuk eta {otherName} erabiltzaileak eskua jaso duzue."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Zuk, {otherName} erabiltzaileak eta beste {overflowCount,number} pertsonak eskua jaso duzue.} other {Zuk, {otherName} erabiltzaileak eta beste {overflowCount,number} pertsonak eskua jaso duzue.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} erabiltzaileak eskua jaso du."
@@ -2780,26 +2771,32 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "Leiho bat"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact"
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Kopiatu deiaren esteka"
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Kendu pertsona hau deitik"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {Pertsona {count,number}} other {{count,number} pertsona}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Kontaktu berriei buruzko informazio gehiago"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Dei batean sartu aurretik, telefonoko kontaktuen, zure taldeetan dauden pertsonen eta zurekin pribatuan txateatu duten pertsonen izenak bakarrik ikus ditzakezu. Deian sartu ondoren ikusiko dituzu denen izen eta argazkiak."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Ulertu dut"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Bideoa"
@@ -3512,6 +3509,9 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Kendu taldetik"
   },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Txat-kolorea"
   },
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {Zein gailutatik ezabatu nahi duzu mezu hau?} other {Zein gailutatik ezabatu nahi dituzu mezu hauek?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Mezu hau gailu guztietatik ezabatu da.} other {Mezu hauek gailu guztietatik ezabatuko dira.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Ezabatu niretzat"
@@ -3795,7 +3795,7 @@
     "messageformat": "Ezabatu gailu guztietatik"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Ezabatu"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Gehienez {count,number} mezu hauta dezakezu guztientzat ezabatzeko} other {Gehienez {count,number} mezu hauta ditzakezu guztientzat ezabatzeko}}"
@@ -4197,10 +4197,16 @@
     "messageformat": "Erabiltzaile-izenak ezin dira zenbaki batez hasi."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Erabiltzaile-izenek gutxienez {min,number} karaktere izan behar dituzte."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Erabiltzaile-izenek gehienez {max,number} karaktere izan behar dituzte."
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Erabiltzaile-izenak ez du balio; idatzi gutxienez 2 digitu."
@@ -4749,13 +4755,13 @@
     "messageformat": "Konexioek zure izena eta argazkia ikus ditzakete, bai eta \"Nire istorioa\" ataleko argitalpenak ere, zuk eskuz ezkutatu ezean."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Deleting is synced across your devices"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Ulertu dut"
   },
   "icu:Stories__title": {
     "messageformat": "Istorioak"
@@ -5350,7 +5356,7 @@
     "messageformat": "Ez dago honen emaitzarik: \"{query}\""
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Sortu dei-esteka bat"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Sarrerako"
@@ -5416,22 +5422,22 @@
     "messageformat": "Partekatu esteka Signal bidez"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Deiaren estekaren xehetasunak"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
     "messageformat": "Name"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Sartu"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Kide guztiak onartu"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Desaktibatuta"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Aktibatuta"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Beste {count,number} idazten ari da.} other {Beste {count,number} idazten ari dira.}}"
@@ -5473,19 +5479,13 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "★ Jaso eskua taldeko deietan komunikatzeko beste modu baten bila egin bazara. Eskua jasotzeko eginbide berriaren bidez, taldeko deietan erraz erakarri ahalko duzu norbaiten arreta, galderak egin edo talde-proposamen baten alde modu anonimoan bozkatu, adibides, zure lagunak guztiok ados bazaudete galdetzen duenean."
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "Halaber, eguneratze honek irudien tamaina aldatzeko mozketa-tresna bat dakar."
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "Ahots-oharrak bidaltzeko teklatu-lasterbidea aldatu dugu; orain, Ktrl/Cmd + Maius + Y da. Horrela, ez da gatazkarik egongo \"Itsatsi eta bat etorrarazi estiloarekin\" lasterbidearekin Windows-en eta Linux-en."
-  },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Norbaiten profileko argazkia ikusi bitartean Signal Desktop-en leihoaren tamaina aldatzean irudiak aspektu-erlazio okerrarekin agerrarazten zituen akats bat konpondu dugu."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Eguneratze honen bidez, eskuinetik ezkerreranzko hizkuntzetan aipatutako erantzunak bistaratzeko modua ere hobetu da."
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
   }
 }

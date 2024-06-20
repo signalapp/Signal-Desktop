@@ -2372,15 +2372,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "Sohbet okunmadı olarak işaretlendi"
   },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "Signal Çıkartma Paketi Oluşturucu'yu açmak ister misin?"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "Onayla"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "Kapat"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Çıkartma Paketi Oluşturucu'yu kullanmak için lütfen Signal'i telefonunda ve bilgisayarında kur"
   },
@@ -2688,13 +2679,13 @@
     "messageformat": "Zil kapalı"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Elini kaldırdın."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Sen ve {otherName} el kaldırdınız."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, one {Sen, {otherName} ve {overflowCount,number} kişi daha el kaldırdı.} other {Sen, {otherName} ve {overflowCount,number} kişi daha el kaldırdı.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} el kaldırdı."
@@ -2780,26 +2771,32 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "Bir pencere"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact"
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Arama bağlantısını kopyala"
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Bu kişiyi aramadan çıkar"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, one {{count,number} kişi} other {{count,number} kişi}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Yeni kişiler hakkında daha fazla bilgi"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Bir aramaya katılmadan önce yalnızca telefon kişilerinin, grubunda olduğun kişilerin veya birebir sohbet ettiğin kişilerin adlarını görebilirsin. Aramaya katıldıktan sonra tüm adları ve fotoğrafları görürsün."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Anladım"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3512,6 +3509,9 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Gruptan çıkar"
   },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Sohbet rengi"
   },
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, one {Bu mesajı hangi cihazlardan silmek istiyorsun?} other {Bu mesajları hangi cihazlardan silmek istiyorsun?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, one {Bu mesaj tüm cihazlarından silinecektir.} other {Bu mesajlar tüm cihazlarından silinecektir.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Benden sil"
@@ -3795,7 +3795,7 @@
     "messageformat": "Tüm cihazlardan sil"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Sil"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Herkesten silmek için en fazla {count,number} mesaj seçebilirsin} other {Herkesten silmek için en fazla {count,number} mesaj seçebilirsin}}"
@@ -4197,10 +4197,16 @@
     "messageformat": "Kullanıcı adları rakam ile başlayamaz."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Kullanıcı adları en az {min,number} karakterden oluşmalıdır."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Kullanıcı adları en fazla {max,number} karakter içermelidir."
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Geçersiz kullanıcı adı, en az 2 hane gir."
@@ -4749,13 +4755,13 @@
     "messageformat": "Bağlantıların, adını ve fotoğrafını görebilir ve onlardan gizlemediğin sürece \"Hikayem\"deki gönderileri görüntüleyebilirler"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Deleting is synced across your devices"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Anladım"
   },
   "icu:Stories__title": {
     "messageformat": "Hikayeler"
@@ -5350,7 +5356,7 @@
     "messageformat": "\"{query}\" için sonuç yok"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Bir Arama Bağlantısı oluştur"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Gelen"
@@ -5416,22 +5422,22 @@
     "messageformat": "Bağlantıyı Signal ile paylaş"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Arama bağlantısı detayları"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Ad"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Katıl"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Tüm üyeleri onayla"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Kapalı"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Açık"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} kişi daha yazıyor.} other {{count,number} kişi daha yazıyor.}}"
@@ -5473,19 +5479,13 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Grup aramaları sırasında iletişim kurmak için başka bir yol arıyorsan elini kaldır. Yeni El Kaldırma özelliği; birinin dikkatini çekmenin veya grup aramalarında soru sormanın basit bir yoludur."
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "Bu güncelleme, resimleri yeniden boyutlandırma için geliştirilmiş bir kırpma aracınını da içermektedir."
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "Sesli not göndermek için klavye kısayolunu Ctrl/Cmd+Shift+Y olarak değiştirdik; böylece artık Windows ve Linux'ta \"Yapıştır ve Eşleştir Stili\" kısayoluyla çakışmayacak."
-  },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Birinin profil resmini görüntülerken Signal Desktop penceresini yeniden boyutlandırdığında, resimleri yanlış en boy oranıyla görüntüleyen bir hatayı düzelttik. Böylece sevdiğin insanları tanımakta zorlanmazsın!"
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Bu güncelleme, alıntılanan yanıtların soldan sağa yazılan dillerde görüntülenmesini de iyileştiriyor."
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
   }
 }

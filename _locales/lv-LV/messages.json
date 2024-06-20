@@ -2372,15 +2372,6 @@
   "icu:conversationMarkedUnread": {
     "messageformat": "Saruna atzīmēta kā nelasīta"
   },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "Vai vēlaties atvērt Signal uzlīmju komplekta izveides programmu?"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "Apstiprināt"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "Nerādīt"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Lai izmantotu uzlīmju komplekta veidotāju, iestatiet Signal savā tālrunī un datorā"
   },
@@ -2688,13 +2679,13 @@
     "messageformat": "Zvana signāls izslēgts"
   },
   "icu:CallControls__RaiseHandsToast--you": {
-    "messageformat": "You raised a hand."
+    "messageformat": "Jūs pacēlāt roku."
   },
   "icu:CallControls__RaiseHandsToast--you-and-one": {
-    "messageformat": "You and {otherName} raised a hand."
+    "messageformat": "Jūs un {otherName} pacēlāt roku."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {You, {otherName}, and {overflowCount,number} more raised a hand.} other {You, {otherName}, and {overflowCount,number} more raised a hand.}}"
+    "messageformat": "{overflowCount, plural, zero {Jūs, {otherName} un vēl {overflowCount,number} pacēla roku.} one {Jūs, {otherName} un vēl {overflowCount,number} pacēla roku.} other {Jūs, {otherName} un vēl {overflowCount,number} pacēla roku.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} pacēla roku."
@@ -2780,26 +2771,32 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "Logs"
   },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact"
+  },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Kopēt zvana saiti"
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Noņemt šo personu no zvana"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
+    "messageformat": "{count, plural, zero {{count,number} personu} one {{count,number} persona} other {{count,number} personas}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "+{count,number} more"
+    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
-    "messageformat": "More info about new contacts"
+    "messageformat": "Vairāk informācijas par jaunajām kontaktpersonām"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
-    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call."
+    "messageformat": "Pirms pievienošanās zvanam jūs varat redzēt vārdus tikai tām personām, kuras ir saglabātas kā kontaktpersonas jūsu tālrunī, ar kurām esat kopīgās grupās un ar kurām iepriekš esat sarunājušies 1:1. Visu personu vārdus un fotoattēlus redzēsiet tad, kad pievienosieties zvanam."
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it"
+    "messageformat": "Skaidrs"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -3512,6 +3509,9 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Noņemt no grupas"
   },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Sarunas krāsa"
   },
@@ -3780,7 +3780,7 @@
     "messageformat": "{count, plural, zero {No kurām ierīcēm vēlaties dzēst šīs ziņas?} one {No kurām ierīcēm vēlaties dzēst šo ziņu?} other {No kurām ierīcēm vēlaties dzēst šīs ziņas?}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
-    "messageformat": "{count, plural, one {This message will be deleted from all your devices.} other {These messages will be deleted from all your devices.}}"
+    "messageformat": "{count, plural, zero {Šīs ziņas tiks dzēstas no visām jūsu ierīcēm.} one {Šī ziņa tiks dzēsta no visām jūsu ierīcēm.} other {Šīs ziņas tiks dzēstas no visām jūsu ierīcēm.}}"
   },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Dzēst man"
@@ -3795,7 +3795,7 @@
     "messageformat": "Dzēst no visām ierīcēm"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
-    "messageformat": "Delete"
+    "messageformat": "Dzēst"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, zero {Varat atlasīt ne vairāk kā {count,number} ziņas, ko dzēst visiem} one {Varat atlasīt ne vairāk kā {count,number} ziņu, ko dzēst visiem} other {Varat atlasīt ne vairāk kā {count,number} ziņas, ko dzēst visiem}}"
@@ -4197,10 +4197,16 @@
     "messageformat": "Lietotājvārdi nevar sākties ar skaitli."
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min,number} characters."
+    "messageformat": "Lietotājvārdam jāsatur vismaz {min,number} rakstzīmes."
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Lietotājvārdi nedrīkst būt garāki par {max,number} rakstzīmēm."
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Nederīgs lietotājvārds. Ievadiet vismaz 2 ciparus."
@@ -4749,13 +4755,13 @@
     "messageformat": "Jūsu kontakti var redzēt jūsu vārdu un attēlu, kā arī sadaļā \"Mani stāsti\" publicēto, ja šis saturs nav paslēpts no viņiem"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "\"Delete for Me\" now deletes from all of your devices"
+    "messageformat": "Deleting is synced across your devices"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete a message in a chat, the message will be deleted from your phone and all linked devices."
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
   },
   "icu:LocalDeleteWarningModal__confirm": {
-    "messageformat": "Got it"
+    "messageformat": "Skaidrs"
   },
   "icu:Stories__title": {
     "messageformat": "Stāsti"
@@ -5350,7 +5356,7 @@
     "messageformat": "Vaicājumam “{query}” nav rezultātu"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Create a Call Link"
+    "messageformat": "Izveidot audiozvana saiti"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Ienākošs"
@@ -5416,22 +5422,22 @@
     "messageformat": "Kopīgot saiti caur Signal"
   },
   "icu:CallLinkEditModal__Title": {
-    "messageformat": "Call link details"
+    "messageformat": "Zvana saites informācija"
   },
   "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
+    "messageformat": "Vārds"
   },
   "icu:CallLinkEditModal__JoinButtonLabel": {
-    "messageformat": "Join"
+    "messageformat": "Pievienoties"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Approve all members"
+    "messageformat": "Apstiprināt visus dalībniekus"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Izslēgts"
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Ieslēgts"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, zero {{count,number} citi raksta.} one {{count,number} cits raksta.} other {{count,number} citi raksta.}}"
@@ -5473,19 +5479,13 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Paceļ roku visi, kuri meklēja vēl vienu veidu, kā sazināties grupu zvanu laikā! Jaunā funkcija \"Pacelt roku\" ir vienkāršs veids, kā pievērst kāda uzmanību, uzdot jautājumu vai vienbalsīgi nobalsot par priekšlikumu, ko ierosina draugs, jautājot: \"Kurš balso par?\""
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "Apgriešanas rīkā bija neliela kļūda, un mēs to izgriezām. Tagad jūs varat no attēla izgriezt savu bijušo partneri (vai jebko citu) daudz vieglāk."
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "Mēs modificējām tastatūras saīsni balss piezīmes nosūtīšanai — Ctrl/Cmd+Shift+Y. Tagad tā vairs nekonfliktē ar saīsni \"Ielīmēt un saskaņot stilu\" operētājsistēmās Windows un Linux."
-  },
   "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug."
+    "messageformat": "Mēs izlabojām kļūdu, kura lika attēliem parādīties ar nepareizu malu attiecību, kad mainījāt Signal Desktop loga izmēru, skatot kādas personas profila attēlu. Tik saspiestiem jūsu mīļajiem cilvēkiem vajadzētu izskatīties tikai tad, kad tos apskaujat."
   },
   "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages."
+    "messageformat": "Šis atjauninājums uzlabo arī to, kā tiek attēlotas citētas atbildes valodās ar rakstību no labās uz kreiso pusi."
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
   }
 }
