@@ -194,7 +194,6 @@ import {
   getMessageToDelete,
 } from '../../util/deleteForMe';
 import { MAX_MESSAGE_COUNT } from '../../util/deleteForMe.types';
-import { isEnabled } from '../../RemoteConfig';
 import type { CapabilitiesType } from '../../textsecure/WebAPI';
 
 // State
@@ -1768,8 +1767,9 @@ function deleteMessages({
     const ourConversation =
       window.ConversationController.getOurConversationOrThrow();
     const capable = Boolean(ourConversation.get('capabilities')?.deleteSync);
+    const enabled = false;
 
-    if (!capable || !isEnabled('desktop.deleteSync.send')) {
+    if (!capable || !enabled) {
       return;
     }
     if (messages.length === 0) {

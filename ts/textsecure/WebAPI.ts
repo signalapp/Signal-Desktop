@@ -703,12 +703,8 @@ export type WebAPIConnectType = {
   connect: (options: WebAPIConnectOptionsType) => WebAPIType;
 };
 
-export type CapabilitiesType = {
-  deleteSync: boolean;
-};
-export type CapabilitiesUploadType = {
-  deleteSync: true;
-};
+export type CapabilitiesType = Record<string, never>;
+export type CapabilitiesUploadType = Record<string, never>;
 
 type StickerPackManifestType = Uint8Array;
 

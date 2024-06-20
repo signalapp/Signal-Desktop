@@ -1837,9 +1837,7 @@ export async function startApp(): Promise<void> {
         try {
           // Note: we always have to register our capabilities all at once, so we do this
           //   after connect on every startup
-          await server.registerCapabilities({
-            deleteSync: true,
-          });
+          await server.registerCapabilities({});
         } catch (error) {
           log.error(
             'Error: Unable to register our capabilities.',

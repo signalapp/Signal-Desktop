@@ -170,7 +170,6 @@ import {
   getConversationToDelete,
   getMessageToDelete,
 } from '../util/deleteForMe';
-import { isEnabled } from '../RemoteConfig';
 import { getCallHistorySelector } from '../state/selectors/callHistory';
 
 /* eslint-disable more/no-then */
@@ -5014,14 +5013,11 @@ export class ConversationModel extends window.Backbone
     });
     window.Signal.Data.updateConversation(this.attributes);
 
+    const enabled = false;
     const ourConversation =
       window.ConversationController.getOurConversationOrThrow();
     const capable = Boolean(ourConversation.get('capabilities')?.deleteSync);
-    if (
-      source === 'local-delete' &&
-      capable &&
-      isEnabled('desktop.deleteSync.send')
-    ) {
+    if (source === 'local-delete' && capable && enabled) {
       log.info(`${logId}: Preparing sync message`);
       const timestamp = Date.now();
 
