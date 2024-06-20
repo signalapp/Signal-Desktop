@@ -12,10 +12,7 @@ import { UserText } from '../UserText';
 import { SharedGroupNames } from '../SharedGroupNames';
 import { About } from './About';
 import { I18n } from '../I18n';
-import {
-  areNicknamesEnabled,
-  canHaveNicknameAndNote,
-} from '../../util/nicknames';
+import { canHaveNicknameAndNote } from '../../util/nicknames';
 import { Tooltip, TooltipPlacement } from '../Tooltip';
 
 function muted(parts: Array<string | JSX.Element>) {
@@ -255,7 +252,7 @@ export function AboutContactModal({
         </div>
       )}
 
-      {areNicknamesEnabled() && conversation.note && (
+      {conversation.note && (
         <div className="AboutContactModal__row">
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--note" />
           <button

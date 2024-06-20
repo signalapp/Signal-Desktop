@@ -10,7 +10,6 @@ import { Emojify } from './Emojify';
 import type { ProfileNameChangeType } from '../../util/getStringForProfileChange';
 import { getStringForProfileChange } from '../../util/getStringForProfileChange';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
-import { areNicknamesEnabled } from '../../util/nicknames';
 
 export type PropsType = {
   change: ProfileNameChangeType;
@@ -37,7 +36,6 @@ export function ProfileChangeNotification({
       icon="profile"
       contents={<Emojify text={message} />}
       button={
-        areNicknamesEnabled() &&
         (changedContact.nicknameGivenName != null ||
           changedContact.nicknameFamilyName != null) && (
           <Button
