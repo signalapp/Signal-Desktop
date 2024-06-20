@@ -7291,18 +7291,6 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.12--0": {
-    "messageformat": "Raise your hand if you've been looking for another way to communicate during group calls. The new Raise Hand feature is a simple way to get someone's attention, ask a question, or unanimously vote for a group proposal when your friend asks \"all those in favor?\"",
-    "description": "(Deleted 2024/06/12) Release notes for version 7.12"
-  },
-  "icu:WhatsNew__v7.12--1": {
-    "messageformat": "We broke up with a bug in the crop tool, so now it's easier and more intuitive to cut your ex (or anything else) out of the picture.",
-    "description": "(Deleted 2024/06/12) Release notes for version 7.12"
-  },
-  "icu:WhatsNew__v7.12--2": {
-    "messageformat": "We modified the keyboard shortcut for sending a voice note to Ctrl/Cmd+Shift+Y so that it no longer conflicts with the \"Paste and Match Style\" shortcut on Windows and Linux.",
-    "description": "(Deleted 2024/06/12) Release notes for version 7.12"
-  },
   "icu:WhatsNew__v7.13--0": {
     "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug.",
     "description": "Release notes for version 7.13"
@@ -7310,5 +7298,9 @@
   "icu:WhatsNew__v7.13--1": {
     "messageformat": "This update also improves the display of quoted replies in RTL languages.",
     "description": "Release notes for version 7.13"
+  },
+  "icu:WhatsNew__v7.14--0": {
+    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat.",
+    "description": "Release notes for version 7.14"
   }
 }
