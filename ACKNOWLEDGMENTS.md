@@ -3706,7 +3706,7 @@ Signal Desktop makes use of the following open source projects.
 
 libsignal makes use of the following open source projects.
 
-## partial-default 0.1.0, partial-default-derive 0.1.0
+## partial-default-derive 0.1.0, partial-default 0.1.0
 
 ```
                     GNU AFFERO GENERAL PUBLIC LICENSE
@@ -4373,7 +4373,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## attest 0.1.0, device-transfer 0.1.0, libsignal-bridge 0.1.0, libsignal-bridge-macros 0.1.0, libsignal-core 0.1.0, libsignal-ffi 0.50.0, libsignal-jni 0.50.0, libsignal-message-backup 0.1.0, libsignal-message-backup-macros 0.1.0, libsignal-net 0.1.0, libsignal-node 0.50.0, libsignal-protocol 0.1.0, libsignal-svr3 0.1.0, poksho 0.7.0, signal-crypto 0.1.0, signal-media 0.1.0, signal-neon-futures 0.1.0, signal-neon-futures-tests 0.1.0, signal-pin 0.1.0, usernames 0.1.0, zkcredential 0.1.0, zkgroup 0.9.0
+## attest 0.1.0, libsignal-ffi 0.51.1, libsignal-jni 0.51.1, libsignal-node 0.51.1, signal-neon-futures 0.1.0, signal-neon-futures-tests 0.1.0, libsignal-bridge 0.1.0, libsignal-bridge-macros 0.1.0, libsignal-core 0.1.0, signal-crypto 0.1.0, device-transfer 0.1.0, signal-media 0.1.0, libsignal-message-backup 0.1.0, libsignal-message-backup-macros 0.1.0, libsignal-net 0.1.0, signal-pin 0.1.0, poksho 0.7.0, libsignal-protocol 0.1.0, libsignal-svr3 0.1.0, usernames 0.1.0, zkcredential 0.1.0, zkgroup 0.9.0
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE
@@ -5030,7 +5030,7 @@ You should also get your employer (if you work as a programmer) or school, if an
 
 ```
 
-## ciborium 0.2.2, ciborium-io 0.2.2, ciborium-ll 0.2.2
+## ciborium-io 0.2.2, ciborium-ll 0.2.2, ciborium 0.2.2
 
 ```
                                  Apache License
@@ -5419,7 +5419,7 @@ END OF TERMS AND CONDITIONS
 
 ```
 
-## debugid 0.8.0, prost 0.12.6, prost-build 0.12.6, prost-derive 0.12.6, prost-types 0.12.6
+## debugid 0.8.0, prost-build 0.12.6, prost-derive 0.12.6, prost-types 0.12.6, prost 0.12.6
 
 ```
                               Apache License
@@ -5715,7 +5715,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ```
 
-## curve25519-dalek 4.1.1
+## curve25519-dalek 4.1.3
 
 ```
 Copyright (c) 2012 The Go Authors. All rights reserved.
@@ -5745,45 +5745,6 @@ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-```
-
-## sha1_smol 1.0.0
-
-```
-Copyright (c) 2014 by Armin Ronacher.
-
-Copyright (c) 2013 Koka El Kiwi
-
-Some rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-
-    * Redistributions in binary form must reproduce the above
-      copyright notice, this list of conditions and the following
-      disclaimer in the documentation and/or other materials provided
-      with the distribution.
-
-    * The names of the contributors may not be used to endorse or
-      promote products derived from this software without specific
-      prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
 ```
 
 ## subtle 2.5.0
@@ -5820,7 +5781,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ```
 
-## curve25519-dalek 4.1.1
+## curve25519-dalek 4.1.3
 
 ```
 Copyright (c) 2016-2021 isis agora lovecruft. All rights reserved.
@@ -6289,7 +6250,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## lazy_static 1.4.0, rayon 1.10.0, rayon-core 1.12.1
+## lazy_static 1.4.0, rayon-core 1.12.1, rayon 1.10.0
 
 ```
 Copyright (c) 2010 The Rust Project Developers
@@ -6320,7 +6281,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## core-foundation 0.9.4, core-foundation-sys 0.8.6
+## core-foundation-sys 0.8.6, core-foundation 0.9.4
 
 ```
 Copyright (c) 2012-2013 Mozilla Foundation
@@ -6558,6 +6519,37 @@ THE SOFTWARE.
 
 ```
 
+## errno 0.3.9
+
+```
+Copyright (c) 2014 Chris Wong
+
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+```
+
 ## base64ct 1.6.0
 
 ```
@@ -6590,7 +6582,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## bitflags 2.5.0, glob 0.3.1, log 0.4.21, num-bigint 0.4.5, num-derive 0.4.2, num-integer 0.1.46, num-traits 0.2.19, range-map 0.2.0, regex 1.10.4, regex-automata 0.4.6, regex-syntax 0.8.3
+## bitflags 2.5.0, glob 0.3.1, log 0.4.21, num-bigint 0.4.5, num-derive 0.4.2, num-integer 0.1.46, num-traits 0.2.19, range-map 0.2.0, regex-automata 0.4.6, regex-syntax 0.8.3, regex 1.10.4
 
 ```
 Copyright (c) 2014 The Rust Project Developers
@@ -6792,7 +6784,7 @@ THE SOFTWARE.
 
 ```
 
-## neon 1.0.0, neon-macros 1.0.0
+## neon-macros 1.0.0, neon 1.0.0
 
 ```
 Copyright (c) 2015 David Herman
@@ -7251,7 +7243,7 @@ THE SOFTWARE.
 
 ```
 
-## futures 0.3.30, futures-channel 0.3.30, futures-core 0.3.30, futures-executor 0.3.30, futures-io 0.3.30, futures-macro 0.3.30, futures-sink 0.3.30, futures-task 0.3.30, futures-util 0.3.30
+## futures-channel 0.3.30, futures-core 0.3.30, futures-executor 0.3.30, futures-io 0.3.30, futures-macro 0.3.30, futures-sink 0.3.30, futures-task 0.3.30, futures-util 0.3.30, futures 0.3.30
 
 ```
 Copyright (c) 2016 Alex Crichton
@@ -7376,7 +7368,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## rustls 0.23.8, rustls-native-certs 0.7.0, rustls-pemfile 2.1.2
+## rustls-native-certs 0.7.0, rustls-pemfile 2.1.2, rustls 0.23.8
 
 ```
 Copyright (c) 2016 Joseph Birr-Pixton <jpixton@gmail.com>
@@ -7915,7 +7907,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ```
 
-## foreign-types 0.5.0, foreign-types-macros 0.2.3, foreign-types-shared 0.3.1
+## foreign-types-macros 0.2.3, foreign-types-shared 0.3.1, foreign-types 0.5.0
 
 ```
 Copyright (c) 2017 The foreign-types Developers
@@ -8096,37 +8088,6 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## libm 0.2.8
-
-```
-Copyright (c) 2018 Jorge Aparicio
-
-Permission is hereby granted, free of charge, to any
-person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the
-Software without restriction, including without
-limitation the rights to use, copy, modify, merge,
-publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software
-is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice
-shall be included in all copies or substantial portions
-of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
-ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
-SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
-IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
-```
-
 ## autocfg 1.3.0
 
 ```
@@ -8250,37 +8211,6 @@ THE SOFTWARE.
 
 ```
 Copyright (c) 2018-2019 The RustCrypto Project Developers
-
-Permission is hereby granted, free of charge, to any
-person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the
-Software without restriction, including without
-limitation the rights to use, copy, modify, merge,
-publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software
-is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice
-shall be included in all copies or substantial portions
-of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
-ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
-SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
-IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
-```
-
-## platforms 3.4.0
-
-```
-Copyright (c) 2018-2020 The Rust Secure Code Working Group
 
 Permission is hereby granted, free of charge, to any
 person obtaining a copy of this software and associated
@@ -8461,7 +8391,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## http-body 1.0.0, http-body-util 0.1.1
+## http-body-util 0.1.1, http-body 1.0.0
 
 ```
 Copyright (c) 2019 Hyper Contributors
@@ -8523,7 +8453,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## protobuf 3.4.0, protobuf-codegen 3.4.0, protobuf-json-mapping 3.4.0, protobuf-parse 3.4.0, protobuf-support 3.4.0
+## protobuf-codegen 3.4.0, protobuf-json-mapping 3.4.0, protobuf-parse 3.4.0, protobuf-support 3.4.0, protobuf 3.4.0
 
 ```
 Copyright (c) 2019 Stepan Koltsov
@@ -8578,7 +8508,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## aes-gcm 0.10.3, aes-gcm-siv 0.11.1, chacha20poly1305 0.10.1
+## aes-gcm-siv 0.11.1, chacha20poly1305 0.10.1
 
 ```
 Copyright (c) 2019 The RustCrypto Project Developers
@@ -8641,7 +8571,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## tracing 0.1.40, tracing-attributes 0.1.27, tracing-core 0.1.32
+## tracing-attributes 0.1.27, tracing-core 0.1.32, tracing 0.1.40
 
 ```
 Copyright (c) 2019 Tokio Contributors
@@ -9065,7 +8995,7 @@ SOFTWARE.
 
 ```
 
-## mediasan-common 0.5.1, mp4san 0.5.1, mp4san-derive 0.5.1, webpsan 0.5.1
+## mediasan-common 0.5.1, mp4san-derive 0.5.1, mp4san 0.5.1, webpsan 0.5.1
 
 ```
 Copyright (c) 2022 jessa0
@@ -9196,7 +9126,7 @@ THE SOFTWARE.
 
 ```
 
-## tokio 1.37.0, tokio-macros 2.2.0, tokio-stream 0.1.15, tokio-util 0.7.11
+## tokio-macros 2.2.0, tokio-stream 0.1.15, tokio-util 0.7.11, tokio 1.37.0
 
 ```
 Copyright (c) 2023 Tokio Contributors
@@ -9383,7 +9313,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## breakpad-symbols 0.20.0, minidump 0.20.0, minidump-common 0.20.0, minidump-processor 0.20.0, minidump-unwind 0.20.0
+## breakpad-symbols 0.20.0, minidump-common 0.20.0, minidump-processor 0.20.0, minidump-unwind 0.20.0, minidump 0.20.0
 
 ```
 MIT License
@@ -9626,7 +9556,7 @@ SOFTWARE.
 
 ```
 
-## macro_rules_attribute 0.2.0, macro_rules_attribute-proc_macro 0.2.0
+## macro_rules_attribute-proc_macro 0.2.0, macro_rules_attribute 0.2.0
 
 ```
 MIT License
@@ -9895,7 +9825,7 @@ SOFTWARE.
 
 ```
 
-## cesu8 1.1.0, curve25519-dalek-derive 0.1.0, half 2.4.1, pqcrypto-internals 0.2.5, pqcrypto-kyber 0.7.9, pqcrypto-kyber 0.8.1, pqcrypto-traits 0.3.5, rustls-platform-verifier 0.3.1, rustls-platform-verifier-android 0.1.0
+## cesu8 1.1.0, half 2.4.1, pqcrypto-internals 0.2.5, pqcrypto-kyber 0.7.9, pqcrypto-kyber 0.8.1, pqcrypto-traits 0.3.5, rustls-platform-verifier-android 0.1.0, rustls-platform-verifier 0.3.1
 
 ```
 MIT License
@@ -10009,7 +9939,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## adler 1.0.2, anyhow 1.0.86, async-trait 0.1.80, atomic-waker 1.1.2, dyn-clone 1.0.17, fastrand 2.1.0, home 0.5.9, is-terminal 0.4.12, itoa 1.0.11, linkme 0.3.26, linkme-impl 0.3.26, linux-raw-sys 0.4.14, minimal-lexical 0.2.1, num_enum 0.6.1, num_enum_derive 0.6.1, once_cell 1.19.0, paste 1.0.15, pin-project-lite 0.2.14, prettyplease 0.2.20, proc-macro-crate 1.3.1, proc-macro2 1.0.83, quote 1.0.36, rustc-hash 1.1.0, rustix 0.38.34, rustversion 1.0.17, semver 1.0.23, send_wrapper 0.6.0, serde 1.0.202, serde_derive 1.0.202, serde_json 1.0.117, syn 1.0.109, syn 2.0.66, syn-mid 0.6.0, thiserror 1.0.61, thiserror-impl 1.0.61, unicode-ident 1.0.12, utf-8 0.7.6
+## curve25519-dalek-derive 0.1.1, adler 1.0.2, anyhow 1.0.86, async-trait 0.1.80, atomic-waker 1.1.2, dyn-clone 1.0.17, fastrand 2.1.0, home 0.5.9, is-terminal 0.4.12, itoa 1.0.11, linkme-impl 0.3.26, linkme 0.3.26, linux-raw-sys 0.4.14, minimal-lexical 0.2.1, num_enum 0.6.1, num_enum_derive 0.6.1, once_cell 1.19.0, paste 1.0.15, pin-project-lite 0.2.14, prettyplease 0.2.20, proc-macro-crate 1.3.1, proc-macro2 1.0.83, quote 1.0.36, rustc-hash 1.1.0, rustix 0.38.34, rustversion 1.0.17, semver 1.0.23, send_wrapper 0.6.0, serde 1.0.202, serde_derive 1.0.202, serde_json 1.0.117, syn-mid 0.6.0, syn 1.0.109, syn 2.0.66, thiserror-impl 1.0.61, thiserror 1.0.61, unicode-ident 1.0.12, utf-8 0.7.6
 
 ```
 Permission is hereby granted, free of charge, to any
@@ -10345,7 +10275,7 @@ THE SOFTWARE.
 
 ```
 
-## security-framework 2.11.0, security-framework-sys 2.11.0
+## security-framework-sys 2.11.0, security-framework 2.11.0
 
 ```
 The MIT License (MIT)
@@ -10627,7 +10557,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## dyn-clonable 0.9.0, dyn-clonable-impl 0.9.0
+## dyn-clonable-impl 0.9.0, dyn-clonable 0.9.0
 
 ```
 The MIT License (MIT)
