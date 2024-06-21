@@ -528,6 +528,7 @@
       "build/country-display-names.json",
       "build/dns-fallback.json",
       "build/optional-resources.json",
+      "build/jumbomoji.json",
       "node_modules/**",
       "!node_modules/underscore/**",
       "!node_modules/emoji-datasource/emoji_pretty.json",

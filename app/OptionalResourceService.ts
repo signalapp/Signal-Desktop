@@ -38,7 +38,7 @@ export class OptionalResourceService {
 
   private readonly fileQueues = new Map<string, PQueue>();
 
-  constructor(private readonly resourcesDir: string) {
+  private constructor(private readonly resourcesDir: string) {
     ipcMain.handle('OptionalResourceService:getData', (_event, name) =>
       this.getData(name)
     );

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+package signalservice;
+
+message JumbomojiPack {
+  repeated JumbomojiItem items = 1;
+}
+
+message JumbomojiItem {
+  string name = 1;
+  bytes image = 2;
+}
