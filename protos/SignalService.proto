@@ -655,6 +655,17 @@ message SyncMessage {
       repeated AddressableMessage messages = 2;
     }
 
+    message AttachmentDelete {
+      optional ConversationIdentifier conversation = 1;
+      optional AddressableMessage targetMessage = 2;
+      // The `clientUuid` from `AttachmentPointer`.
+      optional bytes clientUuid = 3;
+      // SHA256 hash of the (encrypted, padded, etc.) attachment blob on the CDN.
+      optional bytes fallbackDigest = 4;
+      // SHA256 hash of the plaintext content of the attachment.
+      optional bytes fallbackPlaintextHash = 5;
+    }
+
     message ConversationDelete {
       optional ConversationIdentifier conversation = 1;
       repeated AddressableMessage mostRecentMessages = 2;
@@ -668,6 +679,7 @@ message SyncMessage {
     repeated MessageDeletes messageDeletes = 1;
     repeated ConversationDelete conversationDeletes = 2;
     repeated LocalOnlyConversationDelete localOnlyConversationDeletes = 3;
+    repeated AttachmentDelete attachmentDeletes = 4;
   }
   
   optional Sent                   sent                   = 1;
@@ -697,30 +709,37 @@ message SyncMessage {
 message AttachmentPointer {
   enum Flags {
     VOICE_MESSAGE = 1;
-    BORDERLESS    = 2;
+    BORDERLESS = 2;
     // Our parser does not handle reserved in enums: DESKTOP-1569
-    // reserved        4;
-    GIF           = 8;
+    // reserved 4;
+    GIF = 8;
   }
 
   oneof attachment_identifier {
-    fixed64        cdnId           = 1;
-    string         cdnKey          = 15;
+    fixed64 cdnId = 1;
+    string cdnKey = 15;
   }
-  optional string  contentType     = 2;
-  optional bytes   key             = 3;
-  optional uint32  size            = 4;
-  optional bytes   thumbnail       = 5;
-  optional bytes   digest          = 6;
-  optional string  fileName        = 7;
-  optional uint32  flags           = 8;
-  optional uint32  width           = 9;
-  optional uint32  height          = 10;
-  optional string  caption         = 11;
-  optional string  blurHash        = 12;
-  optional uint64  uploadTimestamp = 13;
-  optional uint32  cdnNumber       = 14;
-  // Next ID: 16
+  // Cross-client identifier for this attachment among all attachments on the
+  // owning message.
+  optional bytes clientUuid = 20;
+  optional string contentType = 2;
+  optional bytes key = 3;
+  optional uint32 size = 4;
+  optional bytes thumbnail = 5;
+  optional bytes digest = 6;
+  reserved /* incrementalMac with implicit chunk sizing */ 16;
+  reserved /* incrementalMac for all attachment types */ 18;
+  optional bytes incrementalMac = 19;
+  optional uint32 chunkSize = 17;
+  optional string fileName = 7;
+  optional uint32 flags = 8;
+  optional uint32 width = 9;
+  optional uint32 height = 10;
+  optional string caption = 11;
+  optional string blurHash = 12;
+  optional uint64 uploadTimestamp = 13;
+  optional uint32 cdnNumber = 14;
+  // Next ID: 21
 }
 
 message GroupContextV2 {

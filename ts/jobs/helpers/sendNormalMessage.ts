@@ -3,6 +3,7 @@
 
 import { isNumber } from 'lodash';
 import PQueue from 'p-queue';
+import { v4 as generateUuid } from 'uuid';
 
 import * as Errors from '../../types/errors';
 import { strictAssert } from '../../util/assert';
@@ -589,6 +590,7 @@ async function getMessageSendData({
 
     maybeLongAttachment = {
       contentType: LONG_MESSAGE,
+      clientUuid: generateUuid(),
       fileName: `long-message-${targetTimestamp}.txt`,
       data,
       size: data.byteLength,

@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 import Long from 'long';
+import { v4 as generateUuid } from 'uuid';
 
 import {
   processDataMessage,
@@ -12,14 +13,17 @@ import type { ProcessedAttachment } from '../textsecure/Types.d';
 import { SignalService as Proto } from '../protobuf';
 import { IMAGE_GIF, IMAGE_JPEG } from '../types/MIME';
 import { generateAci } from '../types/ServiceId';
+import { uuidToBytes } from '../util/uuidToBytes';
 
 const ACI_1 = generateAci();
 const FLAGS = Proto.DataMessage.Flags;
 
 const TIMESTAMP = Date.now();
+const CLIENT_UUID = generateUuid();
 
 const UNPROCESSED_ATTACHMENT: Proto.IAttachmentPointer = {
   cdnId: Long.fromNumber(123),
+  clientUuid: uuidToBytes(CLIENT_UUID),
   key: new Uint8Array([1, 2, 3]),
   digest: new Uint8Array([4, 5, 6]),
   contentType: IMAGE_GIF,
@@ -28,6 +32,7 @@ const UNPROCESSED_ATTACHMENT: Proto.IAttachmentPointer = {
 
 const PROCESSED_ATTACHMENT: ProcessedAttachment = {
   cdnId: '123',
+  clientUuid: CLIENT_UUID,
   key: 'AQID',
   digest: 'BAUG',
   contentType: IMAGE_GIF,

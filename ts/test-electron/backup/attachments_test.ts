@@ -84,6 +84,7 @@ describe('backup/attachments', () => {
     return {
       cdnKey: `cdnKey${index}`,
       cdnNumber: 3,
+      clientUuid: generateGuid(),
       key: getBase64(`key${index}`),
       digest: getBase64(`digest${index}`),
       iv: getBase64(`iv${index}`),
@@ -212,7 +213,7 @@ describe('backup/attachments', () => {
 
   describe('Preview attachments', () => {
     it('BackupLevel.Messages, roundtrips preview attachments', async () => {
-      const attachment = composeAttachment(1);
+      const attachment = composeAttachment(1, { clientUuid: undefined });
 
       await asymmetricRoundtripHarness(
         [
@@ -236,7 +237,7 @@ describe('backup/attachments', () => {
       );
     });
     it('BackupLevel.Media, roundtrips preview attachments', async () => {
-      const attachment = composeAttachment(1);
+      const attachment = composeAttachment(1, { clientUuid: undefined });
       strictAssert(attachment.digest, 'digest exists');
 
       await asymmetricRoundtripHarness(
@@ -283,7 +284,7 @@ describe('backup/attachments', () => {
 
   describe('contact attachments', () => {
     it('BackupLevel.Messages, roundtrips contact attachments', async () => {
-      const attachment = composeAttachment(1);
+      const attachment = composeAttachment(1, { clientUuid: undefined });
 
       await asymmetricRoundtripHarness(
         [
@@ -308,7 +309,7 @@ describe('backup/attachments', () => {
       );
     });
     it('BackupLevel.Media, roundtrips contact attachments', async () => {
-      const attachment = composeAttachment(1);
+      const attachment = composeAttachment(1, { clientUuid: undefined });
       strictAssert(attachment.digest, 'digest exists');
 
       await asymmetricRoundtripHarness(
@@ -346,7 +347,7 @@ describe('backup/attachments', () => {
 
   describe('quotes', () => {
     it('BackupLevel.Messages, roundtrips quote attachments', async () => {
-      const attachment = composeAttachment(1);
+      const attachment = composeAttachment(1, { clientUuid: undefined });
       const authorAci = generateAci();
       const quotedMessage: QuotedMessageType = {
         authorAci,
@@ -383,7 +384,7 @@ describe('backup/attachments', () => {
       );
     });
     it('BackupLevel.Media, roundtrips quote attachments', async () => {
-      const attachment = composeAttachment(1);
+      const attachment = composeAttachment(1, { clientUuid: undefined });
       strictAssert(attachment.digest, 'digest exists');
       const authorAci = generateAci();
       const quotedMessage: QuotedMessageType = {
@@ -435,7 +436,7 @@ describe('backup/attachments', () => {
         attachments: [existingAttachment],
       });
 
-      const quoteAttachment = composeAttachment(2);
+      const quoteAttachment = composeAttachment(2, { clientUuid: undefined });
       delete quoteAttachment.thumbnail;
 
       strictAssert(quoteAttachment.digest, 'digest exists');
@@ -687,7 +688,7 @@ describe('backup/attachments', () => {
     });
     describe('when this device sent sticker (i.e. encryption info exists on message)', () => {
       it('roundtrips sticker', async () => {
-        const attachment = composeAttachment(1);
+        const attachment = composeAttachment(1, { clientUuid: undefined });
         strictAssert(attachment.digest, 'digest exists');
         await asymmetricRoundtripHarness(
           [

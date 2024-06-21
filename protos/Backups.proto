@@ -567,6 +567,9 @@ message MessageAttachment {
   FilePointer pointer = 1;
   Flag flag = 2;
   bool wasDownloaded = 3;
+  // Cross-client identifier for this attachment among all attachments on the
+  // owning message. See: SignalService.AttachmentPointer.clientUuid.
+  optional bytes clientUuid = 4; 
 }
 
 message FilePointer {

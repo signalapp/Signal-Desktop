@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction } from 'redux-thunk';
+import { v4 as generateUuid } from 'uuid';
 
 import type { ReadonlyDeep } from 'type-fest';
 import * as log from '../../logging/log';
@@ -172,6 +173,7 @@ export function completeRecording(
 
       const voiceNoteAttachment: InMemoryAttachmentDraftType = {
         pending: false,
+        clientUuid: generateUuid(),
         contentType: stringToMIMEType(blob.type),
         data,
         size: data.byteLength,

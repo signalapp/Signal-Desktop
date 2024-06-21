@@ -55,6 +55,7 @@ export async function handleImageAttachment(
 
   return {
     blurHash,
+    clientUuid: genUuid(),
     contentType,
     data: new Uint8Array(data),
     fileName: fileName || file.name,

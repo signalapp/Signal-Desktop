@@ -38,6 +38,7 @@ import {
 import { redactGenericText } from '../../../util/privacy';
 import { missingCaseError } from '../../../util/missingCaseError';
 import { toLogFormat } from '../../../types/errors';
+import { bytesToUuid } from '../../../util/uuidToBytes';
 
 export function convertFilePointerToAttachment(
   filePointer: Backups.FilePointer
@@ -128,10 +129,16 @@ export function convertFilePointerToAttachment(
 export function convertBackupMessageAttachmentToAttachment(
   messageAttachment: Backups.IMessageAttachment
 ): AttachmentType | null {
+  const { clientUuid } = messageAttachment;
+
   if (!messageAttachment.pointer) {
     return null;
   }
-  const result = convertFilePointerToAttachment(messageAttachment.pointer);
+  const result = {
+    ...convertFilePointerToAttachment(messageAttachment.pointer),
+    clientUuid: clientUuid ? bytesToUuid(clientUuid) : undefined,
+  };
+
   switch (messageAttachment.flag) {
     case Backups.MessageAttachment.Flag.VOICE_MESSAGE:
       result.flags = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;

@@ -31,6 +31,7 @@ import { PaymentEventKind } from '../types/Payment';
 import { filterAndClean } from '../types/BodyRange';
 import { isAciString } from '../util/isAciString';
 import { normalizeAci } from '../util/normalizeAci';
+import { bytesToUuid } from '../util/uuidToBytes';
 
 const FLAGS = Proto.DataMessage.Flags;
 export const ATTACHMENT_MAX = 32;
@@ -52,7 +53,7 @@ export function processAttachment(
   const { cdnId } = attachment;
   const hasCdnId = Long.isLong(cdnId) ? !cdnId.isZero() : Boolean(cdnId);
 
-  const { contentType, digest, key, size } = attachment;
+  const { clientUuid, contentType, digest, key, size } = attachment;
   if (!isNumber(size)) {
     throw new Error('Missing size on incoming attachment!');
   }
@@ -61,6 +62,7 @@ export function processAttachment(
     ...shallowDropNull(attachment),
 
     cdnId: hasCdnId ? String(cdnId) : undefined,
+    clientUuid: clientUuid ? bytesToUuid(clientUuid) : undefined,
     contentType: contentType
       ? stringToMIMEType(contentType)
       : APPLICATION_OCTET_STREAM,

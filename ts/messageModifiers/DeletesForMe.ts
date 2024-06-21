@@ -12,6 +12,7 @@ import type {
   MessageToDelete,
 } from '../textsecure/messageReceiverEvents';
 import {
+  deleteAttachmentFromMessage,
   deleteMessage,
   doesMessageMatch,
   getConversationFromTarget,
@@ -23,6 +24,11 @@ const { removeSyncTaskById } = dataInterface;
 
 export type DeleteForMeAttributesType = {
   conversation: ConversationToDelete;
+  deleteAttachmentData?: {
+    clientUuid?: string;
+    fallbackDigest?: string;
+    fallbackPlaintextHash?: string;
+  };
   envelopeId: string;
   message: MessageToDelete;
   syncTaskId: string;
@@ -91,11 +97,23 @@ export async function onDelete(item: DeleteForMeAttributesType): Promise<void> {
       conversation.queueJob('DeletesForMe.onDelete', async () => {
         log.info(`${logId}: Starting...`);
 
-        const result = await deleteMessage(
-          conversation.id,
-          item.message,
-          logId
-        );
+        let result: boolean;
+        if (item.deleteAttachmentData) {
+          // This will find the message, then work with a backbone model to mirror what
+          //   modifyTargetMessage does.
+          result = await deleteAttachmentFromMessage(
+            conversation.id,
+            item.message,
+            item.deleteAttachmentData,
+            {
+              deleteOnDisk: window.Signal.Migrations.deleteAttachmentData,
+              logId,
+            }
+          );
+        } else {
+          // This automatically notifies redux
+          result = await deleteMessage(conversation.id, item.message, logId);
+        }
         if (result) {
           await remove(item);
         }

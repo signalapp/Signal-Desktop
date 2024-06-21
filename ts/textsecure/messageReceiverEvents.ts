@@ -526,10 +526,20 @@ export const deleteLocalConversationSchema = z.object({
   conversation: conversationToDeleteSchema,
   timestamp: z.number(),
 });
+export const deleteAttachmentSchema = z.object({
+  type: z.literal('delete-single-attachment').readonly(),
+  conversation: conversationToDeleteSchema,
+  message: messageToDeleteSchema,
+  clientUuid: z.string().optional(),
+  fallbackDigest: z.string().optional(),
+  fallbackPlaintextHash: z.string().optional(),
+  timestamp: z.number(),
+});
 export const deleteForMeSyncTargetSchema = z.union([
   deleteMessageSchema,
   deleteConversationSchema,
   deleteLocalConversationSchema,
+  deleteAttachmentSchema,
 ]);
 
 export type DeleteForMeSyncTarget = z.infer<typeof deleteForMeSyncTargetSchema>;

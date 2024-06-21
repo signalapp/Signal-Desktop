@@ -1833,6 +1833,7 @@ export class BackupExportStream extends Readable {
     backupLevel: BackupLevel;
     messageReceivedAt: number;
   }): Promise<Backups.MessageAttachment> {
+    const { clientUuid } = attachment;
     const filePointer = await this.processAttachment({
       attachment,
       backupLevel,
@@ -1843,6 +1844,7 @@ export class BackupExportStream extends Readable {
       pointer: filePointer,
       flag: this.getMessageAttachmentFlag(attachment),
       wasDownloaded: isDownloaded(attachment), // should always be true
+      clientUuid: clientUuid ? uuidToBytes(clientUuid) : undefined,
     });
   }
 

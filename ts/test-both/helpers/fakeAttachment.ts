@@ -1,6 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { v4 as generateUuid } from 'uuid';
+
 import type {
   AttachmentType,
   AttachmentDraftType,
@@ -33,6 +35,7 @@ export const fakeDraftAttachment = (
   overrides: Partial<AttachmentDraftType> = {}
 ): AttachmentDraftType => ({
   pending: false,
+  clientUuid: generateUuid(),
   contentType: IMAGE_JPEG,
   path: 'file.jpg',
   size: 10304,

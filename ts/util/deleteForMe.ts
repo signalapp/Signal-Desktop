@@ -13,7 +13,10 @@ import {
 import { missingCaseError } from './missingCaseError';
 import { getMessageSentTimestampSet } from './getMessageSentTimestampSet';
 import { getAuthor } from '../messages/helpers';
+import { isPniString } from '../types/ServiceId';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import dataInterface, { deleteAndCleanup } from '../sql/Client';
+import { deleteData } from '../types/Attachment';
 
 import type {
   ConversationAttributesType,
@@ -24,14 +27,15 @@ import type {
   ConversationToDelete,
   MessageToDelete,
 } from '../textsecure/messageReceiverEvents';
-import { isPniString } from '../types/ServiceId';
 import type { AciString, PniString } from '../types/ServiceId';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
+import type { AttachmentType } from '../types/Attachment';
+import type { MessageModel } from '../models/messages';
 
 const {
   getMessagesBySentAt,
   getMostRecentAddressableMessages,
   removeMessagesInConversation,
+  saveMessage,
 } = dataInterface;
 
 export function doesMessageMatch({
@@ -93,14 +97,161 @@ export async function deleteMessage(
   const found = await findMatchingMessage(conversationId, query);
 
   if (!found) {
-    log.warn(`${logId}: Couldn't find matching message`);
+    log.warn(`${logId}/deleteMessage: Couldn't find matching message`);
     return false;
   }
 
-  await deleteAndCleanup([found], logId, {
+  const message = window.MessageCache.toMessageAttributes(found);
+  await applyDeleteMessage(message, logId);
+
+  return true;
+}
+export async function applyDeleteMessage(
+  message: MessageAttributesType,
+  logId: string
+): Promise<void> {
+  await deleteAndCleanup([message], logId, {
     fromSync: true,
     singleProtoJobQueue,
   });
+}
+
+export async function deleteAttachmentFromMessage(
+  conversationId: string,
+  targetMessage: MessageToDelete,
+  deleteAttachmentData: {
+    clientUuid?: string;
+    fallbackDigest?: string;
+    fallbackPlaintextHash?: string;
+  },
+  {
+    deleteOnDisk,
+    logId,
+  }: {
+    deleteOnDisk: (path: string) => Promise<void>;
+    logId: string;
+  }
+): Promise<boolean> {
+  const query = getMessageQueryFromTarget(targetMessage);
+  const found = await findMatchingMessage(conversationId, query);
+
+  if (!found) {
+    log.warn(
+      `${logId}/deleteAttachmentFromMessage: Couldn't find matching message`
+    );
+    return false;
+  }
+
+  const message = window.MessageCache.__DEPRECATED$register(
+    found.id,
+    found,
+    'ReadSyncs.onSync'
+  );
+
+  return applyDeleteAttachmentFromMessage(message, deleteAttachmentData, {
+    deleteOnDisk,
+    logId,
+    shouldSave: true,
+  });
+}
+
+export async function applyDeleteAttachmentFromMessage(
+  message: MessageModel,
+  {
+    clientUuid,
+    fallbackDigest,
+    fallbackPlaintextHash,
+  }: {
+    clientUuid?: string;
+    fallbackDigest?: string;
+    fallbackPlaintextHash?: string;
+  },
+  {
+    deleteOnDisk,
+    shouldSave,
+    logId,
+  }: {
+    deleteOnDisk: (path: string) => Promise<void>;
+    shouldSave: boolean;
+    logId: string;
+  }
+): Promise<boolean> {
+  if (!clientUuid && !fallbackDigest && !fallbackPlaintextHash) {
+    log.warn(
+      `${logId}/deleteAttachmentFromMessage: No clientUuid, fallbackDigest or fallbackPlaintextHash`
+    );
+    return true;
+  }
+
+  const ourAci = window.textsecure.storage.user.getCheckedAci();
+
+  const attachments = message.get('attachments');
+  if (!attachments || attachments.length === 0) {
+    log.warn(
+      `${logId}/deleteAttachmentFromMessage: No attachments on target message`
+    );
+    return true;
+  }
+
+  async function checkFieldAndDelete(
+    value: string | undefined,
+    valueName: string,
+    fieldName: keyof AttachmentType
+  ): Promise<boolean> {
+    if (value) {
+      const attachment = attachments?.find(
+        item => item.digest && item[fieldName] === value
+      );
+      if (attachment) {
+        message.set({
+          attachments: attachments?.filter(item => item !== attachment),
+        });
+        if (shouldSave) {
+          await saveMessage(message.attributes, { ourAci });
+        }
+        await deleteData(deleteOnDisk)(attachment);
+
+        return true;
+      }
+      log.warn(
+        `${logId}/deleteAttachmentFromMessage: No attachment found with provided ${valueName}`
+      );
+    } else {
+      log.warn(
+        `${logId}/deleteAttachmentFromMessage: No ${valueName} provided`
+      );
+    }
+
+    return false;
+  }
+  let result: boolean;
+
+  result = await checkFieldAndDelete(clientUuid, 'clientUuid', 'clientUuid');
+  if (result) {
+    return true;
+  }
+
+  result = await checkFieldAndDelete(
+    fallbackDigest,
+    'fallbackDigest',
+    'digest'
+  );
+  if (result) {
+    return true;
+  }
+
+  result = await checkFieldAndDelete(
+    fallbackPlaintextHash,
+    'fallbackPlaintextHash',
+    'plaintextHash'
+  );
+  if (result) {
+    return true;
+  }
+
+  log.warn(
+    `${logId}/deleteAttachmentFromMessage: Couldn't find target attachment`
+  );
 
   return true;
 }

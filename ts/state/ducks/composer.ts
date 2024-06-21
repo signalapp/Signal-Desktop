@@ -799,6 +799,7 @@ function addAttachment(
     // We do async operations first so multiple in-process addAttachments don't stomp on
     //   each other.
     const onDisk = await writeDraftAttachment(attachment);
+    const toAdd = { ...onDisk, clientUuid: generateUuid() };
 
     const state = getState();
 
@@ -822,7 +823,7 @@ function addAttachment(
 
     // User has canceled the draft so we don't need to continue processing
     if (!hasDraftAttachmentPending) {
-      await deleteDraftAttachment(onDisk);
+      await deleteDraftAttachment(toAdd);
       return;
     }
 
@@ -835,9 +836,9 @@ function addAttachment(
       log.warn(
         `addAttachment: Failed to find pending attachment with path ${attachment.path}`
       );
-      nextAttachments = [...draftAttachments, onDisk];
+      nextAttachments = [...draftAttachments, toAdd];
     } else {
-      nextAttachments = replaceIndex(draftAttachments, index, onDisk);
+      nextAttachments = replaceIndex(draftAttachments, index, toAdd);
     }
 
     replaceAttachments(conversationId, nextAttachments)(
@@ -1165,6 +1166,7 @@ function getPendingAttachment(file: File): AttachmentDraftType | undefined {
 
   return {
     contentType: fileType,
+    clientUuid: generateUuid(),
     fileName,
     size: file.size,
     path: file.name,
