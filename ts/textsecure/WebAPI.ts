@@ -2566,13 +2566,17 @@ export function initialize({
         throw new Error('createAccount: invalid code');
       }
 
+      const capabilities: CapabilitiesUploadType = {
+        deleteSync: true,
+      };
+
       const jsonData = {
         sessionId: session.id,
         accountAttributes: {
           fetchesMessages: true,
           registrationId,
           pniRegistrationId,
-          capabilities: {},
+          capabilities,
           unidentifiedAccessKey: Bytes.toBase64(accessKey),
         },
         requireAtomic: true,
@@ -2616,6 +2620,10 @@ export function initialize({
       aciPqLastResortPreKey,
       pniPqLastResortPreKey,
     }: LinkDeviceOptionsType) {
+      const capabilities: CapabilitiesUploadType = {
+        deleteSync: true,
+      };
+
       const jsonData = {
         verificationCode,
         accountAttributes: {
@@ -2623,7 +2631,7 @@ export function initialize({
           name: encryptedDeviceName,
           registrationId,
           pniRegistrationId,
-          capabilities: {},
+          capabilities,
         },
         aciSignedPreKey: serializeSignedPreKey(aciSignedPreKey),
         pniSignedPreKey: serializeSignedPreKey(pniSignedPreKey),
