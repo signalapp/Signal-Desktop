@@ -105,8 +105,9 @@ export type ProcessedEnvelope = Readonly<{
 export type ProcessedAttachment = {
   cdnId?: string;
   cdnKey?: string;
-  digest?: string;
   contentType: MIMEType;
+  clientUuid?: string;
+  digest?: string;
   key?: string;
   size: number;
   fileName?: string;

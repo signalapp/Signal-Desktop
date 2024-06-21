@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEqual } from 'lodash';
+import PQueue from 'p-queue';
 import type { ConversationModel } from '../models/conversations';
 import type { MessageModel } from '../models/messages';
 import type { SendStateByConversationId } from '../messages/MessageSendState';
@@ -29,7 +30,10 @@ import { getSourceServiceId } from '../messages/helpers';
 import { missingCaseError } from './missingCaseError';
 import { reduce } from './iterables';
 import { strictAssert } from './assert';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
+import {
+  applyDeleteAttachmentFromMessage,
+  applyDeleteMessage,
+} from './deleteForMe';
 
 export enum ModifyTargetMessageResult {
   Modified = 'Modified',
@@ -55,14 +59,45 @@ export async function modifyTargetMessage(
 
   const syncDeletes = await DeletesForMe.forMessage(message.attributes);
   if (syncDeletes.length) {
-    if (!isFirstRun) {
-      await window.Signal.Data.removeMessage(message.id, {
-        fromSync: true,
-        singleProtoJobQueue,
-      });
+    const attachmentDeletes = syncDeletes.filter(
+      item => item.deleteAttachmentData
+    );
+    const isFullDelete = attachmentDeletes.length !== syncDeletes.length;
+
+    if (isFullDelete) {
+      if (!isFirstRun) {
+        await applyDeleteMessage(message.attributes, logId);
+      }
+
+      return ModifyTargetMessageResult.Deleted;
     }
 
-    return ModifyTargetMessageResult.Deleted;
+    log.warn(
+      `${logId}: Applying ${attachmentDeletes.length} attachment deletes in order`
+    );
+    const deleteQueue = new PQueue({ concurrency: 1 });
+    await deleteQueue.addAll(
+      attachmentDeletes.map(item => async () => {
+        if (!item.deleteAttachmentData) {
+          log.warn(
+            `${logId}: attachmentDeletes list had item with no deleteAttachmentData`
+          );
+          return;
+        }
+        const result = await applyDeleteAttachmentFromMessage(
+          message,
+          item.deleteAttachmentData,
+          {
+            logId,
+            shouldSave: false,
+            deleteOnDisk: window.Signal.Migrations.deleteAttachmentData,
+          }
+        );
+        if (result) {
+          changed = true;
+        }
+      })
+    );
   }
 
   if (type === 'outgoing' || (type === 'story' && ourAci === sourceServiceId)) {

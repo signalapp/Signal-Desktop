@@ -11,6 +11,7 @@ import {
   deleteMessageSchema,
   deleteConversationSchema,
   deleteLocalConversationSchema,
+  deleteAttachmentSchema,
 } from '../textsecure/messageReceiverEvents';
 import {
   receiptSyncTaskSchema,
@@ -34,6 +35,7 @@ const syncTaskDataSchema = z.union([
   deleteMessageSchema,
   deleteConversationSchema,
   deleteLocalConversationSchema,
+  deleteAttachmentSchema,
   receiptSyncTaskSchema,
   readSyncTaskSchema,
   viewSyncTaskSchema,
@@ -54,6 +56,7 @@ const SCHEMAS_BY_TYPE: Record<SyncTaskData['type'], ZodSchema> = {
   'delete-message': deleteMessageSchema,
   'delete-conversation': deleteConversationSchema,
   'delete-local-conversation': deleteLocalConversationSchema,
+  'delete-single-attachment': deleteAttachmentSchema,
   Delivery: receiptSyncTaskSchema,
   Read: receiptSyncTaskSchema,
   View: receiptSyncTaskSchema,
@@ -151,6 +154,21 @@ export async function queueSyncTasks(
           await removeSyncTaskById(id);
 
           log.info(`${logId}: Done; result=${result}`);
+        })
+      );
+    } else if (parsed.type === 'delete-single-attachment') {
+      drop(
+        DeletesForMe.onDelete({
+          conversation: parsed.conversation,
+          deleteAttachmentData: {
+            clientUuid: parsed.clientUuid,
+            fallbackDigest: parsed.fallbackDigest,
+            fallbackPlaintextHash: parsed.fallbackPlaintextHash,
+          },
+          envelopeId,
+          message: parsed.message,
+          syncTaskId: id,
+          timestamp: sentAt,
         })
       );
     } else if (

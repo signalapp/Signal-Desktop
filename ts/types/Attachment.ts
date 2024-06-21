@@ -44,6 +44,7 @@ export type AttachmentType = {
   error?: boolean;
   blurHash?: string;
   caption?: string;
+  clientUuid?: string;
   contentType: MIME.MIMEType;
   digest?: string;
   fileName?: string;
@@ -154,6 +155,7 @@ export type BaseAttachmentDraftType = {
 export type InMemoryAttachmentDraftType =
   | ({
       data: Uint8Array;
+      clientUuid: string;
       pending: false;
       screenshotData?: Uint8Array;
       fileName?: string;
@@ -161,6 +163,7 @@ export type InMemoryAttachmentDraftType =
     } & BaseAttachmentDraftType)
   | {
       contentType: MIME.MIMEType;
+      clientUuid: string;
       fileName?: string;
       path?: string;
       pending: true;
@@ -180,8 +183,10 @@ export type AttachmentDraftType =
       path: string;
       width?: number;
       height?: number;
+      clientUuid: string;
     } & BaseAttachmentDraftType)
   | {
+      clientUuid: string;
       contentType: MIME.MIMEType;
       fileName?: string;
       path?: string;

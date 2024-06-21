@@ -1,6 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { v4 as generateUuid } from 'uuid';
+
 import * as log from '../logging/log';
 import type {
   AttachmentType,
@@ -35,6 +37,7 @@ export async function processAttachment(
     } else {
       const data = await fileToBytes(file);
       attachment = {
+        clientUuid: generateUuid(),
         contentType: fileType,
         data,
         fileName: file.name,
@@ -50,6 +53,7 @@ export async function processAttachment(
     );
     const data = await fileToBytes(file);
     attachment = {
+      clientUuid: generateUuid(),
       contentType: fileType,
       data,
       fileName: file.name,

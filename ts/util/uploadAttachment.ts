@@ -20,6 +20,7 @@ import {
   type HardcodedIVForEncryptionType,
 } from '../AttachmentCrypto';
 import { missingCaseError } from './missingCaseError';
+import { uuidToBytes } from './uuidToBytes';
 
 const CDNS_SUPPORTING_TUS = new Set([3]);
 
@@ -37,9 +38,13 @@ export async function uploadAttachment(
     uploadType: 'standard',
   });
 
+  const { blurHash, caption, clientUuid, fileName, flags, height, width } =
+    attachment;
+
   return {
     cdnKey,
     cdnNumber,
+    clientUuid: clientUuid ? uuidToBytes(clientUuid) : undefined,
     key: keys,
     iv: encrypted.iv,
     size: attachment.data.byteLength,
@@ -47,12 +52,12 @@ export async function uploadAttachment(
     plaintextHash: encrypted.plaintextHash,
 
     contentType: MIMETypeToString(attachment.contentType),
-    fileName: attachment.fileName,
-    flags: attachment.flags,
-    width: attachment.width,
-    height: attachment.height,
-    caption: attachment.caption,
-    blurHash: attachment.blurHash,
+    fileName,
+    flags,
+    width,
+    height,
+    caption,
+    blurHash,
   };
 }
 

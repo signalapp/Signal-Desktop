@@ -30,6 +30,7 @@ export function resolveDraftAttachmentOnDisk(
     ...pick(attachment, [
       'blurHash',
       'caption',
+      'clientUuid',
       'contentType',
       'fileName',
       'flags',

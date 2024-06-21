@@ -1534,6 +1534,10 @@ export default class MessageSender {
         deleteForMe.localOnlyConversationDeletes.push({
           conversation,
         });
+      } else if (item.type === 'delete-single-attachment') {
+        throw new Error(
+          "getDeleteForMeSyncMessage: Desktop currently does not support sending 'delete-single-attachment' messages"
+        );
       } else {
         throw missingCaseError(item);
       }
