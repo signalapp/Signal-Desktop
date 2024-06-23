@@ -385,9 +385,9 @@ export class SwarmPolling {
       );
       await ConfigMessageHandler.handleConfigMessagesViaLibSession(userConfigMessagesMerged);
     } catch (e) {
-      const allMessageHases = userConfigMessagesMerged.map(m => m.hash).join(',');
+      const allMessagesHashes = userConfigMessagesMerged.map(m => m.hash).join(',');
       window.log.warn(
-        `failed to handle messages hashes "${allMessageHases}" with libsession. Error: "${e.message}"`
+        `failed to handle messages hashes "${allMessagesHashes}" with libsession. Error: "${e.message}"`
       );
     }
   }

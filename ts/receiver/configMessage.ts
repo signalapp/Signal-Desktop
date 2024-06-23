@@ -41,9 +41,9 @@ import {
   setLastProfileUpdateTimestamp,
 } from '../util/storage';
 
-// eslint-disable-next-line import/no-unresolved
 import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
 import { RetrieveMessageItemWithNamespace } from '../session/apis/snode_api/types';
+// eslint-disable-next-line import/no-unresolved
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 import {
   ContactsWrapperActions,
