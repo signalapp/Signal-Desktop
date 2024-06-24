@@ -91,6 +91,7 @@ import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from './jobs/conversationJobQueue';
+import { groupAvatarJobQueue } from './jobs/groupAvatarJobQueue';
 import { ReadStatus } from './messages/MessageReadStatus';
 import { SeenStatus } from './MessageSeenStatus';
 import { incrementMessageCounter } from './util/incrementMessageCounter';
@@ -3239,8 +3240,13 @@ async function updateGroup(
     await appendChangeMessages(conversation, changeMessagesToSave);
   }
 
+  const { avatar: newAvatar, ...restOfAttributes } = newAttributes;
+  const hasAvatarChanged =
+    'avatar' in newAttributes &&
+    newAvatar?.url !== conversation.get('avatar')?.url;
+
   conversation.set({
-    ...newAttributes,
+    ...restOfAttributes,
     active_at: activeAt,
   });
 
@@ -3250,6 +3256,13 @@ async function updateGroup(
 
   // Save these most recent updates to conversation
   await updateConversation(conversation.attributes);
+
+  if (hasAvatarChanged) {
+    await groupAvatarJobQueue.add({
+      conversationId: conversation.id,
+      newAvatarUrl: newAvatar?.url,
+    });
+  }
 }
 
 // Exported for testing
@@ -3685,11 +3698,10 @@ async function updateGroupViaPreJoinInfo({
       },
     ],
     revision: dropNull(preJoinInfo.version),
+    avatar: preJoinInfo.avatar ? { url: preJoinInfo.avatar } : undefined,
 
     temporaryMemberCount: preJoinInfo.memberCount || 1,
   };
-
-  await applyNewAvatar(dropNull(preJoinInfo.avatar), newAttributes, logId);
 
   return {
     newAttributes,
@@ -5247,7 +5259,7 @@ async function applyGroupChange({
   // modifyAvatar?: GroupChange.Actions.ModifyAvatarAction;
   if (actions.modifyAvatar) {
     const { avatar } = actions.modifyAvatar;
-    await applyNewAvatar(dropNull(avatar), result, logId);
+    result.avatar = avatar ? { url: avatar } : undefined;
   }
 
   // modifyDisappearingMessagesTimer?:
@@ -5519,46 +5531,60 @@ export async function decryptGroupAvatar(
 }
 
 // Overwriting result.avatar as part of functionality
-/* eslint-disable no-param-reassign */
 export async function applyNewAvatar(
-  newAvatar: string | undefined,
-  result: Pick<ConversationAttributesType, 'avatar' | 'secretParams'>,
+  newAvatarUrl: string | undefined,
+  attributes: Readonly<
+    Pick<ConversationAttributesType, 'avatar' | 'secretParams'>
+  >,
   logId: string
-): Promise<void> {
+): Promise<Pick<ConversationAttributesType, 'avatar'>> {
+  const result: Pick<ConversationAttributesType, 'avatar'> = {};
   try {
     // Avatar has been dropped
-    if (!newAvatar && result.avatar) {
-      await window.Signal.Migrations.deleteAttachmentData(result.avatar.path);
+    if (!newAvatarUrl && attributes.avatar) {
+      if (attributes.avatar.path) {
+        await window.Signal.Migrations.deleteAttachmentData(
+          attributes.avatar.path
+        );
+      }
       result.avatar = undefined;
     }
 
     // Group has avatar; has it changed?
-    if (newAvatar && (!result.avatar || result.avatar.url !== newAvatar)) {
-      if (!result.secretParams) {
+    if (
+      newAvatarUrl &&
+      (!attributes.avatar || attributes.avatar.url !== newAvatarUrl)
+    ) {
+      if (!attributes.secretParams) {
         throw new Error('applyNewAvatar: group was missing secretParams!');
       }
 
-      const data = await decryptGroupAvatar(newAvatar, result.secretParams);
+      const data = await decryptGroupAvatar(
+        newAvatarUrl,
+        attributes.secretParams
+      );
       const hash = computeHash(data);
 
-      if (result.avatar?.hash === hash) {
+      if (attributes.avatar?.hash === hash) {
         log.info(
           `applyNewAvatar/${logId}: Hash is the same, but url was different. Saving new url.`
         );
         result.avatar = {
-          ...result.avatar,
-          url: newAvatar,
+          ...attributes.avatar,
+          url: newAvatarUrl,
         };
-        return;
+        return result;
       }
 
-      if (result.avatar) {
-        await window.Signal.Migrations.deleteAttachmentData(result.avatar.path);
+      if (attributes.avatar?.path) {
+        await window.Signal.Migrations.deleteAttachmentData(
+          attributes.avatar.path
+        );
       }
 
       const path = await window.Signal.Migrations.writeNewAttachmentData(data);
       result.avatar = {
-        url: newAvatar,
+        url: newAvatarUrl,
         path,
         hash,
       };
@@ -5573,8 +5599,8 @@ export async function applyNewAvatar(
     }
     result.avatar = undefined;
   }
+  return result;
 }
-/* eslint-enable no-param-reassign */
 
 function profileKeyHasChanged(
   userId: ServiceIdString,
@@ -5654,7 +5680,11 @@ async function applyGroupState({
   }
 
   // avatar
-  await applyNewAvatar(dropNull(groupState.avatar), result, logId);
+  result.avatar = groupState.avatar
+    ? {
+        url: groupState.avatar,
+      }
+    : undefined;
 
   // disappearingMessagesTimer
   // Note: during decryption, disappearingMessageTimer becomes a GroupAttributeBlob

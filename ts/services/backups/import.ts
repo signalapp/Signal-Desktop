@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Aci, Pni } from '@signalapp/libsignal-client';
+import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
 import { ReceiptCredentialPresentation } from '@signalapp/libsignal-client/zkgroup';
 import { v4 as generateUuid } from 'uuid';
 import pMap from 'p-map';
@@ -15,7 +15,11 @@ import * as log from '../../logging/log';
 import { GiftBadgeStates } from '../../components/conversation/Message';
 import { StorySendMode } from '../../types/Stories';
 import type { ServiceIdString, AciString } from '../../types/ServiceId';
-import { fromAciObject, fromPniObject } from '../../types/ServiceId';
+import {
+  fromAciObject,
+  fromPniObject,
+  fromServiceIdObject,
+} from '../../types/ServiceId';
 import { isStoryDistributionId } from '../../types/StoryDistributionId';
 import * as Errors from '../../types/errors';
 import { PaymentEventKind } from '../../types/Payment';
@@ -63,7 +67,7 @@ import type { GroupV2ChangeDetailType } from '../../groups';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { drop } from '../../util/drop';
 import { isNotNil } from '../../util/isNotNil';
-import { isGroup } from '../../util/whatTypeOfConversation';
+import { isGroup, isGroupV2 } from '../../util/whatTypeOfConversation';
 import {
   convertBackupMessageAttachmentToAttachment,
   convertFilePointerToAttachment,
@@ -71,6 +75,7 @@ import {
 import { filterAndClean } from '../../types/BodyRange';
 import { APPLICATION_OCTET_STREAM, stringToMIMEType } from '../../types/MIME';
 import { copyFromQuotedMessage } from '../../messages/copyQuote';
+import { groupAvatarJobQueue } from '../../jobs/groupAvatarJobQueue';
 
 const MAX_CONCURRENCY = 10;
 
@@ -306,13 +311,25 @@ export class BackupImportStream extends Writable {
       window.storage.reset();
       await window.storage.fetch();
 
+      const allConversations = window.ConversationController.getAll();
+
       // Update last message in every active conversation now that we have
       // them loaded into memory.
       await pMap(
-        window.ConversationController.getAll().filter(convo => {
+        allConversations.filter(convo => {
           return convo.get('active_at') || convo.get('isPinned');
         }),
         convo => convo.updateLastMessage(),
+        { concurrency: MAX_CONCURRENCY }
+      );
+
+      // Schedule group avatar download.
+      await pMap(
+        allConversations.filter(({ attributes: convo }) => {
+          const { avatar } = convo;
+          return isGroupV2(convo) && avatar?.url && !avatar.path;
+        }),
+        convo => groupAvatarJobQueue.add({ conversationId: convo.id }),
         { concurrency: MAX_CONCURRENCY }
       );
 
@@ -675,30 +692,153 @@ export class BackupImportStream extends Writable {
   private async fromGroup(
     group: Backups.IGroup
   ): Promise<ConversationAttributesType> {
-    strictAssert(group.masterKey != null, 'fromGroup: missing masterKey');
+    const { masterKey, snapshot } = group;
+    strictAssert(masterKey != null, 'fromGroup: missing masterKey');
+    strictAssert(snapshot != null, 'fromGroup: missing snapshot');
 
-    const secretParams = deriveGroupSecretParams(group.masterKey);
+    const secretParams = deriveGroupSecretParams(masterKey);
     const publicParams = deriveGroupPublicParams(secretParams);
     const groupId = Bytes.toBase64(deriveGroupID(secretParams));
 
+    const {
+      title,
+      description,
+      avatarUrl,
+      disappearingMessagesTimer,
+      accessControl,
+      version,
+      members,
+      membersPendingProfileKey,
+      membersPendingAdminApproval,
+      membersBanned,
+      inviteLinkPassword,
+      announcementsOnly,
+    } = snapshot;
+
+    const expirationTimerS =
+      disappearingMessagesTimer?.disappearingMessagesDuration;
+
+    let storySendMode: StorySendMode | undefined;
+    switch (group.storySendMode) {
+      case Backups.Group.StorySendMode.ENABLED:
+        storySendMode = StorySendMode.Always;
+        break;
+      case Backups.Group.StorySendMode.DISABLED:
+        storySendMode = StorySendMode.Never;
+        break;
+      default:
+        storySendMode = undefined;
+        break;
+    }
     const attrs: ConversationAttributesType = {
       id: generateUuid(),
       type: 'group',
       version: 2,
       groupVersion: 2,
-      masterKey: Bytes.toBase64(group.masterKey),
+      masterKey: Bytes.toBase64(masterKey),
       groupId,
       secretParams: Bytes.toBase64(secretParams),
       publicParams: Bytes.toBase64(publicParams),
       profileSharing: group.whitelisted === true,
       hideStory: group.hideStory === true,
-    };
+      storySendMode,
 
-    if (group.storySendMode === Backups.Group.StorySendMode.ENABLED) {
-      attrs.storySendMode = StorySendMode.Always;
-    } else if (group.storySendMode === Backups.Group.StorySendMode.DISABLED) {
-      attrs.storySendMode = StorySendMode.Never;
-    }
+      // Snapshot
+      name: dropNull(title?.title),
+      description: dropNull(description?.descriptionText),
+      avatar: avatarUrl
+        ? {
+            url: avatarUrl,
+            path: '',
+          }
+        : undefined,
+      expireTimer: expirationTimerS
+        ? DurationInSeconds.fromSeconds(expirationTimerS)
+        : undefined,
+      accessControl: accessControl
+        ? {
+            attributes:
+              dropNull(accessControl.attributes) ??
+              SignalService.AccessControl.AccessRequired.UNKNOWN,
+            members:
+              dropNull(accessControl.members) ??
+              SignalService.AccessControl.AccessRequired.UNKNOWN,
+            addFromInviteLink:
+              dropNull(accessControl.addFromInviteLink) ??
+              SignalService.AccessControl.AccessRequired.UNKNOWN,
+          }
+        : undefined,
+      membersV2: members?.map(({ userId, role, joinedAtVersion }) => {
+        strictAssert(Bytes.isNotEmpty(userId), 'Empty gv2 member userId');
+
+        // Note that we deliberately ignore profile key since it has to be
+        // in the Contact frame
+
+        return {
+          aci: fromAciObject(Aci.fromUuidBytes(userId)),
+          role: dropNull(role) ?? SignalService.Member.Role.UNKNOWN,
+          joinedAtVersion: dropNull(joinedAtVersion) ?? 0,
+        };
+      }),
+      pendingMembersV2: membersPendingProfileKey?.map(
+        ({ member, addedByUserId, timestamp }) => {
+          strictAssert(member != null, 'Missing gv2 pending member');
+          strictAssert(
+            Bytes.isNotEmpty(addedByUserId),
+            'Empty gv2 pending member addedByUserId'
+          );
+
+          // profileKey is not available for pending members.
+          const { userId, role } = member;
+
+          strictAssert(Bytes.isNotEmpty(userId), 'Empty gv2 member userId');
+
+          const serviceId = fromServiceIdObject(
+            ServiceId.parseFromServiceIdBinary(Buffer.from(userId))
+          );
+
+          return {
+            serviceId,
+            role: dropNull(role) ?? SignalService.Member.Role.UNKNOWN,
+            addedByUserId: fromAciObject(Aci.fromUuidBytes(addedByUserId)),
+            timestamp: timestamp != null ? getTimestampFromLong(timestamp) : 0,
+          };
+        }
+      ),
+      pendingAdminApprovalV2: membersPendingAdminApproval?.map(
+        ({ userId, timestamp }) => {
+          strictAssert(Bytes.isNotEmpty(userId), 'Empty gv2 member userId');
+
+          // Note that we deliberately ignore profile key since it has to be
+          // in the Contact frame
+
+          return {
+            aci: fromAciObject(Aci.fromUuidBytes(userId)),
+            timestamp: timestamp != null ? getTimestampFromLong(timestamp) : 0,
+          };
+        }
+      ),
+      bannedMembersV2: membersBanned?.map(({ userId, timestamp }) => {
+        strictAssert(Bytes.isNotEmpty(userId), 'Empty gv2 member userId');
+
+        // Note that we deliberately ignore profile key since it has to be
+        // in the Contact frame
+
+        const serviceId = fromServiceIdObject(
+          ServiceId.parseFromServiceIdBinary(Buffer.from(userId))
+        );
+
+        return {
+          serviceId,
+          timestamp: timestamp != null ? getTimestampFromLong(timestamp) : 0,
+        };
+      }),
+      revision: dropNull(version),
+      groupInviteLinkPassword: Bytes.isNotEmpty(inviteLinkPassword)
+        ? Bytes.toBase64(inviteLinkPassword)
+        : undefined,
+      announcementsOnly: dropNull(announcementsOnly),
+    };
 
     return attrs;
   }

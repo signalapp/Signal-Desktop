@@ -57,7 +57,7 @@ function buildAvatarUpdater({ field }: { field: 'avatar' | 'profileAvatar' }) {
     }
 
     const { hash, path } = oldAvatar;
-    const exists = await doesAttachmentExist(path);
+    const exists = path && (await doesAttachmentExist(path));
     if (!exists) {
       window.SignalContext.log.warn(
         `Conversation.buildAvatarUpdater: attachment ${path} did not exist`
@@ -66,7 +66,9 @@ function buildAvatarUpdater({ field }: { field: 'avatar' | 'profileAvatar' }) {
 
     if (exists) {
       if (newAvatar && hash && hash === newAvatar.hash) {
-        await deleteAttachmentData(newAvatar.path);
+        if (newAvatar.path) {
+          await deleteAttachmentData(newAvatar.path);
+        }
         return conversation;
       }
       if (data && hash && hash === newHash) {
@@ -74,7 +76,9 @@ function buildAvatarUpdater({ field }: { field: 'avatar' | 'profileAvatar' }) {
       }
     }
 
-    await deleteAttachmentData(path);
+    if (path) {
+      await deleteAttachmentData(path);
+    }
 
     if (newAvatar) {
       return {

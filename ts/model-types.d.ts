@@ -509,7 +509,7 @@ export type LegacyMigrationPendingMemberType = {
 };
 
 export type GroupV2PendingMemberType = {
-  addedByUserId?: AciString;
+  addedByUserId: AciString;
   serviceId: ServiceIdString;
   timestamp: number;
   role: MemberRoleEnum;
