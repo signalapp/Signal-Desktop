@@ -4210,13 +4210,9 @@ export class ConversationModel extends window.Backbone
         activityMessage.get('sent_at') ||
         timestamp;
       lastMessageReceivedAt =
-        activityMessage.get('editMessageReceivedAt') ||
-        activityMessage.get('received_at') ||
-        lastMessageReceivedAt;
+        activityMessage.get('received_at') || lastMessageReceivedAt;
       lastMessageReceivedAtMs =
-        activityMessage.get('editMessageReceivedAtMs') ||
-        activityMessage.get('received_at_ms') ||
-        lastMessageReceivedAtMs;
+        activityMessage.get('received_at_ms') || lastMessageReceivedAtMs;
     }
 
     const notificationData = previewMessage?.getNotificationData();
