@@ -22,14 +22,14 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: '20.11.1'
-    - run: npm install -g yarn@1.22.10 npm@10.2.5
+    - run: npm install -g npm@10.2.5
 
     - name: Cache Desktop node_modules
       id: cache-desktop-modules
       uses: actions/cache@v3
       with:
         path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
+        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
 
     - name: Restore cached .eslintcache and tsconfig.tsbuildinfo
       uses: actions/cache/restore@v3
@@ -38,21 +38,21 @@ jobs:
         path: |
           .eslintcache
           tsconfig.tsbuildinfo
-        key: lint-${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**', '.eslintrc.js', '.eslint/**', 'tsconfig.json') }}
+        key: lint-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**', '.eslintrc.js', '.eslint/**', 'tsconfig.json') }}
 
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: yarn install --frozen-lockfile
+      run: npm ci --legacy-peer-deps
       env:
         NPM_CONFIG_LOGLEVEL: verbose
 
-    - run: yarn generate
-    - run: yarn lint
-    - run: yarn lint-deps
-    - run: yarn lint-license-comments
+    - run: npm run generate
+    - run: npm run lint
+    - run: npm run lint-deps
+    - run: npm run lint-license-comments
 
     - name: Check acknowledgments file is up to date
-      run: yarn build:acknowledgments
+      run: npm run build:acknowledgments
       env:
         REQUIRE_SIGNAL_LIB_FILES: 1
 
@@ -79,39 +79,39 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: '20.11.1'
-    
-    - run: npm install -g yarn@1.22.10 npm@10.2.5
+
+    - run: npm install -g npm@10.2.5
 
     - name: Cache Desktop node_modules
       id: cache-desktop-modules
       uses: actions/cache@v3
       with:
         path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
+        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: yarn install --frozen-lockfile
+      run: npm ci --legacy-peer-deps
       env:
         NPM_CONFIG_LOGLEVEL: verbose
 
-    - run: yarn generate
-    - run: yarn prepare-beta-build
-    - run: yarn test-node
-    - run: yarn test-electron
+    - run: npm run generate
+    - run: npm run prepare-beta-build
+    - run: npm run test-node
+    - run: npm run test-electron
       env:
         ARTIFACTS_DIR: artifacts/macos
       timeout-minutes: 5
     - run: touch noop.sh && chmod +x noop.sh
-    - run: yarn build
+    - run: npm run build
       env:
         DISABLE_INSPECT_FUSE: on
         SIGN_MACOS_SCRIPT: noop.sh
     - name: Rebuild native modules for x64
-      run: yarn electron:install-app-deps
-    - run: yarn test-release
+      run: npm run electron:install-app-deps
+    - run: npm run test-release
       env:
         NODE_ENV: production
-    - run: yarn test-eslint
+    - run: npm run test-eslint
 
     - name: Upload artifacts on failure
       if: failure()
@@ -133,45 +133,45 @@ jobs:
         node-version: '20.11.1'
     - run: sudo apt-get install xvfb
 
-    - run: npm install -g yarn@1.22.10 npm@10.2.5
+    - run: npm install -g npm@10.2.5
 
     - name: Cache Desktop node_modules
       id: cache-desktop-modules
       uses: actions/cache@v3
       with:
         path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
+        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: yarn install --frozen-lockfile
+      run: npm ci --legacy-peer-deps
       env:
         NPM_CONFIG_LOGLEVEL: verbose
 
-    - run: yarn generate
-    - run: yarn prepare-beta-build
+    - run: npm run generate
+    - run: npm run prepare-beta-build
 
     - name: Create bundle
-      run: yarn build:esbuild:prod
+      run: npm run build:esbuild:prod
 
     - name: Build with packaging .deb file
-      run: yarn build:release -- --publish=never
+      run: npm run build:release -- --publish=never
       if: github.ref == 'refs/heads/main'
       env:
         DISABLE_INSPECT_FUSE: on
     - name: Build without packaging .deb file
-      run: yarn build:release --linux dir
+      run: npm run build:release -- --linux dir
       if: github.ref != 'refs/heads/main'
       env:
         DISABLE_INSPECT_FUSE: on
 
-    - run: xvfb-run --auto-servernum yarn test-node
-    - run: xvfb-run --auto-servernum yarn test-electron
+    - run: xvfb-run --auto-servernum npm run test-node
+    - run: xvfb-run --auto-servernum npm run test-electron
       timeout-minutes: 5
       env:
         ARTIFACTS_DIR: artifacts/linux
         LANG: en_US
         LANGUAGE: en_US
-    - run: xvfb-run --auto-servernum yarn test-release
+    - run: xvfb-run --auto-servernum npm run test-release
       env:
         NODE_ENV: production
 
@@ -198,7 +198,7 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: '20.11.1'
-    - run: npm install -g yarn@1.22.10 npm@10.2.5 node-gyp@10.0.1
+    - run: npm install -g npm@10.2.5 node-gyp@10.0.1
 
     # Set things up so @nodert-win10-rs4 dependencies build properly
     - run: dir "$env:BUILD_LOCATION"
@@ -211,40 +211,40 @@ jobs:
       uses: actions/cache@v3
       with:
         path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
+        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: yarn install --frozen-lockfile
+      run: npm ci --legacy-peer-deps
       env:
         CHILD_CONCURRENCY: 1
         NPM_CONFIG_LOGLEVEL: verbose
 
-    - run: yarn generate
-    - run: yarn test-node
+    - run: npm run generate
+    - run: npm run test-node
     - run: copy package.json temp.json
     - run: del package.json
     - run: type temp.json | findstr /v certificateSubjectName | findstr /v certificateSha1 > package.json
-    - run: yarn prepare-beta-build
+    - run: npm run prepare-beta-build
 
     - name: Create bundle
-      run: yarn build:esbuild:prod
+      run: npm run build:esbuild:prod
 
     - name: Build with NSIS
-      run: yarn build:release
+      run: npm run build:release
       if: github.ref == 'refs/heads/main'
       env:
         DISABLE_INSPECT_FUSE: on
     - name: Build without NSIS
-      run: yarn build:release --win dir
+      run: npm run build:release -- --win dir
       if: github.ref != 'refs/heads/main'
       env:
         DISABLE_INSPECT_FUSE: on
 
-    - run: yarn test-electron
+    - run: npm run test-electron
       env:
         ARTIFACTS_DIR: artifacts/windows
       timeout-minutes: 5
-    - run: yarn test-release
+    - run: npm run test-release
       env:
         SIGNAL_ENV: production
 
@@ -268,25 +268,24 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: '18.17.1'
-    - run: npm install -g yarn@1.22.10
 
     - name: Install Sticker Creator node_modules
-      run: yarn install
+      run: npm ci --legacy-peer-deps
 
     - name: Build Sticker Creator
-      run: yarn build
+      run: npm run build
 
     - name: Check Sticker Creator types
-      run: yarn check:types
+      run: npm run check:types
 
     - name: Check Sticker Creator formatting
-      run: yarn prettier:check
+      run: npm run prettier:check
 
     - name: Check Sticker Creator linting
-      run: yarn lint
+      run: npm run lint
 
     - name: Run tests
-      run: yarn test --run
+      run: npm test -- --run
 
   mock-tests:
     needs: lint
@@ -308,7 +307,7 @@ jobs:
       with:
         node-version: '20.11.1'
     - name: Install global dependencies
-      run: npm install -g yarn@1.22.10 npm@10.2.5
+      run: npm install -g npm@10.2.5
 
     - name: Install xvfb
       run: sudo apt-get install xvfb
@@ -318,23 +317,23 @@ jobs:
       uses: actions/cache@v3
       with:
         path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
+        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
 
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: yarn install --frozen-lockfile
+      run: npm ci --legacy-peer-deps
       env:
         NPM_CONFIG_LOGLEVEL: verbose
 
     - name: Build typescript
-      run: yarn generate
+      run: npm run generate
     - name: Bundle
-      run: yarn build:esbuild:prod
+      run: npm run build:esbuild:prod
 
     - name: Run mock server tests
       run: |
         set -o pipefail
-        xvfb-run --auto-servernum yarn test-mock
+        xvfb-run --auto-servernum npm run test-mock
       timeout-minutes: 10
       env:
         NODE_ENV: production
