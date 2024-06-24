@@ -142,6 +142,8 @@ a {
     // Override
     max-height: var(--original-size);
     max-width: var(--original-size);
+    min-height: var(--original-size);
+    min-width: var(--original-size);
     padding: 0;
 
     height: var(--original-size);

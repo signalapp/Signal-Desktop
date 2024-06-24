@@ -527,12 +527,12 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@indutny/emoji-picker-react@4.4.9":
-  version "4.4.9"
-  resolved "https://registry.yarnpkg.com/@indutny/emoji-picker-react/-/emoji-picker-react-4.4.9.tgz#94b169529e08eac583f61b542caf88c575a983b4"
-  integrity sha512-gpfJJVb/NMVuVdmroTSZIiz+gJM5asbSzcqX+S/3uxljUIOZvz5r4QNEokeyoC2LaBqy1eRbOgRtFUBtebndVQ==
+"@indutny/emoji-picker-react@4.10.0":
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/@indutny/emoji-picker-react/-/emoji-picker-react-4.10.0.tgz#974068073d9d10dde85d07aca0a38a9d93f733e7"
+  integrity sha512-CDj6nYRnR7EG2Gepu7hd/xTdFRSSPH8B4FwAXgPKuJj6vHqVfnlmedtIZ+hPEkyr0O8FD+JJlnaDP6/Nx9k26Q==
   dependencies:
-    clsx "^1.2.1"
+    flairup "0.0.39"
 
 "@jridgewell/gen-mapping@^0.3.0", "@jridgewell/gen-mapping@^0.3.2":
   version "0.3.3"
@@ -1332,7 +1332,7 @@ cliui@^8.0.1:
     strip-ansi "^6.0.1"
     wrap-ansi "^7.0.0"
 
-clsx@^1.1.1, clsx@^1.2.1:
+clsx@^1.1.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.2.1.tgz#0ddc4a20a549b59c93a4116bb26f5294ca17dc12"
   integrity sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==
@@ -1528,10 +1528,10 @@ electron-to-chromium@^1.4.284:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.368.tgz#75901f97d3e23da2e66feb1e61fbb8e70ac96430"
   integrity sha512-e2aeCAixCj9M7nJxdB/wDjO6mbYX+lJJxSJCXDzlr5YPGYVofuJwGN9nKg2o6wWInjX6XmxRinn3AeJMK81ltw==
 
-emoji-datasource-apple@14.0.0:
-  version "14.0.0"
-  resolved "https://registry.yarnpkg.com/emoji-datasource-apple/-/emoji-datasource-apple-14.0.0.tgz#ee040d210c07e038eb18f1c64a5a2f03ed977903"
-  integrity sha512-92Q53C44DzSqreHVlajEG24O5sFZjY1E9xRLWWyud7+/hW8S2vs4DiHuNuNZ0CLDCmZMQHc95okN9V8Mk6yBRw==
+emoji-datasource-apple@15.1.2:
+  version "15.1.2"
+  resolved "https://registry.yarnpkg.com/emoji-datasource-apple/-/emoji-datasource-apple-15.1.2.tgz#b52e1a94f6ee57b7d56a274d922a8c614de8c826"
+  integrity sha512-32UZTK36x4DlvgD1smkmBlKmmJH7qUr5Qut4U/on2uQLGqNXGbZiheq6/LEA8xRQEUrmNrGEy25wpEI6wvYmTg==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
@@ -2071,6 +2071,11 @@ find-up@^5.0.0:
   dependencies:
     locate-path "^6.0.0"
     path-exists "^4.0.0"
+
+flairup@0.0.39:
+  version "0.0.39"
+  resolved "https://registry.yarnpkg.com/flairup/-/flairup-0.0.39.tgz#edc3a0f27548f0a0a0cb3569f4971ae4c0b73d46"
+  integrity sha512-UVPkzZmZeBWBx1+Ovo++kYKk9Wi32Jxt+c7HsxnEY80ExwFV54w+NyquFziqMLS0BnGVE43yGD4OvIwaAm/WiQ==
 
 flat-cache@^3.0.4:
   version "3.0.4"
