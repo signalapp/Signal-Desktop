@@ -518,6 +518,7 @@ export const deleteConversationSchema = z.object({
   type: z.literal('delete-conversation').readonly(),
   conversation: conversationToDeleteSchema,
   mostRecentMessages: z.array(messageToDeleteSchema),
+  mostRecentNonExpiringMessages: z.array(messageToDeleteSchema).optional(),
   isFullDelete: z.boolean(),
   timestamp: z.number(),
 });

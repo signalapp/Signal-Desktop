@@ -82,10 +82,11 @@ import { updateToSchemaVersion1030 } from './1030-unblock-event';
 import { updateToSchemaVersion1040 } from './1040-undownloaded-backed-up-media';
 import { updateToSchemaVersion1050 } from './1050-group-send-endorsements';
 import { updateToSchemaVersion1060 } from './1060-addressable-messages-and-sync-tasks';
+import { updateToSchemaVersion1070 } from './1070-attachment-backup';
 import {
-  updateToSchemaVersion1070,
+  updateToSchemaVersion1080,
   version as MAX_VERSION,
-} from './1070-attachment-backup';
+} from './1080-nondisappearing-addressable';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -2036,6 +2037,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion1050,
   updateToSchemaVersion1060,
   updateToSchemaVersion1070,
+  updateToSchemaVersion1080,
 ];
 
 export class DBVersionFromFutureError extends Error {

@@ -193,6 +193,7 @@ const {
   getMessageMetricsForConversation,
   getMessageById,
   getMostRecentAddressableMessages,
+  getMostRecentAddressableNondisappearingMessages,
   getNewerMessagesByConversation,
 } = window.Signal.Data;
 
@@ -4999,12 +5000,13 @@ export class ConversationModel extends window.Backbone
   }
 
   async destroyMessagesInner({
-    logId,
+    logId: providedLogId,
     source,
   }: {
     logId: string;
     source: 'message-request' | 'local-delete-sync' | 'local-delete';
   }): Promise<void> {
+    const logId = `${providedLogId}/destroyMessagesInner`;
     this.set({
       lastMessage: null,
       lastMessageAuthor: null,
@@ -5032,6 +5034,26 @@ export class ConversationModel extends window.Backbone
         .map(getMessageToDelete)
         .filter(isNotNil)
         .slice(0, 5);
+      log.info(
+        `${logId}: Found ${mostRecentMessages.length} most recent messages`
+      );
+
+      const areAnyDisappearing = addressableMessages.some(
+        item => item.expireTimer
+      );
+
+      let mostRecentNonExpiringMessages: Array<MessageToDelete> | undefined;
+      if (areAnyDisappearing) {
+        const nondisappearingAddressableMessages =
+          await getMostRecentAddressableNondisappearingMessages(this.id);
+        mostRecentNonExpiringMessages = nondisappearingAddressableMessages
+          .map(getMessageToDelete)
+          .filter(isNotNil)
+          .slice(0, 5);
+        log.info(
+          `${logId}: Found ${mostRecentNonExpiringMessages.length} most recent nondisappearing messages`
+        );
+      }
 
       if (mostRecentMessages.length > 0) {
         await singleProtoJobQueue.add(
@@ -5041,6 +5063,7 @@ export class ConversationModel extends window.Backbone
               conversation: getConversationToDelete(this.attributes),
               isFullDelete: true,
               mostRecentMessages,
+              mostRecentNonExpiringMessages,
               timestamp,
             },
           ])

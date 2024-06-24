@@ -565,24 +565,6 @@ export async function startApp(): Promise<void> {
       storage: window.storage,
       serverTrustRoot: window.getServerTrustRoot(),
     });
-    const onFirstEmpty = async () => {
-      log.info('onFirstEmpty: Starting');
-
-      // We want to remove this handler on the next tick so we don't interfere with
-      //   the other handlers being notified of this instance of the 'empty' event.
-      setTimeout(() => {
-        messageReceiver?.removeEventListener('empty', onFirstEmpty);
-      }, 1);
-
-      log.info('onFirstEmpty: Fetching sync tasks');
-      const syncTasks = await window.Signal.Data.getAllSyncTasks();
-
-      log.info(`onFirstEmpty: Queuing ${syncTasks.length} sync tasks`);
-      await queueSyncTasks(syncTasks, window.Signal.Data.removeSyncTaskById);
-
-      log.info('onFirstEmpty: Done');
-    };
-    messageReceiver.addEventListener('empty', onFirstEmpty);
 
     function queuedEventListener<E extends Event>(
       handler: (event: E) => Promise<void> | void,
@@ -1458,6 +1440,16 @@ export async function startApp(): Promise<void> {
       });
     }
     log.info('Expiration start timestamp cleanup: complete');
+
+    {
+      log.info('Startup/syncTasks: Fetching tasks');
+      const syncTasks = await window.Signal.Data.getAllSyncTasks();
+
+      log.info(`Startup/syncTasks: Queueing ${syncTasks.length} sync tasks`);
+      await queueSyncTasks(syncTasks, window.Signal.Data.removeSyncTaskById);
+
+      log.info('`Startup/syncTasks: Done');
+    }
 
     log.info('listening for registration events');
     window.Whisper.events.on('registration_done', () => {

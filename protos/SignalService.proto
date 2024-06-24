@@ -670,6 +670,7 @@ message SyncMessage {
       optional ConversationIdentifier conversation = 1;
       repeated AddressableMessage mostRecentMessages = 2;
       optional bool isFullDelete = 3;
+      repeated AddressableMessage mostRecentNonExpiringMessages = 4;
     }
 
     message LocalOnlyConversationDelete {

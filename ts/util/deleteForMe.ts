@@ -256,20 +256,36 @@ export async function applyDeleteAttachmentFromMessage(
   return true;
 }
 
-export async function deleteConversation(
-  conversation: ConversationModel,
-  mostRecentMessages: Array<MessageToDelete>,
-  isFullDelete: boolean,
-  logId: string
-): Promise<boolean> {
-  const queries = mostRecentMessages.map(getMessageQueryFromTarget);
+async function getMostRecentMatchingMessage(
+  conversationId: string,
+  targetMessages: Array<MessageToDelete>
+): Promise<MessageAttributesType | undefined> {
+  const queries = targetMessages.map(getMessageQueryFromTarget);
   const found = await Promise.all(
-    queries.map(query => findMatchingMessage(conversation.id, query))
+    queries.map(query => findMatchingMessage(conversationId, query))
   );
 
   const sorted = sortBy(found, 'received_at');
-  const newestMessage = last(sorted);
-  if (newestMessage) {
+  return last(sorted);
+}
+
+export async function deleteConversation(
+  conversation: ConversationModel,
+  mostRecentMessages: Array<MessageToDelete>,
+  mostRecentNonExpiringMessages: Array<MessageToDelete> | undefined,
+  isFullDelete: boolean,
+  providedLogId: string
+): Promise<boolean> {
+  const logId = `${providedLogId}/deleteConversation`;
+
+  const newestMessage = await getMostRecentMatchingMessage(
+    conversation.id,
+    mostRecentMessages
+  );
+  if (!newestMessage) {
+    log.warn(`${logId}: Found no messages from mostRecentMessages set`);
+  } else {
+    log.info(`${logId}: Found most recent message from mostRecentMessages set`);
     const { received_at: receivedAt } = newestMessage;
 
     await removeMessagesInConversation(conversation.id, {
@@ -280,13 +296,34 @@ export async function deleteConversation(
     });
   }
 
-  if (!newestMessage) {
-    log.warn(`${logId}: Found no target messages for delete`);
+  if (!newestMessage && mostRecentNonExpiringMessages?.length) {
+    const newestNondisappearingMessage = await getMostRecentMatchingMessage(
+      conversation.id,
+      mostRecentNonExpiringMessages
+    );
+
+    if (!newestNondisappearingMessage) {
+      log.warn(
+        `${logId}: Found no messages from mostRecentNonExpiringMessages set`
+      );
+    } else {
+      log.info(
+        `${logId}: Found most recent message from mostRecentNonExpiringMessages set`
+      );
+      const { received_at: receivedAt } = newestNondisappearingMessage;
+
+      await removeMessagesInConversation(conversation.id, {
+        fromSync: true,
+        receivedAt,
+        logId: `${logId}(receivedAt=${receivedAt})`,
+        singleProtoJobQueue,
+      });
+    }
   }
 
   if (isFullDelete) {
     log.info(`${logId}: isFullDelete=true, proceeding to local-only delete`);
-    return deleteLocalOnlyConversation(conversation, logId);
+    return deleteLocalOnlyConversation(conversation, providedLogId);
   }
 
   return true;
@@ -294,17 +331,16 @@ export async function deleteConversation(
 
 export async function deleteLocalOnlyConversation(
   conversation: ConversationModel,
-  logId: string
+  providedLogId: string
 ): Promise<boolean> {
+  const logId = `${providedLogId}/deleteLocalOnlyConversation`;
   const limit = 1;
   const messages = await getMostRecentAddressableMessages(
     conversation.id,
     limit
   );
   if (messages.length > 0) {
-    log.warn(
-      `${logId}: Attempted local-only delete but found an addressable message`
-    );
+    log.warn(`${logId}: Cannot delete; found an addressable message`);
     return false;
   }
 

@@ -3708,6 +3708,10 @@ export default class MessageReceiver
               const mostRecentMessages = item.mostRecentMessages
                 ?.map(message => processMessageToDelete(message, logId))
                 .filter(isNotNil);
+              const mostRecentNonExpiringMessages =
+                item.mostRecentNonExpiringMessages
+                  ?.map(message => processMessageToDelete(message, logId))
+                  .filter(isNotNil);
               const conversation = item.conversation
                 ? processConversationToDelete(item.conversation, logId)
                 : undefined;
@@ -3730,6 +3734,7 @@ export default class MessageReceiver
                 conversation,
                 isFullDelete: Boolean(item.isFullDelete),
                 mostRecentMessages,
+                mostRecentNonExpiringMessages,
                 timestamp,
               };
             })
