@@ -65,7 +65,7 @@ const SCHEMAS_BY_TYPE: Record<SyncTaskData['type'], ZodSchema> = {
 };
 
 function toLogId(task: SyncTaskType) {
-  return `task=${task.id},timestamp:${task},type=${task.type},envelopeId=${task.envelopeId}`;
+  return `type=${task.type},envelopeId=${task.envelopeId}`;
 }
 
 export async function queueSyncTasks(
@@ -112,6 +112,7 @@ export async function queueSyncTasks(
       const {
         conversation: targetConversation,
         mostRecentMessages,
+        mostRecentNonExpiringMessages,
         isFullDelete,
       } = parsed;
       const conversation = getConversationFromTarget(targetConversation);
@@ -121,17 +122,18 @@ export async function queueSyncTasks(
       }
       drop(
         conversation.queueJob(innerLogId, async () => {
-          log.info(`${logId}: Starting...`);
+          log.info(`${innerLogId}: Starting...`);
           const result = await deleteConversation(
             conversation,
             mostRecentMessages,
+            mostRecentNonExpiringMessages,
             isFullDelete,
             innerLogId
           );
           if (result) {
             await removeSyncTaskById(id);
           }
-          log.info(`${logId}: Done, result=${result}`);
+          log.info(`${innerLogId}: Done, result=${result}`);
         })
       );
     } else if (parsed.type === 'delete-local-conversation') {
@@ -143,7 +145,7 @@ export async function queueSyncTasks(
       }
       drop(
         conversation.queueJob(innerLogId, async () => {
-          log.info(`${logId}: Starting...`);
+          log.info(`${innerLogId}: Starting...`);
           const result = await deleteLocalOnlyConversation(
             conversation,
             innerLogId
@@ -153,7 +155,7 @@ export async function queueSyncTasks(
           //   get more messages in this conversation from here!
           await removeSyncTaskById(id);
 
-          log.info(`${logId}: Done; result=${result}`);
+          log.info(`${innerLogId}: Done; result=${result}`);
         })
       );
     } else if (parsed.type === 'delete-single-attachment') {
@@ -201,7 +203,9 @@ export async function queueSyncTasks(
       );
     } else {
       const parsedType: never = parsed.type;
-      log.error(`${logId}: Encountered job of type ${parsedType}, removing`);
+      log.error(
+        `${innerLogId}: Encountered job of type ${parsedType}, removing`
+      );
       // eslint-disable-next-line no-await-in-loop
       await removeSyncTaskById(id);
     }

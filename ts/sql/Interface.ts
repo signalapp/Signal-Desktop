@@ -733,6 +733,10 @@ export type DataInterface = {
     conversationId: string,
     limit?: number
   ) => Promise<Array<MessageType>>;
+  getMostRecentAddressableNondisappearingMessages: (
+    conversationId: string,
+    limit?: number
+  ) => Promise<Array<MessageType>>;
 
   removeSyncTaskById: (id: string) => Promise<void>;
   saveSyncTasks: (tasks: Array<SyncTaskType>) => Promise<void>;

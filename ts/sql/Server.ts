@@ -372,6 +372,7 @@ const dataInterface: ServerInterface = {
   saveEditedMessage,
   saveEditedMessages,
   getMostRecentAddressableMessages,
+  getMostRecentAddressableNondisappearingMessages,
 
   removeSyncTaskById,
   saveSyncTasks,
@@ -2108,6 +2109,39 @@ export function getMostRecentAddressableMessagesSync(
     SELECT json FROM messages
     INDEXED BY messages_by_date_addressable
     WHERE
+      conversationId IS ${conversationId} AND
+      isAddressableMessage = 1
+    ORDER BY received_at DESC, sent_at DESC
+    LIMIT ${limit};
+  `;
+
+  const rows = db.prepare(query).all(parameters);
+
+  return rows.map(row => jsonToObject(row.json));
+}
+
+async function getMostRecentAddressableNondisappearingMessages(
+  conversationId: string,
+  limit = 5
+): Promise<Array<MessageType>> {
+  const db = getReadonlyInstance();
+  return getMostRecentAddressableNondisappearingMessagesSync(
+    db,
+    conversationId,
+    limit
+  );
+}
+
+export function getMostRecentAddressableNondisappearingMessagesSync(
+  db: Database,
+  conversationId: string,
+  limit = 5
+): Array<MessageType> {
+  const [query, parameters] = sql`
+    SELECT json FROM messages
+    INDEXED BY messages_by_date_addressable_nondisappearing
+    WHERE
+      expireTimer IS NULL AND
       conversationId IS ${conversationId} AND
       isAddressableMessage = 1
     ORDER BY received_at DESC, sent_at DESC
