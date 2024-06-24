@@ -70,7 +70,7 @@
     "dev:transpile": "run-p \"check:types --watch\" dev:esbuild dev:icu-types",
     "dev:esbuild": "node scripts/esbuild.js --watch",
     "dev:sass": "npm run sass --watch",
-    "dev:icu-types": "chokidar ./_locales/en/messages.json --initial --command \"npm run run build:icu-types\"",
+    "dev:icu-types": "chokidar ./_locales/en/messages.json --initial --command \"npm run build:icu-types\"",
     "build:storybook": "npm run build-protobuf && cross-env SIGNAL_ENV=storybook storybook build",
     "test:storybook": "npm run build:storybook && run-p --race test:storybook:*",
     "test:storybook:serve": "http-server storybook-static --port 6006 --silent",
