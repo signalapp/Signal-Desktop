@@ -17,21 +17,21 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '20.11.1'
-          cache: 'yarn'
+          cache: 'npm'
       - name: Install global dependencies
-        run: npm install -g yarn@1.22.10 npm@10.2.5
+        run: npm install -g npm@10.2.5
       - name: Cache Desktop node_modules
         id: cache-desktop-modules
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
+          key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
       - name: Install Desktop node_modules
         if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: npm ci --legacy-peer-deps
         env:
           CHILD_CONCURRENCY: 1
           NPM_CONFIG_LOGLEVEL: verbose
-      - run: yarn build:storybook
+      - run: npm run build:storybook
       - run: npx playwright install chromium
-      - run: yarn run-p --race test:storybook:serve test:storybook:test
+      - run: ./node_modules/.bin/run-p --race test:storybook:serve test:storybook:test

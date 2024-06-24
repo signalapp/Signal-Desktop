@@ -32,7 +32,7 @@ jobs:
       with:
         node-version: '20.11.1'
     - name: Install global dependencies
-      run: npm install -g yarn@1.22.10 npm@10.2.5
+      run: npm install -g npm@10.2.5
 
     - name: Install xvfb
       run: sudo apt-get install xvfb
@@ -42,18 +42,18 @@ jobs:
       uses: actions/cache@v3
       with:
         path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
+        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
 
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: yarn install --frozen-lockfile
+      run: npm ci --legacy-peer-deps
       env:
         NPM_CONFIG_LOGLEVEL: verbose
 
     - name: Build typescript
-      run: yarn generate
+      run: npm run generate
     - name: Bundle
-      run: yarn build:esbuild:prod
+      run: npm run build:esbuild:prod
 
     - name: Run startup benchmarks
       run: |
@@ -145,7 +145,7 @@ jobs:
     - name: Build benchmark repo
       working-directory: benchmark-results
       run: |
-        npm ci
+        npm ci --legacy-peer-deps
         npm run build
 
     - name: Publish to DataDog

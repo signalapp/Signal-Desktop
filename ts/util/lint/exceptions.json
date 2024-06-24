@@ -735,6 +735,34 @@
   },
   {
     "rule": "DOM-innerHTML",
+    "path": "node_modules/array-includes/node_modules/object-inspect/example/inspect.js",
+    "line": "d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/array-includes/node_modules/object-inspect/test/browser/dom.js",
+    "line": "    d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/array.prototype.flatmap/node_modules/object-inspect/example/inspect.js",
+    "line": "d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/array.prototype.flatmap/node_modules/object-inspect/test/browser/dom.js",
+    "line": "    d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
     "path": "node_modules/axe-core/axe.js",
     "line": "      style.innerHTML = usePointer ? '* { pointer-events: all }' : '* { visibility: visible }';",
     "reasonCategory": "usageTrusted",
@@ -758,6 +786,13 @@
     "path": "node_modules/axe-core/axe.min.js",
     "reasonCategory": "usageTrusted",
     "updated": "2021-04-13T17:31:15.352Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/axe-core/doc/examples/jest_react/test-helpers.js",
+    "line": "\twrapper.innerHTML = '';",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
   },
   {
     "rule": "DOM-outerHTML",
@@ -795,6 +830,27 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
+    "rule": "eval",
+    "path": "node_modules/config/node_modules/json5/test/parse.js",
+    "line": "// native JSON.parse() or ES5 strict-mode eval(). See readme.txt for details.",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/config/node_modules/json5/test/parse.js",
+    "line": "// For eval(), remember to wrap the input in parentheses before eval()'ing,",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/config/node_modules/json5/test/parse.js",
+    "line": "        return eval('\"use strict\"; (\\n' + str + '\\n)');",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
     "rule": "DOM-outerHTML",
     "path": "node_modules/domutils/node_modules/dom-serializer/lib/esm/index.js",
     "line": " * Can be thought of as the equivalent of the `outerHTML` of the passed node(s).",
@@ -807,6 +863,34 @@
     "line": " * Can be thought of as the equivalent of the `outerHTML` of the passed node(s).",
     "reasonCategory": "falseMatch",
     "updated": "2023-01-11T23:51:00.603Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/es5-ext/node_modules/type/test/_lib/arrow-function-if-supported.js",
+    "line": "try { module.exports = eval(\"(() => {})\"); }",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/es5-ext/node_modules/type/test/_lib/class-if-supported.js",
+    "line": "try { module.exports = eval(\"(class {})\"); }",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/esniff/node_modules/d/node_modules/type/test/_lib/arrow-function-if-supported.js",
+    "line": "try { module.exports = eval(\"(() => {})\"); }",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/esniff/node_modules/d/node_modules/type/test/_lib/class-if-supported.js",
+    "line": "try { module.exports = eval(\"(class {})\"); }",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
   },
   {
     "rule": "React-ref",
@@ -842,6 +926,13 @@
     "line": "        // NOTE: `findDOMNode()` does not support CSS selectors; it'll just return",
     "reasonCategory": "exampleCode",
     "updated": "2021-10-01T23:53:26.107Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/globalthis/test/tests.js",
+    "line": "\t\teval(key + ' = semaphore;');",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -1226,6 +1317,55 @@
   },
   {
     "rule": "DOM-innerHTML",
+    "path": "node_modules/lz-string/tests/lib/jasmine-1.3.1/jasmine-html.js",
+    "line": "    this.runningAlert.innerHTML = \"Running \" + this.completeSpecCount + \" of \" + specPluralizedFor(this.totalSpecCount);",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/lz-string/tests/lib/jasmine-1.3.1/jasmine-html.js",
+    "line": "    this.skippedAlert.innerHTML = \"Skipping \" + this.skippedCount + \" of \" + specPluralizedFor(this.totalSpecCount) + \" - run all\";",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/lz-string/tests/lib/jasmine-1.3.1/jasmine-html.js",
+    "line": "    this.passedAlert.innerHTML = \"Passing \" + specPluralizedFor(this.passedCount);",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/lz-string/tests/lib/jasmine-1.3.1/jasmine-html.js",
+    "line": "    this.failedAlert.innerHTML = \"Failing \" + specPluralizedFor(this.failedCount);",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/lz-string/tests/lib/jasmine-1.3.1/jasmine-html.js",
+    "line": "    this.summaryMenuItem.innerHTML = \"\" + specPluralizedFor(this.runningSpecCount);",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/lz-string/tests/lib/jasmine-1.3.1/jasmine-html.js",
+    "line": "    this.detailsMenuItem.innerHTML = \"\" + this.failedCount + \" failing\";",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/lz-string/tests/lib/jasmine-1.3.1/jasmine-html.js",
+    "line": "    this.skippedAlert.innerHTML = \"Ran \" + this.runningSpecCount + \" of \" + specPluralizedFor(this.totalSpecCount) + \" - run all\";",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
     "path": "node_modules/min-document/serialize.js",
     "line": "        } else if (elem.innerHTML) {",
     "reasonCategory": "usageTrusted",
@@ -1250,6 +1390,104 @@
   },
   {
     "rule": "DOM-innerHTML",
+    "path": "node_modules/min-document/test/test-document.js",
+    "line": "                html = div.innerHTML",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/min-document/test/test-document.js",
+    "line": "            var innerHTML = []",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/min-document/test/test-document.js",
+    "line": "                innerHTML.push(String(node.outerHTML || node))",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/min-document/test/test-document.js",
+    "line": "            html = innerHTML.join(\"\")",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/min-document/test/test-document.js",
+    "line": "        var html = String(div.outerHTML || div)",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/min-document/test/test-document.js",
+    "line": "            html = element.outerHTML",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/min-document/test/test-document.js",
+    "line": "                innerHTML.push(String(node.outerHTML || node))",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/min-document/test/test-dom-element.js",
+    "line": "    test(\"does not serialize innerHTML as an attribute\", function(assert) {",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/min-document/test/test-dom-element.js",
+    "line": "      div.innerHTML = \"Test <img />\"",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/min-document/test/test-dom-element.js",
+    "line": "        input.innerHTML = \"user input here\"",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/object-inspect/example/inspect.js",
+    "line": "d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/object-inspect/test/browser/dom.js",
+    "line": "    d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/object.hasown/node_modules/object-inspect/example/inspect.js",
+    "line": "d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/object.hasown/node_modules/object-inspect/test/browser/dom.js",
+    "line": "    d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
     "path": "node_modules/parse-entities/decode-entity.browser.js",
     "line": "  el.innerHTML = entity",
     "reasonCategory": "usageTrusted",
@@ -1269,6 +1507,13 @@
     "line": "\t\t\t\tif (opts.multiArgs) {",
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:06:35.446Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/pino/test/fixtures/eval/index.js",
+    "line": "eval(`",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
   },
   {
     "rule": "eval",
@@ -2177,6 +2422,20 @@
     "updated": "2022-06-16T23:23:32.306Z"
   },
   {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/side-channel/node_modules/object-inspect/example/inspect.js",
+    "line": "d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/side-channel/node_modules/object-inspect/test/browser/dom.js",
+    "line": "    d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
     "rule": "eval",
     "path": "node_modules/source-map-support/source-map-support.js",
     "line": "  // Most eval() calls are in this format",
@@ -2203,6 +2462,20 @@
     "line": "  // Code called using eval() needs special handling",
     "reasonCategory": "falseMatch",
     "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/string.prototype.matchall/node_modules/object-inspect/example/inspect.js",
+    "line": "d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/string.prototype.matchall/node_modules/object-inspect/test/browser/dom.js",
+    "line": "    d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -2387,6 +2660,62 @@
     "path": "node_modules/tocbot/static/js/tocbot.min.js",
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2023-10-03T18:55:06.301Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/uri-js/tests/qunit.js",
+    "line": "\t\t\ttests.innerHTML = \"\";",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/uri-js/tests/qunit.js",
+    "line": "\t\t\t\tb.innerHTML = name + \" <b style='color:black;'>(<b class='fail'>\" + bad + \"</b>, <b class='pass'>\" + good + \"</b>, \" + config.assertions.length + \")</b>\";",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/uri-js/tests/qunit.js",
+    "line": "\t\tuserAgent.innerHTML = navigator.userAgent;",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/uri-js/tests/qunit.js",
+    "line": "\t\tlabel.innerHTML = \"Hide passed tests\";",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/uri-js/tests/qunit.js",
+    "line": "\t\t\t\tif ( li[i].className.indexOf(\"fail\") > -1 && li[i].innerHTML.indexOf('missing test - untested code is broken code') > - 1 ) {",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/uri-js/tests/qunit.js",
+    "line": "\t\tlabel.innerHTML = \"Hide missing tests (untested code is broken code)\";",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/uri-js/tests/qunit.js",
+    "line": "\t\tconfig.fixture = main.innerHTML;",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/uri-js/tests/qunit.js",
+    "line": "\t\tresult.innerHTML = html;",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-24T19:19:28.335Z"
   },
   {
     "rule": "React-useRef",
@@ -2811,6 +3140,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/CallManager.tsx",
+    "line": "  const imageDataCache = React.useRef<CallingImageDataCache>(new Map());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-05-06T20:18:59.647Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/CallNeedPermissionScreen.tsx",
     "line": "  const autoCloseAtRef = useRef<number>(Date.now() + AUTO_CLOSE_MS);",
     "reasonCategory": "usageTrusted",
@@ -2986,6 +3322,46 @@
     "line": "  const handsForLastShownToast = useRef<Set<number>>(new Set());",
     "reasonCategory": "usageTrusted",
     "updated": "2024-01-12T18:56:18.138Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const searchStateItemsRef = useRef<ReadonlyArray<CallHistoryGroup> | null>(",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2024-05-16T02:10:00.652Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const peekQueueRef = useRef<Set<string>>(new Set());",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2024-05-16T02:10:00.652Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const peekQueueArgsRef = useRef<Map<string, PeekNotConnectedGroupCallType>>(",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2024-05-16T02:10:00.652Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const inactiveCallLinksPeekedAtRef = useRef<Map<string, number>>(new Map());",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2024-05-16T02:10:00.652Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const peekQueueTimerRef = useRef<NodeJS.Timeout | null>(null);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2024-05-16T02:10:00.652Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "React-useRef",
@@ -3899,52 +4275,5 @@
     "line": "  message.innerHTML = window.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallManager.tsx",
-    "line": "  const imageDataCache = React.useRef<CallingImageDataCache>(new Map());",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-05-06T20:18:59.647Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
-    "line": "  const searchStateItemsRef = useRef<ReadonlyArray<CallHistoryGroup> | null>(",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-05-16T02:10:00.652Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
-    "line": "  const peekQueueRef = useRef<Set<string>>(new Set());",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-05-16T02:10:00.652Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
-    "line": "  const peekQueueArgsRef = useRef<Map<string, PeekNotConnectedGroupCallType>>(",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-05-16T02:10:00.652Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
-    "line": "  const inactiveCallLinksPeekedAtRef = useRef<Map<string, number>>(new Map());",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-05-16T02:10:00.652Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
-    "line": "  const peekQueueTimerRef = useRef<NodeJS.Timeout | null>(null);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2024-05-16T02:10:00.652Z",
-    "reasonDetail": "<optional>"
   }
 ]
