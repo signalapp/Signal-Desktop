@@ -393,14 +393,15 @@ export async function joinViaLink(value: string): Promise<void> {
         loading: true,
       };
 
-      const attributes: Pick<
+      let attributes: Pick<
         ConversationAttributesType,
         'avatar' | 'secretParams'
       > = {
         avatar: null,
         secretParams,
       };
-      await applyNewAvatar(result.avatar, attributes, logId);
+      const patch = await applyNewAvatar(result.avatar, attributes, logId);
+      attributes = { ...attributes, ...patch };
 
       if (attributes.avatar && attributes.avatar.path) {
         localAvatar = {

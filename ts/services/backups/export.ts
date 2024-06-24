@@ -76,6 +76,7 @@ import {
 import * as Bytes from '../../Bytes';
 import { canBeSynced as canPreferredReactionEmojiBeSynced } from '../../reactions/preferredReactionEmoji';
 import { SendStatus } from '../../messages/MessageSendState';
+import { deriveGroupFields } from '../../groups';
 import { BACKUP_VERSION } from './constants';
 import { getMessageIdForLogging } from '../../util/idForLogging';
 import { getCallsHistoryForRedux } from '../callHistoryLoader';
@@ -111,6 +112,8 @@ const FLUSH_TIMEOUT = 30 * MINUTE;
 
 // Threshold for reporting slow flushes
 const REPORTING_THRESHOLD = SECOND;
+
+const ZERO_PROFILE_KEY = new Uint8Array(32);
 
 type GetRecipientIdOptionsType =
   | Readonly<{
@@ -672,11 +675,92 @@ export class BackupExportStream extends Readable {
           break;
       }
 
+      const masterKey = Bytes.fromBase64(convo.masterKey);
+
+      let publicKey;
+      if (convo.publicParams) {
+        publicKey = Bytes.fromBase64(convo.publicParams);
+      } else {
+        ({ publicParams: publicKey } = deriveGroupFields(masterKey));
+      }
+
       res.group = {
-        masterKey: Bytes.fromBase64(convo.masterKey),
+        masterKey,
         whitelisted: convo.profileSharing,
         hideStory: convo.hideStory === true,
         storySendMode,
+        snapshot: {
+          publicKey,
+          title: {
+            title: convo.name ?? '',
+          },
+          description: {
+            descriptionText: convo.description ?? '',
+          },
+          avatarUrl: convo.avatar?.url,
+          disappearingMessagesTimer:
+            convo.expireTimer != null
+              ? {
+                  disappearingMessagesDuration: DurationInSeconds.toSeconds(
+                    convo.expireTimer
+                  ),
+                }
+              : null,
+          accessControl: convo.accessControl,
+          version: convo.revision || 0,
+          members: convo.membersV2?.map(member => {
+            const memberConvo = window.ConversationController.get(member.aci);
+            strictAssert(memberConvo, 'Missing GV2 member');
+
+            const { profileKey } = memberConvo.attributes;
+
+            return {
+              userId: this.aciToBytes(member.aci),
+              role: member.role,
+              profileKey: profileKey
+                ? Bytes.fromBase64(profileKey)
+                : ZERO_PROFILE_KEY,
+              joinedAtVersion: member.joinedAtVersion,
+            };
+          }),
+          membersPendingProfileKey: convo.pendingMembersV2?.map(member => {
+            return {
+              member: {
+                userId: this.serviceIdToBytes(member.serviceId),
+                role: member.role,
+                profileKey: ZERO_PROFILE_KEY,
+                joinedAtVersion: 0,
+              },
+              addedByUserId: this.aciToBytes(member.addedByUserId),
+              timestamp: getSafeLongFromTimestamp(member.timestamp),
+            };
+          }),
+          membersPendingAdminApproval: convo.pendingAdminApprovalV2?.map(
+            member => {
+              const memberConvo = window.ConversationController.get(member.aci);
+              strictAssert(memberConvo, 'Missing GV2 member pending approval');
+
+              const { profileKey } = memberConvo.attributes;
+              return {
+                userId: this.aciToBytes(member.aci),
+                profileKey: profileKey
+                  ? Bytes.fromBase64(profileKey)
+                  : ZERO_PROFILE_KEY,
+                timestamp: getSafeLongFromTimestamp(member.timestamp),
+              };
+            }
+          ),
+          membersBanned: convo.bannedMembersV2?.map(member => {
+            return {
+              userId: this.serviceIdToBytes(member.serviceId),
+              timestamp: getSafeLongFromTimestamp(member.timestamp),
+            };
+          }),
+          inviteLinkPassword: convo.groupInviteLinkPassword
+            ? Bytes.fromBase64(convo.groupInviteLinkPassword)
+            : null,
+          announcementsOnly: convo.announcementsOnly === true,
+        },
       };
     } else {
       return undefined;
