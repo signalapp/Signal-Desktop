@@ -259,14 +259,7 @@ export class ChallengeHandler {
       log.info(`${logId}: tracking ${conversationId} with no waitTime`);
     }
 
-    if (
-      data &&
-      !(
-        data.options?.includes('captcha') ||
-        // 'recaptcha' is deprecated for removal in 90 days
-        data.options?.includes('recaptcha')
-      )
-    ) {
+    if (data && !data.options?.includes('captcha')) {
       const dataString = JSON.stringify(data.options);
       log.error(
         `${logId}: unexpected options ${dataString}. ${conversationId} is waiting.`
