@@ -29,7 +29,7 @@ exports.default = async function notarizing(context) {
   }
 
   const options = {
-    appBundleId: 'org.getsession.desktop',
+    appBundleId: 'com.loki-project.messenger-desktop',
     appPath: `${appOutDir}/${appName}.app`,
     appleId: SIGNING_APPLE_ID,
     appleIdPassword: SIGNING_APP_PASSWORD,

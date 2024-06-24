@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
 import { noop } from 'lodash';
+import React, { useState } from 'react';
 
 import * as MIME from '../../../../types/MIME';
 import * as GoogleChrome from '../../../../util/GoogleChrome';
@@ -291,7 +291,6 @@ const QuoteAuthor = (props: QuoteAuthorProps) => {
           pubkey={PubKey.shorten(author)}
           name={authorName}
           profileName={authorProfileName}
-          compact={true}
           shouldShowPubkey={Boolean(props.showPubkeyForAuthor)}
         />
       )}

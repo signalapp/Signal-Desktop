@@ -2,7 +2,7 @@
   "name": "session-desktop",
   "productName": "Session",
   "description": "Private messaging from your desktop",
-  "version": "1.12.3",
+  "version": "1.12.4",
   "license": "GPL-3.0",
   "author": {
     "name": "Oxen Labs",
@@ -95,7 +95,7 @@
     "fs-extra": "9.0.0",
     "glob": "7.1.2",
     "image-type": "^4.1.0",
-    "libsession_util_nodejs": "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.1/libsession_util_nodejs-v0.3.1.tar.gz",
+    "libsession_util_nodejs": "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.19/libsession_util_nodejs-v0.3.19.tar.gz",
     "libsodium-wrappers-sumo": "^0.7.9",
     "linkify-it": "^4.0.1",
     "lodash": "^4.17.21",
