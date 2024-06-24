@@ -100,7 +100,6 @@ export function TimelineMessage(props: Props): JSX.Element {
     canReply,
     canRetry,
     canRetryDeleteForEveryone,
-    contact,
     containerElementRef,
     containerWidthBreakpoint,
     conversationId,
@@ -233,7 +232,7 @@ export function TimelineMessage(props: Props): JSX.Element {
 
   const handleContextMenu = useHandleMessageContextMenu(menuTriggerRef);
   const canForward =
-    !isTapToView && !deletedForEveryone && !giftBadge && !contact && !payment;
+    !isTapToView && !deletedForEveryone && !giftBadge && !payment;
 
   const shouldShowAdditional =
     doesMessageBodyOverflow(text || '') || !isWindowWidthNotNarrow;
