@@ -2877,12 +2877,12 @@ available-typed-arrays@^1.0.5, available-typed-arrays@^1.0.6:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-axios@^1.3.2:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.2.tgz#de67d42c755b571d3e698df1b6504cde9b0ee9f2"
-  integrity sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==
+axios@^1.6.5:
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.2.tgz#b625db8a7051fbea61c35a3cbb3a1daa7b9c7621"
+  integrity sha512-2A8QhOMrbomlDuiLeK9XibIBzuHeRcqqNOHp0Cyp5EoJ1IFDh+XZH3A6BkXtv0K4gFGCI0Y4BM7B1wOEi0Rmgw==
   dependencies:
-    follow-redirects "^1.15.0"
+    follow-redirects "^1.15.6"
     form-data "^4.0.0"
     proxy-from-env "^1.1.0"
 
@@ -3494,23 +3494,23 @@ clsx@^1.0.4, clsx@^1.1.1, clsx@^1.2.1:
   integrity sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==
 
 cmake-js@^7.2.1:
-  version "7.2.1"
-  resolved "https://registry.yarnpkg.com/cmake-js/-/cmake-js-7.2.1.tgz#757c0d39994121b084bab96290baf115ee7712cd"
-  integrity sha512-AdPSz9cSIJWdKvm0aJgVu3X8i0U3mNTswJkSHzZISqmYVjZk7Td4oDFg0mCBA383wO+9pG5Ix7pEP1CZH9x2BA==
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/cmake-js/-/cmake-js-7.3.0.tgz#6fd6234b7aeec4545c1c806f9e3f7ffacd9798b2"
+  integrity sha512-dXs2zq9WxrV87bpJ+WbnGKv8WUBXDw8blNiwNHoRe/it+ptscxhQHKB1SJXa1w+kocLMeP28Tk4/eTCezg4o+w==
   dependencies:
-    axios "^1.3.2"
+    axios "^1.6.5"
     debug "^4"
-    fs-extra "^10.1.0"
+    fs-extra "^11.2.0"
     lodash.isplainobject "^4.0.6"
     memory-stream "^1.0.0"
-    node-api-headers "^0.0.2"
+    node-api-headers "^1.1.0"
     npmlog "^6.0.2"
     rc "^1.2.7"
-    semver "^7.3.8"
-    tar "^6.1.11"
+    semver "^7.5.4"
+    tar "^6.2.0"
     url-join "^4.0.1"
     which "^2.0.2"
-    yargs "^17.6.0"
+    yargs "^17.7.2"
 
 color-convert@^1.9.0:
   version "1.9.3"
@@ -3905,7 +3905,7 @@ debug@2.6.9, debug@^2.2.0, debug@^2.6.8, debug@^2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@4, debug@4.3.4, debug@^4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4:
+debug@4, debug@4.3.4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
@@ -3918,6 +3918,13 @@ debug@^3.2.7:
   integrity sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==
   dependencies:
     ms "^2.1.1"
+
+debug@^4:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.5.tgz#e83444eceb9fedd4a1da56d671ae2446a01a6e1e"
+  integrity sha512-pt0bNEmneDIvdL1Xsd9oDQ/wrQRkXDT4AUWlNZNPKvW5x/jyO9VFXkJUP07vQ2upmw5PlaITaPKc31jK13V+jg==
+  dependencies:
+    ms "2.1.2"
 
 decamelize-keys@^1.1.0:
   version "1.1.1"
@@ -5067,10 +5074,10 @@ focus-trap@^7.5.4:
   dependencies:
     tabbable "^6.2.0"
 
-follow-redirects@^1.15.0:
-  version "1.15.3"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.3.tgz#fe2f3ef2690afce7e82ed0b44db08165b207123a"
-  integrity sha512-1VzOtuEM8pC9SFU1E+8KfTjZyMztRsgEfwQl44z8A25uy13jSzTj6dyK2Df52iV0vgHCfBwLhDWevLn95w5v6Q==
+follow-redirects@^1.15.6:
+  version "1.15.6"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.6.tgz#7f815c0cda4249c74ff09e95ef97c23b5fd0399b"
+  integrity sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==
 
 for-each@^0.3.3:
   version "0.3.3"
@@ -5125,6 +5132,15 @@ fs-extra@^11.0.0:
   version "11.1.1"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-11.1.1.tgz#da69f7c39f3b002378b0954bb6ae7efdc0876e2d"
   integrity sha512-MGIE4HOvQCeUCzmlHs0vXpih4ysz4wg9qiSAu6cd42lVwPbTM1TjV7RusoyQqMmk/95gdQZX72u+YW+c3eEpFQ==
+  dependencies:
+    graceful-fs "^4.2.0"
+    jsonfile "^6.0.1"
+    universalify "^2.0.0"
+
+fs-extra@^11.2.0:
+  version "11.2.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-11.2.0.tgz#e70e17dfad64232287d01929399e0ea7c86b0e5b"
+  integrity sha512-PmDi3uwK5nFuXh7XDTlVnS17xJS7vW36is2+w3xcv8SVxiB4NyATf4ctkVY5bkSjX0Y4nbvZCq1/EjtEyr9ktw==
   dependencies:
     graceful-fs "^4.2.0"
     jsonfile "^6.0.1"
@@ -6526,9 +6542,9 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-"libsession_util_nodejs@https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.1/libsession_util_nodejs-v0.3.1.tar.gz":
-  version "0.3.1"
-  resolved "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.1/libsession_util_nodejs-v0.3.1.tar.gz#d2c94bfaae6e3ef594609abb08cf8be485fa5d39"
+"libsession_util_nodejs@https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.19/libsession_util_nodejs-v0.3.19.tar.gz":
+  version "0.3.19"
+  resolved "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.19/libsession_util_nodejs-v0.3.19.tar.gz#221c1fc34fcc18601aea4ce1b733ebfa55af66ea"
   dependencies:
     cmake-js "^7.2.1"
     node-addon-api "^6.1.0"
@@ -7393,10 +7409,10 @@ node-addon-api@^6.1.0:
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-6.1.0.tgz#ac8470034e58e67d0c6f1204a18ae6995d9c0d76"
   integrity sha512-+eawOlIgy680F0kBzPUNFhMZGtJ1YmqM6l4+Crf4IkImjYrO/mqPwRMh352g23uIaQKFItcQ64I7KMaJxHgAVA==
 
-node-api-headers@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/node-api-headers/-/node-api-headers-0.0.2.tgz#31f4c6c2750b63e598128e76a60aefca6d76ac5d"
-  integrity sha512-YsjmaKGPDkmhoNKIpkChtCsPVaRE0a274IdERKnuc/E8K1UJdBZ4/mvI006OijlQZHCfpRNOH3dfHQs92se8gg==
+node-api-headers@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/node-api-headers/-/node-api-headers-1.1.0.tgz#3f9dd7bb10b29e1c3e3db675979605a308b2373c"
+  integrity sha512-ucQW+SbYCUPfprvmzBsnjT034IGRB2XK8rRc78BgjNKhTdFKgAwAmgW704bKIBmcYW48it0Gkjpkd39Azrwquw==
 
 node-dir@^0.1.17:
   version "0.1.17"
@@ -9584,6 +9600,18 @@ tar@^6.1.0, tar@^6.1.11:
     mkdirp "^1.0.3"
     yallist "^4.0.0"
 
+tar@^6.2.0:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/tar/-/tar-6.2.1.tgz#717549c541bc3c2af15751bea94b1dd068d4b03a"
+  integrity sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==
+  dependencies:
+    chownr "^2.0.0"
+    fs-minipass "^2.0.0"
+    minipass "^5.0.0"
+    minizlib "^2.1.1"
+    mkdirp "^1.0.3"
+    yallist "^4.0.0"
+
 temp-dir@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/temp-dir/-/temp-dir-2.0.0.tgz#bde92b05bdfeb1516e804c9c00ad45177f31321e"
@@ -10536,7 +10564,7 @@ yargs@^15.1.0:
     y18n "^4.0.0"
     yargs-parser "^18.1.2"
 
-yargs@^17.0.0, yargs@^17.0.1, yargs@^17.6.0, yargs@^17.6.2:
+yargs@^17.0.0, yargs@^17.0.1, yargs@^17.6.2, yargs@^17.7.2:
   version "17.7.2"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.7.2.tgz#991df39aca675a192b816e1e0363f9d75d2aa269"
   integrity sha512-7dSzzRQ++CKnNI/krKnYRV7JKKPUXMEh61soaHKg9mrWEhzFWhFnxPxGl+69cD1Ou63C13NUPCnmIcrvqCuM6w==
