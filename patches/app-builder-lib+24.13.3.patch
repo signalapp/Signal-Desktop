@@ -71,7 +71,7 @@ index 7f37444..1a85145 100644
  //# sourceMappingURL=asarUtil.js.map
 \ No newline at end of file
 diff --git a/node_modules/app-builder-lib/out/electron/ElectronFramework.js b/node_modules/app-builder-lib/out/electron/ElectronFramework.js
-index 2b09620..a469506 100644
+index 2b09620..739e296 100644
 --- a/node_modules/app-builder-lib/out/electron/ElectronFramework.js
 +++ b/node_modules/app-builder-lib/out/electron/ElectronFramework.js
 @@ -9,6 +9,7 @@ const path = require("path");
@@ -138,10 +138,10 @@ index 0000000..f198807
 +exports.addWinAsarIntegrity = addWinAsarIntegrity;
 +//# sourceMappingURL=electronWin.js.map
 diff --git a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js b/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
-index fcb7f54..3f27bf3 100644
+index c3f1000..62bd27c 100644
 --- a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
 +++ b/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
-@@ -99,7 +99,7 @@ class LinuxTargetHelper {
+@@ -100,7 +100,7 @@ class LinuxTargetHelper {
              // https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#exec-variables
              const execCodes = ["%f", "%u", "%F", "%U"];
              if (executableArgs == null || executableArgs.findIndex(arg => execCodes.includes(arg)) === -1) {
@@ -151,10 +151,10 @@ index fcb7f54..3f27bf3 100644
          }
          const desktopMeta = {
 diff --git a/node_modules/app-builder-lib/templates/linux/after-install.tpl b/node_modules/app-builder-lib/templates/linux/after-install.tpl
-index 0f541f9..d1e77a0 100644
+index 65e7326..29a8c44 100644
 --- a/node_modules/app-builder-lib/templates/linux/after-install.tpl
 +++ b/node_modules/app-builder-lib/templates/linux/after-install.tpl
-@@ -10,8 +10,5 @@ else
+@@ -10,9 +10,6 @@ else
      ln -sf '/opt/${sanitizedProductName}/${executable}' '/usr/bin/${executable}'
  fi
  
@@ -163,6 +163,37 @@ index 0f541f9..d1e77a0 100644
 -
  if hash update-mime-database 2>/dev/null; then
      update-mime-database /usr/share/mime || true
+ fi
+diff --git a/node_modules/app-builder-lib/templates/nsis/include/allowOnlyOneInstallerInstance.nsh b/node_modules/app-builder-lib/templates/nsis/include/allowOnlyOneInstallerInstance.nsh
+index fe5d45c..8bb2bf4 100644
+--- a/node_modules/app-builder-lib/templates/nsis/include/allowOnlyOneInstallerInstance.nsh
++++ b/node_modules/app-builder-lib/templates/nsis/include/allowOnlyOneInstallerInstance.nsh
+@@ -43,6 +43,7 @@
+   !else
+     # find process owned by current user
+     nsExec::Exec `%SYSTEMROOT%\System32\cmd.exe /c tasklist /FI "USERNAME eq %USERNAME%" /FI "IMAGENAME eq ${_FILE}" /FO csv | %SYSTEMROOT%\System32\find.exe "${_FILE}"`
++    nsExec::Exec `"$SYSDIR\cmd.exe" /c tasklist /FI "USERNAME eq %USERNAME%" /FI "IMAGENAME eq ${_FILE}" /FO csv | "$SYSDIR\find.exe" "${_FILE}"`
+     Pop ${_ERR}
+   !endif
+ !macroend
+@@ -73,7 +74,7 @@
+       !ifdef INSTALL_MODE_PER_ALL_USERS
+         nsExec::Exec `taskkill /im "${APP_EXECUTABLE_FILENAME}" /fi "PID ne $pid"`
+       !else
+-        nsExec::Exec `%SYSTEMROOT%\System32\cmd.exe /c taskkill /im "${APP_EXECUTABLE_FILENAME}" /fi "PID ne $pid" /fi "USERNAME eq %USERNAME%"`
++        nsExec::Exec `"$SYSDIR\cmd.exe" /c taskkill /im "${APP_EXECUTABLE_FILENAME}" /fi "PID ne $pid" /fi "USERNAME eq %USERNAME%"`
+       !endif
+       # to ensure that files are not "in-use"
+       Sleep 300
+@@ -91,7 +92,7 @@
+           !ifdef INSTALL_MODE_PER_ALL_USERS
+             nsExec::Exec `taskkill /f /im "${APP_EXECUTABLE_FILENAME}" /fi "PID ne $pid"`
+           !else
+-            nsExec::Exec `%SYSTEMROOT%\System32\cmd.exe /c taskkill /f /im "${APP_EXECUTABLE_FILENAME}" /fi "PID ne $pid" /fi "USERNAME eq %USERNAME%"`
++            nsExec::Exec `"$SYSDIR\cmd.exe" /c taskkill /f /im "${APP_EXECUTABLE_FILENAME}" /fi "PID ne $pid" /fi "USERNAME eq %USERNAME%"`
+           !endif
+           !insertmacro FIND_PROCESS "${APP_EXECUTABLE_FILENAME}" $R0
+           ${If} $R0 == 0
 diff --git a/node_modules/app-builder-lib/templates/nsis/installSection.nsh b/node_modules/app-builder-lib/templates/nsis/installSection.nsh
 index 053772f..7981a4e 100644
 --- a/node_modules/app-builder-lib/templates/nsis/installSection.nsh
