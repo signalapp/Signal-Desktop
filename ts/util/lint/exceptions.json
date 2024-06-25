@@ -98,6 +98,13 @@
     "updated": "2023-10-03T18:55:06.301Z"
   },
   {
+    "rule": "eval",
+    "path": "node_modules/@jest/fake-timers/node_modules/@sinonjs/commons/lib/function-name.test.js",
+    "line": "                fn = eval(\"(function*() {})\")().constructor;",
+    "reasonCategory": "testCode",
+    "updated": "2024-06-25T17:33:38.376Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@ndelangen/get-tarball/dist/index.js",
     "line": "  \"innerHTML\",",
@@ -830,27 +837,6 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
-    "rule": "eval",
-    "path": "node_modules/config/node_modules/json5/test/parse.js",
-    "line": "// native JSON.parse() or ES5 strict-mode eval(). See readme.txt for details.",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/config/node_modules/json5/test/parse.js",
-    "line": "// For eval(), remember to wrap the input in parentheses before eval()'ing,",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/config/node_modules/json5/test/parse.js",
-    "line": "        return eval('\"use strict\"; (\\n' + str + '\\n)');",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
-  },
-  {
     "rule": "DOM-outerHTML",
     "path": "node_modules/domutils/node_modules/dom-serializer/lib/esm/index.js",
     "line": " * Can be thought of as the equivalent of the `outerHTML` of the passed node(s).",
@@ -1514,6 +1500,18 @@
     "line": "eval(`",
     "reasonCategory": "testCode",
     "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/prettier-fallback/plugins/html.js",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2024-06-25T17:33:38.376Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/prettier-fallback/plugins/html.js",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2024-06-25T17:33:38.376Z"
   },
   {
     "rule": "eval",
