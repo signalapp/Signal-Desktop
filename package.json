@@ -293,7 +293,7 @@
     "danger": "11.1.2",
     "debug": "4.3.3",
     "electron": "30.0.9",
-    "electron-builder": "24.6.3",
+    "electron-builder": "24.13.3",
     "electron-mocha": "12.2.0",
     "endanger": "7.0.4",
     "esbuild": "0.17.11",
