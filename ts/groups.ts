@@ -91,7 +91,6 @@ import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from './jobs/conversationJobQueue';
-import { groupAvatarJobQueue } from './jobs/groupAvatarJobQueue';
 import { ReadStatus } from './messages/MessageReadStatus';
 import { SeenStatus } from './MessageSeenStatus';
 import { incrementMessageCounter } from './util/incrementMessageCounter';
@@ -3240,13 +3239,8 @@ async function updateGroup(
     await appendChangeMessages(conversation, changeMessagesToSave);
   }
 
-  const { avatar: newAvatar, ...restOfAttributes } = newAttributes;
-  const hasAvatarChanged =
-    'avatar' in newAttributes &&
-    newAvatar?.url !== conversation.get('avatar')?.url;
-
   conversation.set({
-    ...restOfAttributes,
+    ...newAttributes,
     active_at: activeAt,
   });
 
@@ -3256,13 +3250,6 @@ async function updateGroup(
 
   // Save these most recent updates to conversation
   await updateConversation(conversation.attributes);
-
-  if (hasAvatarChanged) {
-    await groupAvatarJobQueue.add({
-      conversationId: conversation.id,
-      newAvatarUrl: newAvatar?.url,
-    });
-  }
 }
 
 // Exported for testing
@@ -3681,7 +3668,7 @@ async function updateGroupViaPreJoinInfo({
     return generateLeftGroupChanges(group);
   }
 
-  const newAttributes: ConversationAttributesType = {
+  let newAttributes: ConversationAttributesType = {
     ...group,
     description: decryptGroupDescription(
       dropNull(preJoinInfo.descriptionBytes),
@@ -3698,9 +3685,17 @@ async function updateGroupViaPreJoinInfo({
       },
     ],
     revision: dropNull(preJoinInfo.version),
-    avatar: preJoinInfo.avatar ? { url: preJoinInfo.avatar } : undefined,
 
     temporaryMemberCount: preJoinInfo.memberCount || 1,
+  };
+
+  newAttributes = {
+    ...newAttributes,
+    ...(await applyNewAvatar(
+      dropNull(preJoinInfo.avatar),
+      newAttributes,
+      logId
+    )),
   };
 
   return {
@@ -4482,10 +4477,7 @@ function extractDiffs({
 
   // avatar
 
-  if (
-    Boolean(old.avatar) !== Boolean(current.avatar) ||
-    old.avatar?.hash !== current.avatar?.hash
-  ) {
+  if (old.avatar?.url !== current.avatar?.url) {
     details.push({
       type: 'avatar',
       removed: !current.avatar,
@@ -4972,7 +4964,7 @@ async function applyGroupChange({
   const MEMBER_ROLE_ENUM = Proto.Member.Role;
 
   const version = actions.version || 0;
-  const result = { ...group };
+  let result = { ...group };
   const newProfileKeys: Array<GroupChangeMemberType> = [];
   const promotedAciToPniMap = new Map<AciString, PniString>();
 
@@ -5259,7 +5251,10 @@ async function applyGroupChange({
   // modifyAvatar?: GroupChange.Actions.ModifyAvatarAction;
   if (actions.modifyAvatar) {
     const { avatar } = actions.modifyAvatar;
-    result.avatar = avatar ? { url: avatar } : undefined;
+    result = {
+      ...result,
+      ...(await applyNewAvatar(dropNull(avatar), result, logId)),
+    };
   }
 
   // modifyDisappearingMessagesTimer?:
@@ -5644,7 +5639,7 @@ async function applyGroupState({
   const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
   const MEMBER_ROLE_ENUM = Proto.Member.Role;
   const version = groupState.version || 0;
-  const result = { ...group };
+  let result = { ...group };
   const newProfileKeys: Array<GroupChangeMemberType> = [];
 
   // Used to capture changes not already expressed in group notifications or profile keys
@@ -5680,11 +5675,10 @@ async function applyGroupState({
   }
 
   // avatar
-  result.avatar = groupState.avatar
-    ? {
-        url: groupState.avatar,
-      }
-    : undefined;
+  result = {
+    ...result,
+    ...(await applyNewAvatar(dropNull(groupState.avatar), result, logId)),
+  };
 
   // disappearingMessagesTimer
   // Note: during decryption, disappearingMessageTimer becomes a GroupAttributeBlob
