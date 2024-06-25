@@ -46,7 +46,7 @@ jobs:
 
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: npm ci --legacy-peer-deps
+      run: npm ci
       env:
         NPM_CONFIG_LOGLEVEL: verbose
 
@@ -145,7 +145,7 @@ jobs:
     - name: Build benchmark repo
       working-directory: benchmark-results
       run: |
-        npm ci --legacy-peer-deps
+        npm ci
         npm run build
 
     - name: Publish to DataDog
