@@ -25,7 +25,7 @@ jobs:
           key: danger-${{ runner.os }}-${{ hashFiles('danger/package.json', 'danger/package-lock.json') }}
       - name: Install danger node_modules
         if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-        run: cd danger && npm ci --legacy-peer-deps
+        run: cd danger && npm ci
       - name: Run DangerJS
         run: npm run danger:ci
         env:

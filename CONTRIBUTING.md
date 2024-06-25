@@ -54,10 +54,10 @@ Now, run these commands in your preferred terminal in a good directory for devel
 ```
 git clone https://github.com/signalapp/Signal-Desktop.git
 cd Signal-Desktop
-npm install --legacy-peer-deps  # Install and build dependencies (this will take a while)
-npm run generate                # Generate final JS and CSS assets
-npm test                        # A good idea to make sure tests run first
-npm start                       # Start Signal!
+npm install       # Install and build dependencies (this will take a while)
+npm run generate  # Generate final JS and CSS assets
+npm test          # A good idea to make sure tests run first
+npm start         # Start Signal!
 ```
 
 You'll need to restart the application regularly to see your changes, as there

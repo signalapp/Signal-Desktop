@@ -28,7 +28,7 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
       - name: Install Desktop node_modules
         if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-        run: npm ci --legacy-peer-deps
+        run: npm ci
         env:
           CHILD_CONCURRENCY: 1
           NPM_CONFIG_LOGLEVEL: verbose
