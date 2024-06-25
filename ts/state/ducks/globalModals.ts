@@ -91,6 +91,7 @@ type MigrateToGV2PropsType = ReadonlyDeep<{
 export type GlobalModalsStateType = ReadonlyDeep<{
   addUserToAnotherGroupModalContactId?: string;
   aboutContactModalContactId?: string;
+  callLinkAddNameModalRoomId: string | null;
   callLinkEditModalRoomId: string | null;
   contactModalState?: ContactModalStateType;
   deleteMessagesProps?: DeleteMessagesPropsType;
@@ -143,6 +144,8 @@ export const TOGGLE_PROFILE_EDITOR_ERROR =
 const TOGGLE_SAFETY_NUMBER_MODAL = 'globalModals/TOGGLE_SAFETY_NUMBER_MODAL';
 const TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL =
   'globalModals/TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL';
+const TOGGLE_CALL_LINK_ADD_NAME_MODAL =
+  'globalModals/TOGGLE_CALL_LINK_ADD_NAME_MODAL';
 const TOGGLE_CALL_LINK_EDIT_MODAL = 'globalModals/TOGGLE_CALL_LINK_EDIT_MODAL';
 const TOGGLE_ABOUT_MODAL = 'globalModals/TOGGLE_ABOUT_MODAL';
 const TOGGLE_SIGNAL_CONNECTIONS_MODAL =
@@ -242,6 +245,11 @@ type ToggleSafetyNumberModalActionType = ReadonlyDeep<{
 type ToggleAddUserToAnotherGroupModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL;
   payload: string | undefined;
+}>;
+
+type ToggleCallLinkAddNameModalActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_CALL_LINK_ADD_NAME_MODAL;
+  payload: string | null;
 }>;
 
 type ToggleCallLinkEditModalActionType = ReadonlyDeep<{
@@ -374,6 +382,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | StartMigrationToGV2ActionType
   | ToggleAboutContactModalActionType
   | ToggleAddUserToAnotherGroupModalActionType
+  | ToggleCallLinkAddNameModalActionType
   | ToggleCallLinkEditModalActionType
   | ToggleConfirmationModalActionType
   | ToggleDeleteMessagesModalActionType
@@ -414,6 +423,7 @@ export const actions = {
   showWhatsNewModal,
   toggleAboutContactModal,
   toggleAddUserToAnotherGroupModal,
+  toggleCallLinkAddNameModal,
   toggleCallLinkEditModal,
   toggleConfirmationModal,
   toggleDeleteMessagesModal,
@@ -711,6 +721,15 @@ function toggleAddUserToAnotherGroupModal(
   };
 }
 
+function toggleCallLinkAddNameModal(
+  roomId: string | null
+): ToggleCallLinkAddNameModalActionType {
+  return {
+    type: TOGGLE_CALL_LINK_ADD_NAME_MODAL,
+    payload: roomId,
+  };
+}
+
 function toggleCallLinkEditModal(
   roomId: string | null
 ): ToggleCallLinkEditModalActionType {
@@ -935,6 +954,7 @@ function copyOverMessageAttributesIntoForwardMessages(
 export function getEmptyState(): GlobalModalsStateType {
   return {
     hasConfirmationModal: false,
+    callLinkAddNameModalRoomId: null,
     callLinkEditModalRoomId: null,
     editNicknameAndNoteModalProps: null,
     isProfileEditorVisible: false,
@@ -1046,6 +1066,13 @@ export function reducer(
     return {
       ...state,
       addUserToAnotherGroupModalContactId: action.payload,
+    };
+  }
+
+  if (action.type === TOGGLE_CALL_LINK_ADD_NAME_MODAL) {
+    return {
+      ...state,
+      callLinkAddNameModalRoomId: action.payload,
     };
   }
 

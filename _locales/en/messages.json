@@ -7208,13 +7208,13 @@
     "messageformat": "Call link details",
     "description": "Call Link Edit Modal > Title"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name",
-    "description": "Call Link Edit Modal > Name Input > Label (for screenreaders)"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Join",
     "description": "Call Link Edit Modal > Join Button > Label"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name",
+    "description": "Call Link Edit Modal > Add Call Name Button > Label"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Approve all members",
@@ -7227,6 +7227,14 @@
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "On",
     "description": "Call Link Edit Modal > Approve All Members Checkbox > Option > On"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name",
+    "description": "Call Link Add Name Modal > Title"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name",
+    "description": "Call Link Add Name Modal > Name Input > Label"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {# other is} other {# others are}} typing.",

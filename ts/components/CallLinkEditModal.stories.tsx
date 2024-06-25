@@ -20,7 +20,7 @@ export default {
     callLink: FAKE_CALL_LINK_WITH_ADMIN_KEY,
     onClose: action('onClose'),
     onCopyCallLink: action('onCopyCallLink'),
-    onUpdateCallLinkName: action('onUpdateCallLinkName'),
+    onOpenCallLinkAddNameModal: action('onOpenCallLinkAddNameModal'),
     onUpdateCallLinkRestrictions: action('onUpdateCallLinkRestrictions'),
     onShareCallLinkViaSignal: action('onShareCallLinkViaSignal'),
     onStartCallLinkLobby: action('onStartCallLinkLobby'),

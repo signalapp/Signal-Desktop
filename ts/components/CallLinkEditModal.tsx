@@ -1,7 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useMemo, useState } from 'react';
+import type { ReactNode } from 'react';
+import React, { useMemo, useState } from 'react';
 import { v4 as generateUuid } from 'uuid';
 import { Modal } from './Modal';
 import type { LocalizerType } from '../types/I18N';
@@ -10,19 +11,67 @@ import {
   toCallLinkRestrictions,
   type CallLinkType,
 } from '../types/CallLink';
-import { Input } from './Input';
 import { Select } from './Select';
 import { linkCallRoute } from '../util/signalRoutes';
 import { Button, ButtonSize, ButtonVariant } from './Button';
 import { Avatar, AvatarSize } from './Avatar';
-import { formatUrlWithoutProtocol } from '../util/url';
+
+const CallLinkEditModalRowIconClasses = {
+  Edit: 'CallLinkEditModal__RowIcon--Edit',
+  Approve: 'CallLinkEditModal__RowIcon--Approve',
+  Copy: 'CallLinkEditModal__RowIcon--Copy',
+  Share: 'CallLinkEditModal__RowIcon--Share',
+} as const;
+
+function RowIcon({
+  icon,
+}: {
+  icon: keyof typeof CallLinkEditModalRowIconClasses;
+}) {
+  return (
+    <i
+      role="presentation"
+      className={`CallLinkEditModal__RowIcon ${CallLinkEditModalRowIconClasses[icon]}`}
+    />
+  );
+}
+
+function RowText({ children }: { children: ReactNode }) {
+  return <div className="CallLinkEditModal__RowLabel">{children}</div>;
+}
+
+function Row({ children }: { children: ReactNode }) {
+  return <div className="CallLinkEditModal__Row">{children}</div>;
+}
+
+function RowButton({
+  onClick,
+  children,
+}: {
+  onClick: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <button
+      className="CallLinkEditModal__RowButton"
+      type="button"
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+}
+
+function Hr() {
+  return <hr className="CallLinkEditModal__Hr" />;
+}
 
 export type CallLinkEditModalProps = {
   i18n: LocalizerType;
   callLink: CallLinkType;
   onClose: () => void;
   onCopyCallLink: () => void;
-  onUpdateCallLinkName: (name: string) => void;
+  onOpenCallLinkAddNameModal: () => void;
   onUpdateCallLinkRestrictions: (restrictions: CallLinkRestrictions) => void;
   onShareCallLinkViaSignal: () => void;
   onStartCallLinkLobby: () => void;
@@ -33,51 +82,16 @@ export function CallLinkEditModal({
   callLink,
   onClose,
   onCopyCallLink,
-  onUpdateCallLinkName,
+  onOpenCallLinkAddNameModal,
   onUpdateCallLinkRestrictions,
   onShareCallLinkViaSignal,
   onStartCallLinkLobby,
 }: CallLinkEditModalProps): JSX.Element {
-  const { name: savedName, restrictions: savedRestrictions } = callLink;
-
-  const [nameId] = useState(() => generateUuid());
   const [restrictionsId] = useState(() => generateUuid());
 
-  const [nameInput, setNameInput] = useState(savedName);
-  const [restrictionsInput, setRestrictionsInput] = useState(savedRestrictions);
-
-  // We only want to use the default name "Signal Call" as a value if the user
-  // modified the input and then chose that name. Doesn't revert when saved.
-  const [nameTouched, setNameTouched] = useState(false);
-
   const callLinkWebUrl = useMemo(() => {
-    return formatUrlWithoutProtocol(
-      linkCallRoute.toWebUrl({ key: callLink.rootKey })
-    );
+    return linkCallRoute.toWebUrl({ key: callLink.rootKey }).toString();
   }, [callLink.rootKey]);
-
-  const onSaveName = useCallback(
-    (newName: string) => {
-      if (!nameTouched) {
-        return;
-      }
-      if (newName === savedName) {
-        return;
-      }
-      onUpdateCallLinkName(newName);
-    },
-    [nameTouched, savedName, onUpdateCallLinkName]
-  );
-
-  const onSaveRestrictions = useCallback(
-    (newRestrictions: CallLinkRestrictions) => {
-      if (newRestrictions === savedRestrictions) {
-        return;
-      }
-      onUpdateCallLinkRestrictions(newRestrictions);
-    },
-    [savedRestrictions, onUpdateCallLinkRestrictions]
-  );
 
   return (
     <Modal
@@ -85,12 +99,15 @@ export function CallLinkEditModal({
       modalName="CallLinkEditModal"
       moduleClassName="CallLinkEditModal"
       title={i18n('icu:CallLinkEditModal__Title')}
-      hasXButton
-      onClose={() => {
-        // Save the modal in case the user hits escape
-        onSaveName(nameInput);
-        onClose();
-      }}
+      noEscapeClose
+      noMouseClose
+      padded={false}
+      modalFooter={
+        <Button type="submit" variant={ButtonVariant.Primary} onClick={onClose}>
+          {i18n('icu:done')}
+        </Button>
+      }
+      onClose={onClose}
     >
       <div className="CallLinkEditModal__Header">
         <Avatar
@@ -101,114 +118,96 @@ export function CallLinkEditModal({
           acceptedMessageRequest
           isMe={false}
           sharedGroupNames={[]}
-          title={callLink.name ?? i18n('icu:calling__call-link-default-title')}
+          title={
+            callLink.name === ''
+              ? i18n('icu:calling__call-link-default-title')
+              : callLink.name
+          }
         />
         <div className="CallLinkEditModal__Header__Details">
-          <label htmlFor={nameId} className="CallLinkEditModal__SrOnly">
-            {i18n('icu:CallLinkEditModal__InputLabel--Name--SrOnly')}
-          </label>
-          <Input
-            moduleClassName="CallLinkEditModal__Input--Name"
-            i18n={i18n}
-            value={
-              nameInput === '' && !nameTouched
-                ? i18n('icu:calling__call-link-default-title')
-                : nameInput
-            }
-            maxByteCount={120}
-            onChange={value => {
-              setNameTouched(true);
-              setNameInput(value);
-            }}
-            onBlur={() => {
-              onSaveName(nameInput);
-            }}
-            onEnter={() => {
-              onSaveName(nameInput);
-            }}
-            placeholder={i18n('icu:calling__call-link-default-title')}
-          />
-
-          <div className="CallLinkEditModal__CallLinkAndJoinButton">
-            <button
-              className="CallLinkEditModal__CopyUrlTextButton"
-              type="button"
-              onClick={onCopyCallLink}
-              aria-label={i18n('icu:CallLinkDetails__CopyLink')}
-            >
-              {callLinkWebUrl}
-            </button>
-            <Button
-              onClick={onStartCallLinkLobby}
-              size={ButtonSize.Small}
-              variant={ButtonVariant.SecondaryAffirmative}
-              className="CallLinkEditModal__JoinButton"
-            >
-              {i18n('icu:CallLinkEditModal__JoinButtonLabel')}
-            </Button>
+          <div className="CallLinkEditModal__Header__Title">
+            {callLink.name === ''
+              ? i18n('icu:calling__call-link-default-title')
+              : callLink.name}
           </div>
+          <button
+            className="CallLinkEditModal__Header__CallLinkButton"
+            type="button"
+            onClick={onCopyCallLink}
+            aria-label={i18n('icu:CallLinkDetails__CopyLink')}
+          >
+            <div className="CallLinkEditModal__Header__CallLinkButton__Text">
+              {callLinkWebUrl}
+            </div>
+          </button>
+        </div>
+        <div className="CallLinkEditModal__Header__Actions">
+          <Button
+            onClick={onStartCallLinkLobby}
+            size={ButtonSize.Small}
+            variant={ButtonVariant.SecondaryAffirmative}
+            className="CallLinkEditModal__JoinButton"
+          >
+            {i18n('icu:CallLinkEditModal__JoinButtonLabel')}
+          </Button>
         </div>
       </div>
 
-      <div
-        className="CallLinkEditModal__ApproveAllMembers__Row"
-        // For testing, to easily check the restrictions saved
-        data-restrictions={savedRestrictions}
-      >
-        <label
-          htmlFor={restrictionsId}
-          className="CallLinkEditModal__ApproveAllMembers__Label"
-        >
-          {i18n('icu:CallLinkEditModal__InputLabel--ApproveAllMembers')}
-        </label>
+      <Hr />
+
+      <RowButton onClick={onOpenCallLinkAddNameModal}>
+        <Row>
+          <RowIcon icon="Edit" />
+          <RowText>{i18n('icu:CallLinkEditModal__AddCallNameLabel')}</RowText>
+        </Row>
+      </RowButton>
+
+      <Row>
+        <RowIcon icon="Approve" />
+        <RowText>
+          <label htmlFor={restrictionsId}>
+            {i18n('icu:CallLinkEditModal__InputLabel--ApproveAllMembers')}
+          </label>
+        </RowText>
         <Select
           id={restrictionsId}
-          value={restrictionsInput}
+          value={String(callLink.restrictions)}
+          moduleClassName="CallLinkEditModal__RowSelect"
           options={[
             {
-              value: CallLinkRestrictions.None,
+              value: String(CallLinkRestrictions.None),
               text: i18n(
                 'icu:CallLinkEditModal__ApproveAllMembers__Option--Off'
               ),
             },
             {
-              value: CallLinkRestrictions.AdminApproval,
+              value: String(CallLinkRestrictions.AdminApproval),
               text: i18n(
                 'icu:CallLinkEditModal__ApproveAllMembers__Option--On'
               ),
             },
           ]}
           onChange={value => {
-            const newRestrictions = toCallLinkRestrictions(value);
-            setRestrictionsInput(newRestrictions);
-            onSaveRestrictions(newRestrictions);
+            onUpdateCallLinkRestrictions(toCallLinkRestrictions(value));
           }}
         />
-      </div>
+      </Row>
 
-      <button
-        type="button"
-        className="CallLinkEditModal__ActionButton"
-        onClick={onCopyCallLink}
-      >
-        <i
-          role="presentation"
-          className="CallLinkEditModal__ActionButton__Icon CallLinkEditModal__ActionButton__Icon--Copy"
-        />
-        {i18n('icu:CallLinkDetails__CopyLink')}
-      </button>
+      <Hr />
 
-      <button
-        type="button"
-        className="CallLinkEditModal__ActionButton"
-        onClick={onShareCallLinkViaSignal}
-      >
-        <i
-          role="presentation"
-          className="CallLinkEditModal__ActionButton__Icon CallLinkEditModal__ActionButton__Icon--Share"
-        />
-        {i18n('icu:CallLinkDetails__ShareLinkViaSignal')}
-      </button>
+      <RowButton onClick={onCopyCallLink}>
+        <Row>
+          <RowIcon icon="Copy" />
+          <RowText>{i18n('icu:CallLinkDetails__CopyLink')}</RowText>
+        </Row>
+      </RowButton>
+
+      <RowButton onClick={onShareCallLinkViaSignal}>
+        <Row>
+          <RowIcon icon="Share" />
+          <RowText>{i18n('icu:CallLinkDetails__ShareLinkViaSignal')}</RowText>
+        </Row>
+      </RowButton>
     </Modal>
   );
 }

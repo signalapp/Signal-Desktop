@@ -1,6 +1,12 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+// Overriding default style
+.module-Modal__body.CallLinkEditModal__body {
+  padding-inline: 12px 3px;
+  scrollbar-gutter: stable;
+}
+
 .CallLinkEditModal__SrOnly {
   @include sr-only;
 }
@@ -13,67 +19,80 @@
 }
 
 .CallLinkEditModal__Header__Details {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0;
   min-width: 0; // fix overflow issue
 }
 
-// Overriding default style
-.Input__container.CallLinkEditModal__Input--Name__container {
-  margin: 0;
+.CallLinkEditModal__Header__Title {
+  @include font-body-1-bold;
 }
 
-.CallLinkEditModal__CallLinkAndJoinButton {
+.CallLinkEditModal__Header__CallLinkButton {
+  @include button-reset;
+  @include font-subtitle;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
+.CallLinkEditModal__Header__CallLinkButton__Text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.CallLinkEditModal__Header__Actions {
   display: flex;
   gap: 14px;
   align-items: center;
-}
-
-.CallLinkEditModal__CopyUrlTextButton {
-  @include button-reset;
-  border: none;
-  padding-block: 10px;
-  padding-inline: 8px;
-  border-radius: 6px;
-  flex: 1;
-
-  // truncate with ellipsis
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  @include light-theme {
-    background: $color-gray-02;
-    color: $color-black;
-  }
-  @include dark-theme {
-    background: $color-gray-75;
-    color: $color-gray-15;
-  }
 }
 
 .CallLinkEditModal__JoinButton {
   @include font-body-1-bold;
 }
 
-.CallLinkEditModal__ApproveAllMembers__Row {
+.CallLinkEditModal__Row {
   display: flex;
+  padding: 12px;
   align-items: center;
-  margin-bottom: 18px;
+  gap: 16px;
 }
 
-.CallLinkEditModal__ApproveAllMembers__Label {
-  flex: 1;
-}
-
-.CallLinkEditModal__ActionButton {
+.CallLinkEditModal__RowButton {
   @include button-reset;
+  width: 100%;
+  padding-block: 1px;
+
+  .CallLinkEditModal__Row {
+    border-radius: 8px;
+  }
+
+  &:hover,
+  &:focus {
+    .CallLinkEditModal__Row {
+      @include light-theme {
+        background: $color-gray-02;
+      }
+      @include dark-theme {
+        background: $color-gray-75;
+      }
+    }
+  }
+}
+
+.CallLinkEditModal__Row--Button {
   @include font-body-2;
   display: flex;
   gap: 8px;
   align-items: center;
-  padding-block: 8px;
   width: 100%;
 
   @include light-theme {
@@ -84,20 +103,17 @@
   }
 }
 
-.CallLinkEditModal__ActionButton__Icon {
+.CallLinkEditModal__RowLabel {
+  @include font-body-1;
+  flex: 1;
+}
+
+.CallLinkEditModal__RowIcon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 9999px;
-
-  @include light-theme {
-    background: $color-gray-05;
-  }
-  @include dark-theme {
-    background: $color-gray-65;
-  }
+  width: 20px;
+  height: 20px;
 
   &::after {
     content: '';
@@ -110,30 +126,42 @@
   }
 }
 
-.CallLinkEditModal__ActionButton__Icon--Copy {
+@mixin CallLinkEditModal__RowIcon($iconPath) {
   &::after {
     @include light-theme {
-      @include color-svg('../images/icons/v3/copy/copy.svg', $color-gray-75);
+      @include color-svg($iconPath, $color-gray-75);
     }
     @include dark-theme {
-      @include color-svg('../images/icons/v3/copy/copy.svg', $color-gray-15);
+      @include color-svg($iconPath, $color-gray-15);
     }
   }
 }
 
-.CallLinkEditModal__ActionButton__Icon--Share {
-  &::after {
-    @include light-theme {
-      @include color-svg(
-        '../images/icons/v3/forward/forward.svg',
-        $color-gray-75
-      );
-    }
-    @include dark-theme {
-      @include color-svg(
-        '../images/icons/v3/forward/forward.svg',
-        $color-gray-15
-      );
-    }
-  }
+.CallLinkEditModal__RowIcon--Edit {
+  @include CallLinkEditModal__RowIcon('../images/icons/v3/edit/edit.svg');
+}
+
+.CallLinkEditModal__RowIcon--Approve {
+  @include CallLinkEditModal__RowIcon(
+    '../images/icons/v3/person/person-check-compact.svg'
+  );
+}
+
+.CallLinkEditModal__RowIcon--Copy {
+  @include CallLinkEditModal__RowIcon('../images/icons/v3/copy/copy.svg');
+}
+
+.CallLinkEditModal__RowIcon--Share {
+  @include CallLinkEditModal__RowIcon('../images/icons/v3/forward/forward.svg');
+}
+
+.CallLinkEditModal__Hr {
+  border: none;
+  height: 1px;
+  background: $color-black-alpha-12;
+}
+
+// Overriding default style
+.CallLinkEditModal__RowSelect.module-select select {
+  min-width: 0;
 }

@@ -26,13 +26,13 @@ export const SmartCallLinkEditModal = memo(
     const i18n = useSelector(getIntl);
     const callLinkSelector = useSelector(getCallLinkSelector);
 
+    const { updateCallLinkRestrictions, startCallLinkLobby } =
+      useCallingActions();
     const {
-      updateCallLinkName,
-      updateCallLinkRestrictions,
-      startCallLinkLobby,
-    } = useCallingActions();
-    const { toggleCallLinkEditModal, showShareCallLinkViaSignal } =
-      useGlobalModalActions();
+      toggleCallLinkAddNameModal,
+      toggleCallLinkEditModal,
+      showShareCallLinkViaSignal,
+    } = useGlobalModalActions();
 
     const callLink = useMemo(() => {
       return callLinkSelector(roomId);
@@ -52,12 +52,9 @@ export const SmartCallLinkEditModal = memo(
       drop(copyCallLink(callLinkWebUrl));
     }, [callLink]);
 
-    const handleUpdateCallLinkName = useCallback(
-      (newName: string) => {
-        updateCallLinkName(roomId, newName);
-      },
-      [roomId, updateCallLinkName]
-    );
+    const handleOpenCallLinkAddNameModal = useCallback(() => {
+      toggleCallLinkAddNameModal(roomId);
+    }, [roomId, toggleCallLinkAddNameModal]);
 
     const handleUpdateCallLinkRestrictions = useCallback(
       (newRestrictions: CallLinkRestrictions) => {
@@ -91,7 +88,7 @@ export const SmartCallLinkEditModal = memo(
         callLink={callLink}
         onClose={handleClose}
         onCopyCallLink={handleCopyCallLink}
-        onUpdateCallLinkName={handleUpdateCallLinkName}
+        onOpenCallLinkAddNameModal={handleOpenCallLinkAddNameModal}
         onUpdateCallLinkRestrictions={handleUpdateCallLinkRestrictions}
         onShareCallLinkViaSignal={handleShareCallLinkViaSignal}
         onStartCallLinkLobby={handleStartCallLinkLobby}
