@@ -43,6 +43,7 @@ type PropsType = {
 
 export type ModalPropsType = PropsType & {
   noTransform?: boolean;
+  noEscapeClose?: boolean;
   noMouseClose?: boolean;
   theme?: Theme;
 };
@@ -57,6 +58,7 @@ export function Modal({
   modalFooter,
   modalHeaderChildren,
   moduleClassName,
+  noEscapeClose,
   noMouseClose,
   onBackButtonClick,
   onClose = noop,
@@ -114,6 +116,7 @@ export function Modal({
     <ModalHost
       modalName={modalName}
       moduleClassName={moduleClassName}
+      noEscapeClose={noEscapeClose}
       noMouseClose={noMouseClose}
       onClose={close}
       onEscape={onBackButtonClick}

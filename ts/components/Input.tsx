@@ -18,6 +18,7 @@ import { useRefMerger } from '../hooks/useRefMerger';
 import { byteLength } from '../Bytes';
 
 export type PropsType = {
+  autoFocus?: boolean;
   countBytes?: (value: string) => number;
   countLength?: (value: string) => number;
   disabled?: boolean;
@@ -63,6 +64,7 @@ export const Input = forwardRef<
   PropsType
 >(function InputInner(
   {
+    autoFocus,
     countBytes = byteLength,
     countLength = grapheme.count,
     disabled,
@@ -206,6 +208,7 @@ export const Input = forwardRef<
   const isTextarea = expandable || forceTextarea;
 
   const inputProps = {
+    autoFocus,
     className: classNames(
       getClassName('__input'),
       icon && getClassName('__input--with-icon'),

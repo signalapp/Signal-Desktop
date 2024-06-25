@@ -42,23 +42,29 @@ describe('calling/callLinkAdmin', function (this: Mocha.Suite) {
       .getByText('Create a Call Link')
       .click();
 
-    const callLinkItem = window.locator('.CallsList__Item[data-type="Adhoc"]');
+    const editModal = window.locator('.CallLinkEditModal');
+    await editModal.waitFor();
 
-    const modal = window.locator('.CallLinkEditModal');
-    await modal.waitFor();
+    const restrictionsInput = editModal.getByLabel('Approve all members');
 
-    const row = modal.locator('.CallLinkEditModal__ApproveAllMembers__Row');
+    await expect(restrictionsInput).toHaveJSProperty('value', '0');
+    await restrictionsInput.selectOption({ label: 'On' });
+    await expect(restrictionsInput).toHaveJSProperty('value', '1');
 
-    await expect(row).toHaveAttribute('data-restrictions', '0');
+    await editModal.locator('button', { hasText: 'Add call name' }).click();
 
-    const select = modal.locator('select');
-    await select.selectOption({ label: 'On' });
-    await expect(row).toHaveAttribute('data-restrictions', '1');
+    const addNameModal = window.locator('.CallLinkAddNameModal');
+    await addNameModal.waitFor();
 
-    const nameInput = modal.locator('.CallLinkEditModal__Input--Name__input');
+    const nameInput = addNameModal.getByLabel('Call name');
     await nameInput.fill('New Name');
-    await nameInput.blur();
 
-    await expect(callLinkItem).toContainText('New Name');
+    const saveBtn = addNameModal.getByText('Save');
+    await saveBtn.click();
+
+    await editModal.waitFor();
+
+    const title = editModal.locator('.CallLinkEditModal__Header__Title');
+    await expect(title).toContainText('New Name');
   });
 });

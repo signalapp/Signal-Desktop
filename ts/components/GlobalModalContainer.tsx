@@ -29,6 +29,9 @@ export type PropsType = {
   // AddUserToAnotherGroupModal
   addUserToAnotherGroupModalContactId: string | undefined;
   renderAddUserToAnotherGroup: () => JSX.Element;
+  // CallLinkAddNameModal
+  callLinkAddNameModalRoomId: string | null;
+  renderCallLinkAddNameModal: () => JSX.Element;
   // CallLinkEditModal
   callLinkEditModalRoomId: string | null;
   renderCallLinkEditModal: () => JSX.Element;
@@ -105,6 +108,9 @@ export function GlobalModalContainer({
   // AddUserToAnotherGroupModal
   addUserToAnotherGroupModalContactId,
   renderAddUserToAnotherGroup,
+  // CallLinkAddNameModal
+  callLinkAddNameModalRoomId,
+  renderCallLinkAddNameModal,
   // CallLinkEditModal
   callLinkEditModalRoomId,
   renderCallLinkEditModal,
@@ -192,6 +198,10 @@ export function GlobalModalContainer({
 
   if (addUserToAnotherGroupModalContactId) {
     return renderAddUserToAnotherGroup();
+  }
+
+  if (callLinkAddNameModalRoomId) {
+    return renderCallLinkAddNameModal();
   }
 
   if (callLinkEditModalRoomId) {

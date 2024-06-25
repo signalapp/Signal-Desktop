@@ -27,6 +27,7 @@ export type PropsType = Readonly<{
   children: React.ReactElement;
   modalName: string;
   moduleClassName?: string;
+  noEscapeClose?: boolean;
   noMouseClose?: boolean;
   onClose: () => unknown;
   onEscape?: () => unknown;
@@ -40,6 +41,7 @@ export const ModalHost = React.memo(function ModalHostInner({
   children,
   modalName,
   moduleClassName,
+  noEscapeClose,
   noMouseClose,
   onClose,
   onEscape,
@@ -72,7 +74,7 @@ export const ModalHost = React.memo(function ModalHostInner({
     };
   }, [modalContainer]);
 
-  useEscapeHandling(onEscape || onClose);
+  useEscapeHandling(noEscapeClose ? noop : onEscape || onClose);
   useEffect(() => {
     if (noMouseClose) {
       return noop;

@@ -76,7 +76,7 @@ export function EditNicknameAndNoteModal({
   }, [givenName, familyName, note]);
 
   const handleSubmit = useCallback(
-    (event: MouseEvent | FormEvent) => {
+    (event: FormEvent) => {
       event.preventDefault();
       if (formResult.success) {
         onSave(formResult.data);
@@ -104,7 +104,6 @@ export function EditNicknameAndNoteModal({
             type="submit"
             form={formId}
             aria-disabled={!formResult.success}
-            onClick={handleSubmit}
           >
             {i18n('icu:save')}
           </Button>
@@ -124,7 +123,7 @@ export function EditNicknameAndNoteModal({
           theme={undefined}
         />
       </div>
-      <form onSubmit={handleSubmit}>
+      <form id={formId} onSubmit={handleSubmit}>
         <label
           htmlFor={givenNameId}
           className="EditNicknameAndNoteModal__Label"
