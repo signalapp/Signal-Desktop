@@ -353,7 +353,6 @@
     },
     "@types/react": "17.0.45",
     "@types/react-dom": "17.0.17",
-    "dmg-license": "$nop",
     "fabric": { "canvas": "$nop", "jsdom": "$nop" },
     "fast-glob": { "glob-parent": "5.1.2" },
     "read-last-lines": { "mz": { "thenify-all": { "thenify": "3.3.1" } } }
