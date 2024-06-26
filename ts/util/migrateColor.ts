@@ -3,7 +3,7 @@
 
 import { sample } from 'lodash';
 
-import { AvatarColors } from '../types/Colors';
+import { AVATAR_COLOR_COUNT, AvatarColors } from '../types/Colors';
 import type { ConversationAttributesType } from '../model-types';
 import type { AvatarColorType, CustomColorType } from '../types/Colors';
 import type { ServiceIdString } from '../types/ServiceId';
@@ -22,7 +22,7 @@ export function migrateColor(
     return sample(AvatarColors) || AvatarColors[0];
   }
 
-  const index = (parseInt(serviceId.slice(-4), 16) || 0) % AvatarColors.length;
+  const index = (parseInt(serviceId.slice(-4), 16) || 0) % AVATAR_COLOR_COUNT;
   return AvatarColors[index];
 }
 

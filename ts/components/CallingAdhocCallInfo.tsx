@@ -16,7 +16,7 @@ import type { ConversationType } from '../state/ducks/conversations';
 import { ModalHost } from './ModalHost';
 import { isInSystemContacts } from '../util/isInSystemContacts';
 import type { RemoveClientType } from '../state/ducks/calling';
-import { AvatarColors } from '../types/Colors';
+import { AVATAR_COLOR_COUNT, AvatarColors } from '../types/Colors';
 import { Button } from './Button';
 import { Modal } from './Modal';
 import { Theme } from '../util/theme';
@@ -72,7 +72,7 @@ function UnknownContacts({
     }) => {
       const colorIndex = participant.serviceId
         ? (parseInt(participant.serviceId.slice(-4), 16) || 0) %
-          AvatarColors.length
+          AVATAR_COLOR_COUNT
         : 0;
       return (
         <Avatar
