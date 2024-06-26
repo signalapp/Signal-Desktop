@@ -790,6 +790,7 @@ export function CallsList({
               <Avatar
                 acceptedMessageRequest
                 avatarPath={conversation.avatarPath}
+                color={conversation.color}
                 conversationType={conversation.type}
                 i18n={i18n}
                 isMe={false}

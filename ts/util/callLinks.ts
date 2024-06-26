@@ -30,6 +30,7 @@ import {
 } from '../types/CallLink';
 import type { LocalizerType } from '../types/Util';
 import { isTestOrMockEnvironment } from '../environment';
+import { AvatarColors } from '../types/Colors';
 
 export const CALL_LINK_DEFAULT_STATE = {
   name: '',
@@ -92,16 +93,32 @@ export function callLinkToConversation(
   callLink: CallLinkType,
   i18n: LocalizerType
 ): CallLinkConversationType {
-  const { roomId, name } = callLink;
+  const { roomId, name, rootKey } = callLink;
   return {
     id: roomId,
     type: 'callLink',
+    color: getColorForCallLink(rootKey),
     isMe: false,
     title: name || i18n('icu:calling__call-link-default-title'),
     sharedGroupNames: [],
     acceptedMessageRequest: true,
     badges: [],
   };
+}
+// See https://github.com/signalapp/ringrtc/blob/49b4b8a16f997c7fa9a429e96aa83f80b2065c63/src/rust/src/lite/call_links/base16.rs#L8
+const BASE_16_CONSONANT_ALPHABET = 'bcdfghkmnpqrstxz';
+
+// See https://github.com/signalapp/ringrtc/blob/49b4b8a16f997c7fa9a429e96aa83f80b2065c63/src/rust/src/lite/call_links/base16.rs#L127-L139
+export function getColorForCallLink(rootKey: string): string {
+  const rootKeyStart = rootKey.slice(0, 2);
+
+  const upper = BASE_16_CONSONANT_ALPHABET.indexOf(rootKeyStart[0]) || 0 * 16;
+  const lower = BASE_16_CONSONANT_ALPHABET.indexOf(rootKeyStart[1]) || 0;
+  const firstByte = upper + lower;
+
+  const index = firstByte % 12;
+
+  return AvatarColors[index];
 }
 
 export function getPlaceholderCallLinkConversation(
