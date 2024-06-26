@@ -18,7 +18,10 @@ import type {
   ProcessedSent,
 } from './Types.d';
 import type { ContactDetailsWithAvatar } from './ContactsParser';
-import type { CallEventDetails, CallLogEvent } from '../types/CallDisposition';
+import type {
+  CallEventDetails,
+  CallLogEventDetails,
+} from '../types/CallDisposition';
 import type { CallLinkUpdateSyncType } from '../types/CallLink';
 import { isAciString } from '../util/isAciString';
 
@@ -559,14 +562,13 @@ export class DeleteForMeSyncEvent extends ConfirmableEvent {
 }
 
 export type CallLogEventSyncEventData = Readonly<{
-  event: CallLogEvent;
-  timestamp: number;
+  callLogEventDetails: CallLogEventDetails;
   receivedAtCounter: number;
 }>;
 
 export class CallLogEventSyncEvent extends ConfirmableEvent {
   constructor(
-    public readonly callLogEvent: CallLogEventSyncEventData,
+    public readonly data: CallLogEventSyncEventData,
     confirm: ConfirmCallback
   ) {
     super('callLogEventSync', confirm);

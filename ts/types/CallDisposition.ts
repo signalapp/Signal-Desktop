@@ -26,6 +26,7 @@ export enum CallDirection {
 export enum CallLogEvent {
   Clear = 'Clear',
   MarkedAsRead = 'MarkedAsRead',
+  MarkedAsReadInConversation = 'MarkedAsReadInConversation',
 }
 
 export enum LocalCallEvent {
@@ -95,6 +96,19 @@ export type CallDetails = Readonly<{
   type: CallType;
   direction: CallDirection;
   timestamp: number;
+}>;
+
+export type CallLogEventTarget = Readonly<{
+  timestamp: number;
+  callId: string | null;
+  peerId: AciString | string | null;
+}>;
+
+export type CallLogEventDetails = Readonly<{
+  type: CallLogEvent;
+  timestamp: number;
+  peerId: AciString | string | null;
+  callId: string | null;
 }>;
 
 export type CallEventDetails = CallDetails &
@@ -219,6 +233,13 @@ export const callEventNormalizeSchema = z.object({
   type: z.nativeEnum(Proto.SyncMessage.CallEvent.Type),
   direction: z.nativeEnum(Proto.SyncMessage.CallEvent.Direction),
   event: z.nativeEnum(Proto.SyncMessage.CallEvent.Event),
+});
+
+export const callLogEventNormalizeSchema = z.object({
+  type: z.nativeEnum(Proto.SyncMessage.CallLogEvent.Type),
+  timestamp: longToNumberSchema,
+  peerId: peerIdInBytesSchema.optional(),
+  callId: longToStringSchema.optional(),
 });
 
 export function isSameCallHistoryGroup(
