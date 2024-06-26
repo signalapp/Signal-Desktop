@@ -36,7 +36,7 @@ function getImageTag({
 
   let srcSet: string | undefined;
   if (sizeClass != null && JUMBO_SIZES.has(sizeClass)) {
-    srcSet = `emoji://jumbo?emoji=${encodeURIComponent(match)}, ${img}`;
+    srcSet = `emoji://jumbo?emoji=${encodeURIComponent(match)} 2x, ${img}`;
   }
 
   return (
