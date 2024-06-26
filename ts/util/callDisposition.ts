@@ -44,6 +44,7 @@ import type {
   CallEventDetails,
   CallHistoryDetails,
   CallHistoryGroup,
+  CallLogEventDetails,
   CallStatus,
   GroupCallMeta,
 } from '../types/CallDisposition';
@@ -60,6 +61,8 @@ import {
   callDetailsSchema,
   AdhocCallStatus,
   CallStatusValue,
+  callLogEventNormalizeSchema,
+  CallLogEvent,
 } from '../types/CallDisposition';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { ConversationModel } from '../models/conversations';
@@ -248,6 +251,34 @@ export function getCallEventForProto(
   });
 }
 
+const callLogEventFromProto: Partial<
+  Record<Proto.SyncMessage.CallLogEvent.Type, CallLogEvent>
+> = {
+  [Proto.SyncMessage.CallLogEvent.Type.CLEAR]: CallLogEvent.Clear,
+  [Proto.SyncMessage.CallLogEvent.Type.MARKED_AS_READ]:
+    CallLogEvent.MarkedAsRead,
+  [Proto.SyncMessage.CallLogEvent.Type.MARKED_AS_READ_IN_CONVERSATION]:
+    CallLogEvent.MarkedAsReadInConversation,
+};
+
+export function getCallLogEventForProto(
+  callLogEventProto: Proto.SyncMessage.ICallLogEvent
+): CallLogEventDetails {
+  const callLogEvent = callLogEventNormalizeSchema.parse(callLogEventProto);
+
+  const type = callLogEventFromProto[callLogEvent.type];
+  if (type == null) {
+    throw new TypeError(`Unknown call log event ${callLogEvent.type}`);
+  }
+
+  return {
+    type,
+    timestamp: callLogEvent.timestamp,
+    peerId: callLogEvent.peerId ?? null,
+    callId: callLogEvent.callId ?? null,
+  };
+}
+
 const directionToProto = {
   [CallDirection.Incoming]: Proto.SyncMessage.CallEvent.Direction.INCOMING,
   [CallDirection.Outgoing]: Proto.SyncMessage.CallEvent.Direction.OUTGOING,
@@ -280,6 +311,17 @@ function shouldSyncStatus(callStatus: CallStatus) {
   return statusToProto[callStatus] != null;
 }
 
+export function getBytesForPeerId(callHistory: CallHistoryDetails): Uint8Array {
+  let peerId =
+    callHistory.mode === CallMode.Adhoc
+      ? Bytes.fromBase64(callHistory.peerId)
+      : uuidToBytes(callHistory.peerId);
+  if (peerId.length === 0) {
+    peerId = Bytes.fromBase64(callHistory.peerId);
+  }
+  return peerId;
+}
+
 export function getProtoForCallHistory(
   callHistory: CallHistoryDetails
 ): Proto.SyncMessage.ICallEvent | null {
@@ -292,16 +334,8 @@ export function getProtoForCallHistory(
     )}`
   );
 
-  let peerId =
-    callHistory.mode === CallMode.Adhoc
-      ? Bytes.fromBase64(callHistory.peerId)
-      : uuidToBytes(callHistory.peerId);
-  if (peerId.length === 0) {
-    peerId = Bytes.fromBase64(callHistory.peerId);
-  }
-
   return new Proto.SyncMessage.CallEvent({
-    peerId,
+    peerId: getBytesForPeerId(callHistory),
     callId: Long.fromString(callHistory.callId),
     type: typeToProto[callHistory.type],
     direction: directionToProto[callHistory.direction],
@@ -1191,50 +1225,63 @@ export async function updateCallHistoryFromLocalEvent(
   await updateRemoteCallHistory(updatedCallHistory);
 }
 
-export async function clearCallHistoryDataAndSync(): Promise<void> {
+export function updateDeletedMessages(messageIds: ReadonlyArray<string>): void {
+  messageIds.forEach(messageId => {
+    const message = window.MessageCache.__DEPRECATED$getById(messageId);
+    const conversation = message?.getConversation();
+    if (message == null || conversation == null) {
+      return;
+    }
+    window.reduxActions.conversations.messageDeleted(
+      messageId,
+      message.get('conversationId')
+    );
+    conversation.debouncedUpdateLastMessage();
+    window.MessageCache.__DEPRECATED$unregister(messageId);
+  });
+}
+
+export async function clearCallHistoryDataAndSync(
+  latestCall: CallHistoryDetails
+): Promise<void> {
   try {
-    const timestamp = Date.now();
-
-    log.info(`clearCallHistory: Clearing call history before ${timestamp}`);
-    const messageIds = await window.Signal.Data.clearCallHistory(timestamp);
-
-    messageIds.forEach(messageId => {
-      const message = window.MessageCache.__DEPRECATED$getById(messageId);
-      const conversation = message?.getConversation();
-      if (message == null || conversation == null) {
-        return;
-      }
-      window.reduxActions.conversations.messageDeleted(
-        messageId,
-        message.get('conversationId')
-      );
-      conversation.debouncedUpdateLastMessage();
-      window.MessageCache.__DEPRECATED$unregister(messageId);
-    });
-
+    log.info(
+      `clearCallHistory: Clearing call history before (${latestCall.callId}, ${latestCall.timestamp})`
+    );
+    const messageIds = await window.Signal.Data.clearCallHistory(latestCall);
+    updateDeletedMessages(messageIds);
     log.info('clearCallHistory: Queueing sync message');
     await singleProtoJobQueue.add(
-      MessageSender.getClearCallHistoryMessage(timestamp)
+      MessageSender.getClearCallHistoryMessage(latestCall)
     );
   } catch (error) {
     log.error('clearCallHistory: Failed to clear call history', error);
   }
 }
 
-export async function markAllCallHistoryReadAndSync(): Promise<void> {
+export async function markAllCallHistoryReadAndSync(
+  latestCall: CallHistoryDetails,
+  inConversation: boolean
+): Promise<void> {
   try {
-    const timestamp = Date.now();
-
     log.info(
-      `markAllCallHistoryReadAndSync: Marking call history read before ${timestamp}`
+      `markAllCallHistoryReadAndSync: Marking call history read before (${latestCall.callId}, ${latestCall.timestamp})`
     );
-    await window.Signal.Data.markAllCallHistoryRead(timestamp);
+    if (inConversation) {
+      await window.Signal.Data.markAllCallHistoryReadInConversation(latestCall);
+    } else {
+      await window.Signal.Data.markAllCallHistoryRead(latestCall);
+    }
 
     const ourAci = window.textsecure.storage.user.getCheckedAci();
 
     const callLogEvent = new Proto.SyncMessage.CallLogEvent({
-      type: Proto.SyncMessage.CallLogEvent.Type.MARKED_AS_READ,
-      timestamp: Long.fromNumber(timestamp),
+      type: inConversation
+        ? Proto.SyncMessage.CallLogEvent.Type.MARKED_AS_READ_IN_CONVERSATION
+        : Proto.SyncMessage.CallLogEvent.Type.MARKED_AS_READ,
+      timestamp: Long.fromNumber(latestCall.timestamp),
+      peerId: getBytesForPeerId(latestCall),
+      callId: Long.fromString(latestCall.callId),
     });
 
     const syncMessage = MessageSender.createSyncMessage();

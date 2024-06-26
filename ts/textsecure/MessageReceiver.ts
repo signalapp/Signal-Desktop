@@ -152,9 +152,11 @@ import { chunk } from '../util/iterables';
 import { inspectUnknownFieldTags } from '../util/inspectProtobufs';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import { filterAndClean } from '../types/BodyRange';
-import { getCallEventForProto } from '../util/callDisposition';
+import {
+  getCallEventForProto,
+  getCallLogEventForProto,
+} from '../util/callDisposition';
 import { checkOurPniIdentityKey } from '../util/checkOurPniIdentityKey';
-import { CallLogEvent } from '../types/CallDisposition';
 import { CallLinkUpdateSyncType } from '../types/CallLink';
 import { bytesToUuid } from '../util/uuidToBytes';
 
@@ -3614,32 +3616,10 @@ export default class MessageReceiver
 
     const { receivedAtCounter } = envelope;
 
-    let event: CallLogEvent;
-    if (callLogEvent.type == null) {
-      throw new Error('MessageReceiver.handleCallLogEvent: type was null');
-    } else if (
-      callLogEvent.type === Proto.SyncMessage.CallLogEvent.Type.CLEAR
-    ) {
-      event = CallLogEvent.Clear;
-    } else if (
-      callLogEvent.type === Proto.SyncMessage.CallLogEvent.Type.MARKED_AS_READ
-    ) {
-      event = CallLogEvent.MarkedAsRead;
-    } else {
-      throw new Error(
-        `MessageReceiver.handleCallLogEvent: unknown type ${callLogEvent.type}`
-      );
-    }
-
-    if (callLogEvent.timestamp == null) {
-      throw new Error('MessageReceiver.handleCallLogEvent: timestamp was null');
-    }
-    const timestamp = callLogEvent.timestamp.toNumber();
-
+    const callLogEventDetails = getCallLogEventForProto(callLogEvent);
     const callLogEventSync = new CallLogEventSyncEvent(
       {
-        event,
-        timestamp,
+        callLogEventDetails,
         receivedAtCounter,
       },
       this.removeFromCache.bind(this, envelope)

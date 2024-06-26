@@ -195,6 +195,7 @@ import {
 } from '../../util/deleteForMe';
 import { MAX_MESSAGE_COUNT } from '../../util/deleteForMe.types';
 import { isEnabled } from '../../RemoteConfig';
+import { markCallHistoryReadInConversation } from './callHistory';
 import type { CapabilitiesType } from '../../textsecure/WebAPI';
 
 // State
@@ -1358,7 +1359,7 @@ function markMessageRead(
   conversationId: string,
   messageId: string
 ): ThunkAction<void, RootStateType, unknown, NoopActionType> {
-  return async (_dispatch, getState) => {
+  return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
       throw new Error('markMessageRead: Conversation not found!');
@@ -1382,6 +1383,12 @@ function markMessageRead(
       newestSentAt: message.get('sent_at'),
       sendReadReceipts: true,
     });
+
+    if (message.get('type') === 'call-history') {
+      const callId = message.get('callId');
+      strictAssert(callId, 'callId not found');
+      dispatch(markCallHistoryReadInConversation(callId));
+    }
   };
 }
 

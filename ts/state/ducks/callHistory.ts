@@ -18,6 +18,10 @@ import type { CallHistoryDetails } from '../../types/CallDisposition';
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
 import { drop } from '../../util/drop';
+import {
+  getCallHistoryLatestCall,
+  getCallHistorySelector,
+} from '../selectors/callHistory';
 
 export type CallHistoryState = ReadonlyDeep<{
   // This informs the app that underlying call history data has changed.
@@ -103,15 +107,35 @@ function markCallHistoryRead(
   };
 }
 
+export function markCallHistoryReadInConversation(
+  callId: string
+): ThunkAction<void, RootStateType, unknown, CallHistoryUpdateUnread> {
+  return async (dispatch, getState) => {
+    const callHistorySelector = getCallHistorySelector(getState());
+    const callHistory = callHistorySelector(callId);
+    if (callHistory == null) {
+      return;
+    }
+    try {
+      await markAllCallHistoryReadAndSync(callHistory, true);
+    } finally {
+      dispatch(updateCallHistoryUnreadCount());
+    }
+  };
+}
+
 function markCallsTabViewed(): ThunkAction<
   void,
   RootStateType,
   unknown,
   CallHistoryUpdateUnread
 > {
-  return async dispatch => {
-    await markAllCallHistoryReadAndSync();
-    dispatch(updateCallHistoryUnreadCount());
+  return async (dispatch, getState) => {
+    const latestCall = getCallHistoryLatestCall(getState());
+    if (latestCall != null) {
+      await markAllCallHistoryReadAndSync(latestCall, false);
+      dispatch(updateCallHistoryUnreadCount());
+    }
   };
 }
 
@@ -143,10 +167,13 @@ function clearAllCallHistory(): ThunkAction<
   unknown,
   CallHistoryReset | ToastActionType
 > {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
-      await clearCallHistoryDataAndSync();
-      dispatch(showToast({ toastType: ToastType.CallHistoryCleared }));
+      const latestCall = getCallHistoryLatestCall(getState());
+      if (latestCall != null) {
+        await clearCallHistoryDataAndSync(latestCall);
+        dispatch(showToast({ toastType: ToastType.CallHistoryCleared }));
+      }
     } catch (error) {
       log.error('Error clearing call history', Errors.toLogFormat(error));
     } finally {

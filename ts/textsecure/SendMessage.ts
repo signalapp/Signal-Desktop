@@ -89,13 +89,16 @@ import type {
   MessageToDelete,
 } from './messageReceiverEvents';
 import { getConversationFromTarget } from '../util/deleteForMe';
-import type { CallDetails } from '../types/CallDisposition';
+import type { CallDetails, CallHistoryDetails } from '../types/CallDisposition';
 import {
   AdhocCallStatus,
   DirectCallStatus,
   GroupCallStatus,
 } from '../types/CallDisposition';
-import { getProtoForCallHistory } from '../util/callDisposition';
+import {
+  getBytesForPeerId,
+  getProtoForCallHistory,
+} from '../util/callDisposition';
 import { CallMode } from '../types/Calling';
 import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types';
 
@@ -1589,11 +1592,15 @@ export default class MessageSender {
     };
   }
 
-  static getClearCallHistoryMessage(timestamp: number): SingleProtoJobData {
+  static getClearCallHistoryMessage(
+    latestCall: CallHistoryDetails
+  ): SingleProtoJobData {
     const ourAci = window.textsecure.storage.user.getCheckedAci();
     const callLogEvent = new Proto.SyncMessage.CallLogEvent({
       type: Proto.SyncMessage.CallLogEvent.Type.CLEAR,
-      timestamp: Long.fromNumber(timestamp),
+      timestamp: Long.fromNumber(latestCall.timestamp),
+      peerId: getBytesForPeerId(latestCall),
+      callId: Long.fromString(latestCall.callId),
     });
 
     const syncMessage = MessageSender.createSyncMessage();

@@ -604,7 +604,12 @@ message SyncMessage {
       DELETE       = 3;
     }
 
+    /* Data identifying a conversation. The service ID for 1:1, the group ID for
+     * group, or the room ID for an ad-hoc call. See also
+     * `CallLogEvent/peerId`. */
     optional bytes     peerId    = 1;
+    /* An identifier for a call. Generated directly for 1:1, or derived from
+     * the era ID for group and ad-hoc calls. See also `CallLogEvent/callId`. */
     optional uint64    callId    = 2;
     optional uint64    timestamp = 3;
     optional Type      type      = 4;
@@ -627,10 +632,18 @@ message SyncMessage {
     enum Type {
       CLEAR = 0;
       MARKED_AS_READ = 1;
+      MARKED_AS_READ_IN_CONVERSATION = 2;
     }
 
     optional Type   type      = 1;
     optional uint64 timestamp = 2;
+    /* Data identifying a conversation. The service ID for 1:1, the group ID for
+     * group, or the room ID for an ad-hoc call. See also
+     * `CallEvent/peerId`. */
+     optional bytes peerId = 3;
+     /* An identifier for a call. Generated directly for 1:1, or derived from
+      * the era ID for group and ad-hoc calls. See also `CallEvent/callId`. */
+     optional uint64 callId = 4;
   }
 
   message DeleteForMe {
@@ -641,7 +654,7 @@ message SyncMessage {
         string threadE164 = 3;
       }
     }
-  
+
     message AddressableMessage {
       oneof author {
         string authorServiceId = 1;
@@ -682,7 +695,7 @@ message SyncMessage {
     repeated LocalOnlyConversationDelete localOnlyConversationDeletes = 3;
     repeated AttachmentDelete attachmentDeletes = 4;
   }
-  
+
   optional Sent                   sent                   = 1;
   optional Contacts               contacts               = 2;
   reserved /* groups */ 3;
