@@ -8,6 +8,7 @@ import { Button, ButtonVariant } from './Button';
 import { Avatar, AvatarSize } from './Avatar';
 import { Input } from './Input';
 import type { CallLinkType } from '../types/CallLink';
+import { getColorForCallLink } from '../util/getColorForCallLink';
 
 export type CallLinkAddNameModalProps = Readonly<{
   i18n: LocalizerType;
@@ -68,6 +69,7 @@ export function CallLinkAddNameModal({
         <Avatar
           i18n={i18n}
           badge={undefined}
+          color={getColorForCallLink(callLink.rootKey)}
           conversationType="callLink"
           size={AvatarSize.SIXTY_FOUR}
           acceptedMessageRequest

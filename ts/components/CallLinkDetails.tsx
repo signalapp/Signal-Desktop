@@ -16,6 +16,7 @@ import { drop } from '../util/drop';
 import { Avatar, AvatarSize } from './Avatar';
 import { Button, ButtonSize, ButtonVariant } from './Button';
 import { copyCallLink } from '../util/copyLinksWithToast';
+import { getColorForCallLink } from '../util/getColorForCallLink';
 
 function toUrlWithoutProtocol(url: URL): string {
   return `${url.hostname}${url.pathname}${url.search}${url.hash}`;
@@ -46,6 +47,7 @@ export function CallLinkDetails({
           className="CallLinkDetails__HeaderAvatar"
           i18n={i18n}
           badge={undefined}
+          color={getColorForCallLink(callLink.rootKey)}
           conversationType="callLink"
           size={AvatarSize.SIXTY_FOUR}
           acceptedMessageRequest

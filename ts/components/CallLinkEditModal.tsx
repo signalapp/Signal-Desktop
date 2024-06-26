@@ -15,6 +15,7 @@ import { Select } from './Select';
 import { linkCallRoute } from '../util/signalRoutes';
 import { Button, ButtonSize, ButtonVariant } from './Button';
 import { Avatar, AvatarSize } from './Avatar';
+import { getColorForCallLink } from '../util/getColorForCallLink';
 
 const CallLinkEditModalRowIconClasses = {
   Edit: 'CallLinkEditModal__RowIcon--Edit',
@@ -113,6 +114,7 @@ export function CallLinkEditModal({
         <Avatar
           i18n={i18n}
           badge={undefined}
+          color={getColorForCallLink(callLink.rootKey)}
           conversationType="callLink"
           size={AvatarSize.SIXTY_FOUR}
           acceptedMessageRequest
