@@ -11825,7 +11825,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## libsignal-core 0.1.0, mrp 2.44.1, partial-default-derive 0.1.0, protobuf 2.44.1, regex-aot 0.1.0, ringrtc 2.44.1
+## libsignal-core 0.1.0, mrp 2.44.2, partial-default-derive 0.1.0, protobuf 2.44.2, regex-aot 0.1.0, ringrtc 2.44.2
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE
