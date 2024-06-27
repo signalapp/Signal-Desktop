@@ -372,6 +372,7 @@ export type GetUnreadByConversationAndMarkReadResultType = Array<
     | 'type'
     | 'readStatus'
     | 'seenStatus'
+    | 'expirationStartTimestamp'
   >
 >;
 

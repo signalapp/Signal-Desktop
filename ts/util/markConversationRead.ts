@@ -107,7 +107,14 @@ export async function markConversationRead(
       );
       // we update the in-memory MessageModel with fresh read/seen status
       if (message) {
-        message.set(pick(messageSyncData, 'readStatus', 'seenStatus'));
+        message.set(
+          pick(
+            messageSyncData,
+            'readStatus',
+            'seenStatus',
+            'expirationStartTimestamp'
+          )
+        );
       }
 
       const {
