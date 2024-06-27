@@ -2772,13 +2772,13 @@
     "messageformat": "Prozor"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Više informacija o ovom kontaktu"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Kopiraj link za poziv"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Podijelite vezu za poziv putem Signala"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Uklonite ovu osobu iz poziva"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} osoba} few {{count,number} osobe} many {{count,number} osoba} other {{count,number} osoba}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+ još {count,number}} few {+ još {count,number}} many {+ još {count,number}} other {+ još {count,number}}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Više informacija o novim kontaktima"
@@ -3510,7 +3510,7 @@
     "messageformat": "Udalji iz grupe"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Već učestvujete u pozivu"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Boja chata"
@@ -4203,10 +4203,10 @@
     "messageformat": "Korisnička imena moraju sadržavati najviše sljedeći broj znakova: {max,number}."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {PIN mora sadržavati najmanje {min,number} znak} few {PIN mora sadržavati najmanje {min,number} znaka} many {Korisnička imena moraju sadržavati najmanje {min,number} znaka.} other {Korisnička imena moraju sadržavati najmanje {min,number} znaka.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {Korisnička imena moraju sadržavati najviše sljedeći broj znakova: {max,number}.} few {Korisnička imena moraju sadržavati najviše sljedeći broj znakova: {max,number}.} many {Korisnička imena moraju sadržavati najviše sljedeći broj znakova: {max,number}.} other {Korisnička imena moraju sadržavati najviše sljedeći broj znakova: {max,number}.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Nevažeće korisničko ime, unesite najmanje 2 brojke."
@@ -4755,10 +4755,10 @@
     "messageformat": "Vaši kontakti mogu vidjeti vaše ime i fotografiju kao i sadržaj koji objavite u \"Moje priče\" osim ako ih ne sakrijete od tih osoba"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Brisanje se sinhronizuje na svim vašim uređajima"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Kada izbrišete poruke ili razgovore, oni će biti izbrisani sa svih vaših uređaja."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Razumijem"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalji linka za poziv"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Pristupi"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Odobri sve članove"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Uključeno"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} druga osoba trenutno piše} few {{count,number} druge osobe trenutno pišu} many {{count,number} drugih osoba trenutno piše} other {{count,number} drugih osoba trenutno piše}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Mala podešavanja, otklanjanje grešaka i poboljšanja performansi. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Ispravili smo grešku koja je prikazivala slike s pogrešnim omjerom širine i visine ako ste promijenili veličinu prozora Signal Desktop dok ste gledali nečiju profilnu sliku."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Ovo ažuriranje također poboljšava prikaz citiranih odgovora na jezicima od desna na lijevo."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Ispravili smo grešku kod koje bi prebacivanje na drugi chat ili aplikaciju tijekom snimanja glasovne poruke moglo uzrokovati nestanak te poruke. Glasovne poruke u tijeku sada se spremaju kao skice tako da ih možete pregledati i poslati kada se vratite u chat."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

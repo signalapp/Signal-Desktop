@@ -2772,13 +2772,13 @@
     "messageformat": "ఒక విండో"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "ఈ కాంటాక్ట్ గురించి మరింత సమాచారం"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "కాల్ లింక్‌ను కాపీ చేయండి"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "కాల్ లింక్ Signal ద్వారా పంచుకోండి"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "కాల్ నుండి ఈ వ్యక్తిని తొలగించండి"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} వ్యక్తి} other {{count,number}వ్యక్తులు}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+మరో {count,number}} other {+మరిన్ని {count,number}}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "కొత్త కాంటాక్ట్‌ల గురించి మరింత సమాచారం"
@@ -3510,7 +3510,7 @@
     "messageformat": "గ్రూప్ నుండి తొలగించండి"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "మీరు ఇప్పటికే కాల్‌లో ఉన్నారు"
   },
   "icu:showChatColorEditor": {
     "messageformat": "చాట్ రంగు"
@@ -4203,10 +4203,10 @@
     "messageformat": "యూజర్‌నేమ్‌లో గరిష్టంగా {max,number} క్యారెక్టర్‌లు ఉండాలి."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {యూజర్‌నేమ్‌లలో కనీసం {min,number} అక్షరం తప్పక ఉండాలి.} other {యూజర్‌నేమ్‌లలో కనీసం {min,number} అక్షరాలు తప్పక ఉండాలి.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {యూజర్‌నేమ్‌లలో గరిష్టంగా {max,number} అక్షరం తప్పక ఉండాలి.} other {యూజర్‌నేమ్‌లలో గరిష్టంగా {max,number} అక్షరాలు తప్పక ఉండాలి.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "యూజర్‌నేమ్ చెల్లుబాటు కాదు, కనీసం 2 అంకెలను ఎంటర్ చేయండి."
@@ -4755,10 +4755,10 @@
     "messageformat": "మీ కనెక్షన్స్ మీ పేరు మరియు ఫోటోను చూడగలరు, మరియు దాన్ని వారి నుంచి మీరు దాచిపెడితే తప్ప, ‘‘నా కథ’’ కు పోస్ట్‌లను చూడగలరు"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "మీ పరికరాలు అన్నింటిలో తొలగించడం సింక్ చేయబడింది"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "మీరు సందేశాలు లేదా చాట్‌లు తొలగించినప్పుడు, అవి మీ అన్ని పరికరాలలో తొలగించబడతాయి."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "అర్థమైంది"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "కాల్ లింక్ వివరాలు"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "పేరు"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "చేరండి"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "సభ్యులందరినీ ఆమోదించండి"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "ఆన్"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ఇతర వ్యక్తి టైప్ చేస్తున్నారు.} other {{count,number} మంది ఇతర వ్యక్తులు టైప్ చేస్తున్నారు.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "ఎవరిదైనా ప్రొఫైల్ చిత్రాన్ని వీక్షించేటప్పుడు ఒకవేళ మీరు Signal Desktop విండోను రీసైజ్ చేస్తే చిత్రాలను తప్పు యాస్పెక్ట్ నిష్పత్తితో ప్రదర్శించే బగ్‌ను మేము పరిష్కరించాము. మీకు ఇష్టమైన వారిని మీరు గట్టిగా హత్తుకున్నప్పుడు మాత్రమే అదిమినట్లుగా కనిపించాలి."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "ఈ అప్‌డేట్ వలన కుడి నుండి ఎడమకు వ్రాసే భాషలలో కోట్ చేసిన ప్రత్యుత్తరముల ప్రదర్శనను కూడా మరింత మెరుగుపరుస్తుంది."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "స్వర సందేశాన్ని రికార్డ్ చేస్తున్నప్పుడు మరొక చాట్ లేదా అప్లికేషన్‌కు మారడం వలన ఆ సందేశం కనిపించకుండా పోయే బగ్‌ను మేము పరిష్కరించాము. పురోగతిలో ఉన్న స్వర సందేశాలు ఇప్పుడు డ్రాఫ్ట్‌లుగా సేవ్ చేయబడతాయి కాబట్టి మీరు చాట్‌కు తిరిగి వచ్చినప్పుడు వాటిని సమీక్షించి, పంపవచ్చు."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

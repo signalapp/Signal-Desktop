@@ -2772,13 +2772,13 @@
     "messageformat": "חלון"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "מידע נוסף על איש הקשר הזה"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "העתקת לינק שיחה"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "שיתוף לינק שיחה דרך Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "להסיר את אדם זה מהשיחה"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {איש {count,number}} two {{count,number} אנשים} many {{count,number} אנשים} other {{count,number} אנשים}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+עוד {count,number}} two {+עוד {count,number}} many {+עוד {count,number}} other {+עוד {count,number}}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "מידע נוסף על אנשי קשר חדשים"
@@ -3510,7 +3510,7 @@
     "messageformat": "הסרה מהקבוצה"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "אתה כבר בשיחה"
   },
   "icu:showChatColorEditor": {
     "messageformat": "צבע צ'אט"
@@ -4203,10 +4203,10 @@
     "messageformat": "שמות משתמש חייבים להכיל לכל היותר {max,number} תווים."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {שמות משתמש חייבים להכיל לפחות תו {min,number}.} two {שמות משתמש חייבים להכיל לפחות {min,number} תווים.} many {שמות משתמש חייבים להכיל לפחות {min,number} תווים.} other {שמות משתמש חייבים להכיל לפחות {min,number} תווים.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {שמות משתמש חייבים להכיל לכל היותר תו {max,number}.} two {שמות משתמש חייבים להכיל לכל היותר {max,number} תווים.} many {שמות משתמש חייבים להכיל לכל היותר {max,number} תווים.} other {שמות משתמש חייבים להכיל לכל היותר {max,number} תווים.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "שם משתמש לא חוקי, יש להזין לפחות 2 ספרות."
@@ -4755,10 +4755,10 @@
     "messageformat": "חברי ה-Signal שלך יכולים לראות את השם והתמונה שלך, והם יכולים גם לראות פוסטים תחת ״הסטורי שלי״ אלא אם כן בחרת להסתיר אותם מהם"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "המחיקה מסונכרנת בכל המכשירים שלך"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "בעת מחיקת הודעות או צ׳אטים, הם יימחקו מכל המכשירים שלך."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "הבנתי"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "פרטי לינק שיחה"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "שם"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "הצטרפות"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "אישור כל החברים"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "מופעל"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {עוד {count,number} מקליד/ה.} two {עוד {count,number} מקלידים.} many {עוד {count,number} מקלידים.} other {עוד {count,number} מקלידים.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "תיקנו באג שהציג תמונות עם יחס גובה‑רוחב שגוי כשהתבצע שינוי בגודל חלון Signal לשולחן העבודה בעת צפייה בתמונת פרופיל של מישהו/י."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "העדכון הזה גם משפר את הצגת התגובות המצוטטות בשפות שנקראות ונכתבות מימין לשמאל."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "תיקנו באג שגרם להודעה קולית להיעלם במידה ובמהלך ההקלטה עברת בין צ׳אטים או אפליקציות. הודעות קוליות כאלה יישמרו כעת כטיוטות, ותהיה לך אפשרות לבדוק ולשלוח אותן ברגע שחזרת לצ׳אט."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

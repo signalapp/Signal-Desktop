@@ -2772,13 +2772,13 @@
     "messageformat": "Unha xanela"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Máis información sobre este contacto"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Copiar ligazón da chamada"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Compartir ligazón da chamada por Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Expulsar esta persoa da chamada"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number}persoa} other {{count,number} persoas}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+{count,number} máis} other {+{count,number} máis}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Máis información sobre os novos contactos"
@@ -3510,7 +3510,7 @@
     "messageformat": "Eliminar do grupo"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Estás xa nunha chamada"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Cor das conversas"
@@ -4203,10 +4203,10 @@
     "messageformat": "Os nomes de usuario non poden pasar dos {max,number} caracteres."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {O nome de usuario debe ter {min,number} carácter como mínimo.} other {O nome de usuario deben ter, polo menos, {min,number} caracteres.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {O nome de usuario non poden pasar de {max,number} carácter.} other {O nome de usuario non poden pasar dos {max,number} caracteres.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Nome de usuario non válido, insire un mínimo de 2 díxitos."
@@ -4755,10 +4755,10 @@
     "messageformat": "As túas conexións poden ver o teu nome e foto, ademais das publicacións en «A miña historia» se non llelas ocultas"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "A acción de borrar está sincronizada en todos os dispositivos"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Cando borres mensaxes ou conversas, borraranse en todos os teus dispositivos."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Entendo"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Información da ligazón da chamada"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Nome"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Unirse"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Aprobar todos os membros"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Activado"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} outro está a escribir.} other {{count,number} outros están a escribir.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Corriximos un erro que amosaba as imaxes cunha relación de aspecto incorrecta se cambiabas o tamaño da xanela de Signal Desktop mentres vías a foto de perfil de alguén."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Esta actualización tamén mellora a visualización das respostas citadas en linguas de dereita a esquerda."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Corriximos un problema que facía que as mensaxes de voz desaparecesen cando cambiabas a outra conversa ou aplicación durante a gravación. Agora, as mensaxes de voz en curso gárdanse automaticamente como borradores, e poderás revisalas e envialas cando volvas á conversa."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

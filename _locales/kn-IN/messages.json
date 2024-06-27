@@ -2772,13 +2772,13 @@
     "messageformat": "ವಿಂಡೋ"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "ಈ ಸಂಪರ್ಕದ ಕುರಿತು ಹೆಚ್ಚಿನ ಮಾಹಿತಿ"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "ಕಾಲ್ ಲಿಂಕ್ ಅನ್ನು ನಕಲಿಸಿ"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Signal ಮೂಲಕ ಕಾಲ್ ಲಿಂಕ್ ಅನ್ನು ಹಂಚಿಕೊಳ್ಳಿ"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "ಈ ವ್ಯಕ್ತಿಯನ್ನು ಕರೆಯಿಂದ ತೆಗೆದುಹಾಕಿ"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} person} other {{count,number} ಜನರು}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {ಇನ್ನೂ +{count,number} ಮಂದಿ} other {ಇನ್ನೂ +{count,number} ಮಂದಿ}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "ಹೊಸ ಸಂಪರ್ಕಗಳನ್ನು ಕುರಿತು ಹೆಚ್ಚಿನ ಮಾಹಿತಿ"
@@ -3510,7 +3510,7 @@
     "messageformat": "ಗ್ರೂಪ್‌ನಿಂದ ತೆಗೆದುಹಾಕಿ"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "ನೀವು ಈಗಾಗಲೇ ಕಾಲ್‌ನಲ್ಲಿದ್ದೀರಿ"
   },
   "icu:showChatColorEditor": {
     "messageformat": "ಚಾಟ್ ಬಣ್ಣ"
@@ -4203,10 +4203,10 @@
     "messageformat": "ಯೂಸರ್‌ನೇಮ್‌ಗಳು ಗರಿಷ್ಠ {max,number} ಅಕ್ಷರಗಳನ್ನು ಹೊಂದಿರಬೇಕು."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {ಯೂಸರ್‌ನೇಮ್‌ಗಳು ಕನಿಷ್ಠ {min,number} ಅಕ್ಷರವನ್ನು ಹೊಂದಿರಬೇಕು.} other {ಯೂಸರ್‌ನೇಮ್‌ಗಳು ಕನಿಷ್ಠ {min,number} ಅಕ್ಷರಗಳನ್ನು ಹೊಂದಿರಬೇಕು.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {ಯೂಸರ್‌ನೇಮ್‌ಗಳು ಗರಿಷ್ಠ {max,number} ಅಕ್ಷರವನ್ನು ಹೊಂದಿರಬೇಕು.} other {ಯೂಸರ್‌ನೇಮ್‌ಗಳು ಗರಿಷ್ಠ {max,number} ಅಕ್ಷರಗಳನ್ನು ಹೊಂದಿರಬೇಕು.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "ಅಮಾನ್ಯ ಯೂಸರ್‌ನೇಮ್, ಕನಿಷ್ಠ 2 ಅಂಕಿಗಳನ್ನು ನಮೂದಿಸಿ."
@@ -4755,10 +4755,10 @@
     "messageformat": "ನಿಮ್ಮ ಸಂಪರ್ಕಗಳು ನಿಮ್ಮ ಹೆಸರು ಮತ್ತು ಫೊಟೋವನ್ನು ನೋಡಬಹುದು ಮತ್ತು ನೀವು ಅವರಿಂದ ಮರೆಮಾಡದ ಹೊರತಾಗಿ, \"ನನ್ನ ಸ್ಟೋರಿ\" ಯ ಪೋಸ್ಟ್ ಗಳನ್ನು ನೋಡಬಹುದು"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "ನಿಮ್ಮ ಸಾಧನಗಳಾದ್ಯಂತ ಅಳಿಸುವಿಕೆಯನ್ನು ಸಿಂಕ್ ಮಾಡಲಾಗಿದೆ"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "ನೀವು ಮೆಸೇಜ್‌ಗಳು ಅಥವಾ ಚಾಟ್‌ಗಳನ್ನು ಅಳಿಸಿದಾಗ, ಅವು ನಿಮ್ಮ ಎಲ್ಲಾ ಸಾಧನಗಳಿಂದ ಅಳಿಸಿ ಹೋಗುತ್ತವೆ."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "ಅರ್ಥವಾಯಿತು"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "ಕಾಲ್ ಲಿಂಕ್ ವಿವರಗಳು"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "ಹೆಸರು"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "ಸೇರಿಕೊಳ್ಳಿ"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "ಎಲ್ಲಾ ಸದಸ್ಯರನ್ನು ಅನುಮೋದಿಸಿ"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "ಆನ್"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ಇತರೆ ವ್ಯಕ್ತಿ ಟೈಪ್ ಮಾಡುತ್ತಿದ್ದಾರೆ.} other {{count,number} ಇತರ ಮಂದಿ ಟೈಪ್ ಮಾಡುತ್ತಿದ್ದಾರೆ.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "ಯಾರದ್ದಾದರೂ ಪ್ರೊಫೈಲ್ ಚಿತ್ರವನ್ನು ವೀಕ್ಷಿಸುವಾಗ ನೀವು ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್ ವಿಂಡೋವನ್ನು ಮರುಗಾತ್ರಗೊಳಿಸಿದರೆ ತಪ್ಪಾದ ಆಕಾರ ಅನುಪಾತದೊಂದಿಗೆ ಚಿತ್ರಗಳನ್ನು ಪ್ರದರ್ಶಿಸುವ ದೋಷವನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ. ನೀವು ಪ್ರೀತಿಸುವ ಜನರಿಗೆ ನೀವು ಅಪ್ಪುಗೆಯನ್ನು ನೀಡುತ್ತಿದ್ದರೆ ಮಾತ್ರ ಅವರು ಹಿಂಡಿಹೋದಂತೆ ಕಾಣಬೇಕು."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "ಈ ಅಪ್‌ಡೇಟ್ RTL ಭಾಷೆಗಳಲ್ಲಿ ಉಲ್ಲೇಖಿಸಲಾದ ಪ್ರತ್ಯುತ್ತರಗಳ ಪ್ರದರ್ಶನವನ್ನು ಸಹ ಸುಧಾರಿಸುತ್ತದೆ."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "ನಿಮ್ಮ ಧ್ವನಿ ರೆಕಾರ್ಡಿಂಗ್ ಗಳನ್ನು ಕಳೆದುಕೊಳ್ಳುವ ಕುರಿತು ನೀವು ಬೇಸತ್ತು ಹೋಗಿದ್ದರೆ, ಧ್ವನಿ ಸಂದೇಶವನ್ನು ರೆಕಾರ್ಡ್ ಮಾಡುವಾಗ ಮತ್ತೊಂದು ಚಾಟ್ ಅಥವಾ ಅಪ್ಲಿಕೇಶನ್‌ಗೆ ಬದಲಾಯಿಸುವುದರಿಂದ ಆ ಮೆಸೇಜ್ ಕಣ್ಮರೆಯಾಗಲು ಕಾರಣವಾಗುವ ದೋಷವನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ. ಪ್ರಗತಿಯಲ್ಲಿರುವ ಧ್ವನಿ ಸಂದೇಶಗಳನ್ನು ಈಗ ಡ್ರಾಫ್ಟ್‌ಗಳಾಗಿ ಉಳಿಸಲಾಗಿದೆ ಹಾಗಾಗಿ, ನೀವು ಚಾಟ್‌ಗೆ ಹಿಂತಿರುಗಿದಾಗ ಅವುಗಳನ್ನು ಪರಿಶೀಲಿಸಬಹುದು ಮತ್ತು ಕಳುಹಿಸಬಹುದು."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

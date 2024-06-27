@@ -2772,13 +2772,13 @@
     "messageformat": "視窗"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "更多有關呢個聯絡人嘅資料"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "複製通話連結"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "透過 Signal 分享通話連結"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "喺通話度移除呢個人"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, other {{count,number} 個人}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, other {+另外 {count,number} 個人}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "更多有關新聯絡人嘅資料"
@@ -3510,7 +3510,7 @@
     "messageformat": "喺群組度移除"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "你已經參與緊另一個通話"
   },
   "icu:showChatColorEditor": {
     "messageformat": "聊天色彩"
@@ -4203,10 +4203,10 @@
     "messageformat": "用戶名稱最多只可以有 {max,number} 個字元。"
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, other {用戶名稱一定要有最少 {min,number} 個字元。}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, other {用戶名稱最多只可以有 {max,number} 個字元。}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "用戶名稱無效，請輸入至少 2 位數字。"
@@ -4755,10 +4755,10 @@
     "messageformat": "你嘅人脈可以見到你嘅名同相。如果你冇隱藏嘅話，對方仲可以睇到你嘅限時動態添"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "喺你嘅裝置度同步刪除"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "當你刪除訊息或者聊天時，系統會同時喺所有你連結咗嘅裝置度刪除相關內容。"
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "明白"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "通話連結詳情"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "姓名"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "加入"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "批准所有成員"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "開"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {另外有 {count,number} 個人打緊字。}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "我哋修復咗一個錯誤，以後當你喺睇緊其他人嘅個人頭像時調整 Signal 桌面版視窗嘅大小，就唔會再顯示錯嘅長寬比圖像。"
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "呢次更新仲改善咗由右至左 (RTL) 語言入面嘅引用回覆顯示方式。"
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "我哋修復咗一個錯誤，就係如果喺錄製語音訊息時轉去另一個聊天或者 App，可能會攪到個語音訊息唔見咗。而家開始，錄製緊嘅語音訊息會儲存做草稿，咁你就可以返去聊天聽返，然後再發送出去。"
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

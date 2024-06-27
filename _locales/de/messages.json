@@ -33,7 +33,7 @@
     "messageformat": "Bereits Mitglied"
   },
   "icu:GroupListItem__message-pending": {
-    "messageformat": "Die Mitgliedschaft steht noch aus"
+    "messageformat": "Mitgliedschaft noch ausstehend"
   },
   "icu:Preferences__sent-media-quality": {
     "messageformat": "Medienqualität für Versand"
@@ -462,7 +462,7 @@
     "messageformat": "Trotzdem beitreten"
   },
   "icu:debugLogExplanation": {
-    "messageformat": "Wenn du auf »Abschicken« klickst, wird dein Diagnoseprotokoll unter einer eindeutigen, unveröffentlichten Internetadresse für 30 Tage online gestellt. Du kannst es aber auch erst lokal speichern."
+    "messageformat": "Wenn du auf »Übermitteln« klickst, wird dein Diagnoseprotokoll unter einer eindeutigen, unveröffentlichten Internetadresse für 30 Tage online gestellt. Du kannst es aber auch erst lokal speichern."
   },
   "icu:debugLogError": {
     "messageformat": "Beim Hochladen gab es ein Problem. Schreib bitte eine E-Mail an support@signal.org und hänge das Diagnoseprotokoll als Textdatei an."
@@ -471,7 +471,7 @@
     "messageformat": "Diagnoseprotokoll übermittelt"
   },
   "icu:debugLogSuccessNextSteps": {
-    "messageformat": "Diagnoseprotokoll wurde hochgeladen. Wenn du den Support kontaktierst, kopiere die untenstehende Internetadresse und füge sie deiner Problembeschreibung und den Schritten zur Reproduktion bei."
+    "messageformat": "Diagnoseprotokoll wurde hochgeladen. Wenn du den Support kontaktierst, kopiere die unten stehende Internetadresse und füge sie deiner Problembeschreibung und den Schritten, um das Problem zu reproduzieren, bei."
   },
   "icu:debugLogLogIsIncomplete": {
     "messageformat": "… um das gesamte Diagnoseprotokoll zu sehen, klicke auf »Speichern«"
@@ -603,7 +603,7 @@
     "messageformat": "Nicht verbunden"
   },
   "icu:checkNetworkConnection": {
-    "messageformat": "Überprüfe deine Netzverbindung."
+    "messageformat": "Überprüfe deine Netzwerkverbindung."
   },
   "icu:submitDebugLog": {
     "messageformat": "Diagnoseprotokoll"
@@ -708,7 +708,7 @@
     "messageformat": "{whatsNew} in dieser Aktualisierung"
   },
   "icu:viewReleaseNotes": {
-    "messageformat": "Was ist neu"
+    "messageformat": "Was ist neu?"
   },
   "icu:typingAlt": {
     "messageformat": "Tipp-Animation für diesen Chat"
@@ -816,13 +816,13 @@
     "messageformat": "Stummschalten"
   },
   "icu:cannotUpdateDetail": {
-    "messageformat": "Signal konnte nicht aktualisiert werden. {retry} oder besuche {url}, um es manuell zu installieren. Kontaktiere danach {support} hinsichtlich dieses Problems."
+    "messageformat": "Signal konnte nicht aktualisiert werden. {retry} oder besuche {url}, um Signal manuell zu installieren. Kontaktiere danach {support} hinsichtlich dieses Problems."
   },
   "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Signal konnte nicht aktualisiert werden. Rufe {url} auf, um es manuell zu installieren. Kontaktiere danach {support} hinsichtlich dieses Problems."
+    "messageformat": "Signal konnte nicht aktualisiert werden. Rufe {url} auf, um Signal manuell zu installieren. Kontaktiere danach {support} hinsichtlich dieses Problems."
   },
   "icu:readOnlyVolume": {
-    "messageformat": "macOS hat Signal Desktop vermutlich unter Dateiquarantäne gestellt und kann daher nicht automatisch aktualisiert werden. Bitte versuche mit Finder, {app} in den Ordner {folder} zu verschieben."
+    "messageformat": "macOS hat Signal Desktop vermutlich unter Dateiquarantäne gestellt und Signal kann daher nicht automatisch aktualisiert werden. Bitte versuche mit Finder, {app} in den Ordner {folder} zu verschieben."
   },
   "icu:ok": {
     "messageformat": "OK"
@@ -2772,13 +2772,13 @@
     "messageformat": "Ein Fenster"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Mehr Infos zu diesem Kontakt"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Anruflink kopieren"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Anruflink über Signal teilen"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Diese Person aus dem Anruf entfernen"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} Person} other {{count,number} Personen}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+ {count,number} weiterer Kontakt} other {+ {count,number} weitere Kontakte}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Mehr Infos zu neuen Kontakten"
@@ -3510,7 +3510,7 @@
     "messageformat": "Aus Gruppe entfernen"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Du nimmst bereits an einem Anruf teil"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Chatfarbe"
@@ -4203,10 +4203,10 @@
     "messageformat": "Nutzernamen dürfen höchstens aus {max,number} Zeichen bestehen."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {Nutzernamen müssen aus mindestens {min,number} Zeichen bestehen.} other {Nutzernamen müssen aus mindestens {min,number} Zeichen bestehen.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {Nutzernamen dürfen aus maximal {max,number} Zeichen bestehen.} other {Nutzernamen dürfen aus maximal {max,number} Zeichen bestehen.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Ungültiger Nutzername, bitte gib mindestens 2 Ziffern ein."
@@ -4755,10 +4755,10 @@
     "messageformat": "Deine Verbindungen können deinen Namen und dein Foto sowie Beiträge unter »Meine Story« sehen, es sei denn, du verbirgst sie vor ihnen."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Der Löschvorgang ist auf all deinen Geräten synchronisiert"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Wenn du Nachrichten oder Chats löschst, werden sie von all deinen Geräten gelöscht."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Verstanden"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Details zum Anruflink"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Beitreten"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Alle Teilnehmer bestätigen"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Ein"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} andere*r schreibt etwas.} other {{count,number} andere schreiben etwas.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Wir haben einen Fehler behoben, durch den Bilder mit dem falschen Seitenverhältnis angezeigt wurden, wenn du die Größe des Signal Desktop-Fensters geändert hast, während du dir das Profilbild einer Person angesehen hast. Die Menschen, die dir wichtig sind, sollten nur leicht gequetscht aussehen, wenn du sie umarmst."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Dieses Update verbessert auch das Anzeigen zitierter Antworten in RTL-Sprachen."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Keine Lust mehr, deine Stimme zu verlieren? Wir haben einen Fehler behoben, durch den der Wechsel zu einem anderen Chat oder einer anderen Anwendung während einer Sprachaufzeichnung die Sprachnachricht verschwinden lassen konnte. Laufende Sprachnachrichten werden jetzt als Entwürfe gespeichert, damit du sie überprüfen und senden kannst, sobald du zum Chat zurückkehrst."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

@@ -2772,13 +2772,13 @@
     "messageformat": "ஒரு ஜன்னல்"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "இந்தத் தொடர்பு பற்றிய கூடுதல் தகவல்"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "அழைப்பு இணைப்பை நகலெடு"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "சிக்னல் மூலம் அழைப்பு இணைப்பைப் பகிர்க"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "அழைப்பிலிருந்து இந்த நபரை அகற்று"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} நபர்} other {{count,number} நபர்கள்}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+{count,number} மேற்பட்டவர்} other {+{count,number} மேற்பட்டவர்கள்}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "புதிய தொடர்புகள் பற்றிய கூடுதல் தகவல்"
@@ -3510,7 +3510,7 @@
     "messageformat": "குழுவிலிருந்து அகற்று"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "நீங்கள் ஏற்கனவே அழைப்பில் உள்ளீர்கள்"
   },
   "icu:showChatColorEditor": {
     "messageformat": "சாட் கலர்"
@@ -4203,10 +4203,10 @@
     "messageformat": "பயனர் பெயர்களில் அதிகபட்சம் {max,number} எழுத்துக்கள் இருக்க வேண்டும்."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {பயனர் பெயர்களில் குறைந்தபட்சம் {min,number} எழுத்து இருக்க வேண்டும்.} other {பயனர் பெயர்களில் குறைந்தபட்சம் {min,number} எழுத்துக்கள் இருக்க வேண்டும்.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {பயனர் பெயர்களில் அதிகபட்சம் {max,number} எழுத்து இருக்க வேண்டும்.} other {பயனர் பெயர்களில் அதிகபட்சம் {max,number} எழுத்துக்கள் இருக்க வேண்டும்.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "தவறான பயனர் பெயர், குறைந்தபட்சம் 2 எண்களை உள்ளிடவும்."
@@ -4755,10 +4755,10 @@
     "messageformat": "உங்கள் இணைப்புகள் உங்கள் பெயரையும் புகைப்படத்தையும் பார்க்க முடியும், மேலும் \"மை ஸ்டோரி\"க்கான போஸ்டுகளை நீங்கள் அவர்களிடம் இருந்து மறைக்காதவரை பார்க்க முடியும்"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "உங்கள் சாதனங்களில் அழித்தல் அம்சம் ஒத்திசைக்கப்படுகிறது"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "நீங்கள் மெசேஜ்கள் அல்லது சாட்ஸை அழிக்கும்போது, அவை உங்கள் எல்லா சாதனங்களிலிருந்தும் அழிக்கப்படும்."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "அறிந்துகொண்டேன்"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "அழைப்பு இணைப்பு விவரங்கள்"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "பெயர்"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "இணைக"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "அனைத்து உறுப்பினர்களையும் அங்கீகரிக்கவும்"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "இயக்கு"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {மேலும் {count,number} நபர் டைப் செய்கிறார்.} other {மேலும் {count,number} பேர் டைப் செய்கின்றனர்.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "ஒருவரின் சுயவிவரப் படத்தைப் பார்க்கும்போது சிக்னல் டெஸ்க்டாப் சாளரத்தின் அளவை மாற்றினால், தவறானத் தோற்ற விகிதத்துடன் படங்களைக் காண்பிக்கும் பிழையை நாங்கள் சரிசெய்துள்ளோம். நீங்கள் விரும்பும் நபர்களை அரவணைத்தால் மட்டுமே அவர்களை உற்று நோக்க வேண்டும்."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "இந்தப் புதுப்பிப்பு RTL மொழிகளில் மேற்கோள் காட்டப்பட்ட பதில்களின் காட்சியையும் மேம்படுத்துகிறது."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "ஒரு வாய்ஸ் மெசேஜைப் பதிவு செய்யும் போது, வேறு சாட் அல்லது செயலிக்கு மாறும்போது அந்த மெசேஜ் மறைந்துவிடும் ஒரு பிழையை சரிசெய்துள்ளோம். செயலில் உள்ள வாய்ஸ் மெசேஜ்கள் இப்போது வரைவுகளாகச் சேமிக்கப்பட்டுள்ளன, எனவே நீங்கள் சாட்டுக்குச் செல்லும்போது அவற்றை மதிப்பாய்வு செய்து அனுப்பலாம்."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

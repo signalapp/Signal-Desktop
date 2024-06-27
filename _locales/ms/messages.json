@@ -2772,13 +2772,13 @@
     "messageformat": "Tetingkap"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Maklumat lanjut tentang kenalan ini"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Salin pautan panggilan"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Kongsi pautan panggilan melalui Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Alih keluar orang ini daripada panggilan"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, other {{count,number} orang}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, other {+{count,number} lagi}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Maklumat lanjut tentang kenalan baharu"
@@ -3510,7 +3510,7 @@
     "messageformat": "Alih keluar daripada kumpulan"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Anda sudah berada dalam panggilan"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Warna sembang"
@@ -4203,10 +4203,10 @@
     "messageformat": "Nama pengguna mesti mempunyai sekurang-kurangnya {max,number} aksara."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, other {Nama pengguna mestilah sekurang-kurangnya {min,number} aksara.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, other {Nama pengguna mesti tidak melebihi {max,number} aksara.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Nama pengguna tidak sah, masukkan sekurang-kurangnya 2 digit."
@@ -4755,10 +4755,10 @@
     "messageformat": "Hubungan anda boleh melihat nama dan foto anda, dan boleh melihat hantaran anda ke \"Cerita Saya\" kecuali anda menyembunyikannya daripada mereka."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Pemadaman disegerakkan merentas peranti anda"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Apabila anda memadam mesej atau sembang, ia akan dipadamkan daripada semua peranti anda."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Faham"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Butiran pautan panggilan"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Nama"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Sertai"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Luluskan semua ahli"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Hidup"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} yang lain sedang menaip.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Kami membaiki pepijat yang memaparkan imej dengan nisbah aspek yang salah sekiranya anda mengubah saiz tetingkap Signal Desktop semasa melihat gambar profil seseorang."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Kemas kini ini juga menambah baik paparan balasan yang dipetik dalam bahasa RTL."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Kami membaiki pepijat yang menyebabkan mesej menjadi hilang apabila menukar ke sembang atau aplikasi lain semasa merakam mesej suara. Mesej suara yang sedang berjalan kini boleh disimpan sebagai draf, jadi anda boleh menyemak dan menghantarnya apabila anda kembali ke sembang."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

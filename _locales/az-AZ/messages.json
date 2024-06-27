@@ -2772,13 +2772,13 @@
     "messageformat": "Bir pəncərə"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Bu kontakt haqqında əlavə məlumat"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Zəng keçidini kopyala"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Signal vasitəsilə zəng keçidini paylaş"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Bu şəxsi zəngdən çıxar"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} nəfər} other {{count,number} nəfər}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+{count,number} nəfər daha} other {+{count,number} nəfər daha}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Yeni kontaktlar haqqında əlavə məlumat"
@@ -3510,7 +3510,7 @@
     "messageformat": "Qrupdan çıxart"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Artıq zəngdəsiniz"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Çatın rəngi"
@@ -4203,10 +4203,10 @@
     "messageformat": "İstifadəçi adında ən çoxu {max,number} simvol olmalıdır."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {İstifadəçi adları ən az {min,number} simvoldan ibarət olmalıdır.} other {İstifadəçi adları ən az {min,number} simvoldan ibarət olmalıdır.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {İstifadəçi adları ən çox {max,number} simvoldan ibarət olmalıdır.} other {İstifadəçi adları ən çox {max,number} simvoldan ibarət olmalıdır.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Səhv istifadəçi adı, minimum 2 rəqəm daxil edin."
@@ -4755,10 +4755,10 @@
     "messageformat": "Kontaktlarınız adınızı və fotoşəklinizi, o cümlədən onlardan gizlətməmisinizsə, \"Hekayəm\" səhifəsindəki yazılarınızı görə bilər."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Silmə əməliyyatı cihazlarınızda sinxronlaşdırılıb"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Mesajları və çatları sildiyiniz zaman onlar bütün cihazlarınızdan silinəcək."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Anladım"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Zəng keçidi təfərrüatları"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Ad"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Qoşul"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Bütün üzvləri təsdiqlə"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Açıq"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Əlavə {count,number} nəfər də yazır.} other {Əlavə {count,number} nəfər də yazır.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Birinin profil şəklinə baxarkən Signal Desktop pəncərəsinin ölçüsünü dəyişirsinizsə, təsvirlərin səhv ölçülərdə görünməsinə səbəb olan nasazlığı aradan qaldırdıq. Sevdiyiniz insanların şəkli artıq ekranda kiçildilmiş formada görünməyəcək."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Həmçinin bu yeniləmə sağdan sola yazılan dillərdə cavab verərkən sitatların görünüşünü də təkmilləşdirir."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Səsli mesaj yazarkən başqa çata və ya proqrama keçid zamanı həmin mesajın silinməsinə səbəb olan səhvi aradan qaldırdıq. Artıq yazdığınız səsli mesajlar qaralama olaraq yaddaşda saxlanılır ki, siz həmin çata qayıtdığınız zaman onları nəzərdən keçirib göndərə biləsiniz."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

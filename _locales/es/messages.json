@@ -192,7 +192,7 @@
     "messageformat": "Copiar imagen"
   },
   "icu:contextMenuNoSuggestions": {
-    "messageformat": "Sin sugerencias de corrección"
+    "messageformat": "No hay sugerencias de corrección"
   },
   "icu:avatarMenuViewArchive": {
     "messageformat": "Ver archivo"
@@ -2772,13 +2772,13 @@
     "messageformat": "Ventana"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Más información sobre este contacto"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Copiar enlace de llamada"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Compartir enlace de llamada vía Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Eliminar a esta persona de la llamada"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} persona} other {{count,number} personas}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+{count,number} más} other {+{count,number} más}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Más información sobre nuevos contactos"
@@ -3510,7 +3510,7 @@
     "messageformat": "Expulsar del grupo"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Ya participas en una llamada"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Color del chat"
@@ -4203,10 +4203,10 @@
     "messageformat": "Los alias pueden contener {max,number} caracteres como máximo."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {Los alias deben contener al menos {min,number} caracter.} other {Los alias debe contener al menos {min,number} caracteres.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {Los alias deben contener como máximo {max,number} caracter.} other {Los alias deben contener como máximo {max,number} caracteres.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Alias no válido, ingresa un mínimo de 2 dígitos."
@@ -4755,10 +4755,10 @@
     "messageformat": "Tus contactos pueden ver tu nombre y tu foto, y pueden ver lo que subas a \"Mi historia\" salvo que decidas ocultárselo"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "La eliminación de mensajes se sincroniza en todos tus dispositivos"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Cuando elimines mensajes o chats, se eliminarán de todos los dispositivos vinculados."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Entendido"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalles del enlace de llamada"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Nombre"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Unirse"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Aprobar todas las solicitudes"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Activo"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} persona más está escribiendo.} other {{count,number} personas más están escribiendo.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Pequeños ajustes, soluciones a errores y mejoras al desempeño. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Hemos corregido un error que mostraba las imágenes con una relación de aspecto incorrecta si se cambiaba el tamaño de la ventana en Signal Desktop mientras se visualizaba la foto de perfil de alguien."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "En los idiomas que se escriben de derecha a izquierda, esta actualización también mejora la visualización cuando citas un mensaje para responder."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "¿Te da pereza volver a grabar tus mensajes de voz? ¡Ya no más! Hemos corregido un error que hacía que un mensaje de voz desapareciera si cambiabas a otro chat o aplicación. Ahora, los mensajes de voz en curso se guardan como borradores para que puedas revisarlos y enviarlos cuando regreses al chat."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

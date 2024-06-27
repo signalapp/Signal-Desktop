@@ -2772,13 +2772,13 @@
     "messageformat": "Një dritare"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Më shumë informacion rreth këtij kontakti"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Kopjo lidhjen e thirrjes"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Shpërndaj lidhjen e thirrjes përmes Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Hiqe këtë person nga telefonata"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} person} other {{count,number} persona}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+{count,number} tjetër} other {+{count,number} të tjerë}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Më shumë informacion rreth kontakteve të reja"
@@ -3510,7 +3510,7 @@
     "messageformat": "Hiqe nga grup"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Jeni tashmë në një thirrje"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Ngjyra e sfondit të bisedës"
@@ -4203,10 +4203,10 @@
     "messageformat": "Emrat e përdoruesve duhet të kenë e shumta {max,number} shenja."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {Emrat e përdoruesve duhet të kenë të paktën {min,number} karakter.} other {Emrat e përdoruesve duhet të kenë të paktën {min,number} karaktere.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {Emrat e përdoruesve duhet të kenë maksimumi{max,number} karakter.} other {Emrat e përdoruesve duhet të kenë maksimumi{max,number} karaktere.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Emër i pavlefshëm përdoruesi, vendos minimumi 2 shifra."
@@ -4755,10 +4755,10 @@
     "messageformat": "Kontaktet mund të shohin emrin e fotografinë tënde, si dhe postimet e përkohshme, nëse nuk ua fsheh"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Fshirja është sinkronizuar në të gjitha pajisjet"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Kur fshin mesazhet apo bisedat, ato do të fshihen nga të gjitha pajisjet e tua."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "E kuptova"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Të dhënat e lidhjes së thirrjes"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Emër"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Bashkohu"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Mirato të gjithë anëtarët"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Aktiv"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} tjetër po shkruan.} other {{count,number} tjerë po shkruajnë.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Rregulluam defektin që i shfaqte imazhet me raport të gabuar pamjeje nëse ndryshonit madhësinë e dritares së Signal Desktop teksa shikonit foton e profilit të dikujt."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Ky përditësim përmirëson edhe shfaqjen e përgjigjeve të cituara në gjuhët RTL (nga e djathta në të majtë)."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Nëse je lodhur me humbjen e zërit, kemi rregulluar problemin që shkaktonte zhdukjen e mesazhit zanor kur kalohet nga një bisedë ose aplikacion tjetër gjatë regjistrimit të tij. Në vazhdim, mesazhet zanore do të ruhen si drafte, në mënyrë që t'i rishikosh dhe t'i dërgosh kur të kthehesh në bisedë."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

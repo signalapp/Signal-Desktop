@@ -2772,13 +2772,13 @@
     "messageformat": "'n Venster"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Meer inligting oor hierdie kontak"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Kopieer oproepskakel"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Deel oproepskakel d.m.v. Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Verwyder hierdie persoon uit die oproep"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} mens} other {{count,number} mense}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+nog {count,number}} other {+nog {count,number}}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Meer inligting oor nuwe kontakte"
@@ -3510,7 +3510,7 @@
     "messageformat": "Verwyder uit groep"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Jy is reeds in 'n oproep"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Kletskleur"
@@ -4203,10 +4203,10 @@
     "messageformat": "Gebruikersname moet hoogstens {max,number} karakters bevat."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {Gebruikersname moet minstens {min,number} karakter bevat.} other {Gebruikersname moet minstens {min,number} karakters bevat.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {Gebruikersname moet hoogstens {max,number} karakter bevat.} other {Gebruikersname moet hoogstens {max,number} karakters bevat.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Ongeldige gebruikersnaam, voer 'n minimum van 2 syfers in."
@@ -4755,10 +4755,10 @@
     "messageformat": "Jou verbindings kan jou naam en foto sien, en kan plasings in \"My Storie\" sien, tensy jy dit vir hulle versteek."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Skrapping is oor jou toestelle heen gesinchroniseer"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Wanneer jy boodskappe of kletse skrap, sal dit van al jou toestelle af geskrap word."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Ek verstaan"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Oproepskakelbesonderhede"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Naam"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Sluit aan"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Keur alle lede goed"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Aan"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ander persoon is besig om te tik.} other {{count,number} ander persone is besig om te tik.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Ons het 'n fout herstel wat beelde in die verkeerde beeldverhouding vertoon het as jy die grootte van die Signal Desktop-venster verander het terwyl jy iemand se profielfoto bekyk het."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Hierdie opdatering verbeter ook die vertoon van aangehaalde antwoorde in regs-na-links-tale."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Ons 'n fout reggestel waar die oorskakeling na 'n ander klets of toepassing terwyl jy 'n stemboodskap opneem, daardie boodskap kon laat verdwyn. Stemboodskappe waarmee jy besig is, word nou as konsepte gestoor sodat jy dit kan hersien en stuur wanneer jy na die klets terugkeer."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

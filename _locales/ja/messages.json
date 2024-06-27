@@ -2772,13 +2772,13 @@
     "messageformat": "ウィンドウ"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "この連絡先の詳細"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "通話リンクをコピーする"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Signal経由で通話リンクを共有する"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "このユーザーを通話から退出させる"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, other {{count,number}人}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, other {その他 {count,number}人}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "不明な連絡先の詳細"
@@ -3510,7 +3510,7 @@
     "messageformat": "グループから削除"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "あなたはすでに通話中です"
   },
   "icu:showChatColorEditor": {
     "messageformat": "チャットの色"
@@ -4203,10 +4203,10 @@
     "messageformat": "ユーザーネームは{max,number}文字以下にしてください。"
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, other {ユーザーネームは{min,number}文字以上に設定してください。}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, other {ユーザーネームは{max,number}文字以下にしてください。}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "ユーザーネームが無効です。数字は2桁以上入力してください"
@@ -4755,10 +4755,10 @@
     "messageformat": "あなたのコネクションの人たちは、あなたの名前や写真を見ることができ、あなたが非表示にしない限り「マイストーリー」への投稿を見ることができます。"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "消去機能は端末間で同期されます"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "メッセージやチャットを消去すると、ご利用のすべての端末から消去されます。"
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "わかりました"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "通話リンク詳細"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "名前"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "参加する"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "全メンバーを承認制にする"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "オン"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} 人が入力中です。}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "他の人のプロフィール写真を表示しているときに、Signal Desktopのウィンドウサイズを変更すると、写真が間違ったアスペクト比で表示されるバグを修正しました。"
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "このアップデートでは、RTL（右から左に記述する）言語での引用返信の表示も改善されました。"
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "ボイスメッセージを録音中に別のチャットやアプリケーションに切り替えると、その録音が消えてしまうバグを修正しました。録音中のボイスメッセージは下書きとして保存されるようになったので、チャットに戻って確認後に送信できます。"
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

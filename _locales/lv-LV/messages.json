@@ -2772,13 +2772,13 @@
     "messageformat": "Logs"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Plašāka informācija par šo kontaktpersonu"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Kopēt zvana saiti"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Nosūtīt zvana saiti, izmantojot Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Noņemt šo personu no zvana"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, zero {{count,number} personu} one {{count,number} persona} other {{count,number} personas}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, zero {+vēl {count,number}} one {+vēl {count,number}} other {+vēl {count,number}}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Vairāk informācijas par jaunajām kontaktpersonām"
@@ -3510,7 +3510,7 @@
     "messageformat": "Noņemt no grupas"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Jūs jau esat zvanā"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Sarunas krāsa"
@@ -4203,10 +4203,10 @@
     "messageformat": "Lietotājvārdi nedrīkst būt garāki par {max,number} rakstzīmēm."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, zero {Lietotājvārdam jāsatur vismaz {min,number} rakstzīmes.} one {Lietotājvārdam jāsatur vismaz {min,number} rakstzīme.} other {Lietotājvārdam jāsatur vismaz {min,number} rakstzīmes.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, zero {Lietotājvārds nedrīkst saturēt vairāk par {max,number} rakstzīmēm.} one {Lietotājvārds nedrīkst saturēt vairāk par {max,number} rakstzīmi.} other {Lietotājvārds nedrīkst saturēt vairāk par {max,number} rakstzīmēm.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Nederīgs lietotājvārds. Ievadiet vismaz 2 ciparus."
@@ -4755,10 +4755,10 @@
     "messageformat": "Jūsu kontakti var redzēt jūsu vārdu un attēlu, kā arī sadaļā \"Mani stāsti\" publicēto, ja šis saturs nav paslēpts no viņiem"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Dzēšana tiek sinhronizēta visās jūsu ierīcēs"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Dzēšot ziņas vai sarunas, tās tiks dzēstas no visām jūsu ierīcēm."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Skaidrs"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Zvana saites informācija"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Vārds"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Pievienoties"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Apstiprināt visus dalībniekus"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Ieslēgts"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, zero {{count,number} citi raksta.} one {{count,number} cits raksta.} other {{count,number} citi raksta.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Mēs izlabojām kļūdu, kura lika attēliem parādīties ar nepareizu malu attiecību, kad mainījāt Signal Desktop loga izmēru, skatot kādas personas profila attēlu. Tik saspiestiem jūsu mīļajiem cilvēkiem vajadzētu izskatīties tikai tad, kad tos apskaujat."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Šis atjauninājums uzlabo arī to, kā tiek attēlotas citētas atbildes valodās ar rakstību no labās uz kreiso pusi."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Lai jūsu teiktais nepaliktu nepamanīts, atrisinājām kļūdu, kuras dēļ balss ziņas mēdza pazust, kad to ierakstīšanas laikā pārslēdzāties uz citu sarunu vai lietotni. Tagad vēl nenosūtītās balss ziņas tiek saglabātas kā melnraksti, lai, atgriežoties sarunā, jūs varētu tās pārskatīt un nosūtīt."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

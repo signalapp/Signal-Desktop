@@ -2772,13 +2772,13 @@
     "messageformat": "Una finestra"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Maggiori informazioni su questo contatto"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Copia link chiamata"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Condividi il link chiamata via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Rimuovi questa persona dalla chiamata"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} persona} other {{count,number} persone}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+{count,number} altra persona} other {+ altre {count,number} persone}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Maggiori info sui nuovi contatti"
@@ -3510,7 +3510,7 @@
     "messageformat": "Rimuovi dal gruppo"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Sei già in una chiamata"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Colore chat"
@@ -4203,10 +4203,10 @@
     "messageformat": "I nomi utente devono contenere al massimo {max,number} caratteri."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {I nomi utente devono iniziare con almeno {min,number} carattere.} other {I nomi utente devono iniziare con almeno {min,number} caratteri.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {I nomi utente devono contenere al massimo {max,number} carattere.} other {I nomi utente devono contenere al massimo {max,number} caratteri.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Nome utente non valido, inserisci almeno 2 caratteri."
@@ -4755,10 +4755,10 @@
     "messageformat": "Le tue Amicizie di Signal possono vedere il tuo nome, la tua foto e ciò che condividi sulle Storie (a meno che tu non decida di escluderle dalla visione)."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Il processo di eliminazione è ora sincronizzato su tutti i tuoi dispositivi"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Quando elimini messaggi o chat, la rimozione avverrà su tutti i tuoi dispositivi."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Capito"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Dettagli del link della chiamata"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Nome"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Unisciti"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Approva tutti gli utenti"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "On"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} persona sta scrivendo.} other {{count,number} persone stanno scrivendo.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Abbiamo risolto un bug che mostrava le foto profilo delle altre persone con le dimensioni sbagliate quando provavi a ridimensionare la finestra di Signal Desktop. Da ora le dimensioni delle foto (e quindi l'altezza delle persone) torneranno alla normalità."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Questo aggiornamento migliora anche il layout delle risposte citate per le lingue che scrivono da destra a sinistra."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Rifare un vocale è una scocciatura, vero? Beh, abbiamo risolto un bug per cui quando aprivi un'altra chat o applicazione durante la registrazione, c'era il rischio che il vocale scomparisse. Da ora i messaggi vocali che stai registrando verranno salvati come bozze, così puoi controllarli e poi inviarli quando ritorni sulla chat in questione."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

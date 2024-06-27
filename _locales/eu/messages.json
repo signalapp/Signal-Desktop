@@ -2772,13 +2772,13 @@
     "messageformat": "Leiho bat"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Kontaktu honi buruzko informazio gehiago"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Kopiatu deiaren esteka"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Partekatu deiaren esteka Signal bidez"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Kendu pertsona hau deitik"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {Pertsona {count,number}} other {{count,number} pertsona}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {Eta beste {count,number}} other {Eta beste {count,number}}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Kontaktu berriei buruzko informazio gehiago"
@@ -3510,7 +3510,7 @@
     "messageformat": "Kendu taldetik"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Deian zaude"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Txat-kolorea"
@@ -4203,10 +4203,10 @@
     "messageformat": "Erabiltzaile-izenek gehienez {max,number} karaktere izan behar dituzte."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {Erabiltzaile-izenek gutxienez karaktere{min,number} izan behar du.} other {Erabiltzaile-izenek gutxienez {min,number} karaktere izan behar dituzte.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {Erabiltzaile-izenek gehienez {max,number} karaktere izan dezakete.} other {Erabiltzaile-izenek gehienez {max,number} karaktere izan ditzakete.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Erabiltzaile-izenak ez du balio; idatzi gutxienez 2 digitu."
@@ -4755,10 +4755,10 @@
     "messageformat": "Konexioek zure izena eta argazkia ikus ditzakete, bai eta \"Nire istorioa\" ataleko argitalpenak ere, zuk eskuz ezkutatu ezean."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Ezabatzea zure gailu guztietan sinkronizatuta dago"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Mezu edo txatak ezabatzean, gailu guztietan ezabatuko dira."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Ulertu dut"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Deiaren estekaren xehetasunak"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Name"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Sartu"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Kide guztiak onartu"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Aktibatuta"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Beste {count,number} idazten ari da.} other {Beste {count,number} idazten ari dira.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Norbaiten profileko argazkia ikusi bitartean Signal Desktop-en leihoaren tamaina aldatzean irudiak aspektu-erlazio okerrarekin agerrarazten zituen akats bat konpondu dugu."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Eguneratze honen bidez, eskuinetik ezkerreranzko hizkuntzetan aipatutako erantzunak bistaratzeko modua ere hobetu da."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Ahots-mezuak grabatu bitartean beste txat edo aplikazio batera aldatzean batzuetan mezuak desagerrarazten zituen akats bat konpondu dugu. Orain, grabatzen ari zaren ahots-mezuak zirriborro gisa gordetzen dira, txatera itzultzen zarenean berrikusi eta bidali ahal izan ditzazun."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }
