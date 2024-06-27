@@ -35,6 +35,8 @@ function launchElectron(attempt: number): string {
         NODE_ENV: 'test',
         TEST_QUIT_ON_COMPLETE: 'on',
       },
+      // Since we run `.cmd` file on Windows - use shell
+      shell: process.platform === 'win32',
       encoding: 'utf8',
     });
     return stdout;
