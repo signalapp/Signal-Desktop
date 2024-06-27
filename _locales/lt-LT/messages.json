@@ -2772,13 +2772,13 @@
     "messageformat": "Langą"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Daugiau informacijos apie šį adresatą"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Kopijuoti skambučio nuorodą"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Bendrinti skambučio nuorodą per „Signal“"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Pašalinti šį asmenį iš skambučio"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} žmogus} few {{count,number} žmonės} many {{count,number} žmonių} other {{count,number} žmogus}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {Ir dar {count,number}} few {Ir dar {count,number}} many {Ir dar {count,number}} other {Ir dar {count,number}}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Daugiau informacijos apie naujus adresatus"
@@ -3510,7 +3510,7 @@
     "messageformat": "Šalinti iš grupės"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Jūs jau esate skambutyje"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Pokalbio spalva"
@@ -4203,10 +4203,10 @@
     "messageformat": "Naudotojo varduose privalo būti ne daugiau kaip {max,number} simboliai."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {Naudotojo varduose privalo būti bent {min,number} simbolis.} few {Naudotojo varduose privalo būti bent {min,number} simboliai.} many {Naudotojo varduose privalo būti bent {min,number} simbolio.} other {Naudotojo varduose privalo būti bent {min,number} simboliai.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {Naudotojo varduose privalo būti ne daugiau kaip {max,number} simbolis.} few {Naudotojo varduose privalo būti ne daugiau kaip {max,number} simboliai.} many {Naudotojo varduose privalo būti ne daugiau kaip {max,number} simbolio.} other {Naudotojo varduose privalo būti ne daugiau kaip {max,number} simbolių.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Netinkamas naudotojo vardas, įveskite bent 2 skaitmenis."
@@ -4755,10 +4755,10 @@
     "messageformat": "Tavo kontaktai mato tavo vardą ir nuotrauką, ir gali matyti „Mano istorijos“ įrašus, nebent nuo jų paslėpsi"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Ištrynimas sinchronizuojamas visuose jūsų įrenginiuose"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Jei ištrinate žinutes ar pokalbius, jie bus ištrinti iš visų jūsų įrenginių."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Supratau"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Skambučio nuorodos informacija"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Vardas"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Prisijungti"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Patvirtinti visus narius"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Įjungta"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} žmogus rašo.} few {{count,number} žmonės rašo.} many {{count,number} žmonių rašo.} other {{count,number} žmonių rašo.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Ištaisėme klaidą, dėl kurios buvo rodomi netinkamo formato vaizdai, jei peržiūrėdami kieno nors profilio nuotrauką pakeitėte „Signal Desktop“ lango dydį."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Be to, šiuo naujiniu pagerinamas cituojamų atsakymų rodymas iš dešinės į kairę (RTL) rašomomis kalbomis."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Ištaisėme klaidą, dėl kurios įrašant balso žinutę perėjus į kitą pokalbį ar programą ta žinutė gali išnykti. Įrašomos balso žinutės dabar išsaugomos kaip juodraščiai, kad galėtumėte jas peržiūrėti ir išsiųsti grįžę į pokalbį."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

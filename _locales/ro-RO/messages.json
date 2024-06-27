@@ -2772,13 +2772,13 @@
     "messageformat": "O fereastră"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Mai multe informații despre acest contact"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Copiază link-ul de apelare"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Trimite linkul apelului prin Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Scoate această persoană din apel"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} persoană} few {{count,number} persoane} other {{count,number} persoane}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+ încă {count,number}} few {+ încă {count,number}} other {+ încă {count,number}}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Mai multe informații despre noile contacte"
@@ -3510,7 +3510,7 @@
     "messageformat": "Elimină din grup"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Ești deja într-un apel"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Culoare conversație"
@@ -4203,10 +4203,10 @@
     "messageformat": "Numele de utilizatori trebuie sa aibă cel mult {max,number} de caractere."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {Numele de utilizator trebuie să înceapă cu cel puțin {min,number} caracter.} few {Numele de utilizator trebuie să înceapă cu cel puțin {min,number} caractere.} other {Numele de utilizator trebuie să înceapă cu cel puțin {min,number} de caractere.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {Numele de utilizatori trebuie să aibă cel mult {max,number} caracter.} few {Numele de utilizatori trebuie să aibă cel mult {max,number} caractere.} other {Numele de utilizatori trebuie să aibă cel mult {max,number} de caractere.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Nume de utilizator nevalid, introdu minimum 2 cifre."
@@ -4755,10 +4755,10 @@
     "messageformat": "Conexiunile tale îți pot vedea numele și fotografia și pot vedea postările din „Povestea Mea” cu excepția cazului în care le ascunzi"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Eliminarea este sincronizată pe toate dispozitivele tale"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Atunci când elimini mesaje sau conversații, acestea vor fi șterse de pe toate dispozitivele tale."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Am înțeles"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalii despre linkul apelului"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Nume"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Alătură-te"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Aprobă toți membrii"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Activat"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {încă {count,number} scrie.} few {încă {count,number} alții scriu.} other {încă {count,number} alții scriu.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Am remediat o eroare care afișa imagini cu un raport de aspect greșit dacă redimensionai fereastra Signal Desktop în timp ce vizualizai poza de profil a cuiva. Persoanele pe care le iubești ar trebui să fie strânse doar dacă le dai o îmbrățișare."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Această actualizare îmbunătățește, de asemenea, afișarea răspunsurilor citate în limbile RTL."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Dacă te-ai săturat să-ți pierzi vocea, am remediat o eroare care făcea ca trecerea la o altă conversație sau aplicație în timp ce înregistrezi un mesaj vocal să ducă la dispariția acestuia. Mesajele vocale în curs de redactare sunt acum salvate ca schițe, astfel încât să le poți revizui și trimite atunci când revii la conversație."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

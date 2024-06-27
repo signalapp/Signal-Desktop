@@ -2772,13 +2772,13 @@
     "messageformat": "A window"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Karagdagang info tungkol sa contact na ito"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Kopyahin ang call link"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "I-share ang call link sa Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Tanggalin ang taong ito sa call"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+{count,number} pa} other {+{count,number} pa}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Iba pang info tungkol sa bagong contacts"
@@ -3510,7 +3510,7 @@
     "messageformat": "Tanggalin mula sa group"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Nasa call ka na"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Chat color"
@@ -4203,10 +4203,10 @@
     "messageformat": "Ang maximum characters ng isang username ay {max,number}."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {Ang usernames ay hindi dapat bababa sa {min,number} character.} other {Ang usernames ay hindi dapat bababa sa {min,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {Ang usernames ay hindi dapat hihigit sa {max,number} character.} other {Ang usernames ay hindi dapat hihigit sa {max,number} characters.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Invalid username, maglagay ng minimum of 2 digits."
@@ -4755,10 +4755,10 @@
     "messageformat": "Makikita ng connections mo ang pangalan at photo mo, pati na rin ang posts sa \"My Story\" maliban na lang kung pinili mong i-hide ito mula sa kanila"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Ang pagbubura ay naka-sync sa devices mo"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Kapag nagbura ka ng messages o chats, mabubura ang mga ito sa lahat ng devices mo."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "OK"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalye ng call link"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Pangalan"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Sumali"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "I-approve ang lahat ng members"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "On"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ang nagta-type.} other {{count,number} ang nagta-type.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "May inayos kaming bug kung saan ipinapakita ang images sa maling aspect ratio kapag nag-resize ka ng Signal Desktop window habang tumitingin ka sa profile picture ng isang tao."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Mas pinaganda rin ng update na ito ang pagpakita ng quoted replies sa RTL languages."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "May inayos kaming bug na kung saan maaaring mawala ang voice message kapag lumipat ka sa ibang chat o application habang nire-record mo ito. Mase-save na ito ngayon bilang draft para maaari mo itong ma-review at ma-send kapag bumalik ka na sa chat."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

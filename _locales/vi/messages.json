@@ -2772,13 +2772,13 @@
     "messageformat": "Một cửa sổ"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Thông tin thêm về liên hệ mới này"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Sao chép đường dẫn cuộc gọi"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Chia sẻ đường dẫn cuộc gọi"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Gỡ người này khỏi cuộc gọi"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, other {{count,number} người}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, other {+{count,number} người khác}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Thông tin thêm về những liên hệ mới"
@@ -3510,7 +3510,7 @@
     "messageformat": "Xóa khỏi nhóm"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Bạn đã đang ở trong một cuộc gọi"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Màu cuộc trò chuyện"
@@ -4203,10 +4203,10 @@
     "messageformat": "Tên người dùng phải có tối đa {max,number} ký tự."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, other {Tên người dùng phải có ít nhất {min,number} ký tự.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, other {Tên người dùng phải có tối đa {max,number} ký tự.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Tên người dùng không hợp lệ, nhập tối thiểu 2 số."
@@ -4755,10 +4755,10 @@
     "messageformat": "Các liên hệ của bạn có thể thấy tên và ảnh của bạn, và có thể thấy các bài đăng lên \"Story của tôi\" trừ khi bạn ẩn story với các liên hệ"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Việc xóa được đồng bộ trên các thiết bị của bạn"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Khi bạn xóa tin nhắn hoặc cuộc trò chuyện, chúng sẽ được xóa trên tất cả thiết bị của bạn."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Đã hiểu"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Chi tiết đường dẫn cuộc gọi"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Tên"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Tham gia"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Chấp nhận tất cả thành viên"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Bật"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} người khác đang nhập.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Chúng tôi đã sửa một lỗi hiển thị ảnh sai tỷ lệ nếu bạn thay đổi kích thước cửa sổ Signal Desktop khi đang xem ảnh hồ sơ của một người."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Bản cập nhật này cũng cải thiện việc hiển thị câu trả lời được trích dẫn bằng ngôn ngữ RTL."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Chúng tôi đã sửa lỗi làm tin nhắn thoại đang được ghi âm biến mất khi chuyển qua một cuộc trò chuyện hoặc ứng dụng khác. Tin nhắn thoại đang trong quá trình ghi âm giờ đây được lưu thành bản nháp để bạn có thể nghe lại và gửi khi quay lại cuộc trò chuyện."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

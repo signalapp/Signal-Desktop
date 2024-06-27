@@ -2772,13 +2772,13 @@
     "messageformat": "Uma janela"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Mais informações sobre este contato"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Copiar link da chamada"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Compartilhar link da chamada via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Remover esta pessoa da chamada"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} pessoa} other {{count,number} pessoas}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+ {count,number}} other {+ {count,number}}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Mais informações sobre novos contatos"
@@ -3510,7 +3510,7 @@
     "messageformat": "Excluir do grupo"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Você já está em uma chamada"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Cor do chat"
@@ -4203,10 +4203,10 @@
     "messageformat": "Os nomes de usuário devem ter no máximo {max,number} caracteres."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {Os nomes de usuário precisam conter pelo menos {min,number} caractere.} other {Os nomes de usuários precisam conter pelo menos {min,number} caracteres.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {Os nomes de usuário precisam conter no máximo {max,number} caractere.} other {Os nomes de usuário precisam conter no máximo {max,number} caracteres.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Nome de usuário inválido, insira no mínimo 2 dígitos."
@@ -4755,10 +4755,10 @@
     "messageformat": "Seus contatos conseguem ver seu nome, foto e publicações nos seus stories, a menos que você oculte esse conteúdo"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "A exclusão foi sincronizada em todos os seus dispositivos"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Quando você deletar mensagens ou conversas, elas serão excluídas de todos os seus dispositivos."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Entendi"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalhes do link de chamada"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Nome"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Participar"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Aprovar todos os membros"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Ligado"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} outra pessoa está digitando.} other {{count,number} outras pessoas estão digitando.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Corrigimos um bug que exibia imagens com a proporção errada ao redimensionar a janela do Signal Desktop durante a visualização da foto de perfil de alguém. As pessoas que você ama não vão mais parecer espremidas, a menos que você as esteja abraçando, é claro."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Essa atualização também melhora a exibição de respostas citadas em idiomas com leitura da direita para esquerda."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Cansado de perder suas mensagens de voz? Resolvemos um problema que fazia suas gravações sumirem ao mudar de conversa ou aplicativo durante a gravação. Agora, as mensagens de voz em andamento são salvas automaticamente como rascunhos, permitindo que você as revise e envie ao retornar à conversa."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

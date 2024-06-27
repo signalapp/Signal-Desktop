@@ -2772,13 +2772,13 @@
     "messageformat": "النافذة"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "مزيد من المعلومات عن جهة الاتصال هذه"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "نسخ رابط المكالمة"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "مشاركة رابط الاتصال عبر سيجنال"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "إزالة هذا الشخص من المكالمة"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, zero {لا أحد ({count,number})} one {شخص واحد ({count,number})} two {شخصان ({count,number})} few {{count,number} أفراد} many {{count,number} فردا} other {{count,number} فرد}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, zero {+{count,number} آخرين} one {+{count,number} آخر} two {+{count,number} آخرين} few {+{count,number} آخرين} many {+{count,number} آخرون} other {+{count,number} آخرون}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "مزيد من المعلومات عن جهات الاتصال الجديدة"
@@ -3510,7 +3510,7 @@
     "messageformat": "الإزالة من المجموعة"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "إنك بالفعل في مكالمة"
   },
   "icu:showChatColorEditor": {
     "messageformat": "لون الدردشة"
@@ -4203,10 +4203,10 @@
     "messageformat": "يجب أن تحتوي أسماء المُستخدمين على {max,number} رموز كحد أقصى."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, zero {يجب أن تحتوي أسماء المُستخدمين على {min,number} أحرف على الأقل.} one {يجب أن تحتوي أسماء المُستخدمين على {min,number} حرف على الأقل.} two {يجب أن تحتوي أسماء المُستخدمين على {min,number} حرفين على الأقل.} few {يجب أن تحتوي أسماء المُستخدمين على {min,number} أحرف على الأقل.} many {يجب أن تحتوي أسماء المُستخدمين على {min,number} حرفًا على الأقل.} other {يجب أن تحتوي أسماء المُستخدمين على {min,number} حرف على الأقل.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, zero {يجب أن تحتوي أسماء المُستخدمين على {max,number} رموز كحد أقصى.} one {يجب أن تحتوي أسماء المُستخدمين على {max,number} رمز كحد أقصى.} two {يجب أن تحتوي أسماء المُستخدمين على {max,number} رمزين كحد أقصى.} few {يجب أن تحتوي أسماء المُستخدمين على {max,number} رموز كحد أقصى.} many {يجب أن تحتوي أسماء المُستخدمين على {max,number} رمزًا كحد أقصى.} other {يجب أن تحتوي أسماء المُستخدمين على {max,number} رمز كحد أقصى.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "اسم مستخدم غير صحيح، أدخل رمزيْن على الأقل."
@@ -4755,10 +4755,10 @@
     "messageformat": "يُمكن لِمعارفك رؤية اسمك وصورتك، كما يُمكنهم الاطلاع على منشوراتك في \"قِصتي\" إلاّ إذا أخفيتها عنهم."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "تُجرى عملية الحذف في تزامن عبر جميع أجهزتك"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "عند حذف رسالة أو ودردشة، فسَتُحذف من جميع أجهزتك."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "عُلم"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "تفاصيل رابط المكالمة"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "اِسم"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "انضمام"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "الموافقة على جميع الأعضاء"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "مُفعَّل"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, zero {{count,number} آخرون يكتبون.} one {{count,number} آخر يكتب.} two {{count,number} آخران يكتبان.} few {{count,number} آخرون يكتبون.} many {{count,number} آخرين يكتبون.} other {{count,number} آخرون يكتبون.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "لقد أصلحنا خطأ كان يعرض الصور بنسبة أبعاد خاطئة عند تغيير حجم نافذة سيجنال Desktop أثناء عرض صور الحساب الشخصي لِشخص ما."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "يحسّن هذا التحديث عرض الردود المقتبسة في اللغات التي تُكتب من اليمين إلى اليسار."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "أصلحنا خطأً كان يتسبب في فقدان الرسالة الصوتية عند الانتقال إلى دردشة أخرى أو تطبيق آخر أثناء تسجيلها. يُمكنك الآن حفظ الرسائل الصوتية الجاري تسجيلها كمسودة حتى تتمكّن من مُراجعتها وإرسالها عند العودة إلى الدردشة."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

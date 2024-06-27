@@ -7289,7 +7289,7 @@
   },
   "icu:WhatsNew__v7.14--0": {
     "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat.",
-    "description": "Release notes for version 7.14"
+    "description": "(Deleted 2024/06/27) Release notes for version 7.14"
   },
   "icu:WhatsNew__v7.15--0": {
     "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone.",

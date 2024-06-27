@@ -2772,13 +2772,13 @@
     "messageformat": "ဝင်းဒိုး"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "ဤအဆက်အသွယ်အကြောင်း နောက်ထပ်အချက်အလက်များ"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "ကောလ်လင့်ခ်ကို ကူးယူမည်"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Signal ဖြင့်ဖုန်းခေါ်ဆိုရန်လင့်ကို မျှဝေပါ"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "ဤလူကို ခေါ်ဆိုမှုမှ ဖယ်ရှားသည်"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, other {{count,number} ဦး}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, other {+{count,number} ဦး နှင့်အခြား}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "အဆက်အသွယ်အသစ်များအကြောင်း နောက်ထပ်အချက်အလက်များ"
@@ -3510,7 +3510,7 @@
     "messageformat": "အဖွဲ့မှ ဖယ်ရှားရန်"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "သင်သည် ကောလ်ထဲတွင် ရှိပြီးဖြစ်သည်"
   },
   "icu:showChatColorEditor": {
     "messageformat": "ချက်(တ်)အရောင်"
@@ -4203,10 +4203,10 @@
     "messageformat": "သုံးစွဲသူအမည်များတွင် အက္ခရာ {max,number} လုံး အများဆုံး ရှိရပါမည်။"
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, other {သုံးစွဲသူအမည်သည် အနည်းဆုံး အက္ခရာ {min,number} လုံး ရှိရပါမည်။}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, other {သုံးစွဲသူအမည်သည် အများဆုံး အက္ခရာ {max,number} လုံး ရှိရပါမည်။}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "သုံးစွဲသူအမည် မမှန်ကန်ပါ၊ အနည်းဆုံး ဂဏန်း 2 လုံး ရိုက်ထည့်ပါ။"
@@ -4755,10 +4755,10 @@
     "messageformat": "သင့်အဆက်အသွယ်များက သင့်အမည်နှင့် ဓာတ်ပုံကို မြင်နိုင်ပြီး ၎င်းတို့အတွက် မဝှက်ထားပါက \"ကျွန်ုပ်၏ စတိုရီ\" ရှိ ပို့စ်များကို မြင်နိုင်ပါသည်"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "သင့်စက်များအားလုံးတွင် ချိန်ကိုက်ပြီး ဖျက်လိုက်ပါမည်"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "မက်ဆေ့ချ်များ သို့မဟုတ် ချက်(တ်)များကို ဖျက်လိုက်သောအခါ ၎င်းတို့ကို သင့်ဖုန်းနှင့် အခြားချိတ်ထားသော စက်များအားလုံးမှ ဖျက်လိုက်ပါမည်။"
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "ရပြီ"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Signal ဖြင့်ဖုန်းခေါ်ဆိုရန် လင့်ခ်အသေးစိတ်"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "အမည်"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "ပါဝင်မည်"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "မန်ဘာအားလုံးကို အတည်ပြုရန်"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "ဖွင့်မည်"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {အခြား {count,number} ဦး စာရိုက်နေသည်။}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "တစ်စုံတစ်ဦး၏ပရိုဖိုင်ပုံကိုကြည့်ရှုနေစဉ် Signal Desktop ဝင်းဒိုးကို အရွယ်အစားပြောင်းပါက အချိုးမညီသော ပုံများကိုပြသသည့် ချွတ်ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ပြင်ဆင်ထားပါသည်။"
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "ဤအပ်ဒိတ်သည် RTL ဘာသာစကားများဖြင့် ကိုးကားထားသော အကြောင်းပြန်စာများ၏ ဖော်ပြမှုကိုလည်း ပိုမိုကောင်းမွန်စေသည်။"
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "အသံမက်ဆေ့(ချ်)ကို အသံသွင်းနေစဉ်တွင် အခြား ချက်(တ်) သို့မဟုတ် အက်ပလီကေးရှင်းသို့ ပြောင်းခြင်းဖြင့် ထိုမက်ဆေ့(ချ်) ပျောက်ကွယ်သွားသည့် ချို့ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။ လက်ရှိလုပ်ဆောင်နေသည့် အသံမက်ဆေ့ချ်များကို ယခုအခါ မူကြမ်းများအဖြစ် သိမ်းဆည်းထားပြီး ချက်(တ်)သို့ ပြန်သွားသည့်အခါ ၎င်းတို့ကို ပြန်လည်သုံးသပ်ပြီး ပေးပို့နိုင်ပါသည်။"
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

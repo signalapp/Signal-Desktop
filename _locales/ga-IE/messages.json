@@ -2772,13 +2772,13 @@
     "messageformat": "Fuinneog"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Tuilleadh faisnéise faoin teagmhálaí seo"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Cóipeáil an nasc glao"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Comhroinn nasc glao trí Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Bain an duine seo den ghlao"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} duine} two {{count,number} dhuine} few {{count,number} dhuine} many {{count,number} nduine} other {{count,number} duine}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+{count,number} duine eile} two {+{count,number} dhuine eile} few {+{count,number} dhuine eile} many {+{count,number} nduine eile} other {+{count,number} duine eile}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Tuilleadh faisnéise faoi theagmhálaithe nua"
@@ -3510,7 +3510,7 @@
     "messageformat": "Bain den ghrúpa"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Tá tú i mbun glao cheana féin"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Dath an chomhrá"
@@ -4203,10 +4203,10 @@
     "messageformat": "Ní mór go mbeidh an líon seo carachtar ar a mhó in ainmneacha úsáideora: {max,number}."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {Ní mór {min,number} charachtar ar a laghad a bheith in ainmneacha úsáideora.} two {Ní mór {min,number} charachtar ar a laghad a bheith in ainmneacha úsáideora.} few {Ní mór {min,number} charachtar ar a laghad a bheith in ainmneacha úsáideora.} many {Ní mór {min,number} gcarachtar ar a laghad a bheith in ainmneacha úsáideora.} other {Ní mór {min,number} carachtar ar a laghad a bheith in ainmneacha úsáideora.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {Ní mór {max,number} charachtar ar a mhéad a bheith in ainmneacha úsáideora.} two {Ní mór {max,number} charachtar ar a mhéad a bheith in ainmneacha úsáideora.} few {Ní mór {max,number} charachtar ar a mhéad a bheith in ainmneacha úsáideora.} many {Ní mór {max,number} gcarachtar ar a mhéad a bheith in ainmneacha úsáideora.} other {Ní mór {max,number} carachtar ar a mhéad a bheith in ainmneacha úsáideora.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Ainm úsáideora neamhbhailí, cuir isteach íoslíon de 2 dhigit."
@@ -4755,10 +4755,10 @@
     "messageformat": "Is féidir le do theagmhálaithe d'ainm agus do ghrianghraf, agus postálacha \"Mo Scéal\", a fheiceáil, mura gcuireann tú na rudaí sin i bhfolach orthu"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Tá scriosadh sioncronaithe thar raon do ghléasanna go léir"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Nuair a scriosann tú teachtaireachtaí nó comhráite, scriosfar ó do ghléasanna go léir iad."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Tuigim"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Sonraí ar an nasc glao"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Ainm"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Téigh isteach ann"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Faomh gach ball"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Air"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Tá {count,number} duine eile ag clóscríobh.} two {Tá {count,number} dhuine eile ag clóscríobh.} few {Tá {count,number} dhuine eile ag clóscríobh.} many {Tá {count,number} nduine eile ag clóscríobh.} other {Tá {count,number} duine eile ag clóscríobh.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Réitíomar fabht a thaispeáin íomhánna leis an gcóimheas treoíochta mícheart má d'athraigh tú méid fhuinneog Signal Desktop agus tú ag féachaint ar phictiúr próifíle duine."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Feabhsaíonn an nuashonrú seo taispeáint na bhfreagraí i dteangacha deas go clé freisin."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Réitíomar fabht ina bhféadfadh glórphost imeacht as radharc dá n-athrófá chuig comhrá nó feidhmchlár eile agus an glórphost sin á thaifeadadh. Sábháiltear glórphoist atá ar bun mar dhréachtaí anois ionas gur féidir leat dul siar orthu agus iad a sheoladh ar fhilleadh ar an gcomhrá duit."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

@@ -2772,13 +2772,13 @@
     "messageformat": "Et vindue"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Flere oplysninger om denne kontakt"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Kopiér opkaldslink"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Del opkaldslink via Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Fjern denne person fra opkaldet"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} person} other {{count,number} personer}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+{count,number} anden} other {+{count,number} andre}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Flereoplysninger om nye kontakter"
@@ -3510,7 +3510,7 @@
     "messageformat": "Fjern fra gruppe"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Du er allerede i et opkald"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Chatfarve"
@@ -4203,10 +4203,10 @@
     "messageformat": "Brugernavne må højst have {max,number} tegn."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {Brugernavne skal have mindst {min,number} tegn.} other {Brugernavne skal have mindst {min,number} tegn.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {Brugernavne må højst have {max,number} tegn.} other {Brugernavne må højst have {max,number} tegn.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Ugyldigt brugernavn, angiv min. 2 cifre."
@@ -4755,10 +4755,10 @@
     "messageformat": "Dine kontakter kan se dit navn og billede, og de kan se det, du lægger op på \"Min historie\", medmindre du skjuler din historie fra dem"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Sletning synkroniseret på alle dine enheder"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Når du sletter beskeder eller chats, slettes de fra alle dine enheder."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Forstået"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Oplysninger om opkaldslink"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Navn"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Deltag"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Godkend alle medlemmer"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Til"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} anden skriver.} other {{count,number} andre skriver.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Vi har rettet en fejl, der viste billeder med det forkerte billedformat, hvis du ændrede størrelsen på vinduet Signal Desktop, mens du så andres profilbilleder. De mennesker, du elsker, skal kun se klemte ud, hvis du giver dem et kram."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Denne opdatering forbedrer også visningen af citerede svar på RTL-sprog."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Hvis du er træt af at miste din stemme, har vi rettet en fejl, hvor skift til en anden chat eller en anden app under optagelse af en stemmemeddelelse kunne medføre, at meddelelsen forsvandt. Igangværende talebeskeder gemmes nu som udkast, så du kan gennemgå og sende dem, når du vender tilbage til chatten."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

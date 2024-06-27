@@ -2772,13 +2772,13 @@
     "messageformat": "ფანჯარა"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "მეტი ინფორმაცია ამ კონტაქტზე"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "ზარის ბმულის დაკოპირება"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "გააზიარე ზარის ბმული Signal-დან"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "ამ ადამიანის ზარიდან გაგდება"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} ადამიანი} other {{count,number} ადამიანი}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+{count,number} მეტი} other {+{count,number} მეტი}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "მეტი ინფორმაცია ახალ კონტაქტებზე"
@@ -3510,7 +3510,7 @@
     "messageformat": "ჯგუფიდან წაშლა"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "შენ უკვე ამ ზარზე იმყოფები"
   },
   "icu:showChatColorEditor": {
     "messageformat": "ჩატის ფერი"
@@ -4203,10 +4203,10 @@
     "messageformat": "მომხმარებლის სახელი მაქსიმუმ {max,number} სიმბოლოს უნდა შეიცავდეს."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {მომხმარებლის სახელები მინიმუმ {min,number} სიმბოლოსგან უნდა შედგებოდეს.} other {მომხმარებლის სახელები მინიმუმ {min,number} სიმბოლოსგან უნდა შედგებოდეს.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {მომხმარებლის სახელი მაქსიმუმ {max,number} სიმბოლოს უნდა შეიცავდეს.} other {მომხმარებლის სახელი მაქსიმუმ {max,number} სიმბოლოს უნდა შეიცავდეს.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "მომხმარებლის სახელი არასწორია, შეიყვანე მინიმუმ 2 ციფრი."
@@ -4755,10 +4755,10 @@
     "messageformat": "შენს კონტაქტებს შეუძლიათ ნახონ შენი სახელი და ფოტო, და “ჩემი Story-ი”-ს პოსტები მანამ, სანამ ამას მათთვის არ დამალავ"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "წაშლა შენს ყველა მოწყობილობაზეა დასინქრონიზებული"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "როცა შეტყობინებებს ან ჩატებს შლი, ისინი შენს ყველა მოწყობილობაზე იშლება."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "გასაგებია"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "ზარის ბმულის დეტალები"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "სახელი"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "შეუერთდი"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "ყველა წევრის დადასტურება"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "ჩართული"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} სხვა ბეჭდავს.} other {{count,number} სხვა ბეჭდავს.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "ჩვენ გამოვასწორეთ ხარვეზი, რომელიც სხვისი პროფილის სურათის ნახვისას Signal Desktop-ის ფანჯრის ზომის შეცვლის შემთხვევაში არასწორი თანაფარდობით ჩვენებას იწვევდა."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "ასევე, ამ განახლებაში RTL (მარცხნიდან მარჯვნივ) ენებზე ციტირებული პასუხების ჩვენება გაუმჯობესდა."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "ჩვენ გამოვასწორეთ ხარვეზი, რომელიც ხმოვანი შეტყობინების ჩაწერისას სხვა ჩატზე ან აპლიკაციაზე გადართვის შემთხვევაში ამ შეტყობინების გაქრობას იწვევდა. მიმდინარე ხმოვანი შეტყობინებები ახლა მონახაზების სახით ინახება, ასე რომ, შეგიძლია, მათ გადახედო და ისინი ჩატში დაბრუნების შემდეგ გაგზავნო."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

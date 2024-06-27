@@ -2772,13 +2772,13 @@
     "messageformat": "창"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "이 연락처에 관한 자세한 정보"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "통화 링크 복사"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Signal을 통해 통화 링크 공유"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "이 사용자를 통화에서 제거"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, other {{count,number}명}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, other {+{count,number}명}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "새로운 연락처에 관한 자세한 정보"
@@ -3510,7 +3510,7 @@
     "messageformat": "그룹에서 제거"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "이미 통화에 참여 중입니다."
   },
   "icu:showChatColorEditor": {
     "messageformat": "대화창 색상"
@@ -4203,10 +4203,10 @@
     "messageformat": "사용자명은 {max,number}자 이하여야 합니다."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, other {사용자 이름은 {min,number}자 이상이어야 합니다.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, other {사용자 이름은 {max,number}자 이하여야 합니다.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "사용자 이름이 잘못되었습니다. 2자 이상으로 입력해 주세요."
@@ -4755,10 +4755,10 @@
     "messageformat": "커넥션은 내 이름과 사진을 볼 수 있고, 스토리를 따로 숨기지 않는 한 '내 스토리'의 게시물을 볼 수 있습니다."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "기기 전체에서 삭제를 동기화합니다."
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "메시지 또는 대화를 삭제할 때 모든 기기에서 해당 내용을 삭제합니다."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "확인"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "통화 링크 세부 정보"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "이름"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "참가"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "모든 멤버 승인"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "켜짐"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number}명이 입력하는 중입니다.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "다른 사람의 프로필 사진을 보는 동안 Signal 데스크톱 창 크기를 조정하면 잘못된 가로 세로 비율로 이미지를 표시하는 버그를 수정했습니다."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "이 업데이트는 RTL(Right-to-Left) 언어의 인용 답장 표시 방식도 개선합니다."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "음성 메시지를 녹음하는 동안 다른 대화 또는 애플리케이션으로 전환되며 메시지가 사라지는 버그를 수정했습니다. 이제 녹음 중 음성 메시지가 초안으로 저장되므로 사용자가 대화로 돌아가서 메시지를 검토하고 보낼 수 있습니다."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

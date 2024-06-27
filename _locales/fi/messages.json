@@ -2772,13 +2772,13 @@
     "messageformat": "Ikkuna"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Lisätietoja tästä yhteystiedosta"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Kopioi puhelulinkki"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Jaa puhelulinkki Signalissa"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Poista tämä henkilö puhelusta"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} henkilöä} other {{count,number} henkilöä}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+{count,number} muu} other {+{count,number} muuta}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Lisätietoja uusista yhteystiedoista"
@@ -3510,7 +3510,7 @@
     "messageformat": "Poista ryhmästä"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Olet jo puhelussa"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Keskustelun väri"
@@ -4203,10 +4203,10 @@
     "messageformat": "Käyttäjänimessä voi olla enintään {max,number} merkkiä."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {Käyttäjänimessä on oltava vähintään {min,number} merkki.} other {Käyttäjänimessä on oltava vähintään {min,number} merkkiä.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {Käyttäjänimessä voi olla enintään {max,number} merkki.} other {Käyttäjänimessä voi olla enintään {max,number} merkkiä.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Virheellinen käyttäjänimi, anna vähintään 2 numeroa."
@@ -4755,10 +4755,10 @@
     "messageformat": "Kontaktisi näkevät nimesi ja valokuvasi sekä Omaan tarinaan tekemäsi julkaisut, ellet piilota sitä heiltä"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Poistaminen synkronoidaan kaikkien laitteidesi välillä"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Kun poistat viestejä tai keskusteluja, ne poistetaan kaikista yhdistetyistä laitteistasi."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Selvä"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Puhelulinkin tiedot"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Nimi"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Liity"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Kaikkien jäsenten hyväksyntä"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Käytössä"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} käyttäjä kirjoittaa.} other {{count,number} käyttäjää kirjoittaa.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Korjasimme virheen, joka näytti kuvat väärällä kuvasuhteella, jos muutit Signal Desktop -ikkunan kokoa katsoessasi jonkun profiilikuvaa."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Tämä päivitys parantaa myös lainattujen vastausten näyttöä RTL-kielillä."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Korjasimme virheen, jossa vaihtaminen toiseen keskusteluun tai sovellukseen puheviestin tallennuksen aikana saattoi saada viestin katoamaan. Käynnissä olevat puheviestit tallennetaan nyt luonnoksina, jotta voit tarkastella ja lähettää ne, kun palaat keskusteluun."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

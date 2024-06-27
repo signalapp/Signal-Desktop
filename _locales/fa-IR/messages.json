@@ -2772,13 +2772,13 @@
     "messageformat": "یک پنجره"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "اطلاعات بیشتر دربارۀ این مخاطب"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "کپی پیوند تماس"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "اشتراک‌گذاری پیوند تماس از طریق سیگنال"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "این شخص از تماس حذف شود"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} نفر} other {{count,number} نفر}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {و {count,number} نفر دیگر} other {و {count,number} نفر دیگر}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "اطلاعات بیشتر درباره مخاطبان جدید"
@@ -3510,7 +3510,7 @@
     "messageformat": "حذف از گروه"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "شما در حال حاضر در یک تماس هستید"
   },
   "icu:showChatColorEditor": {
     "messageformat": "رنگ گفتگو"
@@ -4203,10 +4203,10 @@
     "messageformat": "نام کاربری حتما باید حداکثر {max,number} نویسه داشته باشد."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {نام کاربری باید حداقل {min,number} نویسه داشته باشد.} other {نام کاربری باید حداقل {min,number} نویسه داشته باشد.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {نام کاربری باید حداکثر {max,number} نویسه داشته باشد.} other {نام کاربری باید حداکثر {max,number} نویسه داشته باشد.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "نام کاربری نامعتبر است، حداقل ۲ رقم وارد کنید."
@@ -4755,10 +4755,10 @@
     "messageformat": "آشنایان شما می‌توانند نام و عکس شما و همچنین پست‌های «استوری من» را ببینند، مگر اینکه آن را از آن‌ها مخفی کنید"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "«پاک کردن» در دستگاه‌های شما همگام‌سازی می‌شود"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "وقتی پیام‌ها یا گفتگوها را پاک می‌کنید، از همۀ دستگاه‌های شما پاک می‌شوند."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "فهمیدم"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "جزئیات پیوند تماس"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "نام"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "پیوستن"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "تأیید همه اعضا"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "روشن"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} نفر دیگر در حال تایپ است.} other {{count,number} نفر دیگر در حال تایپ هستند.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "اشکالی را رفع کردیم که موجب می‌شد با تغییر اندازه پنجره سیگنال دسک‌تاپ هنگام مشاهده تصویر پروفایل فرد دیگر، تصاویر با نسبت ابعاد نادرست نمایش داده شوند ."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "در این نسخه جدید، نمایش پاسخ‌های نقل‌قول در زبان‌های راست به چپ را نیز بهبود دادیم."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "اشکالی را که با رفتن به گفتگو یا برنامۀ دیگری در حین ضبط پیام صوتی منجر به ناپدید شدن آن پیام می‌شد برطرف کردیم. حالا دیگر پیام‌های صوتی در حال ضبط به‌عنوان پیش‌نویس ذخیره می‌شوند تا بتوانید پس از بازگشت به گفتگو، آن‌ها را بررسی و ارسال کنید."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

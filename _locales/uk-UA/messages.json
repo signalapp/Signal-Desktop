@@ -1176,7 +1176,7 @@
     "messageformat": "Приєднатись"
   },
   "icu:calling__return": {
-    "messageformat": "Повернутись до виклику"
+    "messageformat": "Повернутися до виклику"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Мікрофон вимкнено через велику кількість учасників виклику"
@@ -1260,10 +1260,10 @@
     "messageformat": "Представлення відключено"
   },
   "icu:calling__button--presenting-on": {
-    "messageformat": "Почати представлення"
+    "messageformat": "Почати демонстрацію"
   },
   "icu:calling__button--presenting-off": {
-    "messageformat": "Зупинити представлення"
+    "messageformat": "Зупинити демонстрацію"
   },
   "icu:calling__button--react": {
     "messageformat": "Реагувати"
@@ -1347,7 +1347,7 @@
     "messageformat": "Тут більше нікого немає"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, one {У цьому виклику · {people,number} людина} few {У цьому виклику · {people,number} людини} many {У цьому виклику · {people,number} людей} other {У цьому виклику · {people,number} людини}}"
+    "messageformat": "{people, plural, one {У цьому виклику · {people,number} учасник} few {У цьому виклику · {people,number} учасники} many {У цьому виклику · {people,number} учасників} other {У цьому виклику · {people,number} учасника}}"
   },
   "icu:calling__you-have-blocked": {
     "messageformat": "Ви заблокували користувача {name}"
@@ -1371,7 +1371,7 @@
     "messageformat": "Ви покажете всім свій екран."
   },
   "icu:calling__presenting--notification-body": {
-    "messageformat": "Натисніть тут, щоб повернутися до дзвінка, коли ви будете готові зупинити показ."
+    "messageformat": "Коли захочете зупинити демонстрацію, натисніть тут. Ви повернетеся до виклику."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
     "messageformat": "Повторне з'єднання…"
@@ -1392,7 +1392,7 @@
     "messageformat": "Ви зупинили представлення"
   },
   "icu:calling__presenting--person-ongoing": {
-    "messageformat": "{name} поширює"
+    "messageformat": "{name} демонструє свій екран"
   },
   "icu:calling__presenting--person-stopped": {
     "messageformat": "{name} припинив презентацію"
@@ -1743,7 +1743,7 @@
     "messageformat": "Дати ім'я групі"
   },
   "icu:setGroupMetadata__back-button": {
-    "messageformat": "Повернутись до вибору користувачів"
+    "messageformat": "Повернутися до вибору учасників"
   },
   "icu:setGroupMetadata__group-name-placeholder": {
     "messageformat": "Ім'я групи (обов'язково)"
@@ -1797,10 +1797,10 @@
     "messageformat": "Ігнорувати оновлення"
   },
   "icu:leftTheGroup": {
-    "messageformat": "{name} вийшов з групи."
+    "messageformat": "Користувач {name} покинув групу."
   },
   "icu:multipleLeftTheGroup": {
-    "messageformat": "{name} вийшов з групи."
+    "messageformat": "Користувач {name} покинув групу."
   },
   "icu:updatedTheGroup": {
     "messageformat": "{name} оновив групу."
@@ -2094,7 +2094,7 @@
     "messageformat": "{title} надсилає реакцію {emoji}"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, one {{count,number} людина надіслала реакцію {emoji}} few {{count,number} людини надіслали реакцію {emoji}} many {{count,number} людей надіслали реакцію {emoji}} other {{count,number} людини надіслали реакцію {emoji}}}"
+    "messageformat": "{count, plural, one {{count,number} користувач надіслав реакцію {emoji}} few {{count,number} користувача надіслали реакцію {emoji}} many {{count,number} користувачів надіслали реакцію {emoji}} other {{count,number} користувача надіслали реакцію {emoji}}}"
   },
   "icu:Message__role-description": {
     "messageformat": "Повідомлення"
@@ -2622,13 +2622,13 @@
     "messageformat": "{ringer} телефонує вам та {otherMember}"
   },
   "icu:incomingGroupCall__ringing-2-others": {
-    "messageformat": "{ringer} телефонує вам, {first} та {second}"
+    "messageformat": "{ringer} дзвонить вам і користувачам {first} і {second}"
   },
   "icu:incomingGroupCall__ringing-3-others": {
-    "messageformat": "{ringer} телефонує вам, {first}, {second} та ще 1 одному"
+    "messageformat": "{ringer} дзвонить вам, користувачам {first} і {second} і ще 1 користувачу"
   },
   "icu:incomingGroupCall__ringing-many": {
-    "messageformat": "{remaining, plural, one {{ringer} викликає вас, {first}, {second}, та інших {remaining,number}} few {{ringer} викликає вас, {first}, {second}, та інших {remaining,number}} many {{ringer} викликає вас, {first}, {second}, та інших {remaining,number}} other {{ringer} викликає вас, {first}, {second} та інших {remaining,number}}}"
+    "messageformat": "{remaining, plural, one {Вам, користувачам {first}, {second} і ще {remaining,number} користувачу дзвонить {ringer}} few {Вам, користувачам {first}, {second} і ще {remaining,number} користувачам дзвонить {ringer}} many {Вам, користувачам {first}, {second} і ще {remaining,number} користувачам дзвонить {ringer}} other {Вам, користувачам {first}, {second} і ще {remaining,number} користувача дзвонить {ringer}}}"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Чекаємо на відповідь…"
@@ -2649,7 +2649,7 @@
     "messageformat": "Повторне з’єднання…"
   },
   "icu:CallControls__InfoDisplay--participants": {
-    "messageformat": "{count, plural, one {{count,number} особи} few {{count,number} осіб} many {{count,number} осіб} other {{count,number} осіб}}"
+    "messageformat": "{count, plural, one {{count,number} учасник} few {{count,number} учасники} many {{count,number} учасників} other {{count,number} учасника}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
     "messageformat": "Аудіовиклик"
@@ -2724,7 +2724,7 @@
     "messageformat": "Ви розпочали груповий дзвінок"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} розпочав груповий дзвінок"
+    "messageformat": "Користувач {name} почав груповий виклик"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Ви вже у дзвінку"
@@ -2748,7 +2748,7 @@
     "messageformat": "Бічна панель"
   },
   "icu:calling__view_mode--speaker": {
-    "messageformat": "Оповідач у центрі"
+    "messageformat": "Промовець у центрі"
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "Вигляд змінено"
@@ -2772,22 +2772,22 @@
     "messageformat": "Вікно"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Додатково про цей контакт"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Копіювати посилання на виклик"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Поділитися посиланням на виклик у Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Вилучити з виклику"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} особа} few {{count,number} особи} many {{count,number} осіб} other {{count,number} особи}}"
+    "messageformat": "{count, plural, one {{count,number} учасник} few {{count,number} учасники} many {{count,number} учасників} other {{count,number} учасника}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {Ще {count,number}} few {Ще {count,number}} many {Ще {count,number}} other {Ще {count,number}}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Додаткова інформація про нові контакти"
@@ -3114,7 +3114,7 @@
     "messageformat": "{adminName} видалив (-ла) {memberName}."
   },
   "icu:GroupV2--member-remove--other--self": {
-    "messageformat": "{memberName} вийшов з групи."
+    "messageformat": "Користувач {memberName} покинув групу."
   },
   "icu:GroupV2--member-remove--other--you": {
     "messageformat": "Ви видалили {memberName}."
@@ -3177,7 +3177,7 @@
     "messageformat": "Ви були запрошені в групу."
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{count, plural, one {{memberName} запрошує до групи {count,number} людину.} few {{memberName} запрошує до групи {count,number} людей.} many {{memberName} запрошує до групи {count,number} людей.} other {{memberName} запрошує до групи {count,number} людини.}}"
+    "messageformat": "{count, plural, one {Учасник {memberName} запросив до групи {count,number} людину.} few {Учасник {memberName} запросив до групи {count,number} людей.} many {Учасник {memberName} запросив до групи {count,number} людей.} other {Учасник {memberName} запросив до групи {count,number} людини.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
     "messageformat": "{count, plural, one {Ви запросили в групу {count,number} людину.} few {Ви запросили в групу {count,number} людини.} many {Ви запросили в групу {count,number} людей.} other {Ви запросили в групу {count,number} людини.}}"
@@ -3240,7 +3240,7 @@
     "messageformat": "Адміністратор відкликав (-ла) запрошення в групу яке ви відправили {inviteeName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{count, plural, one {{adminName} відкликає запрошення в групу для {count,number} людини, запрошеної користувачем {memberName}.} few {{adminName} відкликає запрошення в групу для {count,number} людей, запрошених користувачем {memberName}.} many {{adminName} відкликає запрошення в групу для {count,number} людей, запрошених користувачем {memberName}.} other {{adminName} відкликає запрошення в групу для {count,number} людини, запрошених користувачем {memberName}.}}"
+    "messageformat": "{count, plural, one {Адміністратор {adminName} скасував запрошення в групу для {count,number} людини, запрошеної користувачем {memberName}.} few {Адміністратор {adminName} скасував запрошення в групу для {count,number} людей, запрошених користувачем {memberName}.} many {Адміністратор {adminName} скасував запрошення в групу для {count,number} людей, запрошених користувачем {memberName}.} other {Адміністратор {adminName} скасував запрошення в групу для {count,number} людини, запрошених користувачем {memberName}.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
     "messageformat": "{count, plural, one {Ви скасували {count,number} запрошення в групу, надіслане користувачем {memberName}.} few {Ви скасували {count,number} запрошення в групу, надіслані користувачем {memberName}.} many {Ви скасували {count,number} запрошень у групу, надісланих користувачем {memberName}.} other {Ви скасували {count,number} запрошення в групу, надісланих користувачем {memberName}.}}"
@@ -3510,7 +3510,7 @@
     "messageformat": "Видалити з групи"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Ви вже берете участь у виклику"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Колір чату"
@@ -4020,7 +4020,7 @@
     "messageformat": "Показати спеціальний редактор кольорів"
   },
   "icu:ChatColorPicker__sampleBubble1": {
-    "messageformat": "Ось таким буде колір чату."
+    "messageformat": "Таким буде колір чату."
   },
   "icu:ChatColorPicker__sampleBubble2": {
     "messageformat": "Ще одне бульбашкове повідомлення."
@@ -4119,10 +4119,10 @@
     "messageformat": "Додайте опис групи…"
   },
   "icu:MediaQualitySelector--button": {
-    "messageformat": "Виберіть якість медіафайлу"
+    "messageformat": "Оберіть якість медіафайлів"
   },
   "icu:MediaQualitySelector--title": {
-    "messageformat": "Якість медіафайлу"
+    "messageformat": "Якість медіафайлів"
   },
   "icu:MediaQualitySelector--standard-quality-title": {
     "messageformat": "Стандартна"
@@ -4203,10 +4203,10 @@
     "messageformat": "Імена користувачів мають містити щонайбільше {max,number} символів."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {Ім'я користувача повинне містити принаймні {min,number} символ.} few {Ім'я користувача повинне містити принаймні {min,number} символи.} many {Ім'я користувача повинне містити принаймні {min,number} символів.} other {Ім'я користувача повинне містити принаймні {min,number} символу.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {Ім'я користувача може містити максимум {max,number} символ.} few {Ім'я користувача може містити максимум {max,number} символи.} many {Ім'я користувача може містити максимум {max,number} символів.} other {Ім'я користувача може містити максимум {max,number} символу.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Недійсне ім'я користувача, введіть мінімум 2 цифри."
@@ -4755,10 +4755,10 @@
     "messageformat": "Контакти Signal бачать ваше ім'я та фото, а також усе, що ви викладаєте в «Моїй історії», якщо ви її не приховали."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Видалення синхронізується на ваших пристроях"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Коли ви видаляєте повідомлення чи чати, вони зникають на всіх ваших пристроях."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Зрозуміло"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Додатково про посилання на виклик"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Назва"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Приєднатися"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Затверджувати всіх учасників"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Увімк."
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Ще {count,number} пише.} few {Ще {count,number} пишуть.} many {Ще {count,number} пишуть.} other {Ще {count,number} пише.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Тепер, переглядаючи фото профілю близької людини, ви можете змінити розмір вікна Signal Desktop і не боятися, що зображення стиснеться. Дорогих людей треба стискати лише в обіймах."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "У цьому оновленні ми також поліпшили вигляд цитованих відповідей для мов з написанням справа наліво."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Більше не доведеться пускати слова на вітер: ми виправили помилку, через яку голосові повідомлення зникали, якщо під час запису ви переходили в інший чат чи застосунок. Тепер незавершене голосове повідомлення зберігається як чернетка, щоб ви могли його переслухати й надіслати, коли знову відкриєте чат."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

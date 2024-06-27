@@ -2772,13 +2772,13 @@
     "messageformat": "Okno"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Viac informácií o tomto kontakte"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Skopírovať odkaz na hovor"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Zdieľať odkaz na hovor cez Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Odstrániť tohto používateľa z hovoru"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} osoba} few {{count,number} ľudia} many {{count,number} ľudí} other {{count,number} ľudí}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+{count,number} ďalší} few {+{count,number} ďalší} many {+{count,number} ďalšieho} other {+{count,number} ďalších}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Viac informácií o nových kontaktoch"
@@ -3510,7 +3510,7 @@
     "messageformat": "Odstrániť zo skupiny"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Už ste v hovore"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Farba četu"
@@ -4203,10 +4203,10 @@
     "messageformat": "Používateľské mená môžu mať najviac {max,number} znakov."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {Používateľské mená musia obsahovať minimálne {min,number} znak.} few {Používateľské mená musia obsahovať minimálne {min,number} znaky.} many {Používateľské mená musia obsahovať minimálne {min,number} znaku.} other {Používateľské mená musia obsahovať minimálne {min,number} znakov.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {Používateľské mená môžu obsahovať maximálne {max,number} znak.} few {Používateľské mená môžu obsahovať maximálne {max,number} znaky.} many {Používateľské mená môžu obsahovať maximálne {max,number} znaku.} other {Používateľské mená môžu obsahovať maximálne {max,number} znakov.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Neplatné používateľské meno, zadajte minimálne 2 číslice."
@@ -4755,10 +4755,10 @@
     "messageformat": "Vaše kontakty môžu vidieť vaše meno a fotografiu, ako aj príspevky v časti „Môj príbeh“, pokiaľ ich pred nimi neskryjete"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Vymazávanie je synchronizované na vašich zariadeniach"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Keď vymažete správy alebo čety, vymažú sa zo všetkých vašich zariadení."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Rozumiem"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Podrobnosti odkazu na hovor"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Meno"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Pridať sa"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Schváliť všetkých členov"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Zap."
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ďalší píše.} few {{count,number} ďalší píšu.} many {{count,number} ďalšieho píše.} other {{count,number} ďalších píše.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Opravili sme chybu, ktorá zobrazovala obrázky s nesprávnym pomerom strán, ak ste zmenili veľkosť okna Signal Desktop pri prezeraní niekoho profilového obrázka."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Táto aktualizácia tiež zlepšuje zobrazovanie citovaných odpovedí v jazykoch písaných sprava doľava."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Opravili sme chybu, pri ktorej mohlo prepnutie na iný čet alebo aplikáciu počas nahrávania hlasovej správy spôsobiť zmiznutie tejto správy. Prebiehajúce hlasové správy sa teraz ukladajú ako koncepty, takže si ich môžete prezrieť a odoslať, keď sa vrátite do četu."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

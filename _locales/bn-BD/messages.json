@@ -2772,13 +2772,13 @@
     "messageformat": "একটি উইন্ডো"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "এই কন্টাক্ট সম্পর্কে আরো তথ্য"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "কল লিংক কপি করুন"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Signal-এর মাধ্যমে কল লিংক শেয়ার করুন"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "এই ব্যক্তিকে কল থেকে বাদ দিন"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} মানুষ} other {{count,number} মানুষ}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {আরো +{count,number}} other {আরো +{count,number}}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "নতুন কন্টাক্ট সম্পর্কে আরো তথ্য"
@@ -3510,7 +3510,7 @@
     "messageformat": "গ্রুপ থেকে সরিয়ে ফেলুন"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "আপনি ইতিমধ্যেই একটি কলে আছেন"
   },
   "icu:showChatColorEditor": {
     "messageformat": "চ্যাট-এর রং"
@@ -4203,10 +4203,10 @@
     "messageformat": "ব্যবহারকারীর নামগুলোতে সর্বাধিক {max,number}টি অক্ষর থাকতে হবে।"
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {ব্যবহারকারীর নাম কমপক্ষে {min,number}-টি অক্ষর দিয়ে শুরু করতে হবে} other {ব্যবহারকারীর নামে কমপক্ষে {min,number}-টি অক্ষর থাকতে হবে।}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {ব্যবহারকারীর নামে সর্বোচ্চ {max,number}-টি অক্ষর থাকতে হবে।} other {ব্যবহারকারীর নামে সর্বোচ্চ {max,number}-টি অক্ষর থাকতে হবে।}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "ব্যবহারকারীর নাম অকার্যকর, অন্তত 2টি সংখ্যা লিখুন।"
@@ -4755,10 +4755,10 @@
     "messageformat": "আপনার কানেকশনরা আপনার নাম এবং ছবি দেখতে পারেন এবং \"আমার স্টোরি\"-এর পোস্টগুলো দেখতে পারেন যদি না আপনি এটি তাদের কাছ থেকে লুকিয়ে রাখেন"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "মুছে ফেলার বিষয়টি আপনার সকল ডিভাইসেই সিঙ্ক করা হয়েছে"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "আপনি মেসেজ বা চ্যাট মুছে ফেললে, সেগুলো আপনার ফোন এবং সকল ডিভাইস থেকে মুছে যাবে।"
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "বুঝতে পেরেছি"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "কল লিংকের বিস্তারিত"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "নাম"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "যোগদান করুন"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "সকল সদস্যকে অনুমোদন দিন"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "চালু"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {আরো {count,number} জন টাইপ করছেন।} other {আরো {count,number} জন টাইপ করছেন।}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "আমরা এমন একটি ব্যাগ সংশোধন করেছি যেটি আপনি যখন কারো প্রোফাইল ছবি দেখার সময় Signal Desktop উইন্ডোটির আকার পরিবর্তন করেন তখন তা ভুল আকার অনুপাতের ছবি প্রদর্শন করতো।"
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "এই আপডেটটি ডান দিক থেকে বাম দিকে অগ্রসর হওয়া ভাষায় উদ্ধৃত উত্তরের প্রদর্শনকেও উন্নত করে।"
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "আমরা একটি বাগ সংশোধন করেছি যেখানে ভয়েস মেসেজ রেকর্ড করার সময় অন্য চ্যাট বা অ্যাপ্লিকেশনে সুইচ করলে সেই মেসেজটি অদৃশ্য হয়ে যেতে পারে। চলমান ভয়েস মেসেজগুলো এখন ড্রাফট হিসেবে সংরক্ষণ করা হয়েছে, যাতে আপনি চ্যাটে ফিরে আসার পরে সেগুলো রিভিউ করতে পারেন এবং পাঠাতে পারেন।"
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

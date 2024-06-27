@@ -2772,13 +2772,13 @@
     "messageformat": "វីនដូ"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "ព័ត៌មានបន្ថែមអំពីទំនាក់ទំនងនេះ"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "ចម្លងតំណហៅទូរសព្ទ"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "ចែករំលែកតំណហៅទូរសព្ទតាមរយៈ Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "ដកម្នាក់នេះចេញពីការហៅ"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, other {មនុស្ស {count,number} នាក់}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, other {+{count,number} នាក់ទៀត}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "ព័ត៌មានបន្ថែមអំពីទំនាក់ទំនងថ្មីៗ"
@@ -3510,7 +3510,7 @@
     "messageformat": "ដកចេញពីក្រុម"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "អ្នកស្ថិតនៅក្នុងការហៅទូរសព្ទស្រាប់ហើយ"
   },
   "icu:showChatColorEditor": {
     "messageformat": "ពណ៌ការជជែក"
@@ -4203,10 +4203,10 @@
     "messageformat": "ឈ្មោះអ្នកប្រើត្រូវតែមានយ៉ាងច្រើនបំផុត {max,number} តួអក្សរ។"
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, other {ឈ្មោះអ្នកប្រើត្រូវតែមានយ៉ាងតិចបំផុត {min,number} តួអក្សរ។}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, other {ឈ្មោះអ្នកប្រើត្រូវតែមានយ៉ាងច្រើនបំផុត {max,number} តួអក្សរ។}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "ឈ្មោះអ្នកប្រើមិនត្រឹមត្រូវ។ សូមបញ្ចូលយ៉ាងតិចលេខ 2 ខ្ទង់។"
@@ -4755,10 +4755,10 @@
     "messageformat": "អ្នកភ្ជាប់ទំនាក់ទំនងរបស់អ្នកអាចមើលឃើញឈ្មោះ និងរូបថតរបស់អ្នក ហើយអាចឃើញសារបង្ហោះទៅ \"រឿងរ៉ាវរបស់ខ្ញុំ\" លើកលែងតែអ្នកលាក់វាពីពួកគេ"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "ការលុបត្រូវបានធ្វើសមកាលកម្មនៅលើឧបករណ៍ទាំងឡាយរបស់អ្នក"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "នៅពេលអ្នកលុបសារ ឬការជជែក ពួកវានឹងត្រូវបានលុបចេញពីឧបករណ៍ទាំងអស់របស់អ្នក។"
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "យល់ហើយ"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "ព័ត៌មានលម្អិតអំពីតំណហៅទូរសព្ទ"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "ឈ្មោះ"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "ចូលរួម"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "អនុញ្ញាតសមាជិកទាំងអស់"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "បើក"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} នាក់ផ្សេងទៀតកំពុងវាយអក្សរ។}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "យើងបានដោះស្រាយបញ្ហាដែលបង្ហាញរូបភាពខុសសមាមាត្រ ប្រសិនបើអ្នកប្តូរទំហំវីនដូ Signal Desktop ពេលកំពុងមើលរូបភាពប្រូហ្វាល់របស់នរណាម្នាក់។ មនុស្សដែលអ្នកស្រឡាញ់គួរតែមើលទៅរួមតូច ប្រសិនបើអ្នកកំពុងឱបពួកគេ។"
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "ការធ្វើបច្ចុប្បន្នភាពនេះក៏បានកែលម្អនូវការបង្ហាញនៃការឆ្លើយតបដែលបានដកស្រង់ជាភាសាពីស្តាំទៅឆ្វេងផងដែរ។"
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "ប្រសិនបើអ្នកធុញទ្រាន់នឹងការបាត់សារជាសំឡេងរបស់អ្នក ពេលកំពុងថតសារជាសំឡេង ដែលវាអាចបណ្តាលមកពីការចុចប្តូរទៅការជជែក ឬកម្មវិធីផ្សេងទៀតនោះ ពេលនេះអស់បារម្ភទៀតហើយ! យើងបានដោះស្រាយបញ្ហានេះរួចហើយ។ ឥឡូវនេះ សារជាសំឡេងដែលកំពុងដំណើរការថតត្រូវបានរក្សាទុកជាសេចក្តីព្រាង ដូច្នេះអ្នកអាចពិនិត្យមើល និងផ្ញើវាបាន នៅពេលអ្នកត្រឡប់ទៅការជជែកវិញ។"
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

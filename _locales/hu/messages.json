@@ -2772,13 +2772,13 @@
     "messageformat": "Egy ablak"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "További információ erről a névjegyről"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Híváslink másolása"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Híváslink megosztása a Signalon keresztül"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "E személy eltávolítása a hívásból"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} személy} other {{count,number} személy}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+{count,number} további} other {+{count,number} további}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "További információ az új névjegyekről"
@@ -3510,7 +3510,7 @@
     "messageformat": "Eltávolítás a csoportból"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Már beléptél a hívásba"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Csevegés színe"
@@ -4203,10 +4203,10 @@
     "messageformat": "A felhasználónevek hossza maximum {max,number} karakter"
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {A felhasználóneveknek legalább {min,number} karaktert kell tartalmazniuk.} other {A felhasználóneveknek legalább {min,number} karaktert kell tartalmazniuk.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {A felhasználónevek hossza legfeljebb {max,number} karakter lehet.} other {A felhasználónevek hossza legfeljebb {max,number} karakter lehet.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Érvénytelen felhasználónév, adj meg legalább 2 számjegyet."
@@ -4755,10 +4755,10 @@
     "messageformat": "A névjegyeid láthatják a neved és a képed, valamint megtekinthetik a „Történeteim” részt, kivéve, ha elrejted előlük"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "A törlés szinkronizálva van az összes eszközön"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Amikor üzeneteket vagy csevegéseket törölsz, azok az összes kapcsolt eszközről is törlésre kerülnek."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Rendben"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Híváslink részletei"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "Név"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "Csatlakozás"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Összes tag jóváhagyása"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "Be"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} másik személy ír.} other {{count,number} másik személy ír.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "Javítottunk egy hibát, amely rossz képarányú képeket jelenített meg, ha valaki profilképének megtekintése közben átméretezted a Signal Desktop ablakát."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "Ez a frissítés javítja az idézett válaszok megjelenítését is a jobbról balra olvasandó nyelveken."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Kijavítottunk egy hibát, amely miatt egy másik csevegésre vagy alkalmazásra váltva hangüzenet rögzítése közben az üzenet eltűnhet. A folyamatban lévő hangüzeneteket a rendszer most piszkozatként menti, így áttekintheted és elküldheted őket, amikor visszatérsz a csevegésbe."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }

@@ -2772,13 +2772,13 @@
     "messageformat": "ഒരു വിൻഡോ"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "ഈ കോൺടാക്റ്റിനെ കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങൾ"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "കോൾ ലിങ്ക് പകർത്തുക"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Signal വഴി കോൾ ലിങ്ക് പങ്കിടുക"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "കോളിൽ നിന്ന് ഈ വ്യക്തിയെ നീക്കം ചെയ്യുക"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} ആൾ} other {{count,number} പേര്‍}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+{count,number} ആൾ കൂടി} other {+{count,number} പേർ കൂടി}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "പുതിയ കോൺടാക്റ്റുകളെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങൾ"
@@ -3510,7 +3510,7 @@
     "messageformat": "ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്യൂ"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "നിങ്ങൾ ഇതിനകം ഒരു കോളിൽ ഉണ്ട്"
   },
   "icu:showChatColorEditor": {
     "messageformat": "ചാറ്റ് നിറം"
@@ -4203,10 +4203,10 @@
     "messageformat": "ഉപയോക്തൃനാമത്തിൽ പരമാവധി {max,number} പ്രതീകങ്ങൾ മാത്രമേ പാടുള്ളു."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {ഉപയോക്തൃനാമങ്ങളിൽ കുറഞ്ഞത് {min,number} പ്രതീകം ഉണ്ടായിരിക്കണം.} other {ഉപയോക്തൃനാമത്തിൽ കുറഞ്ഞത് {min,number} പ്രതീകങ്ങൾ ഉണ്ടായിരിക്കണം.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {ഉപയോക്തൃനാമത്തിൽ പരമാവധി {max,number} പ്രതീകം മാത്രമേ പാടുള്ളു.} other {ഉപയോക്തൃനാമത്തിൽ പരമാവധി {max,number} പ്രതീകങ്ങൾ മാത്രമേ പാടുള്ളു.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "ഉപയോക്തൃനാമം അസാധുവാണ്, കുറഞ്ഞത് 2 അക്കങ്ങൾ നൽകുക."
@@ -4755,10 +4755,10 @@
     "messageformat": "നിങ്ങളുടെ കണക്ഷനുകൾക്ക് നിങ്ങളുടെ പേരും ഫോട്ടോയും കാണാനാകും, മാത്രമല്ല മറയ്ക്കാത്ത പക്ഷം \"എന്‍റെ സ്റ്റോറിയിൽ\" നിങ്ങൾ ചേർക്കുന്ന പോസ്റ്റുകളും അവർക്ക് കാണാനാകും."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "നിങ്ങളുടെ ഉപകരണങ്ങളിലുടനീളം ഇല്ലാതാക്കൽ സമന്വയിപ്പിച്ചിരിക്കുന്നു"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "നിങ്ങൾ സന്ദേശങ്ങളോ ചാറ്റുകളോ ഇല്ലാതാക്കുമ്പോൾ, നിങ്ങളുടെ എല്ലാ ഉപകരണങ്ങളിൽ നിന്നും അവ ഇല്ലാതാക്കപ്പെടും."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "മനസ്സിലായി"
@@ -5424,11 +5424,11 @@
   "icu:CallLinkEditModal__Title": {
     "messageformat": "കോൾ ലിങ്ക് വിശദാംശങ്ങൾ"
   },
-  "icu:CallLinkEditModal__InputLabel--Name--SrOnly": {
-    "messageformat": "പേര്"
-  },
   "icu:CallLinkEditModal__JoinButtonLabel": {
     "messageformat": "ചേരുക"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "എല്ലാ അംഗങ്ങളെയും അംഗീകരിക്കൂ"
@@ -5438,6 +5438,12 @@
   },
   "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
     "messageformat": "ഓൺ"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {മറ്റ് {count,number} ആൾ ടൈപ്പ് ചെയ്യുന്നു.} other {മറ്റ് {count,number} പേർ ടൈപ്പ് ചെയ്യുന്നു.}}"
@@ -5479,13 +5485,16 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "ഒരാളുടെ പ്രൊഫൈൽ ചിത്രം കാണുമ്പോൾ നിങ്ങൾ Signal ഡെസ്ക്ടോപ്പ് വിൻഡോയുടെ വലുപ്പം മാറ്റുകയാണെങ്കിൽ, തെറ്റായ വീക്ഷണാനുപാതത്തിൽ ചിത്രങ്ങൾ പ്രദർശിപ്പിക്കുന്ന ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചു. നിങ്ങൾ സ്‌നേഹിക്കുന്ന ആളുകളെ ആലിംഗനം ചെയ്യുമ്പോൾ മാത്രമേ അവർ അതിൽ ഞെരിഞ്ഞ് അമർന്നത് പോലെ കാണപ്പെടൂ."
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "ഈ അപ്‌ഡേറ്റ് വലത്തുനിന്നും ഇടത്തേക്ക് എഴുതുന്ന ഭാഷകളിൽ ഉദ്ധരിച്ച മറുപടികളുടെ പ്രദർശനവും മെച്ചപ്പെടുത്തുന്നു."
-  },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "ശബ്‌ദം നഷ്‌ടപ്പെടുന്നത് നിങ്ങളെ ക്ഷീണിപ്പിക്കുന്നുവെങ്കിൽ, ഒരു വോയ്‌സ് സന്ദേശം റെക്കോർഡുചെയ്യുമ്പോൾ മറ്റൊരു ചാറ്റിലേക്കോ ആപ്ലിക്കേഷനിലേക്കോ മാറുന്നത് ആ സന്ദേശം അപ്രത്യക്ഷമാകുന്നതിന് കാരണമായേക്കാവുന്ന ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചു. പുരോഗതിയിലുള്ള ശബ്ദ സന്ദേശങ്ങൾ ഇപ്പോൾ ഡ്രാഫ്റ്റുകളായി സംരക്ഷിച്ചിരിക്കുന്നതിനാൽ നിങ്ങൾ ചാറ്റിലേക്ക് മടങ്ങുമ്പോൾ അവ അവലോകനം ചെയ്യാനും അയയ്ക്കാനും കഴിയും."
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
   }
 }
