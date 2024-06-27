@@ -3851,28 +3851,22 @@ async function markAllCallHistoryReadWithPredicate(
       ? sqlFragment`callsHistory.peerId IS ${target.peerId}`
       : sqlFragment`TRUE`;
 
-    const [selectQuery, selectParams] = sql`
-      SELECT callsHistory.callId
-      FROM callsHistory
-      WHERE ${predicate}
-        AND callsHistory.timestamp <= ${timestamp}
+    const [updateQuery, updateParams] = sql`
+      UPDATE messages
+      SET
+        seenStatus = ${SEEN_STATUS_SEEN},
+        json = json_patch(json, ${jsonPatch})
+      WHERE id IN (
+        SELECT id FROM messages
+        INNER JOIN callsHistory ON callsHistory.callId IS messages.callId
+        WHERE messages.type IS 'call-history'
+          AND messages.seenStatus IS ${SEEN_STATUS_UNSEEN}
+          AND callsHistory.timestamp <= ${timestamp}
+          AND ${predicate}
+      )
     `;
 
-    const callIds = db.prepare(selectQuery).pluck().all(selectParams);
-
-    batchMultiVarQuery(db, callIds, ids => {
-      const idList = sqlJoin(ids.map(id => sqlFragment`${id}`));
-
-      const [updateQuery, updateParams] = sql`
-        UPDATE messages
-        SET
-          seenStatus = ${SEEN_STATUS_SEEN},
-          json = json_patch(json, ${jsonPatch})
-        WHERE callId IN (${idList});
-      `;
-
-      db.prepare(updateQuery).run(updateParams);
-    });
+    db.prepare(updateQuery).run(updateParams);
   })();
 }
 
