@@ -138,20 +138,10 @@ index 0000000..f198807
 +exports.addWinAsarIntegrity = addWinAsarIntegrity;
 +//# sourceMappingURL=electronWin.js.map
 diff --git a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js b/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
-index c3f1000..070472e 100644
+index c3f1000..d4bb196 100644
 --- a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
 +++ b/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
-@@ -65,7 +65,8 @@ class LinuxTargetHelper {
-             case "pacman":
-                 return version.replace(/-/g, "_");
-             case "rpm":
--            case "deb":
-+            // DESKTOP-7306
-+            // case "deb":
-                 return version.replace(/-/g, "~");
-             default:
-                 return version;
-@@ -100,7 +101,7 @@ class LinuxTargetHelper {
+@@ -100,7 +100,7 @@ class LinuxTargetHelper {
              // https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#exec-variables
              const execCodes = ["%f", "%u", "%F", "%U"];
              if (executableArgs == null || executableArgs.findIndex(arg => execCodes.includes(arg)) === -1) {
