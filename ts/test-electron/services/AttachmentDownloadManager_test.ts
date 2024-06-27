@@ -14,7 +14,7 @@ import {
 } from '../../jobs/AttachmentDownloadManager';
 import type { AttachmentDownloadJobType } from '../../types/AttachmentDownload';
 import dataInterface from '../../sql/Client';
-import { HOUR, MINUTE, SECOND } from '../../util/durations';
+import { MINUTE } from '../../util/durations';
 import { type AciString } from '../../types/ServiceId';
 
 describe('AttachmentDownloadManager/JobManager', () => {
@@ -73,13 +73,20 @@ describe('AttachmentDownloadManager/JobManager', () => {
       ...AttachmentDownloadManager.defaultParams,
       shouldHoldOffOnStartingQueuedJobs: isInCall,
       runJob,
+      getRetryConfig: () => ({
+        maxAttempts: 5,
+        backoffConfig: {
+          multiplier: 5,
+          firstBackoffs: [MINUTE],
+          maxBackoffTime: 30 * MINUTE,
+        },
+      }),
     });
   });
 
   afterEach(async () => {
-    sandbox.restore();
-    clock.restore();
     await downloadManager?.stop();
+    sandbox.restore();
   });
 
   async function addJob(
@@ -152,6 +159,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
     // ticked forward and make tests unreliable
     await dataInterface.getAllItems();
     await clock.tickAsync(ms);
+    await dataInterface.getAllItems();
   }
 
   function getPromisesForAttempts(
@@ -287,20 +295,22 @@ describe('AttachmentDownloadManager/JobManager', () => {
     assert.strictEqual(retriedJob?.attempts, 1);
     assert.isNumber(retriedJob?.retryAfter);
 
-    await advanceTime(60 * SECOND); // one tick
+    await advanceTime(MINUTE);
+
     await job1Attempts[1].completed;
     assert.strictEqual(runJob.callCount, 3);
-
     await advanceTime(5 * MINUTE);
+
     await job1Attempts[2].completed;
     assert.strictEqual(runJob.callCount, 4);
 
-    await advanceTime(50 * MINUTE);
+    await advanceTime(25 * MINUTE);
     await job1Attempts[3].completed;
     assert.strictEqual(runJob.callCount, 5);
 
-    await advanceTime(6 * HOUR);
+    await advanceTime(30 * MINUTE);
     await job1Attempts[4].completed;
+
     assert.strictEqual(runJob.callCount, 6);
     assertRunJobCalledWith([
       jobs[1],
@@ -353,11 +363,11 @@ describe('AttachmentDownloadManager/JobManager', () => {
     await attempts[2].completed;
     assert.strictEqual(runJob.callCount, 6);
 
-    await advanceTime(50 * MINUTE);
+    await advanceTime(25 * MINUTE);
     await attempts[3].completed;
     assert.strictEqual(runJob.callCount, 7);
 
-    await advanceTime(6 * HOUR);
+    await advanceTime(30 * MINUTE);
     await attempts[4].completed;
     assert.strictEqual(runJob.callCount, 8);
 
