@@ -2772,13 +2772,13 @@
     "messageformat": "كۆزنەك"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "بۇ ئالاقىداش ھەققىدىكى تېخىمۇ كۆپ ئۇچۇرلار"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "چاقىرىق ئۇلانمىسىنى كۆچۈرۈش"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Signal ئارقىلىق چاقىرىق ئۇلانمىسىنى ئورتاقلىشىش"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "بۇ كىشىنى چاقىرىقتىن چىقىرىۋېتىش"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, other {{count,number} كىشى}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, other {باشقا +{count,number}}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "يېڭى ئالاقىداشلار ھەققىدىكى تېخى كۆپ ئۇچۇرلار"
@@ -3510,7 +3510,7 @@
     "messageformat": "گۇرۇپپىدىن چىقار"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "سىز ئاللىبۇرۇن چاقىرىقتا"
   },
   "icu:showChatColorEditor": {
     "messageformat": "پاراڭ رەڭگى"
@@ -4203,10 +4203,10 @@
     "messageformat": "ئىشلەتكۈچى نامى ئەڭ كۆپ بولغاندا {max,number} ھەرپ بولۇشى كېرەك."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, other {ئىشلەتكۈچى نامى ئاز دېگەندە {min,number} ھەرپ بىلەن باشلانغان بولۇشى كېرەك.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, other {ئىشلەتكۈچى نامى ئاز دېگەندە {max,number} ھەرپ بىلەن باشلانغان بولۇشى كېرەك.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "ئىشلەتكۈچى نامى ئىناۋەتسىز، ئاز دېگەندە 2 خانە كىرگۈزۈڭ."
@@ -4755,10 +4755,10 @@
     "messageformat": "ئالاقىداشلىرىڭىز سىزنىڭ ئىسمىڭىز ۋە رەسىمىڭىزنى كۆرەلەيدۇ. ئەگەر «ھېكايەم» دىكى يازمىلارنى ئۇلاردىن يوشۇرۇپ قويمىغان بولسىڭىز ئۇلارنىمۇ كۆرەلەيدۇ"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "ئۆچۈرۈش بارلىق ئۈسكۈنىلەردە ماسقەدەملىنىدۇ"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "ئۇچۇر ياكى پاراڭنى ئۆچۈرسىڭىز، ئۇلار بارلىق ئۈسكۈنىلىرىڭىزدىن ئۆچۈرۈلىدۇ."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "بىلدىم"
@@ -5486,6 +5486,6 @@
     "messageformat": "بۇ يېڭىلاشتا ئوڭدىن سولغا يېزىلىدىغان تىللارنىڭ نەقىل قىلىپ جاۋاب قايتۇرۇش كۆرۈنۈشى ياخشىلاندى."
   },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "ئاۋازلىق ئۇچۇر خاتىرىلەۋاتقاندا باشقا پاراڭغا ياكى باشقا ئەپكە يۆتكەلسىڭىز بۇ ئاۋازلىق ئۇچۇر يوقاپ كېتىدىغان بىر كاشىلىنى ھەل قىلدۇق. ھازىر داۋاملىشىۋاتقان ئ‍اۋازلىق ئۇچۇر ئارگىنال شەكلىدە ساقلىنىپ تۇرىدىغان بولۇپ، سىز پاراڭغا قايتقاندىن كېيىن ئۇلارنى كۆرەلەيسىز ۋە يوللىيالايسىز."
   }
 }

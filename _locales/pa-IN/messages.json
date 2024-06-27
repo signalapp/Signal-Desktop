@@ -2772,13 +2772,13 @@
     "messageformat": "ਵਿੰਡੋ"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "ਇਸ ਸੰਪਰਕ ਬਾਰੇ ਹੋਰ ਜਾਣਕਾਰੀ"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "ਕਾਲ ਲਿੰਕ ਕਾਪੀ ਕਰੋ"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Signal ਰਾਹੀਂ ਕਾਲ ਦਾ ਲਿੰਕ ਸਾਂਝਾ ਕਰੋ"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "ਇਸ ਵਿਅਕਤੀ ਨੂੰ ਕਾਲ ਵਿੱਚੋਂ ਹਟਾਓ"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} ਵਿਅਕਤੀ} other {{count,number} ਲੋਕ}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+{count,number} ਹੋਰ} other {+{count,number} ਹੋਰ}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "ਨਵੇਂ ਸੰਪਰਕਾਂ ਬਾਰੇ ਹੋਰ ਜਾਣਕਾਰੀ"
@@ -3510,7 +3510,7 @@
     "messageformat": "ਗਰੁੱਪ ਵਿੱਚੋਂ ਹਟਾਓ"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "ਤੁਸੀਂ ਪਹਿਲਾਂ ਹੀ ਕਾਲ ਵਿੱਚ ਹੋ"
   },
   "icu:showChatColorEditor": {
     "messageformat": "ਚੈਟ ਦਾ ਰੰਗ"
@@ -4203,10 +4203,10 @@
     "messageformat": "ਵਰਤੋਂਕਾਰ ਨਾਂ ਵਿੱਚ ਵੱਧ ਤੋਂ ਵੱਧ {max,number} ਅੱਖਰ ਹੋਣੇ ਲਾਜ਼ਮੀ ਹਨ।"
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {ਵਰਤੋਂਕਾਰ ਨਾਂ ਵਿੱਚ ਘੱਟੋ-ਘੱਟ {min,number} ਅੱਖਰ ਹੋਣਾ ਲਾਜ਼ਮੀ ਹੈ।} other {ਵਰਤੋਂਕਾਰ ਨਾਂ ਵਿੱਚ ਘੱਟ ਤੋਂ ਘੱਟ {min,number} ਅੱਖਰ ਹੋਣੇ ਲਾਜ਼ਮੀ ਹਨ।}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {ਵਰਤੋਂਕਾਰ ਨਾਂ ਵਿੱਚ ਵੱਧ ਤੋਂ ਵੱਧ {max,number} ਅੱਖਰ ਹੋਣਾ ਲਾਜ਼ਮੀ ਹੈ।} other {ਵਰਤੋਂਕਾਰ ਨਾਂ ਵਿੱਚ ਵੱਧ ਤੋਂ ਵੱਧ {max,number} ਅੱਖਰ ਹੋਣੇ ਲਾਜ਼ਮੀ ਹਨ।}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "ਵਰਤੋਂਕਾਰ ਨਾਂ ਅਵੈਧ ਹੈ, ਘੱਟ ਤੋਂ ਘੱਟ 2 ਅੰਕ ਦਰਜ ਕਰੋ।"
@@ -4755,10 +4755,10 @@
     "messageformat": "ਤੁਹਾਡੇ ਕਨੈਕਸ਼ਨ ਤੁਹਾਡਾ ਨਾਮ ਅਤੇ ਫ਼ੋਟੋ ਦੇਖ ਸਕਦੇ ਹਨ ਅਤੇ \"ਮੇਰੀ ਸਟੋਰੀ\" ਵਿਚਲੀਆਂ ਪੋਸਟਾਂ ਦੇਖ ਸਕਦੇ ਹਨ, ਬਸ਼ਰਤੇ ਤੁਸੀਂ ਉਹਨਾਂ ਕੋਲੋਂ ਇਸ ਨੂੰ ਲੁਕਾਇਆ ਨਾ ਹੋਵੇ"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "ਮਿਟਾਉਣਾ ਦੀ ਪ੍ਰਕਿਰਿਆ ਨੂੰ ਤੁਹਾਡੇ ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਨਾਲ ਸਿੰਕ ਕੀਤਾ ਜਾਂਦਾ ਹੈ"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "ਜਦੋਂ ਤੁਸੀਂ ਸੁਨੇਹੇ ਜਾਂ ਚੈਟਾਂ ਨੂੰ ਮਿਟਾਉਂਦੇ ਹੋ, ਤਾਂ ਉਹਨਾਂ ਨੂੰ ਤੁਹਾਡੇ ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਤੋਂ ਵੀ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "ਸਮਝ ਗਏ"
@@ -5486,6 +5486,6 @@
     "messageformat": "ਇਹ ਅੱਪਡੇਟ ਸੱਜੇ-ਤੋਂ-ਖੱਬੇ ਵੱਲ ਲਿਖੀਆਂ ਜਾਣ ਵਾਲੀਆਂ ਭਾਸ਼ਾਵਾਂ ਲਈ ਹਵਾਲਾ ਦਿੰਦੇ ਹੋਏ ਦਿੱਤੇ ਜਵਾਬਾਂ ਦੀ ਡਿਸਪਲੇ ਵਿੱਚ ਵੀ ਸੁਧਾਰ ਕਰਦੀ ਹੈ।"
   },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "ਵੌਇਸ ਸੁਨੇਹਾ ਰਿਕਾਰਡ ਕਰਦੇ ਸਮੇਂ ਕਿਸੇ ਹੋਰ ਚੈਟ ਜਾਂ ਐਪਲੀਕੇਸ਼ਨ 'ਤੇ ਸਵਿੱਚ ਕਰਨ ਨਾਲ ਉਹ ਸੁਨੇਹਾ ਗਾਇਬ ਹੋ ਜਾਂਦਾ ਸੀ, ਅਸੀਂ ਉਸ ਖ਼ਰਾਬੀ ਨੂੰ ਦਰੁਸਤ ਕਰ ਦਿੱਤਾ ਹੈ। ਰਿਕਾਰਡ ਕੀਤੇ ਜਾ ਰਹੇ ਵੌਇਸ ਸੁਨੇਹੇ ਹੁਣ ਡਰਾਫਟ ਦੇ ਰੂਪ ਵਿੱਚ ਸੁਰੱਖਿਅਤ ਕੀਤੇ ਜਾਂਦੇ ਹਨ ਤਾਂ ਜੋ ਉਸ ਚੈਟ ਵਿੱਚ ਵਾਪਸ ਆਉਣ 'ਤੇ ਤੁਸੀਂ ਉਹਨਾਂ ਦੀ ਸਮੀਖਿਆ ਕਰ ਸਕੋ ਅਤੇ ਭੇਜ ਸਕੋ।"
   }
 }

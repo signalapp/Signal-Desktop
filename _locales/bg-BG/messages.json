@@ -2772,13 +2772,13 @@
     "messageformat": "Прозорец"
   },
   "icu:calling__ParticipantInfoButton": {
-    "messageformat": "More info about this contact"
+    "messageformat": "Повече инфо за този контакт"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Копиране на линка за разговор"
   },
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
-    "messageformat": "Share call link via Signal"
+    "messageformat": "Споделяне на линк за разговор чрез Signal"
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Премахване на този човек от разговора"
@@ -2787,7 +2787,7 @@
     "messageformat": "{count, plural, one {{count,number} човек} other {{count,number} души}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+{count,number} more} other {+{count,number} more}}"
+    "messageformat": "{count, plural, one {+ още {count,number}} other {+ още {count,number}}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Повече инфо за нови контакти"
@@ -3510,7 +3510,7 @@
     "messageformat": "Премахване от групата"
   },
   "icu:ContactModal--already-in-call": {
-    "messageformat": "You are already in a call"
+    "messageformat": "Вече сте в обаждане"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Цвят на чата"
@@ -4203,10 +4203,10 @@
     "messageformat": "Потребителските имена трябва да съдържат най-много {max,number} знака."
   },
   "icu:ProfileEditor--username--check-character-min-plural": {
-    "messageformat": "{min, plural, one {Usernames must have at least {min,number} character.} other {Usernames must have at least {min,number} characters.}}"
+    "messageformat": "{min, plural, one {Потребителските имена трябва да съдържат поне {min,number} знак.} other {Потребителските имена трябва да съдържат поне {min,number} знака.}}"
   },
   "icu:ProfileEditor--username--check-character-max-plural": {
-    "messageformat": "{max, plural, one {Usernames must have at most {max,number} character.} other {Usernames must have at most {max,number} characters.}}"
+    "messageformat": "{max, plural, one {Потребителските имена трябва да съдържат най-много {max,number} знак.} other {Потребителските имена трябва да съдържат най-много {max,number} знака.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
     "messageformat": "Невалидно потребителско име, въведете най-малко 2 цифри."
@@ -4755,10 +4755,10 @@
     "messageformat": "Вашите връзки виждат името и снимката ви и могат да виждат публикациите в „Моята история“, освен ако не ги скриете от тях"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Deleting is synced across your devices"
+    "messageformat": "Изтриването е синхронизирано на устройствата ви"
   },
   "icu:LocalDeleteWarningModal__description": {
-    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices."
+    "messageformat": "Когато изтриете съобщения или чатове, те ще бъдат изтрити от всички ваши устройства."
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Ясно"
@@ -5486,6 +5486,6 @@
     "messageformat": "Тази актуализация също така подобрява показването на цитирани отговори на езици, които се пишат от дясно наляво."
   },
   "icu:WhatsNew__v7.14--0": {
-    "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat."
+    "messageformat": "Коригирахме грешка, при която превключването към друг чат или приложение, докато записвате гласово съобщение, можеше да доведе до изчезване на това съобщение. Гласовите съобщения, които са в процес на записване, вече се запазват като чернови, за да можете да ги прегледате и изпратите, когато се върнете в чата."
   }
 }
