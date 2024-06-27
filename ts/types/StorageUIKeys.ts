@@ -27,6 +27,7 @@ export const STORAGE_UI_KEYS: ReadonlyArray<keyof StorageAccessType> = [
   'incoming-call-notification',
   'navTabsCollapsed',
   'notification-draw-attention',
+  'hasReplyNotification',
   'notification-setting',
   'pinnedConversationIds',
   'preferred-audio-input-device',

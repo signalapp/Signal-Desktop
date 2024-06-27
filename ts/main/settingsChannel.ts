@@ -89,6 +89,7 @@ export class SettingsChannel extends EventEmitter {
     this.installSetting('autoLaunch');
 
     this.installSetting('alwaysRelayCalls');
+    this.installSetting('shouldRepliesNotify');
     this.installSetting('callRingtoneNotification');
     this.installSetting('callSystemNotification');
     this.installSetting('incomingCallNotification');

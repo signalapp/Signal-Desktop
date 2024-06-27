@@ -41,6 +41,7 @@ const settingMediaPermissions = createSetting('mediaPermissions');
 const settingNotificationDrawAttention = createSetting(
   'notificationDrawAttention'
 );
+const settingRepliesShouldNotify = createSetting('shouldRepliesNotify');
 const settingNotificationSetting = createSetting('notificationSetting');
 const settingRelayCalls = createSetting('alwaysRelayCalls');
 const settingSentMediaQuality = createSetting('sentMediaQualitySetting');
@@ -145,6 +146,7 @@ async function renderPreferences() {
     hasAutoDownloadUpdate,
     hasAutoLaunch,
     hasCallNotifications,
+    hasReplyNotification,
     hasCallRingtoneNotification,
     hasCountMutedConversations,
     hasHideMenuBar,
@@ -187,6 +189,7 @@ async function renderPreferences() {
     hasAutoDownloadUpdate: settingAutoDownloadUpdate.getValue(),
     hasAutoLaunch: settingAutoLaunch.getValue(),
     hasCallNotifications: settingCallSystemNotification.getValue(),
+    hasReplyNotification: settingRepliesShouldNotify.getValue(),
     hasCallRingtoneNotification: settingCallRingtoneNotification.getValue(),
     hasCountMutedConversations: settingCountMutedConversations.getValue(),
     hasHideMenuBar: settingHideMenuBar.getValue(),
@@ -254,6 +257,7 @@ async function renderPreferences() {
     hasAutoDownloadUpdate,
     hasAutoLaunch,
     hasCallNotifications,
+    hasReplyNotification,
     hasCallRingtoneNotification,
     hasCountMutedConversations,
     hasHideMenuBar,
@@ -391,6 +395,9 @@ async function renderPreferences() {
       );
       return value;
     }),
+    onRepliesShouldNotifyChange: attachRenderCallback(
+      settingRepliesShouldNotify.setValue
+    ),
     onRelayCallsChange: attachRenderCallback(settingRelayCalls.setValue),
     onSelectedCameraChange: attachRenderCallback(settingVideoInput.setValue),
     onSelectedMicrophoneChange: attachRenderCallback(

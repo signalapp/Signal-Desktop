@@ -43,6 +43,7 @@ installSetting('audioNotification');
 installSetting('autoConvertEmoji');
 installSetting('autoDownloadUpdate');
 installSetting('autoLaunch');
+installSetting('shouldRepliesNotify');
 installSetting('callRingtoneNotification');
 installSetting('callSystemNotification');
 installSetting('countMutedConversations');

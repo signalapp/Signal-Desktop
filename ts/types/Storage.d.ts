@@ -59,6 +59,7 @@ export type StorageAccessType = {
   'notification-setting': NotificationSettingType;
   'read-receipt-setting': boolean;
   'sent-media-quality': SentMediaQualitySettingType;
+  hasReplyNotification: boolean;
   audioMessage: boolean;
   attachmentMigration_isComplete: boolean;
   attachmentMigration_lastProcessedIndex: number;

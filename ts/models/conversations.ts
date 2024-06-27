@@ -5240,6 +5240,10 @@ export class ConversationModel extends window.Backbone
       const ourPni = window.textsecure.storage.user.getCheckedPni();
       const ourServiceIds: Set<ServiceIdString> = new Set([ourAci, ourPni]);
 
+      const shouldNotifyReplies = window.storage.get('hasReplyNotification');
+      const isOurMessageReplied =
+        message.attributes.quote?.authorAci === ourAci;
+
       const mentionsMe = (message.get('bodyRanges') || []).some(bodyRange => {
         if (!BodyRange.isMention(bodyRange)) {
           return false;
@@ -5248,7 +5252,8 @@ export class ConversationModel extends window.Backbone
           normalizeServiceId(bodyRange.mentionAci, 'notify: mentionsMe check')
         );
       });
-      if (!mentionsMe) {
+
+      if (!mentionsMe && !(shouldNotifyReplies && isOurMessageReplied)) {
         return;
       }
     }
