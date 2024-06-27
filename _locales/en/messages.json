@@ -7287,16 +7287,20 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.13--0": {
-    "messageformat": "We fixed a bug that displayed images with the wrong aspect ratio if you resized the Signal Desktop window while viewing someone's profile picture. The people you love should only look squeezed if you are giving them a hug.",
-    "description": "(Deleted 2024/06/20) Release notes for version 7.13"
-  },
-  "icu:WhatsNew__v7.13--1": {
-    "messageformat": "This update also improves the display of quoted replies in RTL languages.",
-    "description": "(Deleted 2024/06/20) Release notes for version 7.13"
-  },
   "icu:WhatsNew__v7.14--0": {
     "messageformat": "If you're tired of losing your voice, we fixed a bug where switching to another chat or application while recording a voice message could cause that message to disappear. In-progress voice messages are now saved as drafts so you can review and send them when you return to the chat.",
     "description": "Release notes for version 7.14"
+  },
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone.",
+    "description": "Release notes for version 7.15"
+  },
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels.",
+    "description": "Release notes for version 7.15"
+  },
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard.",
+    "description": "Release notes for version 7.15"
   }
 }
