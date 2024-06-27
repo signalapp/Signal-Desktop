@@ -18,27 +18,28 @@ jobs:
     steps:
     - run: lsb_release -a
     - run: uname -a
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - name: Setup node.js
+      uses: actions/setup-node@v4
       with:
-        node-version: '20.14.0'
+        node-version-file: '.nvmrc'
     - run: npm install -g npm@10.2.5
 
-    - name: Cache Desktop node_modules
-      id: cache-desktop-modules
-      uses: actions/cache@v3
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
-
     - name: Restore cached .eslintcache and tsconfig.tsbuildinfo
-      uses: actions/cache/restore@v3
+      uses: actions/cache/restore@v4
       id: cache-lint
       with:
         path: |
           .eslintcache
           tsconfig.tsbuildinfo
         key: lint-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**', '.eslintrc.js', '.eslint/**', 'tsconfig.json') }}
+
+    - name: Cache Desktop node_modules
+      id: cache-desktop-modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
 
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
@@ -59,7 +60,7 @@ jobs:
     - run: git diff --exit-code
 
     - name: Update cached .eslintcache and tsconfig.tsbuildinfo
-      uses: actions/cache/save@v3
+      uses: actions/cache/save@v4
       if: github.ref == 'refs/heads/main'
       with:
         path: |
@@ -75,19 +76,21 @@ jobs:
 
     steps:
     - run: uname -a
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - name: Setup node.js
+      uses: actions/setup-node@v4
       with:
-        node-version: '20.14.0'
+        node-version-file: '.nvmrc'
 
     - run: npm install -g npm@10.2.5
 
     - name: Cache Desktop node_modules
       id: cache-desktop-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: node_modules
         key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
+
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
       run: npm ci
@@ -115,7 +118,7 @@ jobs:
 
     - name: Upload artifacts on failure
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         path: artifacts
 
@@ -127,20 +130,22 @@ jobs:
     steps:
     - run: lsb_release -a
     - run: uname -a
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - name: Setup node.js
+      uses: actions/setup-node@v4
       with:
-        node-version: '20.14.0'
+        node-version-file: '.nvmrc'
     - run: sudo apt-get install xvfb
 
     - run: npm install -g npm@10.2.5
 
     - name: Cache Desktop node_modules
       id: cache-desktop-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: node_modules
         key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
+
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
       run: npm ci
@@ -177,7 +182,7 @@ jobs:
 
     - name: Upload artifacts on failure
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         path: artifacts
 
@@ -194,10 +199,11 @@ jobs:
     - run: systeminfo
     - run: git config --global core.autocrlf false
     - run: git config --global core.eol lf
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - name: Setup node.js
+      uses: actions/setup-node@v4
       with:
-        node-version: '20.14.0'
+        node-version-file: '.nvmrc'
     - run: npm install -g npm@10.2.5 node-gyp@10.0.1
 
     # Set things up so @nodert-win10-rs4 dependencies build properly
@@ -208,10 +214,11 @@ jobs:
 
     - name: Cache Desktop node_modules
       id: cache-desktop-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: node_modules
         key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
+
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
       run: npm ci
@@ -250,7 +257,7 @@ jobs:
 
     - name: Upload artifacts on failure
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         path: artifacts
 
@@ -264,10 +271,13 @@ jobs:
         working-directory: sticker-creator
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - name: Setup node.js
+      uses: actions/setup-node@v4
       with:
-        node-version: '18.17.1'
+        node-version-file: '.nvmrc'
+        cache: 'npm'
+        cache-dependency-path: 'package-lock.json'
 
     - name: Install Sticker Creator node_modules
       run: npm ci
@@ -300,12 +310,12 @@ jobs:
       run: uname -a
 
     - name: Clone Desktop repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: '20.14.0'
+        node-version-file: '.nvmrc'
     - name: Install global dependencies
       run: npm install -g npm@10.2.5
 
@@ -314,7 +324,7 @@ jobs:
 
     - name: Cache Desktop node_modules
       id: cache-desktop-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: node_modules
         key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
@@ -342,7 +352,7 @@ jobs:
 
     - name: Upload mock server test logs on failure
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: logs
         path: artifacts

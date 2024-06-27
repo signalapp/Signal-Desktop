@@ -13,21 +13,16 @@ jobs:
     runs-on: ubuntu-latest-8-cores
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - name: Setup node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '20.14.0'
+          node-version-file: '.nvmrc'
           cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
       - name: Install global dependencies
         run: npm install -g npm@10.2.5
-      - name: Cache Desktop node_modules
-        id: cache-desktop-modules
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
       - name: Install Desktop node_modules
-        if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
         run: npm ci
         env:
           CHILD_CONCURRENCY: 1

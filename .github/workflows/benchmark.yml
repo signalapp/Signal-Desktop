@@ -25,12 +25,12 @@ jobs:
       run: uname -a
 
     - name: Clone Desktop repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: '20.14.0'
+        node-version-file: '.nvmrc'
     - name: Install global dependencies
       run: npm install -g npm@10.2.5
 
@@ -39,7 +39,7 @@ jobs:
 
     - name: Cache Desktop node_modules
       id: cache-desktop-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: node_modules
         key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
@@ -130,13 +130,13 @@ jobs:
 
     - name: Upload benchmark logs on failure
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: logs
         path: artifacts
 
     - name: Clone benchmark repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: 'signalapp/Signal-Desktop-Benchmarks-Private'
         path: 'benchmark-results'
