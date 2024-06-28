@@ -22,7 +22,6 @@ import { MessageContentSelectorProps } from '../../components/conversation/messa
 import { MessageContentWithStatusSelectorProps } from '../../components/conversation/message/message-content/MessageContentWithStatus';
 import { MessageTextSelectorProps } from '../../components/conversation/message/message-content/MessageText';
 import { GenericReadableMessageSelectorProps } from '../../components/conversation/message/message-item/GenericReadableMessage';
-import { LightBoxOptions } from '../../components/conversation/SessionConversation';
 import { hasValidIncomingRequestValues } from '../../models/conversation';
 import { CONVERSATION_PRIORITIES, isOpenOrClosedGroup } from '../../models/conversationAttributes';
 import { getConversationController } from '../../session/conversations';
@@ -510,9 +509,6 @@ export const getSelectedMessageIds = (state: StateType): Array<string> =>
 
 export const getIsMessageSelectionMode = (state: StateType): boolean =>
   Boolean(getSelectedMessageIds(state).length);
-
-export const getLightBoxOptions = (state: StateType): LightBoxOptions | undefined =>
-  state.conversations.lightBox;
 
 export const getQuotedMessage = (state: StateType): ReplyingToMessageProps | undefined =>
   state.conversations.quotedMessage;

@@ -3,7 +3,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { omit, toNumber } from 'lodash';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
 import { QuotedAttachmentType } from '../../components/conversation/message/message-content/quote/Quote';
-import { LightBoxOptions } from '../../components/conversation/SessionConversation';
 import { Data } from '../../data/data';
 import {
   ConversationInteractionStatus,
@@ -313,7 +312,6 @@ export type ConversationsStateType = {
   messageInfoId: string | undefined;
   showRightPanel: boolean;
   selectedMessageIds: Array<string>;
-  lightBox?: LightBoxOptions;
   quotedMessage?: ReplyingToMessageProps;
   areMoreMessagesBeingFetched: boolean;
 
@@ -869,7 +867,6 @@ const conversationsSlice = createSlice({
         showRightPanel: false,
         selectedMessageIds: [],
 
-        lightBox: undefined,
         messageInfoId: undefined,
         quotedMessage: undefined,
 
@@ -933,13 +930,6 @@ const conversationsSlice = createSlice({
     },
     resetOldBottomMessageId(state: ConversationsStateType) {
       state.oldBottomMessageId = null;
-      return state;
-    },
-    showLightBox(
-      state: ConversationsStateType,
-      action: PayloadAction<LightBoxOptions | undefined>
-    ) {
-      state.lightBox = action.payload;
       return state;
     },
     showScrollToBottomButton(state: ConversationsStateType, action: PayloadAction<boolean>) {
@@ -1141,7 +1131,6 @@ export const {
   addMessageIdToSelection,
   resetSelectedMessageIds,
   toggleSelectedMessageId,
-  showLightBox,
   quoteMessage,
   showScrollToBottomButton,
   quotedMessageToAnimate,

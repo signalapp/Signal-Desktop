@@ -11,6 +11,7 @@ import {
   EnterPasswordModalState,
   HideRecoveryPasswordModalState,
   InviteContactModalState,
+  LightBoxOptions,
   ModalState,
   OnionPathModalState,
   ReactModalsState,
@@ -114,4 +115,9 @@ export const getEditProfilePictureModalState = createSelector(
 export const getHideRecoveryPasswordModalState = createSelector(
   getModal,
   (state: ModalState): HideRecoveryPasswordModalState => state.hideRecoveryPasswordModalState
+);
+
+export const getLightBoxOptions = createSelector(
+  getModal,
+  (state: ModalState): LightBoxOptions => state.lightBoxOptions
 );

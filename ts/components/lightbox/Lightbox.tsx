@@ -6,7 +6,7 @@ import useUnmount from 'react-use/lib/useUnmount';
 import styled from 'styled-components';
 import { useDisableDrag } from '../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
-import { showLightBox } from '../../state/ducks/conversations';
+import { updateLightBoxOptions } from '../../state/ducks/modalDialog';
 import * as MIME from '../../types/MIME';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
 import { GoogleChrome } from '../../util';
@@ -277,14 +277,14 @@ export const Lightbox = (props: Props) => {
 
   const onObjectClick = (event: any) => {
     event.stopPropagation();
-    dispatch(showLightBox(undefined));
+    dispatch(updateLightBoxOptions(null));
   };
 
   const onContainerClick = (event: MouseEvent<HTMLDivElement>) => {
     if (renderedRef && event.target === renderedRef.current) {
       return;
     }
-    dispatch(showLightBox(undefined));
+    dispatch(updateLightBoxOptions(null));
   };
 
   return (
@@ -309,7 +309,7 @@ export const Lightbox = (props: Props) => {
             <IconButton
               type="close"
               onClick={() => {
-                dispatch(showLightBox(undefined));
+                dispatch(updateLightBoxOptions(null));
               }}
             />
           </Flex>

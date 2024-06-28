@@ -2,6 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { EnterPasswordModalProps } from '../../components/dialog/EnterPasswordModal';
 import { HideRecoveryPasswordDialogProps } from '../../components/dialog/HideRecoveryPasswordDialog';
 import { SessionConfirmDialogProps } from '../../components/dialog/SessionConfirm';
+import { MediaItemType } from '../../components/lightbox/LightboxGallery';
+import { AttachmentTypeWithPath } from '../../types/Attachment';
 import type { EditProfilePictureModalProps, PasswordAction } from '../../types/ReduxTypes';
 
 export type BanType = 'ban' | 'unban';
@@ -40,6 +42,12 @@ export type EditProfilePictureModalState = EditProfilePictureModalProps | null;
 
 export type HideRecoveryPasswordModalState = HideRecoveryPasswordDialogProps | null;
 
+export type LightBoxOptions = {
+  media: Array<MediaItemType>;
+  attachment: AttachmentTypeWithPath;
+  selectedIndex?: number;
+} | null;
+
 export type ModalState = {
   confirmModal: ConfirmModalState;
   inviteContactModal: InviteContactModalState;
@@ -59,6 +67,7 @@ export type ModalState = {
   reactClearAllModalState: ReactModalsState;
   editProfilePictureModalState: EditProfilePictureModalState;
   hideRecoveryPasswordModalState: HideRecoveryPasswordModalState;
+  lightBoxOptions: LightBoxOptions;
 };
 
 export const initialModalState: ModalState = {
@@ -80,6 +89,7 @@ export const initialModalState: ModalState = {
   reactClearAllModalState: null,
   editProfilePictureModalState: null,
   hideRecoveryPasswordModalState: null,
+  lightBoxOptions: null,
 };
 
 const ModalSlice = createSlice({
@@ -140,6 +150,23 @@ const ModalSlice = createSlice({
     updateHideRecoveryPasswordModel(state, action: PayloadAction<HideRecoveryPasswordModalState>) {
       return { ...state, hideRecoveryPasswordModalState: action.payload };
     },
+    updateLightBoxOptions(state, action: PayloadAction<LightBoxOptions>) {
+      const lightBoxOptions = action.payload;
+
+      if (lightBoxOptions) {
+        const { media, attachment } = lightBoxOptions;
+
+        if (attachment && media) {
+          const selectedIndex =
+            media.length > 1
+              ? media.findIndex(mediaMessage => mediaMessage.attachment.path === attachment.path)
+              : 0;
+          lightBoxOptions.selectedIndex = selectedIndex;
+        }
+      }
+
+      return { ...state, lightBoxOptions };
+    },
   },
 });
 
@@ -163,5 +190,6 @@ export const {
   updateReactClearAllModal,
   updateEditProfilePictureModel,
   updateHideRecoveryPasswordModel,
+  updateLightBoxOptions,
 } = actions;
 export const modalReducer = reducer;

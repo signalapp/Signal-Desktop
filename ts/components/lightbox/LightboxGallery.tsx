@@ -4,7 +4,7 @@ import useKey from 'react-use/lib/useKey';
 
 import { Lightbox } from './Lightbox';
 
-import { showLightBox } from '../../state/ducks/conversations';
+import { updateLightBoxOptions } from '../../state/ducks/modalDialog';
 import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { MIME } from '../../types';
 import { AttachmentTypeWithPath } from '../../types/Attachment';
@@ -23,11 +23,11 @@ export interface MediaItemType {
 
 type Props = {
   media: Array<MediaItemType>;
-  selectedIndex: number;
+  selectedIndex?: number;
 };
 
 export const LightboxGallery = (props: Props) => {
-  const { media } = props;
+  const { media, selectedIndex = -1 } = props;
   const [currentIndex, setCurrentIndex] = useState(-1);
   const selectedConversation = useSelectedConversationKey();
 
@@ -35,7 +35,7 @@ export const LightboxGallery = (props: Props) => {
 
   // just run once, when the component is mounted. It's to show the lightbox on the specified index at start.
   useEffect(() => {
-    setCurrentIndex(props.selectedIndex);
+    setCurrentIndex(selectedIndex);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -82,7 +82,7 @@ export const LightboxGallery = (props: Props) => {
   useKey(
     'Escape',
     () => {
-      dispatch(showLightBox(undefined));
+      dispatch(updateLightBoxOptions(null));
     },
     undefined,
     [currentIndex]

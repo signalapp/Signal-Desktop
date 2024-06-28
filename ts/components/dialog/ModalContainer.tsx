@@ -10,6 +10,7 @@ import {
   getEnterPasswordModalState,
   getHideRecoveryPasswordModalState,
   getInviteContactModal,
+  getLightBoxOptions,
   getOnionPathDialog,
   getReactClearAllDialog,
   getReactListDialog,
@@ -19,6 +20,7 @@ import {
   getUpdateGroupNameModal,
   getUserDetailsModal,
 } from '../../state/selectors/modal';
+import { LightboxGallery } from '../lightbox/LightboxGallery';
 import { BanOrUnBanUserDialog } from './BanOrUnbanUserDialog';
 import { DeleteAccountModal } from './DeleteAccountModal';
 import { EditProfilePictureModal } from './EditProfilePictureModal';
@@ -57,6 +59,7 @@ export const ModalContainer = () => {
   const reactClearAllModalState = useSelector(getReactClearAllDialog);
   const editProfilePictureModalState = useSelector(getEditProfilePictureModalState);
   const hideRecoveryPasswordModalState = useSelector(getHideRecoveryPasswordModalState);
+  const lightBoxOptions = useSelector(getLightBoxOptions);
 
   return (
     <>
@@ -84,6 +87,7 @@ export const ModalContainer = () => {
       {hideRecoveryPasswordModalState && (
         <HideRecoveryPasswordDialog {...hideRecoveryPasswordModalState} />
       )}
+      {lightBoxOptions && <LightboxGallery {...lightBoxOptions} />}
     </>
   );
 };

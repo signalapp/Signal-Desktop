@@ -34,7 +34,6 @@ import {
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { addStagedAttachmentsInConversation } from '../../state/ducks/stagedAttachments';
 import { MIME } from '../../types';
-import { AttachmentTypeWithPath } from '../../types/Attachment';
 import {
   THUMBNAIL_CONTENT_TYPE,
   getAudioDuration,
@@ -48,7 +47,6 @@ import { EmptyMessageView } from '../EmptyMessageView';
 import { SplitViewContainer } from '../SplitViewContainer';
 import { SessionButtonColor } from '../basic/SessionButton';
 import { InConversationCallContainer } from '../calling/InConversationCallContainer';
-import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
 import { NoMessageInConversation } from './SubtleNotification';
 import { ConversationHeaderWithDetails } from './header/ConversationHeader';
 
@@ -63,10 +61,6 @@ const DEFAULT_JPEG_QUALITY = 0.85;
 interface State {
   isDraggingFile: boolean;
 }
-export interface LightBoxOptions {
-  media: Array<MediaItemType>;
-  attachment: AttachmentTypeWithPath;
-}
 
 interface Props {
   ourDisplayNameInProfile: string;
@@ -78,9 +72,6 @@ interface Props {
   isRightPanelShowing: boolean;
   hasOngoingCallWithFocusedConvo: boolean;
   htmlDirection: HTMLDirection;
-
-  // lightbox options
-  lightBoxOptions?: LightBoxOptions;
 
   stagedAttachments: Array<StagedAttachmentType>;
   isSelectedConvoInitialLoadingInProgress: boolean;
@@ -238,7 +229,6 @@ export class SessionConversation extends Component<Props, State> {
       messagesProps,
       selectedMessages,
       isRightPanelShowing,
-      lightBoxOptions,
       isSelectedConvoInitialLoadingInProgress,
     } = this.props;
 
@@ -280,8 +270,6 @@ export class SessionConversation extends Component<Props, State> {
               onKeyDown={this.onKeyDown}
               role="navigation"
             >
-              {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
-
               <div className="conversation-messages">
                 <NoMessageInConversation />
 
@@ -355,14 +343,6 @@ export class SessionConversation extends Component<Props, State> {
           break;
       }
     }
-  }
-
-  private renderLightBox({ media, attachment }: LightBoxOptions) {
-    const selectedIndex =
-      media.length > 1
-        ? media.findIndex(mediaMessage => mediaMessage.attachment.path === attachment.path)
-        : 0;
-    return <LightboxGallery media={media} selectedIndex={selectedIndex} />;
   }
 
   private async onChoseAttachments(attachmentsFileList: Array<File>) {

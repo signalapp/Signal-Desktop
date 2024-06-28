@@ -6,7 +6,6 @@ import { StateType } from '../reducer';
 import { getHasOngoingCallWithFocusedConvo } from '../selectors/call';
 import {
   getIsSelectedConvoInitialLoadingInProgress,
-  getLightBoxOptions,
   getSelectedConversation,
   getSelectedMessageIds,
   getSortedMessagesOfSelectedConversation,
@@ -31,7 +30,6 @@ const mapStateToProps = (state: StateType, ownProps: SmartSessionConversationOwn
     ourNumber: getOurNumber(state),
     isRightPanelShowing: isRightPanelShowing(state),
     selectedMessages: getSelectedMessageIds(state),
-    lightBoxOptions: getLightBoxOptions(state),
     stagedAttachments: getStagedAttachmentsForCurrentConversation(state),
     hasOngoingCallWithFocusedConvo: getHasOngoingCallWithFocusedConvo(state),
     isSelectedConvoInitialLoadingInProgress: getIsSelectedConvoInitialLoadingInProgress(state),
