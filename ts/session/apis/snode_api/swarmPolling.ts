@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable more/no-then */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { compact, concat, flatten, isEmpty, last, sample, toNumber, uniqBy } from 'lodash';
+import { compact, concat, flatten, isEmpty, last, sample, uniqBy } from 'lodash';
 import { Data, Snode } from '../../../data/data';
 import { SignalService } from '../../../protobuf';
 import * as Receiver from '../../../receiver/receiver';
@@ -377,59 +377,54 @@ export class SwarmPolling {
     userConfigMessagesMerged: Array<RetrieveMessageItemWithNamespace>,
     returnDisplayNameOnly?: boolean
   ): Promise<string> {
-
     if (!userConfigMessagesMerged.length) {
       return '';
     }
-      try {
-        window.log.info(
-          `handleConfigMessagesViaLibSession of "${userConfigMessagesMerged.length}" messages with libsession`
-        );
+    try {
+      window.log.info(
+        `handleConfigMessagesViaLibSession of "${userConfigMessagesMerged.length}" messages with libsession`
+      );
 
-        if (returnDisplayNameOnly) {
-          try {
-            const keypair = await UserUtils.getUserED25519KeyPairBytes();
-            if (!keypair || !keypair.privKeyBytes) {
-              throw new Error('edkeypair not found for current user');
-            }
-
-            const privateKeyEd25519 = keypair.privKeyBytes;
-
-            // we take the lastest config message to create the wrapper in memory
-            const incomingConfigMessages = userConfigMessagesMerged.map(m => ({
-              data: StringUtils.fromBase64ToArray( m.data),
-              hash: m.hash,
-            }));
-
-            await GenericWrapperActions.init('UserConfig', privateKeyEd25519, null);
-            await GenericWrapperActions.merge('UserConfig', incomingConfigMessages);
-
-            const userInfo = await UserConfigWrapperActions.getUserInfo();
-            if (!userInfo) {
-              throw new Error('UserInfo not found');
-            }
-            return userInfo.name;
-          } catch (e) {
-            window.log.warn(
-              'LibSessionUtil.initializeLibSessionUtilWrappers failed with',
-              e.message
-            );
-          } finally {
-            await GenericWrapperActions.free('UserConfig');
+      if (returnDisplayNameOnly) {
+        try {
+          const keypair = await UserUtils.getUserED25519KeyPairBytes();
+          if (!keypair || !keypair.privKeyBytes) {
+            throw new Error('edkeypair not found for current user');
           }
 
-          return '';
+          const privateKeyEd25519 = keypair.privKeyBytes;
+
+          // we take the lastest config message to create the wrapper in memory
+          const incomingConfigMessages = userConfigMessagesMerged.map(m => ({
+            data: StringUtils.fromBase64ToArray(m.data),
+            hash: m.hash,
+          }));
+
+          await GenericWrapperActions.init('UserConfig', privateKeyEd25519, null);
+          await GenericWrapperActions.merge('UserConfig', incomingConfigMessages);
+
+          const userInfo = await UserConfigWrapperActions.getUserInfo();
+          if (!userInfo) {
+            throw new Error('UserInfo not found');
+          }
+          return userInfo.name;
+        } catch (e) {
+          window.log.warn('LibSessionUtil.initializeLibSessionUtilWrappers failed with', e.message);
+        } finally {
+          await GenericWrapperActions.free('UserConfig');
         }
 
-        await ConfigMessageHandler.handleConfigMessagesViaLibSession(userConfigMessagesMerged);
-      } catch (e) {
-        const allMessageHases = userConfigMessagesMerged.map(m => m.hash).join(',');
-        window.log.warn(
-          `failed to handle messages hashes "${allMessageHases}" with libsession. Error: "${e.message}"`
-        );
+        return '';
       }
-    return ''
 
+      await ConfigMessageHandler.handleConfigMessagesViaLibSession(userConfigMessagesMerged);
+    } catch (e) {
+      const allMessageHases = userConfigMessagesMerged.map(m => m.hash).join(',');
+      window.log.warn(
+        `failed to handle messages hashes "${allMessageHases}" with libsession. Error: "${e.message}"`
+      );
+    }
+    return '';
   }
 
   // Fetches messages for `pubkey` from `node` potentially updating
@@ -693,11 +688,14 @@ export class SwarmPolling {
       );
     }
 
-    const userConfigMessages = resultsFromUserProfile
-      .filter(m => SnodeNamespace.isUserConfigNamespace(m.namespace))
-      .map(r => r.messages.messages);
+    const userConfigMessagesWithNamespace: Array<Array<RetrieveMessageItemWithNamespace>> =
+      resultsFromUserProfile.map(r => {
+        return (r.messages.messages || []).map(m => {
+          return { ...m, namespace: SnodeNamespaces.UserProfile };
+        });
+      });
 
-    const userConfigMessagesMerged = flatten(compact(userConfigMessages));
+    const userConfigMessagesMerged = flatten(compact(userConfigMessagesWithNamespace));
     if (!userConfigMessagesMerged.length) {
       throw new NotFoundError(
         '[pollOnceForOurDisplayName] after merging there are no user config messages'
