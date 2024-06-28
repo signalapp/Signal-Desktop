@@ -9,36 +9,26 @@ import { MessageParams } from '../Message';
 interface SharedConfigParams extends MessageParams {
   seqno: Long;
   kind: SignalService.SharedConfigMessage.Kind;
-  data: Uint8Array;
+  readyToSendData: Uint8Array;
 }
 
 export class SharedConfigMessage extends ContentMessage {
   public readonly seqno: Long;
   public readonly kind: SignalService.SharedConfigMessage.Kind;
-  public readonly data: Uint8Array;
+  public readonly readyToSendData: Uint8Array;
 
   constructor(params: SharedConfigParams) {
     super({ timestamp: params.timestamp, identifier: params.identifier });
-    this.data = params.data;
+    this.readyToSendData = params.readyToSendData;
     this.kind = params.kind;
     this.seqno = params.seqno;
   }
 
   public contentProto(): SignalService.Content {
-    return new SignalService.Content({
-      sharedConfigMessage: this.sharedConfigProto(),
-    });
+    throw new Error('SharedConfigMessage must not be sent wrapped anymore');
   }
 
   public ttl(): number {
     return TTL_DEFAULT.CONFIG_MESSAGE;
-  }
-
-  protected sharedConfigProto(): SignalService.SharedConfigMessage {
-    return new SignalService.SharedConfigMessage({
-      data: this.data,
-      kind: this.kind,
-      seqno: this.seqno,
-    });
   }
 }

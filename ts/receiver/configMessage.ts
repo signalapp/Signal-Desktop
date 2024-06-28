@@ -18,7 +18,6 @@ import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
 import { getOpenGroupV2ConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { getSwarmPollingInstance } from '../session/apis/snode_api';
 import { getConversationController } from '../session/conversations';
-import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
 import { Profile, ProfileManager } from '../session/profile_manager/ProfileManager';
 import { PubKey } from '../session/types';
 import { StringUtils, UserUtils } from '../session/utils';
@@ -37,6 +36,8 @@ import { Registration } from '../util/registration';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { Storage, isSignInByLinking, setLastProfileUpdateTimestamp } from '../util/storage';
 
+import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
+import { RetrieveMessageItemWithNamespace } from '../session/apis/snode_api/types';
 // eslint-disable-next-line import/no-unresolved
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 import {
@@ -52,18 +53,29 @@ import { HexKeyPair } from './keypairs';
 import { queueAllCachedFromSource } from './receiver';
 import { EnvelopePlus } from './types';
 
-function groupByVariant(
-  incomingConfigs: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
-) {
+function groupByNamespace(incomingConfigs: Array<RetrieveMessageItemWithNamespace>) {
   const groupedByVariant: Map<
     ConfigWrapperObjectTypes,
-    Array<IncomingMessage<SignalService.ISharedConfigMessage>>
+    Array<RetrieveMessageItemWithNamespace>
   > = new Map();
 
   incomingConfigs.forEach(incomingConfig => {
-    const { kind } = incomingConfig.message;
+    const { namespace } = incomingConfig;
 
-    const wrapperId = LibSessionUtil.kindToVariant(kind);
+    const wrapperId: ConfigWrapperObjectTypes | null =
+      namespace === SnodeNamespaces.UserProfile
+        ? 'UserConfig'
+        : namespace === SnodeNamespaces.UserContacts
+          ? 'ContactsConfig'
+          : namespace === SnodeNamespaces.UserGroups
+            ? 'UserGroupsConfig'
+            : namespace === SnodeNamespaces.ConvoInfoVolatile
+              ? 'ConvoInfoVolatileConfig'
+              : null;
+
+    if (!wrapperId) {
+      throw new Error('Unexpected wrapperId');
+    }
 
     if (!groupedByVariant.has(wrapperId)) {
       groupedByVariant.set(wrapperId, []);
@@ -75,10 +87,10 @@ function groupByVariant(
 }
 
 async function mergeConfigsWithIncomingUpdates(
-  incomingConfigs: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
+  incomingConfigs: Array<RetrieveMessageItemWithNamespace>
 ): Promise<Map<ConfigWrapperObjectTypes, IncomingConfResult>> {
   // first, group by variant so we do a single merge call
-  const groupedByVariant = groupByVariant(incomingConfigs);
+  const groupedByNamespace = groupByNamespace(incomingConfigs);
 
   const groupedResults: Map<ConfigWrapperObjectTypes, IncomingConfResult> = new Map();
 
@@ -86,15 +98,15 @@ async function mergeConfigsWithIncomingUpdates(
   const publicKey = UserUtils.getOurPubKeyStrFromCache();
 
   try {
-    for (let index = 0; index < groupedByVariant.size; index++) {
-      const variant = [...groupedByVariant.keys()][index];
-      const sameVariant = groupedByVariant.get(variant);
+    for (let index = 0; index < groupedByNamespace.size; index++) {
+      const variant = [...groupedByNamespace.keys()][index];
+      const sameVariant = groupedByNamespace.get(variant);
       if (!sameVariant?.length) {
         continue;
       }
       const toMerge = sameVariant.map(msg => ({
-        data: msg.message.data,
-        hash: msg.messageHash,
+        data: StringUtils.fromBase64ToArray(msg.data),
+        hash: msg.hash,
       }));
       if (window.sessionFeatureFlags.debug.debugLibsessionDumps) {
         window.log.info(
@@ -105,9 +117,7 @@ async function mergeConfigsWithIncomingUpdates(
         for (let dumpIndex = 0; dumpIndex < toMerge.length; dumpIndex++) {
           const element = toMerge[dumpIndex];
           window.log.info(
-            `printDumpsForDebugging: toMerge of ${dumpIndex}:${element.hash}:  ${StringUtils.toHex(
-              element.data
-            )} `,
+            `printDumpsForDebugging: toMerge of ${dumpIndex}:${element.hash}:  ${element.data} `,
             StringUtils.toHex(await GenericWrapperActions.dump(variant))
           );
         }
@@ -117,8 +127,8 @@ async function mergeConfigsWithIncomingUpdates(
       const needsPush = await GenericWrapperActions.needsPush(variant);
       const needsDump = await GenericWrapperActions.needsDump(variant);
       const mergedTimestamps = sameVariant
-        .filter(m => hashesMerged.includes(m.messageHash))
-        .map(m => m.envelopeTimestamp);
+        .filter(m => hashesMerged.includes(m.hash))
+        .map(m => m.timestamp);
       const latestEnvelopeTimestamp = Math.max(...mergedTimestamps);
 
       window.log.debug(
@@ -891,7 +901,7 @@ async function processMergingResults(results: Map<ConfigWrapperObjectTypes, Inco
 }
 
 async function handleConfigMessagesViaLibSession(
-  configMessages: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
+  configMessages: Array<RetrieveMessageItemWithNamespace>
 ) {
   const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
 
@@ -906,9 +916,8 @@ async function handleConfigMessagesViaLibSession(
   window?.log?.debug(
     `Handling our sharedConfig message via libsession_util ${JSON.stringify(
       configMessages.map(m => ({
-        variant: LibSessionUtil.kindToVariant(m.message.kind),
-        hash: m.messageHash,
-        seqno: (m.message.seqno as Long).toNumber(),
+        namespace: m.namespace,
+        hash: m.hash,
       }))
     )}`
   );

@@ -379,32 +379,20 @@ async function sendMessagesToSnode(
   try {
     const recipient = PubKey.cast(destination);
 
-    const encryptedAndWrapped = await encryptMessagesAndWrap(
-      params.map(m => ({
-        destination: m.pubkey,
-        plainTextBuffer: m.message.plainTextBuffer(),
-        namespace: m.namespace,
-        ttl: m.message.ttl(),
+    const encryptedAndWrapped: Array<Omit<EncryptAndWrapMessageResults, 'data' | 'isSyncMessage'>> =
+      [];
+
+    params.forEach(m => {
+      const wrapped = {
         identifier: m.message.identifier,
         isSyncMessage: MessageSender.isContentSyncMessage(m.message),
-      }))
-    );
-
-    // first update all the associated timestamps of our messages in DB, if the outgoing messages are associated with one.
-    await Promise.all(
-      encryptedAndWrapped.map(async (m, index) => {
-        // make sure to update the local sent_at timestamp, because sometimes, we will get the just pushed message in the receiver side
-        // before we return from the await below.
-        // and the isDuplicate messages relies on sent_at timestamp to be valid.
-        const found = await Data.getMessageById(m.identifier);
-
-        // make sure to not update the sent timestamp if this a currently syncing message
-        if (found && !found.get('sentSync')) {
-          found.set({ sent_at: encryptedAndWrapped[index].networkTimestamp });
-          await found.commit();
-        }
-      })
-    );
+        namespace: m.namespace,
+        ttl: m.message.ttl(),
+        networkTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
+        data64: ByteBuffer.wrap(m.message.readyToSendData).toString('base64'),
+      };
+      encryptedAndWrapped.push(wrapped);
+    });
 
     const batchResults = await pRetry(
       async () => {
@@ -431,35 +419,6 @@ async function sendMessagesToSnode(
     if (!batchResults || isEmpty(batchResults)) {
       throw new Error('result is empty for sendMessagesToSnode');
     }
-
-    const isDestinationClosedGroup = getConversationController()
-      .get(recipient.key)
-      ?.isClosedGroup();
-
-    await Promise.all(
-      encryptedAndWrapped.map(async (message, index) => {
-        // If message also has a sync message, save that hash. Otherwise save the hash from the regular message send i.e. only closed groups in this case.
-        if (
-          message.identifier &&
-          (message.isSyncMessage || isDestinationClosedGroup) &&
-          batchResults[index] &&
-          !isEmpty(batchResults[index]) &&
-          isString(batchResults[index].body.hash)
-        ) {
-          const hashFoundInResponse = batchResults[index].body.hash;
-          const foundMessage = await Data.getMessageById(message.identifier);
-          if (foundMessage) {
-            await foundMessage.updateMessageHash(hashFoundInResponse);
-            await foundMessage.commit();
-            window?.log?.info(
-              `updated message ${foundMessage.get('id')} with hash: ${foundMessage.get(
-                'messageHash'
-              )}`
-            );
-          }
-        }
-      })
-    );
 
     return batchResults;
   } catch (e) {

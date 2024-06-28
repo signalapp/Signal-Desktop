@@ -130,14 +130,14 @@ async function pendingChangesForPubkey(pubkey: string): Promise<Array<OutgoingCo
     }
 
     variantsNeedingPush.add(variant);
-    const { data, seqno, hashes } = await GenericWrapperActions.push(variant);
+    const { data: readyToSendData, seqno, hashes } = await GenericWrapperActions.push(variant);
 
     const kind = variantToKind(variant);
 
     const namespace = await GenericWrapperActions.storageNamespace(variant);
     results.push({
       message: new SharedConfigMessage({
-        data,
+        readyToSendData,
         kind,
         seqno: Long.fromNumber(seqno),
         timestamp: GetNetworkTime.getNowWithNetworkOffset(),

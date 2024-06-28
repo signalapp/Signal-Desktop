@@ -11,8 +11,6 @@ import * as snodePool from './snodePool';
 
 import { ConversationModel } from '../../../models/conversation';
 import { ConfigMessageHandler } from '../../../receiver/configMessage';
-import { decryptEnvelopeWithOurKey } from '../../../receiver/contentMessage';
-import { EnvelopePlus } from '../../../receiver/types';
 import { updateIsOnline } from '../../../state/ducks/onion';
 import { ReleasedFeatures } from '../../../util/releaseFeature';
 import {
@@ -22,16 +20,19 @@ import {
 } from '../../../webworker/workers/browser/libsession_worker_interface';
 import { DURATION, SWARM_POLLING_TIMEOUT } from '../../constants';
 import { getConversationController } from '../../conversations';
-import { IncomingMessage } from '../../messages/incoming/IncomingMessage';
 import { StringUtils, UserUtils } from '../../utils';
 import { ed25519Str } from '../../utils/String';
 import { NotFoundError } from '../../utils/errors';
 import { LibSessionUtil } from '../../utils/libsession/libsession_utils';
 import { SnodeNamespace, SnodeNamespaces } from './namespaces';
 import { SnodeAPIRetrieve } from './retrieveRequest';
-import { RetrieveMessageItem, RetrieveMessagesResultsBatched } from './types';
+import {
+  RetrieveMessageItem,
+  RetrieveMessageItemWithNamespace,
+  RetrieveMessagesResultsBatched,
+} from './types';
 
-export function extractWebSocketContent(
+function extractWebSocketContent(
   message: string,
   messageHash: string
 ): null | {
@@ -265,9 +266,16 @@ export class SwarmPolling {
     // check if we just fetched the details from the config namespaces.
     // If yes, merge them together and exclude them from the rest of the messages.
     if (userConfigLibsession && resultsFromAllNamespaces) {
-      const userConfigMessages = resultsFromAllNamespaces
-        .filter(m => SnodeNamespace.isUserConfigNamespace(m.namespace))
-        .map(r => r.messages.messages);
+      const userConfigMessages = resultsFromAllNamespaces.filter(m =>
+        SnodeNamespace.isUserConfigNamespace(m.namespace)
+      );
+
+      const userConfigMessagesWithNamespace: Array<Array<RetrieveMessageItemWithNamespace>> =
+        userConfigMessages.map(r => {
+          return (r.messages.messages || []).map(m => {
+            return { ...m, namespace: r.namespace };
+          });
+        });
 
       allNamespacesWithoutUserConfigIfNeeded = flatten(
         compact(
@@ -283,7 +291,7 @@ export class SwarmPolling {
           `received userConfigMessages count: ${userConfigMessagesMerged.length} for key ${pubkey.key}`
         );
         try {
-          await this.handleSharedConfigMessages(userConfigMessagesMerged);
+          await this.handleSharedConfigMessages(flatten(userConfigMessagesWithNamespace));
         } catch (e) {
           window.log.warn(
             `handleSharedConfigMessages of ${userConfigMessagesMerged.length} failed with ${e.message}`
@@ -366,52 +374,16 @@ export class SwarmPolling {
   }
 
   private async handleSharedConfigMessages(
-    userConfigMessagesMerged: Array<RetrieveMessageItem>,
+    userConfigMessagesMerged: Array<RetrieveMessageItemWithNamespace>,
     returnDisplayNameOnly?: boolean
   ): Promise<string> {
-    const extractedUserConfigMessage = compact(
-      userConfigMessagesMerged.map((m: RetrieveMessageItem) => {
-        return extractWebSocketContent(m.data, m.hash);
-      })
-    );
 
-    const allDecryptedConfigMessages: Array<IncomingMessage<SignalService.ISharedConfigMessage>> =
-      [];
-
-    for (let index = 0; index < extractedUserConfigMessage.length; index++) {
-      const userConfigMessage = extractedUserConfigMessage[index];
-
-      try {
-        const envelope: EnvelopePlus = SignalService.Envelope.decode(userConfigMessage.body) as any;
-        const decryptedEnvelope = await decryptEnvelopeWithOurKey(envelope);
-        if (!decryptedEnvelope?.byteLength) {
-          continue;
-        }
-        const content = SignalService.Content.decode(new Uint8Array(decryptedEnvelope));
-        if (content.sharedConfigMessage) {
-          const asIncomingMsg: IncomingMessage<SignalService.ISharedConfigMessage> = {
-            envelopeTimestamp: toNumber(envelope.timestamp),
-            message: content.sharedConfigMessage,
-            messageHash: userConfigMessage.messageHash,
-            authorOrGroupPubkey: envelope.source,
-            authorInGroup: envelope.senderIdentity,
-          };
-          allDecryptedConfigMessages.push(asIncomingMsg);
-        } else {
-          throw new Error(
-            'received a message from the namespace reserved for user config but it did not contain a sharedConfigMessage'
-          );
-        }
-      } catch (e) {
-        window.log.warn(
-          `failed to decrypt message with hash "${userConfigMessage.messageHash}": ${e.message}`
-        );
-      }
+    if (!userConfigMessagesMerged.length) {
+      return '';
     }
-    if (allDecryptedConfigMessages.length) {
       try {
         window.log.info(
-          `handleConfigMessagesViaLibSession of "${allDecryptedConfigMessages.length}" messages with libsession`
+          `handleConfigMessagesViaLibSession of "${userConfigMessagesMerged.length}" messages with libsession`
         );
 
         if (returnDisplayNameOnly) {
@@ -424,9 +396,9 @@ export class SwarmPolling {
             const privateKeyEd25519 = keypair.privKeyBytes;
 
             // we take the lastest config message to create the wrapper in memory
-            const incomingConfigMessages = allDecryptedConfigMessages.map(m => ({
-              data: m.message.data,
-              hash: m.messageHash,
+            const incomingConfigMessages = userConfigMessagesMerged.map(m => ({
+              data: StringUtils.fromBase64ToArray( m.data),
+              hash: m.hash,
             }));
 
             await GenericWrapperActions.init('UserConfig', privateKeyEd25519, null);
@@ -449,15 +421,15 @@ export class SwarmPolling {
           return '';
         }
 
-        await ConfigMessageHandler.handleConfigMessagesViaLibSession(allDecryptedConfigMessages);
+        await ConfigMessageHandler.handleConfigMessagesViaLibSession(userConfigMessagesMerged);
       } catch (e) {
-        const allMessageHases = allDecryptedConfigMessages.map(m => m.messageHash).join(',');
+        const allMessageHases = userConfigMessagesMerged.map(m => m.hash).join(',');
         window.log.warn(
           `failed to handle messages hashes "${allMessageHases}" with libsession. Error: "${e.message}"`
         );
       }
-    }
-    return '';
+    return ''
+
   }
 
   // Fetches messages for `pubkey` from `node` potentially updating
