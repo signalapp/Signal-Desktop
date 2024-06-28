@@ -8,6 +8,7 @@ import type * as Backbone from 'backbone';
 import type PQueue from 'p-queue/dist';
 import type { assert } from 'chai';
 import type { PhoneNumber, PhoneNumberFormat } from 'google-libphonenumber';
+import type { MochaOptions } from 'mocha';
 
 import type { ConversationModelCollectionType } from './model-types.d';
 import type { textsecure } from './textsecure';
@@ -280,9 +281,9 @@ declare global {
     RETRY_DELAY: boolean;
     assert: typeof assert;
     testUtilities: {
-      debug: (info: unknown) => void;
+      setup: MochaOptions;
+      onTestEvent: (event: unknown) => void;
       initialize: () => Promise<void>;
-      onComplete: (info: unknown) => void;
       prepareTests: () => void;
     };
   }

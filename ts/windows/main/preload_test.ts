@@ -3,14 +3,14 @@
 
 /* eslint-disable no-console */
 
+import { inspect, parseArgs } from 'node:util';
 import { ipcRenderer as ipc } from 'electron';
 import { sync } from 'fast-glob';
-import { inspect } from 'util';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { assert, config as chaiConfig } from 'chai';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { reporters } from 'mocha';
+import { reporters, type MochaOptions } from 'mocha';
 
 import { getSignalProtocolStore } from '../../SignalProtocolStore';
 import { initMessageCleanup } from '../../services/messageStateCleanup';
@@ -46,13 +46,29 @@ window.assert = assert;
 // This is a hack to let us run TypeScript tests in the renderer process. See the
 //   code in `test/test.js`.
 
-window.testUtilities = {
-  debug(info) {
-    return ipc.invoke('ci:test-electron:debug', info);
-  },
+const setup: MochaOptions = {};
 
-  onComplete(info) {
-    return ipc.invoke('ci:test-electron:done', info);
+{
+  const { values } = parseArgs({
+    args: ipc.sendSync('ci:test-electron:getArgv'),
+    options: {
+      grep: {
+        type: 'string',
+      },
+    },
+    strict: false,
+  });
+
+  if (typeof values.grep === 'string') {
+    setup.grep = values.grep;
+  }
+}
+
+window.testUtilities = {
+  setup,
+
+  onTestEvent(event: unknown) {
+    return ipc.invoke('ci:test-electron:event', event);
   },
 
   async initialize() {

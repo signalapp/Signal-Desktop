@@ -307,6 +307,7 @@
     "html-webpack-plugin": "5.3.1",
     "http-server": "14.1.1",
     "json-to-ast": "2.1.0",
+    "log-symbols": "4.1.0",
     "mini-css-extract-plugin": "2.7.6",
     "mocha": "9.2.2",
     "node-gyp": "10.0.1",

@@ -2972,18 +2972,23 @@ async function showStickerCreatorWindow() {
 }
 
 if (isTestEnvironment(getEnvironment())) {
-  ipc.handle('ci:test-electron:debug', async (_event, info) => {
-    process.stdout.write(`ci:test-electron:debug=${JSON.stringify(info)}\n`);
+  ipc.on('ci:test-electron:getArgv', event => {
+    // eslint-disable-next-line no-param-reassign
+    event.returnValue = process.argv;
   });
 
-  ipc.handle('ci:test-electron:done', async (_event, info) => {
-    if (!process.env.TEST_QUIT_ON_COMPLETE) {
-      return;
-    }
-
+  ipc.handle('ci:test-electron:event', async (_event, event) => {
     process.stdout.write(
-      `ci:test-electron:done=${JSON.stringify(info)}\n`,
-      () => app.quit()
+      `ci:test-electron:event=${JSON.stringify(event)}\n`,
+      () => {
+        if (event.type !== 'end') {
+          return;
+        }
+        if (!process.env.TEST_QUIT_ON_COMPLETE) {
+          return;
+        }
+        app.quit();
+      }
     );
   });
 }

@@ -33,28 +33,27 @@ delete window.testUtilities.prepareTests;
 window.textsecure.storage.protocol = window.getSignalProtocolStore();
 
 !(function () {
-  const passed = [];
-  const failed = [];
-
   class Reporter extends Mocha.reporters.HTML {
     constructor(runner, options) {
       super(runner, options);
 
-      runner.on('pass', test => passed.push(test.fullTitle()));
-      runner.on('fail', (test, error) => {
-        failed.push({
-          testName: test.fullTitle(),
-          error: error?.stack || String(error),
-        });
-      });
+      runner.on('pass', test => window.testUtilities.onTestEvent({
+        type: 'pass',
+        title: test.titlePath(),
+      }));
+      runner.on('fail', (test, error) => window.testUtilities.onTestEvent({
+        type: 'fail',
+        title: test.titlePath(),
+        error: error?.stack || String(error),
+      }));
 
-      runner.on('end', () =>
-        window.testUtilities.onComplete({ passed, failed })
-      );
+      runner.on('end', () => window.testUtilities.onTestEvent({ type: 'end' }));
     }
   }
 
   mocha.reporter(Reporter);
+
+  mocha.setup(window.testUtilities.setup);
 
   mocha.run();
 })();
