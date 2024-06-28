@@ -1,3 +1,4 @@
+
 name: 'Setup and build'
 description: 'Setup and build Session Desktop'
 runs:

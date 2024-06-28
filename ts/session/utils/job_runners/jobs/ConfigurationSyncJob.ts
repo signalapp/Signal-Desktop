@@ -226,7 +226,7 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
               ...m,
               message: {
                 ...m.message,
-                data: to_hex(m.message.data),
+                readyToSendData: to_hex(m.message.readyToSendData),
               },
             };
           })
