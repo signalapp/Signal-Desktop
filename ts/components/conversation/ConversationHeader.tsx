@@ -957,6 +957,14 @@ function DeleteMessagesConfirmationDialog({
     );
   }
 
+  const dialogBody = isDeleteSyncSendEnabled
+    ? i18n(
+        'icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync'
+      )
+    : i18n(
+        'icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description'
+      );
+
   return (
     <ConfirmationDialog
       dialogName="ConversationHeader.destroyMessages"
@@ -973,9 +981,7 @@ function DeleteMessagesConfirmationDialog({
       i18n={i18n}
       onClose={onClose}
     >
-      {i18n(
-        'icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description'
-      )}
+      {dialogBody}
     </ConfirmationDialog>
   );
 }
