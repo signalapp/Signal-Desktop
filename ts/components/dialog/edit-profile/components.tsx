@@ -1,17 +1,26 @@
 import styled from 'styled-components';
 import { useIconToImageURL } from '../../../hooks/useIconToImageURL';
+import { updateLightBoxOptions } from '../../../state/ducks/modalDialog';
+import { prepareQRCodeForLightBox } from '../../../util/qrCodes';
 import { QRCodeLogoProps, SessionQRCode } from '../../SessionQRCode';
 import { Avatar, AvatarSize } from '../../avatar/Avatar';
 import { Flex } from '../../basic/Flex';
 import { SpacerSM } from '../../basic/Text';
 import { SessionIconButton } from '../../icon';
+import { ProfileDialogModes } from './EditProfileDialog';
 
 const qrLogoProps: QRCodeLogoProps = {
   iconType: 'brandThin',
   iconSize: 42,
 };
 
-export const QRView = ({ sessionID }: { sessionID: string }) => {
+export const QRView = ({
+  sessionID,
+  setMode,
+}: {
+  sessionID: string;
+  setMode: (mode: ProfileDialogModes) => void;
+}) => {
   const { dataURL, iconSize, iconColor, backgroundColor, loading } = useIconToImageURL(qrLogoProps);
 
   return (
@@ -25,6 +34,13 @@ export const QRView = ({ sessionID }: { sessionID: string }) => {
       logoImage={dataURL}
       logoSize={iconSize}
       loading={loading}
+      onClick={(fileName, dataUrl) => {
+        const lightBoxOptions = prepareQRCodeForLightBox(fileName, dataUrl, () => {
+          setMode('edit');
+        });
+        window.inboxStore?.dispatch(updateLightBoxOptions(lightBoxOptions));
+        setMode('lightbox');
+      }}
       ariaLabel={'Account ID QR code'}
       dataTestId={'your-qr-code'}
       style={{ marginTop: '-1px' }}

@@ -2,7 +2,7 @@ import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { QRCode } from 'react-qrcode-logo';
 import styled, { CSSProperties } from 'styled-components';
 import { THEME_GLOBALS } from '../themes/globals';
-import { saveBWQRCode } from '../util/saveBWQRCode';
+import { renderQRCode } from '../util/qrCodes';
 import { AnimatedFlex } from './basic/Flex';
 import { SessionIconType } from './icon';
 
@@ -27,11 +27,11 @@ export type SessionQRCodeProps = {
   hasLogo?: QRCodeLogoProps;
   logoImage?: string;
   logoSize?: number;
+  loading?: boolean;
+  onClick?: (fileName: string, dataUrl: string) => void;
   ariaLabel?: string;
   dataTestId?: string;
   style?: CSSProperties;
-  loading?: boolean;
-  saveWithTheme?: boolean;
 };
 
 export function SessionQRCode(props: SessionQRCodeProps) {
@@ -44,11 +44,11 @@ export function SessionQRCode(props: SessionQRCodeProps) {
     hasLogo,
     logoImage,
     logoSize,
+    loading,
+    onClick,
     ariaLabel,
     dataTestId,
     style,
-    loading,
-    saveWithTheme = false,
   } = props;
   const [logo, setLogo] = useState(logoImage);
   const [bgColor, setBgColor] = useState(backgroundColor);
@@ -58,23 +58,32 @@ export function SessionQRCode(props: SessionQRCodeProps) {
   const qrCanvasSize = 1000;
   const canvasLogoSize = logoSize ? (qrCanvasSize * 0.25 * logoSize) / logoSize : 250;
 
-  const saveQRCode = () => {
+  const loadQRCodeDataUrl = async () => {
     const fileName = `${id}-${new Date().toISOString()}.jpg`;
+    let url = '';
+
     try {
-      if (saveWithTheme) {
-        qrRef.current?.download('jpg', fileName);
-      } else {
-        void saveBWQRCode(fileName, {
+      url = await renderQRCode(
+        {
           id: `${id}-save`,
           value,
           size,
           hasLogo,
           logoImage,
           logoSize,
-        });
-      }
+        },
+        fileName
+      );
     } catch (err) {
       window.log.error(`QR code save failed! ${fileName}\n${err}`);
+    }
+    return { fileName, url };
+  };
+
+  const handleOnClick = async () => {
+    const { fileName, url } = await loadQRCodeDataUrl();
+    if (onClick) {
+      onClick(fileName, url);
     }
   };
 
@@ -108,7 +117,7 @@ export function SessionQRCode(props: SessionQRCodeProps) {
       title={window.i18n('clickToTrustContact')}
       onClick={(event: MouseEvent<HTMLDivElement>) => {
         event.preventDefault();
-        void saveQRCode();
+        void handleOnClick();
       }}
       data-testId={dataTestId || 'session-qr-code'}
       initial={{ opacity: 0 }}

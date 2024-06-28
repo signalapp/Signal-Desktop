@@ -6,11 +6,15 @@ import styled from 'styled-components';
 import { useIconToImageURL } from '../../../hooks/useIconToImageURL';
 import { usePasswordModal } from '../../../hooks/usePasswordModal';
 import { mnDecode } from '../../../session/crypto/mnemonic';
-import { updateHideRecoveryPasswordModel } from '../../../state/ducks/modalDialog';
+import {
+  updateHideRecoveryPasswordModel,
+  updateLightBoxOptions,
+} from '../../../state/ducks/modalDialog';
 import { showSettingsSection } from '../../../state/ducks/section';
 import { useHideRecoveryPasswordEnabled } from '../../../state/selectors/settings';
 import { useIsDarkTheme } from '../../../state/selectors/theme';
 import { THEME_GLOBALS } from '../../../themes/globals';
+import { prepareQRCodeForLightBox } from '../../../util/qrCodes';
 import { getCurrentRecoveryPhrase } from '../../../util/storage';
 import { QRCodeLogoProps, SessionQRCode } from '../../SessionQRCode';
 import { AnimatedFlex } from '../../basic/Flex';
@@ -116,6 +120,10 @@ export const SettingsCategoryRecoveryPassword = () => {
             logoImage={dataURL}
             logoSize={iconSize}
             loading={loading}
+            onClick={(fileName, dataUrl) => {
+              const lightBoxOptions = prepareQRCodeForLightBox(fileName, dataUrl);
+              window.inboxStore?.dispatch(updateLightBoxOptions(lightBoxOptions));
+            }}
             ariaLabel={'Recovery Password QR Code'}
             dataTestId={'session-recovery-password'}
           />

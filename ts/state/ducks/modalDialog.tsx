@@ -46,6 +46,7 @@ export type LightBoxOptions = {
   media: Array<MediaItemType>;
   attachment: AttachmentTypeWithPath;
   selectedIndex?: number;
+  onClose?: () => void;
 } | null;
 
 export type ModalState = {

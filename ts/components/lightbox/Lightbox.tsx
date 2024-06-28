@@ -41,7 +41,7 @@ const styles = {
     width: '100vw',
     height: '100vh',
     left: 0,
-    zIndex: 5,
+    zIndex: 150, // modals are 100
     right: 0,
     top: 0,
     bottom: 0,

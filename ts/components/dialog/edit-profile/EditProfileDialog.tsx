@@ -103,9 +103,10 @@ const handleKeyEscape = (
   loading: boolean,
   dispatch: Dispatch
 ) => {
-  if (loading) {
+  if (loading || mode === 'lightbox') {
     return;
   }
+
   if (mode === 'edit') {
     setMode('default');
     setProfileNameError(undefined);
@@ -179,7 +180,7 @@ const updateDisplayName = async (newName: string) => {
   await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
 };
 
-export type ProfileDialogModes = 'default' | 'edit' | 'qr';
+export type ProfileDialogModes = 'default' | 'edit' | 'qr' | 'lightbox';
 
 export const EditProfileDialog = () => {
   const dispatch = useDispatch();
@@ -289,7 +290,7 @@ export const EditProfileDialog = () => {
         additionalClassName={mode === 'default' ? 'edit-profile-default' : undefined}
       >
         {mode === 'qr' ? (
-          <QRView sessionID={ourId} />
+          <QRView sessionID={ourId} setMode={setMode} />
         ) : (
           <>
             <SpacerXL />

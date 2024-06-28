@@ -1,10 +1,43 @@
 import { createRoot } from 'react-dom/client';
 import { SessionQRCode, SessionQRCodeProps } from '../components/SessionQRCode';
 import { convertIconToImageURL } from '../hooks/useIconToImageURL';
+import { UserUtils } from '../session/utils';
 import { sleepFor } from '../session/utils/Promise';
-import { saveURLAsFile } from './saveURLAsFile';
+import { LightBoxOptions } from '../state/ducks/modalDialog';
 
-export async function saveBWQRCode(filename: string, props: SessionQRCodeProps): Promise<void> {
+export function prepareQRCodeForLightBox(fileName: string, url: string, onClose?: () => void) {
+  const attachment = {
+    fileName,
+    url,
+    fileSize: '',
+    path: url,
+    id: 0,
+    contentType: 'image/jpeg',
+    screenshot: null,
+    thumbnail: null,
+  };
+  const lightBoxOptions: LightBoxOptions = {
+    media: [
+      {
+        index: 0,
+        objectURL: url,
+        contentType: 'image/jpeg',
+        attachment,
+        messageSender: UserUtils.getOurPubKeyStrFromCache(),
+        messageTimestamp: -1,
+        messageId: '',
+      },
+    ],
+    attachment,
+    onClose,
+  };
+
+  return lightBoxOptions;
+}
+
+export async function renderQRCode(props: SessionQRCodeProps, filename: string): Promise<string> {
+  let url = '';
+
   try {
     const root = document.querySelector('#root');
     const divElement = document.createElement('div');
@@ -34,14 +67,7 @@ export async function saveBWQRCode(filename: string, props: SessionQRCodeProps):
 
     const qrCanvas = root?.querySelector(`#${props.id}-canvas`);
     if (qrCanvas) {
-      const url = (qrCanvas as HTMLCanvasElement).toDataURL('image/jpeg');
-      if (url) {
-        saveURLAsFile({
-          filename,
-          url,
-          document,
-        });
-      }
+      url = (qrCanvas as HTMLCanvasElement).toDataURL('image/jpeg');
     } else {
       throw Error('QR Code canvas not found');
     }
@@ -51,4 +77,6 @@ export async function saveBWQRCode(filename: string, props: SessionQRCodeProps):
   } catch (err) {
     window.log.error(`[saveBWQRCode] failed for ${filename}`, err);
   }
+
+  return url;
 }
