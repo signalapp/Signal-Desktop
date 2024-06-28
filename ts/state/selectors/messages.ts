@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { MessageModelType } from '../../models/messageType';
 import { UserUtils } from '../../session/utils';
 import {
   LastMessageStatusType,
@@ -80,7 +81,9 @@ export const useMessageAuthor = (messageId: string | undefined): string | undefi
   return useMessagePropsByMessageId(messageId)?.propsForMessage.sender;
 };
 
-export const useMessageDirection = (messageId: string | undefined): string | undefined => {
+export const useMessageDirection = (
+  messageId: string | undefined
+): MessageModelType | undefined => {
   return useMessagePropsByMessageId(messageId)?.propsForMessage.direction;
 };
 
