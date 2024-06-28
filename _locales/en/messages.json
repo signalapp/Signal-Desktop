@@ -1318,6 +1318,10 @@
     "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
     "description": "Description for confirmation modal to delete all messages in a conversation"
   },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
+    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages.",
+    "description": "Description for confirmation modal to delete all messages in a conversation"
+  },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Leave group",
     "description": "This is a button to leave a group"
