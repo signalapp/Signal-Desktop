@@ -39,109 +39,108 @@ describe('SQL/updateToSchemaVersion1080', () => {
   });
 
   describe('Addressable Messages', () => {
-    describe('Storing of new attachment jobs', () => {
-      it('returns only incoming/outgoing messages', () => {
-        const conversationId = generateGuid();
-        const otherConversationId = generateGuid();
+    it('returns only incoming/outgoing messages', () => {
+      const conversationId = generateGuid();
+      const otherConversationId = generateGuid();
 
-        insertData(db, 'messages', [
-          generateMessage({
-            id: '1',
-            conversationId,
-            type: 'incoming',
-            received_at: 1,
-            sent_at: 1,
-            timestamp: 1,
-          }),
-          generateMessage({
-            id: '2',
-            conversationId,
-            type: 'story',
-            received_at: 2,
-            sent_at: 2,
-            timestamp: 2,
-          }),
-          generateMessage({
-            id: '3',
-            conversationId,
-            type: 'outgoing',
-            received_at: 3,
-            sent_at: 3,
-            timestamp: 3,
-          }),
-          generateMessage({
-            id: '4',
-            conversationId,
-            type: 'group-v1-migration',
-            received_at: 4,
-            sent_at: 4,
-            timestamp: 4,
-          }),
-          generateMessage({
-            id: '5',
-            conversationId,
-            type: 'group-v2-change',
-            received_at: 5,
-            sent_at: 5,
-            timestamp: 5,
-          }),
-          generateMessage({
-            id: '6',
-            conversationId,
-            type: 'incoming',
-            received_at: 6,
-            sent_at: 6,
-            timestamp: 6,
-            expireTimer: DurationInSeconds.fromMinutes(10),
-          }),
-          generateMessage({
-            id: '7',
-            conversationId,
-            type: 'profile-change',
-            received_at: 7,
-            sent_at: 7,
-            timestamp: 7,
-          }),
-          generateMessage({
-            id: '8',
-            conversationId: otherConversationId,
-            type: 'incoming',
-            received_at: 8,
-            sent_at: 8,
-            timestamp: 8,
-          }),
-        ]);
+      insertData(db, 'messages', [
+        generateMessage({
+          id: '1',
+          conversationId,
+          type: 'incoming',
+          received_at: 1,
+          sent_at: 1,
+          timestamp: 1,
+        }),
+        generateMessage({
+          id: '2',
+          conversationId,
+          type: 'story',
+          received_at: 2,
+          sent_at: 2,
+          timestamp: 2,
+        }),
+        generateMessage({
+          id: '3',
+          conversationId,
+          type: 'outgoing',
+          received_at: 3,
+          sent_at: 3,
+          timestamp: 3,
+        }),
+        generateMessage({
+          id: '4',
+          conversationId,
+          type: 'group-v1-migration',
+          received_at: 4,
+          sent_at: 4,
+          timestamp: 4,
+        }),
+        generateMessage({
+          id: '5',
+          conversationId,
+          type: 'group-v2-change',
+          received_at: 5,
+          sent_at: 5,
+          timestamp: 5,
+        }),
+        generateMessage({
+          id: '6',
+          conversationId,
+          type: 'incoming',
+          received_at: 6,
+          sent_at: 6,
+          timestamp: 6,
+          expireTimer: DurationInSeconds.fromMinutes(10),
+        }),
+        generateMessage({
+          id: '7',
+          conversationId,
+          type: 'profile-change',
+          received_at: 7,
+          sent_at: 7,
+          timestamp: 7,
+        }),
+        generateMessage({
+          id: '8',
+          conversationId: otherConversationId,
+          type: 'incoming',
+          received_at: 8,
+          sent_at: 8,
+          timestamp: 8,
+        }),
+      ]);
 
-        const messages = getMostRecentAddressableNondisappearingMessagesSync(
-          db,
-          conversationId
-        );
+      const messages = getMostRecentAddressableNondisappearingMessagesSync(
+        db,
+        conversationId
+      );
 
-        assert.lengthOf(messages, 2);
-        assert.deepEqual(messages, [
-          {
-            id: '3',
-            conversationId,
-            type: 'outgoing',
-            received_at: 3,
-            sent_at: 3,
-            timestamp: 3,
-          },
-          {
-            id: '1',
-            conversationId,
-            type: 'incoming',
-            received_at: 1,
-            sent_at: 1,
-            timestamp: 1,
-          },
-        ]);
-      });
+      assert.lengthOf(messages, 2);
+      assert.deepEqual(messages, [
+        {
+          id: '3',
+          conversationId,
+          type: 'outgoing',
+          received_at: 3,
+          sent_at: 3,
+          timestamp: 3,
+        },
+        {
+          id: '1',
+          conversationId,
+          type: 'incoming',
+          received_at: 1,
+          sent_at: 1,
+          timestamp: 1,
+        },
+      ]);
+    });
 
-      it('ensures that index is used for getMostRecentAddressableNondisappearingMessagesSync, with storyId', () => {
-        const { detail } = db
-          .prepare(
-            `
+    it('ensures that index is used for getMostRecentAddressableNondisappearingMessagesSync, with storyId', () => {
+      const { detail } = db
+        .prepare(
+          `
           EXPLAIN QUERY PLAN
           SELECT json FROM messages
           INDEXED BY messages_by_date_addressable_nondisappearing
@@ -152,16 +151,15 @@ describe('SQL/updateToSchemaVersion1080', () => {
           ORDER BY received_at DESC, sent_at DESC
           LIMIT 5;
           `
-          )
-          .get();
+        )
+        .get();
 
-        assert.notInclude(detail, 'B-TREE');
-        assert.notInclude(detail, 'SCAN');
-        assert.include(
-          detail,
-          'SEARCH messages USING INDEX messages_by_date_addressable_nondisappearing (conversationId=? AND isAddressableMessage=?)'
-        );
-      });
+      assert.notInclude(detail, 'B-TREE');
+      assert.notInclude(detail, 'SCAN');
+      assert.include(
+        detail,
+        'SEARCH messages USING INDEX messages_by_date_addressable_nondisappearing (conversationId=? AND isAddressableMessage=?)'
+      );
     });
   });
 });
