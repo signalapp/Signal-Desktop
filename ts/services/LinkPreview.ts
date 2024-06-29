@@ -70,10 +70,6 @@ function _maybeGrabLinkPreview(
   if (!messaging) {
     return;
   }
-  // If we're behind a user-configured proxy, we don't support link previews
-  if (window.isBehindProxy()) {
-    return;
-  }
 
   if (!message) {
     resetLinkPreview(conversationId);

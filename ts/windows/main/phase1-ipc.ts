@@ -58,7 +58,6 @@ window.getServerPublicParams = () => config.serverPublicParams;
 window.getGenericServerPublicParams = () => config.genericServerPublicParams;
 window.getBackupServerPublicParams = () => config.backupServerPublicParams;
 window.getSfuUrl = () => config.sfuUrl;
-window.isBehindProxy = () => Boolean(config.proxyUrl);
 
 let title = config.name;
 if (getEnvironment() !== Environment.Production) {

@@ -182,7 +182,6 @@ declare global {
     // Used for sticker creator localization
     localeMessages: { [key: string]: { message: string } };
 
-    isBehindProxy: () => boolean;
     openArtCreator: (opts: { username: string; password: string }) => void;
 
     enterKeyboardMode: () => void;
