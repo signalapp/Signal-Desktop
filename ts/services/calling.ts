@@ -1592,6 +1592,15 @@ export class CallingClass {
     groupCall.removeClient(demuxId);
   }
 
+  public blockClient(conversationId: string, demuxId: number): void {
+    const groupCall = this.getGroupCall(conversationId);
+    if (!groupCall) {
+      throw new Error('Could not find matching call');
+    }
+
+    groupCall.blockClient(demuxId);
+  }
+
   // See the comment in types/Calling.ts to explain why we have to do this conversion.
   private convertRingRtcConnectionState(
     connectionState: ConnectionState

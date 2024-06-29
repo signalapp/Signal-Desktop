@@ -574,6 +574,7 @@ const doGroupCallPeek = ({
 
 const ACCEPT_CALL_PENDING = 'calling/ACCEPT_CALL_PENDING';
 const APPROVE_USER = 'calling/APPROVE_USER';
+const BLOCK_CLIENT = 'calling/BLOCK_CLIENT';
 const CANCEL_CALL = 'calling/CANCEL_CALL';
 const CANCEL_INCOMING_GROUP_CALL_RING =
   'calling/CANCEL_INCOMING_GROUP_CALL_RING';
@@ -801,6 +802,10 @@ type RemoveClientActionType = ReadonlyDeep<{
   type: 'calling/REMOVE_CLIENT';
 }>;
 
+type BlockClientActionType = ReadonlyDeep<{
+  type: 'calling/BLOCK_CLIENT';
+}>;
+
 type ReturnToActiveCallActionType = ReadonlyDeep<{
   type: 'calling/RETURN_TO_ACTIVE_CALL';
 }>;
@@ -1002,13 +1007,30 @@ function removeClient(
     const activeCall = getActiveCall(getState().calling);
     if (!activeCall || !isGroupOrAdhocCallMode(activeCall.callMode)) {
       log.warn(
-        'approveUser: Trying to approve pending user without active group or adhoc call'
+        'removeClient: Trying to remove client without active group or adhoc call'
       );
       return;
     }
 
     calling.removeClient(activeCall.conversationId, payload.demuxId);
     dispatch({ type: REMOVE_CLIENT });
+  };
+}
+
+function blockClient(
+  payload: RemoveClientType
+): ThunkAction<void, RootStateType, unknown, BlockClientActionType> {
+  return (dispatch, getState) => {
+    const activeCall = getActiveCall(getState().calling);
+    if (!activeCall || !isGroupOrAdhocCallMode(activeCall.callMode)) {
+      log.warn(
+        'blockClient: Trying to block client without active group or adhoc call'
+      );
+      return;
+    }
+
+    calling.blockClient(activeCall.conversationId, payload.demuxId);
+    dispatch({ type: BLOCK_CLIENT });
   };
 }
 
@@ -2274,6 +2296,7 @@ function switchFromPresentationView(): SwitchFromPresentationViewActionType {
 export const actions = {
   acceptCall,
   approveUser,
+  blockClient,
   callStateChange,
   cancelCall,
   cancelIncomingGroupCallRing,
