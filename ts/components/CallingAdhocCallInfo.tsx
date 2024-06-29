@@ -20,6 +20,7 @@ import { AVATAR_COLOR_COUNT, AvatarColors } from '../types/Colors';
 import { Button } from './Button';
 import { Modal } from './Modal';
 import { Theme } from '../util/theme';
+import { ConfirmationDialog } from './ConfirmationDialog';
 
 const MAX_UNKNOWN_AVATARS_COUNT = 3;
 
@@ -40,7 +41,8 @@ export type PropsType = {
   readonly onClose: () => void;
   readonly onCopyCallLink: () => void;
   readonly onShareCallLinkViaSignal: () => void;
-  readonly removeClient: ((payload: RemoveClientType) => void) | null;
+  readonly removeClient: (payload: RemoveClientType) => void;
+  readonly blockClient: (payload: RemoveClientType) => void;
   readonly showContactModal: (
     contactId: string,
     conversationId?: string
@@ -145,6 +147,7 @@ export function CallingAdhocCallInfo({
   isCallLinkAdmin,
   ourServiceId,
   participants,
+  blockClient,
   onClose,
   onCopyCallLink,
   onShareCallLinkViaSignal,
@@ -153,6 +156,11 @@ export function CallingAdhocCallInfo({
 }: PropsType): JSX.Element | null {
   const [isUnknownContactDialogVisible, setIsUnknownContactDialogVisible] =
     React.useState(false);
+  const [removeClientDialogState, setRemoveClientDialogState] = React.useState<{
+    demuxId: number;
+    name: string;
+  } | null>(null);
+
   const hideUnknownContactDialog = React.useCallback(
     () => setIsUnknownContactDialogVisible(false),
     [setIsUnknownContactDialogVisible]
@@ -256,7 +264,6 @@ export function CallingAdhocCallInfo({
           )}
         />
         {isCallLinkAdmin &&
-        removeClient &&
         participant.demuxId &&
         !(ourServiceId && participant.serviceId === ourServiceId) ? (
           <button
@@ -273,7 +280,10 @@ export function CallingAdhocCallInfo({
 
               event.stopPropagation();
               event.preventDefault();
-              removeClient({ demuxId: participant.demuxId });
+              setRemoveClientDialogState({
+                demuxId: participant.demuxId,
+                name: participant.title,
+              });
             }}
             type="button"
           />
@@ -285,13 +295,45 @@ export function CallingAdhocCallInfo({
       isCallLinkAdmin,
       onClose,
       ourServiceId,
-      removeClient,
+      setRemoveClientDialogState,
       showContactModal,
     ]
   );
 
   return (
     <>
+      {removeClientDialogState != null ? (
+        <ConfirmationDialog
+          dialogName="CallingAdhocCallInfo.removeClientDialog"
+          moduleClassName="CallingAdhocCallInfo__RemoveClientDialog"
+          actions={[
+            {
+              action: () =>
+                blockClient({ demuxId: removeClientDialogState.demuxId }),
+              style: 'negative',
+              text: i18n(
+                'icu:CallingAdhocCallInfo__RemoveClientDialogButton--block'
+              ),
+            },
+            {
+              action: () =>
+                removeClient({ demuxId: removeClientDialogState.demuxId }),
+              style: 'negative',
+              text: i18n(
+                'icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove'
+              ),
+            },
+          ]}
+          cancelText={i18n('icu:cancel')}
+          i18n={i18n}
+          theme={Theme.Dark}
+          onClose={() => setRemoveClientDialogState(null)}
+        >
+          {i18n('icu:CallingAdhocCallInfo__RemoveClientDialogBody', {
+            name: removeClientDialogState.name,
+          })}
+        </ConfirmationDialog>
+      ) : null}
       {isUnknownContactDialogVisible ? (
         <Modal
           modalName="CallingAdhocCallInfo.UnknownContactInfo"

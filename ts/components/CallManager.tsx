@@ -117,6 +117,7 @@ export type PropsType = {
   openSystemPreferencesAction: () => unknown;
   playRingtone: () => unknown;
   removeClient: (payload: RemoveClientType) => void;
+  blockClient: (payload: RemoveClientType) => void;
   sendGroupCallRaiseHand: (payload: SendGroupCallRaiseHandType) => void;
   sendGroupCallReaction: (payload: SendGroupCallReactionType) => void;
   setGroupCallVideoRequest: (_: SetGroupCallVideoRequestType) => void;
@@ -163,6 +164,7 @@ function ActiveCallManager({
   activeCall,
   approveUser,
   availableCameras,
+  blockClient,
   callLink,
   cancelCall,
   changeCallView,
@@ -397,6 +399,7 @@ function ActiveCallManager({
               onCopyCallLink={onCopyCallLink}
               onShareCallLinkViaSignal={handleShareCallLinkViaSignal}
               removeClient={removeClient}
+              blockClient={blockClient}
               showContactModal={showContactModal}
             />
           ) : (
@@ -494,6 +497,7 @@ function ActiveCallManager({
             onCopyCallLink={onCopyCallLink}
             onShareCallLinkViaSignal={handleShareCallLinkViaSignal}
             removeClient={removeClient}
+            blockClient={blockClient}
             showContactModal={showContactModal}
           />
         ) : (
@@ -515,6 +519,7 @@ export function CallManager({
   activeCall,
   approveUser,
   availableCameras,
+  blockClient,
   bounceAppIconStart,
   bounceAppIconStop,
   callLink,
@@ -613,6 +618,7 @@ export function CallManager({
           activeCall={activeCall}
           availableCameras={availableCameras}
           approveUser={approveUser}
+          blockClient={blockClient}
           callLink={callLink}
           cancelCall={cancelCall}
           changeCallView={changeCallView}

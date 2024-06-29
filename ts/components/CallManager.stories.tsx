@@ -100,6 +100,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   openSystemPreferencesAction: action('open-system-preferences-action'),
   playRingtone: action('play-ringtone'),
   removeClient: action('remove-client'),
+  blockClient: action('block-client'),
   renderDeviceSelection: () => <div />,
   renderEmojiPicker: () => <>EmojiPicker</>,
   renderReactionPicker: () => <div />,

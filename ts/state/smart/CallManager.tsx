@@ -437,6 +437,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
     declineCall,
     openSystemPreferencesAction,
     removeClient,
+    blockClient,
     sendGroupCallRaiseHand,
     sendGroupCallReaction,
     setGroupCallVideoRequest,
@@ -464,6 +465,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
       activeCall={activeCall}
       approveUser={approveUser}
       availableCameras={availableCameras}
+      blockClient={blockClient}
       bounceAppIconStart={bounceAppIconStart}
       bounceAppIconStop={bounceAppIconStop}
       callLink={callLink}
