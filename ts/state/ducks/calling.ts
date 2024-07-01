@@ -782,6 +782,11 @@ export type PendingUserActionPayloadType = ReadonlyDeep<{
   serviceId: ServiceIdString | undefined;
 }>;
 
+export type BatchUserActionPayloadType = ReadonlyDeep<{
+  action: 'approve' | 'deny';
+  serviceIds: Array<ServiceIdString>;
+}>;
+
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 type RefreshIODevicesActionType = {
   type: 'calling/REFRESH_IO_DEVICES';
@@ -1000,6 +1005,54 @@ function denyUser(
     dispatch({ type: DENY_USER });
   };
 }
+
+function batchUserAction(
+  payload: BatchUserActionPayloadType
+): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+  return (dispatch, getState) => {
+    const activeCall = getActiveCall(getState().calling);
+    if (!activeCall || !isGroupOrAdhocCallMode(activeCall.callMode)) {
+      log.warn(
+        'batchUserAction: Trying to do pending user without active group or adhoc call'
+      );
+      return;
+    }
+
+    const { action, serviceIds } = payload;
+    let actionFn;
+    if (action === 'approve') {
+      actionFn = calling.approveUser;
+    } else if (action === 'deny') {
+      actionFn = calling.denyUser;
+    } else {
+      throw missingCaseError(action);
+    }
+
+    let count = 0;
+    for (const serviceId of serviceIds) {
+      if (!isAciString(serviceId)) {
+        log.warn(
+          'batchUserAction: Trying to do user action without valid aci serviceid'
+        );
+        continue;
+      }
+
+      actionFn.call(calling, activeCall.conversationId, serviceId);
+      count += 1;
+    }
+
+    if (count > 0 && action === 'approve') {
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.AddedUsersToCall,
+          parameters: { count },
+        },
+      });
+    }
+  };
+}
+
 function removeClient(
   payload: RemoveClientType
 ): ThunkAction<void, RootStateType, unknown, RemoveClientActionType> {
@@ -2296,6 +2349,7 @@ function switchFromPresentationView(): SwitchFromPresentationViewActionType {
 export const actions = {
   acceptCall,
   approveUser,
+  batchUserAction,
   blockClient,
   callStateChange,
   cancelCall,

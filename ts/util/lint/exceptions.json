@@ -3252,6 +3252,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/CallingPendingParticipants.tsx",
+    "line": "  const expandedListRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2024-06-28T01:22:22.509Z",
+    "reasonDetail": "For outside click handling"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/CallingPip.tsx",
     "line": "  const localVideoRef = React.useRef(null);",
     "reasonCategory": "usageTrusted",

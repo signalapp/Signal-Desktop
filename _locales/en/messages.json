@@ -1733,9 +1733,45 @@
     "messageformat": "Deny join request",
     "description": "Tooltip label for check mark button to deny a user's request to join a call."
   },
+  "icu:CallingPendingParticipants__ApproveAll": {
+    "messageformat": "Approve all",
+    "description": "Button to approve all pending requests to join a call."
+  },
+  "icu:CallingPendingParticipants__DenyAll": {
+    "messageformat": "Deny all",
+    "description": "Button to deny all pending requests to join a call."
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
+    "messageformat": "Approve {count, plural, one {# request} other {# requests}}?",
+    "description": "Title of confirmation dialog when approving all pending requests to join a call."
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
+    "messageformat": "Deny {count, plural, one {# request} other {# requests}}?",
+    "description": "Title of confirmation dialog when approving all pending requests to join a call."
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
+    "messageformat": "{count, plural, one {# person} other {# people}} will be added to the call.",
+    "description": "Title of confirmation dialog when approving all pending requests to join a call."
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
+    "messageformat": "{count, plural, one {# person} other {# people}} will not be added to the call.",
+    "description": "Title of confirmation dialog when denying all pending requests to join a call."
+  },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {# request} other {# requests}} to join the call",
     "description": "Shown in the call pending join request list to describe how many people are requesting to join"
+  },
+  "icu:CallingPendingParticipants__WouldLikeToJoin": {
+    "messageformat": "Would like to join...",
+    "description": "Participant info text in the call pending join requests compact list, visible only to call admins. Indicates that the participant would like to join the call and is requesting action."
+  },
+  "icu:CallingPendingParticipants__AdditionalRequests": {
+    "messageformat": "{count, plural, one {+# request} other {+# requests}}",
+    "description": "Button text in the call pending join requests compact list. When clicked the list expands to the full list"
+  },
+  "icu:CallingPendingParticipants__Toast--added-users-to-call": {
+    "messageformat": "{count, plural, one {# person} other {# people}} added to the call",
+    "description": "Shown in toast after batch approving requests to join a call"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {# raised hand} other {# raised hands}}",

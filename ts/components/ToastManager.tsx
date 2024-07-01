@@ -59,6 +59,16 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.AddedUsersToCall) {
+    return (
+      <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
+        {i18n('icu:CallingPendingParticipants__Toast--added-users-to-call', {
+          count: toast.parameters.count,
+        })}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.AlreadyGroupMember) {
     return (
       <Toast onClose={hideToast}>

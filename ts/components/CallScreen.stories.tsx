@@ -185,6 +185,7 @@ const createProps = (
 ): PropsType => ({
   activeCall: createActiveCallProp(overrideProps),
   approveUser: action('approve-user'),
+  batchUserAction: action('batch-user-action'),
   changeCallView: action('change-call-view'),
   denyUser: action('deny-user'),
   getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,

@@ -28,6 +28,7 @@ import {
 import type { ConversationType } from '../state/ducks/conversations';
 import type {
   AcceptCallType,
+  BatchUserActionPayloadType,
   CancelCallType,
   DeclineCallType,
   GroupCallParticipantInfoType,
@@ -101,6 +102,7 @@ export type PropsType = {
   toggleParticipants: () => void;
   acceptCall: (_: AcceptCallType) => void;
   approveUser: (payload: PendingUserActionPayloadType) => void;
+  batchUserAction: (payload: BatchUserActionPayloadType) => void;
   bounceAppIconStart: () => unknown;
   bounceAppIconStop: () => unknown;
   declineCall: (_: DeclineCallType) => void;
@@ -164,6 +166,7 @@ function ActiveCallManager({
   activeCall,
   approveUser,
   availableCameras,
+  batchUserAction,
   blockClient,
   callLink,
   cancelCall,
@@ -445,6 +448,7 @@ function ActiveCallManager({
       <CallScreen
         activeCall={activeCall}
         approveUser={approveUser}
+        batchUserAction={batchUserAction}
         changeCallView={changeCallView}
         denyUser={denyUser}
         getPresentingSources={getPresentingSources}
@@ -519,6 +523,7 @@ export function CallManager({
   activeCall,
   approveUser,
   availableCameras,
+  batchUserAction,
   blockClient,
   bounceAppIconStart,
   bounceAppIconStop,
@@ -618,6 +623,7 @@ export function CallManager({
           activeCall={activeCall}
           availableCameras={availableCameras}
           approveUser={approveUser}
+          batchUserAction={batchUserAction}
           blockClient={blockClient}
           callLink={callLink}
           cancelCall={cancelCall}

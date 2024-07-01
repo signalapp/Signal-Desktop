@@ -4,16 +4,56 @@
 .CallingPendingParticipants {
   width: 420px;
   height: auto;
-  padding-block-end: 2px;
   margin-block-start: auto;
   margin-block-end: 36px;
   margin-inline-start: auto;
   margin-inline-end: auto;
 }
 
+.CallingPendingParticipants--Compact {
+  width: 364px;
+  padding-inline: 0;
+  padding-block-start: 0;
+  background: $color-gray-78;
+  outline: 0;
+}
+
+.CallingPendingParticipants--Expanded {
+  padding-block-end: 2px;
+}
+
+.CallingPendingParticipants__CompactParticipant {
+  display: flex;
+  padding-block: 12px;
+  padding-inline: 12px;
+  outline: none;
+  align-items: center;
+}
+
+.CallingPendingParticipants__CompactParticipantNameColumn {
+  margin-inline-start: 8px;
+}
+
+.CallingPendingParticipants__ParticipantName {
+  @include font-body-1-bold;
+  color: $color-gray-15;
+}
+
+.CallingPendingParticipants__WouldLikeToJoin {
+  @include font-body-2;
+  color: $color-gray-20;
+}
+
 .CallingPendingParticipants__PendingActionButton {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
   padding-inline: 0;
   margin-inline-end: 16px;
+}
+
+.CallingPendingParticipants__PendingActionButton:first-child {
+  margin-inline-start: 8px;
 }
 
 .CallingPendingParticipants__PendingActionButton:last-child {
@@ -21,14 +61,70 @@
 }
 
 .CallingPendingParticipants__PendingActionButtonIcon {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
+}
+
+.CallingPendingParticipants--Compact {
+  .CallingPendingParticipants__PendingActionButton {
+    width: 36px;
+    height: 36px;
+    margin-inline-end: 20px;
+  }
+
+  .CallingPendingParticipants__PendingActionButton:last-child {
+    margin-inline-end: 0;
+  }
+
+  .CallingPendingParticipants__PendingActionButtonIcon {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .CallingPendingParticipants__PendingActionButtonIcon--Approve {
-  @include color-svg('../images/icons/v3/check/check.svg', $color-white);
+  @include color-svg('../images/icons/v3/check/check-bold.svg', $color-white);
 }
 
 .CallingPendingParticipants__PendingActionButtonIcon--Deny {
-  @include color-svg('../images/icons/v3/x/x.svg', $color-white);
+  @include color-svg('../images/icons/v3/x/x-bold.svg', $color-white);
+}
+
+.CallingPendingParticipants__ActionPanel {
+  padding-block: 15px;
+  text-align: end;
+}
+
+.CallingPendingParticipants__ActionPanelButton {
+  border-radius: 4px;
+  margin-inline-end: 16px;
+}
+
+.CallingPendingParticipants__ActionPanelButton:last-child {
+  margin-inline-end: 10px;
+}
+
+.CallingPendingParticipants__ShowAllRequestsButton {
+  @include button-reset;
+  @include font-body-2-bold;
+  display: flex;
+  padding-block: 5px;
+  padding-inline: 15px;
+  margin-block: 12px;
+  margin-inline: auto;
+  color: $color-white-alpha-90;
+  background: $color-gray-65;
+  border-radius: 46px;
+  outline: none;
+}
+
+.CallingPendingParticipants__ShowAllRequestsButton:focus {
+  @include keyboard-mode {
+    outline: 3px solid $color-ultramarine;
+    outline-offset: 1px;
+  }
+}
+
+.CallingPendingParticipants__ShowAllRequestsButtonContainer {
+  background: $color-black-alpha-24;
 }
