@@ -28,6 +28,7 @@ import enMessages from '../../_locales/en/messages.json';
 import { StorySendMode } from '../types/Stories';
 import {
   FAKE_CALL_LINK,
+  FAKE_CALL_LINK_WITH_ADMIN_KEY,
   getDefaultCallLinkConversation,
 } from '../test-both/helpers/fakeCallLink';
 import { allRemoteParticipants } from './CallScreen.stories';
@@ -72,6 +73,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   availableCameras: [],
   acceptCall: action('accept-call'),
   approveUser: action('approve-user'),
+  batchUserAction: action('batch-user-action'),
   bounceAppIconStart: action('bounce-app-icon-start'),
   bounceAppIconStop: action('bounce-app-icon-stop'),
   cancelCall: action('cancel-call'),
@@ -145,10 +147,11 @@ const getActiveCallForCallLink = (
     settingsDialogOpen: false,
     showParticipantsList: overrideProps.showParticipantsList ?? true,
     callMode: CallMode.Adhoc,
-    connectionState: GroupCallConnectionState.NotConnected,
+    connectionState:
+      overrideProps.connectionState ?? GroupCallConnectionState.NotConnected,
     conversationsByDemuxId: new Map<number, ConversationType>(),
     deviceCount: 0,
-    joinState: GroupCallJoinState.NotJoined,
+    joinState: overrideProps.joinState ?? GroupCallJoinState.NotJoined,
     localDemuxId: 1,
     maxDevices: 5,
     groupMembers: [],
@@ -156,7 +159,7 @@ const getActiveCallForCallLink = (
     peekedParticipants:
       overrideProps.peekedParticipants ?? allRemoteParticipants.slice(0, 3),
     remoteParticipants: overrideProps.remoteParticipants ?? [],
-    pendingParticipants: [],
+    pendingParticipants: overrideProps.pendingParticipants ?? [],
     raisedHands: new Set<number>(),
     remoteAudioLevels: new Map<number, number>(),
   };
@@ -361,6 +364,113 @@ export function CallLinkLobbyParticipants3Unknown(): JSX.Element {
           ],
         }),
         callLink: FAKE_CALL_LINK,
+      })}
+    />
+  );
+}
+
+export function CallLinkWithJoinRequestsOne(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: getActiveCallForCallLink({
+          connectionState: GroupCallConnectionState.Connected,
+          joinState: GroupCallJoinState.Joined,
+          peekedParticipants: [allRemoteParticipants[0]],
+          pendingParticipants: [allRemoteParticipants[1]],
+          showParticipantsList: false,
+        }),
+        callLink: FAKE_CALL_LINK_WITH_ADMIN_KEY,
+      })}
+    />
+  );
+}
+
+export function CallLinkWithJoinRequestsTwo(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: getActiveCallForCallLink({
+          connectionState: GroupCallConnectionState.Connected,
+          joinState: GroupCallJoinState.Joined,
+          peekedParticipants: [allRemoteParticipants[0]],
+          pendingParticipants: allRemoteParticipants.slice(1, 3),
+          showParticipantsList: false,
+        }),
+        callLink: FAKE_CALL_LINK_WITH_ADMIN_KEY,
+      })}
+    />
+  );
+}
+
+export function CallLinkWithJoinRequestsMany(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: getActiveCallForCallLink({
+          connectionState: GroupCallConnectionState.Connected,
+          joinState: GroupCallJoinState.Joined,
+          peekedParticipants: [allRemoteParticipants[0]],
+          pendingParticipants: allRemoteParticipants.slice(1, 11),
+          showParticipantsList: false,
+        }),
+        callLink: FAKE_CALL_LINK_WITH_ADMIN_KEY,
+      })}
+    />
+  );
+}
+
+export function CallLinkWithJoinRequestsSystemContact(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: getActiveCallForCallLink({
+          connectionState: GroupCallConnectionState.Connected,
+          joinState: GroupCallJoinState.Joined,
+          peekedParticipants: [allRemoteParticipants[0]],
+          pendingParticipants: [
+            { ...allRemoteParticipants[1], name: 'My System Contact Friend' },
+          ],
+          showParticipantsList: false,
+        }),
+        callLink: FAKE_CALL_LINK_WITH_ADMIN_KEY,
+      })}
+    />
+  );
+}
+
+export function CallLinkWithJoinRequestsSystemContactMany(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: getActiveCallForCallLink({
+          connectionState: GroupCallConnectionState.Connected,
+          joinState: GroupCallJoinState.Joined,
+          peekedParticipants: [allRemoteParticipants[0]],
+          pendingParticipants: [
+            { ...allRemoteParticipants[1], name: 'My System Contact Friend' },
+            allRemoteParticipants[2],
+            allRemoteParticipants[3],
+          ],
+          showParticipantsList: false,
+        }),
+        callLink: FAKE_CALL_LINK_WITH_ADMIN_KEY,
+      })}
+    />
+  );
+}
+
+export function CallLinkWithJoinRequestsParticipantsOpen(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: getActiveCallForCallLink({
+          connectionState: GroupCallConnectionState.Connected,
+          joinState: GroupCallJoinState.Joined,
+          peekedParticipants: [allRemoteParticipants[0]],
+          pendingParticipants: allRemoteParticipants.slice(1, 4),
+        }),
+        callLink: FAKE_CALL_LINK_WITH_ADMIN_KEY,
       })}
     />
   );

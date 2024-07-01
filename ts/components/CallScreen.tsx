@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type {
   ActiveCallStateType,
+  BatchUserActionPayloadType,
   PendingUserActionPayloadType,
   SendGroupCallRaiseHandType,
   SendGroupCallReactionType,
@@ -95,6 +96,7 @@ import type { CallingImageDataCache } from './CallManager';
 export type PropsType = {
   activeCall: ActiveCallType;
   approveUser: (payload: PendingUserActionPayloadType) => void;
+  batchUserAction: (payload: BatchUserActionPayloadType) => void;
   denyUser: (payload: PendingUserActionPayloadType) => void;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   getPresentingSources: () => void;
@@ -186,6 +188,7 @@ function CallDuration({
 export function CallScreen({
   activeCall,
   approveUser,
+  batchUserAction,
   changeCallView,
   denyUser,
   getGroupCallVideoFrameSource,
@@ -856,9 +859,9 @@ export function CallScreen({
       {pendingParticipants.length ? (
         <CallingPendingParticipants
           i18n={i18n}
-          ourServiceId={me.serviceId}
           participants={pendingParticipants}
           approveUser={approveUser}
+          batchUserAction={batchUserAction}
           denyUser={denyUser}
         />
       ) : null}

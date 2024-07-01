@@ -3,6 +3,7 @@
 
 export enum ToastType {
   AddingUserToGroup = 'AddingUserToGroup',
+  AddedUsersToCall = 'AddedUsersToCall',
   AlreadyGroupMember = 'AlreadyGroupMember',
   AlreadyRequestedToJoin = 'AlreadyRequestedToJoin',
   Blocked = 'Blocked',
@@ -69,6 +70,10 @@ export enum ToastType {
 
 export type AnyToast =
   | { toastType: ToastType.AddingUserToGroup; parameters: { contact: string } }
+  | {
+      toastType: ToastType.AddedUsersToCall;
+      parameters: { count: number };
+    }
   | { toastType: ToastType.AlreadyGroupMember }
   | { toastType: ToastType.AlreadyRequestedToJoin }
   | { toastType: ToastType.Blocked }

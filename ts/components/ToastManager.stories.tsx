@@ -21,6 +21,8 @@ function getToast(toastType: ToastType): AnyToast {
   switch (toastType) {
     case ToastType.AddingUserToGroup:
       return { toastType, parameters: { contact: 'Sam Mirete' } };
+    case ToastType.AddedUsersToCall:
+      return { toastType, parameters: { count: 6 } };
     case ToastType.AlreadyGroupMember:
       return { toastType: ToastType.AlreadyGroupMember };
     case ToastType.AlreadyRequestedToJoin:
