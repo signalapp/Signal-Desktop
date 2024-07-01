@@ -42,7 +42,3 @@ export const _ConnectionFailed = (): JSX.Element => (
     error={InstallError.ConnectionFailed}
   />
 );
-
-export const _UnknownError = (): JSX.Element => (
-  <InstallScreenErrorStep {...defaultProps} error={InstallError.UnknownError} />
-);

@@ -33,7 +33,7 @@
     $size: 256px;
 
     align-items: center;
-    border: 2px solid transparent;
+    border: 1.5px solid transparent;
     box-sizing: content-box;
     display: flex;
     flex-direction: column;
@@ -51,13 +51,31 @@
     &--load-failed {
       @include font-subtitle;
       border-color: $color-gray-05;
-      border-radius: 4px;
+      border-radius: 10px;
       color: $color-gray-60;
     }
 
     &__link {
       @include button-reset;
+      @include font-body-2-bold;
+
+      display: flex;
+      gap: 4px;
+      align-items: center;
+
       color: $color-ultramarine;
+      margin-block-start: 16px;
+
+      &::before {
+        @include color-svg(
+          '../images/icons/v3/refresh/refresh-bold.svg',
+          $color-ultramarine
+        );
+        content: '';
+        display: block;
+        height: 16px;
+        width: 16px;
+      }
     }
 
     &__code {
@@ -69,6 +87,7 @@
 
     &__error-message {
       text-align: center;
+      @include font-body-2;
 
       &::before {
         @include color-svg(
@@ -78,14 +97,39 @@
         content: '';
         display: block;
         height: 22px;
-        margin-block: 8px 0;
+        margin-block: 0 8px;
         margin-inline: auto;
         width: 22px;
       }
 
-      a {
-        color: $color-ultramarine;
-        text-decoration: none;
+      margin-inline: 24px;
+    }
+
+    &__error-message p {
+      margin-block: 0;
+    }
+
+    &__get-help {
+      @include font-body-2-bold;
+
+      display: flex;
+      gap: 4px;
+      align-items: center;
+
+      margin-block-start: 16px;
+
+      color: $color-ultramarine;
+      text-decoration: none;
+
+      &::before {
+        @include color-svg(
+          '../images/icons/v3/open/open-compact-bold.svg',
+          $color-ultramarine
+        );
+        content: '';
+        display: block;
+        height: 16px;
+        width: 16px;
       }
     }
   }
