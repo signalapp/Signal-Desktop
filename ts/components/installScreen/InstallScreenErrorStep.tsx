@@ -15,7 +15,6 @@ export enum InstallError {
   TooManyDevices,
   TooOld,
   ConnectionFailed,
-  UnknownError,
   QRCodeFailed,
 }
 
@@ -51,9 +50,6 @@ export function InstallScreenErrorStep({
       break;
     case InstallError.ConnectionFailed:
       errorMessage = i18n('icu:installConnectionFailed');
-      break;
-    case InstallError.UnknownError:
-      errorMessage = i18n('icu:installUnknownError');
       break;
     case InstallError.QRCodeFailed:
       buttonText = i18n('icu:Install__learn-more');

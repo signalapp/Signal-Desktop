@@ -1488,7 +1488,27 @@
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "The QR code couldn't load. Check your internet and try again. <retry>Retry</retry>",
-    "description": "Shown on the install screen if the QR code fails to load"
+    "description": "(Deleted 2024/07/01) Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load__error--timeout": {
+    "messageformat": "The QR code couldn't load. Check your connection and try again.",
+    "description": "Shown on the install screen if the QR code fails to load due to connection timeout"
+  },
+  "icu:Install__qr-failed-load__error--unknown": {
+    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>",
+    "description": "Shown on the install screen if the QR code fails to load due to an unknown error"
+  },
+  "icu:Install__qr-failed-load__error--network": {
+    "messageformat": "Signal cannot link this device using your current network.",
+    "description": "Shown on the install screen if the QR code fails to load due to a network error"
+  },
+  "icu:Install__qr-failed-load__retry": {
+    "messageformat": "Retry",
+    "description": "Text of the button shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load__get-help": {
+    "messageformat": "Get help",
+    "description": "Text of the link to support page shown on the install screen if the QR code fails to load"
   },
   "icu:Install__support-link": {
     "messageformat": "Need help?",

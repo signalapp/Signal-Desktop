@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactElement, ReactNode } from 'react';
-import React from 'react';
+import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
 import type { LocalizerType } from '../../types/Util';
@@ -20,12 +20,18 @@ import { getClassNamesFor } from '../../util/getClassNamesFor';
 import type { UpdatesStateType } from '../../state/ducks/updates';
 import { Environment, getEnvironment } from '../../environment';
 
+export enum LoadError {
+  Timeout = 'Timeout',
+  Unknown = 'Unknown',
+  NetworkIssue = 'NetworkIssue',
+}
+
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;
-  provisioningUrl: Loadable<string>;
+  provisioningUrl: Loadable<string, LoadError>;
   hasExpired?: boolean;
   updates: UpdatesStateType;
   currentVersion: string;
@@ -37,6 +43,9 @@ export type PropsType = Readonly<{
 const getQrCodeClassName = getClassNamesFor(
   'module-InstallScreenQrCodeNotScannedStep__qr-code'
 );
+
+const SUPPORT_PAGE =
+  'https://support.signal.org/hc/articles/360007320451#desktop_multiple_device';
 
 export function InstallScreenQrCodeNotScannedStep({
   currentVersion,
@@ -105,7 +114,7 @@ export function InstallScreenQrCodeNotScannedStep({
             </li>
           </ol>
           {getEnvironment() !== Environment.Staging ? (
-            <a href="https://support.signal.org/hc/articles/360007320451#desktop_multiple_device">
+            <a target="_blank" rel="noreferrer" href={SUPPORT_PAGE}>
               {i18n('icu:Install__support-link')}
             </a>
           ) : (
@@ -118,7 +127,10 @@ export function InstallScreenQrCodeNotScannedStep({
 }
 
 function InstallScreenQrCode(
-  props: Loadable<string> & { i18n: LocalizerType; retryGetQrCode: () => void }
+  props: Loadable<string, LoadError> & {
+    i18n: LocalizerType;
+    retryGetQrCode: () => void;
+  }
 ): ReactElement {
   const { i18n } = props;
 
@@ -128,33 +140,58 @@ function InstallScreenQrCode(
       contents = <Spinner size="24px" svgSize="small" />;
       break;
     case LoadingState.LoadFailed:
-      contents = (
-        <span className={classNames(getQrCodeClassName('__error-message'))}>
-          <I18n
-            i18n={i18n}
-            id="icu:Install__qr-failed-load"
-            components={{
-              // eslint-disable-next-line react/no-unstable-nested-components
-              retry: (parts: Array<string | JSX.Element>) => (
-                <button
-                  className={getQrCodeClassName('__link')}
-                  onClick={props.retryGetQrCode}
-                  onKeyDown={ev => {
-                    if (ev.key === 'Enter') {
-                      props.retryGetQrCode();
-                      ev.preventDefault();
-                      ev.stopPropagation();
-                    }
-                  }}
-                  type="button"
-                >
-                  {parts}
-                </button>
-              ),
-            }}
-          />
-        </span>
-      );
+      switch (props.error) {
+        case LoadError.Timeout:
+          contents = (
+            <>
+              <span
+                className={classNames(getQrCodeClassName('__error-message'))}
+              >
+                {i18n('icu:Install__qr-failed-load__error--timeout')}
+              </span>
+              <RetryButton i18n={i18n} onClick={props.retryGetQrCode} />
+            </>
+          );
+          break;
+        case LoadError.Unknown:
+          contents = (
+            <>
+              <span
+                className={classNames(getQrCodeClassName('__error-message'))}
+              >
+                <I18n
+                  i18n={i18n}
+                  id="icu:Install__qr-failed-load__error--unknown"
+                  components={{ paragraph: Paragraph }}
+                />
+              </span>
+              <RetryButton i18n={i18n} onClick={props.retryGetQrCode} />
+            </>
+          );
+          break;
+        case LoadError.NetworkIssue:
+          contents = (
+            <>
+              <span
+                className={classNames(getQrCodeClassName('__error-message'))}
+              >
+                {i18n('icu:Install__qr-failed-load__error--network')}
+              </span>
+
+              <a
+                className={classNames(getQrCodeClassName('__get-help'))}
+                target="_blank"
+                rel="noreferrer"
+                href={SUPPORT_PAGE}
+              >
+                {i18n('icu:Install__qr-failed-load__get-help')}
+              </a>
+            </>
+          );
+          break;
+        default:
+          throw missingCaseError(props.error);
+      }
       break;
     case LoadingState.Loaded:
       contents = (
@@ -182,4 +219,38 @@ function InstallScreenQrCode(
       {contents}
     </div>
   );
+}
+
+function RetryButton({
+  i18n,
+  onClick,
+}: {
+  i18n: LocalizerType;
+  onClick: () => void;
+}): JSX.Element {
+  const onKeyDown = useCallback(
+    (ev: React.KeyboardEvent<HTMLButtonElement>) => {
+      if (ev.key === 'Enter') {
+        ev.preventDefault();
+        ev.stopPropagation();
+        onClick();
+      }
+    },
+    [onClick]
+  );
+
+  return (
+    <button
+      className={getQrCodeClassName('__link')}
+      onClick={onClick}
+      onKeyDown={onKeyDown}
+      type="button"
+    >
+      {i18n('icu:Install__qr-failed-load__retry')}
+    </button>
+  );
+}
+
+function Paragraph(children: React.ReactNode): JSX.Element {
+  return <p>{children}</p>;
 }
