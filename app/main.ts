@@ -2977,6 +2977,10 @@ if (isTestEnvironment(getEnvironment())) {
     event.returnValue = process.argv;
   });
 
+  ipc.handle('ci:test-electron:debug', async (_event, info) => {
+    process.stdout.write(`ci:test-electron:debug=${JSON.stringify(info)}\n`);
+  });
+
   ipc.handle('ci:test-electron:event', async (_event, event) => {
     process.stdout.write(
       `ci:test-electron:event=${JSON.stringify(event)}\n`,

@@ -123,6 +123,14 @@ async function launchElectron(attempt: number): Promise<void> {
 
             const match = line.match(/^ci:test-electron:event=(.*)/);
             if (!match) {
+              const debugMatch = line.match(/ci:test-electron:debug=(.*)?/);
+              if (debugMatch) {
+                try {
+                  console.log('DEBUG:', JSON.parse(debugMatch[1]));
+                } catch {
+                  // pass
+                }
+              }
               return;
             }
 

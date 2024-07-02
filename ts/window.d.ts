@@ -281,6 +281,7 @@ declare global {
     assert: typeof assert;
     testUtilities: {
       setup: MochaOptions;
+      debug: (info: unknown) => void;
       onTestEvent: (event: unknown) => void;
       initialize: () => Promise<void>;
       prepareTests: () => void;

@@ -71,6 +71,10 @@ window.testUtilities = {
     return ipc.invoke('ci:test-electron:event', event);
   },
 
+  debug(info) {
+    return ipc.invoke('ci:test-electron:debug', info);
+  },
+
   async initialize() {
     initMessageCleanup();
     await initializeMessageCounter();
