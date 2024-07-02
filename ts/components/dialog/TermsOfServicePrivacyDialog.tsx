@@ -2,9 +2,9 @@ import { shell } from 'electron';
 import { useDispatch } from 'react-redux';
 import { updateTermsOfServicePrivacyModal } from '../../state/onboarding/ducks/modals';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SpacerSM } from '../basic/Text';
-import { ModalConfirmButtonContainer } from '../buttons/ModalConfirmButtonContainer';
 
 export type TermsOfServicePrivacyDialogProps = {
   show: boolean;
@@ -30,10 +30,11 @@ export function TermsOfServicePrivacyDialog(props: TermsOfServicePrivacyDialogPr
       showExitIcon={true}
       showHeader={true}
       headerReverse={true}
+      additionalClassName={'no-body-padding'}
     >
       <span>{window.i18n('urlOpenBrowser')}</span>
       <SpacerSM />
-      <ModalConfirmButtonContainer container={true} justifyContent="center" alignItems="center">
+      <Flex container={true} width={'100%'} justifyContent="center" alignItems="center">
         <SessionButton
           ariaLabel={'Terms of service button'}
           text={window.i18n('termsOfService')}
@@ -52,7 +53,7 @@ export function TermsOfServicePrivacyDialog(props: TermsOfServicePrivacyDialogPr
           }}
           dataTestId="privacy-policy-button"
         />
-      </ModalConfirmButtonContainer>
+      </Flex>
     </SessionWrapperModal>
   );
 }

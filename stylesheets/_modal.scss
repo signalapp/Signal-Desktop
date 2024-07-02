@@ -128,6 +128,13 @@
   .session-confirm-wrapper {
     .session-modal__body {
       width: 376px;
+    }
+  }
+}
+
+.no-body-padding {
+  .session-confirm-wrapper {
+    .session-modal__body {
       padding: 0;
       .session-modal__centered {
         margin: 0;

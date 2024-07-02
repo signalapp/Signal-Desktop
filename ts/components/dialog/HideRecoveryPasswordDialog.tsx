@@ -5,10 +5,10 @@ import { SettingsKey } from '../../data/settings-key';
 import { updateHideRecoveryPasswordModel } from '../../state/ducks/modalDialog';
 import { showSettingsSection } from '../../state/ducks/section';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { SpacerMD } from '../basic/Text';
-import { ModalConfirmButtonContainer } from '../buttons/ModalConfirmButtonContainer';
 
 const StyledDescriptionContainer = styled.div`
   width: 280px;
@@ -76,6 +76,7 @@ export function HideRecoveryPasswordDialog(props: HideRecoveryPasswordDialogProp
       onClose={onClose}
       showExitIcon={false}
       showHeader={true}
+      additionalClassName="no-body-padding"
     >
       <StyledDescriptionContainer>
         <SessionHtmlRenderer
@@ -87,23 +88,10 @@ export function HideRecoveryPasswordDialog(props: HideRecoveryPasswordDialogProp
         />
       </StyledDescriptionContainer>
       <SpacerMD />
-      <ModalConfirmButtonContainer
-        container={true}
-        justifyContent="center"
-        alignItems="center"
-        width="100%"
-      >
-        <SessionButton
-          {...leftButtonProps}
-          buttonType={SessionButtonType.Ghost}
-          margin={'0 0 0 calc(var(--margins-lg) * -1)'}
-        />
-        <SessionButton
-          {...rightButtonProps}
-          buttonType={SessionButtonType.Ghost}
-          margin={'0 calc(var(--margins-lg) * -1) 0 0'}
-        />
-      </ModalConfirmButtonContainer>
+      <Flex container={true} justifyContent="center" alignItems="center" width="100%">
+        <SessionButton {...leftButtonProps} buttonType={SessionButtonType.Ghost} />
+        <SessionButton {...rightButtonProps} buttonType={SessionButtonType.Ghost} />
+      </Flex>
     </SessionWrapperModal>
   );
 }

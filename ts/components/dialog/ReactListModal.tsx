@@ -334,7 +334,7 @@ export const ReactListModal = (props: Props) => {
 
   return (
     <SessionWrapperModal
-      additionalClassName={'reaction-list-modal'}
+      additionalClassName={'reaction-list-modal no-body-padding'}
       showHeader={false}
       onClose={handleClose}
     >
