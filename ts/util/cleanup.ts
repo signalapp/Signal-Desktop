@@ -139,8 +139,10 @@ async function cleanupStoryReplies(
           reply,
           'cleanupStoryReplies/1:1'
         );
-        model.set('storyReplyContext', undefined);
-        await model.hydrateStoryContext(story, { shouldSave: true });
+        await model.hydrateStoryContext(story, {
+          shouldSave: true,
+          isStoryErased: true,
+        });
       })
     );
   }
@@ -157,9 +159,7 @@ export async function deleteMessageData(
   await window.Signal.Migrations.deleteExternalMessageFiles(message);
 
   if (isStory(message)) {
-    // Attachments have been deleted from disk; remove from memory before replies update
-    const storyWithoutAttachments = { ...message, attachments: undefined };
-    await cleanupStoryReplies(storyWithoutAttachments);
+    await cleanupStoryReplies(message);
   }
 
   const { sticker } = message;

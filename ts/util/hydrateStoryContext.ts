@@ -14,8 +14,10 @@ export async function hydrateStoryContext(
   storyMessageParam?: MessageAttributesType,
   {
     shouldSave,
+    isStoryErased,
   }: {
     shouldSave?: boolean;
+    isStoryErased?: boolean;
   } = {}
 ): Promise<void> {
   let messageAttributes: MessageAttributesType;
@@ -35,7 +37,11 @@ export async function hydrateStoryContext(
 
   const { storyReplyContext: context } = messageAttributes;
   // We'll continue trying to get the attachment as long as the message still exists
-  if (context && (context.attachment?.url || !context.messageId)) {
+  if (
+    !isStoryErased &&
+    context &&
+    (context.attachment?.url || !context.messageId)
+  ) {
     return;
   }
 
@@ -52,7 +58,7 @@ export async function hydrateStoryContext(
     storyMessage = undefined;
   }
 
-  if (!storyMessage) {
+  if (!storyMessage || isStoryErased) {
     const conversation = window.ConversationController.get(
       messageAttributes.conversationId
     );

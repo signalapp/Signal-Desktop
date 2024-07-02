@@ -264,13 +264,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   async hydrateStoryContext(
     inMemoryMessage?: MessageAttributesType,
-    {
-      shouldSave,
-    }: {
+    options: {
       shouldSave?: boolean;
+      isStoryErased?: boolean;
     } = {}
   ): Promise<void> {
-    await hydrateStoryContext(this.id, inMemoryMessage, { shouldSave });
+    await hydrateStoryContext(this.id, inMemoryMessage, options);
   }
 
   // Dependencies of prop-generation functions
