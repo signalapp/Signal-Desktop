@@ -4258,6 +4258,10 @@ button.module-image__border-overlay:focus {
     }
   }
 
+  &__controls {
+    z-index: $z-index-above-above-base;
+  }
+
   &__controls--fadeIn {
     @include module-ongoing-call__controls--fade-in;
   }
@@ -4271,7 +4275,6 @@ button.module-image__border-overlay:focus {
   position: absolute;
   top: calc(32px + var(--title-bar-drag-area-height));
   inset-inline-end: 0;
-  z-index: $z-index-above-above-base;
   display: flex;
 
   &__button {

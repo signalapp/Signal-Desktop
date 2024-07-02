@@ -491,6 +491,7 @@ export function CallScreen({
 
   const controlsFadedOut = !showControls && !isAudioOnly && isConnected;
   const controlsFadeClass = classNames({
+    'module-ongoing-call__controls': true,
     'module-ongoing-call__controls--fadeIn':
       (showControls || isAudioOnly) && !isConnected,
     'module-ongoing-call__controls--fadeOut': controlsFadedOut,
