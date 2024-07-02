@@ -128,7 +128,7 @@ export function Inbox({
 
         <div className="module-splash-screen__logo module-img--150" />
         {envelopeTimestamp === undefined ? (
-          <div className="container">
+          <div className="dot-container">
             <span className="dot" />
             <span className="dot" />
             <span className="dot" />
