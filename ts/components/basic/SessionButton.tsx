@@ -50,7 +50,7 @@ const StyledButton = styled.button<{
   height: ${props => (props.buttonType === SessionButtonType.Ghost ? undefined : '34px')};
   min-height: ${props => (props.buttonType === SessionButtonType.Ghost ? undefined : '34px')};
   padding: ${props =>
-    props.buttonType === SessionButtonType.Ghost ? '16px 24px 24px' : '0px 18px'};
+    props.buttonType === SessionButtonType.Ghost ? '18px 24px 22px' : '0px 18px'};
   background-color: ${props =>
     props.buttonType === SessionButtonType.Solid && props.color
       ? `var(--${props.color}-color)`

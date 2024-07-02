@@ -109,6 +109,8 @@ export const CreateAccount = () => {
   return (
     <BackButtonWithinContainer
       margin={'2px 0 0 -36px'}
+      shouldQuit={true}
+      quitMessage={window.i18n('onboardingBackAccountCreation')}
       callback={() => {
         dispatch(setDisplayName(''));
         dispatch(setRecoveryPassword(''));
