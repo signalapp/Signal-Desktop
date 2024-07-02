@@ -1231,12 +1231,12 @@ export class CallingClass {
     let updateMessageState = GroupCallUpdateMessageState.SentNothing;
     const updateCallHistoryOnLocalChanged =
       callMode === CallMode.Group
-        ? this.updateCallHistoryForGroupCallOnLocalChanged
-        : this.updateCallHistoryForAdhocCall;
+        ? this.updateCallHistoryForGroupCallOnLocalChanged.bind(this)
+        : this.updateCallHistoryForAdhocCall.bind(this);
     const updateCallHistoryOnPeek =
       callMode === CallMode.Group
-        ? this.updateCallHistoryForGroupCallOnPeek
-        : this.updateCallHistoryForAdhocCall;
+        ? this.updateCallHistoryForGroupCallOnPeek.bind(this)
+        : this.updateCallHistoryForAdhocCall.bind(this);
     const logId =
       callMode === CallMode.Group
         ? `groupv2(${conversationId})`
