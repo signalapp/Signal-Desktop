@@ -7,10 +7,11 @@ import {
   GroupCallConnectionState,
 } from '../types/Calling';
 import type { ActiveCallType } from '../types/Calling';
+import { isGroupOrAdhocActiveCall } from './isGroupOrAdhocCall';
 
 export function isReconnecting(activeCall: ActiveCallType): boolean {
   return (
-    (activeCall.callMode === CallMode.Group &&
+    (isGroupOrAdhocActiveCall(activeCall) &&
       activeCall.connectionState === GroupCallConnectionState.Reconnecting) ||
     (activeCall.callMode === CallMode.Direct &&
       activeCall.callState === CallState.Reconnecting)
