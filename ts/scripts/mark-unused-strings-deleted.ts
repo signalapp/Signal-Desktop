@@ -22,6 +22,7 @@ function getIcuLikeStrings(): Set<string> {
       '--recursive',
       'ts/',
       'app/',
+      'js/',
     ],
     {
       cwd: rootDir,
