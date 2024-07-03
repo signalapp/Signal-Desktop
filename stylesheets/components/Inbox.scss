@@ -34,3 +34,45 @@
     }
   }
 }
+
+.Inbox__logo {
+  flex-shrink: 0;
+
+  display: block;
+  width: 150px;
+  height: 150px;
+  margin-block: 24px;
+  position: relative;
+
+  .Inbox__logo__part {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+
+  .Inbox__logo__part--base {
+    @include color-svg('../images/logo-parts/base.svg', $color-white);
+    z-index: 1;
+  }
+
+  .Inbox__logo__part--segment {
+    opacity: 0;
+    z-index: 2;
+  }
+
+  .Inbox__logo__part--animated {
+    transition: opacity 250ms, transform 250ms;
+  }
+
+  @for $i from 1 through 16 {
+    .Inbox__logo__part--segment:nth-child(#{$i + 1}) {
+      @include color-svg('../images/logo-parts/p#{$i}.svg', $color-white);
+      transform: rotate(#{(16 - $i) * 22.5}deg);
+    }
+  }
+
+  .Inbox__logo__part--segment:nth-child(n).Inbox__logo__part--visible {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+}

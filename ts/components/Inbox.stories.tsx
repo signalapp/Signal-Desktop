@@ -19,10 +19,12 @@ export default {
   args: {
     i18n,
     hasInitialLoadCompleted: false,
+    isAlpha: false,
     isCustomizingPreferredReactions: false,
   },
   argTypes: {
     daysAgo: { control: { type: 'number' } },
+    isAlpha: { control: { type: 'boolean' } },
   },
 } satisfies Meta<PropsType & { daysAgo?: number }>;
 
