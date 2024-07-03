@@ -5428,7 +5428,7 @@
     "messageformat": "ပါဝင်မည်"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "ကောလ်အမည် ပေါင်းထည့်ရန်"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "မန်ဘာအားလုံးကို အတည်ပြုရန်"
@@ -5440,10 +5440,10 @@
     "messageformat": "ဖွင့်မည်"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "ကောလ်အမည် ပေါင်းထည့်ရန်"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "ကောလ်အမည်"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {အခြား {count,number} ဦး စာရိုက်နေသည်။}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "အသံမက်ဆေ့(ချ်)ကို အသံသွင်းနေစဉ်တွင် အခြား ချက်(တ်) သို့မဟုတ် အက်ပလီကေးရှင်းသို့ ပြောင်းခြင်းဖြင့် ထိုမက်ဆေ့(ချ်) ပျောက်ကွယ်သွားသည့် ချို့ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။ လက်ရှိလုပ်ဆောင်နေသည့် အသံမက်ဆေ့ချ်များကို ယခုအခါ မူကြမ်းများအဖြစ် သိမ်းဆည်းထားပြီး ချက်(တ်)သို့ ပြန်သွားသည့်အခါ ၎င်းတို့ကို ပြန်လည်သုံးသပ်ပြီး ပေးပို့နိုင်ပါသည်။"
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "ယခု သင်သည် မိုဘိုင်းမှ ပေးပို့ထားသော အဆက်အသွယ်ကတ်များကို ထပ်ဆင့်ပို့နိုင်ပါပြီ။"
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "အရည်သွေးမြင့် အီမိုဂျီ ပံ့ပိုးမှုအသစ်သည် အီမိုဂျီပုံ အကြီးစားများ ပြသမှုကို ပိုမိုကောင်းမွန်စေသည်။"
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "နောက်ဆုံးပေါ် အီမိုဂျီပုံများကို ပံ့ပိုးရန် စတစ်ကာဖန်တီးမှုကို အပ်ဒိတ်လုပ်ထားသည်။"
   }
 }

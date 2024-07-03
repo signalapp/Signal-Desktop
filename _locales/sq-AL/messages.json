@@ -5428,7 +5428,7 @@
     "messageformat": "Bashkohu"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Shto emrin e thirrjes"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Mirato të gjithë anëtarët"
@@ -5440,10 +5440,10 @@
     "messageformat": "Aktiv"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Shto emrin e thirrjes"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Emri i telefonuesit"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} tjetër po shkruan.} other {{count,number} tjerë po shkruajnë.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Nëse je lodhur me humbjen e zërit, kemi rregulluar problemin që shkaktonte zhdukjen e mesazhit zanor kur kalohet nga një bisedë ose aplikacion tjetër gjatë regjistrimit të tij. Në vazhdim, mesazhet zanore do të ruhen si drafte, në mënyrë që t'i rishikosh dhe t'i dërgosh kur të kthehesh në bisedë."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Tani mund t'i përcjellësh kartat e kontaktit që janë dërguar nga një pajisje celulare. Shpërndaj numrin e porosive të restorantit tënd të preferuar pa përdorur telefonin."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Ndihma e re për \"jumbomoji\" me rezolucion të lartë shton detaje jashtëzakonisht të qarta dhe të gjalla tek emojit e mëdhenj, veçanërisht në ekrane të mëdha me pikselë të vegjël."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Ne gjithashtu përditësuam Krijuesin e Ngjitësve për të mbështetur emojit më të fundit, nda ngjitësit e sotëm nuk kufizohen më te standardi i djeshëm i Unicode."
   }
 }

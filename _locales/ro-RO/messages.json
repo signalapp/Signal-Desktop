@@ -5428,7 +5428,7 @@
     "messageformat": "Alătură-te"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Adaugă numele apelului"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Aprobă toți membrii"
@@ -5440,10 +5440,10 @@
     "messageformat": "Activat"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Adaugă numele apelului"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Numele apelului"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {încă {count,number} scrie.} few {încă {count,number} alții scriu.} other {încă {count,number} alții scriu.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Dacă te-ai săturat să-ți pierzi vocea, am remediat o eroare care făcea ca trecerea la o altă conversație sau aplicație în timp ce înregistrezi un mesaj vocal să ducă la dispariția acestuia. Mesajele vocale în curs de redactare sunt acum salvate ca schițe, astfel încât să le poți revizui și trimite atunci când revii la conversație."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Acum poți redirecționa cartea de vizită a unui contact, trimisă de pe un dispozitiv mobil. Partajează numărul de comandă pentru restaurantul tău preferat fără a scoate telefonul."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Noua asistență pentru \"jumbomoji\" de înaltă rezoluție adaugă detalii extraordinare emoji-urilor mari, în special pe ecrane mari cu pixeli mici."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Am actualizat și Creatorul de autocolante, pentru a oferi asistență celor mai recente Emoji, astfel încât autocolantele de azi să nu mai fie blocate de standardul Unicode de ieri."
   }
 }

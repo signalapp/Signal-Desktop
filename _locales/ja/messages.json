@@ -5428,7 +5428,7 @@
     "messageformat": "参加する"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "通話名を追加する"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "全メンバーを承認制にする"
@@ -5440,10 +5440,10 @@
     "messageformat": "オン"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "通話名を追加する"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "通話名"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} 人が入力中です。}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "ボイスメッセージを録音中に別のチャットやアプリケーションに切り替えると、その録音が消えてしまうバグを修正しました。録音中のボイスメッセージは下書きとして保存されるようになったので、チャットに戻って確認後に送信できます。"
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "モバイル端末から送信された連絡先カードを転送できるようになりました。"
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "高解像度の絵文字を新たにサポートし、大きな絵文字の表示方法を改善しました。"
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "また、最新の絵文字をサポートするためにステッカークリエイターを更新しました。"
   }
 }

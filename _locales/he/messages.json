@@ -5428,7 +5428,7 @@
     "messageformat": "הצטרפות"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "הוספת שם שיחה"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "אישור כל החברים"
@@ -5440,10 +5440,10 @@
     "messageformat": "מופעל"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "הוספת שם שיחה"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "שם שיחה"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {עוד {count,number} מקליד/ה.} two {עוד {count,number} מקלידים.} many {עוד {count,number} מקלידים.} other {עוד {count,number} מקלידים.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "תיקנו באג שגרם להודעה קולית להיעלם במידה ובמהלך ההקלטה עברת בין צ׳אטים או אפליקציות. הודעות קוליות כאלה יישמרו כעת כטיוטות, ותהיה לך אפשרות לבדוק ולשלוח אותן ברגע שחזרת לצ׳אט."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "עכשיו אפשר להעביר בהודעה כרטיס אנשי קשר שנשלחו ממכשיר נייד."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "תמיכה חדשה באימוג׳ים ברזולוציה גבוהה משפרת את אופן התצוגה של אימוג׳ים גדולים."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "עדכנו גם את יוצר הסטיקרים כדי לתמוך באימוג׳ים העדכניים ביותר."
   }
 }

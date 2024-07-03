@@ -5428,7 +5428,7 @@
     "messageformat": "જોડાઓ"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "કૉલ નામ ઉમેરો"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "બધા સભ્યોને મંજૂર કરો"
@@ -5440,10 +5440,10 @@
     "messageformat": "ચાલુ"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "કૉલ નામ ઉમેરો"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "કૉલ નામ"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} અન્ય ટાઇપ કરી રહ્યા છે.} other {{count,number} અન્યો ટાઇપ કરી રહ્યાં છે.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "અમે એક બગને ઠીક કર્યો છે જ્યાં વોઇસ મેસેજ રેકોર્ડ કરતી વખતે અન્ય ચેટ અથવા એપ્લિકેશન પર સ્વિચ કરવાથી તે મેસેજ અદૃશ્ય થાય એવું બનતું હતું. ચાલી રહેલા વોઇસ મેસેજ હવે ડ્રાફ્ટ તરીકે સાચવવામાં આવે છે જેથી તમે જ્યારે ચેટ પર પાછા ફરો ત્યારે તમે તેની સમીક્ષા કરી શકો અને મોકલી શકો."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "હવે તમે મોબાઇલ ડિવાઇસથી મોકલવામાં આવેલા હોય તેવા કોન્ટેક્ટ કાર્ડ્સ ફોરવર્ડ કરી શકો છો."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "હાઇ-રિઝોલ્યુશન \"જમ્બોમોજી\" માટે નવો સપોર્ટ મોટા ઇમોજી અક્ષરો પ્રદર્શિત કરવાની રીતને બહેતર બનાવે છે."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "અમે લેટેસ્ટ ઇમોજી અક્ષરોને સપોર્ટ કરવા માટે સ્ટીકર ક્રિએટરને પણ અપડેટ કર્યું છે."
   }
 }

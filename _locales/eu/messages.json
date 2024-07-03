@@ -5428,7 +5428,7 @@
     "messageformat": "Sartu"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Gehitu deiaren izena"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Kide guztiak onartu"
@@ -5440,10 +5440,10 @@
     "messageformat": "Aktibatuta"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Gehitu deiaren izena"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Deitu izena"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Beste {count,number} idazten ari da.} other {Beste {count,number} idazten ari dira.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Ahots-mezuak grabatu bitartean beste txat edo aplikazio batera aldatzean batzuetan mezuak desagerrarazten zituen akats bat konpondu dugu. Orain, grabatzen ari zaren ahots-mezuak zirriborro gisa gordetzen dira, txatera itzultzen zarenean berrikusi eta bidali ahal izan ditzazun."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Orain gailu mugikor batetik bidalitako kontaktu txartelak birbidali ditzakezu. Partekatu zure gogoko jatetxe horretako zenbakia telefonoa atera gabe."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Bereizmen handiko emojiak erabiltzeko aukera berriari esker, emojiak tamaina handiagoan bistara daitezke."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Halaber, Eranskailuen sortzailea eguneratu dugu, emoji-karaktere berrienak erabili ahal izateko."
   }
 }

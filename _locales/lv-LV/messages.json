@@ -5428,7 +5428,7 @@
     "messageformat": "Pievienoties"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Pievienot audiozvana nosaukumu"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Apstiprināt visus dalībniekus"
@@ -5440,10 +5440,10 @@
     "messageformat": "Ieslēgts"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Pievienot audiozvana nosaukumu"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Zvana nosaukums"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, zero {{count,number} citi raksta.} one {{count,number} cits raksta.} other {{count,number} citi raksta.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Lai jūsu teiktais nepaliktu nepamanīts, atrisinājām kļūdu, kuras dēļ balss ziņas mēdza pazust, kad to ierakstīšanas laikā pārslēdzāties uz citu sarunu vai lietotni. Tagad vēl nenosūtītās balss ziņas tiek saglabātas kā melnraksti, lai, atgriežoties sarunā, jūs varētu tās pārskatīt un nosūtīt."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Tagad varat pārsūtīt kontaktpersonu kartītes, kas tika nosūtītas no mobilās ierīces. Kopīgojiet sava iecienītākā restorāna ēdienu piegādes numuru, neizņemot savu tālruni no kabatas."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Tagad lielizmēra emocijzīmes būs redzamas augstā izšķirtspējā, jo īpaši uz lieliem ekrāniem ar maziem pikseļiem."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Mēs arī atjauninājām uzlīmju izveidotāju, iekļaujot atbalstu jaunākajām emocijzīmēm. Uzlīmes tagad vairs neierobežo novecojušais Unicode standarts."
   }
 }

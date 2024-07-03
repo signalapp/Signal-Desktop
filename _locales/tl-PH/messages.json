@@ -5428,7 +5428,7 @@
     "messageformat": "Sumali"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Maglagay ng pangalan ng call"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "I-approve ang lahat ng members"
@@ -5440,10 +5440,10 @@
     "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Maglagay ng pangalan ng call"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Pangalan ng call"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ang nagta-type.} other {{count,number} ang nagta-type.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "May inayos kaming bug na kung saan maaaring mawala ang voice message kapag lumipat ka sa ibang chat o application habang nire-record mo ito. Mase-save na ito ngayon bilang draft para maaari mo itong ma-review at ma-send kapag bumalik ka na sa chat."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Pwede mo nang i-forward ang contact cards na galing sa isang mobile device."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Sinusuportahan na ang high-resolution emoji para mas mapaganda ang pag-display ng malalaking emoji characters."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Inupdate rin namin ang Sticker Creator para suportahan ang latest Emoji characters."
   }
 }

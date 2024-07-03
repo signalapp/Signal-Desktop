@@ -5428,7 +5428,7 @@
     "messageformat": "ചേരുക"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "കോളിന്‍റെ പേര് ചേർക്കുക"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "എല്ലാ അംഗങ്ങളെയും അംഗീകരിക്കൂ"
@@ -5440,10 +5440,10 @@
     "messageformat": "ഓൺ"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "കോളിന്‍റെ പേര് ചേർക്കുക"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "കോളിന്റെ പേര്"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {മറ്റ് {count,number} ആൾ ടൈപ്പ് ചെയ്യുന്നു.} other {മറ്റ് {count,number} പേർ ടൈപ്പ് ചെയ്യുന്നു.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "ശബ്‌ദം നഷ്‌ടപ്പെടുന്നത് നിങ്ങളെ ക്ഷീണിപ്പിക്കുന്നുവെങ്കിൽ, ഒരു വോയ്‌സ് സന്ദേശം റെക്കോർഡുചെയ്യുമ്പോൾ മറ്റൊരു ചാറ്റിലേക്കോ ആപ്ലിക്കേഷനിലേക്കോ മാറുന്നത് ആ സന്ദേശം അപ്രത്യക്ഷമാകുന്നതിന് കാരണമായേക്കാവുന്ന ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചു. പുരോഗതിയിലുള്ള ശബ്ദ സന്ദേശങ്ങൾ ഇപ്പോൾ ഡ്രാഫ്റ്റുകളായി സംരക്ഷിച്ചിരിക്കുന്നതിനാൽ നിങ്ങൾ ചാറ്റിലേക്ക് മടങ്ങുമ്പോൾ അവ അവലോകനം ചെയ്യാനും അയയ്ക്കാനും കഴിയും."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "ഇപ്പോൾ നിങ്ങൾക്ക്, ഒരു മൊബൈൽ ഉപകരണത്തിൽ നിന്ന് അയച്ച കോൺടാക്റ്റ് കാർഡുകൾ കൈമാറാൻ കഴിയും. നിങ്ങളുടെ ഫോൺ പുറത്തെടുക്കാതെ തന്നെ നിങ്ങളുടെ പ്രിയപ്പെട്ട റെസ്റ്റോറൻ്റിനായുള്ള ടേക്ക്-ഔട്ട് നമ്പർ പങ്കിടുക."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "ഉയർന്ന മിഴിവുള്ള \"ജംബോമോജി\"യ്ക്കുള്ള പുതിയ പിന്തുണ വലിയ ഇമോജികളിലേക്ക്, പ്രത്യേകിച്ച് ചെറിയ പിക്സലുകളുള്ള വലിയ സ്ക്രീനുകളിൽ, വളരെ വലിയ വിശദാംശങ്ങൾ ചേർക്കുന്നു."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "ഏറ്റവും പുതിയ ഇമോജിയെ പിന്തുണയ്‌ക്കുന്നതിനായി ഞങ്ങൾ സ്റ്റിക്കർ ക്രിയേറ്ററും അപ്‌ഡേറ്റ് ചെയ്‌തു, അതിനാൽ ഇന്നത്തെ സ്റ്റിക്കറുകൾ ഇന്നലത്തെ യൂണികോഡ് സ്റ്റാൻഡേർഡിൽ ഒതുങ്ങില്ല."
   }
 }

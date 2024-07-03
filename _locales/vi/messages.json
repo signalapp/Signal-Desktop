@@ -5428,7 +5428,7 @@
     "messageformat": "Tham gia"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Thêm tên cuộc gọi"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Chấp nhận tất cả thành viên"
@@ -5440,10 +5440,10 @@
     "messageformat": "Bật"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Thêm tên cuộc gọi"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Tên cuộc gọi"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} người khác đang nhập.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Chúng tôi đã sửa lỗi làm tin nhắn thoại đang được ghi âm biến mất khi chuyển qua một cuộc trò chuyện hoặc ứng dụng khác. Tin nhắn thoại đang trong quá trình ghi âm giờ đây được lưu thành bản nháp để bạn có thể nghe lại và gửi khi quay lại cuộc trò chuyện."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Giờ đây bạn có thể chuyển tiếp thẻ liên hệ được gửi từ một thiết bị di động."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Giờ đây Signal hỗ trợ hiển thị các emoji ở độ phân giải cao để các emoji cỡ lớn hiển thị tốt hơn."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Chúng tôi cũng đã cập nhật Công Cụ Tạo Nhãn Dán để hỗ trợ các Emoji mới nhất."
   }
 }

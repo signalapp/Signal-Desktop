@@ -5428,7 +5428,7 @@
     "messageformat": "Prisijungti"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Pridėti skambučio pavadinimą"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Patvirtinti visus narius"
@@ -5440,10 +5440,10 @@
     "messageformat": "Įjungta"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Pridėti skambučio pavadinimą"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Skambučio pavadinimas"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} žmogus rašo.} few {{count,number} žmonės rašo.} many {{count,number} žmonių rašo.} other {{count,number} žmonių rašo.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Ištaisėme klaidą, dėl kurios įrašant balso žinutę perėjus į kitą pokalbį ar programą ta žinutė gali išnykti. Įrašomos balso žinutės dabar išsaugomos kaip juodraščiai, kad galėtumėte jas peržiūrėti ir išsiųsti grįžę į pokalbį."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Dabar galite persiųsti adresatų korteles, kurios buvo išsiųstos iš mobiliojo įrenginio."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Naujas didelės raiškos jaustukų palaikymas pagerina didelių jaustukų rodymą."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Be to, atnaujinome lipdukų kūrimo įrankį, kad palaikytume naujausius jaustukus."
   }
 }

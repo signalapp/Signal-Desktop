@@ -5428,7 +5428,7 @@
     "messageformat": "Pridať sa"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Pridať názov hovoru"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Schváliť všetkých členov"
@@ -5440,10 +5440,10 @@
     "messageformat": "Zap."
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Pridať názov hovoru"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Názov hovoru"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ďalší píše.} few {{count,number} ďalší píšu.} many {{count,number} ďalšieho píše.} other {{count,number} ďalších píše.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Opravili sme chybu, pri ktorej mohlo prepnutie na iný čet alebo aplikáciu počas nahrávania hlasovej správy spôsobiť zmiznutie tejto správy. Prebiehajúce hlasové správy sa teraz ukladajú ako koncepty, takže si ich môžete prezrieť a odoslať, keď sa vrátite do četu."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Teraz môžete preposielať karty kontaktov, ktoré boli odoslané z mobilného zariadenia."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Nová podpora pre emoji s vysokým rozlíšením zlepšuje zobrazovanie veľkých emoji."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Aktualizovali sme tiež aplikáciu Sticker Creator pre zobrazovanie najnovších emoji."
   }
 }

@@ -5428,7 +5428,7 @@
     "messageformat": "加入"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "添加通话名称"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "批准所有成员"
@@ -5440,10 +5440,10 @@
     "messageformat": "开"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "添加通话名称"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "通话名称"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {其他 {count,number} 人正在输入。}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "我们修复了一个错误，即用户在录音时切换到另一个聊天或应用可能会导致录音中的语音消息消失。现在录音中的语音消息可以保存为草稿，方便用户返回聊天中查看和发送语音消息。"
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "现在您可以转发从移动设备发送的联系人名片。"
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "新的高分辨率表情符号支持优化了大表情字符的显示方式。"
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "我们还更新了贴纸创建器以支持最新的表情字符。"
   }
 }

@@ -5428,7 +5428,7 @@
     "messageformat": "Bli med"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Gi samtalen et navn"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Godkjenn alle medlemmene"
@@ -5440,10 +5440,10 @@
     "messageformat": "På"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Gi samtalen et navn"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Samtalenavn"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} annen person skriver.} other {{count,number} andre personer skriver.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Vi har rettet opp i en feil som førte til at talemeldinger ble forkastet hvis man gikk til en annen samtale eller applikasjon før talemeldingen var ferdig innspilt. Nå lagres utkastet, slik at du kan høre gjennom talemeldingen når du går tilbake til samtalen."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Nå kan du videresende kontakter som er sendt fra mobilenheter."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Vi har også gjort visningen av store emojier bedre i appen."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "I tillegg har vi oppdatert verktøyet for å lage klistremerker, slik at du også kan bruke alle de nyeste emojiene."
   }
 }

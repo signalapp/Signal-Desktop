@@ -5428,7 +5428,7 @@
     "messageformat": "Gabung"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Tambahkan nama panggilan"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Setujui semua anggota"
@@ -5440,10 +5440,10 @@
     "messageformat": "Aktif"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Tambahkan nama panggilan"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Nama panggilan"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} orang lainnya sedang mengetik.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Kami memperbaiki bug yang menyebabkan hilangnya pesan suara saat beralih ke obrolan atau aplikasi lain selagi Anda merekam pesan suara. Kini, pesan suara yang sedang dibuat akan disimpan sebagai draf, jadi Anda bisa meninjau dan mengirimnya saat Anda kembali ke obrolan tersebut."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Kini Anda dapat meneruskan kartu kontak yang dikirim dari perangkat seluler."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Dukungan baru untuk emoji resolusi tinggi menyempurnakan seberapa besar karakter emoji ditampilkan."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Kami juga memperbarui Pembuat Stiker agar mendukung karakter Emoji terbaru."
   }
 }

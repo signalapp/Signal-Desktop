@@ -5428,7 +5428,7 @@
     "messageformat": "Csatlakozás"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Hívásnév megadása"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Összes tag jóváhagyása"
@@ -5440,10 +5440,10 @@
     "messageformat": "Be"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Hívásnév megadása"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Hívás neve"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} másik személy ír.} other {{count,number} másik személy ír.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Kijavítottunk egy hibát, amely miatt egy másik csevegésre vagy alkalmazásra váltva hangüzenet rögzítése közben az üzenet eltűnhet. A folyamatban lévő hangüzeneteket a rendszer most piszkozatként menti, így áttekintheted és elküldheted őket, amikor visszatérsz a csevegésbe."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Most már továbbíthatod a mobileszközről küldött névjegykártyákat."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "A nagy felbontású hangulatjelek új támogatása javítja a nagy hangulatjel karakterek megjelenítését."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Frissítettük a Matricakészítőt is, hogy támogassa a legújabb hangulatjel karaktereket."
   }
 }

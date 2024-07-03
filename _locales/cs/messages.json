@@ -5428,7 +5428,7 @@
     "messageformat": "Připojit"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Přidat název hovoru"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Schválit všechny členy"
@@ -5440,10 +5440,10 @@
     "messageformat": "Zapnout"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Přidat název hovoru"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Název hovoru"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} další píše.} few {{count,number} další píšou.} many {{count,number} dalších píše.} other {{count,number} dalších píše.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Opravili jsme chybu, kdy přepnutí do jiného chatu nebo aplikace během nahrávání hlasové zprávy způsobilo, že tato zpráva zmizela. Rozpracované hlasové zprávy se nyní ukládají jako koncepty, abyste si je mohli po návratu do chatu zkontrolovat a odeslat."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Nyní můžete přeposílat karty kontaktů, které byly odeslané z mobilního zařízení."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Nová podpora vysokého rozlišení nabízí propracovanější zobrazení velkých emoji."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Aktualizovali jsme také nástroj pro vytváření nálepek, aby podporoval nejnovější emoji."
   }
 }

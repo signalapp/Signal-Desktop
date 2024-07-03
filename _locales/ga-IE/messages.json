@@ -5428,7 +5428,7 @@
     "messageformat": "Téigh isteach ann"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Cuir ainm an ghlao leis"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Faomh gach ball"
@@ -5440,10 +5440,10 @@
     "messageformat": "Air"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Cuir ainm an ghlao leis"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Ainm an ghlao"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Tá {count,number} duine eile ag clóscríobh.} two {Tá {count,number} dhuine eile ag clóscríobh.} few {Tá {count,number} dhuine eile ag clóscríobh.} many {Tá {count,number} nduine eile ag clóscríobh.} other {Tá {count,number} duine eile ag clóscríobh.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Réitíomar fabht ina bhféadfadh glórphost imeacht as radharc dá n-athrófá chuig comhrá nó feidhmchlár eile agus an glórphost sin á thaifeadadh. Sábháiltear glórphoist atá ar bun mar dhréachtaí anois ionas gur féidir leat dul siar orthu agus iad a sheoladh ar fhilleadh ar an gcomhrá duit."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Anois is féidir leat cártaí teagmhála, a seoladh ó ghléas móibíleach, a chur ar aghaidh. Comhroinn uimhir beir leat na bialainne is fearr leat gan d'fhón a thógáil amach."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Cuireann tacaíocht nua do \"jumbomoji\" ardtaifeach feabhas ar thaispeáint na gcarachtar mór emoji, go háirithe ar scáileáin mhóra a bhfuil pictilíní beaga iontu."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Rinneamar nuashonrú freisin ar Chruthaitheoir Greamán le tacú leis na carachtair emoji is déanaí, ionas nach mbeidh greamáin an lae inniu teanntaithe ag caighdeán Unicode an lae inné."
   }
 }

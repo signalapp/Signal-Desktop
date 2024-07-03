@@ -5428,7 +5428,7 @@
     "messageformat": "Приклучи се"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Додајте име на повикот"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Одобрете ги сите членови"
@@ -5440,10 +5440,10 @@
     "messageformat": "Вклучи"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Додајте име на повикот"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Име на повикот"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Уште {count,number} лице пишува.} other {Уште {count,number} лица пишуваат.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Решивме грешка со исчезнување на гласовна порака која се јавуваше при менување на друг разговор или апликација додека се снима гласовната порака. Сега, гласовните пораки кои се во тек на снимање ќе се зачуваат како нацрт порака за да може да ги прегледате кога ќе се вратите на разговорот."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Сега можете да препраќате картички со контакт испратени од мобилен телефон."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Со новата поддршка за емотикони со висока резолуција е подобрен начинот на кој се прикажуваат големите емотикони."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Исто така, ажуриран е креаторот на налепници за да се поддржуваат најновите емотикони."
   }
 }

@@ -5428,7 +5428,7 @@
     "messageformat": "Deltag"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Tilføj opkaldsnavn"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Godkend alle medlemmer"
@@ -5440,10 +5440,10 @@
     "messageformat": "Til"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Tilføj opkaldsnavn"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Opkaldsnavn"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} anden skriver.} other {{count,number} andre skriver.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Hvis du er træt af at miste din stemme, har vi rettet en fejl, hvor skift til en anden chat eller en anden app under optagelse af en stemmemeddelelse kunne medføre, at meddelelsen forsvandt. Igangværende talebeskeder gemmes nu som udkast, så du kan gennemgå og sende dem, når du vender tilbage til chatten."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Nu kan du videresende kontaktkort, der blev sendt fra en mobilenhed. Del nummeret til din yndlingsrestaurant uden at tage din telefon op."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Ny understøttelse af \"jumbomoji\" i høj opløsning tilføjer større detaljer til store emoji, især på store skærme med små pixels."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Vi har også opdateret klistermærkeværktøjet for at understøtte den nyeste emoji, så dagens klistermærker sidder ikke længere fast med gårsdagens Unicode-standard."
   }
 }

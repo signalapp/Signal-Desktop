@@ -5428,7 +5428,7 @@
     "messageformat": "شامل ہوں"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "کال نیم شامل کریں"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "تمام ممبرز منظور کریں"
@@ -5440,10 +5440,10 @@
     "messageformat": "آن کریں"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "کال نیم شامل کریں"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "کال نیم"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} دوسرا ٹائپ کر رہا ہے۔} other {{count,number} دوسرے ٹائپ کر رہے ہیں۔}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "ہم نے وہ بگ ٹھیک کر دیا ہے جہاں صوتی میسج ریکاڑد کرتے ہوئے ایک دوسری چیٹ یا ایپلیکیشن پر منتقل ہونے پر اس میسج کے غائب ہو جانے کا سبب بن سکتا تھا۔ بتدریج جاری رہنے والے صوتی میسجز اب بطور ڈرافٹ محفوظ کیے جاتے ہیں جس سے آپ چیٹ میں واپس آنے پر ان کا جائزہ لے سکتے اور بھیج سکتے ہیں۔"
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "اب آپ ان کانٹیک کارڈز کو آگے بھیج سکتے ہیں جو موبائل ڈیوائس سے بھیجے گئے تھے۔"
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "ہائی ریزولوشن ایموجی کے لیے نئی سپورٹ بڑے ایموجی کیریکٹروں کے ڈسپلے کو بہتر بناتی ہے۔"
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "ہم نے جدید ترین ایموجی کیریکٹرز کو سپورٹ کرنے والی اسٹیکربنانے کی خصوصیت کو بھی اپ ڈیٹ کیا ہے۔"
   }
 }

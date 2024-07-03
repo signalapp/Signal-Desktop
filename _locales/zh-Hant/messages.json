@@ -5428,7 +5428,7 @@
     "messageformat": "加入"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "新增通話名稱"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "批准全部成員"
@@ -5440,10 +5440,10 @@
     "messageformat": "開"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "新增通話名稱"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "通話名稱"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {其他 {count,number} 個人正在打字。}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "我們修復了一個錯誤，那就是在錄製語音訊息時，如果切換到另一個聊天或應用程式可能會導致該訊息消失。正在進行的語音訊息現在會被儲存為草稿，以便你可以在返回聊天時查看並發送出去。"
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "現在你可以轉發從行動裝置傳送的聯絡人卡片。以後無需拿出手機，也可分享你最愛餐廳的外賣電話號碼。"
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "新支援高解析度「巨型表情符號」，令大型表情符號更耀眼奪目，尤其是在小像素的大螢幕上。"
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "我們還更新了貼圖製作器以支援最新的表情符號。"
   }
 }

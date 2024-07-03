@@ -5428,7 +5428,7 @@
     "messageformat": "Pridruži se"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Dodaj naziv poziva"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Odobri sve članove"
@@ -5440,10 +5440,10 @@
     "messageformat": "Uključeno"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Dodaj naziv poziva"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Naziv poziva"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} osoba tipka.} few {{count,number} osobe tipkaju.} many {{count,number} osoba tipka.} other {{count,number} osoba tipka.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Ispravili smo pogrešku zbog koje je prebacivanje na drugi razgovor ili aplikaciju tijekom snimanja glasovne poruke moglo rezultirati nestankom te poruke. Glasovne poruke koje su u tijeku sada se automatski spremaju kao skice tako da ih možete pregledati i poslati kada se vratite u razgovor."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Sada možete proslijediti kartice kontakata koje su poslane s mobilnog uređaja."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Nova podrška za emoji znakove visoke razlučivosti poboljšava prikaz velikih emojija."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Također smo ažurirali Sticker Creator kako bi podržao najnovije emoji znakove."
   }
 }

@@ -5428,7 +5428,7 @@
     "messageformat": "Katıl"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Arama adı ekle"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Tüm üyeleri onayla"
@@ -5440,10 +5440,10 @@
     "messageformat": "Açık"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Arama adı ekle"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Arama adı"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} kişi daha yazıyor.} other {{count,number} kişi daha yazıyor.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Başka bir sohbete veya uygulamaya geçerken, sesli mesaj kaydetmenin bu mesajın kaybolmasına neden olduğu bir hatayı düzelttik. Devam eden sesli mesajlar artık şablon olarak kaydedilmektedir böylece sohbete geri döndüğünde bu mesajları gözden geçirip gönderebilirsin."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Artık bir mobil cihazdan gönderilen kişi kartlarını iletebilirsin. Telefonunu çıkarmadan favori restoranının paket servisi numarasını paylaş."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Yüksek çözünürlüklü emoji için yeni destek, emoji karakterlerin daha büyük görüntülenmesini sağlıyor."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Ayrıca en yeni Emoji karakterleri desteklemek için Çıkartma Oluşturucuyu da güncelledik."
   }
 }

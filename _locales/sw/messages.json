@@ -5428,7 +5428,7 @@
     "messageformat": "Jiunge"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Ongeza jina la simu"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Ruhusu wanakikundi wote"
@@ -5440,10 +5440,10 @@
     "messageformat": "Washa"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Ongeza jina la simu"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Jina la simu"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Mwingine {count,number} anaandika.} other {Wengine {count,number} wanaandika.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Kama umechoka kupoteza sauti yako, tumerekebisha hitilafu ambapo kuhamia kwenye gumzo jingine au programu nyingine wakati wa kurekodi ujumbe wa sauti kunaweza kusababisha ujumbe huo kupotea. Jumbe za sauti zinazorekodiwa sasa zinahifadhiwa kwenye rasimu ili uweze kuzikagua na kuzituma utakaporudi kwenye gumzo."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Sasa unaweza kutuma kadi za mawasiliano zilizotumwa kutoka kwa simu ya mkononi. Shiriki namba ya simu ya mkahawa wako uupendao bila kutoa simu yako."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Msaada mpya wa \"jumbomoji\" zenye ubora wa hali ya juu, zinaongeza emoji kubwa sana, hasa kwenye skrini kubwa zenye pixel ndogo."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Pia tumesasisha Kiunda Vibandiko ili kutoa msaada kwa emoji za hivi karibuni, hivyo vibandiko vya leo havitakwama kwenye viwango vya zamani vya Unicode."
   }
 }

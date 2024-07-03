@@ -5428,7 +5428,7 @@
     "messageformat": "پیوستن"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "افزودن نام تماس"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "تأیید همه اعضا"
@@ -5440,10 +5440,10 @@
     "messageformat": "روشن"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "افزودن نام تماس"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "نام تماس"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} نفر دیگر در حال تایپ است.} other {{count,number} نفر دیگر در حال تایپ هستند.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "اشکالی را که با رفتن به گفتگو یا برنامۀ دیگری در حین ضبط پیام صوتی منجر به ناپدید شدن آن پیام می‌شد برطرف کردیم. حالا دیگر پیام‌های صوتی در حال ضبط به‌عنوان پیش‌نویس ذخیره می‌شوند تا بتوانید پس از بازگشت به گفتگو، آن‌ها را بررسی و ارسال کنید."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "اکنون می‌توانید کارت‌های تماسی را که از دستگاه تلفن همراه ارسال شده‌اند، بازارسال کنید."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "پشتیبانی جدید از ایموجی‌های با وضوح بالا نحوه نمایش کاراکترهای ایموجی بزرگ را بهبود می‌بخشد."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "همچنین برای پشتیبانی از جدیدترین کاراکترهای ایموجی، «استیکرساز» را به‌روزرسانی کردیم."
   }
 }

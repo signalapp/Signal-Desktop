@@ -5428,7 +5428,7 @@
     "messageformat": "చేరండి"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "కాల్ పేరును జోడించండి"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "సభ్యులందరినీ ఆమోదించండి"
@@ -5440,10 +5440,10 @@
     "messageformat": "ఆన్"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "కాల్ పేరును జోడించండి"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "కాల్ పేరు"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ఇతర వ్యక్తి టైప్ చేస్తున్నారు.} other {{count,number} మంది ఇతర వ్యక్తులు టైప్ చేస్తున్నారు.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "స్వర సందేశాన్ని రికార్డ్ చేస్తున్నప్పుడు మరొక చాట్ లేదా అప్లికేషన్‌కు మారడం వలన ఆ సందేశం కనిపించకుండా పోయే బగ్‌ను మేము పరిష్కరించాము. పురోగతిలో ఉన్న స్వర సందేశాలు ఇప్పుడు డ్రాఫ్ట్‌లుగా సేవ్ చేయబడతాయి కాబట్టి మీరు చాట్‌కు తిరిగి వచ్చినప్పుడు వాటిని సమీక్షించి, పంపవచ్చు."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "ఇప్పుడు మీరు మొబైల్ పరికరం నుండి పంపబడిన కాంటాక్ట్ కార్డులను ఫార్వర్డ్ చేయవచ్చు. మీ ఫోన్‌ను బయటకు తీయకుండానే మీకు ఇష్టమైన రెస్టారంట్ కోసం టేక్ అవుట్ నంబర్‌ను పంచుకోండి."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "హై-రిజల్యూషన్ ఎమోజీకి కొత్త మద్దతు పెద్ద ఎమోజీ అక్షరాలను ఎలా ప్రదర్శిస్తుందో మెరుగుపరుస్తుంది."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "తాజా ఎమోజీ అక్షరాలకు మద్దతు ఇవ్వడానికి మేము స్టిక్కర్ క్రియేటర్‌ను కూడా అప్‌డేట్ చేశాము."
   }
 }

@@ -5428,7 +5428,7 @@
     "messageformat": "انضمام"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "إضافة اسم المكالمة"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "الموافقة على جميع الأعضاء"
@@ -5440,10 +5440,10 @@
     "messageformat": "مُفعَّل"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "إضافة اسم المكالمة"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "اسم المكالمة"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, zero {{count,number} آخرون يكتبون.} one {{count,number} آخر يكتب.} two {{count,number} آخران يكتبان.} few {{count,number} آخرون يكتبون.} many {{count,number} آخرين يكتبون.} other {{count,number} آخرون يكتبون.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "أصلحنا خطأً كان يتسبب في فقدان الرسالة الصوتية عند الانتقال إلى دردشة أخرى أو تطبيق آخر أثناء تسجيلها. يُمكنك الآن حفظ الرسائل الصوتية الجاري تسجيلها كمسودة حتى تتمكّن من مُراجعتها وإرسالها عند العودة إلى الدردشة."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "يُمكنك الآن إعادة توجيه بطاقات جهات الاتصال التي أُرسلت من جهاز محمول."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "يُحسّن الدعم الجديد للوجه التعبيري عالي الدقة كيف تُعرض الرموز التعبيرية الكبيرة."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "لقد قمنا بتحديث مُنشئ الملصقات لدعم أحدث الرموز التعبيرية."
   }
 }

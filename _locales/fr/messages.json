@@ -5428,7 +5428,7 @@
     "messageformat": "Rejoindre"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Ajouter un libellé d’appel"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Approuver tous les membres"
@@ -5440,10 +5440,10 @@
     "messageformat": "Activé"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Ajouter un libellé d’appel"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Libellé de l’appel"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} autre personne est en train d’écrire.} other {{count,number} autres personnes sont en train d’écrire.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Fini les extinctions de voix sur Signal (ndlr : nos techniciens ne s’occuperont pas des utilisateurs adeptes des soirées karaoké ni de ceux qui se vantent de passer l’hiver en t-shirt). Ouvrez une autre application ou passez d’une conversation à l’autre pendant que vous enregistrez votre message vocal sans qu’il disparaisse. Désormais, Signal enregistre vos messages vocaux en cours en tant que brouillons. Vous pouvez les réécouter et les envoyer dès que vous revenez dans la conversation en question."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Vous pouvez désormais transférer des fiches de contact envoyées à partir d’un appareil mobile. Bonne nouvelle pour les plus paresseux : Signal vous permet désormais de partager le numéro de votre restaurant préféré directement depuis votre ordinateur, sans même avoir besoin d’utiliser votre téléphone (par contre, à vous de vous débrouiller pour vous y rendre, on ne peut pas tout faire pour vous…)"
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Signal a la folie des grandeurs ! Découvrez les « jumbomoji », des émojis grandeur nature (enfin presque…) pour des détails plus vrais que nature !"
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Et pour finir, notre outil de création de stickers vous propose enfin les tout derniers émojis (désolés pour les passionnés du vintage… mais l’ancienne version de vos émojis préférés reviendra peut-être à la mode !)"
   }
 }

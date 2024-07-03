@@ -5428,7 +5428,7 @@
     "messageformat": "जुड़ें"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "कॉल नाम जोड़ें"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "सभी सदस्य स्वीकृत करें"
@@ -5440,10 +5440,10 @@
     "messageformat": "पर"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "कॉल नाम जोड़ें"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "कॉल नाम"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} अन्य टाइप कर रहा/रही है।} other {{count,number} अन्य टाइप कर रहे/रही हैं।}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "यदि आप अपनी आवाज खोने से थक गए हैं, तो हमने एक बग को ठीक कर दिया है, जहां वॉइस संदेश रिकॉर्ड करते समय किसी अन्य चैट या एप्लिकेशन पर स्विच करने से वह संदेश गायब हो सकता था। प्रगति पर चल रहे वॉइस संदेश अब ड्राफ्ट के रूप में सहेजे जाते हैं, ताकि आप चैट पर वापस आने पर उनकी समीक्षा कर सकें और उन्हें भेज सकें।"
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "अब आप मोबाइल डिवाइस से भेजे गए संपर्क कार्ड को अग्रेषित कर सकते हैं। अपना फोन निकाले बिना अपने पसंदीदा रेस्तरां का टेक-आउट नंबर साझा करें।"
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "उच्च-रिज़ॉल्यूशन \"जंबोमोजी\" के लिए नया सपोर्ट बड़े इमोजी में, विशेष रूप से छोटे पिक्सेल वाले बड़े स्क्रीन पर, अधिक विस्तृत विवरण जोड़ता है।"
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "हमने स्टिकर क्रिएटर को नवीनतम इमोजी का सपोर्ट करने के लिए भी अपडेट किया है, इसलिए आज के स्टिकर अब कल के यूनिकोड मानक से चिपके नहीं हैं।"
   }
 }

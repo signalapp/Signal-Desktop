@@ -5428,7 +5428,7 @@
     "messageformat": "Qoşul"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Zəng adı əlavə et"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Bütün üzvləri təsdiqlə"
@@ -5440,10 +5440,10 @@
     "messageformat": "Açıq"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Zəng adı əlavə et"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Zəngin adı"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Əlavə {count,number} nəfər də yazır.} other {Əlavə {count,number} nəfər də yazır.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Səsli mesaj yazarkən başqa çata və ya proqrama keçid zamanı həmin mesajın silinməsinə səbəb olan səhvi aradan qaldırdıq. Artıq yazdığınız səsli mesajlar qaralama olaraq yaddaşda saxlanılır ki, siz həmin çata qayıtdığınız zaman onları nəzərdən keçirib göndərə biləsiniz."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Artıq mobil cihazdan göndərilmiş kontakt kartlarını başqasına yönləndirə bilərsiniz. Telefonu çıxarmadan sevdiyiniz restoranların kuryer xidməti nömrələrini paylaşa bilərsiniz."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Yüksək dəqiqliyə malik emoji üçün tərtib olunmuş yeni dəstək xüsusən də kiçik pikselli böyük ekranlarda emoji simvollarının görünüş keyfiyyətini təkmilləşdirir."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Ən yeni emoji simvollarını dəstəkləmək üçün biz həm də Stiker Yaradıcısını yenilədik, ona görə də bugünkü stikerlər artıq dünənki Unicode standartına uyğun gəlmir."
   }
 }

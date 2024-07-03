@@ -5428,7 +5428,7 @@
     "messageformat": "Deelnemen"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Oproepnaam toevoegen"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Alle deelnemers goedkeuren"
@@ -5440,10 +5440,10 @@
     "messageformat": "Aan"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Oproepnaam toevoegen"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Oproepnaam"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ander is aan het typen.} other {{count,number} anderen zijn aan het typen.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Als je overschakelde naar een andere chat of applicatie terwijl je een spraakbericht aan het opnemen was, verdween dat bericht soms. Deze bug hebben we nu opgelost. Spraakberichten die nog niet klaar zijn om verzonden te worden, worden nu opgeslagen als concepten, zodat je ze kunt beluisteren en verzenden wanneer je terugkeert naar de chat."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Je kunt nu contactkaarten doorsturen die vanaf een mobiel apparaat zijn verzonden."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Nieuwe ondersteuning voor ‘jumbomoji's’ met een hoge resolutie voegt levensgrote details toe aan grote emoji's, vooral op grote schermen met kleine pixels."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "We hebben ook de stickermaker geüpdatet, zodat deze de nieuwste emojis ondersteunt en de stickers van vandaag niet langer gebonden zijn aan de Unicode-standaard van gisteren."
   }
 }

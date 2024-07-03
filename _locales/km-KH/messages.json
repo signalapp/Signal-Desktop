@@ -5428,7 +5428,7 @@
     "messageformat": "ចូលរួម"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "ដាក់ឈ្មោះសម្រាប់ការហៅ"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "អនុញ្ញាតសមាជិកទាំងអស់"
@@ -5440,10 +5440,10 @@
     "messageformat": "បើក"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "ដាក់ឈ្មោះសម្រាប់ការហៅ"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "ឈ្មោះសម្រាប់ការហៅ"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} នាក់ផ្សេងទៀតកំពុងវាយអក្សរ។}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "ប្រសិនបើអ្នកធុញទ្រាន់នឹងការបាត់សារជាសំឡេងរបស់អ្នក ពេលកំពុងថតសារជាសំឡេង ដែលវាអាចបណ្តាលមកពីការចុចប្តូរទៅការជជែក ឬកម្មវិធីផ្សេងទៀតនោះ ពេលនេះអស់បារម្ភទៀតហើយ! យើងបានដោះស្រាយបញ្ហានេះរួចហើយ។ ឥឡូវនេះ សារជាសំឡេងដែលកំពុងដំណើរការថតត្រូវបានរក្សាទុកជាសេចក្តីព្រាង ដូច្នេះអ្នកអាចពិនិត្យមើល និងផ្ញើវាបាន នៅពេលអ្នកត្រឡប់ទៅការជជែកវិញ។"
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "ឥឡូវនេះអ្នកអាចបញ្ជូនបន្តនូវកាតទំនាក់ទំនងដែលបានផ្ញើពីឧបករណ៍ចល័ត។ ចែករំលែកលេខសម្រាប់ភោជនីយដ្ឋានសំណព្វរបស់អ្នកដោយមិនចាំបាច់ដកទូរសព្ទរបស់អ្នកចេញពីហោប៉ៅ។"
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "ការកែលម្អថ្មីសម្រាប់រូបអារម្មណ៍ដែលមានគុណភាពបង្ហាញច្បាស់ធ្វើឱ្យរូបអារម្មណ៍ធំៗមើលឃើញបានកាន់តែច្បាស់ល្អ។"
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "យើងក៏បានធ្វើបច្ចុប្បន្នភាពមុខងារបង្កើតស្ទីគ័រដើម្បីឱ្យស្គាល់រូបអារម្មណ៍ចុងក្រោយបំផុតផងដែរ ដូច្នេះស្ទីគ័រថ្ងៃនេះលែងជាប់គាំងជាមួយនឹងស្តង់ដាយូនីកូដកាលពីម្សិលមិញទៀតហើយ។"
   }
 }

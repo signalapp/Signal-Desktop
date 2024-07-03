@@ -5428,7 +5428,7 @@
     "messageformat": "Afegeix-m'hi"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Afegir nom de trucada"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Aprovar tots els membres"
@@ -5440,10 +5440,10 @@
     "messageformat": "Actiu"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Afegir nom de trucada"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Nom de trucada"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} persona més està escrivint.} other {{count,number} persones més estan escrivint.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Hem corregit un error que feia que desapareguessin els missatges de veu si canviaves a un altre xat o aplicació mentre l'estaves gravant. Els missatges de veu en curs es desen com a esborranys perquè els puguis revisar i enviar quan tornis al xat."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Ara pots reenviar les targetes de contacte que s'hagin enviat des d'un dispositiu mòbil."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "El nou suport per a emojis d'alta resolució ajuda a mostrar millor els emojis grans."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "També hem actualitzat el Creador d'stickers perquè admeti emojis més nous."
   }
 }

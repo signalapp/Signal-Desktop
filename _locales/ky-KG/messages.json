@@ -5428,7 +5428,7 @@
     "messageformat": "Кошулуу"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Чалуунун аталышын кошуу"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Бардык мүчөлөрдү жактыруу"
@@ -5440,10 +5440,10 @@
     "messageformat": "Күйүк"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Чалуунун аталышын кошуу"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Чалуунун аталышы"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {Дагы {count,number} адам жазып жатат.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Эми башка маекке же колдонмого которулганда, үн билдирүүңүз жоголбойт. Ал түзмөгүңүздө сакталып, кайра маекке кайтканда, каалаган убакта көрүп, жөнөтө аласыз."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Мобилдик түзмөгүңүздөн жөнөтүлгөн байланыштар карталарын башка даректерге жөнөтө аласыз. Жакшы көргөн тамактануучу жайдын номерин телефонуңузду чукулабай туруп бөлүшөсүз."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "\"Jumbomoji\" деген жаңы параметр менен быйтыкчаларыңыз майда пикселдүү чоң экрандарда дапдаана көрүнөт."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Эми Стикерлерди түзгүчтө эң акыркы быйтыкчалар да болот."
   }
 }

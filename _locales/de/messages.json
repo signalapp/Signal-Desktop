@@ -1032,7 +1032,7 @@
     "messageformat": "Zustellungsproblem"
   },
   "icu:DeliveryIssue--summary": {
-    "messageformat": "Eine Nachricht, ein Sticker, eine Reaktion, eine Lesebestätigung oder ein Medieninhalt von {sender} konnte dir nicht zugestellt werden. Der Versand wurde in einer direkten Unterhaltung oder einer Gruppenunterhaltung versucht."
+    "messageformat": "Eine Nachricht, ein Sticker, eine Reaktion, eine Lesebestätigung oder ein Medieninhalt von {sender} konnte dir nicht zugestellt werden. Die Zustellung wurde in einer direkten Unterhaltung oder einer Gruppenunterhaltung versucht."
   },
   "icu:DeliveryIssue--summary--group": {
     "messageformat": "Eine Nachricht, ein Sticker, eine Reaktion, eine Lesebestätigung oder ein Medieninhalt von {sender} konnte dir in diesem Chat nicht zugestellt werden."
@@ -1098,7 +1098,7 @@
     "messageformat": "Mehr erfahren"
   },
   "icu:Install__scan-this-code": {
-    "messageformat": "Scanne diesen Code mit der auf deinem Telefon installierten Signal-App ein"
+    "messageformat": "Scanne diesen Code mit der Signal-App auf deinem Telefon"
   },
   "icu:Install__instructions__1": {
     "messageformat": "Öffne Signal auf deinem Telefon"
@@ -1320,16 +1320,16 @@
     "messageformat": "{others, plural, one {{first}, {second} und {others,number} weitere Person nehmen an diesem Anruf teil} other {{first}, {second} und {others,number} weitere Personen nehmen an diesem Anruf teil}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
-    "messageformat": "Signal ruft {person} an"
+    "messageformat": "Signal wird bei {person} klingeln"
   },
   "icu:calling__pre-call-info--will-ring-2": {
-    "messageformat": "Signal ruft {first} und {second} an"
+    "messageformat": "Signal wird bei {first} und {second} klingeln"
   },
   "icu:calling__pre-call-info--will-ring-3": {
     "messageformat": "Signal wird bei {first}, {second} und {third} klingeln"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "{others, plural, one {Signal ruft {first}, {second} und {others,number} weitere Person an} other {Signal ruft {first}, {second} und {others,number} weitere Personen an}}"
+    "messageformat": "{others, plural, one {Signal wird bei {first}, {second} und {others,number} weiteren Person klingeln} other {Signal wird bei {first}, {second} und {others,number} weiteren Personen klingeln}}"
   },
   "icu:calling__pre-call-info--will-notify-1": {
     "messageformat": "{person} wird benachrichtigt"
@@ -1551,7 +1551,7 @@
     "messageformat": "1 Std."
   },
   "icu:hoursAgo": {
-    "messageformat": "{hours,number}h"
+    "messageformat": "{hours,number}Std."
   },
   "icu:minutesAgo": {
     "messageformat": "{minutes,number} Min."
@@ -1776,7 +1776,7 @@
     "messageformat": "Aktualisierung verfügbar"
   },
   "icu:autoUpdateRetry": {
-    "messageformat": "Versuche die Aktualisierung erneut"
+    "messageformat": "Versuche erneut zu aktualisieren"
   },
   "icu:autoUpdateContactSupport": {
     "messageformat": "den Support"
@@ -1809,7 +1809,7 @@
     "messageformat": "Du hast die Gruppe aktualisiert."
   },
   "icu:updatedGroupAvatar": {
-    "messageformat": "Der Gruppenavatar wurde aktualisiert."
+    "messageformat": "Das Gruppenbild wurde aktualisiert."
   },
   "icu:titleIsNow": {
     "messageformat": "Gruppenname lautet jetzt »{name}«."
@@ -2976,22 +2976,22 @@
     "messageformat": "Ein Mitglied hat den Gruppennamen entfernt."
   },
   "icu:GroupV2--avatar--change--other": {
-    "messageformat": "{memberName} hat den Gruppenavatar geändert."
+    "messageformat": "{memberName} hat das Gruppenbild geändert."
   },
   "icu:GroupV2--avatar--change--you": {
-    "messageformat": "Du hast den Gruppenavatar geändert."
+    "messageformat": "Du hast das Gruppenbild geändert."
   },
   "icu:GroupV2--avatar--change--unknown": {
-    "messageformat": "Ein Mitglied hat den Gruppenavatar geändert."
+    "messageformat": "Ein Mitglied hat das Gruppenbild geändert."
   },
   "icu:GroupV2--avatar--remove--other": {
-    "messageformat": "{memberName} hat den Gruppenavatar entfernt."
+    "messageformat": "{memberName} hat das Gruppenbild entfernt."
   },
   "icu:GroupV2--avatar--remove--you": {
-    "messageformat": "Du hast den Gruppenavatar entfernt."
+    "messageformat": "Du hast das Gruppenbild entfernt."
   },
   "icu:GroupV2--avatar--remove--unknown": {
-    "messageformat": "Ein Mitglied hat den Gruppenavatar entfernt."
+    "messageformat": "Ein Mitglied hat das Gruppenbild entfernt."
   },
   "icu:GroupV2--access-attributes--admins--other": {
     "messageformat": "{adminName} hat die Berechtigung »Gruppendetails bearbeiten« zu »Nur Admins« geändert."
@@ -4338,7 +4338,7 @@
     "messageformat": "Wähle eine Farbe"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
-    "messageformat": "Gruppenavatar"
+    "messageformat": "Gruppenbild"
   },
   "icu:Preferences__message-audio-title": {
     "messageformat": "Töne für Nachrichten während eines Chats"
@@ -5428,7 +5428,7 @@
     "messageformat": "Beitreten"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Anrufnamen hinzufügen"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Alle Teilnehmer bestätigen"
@@ -5440,10 +5440,10 @@
     "messageformat": "Ein"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Anrufnamen hinzufügen"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Anrufname"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} andere*r schreibt etwas.} other {{count,number} andere schreiben etwas.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Keine Lust mehr, deine Stimme zu verlieren? Wir haben einen Fehler behoben, durch den der Wechsel zu einem anderen Chat oder einer anderen Anwendung während einer Sprachaufzeichnung die Sprachnachricht verschwinden lassen konnte. Laufende Sprachnachrichten werden jetzt als Entwürfe gespeichert, damit du sie überprüfen und senden kannst, sobald du zum Chat zurückkehrst."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Jetzt kannst du Kontaktkarten, die von einem Mobilgerät gesendet wurden, weiterleiten. Gib die Bestellnummer deines Lieblingsrestaurants weiter, ohne dein Telefon herausholen zu müssen."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Die neue Unterstützung für hochauflösende Riesen-Emojis fügt überlebensgroße Details hinzu – vor allem auf großen Bildschirmen mit kleinen Pixeln."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Wir haben auch den Sticker-Gestalter aktualisiert, um die neuesten Emojis zu unterstützen. So sind Sticker von heute nicht mehr mit dem Unicode-Standard von gestern behaftet."
   }
 }

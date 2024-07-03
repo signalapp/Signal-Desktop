@@ -5428,7 +5428,7 @@
     "messageformat": "Придружите се"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Унесите назив позива"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Обавезно одобрење за све чланове"
@@ -5440,10 +5440,10 @@
     "messageformat": "Укључено"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Унесите назив позива"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Назив позива"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Још {count,number} особа куца.} other {Још њих {count,number} куцају.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Поправили смо грешку која је понекад доводила до тога да, преласком на друго ћаскање или апликацију док снимате гласовну поруку, та порука нестане. Гласовне поруке чије снимање још увек траје сада се чувају као недовршене, тако да их можете преслушати и послати када се вратите у ћаскање."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Сада можете проследити картице контаката које су послате са мобилног уређаја."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Нова подршка за емоџије високе резолуције побољшава приказ великих емоџија."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Такође смо ажурирали и креатор налепница да подржи најновије емоџије."
   }
 }

@@ -5428,7 +5428,7 @@
     "messageformat": "Войти"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Добавить имя звонка"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Одобрить всех участников"
@@ -5440,10 +5440,10 @@
     "messageformat": "Вкл."
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Добавить имя звонка"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Имя звонка"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Ещё {count,number} печатает.} few {Ещё {count,number} печатают.} many {Ещё {count,number} печатают.} other {Ещё {count,number} печатают.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Если вы устали от потери голоса, мы исправили ошибку, которая при переключении на другой чат или приложение во время записи голосового сообщения приводила к потере этого сообщения. Текущие голосовые сообщения теперь сохраняются в виде черновиков, чтобы их можно было просмотреть и отправить, когда вы вернетесь в чат."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Теперь вы можете пересылать карточки с контактами, которые были отправлены с мобильного устройства. Поделитесь номером заказа еды навынос в своём любимом ресторане, не доставая телефон."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Новая поддержка «джамбомодзи» с высоким разрешением максимально увеличивает детализацию крупных эмодзи, особенно на больших экранах с маленькими пикселями."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Кроме того, обновлённый Редактор стикеров теперь поддерживает новейшие эмодзи, поэтому сегодняшние стикеры больше не привязаны к вчерашнему стандарту Unicode."
   }
 }

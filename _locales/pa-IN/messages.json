@@ -5428,7 +5428,7 @@
     "messageformat": "ਸ਼ਾਮਲ ਹੋਵੋ"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "ਕਾਲ ਦਾ ਨਾਮ ਸ਼ਾਮਲ ਕਰੋ"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "ਸਾਰੇ ਮੈਂਬਰਾਂ ਨੂੰ ਮਨਜ਼ੂਰੀ ਦਿਓ"
@@ -5440,10 +5440,10 @@
     "messageformat": "ਚਾਲੂ"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "ਕਾਲ ਦਾ ਨਾਮ ਸ਼ਾਮਲ ਕਰੋ"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "ਕਾਲ ਦਾ ਨਾਮ"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} ਹੋਰ ਵਰਤੋਂਕਾਰ ਲਿਖ ਰਿਹਾ ਹੈ।} other {{count,number} ਹੋਰ ਵਰਤੋਂਕਾਰ ਲਿਖ ਰਹੇ ਹਨ।}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "ਵੌਇਸ ਸੁਨੇਹਾ ਰਿਕਾਰਡ ਕਰਦੇ ਸਮੇਂ ਕਿਸੇ ਹੋਰ ਚੈਟ ਜਾਂ ਐਪਲੀਕੇਸ਼ਨ 'ਤੇ ਸਵਿੱਚ ਕਰਨ ਨਾਲ ਉਹ ਸੁਨੇਹਾ ਗਾਇਬ ਹੋ ਜਾਂਦਾ ਸੀ, ਅਸੀਂ ਉਸ ਖ਼ਰਾਬੀ ਨੂੰ ਦਰੁਸਤ ਕਰ ਦਿੱਤਾ ਹੈ। ਰਿਕਾਰਡ ਕੀਤੇ ਜਾ ਰਹੇ ਵੌਇਸ ਸੁਨੇਹੇ ਹੁਣ ਡਰਾਫਟ ਦੇ ਰੂਪ ਵਿੱਚ ਸੁਰੱਖਿਅਤ ਕੀਤੇ ਜਾਂਦੇ ਹਨ ਤਾਂ ਜੋ ਉਸ ਚੈਟ ਵਿੱਚ ਵਾਪਸ ਆਉਣ 'ਤੇ ਤੁਸੀਂ ਉਹਨਾਂ ਦੀ ਸਮੀਖਿਆ ਕਰ ਸਕੋ ਅਤੇ ਭੇਜ ਸਕੋ।"
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਉਹਨਾਂ ਸੰਪਰਕ ਕਾਰਡਾਂ ਨੂੰ ਅੱਗੇ ਭੇਜ ਸਕਦੇ ਹੋ ਜੋ ਮੋਬਾਈਲ ਡਿਵਾਈਸ ਤੋਂ ਭੇਜੇ ਗਏ ਸਨ।"
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "ਉੱਚ-ਰੈਜ਼ੋਲਿਊਸ਼ਨ ਵਾਲੇ ਇਮੋਜੀ ਲਈ ਨਵੀਂ ਸਹੂਲਤ ਵੱਡੇ ਇਮੋਜੀ ਕਿਰਦਾਰਾਂ ਨੂੰ ਦਿਖਾਉਣ ਦੇ ਤਰੀਕੇ ਨੂੰ ਬਿਹਤਰ ਬਣਾਉਂਦੀ ਹੈ।"
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "ਅਸੀਂ ਨਵੇਂ ਇਮੋਜੀ ਕਿਰਦਾਰਾਂ ਦ ਸਹੂਲਤ ਦੇਣ ਲਈ ਸਟਿੱਕਰ ਕ੍ਰੀਏਟਰ ਨੂੰ ਵੀ ਅੱਪਡੇਟ ਕੀਤਾ ਹੈ।"
   }
 }

@@ -5428,7 +5428,7 @@
     "messageformat": "இணைக"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "அழைப்பின் பெயரைச் சேர்க்கவும்"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "அனைத்து உறுப்பினர்களையும் அங்கீகரிக்கவும்"
@@ -5440,10 +5440,10 @@
     "messageformat": "இயக்கு"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "அழைப்பின் பெயரைச் சேர்க்கவும்"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "அழைப்புப் பெயர்"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {மேலும் {count,number} நபர் டைப் செய்கிறார்.} other {மேலும் {count,number} பேர் டைப் செய்கின்றனர்.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "ஒரு வாய்ஸ் மெசேஜைப் பதிவு செய்யும் போது, வேறு சாட் அல்லது செயலிக்கு மாறும்போது அந்த மெசேஜ் மறைந்துவிடும் ஒரு பிழையை சரிசெய்துள்ளோம். செயலில் உள்ள வாய்ஸ் மெசேஜ்கள் இப்போது வரைவுகளாகச் சேமிக்கப்பட்டுள்ளன, எனவே நீங்கள் சாட்டுக்குச் செல்லும்போது அவற்றை மதிப்பாய்வு செய்து அனுப்பலாம்."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "இப்போது நீங்கள் மொபைல் சாதனத்திலிருந்து அனுப்பப்பட்ட தொடர்பு அட்டைகளை அனுப்பலாம். உங்கள் தொலைபேசியை எடுக்காமலேயே உங்களுக்குப் பிடித்த உணவகத்திற்கான டேக்-அவுட் எண்ணைப் பகிரவும்."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "உயர் தெளிவுத்திறன் கொண்ட \"ஜம்போமோஜி\"க்கான புதிய ஆதரவு, பெரிய ஈமோஜியில், குறிப்பாக சிறிய பிக்சல்கள் கொண்ட பெரிய திரைகளில், மிகத் துல்லியமான விவரங்களைச் சேர்க்கிறது."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "சமீபத்திய ஈமோஜியை ஆதரிப்பதற்காக ஸ்டிக்கர் கிரியேட்டரையும் புதுப்பித்துள்ளோம், எனவே இன்றைய ஸ்டிக்கர்கள் நேற்றைய யூனிகோட் தரநிலையில் சிக்காது."
   }
 }

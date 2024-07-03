@@ -5428,7 +5428,7 @@
     "messageformat": "सामील व्हा"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "कॉलचे नाव जोडा"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "सर्व सदस्यांना मंजूर करा"
@@ -5440,10 +5440,10 @@
     "messageformat": "चालू"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "कॉलचे नाव जोडा"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "कॉलचे नाव"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} इतर टाईप करत आहे.} other {{count,number} इतर टाईप करत आहेत.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "जर आपण कॉलचा आवाज ऐकू न येण्याच्या समस्येने त्रासला असाल तर, जिथे व्हॉईस संदेश रेकॉर्डिंग करताना दुसऱ्या चॅटमध्ये किंवा ॲप्लिकेशनमध्ये स्वीच करताना संदेश गायब होऊ शकतो, अशा एका दोषाचे आम्ही निराकरण केले आहे. सुरू असलेले व्हॉईस संदेश आता मसुदा म्हणून जतन केले जातात ज्यामुळे आपण जेव्हा चॅटवर परत येता तेव्हा त्यांचे पुनरावलोकन करू शकता आणि त्यांना पाठवू शकता."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "आता आपण मोबाइल डिव्हाइसवरून पाठविण्यात आलेल्या संपर्क कार्डना फॉरवर्ड करू शकता. आपला फोन बाहेर न काढता आपल्या आवडत्या रेस्टॉरंटचा टेक-आऊट नंबर शेअर करा."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "उच्च-रिझोल्यूशन असलेल्या \" जम्बोमोजी \" साठी नवीन सपोर्ट मोठ्या इमोजीमध्ये, खासकरून लहान पिक्सेलसह मोठ्या स्क्रीनवर, अत्यंत तपशीलवारपणे जोडतो."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "आम्ही नवीनतम इमोजीना सपोर्ट करण्यासाठी स्टिकर क्रिएटर देखील अद्यतनित केला आहे, ज्यामुळे आजचे स्टिकर यापुढे जुन्या युनिकोड मानकांमध्ये अडकून राहणार नाहीत."
   }
 }

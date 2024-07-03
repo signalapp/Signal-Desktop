@@ -5428,7 +5428,7 @@
     "messageformat": "Pridruži se"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Dodaj ime klica"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Odobritev vseh članov_ic"
@@ -5440,10 +5440,10 @@
     "messageformat": "Vklopljeno"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Dodaj ime klica"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Ime klica"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Še ena oseba tipka.} two {Še {count,number} osebi tipkata.} few {Še {count,number} osebe tipkajo.} other {Še {count,number} oseb tipka.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Če ste se naveličali izgubljati glas, smo odpravili napako, zaradi katere je med snemanjem glasovnega sporočila preklop na drug klepet ali aplikacijo lahko povzročil, da je sporočilo izginilo. Glasovna sporočila v pripravi se zdaj shranjujejo kot osnutki, tako da jih lahko pregledate in pošljete, ko se vrnete v klepet."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Zdaj lahko posredujete kartice stikov, ki so bile poslane iz mobilne naprave. Sporočite številko najljubše restavracije, brez da bi vzeli v roke telefon."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Nova podpora za visoko ločljivost \"jumbomojijev\" dodaja velikim emojijem izjemne detajle, zlasti na velikih zaslonih z majhnimi slikovnimi pikami."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Ustvarjalnik nalepk smo posodobili tako, da podpira najnovejše emojije, zato današnje nalepke niso več vezane na včerajšnji Unicode standard."
   }
 }

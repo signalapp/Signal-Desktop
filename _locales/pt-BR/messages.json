@@ -5428,7 +5428,7 @@
     "messageformat": "Participar"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Adicionar nome da chamada"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Aprovar todos os membros"
@@ -5440,10 +5440,10 @@
     "messageformat": "Ligado"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Adicionar nome da chamada"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Nome da chamada"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} outra pessoa está digitando.} other {{count,number} outras pessoas estão digitando.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Cansado de perder suas mensagens de voz? Resolvemos um problema que fazia suas gravações sumirem ao mudar de conversa ou aplicativo durante a gravação. Agora, as mensagens de voz em andamento são salvas automaticamente como rascunhos, permitindo que você as revise e envie ao retornar à conversa."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Agora você pode encaminhar cartões de contato que foram enviados de um dispositivo móvel. Compartilhe o número de telefone do seu restaurante favorito sem precisar tirar o celular do bolso."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "O novo suporte para alta resolução \"jumbomoji\" adiciona detalhes maiores do que a vida real aos emojis grandes, especialmente em telas grandes com pixels pequenos."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Também atualizamos o Criador de figurinhas para oferecer suporte aos emojis mais recentes, assim, as figurinhas de hoje não ficarão presas ao padrão Unicode de ontem."
   }
 }

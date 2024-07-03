@@ -5428,7 +5428,7 @@
     "messageformat": "Unirse"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Engadir un nome de chamada"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Aprobar todos os membros"
@@ -5440,10 +5440,10 @@
     "messageformat": "Activado"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Engadir un nome de chamada"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Nome de chamada"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} outro está a escribir.} other {{count,number} outros están a escribir.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "Corriximos un problema que facía que as mensaxes de voz desaparecesen cando cambiabas a outra conversa ou aplicación durante a gravación. Agora, as mensaxes de voz en curso gárdanse automaticamente como borradores, e poderás revisalas e envialas cando volvas á conversa."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Agora podes reenviar tarxetas de contacto enviadas dende un dispositivo móbil."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "A nova compatibilidade con emojis de alta resolución mellora a visualización destas emoticonas de gran tamaño."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Tamén actualizamos o Creador de stickers para que admita as últimas emoticonas."
   }
 }

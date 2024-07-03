@@ -5428,7 +5428,7 @@
     "messageformat": "قوشۇلۇش"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "چاقىرىق نامى قوشۇش"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "بارلىق ئەزلارغا رۇخسەت"
@@ -5440,10 +5440,10 @@
     "messageformat": "ئېچىش"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "چاقىرىق نامى قوشۇش"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "چاقىرىق نامى"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} باشقىلار يېزىۋاتىدۇ.}}"

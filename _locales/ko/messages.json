@@ -5428,7 +5428,7 @@
     "messageformat": "참가"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "통화 이름 추가"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "모든 멤버 승인"
@@ -5440,10 +5440,10 @@
     "messageformat": "켜짐"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "통화 이름 추가"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "통화 이름"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number}명이 입력하는 중입니다.}}"
@@ -5489,12 +5489,12 @@
     "messageformat": "음성 메시지를 녹음하는 동안 다른 대화 또는 애플리케이션으로 전환되며 메시지가 사라지는 버그를 수정했습니다. 이제 녹음 중 음성 메시지가 초안으로 저장되므로 사용자가 대화로 돌아가서 메시지를 검토하고 보낼 수 있습니다."
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "이제 모바일 기기에서 보낸 연락처 카드를 전달할 수 있습니다."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "새로운 고화질 이모지 지원을 통해 대형 이모지 캐릭터가 표시되는 방식을 개선했습니다."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "또한 최신 이모지 캐릭터를 지원하도록 스티커 크리에이터를 업데이트했습니다."
   }
 }
