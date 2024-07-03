@@ -44,6 +44,7 @@ export enum RemoteCallEvent {
   Accepted = 'Accepted',
   NotAccepted = 'NotAccepted',
   Delete = 'Delete',
+  Observed = 'Observed',
 }
 
 export type CallEvent = LocalCallEvent | RemoteCallEvent;
@@ -55,6 +56,7 @@ export enum CallStatusValue {
   Declined = 'Declined',
   Deleted = 'Deleted',
   GenericGroupCall = 'GenericGroupCall',
+  GenericAdhocCall = 'GenericAdhocCall',
   OutgoingRing = 'OutgoingRing',
   Ringing = 'Ringing',
   Joined = 'Joined',
@@ -81,6 +83,7 @@ export enum GroupCallStatus {
 }
 
 export enum AdhocCallStatus {
+  Generic = CallStatusValue.GenericAdhocCall,
   Pending = CallStatusValue.Pending,
   Joined = CallStatusValue.JoinedAdhoc,
   Deleted = CallStatusValue.Deleted,

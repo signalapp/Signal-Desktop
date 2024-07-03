@@ -602,6 +602,7 @@ message SyncMessage {
       ACCEPTED     = 1;
       NOT_ACCEPTED = 2;
       DELETE       = 3;
+      OBSERVED     = 4;
     }
 
     /* Data identifying a conversation. The service ID for 1:1, the group ID for

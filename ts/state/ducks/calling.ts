@@ -536,11 +536,10 @@ const doGroupCallPeek = ({
 
     log.info(`doGroupCallPeek/${logId}: Found ${peekInfo.deviceCount} devices`);
 
+    const joinState = isGroupOrAdhocCallState(existingCall)
+      ? existingCall.joinState
+      : null;
     if (callMode === CallMode.Group) {
-      const joinState = isGroupOrAdhocCallState(existingCall)
-        ? existingCall.joinState
-        : null;
-
       try {
         await calling.updateCallHistoryForGroupCallOnPeek(
           conversationId,
@@ -555,6 +554,12 @@ const doGroupCallPeek = ({
       }
 
       dispatch(updateLastMessage(conversationId));
+    } else if (callMode === CallMode.Adhoc) {
+      await calling.updateCallHistoryForAdhocCall(
+        conversationId,
+        joinState,
+        peekInfo
+      );
     }
 
     const formattedPeekInfo = calling.formatGroupCallPeekInfoForRedux(peekInfo);
