@@ -714,7 +714,7 @@
     "messageformat": "Анімація введення тексту для цього чату"
   },
   "icu:contactInAddressBook": {
-    "messageformat": "Ця особа є серед ваших контактів."
+    "messageformat": "Ця людина є у ваших контактах."
   },
   "icu:contactAvatarAlt": {
     "messageformat": "Зображення контакту {name}"
@@ -762,7 +762,7 @@
     "messageformat": "Оригінальне повідомлення не знайдено"
   },
   "icu:voiceRecording--start": {
-    "messageformat": "Почати запис аудіоповідомлення"
+    "messageformat": "Почати запис голосового повідомлення"
   },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "Запис голосового повідомлення зупинився, тому що був досягнутий максимальний поріг тривалості."
@@ -989,6 +989,9 @@
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "Усі повідомлення в цьому чаті буде видалено з пристрою. Ви зможете знайти цей чат навіть після видалення повідомлень."
   },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
+    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+  },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Покинути групу"
   },
@@ -1115,6 +1118,21 @@
   "icu:Install__qr-failed-load": {
     "messageformat": "Не вдалося завантажити QR-код. Перевірте з'єднання з інтернетом і спробуйте ще раз. <retry>Повторити</retry>"
   },
+  "icu:Install__qr-failed-load__error--timeout": {
+    "messageformat": "The QR code couldn't load. Check your connection and try again."
+  },
+  "icu:Install__qr-failed-load__error--unknown": {
+    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+  },
+  "icu:Install__qr-failed-load__error--network": {
+    "messageformat": "Signal cannot link this device using your current network."
+  },
+  "icu:Install__qr-failed-load__retry": {
+    "messageformat": "Retry"
+  },
+  "icu:Install__qr-failed-load__get-help": {
+    "messageformat": "Get help"
+  },
   "icu:Install__support-link": {
     "messageformat": "Потрібна допомога?"
   },
@@ -1149,7 +1167,7 @@
     "messageformat": "Вибачте, у вас забагато пов'язаних пристроїв. Видаліть які-небудь."
   },
   "icu:installTooOld": {
-    "messageformat": "Оновіть Signal на цьому пристрої, щоб прив'язати ваш телефон."
+    "messageformat": "Оновіть Signal на цьому пристрої, щоб зв'язати його зі своїм телефоном."
   },
   "icu:installErrorHeader": {
     "messageformat": "Щось пішло не так!"
@@ -1286,8 +1304,35 @@
   "icu:CallingPendingParticipants__DenyUser": {
     "messageformat": "Не дозволити приєднатися"
   },
+  "icu:CallingPendingParticipants__ApproveAll": {
+    "messageformat": "Approve all"
+  },
+  "icu:CallingPendingParticipants__DenyAll": {
+    "messageformat": "Deny all"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
+    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
+    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
+    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
+    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+  },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} запит на приєднання до виклику} few {{count,number} запити на приєднання до виклику} many {{count,number} запитів на приєднання до виклику} other {{count,number} запиту на приєднання до виклику}}"
+  },
+  "icu:CallingPendingParticipants__WouldLikeToJoin": {
+    "messageformat": "Would like to join..."
+  },
+  "icu:CallingPendingParticipants__AdditionalRequests": {
+    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+  },
+  "icu:CallingPendingParticipants__Toast--added-users-to-call": {
+    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} піднята рука} few {{count,number} підняті руки} many {{count,number} піднятих рук} other {{count,number} піднятої руки}}"
@@ -1710,7 +1755,7 @@
     "messageformat": "{atUsername} не користується Signal. Перевірте, чи ви ввели повне ім'я користувача."
   },
   "icu:startConversation--phone-number-not-found": {
-    "messageformat": "Користувача не знайдено. «{phoneNumber}» не є користувачем Signal."
+    "messageformat": "Користувача не знайдено. «{phoneNumber}» — не користувач Signal."
   },
   "icu:startConversation--phone-number-not-valid": {
     "messageformat": "Користувача не знайдено. «{phoneNumber}» не є дійсним номером телефону."
@@ -1968,7 +2013,7 @@
     "messageformat": "Немає встановлених стікерів"
   },
   "icu:stickers--StickerManager--BlessedPacks": {
-    "messageformat": "Стікери від Художників Signal"
+    "messageformat": "Серія «Художники Signal»"
   },
   "icu:stickers--StickerManager--BlessedPacks--Empty": {
     "messageformat": "Немає доступних стікерів від художників Signal"
@@ -1980,7 +2025,7 @@
     "messageformat": "Тут будуть стікери зі вхідних повідомлень"
   },
   "icu:stickers--StickerManager--Install": {
-    "messageformat": "Встановити"
+    "messageformat": "Установити"
   },
   "icu:stickers--StickerManager--Uninstall": {
     "messageformat": "Видалити"
@@ -2187,10 +2232,10 @@
     "messageformat": "Пошук у чаті"
   },
   "icu:Keyboard--focus-composer": {
-    "messageformat": "Сфокусуватися на панелі введення"
+    "messageformat": "Активувати панель введення"
   },
   "icu:Keyboard--open-all-media-view": {
-    "messageformat": "Відкрити вікно Всіх Медіа"
+    "messageformat": "Відкрити вкладку «Усі медіафайли»"
   },
   "icu:Keyboard--open-emoji-chooser": {
     "messageformat": "Відкрити панель емоджі"
@@ -2199,22 +2244,22 @@
     "messageformat": "Відкрити панель стікерів"
   },
   "icu:Keyboard--begin-recording-voice-note": {
-    "messageformat": "Почати запис аудіо повідомлення"
+    "messageformat": "Почати запис голосового повідомлення"
   },
   "icu:Keyboard--default-message-action": {
-    "messageformat": "Дія за замовчуванням для вибраного повідомлення"
+    "messageformat": "Типова дія для обраного повідомлення"
   },
   "icu:Keyboard--view-details-for-selected-message": {
-    "messageformat": "Переглянути інформацію по обраному повідомленні"
+    "messageformat": "Показати інформацію про обране повідомлення"
   },
   "icu:Keyboard--toggle-reply": {
-    "messageformat": "Переключити: відповісти на вибране повідомлення"
+    "messageformat": "Створити / скасувати відповідь на обране повідомлення"
   },
   "icu:Keyboard--toggle-reaction-picker": {
-    "messageformat": "Показати / приховати панель реакцій для вибраного повідомлення"
+    "messageformat": "Показати / приховати панель реакцій для обраного повідомлення"
   },
   "icu:Keyboard--save-attachment": {
-    "messageformat": "Зберегти вкладення з вибраного повідомлення"
+    "messageformat": "Зберегти вкладення з обраного повідомлення"
   },
   "icu:Keyboard--delete-messages": {
     "messageformat": "Видалити вибрані повідомлення"
@@ -2223,13 +2268,13 @@
     "messageformat": "Переслати вибрані повідомлення"
   },
   "icu:Keyboard--add-newline": {
-    "messageformat": "Додати перехід на новий рядок до повідомлення"
+    "messageformat": "Перейти на новий рядок у повідомленні"
   },
   "icu:Keyboard--expand-composer": {
     "messageformat": "Розгорнути панель введення"
   },
   "icu:Keyboard--send-in-expanded-composer": {
-    "messageformat": "Надіслати (в розгорнутій панелі введення)"
+    "messageformat": "Надіслати (з розгорнутої панелі введення)"
   },
   "icu:Keyboard--attach-file": {
     "messageformat": "Прикріпити файл"
@@ -2241,7 +2286,7 @@
     "messageformat": "Видалити всі чернетки вкладень"
   },
   "icu:Keyboard--conversation-by-index": {
-    "messageformat": "Перейти до чату"
+    "messageformat": "Перейти в чат"
   },
   "icu:Keyboard--edit-last-message": {
     "messageformat": "Редагувати попереднє повідомлення"
@@ -2277,25 +2322,25 @@
     "messageformat": "Повідомлення"
   },
   "icu:Keyboard--composer-header": {
-    "messageformat": "Панель набору"
+    "messageformat": "Панель введення"
   },
   "icu:Keyboard--composer--bold": {
-    "messageformat": "Виділити вибраний текст жирним"
+    "messageformat": "Зробити виділений текст жирним"
   },
   "icu:Keyboard--composer--italic": {
-    "messageformat": "Виділити вибраний текст курсивом"
+    "messageformat": "Зробити виділений текст курсивним"
   },
   "icu:Keyboard--composer--strikethrough": {
-    "messageformat": "Перекреслити вибраний текст"
+    "messageformat": "Закреслити виділений текст"
   },
   "icu:Keyboard--composer--monospace": {
-    "messageformat": "Зробити вибраний текст моноширинним"
+    "messageformat": "Зробити виділений текст моноширинним"
   },
   "icu:Keyboard--composer--spoiler": {
-    "messageformat": "Позначити вибраний текст як спойлер"
+    "messageformat": "Сховати виділений текст за спойлером"
   },
   "icu:Keyboard--open-context-menu": {
-    "messageformat": "Відкрити контекстне меню для вибраного повідомлення"
+    "messageformat": "Відкрити контекстне меню для обраного повідомлення"
   },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Жирний"
@@ -2313,7 +2358,7 @@
     "messageformat": "Спойлер"
   },
   "icu:Keyboard--scroll-to-top": {
-    "messageformat": "Прокрутити до верху списку"
+    "messageformat": "Перейти вгору списку"
   },
   "icu:Keyboard--scroll-to-bottom": {
     "messageformat": "Перейти в кінець списку"
@@ -2325,22 +2370,22 @@
     "messageformat": "Здійснення викликів"
   },
   "icu:Keyboard--toggle-audio": {
-    "messageformat": "Увімкнути або вимкнути звук"
+    "messageformat": "Увімкнути / Вимкнути звук"
   },
   "icu:Keyboard--toggle-video": {
-    "messageformat": "Увімкнути/вимкнути відео"
+    "messageformat": "Увімкнути / Вимкнути відео"
   },
   "icu:Keyboard--accept-video-call": {
-    "messageformat": "Відповісти на дзвінок із відео (тільки для відеодзвінків)"
+    "messageformat": "Відповісти на виклик з відео (тільки для відеовикликів)"
   },
   "icu:Keyboard--accept-call-without-video": {
-    "messageformat": "Відповісти на дзвінок без відео"
+    "messageformat": "Відповісти на виклик без відео"
   },
   "icu:Keyboard--start-audio-call": {
-    "messageformat": "Почати голосовий дзвінок"
+    "messageformat": "Почати аудіовиклик"
   },
   "icu:Keyboard--start-video-call": {
-    "messageformat": "Почати відео дзвінок"
+    "messageformat": "Почати відеовиклик"
   },
   "icu:Keyboard--decline-call": {
     "messageformat": "Відхилити виклик"
@@ -2562,7 +2607,7 @@
     "messageformat": "Відповісти на виклик"
   },
   "icu:acceptCallWithoutVideo": {
-    "messageformat": "Відповісти на дзвінок без відео"
+    "messageformat": "Відповісти на виклик без відео"
   },
   "icu:declineCall": {
     "messageformat": "Відхилити"
@@ -2604,7 +2649,7 @@
     "messageformat": "Signal продовжить працювати в області сповіщень. Це можливо змінити в налаштуваннях Signal."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Вхідний голосовий дзвінок…"
+    "messageformat": "Вхідний аудіовиклик…"
   },
   "icu:incomingVideoCall": {
     "messageformat": "Вхідний відеовиклик…"
@@ -2782,6 +2827,15 @@
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Вилучити з виклику"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
+    "messageformat": "Remove {name} from the call?"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
+    "messageformat": "Remove"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
+    "messageformat": "Block from call"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} учасник} few {{count,number} учасники} many {{count,number} учасників} other {{count,number} учасника}}"
@@ -4500,7 +4554,7 @@
     "messageformat": "Немає результатів за запитом «{searchTerm}»"
   },
   "icu:Preferences__LanguageModal__Set": {
-    "messageformat": "Встановити"
+    "messageformat": "Установити"
   },
   "icu:Preferences__LanguageModal__Restart__Title": {
     "messageformat": "Перезапустіть Signal для застосування"
@@ -5428,7 +5482,7 @@
     "messageformat": "Приєднатися"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Додати назву виклику"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Затверджувати всіх учасників"
@@ -5440,10 +5494,10 @@
     "messageformat": "Увімк."
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "Додати назву виклику"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "Назва виклику"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {Ще {count,number} пише.} few {Ще {count,number} пишуть.} many {Ще {count,number} пишуть.} other {Ще {count,number} пише.}}"
@@ -5485,16 +5539,16 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.14--0": {
-    "messageformat": "Більше не доведеться пускати слова на вітер: ми виправили помилку, через яку голосові повідомлення зникали, якщо під час запису ви переходили в інший чат чи застосунок. Тепер незавершене голосове повідомлення зберігається як чернетка, щоб ви могли його переслухати й надіслати, коли знову відкриєте чат."
-  },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "Тепер ви можете пересилати візитки, надіслані з мобільного пристрою. Поділіться номером улюбленої доставки, навіть не виймаючи телефон з кишені."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "Маленькі покращення великих емоджі: тепер вони мають високу роздільну здатність, що особливо помітно на великих екранах зі щільно розміщеними пікселями."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "Також ми оновили конструктор стікерів останньою колекцією емоджі, щоб ви могли йти в ногу з цифровими трендами."
+  },
+  "icu:WhatsNew__v7.16--0": {
+    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
   }
 }

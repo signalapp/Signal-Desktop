@@ -989,6 +989,9 @@
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "このチャット内のすべてのメッセージはこの端末から消去されます。メッセージを消去した後も、このチャットを検索できます。"
   },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
+    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+  },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "グループを退出する"
   },
@@ -1114,6 +1117,21 @@
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR コードを読み込めませんでした。インターネット接続を確認して再度お試しください。<retry>再試行</retry>"
+  },
+  "icu:Install__qr-failed-load__error--timeout": {
+    "messageformat": "The QR code couldn't load. Check your connection and try again."
+  },
+  "icu:Install__qr-failed-load__error--unknown": {
+    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+  },
+  "icu:Install__qr-failed-load__error--network": {
+    "messageformat": "Signal cannot link this device using your current network."
+  },
+  "icu:Install__qr-failed-load__retry": {
+    "messageformat": "Retry"
+  },
+  "icu:Install__qr-failed-load__get-help": {
+    "messageformat": "Get help"
   },
   "icu:Install__support-link": {
     "messageformat": "お困りですか？"
@@ -1286,8 +1304,35 @@
   "icu:CallingPendingParticipants__DenyUser": {
     "messageformat": "参加リクエストを拒否する"
   },
+  "icu:CallingPendingParticipants__ApproveAll": {
+    "messageformat": "Approve all"
+  },
+  "icu:CallingPendingParticipants__DenyAll": {
+    "messageformat": "Deny all"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
+    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
+    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
+    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
+    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+  },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, other {{count,number}人が通話への参加をリクエストしています}}"
+  },
+  "icu:CallingPendingParticipants__WouldLikeToJoin": {
+    "messageformat": "Would like to join..."
+  },
+  "icu:CallingPendingParticipants__AdditionalRequests": {
+    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+  },
+  "icu:CallingPendingParticipants__Toast--added-users-to-call": {
+    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, other {{count,number}人が手を挙げています}}"
@@ -2782,6 +2827,15 @@
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "このユーザーを通話から退出させる"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
+    "messageformat": "Remove {name} from the call?"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
+    "messageformat": "Remove"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
+    "messageformat": "Block from call"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, other {{count,number}人}}"
@@ -5428,7 +5482,7 @@
     "messageformat": "参加する"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "通話名を追加する"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "全メンバーを承認制にする"
@@ -5440,10 +5494,10 @@
     "messageformat": "オン"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "通話名を追加する"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "通話名"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {{count,number} 人が入力中です。}}"
@@ -5485,16 +5539,16 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.14--0": {
-    "messageformat": "ボイスメッセージを録音中に別のチャットやアプリケーションに切り替えると、その録音が消えてしまうバグを修正しました。録音中のボイスメッセージは下書きとして保存されるようになったので、チャットに戻って確認後に送信できます。"
-  },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "モバイル端末から送信された連絡先カードを転送できるようになりました。"
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "高解像度の絵文字を新たにサポートし、大きな絵文字の表示方法を改善しました。"
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "また、最新の絵文字をサポートするためにステッカークリエイターを更新しました。"
+  },
+  "icu:WhatsNew__v7.16--0": {
+    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
   }
 }

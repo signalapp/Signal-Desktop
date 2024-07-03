@@ -989,6 +989,9 @@
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "ระบบจะลบข้อความทั้งหมดในแชทออกจากอุปกรณ์เครื่องนี้ โดยคุณจะยังสามารถค้นหาแชทนี้ได้แม้จะลบข้อความไปแล้ว"
   },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
+    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+  },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ออกจากกลุ่ม"
   },
@@ -1114,6 +1117,21 @@
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "ไม่สามารถโหลดคิวอาร์โค้ดได้ ตรวจสอบอินเทอร์เน็ตแล้วลองอีกครั้ง <retry>ลองอีกครั้ง</retry>"
+  },
+  "icu:Install__qr-failed-load__error--timeout": {
+    "messageformat": "The QR code couldn't load. Check your connection and try again."
+  },
+  "icu:Install__qr-failed-load__error--unknown": {
+    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+  },
+  "icu:Install__qr-failed-load__error--network": {
+    "messageformat": "Signal cannot link this device using your current network."
+  },
+  "icu:Install__qr-failed-load__retry": {
+    "messageformat": "Retry"
+  },
+  "icu:Install__qr-failed-load__get-help": {
+    "messageformat": "Get help"
   },
   "icu:Install__support-link": {
     "messageformat": "ต้องการความช่วยเหลือหรือไม่?"
@@ -1286,8 +1304,35 @@
   "icu:CallingPendingParticipants__DenyUser": {
     "messageformat": "ปฏิเสธคำขอเข้าร่วม"
   },
+  "icu:CallingPendingParticipants__ApproveAll": {
+    "messageformat": "Approve all"
+  },
+  "icu:CallingPendingParticipants__DenyAll": {
+    "messageformat": "Deny all"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
+    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
+    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
+    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
+    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+  },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, other {{count,number} คนขอเข้าร่วมการโทร}}"
+  },
+  "icu:CallingPendingParticipants__WouldLikeToJoin": {
+    "messageformat": "Would like to join..."
+  },
+  "icu:CallingPendingParticipants__AdditionalRequests": {
+    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+  },
+  "icu:CallingPendingParticipants__Toast--added-users-to-call": {
+    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, other {{count,number} คนกำลังยกมือ}}"
@@ -2782,6 +2827,15 @@
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "ลบผู้ใช้คนนี้ออกจากการโทร"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
+    "messageformat": "Remove {name} from the call?"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
+    "messageformat": "Remove"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
+    "messageformat": "Block from call"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, other {{count,number} คน}}"
@@ -5428,7 +5482,7 @@
     "messageformat": "เข้าร่วม"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "เพิ่มชื่อการโทร"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "อนุมัติสำหรับสมาชิกทุกคน"
@@ -5440,10 +5494,10 @@
     "messageformat": "เปิด"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "เพิ่มชื่อการโทร"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "ชื่อการโทร"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, other {อีก {count,number} คนกำลังพิมพ์}}"
@@ -5485,16 +5539,16 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.14--0": {
-    "messageformat": "เราแก้ไขบั๊กที่ทำให้ข้อความเสียงที่คุณกำลังบันทึกอยู่หายไปในกรณีที่บังเอิญสลับแชทหรือเปิดแอปอื่นระหว่างกดอัด จากนี้ไป ข้อความเสียงที่กำลังบันทึกอยู่จะถูกเซฟเป็นฉบับร่างให้คุณสามารถกลับมายังแชทนั้นเพื่อส่งหรือฟังซ้ำได้เสมอ"
-  },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "เพิ่มคุณสมบัติให้คุณสามารถส่งต่อการ์ดข้อมูลผู้ติดต่อที่ได้รับจากอุปกรณ์เคลื่อนที่ได้แล้ว"
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "รองรับอีโมจิความละเอียดสูงเพื่อปรับปรุงการแสดงผลอีโมจิตัวใหญ่ให้ดูดีเต็มตายิ่งกว่าเดิม"
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "นอกจากนั้น เรายังอัปเดตผู้สร้างสติกเกอร์ (Sticker Creator) เพื่อรองรับเหล่าอีโมจิเซตใหม่ล่าสุดอีกด้วย"
+  },
+  "icu:WhatsNew__v7.16--0": {
+    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
   }
 }

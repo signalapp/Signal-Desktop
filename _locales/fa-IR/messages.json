@@ -989,6 +989,9 @@
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "همۀ پیام‌های این گفتگو از این دستگاه حذف خواهد شد. بعد از حذف پیام‌ها همچنان می‌توانید این گفتگو را جستجو کنید."
   },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
+    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+  },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ترک گروه"
   },
@@ -1114,6 +1117,21 @@
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "کد QR بارگیری نشد. اینترنت خود را بررسی کنید و دوباره امتحان کنید. <retry>تلاش مجدد</retry>"
+  },
+  "icu:Install__qr-failed-load__error--timeout": {
+    "messageformat": "The QR code couldn't load. Check your connection and try again."
+  },
+  "icu:Install__qr-failed-load__error--unknown": {
+    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+  },
+  "icu:Install__qr-failed-load__error--network": {
+    "messageformat": "Signal cannot link this device using your current network."
+  },
+  "icu:Install__qr-failed-load__retry": {
+    "messageformat": "Retry"
+  },
+  "icu:Install__qr-failed-load__get-help": {
+    "messageformat": "Get help"
   },
   "icu:Install__support-link": {
     "messageformat": "به راهنمایی نیاز دارید؟"
@@ -1286,8 +1304,35 @@
   "icu:CallingPendingParticipants__DenyUser": {
     "messageformat": "رد درخواست پیوستن"
   },
+  "icu:CallingPendingParticipants__ApproveAll": {
+    "messageformat": "Approve all"
+  },
+  "icu:CallingPendingParticipants__DenyAll": {
+    "messageformat": "Deny all"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
+    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
+    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
+    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
+    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+  },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {‏{count,number} درخواست برای پیوستن به تماس} other {‏{count,number} درخواست برای پیوستن به تماس}}"
+  },
+  "icu:CallingPendingParticipants__WouldLikeToJoin": {
+    "messageformat": "Would like to join..."
+  },
+  "icu:CallingPendingParticipants__AdditionalRequests": {
+    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+  },
+  "icu:CallingPendingParticipants__Toast--added-users-to-call": {
+    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {‏{count,number} نفر دستش را بالا برده است} other {‏{count,number} نفر دستشان را بالا برده‌اند}}"
@@ -2782,6 +2827,15 @@
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "این شخص از تماس حذف شود"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
+    "messageformat": "Remove {name} from the call?"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
+    "messageformat": "Remove"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
+    "messageformat": "Block from call"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} نفر} other {{count,number} نفر}}"
@@ -5428,7 +5482,7 @@
     "messageformat": "پیوستن"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "افزودن نام تماس"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "تأیید همه اعضا"
@@ -5440,10 +5494,10 @@
     "messageformat": "روشن"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "افزودن نام تماس"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "نام تماس"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} نفر دیگر در حال تایپ است.} other {{count,number} نفر دیگر در حال تایپ هستند.}}"
@@ -5485,16 +5539,16 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.14--0": {
-    "messageformat": "اشکالی را که با رفتن به گفتگو یا برنامۀ دیگری در حین ضبط پیام صوتی منجر به ناپدید شدن آن پیام می‌شد برطرف کردیم. حالا دیگر پیام‌های صوتی در حال ضبط به‌عنوان پیش‌نویس ذخیره می‌شوند تا بتوانید پس از بازگشت به گفتگو، آن‌ها را بررسی و ارسال کنید."
-  },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "اکنون می‌توانید کارت‌های تماسی را که از دستگاه تلفن همراه ارسال شده‌اند، بازارسال کنید."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "پشتیبانی جدید از ایموجی‌های با وضوح بالا نحوه نمایش کاراکترهای ایموجی بزرگ را بهبود می‌بخشد."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "همچنین برای پشتیبانی از جدیدترین کاراکترهای ایموجی، «استیکرساز» را به‌روزرسانی کردیم."
+  },
+  "icu:WhatsNew__v7.16--0": {
+    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
   }
 }

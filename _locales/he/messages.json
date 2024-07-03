@@ -989,6 +989,9 @@
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "כל ההודעות בצ׳אט הזה יימחקו ממכשיר זה. עדיין תהיה לך אפשרות לחפש את הצ׳אט הזה אחרי מחיקת ההודעות."
   },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
+    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+  },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "עזיבת קבוצה"
   },
@@ -1114,6 +1117,21 @@
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "קוד ה–QR לא הצליח להיטען. כדאי לבדוק את חיבור האינטרנט ולנסות שוב. <retry>ניסיון חוזר</retry>"
+  },
+  "icu:Install__qr-failed-load__error--timeout": {
+    "messageformat": "The QR code couldn't load. Check your connection and try again."
+  },
+  "icu:Install__qr-failed-load__error--unknown": {
+    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+  },
+  "icu:Install__qr-failed-load__error--network": {
+    "messageformat": "Signal cannot link this device using your current network."
+  },
+  "icu:Install__qr-failed-load__retry": {
+    "messageformat": "Retry"
+  },
+  "icu:Install__qr-failed-load__get-help": {
+    "messageformat": "Get help"
   },
   "icu:Install__support-link": {
     "messageformat": "צריך עזרה?"
@@ -1286,8 +1304,35 @@
   "icu:CallingPendingParticipants__DenyUser": {
     "messageformat": "דחיית בקשת הצטרפות"
   },
+  "icu:CallingPendingParticipants__ApproveAll": {
+    "messageformat": "Approve all"
+  },
+  "icu:CallingPendingParticipants__DenyAll": {
+    "messageformat": "Deny all"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
+    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
+    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
+    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
+    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+  },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {בקשה {count,number} להצטרף לשיחה} two {{count,number} בקשות להצטרף לשיחה זו} many {{count,number} בקשות להצטרף לשיחה} other {{count,number} בקשות להצטרף לשיחה}}"
+  },
+  "icu:CallingPendingParticipants__WouldLikeToJoin": {
+    "messageformat": "Would like to join..."
+  },
+  "icu:CallingPendingParticipants__AdditionalRequests": {
+    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+  },
+  "icu:CallingPendingParticipants__Toast--added-users-to-call": {
+    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {יד מורמת {count,number}} two {{count,number} ידיים מורמות} many {{count,number} ידיים מורמות} other {{count,number} ידיים מורמות}}"
@@ -2782,6 +2827,15 @@
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "להסיר את אדם זה מהשיחה"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
+    "messageformat": "Remove {name} from the call?"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
+    "messageformat": "Remove"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
+    "messageformat": "Block from call"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {איש {count,number}} two {{count,number} אנשים} many {{count,number} אנשים} other {{count,number} אנשים}}"
@@ -5428,7 +5482,7 @@
     "messageformat": "הצטרפות"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "הוספת שם שיחה"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "אישור כל החברים"
@@ -5440,10 +5494,10 @@
     "messageformat": "מופעל"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "הוספת שם שיחה"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "שם שיחה"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {עוד {count,number} מקליד/ה.} two {עוד {count,number} מקלידים.} many {עוד {count,number} מקלידים.} other {עוד {count,number} מקלידים.}}"
@@ -5485,16 +5539,16 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.14--0": {
-    "messageformat": "תיקנו באג שגרם להודעה קולית להיעלם במידה ובמהלך ההקלטה עברת בין צ׳אטים או אפליקציות. הודעות קוליות כאלה יישמרו כעת כטיוטות, ותהיה לך אפשרות לבדוק ולשלוח אותן ברגע שחזרת לצ׳אט."
-  },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "עכשיו אפשר להעביר בהודעה כרטיס אנשי קשר שנשלחו ממכשיר נייד."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "תמיכה חדשה באימוג׳ים ברזולוציה גבוהה משפרת את אופן התצוגה של אימוג׳ים גדולים."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "עדכנו גם את יוצר הסטיקרים כדי לתמוך באימוג׳ים העדכניים ביותר."
+  },
+  "icu:WhatsNew__v7.16--0": {
+    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
   }
 }
