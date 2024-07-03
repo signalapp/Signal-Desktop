@@ -989,6 +989,9 @@
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
     "messageformat": "ഈ ഉപകരണത്തിൽ നിന്ന് ഈ ചാറ്റിലെ എല്ലാ സന്ദേശങ്ങളും ഇല്ലാതാക്കപ്പെടും. സന്ദേശങ്ങൾ ഇല്ലാതാക്കിയതിന് ശേഷവും നിങ്ങൾക്ക് ഈ ചാറ്റ് തിരയാനാകും."
   },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
+    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+  },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ഗ്രൂപ്പ് വിടുക"
   },
@@ -1114,6 +1117,21 @@
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR കോഡ് ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല. നിങ്ങളുടെ ഇന്റർനെറ്റ് പരിശോധിച്ച ശേഷം വീണ്ടും ശ്രമിക്കുക. വീണ്ടും ശ്രമിക്കുക"
+  },
+  "icu:Install__qr-failed-load__error--timeout": {
+    "messageformat": "The QR code couldn't load. Check your connection and try again."
+  },
+  "icu:Install__qr-failed-load__error--unknown": {
+    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+  },
+  "icu:Install__qr-failed-load__error--network": {
+    "messageformat": "Signal cannot link this device using your current network."
+  },
+  "icu:Install__qr-failed-load__retry": {
+    "messageformat": "Retry"
+  },
+  "icu:Install__qr-failed-load__get-help": {
+    "messageformat": "Get help"
   },
   "icu:Install__support-link": {
     "messageformat": "സഹായം ആവശ്യമുണ്ടോ?"
@@ -1286,8 +1304,35 @@
   "icu:CallingPendingParticipants__DenyUser": {
     "messageformat": "ചേരാനുള്ള അഭ്യർത്ഥന നിരസിക്കുക"
   },
+  "icu:CallingPendingParticipants__ApproveAll": {
+    "messageformat": "Approve all"
+  },
+  "icu:CallingPendingParticipants__DenyAll": {
+    "messageformat": "Deny all"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
+    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
+    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
+    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
+    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+  },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {കോളിൽ ചേരാൻ {count,number} ആൾ അഭ്യർത്ഥിക്കുന്നു} other {കോളിൽ ചേരാൻ {count,number} പേർ അഭ്യർത്ഥിക്കുന്നു}}"
+  },
+  "icu:CallingPendingParticipants__WouldLikeToJoin": {
+    "messageformat": "Would like to join..."
+  },
+  "icu:CallingPendingParticipants__AdditionalRequests": {
+    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+  },
+  "icu:CallingPendingParticipants__Toast--added-users-to-call": {
+    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} ഉയർത്തിയ കൈ} other {{count,number} ഉയർത്തിയ കൈകൾ}}"
@@ -2782,6 +2827,15 @@
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "കോളിൽ നിന്ന് ഈ വ്യക്തിയെ നീക്കം ചെയ്യുക"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
+    "messageformat": "Remove {name} from the call?"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
+    "messageformat": "Remove"
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
+    "messageformat": "Block from call"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} ആൾ} other {{count,number} പേര്‍}}"
@@ -5428,7 +5482,7 @@
     "messageformat": "ചേരുക"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "കോളിന്‍റെ പേര് ചേർക്കുക"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "എല്ലാ അംഗങ്ങളെയും അംഗീകരിക്കൂ"
@@ -5440,10 +5494,10 @@
     "messageformat": "ഓൺ"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Add call name"
+    "messageformat": "കോളിന്‍റെ പേര് ചേർക്കുക"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Call name"
+    "messageformat": "കോളിന്റെ പേര്"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {മറ്റ് {count,number} ആൾ ടൈപ്പ് ചെയ്യുന്നു.} other {മറ്റ് {count,number} പേർ ടൈപ്പ് ചെയ്യുന്നു.}}"
@@ -5485,16 +5539,16 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.14--0": {
-    "messageformat": "ശബ്‌ദം നഷ്‌ടപ്പെടുന്നത് നിങ്ങളെ ക്ഷീണിപ്പിക്കുന്നുവെങ്കിൽ, ഒരു വോയ്‌സ് സന്ദേശം റെക്കോർഡുചെയ്യുമ്പോൾ മറ്റൊരു ചാറ്റിലേക്കോ ആപ്ലിക്കേഷനിലേക്കോ മാറുന്നത് ആ സന്ദേശം അപ്രത്യക്ഷമാകുന്നതിന് കാരണമായേക്കാവുന്ന ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചു. പുരോഗതിയിലുള്ള ശബ്ദ സന്ദേശങ്ങൾ ഇപ്പോൾ ഡ്രാഫ്റ്റുകളായി സംരക്ഷിച്ചിരിക്കുന്നതിനാൽ നിങ്ങൾ ചാറ്റിലേക്ക് മടങ്ങുമ്പോൾ അവ അവലോകനം ചെയ്യാനും അയയ്ക്കാനും കഴിയും."
-  },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone."
+    "messageformat": "ഇപ്പോൾ നിങ്ങൾക്ക്, ഒരു മൊബൈൽ ഉപകരണത്തിൽ നിന്ന് അയച്ച കോൺടാക്റ്റ് കാർഡുകൾ കൈമാറാൻ കഴിയും. നിങ്ങളുടെ ഫോൺ പുറത്തെടുക്കാതെ തന്നെ നിങ്ങളുടെ പ്രിയപ്പെട്ട റെസ്റ്റോറൻ്റിനായുള്ള ടേക്ക്-ഔട്ട് നമ്പർ പങ്കിടുക."
   },
   "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels."
+    "messageformat": "ഉയർന്ന മിഴിവുള്ള \"ജംബോമോജി\"യ്ക്കുള്ള പുതിയ പിന്തുണ വലിയ ഇമോജികളിലേക്ക്, പ്രത്യേകിച്ച് ചെറിയ പിക്സലുകളുള്ള വലിയ സ്ക്രീനുകളിൽ, വളരെ വലിയ വിശദാംശങ്ങൾ ചേർക്കുന്നു."
   },
   "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard."
+    "messageformat": "ഏറ്റവും പുതിയ ഇമോജിയെ പിന്തുണയ്‌ക്കുന്നതിനായി ഞങ്ങൾ സ്റ്റിക്കർ ക്രിയേറ്ററും അപ്‌ഡേറ്റ് ചെയ്‌തു, അതിനാൽ ഇന്നത്തെ സ്റ്റിക്കറുകൾ ഇന്നലത്തെ യൂണികോഡ് സ്റ്റാൻഡേർഡിൽ ഒതുങ്ങില്ല."
+  },
+  "icu:WhatsNew__v7.16--0": {
+    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
   }
 }
