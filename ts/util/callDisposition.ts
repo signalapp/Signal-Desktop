@@ -67,6 +67,7 @@ import {
 import type { ConversationType } from '../state/ducks/conversations';
 import type { ConversationModel } from '../models/conversations';
 import { drop } from './drop';
+import { sendCallLinkUpdateSync } from './sendCallLinkUpdateSync';
 
 // utils
 // -----
@@ -234,6 +235,8 @@ export function getCallEventForProto(
     event = RemoteCallEvent.NotAccepted;
   } else if (callEvent.event === Proto.SyncMessage.CallEvent.Event.DELETE) {
     event = RemoteCallEvent.Delete;
+  } else if (callEvent.event === Proto.SyncMessage.CallEvent.Event.OBSERVED) {
+    event = RemoteCallEvent.Observed;
   } else {
     throw new TypeError(`Unknown call event ${callEvent.event}`);
   }
@@ -301,6 +304,8 @@ const statusToProto: Record<
   [CallStatusValue.Missed]: null,
   [CallStatusValue.Pending]: null,
   [CallStatusValue.GenericGroupCall]: null,
+  [CallStatusValue.GenericAdhocCall]:
+    Proto.SyncMessage.CallEvent.Event.OBSERVED,
   [CallStatusValue.OutgoingRing]: null,
   [CallStatusValue.Ringing]: null,
   [CallStatusValue.Joined]: null,
@@ -650,6 +655,15 @@ function transitionTimestamp(
     return callHistory.timestamp;
   }
 
+  // Observed call history should only be changed if we get a remote observed
+  // event with possibly a better timestamp.
+  if (callHistory.status === AdhocCallStatus.Generic) {
+    if (callEvent.event === RemoteCallEvent.Observed) {
+      return latestTimestamp;
+    }
+    return callHistory.timestamp;
+  }
+
   // Declined call history should only be changed if if we transition to an
   // accepted state or get a remote 'not accepted' event with possibly a better
   // timestamp.
@@ -713,6 +727,12 @@ function transitionDirectCallStatus(
     return DirectCallStatus.Missed;
   }
 
+  if (callEvent === RemoteCallEvent.Observed) {
+    throw new Error(
+      `callHistoryDetails: Direct calls shouldn't send ${callEvent}`
+    );
+  }
+
   if (callEvent === LocalCallEvent.Missed) {
     return DirectCallStatus.Missed;
   }
@@ -766,7 +786,10 @@ function transitionGroupCallStatus(
     return status;
   }
 
-  if (event === RemoteCallEvent.NotAccepted) {
+  if (
+    event === RemoteCallEvent.NotAccepted ||
+    event === RemoteCallEvent.Observed
+  ) {
     throw new Error(`callHistoryDetails: Group calls shouldn't send ${event}`);
   }
 
@@ -859,6 +882,13 @@ function transitionAdhocCallStatus(
     return status;
   }
 
+  if (
+    callEvent === RemoteCallEvent.Observed ||
+    callEvent === LocalCallEvent.Started
+  ) {
+    return AdhocCallStatus.Generic;
+  }
+
   // For Adhoc calls, ringing and corresponding events are not supported currently.
   // However we handle those events here to be exhaustive.
   if (
@@ -867,7 +897,6 @@ function transitionAdhocCallStatus(
     callEvent === LocalCallEvent.Declined ||
     callEvent === LocalCallEvent.Hangup ||
     callEvent === LocalCallEvent.RemoteHangup ||
-    callEvent === LocalCallEvent.Started ||
     // never actually happens, but need for exhaustive check
     callEvent === LocalCallEvent.Ringing
   ) {
@@ -985,7 +1014,8 @@ export async function updateLocalAdhocCallHistory(
   }
 
   strictAssert(
-    callHistory.status === AdhocCallStatus.Pending ||
+    callHistory.status === AdhocCallStatus.Generic ||
+      callHistory.status === AdhocCallStatus.Pending ||
       callHistory.status === AdhocCallStatus.Joined ||
       callHistory.status === AdhocCallStatus.Deleted,
     `updateAdhocCallHistory: callHistory must have adhoc status (was ${callHistory.status})`
@@ -1002,6 +1032,28 @@ export async function updateLocalAdhocCallHistory(
       formatCallHistory(callHistory)
     );
     await window.Signal.Data.saveCallHistory(callHistory);
+
+    /*
+      If we're not a call link admin and this is the first call history for this link,
+      then it means we clicked someone else's link and discovered it was active. We
+      sync this newly observed call link so the subsequent call event OBSERVED sync
+      message refers to a valid call link.
+    */
+    if (prevCallHistory == null) {
+      const callLink = await window.Signal.Data.getCallLinkByRoomId(
+        callEvent.peerId
+      );
+      if (callLink) {
+        log.info(
+          `updateAdhocCallHistory: Syncing new observed call link ${callEvent.peerId}`
+        );
+        drop(sendCallLinkUpdateSync(callLink));
+      } else {
+        log.error(
+          `updateAdhocCallHistory: New observed call link missing in DB: ${callEvent.peerId}`
+        );
+      }
+    }
   }
 
   if (isDeleted) {

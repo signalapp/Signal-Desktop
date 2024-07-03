@@ -3189,22 +3189,25 @@ export class CallingClass {
     const callId = getCallIdFromEra(peekInfo.eraId);
 
     try {
-      // We only log events confirmed joined. If admin approval is required, then
-      // the call begins in the Pending state and we don't want history for that.
-      if (joinState !== GroupCallJoinState.Joined) {
+      let localCallEvent;
+      if (joinState === GroupCallJoinState.Joined) {
+        localCallEvent = LocalCallEvent.Accepted;
+      } else if (peekInfo && peekInfo.devices.length > 0) {
+        localCallEvent = LocalCallEvent.Started;
+      } else {
         return;
       }
 
       const callDetails = getCallDetailsForAdhocCall(roomId, callId);
       const callEvent = getCallEventDetails(
         callDetails,
-        LocalCallEvent.Accepted,
-        'CallingClass.updateCallHistoryForGroupCallOnLocalChanged'
+        localCallEvent,
+        'CallingClass.updateCallHistoryForAdhocCall'
       );
       await updateAdhocCallHistory(callEvent);
     } catch (error) {
       log.error(
-        'CallingClass.updateCallHistoryForGroupCallOnLocalChanged: Error updating state',
+        'CallingClass.updateCallHistoryForAdhocCall: Error updating state',
         Errors.toLogFormat(error)
       );
     }
