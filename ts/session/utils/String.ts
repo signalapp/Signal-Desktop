@@ -1,5 +1,4 @@
 import ByteBuffer from 'bytebuffer';
-import { MAX_NAME_LENGTH_BYTES } from '../constants';
 
 export type Encoding = 'base64' | 'hex' | 'binary' | 'utf8';
 export type BufferType = ByteBuffer | Buffer | ArrayBuffer | Uint8Array;
@@ -56,19 +55,11 @@ const forbiddenDisplayCharRegex = /\uFFD2*/g;
  * This function removes any forbidden char from a given display name.
  * This does not trim it as otherwise, a user cannot type User A as when he hits the space, it gets trimmed right away.
  * The trimming should hence happen after calling this and on saving the display name.
- *
- * This function makes sure that the MAX_NAME_LENGTH_BYTES is verified for utf8 byte length.
  * @param inputName the input to sanitize
  * @returns a sanitized string, untrimmed
  */
 export const sanitizeSessionUsername = (inputName: string) => {
   const validChars = inputName.replace(forbiddenDisplayCharRegex, '');
-
-  const lengthBytes = encode(validChars, 'utf8').byteLength;
-  if (lengthBytes > MAX_NAME_LENGTH_BYTES) {
-    throw new Error('Display name is too long');
-  }
-
   return validChars;
 };
 

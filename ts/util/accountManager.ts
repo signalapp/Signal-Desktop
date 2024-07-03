@@ -67,7 +67,7 @@ const generateKeypair = async (
  * This registers a user account. It can also be used if an account restore fails and the user instead registers a new display name
  * @param mnemonic The mnemonic generated on first app loading and to use for this brand new user
  * @param mnemonicLanguage only 'english' is supported
- * @param displayName the display name to register, character limit is MAX_NAME_LENGTH_BYTES
+ * @param displayName the display name to register
  * @param registerCallback when restoring an account, registration completion is handled elsewhere so we need to pass the pubkey back up to the caller
  */
 export async function registerSingleDevice(

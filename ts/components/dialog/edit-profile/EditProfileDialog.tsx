@@ -4,15 +4,13 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { Dispatch } from '@reduxjs/toolkit';
-import { SyncUtils, UserUtils } from '../../../session/utils';
+import { UserUtils } from '../../../session/utils';
 import { YourSessionIDPill, YourSessionIDSelectable } from '../../basic/YourSessionIDPill';
 
 import { useHotkey } from '../../../hooks/useHotkey';
 import { useOurAvatarPath, useOurConversationUsername } from '../../../hooks/useParamSelector';
-import { ConversationTypeEnum } from '../../../models/conversationAttributes';
-import { getConversationController } from '../../../session/conversations';
+import { ProfileManager } from '../../../session/profile_manager/ProfileManager';
 import { editProfileModal, updateEditProfilePictureModel } from '../../../state/ducks/modalDialog';
-import { setLastProfileUpdateTimestamp } from '../../../util/storage';
 import { SessionWrapperModal } from '../../SessionWrapperModal';
 import { Flex } from '../../basic/Flex';
 import { SessionButton } from '../../basic/SessionButton';
@@ -166,20 +164,6 @@ const StyledSessionIdSection = styled(Flex)`
   }
 `;
 
-const updateDisplayName = async (newName: string) => {
-  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-  const conversation = await getConversationController().getOrCreateAndWait(
-    ourNumber,
-    ConversationTypeEnum.PRIVATE
-  );
-  conversation.setSessionDisplayNameNoCommit(newName);
-
-  // might be good to not trigger a sync if the name did not change
-  await conversation.commit();
-  await setLastProfileUpdateTimestamp(Date.now());
-  await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
-};
-
 export type ProfileDialogModes = 'default' | 'edit' | 'qr' | 'lightbox';
 
 export const EditProfileDialog = () => {
@@ -227,11 +211,21 @@ export const EditProfileDialog = () => {
       return;
     }
 
-    setLoading(true);
-    await updateDisplayName(profileName);
-    setUpdateProfileName(profileName);
-    setMode('default');
-    setLoading(false);
+    try {
+      setLoading(true);
+      await ProfileManager.updateOurProfileDisplayName(profileName);
+      setUpdateProfileName(profileName);
+      setMode('default');
+    } catch (err) {
+      // Note error substring is taken from libsession-util
+      if (err.message && err.message.includes('exceeds maximum length')) {
+        setProfileNameError(window.i18n('displayNameTooLong'));
+      } else {
+        setProfileNameError(window.i18n('unknownError'));
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleProfileHeaderClick = () => {

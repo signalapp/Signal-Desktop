@@ -1,7 +1,10 @@
 import { isEmpty } from 'lodash';
+import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../../models/conversationAttributes';
+import { setLastProfileUpdateTimestamp } from '../../util/storage';
+import { UserConfigWrapperActions } from '../../webworker/workers/browser/libsession_worker_interface';
 import { getConversationController } from '../conversations';
-import { UserUtils } from '../utils';
-import { toHex } from '../utils/String';
+import { SyncUtils, UserUtils } from '../utils';
+import { fromHexToArray, sanitizeSessionUsername, toHex } from '../utils/String';
 import { AvatarDownload } from '../utils/job_runners/jobs/AvatarDownloadJob';
 
 export type Profile = {
@@ -92,7 +95,49 @@ async function updateProfileOfContact(
   }
 }
 
+export async function updateOurProfileDisplayName(newName: string, onboarding?: boolean) {
+  const cleanName = sanitizeSessionUsername(newName).trim();
+
+  if (onboarding) {
+    await UserConfigWrapperActions.setUserInfo(cleanName, CONVERSATION_PRIORITIES.default, null);
+    return cleanName;
+  }
+
+  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
+  const conversation = await getConversationController().getOrCreateAndWait(
+    ourNumber,
+    ConversationTypeEnum.PRIVATE
+  );
+
+  const dbProfileUrl = conversation.get('avatarPointer');
+  const dbProfileKey = conversation.get('profileKey')
+    ? fromHexToArray(conversation.get('profileKey')!)
+    : null;
+  const dbPriority = conversation.get('priority') || CONVERSATION_PRIORITIES.default;
+
+  await UserConfigWrapperActions.setUserInfo(
+    cleanName,
+    dbPriority,
+    dbProfileUrl && dbProfileKey
+      ? {
+          url: dbProfileUrl,
+          key: dbProfileKey,
+        }
+      : null
+  );
+
+  conversation.setSessionDisplayNameNoCommit(newName);
+
+  // might be good to not trigger a sync if the name did not change
+  await conversation.commit();
+  await setLastProfileUpdateTimestamp(Date.now());
+  await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
+
+  return cleanName;
+}
+
 export const ProfileManager = {
   updateOurProfileSync,
   updateProfileOfContact,
+  updateOurProfileDisplayName,
 };

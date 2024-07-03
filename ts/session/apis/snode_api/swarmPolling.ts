@@ -401,8 +401,8 @@ export class SwarmPolling {
             hash: m.hash,
           }));
 
-          await GenericWrapperActions.init('UserConfig', privateKeyEd25519, null);
-          await GenericWrapperActions.merge('UserConfig', incomingConfigMessages);
+          await UserConfigWrapperActions.init(privateKeyEd25519, null);
+          await UserConfigWrapperActions.merge(incomingConfigMessages);
 
           const userInfo = await UserConfigWrapperActions.getUserInfo();
           if (!userInfo) {
@@ -412,7 +412,7 @@ export class SwarmPolling {
         } catch (e) {
           window.log.warn('LibSessionUtil.initializeLibSessionUtilWrappers failed with', e.message);
         } finally {
-          await GenericWrapperActions.free('UserConfig');
+          await UserConfigWrapperActions.free();
         }
 
         return '';
