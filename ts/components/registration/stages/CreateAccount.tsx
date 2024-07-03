@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import useMount from 'react-use/lib/useMount';
 import { SettingsKey } from '../../../data/settings-key';
 import { mnDecode } from '../../../session/crypto/mnemonic';
+import { ProfileManager } from '../../../session/profile_manager/ProfileManager';
 import { StringUtils } from '../../../session/utils';
 import { fromHex } from '../../../session/utils/String';
 import { trigger } from '../../../shims/events';
@@ -12,11 +13,13 @@ import {
   setDisplayName,
   setDisplayNameError,
   setHexGeneratedPubKey,
+  setPrivateKeyBytes,
   setRecoveryPassword,
 } from '../../../state/onboarding/ducks/registration';
 import {
   useDisplayName,
   useDisplayNameError,
+  useOnboardPrivateKeyBytes,
   useRecoveryPassword,
 } from '../../../state/onboarding/selectors/registration';
 import {
@@ -25,6 +28,7 @@ import {
   sessionGenerateKeyPair,
 } from '../../../util/accountManager';
 import { Storage, setSignWithRecoveryPhrase } from '../../../util/storage';
+import { UserConfigWrapperActions } from '../../../webworker/workers/browser/libsession_worker_interface';
 import { Flex } from '../../basic/Flex';
 import { SpacerLG, SpacerSM } from '../../basic/Text';
 import { SessionInput } from '../../inputs';
@@ -55,6 +59,7 @@ async function signUp(signUpDetails: AccountDetails) {
 }
 
 export const CreateAccount = () => {
+  const privateKeyBytes = useOnboardPrivateKeyBytes();
   const recoveryPassword = useRecoveryPassword();
   const displayName = useDisplayName();
   const displayNameError = useDisplayNameError();
@@ -77,6 +82,7 @@ export const CreateAccount = () => {
       const newHexPubKey = StringUtils.decode(keyPair.pubKey, 'hex');
 
       dispatch(setRecoveryPassword(mnemonic));
+      dispatch(setPrivateKeyBytes(keyPair.ed25519KeyPair.privateKey));
       dispatch(setHexGeneratedPubKey(newHexPubKey)); // our 'frontend' account ID
     }
   };
@@ -91,18 +97,35 @@ export const CreateAccount = () => {
     }
 
     try {
+      if (!privateKeyBytes) {
+        throw new Error('Private key not found');
+      }
+      // validate display name using libsession
+      // eslint-disable-next-line max-len
+      // TODO [libsession validation] if we try and use a different display name after entering one that is already too long we get an error because the user config has been initialised. I call .free() in the finally but that doesn't help
+      await UserConfigWrapperActions.init(privateKeyBytes, null);
+
+      const validName = await ProfileManager.updateOurProfileDisplayName(displayName, true);
+
       await signUp({
-        displayName,
+        displayName: validName,
         recoveryPassword,
       });
 
       dispatch(setAccountCreationStep(AccountCreation.Done));
-    } catch (e) {
+    } catch (err) {
+      let errorString = err.message || String(err);
+      // Note error substring is taken from libsession-util
+      if (err.message && err.message.includes('exceeds maximum length')) {
+        errorString = window.i18n('displayNameTooLong');
+      }
       window.log.error(
-        `[onboarding] create account: signUpWithDetails failed! Error: ${e.message || e}`
+        `[onboarding] create account: signUpWithDetails failed! Error: ${errorString}`
       );
       dispatch(setAccountCreationStep(AccountCreation.DisplayName));
-      dispatch(setDisplayNameError(e.message || String(e)));
+      dispatch(setDisplayNameError(errorString));
+    } finally {
+      await UserConfigWrapperActions.free();
     }
   };
 

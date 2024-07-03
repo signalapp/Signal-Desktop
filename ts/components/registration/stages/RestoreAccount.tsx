@@ -3,6 +3,7 @@ import { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { ONBOARDING_TIMES } from '../../../session/constants';
 import { InvalidWordsError, NotEnoughWordsError } from '../../../session/crypto/mnemonic';
+import { ProfileManager } from '../../../session/profile_manager/ProfileManager';
 import { PromiseUtils } from '../../../session/utils';
 import { TaskTimedOutError } from '../../../session/utils/Promise';
 import { NotFoundError } from '../../../session/utils/errors';
@@ -175,17 +176,26 @@ export const RestoreAccount = () => {
     }
 
     try {
+      // validate display name using libsession
+      // TODO [libsession validation] once you have it working in CreateAccount.tsx you will need to do it here
+      const validName = await ProfileManager.updateOurProfileDisplayName(displayName, true);
+
       await signInWithNewDisplayName({
-        displayName,
+        displayName: validName,
         recoveryPassword,
         dispatch,
       });
-    } catch (e) {
+    } catch (err) {
+      let errorString = err.message || String(err);
+      // Note error substring is taken from libsession-util
+      if (err.message && err.message.includes('exceeds maximum length')) {
+        errorString = window.i18n('displayNameTooLong');
+      }
       window.log.error(
-        `[onboarding] restore account: Failed with new display name! Error: ${e.message || e}`
+        `[onboarding] restore account: Failed with new display name! Error: ${errorString}`
       );
       dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
-      dispatch(setDisplayNameError(e.message || String(e)));
+      dispatch(setDisplayNameError(errorString));
     }
   };
 
