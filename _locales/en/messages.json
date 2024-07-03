@@ -877,7 +877,7 @@
   },
   "icu:callingDeveloperToolsDescription": {
     "messageformat": "This window is used during development to display diagnostics from ongoing calls.",
-    "description": "(Deleted 2024/07/02) Description displayed for calling developer tools window"
+    "description": "Description displayed for calling developer tools window"
   },
   "icu:speech": {
     "messageformat": "Speech",
