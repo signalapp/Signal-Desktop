@@ -1598,16 +1598,40 @@ async function initializeSQL(
     );
     safeStorage.setUsePlainTextEncryption(true);
   }
-  if (typeof keyFromConfig === 'string') {
+  // Previous versions of Signal did not encrypt keys. To make migration possible,
+  // encrypted keys are prefixed with enc: to distinguish them from unencrypted ones
+  if (typeof keyFromConfig === 'string' && keyFromConfig.startsWith('enc:')) {
     try {
-      key = safeStorage.decryptString(Buffer.from(keyFromConfig, 'hex'));
+      key = safeStorage.decryptString(
+        Buffer.from(keyFromConfig.slice(4), 'hex')
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        return { ok: false, error };
+      }
+
+      return {
+        ok: false,
+        error: new Error(
+          `initializeSQL: Caught a non-error while decrypting keys: '${error}'`
+        ),
+      };
+    }
+  } else if (typeof keyFromConfig === 'string') {
+    // Migrate non-encrypted keys to encrypted keys
+    try {
+      userConfig.set(
+        'key',
+        `enc:${safeStorage.encryptString(keyFromConfig).toString('hex')}`
+      );
     } catch (error) {
       getLogger().warn(
-        'key/initialize: Encrypted key retrieval failed, falling back to plain text key from config',
+        'key/initialize: Encrypted key storage failed, falling back to plain text storage in config',
         Errors.toLogFormat(error)
       );
-      key = keyFromConfig;
+      userConfig.set('key', keyFromConfig);
     }
+    key = keyFromConfig;
   } else if (keyFromConfig) {
     getLogger().warn(
       "initializeSQL: got key from config, but it wasn't a string"
@@ -1620,7 +1644,10 @@ async function initializeSQL(
     // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
     key = randomBytes(32).toString('hex');
     try {
-      userConfig.set('key', safeStorage.encryptString(key).toString('hex'));
+      userConfig.set(
+        'key',
+        `enc:${safeStorage.encryptString(key).toString('hex')}`
+      );
     } catch (error) {
       getLogger().warn(
         'key/initialize: Encrypted key storage failed, falling back to plain text storage in config',
