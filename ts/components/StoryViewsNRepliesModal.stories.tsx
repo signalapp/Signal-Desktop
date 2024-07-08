@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Meta, StoryFn } from '@storybook/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { v4 as generateUuid } from 'uuid';
 
-import { useArgs } from '@storybook/addons';
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoryViewsNRepliesModal';
 import * as durations from '../util/durations';
@@ -149,16 +148,17 @@ function getViewsAndReplies() {
 
 // eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => {
-  const [, updateArgs] = useArgs();
+  const [viewTarget, setViewTarget] = useState(args.viewTarget);
 
-  function onChangeViewTarget(viewTarget: StoryViewTargetType) {
-    args.onChangeViewTarget(viewTarget);
-    updateArgs({ viewTarget });
+  function onChangeViewTarget(newViewTarget: StoryViewTargetType) {
+    args.onChangeViewTarget(newViewTarget);
+    setViewTarget(newViewTarget);
   }
 
   return (
     <StoryViewsNRepliesModal
       {...args}
+      viewTarget={viewTarget}
       onChangeViewTarget={onChangeViewTarget}
     />
   );

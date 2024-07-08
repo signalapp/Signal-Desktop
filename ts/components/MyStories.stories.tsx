@@ -4,9 +4,8 @@
 import type { Meta, ReactRenderer, StoryFn } from '@storybook/react';
 import type { PlayFunction } from '@storybook/csf';
 import React from 'react';
-import { expect, jest } from '@storybook/jest';
 import { v4 as uuid } from 'uuid';
-import { within, userEvent } from '@storybook/testing-library';
+import { expect, fn, within, userEvent } from '@storybook/test';
 
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './MyStories';
@@ -31,10 +30,10 @@ export default {
   },
   args: {
     i18n,
-    onBack: jest.fn(action('onBack')),
+    onBack: fn(action('onBack')),
     onDelete: action('onDelete'),
-    onForward: jest.fn(action('onForward')),
-    onSave: jest.fn(action('onSave')),
+    onForward: fn(action('onForward')),
+    onSave: fn(action('onSave')),
     hasViewReceiptSetting: false,
     renderToastManager: () => <i />,
     queueStoryDownload: action('queueStoryDownload'),

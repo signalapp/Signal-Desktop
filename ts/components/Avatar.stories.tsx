@@ -4,9 +4,8 @@
 import type { Meta, StoryFn } from '@storybook/react';
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-import { expect, jest } from '@storybook/jest';
 import { isBoolean } from 'lodash';
-import { within, userEvent } from '@storybook/testing-library';
+import { expect, fn, within, userEvent } from '@storybook/test';
 import type { AvatarColorType } from '../types/Colors';
 import type { Props } from './Avatar';
 import enMessages from '../../_locales/en/messages.json';
@@ -19,19 +18,6 @@ import { setupI18n } from '../util/setupI18n';
 
 const i18n = setupI18n('en', enMessages);
 
-const colorMap: Record<string, AvatarColorType> = AvatarColors.reduce(
-  (m, color) => ({
-    ...m,
-    [color]: color,
-  }),
-  {}
-);
-
-const conversationTypeMap: Record<string, Props['conversationType']> = {
-  direct: 'direct',
-  group: 'group',
-};
-
 export default {
   title: 'Components/Avatar',
   component: Avatar,
@@ -41,19 +27,19 @@ export default {
     },
     blur: {
       control: { type: 'radio' },
-      options: {
-        Undefined: undefined,
-        NoBlur: AvatarBlur.NoBlur,
-        BlurPicture: AvatarBlur.BlurPicture,
-        BlurPictureWithClickToView: AvatarBlur.BlurPictureWithClickToView,
-      },
+      options: [
+        undefined,
+        AvatarBlur.NoBlur,
+        AvatarBlur.BlurPicture,
+        AvatarBlur.BlurPictureWithClickToView,
+      ],
     },
     color: {
-      options: colorMap,
+      options: AvatarColors,
     },
     conversationType: {
       control: { type: 'radio' },
-      options: conversationTypeMap,
+      options: ['direct', 'group'],
     },
     size: {
       control: false,
@@ -64,7 +50,7 @@ export default {
     },
     theme: {
       control: { type: 'radio' },
-      options: ThemeType,
+      options: [ThemeType.light, ThemeType.dark],
     },
   },
   args: {
@@ -88,7 +74,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isMe: false,
   loading: Boolean(overrideProps.loading),
   noteToSelf: Boolean(overrideProps.noteToSelf),
-  onClick: jest.fn(action('onClick')),
+  onClick: fn(action('onClick')),
   onClickBadge: action('onClickBadge'),
   phoneNumber: overrideProps.phoneNumber || '',
   searchResult: Boolean(overrideProps.searchResult),

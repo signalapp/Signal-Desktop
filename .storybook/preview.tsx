@@ -198,3 +198,4 @@ export const parameters = {
     disabledRules: ['html-has-lang'],
   },
 };
+export const tags = [];

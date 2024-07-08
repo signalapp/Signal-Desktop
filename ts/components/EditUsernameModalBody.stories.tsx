@@ -36,25 +36,20 @@ export default {
     },
     state: {
       control: { type: 'radio' },
-      options: {
-        Open: State.Open,
-        Closed: State.Closed,
-        Reserving: State.Reserving,
-        Confirming: State.Confirming,
-      },
+      options: [State.Open, State.Closed, State.Reserving, State.Confirming],
     },
     error: {
       control: { type: 'radio' },
-      options: {
-        None: undefined,
-        NotEnoughCharacters: UsernameReservationError.NotEnoughCharacters,
-        TooManyCharacters: UsernameReservationError.TooManyCharacters,
-        CheckStartingCharacter: UsernameReservationError.CheckStartingCharacter,
-        CheckCharacters: UsernameReservationError.CheckCharacters,
-        UsernameNotAvailable: UsernameReservationError.UsernameNotAvailable,
-        General: UsernameReservationError.General,
-        TooManyAttempts: UsernameReservationError.TooManyAttempts,
-      },
+      options: [
+        undefined,
+        UsernameReservationError.NotEnoughCharacters,
+        UsernameReservationError.TooManyCharacters,
+        UsernameReservationError.CheckStartingCharacter,
+        UsernameReservationError.CheckCharacters,
+        UsernameReservationError.UsernameNotAvailable,
+        UsernameReservationError.General,
+        UsernameReservationError.TooManyAttempts,
+      ],
     },
     reservation: {
       type: { name: 'string', required: false },

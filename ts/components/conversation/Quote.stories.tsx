@@ -35,19 +35,19 @@ export default {
   title: 'Components/Conversation/Quote',
   argTypes: {
     isFromMe: {
-      control: { type: 'checkbox' },
+      control: { type: 'boolean' },
     },
     isGiftBadge: {
-      control: { type: 'checkbox' },
+      control: { type: 'boolean' },
     },
     isIncoming: {
-      control: { type: 'checkbox' },
+      control: { type: 'boolean' },
     },
     isViewOnce: {
-      control: { type: 'checkbox' },
+      control: { type: 'boolean' },
     },
     referencedMessageNotFound: {
-      control: { type: 'checkbox' },
+      control: { type: 'boolean' },
     },
   },
   args: {

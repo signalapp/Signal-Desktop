@@ -16,88 +16,6 @@
     "reasonDetail": "Part of runtime library for C++ transpiled code"
   },
   {
-    "rule": "React-useRef",
-    "path": "node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.esm.js",
-    "line": "  const ref = React.useRef(value);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.esm.js",
-    "line": "  const referenceRef = React.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.esm.js",
-    "line": "  const floatingRef = React.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.esm.js",
-    "line": "  const dataRef = React.useRef(data);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.esm.js",
-    "line": "  const isMountedRef = React.useRef(false);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.esm.min.js",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.umd.js",
-    "line": "    const ref = React__namespace.useRef(value);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.umd.js",
-    "line": "    const referenceRef = React__namespace.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.umd.js",
-    "line": "    const floatingRef = React__namespace.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.umd.js",
-    "line": "    const dataRef = React__namespace.useRef(data);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.umd.js",
-    "line": "    const isMountedRef = React__namespace.useRef(false);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.umd.min.js",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
     "rule": "eval",
     "path": "node_modules/@jest/fake-timers/node_modules/@sinonjs/commons/lib/function-name.test.js",
     "line": "                fn = eval(\"(function*() {})\")().constructor;",
@@ -121,185 +39,122 @@
   },
   {
     "rule": "React-useRef",
-    "path": "node_modules/@radix-ui/react-collection/dist/index.js",
-    "line": "        const ref = ($parcel$interopDefault($hnlpS$react)).useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "path": "node_modules/@radix-ui/react-dialog/dist/index.js",
+    "line": "  const triggerRef = React.useRef(null);",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "React-useRef",
-    "path": "node_modules/@radix-ui/react-collection/dist/index.js",
-    "line": "        const itemMap = ($parcel$interopDefault($hnlpS$react)).useRef(new Map()).current;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "path": "node_modules/@radix-ui/react-dialog/dist/index.js",
+    "line": "  const contentRef = React.useRef(null);",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "React-useRef",
-    "path": "node_modules/@radix-ui/react-collection/dist/index.js",
-    "line": "        const ref = ($parcel$interopDefault($hnlpS$react)).useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "path": "node_modules/@radix-ui/react-dialog/dist/index.js",
+    "line": "    const contentRef = React.useRef(null);",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-dialog/dist/index.js",
+    "line": "    const hasInteractedOutsideRef = React.useRef(false);",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-dialog/dist/index.js",
+    "line": "    const hasPointerDownOutsideRef = React.useRef(false);",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-dialog/dist/index.js",
+    "line": "    const contentRef = React.useRef(null);",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "React-useRef",
     "path": "node_modules/@radix-ui/react-dismissable-layer/dist/index.js",
-    "line": "    const ref = $g2vWm$react.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "line": "  const ref = React.useRef(null);",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "React-useRef",
     "path": "node_modules/@radix-ui/react-dismissable-layer/dist/index.js",
-    "line": "    const isPointerInsideReactTreeRef = $g2vWm$react.useRef(false);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "line": "  const isPointerInsideReactTreeRef = React.useRef(false);",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "React-useRef",
     "path": "node_modules/@radix-ui/react-dismissable-layer/dist/index.js",
-    "line": "    const handleClickRef = $g2vWm$react.useRef(()=>{});",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "line": "  const handleClickRef = React.useRef(() => {",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "React-useRef",
     "path": "node_modules/@radix-ui/react-dismissable-layer/dist/index.js",
-    "line": "    const isFocusInsideReactTreeRef = $g2vWm$react.useRef(false);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "line": "  const isFocusInsideReactTreeRef = React.useRef(false);",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "React-useRef",
     "path": "node_modules/@radix-ui/react-focus-scope/dist/index.js",
-    "line": "    const lastFocusedElementRef = $buum9$react.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "line": "  const lastFocusedElementRef = React.useRef(null);",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "React-useRef",
     "path": "node_modules/@radix-ui/react-focus-scope/dist/index.js",
-    "line": "    const focusScope = $buum9$react.useRef({",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "line": "  const focusScope = React.useRef({",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "React-useRef",
-    "path": "node_modules/@radix-ui/react-popper/dist/index.js",
-    "line": "    const ref = $50Iv9$react.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "path": "node_modules/@radix-ui/react-presence/dist/index.js",
+    "line": "  const stylesRef = React2.useRef({});",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "React-useRef",
-    "path": "node_modules/@radix-ui/react-roving-focus/dist/index.js",
-    "line": "    const ref = $9QJ9Y$react.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "path": "node_modules/@radix-ui/react-presence/dist/index.js",
+    "line": "  const prevPresentRef = React2.useRef(present);",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "React-useRef",
-    "path": "node_modules/@radix-ui/react-roving-focus/dist/index.js",
-    "line": "    const isClickFocusRef = $9QJ9Y$react.useRef(false);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-dangerouslySetInnerHTML",
-    "path": "node_modules/@radix-ui/react-select/dist/index.js",
-    "line": "        dangerouslySetInnerHTML: {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@radix-ui/react-select/dist/index.js",
-    "line": "    const triggerPointerDownPosRef = $cg2C9$react.useRef(null); // We set this to true by default so that events bubble to forms without JS (SSR)",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@radix-ui/react-select/dist/index.js",
-    "line": "    const firstValidItemFoundRef = $cg2C9$react.useRef(false); // aria-hide everything except the content (better supported equivalent to setting aria-modal)",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@radix-ui/react-select/dist/index.js",
-    "line": "    const shouldExpandOnScrollRef = $cg2C9$react.useRef(false);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@radix-ui/react-select/dist/index.js",
-    "line": "    const shouldRepositionRef = $cg2C9$react.useRef(true);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@radix-ui/react-select/dist/index.js",
-    "line": "    const prevScrollTopRef = $cg2C9$react.useRef(0);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@radix-ui/react-select/dist/index.js",
-    "line": "    const autoScrollTimerRef = $cg2C9$react.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@radix-ui/react-select/dist/index.js",
-    "line": "    const ref = $cg2C9$react.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@radix-ui/react-select/dist/index.js",
-    "line": "    const searchRef = $cg2C9$react.useRef('');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@radix-ui/react-select/dist/index.js",
-    "line": "    const timerRef = $cg2C9$react.useRef(0);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@radix-ui/react-toggle-group/dist/index.js",
-    "line": "    const ref = ($parcel$interopDefault($1z6X1$react)).useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "path": "node_modules/@radix-ui/react-presence/dist/index.js",
+    "line": "  const prevAnimationNameRef = React2.useRef(\"none\");",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "React-useRef",
     "path": "node_modules/@radix-ui/react-use-callback-ref/dist/index.js",
-    "line": "    const callbackRef = $92muK$react.useRef(callback);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "line": "  const callbackRef = React.useRef(callback);",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "React-useRef",
     "path": "node_modules/@radix-ui/react-use-controllable-state/dist/index.js",
-    "line": "    const prevValueRef = $ijazI$react.useRef(value);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/@radix-ui/react-use-previous/dist/index.js",
-    "line": "    const ref = $kjM8v$react.useRef({",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "line": "  const prevValueRef = React.useRef(value);",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "React-useRef",
@@ -527,197 +382,45 @@
   },
   {
     "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
-    "line": "  if (!element || !('innerHTML' in element)) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
-    "line": "  if (!element.innerHTML) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
-    "line": "  const playgroundUrl = getPlaygroundUrl(element.innerHTML);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
-    "line": "  if (!('outerHTML' in dom)) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.cjs.js",
-    "line": "  return maxLength !== undefined && dom.outerHTML.length > maxLength ? debugContent.slice(0, maxLength) + \"...\" : debugContent;",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
-    "line": "  if (!element || !('innerHTML' in element)) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
-    "line": "  if (!element.innerHTML) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
-    "line": "  const playgroundUrl = getPlaygroundUrl(element.innerHTML);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
-    "line": "  if (!('outerHTML' in dom)) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.esm.js",
-    "line": "  return maxLength !== undefined && dom.outerHTML.length > maxLength ? debugContent.slice(0, maxLength) + \"...\" : debugContent;",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
-    "line": "    if (!element || !('innerHTML' in element)) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
-    "line": "    if (!element.innerHTML) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
-    "line": "\t  const playgroundUrl = getPlaygroundUrl(element.innerHTML);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
-    "line": "    if (!('outerHTML' in dom)) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js",
-    "line": "    return maxLength !== undefined && dom.outerHTML.length > maxLength ? debugContent.slice(0, maxLength) + \"...\" : debugContent;",
-    "reasonCategory": "testCode",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.min.js",
-    "reasonCategory": "testCode",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/@testing-library/dom/dist/@testing-library/dom.umd.min.js",
-    "reasonCategory": "testCode",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/@testing-library/dom/dist/pretty-dom.js",
-    "line": "  if (!('outerHTML' in dom)) {",
-    "reasonCategory": "testCode",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/@testing-library/dom/dist/pretty-dom.js",
-    "line": "  return maxLength !== undefined && dom.outerHTML.length > maxLength ? `${debugContent.slice(0, maxLength)}...` : debugContent;",
-    "reasonCategory": "testCode",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/dom/dist/screen.js",
-    "line": "  if (!element || !('innerHTML' in element)) {",
-    "reasonCategory": "testCode",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/dom/dist/screen.js",
-    "line": "  if (!element.innerHTML) {",
-    "reasonCategory": "testCode",
-    "updated": "2022-06-23T23:21:04.555Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/dom/dist/screen.js",
-    "line": "  const playgroundUrl = getPlaygroundUrl(element.innerHTML);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/jest-dom/dist/matchers-d012a0f1.js",
+    "path": "node_modules/@testing-library/jest-dom/dist/matchers-342a062d.js",
     "line": "    pass: element.innerHTML === '',",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/jest-dom/dist/matchers-d012a0f1.js",
+    "path": "node_modules/@testing-library/jest-dom/dist/matchers-342a062d.js",
     "line": "        `  ${this.utils.printReceived(element.innerHTML)}`,",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/jest-dom/dist/matchers-d012a0f1.js",
+    "path": "node_modules/@testing-library/jest-dom/dist/matchers-342a062d.js",
     "line": "        `  ${this.utils.printReceived(element.innerHTML)}`,",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/jest-dom/dist/matchers-d012a0f1.js",
+    "path": "node_modules/@testing-library/jest-dom/dist/matchers-342a062d.js",
     "line": "  div.innerHTML = htmlText;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "DOM-innerHTML",
-    "path": "node_modules/@testing-library/jest-dom/dist/matchers-d012a0f1.js",
+    "path": "node_modules/@testing-library/jest-dom/dist/matchers-342a062d.js",
     "line": "  return div.innerHTML",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "DOM-outerHTML",
-    "path": "node_modules/@testing-library/jest-dom/dist/matchers-d012a0f1.js",
+    "path": "node_modules/@testing-library/jest-dom/dist/matchers-342a062d.js",
     "line": "    pass: container.outerHTML.includes(getNormalizedHtml(container, htmlText)),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -739,34 +442,6 @@
     "line": "     * Like [`eval(code)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#Description).",
     "reasonCategory": "falseMatch",
     "updated": "2023-08-29T19:25:52.732Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/array-includes/node_modules/object-inspect/example/inspect.js",
-    "line": "d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/array-includes/node_modules/object-inspect/test/browser/dom.js",
-    "line": "    d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/array.prototype.flatmap/node_modules/object-inspect/example/inspect.js",
-    "line": "d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/array.prototype.flatmap/node_modules/object-inspect/test/browser/dom.js",
-    "line": "    d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -1460,20 +1135,6 @@
   },
   {
     "rule": "DOM-innerHTML",
-    "path": "node_modules/object.hasown/node_modules/object-inspect/example/inspect.js",
-    "line": "d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/object.hasown/node_modules/object-inspect/test/browser/dom.js",
-    "line": "    d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
     "path": "node_modules/parse-entities/decode-entity.browser.js",
     "line": "  el.innerHTML = entity",
     "reasonCategory": "usageTrusted",
@@ -1557,118 +1218,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-18T19:19:27.699Z",
     "reasonDetail": "Hard-coded string"
-  },
-  {
-    "rule": "DOM-document.write(",
-    "path": "node_modules/puppeteer-core/lib/DOMWorld.js",
-    "line": "      document.write(html);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/puppeteer-core/lib/DOMWorld.js",
-    "line": "        retVal += document.documentElement.outerHTML;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/puppeteer-core/lib/DOMWorld.js",
-    "line": "  async $eval(selector, pageFunction, ...args) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/puppeteer-core/lib/DOMWorld.js",
-    "line": "    return document.$eval(selector, pageFunction, ...args);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/puppeteer-core/lib/DOMWorld.js",
-    "line": "  async $$eval(selector, pageFunction, ...args) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/puppeteer-core/lib/DOMWorld.js",
-    "line": "    const value = await document.$$eval(selector, pageFunction, ...args);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/puppeteer-core/lib/FrameManager.js",
-    "line": "  async $eval(selector, pageFunction, ...args) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/puppeteer-core/lib/FrameManager.js",
-    "line": "    return this._mainWorld.$eval(selector, pageFunction, ...args);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/puppeteer-core/lib/FrameManager.js",
-    "line": "  async $$eval(selector, pageFunction, ...args) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/puppeteer-core/lib/FrameManager.js",
-    "line": "    return this._mainWorld.$$eval(selector, pageFunction, ...args);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/puppeteer-core/lib/JSHandle.js",
-    "line": "  async $eval(selector, pageFunction, ...args) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/puppeteer-core/lib/JSHandle.js",
-    "line": "  async $$eval(selector, pageFunction, ...args) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/puppeteer-core/lib/Page.js",
-    "line": "  async $eval(selector, pageFunction, ...args) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/puppeteer-core/lib/Page.js",
-    "line": "    return this.mainFrame().$eval(selector, pageFunction, ...args);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/puppeteer-core/lib/Page.js",
-    "line": "  async $$eval(selector, pageFunction, ...args) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/puppeteer-core/lib/Page.js",
-    "line": "    return this.mainFrame().$$eval(selector, pageFunction, ...args);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
   },
   {
     "rule": "DOM-document.write(",
@@ -2217,102 +1766,11 @@
     "updated": "2023-10-03T18:55:06.301Z"
   },
   {
-    "rule": "React-createRef",
-    "path": "node_modules/react-resize-detector/build/index.esm.js",
-    "line": "            // in case we pass a React ref using React.createRef()",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-createRef",
-    "path": "node_modules/react-resize-detector/build/index.esm.js",
-    "line": "        _this.targetRef = createRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-createRef",
-    "path": "node_modules/react-resize-detector/build/index.esm.js",
-    "line": "            _this.ref = createRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/react-resize-detector/build/index.esm.js",
-    "line": "            var currentElement = findDOMNode(_this);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
     "rule": "React-useRef",
-    "path": "node_modules/react-resize-detector/build/index.esm.js",
-    "line": "    var skipResize = useRef(skipOnMount);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-resize-detector/build/index.esm.js",
-    "line": "    var localRef = useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-resize-detector/build/index.esm.js",
-    "line": "    var resizeHandler = useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-createRef",
-    "path": "node_modules/react-resize-detector/build/index.js",
-    "line": "            // in case we pass a React ref using React.createRef()",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-createRef",
-    "path": "node_modules/react-resize-detector/build/index.js",
-    "line": "        _this.targetRef = React.createRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-createRef",
-    "path": "node_modules/react-resize-detector/build/index.js",
-    "line": "            _this.ref = React.createRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-findDOMNode",
-    "path": "node_modules/react-resize-detector/build/index.js",
-    "line": "            var currentElement = reactDom.findDOMNode(_this);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-resize-detector/build/index.js",
-    "line": "    var skipResize = React.useRef(skipOnMount);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-resize-detector/build/index.js",
-    "line": "    var localRef = React.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-resize-detector/build/index.js",
-    "line": "    var resizeHandler = React.useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
+    "path": "node_modules/react-remove-scroll/dist/index.js",
+    "line": "    var t = n.useRef(null), c = n.useState({onScrollCapture: l, onWheelCapture: l, onTouchMoveCapture: l}), u = c[0],",
+    "reasonCategory": "testCode",
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "React-useRef",
@@ -2418,20 +1876,6 @@
     "line": "  var measurementsCacheRef = useRef();",
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-16T23:23:32.306Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/side-channel/node_modules/object-inspect/example/inspect.js",
-    "line": "d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/side-channel/node_modules/object-inspect/test/browser/dom.js",
-    "line": "    d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
   },
   {
     "rule": "eval",
@@ -2463,20 +1907,6 @@
   },
   {
     "rule": "DOM-innerHTML",
-    "path": "node_modules/string.prototype.matchall/node_modules/object-inspect/example/inspect.js",
-    "line": "d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/string.prototype.matchall/node_modules/object-inspect/test/browser/dom.js",
-    "line": "    d.innerHTML = '<b>wooo</b><i>iiiii</i>';",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
     "path": "node_modules/tocbot/dist/tocbot.js",
     "line": "        tocElement.innerHTML = ''",
     "reasonCategory": "notExercisedByOurApp",
@@ -2490,230 +1920,17 @@
   },
   {
     "rule": "DOM-innerHTML",
-    "path": "node_modules/tocbot/out/_next/static/chunks/253-af2be75f8688092d.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-dangerouslySetInnerHTML",
-    "path": "node_modules/tocbot/out/_next/static/chunks/253-af2be75f8688092d.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-ref",
-    "path": "node_modules/tocbot/out/_next/static/chunks/684-c4d85164cfbebace.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/tocbot/out/_next/static/chunks/684-c4d85164cfbebace.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-dangerouslySetInnerHTML",
-    "path": "node_modules/tocbot/out/_next/static/chunks/894.d8d3be35b7c84b33.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-ref",
-    "path": "node_modules/tocbot/out/_next/static/chunks/894.d8d3be35b7c84b33.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/tocbot/out/_next/static/chunks/framework-3911a61406e859ea.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-dangerouslySetInnerHTML",
-    "path": "node_modules/tocbot/out/_next/static/chunks/framework-3911a61406e859ea.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-ref",
-    "path": "node_modules/tocbot/out/_next/static/chunks/framework-3911a61406e859ea.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/tocbot/out/_next/static/chunks/framework-3911a61406e859ea.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/tocbot/out/_next/static/chunks/main-292648d00afc3512.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-dangerouslySetInnerHTML",
-    "path": "node_modules/tocbot/out/_next/static/chunks/main-292648d00afc3512.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-ref",
-    "path": "node_modules/tocbot/out/_next/static/chunks/main-292648d00afc3512.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/tocbot/out/_next/static/chunks/main-292648d00afc3512.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-dangerouslySetInnerHTML",
-    "path": "node_modules/tocbot/out/_next/static/chunks/pages/_error-b0eae765db80170a.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-ref",
-    "path": "node_modules/tocbot/out/_next/static/chunks/pages/_error-b0eae765db80170a.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/tocbot/out/static/js/tocbot.js",
-    "line": "        tocElement.innerHTML = ''",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/tocbot/out/static/js/tocbot.min.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-dangerouslySetInnerHTML",
-    "path": "node_modules/tocbot/src/components/Template/Tracking/index.js",
-    "line": "      <script dangerouslySetInnerHTML={{ __html: getGaScript(props.siteId) }} />",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/tocbot/src/components/Template/TryIt/index.js",
-    "line": "    contentEl.innerHTML = marked(markdown)",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/tocbot/src/components/Template/TryIt/index.js",
-    "line": "    contentEl.innerHTML = backupHtml",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/tocbot/src/components/Template/TryIt/index.js",
-    "line": "    backupHtml = backupHtml && backupHtml.innerHTML",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-dangerouslySetInnerHTML",
-    "path": "node_modules/tocbot/src/components/Template/index.js",
-    "line": "            dangerouslySetInnerHTML={{ __html: props.tocHtml }}",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-dangerouslySetInnerHTML",
-    "path": "node_modules/tocbot/src/components/Template/index.js",
-    "line": "            dangerouslySetInnerHTML={{ __html: props.bodyHtml }}",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/tocbot/src/js/index.js",
-    "line": "        tocElement.innerHTML = ''",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/tocbot/static/js/tocbot.js",
-    "line": "        tocElement.innerHTML = ''",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/tocbot/static/js/tocbot.min.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/uri-js/tests/qunit.js",
-    "line": "\t\t\ttests.innerHTML = \"\";",
+    "path": "node_modules/tocbot/src/js/index-esm.js",
+    "line": "      tocElement.innerHTML = ''",
     "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "DOM-innerHTML",
-    "path": "node_modules/uri-js/tests/qunit.js",
-    "line": "\t\t\t\tb.innerHTML = name + \" <b style='color:black;'>(<b class='fail'>\" + bad + \"</b>, <b class='pass'>\" + good + \"</b>, \" + config.assertions.length + \")</b>\";",
+    "path": "node_modules/tocbot/src/js/server-render.js",
+    "line": "  return toc && toc.innerHTML",
     "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/uri-js/tests/qunit.js",
-    "line": "\t\tuserAgent.innerHTML = navigator.userAgent;",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/uri-js/tests/qunit.js",
-    "line": "\t\tlabel.innerHTML = \"Hide passed tests\";",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/uri-js/tests/qunit.js",
-    "line": "\t\t\t\tif ( li[i].className.indexOf(\"fail\") > -1 && li[i].innerHTML.indexOf('missing test - untested code is broken code') > - 1 ) {",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/uri-js/tests/qunit.js",
-    "line": "\t\tlabel.innerHTML = \"Hide missing tests (untested code is broken code)\";",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/uri-js/tests/qunit.js",
-    "line": "\t\tconfig.fixture = main.innerHTML;",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/uri-js/tests/qunit.js",
-    "line": "\t\tresult.innerHTML = html;",
-    "reasonCategory": "testCode",
-    "updated": "2024-06-24T19:19:28.335Z"
+    "updated": "2024-07-03T21:07:45.309Z"
   },
   {
     "rule": "React-useRef",
@@ -2833,153 +2050,6 @@
     "line": "  var ref = React.useRef(value);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-16T23:23:32.306Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/dist/bundle.cjs.js",
-    "line": "  var lastReportRef = react.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/dist/bundle.cjs.js",
-    "line": "  var refOrElementRef = react.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/dist/bundle.cjs.js",
-    "line": "  var cbElementRef = react.useRef(null); // Calling re-evaluation after each render without using a dep array,",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/dist/bundle.cjs.js",
-    "line": "  var onResizeRef = react.useRef(undefined);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/dist/bundle.cjs.js",
-    "line": "  var resizeObserverRef = react.useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/dist/bundle.cjs.js",
-    "line": "  var didUnmount = react.useRef(false);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/dist/bundle.cjs.js",
-    "line": "  var previous = react.useRef({",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/dist/bundle.esm.js",
-    "line": "  var lastReportRef = useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/dist/bundle.esm.js",
-    "line": "  var refOrElementRef = useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/dist/bundle.esm.js",
-    "line": "  var cbElementRef = useRef(null); // Calling re-evaluation after each render without using a dep array,",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/dist/bundle.esm.js",
-    "line": "  var onResizeRef = useRef(undefined);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/dist/bundle.esm.js",
-    "line": "  var resizeObserverRef = useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/dist/bundle.esm.js",
-    "line": "  var didUnmount = useRef(false);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/dist/bundle.esm.js",
-    "line": "  var previous = useRef({",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/polyfilled.js",
-    "line": "  var lastReportRef = react.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/polyfilled.js",
-    "line": "  var refOrElementRef = react.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/polyfilled.js",
-    "line": "  var cbElementRef = react.useRef(null); // Calling re-evaluation after each render without using a dep array,",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/polyfilled.js",
-    "line": "  var onResizeRef = react.useRef(undefined);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/polyfilled.js",
-    "line": "  var resizeObserverRef = react.useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/polyfilled.js",
-    "line": "  var didUnmount = react.useRef(false);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-resize-observer/polyfilled.js",
-    "line": "  var previous = react.useRef({",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-10-03T18:55:06.301Z"
   },
   {
     "rule": "React-useRef",

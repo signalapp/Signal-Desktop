@@ -28,11 +28,11 @@ export default {
   argTypes: {
     usernameEditState: {
       control: { type: 'radio' },
-      options: {
-        Editing: UsernameEditState.Editing,
-        ConfirmingDelete: UsernameEditState.ConfirmingDelete,
-        Deleting: UsernameEditState.Deleting,
-      },
+      options: [
+        UsernameEditState.Editing,
+        UsernameEditState.ConfirmingDelete,
+        UsernameEditState.Deleting,
+      ],
     },
     usernameCorrupted: {
       control: 'boolean',

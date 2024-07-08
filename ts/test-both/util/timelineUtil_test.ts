@@ -156,11 +156,11 @@ describe('<Timeline> utilities', () => {
         'sending',
       ];
       for (const status of statuses) {
-        const sameStatusNewer = {
+        const sameStatusNewer: MaybeMessageTimelineItemType = {
           ...defaultNewer,
           data: { ...defaultNewer.data, status },
         };
-        const current = {
+        const current: MaybeMessageTimelineItemType = {
           ...defaultCurrent,
           data: { ...defaultCurrent.data, status },
         };
