@@ -7,13 +7,16 @@ import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallManager';
 import { CallManager } from './CallManager';
 import {
-  type ActiveGroupCallType,
   CallEndedReason,
   CallMode,
   CallState,
   CallViewMode,
   GroupCallConnectionState,
   GroupCallJoinState,
+} from '../types/Calling';
+import type {
+  ActiveGroupCallType,
+  GroupCallRemoteParticipantType,
 } from '../types/Calling';
 import type {
   ConversationType,
@@ -53,6 +56,20 @@ const getConversation = () =>
 const getUnknownContact = (): ConversationType => ({
   ...getPlaceholderContact(),
   serviceId: generateAci(),
+});
+
+const getUnknownParticipant = (): GroupCallRemoteParticipantType => ({
+  ...getPlaceholderContact(),
+  serviceId: generateAci(),
+  aci: generateAci(),
+  demuxId: Math.round(10000 * Math.random()),
+  hasRemoteAudio: true,
+  hasRemoteVideo: true,
+  isHandRaised: false,
+  mediaKeysReceived: false,
+  presenting: false,
+  sharingScreen: false,
+  videoAspectRatio: 1,
 });
 
 const getCommonActiveCallData = () => ({
@@ -420,6 +437,27 @@ export function CallLinkWithJoinRequestsMany(): JSX.Element {
   );
 }
 
+export function CallLinkWithJoinRequestUnknownContact(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: getActiveCallForCallLink({
+          connectionState: GroupCallConnectionState.Connected,
+          joinState: GroupCallJoinState.Joined,
+          peekedParticipants: [allRemoteParticipants[0]],
+          pendingParticipants: [
+            getUnknownContact(),
+            allRemoteParticipants[1],
+            allRemoteParticipants[2],
+          ],
+          showParticipantsList: false,
+        }),
+        callLink: FAKE_CALL_LINK_WITH_ADMIN_KEY,
+      })}
+    />
+  );
+}
+
 export function CallLinkWithJoinRequestsSystemContact(): JSX.Element {
   return (
     <CallManager
@@ -469,6 +507,25 @@ export function CallLinkWithJoinRequestsParticipantsOpen(): JSX.Element {
           joinState: GroupCallJoinState.Joined,
           peekedParticipants: [allRemoteParticipants[0]],
           pendingParticipants: allRemoteParticipants.slice(1, 4),
+        }),
+        callLink: FAKE_CALL_LINK_WITH_ADMIN_KEY,
+      })}
+    />
+  );
+}
+
+export function CallLinkWithUnknownContacts(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: getActiveCallForCallLink({
+          connectionState: GroupCallConnectionState.Connected,
+          joinState: GroupCallJoinState.Joined,
+          remoteParticipants: [
+            allRemoteParticipants[0],
+            getUnknownParticipant(),
+            getUnknownParticipant(),
+          ],
         }),
         callLink: FAKE_CALL_LINK_WITH_ADMIN_KEY,
       })}

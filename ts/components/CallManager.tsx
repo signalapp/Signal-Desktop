@@ -396,6 +396,7 @@ function ActiveCallManager({
               callLink={callLink}
               i18n={i18n}
               isCallLinkAdmin={isCallLinkAdmin}
+              isUnknownContactDiscrete={false}
               ourServiceId={me.serviceId}
               participants={peekedParticipants}
               onClose={toggleParticipants}
@@ -495,6 +496,7 @@ function ActiveCallManager({
             callLink={callLink}
             i18n={i18n}
             isCallLinkAdmin={isCallLinkAdmin}
+            isUnknownContactDiscrete
             ourServiceId={me.serviceId}
             participants={groupCallParticipantsForParticipantsList}
             onClose={toggleParticipants}
