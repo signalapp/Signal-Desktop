@@ -8,13 +8,22 @@ import type { ConversationModel } from '../../models/conversations';
 import { GiftBadgeStates } from '../../components/conversation/Message';
 
 import Data from '../../sql/Client';
+import { getRandomBytes } from '../../Crypto';
+import * as Bytes from '../../Bytes';
 import { generateAci } from '../../types/ServiceId';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SeenStatus } from '../../MessageSeenStatus';
 import { loadCallsHistory } from '../../services/callHistoryLoader';
-import { setupBasics, symmetricRoundtripHarness, OUR_ACI } from './helpers';
+import { ID_V1_LENGTH } from '../../groups';
+import {
+  setupBasics,
+  asymmetricRoundtripHarness,
+  symmetricRoundtripHarness,
+  OUR_ACI,
+} from './helpers';
 
 const CONTACT_A = generateAci();
+const GV1_ID = Bytes.toBinary(getRandomBytes(ID_V1_LENGTH));
 
 const BADGE_RECEIPT =
   'AEpyZxbRBT+T5PQw9Wcx1QE2aFvL7LoLir9V4UF09Kk9qiP4SpIlHdlWHrAICy6F' +
@@ -27,6 +36,7 @@ const BADGE_RECEIPT =
 
 describe('backup/bubble messages', () => {
   let contactA: ConversationModel;
+  let gv1: ConversationModel;
 
   beforeEach(async () => {
     await Data._removeAllMessages();
@@ -39,6 +49,14 @@ describe('backup/bubble messages', () => {
       CONTACT_A,
       'private',
       { systemGivenName: 'CONTACT_A' }
+    );
+
+    gv1 = await window.ConversationController.getOrCreateAndWait(
+      GV1_ID,
+      'group',
+      {
+        groupVersion: 1,
+      }
     );
 
     await loadCallsHistory();
@@ -382,5 +400,27 @@ describe('backup/bubble messages', () => {
         sms: true,
       },
     ]);
+  });
+
+  it('drops gv1 messages', async () => {
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: gv1.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          timestamp: 3,
+          sourceServiceId: CONTACT_A,
+          body: 'd',
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+        },
+      ],
+      []
+    );
   });
 });
