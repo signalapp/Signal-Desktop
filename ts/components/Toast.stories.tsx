@@ -12,8 +12,8 @@ export default {
   component: Toast,
   argTypes: {
     autoDismissDisabled: { control: { type: 'boolean' } },
-    className: { control: { type: 'string' } },
-    children: { control: { type: 'string' } },
+    className: { control: { type: 'text' } },
+    children: { control: { type: 'text' } },
     timeout: argPresets({
       '1s': 1000,
       '30s': 30_000,

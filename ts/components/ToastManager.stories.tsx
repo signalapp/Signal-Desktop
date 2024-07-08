@@ -207,11 +207,11 @@ export default {
   component: ToastManager,
   argTypes: {
     toastType: {
-      options: ToastType,
+      options: [...Object.values(ToastType)],
       control: { type: 'select' },
     },
     megaphoneType: {
-      options: MegaphoneType,
+      options: [...Object.values(MegaphoneType)],
       control: { type: 'select' },
     },
   },
