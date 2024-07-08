@@ -17,7 +17,12 @@ import { DurationInSeconds } from '../../util/durations';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SeenStatus } from '../../MessageSeenStatus';
 import { loadCallsHistory } from '../../services/callHistoryLoader';
-import { setupBasics, symmetricRoundtripHarness, OUR_ACI } from './helpers';
+import {
+  setupBasics,
+  asymmetricRoundtripHarness,
+  symmetricRoundtripHarness,
+  OUR_ACI,
+} from './helpers';
 
 const CONTACT_A = generateAci();
 const GROUP_ID = Bytes.toBase64(getRandomBytes(32));
@@ -500,5 +505,41 @@ describe('backup/non-bubble messages', () => {
         requiredProtocolVersion: 6,
       },
     ]);
+  });
+
+  it('creates a tombstone for gv1 update in gv2 group', async () => {
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: group.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 1,
+          received_at_ms: 1,
+          sourceServiceId: CONTACT_A,
+          sourceDevice: 1,
+          sent_at: 1,
+          timestamp: 1,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          group_update: {},
+        },
+      ],
+      [
+        {
+          conversationId: group.id,
+          id: 'does not matter',
+          type: 'group-v2-change',
+          groupV2Change: {
+            details: [{ type: 'summary' }],
+            from: CONTACT_A,
+          },
+          received_at: 1,
+          sent_at: 1,
+          sourceServiceId: CONTACT_A,
+          timestamp: 1,
+        },
+      ]
+    );
   });
 });

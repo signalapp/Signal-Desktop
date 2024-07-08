@@ -33,6 +33,7 @@ import { explodePromise } from '../../util/explodePromise';
 import {
   isDirectConversation,
   isGroup,
+  isGroupV1,
   isGroupV2,
   isMe,
 } from '../../util/whatTypeOfConversation';
@@ -307,6 +308,11 @@ export class BackupExportStream extends Readable {
       window.storage.get('pinnedConversationIds') || [];
 
     for (const { attributes } of window.ConversationController.getAll()) {
+      if (isGroupV1(attributes)) {
+        log.warn('backups: skipping gv1 conversation');
+        continue;
+      }
+
       const recipientId = this.getRecipientId(attributes);
 
       let pinnedOrder: number | null = null;
@@ -773,6 +779,15 @@ export class BackupExportStream extends Readable {
     message: MessageAttributesType,
     { aboutMe, callHistoryByCallId, backupLevel }: ToChatItemOptionsType
   ): Promise<Backups.IChatItem | undefined> {
+    const conversation = window.ConversationController.get(
+      message.conversationId
+    );
+
+    if (conversation && isGroupV1(conversation.attributes)) {
+      log.warn('backups: skipping gv1 message');
+      return undefined;
+    }
+
     const chatId = this.getRecipientId({ id: message.conversationId });
     if (chatId === undefined) {
       log.warn('backups: message chat not found');
@@ -1324,9 +1339,21 @@ export class BackupExportStream extends Readable {
       return { kind: NonBubbleResultKind.Drop };
     }
 
+    // Create a GV2 tombstone for a deprecated GV1 notification
     if (isGroupUpdate(message)) {
-      // GV1 is deprecated.
-      return { kind: NonBubbleResultKind.Drop };
+      updateMessage.groupChange = {
+        updates: [
+          {
+            genericGroupUpdate: {
+              updaterAci: message.sourceServiceId
+                ? this.serviceIdToBytes(message.sourceServiceId)
+                : undefined,
+            },
+          },
+        ],
+      };
+
+      return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
     if (isUnsupportedMessage(message)) {
