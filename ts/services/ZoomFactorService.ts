@@ -4,6 +4,8 @@ import type { BrowserWindow } from 'electron';
 import { ipcMain } from 'electron';
 import EventEmitter from 'events';
 
+import * as log from '../logging/log';
+
 const DEFAULT_ZOOM_FACTOR = 1.0;
 
 // https://chromium.googlesource.com/chromium/src/+/938b37a6d2886bf8335fc7db792f1eb46c65b2ae/third_party/blink/common/page/page_zoom.cc
@@ -99,7 +101,14 @@ export class ZoomFactorService extends EventEmitter {
       window.webContents.send('zoomFactorChanged', zoomFactor);
     };
 
-    const initialZoomFactor = await this.getZoomFactor();
+    let initialZoomFactor: number;
+    try {
+      initialZoomFactor = await this.getZoomFactor();
+    } catch (error) {
+      log.error('Failed to get zoom factor', error);
+      initialZoomFactor = DEFAULT_ZOOM_FACTOR;
+    }
+
     window.once('ready-to-show', () => {
       // Workaround to apply zoomFactor because webPreferences does not handle it
       // https://github.com/electron/electron/issues/10572
