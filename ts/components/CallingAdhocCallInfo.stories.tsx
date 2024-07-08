@@ -62,6 +62,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   callLink: getCallLink(overrideProps.callLink || {}),
   i18n,
   isCallLinkAdmin: overrideProps.isCallLinkAdmin || false,
+  isUnknownContactDiscrete: overrideProps.isUnknownContactDiscrete || false,
   ourServiceId: generateAci(),
   participants: overrideProps.participants || [],
   onClose: action('on-close'),

@@ -36,6 +36,7 @@ export type PropsType = {
   readonly callLink: CallLinkType;
   readonly i18n: LocalizerType;
   readonly isCallLinkAdmin: boolean;
+  readonly isUnknownContactDiscrete: boolean;
   readonly ourServiceId: ServiceIdString | undefined;
   readonly participants: Array<ParticipantType>;
   readonly onClose: () => void;
@@ -145,6 +146,7 @@ function UnknownContacts({
 export function CallingAdhocCallInfo({
   i18n,
   isCallLinkAdmin,
+  isUnknownContactDiscrete,
   ourServiceId,
   participants,
   blockClient,
@@ -170,18 +172,20 @@ export function CallingAdhocCallInfo({
     onShareCallLinkViaSignal();
   }, [onClose, onShareCallLinkViaSignal]);
 
-  const [knownParticipants, unknownParticipants] = React.useMemo<
+  const [visibleParticipants, unknownParticipants] = React.useMemo<
     [Array<ParticipantType>, Array<ParticipantType>]
   >(
     () =>
-      partition(participants, (participant: ParticipantType) =>
-        Boolean(participant.titleNoDefault)
+      partition(
+        participants,
+        (participant: ParticipantType) =>
+          isUnknownContactDiscrete || Boolean(participant.titleNoDefault)
       ),
-    [participants]
+    [isUnknownContactDiscrete, participants]
   );
   const sortedParticipants = React.useMemo<Array<ParticipantType>>(
-    () => sortByTitle(knownParticipants),
-    [knownParticipants]
+    () => sortByTitle(visibleParticipants),
+    [visibleParticipants]
   );
 
   const renderParticipant = React.useCallback(
@@ -377,7 +381,9 @@ export function CallingAdhocCallInfo({
             {unknownParticipants.length > 0 && (
               <UnknownContacts
                 i18n={i18n}
-                isInAdditionToKnownContacts={Boolean(knownParticipants.length)}
+                isInAdditionToKnownContacts={Boolean(
+                  visibleParticipants.length
+                )}
                 participants={unknownParticipants}
                 showUnknownContactDialog={() =>
                   setIsUnknownContactDialogVisible(true)
