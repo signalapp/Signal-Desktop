@@ -28,6 +28,7 @@ import {
   shell,
   systemPreferences,
   Notification,
+  safeStorage,
 } from 'electron';
 import type { MenuItemConstructorOptions, Settings } from 'electron';
 import { z } from 'zod';
@@ -1583,28 +1584,105 @@ const runSQLReadonlyHandler = async () => {
   throw error;
 };
 
-async function initializeSQL(
-  userDataPath: string
-): Promise<{ ok: true; error: undefined } | { ok: false; error: Error }> {
-  let key: string | undefined;
-  const keyFromConfig = userConfig.get('key');
-  if (typeof keyFromConfig === 'string') {
-    key = keyFromConfig;
-  } else if (keyFromConfig) {
-    getLogger().warn(
-      "initializeSQL: got key from config, but it wasn't a string"
-    );
+function generateSQLKey(): string {
+  getLogger().info(
+    'key/initialize: Generating new encryption key, since we did not find it on disk'
+  );
+  // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
+  return randomBytes(32).toString('hex');
+}
+
+function getSQLKey(): string {
+  let update = false;
+  const legacyKeyValue = userConfig.get('key');
+  const modernKeyValue = userConfig.get('encryptedKey');
+
+  const isEncryptionAvailable =
+    safeStorage.isEncryptionAvailable() &&
+    (!OS.isLinux() || safeStorage.getSelectedStorageBackend() !== 'basic_text');
+
+  let key: string;
+  if (typeof modernKeyValue === 'string') {
+    if (!isEncryptionAvailable) {
+      throw new Error("Can't decrypt database key");
+    }
+
+    getLogger().info('getSQLKey: decrypting key');
+    const encrypted = Buffer.from(modernKeyValue, 'hex');
+    key = safeStorage.decryptString(encrypted);
+  } else if (typeof legacyKeyValue === 'string') {
+    key = legacyKeyValue;
+    update = isEncryptionAvailable;
+    if (update) {
+      getLogger().info('getSQLKey: migrating key');
+    } else {
+      getLogger().info('getSQLKey: using legacy key');
+    }
+  } else {
+    getLogger().warn("getSQLKey: got key from config, but it wasn't a string");
+    key = generateSQLKey();
+    update = true;
   }
-  if (!key) {
-    getLogger().info(
-      'key/initialize: Generating new encryption key, since we did not find it on disk'
-    );
-    // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
-    key = randomBytes(32).toString('hex');
+
+  if (!update) {
+    return key;
+  }
+
+  if (isEncryptionAvailable) {
+    getLogger().info('getSQLKey: updating encrypted key in the config');
+    const encrypted = safeStorage.encryptString(key).toString('hex');
+    userConfig.set('encryptedKey', encrypted);
+    userConfig.set('key', key);
+  } else {
+    getLogger().info('getSQLKey: updating plaintext key in the config');
     userConfig.set('key', key);
   }
 
+  return key;
+}
+
+async function initializeSQL(
+  userDataPath: string
+): Promise<{ ok: true; error: undefined } | { ok: false; error: Error }> {
   sqlInitTimeStart = Date.now();
+  let key: string;
+  try {
+    key = getSQLKey();
+  } catch (error: unknown) {
+    const SIGNAL_SUPPORT_LINK = 'https://support.signal.org/error';
+
+    const { i18n } = getResolvedMessagesLocale();
+
+    const buttonIndex = dialog.showMessageBoxSync({
+      buttons: [i18n('icu:cancel'), i18n('icu:databaseError__recover__button')],
+      defaultId: 1,
+      cancelId: 1,
+      message: i18n('icu:databaseError'),
+      detail: i18n('icu:databaseError__recover__detail', {
+        link: SIGNAL_SUPPORT_LINK,
+      }),
+      noLink: true,
+      type: 'error',
+    });
+
+    const copyErrorAndQuitButtonIndex = 0;
+    if (buttonIndex === copyErrorAndQuitButtonIndex) {
+      clipboard.writeText(
+        `Database startup error:\n\n${redactAll(Errors.toLogFormat(error))}`
+      );
+
+      getLogger().error('onDatabaseError: Quitting application');
+      app.exit(1);
+
+      // Don't let go through, while `app.exit()` is finalizing asynchronously
+      await new Promise(noop);
+    }
+
+    getLogger().error('onDatabaseError: Removing malformed key');
+    userConfig.set('encryptedKey', undefined);
+    key = getSQLKey();
+  }
+
   try {
     // This should be the first awaited call in this function, otherwise
     // `sql.sqlCall` will throw an uninitialized error instead of waiting for
@@ -1773,9 +1851,6 @@ const featuresToDisable = `HardwareMediaKeyHandling,${app.commandLine.getSwitchV
 )}`;
 app.commandLine.appendSwitch('disable-features', featuresToDisable);
 
-// If we don't set this, Desktop will ask for access to keychain/keyring on startup
-app.commandLine.appendSwitch('password-store', 'basic');
-
 // <canvas/> rendering is often utterly broken on Linux when using GPU
 // acceleration.
 if (DISABLE_GPU) {
@@ -1824,8 +1899,6 @@ app.on('ready', async () => {
   );
   await EmojiService.create(resourceService);
 
-  sqlInitPromise = initializeSQL(userDataPath);
-
   if (!resolvedTranslationsLocale) {
     preferredSystemLocales = resolveCanonicalLocales(
       loadPreferredSystemLocales()
@@ -1849,6 +1922,8 @@ app.on('ready', async () => {
       logger: getLogger(),
     });
   }
+
+  sqlInitPromise = initializeSQL(userDataPath);
 
   // First run: configure Signal to minimize to tray. Additionally, on Windows
   // enable auto-start with start-in-tray so that starting from a Desktop icon
@@ -2251,11 +2326,19 @@ async function requestShutdown() {
 function getWindowDebugInfo() {
   const windows = BrowserWindow.getAllWindows();
 
-  return {
-    windowCount: windows.length,
-    mainWindowExists: windows.some(win => win === mainWindow),
-    mainWindowIsFullScreen: mainWindow?.isFullScreen(),
-  };
+  try {
+    return {
+      windowCount: windows.length,
+      mainWindowExists: windows.some(win => win === mainWindow),
+      mainWindowIsFullScreen: mainWindow?.isFullScreen(),
+    };
+  } catch {
+    return {
+      windowCount: 0,
+      mainWindowExists: false,
+      mainWindowIsFullScreen: false,
+    };
+  }
 }
 
 app.on('before-quit', e => {
@@ -2612,11 +2695,6 @@ ipc.handle('DebugLogs.upload', async (_event, content: string) => {
     appVersion: app.getVersion(),
     logger: getLogger(),
   });
-});
-
-ipc.on('user-config-key', event => {
-  // eslint-disable-next-line no-param-reassign
-  event.returnValue = userConfig.get('key');
 });
 
 ipc.on('get-user-data-path', event => {

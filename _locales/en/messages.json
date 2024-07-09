@@ -123,6 +123,14 @@
     "messageformat": "The version of your database does not match this version of Signal. Make sure you are opening the newest version of Signal on your computer.",
     "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}",
+    "description": "Description shown in a popup if the database key cannot be read, but can be recovered"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to attempt data recovery of their database"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&File",
     "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
