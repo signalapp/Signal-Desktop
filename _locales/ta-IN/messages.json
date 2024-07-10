@@ -990,7 +990,7 @@
     "messageformat": "இந்த சாட்டில் உள்ள அனைத்து மெசேஜ்களும் இந்த டிவைஸிலிருந்து நீக்கப்படும். மெசேஜ்களை நீக்கிய பிறகும் நீங்கள் இந்த சாட்டைத் தேடலாம்."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "இந்தச் சாட்டில் உள்ள அனைத்து மெசேஜ்களும் உங்கள் எல்லா சாதனங்களிலிருந்தும் அழிக்கப்படும். மெசேஜ்களை அழித்த பிறகும் நீங்கள் இந்தச் சாட்டில் தேடலாம்."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "குழுவிலுருந்து விலகு"
@@ -1119,19 +1119,19 @@
     "messageformat": "QR குறியீட்டை ஏற்ற முடியவில்லை. உங்கள் இணையத்தைச் சரிபார்த்து மீண்டும் முயலவும். <retry>மீண்டும் முயல்க</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR குறியீட்டை ஏற்ற முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>எதிர்பாராத பிழை ஏற்பட்டு விட்டது.</paragraph> <paragraph>தயவுசெய்து மீண்டும் முயற்சி செய்க.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "உங்கள் தற்போதைய நெட்வொர்க்கைப் பயன்படுத்தி இந்தச் சாதனத்தை சிக்னலால் இணைக்க முடியவில்லை."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "மீண்டும் முயற்சி செய்"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "உதவி பெறுக"
   },
   "icu:Install__support-link": {
     "messageformat": "உங்களுக்கு உதவி வேண்டுமா?"
@@ -1305,16 +1305,16 @@
     "messageformat": "சேர்வதற்கான கோரிக்கையை நிராகரி"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "அனைத்தையும் ஏற்றுக்கொள்"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "அனைத்தையும் மறு"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} கோரிக்கையை ஏற்பதா?} other {{count,number} கோரிக்கைகளை ஏற்பதா?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} கோரிக்கையை மறுக்க வேண்டுமா?} other {{count,number} கோரிக்கைகளை மறுப்பதா?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "நீக்கு"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "உங்கள் பயனர் பெயரை நீக்க, உங்கள் ஃபோனில் சிக்னலைத் திறந்து, அமைப்புகள் > புரொஃபைலுக்குச் செல்லவும்."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "பயனர் பெயரை நகலெடுக்கவும் அல்லது நீக்கவும்"

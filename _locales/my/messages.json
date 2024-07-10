@@ -990,7 +990,7 @@
     "messageformat": "ဤချက်(တ်)မှ မက်ဆေ့ချ်များအားလုံးကို ယခုစက်မှ ဖျက်လိုက်ပါမည်။ မက်ဆေ့ချ်များကို ဖျက်ပြီးနောက် ဤချက်(တ်)ကို သင် ရှာ၍ရပါသေးသည်။"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "ဤချက်(တ်)ရှိ မက်ဆေ့ချ်များအားလုံးကို သင်၏စက်များအားလုံးမှ ဖျက်လိုက်ပါမည်။ မက်ဆေ့ချ်များကို ဖျက်ပြီးနောက် ဤချက်(တ်)ကို သင် ရှာ၍ရပါသေးသည်။"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "အဖွဲ့မှ ထွက်မည်"
@@ -1119,19 +1119,19 @@
     "messageformat": "QR ကုဒ်ကို ဖွင့်၍မရပါ။ သင့်အင်တာနက်ကို စစ်ဆေးပြီး ထပ်ကြိုးစားကြည့်ပါ။ <retry>ထပ်ကြိုးစားရန်</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR ကုဒ်ကို ဖွင့်၍မရပါ။ ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားကြည့်ပါ။"
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>မမျှော်လင့်ထားသော ချို့ယွင်းချက်တစ်ခု ဖြစ်ခဲ့သည်။</paragraph><paragraph>ထပ်ကြိုးစားကြည့်ပါ။</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal သည် သင့်လက်ရှိကွန်ရက်ကို အသုံးပြု၍ ဤစက်ကို ချိတ်ဆက်မရပါ။"
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "ထပ်ကြိုးစားပါ"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "အကူအညီရယူပါ"
   },
   "icu:Install__support-link": {
     "messageformat": "အကူအညီ လိုအပ်ပါသလား?"
@@ -1305,16 +1305,16 @@
     "messageformat": "ပါဝင်ရန် တောင်းဆိုမှုကို ငြင်းပယ်သည်"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "အားလုံးကို ခွင့်ပြုမည်"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "အားလုံးကို ငြင်းပယ်မည်"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, other {တောင်းဆိုမှု {count,number} ခုကို ခွင့်ပြုမည်လား။}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, other {တောင်းဆိုမှု {count,number} ခုကို ငြင်းပယ်မည်လား။}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "ဖျက်ရန်"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "သင့်သုံးစွဲသူအမည်ကို ဖျက်ရန် သင့်ဖုန်းတွင် Signal ဖွင့်ပြီး ဆက်တင် > ပရိုဖိုင်သို့ သွားပါ။"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "သုံးစွဲသူအမည်ကို ကူးရန် သို့မဟုတ် ဖျက်ရန်"

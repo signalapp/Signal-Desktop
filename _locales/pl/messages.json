@@ -990,7 +990,7 @@
     "messageformat": "Wszystkie wiadomości z tego czatu zostaną skasowane z tego urządzenia. Po skasowaniu wiadomości wciąż będziesz mieć możliwość wyszukania tego czatu."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Wszystkie wiadomości z tego czatu zostaną usunięte ze wszystkich Twoich urządzeń. Po usunięciu wiadomości wciąż będziesz mieć możliwość wyszukania tego czatu."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Opuść grupę"
@@ -1119,19 +1119,19 @@
     "messageformat": "Nie udało się załadować kodu QR. Sprawdź swoje połączenie z internetem i spróbuj ponownie. <retry>Ponów</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Nie udało się załadować kodu QR. Sprawdź połączenie z internetem i spróbuj ponownie."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Wystąpił nieoczekiwany błąd.</paragraph><paragraph>Spróbuj ponownie.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal nie może powiązać tego urządzenia przy użyciu bieżącej sieci."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Ponów"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Uzyskaj pomoc"
   },
   "icu:Install__support-link": {
     "messageformat": "Potrzebujesz pomocy?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Odrzuć prośbę o dołączenie"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Zatwierdź wszystkich"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Odmów wszystkim"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Zatwierdzić {count,number} prośbę?} few {Zatwierdzić {count,number} prośby?} many {Zatwierdzić {count,number} próśb?} other {Zatwierdzić {count,number} prośby?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Odmówić {count,number} prośbie?} few {Odmówić {count,number} prośbom?} many {Odmówić {count,number} prośbom?} other {Odmówić {count,number} prośby?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Usuń"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Aby usunąć swoją nazwę użytkownika, otwórz Signal na telefonie i przejdź do Ustawienia > Profil."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopiuj lub usuń nazwę użytkownika"

@@ -990,7 +990,7 @@
     "messageformat": "Осы чаттағы хаттардың барлығы бұл құрылғыдан жойылады. Хаттарды жойған соң да, бұл чатты іздеп табуыңызға болады."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Осы чаттағы хаттардың барлығы барлық құрылғыларыңыздан жойылады. Хабарларды жойғаннан кейін бұл чатты әлі де іздей аласыз."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Топтан шығып кету"
@@ -1119,19 +1119,19 @@
     "messageformat": "QR коды жүктелмеді. Интернетті тексеріп, қайталап көріңіз. <retry>Қайталап көру</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR коды жүктелмеді. Контактіні тексеріп, қайталап көріңіз."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Күтпеген қате шықты.</paragraph><paragraph>Қайталап көріңіз.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Ағымдағы желінің көмегімен Signal бұл құрылғыға байланыса алмайды."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Қайтадан байқап көру"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Анықтама алу"
   },
   "icu:Install__support-link": {
     "messageformat": "Көмек керек пе?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Қосылуға өтінішті қабылдамау"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Барлығын мақұлдау"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Ешбірін қабылдамау"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} өтінішті мақұлдау керек пе?} other {{count,number} өтінішті мақұлдау керек пе?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} өтінішті қабылдамау керек пе?} other {{count,number} өтінішті қабылдамау керек пе?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Жою"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Пайдаланушы атын жою үшін телефоныңыздан Signal қолданбасын ашып, \"Параметрлер > Профиль\" тармағына өтіңіз."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Пайдаланушы атын көшіру немесе жою"

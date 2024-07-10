@@ -990,7 +990,7 @@
     "messageformat": "ამ ჩატში არსებული მიმოწერა ამ მოწყობილობიდან წაიშლება. შეტყობინებების წაშლის შემდეგ ამ ჩატის მოძებნას მაინც შეძლებ."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "ამ ჩატის ყველა შეტყობინება შენი ყველა მოწყობილობიდან წაიშლება. შეტყობინებების წაშლის შემდეგ ამ ჩატის მოძებნას მაინც შეძლებ."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ჯგუფის დატოვება"
@@ -1119,19 +1119,19 @@
     "messageformat": "QR კოდის ჩატვირთვა ვერ მოხერხდა. შეამოწმე შენი ინტერნეტი და თავიდან სცადე. <retry>თავიდან ცდა</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR კოდის ჩატვირთვა ვერ მოხერხდა. შეამოწმე შენი კავშირი და თავიდან სცადე."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>დაფიქსირდა მოულოდნელი ხარვეზი.</paragraph><paragraph>გთხოვთ, თავიდან სცადე.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "მიმდინარე ქსელის გამოყენებით Signal-ი ამ მოწყობილობას ვერ დააკავშირებს."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "თავიდან ცდა"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "დახმარების მიღება"
   },
   "icu:Install__support-link": {
     "messageformat": "დახმარება გჭირდება?"
@@ -1305,16 +1305,16 @@
     "messageformat": "შემოსვლის მოთხოვნის უარყოფა"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "ყველას დადასტურება"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "ყველას უარყოფა"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {გსურს {count,number} მოთხოვნა დაადასტურო?} other {გსურს {count,number} მოთხოვნა დაადასტურო?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {გსურს {count,number} მოთხოვნა უარყო?} other {გსურს {count,number} მოთხოვნა უარყო?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "წაშლა"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "შენი მომხმარებლის სახელის წასაშლელად გახსენი Signal-ი შენს ტელეფონზე და აირჩიე პარამეტრები > პროფილი."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "დააკოპირე ან წაშალე მომხმარებლის სახელი"

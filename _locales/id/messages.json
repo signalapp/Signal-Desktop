@@ -990,7 +990,7 @@
     "messageformat": "Semua pesan dalam obrolan ini akan dihapus dari perangkat. Anda masih bisa mencari obrolan ini setelah menghapus pesan."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Semua pesan di obrolan ini akan dihapus dari semua perangkat Anda. Anda masih bisa mencari obrolan ini setelah pesan dihapus."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Keluar grup"
@@ -1119,19 +1119,19 @@
     "messageformat": "Kode QR tidak dapat dimuat. Periksa internet Anda dan coba lagi. <retry>Coba lagi</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Kode QR tidak dapat dimuat. Periksa koneksi Anda dan coba lagi."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Terjadi kesalahan tak terduga.</paragraph><paragraph>Mohon coba lagi.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal tidak dapat menghubungkan perangkat ini menggunakan jaringan Anda saat ini."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Coba lagi"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Dapatkan bantuan"
   },
   "icu:Install__support-link": {
     "messageformat": "Butuh bantuan?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Tolak permintaan gabung"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Setujui semua"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Tolak semua"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, other {Setujui {count,number} permintaan?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, other {Tolak {count,number} permintaan?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Hapus"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Untuk menghapus nama pengguna, buka Signal di ponsel dan buka Pengaturan > Profil."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Salin atau hapus nama pengguna"

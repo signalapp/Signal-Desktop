@@ -990,7 +990,7 @@
     "messageformat": "Όλα τα μηνύματα σε αυτή τη συνομιλία θα διαγραφούν από αυτή τη συσκευή. Μπορείς ακόμα να κάνεις αναζήτηση αυτής της συνομιλίας αφού διαγράψεις μηνύματα."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Όλα τα μηνύματα σε αυτήν τη συνομιλία θα διαγραφούν από όλες τις συσκευές. Μπορείς ακόμα να κάνεις αναζήτηση αυτής της συνομιλίας αφού διαγράψεις μηνύματα."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Αποχώρηση απ' την ομάδα"
@@ -1119,19 +1119,19 @@
     "messageformat": "Δεν ήταν δυνατή η φόρτωση του κωδικού QR. Έλεγξε τη σύνδεσή σου στο διαδίκτυο και προσπάθησε ξανά. <retry>Επανάληψη</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Δεν ήταν δυνατή η φόρτωση του κωδικού QR. Έλεγξε τη σύνδεσή σου και δοκίμασε πάλι."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Προέκυψε κάποιο αναπάντεχο σφάλμα.</paragraph><paragraph>Προσπάθησε ξανά.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Το Signal δεν μπορεί να συνδέσει αυτήν τη συσκευή χρησιμοποιώντας το τρέχον δίκτυο."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Επανάληψη"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Βοήθεια"
   },
   "icu:Install__support-link": {
     "messageformat": "Χρειάζεσαι βοήθεια;"
@@ -1305,16 +1305,16 @@
     "messageformat": "Απόρριψη αίτησης συμμετοχής"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Έγκριση όλων"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Απόρριψη όλων"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Έγκριση {count,number} αιτήματος;} other {Έγκριση {count,number} αιτημάτων;}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Απόρριψη {count,number} αιτήματος;} other {Απόρριψη {count,number} αιτημάτων;}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Διαγραφή"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Για να διαγράψεις το όνομα χρήστη σου, άνοιξε το Signal στο τηλέφωνό σου και πήγαινε στις Ρυθμίσεις > Προφίλ."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Αντιγραφή ή διαγραφή ονόματος χρήστη"

@@ -990,7 +990,7 @@
     "messageformat": "ఈ చాట్‌లోని సందేశాలన్నీ ఈ పరికరం నుండి తొలగించబడతాయి. మీరు సందేశాలను తొలగించిన తర్వాత కూడా మీరు ఇంకా ఈ చాట్ కోసం శోధించవచ్చు."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "ఈ చాట్‌లోని అన్ని సందేశాలు మీ పరికరాలు అన్నింటి నుండి తొలగించబడతాయి. మీరు సందేశాలను తొలగించిన తర్వాత కూడా ఈ చాట్ కోసం మీరు వెతకవచ్చు."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "గ్రూప్‌ను వదిలేయండి"
@@ -1119,19 +1119,19 @@
     "messageformat": "QR కోడ్ లోడ్ కాలేకపోయింది. మీ ఇంటర్నెట్‌ను తనిఖీ చేయండి మరియు మళ్ళీ ప్రయత్నించండి. <retry>మళ్ళీ ప్రయత్నించండి</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR కోడ్ లోడ్ కాలేకపోయింది. మీ కనెక్షన్‌ను తనిఖీ చేయండి మరియు మళ్ళీ ప్రయత్నించండి."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>ఊహించని పొరపాటు ఏర్పడింది.</paragraph><paragraph>దయచేసి మళ్లీ ప్రయత్నించండి.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "మీ ప్రస్తుత నెట్‌వర్క్‌ను ఉపయోగించి Signal ఈ పరికరాన్ని లింక్ చేయలేదు."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "మళ్ళీ ప్రయత్నించు"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "సహాయం పొందండి"
   },
   "icu:Install__support-link": {
     "messageformat": "సాయం అవసరమా?"
@@ -1305,16 +1305,16 @@
     "messageformat": "చేరిక అభ్యర్థనను తిరస్కరించండి"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "అన్నిటిని ఆమోదించండి"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "అన్నిటిని తిరస్కరించండి"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} అభ్యర్థనను ఆమోదించేదా?} other {{count,number} అభ్యర్థనలను ఆమోదించేదా?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} అభ్యర్థనను తిరస్కరించేదా?} other {{count,number} అభ్యర్థనలను తిరస్కరించేదా?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "తొలగించండి"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "మీ యూజర్‌నేమ్‌ను తొలగించడానికి, మీ ఫోన్‌లో Signal ను తెరిచి సెట్టింగ్లు > ప్రొఫైల్‌కు వెళ్లండి."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "యూజర్‌నేమ్‌ను కాపీ చేయండి లేదా తొలగించండి"

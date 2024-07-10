@@ -990,7 +990,7 @@
     "messageformat": "כל ההודעות בצ׳אט הזה יימחקו ממכשיר זה. עדיין תהיה לך אפשרות לחפש את הצ׳אט הזה אחרי מחיקת ההודעות."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "כל ההודעות בצ׳אט הזה יימחקו מכל המכשירים שלך. עדיין תהיה לך אפשרות לחפש את הצ׳אט הזה אחרי מחיקת ההודעות."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "עזיבת קבוצה"
@@ -1119,19 +1119,19 @@
     "messageformat": "קוד ה–QR לא הצליח להיטען. כדאי לבדוק את חיבור האינטרנט ולנסות שוב. <retry>ניסיון חוזר</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "קוד ה–QR לא הצליח להיטען. יש לבדוק את החיבור שלך ולנסות שוב."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>אירעה שגיאה בלתי צפויה.</paragraph><paragraph>יש לנסות שוב.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal לא יכולה לקשר את המכשיר הזה באמצעות הרשת הנוכחית שלך."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "נסה שוב"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "לעזרה"
   },
   "icu:Install__support-link": {
     "messageformat": "צריך עזרה?"
@@ -1305,16 +1305,16 @@
     "messageformat": "דחיית בקשת הצטרפות"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "אישור הכל"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "דחיית הכל"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {לאשר בקשה {count,number}?} two {לאשר {count,number} בקשות?} many {לאשר {count,number} בקשות?} other {לאשר {count,number} בקשות?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {לדחות בקשה {count,number}?} two {לדחות {count,number} בקשות?} many {לדחות {count,number} בקשות?} other {לדחות {count,number} בקשות?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "מחיקה"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "כדי למחוק את שם המשתמש שלך, יש לפתוח את Signal בטלפון ולנווט אל הגדרות > פרופיל."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "העתקה או מחיקה של שם משתמש"

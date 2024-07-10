@@ -990,7 +990,7 @@
     "messageformat": "此聊天中的所有消息将会从此设备上删除。删除消息后，您仍然可以搜索此聊天。"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "此聊天中的所有消息将会从您的所有设备上删除。删除消息后，您仍然可以搜索此聊天。"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "离开群组"
@@ -1119,19 +1119,19 @@
     "messageformat": "无法加载此二维码。请检查您的网络并重试。<retry>重试</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "无法加载此二维码。请检查您的网络连接并重试。"
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>出现意外错误，</paragraph><paragraph>请重试。</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal 无法使用当前网络关联此设备。"
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "重试"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "获取帮助"
   },
   "icu:Install__support-link": {
     "messageformat": "需要协助？"
@@ -1305,16 +1305,16 @@
     "messageformat": "拒绝加入请求"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "全部批准"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "全部拒绝"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, other {要批准 {count,number} 个请求吗？}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, other {要拒绝 {count,number} 个请求吗？}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "删除"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "如要删除您的用户名，请打开您手机上的 Signal，然后前往“设置 > 个人资料”。"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "复制或删除用户名"

@@ -990,7 +990,7 @@
     "messageformat": "Scriosfar gach teachtaireacht sa chomhrá seo ón ngléas seo. Beidh tú in ann cuardach le haghaidh an chomhrá seo fós tar éis duit teachtaireachtaí a scriosadh."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Scriosfar gach teachtaireacht sa chomhrá seo ó gach gléas agat. Beidh tú in ann an comhrá seo a chuardach i gcónaí tar éis duit teachtaireachtaí a scriosadh."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Imigh as an ngrúpa"
@@ -1119,19 +1119,19 @@
     "messageformat": "Níorbh fhéidir an cód QR a lódáil. Seiceáil d'Idirlíon agus triail arís. <retry>Triail arís</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Níorbh fhéidir an cód QR a lódáil. Seiceáil do nasc agus triail arís."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Tharla earráid gan choinne.</paragraph><paragraph>Triail arís é.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Ní féidir le Signal an gléas seo a nascadh ag úsáid do líonra reatha."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Bain triail eile as"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Faigh cabhair"
   },
   "icu:Install__support-link": {
     "messageformat": "An bhfuil cúnamh uait?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Diúltaigh an t-iarratas ar dhul isteach ann"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Faomh gach ceann"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Diúltaigh do gach ceann"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Faomh {count,number} iarratas?} two {Faomh {count,number} iarratas?} few {Faomh {count,number} iarratas?} many {Faomh {count,number} n-iarratas?} other {Faomh {count,number} iarratas?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Diúltaigh do {count,number} iarratas?} two {Diúltaigh do {count,number} iarratas?} few {Diúltaigh do {count,number} iarratas?} many {Diúltaigh do {count,number} n-iarratas?} other {Diúltaigh do {count,number} iarratas?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Scrios"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Chun d'ainm úsáideora a scriosadh, oscail Signal ar do ghuthán agus téigh chuig Socruithe > Próifíl."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Cóipeáil nó scrios ainm úsáideora"

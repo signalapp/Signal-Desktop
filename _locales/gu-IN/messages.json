@@ -990,7 +990,7 @@
     "messageformat": "આ ડિવાઇસમાંથી આ ચેટમાંના તમામ મેસેજને ડિલીટ કરવામાં આવશે. તમે મેસેજ ડિલીટ કરી નાખો તે પછી પણ તમે આ ચેટ માટે શોધ કરી શકો છો."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "આ ચેટમાંના તમામ મેસેજને તમારા બધા ડિવાઇસમાંથી ડિલીટ કરવામાં આવશે. તમે મેસેજ ડિલીટ કરી નાખો તે પછી પણ તમે આ ચેટ માટે શોધ કરી શકો છો."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ગ્રૂપ છોડો"
@@ -1119,19 +1119,19 @@
     "messageformat": "QR કોડ લોડ ન થઈ શક્યો. તમારું ઇન્ટરનેટ તપાસો અને ફરી પ્રયાસ કરો. <retry>ફરી પ્રયાસ કરો</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR કોડ લોડ ન થઈ શક્યો. તમારું કનેક્શન તપાસો અને ફરી પ્રયાસ કરો."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>એક અનપેક્ષિત ભૂલ આવી.</paragraph><paragraph>કૃપા કરીને ફરી પ્રયાસ કરો.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal તમારા વર્તમાન નેટવર્કનો ઉપયોગ કરીને આ ડિવાઇસને લિંક કરી શકતું નથી."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "ફરી પ્રયાસ કરો"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "મદદ મેળવો"
   },
   "icu:Install__support-link": {
     "messageformat": "મદદ જોઈએ છે?"
@@ -1305,16 +1305,16 @@
     "messageformat": "જોડાવાની વિનંતી નકારો"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "બધી મંજૂર કરો"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "બધી નામંજૂર કરો"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} વિનંતી મંજૂર કરવી છે?} other {{count,number} વિનંતીઓ મંજૂર કરવી છે?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} વિનંતી નામંજૂર કરવી છે?} other {{count,number} વિનંતીઓ નામંજૂર કરવી છે?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "ડિલીટ કરો"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "યુઝરનેમ ડિલીટ કરવા માટે, તમારા ફોન પર Signal ખોલો અને સેટિંગ્સ > પ્રોફાઇલ પર જાઓ."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "યુઝરનેમ કૉપિ અથવા ડિલીટ કરો"

@@ -990,7 +990,7 @@
     "messageformat": "या चॅट्समधील सर्व संदेश या डिव्हाइस वरून हटवले जातील. आपण संदेश हटवल्यानंतर देखील अद्याप हे चॅट्स शोधू शकता."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "या चॅट्स मधील सर्व संदेश आपल्या सर्व डिव्हाइसेस वरून हटवण्यात येतील. आपण संदेश हटवल्यानंतर देखील अद्याप आपण हे चॅट्स शोधू शकता."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "गट सोडा"
@@ -1119,19 +1119,19 @@
     "messageformat": "QR कोड लोड केला जाऊ शकत नाही. आपले इंटरनेट कनेक्शन तपासा आणि पुन्हा प्रयत्न करा. <retry>पुन्हा प्रयत्न करा</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR कोड लोड केला जाऊ शकत नाही. आपले कनेक्शन तपासा आणि पुन्हा प्रयत्न करा."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>एक अनपेक्षित त्रुटी उद्भवली.</paragraph><paragraph>कृपया पुन्हा प्रयत्न करा.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "आपले सध्याचे नेटवर्क वापरून Signal हे डिव्हाइस लिंक करू शकत नाही."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "पुन्हा प्रयत्न करा"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "मदत मिळवा"
   },
   "icu:Install__support-link": {
     "messageformat": "मदत हवी?"
@@ -1305,16 +1305,16 @@
     "messageformat": "सामील होण्याची विनंती नाकारली"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "सर्व मंजूर करा"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "सर्व नाकारा"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {विनंती {count,number} मंजूर करायची?} other {विनंती {count,number} मंजूर करावयाच्या?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {विनंती {count,number} नाकारायची?} other {विनंती {count,number} नाकारायच्या?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "हटवा"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "आपले वापरकर्तानाव हटवण्यासाठी, आपल्या फोनवर Signal उघडा आणि सेटिंग्ज > प्रोफाइल कडे नेव्हिगेट करा."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "वापरकर्तानाव कॉपी करा किंवा हटवा"

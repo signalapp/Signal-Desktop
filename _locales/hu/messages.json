@@ -990,7 +990,7 @@
     "messageformat": "Az ebben a csevegésben lévő összes üzenet törlődik erről az eszközről. Az üzenetek törlése után továbbra is rákereshetsz erre a csevegésre."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "A csevegésben lévő összes üzenet törlődik az összes eszközödről. Az üzenetek törlése után továbbra is rákereshetsz erre a csevegésre."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Kilépés a csoportból"
@@ -1119,19 +1119,19 @@
     "messageformat": "Nem sikerült betölteni a QR-kódot. Ellenőrizd a hálózati kapcsolatot, és próbáld újra. <retry>Újra</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Nem sikerült betölteni a QR-kódot. Ellenőrizd az internetkapcsolatod, és próbáld újra!"
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Váratlan hiba történt.</paragraph><paragraph>Kérjük, próbáld újra.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "A Signal nem tudja összekapcsolni ezt az eszközt a jelenlegi hálózaton keresztül."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Újra"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Kérj segítséget!"
   },
   "icu:Install__support-link": {
     "messageformat": "Segítségre van szükséged?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Csatlakozási kérelem elutasítása"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Összes jóváhagyása"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Összes elutasítása"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Jóváhagysz {count,number} kérést?} other {Jóváhagysz {count,number} kérést?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Elutasítasz {count,number} kérést?} other {Elutasítasz {count,number} kérést?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Törlés"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "A felhasználónév törléséhez nyisd meg a telefonodon a Signalt, és navigálj a Beállítások > Profil menüpontra."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Felhasználónév másolása vagy törlése"

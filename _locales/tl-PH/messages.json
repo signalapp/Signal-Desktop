@@ -990,7 +990,7 @@
     "messageformat": "Buburahin mula sa device na ito ang lahat ng messages sa chat na ito. Pwede mo pa ring i-search ang chat na ito pagkatapos mong magbura ng messages."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Buburahin mula sa lahat ng devices mo ang lahat ng messages sa chat na ito. Pwede mo pa ring hanapin ang chat na ito pagkatapos mong magbura ng messages."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Umalis sa group"
@@ -1119,19 +1119,19 @@
     "messageformat": "Hindi ma-load ang QR code. I-check ang iyong internet at subukan ulit. <retry>Subukan ulit</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Hindi ma-load ang QR code. I-check ang iyong connection at subukan ulit."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Nagkaroon ng hindi inaasahang error.</paragraph><paragraph>Subukan ulit.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Hindi ma-link ng Signal ang device na ito gamit ang iyong current network."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Subukang muli"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Humingi ng tulong"
   },
   "icu:Install__support-link": {
     "messageformat": "Kailangan mo ba ng tulong?"
@@ -1305,16 +1305,16 @@
     "messageformat": "I-deny ang request na sumali"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Aprubahan lahat"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Tanggihan lahat"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Gusto mo bang aprubahan ang {count,number} request?} other {Gusto mo bang aprubahan ang {count,number} requests?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Gusto mo bang tanggihan ang {count,number} request?} other {Gusto mo bang tanggihan ang {count,number} requests?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Burahin"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Para tanggalin ang iyong username, buksan ang Signal sa iyong cellphone at pumunta sa Settings > Profile."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopyahin o burahin ang username"

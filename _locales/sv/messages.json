@@ -990,7 +990,7 @@
     "messageformat": "Alla meddelanden i den här chatten kommer att tas bort från den här enheten. Du kan fortfarande söka efter den här chatten när du har tagit bort meddelanden."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Alla meddelanden i den här chatten kommer att tas bort från alla dina enheter. Du kan fortfarande söka efter den här chatten när du har tagit bort meddelanden."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Lämna grupp"
@@ -1119,19 +1119,19 @@
     "messageformat": "QR-koden kunde inte läsas in. Kontrollera ditt internet och försök igen. <retry>Försök igen</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR-koden kunde inte läsas in. Kontrollera din anslutning och försök igen."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Ett oväntat fel uppstod.</paragraph><paragraph>Försök igen.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signalen kan inte länka den här enheten med ditt nuvarande nätverk."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Försök igen"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Få hjälp"
   },
   "icu:Install__support-link": {
     "messageformat": "Behöver du hjälp?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Avvisa begäran om anslutning"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Godkänn alla"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Neka alla"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Godkänn {count,number} förfrågan?} other {Godkänn {count,number} förfrågningar?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Neka {count,number} förfrågan?} other {Neka {count,number} förfrågningar?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Ta bort"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Om du vill ta bort ditt användarnamn öppnar du Signal på din telefon och navigerar till Inställningar > Profil."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopiera eller ta bort användarnamn"

@@ -990,7 +990,7 @@
     "messageformat": "Všetky správy v tomto čete budú vymazané z tohto zariadenia. Po vymazaní správ budete môcť tento čet stále vyhľadať."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Všetky správy v tomto čete budú vymazané zo všetkých vašich zariadení. Po vymazaní správ budete môcť tento čet stále vyhľadať."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Opustiť skupinu"
@@ -1119,19 +1119,19 @@
     "messageformat": "QR kód sa nepodarilo načítať. Skontrolujte internetové pripojenie a skúste to znova. <retry>Skúsiť znova</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR kód sa nepodarilo načítať. Skontrolujte pripojenie a skúste to znovu."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Vyskytla sa neočakávaná chyba.</paragraph><paragraph>Skúste to znova.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signál nedokáže prepojiť toto zariadenie pomocou vašej aktuálnej siete."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Skúsiť znovu"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Pomoc"
   },
   "icu:Install__support-link": {
     "messageformat": "Potrebujete pomôcť?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Odmietnuť žiadosť o pripojenie"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Schváliť všetky"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Odmietnuť všetky"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Schváliť {count,number} žiadosť?} few {Schváliť {count,number} žiadosti?} many {Schváliť {count,number} žiadosti?} other {Schváliť {count,number} žiadostí?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Odmietnuť {count,number} žiadosť?} few {Odmietnuť {count,number} žiadosti?} many {Odmietnuť {count,number} žiadosti?} other {Odmietnuť {count,number} žiadostí?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Vymazať"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Ak chcete vymazať svoje používateľské meno, otvorte v telefóne Signal a prejdite do časti Nastavenia > Profil."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Skopírovať alebo odstrániť používateľské meno"

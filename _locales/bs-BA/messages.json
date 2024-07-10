@@ -990,7 +990,7 @@
     "messageformat": "Poruke u ovom chatu će biti izbrisane s ovog uređaja. I dalje možete tražiti ovaj chat nakon što izbrišete poruke."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Sve poruke u ovom chatu će biti izbrisane sa svih vaših uređaja. I dalje možete tražiti ovaj chat nakon što izbrišete poruke."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Napusti grupu"
@@ -1119,19 +1119,19 @@
     "messageformat": "Učitavanje QR koda nije uspjelo. Provjerite internet vezu i pokušajte ponovo. <retry>Pokušaj</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Učitavanje QR koda nije uspjelo. Provjerite svoju vezu i pokušajte ponovno."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Pojavila se neočekivana greška.</paragraph> <paragraph>Pokušajte ponovo.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal ne može povezati ovaj uređaj koristeći vašu trenutnu mrežu."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Pokušaj"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Potražite pomoć"
   },
   "icu:Install__support-link": {
     "messageformat": "Trebate li pomoć?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Odbijte zahtjev za pridruživanje"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Odobri sve"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Odbij sve"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Odobriti {count,number} zahtjev?} few {Odobriti {count,number} zahtjeva?} many {Odobriti {count,number} zahtjeva?} other {Odobriti {count,number} zahtjeva?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Odbiti {count,number} zahtjev?} few {Odbiti {count,number} zahtjeva?} many {Odbiti {count,number} zahtjeva?} other {Odbiti {count,number} zahtjeva?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Izbriši"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Da izbrišete svoje korisničko ime, otvorite Signal na telefonu i idite na Postavke > Profil."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopiraj ili izbriši korisničko ime"

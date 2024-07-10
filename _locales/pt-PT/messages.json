@@ -990,7 +990,7 @@
     "messageformat": "As mensagens neste chat serão eliminadas deste dispositivo. Ainda pode procurar este chat após eliminar as mensagens."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Todas as mensagens neste chat serão eliminadas de todos os seus dispositivos. Ainda pode procurar este chat após eliminar as mensagens."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Abandonar grupo"
@@ -1119,19 +1119,19 @@
     "messageformat": "Não foi possível carregar o código QR. Verifique a sua internet e tente novamente. <retry>Tentar novamente</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Não foi possível carregar o código QR. Verifique a sua ligação e tente novamente."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Ocorreu um erro inesperado.</paragraph><paragraph>Tente novamente.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "O Signal não pode conectar este dispositivo utilizando a sua rede atual."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Tentar novamente"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Obter ajuda"
   },
   "icu:Install__support-link": {
     "messageformat": "Necessita de ajuda?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Recusar pedido de entrada"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Aprovar todos"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Recusar todos"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Aprovar {count,number} pedido?} other {Aprovar {count,number} pedidos?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Recusar {count,number} pedido?} other {Recusar {count,number} pedidos?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Eliminar"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Para eliminar o seu nome de utilizador, abra o Signal no seu telemóvel e vá a Definições > Perfil."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Copiar ou eliminar nome de utilizador"

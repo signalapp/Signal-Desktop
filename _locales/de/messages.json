@@ -990,7 +990,7 @@
     "messageformat": "Alle Nachrichten in diesem Chat werden von diesem Gerät gelöscht. Du kannst nach dem Löschen von Nachrichten weiterhin nach diesem Chat suchen."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Alle Nachrichten in diesem Chat werden von all deinen Geräten gelöscht. Du kannst nach dem Löschen von Nachrichten weiterhin nach diesem Chat suchen."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Gruppe verlassen"
@@ -1119,19 +1119,19 @@
     "messageformat": "Der QR-Code konnte nicht geladen werden. Überprüfe deine Internetverbindung und versuche es erneut. <retry>Erneut versuchen</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Der QR-Code konnte nicht geladen werden. Überprüfe deine Verbindung und versuche es erneut."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Ein unerwarteter Fehler ist aufgetreten</paragraph>. <paragraph>Bitte versuche es erneut</paragraph>."
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal kann dieses Gerät nicht über dein aktuelles Netzwerk koppeln."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Erneut versuchen"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Hol dir Hilfe"
   },
   "icu:Install__support-link": {
     "messageformat": "Hilfe benötigt?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Teilnahme ablehnen"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Alle bestätigen"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Alle ablehnen"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} Anfrage bestätigen?} other {{count,number} Anfragen bestätigen?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} Anfrage ablehnen?} other {{count,number} Anfragen ablehnen?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -2031,7 +2031,7 @@
     "messageformat": "Deinstallieren"
   },
   "icu:stickers--StickerManager--UninstallWarning": {
-    "messageformat": "Du wirst dieses Sticker-Set evtl. nicht erneut installieren können, falls du die Quellnachricht nicht mehr hast."
+    "messageformat": "Du wirst dieses Sticker-Set eventuell nicht erneut installieren können, falls du die Quellnachricht nicht mehr hast."
   },
   "icu:stickers--StickerManager--Introduction--Image": {
     "messageformat": "Einführung von Stickern: Bandit the Cat"
@@ -2196,7 +2196,7 @@
     "messageformat": "Fokus auf älteste ungelesene oder letzte Nachricht"
   },
   "icu:Keyboard--navigate-by-section": {
-    "messageformat": "Nach Sektion navigieren"
+    "messageformat": "Zu Bereichen navigieren"
   },
   "icu:Keyboard--previous-conversation": {
     "messageformat": "Vorheriger Chat"
@@ -2268,7 +2268,7 @@
     "messageformat": "Ausgewählte Nachrichten weiterleiten"
   },
   "icu:Keyboard--add-newline": {
-    "messageformat": "Zeilenvorschub zu Nachricht hinzufügen"
+    "messageformat": "Neue Zeile zu Nachricht hinzufügen"
   },
   "icu:Keyboard--expand-composer": {
     "messageformat": "Nachrichteneingabefeld erweitern"
@@ -2475,7 +2475,7 @@
     "messageformat": "Fertig"
   },
   "icu:MessageRequests--message-direct": {
-    "messageformat": "Darf {name} dir Nachrichten schreiben und deinen Namen und dein Foto sehen? Der Nutzer weiß nicht, dass du seine Nachrichten gesehen hast, bis du die Anfrage annimmst."
+    "messageformat": "Darf {name} dir Nachrichten schreiben und deinen Namen und dein Foto sehen? Der Kontakt weiß nicht, dass du seine Nachrichten gesehen hast, bis du die Anfrage annimmst."
   },
   "icu:MessageRequests--message-direct-hidden": {
     "messageformat": "Darf dir {name} Nachrichten schreiben und deinen Namen und dein Foto sehen? Diese Person wurde bereits entfernt."
@@ -2487,7 +2487,7 @@
     "messageformat": "Möchtest du dieser Gruppe beitreten und deinen Namen und dein Foto mit deren Mitgliedern teilen? Sie wissen nicht, dass du ihre Nachrichten gesehen hast, bis du die Einladung annimmst."
   },
   "icu:MessageRequests--message-group-blocked": {
-    "messageformat": "Möchtest du diese Gruppe freigeben und deinen Namen und dein Foto mit deren Mitgliedern teilen? Du wirst keine Nachrichten erhalten, es sei denn, du erteilst eine Freigabe."
+    "messageformat": "Möchtest du diese Gruppe freigeben und deinen Namen und dein Foto mit ihren Mitgliedern teilen? Du wirst keine Nachrichten erhalten, bis du eine Freigabe erteilt hast."
   },
   "icu:MessageRequests--block": {
     "messageformat": "Blockieren"
@@ -2649,7 +2649,7 @@
     "messageformat": "Signal bleibt im Benachrichtigungsbereich aktiv. Das kannst du in den Signal-Einstellungen ändern."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Eingehender Sprachanruf…"
+    "messageformat": "Eingehender Sprachanruf …"
   },
   "icu:incomingVideoCall": {
     "messageformat": "Eingehender Videoanruf …"
@@ -2676,7 +2676,7 @@
     "messageformat": "{remaining, plural, one {{ringer} ruft dich, {first}, {second} und {remaining,number} weitere Person an} other {{ringer} ruft dich, {first}, {second} und {remaining,number} weitere Personen an}}"
   },
   "icu:outgoingCallRinging": {
-    "messageformat": "Klingelt…"
+    "messageformat": "Klingelt …"
   },
   "icu:makeOutgoingCall": {
     "messageformat": "Anruf starten"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Löschen"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Um deinen Nutzernamen zu löschen, öffne Signal auf deinem Telefon und gehe zu Einstellungen > Profil."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Nutzername kopieren oder löschen"

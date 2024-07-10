@@ -990,7 +990,7 @@
     "messageformat": "Txat honetako mezuak gailu honetatik ezabatuko dira. Mezuak ezabatuta ere, txat hau bilatu ahalko duzu."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Txat honetako mezuak gailu guztietatik ezabatuko dira. Mezuak ezabatuta ere, txat hau bilatu ahalko duzu."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Irten taldetik"
@@ -1119,19 +1119,19 @@
     "messageformat": "Ezin izan da kargatu QR kodea. Egiaztatu Internetera konektatuta zaudela eta saiatu berriro. <retry>Saiatu berriro</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Ezin izan da kargatu QR kodea. Egiaztatu Internetera konektatuta zaudela eta saiatu berriro."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Ustekabeko errore bat gertatu da.</paragraph><paragraph>Saiatu berriro.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Une honetako sarea erabilita, Signal-ek ezin du lotu gailu hau."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Berriro saiatu"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Lortu laguntza"
   },
   "icu:Install__support-link": {
     "messageformat": "Laguntza behar duzu?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Baztertu sartzeko eskaera"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Onartu guztiak"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Guztia ukatu"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Eskaera {count,number} onartu nahi duzu?} other {{count,number} eskaera onartu nahi dituzu?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Eskaera {count,number} ukatu?} other {{count,number} eskaera ukatu?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Ezabatu"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Erabiltzaile-izena ezabatzeko, ireki Signal telefonoan eta joan Ezarpenak > Profila atalera."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopiatu edo ezabatu erabiltzaile-izena"

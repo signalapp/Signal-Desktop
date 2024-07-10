@@ -990,7 +990,7 @@
     "messageformat": "Усі повідомлення в цьому чаті буде видалено з пристрою. Ви зможете знайти цей чат навіть після видалення повідомлень."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Усі повідомлення в цьому чаті буде видалено з усіх ваших пристроїв. Після видалення повідомлень ви все одно зможете знайти цей чат."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Покинути групу"
@@ -1119,19 +1119,19 @@
     "messageformat": "Не вдалося завантажити QR-код. Перевірте з'єднання з інтернетом і спробуйте ще раз. <retry>Повторити</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Не вдалося завантажити QR-код. Перевірте з'єднання з мережею і спробуйте знову."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Сталася несподівана помилка.</paragraph><paragraph>Будь ласка, спробуйте знову.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal не може зв'язати пристрій, використовуючи з'єднання з поточною мережею."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Сканувати знову"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Допомога"
   },
   "icu:Install__support-link": {
     "messageformat": "Потрібна допомога?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Не дозволити приєднатися"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Прийняти всі"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Відхилити всі"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Прийняти {count,number} запит?} few {Прийняти {count,number} запити?} many {Прийняти {count,number} запитів?} other {Прийняти {count,number} запита?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Відхилити {count,number} запит?} few {Відхилити {count,number} запити?} many {Відхилити {count,number} запитів?} other {Відхилити {count,number} запита?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -1512,7 +1512,7 @@
     "messageformat": "Видалити усі дані?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Видалити всі дані та повідомлення з цієї версії Signal для комп'ютера? Ви завжди можете повторно прив'язати цю версію програми для комп'ютера, але повідомлення не буде відновлено. Ваш акаунт Signal і дані з телефона чи інших зв'язаних пристроїв не буде видалено."
+    "messageformat": "Видалити всі дані й повідомлення з цієї версії Signal Desktop? Ви завжди зможете повторно зв'язати цей ПК, але можливості відновити повідомлення не буде. Ваш акаунт Signal і дані на телефоні й інших зв'язаних пристроях не буде видалено."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Відключається і видаляє всі дані"
@@ -2253,7 +2253,7 @@
     "messageformat": "Показати інформацію про обране повідомлення"
   },
   "icu:Keyboard--toggle-reply": {
-    "messageformat": "Створити / скасувати відповідь на обране повідомлення"
+    "messageformat": "Створити / Скасувати відповідь на обране повідомлення"
   },
   "icu:Keyboard--toggle-reaction-picker": {
     "messageformat": "Показати / приховати панель реакцій для обраного повідомлення"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Видалити"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Щоб видалити ім'я користувача, відкрийте Signal на телефоні та перейдіть у налаштування > Профіль."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Копіювати або видалити ім'я користувача"

@@ -990,7 +990,7 @@
     "messageformat": "Всички съобщения в този чат ще бъдат изтрити от това устройство. Пак ще можете да търсите този чат, след като изтриете съобщенията."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Всички съобщения в този чат ще бъдат изтрити от всички ваши устройства. Пак ще можете да търсите този чат, след като изтриете съобщенията."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Напускане на групата"
@@ -1119,19 +1119,19 @@
     "messageformat": "QR кодът не успя да се зареди. Проверете интернет връзката си и опитайте отново. <retry>Опитай отново</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR кодът не успя да се зареди. Проверете връзката си и опитайте отново."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Възникна неочаквана грешка.</paragraph><paragraph>Моля, опитайте отново.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal не може да свърже това устройство през текущата ви мрежа."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Опитайте отново"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Поискайте помощ"
   },
   "icu:Install__support-link": {
     "messageformat": "Нужда от помощ?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Отказ на заявка за присъединяване"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Одобряване на всички"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Отхвърляне на всички"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Одобряване на {count,number} заявка?} other {Одобряване на {count,number} заявки?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Отхвърляне на {count,number} заявка?} other {Отхвърляне на {count,number} заявки?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Изтриване"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "За да изтриете потребителското си име, отворете Signal на телефона си и отидете на Настройки > Профил."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Копиране или изтриване на потребителско име"

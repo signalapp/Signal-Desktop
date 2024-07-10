@@ -990,7 +990,7 @@
     "messageformat": "ระบบจะลบข้อความทั้งหมดในแชทออกจากอุปกรณ์เครื่องนี้ โดยคุณจะยังสามารถค้นหาแชทนี้ได้แม้จะลบข้อความไปแล้ว"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "ข้อความทั้งหมดในแชทนี้จะถูกลบออกจากอุปกรณ์ทุกเครื่องของคุณ โดยคุณจะยังสามารถค้นหาแชทนี้ได้แม้จะลบข้อความไปแล้ว"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ออกจากกลุ่ม"
@@ -1119,19 +1119,19 @@
     "messageformat": "ไม่สามารถโหลดคิวอาร์โค้ดได้ ตรวจสอบอินเทอร์เน็ตแล้วลองอีกครั้ง <retry>ลองอีกครั้ง</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "ไม่สามารถโหลดคิวอาร์โค้ดได้ กรุณาตรวจสอบการเชื่อมต่อแล้วลองอีกครั้ง"
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>มีข้อผิดพลาดที่ไม่คาดคิดเกิดขึ้น</paragraph> <paragraph>โปรดลองอีกครั้ง</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal ไม่สามารถเชื่อมโยงอุปกรณ์เครื่องนี้โดยใช้เครือข่ายที่คุณใช้งานอยู่"
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "ลองอีกครั้ง"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "ขอความช่วยเหลือ"
   },
   "icu:Install__support-link": {
     "messageformat": "ต้องการความช่วยเหลือหรือไม่?"
@@ -1305,16 +1305,16 @@
     "messageformat": "ปฏิเสธคำขอเข้าร่วม"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "อนุมัติทั้งหมด"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "ปฏิเสธทั้งหมด"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, other {อนุมัติคำขอ {count,number} รายการใช่หรือไม่}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, other {ปฏิเสธคำขอ {count,number} รายการใช่หรือไม่}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "ลบ"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "หากต้องการลบชื่อผู้ใช้ของคุณ ให้เปิด Signal บนมือถือ แล้วไปที่การตั้งค่า > โปรไฟล์"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "คัดลอกหรือลบชื่อผู้ใช้"

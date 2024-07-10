@@ -990,7 +990,7 @@
     "messageformat": "Tots els missatges d'aquest xat s'eliminaran del dispositiu. Encara podràs cercar aquest xat després d'haver eliminat els missatges."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Tots els missatges d'aquest xat s'eliminaran dels teus dispositius. Encara podràs cercar aquest xat després d'haver eliminat els missatges."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Sortir del grup"
@@ -1119,19 +1119,19 @@
     "messageformat": "No s'ha pogut carregar el codi QR. Comprova la connexió a Internet i torna-ho a provar. <retry>Tornar a provar-ho</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "No s'ha pogut carregar el codi QR. Comprova la connexió i torna-ho a provar."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Hi ha hagut un error inesperat.</paragraph><paragraph> Torna-ho a provar.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal no pot enllaçar aquest dispositiu mitjançant la teva xarxa actual."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Torna a provar-ho"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Necessito ajuda"
   },
   "icu:Install__support-link": {
     "messageformat": "Us cal ajuda?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Denegar sol·licitud per unir-se"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Aprovar-les totes"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Denegar-les totes"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Aprovar {count,number} sol·licitud?} other {Aprovar {count,number} sol·licituds?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Denegar {count,number} sol·licitud?} other {Denegar {count,number} sol·licituds?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Suprimeix"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Per eliminar el teu àlies, obre Signal al telèfon i ves a Ajustos > Perfil."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Copiar o suprimir l'àlies"

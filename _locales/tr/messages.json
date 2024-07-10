@@ -990,7 +990,7 @@
     "messageformat": "Bu sohbetteki tüm mesajlar bu cihazdan silinecek. Mesajları sildikten sonra da bu sohbeti arayabilirsin."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Bu sohbetteki tüm mesajlar tüm cihazlardan silinecektir. Mesajları sildikten sonra da bu sohbeti arayabilirsin."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Gruptan ayrıl"
@@ -1119,19 +1119,19 @@
     "messageformat": "QR kod yüklenemedi. İnternet bağlantını kontrol et ve tekrar dene. <retry>Tekrar dene</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Kare kod yüklenemedi. Bağlantını kontrol edip tekrar dene."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Beklenmeyen bir hata oluştu.</paragraph> <paragraph>Lütfen tekrar dene.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal, mevcut ağını kullanarak bu cihazı bağlayamıyor."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Tekrar dene"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Yardım al"
   },
   "icu:Install__support-link": {
     "messageformat": "Yardıma mı ihtiyacınız var?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Katılım isteğini reddet"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Tümünü onayla"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Tümünü reddet"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} istek onaylansın mı?} other {{count,number} istek onaylansın mı?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} istek reddedilsin mi?} other {{count,number} istek reddedilsin mi?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Sil"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Kullanıcı adını silmek için telefonunda Signal'i aç ve Ayarlar > Profil bölümüne git."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kullanıcı adını kopyala veya sil"

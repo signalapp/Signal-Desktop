@@ -990,7 +990,7 @@
     "messageformat": "এই চ্যাটের সকল মেসেজ এই ডিভাইস থেকে মুছে ফেলা হবে। মেসেজগুলো মুছে ফেলার পরেও আপনি এই চ্যাটটি অনুসন্ধান করতে পারবেন।"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "এই চ্যাটের সকল মেসেজ আপনার সকল ডিভাইস থেকে মুছে ফেলা হবে। মেসেজগুলো মুছে ফেলার পরেও আপনি এই চ্যাটটি অনুসন্ধান করতে পারবেন।"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "গ্রুপ ত্যাগ করুন"
@@ -1119,19 +1119,19 @@
     "messageformat": "কিউআর কোড লোড করা যায়নি। আপনার ইন্টারনেট সংযোগ ঠিক আছে কি না দেখুন এবং আবার চেষ্টা করুন। <retry>পুনরায় চেষ্টা করুন</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "কিউআর কোড লোড করা যায়নি। আপনার নেটওয়ার্ক সংযোগ ঠিক আছে কি না দেখুন এবং আবার চেষ্টা করুন।"
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>একটি অপ্রত্যাশিত ত্রুটি ঘটেছে।</paragraph><paragraph>অনুগ্রহ করে আবার চেষ্টা করুন।</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal আপনার বর্তমান নেটওয়ার্ক ব্যবহার করে এই ডিভাইসটিকে সংযোগ করতে পারে না।"
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "পুনরায় চেষ্টা করুন"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "সাহায্য নিন"
   },
   "icu:Install__support-link": {
     "messageformat": "সাহায্য প্রয়োজন?"
@@ -1305,16 +1305,16 @@
     "messageformat": "যোগ দেওয়ার অনুরোধ বাতিল করুন"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "সবগুলো অনুমোদন করুন"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "সবগুলো প্রত্যাখ্যান করুন"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number}টি অনুরোধ অনুমোদন করবেন?} other {{count,number}টি অনুরোধ অনুমোদন করবেন?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number}টি অনুরোধ প্রত্যাখ্যান করবেন?} other {{count,number}টি অনুরোধ প্রত্যাখ্যান করবেন?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "মুছে ফেলুন"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "আপনার ব্যবহারকারীর নাম মুছে ফেলতে, আপনার ফোনে Signal খুলুন এবং সেটিংস > প্রোফাইলে নেভিগেট করুন।"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "ব্যবহারকারীর নাম কপি করুন বা মুছে ফেলুন"

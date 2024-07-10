@@ -990,7 +990,7 @@
     "messageformat": "ستُحذَف رسائل هذه المحادثة من هذا الجهاز. يُمكنك البحث عن هذه الدردشة حتى بعد حذف الرسائل."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "ستُحذَف جميع رسائل هذه المُحادثة من جميع أجهزتك. يُمكنك البحث عن هذه الدردشة حتى بعد حذف الرسائل."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "مغادرة المجموعة"
@@ -1119,19 +1119,19 @@
     "messageformat": "لقد تعذر تحميل رمز الاستجابة السريعة. يُرجى التحقق من اتصالك بالأنترنت ثم المحاولة مرة أخرى. <retry>إعادة المُحاولة</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "لقد تعذر تحميل رمز الاستجابة السريعة. تحقّق من اتصالك بالشبكة ثم حاول مُجددًا."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>‫لقد حدث خطأ غير متوقع.</paragraph><paragraph>يُرجى إعادة المحاولة لاحقا.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "لا يُمكن لسيجنال ربط هذا الحساب باستخدام شبكتك الحالية."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "إعادة المُحاولة"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "احصل على المساعدة"
   },
   "icu:Install__support-link": {
     "messageformat": "بحاجة إلى مساعدة ؟"
@@ -1305,16 +1305,16 @@
     "messageformat": "رفض طلب الانضمام"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "موافقة على الكل"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "رفض الكل"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, zero {الموافقة على {count,number} طلب؟} one {الموافقة على {count,number} طلب؟} two {الموافقة على {count,number} طلبين؟} few {الموافقة على {count,number} طلبات؟} many {الموافقة على {count,number} طلبًا؟} other {الموافقة على {count,number} طلب؟}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, zero {رفض {count,number} طلب؟} one {رفض {count,number} طلب؟} two {رفض {count,number} طلبين؟} few {رفض {count,number} طلبات؟} many {رفض {count,number} طلبًا؟} other {رفض {count,number} طلب؟}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "حذف"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "لِحذف اسم المستخدم، افتح سيجنال على هاتفك وانتقل إلى الإعدادات > الحساب الشخصي."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "نسخ أو حذف اِسمُ المُستخدِم"

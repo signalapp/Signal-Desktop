@@ -990,7 +990,7 @@
     "messageformat": "Ушул маектеги бардык билдирүүлөр бул түзмөктөн өчүрүлөт. Билдирүүлөрдү өчүргөндөн кийин ушул маекти таба аласыз."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Бул маектеги билдирүүлөрдүн баары бардык түзмөктөрүңүздөн өчүрүлөт. Билдирүүлөр өчкөндөн кийин деле ушул маек сакталып кала берет."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Топтон чыгуу"
@@ -1119,19 +1119,19 @@
     "messageformat": "QR код жүктөлгөн жок. Интернетти текшерип, кайталап көрүңүз. <retry>Кайталап көрүү</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR код жүктөлгөн жок. Байланышыңызды текшерип, кайталап көрүңүз."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Күтүлбөгөн ката кетти.</paragraph><paragraph>Кайталап көрүңүз.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal учурдагы тармак аркылуу бул түзмөккө туташа албай жатат."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Кайра аракет кылуу"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Жардам алуу"
   },
   "icu:Install__support-link": {
     "messageformat": "Жардам керекпи?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Кошулуу өтүнүчүн четке кагуу"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Баарын кошуу"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Баарын четке кагуу"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, other {{count,number} адамды кошосузбу?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, other {{count,number} өтүнүчтү четке кагасызбы?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Өчүрүү"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Колдонуучу атыңызды өчүрүү үчүн телефонуңуздан Signal'ды ачып, Параметрлер > Профиль дегенге өтүңүз."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Колдонуучу атын көчүрүү же өчүрүү"

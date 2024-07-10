@@ -990,7 +990,7 @@
     "messageformat": "Visas ziņas šajā sarunā tiks dzēstas no šīs ierīces. Pēc ziņu dzēšanas joprojām varēsiet atrast šo sarunu, izmantojot meklēšanas funkciju."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Visas ziņas šajā sarunā tiks dzēstas no visām jūsu ierīcēm. Pēc ziņu dzēšanas joprojām varēsiet atrast šo sarunu, izmantojot meklēšanas funkciju."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Pamest grupu"
@@ -1119,19 +1119,19 @@
     "messageformat": "QR kodu nevarēja ielādēt. Pārbaudiet interneta savienojumu un mēģiniet vēlreiz. Mēģināt vēlreiz"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR kodu nevarēja ielādēt. Pārbaudiet savienojumu un mēģiniet vēlreiz."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Radās neparedzēta kļūda.</paragraph><paragraph>Lūdzu, mēģiniet vēlreiz.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal nevar piesaistīt šo ierīci, izmantojot jūsu pašreizējo tīklu."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Mēģināt vēlreiz"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Saņemt palīdzību"
   },
   "icu:Install__support-link": {
     "messageformat": "Nepieciešama palīdzība?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Noraidīt pieprasījumu pievienoties"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Apstiprināt visus"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Noraidīt visus"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, zero {Vai apstiprināt {count,number} pieprasījumus?} one {Vai apstiprināt {count,number} pieprasījumu?} other {Vai apstiprināt {count,number} pieprasījumus?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, zero {Vai noraidīt {count,number} pieprasījumus?} one {Vai noraidīt {count,number} pieprasījumu?} other {Vai noraidīt {count,number} pieprasījumus?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Dzēst"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Lai dzēstu savu lietotāja vārdu, atveriet Signal savā tālrunī un dodieties uz Iestatījumi > Profils."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopēt vai dzēst lietotājvārdu"

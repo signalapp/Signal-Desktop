@@ -990,7 +990,7 @@
     "messageformat": "Kõik selle vestluse sõnumid kustutatakse sellest seadmest. Saad pärast sõnumite kustutamist endiselt seda vestlust otsida."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Kõik selle vestluse sõnumid kustutatakse kõigist sinu seadmetest. Saad pärast sõnumite kustutamist endiselt seda vestlust otsida."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Lahku grupist"
@@ -1119,19 +1119,19 @@
     "messageformat": "QR-koodi ei saanud laadida. Kontrolli oma internetiühendust ja proovi uuesti. <retry>Proovi uuesti</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR-koodi ei saanud laadida. Kontrolli oma ühendust ja proovi uuesti."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Tekkis ootamatu tõrge.</paragraph><paragraph>Palun proovi uuesti.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal ei saa seda seadet sinu praeguse võrgu kaudu linkida."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Proovi uuesti"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Otsi abi"
   },
   "icu:Install__support-link": {
     "messageformat": "Kas vajad abi?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Tühista liitumistaotlus"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Kinnita kõik"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Keeldu kõigist"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Kas kinnitada {count,number} taotlus?} other {Kas kinnitada {count,number} taotlust?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Kas keelduda {count,number} taotlusest?} other {Kas keelduda {count,number} taotlusest?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Kustuta"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Oma kasutajanime kustutamiseks ava Signal oma telefonis ja vali Sätted > Profiil."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopeeri või kustuta kasutajanimi"

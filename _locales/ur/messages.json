@@ -990,7 +990,7 @@
     "messageformat": "اس چیٹ میں موجود تمام میسجز اس ڈیوائس سے حذف کر دیے جائیں گے۔ آپ میسجز حذف کرنے کے بعد بھی اس چیٹ کو تلاش کر سکتے ہیں۔"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "اس چیٹ میں موجود تمام میسجز کو آپ کی تمام ڈیوائسز سے حذف کر دیا جائے گا۔ آپ میسجز کو حذف کرنے کے بعد بھی اس چیٹ کو تلاش کر سکتے ہیں۔"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "گروپ چھوڑ دیں"
@@ -1119,19 +1119,19 @@
     "messageformat": "QR کوڈ لوڈ نہیں ہو سکا۔ اپنا انٹرنیٹ چیک کریں اور دوبارہ کوشش کریں۔ <retry>دوبارہ کوشش کریں</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR کوڈ لوڈ نہیں ہو سکا۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔"
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>ایک غیر متوقع نقص ظاہر ہوا ہے۔</paragraph><paragraph>براہ کرم دوبارہ کوشش کریں۔</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "آپ کا موجودہ نیٹ ورک استعمال کرتے ہوئے Signal اس ڈیوائس کے ساتھ مربوط نہیں ہو سکتی۔"
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "دوبارہ کوشش کریں"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "مدد حاصل کریں"
   },
   "icu:Install__support-link": {
     "messageformat": "مدد چاہیے؟"
@@ -1305,16 +1305,16 @@
     "messageformat": "شامل ہونے کی درخواست رد کریں"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "سب منظور کریں"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "سب مسترد کریں"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} کی درخواست منظور کریں؟} other {{count,number} کی درخواستیں منظور کریں؟}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} درخواست مسترد کریں؟} other {{count,number} درخواستیں مسترد کریں؟}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "حذف کریں"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "اپنا یوزر نیم حذف کرنے کے لیے، اپنے فون پر Signal کھولیں اور سیٹنگز > پروفائل پر نیویگیٹ کریں۔"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "یوزر نیم کاپی یا حذف کریں"

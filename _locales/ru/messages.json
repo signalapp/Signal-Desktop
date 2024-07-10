@@ -990,7 +990,7 @@
     "messageformat": "Все сообщения в этом чате будут удалены с этого устройства. После удаления сообщений вы сможете продолжать поиск по этому чату."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Все сообщения в этом чате будут удалены со всех ваших устройств. После удаления сообщений вы сможете продолжать поиск по этому чату."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Покинуть группу"
@@ -1119,19 +1119,19 @@
     "messageformat": "Не удалось загрузить QR-код. Проверьте подключение к интернету и попробуйте снова. <retry>Повторить попытку</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Не удалось загрузить QR-код. Проверьте ваше подключение к интернету и попробуйте ещё раз."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Произошла неожиданная ошибка.</paragraph><paragraph>Пожалуйста, попробуйте ещё раз.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal не может привязать это устройство, используя вашу текущую сеть."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Повторить попытку"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Получить помощь"
   },
   "icu:Install__support-link": {
     "messageformat": "Нужна помощь?"
@@ -1305,16 +1305,16 @@
     "messageformat": "Отклонить запрос на присоединение"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Одобрить все"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Отклонить все"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Одобрить {count,number} запрос?} few {Одобрить {count,number} запроса?} many {Одобрить {count,number} запросов?} other {Одобрить {count,number} запроса?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Отклонить {count,number} запрос?} few {Отклонить {count,number} запроса?} many {Отклонить {count,number} запросов?} other {Отклонить {count,number} запроса?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Удалить"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Чтобы удалить имя пользователя, откройте Signal на телефоне и перейдите в Настройки > Профиль."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Копировать или удалить имя пользователя"

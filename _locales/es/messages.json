@@ -30,7 +30,7 @@
     "messageformat": "{count, plural, one {{count,number} participante} other {{count,number} participantes}}"
   },
   "icu:GroupListItem__message-already-member": {
-    "messageformat": "Ya participa en el grupo"
+    "messageformat": "Ya forma parte del grupo"
   },
   "icu:GroupListItem__message-pending": {
     "messageformat": "A la espera de participantes"
@@ -378,7 +378,7 @@
     "messageformat": "Ver más"
   },
   "icu:youLeftTheGroup": {
-    "messageformat": "Ya no participas en este grupo."
+    "messageformat": "Ya no formas parte de este grupo."
   },
   "icu:invalidConversation": {
     "messageformat": "Este grupo no es válido. Crea un nuevo grupo."
@@ -990,7 +990,7 @@
     "messageformat": "Todos los mensajes de este chat se eliminarán de este dispositivo. Aún podrás buscar este chat después de eliminar los mensajes."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Todos los mensajes de este chat se eliminarán de todos tus dispositivos. Aún podrás buscar este chat después de eliminar los mensajes."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Abandonar grupo"
@@ -1119,19 +1119,19 @@
     "messageformat": "Fallo al cargar el código QR. Comprueba tu conexión e inténtalo de nuevo. <retry>Reintentar</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "No se ha podido cargar el código QR. Comprueba tu conexión e inténtalo de nuevo."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Se ha producido un error inesperado.</paragraph><paragraph> Inténtalo de nuevo.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal no puede vincular este dispositivo utilizando tu red actual."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Reintentar"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Necesito ayuda"
   },
   "icu:Install__support-link": {
     "messageformat": "¿Necesitas ayuda?"
@@ -1164,10 +1164,10 @@
     "messageformat": "Fallo al conectar con el servidor."
   },
   "icu:installTooManyDevices": {
-    "messageformat": "Lo sentimos, ya tienes demasiados dispositivos enlazados. Prueba a eliminar algunos."
+    "messageformat": "Tienes demasiados dispositivos vinculados. Prueba a eliminar alguno."
   },
   "icu:installTooOld": {
-    "messageformat": "Actualiza Signal en este dispositivo para enlazar con tu celular/móvil."
+    "messageformat": "Actualiza Signal en este dispositivo para vincularlo con tu teléfono."
   },
   "icu:installErrorHeader": {
     "messageformat": "¡Algo ha salido mal!"
@@ -1305,16 +1305,16 @@
     "messageformat": "Denegar solicitud para unirse"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Aprobar todas"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Denegar todas"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {¿Aprobar {count,number} solicitud?} other {¿Aprobar {count,number} solicitudes?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {¿Denegar {count,number} solicitud?} other {¿Denegar {count,number} solicitudes?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
     "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
@@ -1353,7 +1353,7 @@
     "messageformat": "{first} participa en esta llamada"
   },
   "icu:calling__pre-call-info--another-device-in-call": {
-    "messageformat": "Uno de tus otros dispositivos ya participa en esta llamada"
+    "messageformat": "Te has unido a esta llamada en uno de tus otros dispositivos"
   },
   "icu:calling__pre-call-info--2-people-in-call": {
     "messageformat": "{first} y {second} participan en esta llamada"
@@ -1512,7 +1512,7 @@
     "messageformat": "¿Eliminar todos los datos?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "¿Eliminar todos los datos y mensajes de esta versión de Signal Desktop? Siempre puedes volver a vincular este escritorio, pero tus mensajes no se restaurarán. No se eliminará tu cuenta de Signal ni los datos de tu teléfono u otros dispositivos vinculados."
+    "messageformat": "¿Eliminar todos los datos y mensajes de esta versión de Signal Desktop? Siempre puedes volver a vincular esta aplicación de escritorio, pero tus mensajes no se restaurarán. No se eliminará tu cuenta de Signal ni los datos de tu teléfono u otros dispositivos vinculados."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Desconectando y borrando datos"
@@ -1812,10 +1812,10 @@
     "messageformat": "Error al actualizar el grupo. Comprueba tu conexión e inténtalo de nuevo."
   },
   "icu:unlinkedWarning": {
-    "messageformat": "Haz clic para volver a enlazar Signal Desktop con tu dispositivo móvil y continuar enviando mensajes."
+    "messageformat": "Haz clic para volver a vincular Signal Desktop con tu dispositivo móvil y seguir enviando mensajes."
   },
   "icu:unlinked": {
-    "messageformat": "Desenlazado"
+    "messageformat": "Desvinculado"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Actualización disponible"
@@ -2934,7 +2934,7 @@
     "messageformat": "¿Deseas unirte a este grupo y compartir tu nombre y foto con sus participantes?"
   },
   "icu:GroupV2--join--already-in-group": {
-    "messageformat": "Ya participas en el grupo."
+    "messageformat": "Ya formas parte del grupo."
   },
   "icu:GroupV2--join--already-awaiting-approval": {
     "messageformat": "Ya has solicitado participar en este grupo."
@@ -3906,7 +3906,7 @@
     "messageformat": "Imposible seleccionar contacto {name}"
   },
   "icu:alreadyAMember": {
-    "messageformat": "Ya participa en el grupo"
+    "messageformat": "Ya forma parte del grupo"
   },
   "icu:MessageAudio--play": {
     "messageformat": "Reproducir nota de voz"
@@ -4300,9 +4300,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Eliminar"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Para eliminar tu alias, abre Signal en tu teléfono y ve a Ajustes > Perfil."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Copiar o borrar alias"
@@ -5097,7 +5094,7 @@
     "messageformat": "Reaccionó a la historia"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "No puedes responder a esta historia porque ya no perteneces a este grupo."
+    "messageformat": "No puedes responder a esta historia porque ya no formas parte de este grupo."
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
     "messageformat": "Eliminar solo para mí"
@@ -5341,13 +5338,13 @@
     "messageformat": "Ignorar"
   },
   "icu:UnsupportedOSWarningDialog__body": {
-    "messageformat": "Signal para Escritorio pronto dejará de ser compatible con la versión de {OS} de tu ordenador. Para seguir usando Signal, actualiza el sistema operativo de tu ordenador antes del {expirationDate}. <learnMoreLink>Saber más</learnMoreLink>"
+    "messageformat": "Signal Desktop pronto dejará de ser compatible con la versión de {OS} de tu ordenador. Para seguir usando Signal, actualiza el sistema operativo de tu ordenador antes del {expirationDate}. <learnMoreLink>Más información</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
-    "messageformat": "Signal para Escritorio ya no funciona en este ordenador. Para volver a usar Signal para Escritorio, actualiza la versión de {OS} de tu ordenador. <learnMoreLink>Saber más</learnMoreLink>"
+    "messageformat": "Signal Desktop ya no funciona en este ordenador. Para volver a usar Signal en tu escritorio, actualiza la versión de {OS} de tu ordenador. <learnMoreLink>Más información</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorToast": {
-    "messageformat": "Signal para Escritorio ya no funciona en este ordenador. Para volver a usar Signal para Escritorio, actualiza la versión de {OS} de tu ordenador."
+    "messageformat": "Signal Desktop ya no funciona en este ordenador. Para volver a usar Signal en tu scritorio, actualiza la versión de {OS} de tu ordenador."
   },
   "icu:MessageMetadata__edited": {
     "messageformat": "Editado"
@@ -5540,7 +5537,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Ahora podrás reenviar tarjetas de contacto enviadas desde un dispositivo móvil. Comparte el número de tu restaurante favorito sin siquiera usar tu teléfono (eso sí, tendrás que encontrar la manera de llegar allí por tu cuenta)."
+    "messageformat": "En Signal Desktop, ahora podrás reenviar tarjetas de contacto que se enviaron desde un dispositivo móvil. Comparte el número de tu restaurante favorito sin siquiera usar tu teléfono (eso sí, tendrás que encontrar la manera de llegar allí por tu cuenta)."
   },
   "icu:WhatsNew__v7.15--1": {
     "messageformat": "Disfruta de los detalles casi realistas con el nuevo soporte para emojis de alta resolución, en especial en pantallas grandes con píxeles pequeños."
