@@ -1654,8 +1654,11 @@ async function initializeSQL(
     const { i18n } = getResolvedMessagesLocale();
 
     const buttonIndex = dialog.showMessageBoxSync({
-      buttons: [i18n('icu:cancel'), i18n('icu:databaseError__recover__button')],
-      defaultId: 1,
+      buttons: [
+        i18n('icu:databaseError__recover__button'),
+        i18n('icu:copyErrorAndQuit'),
+      ],
+      defaultId: 0,
       cancelId: 1,
       message: i18n('icu:databaseError'),
       detail: i18n('icu:databaseError__recover__detail', {
@@ -1665,7 +1668,7 @@ async function initializeSQL(
       type: 'error',
     });
 
-    const copyErrorAndQuitButtonIndex = 0;
+    const copyErrorAndQuitButtonIndex = 1;
     if (buttonIndex === copyErrorAndQuitButtonIndex) {
       clipboard.writeText(
         `Database startup error:\n\n${redactAll(Errors.toLogFormat(error))}`
