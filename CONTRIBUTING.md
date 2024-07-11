@@ -265,3 +265,22 @@ npm run build
 ```
 
 Then, run the tests using `npm run test-release`.
+
+### Testing MacOS builds
+
+macOS requires apps to be code signed with an Apple certificate. To test development builds
+you can ad-hoc sign the packaged app which will let you run it locally.
+
+1. In `package.json` remove the macOS signing script: `"sign": "./ts/scripts/sign-macos.js",`
+2. Build the app and ad-hoc sign the app bundle:
+
+```
+npm run generate
+npm run build
+cd release
+# Pick the desired app bundle: mac, mac-arm64, or mac-universal
+cd mac-arm64
+codesign --force --deep --sign - Signal.app
+```
+
+3. Now you can run the app locally.
