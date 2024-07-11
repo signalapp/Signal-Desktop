@@ -1610,6 +1610,11 @@ function getSQLKey(): string {
     getLogger().info('getSQLKey: decrypting key');
     const encrypted = Buffer.from(modernKeyValue, 'hex');
     key = safeStorage.decryptString(encrypted);
+
+    if (legacyKeyValue != null) {
+      getLogger().info('getSQLKey: removing legacy key');
+      userConfig.set('key', undefined);
+    }
   } else if (typeof legacyKeyValue === 'string') {
     key = legacyKeyValue;
     update = isEncryptionAvailable;
@@ -1632,7 +1637,6 @@ function getSQLKey(): string {
     getLogger().info('getSQLKey: updating encrypted key in the config');
     const encrypted = safeStorage.encryptString(key).toString('hex');
     userConfig.set('encryptedKey', encrypted);
-    userConfig.set('key', key);
   } else {
     getLogger().info('getSQLKey: updating plaintext key in the config');
     userConfig.set('key', key);
@@ -1645,47 +1649,6 @@ async function initializeSQL(
   userDataPath: string
 ): Promise<{ ok: true; error: undefined } | { ok: false; error: Error }> {
   sqlInitTimeStart = Date.now();
-  let key: string;
-  try {
-    key = getSQLKey();
-  } catch (error: unknown) {
-    const SIGNAL_SUPPORT_LINK = 'https://support.signal.org/error';
-
-    const { i18n } = getResolvedMessagesLocale();
-
-    const buttonIndex = dialog.showMessageBoxSync({
-      buttons: [
-        i18n('icu:databaseError__recover__button'),
-        i18n('icu:copyErrorAndQuit'),
-      ],
-      defaultId: 0,
-      cancelId: 1,
-      message: i18n('icu:databaseError'),
-      detail: i18n('icu:databaseError__recover__detail', {
-        link: SIGNAL_SUPPORT_LINK,
-      }),
-      noLink: true,
-      type: 'error',
-    });
-
-    const copyErrorAndQuitButtonIndex = 1;
-    if (buttonIndex === copyErrorAndQuitButtonIndex) {
-      clipboard.writeText(
-        `Database startup error:\n\n${redactAll(Errors.toLogFormat(error))}`
-      );
-
-      getLogger().error('onDatabaseError: Quitting application');
-      app.exit(1);
-
-      // Don't let go through, while `app.exit()` is finalizing asynchronously
-      await new Promise(noop);
-    }
-
-    getLogger().error('onDatabaseError: Removing malformed key');
-    userConfig.set('encryptedKey', undefined);
-    key = getSQLKey();
-  }
-
   try {
     // This should be the first awaited call in this function, otherwise
     // `sql.sqlCall` will throw an uninitialized error instead of waiting for
@@ -1693,7 +1656,7 @@ async function initializeSQL(
     await sql.initialize({
       appVersion: app.getVersion(),
       configDir: userDataPath,
-      key,
+      key: getSQLKey(),
       logger: getLogger(),
     });
   } catch (error: unknown) {
