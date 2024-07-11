@@ -40,7 +40,7 @@ function NoVideo({
 }): JSX.Element {
   const {
     acceptedMessageRequest,
-    avatarPath,
+    avatarUrl,
     color,
     type: conversationType,
     isMe,
@@ -52,11 +52,11 @@ function NoVideo({
 
   return (
     <div className="module-calling-pip__video--remote">
-      <CallBackgroundBlur avatarPath={avatarPath}>
+      <CallBackgroundBlur avatarUrl={avatarUrl}>
         <div className="module-calling-pip__video--avatar">
           <Avatar
             acceptedMessageRequest={acceptedMessageRequest}
-            avatarPath={avatarPath}
+            avatarUrl={avatarUrl}
             badge={undefined}
             color={color || AvatarColors[0]}
             noteToSelf={false}

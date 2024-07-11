@@ -26,9 +26,14 @@ import { toDayMillis } from '../util/timestamp';
 import { areWeAdmin } from '../util/areWeAdmin';
 import { isBlocked } from '../util/isBlocked';
 import { getAboutText } from '../util/getAboutText';
-import { getAvatarPath } from '../util/avatarUtils';
+import {
+  getAvatar,
+  getRawAvatarPath,
+  getLocalAvatarUrl,
+} from '../util/avatarUtils';
 import { getDraftPreview } from '../util/getDraftPreview';
 import { hasDraft } from '../util/hasDraft';
+import { missingCaseError } from '../util/missingCaseError';
 import * as Conversation from '../types/Conversation';
 import type { StickerType, StickerWithHydratedData } from '../types/Stickers';
 import * as Stickers from '../types/Stickers';
@@ -77,6 +82,7 @@ import {
   decryptProfileName,
   deriveAccessKey,
 } from '../Crypto';
+import { decryptAttachmentV2 } from '../AttachmentCrypto';
 import * as Bytes from '../Bytes';
 import type { DraftBodyRanges } from '../types/BodyRange';
 import { BodyRange } from '../types/BodyRange';
@@ -84,6 +90,7 @@ import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
 import {
   NotificationType,
+  NotificationSetting,
   notificationService,
 } from '../services/notifications';
 import { storageServiceUploadJob } from '../services/storage';
@@ -178,6 +185,7 @@ window.Whisper = window.Whisper || {};
 
 const { Message } = window.Signal.Types;
 const {
+  copyIntoTempDirectory,
   deleteAttachmentData,
   doesAttachmentExist,
   getAbsoluteAttachmentPath,
@@ -3660,8 +3668,8 @@ export class ConversationModel extends window.Backbone
     }
 
     const { key } = packData;
-    const { emoji, path, width, height } = stickerData;
-    const data = await readStickerData(path);
+    const { emoji, width, height } = stickerData;
+    const data = await readStickerData(stickerData);
 
     // We need this content type to be an image so we can display an `<img>` instead of a
     //   `<video>` or an error, but it's not critical that we get the full type correct.
@@ -4736,18 +4744,18 @@ export class ConversationModel extends window.Backbone
   }
 
   async setProfileAvatar(
-    avatarPath: undefined | null | string,
+    avatarUrl: undefined | null | string,
     decryptionKey: Uint8Array
   ): Promise<void> {
     if (isMe(this.attributes)) {
-      if (avatarPath) {
-        await window.storage.put('avatarUrl', avatarPath);
+      if (avatarUrl) {
+        await window.storage.put('avatarUrl', avatarUrl);
       } else {
         await window.storage.remove('avatarUrl');
       }
     }
 
-    if (!avatarPath) {
+    if (!avatarUrl) {
       this.set({ profileAvatar: undefined });
       return;
     }
@@ -4756,7 +4764,7 @@ export class ConversationModel extends window.Backbone
     if (!messaging) {
       throw new Error('setProfileAvatar: Cannot fetch avatar when offline!');
     }
-    const avatar = await messaging.getAvatar(avatarPath);
+    const avatar = await messaging.getAvatar(avatarUrl);
 
     // decrypt
     const decrypted = decryptProfile(avatar, decryptionKey);
@@ -5130,11 +5138,11 @@ export class ConversationModel extends window.Backbone
   }
 
   unblurAvatar(): void {
-    const avatarPath = getAvatarPath(this.attributes);
-    if (avatarPath) {
-      this.set('unblurredAvatarPath', avatarPath);
+    const avatarUrl = getRawAvatarPath(this.attributes);
+    if (avatarUrl) {
+      this.set('unblurredAvatarUrl', avatarUrl);
     } else {
-      this.unset('unblurredAvatarPath');
+      this.unset('unblurredAvatarUrl');
     }
   }
 
@@ -5306,21 +5314,81 @@ export class ConversationModel extends window.Backbone
     url: string;
     absolutePath?: string;
   }> {
-    const avatarPath = getAvatarPath(this.attributes);
-    if (avatarPath) {
+    let saveToDisk: boolean;
+
+    const notificationSetting = notificationService.getNotificationSetting();
+    switch (notificationSetting) {
+      case NotificationSetting.NameOnly:
+      case NotificationSetting.NameAndMessage:
+        // According to the MSDN, avatars can only be loaded from disk or an
+        // http server:
+        // https://learn.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-image?redirectedfrom=MSDN
+        saveToDisk = OS.isWindows();
+        break;
+      case NotificationSetting.Off:
+      case NotificationSetting.NoNameOrMessage:
+        saveToDisk = false;
+        break;
+      default:
+        throw missingCaseError(notificationSetting);
+    }
+    const avatarUrl = getLocalAvatarUrl(this.attributes);
+    if (avatarUrl) {
       return {
-        url: getAbsoluteAttachmentPath(avatarPath),
-        absolutePath: getAbsoluteAttachmentPath(avatarPath),
+        url: avatarUrl,
+        absolutePath: saveToDisk
+          ? await this.getTemporaryAvatarPath()
+          : undefined,
       };
     }
 
     const { url, path } = await this.getIdenticon({
-      saveToDisk: OS.isWindows(),
+      saveToDisk,
     });
     return {
       url,
       absolutePath: path ? getAbsoluteTempPath(path) : undefined,
     };
+  }
+
+  private async getTemporaryAvatarPath(): Promise<string | undefined> {
+    const avatar = getAvatar(this.attributes);
+    if (avatar?.path == null) {
+      return undefined;
+    }
+
+    const avatarPath = getRawAvatarPath(this.attributes);
+    if (!avatarPath) {
+      return undefined;
+    }
+
+    // Already plaintext
+    if (avatar.version !== 2) {
+      return avatarPath;
+    }
+
+    if (!avatar.localKey || !avatar.size) {
+      return undefined;
+    }
+
+    const { path: plaintextPath } = await decryptAttachmentV2({
+      ciphertextPath: avatarPath,
+      idForLogging: 'getAvatarOrIdenticon',
+      keysBase64: avatar.localKey,
+      size: avatar.size,
+
+      getAbsoluteAttachmentPath,
+      isLocal: true,
+    });
+
+    try {
+      const { path: tempPath } = await copyIntoTempDirectory(
+        getAbsoluteAttachmentPath(plaintextPath)
+      );
+      return getAbsoluteTempPath(tempPath);
+    } finally {
+      await deleteAttachmentData(plaintextPath);
+    }
   }
 
   private async getIdenticon({

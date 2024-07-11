@@ -46,7 +46,7 @@ export const SmartProfileEditorModal = memo(function SmartProfileEditorModal() {
     familyName,
     firstName,
     id: conversationId,
-    profileAvatarPath,
+    profileAvatarUrl,
     username,
   } = useSelector(getMe);
   const hasCompletedUsernameLinkOnboarding = useSelector(
@@ -101,7 +101,7 @@ export const SmartProfileEditorModal = memo(function SmartProfileEditorModal() {
       myProfileChanged={myProfileChanged}
       onSetSkinTone={onSetSkinTone}
       openUsernameReservationModal={openUsernameReservationModal}
-      profileAvatarPath={profileAvatarPath}
+      profileAvatarUrl={profileAvatarUrl}
       recentEmojis={recentEmojis}
       renderEditUsernameModalBody={renderEditUsernameModalBody}
       replaceAvatar={replaceAvatar}

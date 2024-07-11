@@ -19,7 +19,7 @@ const MAX_AVATARS_COUNT = 3;
 type TypingContactType = Pick<
   ConversationType,
   | 'acceptedMessageRequest'
-  | 'avatarPath'
+  | 'avatarUrl'
   | 'badges'
   | 'color'
   | 'id'
@@ -120,7 +120,7 @@ function TypingBubbleAvatar({
     <animated.div className="module-message__typing-avatar" style={springProps}>
       <Avatar
         acceptedMessageRequest={contact.acceptedMessageRequest}
-        avatarPath={contact.avatarPath}
+        avatarUrl={contact.avatarUrl}
         badge={getPreferredBadge(contact.badges)}
         color={contact.color}
         conversationType="direct"

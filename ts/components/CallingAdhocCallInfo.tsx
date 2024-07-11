@@ -80,7 +80,7 @@ function UnknownContacts({
       return (
         <Avatar
           acceptedMessageRequest={participant.acceptedMessageRequest}
-          avatarPath={participant.avatarPath}
+          avatarUrl={participant.avatarUrl}
           badge={undefined}
           className="CallingAdhocCallInfo__UnknownContactAvatar"
           color={AvatarColors[colorIndex]}
@@ -211,7 +211,7 @@ export function CallingAdhocCallInfo({
         <div className="module-calling-participants-list__avatar-and-name">
           <Avatar
             acceptedMessageRequest={participant.acceptedMessageRequest}
-            avatarPath={participant.avatarPath}
+            avatarUrl={participant.avatarUrl}
             badge={undefined}
             color={participant.color}
             conversationType="direct"

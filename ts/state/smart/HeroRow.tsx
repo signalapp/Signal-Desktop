@@ -37,7 +37,7 @@ export const SmartHeroRow = memo(function SmartHeroRow({
   const {
     about,
     acceptedMessageRequest,
-    avatarPath,
+    avatarUrl,
     groupDescription,
     isMe,
     membersCount,
@@ -46,13 +46,13 @@ export const SmartHeroRow = memo(function SmartHeroRow({
     sharedGroupNames,
     title,
     type,
-    unblurredAvatarPath,
+    unblurredAvatarUrl,
   } = conversation;
   return (
     <ConversationHero
       about={about}
       acceptedMessageRequest={acceptedMessageRequest}
-      avatarPath={avatarPath}
+      avatarUrl={avatarUrl}
       badge={badge}
       conversationType={type}
       groupDescription={groupDescription}
@@ -69,7 +69,7 @@ export const SmartHeroRow = memo(function SmartHeroRow({
       title={title}
       toggleAboutContactModal={toggleAboutContactModal}
       unblurAvatar={unblurAvatar}
-      unblurredAvatarPath={unblurredAvatarPath}
+      unblurredAvatarUrl={unblurredAvatarUrl}
       updateSharedGroups={updateSharedGroups}
       viewUserStories={viewUserStories}
     />

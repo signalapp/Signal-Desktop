@@ -28,7 +28,7 @@ export function getDefaultConversation(
 
   return {
     acceptedMessageRequest: true,
-    avatarPath: getAvatarPath(),
+    avatarUrl: getAvatarPath(),
     badges: [],
     e164: `+${casual.phone.replace(/-/g, '')}`,
     conversationColor: ConversationColors[0],
@@ -72,7 +72,7 @@ export function getDefaultGroup(
   return {
     acceptedMessageRequest: true,
     announcementsOnly: false,
-    avatarPath: getAvatarPath(),
+    avatarUrl: getAvatarPath(),
     badges: [],
     color: getRandomColor(),
     conversationColor: ConversationColors[0],

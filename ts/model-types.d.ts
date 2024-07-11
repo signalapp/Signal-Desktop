@@ -471,6 +471,9 @@ export type ConversationAttributesType = {
   // This value is useless once the message request has been approved. We don't clean it
   //   up but could. We don't persist it but could (though we'd probably want to clean it
   //   up in that case).
+  unblurredAvatarUrl?: string;
+
+  // Legacy field, mapped to above in getConversation()
   unblurredAvatarPath?: string;
 };
 

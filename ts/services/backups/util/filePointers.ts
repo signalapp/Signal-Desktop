@@ -171,6 +171,10 @@ export function convertBackupMessageAttachmentToAttachment(
 async function generateNewEncryptionInfoForAttachment(
   attachment: Readonly<LocallySavedAttachment>
 ): Promise<AttachmentReadyForBackup> {
+  strictAssert(
+    attachment.version !== 2,
+    'generateNewEncryptionInfoForAttachment can only be used on legacy attachments'
+  );
   const fixedUpAttachment = { ...attachment };
 
   // Since we are changing the encryption, we need to delete all encryption & location
@@ -195,6 +199,8 @@ async function generateNewEncryptionInfoForAttachment(
         attachment.path
       ),
     },
+    getAbsoluteAttachmentPath:
+      window.Signal.Migrations.getAbsoluteAttachmentPath,
   });
 
   return {

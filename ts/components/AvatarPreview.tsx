@@ -15,7 +15,7 @@ import { imagePathToBytes } from '../util/imagePathToBytes';
 
 export type PropsType = {
   avatarColor?: AvatarColorType;
-  avatarPath?: string;
+  avatarUrl?: string;
   avatarValue?: Uint8Array;
   conversationTitle?: string;
   i18n: LocalizerType;
@@ -35,7 +35,7 @@ enum ImageStatus {
 
 export function AvatarPreview({
   avatarColor = AvatarColors[0],
-  avatarPath,
+  avatarUrl,
   avatarValue,
   conversationTitle,
   i18n,
@@ -48,15 +48,15 @@ export function AvatarPreview({
 }: PropsType): JSX.Element {
   const [avatarPreview, setAvatarPreview] = useState<Uint8Array | undefined>();
 
-  // Loads the initial avatarPath if one is provided, but only if we're in editable mode.
-  //   If we're not editable, we assume that we either have an avatarPath or we show a
+  // Loads the initial avatarUrl if one is provided, but only if we're in editable mode.
+  //   If we're not editable, we assume that we either have an avatarUrl or we show a
   //   default avatar.
   useEffect(() => {
     if (!isEditable) {
       return;
     }
 
-    if (!avatarPath) {
+    if (!avatarUrl) {
       return noop;
     }
 
@@ -64,7 +64,7 @@ export function AvatarPreview({
 
     void (async () => {
       try {
-        const buffer = await imagePathToBytes(avatarPath);
+        const buffer = await imagePathToBytes(avatarUrl);
         if (shouldCancel) {
           return;
         }
@@ -85,7 +85,7 @@ export function AvatarPreview({
     return () => {
       shouldCancel = true;
     };
-  }, [avatarPath, onAvatarLoaded, isEditable]);
+  }, [avatarUrl, onAvatarLoaded, isEditable]);
 
   // Ensures that when avatarValue changes we generate new URLs
   useEffect(() => {
@@ -120,8 +120,8 @@ export function AvatarPreview({
   } else if (objectUrl) {
     encodedPath = objectUrl;
     imageStatus = ImageStatus.HasImage;
-  } else if (avatarPath) {
-    encodedPath = encodeURI(avatarPath);
+  } else if (avatarUrl) {
+    encodedPath = avatarUrl;
     imageStatus = ImageStatus.HasImage;
   } else {
     imageStatus = ImageStatus.Nothing;

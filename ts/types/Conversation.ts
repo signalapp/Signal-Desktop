@@ -3,6 +3,7 @@
 
 import type { ConversationAttributesType } from '../model-types.d';
 import type { ContactAvatarType } from './Avatar';
+import type { LocalAttachmentV2Type } from './Attachment';
 import { computeHash } from '../Crypto';
 
 export type BuildAvatarUpdaterOptions = Readonly<{
@@ -10,7 +11,7 @@ export type BuildAvatarUpdaterOptions = Readonly<{
   newAvatar?: ContactAvatarType;
   deleteAttachmentData: (path: string) => Promise<void>;
   doesAttachmentExist: (path: string) => Promise<boolean>;
-  writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
+  writeNewAttachmentData: (data: Uint8Array) => Promise<LocalAttachmentV2Type>;
 }>;
 
 // This function is ready to handle raw avatar data as well as an avatar which has
@@ -49,7 +50,7 @@ function buildAvatarUpdater({ field }: { field: 'avatar' | 'profileAvatar' }) {
           ...conversation,
           [field]: {
             hash: newHash,
-            path: await writeNewAttachmentData(data),
+            ...(await writeNewAttachmentData(data)),
           },
         };
       }
@@ -91,7 +92,7 @@ function buildAvatarUpdater({ field }: { field: 'avatar' | 'profileAvatar' }) {
         ...conversation,
         [field]: {
           hash: newHash,
-          path: await writeNewAttachmentData(data),
+          ...(await writeNewAttachmentData(data)),
         },
       };
     }

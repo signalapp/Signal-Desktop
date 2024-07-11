@@ -100,6 +100,8 @@ export async function encryptAndUploadAttachment({
       plaintext,
       keys,
       dangerousIv,
+      getAbsoluteAttachmentPath:
+        window.Signal.Migrations.getAbsoluteAttachmentPath,
     });
 
     absoluteCiphertextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(

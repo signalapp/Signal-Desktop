@@ -23,7 +23,7 @@ export type MinimalConversation = Satisfies<
     | 'acceptedMessageRequest'
     | 'announcementsOnly'
     | 'areWeAdmin'
-    | 'avatarPath'
+    | 'avatarUrl'
     | 'canChangeTimer'
     | 'color'
     | 'expireTimer'
@@ -43,7 +43,7 @@ export type MinimalConversation = Satisfies<
     | 'profileName'
     | 'title'
     | 'type'
-    | 'unblurredAvatarPath'
+    | 'unblurredAvatarUrl'
   >
 >;
 
@@ -54,7 +54,7 @@ export function useMinimalConversation(
     acceptedMessageRequest,
     announcementsOnly,
     areWeAdmin,
-    avatarPath,
+    avatarUrl,
     canChangeTimer,
     color,
     expireTimer,
@@ -74,14 +74,14 @@ export function useMinimalConversation(
     profileName,
     title,
     type,
-    unblurredAvatarPath,
+    unblurredAvatarUrl,
   } = conversation;
   return useMemo(() => {
     return {
       acceptedMessageRequest,
       announcementsOnly,
       areWeAdmin,
-      avatarPath,
+      avatarUrl,
       canChangeTimer,
       color,
       expireTimer,
@@ -101,13 +101,13 @@ export function useMinimalConversation(
       profileName,
       title,
       type,
-      unblurredAvatarPath,
+      unblurredAvatarUrl,
     };
   }, [
     acceptedMessageRequest,
     announcementsOnly,
     areWeAdmin,
-    avatarPath,
+    avatarUrl,
     canChangeTimer,
     color,
     expireTimer,
@@ -127,6 +127,6 @@ export function useMinimalConversation(
     profileName,
     title,
     type,
-    unblurredAvatarPath,
+    unblurredAvatarUrl,
   ]);
 }

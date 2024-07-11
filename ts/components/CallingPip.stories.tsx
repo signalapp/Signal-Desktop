@@ -26,7 +26,7 @@ const i18n = setupI18n('en', enMessages);
 
 const conversation: ConversationType = getDefaultConversation({
   id: '3051234567',
-  avatarPath: undefined,
+  avatarUrl: undefined,
   color: AvatarColors[0],
   title: 'Rick Sanchez',
   name: 'Rick Sanchez',
@@ -98,7 +98,7 @@ export function ContactWithAvatarAndNoVideo(args: PropsType): JSX.Element {
         ...getDefaultCall({}),
         conversation: {
           ...conversation,
-          avatarPath: 'https://www.fillmurray.com/64/64',
+          avatarUrl: 'https://www.fillmurray.com/64/64',
         },
         remoteParticipants: [
           { hasRemoteVideo: false, presenting: false, title: 'Julian' },

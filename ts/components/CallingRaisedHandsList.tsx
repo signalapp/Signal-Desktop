@@ -101,7 +101,7 @@ export function CallingRaisedHandsList({
               <div className="CallingRaisedHandsList__AvatarAndName module-calling-participants-list__avatar-and-name">
                 <Avatar
                   acceptedMessageRequest={participant.acceptedMessageRequest}
-                  avatarPath={participant.avatarPath}
+                  avatarUrl={participant.avatarUrl}
                   badge={undefined}
                   color={participant.color}
                   conversationType="direct"

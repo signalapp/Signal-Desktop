@@ -1,13 +1,17 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isFunction, isObject, isString, omit } from 'lodash';
+import { isFunction, isObject } from 'lodash';
 
 import * as Contact from './EmbeddedContact';
-import type { AttachmentType, AttachmentWithHydratedData } from './Attachment';
+import type {
+  AddressableAttachmentType,
+  AttachmentType,
+  AttachmentWithHydratedData,
+  LocalAttachmentV2Type,
+} from './Attachment';
 import {
   captureDimensionsAndScreenshot,
-  hasData,
   removeSchemaVersion,
   replaceUnicodeOrderOverrides,
   replaceUnicodeV2,
@@ -33,8 +37,12 @@ import type {
   LinkPreviewWithHydratedData,
 } from './message/LinkPreviews';
 import type { StickerType, StickerWithHydratedData } from './Stickers';
-import { addPlaintextHashToAttachment } from '../AttachmentCrypto';
 import { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem';
+import {
+  getLocalAttachmentUrl,
+  AttachmentDisposition,
+} from '../util/getLocalAttachmentUrl';
+import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment';
 
 export { hasExpiration } from './Message';
 
@@ -42,8 +50,6 @@ export const GROUP = 'group';
 export const PRIVATE = 'private';
 
 export type ContextType = {
-  getAbsoluteAttachmentPath: (path: string) => string;
-  getAbsoluteStickerPath: (path: string) => string;
   getImageDimensions: (params: {
     objectUrl: string;
     logger: LoggerType;
@@ -70,14 +76,13 @@ export type ContextType = {
   }) => Promise<Blob>;
   maxVersion?: number;
   revokeObjectUrl: (objectUrl: string) => void;
-  writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
-  writeNewStickerData: (data: Uint8Array) => Promise<string>;
+  readAttachmentData: (
+    attachment: Partial<AddressableAttachmentType>
+  ) => Promise<Uint8Array>;
+  writeNewAttachmentData: (data: Uint8Array) => Promise<LocalAttachmentV2Type>;
+  writeNewStickerData: (data: Uint8Array) => Promise<LocalAttachmentV2Type>;
   deleteOnDisk: (path: string) => Promise<void>;
 };
-
-type WriteExistingAttachmentDataType = (
-  attachment: Pick<AttachmentType, 'data' | 'path'>
-) => Promise<string>;
 
 export type ContextWithMessageType = ContextType & {
   message: MessageAttributesType;
@@ -449,7 +454,109 @@ const toVersion10 = _withSchemaVersion({
 
 const toVersion11 = _withSchemaVersion({
   schemaVersion: 11,
-  upgrade: _mapAttachments(addPlaintextHashToAttachment),
+  // NOOP: We no longer need to get plaintextHash here because we get it once
+  // we migrate attachments to v2.
+  upgrade: noopUpgrade,
+});
+
+const toVersion12 = _withSchemaVersion({
+  schemaVersion: 12,
+  upgrade: async (message, context) => {
+    const { attachments, quote, contact, preview, sticker } = message;
+
+    const result = { ...message };
+
+    if (attachments?.length) {
+      result.attachments = await Promise.all(
+        attachments.map(async attachment => {
+          const copy = await encryptLegacyAttachment(attachment, context);
+          if (copy.thumbnail) {
+            copy.thumbnail = await encryptLegacyAttachment(
+              copy.thumbnail,
+              context
+            );
+          }
+          if (copy.screenshot) {
+            copy.screenshot = await encryptLegacyAttachment(
+              copy.screenshot,
+              context
+            );
+          }
+          return copy;
+        })
+      );
+    }
+
+    if (quote && quote.attachments?.length) {
+      try {
+        result.quote = {
+          ...quote,
+          attachments: await Promise.all(
+            quote.attachments.map(async quoteAttachment => {
+              return {
+                ...quoteAttachment,
+                thumbnail:
+                  quoteAttachment.thumbnail &&
+                  (await encryptLegacyAttachment(
+                    quoteAttachment.thumbnail,
+                    context
+                  )),
+              };
+            })
+          ),
+        };
+      } catch (error) {
+        context.logger.error(`Failed to migrate quote for ${message.id}`);
+      }
+    }
+
+    if (contact?.length) {
+      result.contact = await Promise.all(
+        contact.map(async c => {
+          if (!c.avatar?.avatar) {
+            return c;
+          }
+
+          return {
+            ...c,
+            avatar: {
+              ...c.avatar,
+              avatar: await encryptLegacyAttachment(c.avatar.avatar, context),
+            },
+          };
+        })
+      );
+    }
+
+    if (preview?.length) {
+      result.preview = await Promise.all(
+        preview.map(async p => {
+          if (!p.image) {
+            return p;
+          }
+
+          return {
+            ...p,
+            image: await encryptLegacyAttachment(p.image, context),
+          };
+        })
+      );
+    }
+
+    if (sticker) {
+      result.sticker = {
+        ...sticker,
+        data: sticker.data && {
+          ...(await encryptLegacyAttachment(sticker.data, context)),
+          thumbnail:
+            sticker.data.thumbnail &&
+            (await encryptLegacyAttachment(sticker.data.thumbnail, context)),
+        },
+      };
+    }
+
+    return result;
+  },
 });
 
 const VERSIONS = [
@@ -465,6 +572,7 @@ const VERSIONS = [
   toVersion9,
   toVersion10,
   toVersion11,
+  toVersion12,
 ];
 export const CURRENT_SCHEMA_VERSION = VERSIONS.length - 1;
 
@@ -475,10 +583,9 @@ export const VERSION_NEEDED_FOR_DISPLAY = 9;
 export const upgradeSchema = async (
   rawMessage: MessageAttributesType,
   {
+    readAttachmentData,
     writeNewAttachmentData,
     getRegionCode,
-    getAbsoluteAttachmentPath,
-    getAbsoluteStickerPath,
     makeObjectUrl,
     revokeObjectUrl,
     getImageDimensions,
@@ -490,14 +597,14 @@ export const upgradeSchema = async (
     maxVersion = CURRENT_SCHEMA_VERSION,
   }: ContextType
 ): Promise<MessageAttributesType> => {
+  if (!isFunction(readAttachmentData)) {
+    throw new TypeError('context.readAttachmentData is required');
+  }
   if (!isFunction(writeNewAttachmentData)) {
     throw new TypeError('context.writeNewAttachmentData is required');
   }
   if (!isFunction(getRegionCode)) {
     throw new TypeError('context.getRegionCode is required');
-  }
-  if (!isFunction(getAbsoluteAttachmentPath)) {
-    throw new TypeError('context.getAbsoluteAttachmentPath is required');
   }
   if (!isFunction(makeObjectUrl)) {
     throw new TypeError('context.makeObjectUrl is required');
@@ -517,9 +624,6 @@ export const upgradeSchema = async (
   if (!isObject(logger)) {
     throw new TypeError('context.logger is required');
   }
-  if (!isFunction(getAbsoluteStickerPath)) {
-    throw new TypeError('context.getAbsoluteStickerPath is required');
-  }
   if (!isFunction(writeNewStickerData)) {
     throw new TypeError('context.writeNewStickerData is required');
   }
@@ -538,15 +642,14 @@ export const upgradeSchema = async (
     //   each step dependent on the previous
     // eslint-disable-next-line no-await-in-loop
     message = await currentVersion(message, {
+      readAttachmentData,
       writeNewAttachmentData,
-      getAbsoluteAttachmentPath,
       makeObjectUrl,
       revokeObjectUrl,
       getImageDimensions,
       makeImageThumbnail,
       makeVideoScreenshot,
       logger,
-      getAbsoluteStickerPath,
       getRegionCode,
       writeNewStickerData,
       deleteOnDisk,
@@ -562,7 +665,6 @@ export const processNewAttachment = async (
   attachment: AttachmentType,
   {
     writeNewAttachmentData,
-    getAbsoluteAttachmentPath,
     makeObjectUrl,
     revokeObjectUrl,
     getImageDimensions,
@@ -572,7 +674,6 @@ export const processNewAttachment = async (
   }: Pick<
     ContextType,
     | 'writeNewAttachmentData'
-    | 'getAbsoluteAttachmentPath'
     | 'makeObjectUrl'
     | 'revokeObjectUrl'
     | 'getImageDimensions'
@@ -584,9 +685,6 @@ export const processNewAttachment = async (
 ): Promise<AttachmentType> => {
   if (!isFunction(writeNewAttachmentData)) {
     throw new TypeError('context.writeNewAttachmentData is required');
-  }
-  if (!isFunction(getAbsoluteAttachmentPath)) {
-    throw new TypeError('context.getAbsoluteAttachmentPath is required');
   }
   if (!isFunction(makeObjectUrl)) {
     throw new TypeError('context.makeObjectUrl is required');
@@ -609,7 +707,6 @@ export const processNewAttachment = async (
 
   const finalAttachment = await captureDimensionsAndScreenshot(attachment, {
     writeNewAttachmentData,
-    getAbsoluteAttachmentPath,
     makeObjectUrl,
     revokeObjectUrl,
     getImageDimensions,
@@ -623,24 +720,15 @@ export const processNewAttachment = async (
 
 export const processNewSticker = async (
   stickerData: Uint8Array,
+  isEphemeral: boolean,
   {
     writeNewStickerData,
-    getAbsoluteStickerPath,
     getImageDimensions,
     logger,
-  }: Pick<
-    ContextType,
-    | 'writeNewStickerData'
-    | 'getAbsoluteStickerPath'
-    | 'getImageDimensions'
-    | 'logger'
-  >
-): Promise<{ path: string; width: number; height: number }> => {
+  }: Pick<ContextType, 'writeNewStickerData' | 'getImageDimensions' | 'logger'>
+): Promise<LocalAttachmentV2Type & { width: number; height: number }> => {
   if (!isFunction(writeNewStickerData)) {
     throw new TypeError('context.writeNewStickerData is required');
-  }
-  if (!isFunction(getAbsoluteStickerPath)) {
-    throw new TypeError('context.getAbsoluteStickerPath is required');
   }
   if (!isFunction(getImageDimensions)) {
     throw new TypeError('context.getImageDimensions is required');
@@ -649,23 +737,27 @@ export const processNewSticker = async (
     throw new TypeError('context.logger is required');
   }
 
-  const path = await writeNewStickerData(stickerData);
-  const absolutePath = await getAbsoluteStickerPath(path);
+  const local = await writeNewStickerData(stickerData);
+  const url = await getLocalAttachmentUrl(local, {
+    disposition: isEphemeral
+      ? AttachmentDisposition.Temporary
+      : AttachmentDisposition.Sticker,
+  });
 
   const { width, height } = await getImageDimensions({
-    objectUrl: absolutePath,
+    objectUrl: url,
     logger,
   });
 
   return {
-    path,
+    ...local,
     width,
     height,
   };
 };
 
 type LoadAttachmentType = (
-  attachment: Pick<AttachmentType, 'data' | 'path'>
+  attachment: Partial<AttachmentType>
 ) => Promise<AttachmentWithHydratedData>;
 
 export const createAttachmentLoader = (
@@ -932,168 +1024,3 @@ async function deletePreviews(
     })
   );
 }
-
-//      createAttachmentDataWriter :: (RelativePath -> IO Unit)
-//                                    Message ->
-//                                    IO (Promise Message)
-export const createAttachmentDataWriter = ({
-  writeExistingAttachmentData,
-  logger,
-}: {
-  writeExistingAttachmentData: WriteExistingAttachmentDataType;
-  logger: LoggerType;
-}): ((message: MessageAttributesType) => Promise<MessageAttributesType>) => {
-  if (!isFunction(writeExistingAttachmentData)) {
-    throw new TypeError(
-      'createAttachmentDataWriter: writeExistingAttachmentData must be a function'
-    );
-  }
-  if (!isObject(logger)) {
-    throw new TypeError('createAttachmentDataWriter: logger must be an object');
-  }
-
-  return async (
-    rawMessage: MessageAttributesType
-  ): Promise<MessageAttributesType> => {
-    if (!isValid(rawMessage)) {
-      throw new TypeError("'rawMessage' is not valid");
-    }
-
-    const message = initializeSchemaVersion({
-      message: rawMessage,
-      logger,
-    });
-
-    const { attachments, quote, contact, preview } = message;
-    const hasFilesToWrite =
-      (quote && quote.attachments && quote.attachments.length > 0) ||
-      (attachments && attachments.length > 0) ||
-      (contact && contact.length > 0) ||
-      (preview && preview.length > 0);
-
-    if (!hasFilesToWrite) {
-      return message;
-    }
-
-    const lastVersionWithAttachmentDataInMemory = 2;
-    const willAttachmentsGoToFileSystemOnUpgrade =
-      (message.schemaVersion || 0) <= lastVersionWithAttachmentDataInMemory;
-    if (willAttachmentsGoToFileSystemOnUpgrade) {
-      return message;
-    }
-
-    (attachments || []).forEach(attachment => {
-      if (!hasData(attachment)) {
-        throw new TypeError(
-          "'attachment.data' is required during message import"
-        );
-      }
-
-      if (!isString(attachment.path)) {
-        throw new TypeError(
-          "'attachment.path' is required during message import"
-        );
-      }
-    });
-
-    const writeQuoteAttachment = async (attachment: QuotedAttachmentType) => {
-      const { thumbnail } = attachment;
-      if (!thumbnail) {
-        return attachment;
-      }
-
-      const { data, path } = thumbnail;
-
-      // we want to be bulletproof to attachments without data
-      if (!data || !path) {
-        logger.warn(
-          'quote attachment had neither data nor path.',
-          'id:',
-          message.id,
-          'source:',
-          message.source
-        );
-        return attachment;
-      }
-
-      await writeExistingAttachmentData(thumbnail);
-      return {
-        ...attachment,
-        thumbnail: omit(thumbnail, ['data']),
-      };
-    };
-
-    const writeContactAvatar = async (
-      messageContact: EmbeddedContactType
-    ): Promise<EmbeddedContactType> => {
-      const { avatar } = messageContact;
-      if (!avatar) {
-        return messageContact;
-      }
-
-      if (avatar && !avatar.avatar) {
-        return omit(messageContact, ['avatar']);
-      }
-
-      await writeExistingAttachmentData(avatar.avatar);
-
-      return {
-        ...messageContact,
-        avatar: { ...avatar, avatar: omit(avatar.avatar, ['data']) },
-      };
-    };
-
-    const writePreviewImage = async (
-      item: LinkPreviewType
-    ): Promise<LinkPreviewType> => {
-      const { image } = item;
-      if (!image) {
-        return omit(item, ['image']);
-      }
-
-      await writeExistingAttachmentData(image);
-
-      return { ...item, image: omit(image, ['data']) };
-    };
-
-    const messageWithoutAttachmentData = {
-      ...message,
-      ...(quote
-        ? {
-            quote: {
-              ...quote,
-              attachments: await Promise.all(
-                (quote?.attachments || []).map(writeQuoteAttachment)
-              ),
-            },
-          }
-        : undefined),
-      contact: await Promise.all((contact || []).map(writeContactAvatar)),
-      preview: await Promise.all((preview || []).map(writePreviewImage)),
-      attachments: await Promise.all(
-        (attachments || []).map(async attachment => {
-          await writeExistingAttachmentData(attachment);
-
-          if (attachment.screenshot && attachment.screenshot.data) {
-            await writeExistingAttachmentData(attachment.screenshot);
-          }
-          if (attachment.thumbnail && attachment.thumbnail.data) {
-            await writeExistingAttachmentData(attachment.thumbnail);
-          }
-
-          return {
-            ...omit(attachment, ['data']),
-            ...(attachment.thumbnail
-              ? { thumbnail: omit(attachment.thumbnail, ['data']) }
-              : null),
-            ...(attachment.screenshot
-              ? { screenshot: omit(attachment.screenshot, ['data']) }
-              : null),
-          };
-        })
-      ),
-    };
-
-    return messageWithoutAttachmentData;
-  };
-};

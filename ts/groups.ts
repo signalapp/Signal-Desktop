@@ -438,24 +438,16 @@ export function parseGroupLink(value: string): {
 
 // Group Modifications
 
-async function uploadAvatar(
-  options: {
-    logId: string;
-    publicParams: string;
-    secretParams: string;
-  } & ({ path: string } | { data: Uint8Array })
-): Promise<UploadedAvatarType> {
-  const { logId, publicParams, secretParams } = options;
+async function uploadAvatar(options: {
+  logId: string;
+  publicParams: string;
+  secretParams: string;
+  data: Uint8Array;
+}): Promise<UploadedAvatarType> {
+  const { logId, publicParams, secretParams, data } = options;
 
   try {
     const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
-
-    let data: Uint8Array;
-    if ('data' in options) {
-      ({ data } = options);
-    } else {
-      data = await window.Signal.Migrations.readAttachmentData(options.path);
-    }
 
     const hash = computeHash(data);
 
@@ -1967,9 +1959,9 @@ export async function createGroupV2(
     try {
       avatarAttribute = {
         url: uploadedAvatar.key,
-        path: await window.Signal.Migrations.writeNewAttachmentData(
+        ...(await window.Signal.Migrations.writeNewAttachmentData(
           uploadedAvatar.data
-        ),
+        )),
         hash: uploadedAvatar.hash,
       };
     } catch (err) {
@@ -2382,17 +2374,21 @@ export async function initiateMigrationToGroupV2(
       //   - name
       //   - expireTimer
       let avatarAttribute: ConversationAttributesType['avatar'];
-      const avatarPath = conversation.attributes.avatar?.path;
-      if (avatarPath) {
+
+      const { avatar: currentAvatar } = conversation.attributes;
+      if (currentAvatar?.path) {
+        const avatarData = await window.Signal.Migrations.readAttachmentData(
+          currentAvatar
+        );
         const { hash, key } = await uploadAvatar({
           logId,
           publicParams,
           secretParams,
-          path: avatarPath,
+          data: avatarData,
         });
         avatarAttribute = {
+          ...currentAvatar,
           url: key,
-          path: avatarPath,
           hash,
         };
       }
@@ -5577,10 +5573,10 @@ export async function applyNewAvatar(
         );
       }
 
-      const path = await window.Signal.Migrations.writeNewAttachmentData(data);
+      const local = await window.Signal.Migrations.writeNewAttachmentData(data);
       result.avatar = {
         url: newAvatarUrl,
-        path,
+        ...local,
         hash,
       };
     }

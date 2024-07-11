@@ -24,7 +24,7 @@ const TEST_IMAGE = new Uint8Array(
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   avatarColor: overrideProps.avatarColor,
-  avatarPath: overrideProps.avatarPath,
+  avatarUrl: overrideProps.avatarUrl,
   avatarValue: overrideProps.avatarValue,
   conversationTitle: overrideProps.conversationTitle,
   i18n,
@@ -81,7 +81,7 @@ export function Value(): JSX.Element {
 export function Path(): JSX.Element {
   return (
     <AvatarPreview
-      {...createProps({ avatarPath: '/fixtures/kitten-3-64-64.jpg' })}
+      {...createProps({ avatarUrl: '/fixtures/kitten-3-64-64.jpg' })}
     />
   );
 }
@@ -90,7 +90,7 @@ export function ValueAndPath(): JSX.Element {
   return (
     <AvatarPreview
       {...createProps({
-        avatarPath: '/fixtures/kitten-3-64-64.jpg',
+        avatarUrl: '/fixtures/kitten-3-64-64.jpg',
         avatarValue: TEST_IMAGE,
       })}
     />

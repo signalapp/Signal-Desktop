@@ -22,14 +22,14 @@ import {
   type BackupMediaKeyMaterialType,
 } from '../Crypto';
 import {
-  decryptAttachmentV2,
+  reencryptAttachmentV2,
   getAttachmentCiphertextLength,
   safeUnlinkSync,
   splitKeys,
 } from '../AttachmentCrypto';
 import type { ProcessedAttachment } from './Types.d';
 import type { WebAPIType } from './WebAPI';
-import { createName, getRelativePath } from '../windows/attachments';
+import { createName, getRelativePath } from '../util/attachmentPath';
 import { MediaTier } from '../types/AttachmentDownload';
 import { getBackupKey } from '../services/backups/crypto';
 import { backupsService } from '../services/backups';
@@ -132,7 +132,12 @@ export async function downloadAttachment(
     window.Signal.Migrations.getAbsoluteAttachmentPath(downloadedPath);
 
   const { aesKey, macKey } = splitKeys(Bytes.fromBase64(key));
-  const { path, plaintextHash, iv } = await decryptAttachmentV2({
+  const {
+    path,
+    plaintextHash,
+    iv,
+    key: localKey,
+  } = await reencryptAttachmentV2({
     ciphertextPath: cipherTextAbsolutePath,
     idForLogging: logId,
     aesKey,
@@ -143,6 +148,8 @@ export async function downloadAttachment(
       mediaTier === 'backup'
         ? getBackupMediaKeyMaterial(attachment)
         : undefined,
+    getAbsoluteAttachmentPath:
+      window.Signal.Migrations.getAbsoluteAttachmentPath,
   });
 
   safeUnlinkSync(cipherTextAbsolutePath);
@@ -156,6 +163,9 @@ export async function downloadAttachment(
       : MIME.APPLICATION_OCTET_STREAM,
     plaintextHash,
     iv: Bytes.toBase64(iv),
+
+    version: 2,
+    localKey: Bytes.toBase64(localKey),
   };
 }
 

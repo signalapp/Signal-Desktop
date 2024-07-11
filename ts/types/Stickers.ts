@@ -13,7 +13,6 @@ import * as Bytes from '../Bytes';
 import * as Errors from './errors';
 import { deriveStickerPackKey, decryptAttachmentV1 } from '../Crypto';
 import { IMAGE_WEBP } from './MIME';
-import type { MIMEType } from './MIME';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import type { AttachmentType, AttachmentWithHydratedData } from './Attachment';
 import type {
@@ -27,6 +26,9 @@ import * as log from '../logging/log';
 import type { StickersStateType } from '../state/ducks/stickers';
 import { MINUTE } from '../util/durations';
 import { drop } from '../util/drop';
+import { isNotNil } from '../util/isNotNil';
+import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment';
+import { AttachmentDisposition } from '../util/getLocalAttachmentUrl';
 
 export type StickerType = {
   packId: string;
@@ -37,6 +39,8 @@ export type StickerType = {
   path?: string;
   width?: number;
   height?: number;
+  version?: 2;
+  localKey?: string;
 };
 export type StickerWithHydratedData = StickerType & {
   data: AttachmentWithHydratedData;
@@ -872,25 +876,27 @@ export async function copyStickerToAttachments(
   const { path, size } =
     await window.Signal.Migrations.copyIntoAttachmentsDirectory(absolutePath);
 
-  const data = await window.Signal.Migrations.readAttachmentData(path);
+  const newSticker: AttachmentType = {
+    ...sticker,
+    path,
+    size,
 
-  let contentType: MIMEType;
+    // Fall-back
+    contentType: IMAGE_WEBP,
+  };
+
+  const data = await window.Signal.Migrations.readAttachmentData(newSticker);
+
   const sniffedMimeType = sniffImageMimeType(data);
   if (sniffedMimeType) {
-    contentType = sniffedMimeType;
+    newSticker.contentType = sniffedMimeType;
   } else {
     log.warn(
       'copyStickerToAttachments: Unable to sniff sticker MIME type; falling back to WebP'
     );
-    contentType = IMAGE_WEBP;
   }
 
-  return {
-    ...sticker,
-    contentType,
-    path,
-    size,
-  };
+  return newSticker;
 }
 
 // In the case where a sticker pack is uninstalled, we want to delete it if there are no
@@ -947,4 +953,70 @@ async function deletePack(packId: string): Promise<void> {
   await pMap(paths, window.Signal.Migrations.deleteSticker, {
     concurrency: 3,
   });
+}
+
+export async function encryptLegacyStickers(): Promise<void> {
+  const CONCURRENCY = 32;
+
+  const all = await Data.getAllStickers();
+
+  log.info(`encryptLegacyStickers: checking ${all.length}`);
+
+  const updated = (
+    await pMap(
+      all,
+      async sticker => {
+        try {
+          return await encryptLegacySticker(sticker);
+        } catch (error) {
+          log.error('encryptLegacyStickers: processing failed', error);
+          return undefined;
+        }
+      },
+      {
+        concurrency: CONCURRENCY,
+      }
+    )
+  ).filter(isNotNil);
+
+  await Data.createOrUpdateStickers(updated.map(({ sticker }) => sticker));
+
+  log.info(`encryptLegacyStickers: updated ${updated.length}`);
+
+  await pMap(
+    updated,
+    async ({ cleanup }) => {
+      try {
+        await cleanup();
+      } catch (error) {
+        log.error('encryptLegacyStickers: cleanup failed', error);
+      }
+    },
+    {
+      concurrency: CONCURRENCY,
+    }
+  );
+
+  log.info(`encryptLegacyStickers: cleaned up ${updated.length}`);
+}
+
+async function encryptLegacySticker(
+  sticker: StickerFromDBType
+): Promise<
+  { sticker: StickerFromDBType; cleanup: () => Promise<void> } | undefined
+> {
+  const { deleteSticker, readStickerData, writeNewStickerData } =
+    window.Signal.Migrations;
+
+  const updated = await encryptLegacyAttachment(sticker, {
+    readAttachmentData: readStickerData,
+    writeNewAttachmentData: writeNewStickerData,
+    disposition: AttachmentDisposition.Sticker,
+  });
+
+  if (updated !== sticker && sticker.path) {
+    return { sticker: updated, cleanup: () => deleteSticker(sticker.path) };
+  }
+
+  return undefined;
 }

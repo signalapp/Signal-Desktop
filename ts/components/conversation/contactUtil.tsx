@@ -25,7 +25,7 @@ export function renderAvatar({
 }): JSX.Element {
   const { avatar } = contact;
 
-  const avatarPath = avatar && avatar.avatar && avatar.avatar.path;
+  const avatarUrl = avatar && avatar.avatar && avatar.avatar.path;
   const pending = avatar && avatar.avatar && avatar.avatar.pending;
   const title = getName(contact) || '';
   const spinnerSvgSize = size < 50 ? 'small' : 'normal';
@@ -46,7 +46,7 @@ export function renderAvatar({
   return (
     <Avatar
       acceptedMessageRequest={false}
-      avatarPath={avatarPath}
+      avatarUrl={avatarUrl}
       badge={undefined}
       blur={AvatarBlur.NoBlur}
       color={AvatarColors[0]}

@@ -17,10 +17,11 @@ import { canEditGroupInfo } from './canEditGroupInfo';
 import { dropNull } from './dropNull';
 import { getAboutText } from './getAboutText';
 import {
-  getAbsoluteAvatarPath,
-  getAbsoluteUnblurredAvatarPath,
-  getAbsoluteProfileAvatarPath,
+  getLocalUnblurredAvatarUrl,
   getAvatarHash,
+  getLocalAvatarUrl,
+  getLocalProfileAvatarUrl,
+  getRawAvatarPath,
 } from './avatarUtils';
 import { getAvatarData } from './getAvatarData';
 import { getConversationMembers } from './getConversationMembers';
@@ -154,10 +155,11 @@ export function getConversation(model: ConversationModel): ConversationType {
     canChangeTimer: canChangeTimer(attributes),
     canEditGroupInfo: canEditGroupInfo(attributes),
     canAddNewMembers: canAddNewMembers(attributes),
-    avatarPath: getAbsoluteAvatarPath(attributes),
+    avatarUrl: getLocalAvatarUrl(attributes),
+    rawAvatarPath: getRawAvatarPath(attributes),
     avatarHash: getAvatarHash(attributes),
-    unblurredAvatarPath: getAbsoluteUnblurredAvatarPath(attributes),
-    profileAvatarPath: getAbsoluteProfileAvatarPath(attributes),
+    unblurredAvatarUrl: getLocalUnblurredAvatarUrl(attributes),
+    profileAvatarUrl: getLocalProfileAvatarUrl(attributes),
     color,
     conversationColor: attributes.conversationColor,
     customColor,

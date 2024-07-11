@@ -23,7 +23,7 @@ export type ContactListItemConversationType = Pick<
   ConversationType,
   | 'about'
   | 'acceptedMessageRequest'
-  | 'avatarPath'
+  | 'avatarUrl'
   | 'badges'
   | 'color'
   | 'groupId'
@@ -37,7 +37,7 @@ export type ContactListItemConversationType = Pick<
   | 'systemFamilyName'
   | 'title'
   | 'type'
-  | 'unblurredAvatarPath'
+  | 'unblurredAvatarUrl'
   | 'username'
   | 'e164'
   | 'serviceId'
@@ -64,7 +64,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
   function ContactListItem({
     about,
     acceptedMessageRequest,
-    avatarPath,
+    avatarUrl,
     badge,
     color,
     hasContextMenu,
@@ -85,7 +85,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     theme,
     title,
     type,
-    unblurredAvatarPath,
+    unblurredAvatarUrl,
     serviceId,
   }) {
     const [isConfirmingBlocking, setConfirmingBlocking] = useState(false);
@@ -265,7 +265,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
           leading={
             <Avatar
               acceptedMessageRequest={acceptedMessageRequest}
-              avatarPath={avatarPath}
+              avatarUrl={avatarUrl}
               color={color}
               conversationType={type}
               noteToSelf={Boolean(isMe)}
@@ -276,7 +276,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
               title={title}
               sharedGroupNames={sharedGroupNames}
               size={AvatarSize.THIRTY_TWO}
-              unblurredAvatarPath={unblurredAvatarPath}
+              unblurredAvatarUrl={unblurredAvatarUrl}
               // This is here to appease the type checker.
               {...(badge ? { badge, theme } : { badge: undefined })}
             />

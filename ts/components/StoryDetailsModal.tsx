@@ -129,7 +129,7 @@ export function StoryDetailsModal({
                   <div key={contact.id} className="StoryDetailsModal__contact">
                     <Avatar
                       acceptedMessageRequest={contact.acceptedMessageRequest}
-                      avatarPath={contact.avatarPath}
+                      avatarUrl={contact.avatarUrl}
                       badge={getPreferredBadge(contact.badges)}
                       color={contact.color}
                       conversationType="direct"
@@ -141,7 +141,7 @@ export function StoryDetailsModal({
                       size={AvatarSize.THIRTY_TWO}
                       theme={ThemeType.dark}
                       title={contact.title}
-                      unblurredAvatarPath={contact.unblurredAvatarPath}
+                      unblurredAvatarUrl={contact.unblurredAvatarUrl}
                     />
                     <div className="StoryDetailsModal__contact__text">
                       <ContactName title={contact.title} />
@@ -172,7 +172,7 @@ export function StoryDetailsModal({
           <div className="StoryDetailsModal__contact">
             <Avatar
               acceptedMessageRequest={sender.acceptedMessageRequest}
-              avatarPath={sender.avatarPath}
+              avatarUrl={sender.avatarUrl}
               badge={getPreferredBadge(sender.badges)}
               color={sender.color}
               conversationType="direct"

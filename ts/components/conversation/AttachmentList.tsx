@@ -126,7 +126,7 @@ export function AttachmentList<T extends AttachmentType | AttachmentDraftType>({
 
             if (isImage && canEditImages) {
               return (
-                <div className="module-attachments--editable">
+                <div className="module-attachments--editable" key={key}>
                   {imgElement}
                   <div className="module-attachments__edit-icon" />
                 </div>

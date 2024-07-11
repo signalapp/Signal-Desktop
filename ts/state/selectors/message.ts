@@ -75,6 +75,7 @@ import { isMoreRecentThan } from '../../util/timestamp';
 import * as iterables from '../../util/iterables';
 import { strictAssert } from '../../util/assert';
 import { canEditMessage } from '../../util/canEditMessage';
+import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
 
 import { getAccountSelector } from './accounts';
 import { getDefaultConversationColor } from './items';
@@ -160,7 +161,7 @@ type FormattedContact = Partial<ConversationType> &
     | 'sharedGroupNames'
     | 'title'
     | 'type'
-    | 'unblurredAvatarPath'
+    | 'unblurredAvatarUrl'
   >;
 export type PropsForMessage = Omit<TimelineMessagePropsData, 'interactionMode'>;
 export type MessagePropsType = Omit<
@@ -313,9 +314,7 @@ export const getAttachmentsForMessage = ({
         // Stickers are not guaranteed to have a blurhash (e.g. if imported but
         // undownloaded from backup), so we want to make sure we have something to show
         blurHash: data.blurHash ?? defaultBlurHash(),
-        url: data.path
-          ? window.Signal.Migrations.getAbsoluteAttachmentPath(data.path)
-          : undefined,
+        url: data.path ? getLocalAttachmentUrl(data) : undefined,
       },
     ];
   }
@@ -349,7 +348,7 @@ const getAuthorForMessage = (
 ): PropsData['author'] => {
   const {
     acceptedMessageRequest,
-    avatarPath,
+    avatarUrl,
     badges,
     color,
     id,
@@ -359,12 +358,12 @@ const getAuthorForMessage = (
     profileName,
     sharedGroupNames,
     title,
-    unblurredAvatarPath,
+    unblurredAvatarUrl,
   } = getContact(message, options);
 
   const unsafe = {
     acceptedMessageRequest,
-    avatarPath,
+    avatarUrl,
     badges,
     color,
     id,
@@ -374,7 +373,7 @@ const getAuthorForMessage = (
     profileName,
     sharedGroupNames,
     title,
-    unblurredAvatarPath,
+    unblurredAvatarUrl,
   };
 
   const safe: AssertProps<PropsData['author'], typeof unsafe> = unsafe;
@@ -418,7 +417,7 @@ const getReactionsForMessage = (
 
     const {
       acceptedMessageRequest,
-      avatarPath,
+      avatarUrl,
       badges,
       color,
       id,
@@ -432,7 +431,7 @@ const getReactionsForMessage = (
 
     const unsafe = {
       acceptedMessageRequest,
-      avatarPath,
+      avatarUrl,
       badges,
       color,
       id,
@@ -1815,14 +1814,9 @@ export function getPropsForEmbeddedContact(
 
   return embeddedContactSelector(firstContact, {
     regionCode,
-    getAbsoluteAttachmentPath: getAttachmentUrlForPath,
     firstNumber,
     serviceId: accountSelector(firstNumber),
   });
-}
-
-export function getAttachmentUrlForPath(path: string): string {
-  return window.Signal.Migrations.getAbsoluteAttachmentPath(path);
 }
 
 export function getPropsForAttachment(
@@ -1839,17 +1833,22 @@ export function getPropsForAttachment(
     fileSize: size ? formatFileSize(size) : undefined,
     isVoiceMessage: isVoiceMessage(attachment),
     pending,
-    url: path ? getAttachmentUrlForPath(path) : undefined,
+    url: path ? getLocalAttachmentUrl(attachment) : undefined,
     screenshot: screenshot?.path
       ? {
           ...screenshot,
-          url: getAttachmentUrlForPath(screenshot.path),
+          url: getLocalAttachmentUrl({
+            // Legacy v1 screenshots
+            size: 0,
+
+            ...screenshot,
+          }),
         }
       : undefined,
     thumbnail: thumbnail?.path
       ? {
           ...thumbnail,
-          url: getAttachmentUrlForPath(thumbnail.path),
+          url: getLocalAttachmentUrl(thumbnail),
         }
       : undefined,
   };
@@ -1857,8 +1856,7 @@ export function getPropsForAttachment(
 
 function processQuoteAttachment(attachment: QuotedAttachmentType) {
   const { thumbnail } = attachment;
-  const path =
-    thumbnail && thumbnail.path && getAttachmentUrlForPath(thumbnail.path);
+  const path = thumbnail && thumbnail.path && getLocalAttachmentUrl(thumbnail);
   const objectUrl = thumbnail && thumbnail.objectUrl;
 
   const thumbnailWithObjectUrl =

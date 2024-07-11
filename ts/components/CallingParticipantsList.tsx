@@ -129,7 +129,7 @@ export const CallingParticipantsList = React.memo(
                         acceptedMessageRequest={
                           participant.acceptedMessageRequest
                         }
-                        avatarPath={participant.avatarPath}
+                        avatarUrl={participant.avatarUrl}
                         badge={undefined}
                         color={participant.color}
                         conversationType="direct"

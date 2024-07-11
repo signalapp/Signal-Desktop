@@ -29,6 +29,7 @@ import type { DurationInSeconds } from '../../util/durations';
 import * as universalExpireTimer from '../../util/universalExpireTimer';
 import * as Attachment from '../../types/Attachment';
 import { isFileDangerous } from '../../util/isFileDangerous';
+import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
 import { instance as libphonenumberInstance } from '../../util/libphonenumberInstance';
 import type {
   ShowSendAnywayDialogActionType,
@@ -273,10 +274,11 @@ export type ConversationType = ReadonlyDeep<
     aboutText?: string;
     aboutEmoji?: string;
     avatars?: ReadonlyArray<AvatarDataType>;
-    avatarPath?: string;
+    avatarUrl?: string;
+    rawAvatarPath?: string;
     avatarHash?: string;
-    profileAvatarPath?: string;
-    unblurredAvatarPath?: string;
+    profileAvatarUrl?: string;
+    unblurredAvatarUrl?: string;
     areWeAdmin?: boolean;
     areWePending?: boolean;
     areWePendingApproval?: boolean;
@@ -1492,7 +1494,7 @@ function deleteAvatarFromDisk(
       await window.Signal.Migrations.deleteAvatar(avatarData.imagePath);
     } else {
       log.info(
-        'No imagePath for avatarData. Removing from userAvatarData, but not disk'
+        'No path for avatarData. Removing from userAvatarData, but not disk'
       );
     }
 
@@ -1905,9 +1907,9 @@ function setMessageToEdit(
 
     let attachmentThumbnail: string | undefined;
     if (message.attachments) {
-      const thumbnailPath = message.attachments[0]?.thumbnail?.path;
-      attachmentThumbnail = thumbnailPath
-        ? window.Signal.Migrations.getAbsoluteAttachmentPath(thumbnailPath)
+      const thumbnail = message.attachments[0]?.thumbnail;
+      attachmentThumbnail = thumbnail?.path
+        ? getLocalAttachmentUrl(thumbnail)
         : undefined;
     }
 
@@ -2105,9 +2107,8 @@ function saveAvatarToDisk(
 
     strictAssert(conversationId, 'conversationId not provided');
 
-    const imagePath = await window.Signal.Migrations.writeNewAvatarData(
-      avatarData.buffer
-    );
+    const { path: imagePath, ...localImage } =
+      await window.Signal.Migrations.writeNewAvatarData(avatarData.buffer);
 
     const avatars = await getAvatarsAndUpdateConversation(
       getState().conversations,
@@ -2115,6 +2116,7 @@ function saveAvatarToDisk(
       (prevAvatarsData, id) => {
         const newAvatarData = {
           ...avatarData,
+          ...localImage,
           imagePath,
           id,
         };
@@ -2575,14 +2577,14 @@ function composeSaveAvatarToDisk(
       throw new Error('No avatar Uint8Array provided');
     }
 
-    const imagePath = await window.Signal.Migrations.writeNewAvatarData(
-      avatarData.buffer
-    );
+    const { path: imagePath, ...localImage } =
+      await window.Signal.Migrations.writeNewAvatarData(avatarData.buffer);
 
     dispatch({
       type: COMPOSE_ADD_AVATAR,
       payload: {
         ...avatarData,
+        ...localImage,
         imagePath,
       },
     });
@@ -2597,7 +2599,7 @@ function composeDeleteAvatarFromDisk(
       await window.Signal.Migrations.deleteAvatar(avatarData.imagePath);
     } else {
       log.info(
-        'No imagePath for avatarData. Removing from userAvatarData, but not disk'
+        'No path for avatarData. Removing from userAvatarData, but not disk'
       );
     }
 
@@ -3649,8 +3651,6 @@ function loadRecentMediaItems(
   limit: number
 ): ThunkAction<void, RootStateType, unknown, SetRecentMediaItemsActionType> {
   return async dispatch => {
-    const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
-
     const messages: Array<MessageAttributesType> =
       await window.Signal.Data.getMessagesWithVisualMediaAttachments(
         conversationId,
@@ -3679,9 +3679,11 @@ function loadRecentMediaItems(
               const { thumbnail } = attachment;
 
               const result = {
-                objectURL: getAbsoluteAttachmentPath(attachment.path || ''),
+                objectURL: attachment.path
+                  ? getLocalAttachmentUrl(attachment)
+                  : '',
                 thumbnailObjectUrl: thumbnail?.path
-                  ? getAbsoluteAttachmentPath(thumbnail.path)
+                  ? getLocalAttachmentUrl(thumbnail)
                   : '',
                 contentType: attachment.contentType,
                 index,

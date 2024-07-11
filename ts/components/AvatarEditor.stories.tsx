@@ -18,7 +18,7 @@ const i18n = setupI18n('en', enMessages);
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   avatarColor: overrideProps.avatarColor || AvatarColors[9],
-  avatarPath: overrideProps.avatarPath,
+  avatarUrl: overrideProps.avatarUrl,
   conversationId: '123',
   conversationTitle: overrideProps.conversationTitle || 'Default Title',
   deleteAvatarFromDisk: action('deleteAvatarFromDisk'),
@@ -104,7 +104,7 @@ export function HasAvatar(): JSX.Element {
   return (
     <AvatarEditor
       {...createProps({
-        avatarPath: '/fixtures/kitten-3-64-64.jpg',
+        avatarUrl: '/fixtures/kitten-3-64-64.jpg',
       })}
     />
   );

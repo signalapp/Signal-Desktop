@@ -169,6 +169,7 @@ export type StorageAccessType = {
     entropy: Uint8Array;
     serverId: Uint8Array;
   };
+  needOrphanedAttachmentCheck: boolean;
 
   // Deprecated
   'challenge:retry-message-ids': never;

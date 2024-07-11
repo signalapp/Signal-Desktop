@@ -85,7 +85,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     const {
       acceptedMessageRequest,
       addedTime,
-      avatarPath,
+      avatarUrl,
       color,
       demuxId,
       hasRemoteAudio,
@@ -378,7 +378,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
         noVideoNode = (
           <Avatar
             acceptedMessageRequest={acceptedMessageRequest}
-            avatarPath={avatarPath}
+            avatarUrl={avatarUrl}
             badge={undefined}
             color={color || AvatarColors[0]}
             noteToSelf={false}
@@ -510,7 +510,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
           )}
           {noVideoNode && (
             <CallBackgroundBlur
-              avatarPath={avatarPath}
+              avatarUrl={avatarUrl}
               className="module-ongoing-call__group-call-remote-participant-background"
             >
               {noVideoNode}

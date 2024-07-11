@@ -12,7 +12,7 @@ import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import { strictAssert } from '../util/assert';
 import { isWhitespace } from '../util/whitespaceStringUtil';
 import { imagePathToBytes } from '../util/imagePathToBytes';
-import { getAbsoluteProfileAvatarPath } from '../util/avatarUtils';
+import { getLocalAvatarUrl } from '../util/avatarUtils';
 import type {
   AvatarUpdateOptionsType,
   AvatarUpdateType,
@@ -41,7 +41,7 @@ export async function writeProfile(
     aboutEmoji,
     aboutText,
     avatarHash,
-    avatarPath,
+    rawAvatarPath,
     familyName,
     firstName,
   } = conversation;
@@ -53,12 +53,12 @@ export async function writeProfile(
 
   let avatarUpdate: AvatarUpdateType;
   if (options.keepAvatar) {
-    const profileAvatarPath = getAbsoluteProfileAvatarPath(model.attributes);
+    const profileAvatarUrl = getLocalAvatarUrl(model.attributes);
 
     let avatarBuffer: Uint8Array | undefined;
-    if (profileAvatarPath) {
+    if (profileAvatarUrl) {
       try {
-        avatarBuffer = await imagePathToBytes(profileAvatarPath);
+        avatarBuffer = await imagePathToBytes(profileAvatarUrl);
       } catch (error) {
         log.warn('writeProfile: local avatar not found, dropping remote');
       }
@@ -103,22 +103,22 @@ export async function writeProfile(
 
     if (hash !== avatarHash) {
       log.info('writeProfile: removing old avatar and saving the new one');
-      const [path] = await Promise.all([
+      const [local] = await Promise.all([
         window.Signal.Migrations.writeNewAttachmentData(newAvatar),
-        avatarPath
-          ? window.Signal.Migrations.deleteAttachmentData(avatarPath)
+        rawAvatarPath
+          ? window.Signal.Migrations.deleteAttachmentData(rawAvatarPath)
           : undefined,
       ]);
       maybeProfileAvatarUpdate = {
-        profileAvatar: { hash, path },
+        profileAvatar: { hash, ...local },
       };
     }
 
     await window.storage.put('avatarUrl', avatarUrl);
-  } else if (avatarPath) {
+  } else if (rawAvatarPath) {
     log.info('writeProfile: removing avatar');
     await Promise.all([
-      window.Signal.Migrations.deleteAttachmentData(avatarPath),
+      window.Signal.Migrations.deleteAttachmentData(rawAvatarPath),
       window.storage.put('avatarUrl', undefined),
     ]);
 

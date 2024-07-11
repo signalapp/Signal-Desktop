@@ -721,7 +721,7 @@ ReactionsShortMessage.args = {
 
 export const AvatarInGroup = Template.bind({});
 AvatarInGroup.args = {
-  author: getDefaultConversation({ avatarPath: pngUrl }),
+  author: getDefaultConversation({ avatarUrl: pngUrl }),
   conversationType: 'group',
   status: 'sent',
   text: 'Hello it is me, the saxophone.',

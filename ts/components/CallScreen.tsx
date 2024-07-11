@@ -432,7 +432,7 @@ export function CallScreen({
         {isSendingVideo ? (
           <video ref={localVideoRef} autoPlay />
         ) : (
-          <CallBackgroundBlur avatarPath={me.avatarPath}>
+          <CallBackgroundBlur avatarUrl={me.avatarUrl}>
             <div className="module-calling__spacer module-calling__camera-is-off-spacer" />
             <div className="module-calling__camera-is-off">
               {i18n('icu:calling__your-video-is-off')}
@@ -453,10 +453,10 @@ export function CallScreen({
         autoPlay
       />
     ) : (
-      <CallBackgroundBlur avatarPath={me.avatarPath}>
+      <CallBackgroundBlur avatarUrl={me.avatarUrl}>
         <Avatar
           acceptedMessageRequest
-          avatarPath={me.avatarPath}
+          avatarUrl={me.avatarUrl}
           badge={undefined}
           color={me.color || AvatarColors[0]}
           noteToSelf={false}

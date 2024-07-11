@@ -28,7 +28,7 @@ export type PropsType = {
   conversation: Pick<
     ConversationType,
     | 'acceptedMessageRequest'
-    | 'avatarPath'
+    | 'avatarUrl'
     | 'color'
     | 'id'
     | 'isMe'
@@ -194,7 +194,7 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
   const {
     id: conversationId,
     acceptedMessageRequest,
-    avatarPath,
+    avatarUrl,
     color,
     isMe,
     phoneNumber,
@@ -275,7 +275,7 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
           <div className="IncomingCallBar__conversation--avatar">
             <Avatar
               acceptedMessageRequest={acceptedMessageRequest}
-              avatarPath={avatarPath}
+              avatarUrl={avatarUrl}
               badge={undefined}
               color={color || AvatarColors[0]}
               noteToSelf={false}

@@ -228,6 +228,10 @@ export type StickerType = Readonly<{
 
   width: number;
   height: number;
+
+  version: 1 | 2;
+  localKey?: string;
+  size?: number;
 }>;
 
 export const StickerPackStatuses = [
@@ -806,6 +810,9 @@ export type DataInterface = {
   ) => Promise<void>;
   updateStickerPackInfo: (info: StickerPackInfoType) => Promise<void>;
   createOrUpdateSticker: (sticker: StickerType) => Promise<void>;
+  createOrUpdateStickers: (
+    sticker: ReadonlyArray<StickerType>
+  ) => Promise<void>;
   updateStickerLastUsed: (
     packId: string,
     stickerId: number,

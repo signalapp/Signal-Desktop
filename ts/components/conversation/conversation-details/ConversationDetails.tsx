@@ -245,7 +245,7 @@ export function ConversationDetails({
       modalNode = (
         <EditConversationAttributesModal
           avatarColor={conversation.color}
-          avatarPath={conversation.avatarPath}
+          avatarUrl={conversation.avatarUrl}
           conversationId={conversation.id}
           groupDescription={conversation.groupDescription}
           i18n={i18n}

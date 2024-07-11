@@ -16,12 +16,12 @@
       http-equiv="Content-Security-Policy"
       content="default-src 'none';
             child-src 'self';
-            connect-src 'self' https: wss:;
+            connect-src 'self' https: wss: attachment:;
             font-src 'self';
             form-action 'self';
             frame-src 'none';
-            img-src 'self' blob: data: emoji:;
-            media-src 'self' blob:;
+            img-src 'self' blob: data: emoji: attachment:;
+            media-src 'self' blob: attachment:;
             object-src 'none';
             script-src 'self' 'sha256-Qu05oqDmBO5fZacm7tr/oerJcqsW0G/XqP4PRCziovc=' 'sha256-eLeGwSfPmXJ+EUiLfIeXABvLiUqDbiKgNLpHITaabgQ=';
             style-src 'self' 'unsafe-inline';"

@@ -806,7 +806,7 @@ function LightboxHeader({
       <div className="Lightbox__header--avatar">
         <Avatar
           acceptedMessageRequest={conversation.acceptedMessageRequest}
-          avatarPath={conversation.avatarPath}
+          avatarUrl={conversation.avatarUrl}
           badge={undefined}
           color={conversation.color}
           conversationType={conversation.type}
@@ -817,7 +817,7 @@ function LightboxHeader({
           sharedGroupNames={conversation.sharedGroupNames}
           size={AvatarSize.THIRTY_TWO}
           title={conversation.title}
-          unblurredAvatarPath={conversation.unblurredAvatarPath}
+          unblurredAvatarUrl={conversation.unblurredAvatarUrl}
         />
       </div>
       <div className="Lightbox__header--content">

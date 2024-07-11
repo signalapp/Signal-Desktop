@@ -20,7 +20,7 @@ export type PropsType = {
   conversation: Pick<
     CallingConversationType,
     | 'acceptedMessageRequest'
-    | 'avatarPath'
+    | 'avatarUrl'
     | 'color'
     | 'isMe'
     | 'phoneNumber'
@@ -30,7 +30,7 @@ export type PropsType = {
     | 'systemNickname'
     | 'title'
     | 'type'
-    | 'unblurredAvatarPath'
+    | 'unblurredAvatarUrl'
   >;
   i18n: LocalizerType;
   me: Pick<ConversationType, 'id' | 'serviceId'>;
@@ -186,7 +186,7 @@ export function CallingPreCallInfo({
   return (
     <div className="module-CallingPreCallInfo">
       <Avatar
-        avatarPath={conversation.avatarPath}
+        avatarUrl={conversation.avatarUrl}
         badge={undefined}
         color={conversation.color}
         acceptedMessageRequest={conversation.acceptedMessageRequest}
@@ -198,7 +198,7 @@ export function CallingPreCallInfo({
         sharedGroupNames={conversation.sharedGroupNames}
         size={AvatarSize.NINETY_SIX}
         title={conversation.title}
-        unblurredAvatarPath={conversation.unblurredAvatarPath}
+        unblurredAvatarUrl={conversation.unblurredAvatarUrl}
         i18n={i18n}
       />
       <div className="module-CallingPreCallInfo__title">

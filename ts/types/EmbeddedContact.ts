@@ -14,12 +14,14 @@ import {
 import type {
   AttachmentType,
   AttachmentWithHydratedData,
+  LocalAttachmentV2Type,
   UploadedAttachmentType,
 } from './Attachment';
 import { toLogFormat } from './errors';
 import type { LoggerType } from './Logging';
 import type { ServiceIdString } from './ServiceId';
 import type { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem';
+import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
 
 type GenericEmbeddedContactType<AvatarType> = {
   name?: Name;
@@ -150,11 +152,9 @@ export function embeddedContactSelector(
     regionCode?: string;
     firstNumber?: string;
     serviceId?: ServiceIdString;
-    getAbsoluteAttachmentPath: (path: string) => string;
   }
 ): EmbeddedContactType {
-  const { getAbsoluteAttachmentPath, firstNumber, serviceId, regionCode } =
-    options;
+  const { firstNumber, serviceId, regionCode } = options;
 
   let { avatar } = contact;
   if (avatar && avatar.avatar) {
@@ -166,7 +166,7 @@ export function embeddedContactSelector(
         avatar: {
           ...avatar.avatar,
           path: avatar.avatar.path
-            ? getAbsoluteAttachmentPath(avatar.avatar.path)
+            ? getLocalAttachmentUrl(avatar.avatar)
             : undefined,
         },
       };
@@ -209,7 +209,9 @@ export function parseAndWriteAvatar(
       message: MessageAttributesType;
       getRegionCode: () => string | undefined;
       logger: LoggerType;
-      writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
+      writeNewAttachmentData: (
+        data: Uint8Array
+      ) => Promise<LocalAttachmentV2Type>;
     }
   ): Promise<EmbeddedContactType> => {
     const { message, getRegionCode, logger } = context;

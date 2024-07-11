@@ -87,7 +87,7 @@ export function PrivateConvo(): JSX.Element {
         conversation: getDefaultConversation({
           color: getRandomColor(),
           isVerified: true,
-          avatarPath: gifUrl,
+          avatarUrl: gifUrl,
           title: 'Someone 🔥 Somewhere',
           name: 'Someone 🔥 Somewhere',
           phoneNumber: '(202) 555-0001',

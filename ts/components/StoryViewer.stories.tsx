@@ -80,7 +80,7 @@ export function InAGroup(args: PropsType): JSX.Element {
     <StoryViewer
       {...args}
       group={getDefaultConversation({
-        avatarPath: '/fixtures/kitten-4-112-112.jpg',
+        avatarUrl: '/fixtures/kitten-4-112-112.jpg',
         title: 'Family Group',
         type: 'group',
       })}

@@ -8,12 +8,7 @@ import {
   getUserConversationId,
   getUserNumber,
 } from './user';
-import {
-  getAttachmentUrlForPath,
-  getMessagePropStatus,
-  getSource,
-  getSourceServiceId,
-} from './message';
+import { getMessagePropStatus, getSource, getSourceServiceId } from './message';
 import {
   getConversationByIdSelector,
   getConversations,
@@ -22,6 +17,7 @@ import {
 } from './conversations';
 import type { StateType } from '../reducer';
 import * as log from '../../logging/log';
+import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
 import type { MessageWithUIFieldsType } from '../ducks/conversations';
 import type { MessageAttributesType } from '../../model-types.d';
 import { getMessageIdForLogging } from '../../util/idForLogging';
@@ -94,7 +90,7 @@ export function extractVoiceNoteForPlayback(
     return;
   }
   const voiceNoteUrl = attachment.path
-    ? getAttachmentUrlForPath(attachment.path)
+    ? getLocalAttachmentUrl(attachment)
     : undefined;
   const status = getMessagePropStatus(message, ourConversationId);
 

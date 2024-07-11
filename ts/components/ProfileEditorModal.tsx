@@ -40,7 +40,7 @@ export function ProfileEditorModal({
   myProfileChanged,
   onSetSkinTone,
   openUsernameReservationModal,
-  profileAvatarPath,
+  profileAvatarUrl,
   recentEmojis,
   renderEditUsernameModalBody,
   replaceAvatar,
@@ -117,7 +117,7 @@ export function ProfileEditorModal({
         onProfileChanged={myProfileChanged}
         onSetSkinTone={onSetSkinTone}
         openUsernameReservationModal={openUsernameReservationModal}
-        profileAvatarPath={profileAvatarPath}
+        profileAvatarUrl={profileAvatarUrl}
         recentEmojis={recentEmojis}
         renderEditUsernameModalBody={renderEditUsernameModalBody}
         replaceAvatar={replaceAvatar}

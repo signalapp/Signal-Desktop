@@ -29,6 +29,7 @@ import {
   systemPreferences,
   Notification,
   safeStorage,
+  protocol as electronProtocol,
 } from 'electron';
 import type { MenuItemConstructorOptions, Settings } from 'electron';
 import { z } from 'zod';
@@ -1822,6 +1823,17 @@ app.commandLine.appendSwitch('disable-features', featuresToDisable);
 if (DISABLE_GPU) {
   app.disableHardwareAcceleration();
 }
+
+// This has to run before the 'ready' event.
+electronProtocol.registerSchemesAsPrivileged([
+  {
+    scheme: 'attachment',
+    privileges: {
+      supportFetchAPI: true,
+      stream: true,
+    },
+  },
+]);
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

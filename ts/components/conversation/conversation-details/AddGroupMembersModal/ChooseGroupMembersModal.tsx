@@ -412,7 +412,7 @@ export function ChooseGroupMembersModal({
               <ContactPill
                 key={contact.id}
                 acceptedMessageRequest={contact.acceptedMessageRequest}
-                avatarPath={contact.avatarPath}
+                avatarUrl={contact.avatarUrl}
                 color={contact.color}
                 firstName={contact.systemGivenName ?? contact.firstName}
                 i18n={i18n}

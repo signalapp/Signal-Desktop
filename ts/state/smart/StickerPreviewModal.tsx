@@ -4,7 +4,7 @@
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { StickerPreviewModal } from '../../components/stickers/StickerPreviewModal';
-import { getIntl, getStickersPath, getTempPath } from '../selectors/user';
+import { getIntl } from '../selectors/user';
 import {
   getBlessedPacks,
   getPacks,
@@ -23,8 +23,6 @@ export const SmartStickerPreviewModal = memo(function SmartStickerPreviewModal({
   const i18n = useSelector(getIntl);
   const packs = useSelector(getPacks);
   const blessedPacks = useSelector(getBlessedPacks);
-  const stickersPath = useSelector(getStickersPath);
-  const tempPath = useSelector(getTempPath);
 
   const { downloadStickerPack, installStickerPack, uninstallStickerPack } =
     useStickersActions();
@@ -32,7 +30,7 @@ export const SmartStickerPreviewModal = memo(function SmartStickerPreviewModal({
 
   const packDb = packs[packId];
   const pack = packDb
-    ? translatePackFromDB(packDb, packs, blessedPacks, stickersPath, tempPath)
+    ? translatePackFromDB(packDb, packs, blessedPacks)
     : undefined;
 
   return (

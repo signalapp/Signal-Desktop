@@ -220,7 +220,7 @@ export function CallsNewCall({
             leading={
               <Avatar
                 acceptedMessageRequest
-                avatarPath={item.conversation.avatarPath}
+                avatarUrl={item.conversation.avatarUrl}
                 conversationType="group"
                 i18n={i18n}
                 isMe={false}

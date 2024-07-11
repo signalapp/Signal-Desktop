@@ -31,7 +31,7 @@ export type Props = {
   phoneNumber?: string;
   sharedGroupNames?: ReadonlyArray<string>;
   unblurAvatar: (conversationId: string) => void;
-  unblurredAvatarPath?: string;
+  unblurredAvatarUrl?: string;
   updateSharedGroups: (conversationId: string) => unknown;
   theme: ThemeType;
   viewUserStories: ViewUserStoriesActionCreatorType;
@@ -136,7 +136,7 @@ export function ConversationHero({
   i18n,
   about,
   acceptedMessageRequest,
-  avatarPath,
+  avatarUrl,
   badge,
   color,
   conversationType,
@@ -152,7 +152,7 @@ export function ConversationHero({
   theme,
   title,
   unblurAvatar,
-  unblurredAvatarPath,
+  unblurredAvatarUrl,
   updateSharedGroups,
   viewUserStories,
   toggleAboutContactModal,
@@ -174,10 +174,10 @@ export function ConversationHero({
   if (
     shouldBlurAvatar({
       acceptedMessageRequest,
-      avatarPath,
+      avatarUrl,
       isMe,
       sharedGroupNames,
-      unblurredAvatarPath,
+      unblurredAvatarUrl,
     })
   ) {
     avatarBlur = AvatarBlur.BlurPictureWithClickToView;
@@ -221,7 +221,7 @@ export function ConversationHero({
       <div className="module-conversation-hero">
         <Avatar
           acceptedMessageRequest={acceptedMessageRequest}
-          avatarPath={avatarPath}
+          avatarUrl={avatarUrl}
           badge={badge}
           blur={avatarBlur}
           className="module-conversation-hero__avatar"

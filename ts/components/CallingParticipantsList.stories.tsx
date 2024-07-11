@@ -31,7 +31,7 @@ function createParticipant(
     sharingScreen: Boolean(participantProps.sharingScreen),
     videoAspectRatio: 1.3,
     ...getDefaultConversationWithServiceId({
-      avatarPath: participantProps.avatarPath,
+      avatarUrl: participantProps.avatarUrl,
       color: sample(AvatarColors),
       isBlocked: Boolean(participantProps.isBlocked),
       name: participantProps.name,

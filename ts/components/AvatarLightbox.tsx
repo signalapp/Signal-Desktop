@@ -11,7 +11,7 @@ import type { LocalizerType } from '../types/Util';
 
 export type PropsType = {
   avatarColor?: AvatarColorType;
-  avatarPath?: string;
+  avatarUrl?: string;
   conversationTitle?: string;
   i18n: LocalizerType;
   isGroup?: boolean;
@@ -20,7 +20,7 @@ export type PropsType = {
 
 export function AvatarLightbox({
   avatarColor,
-  avatarPath,
+  avatarUrl,
   conversationTitle,
   i18n,
   isGroup,
@@ -43,7 +43,7 @@ export function AvatarLightbox({
     >
       <AvatarPreview
         avatarColor={avatarColor}
-        avatarPath={avatarPath}
+        avatarUrl={avatarUrl}
         conversationTitle={conversationTitle}
         i18n={i18n}
         isGroup={isGroup}

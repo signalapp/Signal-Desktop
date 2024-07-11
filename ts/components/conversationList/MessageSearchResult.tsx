@@ -39,7 +39,7 @@ export type PropsDataType = {
   from: Pick<
     ConversationType,
     | 'acceptedMessageRequest'
-    | 'avatarPath'
+    | 'avatarUrl'
     | 'badges'
     | 'color'
     | 'isMe'
@@ -48,7 +48,7 @@ export type PropsDataType = {
     | 'sharedGroupNames'
     | 'title'
     | 'type'
-    | 'unblurredAvatarPath'
+    | 'unblurredAvatarUrl'
   >;
 
   to: Pick<
@@ -184,7 +184,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
     return (
       <BaseConversationListItem
         acceptedMessageRequest={from.acceptedMessageRequest}
-        avatarPath={from.avatarPath}
+        avatarUrl={from.avatarUrl}
         badge={getPreferredBadge(from.badges)}
         color={from.color}
         conversationType="direct"
@@ -202,7 +202,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
         sharedGroupNames={from.sharedGroupNames}
         theme={theme}
         title={from.title}
-        unblurredAvatarPath={from.unblurredAvatarPath}
+        unblurredAvatarUrl={from.unblurredAvatarUrl}
       />
     );
   }

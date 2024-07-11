@@ -27,6 +27,9 @@ type StandardAttachmentBackupJobType = {
       uploadTimestamp?: number;
     };
     size: number;
+
+    version?: 2;
+    localKey?: string;
   };
 };
 
@@ -57,6 +60,8 @@ const standardBackupJobDataSchema = z.object({
         uploadTimestamp: z.number().optional(),
       })
       .optional(),
+    version: z.literal(2).optional(),
+    localKey: z.string().optional(),
   }),
 });
 

@@ -50,7 +50,7 @@ export function MyStoryButton({
 
   const {
     acceptedMessageRequest,
-    avatarPath,
+    avatarUrl,
     color,
     isMe,
     profileName,
@@ -70,7 +70,7 @@ export function MyStoryButton({
         <div className="MyStories__avatar-container">
           <Avatar
             acceptedMessageRequest={acceptedMessageRequest}
-            avatarPath={avatarPath}
+            avatarUrl={avatarUrl}
             badge={undefined}
             color={getAvatarColor(color)}
             conversationType="direct"
@@ -123,7 +123,7 @@ export function MyStoryButton({
         >
           <Avatar
             acceptedMessageRequest={acceptedMessageRequest}
-            avatarPath={avatarPath}
+            avatarUrl={avatarUrl}
             badge={undefined}
             color={getAvatarColor(color)}
             conversationType="direct"

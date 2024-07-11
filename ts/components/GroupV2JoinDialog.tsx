@@ -70,7 +70,7 @@ export const GroupV2JoinDialog = React.memo(function GroupV2JoinDialogInner({
       <div className="module-group-v2-join-dialog__avatar">
         <Avatar
           acceptedMessageRequest={false}
-          avatarPath={avatar ? avatar.url : undefined}
+          avatarUrl={avatar ? avatar.url : undefined}
           badge={undefined}
           blur={AvatarBlur.NoBlur}
           loading={avatar && !avatar.url}

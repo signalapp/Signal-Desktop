@@ -210,6 +210,9 @@ type StickerRow = Readonly<{
   lastUsed: number;
   path: string;
   width: number;
+  version: 1 | 2;
+  localKey: string | null;
+  size: number | null;
 }>;
 
 // Because we can't force this module to conform to an interface, we narrow our exports
@@ -409,6 +412,7 @@ const dataInterface: ServerInterface = {
   updateStickerPackStatus,
   updateStickerPackInfo,
   createOrUpdateSticker,
+  createOrUpdateStickers,
   updateStickerLastUsed,
   addStickerPackReference,
   deleteStickerPackReference,
@@ -542,6 +546,9 @@ function rowToSticker(row: StickerRow): StickerType {
     ...row,
     isCoverOnly: Boolean(row.isCoverOnly),
     emoji: dropNull(row.emoji),
+    version: row.version || 1,
+    localKey: dropNull(row.localKey),
+    size: dropNull(row.size),
   };
 }
 
@@ -1655,7 +1662,7 @@ function saveConversationSync(db: Database, data: ConversationType): void {
   ).run({
     id,
     json: objectToJSON(
-      omit(data, ['profileLastFetchedAt', 'unblurredAvatarPath'])
+      omit(data, ['profileLastFetchedAt', 'unblurredAvatarUrl'])
     ),
 
     e164: e164 || null,
@@ -1726,7 +1733,7 @@ function updateConversationSync(db: Database, data: ConversationType): void {
   ).run({
     id,
     json: objectToJSON(
-      omit(data, ['profileLastFetchedAt', 'unblurredAvatarPath'])
+      omit(data, ['profileLastFetchedAt', 'unblurredAvatarUrl'])
     ),
 
     e164: e164 || null,
@@ -5385,10 +5392,20 @@ async function clearAllErrorStickerPackAttempts(): Promise<void> {
     `
   ).run();
 }
-async function createOrUpdateSticker(sticker: StickerType): Promise<void> {
-  const db = await getWritableInstance();
-  const { emoji, height, id, isCoverOnly, lastUsed, packId, path, width } =
-    sticker;
+function createOrUpdateStickerSync(db: Database, sticker: StickerType): void {
+  const {
+    emoji,
+    height,
+    id,
+    isCoverOnly,
+    lastUsed,
+    packId,
+    path,
+    width,
+    version,
+    localKey,
+    size,
+  } = sticker;
 
   if (!isNumber(id)) {
     throw new Error(
@@ -5411,7 +5428,10 @@ async function createOrUpdateSticker(sticker: StickerType): Promise<void> {
       lastUsed,
       packId,
       path,
-      width
+      width,
+      version,
+      localKey,
+      size
     ) values (
       $emoji,
       $height,
@@ -5420,7 +5440,10 @@ async function createOrUpdateSticker(sticker: StickerType): Promise<void> {
       $lastUsed,
       $packId,
       $path,
-      $width
+      $width,
+      $version,
+      $localKey,
+      $size
     )
     `
   ).run({
@@ -5432,7 +5455,24 @@ async function createOrUpdateSticker(sticker: StickerType): Promise<void> {
     packId,
     path,
     width,
+    version: version || 1,
+    localKey: localKey || null,
+    size: size || null,
   });
+}
+async function createOrUpdateSticker(sticker: StickerType): Promise<void> {
+  const db = await getWritableInstance();
+  return createOrUpdateStickerSync(db, sticker);
+}
+async function createOrUpdateStickers(
+  stickers: ReadonlyArray<StickerType>
+): Promise<void> {
+  const db = await getWritableInstance();
+  db.transaction(() => {
+    for (const sticker of stickers) {
+      createOrUpdateStickerSync(db, sticker);
+    }
+  })();
 }
 async function updateStickerLastUsed(
   packId: string,

@@ -107,7 +107,7 @@ export function ConversationDetailsHeader({
       modal = (
         <AvatarLightbox
           avatarColor={conversation.color}
-          avatarPath={conversation.avatarPath}
+          avatarUrl={conversation.avatarUrl}
           conversationTitle={conversation.title}
           i18n={i18n}
           isGroup={isGroup}

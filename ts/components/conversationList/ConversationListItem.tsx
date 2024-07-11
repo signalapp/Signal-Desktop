@@ -39,7 +39,7 @@ export type MessageStatusType = typeof MessageStatuses[number];
 export type PropsData = Pick<
   ConversationType,
   | 'acceptedMessageRequest'
-  | 'avatarPath'
+  | 'avatarUrl'
   | 'badges'
   | 'color'
   | 'draftPreview'
@@ -62,7 +62,7 @@ export type PropsData = Pick<
   | 'title'
   | 'type'
   | 'typingContactIdTimestamps'
-  | 'unblurredAvatarPath'
+  | 'unblurredAvatarUrl'
   | 'unreadCount'
   | 'unreadMentionsCount'
   | 'serviceId'
@@ -82,7 +82,7 @@ export type Props = PropsData & PropsHousekeeping;
 export const ConversationListItem: FunctionComponent<Props> = React.memo(
   function ConversationListItem({
     acceptedMessageRequest,
-    avatarPath,
+    avatarUrl,
     badge,
     buttonAriaLabel,
     color,
@@ -107,7 +107,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     title,
     type,
     typingContactIdTimestamps,
-    unblurredAvatarPath,
+    unblurredAvatarUrl,
     unreadCount,
     unreadMentionsCount,
     serviceId,
@@ -206,7 +206,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     return (
       <BaseConversationListItem
         acceptedMessageRequest={acceptedMessageRequest}
-        avatarPath={avatarPath}
+        avatarUrl={avatarUrl}
         badge={badge}
         buttonAriaLabel={buttonAriaLabel}
         color={color}
@@ -230,7 +230,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         title={title}
         unreadCount={unreadCount}
         unreadMentionsCount={unreadMentionsCount}
-        unblurredAvatarPath={unblurredAvatarPath}
+        unblurredAvatarUrl={unblurredAvatarUrl}
         serviceId={serviceId}
       />
     );

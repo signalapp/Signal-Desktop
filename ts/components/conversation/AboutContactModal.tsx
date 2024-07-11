@@ -120,7 +120,7 @@ export function AboutContactModal({
       <div className="AboutContactModal__row AboutContactModal__row--centered">
         <Avatar
           acceptedMessageRequest={conversation.acceptedMessageRequest}
-          avatarPath={conversation.avatarPath}
+          avatarUrl={conversation.avatarUrl}
           blur={avatarBlur}
           onClick={avatarBlur === AvatarBlur.NoBlur ? undefined : onAvatarClick}
           badge={undefined}
@@ -132,7 +132,7 @@ export function AboutContactModal({
           sharedGroupNames={[]}
           size={AvatarSize.TWO_HUNDRED_SIXTEEN}
           title={conversation.title}
-          unblurredAvatarPath={conversation.unblurredAvatarPath}
+          unblurredAvatarUrl={conversation.unblurredAvatarUrl}
         />
       </div>
 

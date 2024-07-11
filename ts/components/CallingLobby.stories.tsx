@@ -129,7 +129,7 @@ export function NoCameraLocalAvatar(): JSX.Element {
   const props = createProps({
     availableCameras: [],
     me: getDefaultConversation({
-      avatarPath: '/fixtures/kitten-4-112-112.jpg',
+      avatarUrl: '/fixtures/kitten-4-112-112.jpg',
       color: AvatarColors[0],
       id: generateUuid(),
       serviceId: generateAci(),

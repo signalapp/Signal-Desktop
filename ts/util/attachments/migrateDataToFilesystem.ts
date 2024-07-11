@@ -2,9 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isFunction, isTypedArray, isUndefined, omit } from 'lodash';
-import type { AttachmentType } from '../../types/Attachment';
+import type {
+  AttachmentType,
+  LocalAttachmentV2Type,
+} from '../../types/Attachment';
 import type { LoggerType } from '../../types/Logging';
-import { getPlaintextHashForInMemoryAttachment } from '../../AttachmentCrypto';
 
 export async function migrateDataToFileSystem(
   attachment: AttachmentType,
@@ -12,7 +14,9 @@ export async function migrateDataToFileSystem(
     writeNewAttachmentData,
     logger,
   }: {
-    writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
+    writeNewAttachmentData: (
+      data: Uint8Array
+    ) => Promise<LocalAttachmentV2Type>;
     logger: LoggerType;
   }
 ): Promise<AttachmentType> {
@@ -36,11 +40,8 @@ export async function migrateDataToFileSystem(
     return omit({ ...attachment }, ['data']);
   }
 
-  const plaintextHash = getPlaintextHashForInMemoryAttachment(data);
-  const path = await writeNewAttachmentData(data);
+  const local = await writeNewAttachmentData(data);
 
-  const attachmentWithoutData = omit({ ...attachment, path, plaintextHash }, [
-    'data',
-  ]);
+  const attachmentWithoutData = omit({ ...attachment, ...local }, ['data']);
   return attachmentWithoutData;
 }

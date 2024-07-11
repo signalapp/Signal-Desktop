@@ -72,7 +72,7 @@ type PropsExternalType = {
 export type PropsDataType = {
   aboutEmoji?: string;
   aboutText?: string;
-  profileAvatarPath?: string;
+  profileAvatarUrl?: string;
   color?: AvatarColorType;
   conversationId: string;
   familyName?: string;
@@ -155,7 +155,7 @@ export function ProfileEditor({
   onProfileChanged,
   onSetSkinTone,
   openUsernameReservationModal,
-  profileAvatarPath,
+  profileAvatarUrl,
   recentEmojis,
   renderEditUsernameModalBody,
   replaceAvatar,
@@ -192,8 +192,7 @@ export function ProfileEditor({
     aboutEmoji,
     aboutText,
   });
-  const [startingAvatarPath, setStartingAvatarPath] =
-    useState(profileAvatarPath);
+  const [startingAvatarUrl, setStartingAvatarUrl] = useState(profileAvatarUrl);
 
   const [oldAvatarBuffer, setOldAvatarBuffer] = useState<
     Uint8Array | undefined
@@ -239,7 +238,7 @@ export function ProfileEditor({
   const handleAvatarChanged = useCallback(
     (avatar: Uint8Array | undefined) => {
       // Do not display stale avatar from disk anymore.
-      setStartingAvatarPath(undefined);
+      setStartingAvatarUrl(undefined);
 
       setAvatarBuffer(avatar);
       setEditState(EditState.None);
@@ -301,7 +300,7 @@ export function ProfileEditor({
     content = (
       <AvatarEditor
         avatarColor={color || AvatarColors[0]}
-        avatarPath={startingAvatarPath}
+        avatarUrl={startingAvatarUrl}
         avatarValue={avatarBuffer}
         conversationId={conversationId}
         conversationTitle={getFullNameText()}
@@ -675,7 +674,7 @@ export function ProfileEditor({
       <>
         <AvatarPreview
           avatarColor={color}
-          avatarPath={startingAvatarPath}
+          avatarUrl={startingAvatarUrl}
           avatarValue={avatarBuffer}
           conversationTitle={getFullNameText()}
           i18n={i18n}

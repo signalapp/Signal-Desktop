@@ -30,6 +30,7 @@ import { isGroupV1 } from '../util/whatTypeOfConversation';
 import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
 import { sleep } from '../util/sleep';
 import { dropNull } from '../util/dropNull';
+import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
 
 export async function joinViaLink(value: string): Promise<void> {
   let inviteLinkPassword: string;
@@ -184,9 +185,7 @@ export async function joinViaLink(value: string): Promise<void> {
       };
     } else if (localAvatar && localAvatar.path) {
       avatar = {
-        url: window.Signal.Migrations.getAbsoluteAttachmentPath(
-          localAvatar.path
-        ),
+        url: getLocalAttachmentUrl(localAvatar),
       };
     }
 
@@ -405,7 +404,7 @@ export async function joinViaLink(value: string): Promise<void> {
 
       if (attributes.avatar && attributes.avatar.path) {
         localAvatar = {
-          path: attributes.avatar.path,
+          ...attributes.avatar,
         };
 
         // Dialog has been dismissed; we'll delete the unneeeded avatar

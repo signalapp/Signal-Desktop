@@ -161,7 +161,7 @@ function DistributionListItem({
         {isMyStory ? (
           <Avatar
             acceptedMessageRequest={me.acceptedMessageRequest}
-            avatarPath={me.avatarPath}
+            avatarUrl={me.avatarUrl}
             badge={undefined}
             color={me.color}
             conversationType={me.type}
@@ -215,7 +215,7 @@ function GroupStoryItem({
       <span className="StoriesSettingsModal__list__left">
         <Avatar
           acceptedMessageRequest={groupStory.acceptedMessageRequest}
-          avatarPath={groupStory.avatarPath}
+          avatarUrl={groupStory.avatarUrl}
           badge={undefined}
           color={groupStory.color}
           conversationType={groupStory.type}
@@ -676,7 +676,7 @@ export function DistributionListSettingsModal({
               <span className="StoriesSettingsModal__list__left">
                 <Avatar
                   acceptedMessageRequest={member.acceptedMessageRequest}
-                  avatarPath={member.avatarPath}
+                  avatarUrl={member.avatarUrl}
                   badge={getPreferredBadge(member.badges)}
                   color={member.color}
                   conversationType={member.type}
@@ -1095,7 +1095,7 @@ export function EditDistributionListModal({
             <span className="StoriesSettingsModal__list__left">
               <Avatar
                 acceptedMessageRequest={contact.acceptedMessageRequest}
-                avatarPath={contact.avatarPath}
+                avatarUrl={contact.avatarUrl}
                 badge={getPreferredBadge(contact.badges)}
                 color={contact.color}
                 conversationType={contact.type}
@@ -1191,7 +1191,7 @@ export function EditDistributionListModal({
             <ContactPill
               key={contact.id}
               acceptedMessageRequest={contact.acceptedMessageRequest}
-              avatarPath={contact.avatarPath}
+              avatarUrl={contact.avatarUrl}
               color={contact.color}
               firstName={contact.firstName}
               i18n={i18n}
@@ -1286,7 +1286,7 @@ export function GroupStorySettingsModal({
       <div className="GroupStorySettingsModal__header">
         <Avatar
           acceptedMessageRequest={group.acceptedMessageRequest}
-          avatarPath={group.avatarPath}
+          avatarUrl={group.avatarUrl}
           badge={undefined}
           color={group.color}
           conversationType={group.type}
@@ -1315,7 +1315,7 @@ export function GroupStorySettingsModal({
           >
             <Avatar
               acceptedMessageRequest={member.acceptedMessageRequest}
-              avatarPath={member.avatarPath}
+              avatarUrl={member.avatarUrl}
               badge={undefined}
               color={member.color}
               conversationType={member.type}

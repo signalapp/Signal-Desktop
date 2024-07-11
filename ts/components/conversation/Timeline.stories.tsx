@@ -399,7 +399,7 @@ const renderHeroRow = () => {
       <ConversationHero
         about={getAbout()}
         acceptedMessageRequest
-        avatarPath={getAvatarPath()}
+        avatarUrl={getAvatarPath()}
         badge={undefined}
         conversationType="direct"
         id={getDefaultConversation().id}

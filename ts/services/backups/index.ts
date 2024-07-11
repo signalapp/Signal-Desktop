@@ -20,15 +20,13 @@ import { DelimitedStream } from '../../util/DelimitedStream';
 import { appendPaddingStream } from '../../util/logPadding';
 import { prependStream } from '../../util/prependStream';
 import { appendMacStream } from '../../util/appendMacStream';
+import { getIvAndDecipher } from '../../util/getIvAndDecipher';
+import { getMacAndUpdateHmac } from '../../util/getMacAndUpdateHmac';
 import { HOUR } from '../../util/durations';
 import { CipherType, HashType } from '../../types/Crypto';
 import * as Errors from '../../types/errors';
 import { constantTimeEqual } from '../../Crypto';
-import {
-  getIvAndDecipher,
-  getMacAndUpdateHmac,
-  measureSize,
-} from '../../AttachmentCrypto';
+import { measureSize } from '../../AttachmentCrypto';
 import { BackupExportStream } from './export';
 import { BackupImportStream } from './import';
 import { getKeyMaterial } from './crypto';

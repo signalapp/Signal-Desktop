@@ -1,20 +1,19 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createReadStream } from 'fs';
 import { Transform } from 'stream';
-import { pipeline } from 'stream/promises';
 
 import { SignalService as Proto } from '../protobuf';
 import protobuf from '../protobuf/wrap';
 import { normalizeAci } from '../util/normalizeAci';
 import { isAciString } from '../util/isAciString';
 import { DurationInSeconds } from '../util/durations';
-import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import type { ContactAvatarType } from '../types/Avatar';
+import type { AttachmentType } from '../types/Attachment';
 import { computeHash } from '../Crypto';
 import { dropNull } from '../util/dropNull';
+import { decryptAttachmentV2ToSink } from '../AttachmentCrypto';
 
 import Avatar = Proto.ContactDetails.IAvatar;
 
@@ -37,32 +36,34 @@ type MessageWithAvatar<Message extends OptionalFields> = Omit<
 
 export type ContactDetailsWithAvatar = MessageWithAvatar<Proto.IContactDetails>;
 
-export async function parseContactsV2({
-  absolutePath,
-}: {
-  absolutePath: string;
-}): Promise<ReadonlyArray<ContactDetailsWithAvatar>> {
-  const logId = 'parseContactsV2';
-
-  const readStream = createReadStream(absolutePath);
-  const parseContactsTransform = new ParseContactsTransform();
-
-  try {
-    await pipeline(readStream, parseContactsTransform);
-  } catch (error) {
-    try {
-      readStream.close();
-    } catch (cleanupError) {
-      log.error(
-        `${logId}: Failed to clean up after error`,
-        Errors.toLogFormat(cleanupError)
-      );
-    }
-
-    throw error;
+export async function parseContactsV2(
+  attachment: AttachmentType
+): Promise<ReadonlyArray<ContactDetailsWithAvatar>> {
+  if (!attachment.path) {
+    throw new Error('Contact attachment not downloaded');
+  }
+  if (attachment.version !== 2) {
+    throw new Error('Contact attachment is not up-to-date');
+  }
+  if (attachment.localKey == null) {
+    throw new Error('Contact attachment has no keys');
   }
 
-  readStream.close();
+  const parseContactsTransform = new ParseContactsTransform();
+
+  await decryptAttachmentV2ToSink(
+    {
+      idForLogging: 'parseContactsV2',
+
+      ciphertextPath: window.Signal.Migrations.getAbsoluteAttachmentPath(
+        attachment.path
+      ),
+      keysBase64: attachment.localKey,
+      size: attachment.size,
+      isLocal: true,
+    },
+    parseContactsTransform
+  );
 
   return parseContactsTransform.contacts;
 }
@@ -147,20 +148,20 @@ export class ParseContactsTransform extends Transform {
           const hash = computeHash(data);
 
           // eslint-disable-next-line no-await-in-loop
-          const path = await window.Signal.Migrations.writeNewAttachmentData(
+          const local = await window.Signal.Migrations.writeNewAttachmentData(
             avatarData
           );
 
           const prepared = prepareContact(this.activeContact, {
             ...this.activeContact.avatar,
+            ...local,
             hash,
-            path,
           });
           if (prepared) {
             this.contacts.push(prepared);
           } else {
             // eslint-disable-next-line no-await-in-loop
-            await window.Signal.Migrations.deleteAttachmentData(path);
+            await window.Signal.Migrations.deleteAttachmentData(local.path);
           }
           this.activeContact = undefined;
 

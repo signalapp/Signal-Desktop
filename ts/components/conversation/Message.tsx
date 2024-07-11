@@ -229,7 +229,7 @@ export type PropsData = {
   author: Pick<
     ConversationType,
     | 'acceptedMessageRequest'
-    | 'avatarPath'
+    | 'avatarUrl'
     | 'badges'
     | 'color'
     | 'id'
@@ -238,7 +238,7 @@ export type PropsData = {
     | 'profileName'
     | 'sharedGroupNames'
     | 'title'
-    | 'unblurredAvatarPath'
+    | 'unblurredAvatarUrl'
   >;
   conversationType: ConversationTypeType;
   attachments?: ReadonlyArray<AttachmentType>;
@@ -1814,7 +1814,7 @@ export class Message extends React.PureComponent<Props, State> {
         ) : (
           <Avatar
             acceptedMessageRequest={author.acceptedMessageRequest}
-            avatarPath={author.avatarPath}
+            avatarUrl={author.avatarUrl}
             badge={getPreferredBadge(author.badges)}
             color={author.color}
             conversationType="direct"
@@ -1832,7 +1832,7 @@ export class Message extends React.PureComponent<Props, State> {
             size={GROUP_AVATAR_SIZE}
             theme={theme}
             title={author.title}
-            unblurredAvatarPath={author.unblurredAvatarPath}
+            unblurredAvatarUrl={author.unblurredAvatarUrl}
           />
         )}
       </div>

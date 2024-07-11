@@ -452,7 +452,7 @@ function ContactRow({
     <li className="module-SafetyNumberChangeDialog__row" key={contact.id}>
       <Avatar
         acceptedMessageRequest={contact.acceptedMessageRequest}
-        avatarPath={contact.avatarPath}
+        avatarUrl={contact.avatarUrl}
         badge={getPreferredBadge(contact.badges)}
         color={contact.color}
         conversationType="direct"
@@ -464,7 +464,7 @@ function ContactRow({
         title={contact.title}
         sharedGroupNames={contact.sharedGroupNames}
         size={AvatarSize.THIRTY_TWO}
-        unblurredAvatarPath={contact.unblurredAvatarPath}
+        unblurredAvatarUrl={contact.unblurredAvatarUrl}
       />
       <div className="module-SafetyNumberChangeDialog__row--wrapper">
         <div className="module-SafetyNumberChangeDialog__row--name">

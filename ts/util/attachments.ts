@@ -6,6 +6,7 @@ import { blobToArrayBuffer } from 'blob-util';
 import * as log from '../logging/log';
 import { scaleImageToLevel } from './scaleImageToLevel';
 import { dropNull } from './dropNull';
+import { getLocalAttachmentUrl } from './getLocalAttachmentUrl';
 import type {
   AttachmentType,
   UploadedAttachmentType,
@@ -36,7 +37,7 @@ export const downscaleOutgoingAttachment = async (
     if (!path) {
       return attachment;
     }
-    scaleTarget = window.Signal.Migrations.getAbsoluteAttachmentPath(path);
+    scaleTarget = getLocalAttachmentUrl(attachment);
   }
 
   try {

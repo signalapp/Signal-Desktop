@@ -789,7 +789,7 @@ export function CallsList({
             leading={
               <Avatar
                 acceptedMessageRequest
-                avatarPath={conversation.avatarPath}
+                avatarUrl={conversation.avatarUrl}
                 color={conversation.color}
                 conversationType={conversation.type}
                 i18n={i18n}

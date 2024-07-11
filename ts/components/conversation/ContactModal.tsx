@@ -314,7 +314,7 @@ export function ContactModal({
           <div className="ContactModal">
             <Avatar
               acceptedMessageRequest={contact.acceptedMessageRequest}
-              avatarPath={contact.avatarPath}
+              avatarUrl={contact.avatarUrl}
               badge={preferredBadge}
               color={contact.color}
               conversationType="direct"
@@ -338,7 +338,7 @@ export function ContactModal({
               storyRing={hasStories}
               theme={theme}
               title={contact.title}
-              unblurredAvatarPath={contact.unblurredAvatarPath}
+              unblurredAvatarUrl={contact.unblurredAvatarUrl}
             />
             <button
               type="button"
@@ -472,7 +472,7 @@ export function ContactModal({
       return (
         <AvatarLightbox
           avatarColor={contact.color}
-          avatarPath={contact.avatarPath}
+          avatarUrl={contact.avatarUrl}
           conversationTitle={contact.title}
           i18n={i18n}
           onClose={() => setView(ContactModalView.Default)}

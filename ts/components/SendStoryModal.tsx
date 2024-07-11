@@ -558,7 +558,7 @@ export function SendStoryModal({
                   >
                     <Avatar
                       acceptedMessageRequest={group.acceptedMessageRequest}
-                      avatarPath={group.avatarPath}
+                      avatarUrl={group.avatarUrl}
                       badge={undefined}
                       color={group.color}
                       conversationType={group.type}
@@ -708,7 +708,7 @@ export function SendStoryModal({
                 {list.id === MY_STORY_ID ? (
                   <Avatar
                     acceptedMessageRequest={me.acceptedMessageRequest}
-                    avatarPath={me.avatarPath}
+                    avatarUrl={me.avatarUrl}
                     badge={undefined}
                     color={me.color}
                     conversationType={me.type}
@@ -823,7 +823,7 @@ export function SendStoryModal({
               >
                 <Avatar
                   acceptedMessageRequest={group.acceptedMessageRequest}
-                  avatarPath={group.avatarPath}
+                  avatarUrl={group.avatarUrl}
                   badge={undefined}
                   color={group.color}
                   conversationType={group.type}

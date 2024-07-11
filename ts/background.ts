@@ -208,6 +208,7 @@ import type { ReadSyncTaskType } from './messageModifiers/ReadSyncs';
 import { isEnabled } from './RemoteConfig';
 import { AttachmentBackupManager } from './jobs/AttachmentBackupManager';
 import { getConversationIdForLogging } from './util/idForLogging';
+import { encryptConversationAttachments } from './util/encryptConversationAttachments';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -960,10 +961,20 @@ export async function startApp(): Promise<void> {
       window.i18n
     );
 
-    if (newVersion) {
+    if (newVersion || window.storage.get('needOrphanedAttachmentCheck')) {
+      await window.storage.remove('needOrphanedAttachmentCheck');
       await window.Signal.Data.cleanupOrphanedAttachments();
 
       drop(window.Signal.Data.ensureFilePermissions());
+    }
+
+    if (
+      newVersion &&
+      lastVersion &&
+      window.isBeforeVersion(lastVersion, 'v7.18.0-beta.1')
+    ) {
+      await encryptConversationAttachments();
+      await Stickers.encryptLegacyStickers();
     }
 
     setAppLoadingScreenMessage(window.i18n('icu:loading'), window.i18n);

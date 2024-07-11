@@ -37,7 +37,7 @@ import {
 export type Contact = Pick<
   ConversationType,
   | 'acceptedMessageRequest'
-  | 'avatarPath'
+  | 'avatarUrl'
   | 'badges'
   | 'color'
   | 'id'
@@ -46,7 +46,7 @@ export type Contact = Pick<
   | 'profileName'
   | 'sharedGroupNames'
   | 'title'
-  | 'unblurredAvatarPath'
+  | 'unblurredAvatarUrl'
 > & {
   status?: SendStatus;
   statusTimestamp?: number;
@@ -154,7 +154,7 @@ export function MessageDetail({
   function renderAvatar(contact: Contact): JSX.Element {
     const {
       acceptedMessageRequest,
-      avatarPath,
+      avatarUrl,
       badges,
       color,
       isMe,
@@ -162,13 +162,13 @@ export function MessageDetail({
       profileName,
       sharedGroupNames,
       title,
-      unblurredAvatarPath,
+      unblurredAvatarUrl,
     } = contact;
 
     return (
       <Avatar
         acceptedMessageRequest={acceptedMessageRequest}
-        avatarPath={avatarPath}
+        avatarUrl={avatarUrl}
         badge={getPreferredBadge(badges)}
         color={color}
         conversationType="direct"
@@ -180,7 +180,7 @@ export function MessageDetail({
         title={title}
         sharedGroupNames={sharedGroupNames}
         size={AvatarSize.THIRTY_TWO}
-        unblurredAvatarPath={unblurredAvatarPath}
+        unblurredAvatarUrl={unblurredAvatarUrl}
       />
     );
   }

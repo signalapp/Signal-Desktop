@@ -13,7 +13,7 @@ export type Props = {
   conversation: Pick<
     ConversationType,
     | 'acceptedMessageRequest'
-    | 'avatarPath'
+    | 'avatarUrl'
     | 'color'
     | 'isMe'
     | 'name'
@@ -21,7 +21,7 @@ export type Props = {
     | 'profileName'
     | 'sharedGroupNames'
     | 'title'
-    | 'unblurredAvatarPath'
+    | 'unblurredAvatarUrl'
   >;
   i18n: LocalizerType;
   close: () => void;
@@ -46,7 +46,7 @@ export function CallNeedPermissionScreen({
     <div className="module-call-need-permission-screen">
       <Avatar
         acceptedMessageRequest={conversation.acceptedMessageRequest}
-        avatarPath={conversation.avatarPath}
+        avatarUrl={conversation.avatarUrl}
         badge={undefined}
         color={conversation.color || AvatarColors[0]}
         noteToSelf={false}

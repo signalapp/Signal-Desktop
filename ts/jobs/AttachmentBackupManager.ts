@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable max-classes-per-file */
 
-import { existsSync } from 'fs';
+import { existsSync } from 'node:fs';
+import { PassThrough } from 'node:stream';
 
 import * as durations from '../util/durations';
 import * as log from '../logging/log';
@@ -22,6 +23,7 @@ import {
   type EncryptedAttachmentV2,
   getAttachmentCiphertextLength,
   getAesCbcCiphertextLength,
+  decryptAttachmentV2ToSink,
   ReencyptedDigestMismatchError,
 } from '../AttachmentCrypto';
 import { getBackupKey } from '../services/backups/crypto';
@@ -114,6 +116,7 @@ type RunAttachmentBackupJobDependenciesType = {
   backupMediaBatch?: WebAPIType['backupMediaBatch'];
   backupsService: BackupsService;
   encryptAndUploadAttachment: typeof encryptAndUploadAttachment;
+  decryptAttachmentV2ToSink: typeof decryptAttachmentV2ToSink;
 };
 
 export async function runAttachmentBackupJob(
@@ -125,6 +128,7 @@ export async function runAttachmentBackupJob(
     backupsService,
     backupMediaBatch: window.textsecure.server?.backupMediaBatch,
     encryptAndUploadAttachment,
+    decryptAttachmentV2ToSink,
   }
 ): Promise<JobManagerJobResultType> {
   const jobIdForLogging = getJobIdForLogging(job);
@@ -171,7 +175,8 @@ async function runAttachmentBackupJobInner(
     'Only standard uploads are currently supported'
   );
 
-  const { path, transitCdnInfo, iv, digest, keys, size } = job.data;
+  const { path, transitCdnInfo, iv, digest, keys, size, version, localKey } =
+    job.data;
 
   const mediaId = getMediaIdFromMediaName(mediaName);
   const backupKeyMaterial = deriveBackupMediaKeyMaterial(
@@ -236,6 +241,10 @@ async function runAttachmentBackupJobInner(
   log.info(`${logId}: uploading to transit tier`);
   const uploadResult = await uploadToTransitTier({
     absolutePath,
+    version,
+    localKey,
+    size,
+
     keys,
     iv,
     digest,
@@ -263,6 +272,9 @@ type UploadResponseType = {
 async function uploadToTransitTier({
   absolutePath,
   keys,
+  version,
+  localKey,
+  size,
   iv,
   digest,
   logPrefix,
@@ -272,13 +284,54 @@ async function uploadToTransitTier({
   iv: string;
   digest: string;
   keys: string;
+  version?: 2;
+  localKey?: string;
+  size: number;
   logPrefix: string;
   dependencies: {
+    decryptAttachmentV2ToSink: typeof decryptAttachmentV2ToSink;
     encryptAndUploadAttachment: typeof encryptAndUploadAttachment;
   };
 }): Promise<UploadResponseType> {
   try {
-    const uploadResult = await dependencies.encryptAndUploadAttachment({
+    if (version === 2) {
+      strictAssert(
+        localKey != null,
+        'Missing localKey for version 2 attachment'
+      );
+
+      const sink = new PassThrough();
+
+      // This `Promise.all` is chaining two separate pipelines via
+      // a pass-through `sink`.
+      const [, result] = await Promise.all([
+        dependencies.decryptAttachmentV2ToSink(
+          {
+            idForLogging: 'uploadToTransitTier',
+            ciphertextPath: absolutePath,
+            keysBase64: localKey,
+            size,
+            isLocal: true,
+          },
+          sink
+        ),
+        dependencies.encryptAndUploadAttachment({
+          plaintext: { stream: sink },
+          keys: fromBase64(keys),
+          dangerousIv: {
+            reason: 'reencrypting-for-backup',
+            iv: fromBase64(iv),
+            digestToMatch: fromBase64(digest),
+          },
+          uploadType: 'backup',
+        }),
+      ]);
+
+      return result;
+    }
+
+    // Legacy attachments
+    return dependencies.encryptAndUploadAttachment({
       plaintext: { absolutePath },
       keys: fromBase64(keys),
       dangerousIv: {
@@ -288,7 +341,6 @@ async function uploadToTransitTier({
       },
       uploadType: 'backup',
     });
-    return uploadResult;
   } catch (error) {
     log.error(
       `${logPrefix}/uploadToTransitTier: Error while encrypting and uploading`,

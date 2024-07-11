@@ -368,7 +368,7 @@ export function StoryViewsNRepliesModal({
             <div>
               <Avatar
                 acceptedMessageRequest={view.recipient.acceptedMessageRequest}
-                avatarPath={view.recipient.avatarPath}
+                avatarUrl={view.recipient.avatarUrl}
                 badge={undefined}
                 color={getAvatarColor(view.recipient.color)}
                 conversationType="direct"
@@ -550,7 +550,7 @@ function ReplyOrReactionMessage({
           <div className="StoryViewsNRepliesModal__reaction--container">
             <Avatar
               acceptedMessageRequest={reply.author.acceptedMessageRequest}
-              avatarPath={reply.author.avatarPath}
+              avatarUrl={reply.author.avatarUrl}
               badge={getPreferredBadge(reply.author.badges)}
               color={getAvatarColor(reply.author.color)}
               conversationType="direct"

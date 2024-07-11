@@ -443,7 +443,7 @@ function HeaderContent({
     <span className="module-ConversationHeader__header__avatar">
       <Avatar
         acceptedMessageRequest={conversation.acceptedMessageRequest}
-        avatarPath={conversation.avatarPath ?? undefined}
+        avatarUrl={conversation.avatarUrl ?? undefined}
         badge={badge ?? undefined}
         color={conversation.color ?? undefined}
         conversationType={conversation.type}
@@ -459,7 +459,7 @@ function HeaderContent({
         storyRing={conversation.isMe ? undefined : hasStories ?? undefined}
         theme={theme}
         title={conversation.title}
-        unblurredAvatarPath={conversation.unblurredAvatarPath ?? undefined}
+        unblurredAvatarUrl={conversation.unblurredAvatarUrl ?? undefined}
       />
     </span>
   );

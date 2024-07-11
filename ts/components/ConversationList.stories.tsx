@@ -275,7 +275,7 @@ const createConversation = (
       : true,
   badges: [],
   isMe: overrideProps.isMe ?? false,
-  avatarPath: overrideProps.avatarPath ?? '',
+  avatarUrl: overrideProps.avatarUrl ?? '',
   id: overrideProps.id || '',
   isSelected: overrideProps.isSelected ?? false,
   title: overrideProps.title ?? 'Some Person',
@@ -308,7 +308,7 @@ export const ConversationName = (): JSX.Element => renderConversation();
 
 export const ConversationNameAndAvatar = (): JSX.Element =>
   renderConversation({
-    avatarPath: '/fixtures/kitten-1-64-64.jpg',
+    avatarUrl: '/fixtures/kitten-1-64-64.jpg',
   });
 
 export const ConversationWithYourself = (): JSX.Element =>

@@ -6,8 +6,6 @@
 import { isBoolean, isNumber, isString, noop, omit } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
-import { existsSync } from 'fs';
-import { removeSync } from 'fs-extra';
 
 import type {
   SealedSenderDecryptionResult,
@@ -85,7 +83,6 @@ import type { EventHandler } from './EventTarget';
 import EventTarget from './EventTarget';
 import { downloadAttachment } from './downloadAttachment';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
-import type { ContactDetailsWithAvatar } from './ContactsParser';
 import { parseContactsV2 } from './ContactsParser';
 import type { WebAPIType } from './WebAPI';
 import type { Storage } from './Storage';
@@ -3855,24 +3852,8 @@ export default class MessageReceiver
       if (!path) {
         throw new Error('Failed no path field in returned attachment');
       }
-      const absolutePath =
-        window.Signal.Migrations.getAbsoluteAttachmentPath(path);
-      if (!existsSync(absolutePath)) {
-        throw new Error(
-          'Contact sync attachment had path, but it was not found on disk'
-        );
-      }
 
-      let contacts: ReadonlyArray<ContactDetailsWithAvatar>;
-      try {
-        contacts = await parseContactsV2({
-          absolutePath,
-        });
-      } finally {
-        if (absolutePath) {
-          removeSync(absolutePath);
-        }
-      }
+      const contacts = await parseContactsV2(attachment);
 
       const contactSync = new ContactSyncEvent(
         contacts,
