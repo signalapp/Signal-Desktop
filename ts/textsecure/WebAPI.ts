@@ -169,7 +169,7 @@ type PromiseAjaxOptionsType = {
   basicAuth?: string;
   certificateAuthority?: string;
   contentType?: string;
-  data?: Uint8Array | Readable | string;
+  data?: Uint8Array | (() => Readable) | string;
   disableRetries?: boolean;
   disableSessionResumption?: boolean;
   headers?: HeaderListType;
@@ -299,7 +299,7 @@ async function getFetchOptions(
 
   const fetchOptions = {
     method: options.type,
-    body: options.data,
+    body: typeof options.data === 'function' ? options.data() : options.data,
     headers: {
       'User-Agent': getUserAgent(options.version),
       'X-Signal-Agent': 'OWD',
@@ -1303,7 +1303,7 @@ export type WebAPIType = {
     elements: VerifyServiceIdRequestType
   ) => Promise<VerifyServiceIdResponseType>;
   putEncryptedAttachment: (
-    encryptedBin: Uint8Array | Readable,
+    encryptedBin: Uint8Array | (() => Readable),
     uploadForm: AttachmentV3ResponseType
   ) => Promise<void>;
   putProfile: (
@@ -3530,7 +3530,7 @@ export function initialize({
     }
 
     async function putEncryptedAttachment(
-      encryptedBin: Uint8Array | Readable,
+      encryptedBin: Uint8Array | (() => Readable),
       uploadForm: AttachmentV3ResponseType
     ) {
       const { signedUploadLocation, headers } = uploadForm;
