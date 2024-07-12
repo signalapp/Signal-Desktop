@@ -180,6 +180,8 @@ nativeThemeNotifier.initialize();
 
 let appStartInitialSpellcheckSetting = true;
 
+let macInitialOpenUrlRoute: ParsedSignalRoute | undefined;
+
 const cliParser = createParser({
   allowUnknown: true,
   options: [
@@ -282,10 +284,19 @@ if (!process.mas) {
       return true;
     });
 
+    // This event is received in macOS packaged builds.
     app.on('open-url', (event, incomingHref) => {
       event.preventDefault();
       const route = parseSignalRoute(incomingHref);
+
       if (route != null) {
+        // When the app isn't open and you click a signal link to open the app, then
+        // this event will emit before mainWindow is ready. We save the value for later.
+        if (mainWindow == null || !mainWindow.webContents) {
+          macInitialOpenUrlRoute = route;
+          return;
+        }
+
         handleSignalRoute(route);
       }
     });
@@ -1084,11 +1095,16 @@ async function readyForUpdates() {
 
   isReadyForUpdates = true;
 
-  // First, install requested sticker pack
+  // First, handle requested signal URLs
   const incomingHref = maybeGetIncomingSignalRoute(process.argv);
   if (incomingHref) {
     handleSignalRoute(incomingHref);
+  } else if (macInitialOpenUrlRoute) {
+    handleSignalRoute(macInitialOpenUrlRoute);
   }
+
+  // Discard value even if we don't handle a saved URL.
+  macInitialOpenUrlRoute = undefined;
 
   // Second, start checking for app updates
   try {
