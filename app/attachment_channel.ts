@@ -30,6 +30,7 @@ import { isPathInside } from '../ts/util/isPathInside';
 import { missingCaseError } from '../ts/util/missingCaseError';
 import { safeParseInteger } from '../ts/util/numbers';
 import { drop } from '../ts/util/drop';
+import { strictAssert } from '../ts/util/assert';
 import { decryptAttachmentV2ToSink } from '../ts/AttachmentCrypto';
 
 let initialized = false;
@@ -200,6 +201,12 @@ function deleteOrphanedAttachments({
   void runSafe();
 }
 
+let attachmentsDir: string | undefined;
+let stickersDir: string | undefined;
+let tempDir: string | undefined;
+let draftDir: string | undefined;
+let avatarDataDir: string | undefined;
+
 export function initialize({
   configDir,
   sql,
@@ -212,16 +219,28 @@ export function initialize({
   }
   initialized = true;
 
-  const attachmentsDir = getPath(configDir);
-  const stickersDir = getStickersPath(configDir);
-  const tempDir = getTempPath(configDir);
-  const draftDir = getDraftPath(configDir);
-  const avatarDataDir = getAvatarsPath(configDir);
+  attachmentsDir = getPath(configDir);
+  stickersDir = getStickersPath(configDir);
+  tempDir = getTempPath(configDir);
+  draftDir = getDraftPath(configDir);
+  avatarDataDir = getAvatarsPath(configDir);
 
-  ipcMain.handle(ERASE_TEMP_KEY, () => rimraf.sync(tempDir));
-  ipcMain.handle(ERASE_ATTACHMENTS_KEY, () => rimraf.sync(attachmentsDir));
-  ipcMain.handle(ERASE_STICKERS_KEY, () => rimraf.sync(stickersDir));
-  ipcMain.handle(ERASE_DRAFTS_KEY, () => rimraf.sync(draftDir));
+  ipcMain.handle(ERASE_TEMP_KEY, () => {
+    strictAssert(tempDir != null, 'not initialized');
+    rimraf.sync(tempDir);
+  });
+  ipcMain.handle(ERASE_ATTACHMENTS_KEY, () => {
+    strictAssert(attachmentsDir != null, 'not initialized');
+    rimraf.sync(attachmentsDir);
+  });
+  ipcMain.handle(ERASE_STICKERS_KEY, () => {
+    strictAssert(stickersDir != null, 'not initialized');
+    rimraf.sync(stickersDir);
+  });
+  ipcMain.handle(ERASE_DRAFTS_KEY, () => {
+    strictAssert(draftDir != null, 'not initialized');
+    rimraf.sync(draftDir);
+  });
 
   ipcMain.handle(CLEANUP_ORPHANED_ATTACHMENTS_KEY, async () => {
     const start = Date.now();
@@ -230,111 +249,119 @@ export function initialize({
     console.log(`cleanupOrphanedAttachments: took ${duration}ms`);
   });
 
-  protocol.handle('attachment', async req => {
-    const url = new URL(req.url);
-    if (url.host !== 'v1' && url.host !== 'v2') {
-      return new Response('Unknown host', { status: 404 });
+  protocol.handle('attachment', handleAttachmentRequest);
+}
+
+export async function handleAttachmentRequest(req: Request): Promise<Response> {
+  const url = new URL(req.url);
+  if (url.host !== 'v1' && url.host !== 'v2') {
+    return new Response('Unknown host', { status: 404 });
+  }
+
+  // Disposition
+  let disposition: z.infer<typeof dispositionSchema> = 'attachment';
+  const dispositionParam = url.searchParams.get('disposition');
+  if (dispositionParam != null) {
+    disposition = dispositionSchema.parse(dispositionParam);
+  }
+
+  strictAssert(attachmentsDir != null, 'not initialized');
+  strictAssert(tempDir != null, 'not initialized');
+  strictAssert(draftDir != null, 'not initialized');
+  strictAssert(stickersDir != null, 'not initialized');
+  strictAssert(avatarDataDir != null, 'not initialized');
+
+  let parentDir: string;
+  switch (disposition) {
+    case 'attachment':
+      parentDir = attachmentsDir;
+      break;
+    case 'temporary':
+      parentDir = tempDir;
+      break;
+    case 'draft':
+      parentDir = draftDir;
+      break;
+    case 'sticker':
+      parentDir = stickersDir;
+      break;
+    case 'avatarData':
+      parentDir = avatarDataDir;
+      break;
+    default:
+      throw missingCaseError(disposition);
+  }
+
+  // Remove first slash
+  const path = normalize(
+    join(parentDir, ...url.pathname.slice(1).split(/\//g))
+  );
+  if (!isPathInside(path, parentDir)) {
+    return new Response('Access denied', { status: 401 });
+  }
+
+  // Get attachment size to trim the padding
+  const sizeParam = url.searchParams.get('size');
+  let maybeSize: number | undefined;
+  if (sizeParam != null) {
+    const intValue = safeParseInteger(sizeParam);
+    if (intValue != null) {
+      maybeSize = intValue;
     }
+  }
 
-    // Disposition
-    let disposition: z.infer<typeof dispositionSchema> = 'attachment';
-    const dispositionParam = url.searchParams.get('disposition');
-    if (dispositionParam != null) {
-      disposition = dispositionSchema.parse(dispositionParam);
-    }
-
-    let parentDir: string;
-    switch (disposition) {
-      case 'attachment':
-        parentDir = attachmentsDir;
-        break;
-      case 'temporary':
-        parentDir = tempDir;
-        break;
-      case 'draft':
-        parentDir = draftDir;
-        break;
-      case 'sticker':
-        parentDir = stickersDir;
-        break;
-      case 'avatarData':
-        parentDir = avatarDataDir;
-        break;
-      default:
-        throw missingCaseError(disposition);
-    }
-
-    // Remove first slash
-    const path = normalize(
-      join(parentDir, ...url.pathname.slice(1).split(/\//g))
-    );
-    if (!isPathInside(path, parentDir)) {
-      return new Response('Access denied', { status: 401 });
-    }
-
-    // Get attachment size to trim the padding
-    const sizeParam = url.searchParams.get('size');
-    let maybeSize: number | undefined;
-    if (sizeParam != null) {
-      const intValue = safeParseInteger(sizeParam);
-      if (intValue != null) {
-        maybeSize = intValue;
-      }
-    }
-
-    // Legacy plaintext attachments
-    if (url.host === 'v1') {
-      return handleRangeRequest({
-        request: req,
-        size: maybeSize,
-        plaintext: createReadStream(path),
-      });
-    }
-
-    // Encrypted attachments
-
-    // Get AES+MAC key
-    const maybeKeysBase64 = url.searchParams.get('key');
-    if (maybeKeysBase64 == null) {
-      return new Response('Missing key', { status: 400 });
-    }
-
-    // Size is required for trimming padding.
-    if (maybeSize == null) {
-      return new Response('Missing size', { status: 400 });
-    }
-
-    // Pacify typescript
-    const size = maybeSize;
-    const keysBase64 = maybeKeysBase64;
-
-    const plaintext = new PassThrough();
-
-    async function runSafe(): Promise<void> {
-      try {
-        await decryptAttachmentV2ToSink(
-          {
-            ciphertextPath: path,
-            idForLogging: 'attachment_channel',
-            keysBase64,
-            size,
-
-            isLocal: true,
-          },
-          plaintext
-        );
-      } catch (error) {
-        plaintext.emit('error', error);
-      }
-    }
-
-    drop(runSafe());
-
+  // Legacy plaintext attachments
+  if (url.host === 'v1') {
     return handleRangeRequest({
       request: req,
       size: maybeSize,
-      plaintext,
+      plaintext: createReadStream(path),
     });
+  }
+
+  // Encrypted attachments
+
+  // Get AES+MAC key
+  const maybeKeysBase64 = url.searchParams.get('key');
+  if (maybeKeysBase64 == null) {
+    return new Response('Missing key', { status: 400 });
+  }
+
+  // Size is required for trimming padding.
+  if (maybeSize == null) {
+    return new Response('Missing size', { status: 400 });
+  }
+
+  // Pacify typescript
+  const size = maybeSize;
+  const keysBase64 = maybeKeysBase64;
+
+  const plaintext = new PassThrough();
+
+  async function runSafe(): Promise<void> {
+    try {
+      await decryptAttachmentV2ToSink(
+        {
+          ciphertextPath: path,
+          idForLogging: 'attachment_channel',
+          keysBase64,
+          size,
+
+          isLocal: true,
+        },
+        plaintext
+      );
+    } catch (error) {
+      plaintext.emit('error', error);
+    }
+  }
+
+  drop(runSafe());
+
+  return handleRangeRequest({
+    request: req,
+    size: maybeSize,
+    plaintext,
   });
 }
 

@@ -3,7 +3,6 @@
 
 import type { BrowserWindow } from 'electron';
 import { Menu, clipboard, nativeImage } from 'electron';
-import { fileURLToPath } from 'url';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 
 import { maybeParseUrl } from '../ts/util/url';
@@ -12,6 +11,7 @@ import type { MenuListType } from '../ts/types/menu';
 import type { LocalizerType } from '../ts/types/Util';
 import { strictAssert } from '../ts/util/assert';
 import type { LoggerType } from '../ts/types/Logging';
+import { handleAttachmentRequest } from './attachment_channel';
 
 export const FAKE_DEFAULT_LOCALE = 'en-x-ignore'; // -x- is an extension space for attaching other metadata to the locale
 
@@ -151,23 +151,35 @@ export const setup = (
           };
           label = i18n('icu:contextMenuCopyLink');
         } else if (isImage) {
-          const urlIsViewOnce =
-            params.srcURL?.includes('/temp/') ||
-            params.srcURL?.includes('\\temp\\');
-          if (urlIsViewOnce) {
-            return;
-          }
-
-          click = () => {
+          click = async () => {
             const parsedSrcUrl = maybeParseUrl(params.srcURL);
-            if (!parsedSrcUrl || parsedSrcUrl.protocol !== 'file:') {
+            if (!parsedSrcUrl || parsedSrcUrl.protocol !== 'attachment:') {
               return;
             }
 
-            const image = nativeImage.createFromPath(
-              fileURLToPath(params.srcURL)
-            );
-            clipboard.writeImage(image);
+            const urlIsViewOnce =
+              parsedSrcUrl.searchParams.get('disposition') === 'temporary';
+            if (urlIsViewOnce) {
+              return;
+            }
+
+            const req = new Request(parsedSrcUrl, {
+              method: 'GET',
+            });
+
+            try {
+              const res = await handleAttachmentRequest(req);
+              if (!res.ok) {
+                return;
+              }
+
+              const image = nativeImage.createFromBuffer(
+                Buffer.from(await res.arrayBuffer())
+              );
+              clipboard.writeImage(image);
+            } catch (error) {
+              logger.error('Failed to load image', error);
+            }
           };
           label = i18n('icu:contextMenuCopyImage');
         } else {
