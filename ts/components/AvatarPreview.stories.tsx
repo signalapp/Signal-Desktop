@@ -6,6 +6,7 @@ import { chunk } from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './AvatarPreview';
 import { AvatarPreview } from './AvatarPreview';
 import { AvatarColors } from '../types/Colors';
@@ -23,7 +24,7 @@ const TEST_IMAGE = new Uint8Array(
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   avatarColor: overrideProps.avatarColor,
-  avatarPath: overrideProps.avatarPath,
+  avatarUrl: overrideProps.avatarUrl,
   avatarValue: overrideProps.avatarValue,
   conversationTitle: overrideProps.conversationTitle,
   i18n,
@@ -37,7 +38,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
 export default {
   title: 'Components/AvatarPreview',
-};
+} satisfies Meta<PropsType>;
 
 export function NoStatePersonal(): JSX.Element {
   return (
@@ -50,10 +51,6 @@ export function NoStatePersonal(): JSX.Element {
   );
 }
 
-NoStatePersonal.story = {
-  name: 'No state (personal)',
-};
-
 export function NoStateGroup(): JSX.Element {
   return (
     <AvatarPreview
@@ -64,10 +61,6 @@ export function NoStateGroup(): JSX.Element {
     />
   );
 }
-
-NoStateGroup.story = {
-  name: 'No state (group)',
-};
 
 export function NoStateGroupUploadMe(): JSX.Element {
   return (
@@ -81,44 +74,28 @@ export function NoStateGroupUploadMe(): JSX.Element {
   );
 }
 
-NoStateGroupUploadMe.story = {
-  name: 'No state (group) + upload me',
-};
-
 export function Value(): JSX.Element {
   return <AvatarPreview {...createProps({ avatarValue: TEST_IMAGE })} />;
 }
 
-Value.story = {
-  name: 'value',
-};
-
 export function Path(): JSX.Element {
   return (
     <AvatarPreview
-      {...createProps({ avatarPath: '/fixtures/kitten-3-64-64.jpg' })}
+      {...createProps({ avatarUrl: '/fixtures/kitten-3-64-64.jpg' })}
     />
   );
 }
 
-Path.story = {
-  name: 'path',
-};
-
-export function ValuePath(): JSX.Element {
+export function ValueAndPath(): JSX.Element {
   return (
     <AvatarPreview
       {...createProps({
-        avatarPath: '/fixtures/kitten-3-64-64.jpg',
+        avatarUrl: '/fixtures/kitten-3-64-64.jpg',
         avatarValue: TEST_IMAGE,
       })}
     />
   );
 }
-
-ValuePath.story = {
-  name: 'value & path',
-};
 
 export function Style(): JSX.Element {
   return (
@@ -130,7 +107,3 @@ export function Style(): JSX.Element {
     />
   );
 }
-
-Style.story = {
-  name: 'style',
-};

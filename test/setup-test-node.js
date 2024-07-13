@@ -5,7 +5,6 @@
 
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
-const { usernames } = require('@signalapp/libsignal-client');
 
 const { Crypto } = require('../ts/context/Crypto');
 const { setEnvironment, Environment } = require('../ts/environment');
@@ -13,7 +12,7 @@ const { HourCyclePreference } = require('../ts/types/I18N');
 
 chai.use(chaiAsPromised);
 
-setEnvironment(Environment.Test);
+setEnvironment(Environment.Test, true);
 
 const storageMap = new Map();
 
@@ -23,7 +22,6 @@ global.window = {
   performance,
   SignalContext: {
     crypto: new Crypto(),
-    usernames,
     log: {
       info: (...args) => console.log(...args),
       warn: (...args) => console.warn(...args),
@@ -33,6 +31,7 @@ global.window = {
     getResolvedMessagesLocaleDirection: () => 'ltr',
     getHourCyclePreference: () => HourCyclePreference.UnknownPreference,
     getPreferredSystemLocales: () => ['en'],
+    getLocaleOverride: () => null,
   },
   i18n: key => `i18n(${key})`,
   storage: {
@@ -49,6 +48,8 @@ global.WebSocket = {};
 /* eslint max-classes-per-file: ["error", 2] */
 global.AudioContext = class {};
 global.Audio = class {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   pause() {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   addEventListener() {}
 };

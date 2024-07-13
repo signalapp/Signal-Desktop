@@ -34,10 +34,10 @@ Install the [Xcode Command-Line Tools](http://osxdaily.com/2014/02/12/install-co
 
 ### Windows
 
-1.  Download _Build Tools for Visual Studio 2017_ from the [Visual Studio 'older downloads' page](https://visualstudio.microsoft.com/vs/older-downloads/) and install it, including the "Desktop development with C++" option.
+1.  Download _Build Tools for Visual Studio 2019_ from the [Visual Studio 'older downloads' page](https://visualstudio.microsoft.com/vs/older-downloads/) and install it, including the "Desktop development with C++" option.
 2.  Install Windows 10 SDK, version 1803 (10.0.17134.x) from the [SDK Archive page](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive)
 3.  Download and install the latest Python 3 release from https://www.python.org/downloads/windows/ (3.6 or later required).
-4.  Copy `platform.winmd` from your build tools location (like `C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\lib\x86\store\references`) to the Windows SDK path: `C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17134.0`. This is for our [`@nodert-win10-rs4`](https://github.com/NodeRT/NodeRT) dependencies.
+4.  Copy `platform.winmd` from your build tools location (like `C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\lib\x86\store\references`) to the Windows SDK path: `C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17134.0`. This is for our [`@nodert-win10-rs4`](https://github.com/NodeRT/NodeRT) dependencies.
 
 ### Linux
 
@@ -52,13 +52,12 @@ Install the [Xcode Command-Line Tools](http://osxdaily.com/2014/02/12/install-co
 Now, run these commands in your preferred terminal in a good directory for development:
 
 ```
-npm install --global yarn      # Make sure you have have `yarn`
 git clone https://github.com/signalapp/Signal-Desktop.git
 cd Signal-Desktop
-yarn install --frozen-lockfile # Install and build dependencies (this will take a while)
-yarn generate                  # Generate final JS and CSS assets
-yarn test                      # A good idea to make sure tests run first
-yarn start                     # Start Signal!
+npm install       # Install and build dependencies (this will take a while)
+npm run generate  # Generate final JS and CSS assets
+npm test          # A good idea to make sure tests run first
+npm start         # Start Signal!
 ```
 
 You'll need to restart the application regularly to see your changes, as there
@@ -68,14 +67,14 @@ is no automatic restart mechanism. Alternatively, keep the developer tools open
 (Windows & Linux).
 
 Also, note that the assets loaded by the application are not necessarily the same files
-you’re touching. You may not see your changes until you run `yarn generate` on the
+you’re touching. You may not see your changes until you run `npm run generate` on the
 command-line like you did during setup. You can make it easier on yourself by generating
 the latest built assets when you change a file. Run each of these in their own terminal
 instance while you make changes - they'll run until you stop them:
 
 ```
-yarn dev:transpile # recompiles when you change .ts files
-yarn dev:sass      # recompiles when you change .scss files
+npm run dev:transpile # recompiles when you change .ts files
+npm run dev:sass      # recompiles when you change .scss files
 ```
 
 ### webpack
@@ -85,7 +84,7 @@ You can run a development server for these parts of the app with the
 following command:
 
 ```
-yarn dev
+npm run dev
 ```
 
 In order for the app to make requests to the development server you must set
@@ -93,7 +92,7 @@ the `SIGNAL_ENABLE_HTTP` environment variable to a truthy value. On Linux and
 macOS, that simply looks like this:
 
 ```
-SIGNAL_ENABLE_HTTP=1 yarn start
+SIGNAL_ENABLE_HTTP=1 npm start
 ```
 
 ## Setting up standalone
@@ -158,7 +157,7 @@ For example, to create an 'alice' profile, put a file called `local-alice.json` 
 Then you can start up the application a little differently to load the profile:
 
 ```
-NODE_APP_INSTANCE=alice yarn run start
+NODE_APP_INSTANCE=alice npm start
 ```
 
 This changes the `userData` directory from `%appData%/Signal` to `%appData%/Signal-aliceProfile`.
@@ -174,15 +173,15 @@ Please write tests! Our testing framework is
 [mocha](http://mochajs.org/) and our assertion library is
 [chai](http://chaijs.com/api/assert/).
 
-The easiest way to run all tests at once is `yarn test`, which will run them on the
+The easiest way to run all tests at once is `npm test`, which will run them on the
 command line. You can run the client-side tests in an interactive session with
-`NODE_ENV=test yarn run start`.
+`NODE_ENV=test npm start`.
 
 ## Pull requests
 
 So you wanna make a pull request? Please observe the following guidelines.
 
-- First, make sure that your `yarn ready` run passes - it's very similar to what our
+- First, make sure that your `npm run ready` run passes - it's very similar to what our
   Continuous Integration servers do to test the app.
 - Please do not submit pull requests for translation fixes.
 - Never use plain strings right in the source code - pull them from `messages.json`!
@@ -205,10 +204,11 @@ So you wanna make a pull request? Please observe the following guidelines.
   to aid in the review process.
 - Provide a well written and nicely formatted commit message. See [this
   link](http://chris.beams.io/posts/git-commit/)
-  for some tips on formatting. As far as content, try to include in your
-  summary
+  for some tips on formatting. As far as content, try to include the following in your
+  summary:
+
   1.  What you changed
-  2.  Why this change was made (including git issue # if appropriate)
+  2.  Why this change was made. If there is a relevant [GitHub Issue](https://github.com/signalapp/Signal-Desktop/issues), please include the Issue number.
   3.  Any relevant technical details or motivations for your implementation
       choices that may be helpful to someone reviewing or auditing the commit
       history in the future. When in doubt, err on the side of a longer
@@ -260,8 +260,27 @@ will go to your new development desktop app instead of your phone.
 To test changes to the build system, build a release using
 
 ```
-yarn generate
-yarn build
+npm run generate
+npm run build
 ```
 
-Then, run the tests using `yarn test-release`.
+Then, run the tests using `npm run test-release`.
+
+### Testing MacOS builds
+
+macOS requires apps to be code signed with an Apple certificate. To test development builds
+you can ad-hoc sign the packaged app which will let you run it locally.
+
+1. In `package.json` remove the macOS signing script: `"sign": "./ts/scripts/sign-macos.js",`
+2. Build the app and ad-hoc sign the app bundle:
+
+```
+npm run generate
+npm run build
+cd release
+# Pick the desired app bundle: mac, mac-arm64, or mac-universal
+cd mac-arm64
+codesign --force --deep --sign - Signal.app
+```
+
+3. Now you can run the app locally.

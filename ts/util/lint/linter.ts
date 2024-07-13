@@ -276,6 +276,7 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/yargs-unparser/',
     '^node_modules/yargs/.+',
     '^node_modules/find-yarn-workspace-root/.+',
+    '^node_modules/unzipper/node_modules/bluebird/.+',
     '^node_modules/update-notifier/.+',
     '^node_modules/windows-release/.+',
 

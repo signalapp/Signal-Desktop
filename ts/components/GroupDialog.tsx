@@ -110,7 +110,7 @@ function Contacts({
         <li key={contact.id} className="module-GroupDialog__contacts__contact">
           <Avatar
             acceptedMessageRequest={contact.acceptedMessageRequest}
-            avatarPath={contact.avatarPath}
+            avatarUrl={contact.avatarUrl}
             badge={getPreferredBadge(contact.badges)}
             color={contact.color}
             conversationType={contact.type}
@@ -118,7 +118,7 @@ function Contacts({
             noteToSelf={contact.isMe}
             theme={theme}
             title={contact.title}
-            unblurredAvatarPath={contact.unblurredAvatarPath}
+            unblurredAvatarUrl={contact.unblurredAvatarUrl}
             sharedGroupNames={contact.sharedGroupNames}
             size={AvatarSize.TWENTY_EIGHT}
             i18n={i18n}

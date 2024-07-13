@@ -1,10 +1,10 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import React, { useContext } from 'react';
 import casual from 'casual';
-
+import { action } from '@storybook/addon-actions';
 import enMessages from '../../../_locales/en/messages.json';
 import type { Props } from './ConversationHero';
 import { ConversationHero } from './ConversationHero';
@@ -19,24 +19,19 @@ const i18n = setupI18n('en', enMessages);
 export default {
   title: 'Components/Conversation/ConversationHero',
   component: ConversationHero,
-  argTypes: {
-    conversationType: {
-      defaultValue: 'direct',
-    },
-    i18n: {
-      defaultValue: i18n,
-    },
-    theme: {
-      defaultValue: ThemeType.light,
-    },
-    unblurAvatar: { action: true },
-    updateSharedGroups: { action: true },
-    viewUserStories: { action: true },
+  args: {
+    conversationType: 'direct',
+    i18n,
+    theme: ThemeType.light,
+    unblurAvatar: action('unblurAvatar'),
+    updateSharedGroups: action('updateSharedGroups'),
+    viewUserStories: action('viewUserStories'),
+    toggleAboutContactModal: action('toggleAboutContactModal'),
   },
-} as Meta;
+} satisfies Meta<Props>;
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<Props> = args => {
+const Template: StoryFn<Props> = args => {
   const theme = useContext(StorybookThemeContext);
   return (
     <div style={{ width: '480px' }}>
@@ -49,89 +44,59 @@ export const DirectFiveOtherGroups = Template.bind({});
 DirectFiveOtherGroups.args = {
   sharedGroupNames: Array.from(Array(5), () => casual.title),
 };
-DirectFiveOtherGroups.story = {
-  name: 'Direct (Five Other Groups)',
-};
 
 export const DirectFourOtherGroups = Template.bind({});
 DirectFourOtherGroups.args = {
   sharedGroupNames: Array.from(Array(4), () => casual.title),
-};
-DirectFourOtherGroups.story = {
-  name: 'Direct (Four Other Groups)',
 };
 
 export const DirectThreeOtherGroups = Template.bind({});
 DirectThreeOtherGroups.args = {
   sharedGroupNames: Array.from(Array(3), () => casual.title),
 };
-DirectThreeOtherGroups.story = {
-  name: 'Direct (Three Other Groups)',
-};
 
 export const DirectTwoOtherGroups = Template.bind({});
 DirectTwoOtherGroups.args = {
   sharedGroupNames: Array.from(Array(2), () => casual.title),
-};
-DirectTwoOtherGroups.story = {
-  name: 'Direct (Two Other Groups)',
 };
 
 export const DirectOneOtherGroup = Template.bind({});
 DirectOneOtherGroup.args = {
   sharedGroupNames: [casual.title],
 };
-DirectOneOtherGroup.story = {
-  name: 'Direct (One Other Group)',
-};
 
 export const DirectNoGroupsName = Template.bind({});
 DirectNoGroupsName.args = {
   about: '👍 Free to chat',
-};
-DirectNoGroupsName.story = {
-  name: 'Direct (No Groups, Name)',
 };
 
 export const DirectNoGroupsJustProfile = Template.bind({});
 DirectNoGroupsJustProfile.args = {
   phoneNumber: casual.phone,
 };
-DirectNoGroupsJustProfile.story = {
-  name: 'Direct (No Groups, Just Profile)',
-};
 
 export const DirectNoGroupsJustPhoneNumber = Template.bind({});
 DirectNoGroupsJustPhoneNumber.args = {
   phoneNumber: casual.phone,
   profileName: '',
-  title: '',
-};
-DirectNoGroupsJustPhoneNumber.story = {
-  name: 'Direct (No Groups, Just Phone Number)',
+  title: casual.phone,
 };
 
 export const DirectNoGroupsNoData = Template.bind({});
 DirectNoGroupsNoData.args = {
-  avatarPath: undefined,
+  avatarUrl: undefined,
   phoneNumber: '',
   profileName: '',
-  title: '',
-};
-DirectNoGroupsNoData.story = {
-  name: 'Direct (No Groups, No Data)',
+  title: casual.phone,
 };
 
 export const DirectNoGroupsNoDataNotAccepted = Template.bind({});
 DirectNoGroupsNoDataNotAccepted.args = {
   acceptedMessageRequest: false,
-  avatarPath: undefined,
+  avatarUrl: undefined,
   phoneNumber: '',
   profileName: '',
   title: '',
-};
-DirectNoGroupsNoDataNotAccepted.story = {
-  name: 'Direct (No Groups, No Data, Not Accepted)',
 };
 
 export const DirectNoGroupsNotAcceptedWithAvatar = Template.bind({});
@@ -139,9 +104,6 @@ DirectNoGroupsNotAcceptedWithAvatar.args = {
   ...getDefaultConversation(),
   acceptedMessageRequest: false,
   profileName: '',
-};
-DirectNoGroupsNotAcceptedWithAvatar.story = {
-  name: 'Direct (No Groups, No Data, Not Accepted, With Avatar)',
 };
 
 export const GroupManyMembers = Template.bind({});
@@ -151,32 +113,23 @@ GroupManyMembers.args = {
   membersCount: casual.integer(20, 100),
   title: casual.title,
 };
-GroupManyMembers.story = {
-  name: 'Group (many members)',
-};
 
 export const GroupOneMember = Template.bind({});
 GroupOneMember.args = {
-  avatarPath: undefined,
+  avatarUrl: undefined,
   conversationType: 'group',
   groupDescription: casual.sentence,
   membersCount: 1,
   title: casual.title,
 };
-GroupOneMember.story = {
-  name: 'Group (one member)',
-};
 
 export const GroupZeroMembers = Template.bind({});
 GroupZeroMembers.args = {
-  avatarPath: undefined,
+  avatarUrl: undefined,
   conversationType: 'group',
   groupDescription: casual.sentence,
   membersCount: 0,
   title: casual.title,
-};
-GroupZeroMembers.story = {
-  name: 'Group (zero members)',
 };
 
 export const GroupLongGroupDescription = Template.bind({});
@@ -187,9 +140,6 @@ GroupLongGroupDescription.args = {
   membersCount: casual.integer(1, 10),
   title: casual.title,
 };
-GroupLongGroupDescription.story = {
-  name: 'Group (long group description)',
-};
 
 export const GroupNoName = Template.bind({});
 GroupNoName.args = {
@@ -197,16 +147,10 @@ GroupNoName.args = {
   membersCount: 0,
   title: '',
 };
-GroupNoName.story = {
-  name: 'Group (No name)',
-};
 
 export const NoteToSelf = Template.bind({});
 NoteToSelf.args = {
   isMe: true,
-};
-NoteToSelf.story = {
-  name: 'Note to Self',
 };
 
 export const UnreadStories = Template.bind({});

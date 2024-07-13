@@ -13,7 +13,9 @@
 
   align-items: center;
   display: flex;
-  padding: 16px;
+  padding-block: 10px;
+  padding-inline: 16px;
+  min-height: 56px;
   user-select: none;
 
   border-top-width: 1px;
@@ -71,5 +73,9 @@
       height: 20px;
       width: 20px;
     }
+  }
+
+  &__custom-info {
+    flex-shrink: 0;
   }
 }

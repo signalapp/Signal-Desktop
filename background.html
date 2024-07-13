@@ -16,12 +16,12 @@
       http-equiv="Content-Security-Policy"
       content="default-src 'none';
             child-src 'self';
-            connect-src 'self' https: wss:;
+            connect-src 'self' https: wss: attachment:;
             font-src 'self';
             form-action 'self';
             frame-src 'none';
-            img-src 'self' blob: data:;
-            media-src 'self' blob:;
+            img-src 'self' blob: data: emoji: attachment:;
+            media-src 'self' blob: attachment:;
             object-src 'none';
             script-src 'self' 'sha256-Qu05oqDmBO5fZacm7tr/oerJcqsW0G/XqP4PRCziovc=' 'sha256-eLeGwSfPmXJ+EUiLfIeXABvLiUqDbiKgNLpHITaabgQ=';
             style-src 'self' 'unsafe-inline';"
@@ -88,16 +88,11 @@
       rel="stylesheet"
       type="text/css"
     />
-    <link
-      href="node_modules/@indutny/frameless-titlebar/dist/styles.css"
-      rel="stylesheet"
-      type="text/css"
-    />
     <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
   </head>
   <body class="overflow-hidden">
     <div id="app-container">
-      <div class="app-loading-screen app-loading-screen--without-titlebar">
+      <div class="app-loading-screen app-loading-screen--before-app-load">
         <div class="module-title-bar-drag-area"></div>
 
         <div class="module-splash-screen__logo module-img--150"></div>

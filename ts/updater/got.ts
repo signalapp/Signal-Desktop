@@ -24,13 +24,15 @@ export function getCertificateAuthority(): string {
   return config.get('certificateAuthority');
 }
 
-export function getGotOptions(): GotOptions {
+export type { GotOptions };
+
+export async function getGotOptions(): Promise<GotOptions> {
   const certificateAuthority = getCertificateAuthority();
   const proxyUrl = getProxyUrl();
   const agent = proxyUrl
     ? {
-        http: createProxyAgent(proxyUrl),
-        https: createProxyAgent(proxyUrl),
+        http: await createProxyAgent(proxyUrl),
+        https: await createProxyAgent(proxyUrl),
       }
     : {
         http: new HTTPAgent(),

@@ -21,6 +21,7 @@ export class OurProfileKeyService {
         resolve();
       });
     });
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.promisesBlockingGet = [storageReadyPromise];
 
     this.storage = storage;

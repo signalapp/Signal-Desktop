@@ -12,13 +12,14 @@ import { Avatar } from '../Avatar';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
+import { drop } from '../../util/drop';
 
 const MAX_AVATARS_COUNT = 3;
 
 type TypingContactType = Pick<
   ConversationType,
   | 'acceptedMessageRequest'
-  | 'avatarPath'
+  | 'avatarUrl'
   | 'badges'
   | 'color'
   | 'id'
@@ -60,7 +61,7 @@ const AVATAR_ANIMATION_PROPS: Record<'visible' | 'hidden', object> = {
   hidden: {
     opacity: 0.5,
     width: '4px', // Match value of module-message__typing-avatar margin-inline-start
-    x: '14px',
+    x: '12px',
     top: '34px',
   },
 };
@@ -104,7 +105,11 @@ function TypingBubbleAvatar({
 
   useEffect(() => {
     springApi.stop();
-    springApi.start(AVATAR_ANIMATION_PROPS[visible ? 'visible' : 'hidden']);
+    drop(
+      Promise.all(
+        springApi.start(AVATAR_ANIMATION_PROPS[visible ? 'visible' : 'hidden'])
+      )
+    );
   }, [visible, springApi]);
 
   if (!contact) {
@@ -115,7 +120,7 @@ function TypingBubbleAvatar({
     <animated.div className="module-message__typing-avatar" style={springProps}>
       <Avatar
         acceptedMessageRequest={contact.acceptedMessageRequest}
-        avatarPath={contact.avatarPath}
+        avatarUrl={contact.avatarUrl}
         badge={getPreferredBadge(contact.badges)}
         color={contact.color}
         conversationType="direct"
@@ -200,6 +205,7 @@ function TypingBubbleGroupAvatars({
   // Avatars are rendered Right-to-Left so the leftmost avatars can render on top.
   return (
     <div className="module-message__author-avatar-container module-message__author-avatar-container--typing">
+      <div className="module-message__typing-avatar-spacer" />
       {typingContactsOverflowCount > 0 && (
         <div
           className="module-message__typing-avatar module-message__typing-avatar--overflow-count
@@ -307,12 +313,20 @@ export function TypingBubble({
       setIsVisible(true);
     }
     typingAnimationSpringApi.stop();
-    typingAnimationSpringApi.start(
-      BUBBLE_ANIMATION_PROPS[isSomeoneTyping ? 'visible' : 'hidden']
+    drop(
+      Promise.all(
+        typingAnimationSpringApi.start(
+          BUBBLE_ANIMATION_PROPS[isSomeoneTyping ? 'visible' : 'hidden']
+        )
+      )
     );
     outerDivSpringApi.stop();
-    outerDivSpringApi.start(
-      OUTER_DIV_ANIMATION_PROPS[isSomeoneTyping ? 'visible' : 'hidden']
+    drop(
+      Promise.all(
+        outerDivSpringApi.start(
+          OUTER_DIV_ANIMATION_PROPS[isSomeoneTyping ? 'visible' : 'hidden']
+        )
+      )
     );
   }, [isSomeoneTyping, typingAnimationSpringApi, outerDivSpringApi]);
 

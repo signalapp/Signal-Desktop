@@ -2,10 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import { action } from '@storybook/addon-actions';
-import { number } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import type { PropsData as MessageDataPropsType } from './Message';
 import { TextDirection } from './Message';
 import type { Props } from './MessageDetail';
@@ -19,10 +17,6 @@ import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
 import { ThemeType } from '../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
-
-export default {
-  title: 'Components/Conversation/MessageDetail',
-};
 
 const defaultMessage: MessageDataPropsType = {
   author: getDefaultConversation({
@@ -42,6 +36,7 @@ const defaultMessage: MessageDataPropsType = {
   isMessageRequestAccepted: true,
   isSelected: false,
   isSelectMode: false,
+  isSMS: false,
   isSpoilerExpanded: {},
   previews: [],
   readStatus: ReadStatus.Read,
@@ -51,206 +46,224 @@ const defaultMessage: MessageDataPropsType = {
   timestamp: Date.now(),
 };
 
-const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  contacts: overrideProps.contacts || [
-    {
-      ...getDefaultConversation({
-        title: 'Just Max',
-      }),
-      isOutgoingKeyError: false,
-      isUnidentifiedDelivery: false,
-      status: SendStatus.Delivered,
-    },
-  ],
-  errors: overrideProps.errors || [],
-  message: overrideProps.message || defaultMessage,
-  receivedAt: number('receivedAt', overrideProps.receivedAt || Date.now()),
-  sentAt: number('sentAt', overrideProps.sentAt || Date.now()),
-
-  getPreferredBadge: () => getFakeBadge(),
-  i18n,
-  platform: 'darwin',
-  interactionMode: 'keyboard',
-  theme: ThemeType.light,
-
-  toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
-
-  checkForAccount: action('checkForAccount'),
-  clearTargetedMessage: action('clearTargetedMessage'),
-  showLightboxForViewOnceMedia: action('showLightboxForViewOnceMedia'),
-  doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
-  kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
-  markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
-  messageExpanded: action('messageExpanded'),
-  showConversation: action('showConversation'),
-  openGiftBadge: action('openGiftBadge'),
-  renderAudioAttachment: () => <div>*AudioAttachment*</div>,
-  saveAttachment: action('saveAttachment'),
-  showSpoiler: action('showSpoiler'),
-  retryMessageSend: action('retryMessageSend'),
-  pushPanelForConversation: action('pushPanelForConversation'),
-  showContactModal: action('showContactModal'),
-  showExpiredIncomingTapToViewToast: action(
-    'showExpiredIncomingTapToViewToast'
-  ),
-  showExpiredOutgoingTapToViewToast: action(
-    'showExpiredOutgoingTapToViewToast'
-  ),
-  showLightbox: action('showLightbox'),
-  startConversation: action('startConversation'),
-  viewStory: action('viewStory'),
-});
-
-export function DeliveredIncoming(): JSX.Element {
-  const props = createProps({
+export default {
+  title: 'Components/Conversation/MessageDetail',
+  argTypes: {
+    message: { control: { type: 'text' } },
+    receivedAt: { control: { type: 'number' } },
+    sentAt: { control: { type: 'number' } },
+  },
+  args: {
     contacts: [
       {
         ...getDefaultConversation({
-          color: 'forest',
-          title: 'Max',
-        }),
-        status: undefined,
-        isOutgoingKeyError: false,
-        isUnidentifiedDelivery: false,
-      },
-    ],
-  });
-  return <MessageDetail {...props} />;
-}
-
-export function DeliveredOutgoing(): JSX.Element {
-  const props = createProps({
-    message: {
-      ...defaultMessage,
-      direction: 'outgoing',
-      text: 'A message to Max',
-    },
-  });
-  return <MessageDetail {...props} />;
-}
-
-export function MessageStatuses(): JSX.Element {
-  const props = createProps({
-    contacts: [
-      {
-        ...getDefaultConversation({
-          title: 'Max',
-        }),
-        isOutgoingKeyError: false,
-        isUnidentifiedDelivery: false,
-        status: SendStatus.Sent,
-      },
-      {
-        ...getDefaultConversation({
-          title: 'Sally',
-        }),
-        isOutgoingKeyError: false,
-        isUnidentifiedDelivery: false,
-        status: SendStatus.Pending,
-      },
-      {
-        ...getDefaultConversation({
-          title: 'Terry',
-        }),
-        isOutgoingKeyError: false,
-        isUnidentifiedDelivery: false,
-        status: SendStatus.Failed,
-      },
-      {
-        ...getDefaultConversation({
-          title: 'Theo',
+          title: 'Just Max',
         }),
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
         status: SendStatus.Delivered,
       },
-      {
-        ...getDefaultConversation({
-          title: 'Nikki',
-        }),
-        isOutgoingKeyError: false,
-        isUnidentifiedDelivery: false,
-        status: SendStatus.Read,
-      },
     ],
-    message: {
-      ...defaultMessage,
-      conversationType: 'group',
-      text: 'A message to you all!',
-    },
-  });
-  return <MessageDetail {...props} />;
+    errors: [],
+    message: defaultMessage,
+    receivedAt: Date.now(),
+    sentAt: Date.now(),
+
+    getPreferredBadge: () => getFakeBadge(),
+    i18n,
+    platform: 'darwin',
+    interactionMode: 'keyboard',
+    theme: ThemeType.light,
+
+    toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
+
+    checkForAccount: action('checkForAccount'),
+    clearTargetedMessage: action('clearTargetedMessage'),
+    showLightboxForViewOnceMedia: action('showLightboxForViewOnceMedia'),
+    doubleCheckMissingQuoteReference: action(
+      'doubleCheckMissingQuoteReference'
+    ),
+    kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
+    markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
+    messageExpanded: action('messageExpanded'),
+    showConversation: action('showConversation'),
+    openGiftBadge: action('openGiftBadge'),
+    renderAudioAttachment: () => <div>AudioAttachment</div>,
+    saveAttachment: action('saveAttachment'),
+    showSpoiler: action('showSpoiler'),
+    retryMessageSend: action('retryMessageSend'),
+    pushPanelForConversation: action('pushPanelForConversation'),
+    showContactModal: action('showContactModal'),
+    showExpiredIncomingTapToViewToast: action(
+      'showExpiredIncomingTapToViewToast'
+    ),
+    showExpiredOutgoingTapToViewToast: action(
+      'showExpiredOutgoingTapToViewToast'
+    ),
+    showLightbox: action('showLightbox'),
+    startConversation: action('startConversation'),
+    viewStory: action('viewStory'),
+  },
+} satisfies Meta<Props>;
+
+export function DeliveredIncoming(args: Props): JSX.Element {
+  return (
+    <MessageDetail
+      {...args}
+      contacts={[
+        {
+          ...getDefaultConversation({
+            color: 'forest',
+            title: 'Max',
+          }),
+          status: undefined,
+          isOutgoingKeyError: false,
+          isUnidentifiedDelivery: false,
+        },
+      ]}
+    />
+  );
 }
 
-export function NotDelivered(): JSX.Element {
-  const props = createProps({
-    message: {
-      ...defaultMessage,
-      direction: 'outgoing',
-      text: 'A message to Max',
-    },
-  });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  props.receivedAt = undefined as any;
-
-  return <MessageDetail {...props} />;
+export function DeliveredOutgoing(args: Props): JSX.Element {
+  return (
+    <MessageDetail
+      {...args}
+      message={{
+        ...defaultMessage,
+        direction: 'outgoing',
+        text: 'A message to Max',
+      }}
+    />
+  );
 }
 
-export function NoContacts(): JSX.Element {
-  const props = createProps({
-    contacts: [],
-    message: {
-      ...defaultMessage,
-      direction: 'outgoing',
-      text: 'Is anybody there?',
-    },
-  });
-  return <MessageDetail {...props} />;
+export function MessageStatuses(args: Props): JSX.Element {
+  return (
+    <MessageDetail
+      {...args}
+      contacts={[
+        {
+          ...getDefaultConversation({
+            title: 'Max',
+          }),
+          isOutgoingKeyError: false,
+          isUnidentifiedDelivery: false,
+          status: SendStatus.Sent,
+        },
+        {
+          ...getDefaultConversation({
+            title: 'Sally',
+          }),
+          isOutgoingKeyError: false,
+          isUnidentifiedDelivery: false,
+          status: SendStatus.Pending,
+        },
+        {
+          ...getDefaultConversation({
+            title: 'Terry',
+          }),
+          isOutgoingKeyError: false,
+          isUnidentifiedDelivery: false,
+          status: SendStatus.Failed,
+        },
+        {
+          ...getDefaultConversation({
+            title: 'Theo',
+          }),
+          isOutgoingKeyError: false,
+          isUnidentifiedDelivery: false,
+          status: SendStatus.Delivered,
+        },
+        {
+          ...getDefaultConversation({
+            title: 'Nikki',
+          }),
+          isOutgoingKeyError: false,
+          isUnidentifiedDelivery: false,
+          status: SendStatus.Read,
+        },
+      ]}
+      message={{
+        ...defaultMessage,
+        conversationType: 'group',
+        text: 'A message to you all!',
+      }}
+    />
+  );
 }
 
-export function AllErrors(): JSX.Element {
-  const props = createProps({
-    errors: [
-      {
-        name: 'Another Error',
-        message: 'Wow, that went bad.',
-      },
-    ],
-    message: {
-      ...defaultMessage,
-    },
-    contacts: [
-      {
-        ...getDefaultConversation({
-          title: 'Max',
-        }),
-        isOutgoingKeyError: true,
-        isUnidentifiedDelivery: false,
-        status: SendStatus.Failed,
-      },
-      {
-        ...getDefaultConversation({
-          title: 'Sally',
-        }),
-        errors: [
-          {
-            name: 'Big Error',
-            message: 'Stuff happened, in a bad way.',
-          },
-        ],
-        isOutgoingKeyError: false,
-        isUnidentifiedDelivery: true,
-        status: SendStatus.Failed,
-      },
-      {
-        ...getDefaultConversation({
-          title: 'Terry',
-        }),
-        isOutgoingKeyError: true,
-        isUnidentifiedDelivery: true,
-        status: SendStatus.Failed,
-      },
-    ],
-  });
-  return <MessageDetail {...props} />;
+export function NotDelivered(args: Props): JSX.Element {
+  return (
+    <MessageDetail
+      {...args}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      receivedAt={undefined as any}
+      message={{
+        ...defaultMessage,
+        direction: 'outgoing',
+        text: 'A message to Max',
+      }}
+    />
+  );
+}
+
+export function NoContacts(args: Props): JSX.Element {
+  return (
+    <MessageDetail
+      {...args}
+      contacts={[]}
+      message={{
+        ...defaultMessage,
+        direction: 'outgoing',
+        text: 'Is anybody there?',
+      }}
+    />
+  );
+}
+
+export function AllErrors(args: Props): JSX.Element {
+  return (
+    <MessageDetail
+      {...args}
+      errors={[
+        {
+          name: 'Another Error',
+          message: 'Wow, that went bad.',
+        },
+      ]}
+      contacts={[
+        {
+          ...getDefaultConversation({
+            title: 'Max',
+          }),
+          isOutgoingKeyError: true,
+          isUnidentifiedDelivery: false,
+          status: SendStatus.Failed,
+        },
+        {
+          ...getDefaultConversation({
+            title: 'Sally',
+          }),
+          errors: [
+            {
+              name: 'Big Error',
+              message: 'Stuff happened, in a bad way.',
+            },
+          ],
+          isOutgoingKeyError: false,
+          isUnidentifiedDelivery: true,
+          status: SendStatus.Failed,
+        },
+        {
+          ...getDefaultConversation({
+            title: 'Terry',
+          }),
+          isOutgoingKeyError: true,
+          isUnidentifiedDelivery: true,
+          status: SendStatus.Failed,
+        },
+      ]}
+    />
+  );
 }

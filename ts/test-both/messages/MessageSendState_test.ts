@@ -13,6 +13,7 @@ import type {
 import {
   SendActionType,
   SendStatus,
+  getHighestSuccessfulRecipientStatus,
   isDelivered,
   isFailed,
   isMessageJustForMe,
@@ -21,6 +22,7 @@ import {
   isViewed,
   maxStatus,
   sendStateReducer,
+  someRecipientSendStatus,
   someSendStatus,
 } from '../../messages/MessageSendState';
 
@@ -123,29 +125,37 @@ describe('message send state utilities', () => {
     });
   });
 
-  describe('someSendStatus', () => {
+  describe('someRecipientSendStatus', () => {
+    const ourConversationId = uuid();
     it('returns false if there are no send states', () => {
       const alwaysTrue = () => true;
-      assert.isFalse(someSendStatus(undefined, alwaysTrue));
-      assert.isFalse(someSendStatus({}, alwaysTrue));
+      assert.isFalse(
+        someRecipientSendStatus({}, ourConversationId, alwaysTrue)
+      );
+      assert.isFalse(someRecipientSendStatus({}, undefined, alwaysTrue));
     });
 
-    it('returns false if no send states match', () => {
+    it('returns false if no send states match, excluding our own', () => {
       const sendStateByConversationId: SendStateByConversationId = {
         abc: {
           status: SendStatus.Sent,
           updatedAt: Date.now(),
         },
         def: {
+          status: SendStatus.Delivered,
+          updatedAt: Date.now(),
+        },
+        [ourConversationId]: {
           status: SendStatus.Read,
           updatedAt: Date.now(),
         },
       };
 
       assert.isFalse(
-        someSendStatus(
+        someRecipientSendStatus(
           sendStateByConversationId,
-          (status: SendStatus) => status === SendStatus.Delivered
+          ourConversationId,
+          (status: SendStatus) => status === SendStatus.Read
         )
       );
     });
@@ -160,6 +170,67 @@ describe('message send state utilities', () => {
           status: SendStatus.Read,
           updatedAt: Date.now(),
         },
+        [ourConversationId]: {
+          status: SendStatus.Read,
+          updatedAt: Date.now(),
+        },
+      };
+
+      assert.isTrue(
+        someRecipientSendStatus(
+          sendStateByConversationId,
+          ourConversationId,
+          (status: SendStatus) => status === SendStatus.Read
+        )
+      );
+    });
+  });
+
+  describe('someSendStatus', () => {
+    const ourConversationId = uuid();
+    it('returns false if there are no send states', () => {
+      const alwaysTrue = () => true;
+      assert.isFalse(someSendStatus({}, alwaysTrue));
+    });
+
+    it('returns false if no send states match', () => {
+      const sendStateByConversationId: SendStateByConversationId = {
+        abc: {
+          status: SendStatus.Sent,
+          updatedAt: Date.now(),
+        },
+        def: {
+          status: SendStatus.Read,
+          updatedAt: Date.now(),
+        },
+        [ourConversationId]: {
+          status: SendStatus.Delivered,
+          updatedAt: Date.now(),
+        },
+      };
+
+      assert.isFalse(
+        someSendStatus(
+          sendStateByConversationId,
+          (status: SendStatus) => status === SendStatus.Viewed
+        )
+      );
+    });
+
+    it("returns true if at least one send state matches, even if it's ours", () => {
+      const sendStateByConversationId: SendStateByConversationId = {
+        abc: {
+          status: SendStatus.Sent,
+          updatedAt: Date.now(),
+        },
+        [ourConversationId]: {
+          status: SendStatus.Read,
+          updatedAt: Date.now(),
+        },
+        def: {
+          status: SendStatus.Delivered,
+          updatedAt: Date.now(),
+        },
       };
 
       assert.isTrue(
@@ -171,11 +242,44 @@ describe('message send state utilities', () => {
     });
   });
 
+  describe('getHighestSuccessfulRecipientStatus', () => {
+    const ourConversationId = uuid();
+    it('returns pending if the conversation has an empty send state', () => {
+      assert.equal(
+        getHighestSuccessfulRecipientStatus({}, ourConversationId),
+        SendStatus.Pending
+      );
+    });
+
+    it('returns highest status, excluding our conversation', () => {
+      const sendStateByConversationId: SendStateByConversationId = {
+        abc: {
+          status: SendStatus.Sent,
+          updatedAt: Date.now(),
+        },
+        [ourConversationId]: {
+          status: SendStatus.Read,
+          updatedAt: Date.now(),
+        },
+        def: {
+          status: SendStatus.Delivered,
+          updatedAt: Date.now(),
+        },
+      };
+      assert.equal(
+        getHighestSuccessfulRecipientStatus(
+          sendStateByConversationId,
+          ourConversationId
+        ),
+        SendStatus.Delivered
+      );
+    });
+  });
+
   describe('isMessageJustForMe', () => {
     const ourConversationId = uuid();
 
     it('returns false if the conversation has an empty send state', () => {
-      assert.isFalse(isMessageJustForMe(undefined, ourConversationId));
       assert.isFalse(isMessageJustForMe({}, ourConversationId));
     });
 
@@ -189,6 +293,22 @@ describe('message send state utilities', () => {
             },
             [uuid()]: {
               status: SendStatus.Pending,
+              updatedAt: 123,
+            },
+          },
+          ourConversationId
+        )
+      );
+
+      assert.isFalse(
+        isMessageJustForMe(
+          {
+            [uuid()]: {
+              status: SendStatus.Pending,
+              updatedAt: 123,
+            },
+            [ourConversationId]: {
+              status: SendStatus.Sent,
               updatedAt: 123,
             },
           },

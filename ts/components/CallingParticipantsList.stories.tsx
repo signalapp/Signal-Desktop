@@ -5,6 +5,7 @@ import * as React from 'react';
 import { sample } from 'lodash';
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallingParticipantsList';
 import { CallingParticipantsList } from './CallingParticipantsList';
 import { AvatarColors } from '../types/Colors';
@@ -24,11 +25,13 @@ function createParticipant(
     demuxId: 2,
     hasRemoteAudio: Boolean(participantProps.hasRemoteAudio),
     hasRemoteVideo: Boolean(participantProps.hasRemoteVideo),
+    isHandRaised: Boolean(participantProps.isHandRaised),
+    mediaKeysReceived: Boolean(participantProps.mediaKeysReceived),
     presenting: Boolean(participantProps.presenting),
     sharingScreen: Boolean(participantProps.sharingScreen),
     videoAspectRatio: 1.3,
     ...getDefaultConversationWithServiceId({
-      avatarPath: participantProps.avatarPath,
+      avatarUrl: participantProps.avatarUrl,
       color: sample(AvatarColors),
       isBlocked: Boolean(participantProps.isBlocked),
       name: participantProps.name,
@@ -40,23 +43,21 @@ function createParticipant(
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
+  conversationId: 'fake-conversation-id',
   onClose: action('on-close'),
   ourServiceId: generateAci(),
   participants: overrideProps.participants || [],
+  showContactModal: action('show-contact-modal'),
 });
 
 export default {
   title: 'Components/CallingParticipantsList',
-};
+} satisfies Meta<PropsType>;
 
 export function NoOne(): JSX.Element {
   const props = createProps();
   return <CallingParticipantsList {...props} />;
 }
-
-NoOne.story = {
-  name: 'No one',
-};
 
 export function SoloCall(): JSX.Element {
   const props = createProps({
@@ -77,6 +78,7 @@ export function ManyParticipants(): JSX.Element {
       }),
       createParticipant({
         hasRemoteAudio: true,
+        hasRemoteVideo: true,
         presenting: true,
         name: 'Rage Trunks',
         title: 'Rage Trunks',
@@ -92,7 +94,17 @@ export function ManyParticipants(): JSX.Element {
         title: 'Goku Black',
       }),
       createParticipant({
+        isHandRaised: true,
         title: 'Supreme Kai Zamasu',
+      }),
+      createParticipant({
+        hasRemoteAudio: false,
+        hasRemoteVideo: true,
+        isHandRaised: true,
+        title: 'Chi Chi',
+      }),
+      createParticipant({
+        title: 'Someone With A Really Long Name',
       }),
     ],
   });

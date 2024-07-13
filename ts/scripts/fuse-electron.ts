@@ -43,8 +43,9 @@ export async function afterPack({
     [FuseV1Options.EnableNodeOptionsEnvironmentVariable]: false,
     // Disables the --inspect and --inspect-brk family of CLI options
     [FuseV1Options.EnableNodeCliInspectArguments]: enableInspectArguments,
-    // Enables validation of the app.asar archive on macOS
-    [FuseV1Options.EnableEmbeddedAsarIntegrityValidation]: true,
+    // Enables validation of the app.asar archive on macOS/Windows
+    [FuseV1Options.EnableEmbeddedAsarIntegrityValidation]:
+      electronPlatformName === 'darwin' || electronPlatformName === 'win32',
     // Enforces that Electron will only load your app from "app.asar" instead of
     // its normal search paths
     [FuseV1Options.OnlyLoadAppFromAsar]: true,

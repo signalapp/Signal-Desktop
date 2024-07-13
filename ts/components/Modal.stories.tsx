@@ -3,19 +3,19 @@
 
 import React from 'react';
 import { noop } from 'lodash';
-
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import { Button } from './Button';
+import type { ModalPropsType } from './Modal';
 import { Modal } from './Modal';
 
 const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Modal',
-};
+} satisfies Meta<ModalPropsType>;
 
 const onClose = action('onClose');
 
@@ -30,10 +30,6 @@ export function BareBonesShort(): JSX.Element {
   );
 }
 
-BareBonesShort.story = {
-  name: 'Bare bones, short',
-};
-
 export function BareBonesLong(): JSX.Element {
   return (
     <Modal modalName="test" i18n={i18n} useFocusTrap={false}>
@@ -44,10 +40,6 @@ export function BareBonesLong(): JSX.Element {
     </Modal>
   );
 }
-
-BareBonesLong.story = {
-  name: 'Bare bones, long',
-};
 
 export function BareBonesLongWithButton(): JSX.Element {
   return (
@@ -64,10 +56,6 @@ export function BareBonesLongWithButton(): JSX.Element {
   );
 }
 
-BareBonesLongWithButton.story = {
-  name: 'Bare bones, long, with button',
-};
-
 export function TitleXButtonBodyAndButtonFooter(): JSX.Element {
   return (
     <Modal
@@ -82,10 +70,6 @@ export function TitleXButtonBodyAndButtonFooter(): JSX.Element {
     </Modal>
   );
 }
-
-TitleXButtonBodyAndButtonFooter.story = {
-  name: 'Title, X button, body, and button footer',
-};
 
 export function LotsOfButtonsInTheFooter(): JSX.Element {
   return (
@@ -114,10 +98,6 @@ export function LotsOfButtonsInTheFooter(): JSX.Element {
   );
 }
 
-LotsOfButtonsInTheFooter.story = {
-  name: 'Lots of buttons in the footer',
-};
-
 export function LongBodyWithTitle(): JSX.Element {
   return (
     <Modal
@@ -134,10 +114,6 @@ export function LongBodyWithTitle(): JSX.Element {
     </Modal>
   );
 }
-
-LongBodyWithTitle.story = {
-  name: 'Long body with title',
-};
 
 export function LongBodyWithTitleAndButton(): JSX.Element {
   return (
@@ -156,10 +132,6 @@ export function LongBodyWithTitleAndButton(): JSX.Element {
   );
 }
 
-LongBodyWithTitleAndButton.story = {
-  name: 'Long body with title and button',
-};
-
 export function LongBodyWithLongTitleAndXButton(): JSX.Element {
   return (
     <Modal
@@ -176,10 +148,6 @@ export function LongBodyWithLongTitleAndXButton(): JSX.Element {
     </Modal>
   );
 }
-
-LongBodyWithLongTitleAndXButton.story = {
-  name: 'Long body with long title and X button',
-};
 
 export function WithStickyButtonsLongBody(): JSX.Element {
   return (
@@ -203,10 +171,6 @@ export function WithStickyButtonsLongBody(): JSX.Element {
   );
 }
 
-WithStickyButtonsLongBody.story = {
-  name: 'With sticky buttons long body',
-};
-
 export function WithStickyButtonsShortBody(): JSX.Element {
   return (
     <Modal
@@ -225,10 +189,6 @@ export function WithStickyButtonsShortBody(): JSX.Element {
     </Modal>
   );
 }
-
-WithStickyButtonsShortBody.story = {
-  name: 'With sticky buttons short body',
-};
 
 export function StickyFooterLotsOfButtons(): JSX.Element {
   return (
@@ -258,10 +218,6 @@ export function StickyFooterLotsOfButtons(): JSX.Element {
   );
 }
 
-StickyFooterLotsOfButtons.story = {
-  name: 'Sticky footer, Lots of buttons',
-};
-
 export function WithBackButton(): JSX.Element {
   return (
     <Modal
@@ -276,7 +232,3 @@ export function WithBackButton(): JSX.Element {
     </Modal>
   );
 }
-
-WithBackButton.story = {
-  name: 'Back Button',
-};

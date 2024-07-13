@@ -11,6 +11,15 @@ import * as logger from '../../logging/log';
 
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 import { DAY } from '../../util/durations';
+import { migrateDataToFileSystem } from '../../util/attachments/migrateDataToFilesystem';
+
+const FAKE_LOCAL_ATTACHMENT: Attachment.LocalAttachmentV2Type = {
+  version: 2,
+  size: 1,
+  plaintextHash: 'bogus',
+  path: 'fake',
+  localKey: 'absent',
+};
 
 describe('Attachment', () => {
   describe('getFileExtension', () => {
@@ -417,19 +426,18 @@ describe('Attachment', () => {
       };
 
       const expected = {
+        ...FAKE_LOCAL_ATTACHMENT,
         contentType: MIME.IMAGE_JPEG,
-        path: 'abc/abcdefgh123456789',
         fileName: 'foo.jpg',
-        size: 1111,
       };
 
       const expectedAttachmentData = Bytes.fromString('Above us only sky');
       const writeNewAttachmentData = async (attachmentData: Uint8Array) => {
         assert.deepEqual(attachmentData, expectedAttachmentData);
-        return 'abc/abcdefgh123456789';
+        return FAKE_LOCAL_ATTACHMENT;
       };
 
-      const actual = await Attachment.migrateDataToFileSystem(input, {
+      const actual = await migrateDataToFileSystem(input, {
         writeNewAttachmentData,
         logger,
       });
@@ -449,9 +457,9 @@ describe('Attachment', () => {
         size: 1111,
       };
 
-      const writeNewAttachmentData = async () => 'abc/abcdefgh123456789';
+      const writeNewAttachmentData = async () => FAKE_LOCAL_ATTACHMENT;
 
-      const actual = await Attachment.migrateDataToFileSystem(input, {
+      const actual = await migrateDataToFileSystem(input, {
         writeNewAttachmentData,
         logger,
       });
@@ -467,9 +475,9 @@ describe('Attachment', () => {
         size: 1111,
       };
 
-      const writeNewAttachmentData = async () => 'abc/abcdefgh123456789';
+      const writeNewAttachmentData = async () => FAKE_LOCAL_ATTACHMENT;
 
-      const actual = await Attachment.migrateDataToFileSystem(input, {
+      const actual = await migrateDataToFileSystem(input, {
         writeNewAttachmentData,
         logger,
       });

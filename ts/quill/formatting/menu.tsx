@@ -33,8 +33,6 @@ type FormattingPickerOptions = {
   i18n: LocalizerType;
   isMenuEnabled: boolean;
   isMouseDown?: boolean;
-  isEnabled: boolean;
-  isSpoilersEnabled: boolean;
   platform: string;
   setFormattingChooserElement: (element: JSX.Element | null) => void;
 };
@@ -173,7 +171,7 @@ export class FormattingMenu {
   }
 
   onEditorChange(): void {
-    if (!this.options.isMenuEnabled || !this.options.isEnabled) {
+    if (!this.options.isMenuEnabled) {
       this.scheduleRemoval();
       return;
     }
@@ -281,16 +279,6 @@ export class FormattingMenu {
   }
 
   toggleForStyle(style: QuillFormattingStyle, context?: KeyboardContext): void {
-    if (!this.options.isEnabled) {
-      return;
-    }
-    if (
-      !this.options.isSpoilersEnabled &&
-      style === QuillFormattingStyle.spoiler
-    ) {
-      return;
-    }
-
     try {
       const isEnabled = context
         ? Boolean(context.format[style])
@@ -314,7 +302,7 @@ export class FormattingMenu {
       return;
     }
 
-    const { i18n, isSpoilersEnabled, platform } = this.options;
+    const { i18n, platform } = this.options;
     const metaKey = getMetaKey(platform, i18n);
     const shiftKey = i18n('icu:Keyboard--Key--shift');
 
@@ -395,20 +383,18 @@ export class FormattingMenu {
                 style={QuillFormattingStyle.monospace}
                 toggleForStyle={toggleForStyle}
               />
-              {isSpoilersEnabled ? (
-                <FormattingButton
-                  hasLongHovered={hasLongHovered}
-                  isActive={isStyleEnabledInSelection(
-                    QuillFormattingStyle.spoiler
-                  )}
-                  onLongHover={onLongHover}
-                  popupGuideShortcut={`${metaKey} + ${shiftKey} + ${SPOILER_CHAR}`}
-                  popupGuideText={i18n('icu:FormatMenu--guide--spoiler')}
-                  label={i18n('icu:Keyboard--composer--spoiler')}
-                  style={QuillFormattingStyle.spoiler}
-                  toggleForStyle={toggleForStyle}
-                />
-              ) : null}
+              <FormattingButton
+                hasLongHovered={hasLongHovered}
+                isActive={isStyleEnabledInSelection(
+                  QuillFormattingStyle.spoiler
+                )}
+                onLongHover={onLongHover}
+                popupGuideShortcut={`${metaKey} + ${shiftKey} + ${SPOILER_CHAR}`}
+                popupGuideText={i18n('icu:FormatMenu--guide--spoiler')}
+                label={i18n('icu:Keyboard--composer--spoiler')}
+                style={QuillFormattingStyle.spoiler}
+                toggleForStyle={toggleForStyle}
+              />
             </div>
           );
         }}

@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RefObject } from 'react';
-import React from 'react';
+import React, { useCallback, memo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { TimelineItem } from '../../components/conversation/TimelineItem';
 import type { WidthBreakpoint } from '../../components/_util';
-import { useProxySelector } from '../../hooks/useProxySelector';
 import { useConversationsActions } from '../ducks/conversations';
 import { useComposerActions } from '../ducks/composer';
 import { useGlobalModalActions } from '../ducks/globalModals';
@@ -23,7 +22,7 @@ import {
   getPlatform,
 } from '../selectors/user';
 import { getTargetedMessage } from '../selectors/conversations';
-import { getTimelineItem } from '../selectors/timeline';
+import { useTimelineItem } from '../selectors/timeline';
 import {
   areMessagesInSameGroup,
   shouldCurrentMessageHideMetadata,
@@ -36,11 +35,14 @@ import { isSameDay } from '../../util/timestamp';
 import { renderAudioAttachment } from './renderAudioAttachment';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { renderReactionPicker } from './renderReactionPicker';
+import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation';
 
-type ExternalProps = {
+export type SmartTimelineItemProps = {
   containerElementRef: RefObject<HTMLElement>;
   containerWidthBreakpoint: WidthBreakpoint;
   conversationId: string;
+  isBlocked: boolean;
+  isGroup: boolean;
   isOldestTimelineItem: boolean;
   messageId: string;
   nextMessageId: undefined | string;
@@ -48,19 +50,22 @@ type ExternalProps = {
   unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
 };
 
-function renderContact(conversationId: string): JSX.Element {
-  return <SmartContactName conversationId={conversationId} />;
+function renderContact(contactId: string): JSX.Element {
+  return <SmartContactName contactId={contactId} />;
 }
 
 function renderUniversalTimerNotification(): JSX.Element {
   return <SmartUniversalTimerNotification />;
 }
-
-export function SmartTimelineItem(props: ExternalProps): JSX.Element {
+export const SmartTimelineItem = memo(function SmartTimelineItem(
+  props: SmartTimelineItemProps
+): JSX.Element {
   const {
     containerElementRef,
     containerWidthBreakpoint,
     conversationId,
+    isBlocked,
+    isGroup,
     isOldestTimelineItem,
     messageId,
     nextMessageId,
@@ -73,15 +78,14 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
   const interactionMode = useSelector(getInteractionMode);
   const theme = useSelector(getTheme);
   const platform = useSelector(getPlatform);
-  const item = useProxySelector(getTimelineItem, messageId);
-  const previousItem = useProxySelector(getTimelineItem, previousMessageId);
-  const nextItem = useProxySelector(getTimelineItem, nextMessageId);
 
+  const item = useTimelineItem(messageId, conversationId);
+  const previousItem = useTimelineItem(previousMessageId, conversationId);
+  const nextItem = useTimelineItem(nextMessageId, conversationId);
   const targetedMessage = useSelector(getTargetedMessage);
   const isTargeted = Boolean(
     targetedMessage && messageId === targetedMessage.id
   );
-
   const isNextItemCallingNotification = nextItem?.type === 'callHistory';
 
   const shouldCollapseAbove = areMessagesInSameGroup(
@@ -138,22 +142,34 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
   const {
     showContactModal,
     showEditHistoryModal,
+    toggleMessageRequestActionsConfirmation,
     toggleDeleteMessagesModal,
+    toggleEditNicknameAndNoteModal,
     toggleForwardMessagesModal,
     toggleSafetyNumberModal,
   } = useGlobalModalActions();
-
   const { checkForAccount } = useAccountsActions();
-
   const { showLightbox, showLightboxForViewOnceMedia } = useLightboxActions();
-
   const { viewStory } = useStoriesActions();
-
   const {
     onOutgoingAudioCallInConversation,
     onOutgoingVideoCallInConversation,
     returnToActiveCall,
   } = useCallingActions();
+
+  const onOpenEditNicknameAndNoteModal = useCallback(
+    (contactId: string) => {
+      toggleEditNicknameAndNoteModal({ conversationId: contactId });
+    },
+    [toggleEditNicknameAndNoteModal]
+  );
+
+  const onOpenMessageRequestActionsConfirmation = useCallback(
+    (state: MessageRequestState) => {
+      toggleMessageRequestActionsConfirmation({ conversationId, state });
+    },
+    [conversationId, toggleMessageRequestActionsConfirmation]
+  );
 
   return (
     <TimelineItem
@@ -177,6 +193,8 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
       showEditHistoryModal={showEditHistoryModal}
       i18n={i18n}
       interactionMode={interactionMode}
+      isBlocked={isBlocked}
+      isGroup={isGroup}
       theme={theme}
       platform={platform}
       blockGroupLinkRequests={blockGroupLinkRequests}
@@ -190,6 +208,10 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
       pushPanelForConversation={pushPanelForConversation}
       reactToMessage={reactToMessage}
       copyMessageText={copyMessageText}
+      onOpenEditNicknameAndNoteModal={onOpenEditNicknameAndNoteModal}
+      onOpenMessageRequestActionsConfirmation={
+        onOpenMessageRequestActionsConfirmation
+      }
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       retryDeleteForEveryone={retryDeleteForEveryone}
@@ -215,4 +237,4 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
       toggleSelectMessage={toggleSelectMessage}
     />
   );
-}
+});

@@ -3,18 +3,18 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import type { Props } from './StickerManager';
 import { StickerManager } from './StickerManager';
-import { createPack, sticker1, sticker2 } from './StickerPicker.stories';
+import { createPack, sticker1, sticker2 } from './mocks';
 
 const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Stickers/StickerManager',
-};
+} satisfies Meta<Props>;
 
 const receivedPacks = [
   createPack({ id: 'received-pack-1', status: 'downloaded' }, sticker1),
@@ -72,15 +72,11 @@ export function ReceivedPacks(): JSX.Element {
   return <StickerManager {...props} />;
 }
 
-export function InstalledKnownPacks(): JSX.Element {
+export function InstalledAndKnownPacks(): JSX.Element {
   const props = createProps({ installedPacks, knownPacks });
 
   return <StickerManager {...props} />;
 }
-
-InstalledKnownPacks.story = {
-  name: 'Installed + Known Packs',
-};
 
 export function Empty(): JSX.Element {
   const props = createProps();

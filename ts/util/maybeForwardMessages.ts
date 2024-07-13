@@ -1,14 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { orderBy } from 'lodash';
 import type { AttachmentType } from '../types/Attachment';
-import { isVoiceMessage, isDownloaded } from '../types/Attachment';
-import type {
-  LinkPreviewType,
-  LinkPreviewWithHydratedData,
-} from '../types/message/LinkPreviews';
-import type { MessageAttributesType, QuotedMessageType } from '../model-types';
+import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews';
+import type { QuotedMessageType } from '../model-types';
 import * as log from '../logging/log';
 import { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog';
 import { blockSendUntilConversationsAreVerified } from './blockSendUntilConversationsAreVerified';
@@ -20,82 +15,14 @@ import { isNotNil } from './isNotNil';
 import { resetLinkPreview } from '../services/LinkPreview';
 import { getRecipientsByConversation } from './getRecipientsByConversation';
 import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact';
-import type {
-  DraftBodyRanges,
-  HydratedBodyRangesType,
-} from '../types/BodyRange';
+import type { DraftBodyRanges } from '../types/BodyRange';
 import type { StickerWithHydratedData } from '../types/Stickers';
 import { drop } from './drop';
 import { toLogFormat } from '../types/errors';
-
-export type MessageForwardDraft = Readonly<{
-  attachments?: ReadonlyArray<AttachmentType>;
-  bodyRanges?: HydratedBodyRangesType;
-  hasContact: boolean;
-  isSticker: boolean;
-  messageBody?: string;
-  originalMessageId: string;
-  previews: ReadonlyArray<LinkPreviewType>;
-}>;
-
-export type ForwardMessageData = Readonly<{
-  originalMessage: MessageAttributesType;
-  draft: MessageForwardDraft;
-}>;
-
-export function isDraftEditable(draft: MessageForwardDraft): boolean {
-  if (draft.isSticker) {
-    return false;
-  }
-  if (draft.hasContact) {
-    return false;
-  }
-  const hasVoiceMessage = draft.attachments?.some(isVoiceMessage) ?? false;
-  if (hasVoiceMessage) {
-    return false;
-  }
-  return true;
-}
-
-function isDraftEmpty(draft: MessageForwardDraft) {
-  const { messageBody, attachments, isSticker, hasContact } = draft;
-  if (isSticker || hasContact) {
-    return false;
-  }
-  if (attachments != null && attachments.length > 0) {
-    return false;
-  }
-  if (messageBody != null && messageBody.length > 0) {
-    return false;
-  }
-  return true;
-}
-
-export function isDraftForwardable(draft: MessageForwardDraft): boolean {
-  const { attachments } = draft;
-  if (isDraftEmpty(draft)) {
-    return false;
-  }
-  if (attachments != null && attachments.length > 0) {
-    if (!attachments.every(isDownloaded)) {
-      return false;
-    }
-  }
-  return true;
-}
-
-export function sortByMessageOrder<T>(
-  items: ReadonlyArray<T>,
-  getMesssage: (
-    item: T
-  ) => Pick<MessageAttributesType, 'sent_at' | 'received_at'>
-): Array<T> {
-  return orderBy(
-    items,
-    [item => getMesssage(item).received_at, item => getMesssage(item).sent_at],
-    ['ASC', 'ASC']
-  );
-}
+import {
+  sortByMessageOrder,
+  type ForwardMessageData,
+} from '../types/ForwardDraft';
 
 export async function maybeForwardMessages(
   messages: Array<ForwardMessageData>,
@@ -151,10 +78,13 @@ export async function maybeForwardMessages(
   const preparedMessages = await Promise.all(
     messages.map(async message => {
       const { draft, originalMessage } = message;
-      const { sticker, contact } = originalMessage;
+      const { sticker, contact } = originalMessage ?? {};
       const { attachments, bodyRanges, messageBody, previews } = draft;
 
-      const idForLogging = getMessageIdForLogging(originalMessage);
+      const idForLogging =
+        originalMessage != null
+          ? getMessageIdForLogging(originalMessage)
+          : '(new message)';
       log.info(`maybeForwardMessage: Forwarding ${idForLogging}`);
 
       const attachmentLookup = new Set();
@@ -253,7 +183,9 @@ export async function maybeForwardMessages(
             log.error(
               'maybeForwardMessage: message send error',
               getConversationIdForLogging(conversation.attributes),
-              getMessageIdForLogging(originalMessage),
+              originalMessage != null
+                ? getMessageIdForLogging(originalMessage)
+                : '(new message)',
               toLogFormat(error)
             );
           })

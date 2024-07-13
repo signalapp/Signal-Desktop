@@ -22,6 +22,8 @@ export type CallingNotificationType = Readonly<{
   groupCallEnded: boolean | null;
   deviceCount: number;
   maxDevices: number;
+  isSelectMode: boolean;
+  isTargeted: boolean;
 }>;
 
 function getDirectCallNotificationText(
@@ -126,6 +128,9 @@ export function getCallingNotificationText(
     );
     return getGroupCallNotificationText(groupCallEnded, callCreator, i18n);
   }
+  if (callHistory.mode === CallMode.Adhoc) {
+    return null;
+  }
   throw missingCaseError(callHistory.mode);
 }
 
@@ -172,7 +177,7 @@ export function getCallingIcon(
     }
     return 'video';
   }
-  if (callType === CallType.Group) {
+  if (callType === CallType.Group || callType === CallType.Adhoc) {
     return 'video';
   }
   throw missingCaseError(callType);

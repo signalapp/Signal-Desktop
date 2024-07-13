@@ -1,7 +1,11 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { installCallback, installSetting } from '../util/preload';
+import {
+  installCallback,
+  installSetting,
+  installEphemeralSetting,
+} from '../util/preload';
 
 // ChatColorPicker redux hookups
 installCallback('getCustomColors');
@@ -14,7 +18,6 @@ installCallback('resetAllChatColors');
 installCallback('resetDefaultChatColor');
 installCallback('setGlobalDefaultConversationColor');
 installCallback('getDefaultConversationColor');
-installCallback('persistZoomFactor');
 
 // Getters only. These are set by the primary device
 installSetting('blockedCount', {
@@ -31,32 +34,28 @@ installSetting('typingIndicatorSetting', {
 });
 
 installCallback('deleteAllMyStories');
-installCallback('isFormattingFlagEnabled');
-installCallback('isPhoneNumberSharingEnabled');
 installCallback('isPrimary');
-installCallback('shouldShowStoriesSettings');
 installCallback('syncRequest');
 
 installSetting('alwaysRelayCalls');
 installSetting('audioMessage');
 installSetting('audioNotification');
+installSetting('autoConvertEmoji');
 installSetting('autoDownloadUpdate');
 installSetting('autoLaunch');
 installSetting('callRingtoneNotification');
 installSetting('callSystemNotification');
 installSetting('countMutedConversations');
 installSetting('deviceName');
+installSetting('phoneNumber');
 installSetting('hasStoriesDisabled');
 installSetting('hideMenuBar');
 installSetting('incomingCallNotification');
 installSetting('lastSyncTime');
 installSetting('notificationDrawAttention');
 installSetting('notificationSetting');
-installSetting('spellCheck');
-installSetting('systemTraySetting');
 installSetting('sentMediaQualitySetting');
 installSetting('textFormatting');
-installSetting('themeSetting');
 installSetting('universalExpireTimer');
 installSetting('zoomFactor');
 installSetting('phoneNumberDiscoverabilitySetting');
@@ -67,3 +66,8 @@ installCallback('getAvailableIODevices');
 installSetting('preferredAudioInputDevice');
 installSetting('preferredAudioOutputDevice');
 installSetting('preferredVideoInputDevice');
+
+installEphemeralSetting('themeSetting');
+installEphemeralSetting('systemTraySetting');
+installEphemeralSetting('localeOverride');
+installEphemeralSetting('spellCheck');

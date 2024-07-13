@@ -1,0 +1,35 @@
+# Copyright 2021 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+
+name: On Release
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.*'
+
+jobs:
+  create-release-event:
+    name: Create release event in datadog
+    if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create event on DataDog
+        run: |
+          curl -X POST "https://api.datadoghq.com/api/v1/events" \
+            -H "Accept: application/json" \
+            -H "Content-Type: application/json" \
+            -H "DD-API-KEY: ${DD_API_KEY}" \
+            -d '
+            {
+              "title": "Desktop Release ${{ github.ref_name }}",
+              "text": "A new desktop release ${{ github.ref_name }} was just published",
+              "source_type_name": "git",
+              "tags": [
+                "service:desktop.ci.release",
+                "env:production",
+                "version:${{ github.ref_name }}"
+              ]
+            }
+            '
+        env:
+          DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}

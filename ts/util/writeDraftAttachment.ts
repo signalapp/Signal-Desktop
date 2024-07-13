@@ -8,7 +8,12 @@ import type {
 } from '../types/Attachment';
 import { isImageAttachment } from '../types/Attachment';
 import { getImageDimensions } from '../types/VisualAttachment';
+import { IMAGE_PNG } from '../types/MIME';
 import * as Errors from '../types/errors';
+import {
+  getLocalAttachmentUrl,
+  AttachmentDisposition,
+} from './getLocalAttachmentUrl';
 import * as logger from '../logging/log';
 
 export async function writeDraftAttachment(
@@ -18,11 +23,11 @@ export async function writeDraftAttachment(
     throw new Error('writeDraftAttachment: Cannot write pending attachment');
   }
 
-  const path = await window.Signal.Migrations.writeNewDraftData(
+  const local = await window.Signal.Migrations.writeNewDraftData(
     attachment.data
   );
 
-  const screenshotPath = attachment.screenshotData
+  const localScreenshot = attachment.screenshotData
     ? await window.Signal.Migrations.writeNewDraftData(
         attachment.screenshotData
       )
@@ -30,11 +35,13 @@ export async function writeDraftAttachment(
 
   let dimensions: { width?: number; height?: number } = {};
   if (isImageAttachment(attachment)) {
-    const url = window.Signal.Migrations.getAbsoluteDraftPath(path);
+    const objectUrl = getLocalAttachmentUrl(local, {
+      disposition: AttachmentDisposition.Draft,
+    });
 
     try {
       dimensions = await getImageDimensions({
-        objectUrl: url,
+        objectUrl,
         logger,
       });
     } catch (error) {
@@ -47,8 +54,18 @@ export async function writeDraftAttachment(
 
   return {
     ...omit(attachment, ['data', 'screenshotData']),
-    path,
-    screenshotPath,
+    ...local,
+    screenshot: localScreenshot
+      ? {
+          ...localScreenshot,
+
+          contentType: IMAGE_PNG,
+
+          // Unused
+          width: 0,
+          height: 0,
+        }
+      : undefined,
     pending: false,
     ...dimensions,
   };

@@ -5,7 +5,10 @@ import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
 import { omit } from 'lodash';
 import type { StateType as RootStateType } from '../reducer';
-import { clearCallHistoryDataAndSync } from '../../util/callDisposition';
+import {
+  clearCallHistoryDataAndSync,
+  markAllCallHistoryReadAndSync,
+} from '../../util/callDisposition';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import type { ToastActionType } from './toast';
@@ -15,6 +18,10 @@ import type { CallHistoryDetails } from '../../types/CallDisposition';
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
 import { drop } from '../../util/drop';
+import {
+  getCallHistoryLatestCall,
+  getCallHistorySelector,
+} from '../selectors/callHistory';
 
 export type CallHistoryState = ReadonlyDeep<{
   // This informs the app that underlying call history data has changed.
@@ -100,30 +107,41 @@ function markCallHistoryRead(
   };
 }
 
-function markCallsTabViewed(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  CallHistoryUpdateUnread
-> {
-  return async dispatch => {
+export function markCallHistoryReadInConversation(
+  callId: string
+): ThunkAction<void, RootStateType, unknown, CallHistoryUpdateUnread> {
+  return async (dispatch, getState) => {
+    const callHistorySelector = getCallHistorySelector(getState());
+    const callHistory = callHistorySelector(callId);
+    if (callHistory == null) {
+      return;
+    }
     try {
-      const conversationIds = await window.Signal.Data.markAllCallHistoryRead();
-      for (const conversationId of conversationIds) {
-        drop(window.ConversationController.get(conversationId)?.updateUnread());
-      }
-    } catch (error) {
-      log.error(
-        'markCallsTabViewed: Error marking all call history read',
-        Errors.toLogFormat(error)
-      );
+      await markAllCallHistoryReadAndSync(callHistory, true);
     } finally {
       dispatch(updateCallHistoryUnreadCount());
     }
   };
 }
 
-function addCallHistory(callHistory: CallHistoryDetails): CallHistoryAdd {
+function markCallsTabViewed(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  CallHistoryUpdateUnread
+> {
+  return async (dispatch, getState) => {
+    const latestCall = getCallHistoryLatestCall(getState());
+    if (latestCall != null) {
+      await markAllCallHistoryReadAndSync(latestCall, false);
+      dispatch(updateCallHistoryUnreadCount());
+    }
+  };
+}
+
+export function addCallHistory(
+  callHistory: CallHistoryDetails
+): CallHistoryAdd {
   return {
     type: CALL_HISTORY_ADD,
     payload: callHistory,
@@ -149,10 +167,13 @@ function clearAllCallHistory(): ThunkAction<
   unknown,
   CallHistoryReset | ToastActionType
 > {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
-      await clearCallHistoryDataAndSync();
-      dispatch(showToast({ toastType: ToastType.CallHistoryCleared }));
+      const latestCall = getCallHistoryLatestCall(getState());
+      if (latestCall != null) {
+        await clearCallHistoryDataAndSync(latestCall);
+        dispatch(showToast({ toastType: ToastType.CallHistoryCleared }));
+      }
     } catch (error) {
       log.error('Error clearing call history', Errors.toLogFormat(error));
     } finally {
@@ -187,6 +208,7 @@ export function reducer(
     case CALL_HISTORY_ADD:
       return {
         ...state,
+        edition: state.edition + 1,
         callHistoryByCallId: {
           ...state.callHistoryByCallId,
           [action.payload.callId]: action.payload,
@@ -195,6 +217,7 @@ export function reducer(
     case CALL_HISTORY_REMOVE:
       return {
         ...state,
+        edition: state.edition + 1,
         callHistoryByCallId: omit(state.callHistoryByCallId, action.payload),
       };
     case CALL_HISTORY_UPDATE_UNREAD:

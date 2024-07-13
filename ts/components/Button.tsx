@@ -40,7 +40,7 @@ export enum ButtonIconType {
   video = 'video',
 }
 
-type PropsType = {
+export type PropsType = {
   className?: string;
   disabled?: boolean;
   icon?: ButtonIconType;

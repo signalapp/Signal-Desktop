@@ -58,7 +58,7 @@ type PropsType = {
 } & Pick<
   ConversationType,
   | 'acceptedMessageRequest'
-  | 'avatarPath'
+  | 'avatarUrl'
   | 'color'
   | 'groupId'
   | 'isMe'
@@ -67,7 +67,7 @@ type PropsType = {
   | 'profileName'
   | 'sharedGroupNames'
   | 'title'
-  | 'unblurredAvatarPath'
+  | 'unblurredAvatarUrl'
   | 'serviceId'
 > &
   (
@@ -79,7 +79,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
   React.memo(function BaseConversationListItem(props) {
     const {
       acceptedMessageRequest,
-      avatarPath,
+      avatarUrl,
       avatarSize,
       buttonAriaLabel,
       checked,
@@ -106,7 +106,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       shouldShowSpinner,
       testId: overrideTestId,
       title,
-      unblurredAvatarPath,
+      unblurredAvatarUrl,
       unreadCount,
       unreadMentionsCount,
       serviceId,
@@ -194,7 +194,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
         <div className={AVATAR_CONTAINER_CLASS_NAME}>
           <Avatar
             acceptedMessageRequest={acceptedMessageRequest}
-            avatarPath={avatarPath}
+            avatarUrl={avatarUrl}
             color={color}
             conversationType={conversationType}
             noteToSelf={isAvatarNoteToSelf}
@@ -206,7 +206,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
             title={title}
             sharedGroupNames={sharedGroupNames}
             size={avatarSize ?? AvatarSize.FORTY_EIGHT}
-            unblurredAvatarPath={unblurredAvatarPath}
+            unblurredAvatarUrl={unblurredAvatarUrl}
             // This is here to appease the type checker.
             {...(props.badge
               ? { badge: props.badge, theme: props.theme }

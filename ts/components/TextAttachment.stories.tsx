@@ -3,6 +3,7 @@
 
 import React from 'react';
 
+import type { Meta } from '@storybook/react';
 import enMessages from '../../_locales/en/messages.json';
 import { setupI18n } from '../util/setupI18n';
 import { TextAttachment } from './TextAttachment';
@@ -17,7 +18,7 @@ const getDefaultProps = (): PropsType => ({
 
 export default {
   title: 'Components/TextAttachment',
-};
+} satisfies Meta<PropsType>;
 
 export function SolidBgTextBg(): JSX.Element {
   return (
@@ -33,10 +34,6 @@ export function SolidBgTextBg(): JSX.Element {
     />
   );
 }
-
-SolidBgTextBg.story = {
-  name: 'Solid bg + text bg',
-};
 
 export function Gradient(): JSX.Element {
   return (
@@ -76,10 +73,6 @@ export function TextWithLineBreaksCondensedFont(): JSX.Element {
   );
 }
 
-TextWithLineBreaksCondensedFont.story = {
-  name: 'Text with line breaks (condensed font)',
-};
-
 export function TextWithLineBreaksAutowrapSerifFont(): JSX.Element {
   return (
     <TextAttachment
@@ -94,10 +87,6 @@ export function TextWithLineBreaksAutowrapSerifFont(): JSX.Element {
     />
   );
 }
-
-TextWithLineBreaksAutowrapSerifFont.story = {
-  name: 'Text with line breaks + Autowrap (serif font)',
-};
 
 export function AutowrapText(): JSX.Element {
   return (
@@ -118,10 +107,6 @@ export function AutowrapText(): JSX.Element {
   );
 }
 
-AutowrapText.story = {
-  name: 'Autowrap text',
-};
-
 export function RomeoJuliet(): JSX.Element {
   return (
     <TextAttachment
@@ -140,10 +125,6 @@ export function RomeoJuliet(): JSX.Element {
     />
   );
 }
-
-RomeoJuliet.story = {
-  name: 'Romeo & Juliet',
-};
 
 export function OverflowNewlineNumbers(): JSX.Element {
   return (
@@ -164,10 +145,6 @@ export function OverflowNewlineNumbers(): JSX.Element {
   );
 }
 
-OverflowNewlineNumbers.story = {
-  name: 'Overflow newline numbers',
-};
-
 export function CharacterWrapBold(): JSX.Element {
   return (
     <TextAttachment
@@ -182,10 +159,6 @@ export function CharacterWrapBold(): JSX.Element {
     />
   );
 }
-
-CharacterWrapBold.story = {
-  name: 'Character wrap (bold)',
-};
 
 export function MixOfNewlinesOverflowAutowrap(): JSX.Element {
   return (
@@ -202,10 +175,6 @@ export function MixOfNewlinesOverflowAutowrap(): JSX.Element {
   );
 }
 
-MixOfNewlinesOverflowAutowrap.story = {
-  name: 'Mix of newlines, overflow, autowrap',
-};
-
 export function LinkPreview(): JSX.Element {
   return (
     <TextAttachment
@@ -215,15 +184,12 @@ export function LinkPreview(): JSX.Element {
         preview: {
           url: 'https://www.signal.org/workworkwork',
           title: 'Signal >> Careers',
+          isCallLink: false,
         },
       }}
     />
   );
 }
-
-LinkPreview.story = {
-  name: 'Link preview',
-};
 
 export function LinkPreviewThumbnail(): JSX.Element {
   return (
@@ -235,15 +201,12 @@ export function LinkPreviewThumbnail(): JSX.Element {
         preview: {
           url: 'https://www.signal.org/workworkwork',
           title: 'Signal >> Careers',
+          isCallLink: false,
         },
       }}
     />
   );
 }
-
-LinkPreviewThumbnail.story = {
-  name: 'Link preview (thumbnail)',
-};
 
 export function LinkPreviewLongTitle(): JSX.Element {
   return (
@@ -255,6 +218,7 @@ export function LinkPreviewLongTitle(): JSX.Element {
           title:
             '2021 Etihad Airways Abu Dhabi Grand Prix Race Summary - F1 RaceCast Dec 10 to Dec 12 - ESPN',
           url: 'https://www.espn.com/f1/race/_/id/600001776',
+          isCallLink: false,
         },
         text: 'Spoiler alert!',
         textForegroundColor: 4294704123,
@@ -262,10 +226,6 @@ export function LinkPreviewLongTitle(): JSX.Element {
     />
   );
 }
-
-LinkPreviewLongTitle.story = {
-  name: 'Link preview (long title)',
-};
 
 export function LinkPreviewJustUrl(): JSX.Element {
   return (
@@ -275,15 +235,12 @@ export function LinkPreviewJustUrl(): JSX.Element {
         color: 4294951251,
         preview: {
           url: 'https://www.rolex.com/en-us/watches/day-date/m228236-0012.html',
+          isCallLink: false,
         },
       }}
     />
   );
 }
-
-LinkPreviewJustUrl.story = {
-  name: 'Link preview (just url)',
-};
 
 export function LinkPreviewJustUrlText(): JSX.Element {
   return (
@@ -293,16 +250,13 @@ export function LinkPreviewJustUrlText(): JSX.Element {
         color: 4294951251,
         preview: {
           url: 'https://www.rolex.com/en-us/watches/day-date/m228236-0012.html',
+          isCallLink: false,
         },
         text: 'Check this out!',
       }}
     />
   );
 }
-
-LinkPreviewJustUrlText.story = {
-  name: 'Link preview (just url + text)',
-};
 
 export function LinkPreviewReallyLongDomain(): JSX.Element {
   return (
@@ -312,15 +266,12 @@ export function LinkPreviewReallyLongDomain(): JSX.Element {
         color: 4294951251,
         preview: {
           url: 'https://llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch.international/',
+          isCallLink: false,
         },
       }}
     />
   );
 }
-
-LinkPreviewReallyLongDomain.story = {
-  name: 'Link preview (really long domain)',
-};
 
 export function LinkPreviewWRJ(): JSX.Element {
   return (
@@ -339,15 +290,12 @@ export function LinkPreviewWRJ(): JSX.Element {
         preview: {
           title: 'Romeo and Juliet: Entire Play',
           url: 'http://shakespeare.mit.edu/romeo_juliet/full.html',
+          isCallLink: false,
         },
       }}
     />
   );
 }
-
-LinkPreviewWRJ.story = {
-  name: 'Link Preview w/ R&J',
-};
 
 export function TextBackgroundAndLinkPreview(): JSX.Element {
   return (
@@ -366,6 +314,7 @@ export function TextBackgroundAndLinkPreview(): JSX.Element {
         preview: {
           title: 'A really long title so that the we can test the margins',
           url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+          isCallLink: false,
         },
       }}
     />

@@ -30,21 +30,18 @@ function focusRef(el: HTMLElement | null) {
   }
 }
 
-export const GroupV2JoinDialog = React.memo(function GroupV2JoinDialogInner(
-  props: PropsType
-) {
+export const GroupV2JoinDialog = React.memo(function GroupV2JoinDialogInner({
+  approvalRequired,
+  avatar,
+  groupDescription,
+  i18n,
+  join,
+  memberCount,
+  onClose,
+  title,
+}: PropsType) {
   const [isWorking, setIsWorking] = React.useState(false);
   const [isJoining, setIsJoining] = React.useState(false);
-  const {
-    approvalRequired,
-    avatar,
-    groupDescription,
-    i18n,
-    join,
-    memberCount,
-    onClose,
-    title,
-  } = props;
 
   const joinString = approvalRequired
     ? i18n('icu:GroupV2--join--request-to-join-button')
@@ -73,7 +70,7 @@ export const GroupV2JoinDialog = React.memo(function GroupV2JoinDialogInner(
       <div className="module-group-v2-join-dialog__avatar">
         <Avatar
           acceptedMessageRequest={false}
-          avatarPath={avatar ? avatar.url : undefined}
+          avatarUrl={avatar ? avatar.url : undefined}
           badge={undefined}
           blur={AvatarBlur.NoBlur}
           loading={avatar && !avatar.url}

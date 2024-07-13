@@ -3,7 +3,8 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
+import type { Props } from './SafetyNumberChangeDialog';
 import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
@@ -17,7 +18,7 @@ const i18n = setupI18n('en', enMessages);
 
 const contactWithAllData = getDefaultConversation({
   id: 'abc',
-  avatarPath: undefined,
+  avatarUrl: undefined,
   profileName: '-*Smartest Dude*-',
   title: 'Rick Sanchez',
   name: 'Rick Sanchez',
@@ -26,7 +27,7 @@ const contactWithAllData = getDefaultConversation({
 
 const contactWithJustProfileVerified = getDefaultConversation({
   id: 'def',
-  avatarPath: undefined,
+  avatarUrl: undefined,
   title: '-*Smartest Dude*-',
   profileName: '-*Smartest Dude*-',
   name: undefined,
@@ -36,7 +37,7 @@ const contactWithJustProfileVerified = getDefaultConversation({
 
 const contactWithJustNumberVerified = getDefaultConversation({
   id: 'xyz',
-  avatarPath: undefined,
+  avatarUrl: undefined,
   profileName: undefined,
   name: undefined,
   title: '(305) 123-4567',
@@ -46,7 +47,7 @@ const contactWithJustNumberVerified = getDefaultConversation({
 
 const contactWithNothing = getDefaultConversation({
   id: 'some-guid',
-  avatarPath: undefined,
+  avatarUrl: undefined,
   profileName: undefined,
   name: undefined,
   phoneNumber: undefined,
@@ -57,7 +58,7 @@ const useTheme = () => React.useContext(StorybookThemeContext);
 
 export default {
   title: 'Components/SafetyNumberChangeDialog',
-};
+} satisfies Meta<Props>;
 
 export function SingleContactDialog(): JSX.Element {
   const theme = useTheme();
@@ -162,9 +163,6 @@ export function AllVerified(): JSX.Element {
     />
   );
 }
-AllVerified.story = {
-  name: 'All verified; Send button instead',
-};
 
 export function MultipleContactsAllWithBadges(): JSX.Element {
   const theme = useTheme();
@@ -194,10 +192,6 @@ export function MultipleContactsAllWithBadges(): JSX.Element {
     />
   );
 }
-
-MultipleContactsAllWithBadges.story = {
-  name: 'Multiple contacts, all with badges',
-};
 
 export function TenContacts(): JSX.Element {
   const theme = useTheme();
@@ -233,10 +227,6 @@ export function TenContacts(): JSX.Element {
     />
   );
 }
-
-TenContacts.story = {
-  name: 'Ten contacts; first isReviewing = false, then scrolling dialog',
-};
 
 export function NoContacts(): JSX.Element {
   const theme = useTheme();

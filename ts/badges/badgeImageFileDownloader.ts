@@ -86,7 +86,7 @@ function getUrlsToDownload(): Array<string> {
 }
 
 async function downloadBadgeImageFile(url: string): Promise<string> {
-  await waitForOnline(navigator, window, { timeout: 1 * MINUTE });
+  await waitForOnline({ timeout: 1 * MINUTE });
 
   const { server } = window.textsecure;
   if (!server) {

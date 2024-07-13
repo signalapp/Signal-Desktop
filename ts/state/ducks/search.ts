@@ -6,8 +6,7 @@ import { debounce, omit, reject } from 'lodash';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer';
-import { cleanSearchTerm } from '../../util/cleanSearchTerm';
-import { filterAndSortConversationsByRecent } from '../../util/filterAndSortConversations';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations';
 import type {
   ClientSearchResultMessageType,
   ClientInterface,
@@ -294,21 +293,20 @@ async function queryMessages({
   contactServiceIdsMatchingQuery?: Array<ServiceIdString>;
 }): Promise<Array<ClientSearchResultMessageType>> {
   try {
-    const normalized = cleanSearchTerm(query);
-    if (normalized.length === 0) {
+    if (query.length === 0) {
       return [];
     }
 
     if (searchConversationId) {
       return dataSearchMessages({
-        query: normalized,
+        query,
         conversationId: searchConversationId,
         contactServiceIdsMatchingQuery,
       });
     }
 
     return dataSearchMessages({
-      query: normalized,
+      query,
       contactServiceIdsMatchingQuery,
     });
   } catch (e) {
@@ -333,12 +331,17 @@ async function queryConversationsAndContacts(
 
   const normalizedQuery = removeDiacritics(query);
 
-  const searchResults: Array<ConversationType> =
-    filterAndSortConversationsByRecent(
-      allConversations,
-      normalizedQuery,
-      regionCode
-    );
+  const visibleConversations = allConversations.filter(
+    ({ activeAt, removalStage }) => {
+      return activeAt != null || removalStage == null;
+    }
+  );
+
+  const searchResults: Array<ConversationType> = filterAndSortConversations(
+    visibleConversations,
+    normalizedQuery,
+    regionCode
+  );
 
   // Split into two groups - active conversations and items just from address book
   let conversationIds: Array<string> = [];

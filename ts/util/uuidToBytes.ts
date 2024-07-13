@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { chunk } from 'lodash';
-import { UUID_BYTE_SIZE } from '../Crypto';
+import { UUID_BYTE_SIZE } from '../types/Crypto';
 import * as log from '../logging/log';
 import * as Bytes from '../Bytes';
 

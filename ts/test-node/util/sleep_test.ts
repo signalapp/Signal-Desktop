@@ -7,17 +7,16 @@ import { useFakeTimers } from 'sinon';
 import { sleep } from '../../util/sleep';
 
 describe('sleep', () => {
-  beforeEach(function beforeEach() {
+  beforeEach(function (this: Mocha.Context) {
     // This isn't a hook.
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     this.clock = useFakeTimers();
   });
 
-  afterEach(function afterEach() {
+  afterEach(function (this: Mocha.Context) {
     this.clock.restore();
   });
 
-  it('returns a promise that resolves after the specified number of milliseconds', async function test() {
+  it('returns a promise that resolves after the specified number of milliseconds', async function (this: Mocha.Context) {
     let isDone = false;
 
     void (async () => {

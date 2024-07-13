@@ -21,10 +21,12 @@ import { app, ipcMain } from 'electron';
 
 import * as durations from '../util/durations';
 import { getTempPath, getUpdateCachePath } from '../../app/attachments';
+import { markShouldNotQuit, markShouldQuit } from '../../app/window_state';
 import { DialogType } from '../types/Dialogs';
 import * as Errors from '../types/errors';
 import { isAlpha, isBeta, isStaging } from '../util/version';
 import { strictAssert } from '../util/assert';
+import { drop } from '../util/drop';
 
 import * as packageJson from '../../package.json';
 import {
@@ -46,7 +48,13 @@ import {
   isValidPreparedData as isValidDifferentialData,
 } from './differential';
 
-const INTERVAL = 30 * durations.MINUTE;
+const POLL_INTERVAL = 30 * durations.MINUTE;
+
+type JSONVendorSchema = {
+  minOSVersion?: string;
+  requireManualUpdate?: 'true' | 'false';
+  requireUserConfirmation?: 'true' | 'false';
+};
 
 type JSONUpdateSchema = {
   version: string;
@@ -59,10 +67,7 @@ type JSONUpdateSchema = {
   path: string;
   sha512: string;
   releaseDate: string;
-  vendor?: {
-    requireManualUpdate?: boolean;
-    minOSVersion?: string;
-  };
+  vendor?: JSONVendorSchema;
 };
 
 export type UpdateInformationType = {
@@ -71,6 +76,7 @@ export type UpdateInformationType = {
   version: string;
   sha512: string;
   differentialData: DifferentialDownloadDataType | undefined;
+  vendor?: JSONVendorSchema;
 };
 
 enum DownloadMode {
@@ -84,6 +90,13 @@ type DownloadUpdateResultType = Readonly<{
   signature: Buffer;
 }>;
 
+export type UpdaterOptionsType = Readonly<{
+  settingsChannel: SettingsChannel;
+  logger: LoggerType;
+  getMainWindow: () => BrowserWindow | undefined;
+  canRunSilently: () => boolean;
+}>;
+
 export abstract class Updater {
   protected fileName: string | undefined;
 
@@ -91,17 +104,35 @@ export abstract class Updater {
 
   protected cachedDifferentialData: DifferentialDownloadDataType | undefined;
 
-  private throttledSendDownloadingUpdate: (downloadedSize: number) => void;
+  protected readonly logger: LoggerType;
+
+  private readonly settingsChannel: SettingsChannel;
+
+  protected readonly getMainWindow: () => BrowserWindow | undefined;
+
+  private throttledSendDownloadingUpdate: ((downloadedSize: number) => void) & {
+    cancel: () => void;
+  };
 
   private activeDownload: Promise<boolean> | undefined;
 
   private markedCannotUpdate = false;
 
-  constructor(
-    protected readonly logger: LoggerType,
-    private readonly settingsChannel: SettingsChannel,
-    protected readonly getMainWindow: () => BrowserWindow | undefined
-  ) {
+  private restarting = false;
+
+  private readonly canRunSilently: () => boolean;
+
+  constructor({
+    settingsChannel,
+    logger,
+    getMainWindow,
+    canRunSilently,
+  }: UpdaterOptionsType) {
+    this.settingsChannel = settingsChannel;
+    this.logger = logger;
+    this.getMainWindow = getMainWindow;
+    this.canRunSilently = canRunSilently;
+
     this.throttledSendDownloadingUpdate = throttle((downloadedSize: number) => {
       const mainWindow = this.getMainWindow();
       mainWindow?.webContents.send(
@@ -109,7 +140,7 @@ export abstract class Updater {
         DialogType.Downloading,
         { downloadedSize }
       );
-    }, 500);
+    }, 50);
   }
 
   //
@@ -120,16 +151,25 @@ export abstract class Updater {
     return this.checkForUpdatesMaybeInstall(true);
   }
 
+  // If the updater was about to restart the app but the user cancelled it, show dialog
+  // to let them retry the restart
+  public onRestartCancelled(): void {
+    if (!this.restarting) {
+      return;
+    }
+
+    this.logger.info(
+      'updater/onRestartCancelled: restart was cancelled. forcing update to reset updater state'
+    );
+    this.restarting = false;
+    markShouldNotQuit();
+    drop(this.force());
+  }
+
   public async start(): Promise<void> {
     this.logger.info('updater/start: starting checks...');
 
-    setInterval(async () => {
-      try {
-        await this.checkForUpdatesMaybeInstall();
-      } catch (error) {
-        this.logger.error(`updater/start: ${Errors.toLogFormat(error)}`);
-      }
-    }, INTERVAL);
+    this.schedulePoll();
 
     await this.deletePreviousInstallers();
     await this.checkForUpdatesMaybeInstall();
@@ -141,14 +181,17 @@ export abstract class Updater {
 
   protected abstract deletePreviousInstallers(): Promise<void>;
 
-  protected abstract installUpdate(updateFilePath: string): Promise<void>;
+  protected abstract installUpdate(
+    updateFilePath: string,
+    isSilent: boolean
+  ): Promise<void>;
 
   //
   // Protected methods
   //
 
   protected setUpdateListener(
-    performUpdateCallback: () => Promise<void>
+    performUpdateCallback: () => Promise<void> | void
   ): void {
     ipcMain.removeHandler('start-update');
     ipcMain.handleOnce('start-update', performUpdateCallback);
@@ -184,9 +227,41 @@ export abstract class Updater {
     });
   }
 
+  protected markRestarting(): void {
+    this.restarting = true;
+    markShouldQuit();
+  }
+
   //
   // Private methods
   //
+
+  private schedulePoll(): void {
+    const now = Date.now();
+
+    const earliestPollTime = now - (now % POLL_INTERVAL) + POLL_INTERVAL;
+    const selectedPollTime = Math.round(
+      earliestPollTime + Math.random() * POLL_INTERVAL
+    );
+    const timeoutMs = selectedPollTime - now;
+
+    this.logger.info(`updater/start: polling in ${timeoutMs}ms`);
+
+    setTimeout(() => {
+      drop(this.safePoll());
+    }, timeoutMs);
+  }
+
+  private async safePoll(): Promise<void> {
+    try {
+      this.logger.info('updater/start: polling now');
+      await this.checkForUpdatesMaybeInstall();
+    } catch (error) {
+      this.logger.error(`updater/start: ${Errors.toLogFormat(error)}`);
+    } finally {
+      this.schedulePoll();
+    }
+  }
 
   private async downloadAndInstall(
     updateInfo: UpdateInformationType,
@@ -255,7 +330,11 @@ export abstract class Updater {
         );
       }
 
-      await this.installUpdate(updateFilePath);
+      await this.installUpdate(
+        updateFilePath,
+        updateInfo.vendor?.requireUserConfirmation !== 'true' &&
+          this.canRunSilently()
+      );
 
       const mainWindow = this.getMainWindow();
       if (mainWindow) {
@@ -327,7 +406,7 @@ export abstract class Updater {
         this.logger.warn(
           'offerUpdate: Failed to download differential update, offering full'
         );
-
+        this.throttledSendDownloadingUpdate.cancel();
         return this.offerUpdate(updateInfo, DownloadMode.FullOnly, attempt + 1);
       }
 
@@ -371,7 +450,7 @@ export abstract class Updater {
 
     const { vendor } = parsedYaml;
     if (vendor) {
-      if (vendor.requireManualUpdate) {
+      if (vendor.requireManualUpdate === 'true') {
         this.logger.warn('checkForUpdates: manual update required');
         this.markCannotUpdate(
           new Error('yaml file has requireManualUpdate flag'),
@@ -475,6 +554,7 @@ export abstract class Updater {
       version,
       sha512,
       differentialData,
+      vendor,
     };
   }
 
@@ -522,7 +602,7 @@ export abstract class Updater {
 
       this.logger.info(`downloadUpdate: Downloading signature ${signatureUrl}`);
       const signature = Buffer.from(
-        await got(signatureUrl, getGotOptions()).text(),
+        await got(signatureUrl, await getGotOptions()).text(),
         'hex'
       );
 
@@ -534,7 +614,10 @@ export abstract class Updater {
           this.logger.info(
             `downloadUpdate: Downloading blockmap ${blockMapUrl}`
           );
-          const blockMap = await got(blockMapUrl, getGotOptions()).buffer();
+          const blockMap = await got(
+            blockMapUrl,
+            await getGotOptions()
+          ).buffer();
           await writeFile(tempBlockMapPath, blockMap);
         } catch (error) {
           this.logger.warn(
@@ -671,7 +754,7 @@ export abstract class Updater {
     targetUpdatePath: string,
     updateOnProgress = false
   ): Promise<void> {
-    const downloadStream = got.stream(updateFileUrl, getGotOptions());
+    const downloadStream = got.stream(updateFileUrl, await getGotOptions());
     const writeStream = createWriteStream(targetUpdatePath);
 
     await new Promise<void>((resolve, reject) => {
@@ -850,7 +933,7 @@ export function parseYaml(yaml: string): JSONUpdateSchema {
 
 async function getUpdateYaml(): Promise<string> {
   const targetUrl = getUpdateCheckUrl();
-  const body = await got(targetUrl, getGotOptions()).text();
+  const body = await got(targetUrl, await getGotOptions()).text();
 
   if (!body) {
     throw new Error('Got unexpected response back from update check');

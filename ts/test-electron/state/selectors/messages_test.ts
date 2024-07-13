@@ -73,8 +73,9 @@ describe('state/selectors/messages', () => {
         type: 'incoming' as const,
         sent_at: Date.now() - 1000,
       };
+      const isMe = false;
 
-      assert.isFalse(canDeleteForEveryone(message));
+      assert.isFalse(canDeleteForEveryone(message, isMe));
     });
 
     it('returns false for messages that were already deleted for everyone', () => {
@@ -93,14 +94,15 @@ describe('state/selectors/messages', () => {
           },
         },
       };
+      const isMe = false;
 
-      assert.isFalse(canDeleteForEveryone(message));
+      assert.isFalse(canDeleteForEveryone(message, isMe));
     });
 
     it('returns false for messages that were are too old to delete', () => {
       const message = {
         type: 'outgoing' as const,
-        sent_at: Date.now() - moment.duration(4, 'hours').asMilliseconds(),
+        sent_at: Date.now() - moment.duration(25, 'hours').asMilliseconds(),
         sendStateByConversationId: {
           [ourConversationId]: {
             status: SendStatus.Read,
@@ -112,8 +114,9 @@ describe('state/selectors/messages', () => {
           },
         },
       };
+      const isMe = false;
 
-      assert.isFalse(canDeleteForEveryone(message));
+      assert.isFalse(canDeleteForEveryone(message, isMe));
     });
 
     it("returns false for messages that haven't been sent to anyone", () => {
@@ -131,8 +134,9 @@ describe('state/selectors/messages', () => {
           },
         },
       };
+      const isMe = false;
 
-      assert.isFalse(canDeleteForEveryone(message));
+      assert.isFalse(canDeleteForEveryone(message, isMe));
     });
 
     it('returns true for messages that meet all criteria for deletion', () => {
@@ -154,8 +158,9 @@ describe('state/selectors/messages', () => {
           },
         },
       };
+      const isMe = false;
 
-      assert.isTrue(canDeleteForEveryone(message));
+      assert.isTrue(canDeleteForEveryone(message, isMe));
     });
   });
 

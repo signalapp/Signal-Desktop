@@ -15,7 +15,6 @@ type ChatsTabProps = Readonly<{
   hasFailedStorySends: boolean;
   navTabsCollapsed: boolean;
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
-  prevConversationId: string | undefined;
   renderConversationView: () => JSX.Element;
   renderLeftPane: (props: NavTabPanelProps) => JSX.Element;
   renderMiniPlayer: (options: { shouldFlow: boolean }) => JSX.Element;
@@ -30,7 +29,6 @@ export function ChatsTab({
   hasFailedStorySends,
   navTabsCollapsed,
   onToggleNavTabsCollapse,
-  prevConversationId,
   renderConversationView,
   renderLeftPane,
   renderMiniPlayer,
@@ -50,15 +48,14 @@ export function ChatsTab({
       </div>
       <div className="Inbox__conversation-stack">
         <div id="toast" />
-        {selectedConversationId && (
+        {selectedConversationId ? (
           <div
             className="Inbox__conversation"
             id={`conversation-${selectedConversationId}`}
           >
             {renderConversationView()}
           </div>
-        )}
-        {!prevConversationId && (
+        ) : (
           <div className="Inbox__no-conversation-open">
             {renderMiniPlayer({ shouldFlow: false })}
             <div className="module-splash-screen__logo module-img--128 module-logo-blue" />

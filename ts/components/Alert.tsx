@@ -9,7 +9,7 @@ import type { Theme } from '../util/theme';
 import { Button } from './Button';
 import { Modal } from './Modal';
 
-type PropsType = {
+export type PropsType = {
   body: ReactNode;
   i18n: LocalizerType;
   onClose: () => void;

@@ -4,7 +4,7 @@
 import React from 'react';
 import type { LocalizerType } from '../../types/Util';
 
-type Props = {
+export type Props = {
   onClick: () => void;
   i18n: LocalizerType;
 };

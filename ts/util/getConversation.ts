@@ -17,10 +17,11 @@ import { canEditGroupInfo } from './canEditGroupInfo';
 import { dropNull } from './dropNull';
 import { getAboutText } from './getAboutText';
 import {
-  getAbsoluteAvatarPath,
-  getAbsoluteUnblurredAvatarPath,
-  getAbsoluteProfileAvatarPath,
+  getLocalUnblurredAvatarUrl,
   getAvatarHash,
+  getLocalAvatarUrl,
+  getLocalProfileAvatarUrl,
+  getRawAvatarPath,
 } from './avatarUtils';
 import { getAvatarData } from './getAvatarData';
 import { getConversationMembers } from './getConversationMembers';
@@ -88,7 +89,7 @@ export function getConversation(model: ConversationModel): ConversationType {
   const ourAci = window.textsecure.storage.user.getAci();
   const ourPni = window.textsecure.storage.user.getPni();
 
-  const color = migrateColor(attributes.color);
+  const color = migrateColor(attributes.serviceId, attributes.color);
 
   const { draftTimestamp, draftEditMessage, timestamp } = attributes;
   const draftPreview = getDraftPreview(attributes);
@@ -97,9 +98,6 @@ export function getConversation(model: ConversationModel): ConversationType {
     hasDraft(attributes) && draftTimestamp && draftTimestamp >= (timestamp || 0)
   );
   const inboxPosition = attributes.inbox_position;
-  const messageRequestsEnabled = window.Signal.RemoteConfig.isEnabled(
-    'desktop.messageRequests'
-  );
   const ourConversationId =
     window.ConversationController.getOurConversationId();
 
@@ -157,10 +155,11 @@ export function getConversation(model: ConversationModel): ConversationType {
     canChangeTimer: canChangeTimer(attributes),
     canEditGroupInfo: canEditGroupInfo(attributes),
     canAddNewMembers: canAddNewMembers(attributes),
-    avatarPath: getAbsoluteAvatarPath(attributes),
+    avatarUrl: getLocalAvatarUrl(attributes),
+    rawAvatarPath: getRawAvatarPath(attributes),
     avatarHash: getAvatarHash(attributes),
-    unblurredAvatarPath: getAbsoluteUnblurredAvatarPath(attributes),
-    profileAvatarPath: getAbsoluteProfileAvatarPath(attributes),
+    unblurredAvatarUrl: getLocalUnblurredAvatarUrl(attributes),
+    profileAvatarUrl: getLocalProfileAvatarUrl(attributes),
     color,
     conversationColor: attributes.conversationColor,
     customColor,
@@ -177,12 +176,10 @@ export function getConversation(model: ConversationModel): ConversationType {
     groupId: attributes.groupId,
     groupLink: buildGroupLink(attributes),
     hideStory: Boolean(attributes.hideStory),
-    hiddenFromConversationSearch: Boolean(
-      attributes.hiddenFromConversationSearch
-    ),
     inboxPosition,
     isArchived: attributes.isArchived,
     isBlocked: isBlocked(attributes),
+    reportingToken: attributes.reportingToken,
     removalStage: attributes.removalStage,
     isMe: isMe(attributes),
     isGroupV1AndDisabled: isGroupV1(attributes),
@@ -191,6 +188,8 @@ export function getConversation(model: ConversationModel): ConversationType {
     isVerified: model.isVerified(),
     isFetchingUUID: model.isFetchingUUID,
     lastMessage: getLastMessage(attributes),
+    lastMessageReceivedAt: attributes.lastMessageReceivedAt,
+    lastMessageReceivedAtMs: attributes.lastMessageReceivedAtMs,
     lastUpdated: dropNull(timestamp),
     left: Boolean(attributes.left),
     markedUnread: attributes.markedUnread,
@@ -201,7 +200,6 @@ export function getConversation(model: ConversationModel): ConversationType {
     pendingApprovalMemberships: getPendingApprovalMemberships(attributes),
     bannedMemberships: getBannedMemberships(attributes),
     profileKey: attributes.profileKey,
-    messageRequestsEnabled,
     accessControlAddFromInviteLink: attributes.accessControl?.addFromInviteLink,
     accessControlAttributes: attributes.accessControl?.attributes,
     accessControlMembers: attributes.accessControl?.members,
@@ -210,6 +208,9 @@ export function getConversation(model: ConversationModel): ConversationType {
     expireTimer: attributes.expireTimer,
     muteExpiresAt: attributes.muteExpiresAt,
     dontNotifyForMentionsIfMuted: attributes.dontNotifyForMentionsIfMuted,
+    nicknameFamilyName: dropNull(attributes.nicknameFamilyName),
+    nicknameGivenName: dropNull(attributes.nicknameGivenName),
+    note: dropNull(attributes.note),
     name: attributes.name,
     systemGivenName: attributes.systemGivenName,
     systemFamilyName: attributes.systemFamilyName,
@@ -217,6 +218,9 @@ export function getConversation(model: ConversationModel): ConversationType {
     phoneNumber: getNumber(attributes),
     profileName: getProfileName(attributes),
     profileSharing: attributes.profileSharing,
+    profileLastUpdatedAt: attributes.profileLastUpdatedAt,
+    capabilities: attributes.capabilities,
+    sharingPhoneNumber: attributes.sharingPhoneNumber,
     publicParams: attributes.publicParams,
     secretParams: attributes.secretParams,
     shouldShowDraft,
@@ -224,6 +228,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     timestamp: dropNull(timestamp),
     title: getTitle(attributes),
     titleNoDefault: getTitleNoDefault(attributes),
+    titleNoNickname: getTitle(attributes, { ignoreNickname: true }),
     typingContactIdTimestamps,
     searchableTitle: isMe(attributes)
       ? window.i18n('icu:noteToSelf')

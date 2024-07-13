@@ -1,0 +1,47 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.CallLinkDetails__Container {
+  max-width: 750px;
+  margin-block: 0;
+  margin-inline: auto;
+  user-select: none;
+}
+
+.CallLinkDetails__Header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.CallLinkDetails__HeaderAvatar,
+.CallLinkDetails__HeaderActions {
+  flex-shrink: 0;
+}
+
+.CallLinkDetails__HeaderDetails {
+  flex: 1;
+}
+
+.CallLinkDetails__HeaderTitle {
+  margin: 0;
+  @include font-title-medium;
+}
+
+.CallLinkDetails__HeaderDescription {
+  margin: 0;
+  user-select: text;
+  @include font-body-1;
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
+.CallLinkDetails__HeaderButton {
+  font-weight: 600;
+}

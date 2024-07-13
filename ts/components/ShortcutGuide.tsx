@@ -8,8 +8,6 @@ import type { LocalizerType } from '../types/Util';
 
 export type Props = {
   hasInstalledStickers: boolean;
-  isFormattingFlagEnabled: boolean;
-  isFormattingSpoilersFlagEnabled: boolean;
   platform: string;
   readonly close: () => unknown;
   readonly i18n: LocalizerType;
@@ -161,7 +159,7 @@ function getNavigationShortcuts(i18n: LocalizerType): Array<ShortcutType> {
     {
       id: 'Keyboard--begin-recording-voice-note',
       description: i18n('icu:Keyboard--begin-recording-voice-note'),
-      keys: [['commandOrCtrl', 'shift', 'V']],
+      keys: [['commandOrCtrl', 'shift', 'Y']],
     },
     {
       id: 'Keyboard--archive-conversation',
@@ -239,11 +237,7 @@ function getMessageShortcuts(i18n: LocalizerType): Array<ShortcutType> {
   ];
 }
 
-function getComposerShortcuts(
-  i18n: LocalizerType,
-  isFormattingFlagEnabled: boolean,
-  isFormattingSpoilersFlagEnabled: boolean
-): Array<ShortcutType> {
+function getComposerShortcuts(i18n: LocalizerType): Array<ShortcutType> {
   const shortcuts: Array<ShortcutType> = [
     {
       id: 'Keyboard--add-newline',
@@ -280,38 +274,32 @@ function getComposerShortcuts(
       description: i18n('icu:Keyboard--edit-last-message'),
       keys: [['↑']],
     },
-  ];
-
-  if (isFormattingFlagEnabled) {
-    shortcuts.push({
+    {
       id: 'Keyboard--composer--bold',
       description: i18n('icu:Keyboard--composer--bold'),
       keys: [['commandOrCtrl', 'B']],
-    });
-    shortcuts.push({
+    },
+    {
       id: 'Keyboard--composer--italic',
       description: i18n('icu:Keyboard--composer--italic'),
       keys: [['commandOrCtrl', 'I']],
-    });
-    shortcuts.push({
+    },
+    {
       id: 'Keyboard--composer--strikethrough',
       description: i18n('icu:Keyboard--composer--strikethrough'),
       keys: [['commandOrCtrl', 'shift', 'X']],
-    });
-    shortcuts.push({
+    },
+    {
       id: 'Keyboard--composer--monospace',
       description: i18n('icu:Keyboard--composer--monospace'),
       keys: [['commandOrCtrl', 'E']],
-    });
-
-    if (isFormattingSpoilersFlagEnabled) {
-      shortcuts.push({
-        id: 'Keyboard--composer--spoiler',
-        description: i18n('icu:Keyboard--composer--spoiler'),
-        keys: [['commandOrCtrl', 'shift', 'B']],
-      });
-    }
-  }
+    },
+    {
+      id: 'Keyboard--composer--spoiler',
+      description: i18n('icu:Keyboard--composer--spoiler'),
+      keys: [['commandOrCtrl', 'shift', 'B']],
+    },
+  ];
 
   return shortcuts;
 }
@@ -362,14 +350,7 @@ function getCallingShortcuts(i18n: LocalizerType): Array<ShortcutType> {
 }
 
 export function ShortcutGuide(props: Props): JSX.Element {
-  const {
-    i18n,
-    close,
-    hasInstalledStickers,
-    isFormattingFlagEnabled,
-    isFormattingSpoilersFlagEnabled,
-    platform,
-  } = props;
+  const { i18n, close, hasInstalledStickers, platform } = props;
   const isMacOS = platform === 'darwin';
 
   // Restore focus on teardown
@@ -427,11 +408,7 @@ export function ShortcutGuide(props: Props): JSX.Element {
               {i18n('icu:Keyboard--composer-header')}
             </div>
             <div className="module-shortcut-guide__section-list">
-              {getComposerShortcuts(
-                i18n,
-                isFormattingFlagEnabled,
-                isFormattingSpoilersFlagEnabled
-              ).map((shortcut, index) =>
+              {getComposerShortcuts(i18n).map((shortcut, index) =>
                 renderShortcut(shortcut, index, isMacOS, i18n)
               )}
             </div>

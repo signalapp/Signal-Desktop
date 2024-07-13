@@ -2,11 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import 'react-quill/dist/quill.core.css';
-import { boolean, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import type { Props } from './CompositionInput';
 import { CompositionInput } from './CompositionInput';
@@ -19,51 +17,43 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/CompositionInput',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<Props>;
 
-const useProps = (overrideProps: Partial<Props> = {}): Props => ({
-  i18n,
-  disabled: boolean('disabled', overrideProps.disabled || false),
-  draftText: overrideProps.draftText || undefined,
-  draftBodyRanges: overrideProps.draftBodyRanges || [],
-  clearQuotedMessage: action('clearQuotedMessage'),
-  getPreferredBadge: () => undefined,
-  getQuotedMessage: action('getQuotedMessage'),
-  isFormattingFlagEnabled:
-    overrideProps.isFormattingFlagEnabled === false
-      ? overrideProps.isFormattingFlagEnabled
-      : true,
-  isFormattingSpoilersFlagEnabled:
-    overrideProps.isFormattingSpoilersFlagEnabled === false
-      ? overrideProps.isFormattingSpoilersFlagEnabled
-      : true,
-  isFormattingEnabled:
-    overrideProps.isFormattingEnabled === false
-      ? overrideProps.isFormattingEnabled
-      : true,
-  large: boolean('large', overrideProps.large || false),
-  onCloseLinkPreview: action('onCloseLinkPreview'),
-  onEditorStateChange: action('onEditorStateChange'),
-  onPickEmoji: action('onPickEmoji'),
-  onSubmit: action('onSubmit'),
-  onTextTooLong: action('onTextTooLong'),
-  platform: 'darwin',
-  sendCounter: 0,
-  sortedGroupMembers: overrideProps.sortedGroupMembers || [],
-  skinTone: select(
-    'skinTone',
-    {
-      skinTone0: 0,
-      skinTone1: 1,
-      skinTone2: 2,
-      skinTone3: 3,
-      skinTone4: 4,
-      skinTone5: 5,
-    },
-    overrideProps.skinTone || undefined
-  ),
-  theme: React.useContext(StorybookThemeContext),
-});
+const useProps = (overrideProps: Partial<Props> = {}): Props => {
+  const conversation = getDefaultConversation();
+  return {
+    i18n,
+    conversationId: conversation.id,
+    disabled: overrideProps.disabled ?? false,
+    draftText: overrideProps.draftText ?? null,
+    draftEditMessage: overrideProps.draftEditMessage ?? null,
+    draftBodyRanges: overrideProps.draftBodyRanges || [],
+    clearQuotedMessage: action('clearQuotedMessage'),
+    getPreferredBadge: () => undefined,
+    getQuotedMessage: action('getQuotedMessage'),
+    isActive: true,
+    isFormattingEnabled:
+      overrideProps.isFormattingEnabled === false
+        ? overrideProps.isFormattingEnabled
+        : true,
+    large: overrideProps.large ?? false,
+    onCloseLinkPreview: action('onCloseLinkPreview'),
+    onEditorStateChange: action('onEditorStateChange'),
+    onPickEmoji: action('onPickEmoji'),
+    onSubmit: action('onSubmit'),
+    onTextTooLong: action('onTextTooLong'),
+    platform: 'darwin',
+    sendCounter: 0,
+    sortedGroupMembers: overrideProps.sortedGroupMembers ?? [],
+    skinTone: overrideProps.skinTone ?? null,
+    theme: React.useContext(StorybookThemeContext),
+    inputApi: null,
+    shouldHidePopovers: null,
+    linkPreviewResult: null,
+  };
+};
 
 export function Default(): JSX.Element {
   const props = useProps();
@@ -150,16 +140,4 @@ export function Mentions(): JSX.Element {
 
 export function NoFormattingMenu(): JSX.Element {
   return <CompositionInput {...useProps({ isFormattingEnabled: false })} />;
-}
-
-export function NoFormattingFlag(): JSX.Element {
-  return <CompositionInput {...useProps({ isFormattingFlagEnabled: false })} />;
-}
-
-export function NoSpoilerFormattingFlag(): JSX.Element {
-  return (
-    <CompositionInput
-      {...useProps({ isFormattingSpoilersFlagEnabled: false })}
-    />
-  );
 }

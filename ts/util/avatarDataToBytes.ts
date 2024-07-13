@@ -6,6 +6,10 @@ import { AvatarColorMap } from '../types/Colors';
 import type { AvatarDataType } from '../types/Avatar';
 import { canvasToBytes } from './canvasToBytes';
 import { getFittedFontSize } from './avatarTextSizeCalculator';
+import {
+  getLocalAttachmentUrl,
+  AttachmentDisposition,
+} from './getLocalAttachmentUrl';
 
 const CANVAS_SIZE = 1024;
 
@@ -93,9 +97,17 @@ export async function avatarDataToBytes(
 
   if (imagePath) {
     await drawImage(
-      window.Signal?.Migrations
-        ? window.Signal.Migrations.getAbsoluteAvatarPath(imagePath)
-        : imagePath,
+      getLocalAttachmentUrl(
+        {
+          ...avatarData,
+
+          // Slight incompatibility
+          path: imagePath,
+        },
+        {
+          disposition: AttachmentDisposition.AvatarData,
+        }
+      ),
       context,
       canvas
     );

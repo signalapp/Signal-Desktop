@@ -5,6 +5,7 @@
   display: inline-flex;
   line-height: 0;
   position: relative;
+  z-index: 0;
   user-select: none;
   vertical-align: middle;
 
@@ -89,6 +90,10 @@
 
     @media (forced-colors: active) {
       background-color: WindowText;
+    }
+
+    &--callLink {
+      -webkit-mask-image: url('../images/icons/v3/video/video-display-bold.svg');
     }
 
     &--direct {

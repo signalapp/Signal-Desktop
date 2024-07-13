@@ -12,6 +12,7 @@ import {
   RingUpdate,
 } from '@signalapp/ringrtc';
 import { v4 as generateGuid } from 'uuid';
+import { isEqual } from 'lodash';
 import { strictAssert } from './assert';
 import { SignalService as Proto } from '../protobuf';
 import { bytesToUuid, uuidToBytes } from './uuidToBytes';
@@ -27,7 +28,7 @@ import { isMe } from './whatTypeOfConversation';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { incrementMessageCounter } from './incrementMessageCounter';
-import { ReadStatus, maxReadStatus } from '../messages/MessageReadStatus';
+import { ReadStatus } from '../messages/MessageReadStatus';
 import { SeenStatus, maxSeenStatus } from '../MessageSeenStatus';
 import { canConversationBeUnarchived } from './canConversationBeUnarchived';
 import type {
@@ -43,6 +44,7 @@ import type {
   CallEventDetails,
   CallHistoryDetails,
   CallHistoryGroup,
+  CallLogEventDetails,
   CallStatus,
   GroupCallMeta,
 } from '../types/CallDisposition';
@@ -57,22 +59,45 @@ import {
   RemoteCallEvent,
   callHistoryDetailsSchema,
   callDetailsSchema,
+  AdhocCallStatus,
+  CallStatusValue,
+  callLogEventNormalizeSchema,
+  CallLogEvent,
 } from '../types/CallDisposition';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { ConversationModel } from '../models/conversations';
+import { drop } from './drop';
+import { sendCallLinkUpdateSync } from './sendCallLinkUpdateSync';
 
 // utils
 // -----
 
+// call link roomIds are automatically redacted via redactCallLinkRoomIds()
+export function peerIdToLog(peerId: string, mode: CallMode): string {
+  return mode === CallMode.Group ? `groupv2(${peerId})` : peerId;
+}
+
 export function formatCallEvent(callEvent: CallEventDetails): string {
-  const { callId, peerId, direction, event, type, mode, timestamp } = callEvent;
-  return `CallEvent (${callId}, ${peerId}, ${mode}, ${event}, ${direction}, ${type}, ${mode}, ${timestamp})`;
+  const {
+    callId,
+    peerId,
+    direction,
+    event,
+    eventSource,
+    type,
+    mode,
+    ringerId,
+    timestamp,
+  } = callEvent;
+  const peerIdLog = peerIdToLog(peerId, mode);
+  return `CallEvent (${callId}, ${peerIdLog}, ${mode}, ${event}, ${direction}, ${type}, ${mode}, ${timestamp}, ${ringerId}, ${eventSource})`;
 }
 
 export function formatCallHistory(callHistory: CallHistoryDetails): string {
-  const { callId, peerId, direction, status, type, mode, timestamp } =
+  const { callId, peerId, direction, status, type, mode, timestamp, ringerId } =
     callHistory;
-  return `CallHistory (${callId}, ${peerId}, ${mode}, ${status}, ${direction}, ${type}, ${mode}, ${timestamp})`;
+  const peerIdLog = peerIdToLog(peerId, mode);
+  return `CallHistory (${callId}, ${peerIdLog}, ${mode}, ${status}, ${direction}, ${type}, ${mode}, ${timestamp}, ${ringerId})`;
 }
 
 export function formatCallHistoryGroup(
@@ -162,7 +187,8 @@ export function convertJoinState(joinState: JoinState): GroupCallJoinState {
 // ----------------------
 
 export function getCallEventForProto(
-  callEventProto: Proto.SyncMessage.ICallEvent
+  callEventProto: Proto.SyncMessage.ICallEvent,
+  eventSource: string
 ): CallEventDetails {
   const callEvent = callEventNormalizeSchema.parse(callEventProto);
   const { callId, peerId, timestamp } = callEvent;
@@ -174,6 +200,8 @@ export function getCallEventForProto(
     type = CallType.Audio;
   } else if (callEvent.type === Proto.SyncMessage.CallEvent.Type.VIDEO_CALL) {
     type = CallType.Video;
+  } else if (callEvent.type === Proto.SyncMessage.CallEvent.Type.AD_HOC_CALL) {
+    type = CallType.Adhoc;
   } else {
     throw new TypeError(`Unknown call type ${callEvent.type}`);
   }
@@ -181,6 +209,8 @@ export function getCallEventForProto(
   let mode: CallMode;
   if (type === CallType.Group) {
     mode = CallMode.Group;
+  } else if (type === CallType.Adhoc) {
+    mode = CallMode.Adhoc;
   } else {
     mode = CallMode.Direct;
   }
@@ -205,6 +235,8 @@ export function getCallEventForProto(
     event = RemoteCallEvent.NotAccepted;
   } else if (callEvent.event === Proto.SyncMessage.CallEvent.Event.DELETE) {
     event = RemoteCallEvent.Delete;
+  } else if (callEvent.event === Proto.SyncMessage.CallEvent.Event.OBSERVED) {
+    event = RemoteCallEvent.Observed;
   } else {
     throw new TypeError(`Unknown call event ${callEvent.event}`);
   }
@@ -218,7 +250,36 @@ export function getCallEventForProto(
     direction,
     timestamp,
     event,
+    eventSource,
   });
+}
+
+const callLogEventFromProto: Partial<
+  Record<Proto.SyncMessage.CallLogEvent.Type, CallLogEvent>
+> = {
+  [Proto.SyncMessage.CallLogEvent.Type.CLEAR]: CallLogEvent.Clear,
+  [Proto.SyncMessage.CallLogEvent.Type.MARKED_AS_READ]:
+    CallLogEvent.MarkedAsRead,
+  [Proto.SyncMessage.CallLogEvent.Type.MARKED_AS_READ_IN_CONVERSATION]:
+    CallLogEvent.MarkedAsReadInConversation,
+};
+
+export function getCallLogEventForProto(
+  callLogEventProto: Proto.SyncMessage.ICallLogEvent
+): CallLogEventDetails {
+  const callLogEvent = callLogEventNormalizeSchema.parse(callLogEventProto);
+
+  const type = callLogEventFromProto[callLogEvent.type];
+  if (type == null) {
+    throw new TypeError(`Unknown call log event ${callLogEvent.type}`);
+  }
+
+  return {
+    type,
+    timestamp: callLogEvent.timestamp,
+    peerId: callLogEvent.peerId ?? null,
+    callId: callLogEvent.callId ?? null,
+  };
 }
 
 const directionToProto = {
@@ -230,28 +291,43 @@ const typeToProto = {
   [CallType.Audio]: Proto.SyncMessage.CallEvent.Type.AUDIO_CALL,
   [CallType.Video]: Proto.SyncMessage.CallEvent.Type.VIDEO_CALL,
   [CallType.Group]: Proto.SyncMessage.CallEvent.Type.GROUP_CALL,
+  [CallType.Adhoc]: Proto.SyncMessage.CallEvent.Type.AD_HOC_CALL,
 };
 
 const statusToProto: Record<
   CallStatus,
   Proto.SyncMessage.CallEvent.Event | null
 > = {
-  [DirectCallStatus.Accepted]: Proto.SyncMessage.CallEvent.Event.ACCEPTED, // and GroupCallStatus.Accepted
-  [DirectCallStatus.Declined]: Proto.SyncMessage.CallEvent.Event.NOT_ACCEPTED, // and GroupCallStatus.Declined
-  [DirectCallStatus.Deleted]: Proto.SyncMessage.CallEvent.Event.DELETE, // and GroupCallStatus.Deleted
-  [DirectCallStatus.Missed]: null, // and GroupCallStatus.Missed
-  [DirectCallStatus.Pending]: null,
-  [GroupCallStatus.GenericGroupCall]: null,
-  [GroupCallStatus.Joined]: null,
-  [GroupCallStatus.OutgoingRing]: null,
-  [GroupCallStatus.Ringing]: null,
+  [CallStatusValue.Accepted]: Proto.SyncMessage.CallEvent.Event.ACCEPTED,
+  [CallStatusValue.Declined]: Proto.SyncMessage.CallEvent.Event.NOT_ACCEPTED,
+  [CallStatusValue.Deleted]: Proto.SyncMessage.CallEvent.Event.DELETE,
+  [CallStatusValue.Missed]: null,
+  [CallStatusValue.Pending]: null,
+  [CallStatusValue.GenericGroupCall]: null,
+  [CallStatusValue.GenericAdhocCall]:
+    Proto.SyncMessage.CallEvent.Event.OBSERVED,
+  [CallStatusValue.OutgoingRing]: null,
+  [CallStatusValue.Ringing]: null,
+  [CallStatusValue.Joined]: null,
+  [CallStatusValue.JoinedAdhoc]: Proto.SyncMessage.CallEvent.Event.ACCEPTED,
 };
 
 function shouldSyncStatus(callStatus: CallStatus) {
   return statusToProto[callStatus] != null;
 }
 
-function getProtoForCallHistory(
+export function getBytesForPeerId(callHistory: CallHistoryDetails): Uint8Array {
+  let peerId =
+    callHistory.mode === CallMode.Adhoc
+      ? Bytes.fromBase64(callHistory.peerId)
+      : uuidToBytes(callHistory.peerId);
+  if (peerId.length === 0) {
+    peerId = Bytes.fromBase64(callHistory.peerId);
+  }
+  return peerId;
+}
+
+export function getProtoForCallHistory(
   callHistory: CallHistoryDetails
 ): Proto.SyncMessage.ICallEvent | null {
   const event = statusToProto[callHistory.status];
@@ -263,13 +339,8 @@ function getProtoForCallHistory(
     )}`
   );
 
-  let peerId = uuidToBytes(callHistory.peerId);
-  if (peerId.length === 0) {
-    peerId = Bytes.fromBase64(callHistory.peerId);
-  }
-
   return new Proto.SyncMessage.CallEvent({
-    peerId,
+    peerId: getBytesForPeerId(callHistory),
     callId: Long.fromString(callHistory.callId),
     type: typeToProto[callHistory.type],
     direction: directionToProto[callHistory.direction],
@@ -454,14 +525,32 @@ export function getCallDetailsFromGroupCallMeta(
   });
 }
 
+export function getCallDetailsForAdhocCall(
+  peerId: AciString | string,
+  callId: string
+): CallDetails {
+  return callDetailsSchema.parse({
+    callId,
+    peerId,
+    ringerId: null,
+    mode: CallMode.Adhoc,
+    type: CallType.Adhoc,
+    // Direction is only outgoing when your action causes ringing for others.
+    // As Adhoc calls do not support ringing, this is always incoming for now
+    direction: CallDirection.Incoming,
+    timestamp: Date.now(),
+  });
+}
+
 // Call Event Details
 // ------------------
 
 export function getCallEventDetails(
   callDetails: CallDetails,
-  event: LocalCallEvent
+  event: LocalCallEvent,
+  eventSource: string
 ): CallEventDetails {
-  return callEventDetailsSchema.parse({ ...callDetails, event });
+  return callEventDetailsSchema.parse({ ...callDetails, event, eventSource });
 }
 
 // transitions
@@ -486,7 +575,7 @@ export function transitionCallHistory(
   }
 
   const prevStatus = callHistory?.status ?? null;
-  let status: DirectCallStatus | GroupCallStatus;
+  let status: CallStatus;
 
   if (mode === CallMode.Direct) {
     status = transitionDirectCallStatus(
@@ -497,6 +586,12 @@ export function transitionCallHistory(
   } else if (mode === CallMode.Group) {
     status = transitionGroupCallStatus(
       prevStatus as GroupCallStatus | null,
+      event,
+      direction
+    );
+  } else if (mode === CallMode.Adhoc) {
+    status = transitionAdhocCallStatus(
+      prevStatus as AdhocCallStatus | null,
       event,
       direction
     );
@@ -540,7 +635,8 @@ function transitionTimestamp(
   // Deleted call history should never be changed
   if (
     callHistory.status === DirectCallStatus.Deleted ||
-    callHistory.status === GroupCallStatus.Deleted
+    callHistory.status === GroupCallStatus.Deleted ||
+    callHistory.status === AdhocCallStatus.Deleted
   ) {
     return callHistory.timestamp;
   }
@@ -550,9 +646,19 @@ function transitionTimestamp(
   if (
     callHistory.status === DirectCallStatus.Accepted ||
     callHistory.status === GroupCallStatus.Accepted ||
-    callHistory.status === GroupCallStatus.Joined
+    callHistory.status === GroupCallStatus.Joined ||
+    callHistory.status === AdhocCallStatus.Joined
   ) {
     if (callEvent.event === RemoteCallEvent.Accepted) {
+      return latestTimestamp;
+    }
+    return callHistory.timestamp;
+  }
+
+  // Observed call history should only be changed if we get a remote observed
+  // event with possibly a better timestamp.
+  if (callHistory.status === AdhocCallStatus.Generic) {
+    if (callEvent.event === RemoteCallEvent.Observed) {
       return latestTimestamp;
     }
     return callHistory.timestamp;
@@ -578,7 +684,8 @@ function transitionTimestamp(
     callHistory.status === GroupCallStatus.OutgoingRing ||
     callHistory.status === GroupCallStatus.Ringing ||
     callHistory.status === DirectCallStatus.Missed ||
-    callHistory.status === GroupCallStatus.Missed
+    callHistory.status === GroupCallStatus.Missed ||
+    callHistory.status === AdhocCallStatus.Pending
   ) {
     return latestTimestamp;
   }
@@ -618,6 +725,12 @@ function transitionDirectCallStatus(
       return DirectCallStatus.Declined;
     }
     return DirectCallStatus.Missed;
+  }
+
+  if (callEvent === RemoteCallEvent.Observed) {
+    throw new Error(
+      `callHistoryDetails: Direct calls shouldn't send ${callEvent}`
+    );
   }
 
   if (callEvent === LocalCallEvent.Missed) {
@@ -673,7 +786,10 @@ function transitionGroupCallStatus(
     return status;
   }
 
-  if (event === RemoteCallEvent.NotAccepted) {
+  if (
+    event === RemoteCallEvent.NotAccepted ||
+    event === RemoteCallEvent.Observed
+  ) {
     throw new Error(`callHistoryDetails: Group calls shouldn't send ${event}`);
   }
 
@@ -733,12 +849,70 @@ function transitionGroupCallStatus(
   throw missingCaseError(event);
 }
 
+function transitionAdhocCallStatus(
+  status: AdhocCallStatus | null,
+  callEvent: CallEvent,
+  direction: CallDirection
+): AdhocCallStatus {
+  log.info(
+    `transitionAdhocCallStatus: status=${status} callEvent=${callEvent} direction=${direction}`
+  );
+
+  // In all cases if we get a delete event, we need to delete the call, and never
+  // transition from deleted.
+  if (
+    callEvent === RemoteCallEvent.Delete ||
+    callEvent === LocalCallEvent.Delete ||
+    status === AdhocCallStatus.Deleted
+  ) {
+    return AdhocCallStatus.Deleted;
+  }
+
+  // The Accepted event is used to indicate we have fully joined an adhoc call.
+  // If admin approval was required for a call link, this event indicates approval
+  // was granted.
+  if (
+    callEvent === RemoteCallEvent.Accepted ||
+    callEvent === LocalCallEvent.Accepted
+  ) {
+    return AdhocCallStatus.Joined;
+  }
+
+  if (status === AdhocCallStatus.Joined) {
+    return status;
+  }
+
+  if (
+    callEvent === RemoteCallEvent.Observed ||
+    callEvent === LocalCallEvent.Started
+  ) {
+    return AdhocCallStatus.Generic;
+  }
+
+  // For Adhoc calls, ringing and corresponding events are not supported currently.
+  // However we handle those events here to be exhaustive.
+  if (
+    callEvent === RemoteCallEvent.NotAccepted ||
+    callEvent === LocalCallEvent.Missed ||
+    callEvent === LocalCallEvent.Declined ||
+    callEvent === LocalCallEvent.Hangup ||
+    callEvent === LocalCallEvent.RemoteHangup ||
+    // never actually happens, but need for exhaustive check
+    callEvent === LocalCallEvent.Ringing
+  ) {
+    return AdhocCallStatus.Pending;
+  }
+
+  throw missingCaseError(callEvent);
+}
+
 // actions
 // -------
 
 async function updateLocalCallHistory(
   callEvent: CallEventDetails,
-  receivedAtCounter: number | null
+  receivedAtCounter: number | null,
+  receivedAtMS: number | null
 ): Promise<CallHistoryDetails | null> {
   const conversation = window.ConversationController.get(callEvent.peerId);
   strictAssert(
@@ -782,21 +956,126 @@ async function updateLocalCallHistory(
         return null;
       }
 
-      const updatedCallHistory = await saveCallHistory(
+      const updatedCallHistory = await saveCallHistory({
         callHistory,
         conversation,
-        receivedAtCounter
-      );
+        receivedAtCounter,
+        receivedAtMS,
+      });
       return updatedCallHistory;
     }
   );
 }
 
-async function saveCallHistory(
-  callHistory: CallHistoryDetails,
-  conversation: ConversationModel,
-  receivedAtCounter: number | null
-): Promise<CallHistoryDetails> {
+export async function updateAdhocCallHistory(
+  callEvent: CallEventDetails
+): Promise<void> {
+  const callHistory = await updateLocalAdhocCallHistory(callEvent);
+  if (!callHistory) {
+    return;
+  }
+
+  drop(updateRemoteCallHistory(callHistory));
+}
+
+export async function updateLocalAdhocCallHistory(
+  callEvent: CallEventDetails
+): Promise<CallHistoryDetails | null> {
+  log.info(
+    'updateLocalAdhocCallHistory: Processing call event:',
+    formatCallEvent(callEvent)
+  );
+
+  const prevCallHistory =
+    (await window.Signal.Data.getCallHistory(
+      callEvent.callId,
+      callEvent.peerId
+    )) ?? null;
+
+  if (prevCallHistory != null) {
+    log.info(
+      'updateAdhocCallHistory: Found previous call history:',
+      formatCallHistory(prevCallHistory)
+    );
+  } else {
+    log.info('updateAdhocCallHistory: No previous call history');
+  }
+
+  let callHistory: CallHistoryDetails;
+  try {
+    callHistory = transitionCallHistory(prevCallHistory, callEvent);
+  } catch (error) {
+    log.error(
+      "updateAdhocCallHistory: Couldn't transition call history:",
+      formatCallEvent(callEvent),
+      Errors.toLogFormat(error)
+    );
+    return null;
+  }
+
+  strictAssert(
+    callHistory.status === AdhocCallStatus.Generic ||
+      callHistory.status === AdhocCallStatus.Pending ||
+      callHistory.status === AdhocCallStatus.Joined ||
+      callHistory.status === AdhocCallStatus.Deleted,
+    `updateAdhocCallHistory: callHistory must have adhoc status (was ${callHistory.status})`
+  );
+
+  const isDeleted = callHistory.status === AdhocCallStatus.Deleted;
+  if (prevCallHistory != null && isEqual(prevCallHistory, callHistory)) {
+    log.info(
+      'updateAdhocCallHistory: Next call history is identical, skipping save'
+    );
+  } else {
+    log.info(
+      'updateAdhocCallHistory: Saving call history:',
+      formatCallHistory(callHistory)
+    );
+    await window.Signal.Data.saveCallHistory(callHistory);
+
+    /*
+      If we're not a call link admin and this is the first call history for this link,
+      then it means we clicked someone else's link and discovered it was active. We
+      sync this newly observed call link so the subsequent call event OBSERVED sync
+      message refers to a valid call link.
+    */
+    if (prevCallHistory == null) {
+      const callLink = await window.Signal.Data.getCallLinkByRoomId(
+        callEvent.peerId
+      );
+      if (callLink) {
+        log.info(
+          `updateAdhocCallHistory: Syncing new observed call link ${callEvent.peerId}`
+        );
+        drop(sendCallLinkUpdateSync(callLink));
+      } else {
+        log.error(
+          `updateAdhocCallHistory: New observed call link missing in DB: ${callEvent.peerId}`
+        );
+      }
+    }
+  }
+
+  if (isDeleted) {
+    window.reduxActions.callHistory.removeCallHistory(callHistory.callId);
+  } else {
+    window.reduxActions.callHistory.addCallHistory(callHistory);
+  }
+
+  return callHistory;
+}
+
+async function saveCallHistory({
+  callHistory,
+  conversation,
+  receivedAtCounter,
+  receivedAtMS,
+}: {
+  callHistory: CallHistoryDetails;
+  conversation: ConversationModel;
+  receivedAtCounter: number | null;
+  receivedAtMS: number | null;
+}): Promise<CallHistoryDetails> {
   log.info(
     'saveCallHistory: Saving call history:',
     formatCallHistory(callHistory)
@@ -833,31 +1112,29 @@ async function saveCallHistory(
 
   if (isDeleted) {
     if (prevMessage != null) {
-      await window.Signal.Data.removeMessage(prevMessage.id);
+      await window.Signal.Data.removeMessage(prevMessage.id, {
+        fromSync: true,
+        singleProtoJobQueue,
+      });
     }
     return callHistory;
   }
 
-  let unread = false;
+  let unseen = false;
   if (callHistory.mode === CallMode.Direct) {
-    unread =
+    unseen =
       callHistory.direction === CallDirection.Incoming &&
       (callHistory.status === DirectCallStatus.Missed ||
         callHistory.status === DirectCallStatus.Pending);
   } else if (callHistory.mode === CallMode.Group) {
-    unread =
+    unseen =
       callHistory.direction === CallDirection.Incoming &&
       (callHistory.status === GroupCallStatus.Ringing ||
         callHistory.status === GroupCallStatus.GenericGroupCall ||
         callHistory.status === GroupCallStatus.Missed);
   }
 
-  let readStatus = unread ? ReadStatus.Unread : ReadStatus.Read;
-  let seenStatus = unread ? SeenStatus.Unseen : SeenStatus.NotApplicable;
-
-  if (prevMessage?.readStatus != null) {
-    readStatus = maxReadStatus(readStatus, prevMessage.readStatus);
-  }
+  let seenStatus = unseen ? SeenStatus.Unseen : SeenStatus.NotApplicable;
   if (prevMessage?.seenStatus != null) {
     seenStatus = maxSeenStatus(seenStatus, prevMessage.seenStatus);
   }
@@ -872,8 +1149,9 @@ async function saveCallHistory(
       prevMessage?.received_at ??
       receivedAtCounter ??
       incrementMessageCounter(),
-    received_at_ms: prevMessage?.received_at_ms ?? callHistory.timestamp,
-    readStatus,
+    received_at_ms:
+      prevMessage?.received_at_ms ?? receivedAtMS ?? callHistory.timestamp,
+    readStatus: ReadStatus.Read,
     seenStatus,
     callId: callHistory.callId,
   };
@@ -894,23 +1172,34 @@ async function saveCallHistory(
     'callDisposition'
   );
 
-  if (callHistory.direction === CallDirection.Outgoing) {
-    conversation.incrementSentMessageCount();
-  } else {
-    conversation.incrementMessageCount();
+  if (prevMessage == null) {
+    if (callHistory.direction === CallDirection.Outgoing) {
+      conversation.incrementSentMessageCount();
+    } else {
+      conversation.incrementMessageCount();
+    }
+    conversation.trigger('newmessage', model);
   }
 
-  conversation.trigger('newmessage', model);
+  await conversation.updateLastMessage().catch(error => {
+    log.error(
+      'saveCallHistory: Failed to update last message:',
+      Errors.toLogFormat(error)
+    );
+  });
 
-  void conversation.updateLastMessage();
-  void conversation.updateUnread();
-  conversation.set('active_at', callHistory.timestamp);
+  conversation.set(
+    'active_at',
+    Math.max(conversation.get('active_at') ?? 0, callHistory.timestamp)
+  );
 
   if (canConversationBeUnarchived(conversation.attributes)) {
     conversation.setArchived(false);
   } else {
     window.Signal.Data.updateConversation(conversation.attributes);
   }
+
+  window.reduxActions.callHistory.updateCallHistoryUnreadCount();
 
   return callHistory;
 }
@@ -962,18 +1251,25 @@ async function updateRemoteCallHistory(
 
 export async function updateCallHistoryFromRemoteEvent(
   callEvent: CallEventDetails,
-  receivedAtCounter: number
+  receivedAtCounter: number,
+  receivedAtMS: number
 ): Promise<void> {
-  await updateLocalCallHistory(callEvent, receivedAtCounter);
+  if (callEvent.mode === CallMode.Direct || callEvent.mode === CallMode.Group) {
+    await updateLocalCallHistory(callEvent, receivedAtCounter, receivedAtMS);
+  } else if (callEvent.mode === CallMode.Adhoc) {
+    await updateLocalAdhocCallHistory(callEvent);
+  }
 }
 
 export async function updateCallHistoryFromLocalEvent(
   callEvent: CallEventDetails,
-  receivedAtCounter: number | null
+  receivedAtCounter: number | null,
+  receivedAtMS: number | null
 ): Promise<void> {
   const updatedCallHistory = await updateLocalCallHistory(
     callEvent,
-    receivedAtCounter
+    receivedAtCounter,
+    receivedAtMS
   );
   if (updatedCallHistory == null) {
     return;
@@ -981,32 +1277,63 @@ export async function updateCallHistoryFromLocalEvent(
   await updateRemoteCallHistory(updatedCallHistory);
 }
 
-export async function clearCallHistoryDataAndSync(): Promise<void> {
+export function updateDeletedMessages(messageIds: ReadonlyArray<string>): void {
+  messageIds.forEach(messageId => {
+    const message = window.MessageCache.__DEPRECATED$getById(messageId);
+    const conversation = message?.getConversation();
+    if (message == null || conversation == null) {
+      return;
+    }
+    window.reduxActions.conversations.messageDeleted(
+      messageId,
+      message.get('conversationId')
+    );
+    conversation.debouncedUpdateLastMessage();
+    window.MessageCache.__DEPRECATED$unregister(messageId);
+  });
+}
+
+export async function clearCallHistoryDataAndSync(
+  latestCall: CallHistoryDetails
+): Promise<void> {
   try {
-    const timestamp = Date.now();
+    log.info(
+      `clearCallHistory: Clearing call history before (${latestCall.callId}, ${latestCall.timestamp})`
+    );
+    const messageIds = await window.Signal.Data.clearCallHistory(latestCall);
+    updateDeletedMessages(messageIds);
+    log.info('clearCallHistory: Queueing sync message');
+    await singleProtoJobQueue.add(
+      MessageSender.getClearCallHistoryMessage(latestCall)
+    );
+  } catch (error) {
+    log.error('clearCallHistory: Failed to clear call history', error);
+  }
+}
 
-    log.info(`clearCallHistory: Clearing call history before ${timestamp}`);
-    const messageIds = await window.Signal.Data.clearCallHistory(timestamp);
-
-    messageIds.forEach(messageId => {
-      const message = window.MessageCache.__DEPRECATED$getById(messageId);
-      const conversation = message?.getConversation();
-      if (message == null || conversation == null) {
-        return;
-      }
-      window.reduxActions.conversations.messageDeleted(
-        messageId,
-        message.get('conversationId')
-      );
-      conversation.debouncedUpdateLastMessage();
-      window.MessageCache.__DEPRECATED$unregister(messageId);
-    });
+export async function markAllCallHistoryReadAndSync(
+  latestCall: CallHistoryDetails,
+  inConversation: boolean
+): Promise<void> {
+  try {
+    log.info(
+      `markAllCallHistoryReadAndSync: Marking call history read before (${latestCall.callId}, ${latestCall.timestamp})`
+    );
+    if (inConversation) {
+      await window.Signal.Data.markAllCallHistoryReadInConversation(latestCall);
+    } else {
+      await window.Signal.Data.markAllCallHistoryRead(latestCall);
+    }
 
     const ourAci = window.textsecure.storage.user.getCheckedAci();
 
     const callLogEvent = new Proto.SyncMessage.CallLogEvent({
-      type: Proto.SyncMessage.CallLogEvent.Type.CLEAR,
-      timestamp: Long.fromNumber(timestamp),
+      type: inConversation
+        ? Proto.SyncMessage.CallLogEvent.Type.MARKED_AS_READ_IN_CONVERSATION
+        : Proto.SyncMessage.CallLogEvent.Type.MARKED_AS_READ,
+      timestamp: Long.fromNumber(latestCall.timestamp),
+      peerId: getBytesForPeerId(latestCall),
+      callId: Long.fromString(latestCall.callId),
     });
 
     const syncMessage = MessageSender.createSyncMessage();
@@ -1017,7 +1344,7 @@ export async function clearCallHistoryDataAndSync(): Promise<void> {
 
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    log.info('clearCallHistory: Queueing sync message');
+    log.info('markAllCallHistoryReadAndSync: Queueing sync message');
     await singleProtoJobQueue.add({
       contentHint: ContentHint.RESENDABLE,
       serviceId: ourAci,
@@ -1029,7 +1356,10 @@ export async function clearCallHistoryDataAndSync(): Promise<void> {
       urgent: false,
     });
   } catch (error) {
-    log.error('clearCallHistory: Failed to clear call history', error);
+    log.error(
+      'markAllCallHistoryReadAndSync: Failed to mark call history read',
+      error
+    );
   }
 }
 
@@ -1065,14 +1395,15 @@ export async function updateLocalGroupCallHistoryTimestamp(
     return prevCallHistory;
   }
 
-  const updatedCallHistory = await saveCallHistory(
-    {
+  const updatedCallHistory = await saveCallHistory({
+    callHistory: {
       ...prevCallHistory,
       timestamp,
     },
     conversation,
-    null
-  );
+    receivedAtCounter: null,
+    receivedAtMS: null,
+  });
 
   return updatedCallHistory;
 }

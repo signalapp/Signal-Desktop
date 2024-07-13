@@ -4,6 +4,7 @@
 import { debounce, pick, uniq, without } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as generateUuid } from 'uuid';
+import { batch as batchDispatch } from 'react-redux';
 
 import type {
   ConversationModelCollectionType,
@@ -16,7 +17,7 @@ import type { ConversationModel } from './models/conversations';
 import dataInterface from './sql/Client';
 import * as log from './logging/log';
 import * as Errors from './types/errors';
-import { getContactId } from './messages/helpers';
+import { getAuthorId } from './messages/helpers';
 import { maybeDeriveGroupV2Id } from './groups';
 import { assertDev, strictAssert } from './util/assert';
 import { drop } from './util/drop';
@@ -54,6 +55,7 @@ const { hasOwnProperty } = Object.prototype;
 
 function applyChangeToConversation(
   conversation: ConversationModel,
+  pniSignatureVerified: boolean,
   suggestedChange: Partial<
     Pick<ConversationAttributesType, 'serviceId' | 'e164' | 'pni'>
   >
@@ -93,7 +95,7 @@ function applyChangeToConversation(
     conversation.updateE164(change.e164);
   }
   if (hasOwnProperty.call(change, 'pni')) {
-    conversation.updatePni(change.pni);
+    conversation.updatePni(change.pni, pniSignatureVerified);
   }
 
   // Note: we don't do a conversation.set here, because change is limited to these fields
@@ -101,7 +103,6 @@ function applyChangeToConversation(
 
 export type CombineConversationsParams = Readonly<{
   current: ConversationModel;
-  fromPniSignature?: boolean;
   obsolete: ConversationModel;
   obsoleteTitleInfo?: ConversationRenderInfoType;
 }>;
@@ -261,7 +262,7 @@ export class ConversationController {
   getOrCreate(
     identifier: string | null,
     type: ConversationAttributesTypeType,
-    additionalInitialProps = {}
+    additionalInitialProps: Partial<ConversationAttributesType> = {}
   ): ConversationModel {
     if (typeof identifier !== 'string') {
       throw new TypeError("'id' must be a string");
@@ -357,7 +358,7 @@ export class ConversationController {
   async getOrCreateAndWait(
     id: string | null,
     type: ConversationAttributesTypeType,
-    additionalInitialProps = {}
+    additionalInitialProps: Partial<ConversationAttributesType> = {}
   ): Promise<ConversationModel> {
     await this.load();
     const conversation = this.getOrCreate(id, type, additionalInitialProps);
@@ -471,7 +472,7 @@ export class ConversationController {
     e164,
     pni: providedPni,
     reason,
-    fromPniSignature,
+    fromPniSignature = false,
     mergeOldAndNew = safeCombineConversations,
   }: {
     aci?: AciString;
@@ -494,6 +495,9 @@ export class ConversationController {
     if (providedPni) {
       dataProvided.push(`pni=${providedPni}`);
     }
+    if (fromPniSignature) {
+      dataProvided.push(`fromPniSignature=${fromPniSignature}`);
+    }
     const logId = `maybeMergeContacts/${reason}/${dataProvided.join(',')}`;
 
     const aci = providedAci
@@ -503,6 +507,8 @@ export class ConversationController {
       ? normalizePni(providedPni, 'maybeMergeContacts.pni')
       : undefined;
     const mergePromises: Array<Promise<void>> = [];
+
+    const pniSignatureVerified = aci != null && pni != null && fromPniSignature;
 
     if (!aci && !e164 && !pni) {
       throw new Error(
@@ -526,6 +532,12 @@ export class ConversationController {
     let unusedMatches: Array<ConvoMatchType> = [];
 
     let targetConversation: ConversationModel | undefined;
+    let targetOldServiceIds:
+      | {
+          aci?: AciString;
+          pni?: PniString;
+        }
+      | undefined;
     let matchCount = 0;
     matches.forEach(item => {
       const { key, value, match } = item;
@@ -541,7 +553,7 @@ export class ConversationController {
               `conversation - ${targetConversation.idForLogging()}`
           );
           // Note: This line might erase a known e164 or PNI
-          applyChangeToConversation(targetConversation, {
+          applyChangeToConversation(targetConversation, pniSignatureVerified, {
             [key]: value,
           });
         } else {
@@ -597,10 +609,15 @@ export class ConversationController {
           );
         }
 
+        targetOldServiceIds = {
+          aci: targetConversation.getAci(),
+          pni: targetConversation.getPni(),
+        };
+
         log.info(
           `${logId}: Applying new value for ${unused.key} to target conversation`
         );
-        applyChangeToConversation(targetConversation, {
+        applyChangeToConversation(targetConversation, pniSignatureVerified, {
           [unused.key]: unused.value,
         });
       });
@@ -643,7 +660,7 @@ export class ConversationController {
         if ((key === 'pni' || key === 'e164') && match.getServiceId() === pni) {
           change.serviceId = undefined;
         }
-        applyChangeToConversation(match, change);
+        applyChangeToConversation(match, pniSignatureVerified, change);
 
         // Note: The PNI check here is just to be bulletproof; if we know a
         //   serviceId is a PNI, then that should be put in the serviceId field
@@ -651,7 +668,7 @@ export class ConversationController {
         const willMerge =
           !match.getServiceId() && !match.get('e164') && !match.getPni();
 
-        applyChangeToConversation(targetConversation, {
+        applyChangeToConversation(targetConversation, pniSignatureVerified, {
           [key]: value,
         });
 
@@ -663,7 +680,6 @@ export class ConversationController {
           mergePromises.push(
             mergeOldAndNew({
               current: targetConversation,
-              fromPniSignature,
               logId,
               obsolete: match,
               obsoleteTitleInfo,
@@ -676,7 +692,7 @@ export class ConversationController {
           `${logId}: Re-adding ${key} on target conversation - ` +
             `${targetConversation.idForLogging()}`
         );
-        applyChangeToConversation(targetConversation, {
+        applyChangeToConversation(targetConversation, pniSignatureVerified, {
           [key]: value,
         });
       }
@@ -686,8 +702,32 @@ export class ConversationController {
         //   `${logId}: Match on ${key} is target conversation - ${match.idForLogging()}`
         // );
         targetConversation = match;
+        targetOldServiceIds = {
+          aci: targetConversation.getAci(),
+          pni: targetConversation.getPni(),
+        };
       }
     });
+
+    // If the change is not coming from PNI Signature, and target conversation
+    // had PNI and has acquired new ACI and/or PNI we should check if it had
+    // a PNI session on the original PNI. If yes - add a PhoneNumberDiscovery notification
+    if (
+      e164 &&
+      pni &&
+      targetConversation &&
+      targetOldServiceIds?.pni &&
+      !fromPniSignature &&
+      (targetOldServiceIds.pni !== pni ||
+        (aci && targetOldServiceIds.aci !== aci))
+    ) {
+      targetConversation.unset('needsTitleTransition');
+      mergePromises.push(
+        targetConversation.addPhoneNumberDiscoveryIfNeeded(
+          targetOldServiceIds.pni
+        )
+      );
+    }
 
     if (targetConversation) {
       return { conversation: targetConversation, mergePromises };
@@ -792,7 +832,7 @@ export class ConversationController {
   // Note: `doCombineConversations` is directly used within this function since both
   //   run on `_combineConversationsQueue` queue and we don't want deadlocks.
   private async doCheckForConflicts(): Promise<void> {
-    log.info('checkForConflicts: starting...');
+    log.info('ConversationController.checkForConflicts: starting...');
     const byServiceId = Object.create(null);
     const byE164 = Object.create(null);
     const byGroupV2Id = Object.create(null);
@@ -984,7 +1024,6 @@ export class ConversationController {
     current,
     obsolete,
     obsoleteTitleInfo,
-    fromPniSignature,
   }: CombineConversationsParams): Promise<void> {
     const logId = `combineConversations/${obsolete.id}->${current.id}`;
 
@@ -1010,13 +1049,16 @@ export class ConversationController {
 
     const obsoleteActiveAt = obsolete.get('active_at');
     const currentActiveAt = current.get('active_at');
-    const activeAt =
-      !obsoleteActiveAt ||
-      !currentActiveAt ||
-      currentActiveAt > obsoleteActiveAt
-        ? currentActiveAt
-        : obsoleteActiveAt;
+    let activeAt: number | null | undefined;
+
+    if (obsoleteActiveAt && currentActiveAt) {
+      activeAt = Math.max(obsoleteActiveAt, currentActiveAt);
+    } else {
+      activeAt = obsoleteActiveAt || currentActiveAt;
+    }
     current.set('active_at', activeAt);
+
+    const currentHadMessages = (current.get('messageCount') ?? 0) > 0;
 
     const dataToCopy: Partial<ConversationAttributesType> = pick(
       obsolete.attributes,
@@ -1029,6 +1071,7 @@ export class ConversationController {
         'draftTimestamp',
         'messageCount',
         'messageRequestResponseType',
+        'needsTitleTransition',
         'profileSharing',
         'quotedMessageId',
         'sentMessageCount',
@@ -1158,12 +1201,15 @@ export class ConversationController {
     const titleIsUseful = Boolean(
       obsoleteTitleInfo && getTitleNoDefault(obsoleteTitleInfo)
     );
+    // If both conversations had messages - add merge
     if (
-      obsoleteTitleInfo &&
       titleIsUseful &&
-      !fromPniSignature &&
+      conversationType === 'private' &&
+      currentHadMessages &&
       obsoleteHadMessages
     ) {
+      assertDev(obsoleteTitleInfo, 'part of titleIsUseful boolean');
+
       drop(current.addConversationMerge(obsoleteTitleInfo));
     }
 
@@ -1190,7 +1236,7 @@ export class ConversationController {
     targetTimestamp: number
   ): Promise<ConversationModel | null | undefined> {
     const messages = await getMessagesBySentAt(targetTimestamp);
-    const targetMessage = messages.find(m => getContactId(m) === targetFromId);
+    const targetMessage = messages.find(m => getAuthorId(m) === targetFromId);
 
     if (targetMessage) {
       return this.get(targetMessage.conversationId);
@@ -1295,11 +1341,33 @@ export class ConversationController {
     }
   }
 
+  async clearShareMyPhoneNumber(): Promise<void> {
+    const sharedWith = this.getAll().filter(c => c.get('shareMyPhoneNumber'));
+
+    if (sharedWith.length === 0) {
+      return;
+    }
+
+    log.info(
+      'ConversationController.clearShareMyPhoneNumber: ' +
+        `updating ${sharedWith.length} conversations`
+    );
+
+    await window.Signal.Data.updateConversations(
+      sharedWith.map(c => {
+        c.unset('shareMyPhoneNumber');
+        return c.attributes;
+      })
+    );
+  }
+
   // For testing
   async _forgetE164(e164: string): Promise<void> {
     const { server } = window.textsecure;
     strictAssert(server, 'Server must be initialized');
-    const serviceIdMap = await getServiceIdsForE164s(server, [e164]);
+    const { entries: serviceIdMap } = await getServiceIdsForE164s(server, [
+      e164,
+    ]);
 
     const pni = serviceIdMap.get(e164)?.pni;
 
@@ -1353,12 +1421,16 @@ export class ConversationController {
       );
       await queue.onIdle();
 
-      // Hydrate the final set of conversations
-      this._conversations.add(
-        collection.filter(conversation => !conversation.isTemporary)
-      );
-
+      // It is alright to call it first because the 'add'/'update' events are
+      // triggered after updating the collection.
       this._initialFetchComplete = true;
+
+      // Hydrate the final set of conversations
+      batchDispatch(() => {
+        this._conversations.add(
+          collection.filter(conversation => !conversation.isTemporary)
+        );
+      });
 
       await Promise.all(
         this._conversations.map(async conversation => {
@@ -1399,7 +1471,10 @@ export class ConversationController {
           }
         })
       );
-      log.info('ConversationController: done with initial fetch');
+      log.info(
+        'ConversationController: done with initial fetch, ' +
+          `got ${this._conversations.length} conversations`
+      );
     } catch (error) {
       log.error(
         'ConversationController: initial fetch failed',

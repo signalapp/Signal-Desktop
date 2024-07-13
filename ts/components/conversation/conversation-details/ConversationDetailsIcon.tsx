@@ -13,6 +13,7 @@ export enum IconType {
   'unblock' = 'unblock',
   'color' = 'color',
   'down' = 'down',
+  'forward' = 'forward',
   'invites' = 'invites',
   'leave' = 'leave',
   'link' = 'link',

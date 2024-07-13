@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 
 import type { LocalizerType } from '../../types/Util';
+import { drop } from '../../util/drop';
 import { TimelineDateHeader } from './TimelineDateHeader';
 import { Spinner } from '../Spinner';
 
@@ -57,7 +58,7 @@ export function TimelineFloatingHeader({
     }
 
     if (!isLoading && showSpinner) {
-      spinnerSpringRef.start();
+      drop(Promise.all(spinnerSpringRef.start()));
     }
 
     if (!isLoading && !showSpinner) {

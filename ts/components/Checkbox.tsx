@@ -1,6 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReactNode } from 'react';
 import React, { forwardRef, useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 
@@ -14,7 +15,7 @@ export type PropsType = {
     labelNode: JSX.Element;
     checked?: boolean;
   }) => JSX.Element;
-  description?: string;
+  description?: ReactNode;
   disabled?: boolean;
   isRadio?: boolean;
   label: string;

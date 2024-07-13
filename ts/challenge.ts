@@ -22,6 +22,7 @@ import * as Errors from './types/errors';
 import { HTTPError } from './textsecure/Errors';
 import type { SendMessageChallengeData } from './textsecure/Errors';
 import * as log from './logging/log';
+import { drop } from './util/drop';
 
 export type ChallengeResponse = Readonly<{
   captcha: string;
@@ -45,7 +46,7 @@ type Handler = Readonly<{
 }>;
 
 export type ChallengeData = Readonly<{
-  type: 'recaptcha';
+  type: 'captcha';
   token: string;
   captcha: string;
 }>;
@@ -75,6 +76,7 @@ export type RegisteredChallengeType = Readonly<{
   reason: string;
   retryAt?: number;
   token?: string;
+  silent: boolean;
 }>;
 
 type SolveOptionsType = Readonly<{
@@ -210,7 +212,7 @@ export class ChallengeHandler {
     }
 
     if (challenge.token) {
-      void this.solve({ reason, token: challenge.token });
+      drop(this.solve({ reason, token: challenge.token }));
     }
   }
 
@@ -247,7 +249,7 @@ export class ChallengeHandler {
         setTimeout(() => {
           this.startTimers.delete(conversationId);
 
-          void this.startQueue(conversationId);
+          drop(this.startQueue(conversationId));
         }, waitTime)
       );
       log.info(
@@ -257,8 +259,12 @@ export class ChallengeHandler {
       log.info(`${logId}: tracking ${conversationId} with no waitTime`);
     }
 
-    if (data && !data.options?.includes('recaptcha')) {
-      log.error(`${logId}: unexpected options ${JSON.stringify(data.options)}`);
+    if (data && !data.options?.includes('captcha')) {
+      const dataString = JSON.stringify(data.options);
+      log.error(
+        `${logId}: unexpected options ${dataString}. ${conversationId} is waiting.`
+      );
+      return;
     }
 
     if (!challenge.token) {
@@ -269,7 +275,9 @@ export class ChallengeHandler {
       return;
     }
 
-    void this.solve({ token: challenge.token, reason });
+    if (!challenge.silent) {
+      drop(this.solve({ token: challenge.token, reason }));
+    }
   }
 
   public onResponse(response: IPCResponse): void {
@@ -282,8 +290,13 @@ export class ChallengeHandler {
     handler.resolve(response.data);
   }
 
-  public async unregister(conversationId: string): Promise<void> {
-    log.info(`challenge: unregistered conversation ${conversationId}`);
+  public async unregister(
+    conversationId: string,
+    source: string
+  ): Promise<void> {
+    log.info(
+      `challenge: unregistered conversation ${conversationId} via ${source}`
+    );
     this.registeredConversations.delete(conversationId);
     this.pendingStarts.delete(conversationId);
 
@@ -343,7 +356,7 @@ export class ChallengeHandler {
       return;
     }
 
-    await this.unregister(conversationId);
+    await this.unregister(conversationId, 'startQueue');
 
     if (this.registeredConversations.size === 0) {
       this.options.setChallengeStatus('idle');
@@ -375,7 +388,7 @@ export class ChallengeHandler {
 
     try {
       await this.sendChallengeResponse({
-        type: 'recaptcha',
+        type: 'captcha',
         token: lastToken,
         captcha,
       });
@@ -384,7 +397,11 @@ export class ChallengeHandler {
         `challenge(${reason}): challenge failure, error:`,
         Errors.toLogFormat(error)
       );
-      this.options.setChallengeStatus('required');
+      if (error.code === 413 || error.code === 429) {
+        this.options.setChallengeStatus('idle');
+      } else {
+        this.options.setChallengeStatus('required');
+      }
       this.solving -= 1;
       return;
     }
@@ -416,7 +433,8 @@ export class ChallengeHandler {
 
       log.info(`challenge: retry after ${retryAfter}ms`);
       this.options.onChallengeFailed(retryAfter);
-      return;
+
+      throw error;
     }
 
     this.options.onChallengeSolved();

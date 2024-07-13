@@ -1,37 +1,41 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import * as React from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import type { StateType } from '../reducer';
-
 import { ContactName } from '../../components/conversation/ContactName';
-
 import { getIntl } from '../selectors/user';
-import type { GetConversationByIdType } from '../selectors/conversations';
-import { getConversationSelector } from '../selectors/conversations';
-
-import type { LocalizerType } from '../../types/Util';
+import {
+  getConversationSelector,
+  getSelectedConversationId,
+} from '../selectors/conversations';
+import { useGlobalModalActions } from '../ducks/globalModals';
 
 type ExternalProps = {
-  conversationId: string;
+  contactId: string;
 };
 
-export function SmartContactName(props: ExternalProps): JSX.Element {
-  const { conversationId } = props;
-  const i18n = useSelector<StateType, LocalizerType>(getIntl);
-  const getConversation = useSelector<StateType, GetConversationByIdType>(
-    getConversationSelector
-  );
+export const SmartContactName = memo(function SmartContactName({
+  contactId,
+}: ExternalProps) {
+  const i18n = useSelector(getIntl);
+  const getConversation = useSelector(getConversationSelector);
+  const currentConversationId = useSelector(getSelectedConversationId);
 
-  const conversation = getConversation(conversationId) || {
-    title: i18n('icu:unknownContact'),
-  };
+  const { showContactModal } = useGlobalModalActions();
+
+  const contact = useMemo(() => {
+    return getConversation(contactId);
+  }, [getConversation, contactId]);
+
+  const handleClick = useCallback(() => {
+    showContactModal(contactId, currentConversationId);
+  }, [showContactModal, contactId, currentConversationId]);
 
   return (
     <ContactName
-      firstName={conversation.firstName}
-      title={conversation.title}
+      firstName={contact.firstName}
+      title={contact.title ?? i18n('icu:unknownContact')}
+      onClick={handleClick}
     />
   );
-}
+});

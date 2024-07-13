@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import type { LocalizerType } from '../../types/Util';
 
 export type PropsType = {
@@ -19,13 +19,13 @@ export function GroupV1DisabledActions({
   return (
     <div className="module-group-v1-disabled-actions">
       <p className="module-group-v1-disabled-actions__message">
-        <Intl
+        <I18n
           i18n={i18n}
           id="icu:GroupV1--Migration--disabled--link"
           components={{
             // This is a render prop, not a component
             // eslint-disable-next-line react/no-unstable-nested-components
-            learnMoreLink: (...parts) => {
+            learnMoreLink: parts => {
               return (
                 <a
                   href="https://support.signal.org/hc/articles/360007319331"

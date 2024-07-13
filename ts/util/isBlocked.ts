@@ -3,7 +3,9 @@
 
 import type { ConversationAttributesType } from '../model-types';
 
-export function isBlocked(attributes: ConversationAttributesType): boolean {
+export function isBlocked(
+  attributes: Pick<ConversationAttributesType, 'e164' | 'groupId' | 'serviceId'>
+): boolean {
   const { e164, groupId, serviceId } = attributes;
   if (serviceId) {
     return window.storage.blocked.isServiceIdBlocked(serviceId);

@@ -122,14 +122,14 @@ export class ProfileService {
           return;
         }
 
-        if (
-          isRecord(error) &&
-          'code' in error &&
-          (error.code === 413 || error.code === 429)
-        ) {
-          this.clearAll(`got ${error.code} from server`);
-          const time = findRetryAfterTimeFromError(error);
-          void this.pause(time);
+        if (isRecord(error) && 'code' in error) {
+          if (error.code === -1) {
+            this.clearAll('Failed to connect to the server');
+          } else if (error.code === 413 || error.code === 429) {
+            this.clearAll(`got ${error.code} from server`);
+            const time = findRetryAfterTimeFromError(error);
+            void this.pause(time);
+          }
         }
       } finally {
         this.jobsByConversationId.delete(conversationId);
@@ -354,7 +354,8 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
     }
 
     if (profile.identityKey) {
-      await updateIdentityKey(profile.identityKey, serviceId);
+      const identityKeyBytes = Bytes.fromBase64(profile.identityKey);
+      await updateIdentityKey(identityKeyBytes, serviceId);
     }
 
     // Update accessKey to prevent race conditions. Since we run asynchronous
@@ -425,6 +426,24 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
       }
     } else {
       c.unset('aboutEmoji');
+    }
+
+    if (profile.phoneNumberSharing) {
+      if (decryptionKey) {
+        const decrypted = decryptProfile(
+          Bytes.fromBase64(profile.phoneNumberSharing),
+          decryptionKey
+        );
+
+        // It should be one byte, but be conservative about it and
+        // set `sharingPhoneNumber` to `false` in all cases except [0x01].
+        c.set(
+          'sharingPhoneNumber',
+          decrypted.length === 1 && decrypted[0] === 1
+        );
+      }
+    } else {
+      c.unset('sharingPhoneNumber');
     }
 
     if (profile.paymentAddress && isMe(c.attributes)) {
@@ -507,7 +526,7 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
             ? `code: ${error.code}`
             : Errors.toLogFormat(error)
         );
-        return;
+        throw error;
     }
   }
 
@@ -578,19 +597,24 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
   window.Signal.Data.updateConversation(c.attributes);
 }
 
+export type UpdateIdentityKeyOptionsType = Readonly<{
+  noOverwrite?: boolean;
+}>;
+
 export async function updateIdentityKey(
-  identityKey: string,
-  serviceId: ServiceIdString
-): Promise<void> {
-  if (!identityKey) {
-    return;
+  identityKey: Uint8Array,
+  serviceId: ServiceIdString,
+  { noOverwrite = false }: UpdateIdentityKeyOptionsType = {}
+): Promise<boolean> {
+  if (!Bytes.isNotEmpty(identityKey)) {
+    return false;
   }
 
-  const identityKeyBytes = Bytes.fromBase64(identityKey);
   const changed = await window.textsecure.storage.protocol.saveIdentity(
     new Address(serviceId, 1),
-    identityKeyBytes,
-    false
+    identityKey,
+    false,
+    { noOverwrite }
   );
   if (changed) {
     log.info(`updateIdentityKey(${serviceId}): changed`);
@@ -601,4 +625,6 @@ export async function updateIdentityKey(
       new QualifiedAddress(ourAci, new Address(serviceId, 1))
     );
   }
+
+  return changed;
 }

@@ -16,20 +16,16 @@ export enum ReserveUsernameError {
   TooManyCharacters = 'TooManyCharacters',
   CheckStartingCharacter = 'CheckStartingCharacter',
   CheckCharacters = 'CheckCharacters',
+  NotEnoughDiscriminator = 'NotEnoughDiscriminator',
+  AllZeroDiscriminator = 'AllZeroDiscriminator',
+  LeadingZeroDiscriminator = 'LeadingZeroDiscriminator',
+  TooManyAttempts = 'TooManyAttempts',
 }
 
 export enum ConfirmUsernameResult {
   Ok = 'Ok',
+  OkRecovered = 'OkRecovered',
   ConflictOrGone = 'ConflictOrGone',
-}
-
-export function getUsernameFromSearch(searchTerm: string): string | undefined {
-  try {
-    window.SignalContext.usernames.hash(searchTerm);
-    return searchTerm;
-  } catch {
-    return undefined;
-  }
 }
 
 export function getNickname(username: string): string | undefined {
@@ -41,11 +37,18 @@ export function getNickname(username: string): string | undefined {
   return match[1];
 }
 
-export function getDiscriminator(username: string): string {
-  const match = username.match(/(\..*)$/);
+export function getDiscriminator(username: string): string | undefined {
+  const match = username.match(/\.([0-9]*)$/);
   if (!match) {
-    return '';
+    return undefined;
   }
 
   return match[1];
+}
+
+export function isCaseChange({
+  previousUsername,
+  username,
+}: UsernameReservationType): boolean {
+  return previousUsername?.toLowerCase() === username.toLowerCase();
 }

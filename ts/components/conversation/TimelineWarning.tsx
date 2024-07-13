@@ -71,3 +71,11 @@ function Link({ children, onClick }: Readonly<LinkProps>): JSX.Element {
 }
 
 TimelineWarning.Link = Link;
+
+function CustomInfo({
+  children,
+}: Readonly<{ children: ReactNode }>): JSX.Element {
+  return <div className="module-TimelineWarning__custom_info">{children}</div>;
+}
+
+TimelineWarning.CustomInfo = CustomInfo;

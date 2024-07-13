@@ -5,15 +5,15 @@ import React, { useRef, useEffect } from 'react';
 import type { LocalizerType } from '../types/Util';
 import { AvatarColors } from '../types/Colors';
 import { Avatar, AvatarSize } from './Avatar';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { ContactName } from './conversation/ContactName';
 import type { ConversationType } from '../state/ducks/conversations';
 
-type Props = {
+export type Props = {
   conversation: Pick<
     ConversationType,
     | 'acceptedMessageRequest'
-    | 'avatarPath'
+    | 'avatarUrl'
     | 'color'
     | 'isMe'
     | 'name'
@@ -21,7 +21,7 @@ type Props = {
     | 'profileName'
     | 'sharedGroupNames'
     | 'title'
-    | 'unblurredAvatarPath'
+    | 'unblurredAvatarUrl'
   >;
   i18n: LocalizerType;
   close: () => void;
@@ -46,7 +46,7 @@ export function CallNeedPermissionScreen({
     <div className="module-call-need-permission-screen">
       <Avatar
         acceptedMessageRequest={conversation.acceptedMessageRequest}
-        avatarPath={conversation.avatarPath}
+        avatarUrl={conversation.avatarUrl}
         badge={undefined}
         color={conversation.color || AvatarColors[0]}
         noteToSelf={false}
@@ -61,7 +61,7 @@ export function CallNeedPermissionScreen({
       />
 
       <p className="module-call-need-permission-screen__text">
-        <Intl
+        <I18n
           i18n={i18n}
           id="icu:callNeedPermission"
           components={{

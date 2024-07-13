@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { Environment } from '../environment';
 import { themeSettingSchema } from './StorageUIKeys';
 import { HourCyclePreferenceSchema } from './I18N';
+import { DNSFallbackSchema } from './DNSFallback';
 
 const environmentSchema = z.nativeEnum(Environment);
 
@@ -29,7 +30,6 @@ export type DirectoryConfigType = z.infer<typeof directoryConfigSchema>;
 export const rendererConfigSchema = z.object({
   appInstance: configOptionalStringSchema,
   appStartInitialSpellcheckSetting: z.boolean(),
-  artCreatorUrl: configRequiredStringSchema,
   buildCreation: z.number(),
   buildExpiration: z.number(),
   cdnUrl0: configRequiredStringSchema,
@@ -40,16 +40,22 @@ export const rendererConfigSchema = z.object({
   contentProxyUrl: configRequiredStringSchema,
   crashDumpsPath: configRequiredStringSchema,
   ciMode: z.enum(['full', 'benchmark']).or(z.literal(false)),
+  disableIPv6: z.boolean(),
+  dnsFallback: DNSFallbackSchema,
+  ciBackupPath: configOptionalStringSchema,
   environment: environmentSchema,
+  isMockTestEnvironment: z.boolean(),
   homePath: configRequiredStringSchema,
   hostname: configRequiredStringSchema,
   installPath: configRequiredStringSchema,
   osRelease: configRequiredStringSchema,
   osVersion: configRequiredStringSchema,
+  availableLocales: z.array(configRequiredStringSchema),
   resolvedTranslationsLocale: configRequiredStringSchema,
   resolvedTranslationsLocaleDirection: z.enum(['ltr', 'rtl']),
   hourCyclePreference: HourCyclePreferenceSchema,
   preferredSystemLocales: z.array(configRequiredStringSchema),
+  localeOverride: z.string().nullable(),
   name: configRequiredStringSchema,
   nodeVersion: configRequiredStringSchema,
   proxyUrl: configOptionalStringSchema,
@@ -57,6 +63,8 @@ export const rendererConfigSchema = z.object({
   registrationChallengeUrl: configRequiredStringSchema,
   serverPublicParams: configRequiredStringSchema,
   serverTrustRoot: configRequiredStringSchema,
+  genericServerPublicParams: configRequiredStringSchema,
+  backupServerPublicParams: configRequiredStringSchema,
   serverUrl: configRequiredStringSchema,
   sfuUrl: configRequiredStringSchema,
   storageUrl: configRequiredStringSchema,

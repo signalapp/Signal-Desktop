@@ -857,7 +857,7 @@ describe('both/state/ducks/stories', () => {
   describe('queueStoryDownload', () => {
     const { queueStoryDownload } = actions;
 
-    it('no attachment, no dispatch', async function test() {
+    it('no attachment, no dispatch', async () => {
       const storyId = generateUuid();
       const messageAttributes = getStoryMessage(storyId);
 
@@ -873,7 +873,7 @@ describe('both/state/ducks/stories', () => {
       sinon.assert.notCalled(dispatch);
     });
 
-    it('downloading, no dispatch', async function test() {
+    it('downloading, no dispatch', async () => {
       const storyId = generateUuid();
       const messageAttributes = {
         ...getStoryMessage(storyId),
@@ -899,7 +899,7 @@ describe('both/state/ducks/stories', () => {
       sinon.assert.notCalled(dispatch);
     });
 
-    it('downloaded, no dispatch', async function test() {
+    it('downloaded, no dispatch', async () => {
       const storyId = generateUuid();
       const messageAttributes = {
         ...getStoryMessage(storyId),
@@ -925,7 +925,7 @@ describe('both/state/ducks/stories', () => {
       sinon.assert.notCalled(dispatch);
     });
 
-    it('not downloaded, queued for download', async function test() {
+    it('not downloaded, queued for download', async () => {
       const storyId = generateUuid();
       const messageAttributes = {
         ...getStoryMessage(storyId),
@@ -937,7 +937,10 @@ describe('both/state/ducks/stories', () => {
           },
         ],
       };
-
+      await window.Signal.Data.saveMessage(messageAttributes, {
+        forceSave: true,
+        ourAci: generateAci(),
+      });
       const rootState = getEmptyRootState();
 
       const getState = () => ({
@@ -974,7 +977,7 @@ describe('both/state/ducks/stories', () => {
       });
     });
 
-    it('preview not downloaded, queued for download', async function test() {
+    it('preview not downloaded, queued for download', async () => {
       const storyId = generateUuid();
       const preview = {
         url: 'https://signal.org',
@@ -983,6 +986,7 @@ describe('both/state/ducks/stories', () => {
           digest: 'digest-1',
           size: 0,
         },
+        isCallLink: false,
       };
       const messageAttributes = {
         ...getStoryMessage(storyId),
@@ -999,6 +1003,10 @@ describe('both/state/ducks/stories', () => {
         preview: [preview],
       };
 
+      await window.Signal.Data.saveMessage(messageAttributes, {
+        forceSave: true,
+        ourAci: generateAci(),
+      });
       const rootState = getEmptyRootState();
 
       const getState = () => ({

@@ -18,6 +18,7 @@ export enum UsernameEditState {
 export enum UsernameLinkState {
   Ready = 'Ready',
   Updating = 'Updating',
+  Error = 'Error',
 }
 
 //
@@ -39,4 +40,8 @@ export enum UsernameReservationError {
   UsernameNotAvailable = 'UsernameNotAvailable',
   General = 'General',
   ConflictOrGone = 'ConflictOrGone',
+  NotEnoughDiscriminator = 'NotEnoughDiscriminator',
+  AllZeroDiscriminator = 'AllZeroDiscriminator',
+  LeadingZeroDiscriminator = 'LeadingZeroDiscriminator',
+  TooManyAttempts = 'TooManyAttempts',
 }

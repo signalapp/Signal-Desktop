@@ -1,0 +1,28 @@
+# Copyright 2024 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+
+name: Release Notes
+on:
+  issue_comment:
+    types: [created]
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened, labeled, unlabeled, closed]
+
+jobs:
+  backport:
+    name: Update release notes issue
+    if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.AUTOMATED_GITHUB_PAT }}
+          repository: signalapp/Signal-Release-Notes-Action-Private
+          path: ./.github/actions/release-notes
+      - name: Run action
+        uses: ./.github/actions/release-notes
+        with:
+          token: ${{ secrets.AUTOMATED_GITHUB_PAT }}

@@ -24,6 +24,10 @@ import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../../util/GoogleChrome';
+import {
+  getLocalAttachmentUrl,
+  AttachmentDisposition,
+} from '../../util/getLocalAttachmentUrl';
 import { isTapToView } from '../selectors/message';
 import { SHOW_TOAST } from './toast';
 import { ToastType } from '../../types/Toast';
@@ -49,11 +53,14 @@ export type LightboxStateType =
       hasPrevMessage: boolean;
       hasNextMessage: boolean;
       selectedIndex: number | undefined;
+      playbackDisabled: boolean;
     };
 
 const CLOSE_LIGHTBOX = 'lightbox/CLOSE';
 const SHOW_LIGHTBOX = 'lightbox/SHOW';
 const SET_SELECTED_LIGHTBOX_INDEX = 'lightbox/SET_SELECTED_LIGHTBOX_INDEX';
+const SET_LIGHTBOX_PLAYBACK_DISABLED =
+  'lightbox/SET_LIGHTBOX_PLAYBACK_DISABLED';
 
 type CloseLightboxActionType = ReadonlyDeep<{
   type: typeof CLOSE_LIGHTBOX;
@@ -71,6 +78,11 @@ type ShowLightboxActionType = {
   };
 };
 
+type SetLightboxPlaybackDisabledActionType = ReadonlyDeep<{
+  type: typeof SET_LIGHTBOX_PLAYBACK_DISABLED;
+  payload: boolean;
+}>;
+
 type SetSelectedLightboxIndexActionType = ReadonlyDeep<{
   type: typeof SET_SELECTED_LIGHTBOX_INDEX;
   payload: number;
@@ -83,7 +95,8 @@ type LightboxActionType =
   | MessageDeletedActionType
   | MessageExpiredActionType
   | ShowLightboxActionType
-  | SetSelectedLightboxIndexActionType;
+  | SetSelectedLightboxIndexActionType
+  | SetLightboxPlaybackDisabledActionType;
 
 function closeLightbox(): ThunkAction<
   void,
@@ -111,6 +124,28 @@ function closeLightbox(): ThunkAction<
 
     dispatch({
       type: CLOSE_LIGHTBOX,
+    });
+  };
+}
+
+function setPlaybackDisabled(
+  playbackDisabled: boolean
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  SetLightboxPlaybackDisabledActionType
+> {
+  return (dispatch, getState) => {
+    const { lightbox } = getState();
+
+    if (!lightbox.isShowingLightbox) {
+      return;
+    }
+
+    dispatch({
+      type: SET_LIGHTBOX_PLAYBACK_DISABLED,
+      payload: playbackDisabled,
     });
   };
 }
@@ -163,11 +198,8 @@ function showLightboxForViewOnceMedia(
       );
     }
 
-    const {
-      copyIntoTempDirectory,
-      getAbsoluteAttachmentPath,
-      getAbsoluteTempPath,
-    } = window.Signal.Migrations;
+    const { copyIntoTempDirectory, getAbsoluteAttachmentPath } =
+      window.Signal.Migrations;
 
     const absolutePath = getAbsoluteAttachmentPath(firstAttachment.path);
     const { path: tempPath } = await copyIntoTempDirectory(absolutePath);
@@ -178,12 +210,14 @@ function showLightboxForViewOnceMedia(
 
     await message.markViewOnceMessageViewed();
 
-    const { path, contentType } = tempAttachment;
+    const { contentType } = tempAttachment;
 
     const media = [
       {
         attachment: tempAttachment,
-        objectURL: getAbsoluteTempPath(path),
+        objectURL: getLocalAttachmentUrl(tempAttachment, {
+          disposition: AttachmentDisposition.Temporary,
+        }),
         contentType,
         index: 0,
         message: {
@@ -260,8 +294,6 @@ function showLightbox(opts: {
     const attachments = filterValidAttachments(message.attributes);
     const loop = isGIF(attachments);
 
-    const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
-
     const authorId =
       window.ConversationController.lookupOrCreate({
         serviceId: message.get('sourceServiceId'),
@@ -272,7 +304,7 @@ function showLightbox(opts: {
     const sentAt = message.get('sent_at');
 
     const media = attachments.map((item, index) => ({
-      objectURL: getAbsoluteAttachmentPath(item.path ?? ''),
+      objectURL: getLocalAttachmentUrl(item),
       path: item.path,
       contentType: item.contentType,
       loop,
@@ -287,8 +319,9 @@ function showLightbox(opts: {
       },
       attachment: item,
       thumbnailObjectUrl:
-        item.thumbnail?.objectUrl ||
-        getAbsoluteAttachmentPath(item.thumbnail?.path ?? ''),
+        item.thumbnail?.objectUrl || item.thumbnail
+          ? getLocalAttachmentUrl(item.thumbnail)
+          : undefined,
     }));
 
     if (!media.length) {
@@ -340,6 +373,7 @@ function showLightbox(opts: {
           older.length > 0 && filterValidAttachments(older[0]).length > 0,
         hasNextMessage:
           newer.length > 0 && filterValidAttachments(newer[0]).length > 0,
+        playbackDisabled: false,
       },
     });
   };
@@ -481,6 +515,7 @@ export const actions = {
   showLightboxForPrevMessage,
   showLightboxForNextMessage,
   setSelectedLightboxIndex,
+  setPlaybackDisabled,
 };
 
 export const useLightboxActions = (): BoundActionCreatorsMapObject<
@@ -505,6 +540,7 @@ export function reducer(
     return {
       ...action.payload,
       isShowingLightbox: true,
+      playbackDisabled: false,
     };
   }
 
@@ -519,6 +555,17 @@ export function reducer(
         0,
         Math.min(state.media.length - 1, action.payload)
       ),
+    };
+  }
+
+  if (action.type === SET_LIGHTBOX_PLAYBACK_DISABLED) {
+    if (!state.isShowingLightbox) {
+      return state;
+    }
+
+    return {
+      ...state,
+      playbackDisabled: action.payload,
     };
   }
 

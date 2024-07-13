@@ -22,9 +22,13 @@ const setupAsNewDevice = stub();
 const setupAsStandalone = stub();
 const showAbout = stub();
 const showDebugLog = stub();
+const showCallingDevTools = stub();
 const showKeyboardShortcuts = stub();
 const showSettings = stub();
 const showWindow = stub();
+const zoomIn = stub();
+const zoomOut = stub();
+const zoomReset = stub();
 
 const getExpectedEditMenu = (
   includeSpeech: boolean
@@ -58,15 +62,16 @@ const getExpectedEditMenu = (
 const getExpectedViewMenu = (): MenuItemConstructorOptions => ({
   label: '&View',
   submenu: [
-    { label: 'Actual Size', role: 'resetZoom' },
-    { accelerator: 'CmdOrCtrl+=', label: 'Zoom In', role: 'zoomIn' },
-    { label: 'Zoom Out', role: 'zoomOut' },
+    { accelerator: 'CmdOrCtrl+0', label: 'Actual Size', click: zoomReset },
+    { accelerator: 'CmdOrCtrl+=', label: 'Zoom In', click: zoomIn },
+    { accelerator: 'CmdOrCtrl+-', label: 'Zoom Out', click: zoomOut },
     { type: 'separator' },
     { label: 'Toggle Full Screen', role: 'togglefullscreen' },
     { type: 'separator' },
     { label: 'Debug Log', click: showDebugLog },
     { type: 'separator' },
     { label: 'Toggle Developer Tools', role: 'toggleDevTools' },
+    { label: 'Open Calling Developer Tools', click: showCallingDevTools },
     { label: 'Force Update', click: forceUpdate },
   ],
 });
@@ -199,6 +204,8 @@ const PLATFORMS = [
 describe('createTemplate', () => {
   const { i18n } = loadLocale({
     preferredSystemLocales: ['en'],
+    localeOverride: null,
+    localeDirectionTestingOverride: null,
     hourCyclePreference: HourCyclePreference.UnknownPreference,
     logger: {
       fatal: stub().throwsArg(0),
@@ -222,9 +229,13 @@ describe('createTemplate', () => {
     setupAsStandalone,
     showAbout,
     showDebugLog,
+    showCallingDevTools,
     showKeyboardShortcuts,
     showSettings,
     showWindow,
+    zoomIn,
+    zoomOut,
+    zoomReset,
   };
 
   PLATFORMS.forEach(({ label, platform, expectedDefault }) => {

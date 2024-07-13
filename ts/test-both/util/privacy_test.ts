@@ -75,6 +75,34 @@ describe('Privacy', () => {
     });
   });
 
+  describe('redactCallLinkRoomIds', () => {
+    it('should redact call link room IDs', () => {
+      const text =
+        'Log line with call link room ID 7f3d431d4512b30754915a262db43cd789f799d710525a83429d48aee8c2cd4b\n' +
+        'and another IN ALL UPPERCASE 7F3D431D4512B30754915A262DB43CD789F799D710525A83429D48AEE8C2CD4B';
+
+      const actual = Privacy.redactCallLinkRoomIds(text);
+      const expected =
+        'Log line with call link room ID [REDACTED]d4b\n' +
+        'and another IN ALL UPPERCASE [REDACTED]D4B';
+      assert.equal(actual, expected);
+    });
+  });
+
+  describe('redactCallLinkRootKeys', () => {
+    it('should redact call link root keys', () => {
+      const text =
+        'Log line with call link https://signal.link/call/#key=hktt-kskq-dhcn-bgkm-hbbg-qqkq-sfbp-czmc\n' +
+        'and another IN ALL UPPERCASE HKTT-KSKQ-DHCN-BGKM-HBBG-QQKQ-SFBP-CZMC';
+
+      const actual = Privacy.redactCallLinkRootKeys(text);
+      const expected =
+        'Log line with call link https://signal.link/call/#key=[REDACTED]hktt\n' +
+        'and another IN ALL UPPERCASE [REDACTED]HKTT';
+      assert.equal(actual, expected);
+    });
+  });
+
   describe('redactAll', () => {
     it('should redact all sensitive information', () => {
       const encodedAppRootPath = APP_ROOT_PATH.replace(/ /g, '%20');

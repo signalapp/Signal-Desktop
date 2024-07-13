@@ -15,7 +15,7 @@ export async function resolveAttachmentDraftData(
     return;
   }
 
-  const data = await window.Signal.Migrations.readDraftData(attachment.path);
+  const data = await window.Signal.Migrations.readDraftData(attachment);
   if (data.byteLength !== attachment.size) {
     log.error(
       `Attachment size from disk ${data.byteLength} did not match attachment size ${attachment.size}`

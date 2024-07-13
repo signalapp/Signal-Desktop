@@ -1,29 +1,44 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import classNames from 'classnames';
 import React from 'react';
+import { createPortal } from 'react-dom';
+
 import type { LocalizerType } from '../types/Util';
 import { SECOND } from '../util/durations';
 import { Toast } from './Toast';
+import { WidthBreakpoint } from './_util';
+import { UsernameMegaphone } from './UsernameMegaphone';
+import { assertDev } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import type { AnyToast } from '../types/Toast';
 import { ToastType } from '../types/Toast';
+import type { AnyActionableMegaphone } from '../types/Megaphone';
+import { MegaphoneType } from '../types/Megaphone';
 
 export type PropsType = {
   hideToast: () => unknown;
   i18n: LocalizerType;
   openFileInFolder: (target: string) => unknown;
   OS: string;
+  onShowDebugLog: () => unknown;
   onUndoArchive: (conversaetionId: string) => unknown;
   toast?: AnyToast;
+  megaphone?: AnyActionableMegaphone;
+  centerToast?: boolean;
+  containerWidthBreakpoint: WidthBreakpoint | null;
+  isCompositionAreaVisible?: boolean;
+  isInFullScreenCall: boolean;
 };
 
 const SHORT_TIMEOUT = 3 * SECOND;
 
-export function ToastManager({
+export function renderToast({
   hideToast,
   i18n,
   openFileInFolder,
+  onShowDebugLog,
   onUndoArchive,
   OS,
   toast,
@@ -39,6 +54,16 @@ export function ToastManager({
       <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
         {i18n('icu:AddUserToAnotherGroupModal__toast--adding-user-to-group', {
           contact: toast.parameters.contact,
+        })}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.AddedUsersToCall) {
+    return (
+      <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
+        {i18n('icu:CallingPendingParticipants__Toast--added-users-to-call', {
+          count: toast.parameters.count,
         })}
       </Toast>
     );
@@ -79,7 +104,7 @@ export function ToastManager({
   if (toastType === ToastType.CannotEditMessage) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('icu:ToastManager__CannotEditMessage')}
+        {i18n('icu:ToastManager__CannotEditMessage_24')}
       </Toast>
     );
   }
@@ -113,6 +138,16 @@ export function ToastManager({
       <Toast onClose={hideToast}>
         {i18n('icu:message--donation--unopened--toast--outgoing')}
       </Toast>
+    );
+  }
+
+  if (toastType === ToastType.CaptchaFailed) {
+    return <Toast onClose={hideToast}>{i18n('icu:verificationFailed')}</Toast>;
+  }
+
+  if (toastType === ToastType.CaptchaSolved) {
+    return (
+      <Toast onClose={hideToast}>{i18n('icu:verificationComplete')}</Toast>
     );
   }
 
@@ -164,6 +199,14 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.CopiedCallLink) {
+    return (
+      <Toast onClose={hideToast} timeout={3 * SECOND}>
+        {i18n('icu:calling__call-link-copied')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.CopiedUsername) {
     return (
       <Toast onClose={hideToast} timeout={3 * SECOND}>
@@ -182,6 +225,10 @@ export function ToastManager({
 
   if (toastType === ToastType.DangerousFileType) {
     return <Toast onClose={hideToast}>{i18n('icu:dangerousFileType')}</Toast>;
+  }
+
+  if (toastType === ToastType.DebugLogError) {
+    return <Toast onClose={hideToast}>{i18n('icu:debugLogError')}</Toast>;
   }
 
   if (toastType === ToastType.DeleteForEveryoneFailed) {
@@ -217,6 +264,22 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.FailedToFetchPhoneNumber) {
+    return (
+      <Toast onClose={hideToast} style={{ maxWidth: '280px' }}>
+        {i18n('icu:Toast--failed-to-fetch-phone-number')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.FailedToFetchUsername) {
+    return (
+      <Toast onClose={hideToast} style={{ maxWidth: '280px' }}>
+        {i18n('icu:Toast--failed-to-fetch-username')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.FileSaved) {
     return (
       <Toast
@@ -244,12 +307,55 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.GroupLinkCopied) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:GroupLinkManagement--clipboard')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.DecryptionError) {
+    assertDev(
+      toast.toastType === ToastType.DecryptionError,
+      'Pacify typescript'
+    );
+    const { parameters } = toast;
+    const { deviceId, name } = parameters;
+
+    return (
+      <Toast
+        autoDismissDisabled
+        className="internal-error-toast"
+        onClose={hideToast}
+        style={{ maxWidth: '500px' }}
+        toastAction={{
+          label: i18n('icu:decryptionErrorToastAction'),
+          onClick: onShowDebugLog,
+        }}
+      >
+        {i18n('icu:decryptionErrorToast', {
+          name,
+          deviceId: String(deviceId),
+        })}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.InvalidConversation) {
     return <Toast onClose={hideToast}>{i18n('icu:invalidConversation')}</Toast>;
   }
 
   if (toastType === ToastType.LeftGroup) {
     return <Toast onClose={hideToast}>{i18n('icu:youLeftTheGroup')}</Toast>;
+  }
+
+  if (toastType === ToastType.LinkCopied) {
+    return <Toast onClose={hideToast}>{i18n('icu:debugLogLinkCopied')}</Toast>;
+  }
+
+  if (toastType === ToastType.LoadingFullLogs) {
+    return <Toast onClose={hideToast}>{i18n('icu:loading')}</Toast>;
   }
 
   if (toastType === ToastType.MaxAttachments) {
@@ -276,10 +382,26 @@ export function ToastManager({
     return <Toast onClose={hideToast}>{i18n('icu:Reactions--error')}</Toast>;
   }
 
+  if (toastType === ToastType.ReportedSpam) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:MessageRequests--report-spam-success-toast')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.ReportedSpamAndBlocked) {
     return (
       <Toast onClose={hideToast}>
         {i18n('icu:MessageRequests--block-and-report-spam-success-toast')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.StickerPackInstallFailed) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:stickers--toast--InstallFailed')}
       </Toast>
     );
   }
@@ -359,6 +481,10 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.TransportError) {
+    return <Toast onClose={hideToast}>{i18n('icu:TransportError')}</Toast>;
+  }
+
   if (toastType === ToastType.UnableToLoadAttachment) {
     return (
       <Toast onClose={hideToast}>{i18n('icu:unableToLoadAttachment')}</Toast>
@@ -381,6 +507,16 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.UsernameRecovered) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:EditUsernameModalBody__username-recovered__text', {
+          username: toast.parameters.username,
+        })}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.UserAddedToGroup) {
     return (
       <Toast onClose={hideToast}>
@@ -392,5 +528,73 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.VoiceNoteLimit) {
+    return <Toast onClose={hideToast}>{i18n('icu:voiceNoteLimit')}</Toast>;
+  }
+
+  if (toastType === ToastType.VoiceNoteMustBeTheOnlyAttachment) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:voiceNoteMustBeOnlyAttachment')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.WhoCanFindMeReadOnly) {
+    return (
+      <Toast onClose={hideToast}>{i18n('icu:WhoCanFindMeReadOnlyToast')}</Toast>
+    );
+  }
+
   throw missingCaseError(toastType);
+}
+
+export function renderMegaphone({
+  i18n,
+  megaphone,
+}: PropsType): JSX.Element | null {
+  if (!megaphone) {
+    return null;
+  }
+
+  if (megaphone.type === MegaphoneType.UsernameOnboarding) {
+    return <UsernameMegaphone i18n={i18n} {...megaphone} />;
+  }
+
+  throw missingCaseError(megaphone.type);
+}
+
+export function ToastManager(props: PropsType): JSX.Element {
+  const {
+    centerToast,
+    containerWidthBreakpoint,
+    isCompositionAreaVisible,
+    isInFullScreenCall,
+  } = props;
+
+  const toast = renderToast(props);
+
+  return (
+    <div
+      className={classNames('ToastManager', {
+        'ToastManager--narrow-sidebar':
+          containerWidthBreakpoint === WidthBreakpoint.Narrow,
+        'ToastManager--composition-area-visible': isCompositionAreaVisible,
+      })}
+    >
+      {centerToast
+        ? createPortal(
+            <div
+              className={classNames('ToastManager__root', {
+                'ToastManager--full-screen-call': isInFullScreenCall,
+              })}
+            >
+              {toast}
+            </div>,
+            document.body
+          )
+        : toast}
+      {renderMegaphone(props)}
+    </div>
+  );
 }

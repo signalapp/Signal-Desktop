@@ -3,13 +3,12 @@
 
 import React from 'react';
 import moment from 'moment';
-import type { FormatXMLElementFn } from 'intl-messageformat';
 
 import type { LocalizerType } from '../types/Util';
 import { UNSUPPORTED_OS_URL } from '../types/support';
 import { missingCaseError } from '../util/missingCaseError';
 import type { WidthBreakpoint } from './_util';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 
 import { LeftPaneDialog } from './LeftPaneDialog';
 
@@ -28,21 +27,21 @@ export function UnsupportedOSDialog({
   type,
   OS,
 }: PropsType): JSX.Element | null {
-  const learnMoreLink: FormatXMLElementFn<JSX.Element | string> = children => (
+  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
     <a
       key="signal-support"
       href={UNSUPPORTED_OS_URL}
       rel="noreferrer"
       target="_blank"
     >
-      {children}
+      {parts}
     </a>
   );
 
   let body: JSX.Element;
   if (type === 'error') {
     body = (
-      <Intl
+      <I18n
         id="icu:UnsupportedOSErrorDialog__body"
         i18n={i18n}
         components={{
@@ -53,7 +52,7 @@ export function UnsupportedOSDialog({
     );
   } else if (type === 'warning') {
     body = (
-      <Intl
+      <I18n
         id="icu:UnsupportedOSWarningDialog__body"
         i18n={i18n}
         components={{

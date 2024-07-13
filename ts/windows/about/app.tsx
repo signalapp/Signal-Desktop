@@ -27,8 +27,6 @@ ReactDOM.render(
   <About
     closeAbout={() => window.SignalContext.executeMenuRole('close')}
     environment={environmentText}
-    executeMenuRole={window.SignalContext.executeMenuRole}
-    hasCustomTitleBar={window.SignalContext.OS.hasCustomTitleBar()}
     i18n={i18n}
     version={window.SignalContext.getVersion()}
   />,

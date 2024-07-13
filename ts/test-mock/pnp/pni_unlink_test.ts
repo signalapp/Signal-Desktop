@@ -18,9 +18,8 @@ import type { App } from '../bootstrap';
 
 export const debug = createDebug('mock:test:pni-unlink');
 
-describe('pnp/PNI DecryptionError unlink', function needsName() {
+describe('pnp/PNI DecryptionError unlink', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App | undefined;
@@ -34,7 +33,7 @@ describe('pnp/PNI DecryptionError unlink', function needsName() {
     await bootstrap.linkAndClose();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     if (app) {
       await bootstrap.maybeSaveLogs(this.currentTest, app);
       await app.close();

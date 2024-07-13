@@ -1,0 +1,147 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.AboutContactModal {
+  &__headerTitle.module-Modal__headerTitle {
+    // No padding between header and avatar
+    padding-block-end: 0;
+  }
+
+  &__body_inner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-inline: 8px;
+    padding-block-end: 20px;
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  &__row--centered {
+    justify-content: center;
+  }
+
+  &__title {
+    @include font-title-2;
+    font-weight: 500;
+
+    margin: 0;
+    margin-block-end: 4px;
+  }
+
+  &__row__icon {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    vertical-align: text-top;
+    flex-shrink: 0;
+
+    @mixin about-modal-icon($url) {
+      @include light-theme {
+        @include color-svg($url, $color-black);
+      }
+
+      @include dark-theme {
+        @include color-svg($url, $color-gray-05);
+      }
+    }
+
+    &--profile {
+      @include about-modal-icon('../images/icons/v3/person/person-compact.svg');
+    }
+
+    &--verified {
+      @include about-modal-icon('../images/icons/v3/check/check.svg');
+    }
+
+    &--blocked {
+      @include about-modal-icon('../images/icons/v3/block/block.svg');
+    }
+
+    &--message-request {
+      @include about-modal-icon('../images/icons/v3/chat/chat-badge.svg');
+    }
+
+    &--no-dms {
+      @include about-modal-icon('../images/icons/v3/chat/chat-x.svg');
+    }
+
+    &--connections {
+      @include about-modal-icon(
+        '../images/icons/v3/connections/connections.svg'
+      );
+    }
+
+    &--chat-x {
+      @include about-modal-icon('../images/icons/v3/chat/chat-x.svg');
+    }
+
+    &--person {
+      @include about-modal-icon(
+        '../images/icons/v3/person/person-circle-compact.svg'
+      );
+    }
+
+    &--phone {
+      @include about-modal-icon('../images/icons/v3/phone/phone-compact.svg');
+    }
+
+    &--group {
+      @include about-modal-icon('../images/icons/v3/group/group.svg');
+    }
+
+    &--about {
+      @include about-modal-icon('../images/icons/v3/edit/edit.svg');
+    }
+
+    &--note {
+      @include about-modal-icon('../images/icons/v3/note/note.svg');
+    }
+  }
+
+  &__button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    min-width: 0;
+
+    @include button-reset();
+    cursor: pointer;
+
+    &::after {
+      content: '';
+      display: inline-block;
+      height: 20px;
+      width: 20px;
+      flex-shrink: 0;
+
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-right-bold.svg',
+        $color-gray-45
+      );
+    }
+  }
+
+  &__verified {
+    @include button-reset();
+    cursor: pointer;
+  }
+}
+
+.AboutContactModal__TitleWithoutNickname {
+  color: $color-gray-45;
+}
+
+.AboutContactModal__OneLineEllipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.AboutContactModal__TitleWithoutNickname__Tooltip {
+  max-width: 300px;
+}

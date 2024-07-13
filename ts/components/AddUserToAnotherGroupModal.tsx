@@ -6,9 +6,9 @@ import React, { useCallback } from 'react';
 import type { ListRowProps } from 'react-virtualized';
 
 import type { ConversationType } from '../state/ducks/conversations';
-import type { LocalizerType, ThemeType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { ToastType } from '../types/Toast';
-import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
+import { filterAndSortConversations } from '../util/filterAndSortConversations';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import type { GroupListItemConversationType } from './conversationList/GroupListItem';
 import {
@@ -25,7 +25,6 @@ import { SizeObserver } from '../hooks/useSizeObserver';
 
 type OwnProps = {
   i18n: LocalizerType;
-  theme: ThemeType;
   contact: Pick<ConversationType, 'id' | 'title' | 'serviceId' | 'pni'>;
   candidateConversations: ReadonlyArray<ConversationType>;
   regionCode: string | undefined;
@@ -57,7 +56,7 @@ export function AddUserToAnotherGroupModal({
 }: Props): JSX.Element | null {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [filteredConversations, setFilteredConversations] = React.useState(
-    filterAndSortConversationsByRecent(candidateConversations, '', undefined)
+    filterAndSortConversations(candidateConversations, '', undefined)
   );
 
   const [selectedGroupId, setSelectedGroupId] = React.useState<
@@ -79,7 +78,7 @@ export function AddUserToAnotherGroupModal({
   React.useEffect(() => {
     const timeout = setTimeout(() => {
       setFilteredConversations(
-        filterAndSortConversationsByRecent(
+        filterAndSortConversations(
           candidateConversations,
           normalizedSearchTerm,
           regionCode
@@ -130,7 +129,7 @@ export function AddUserToAnotherGroupModal({
       }
 
       return {
-        ...pick(convo, 'id', 'avatarPath', 'title', 'unblurredAvatarPath'),
+        ...pick(convo, 'id', 'avatarUrl', 'title', 'unblurredAvatarUrl'),
         memberships,
         membersCount,
         disabledReason,
@@ -175,7 +174,9 @@ export function AddUserToAnotherGroupModal({
           <div className="AddUserToAnotherGroupModal__main-body">
             <SearchInput
               i18n={i18n}
-              placeholder={i18n('icu:contactSearchPlaceholder')}
+              placeholder={i18n(
+                'icu:AddUserToAnotherGroupModal__search-placeholder'
+              )}
               onChange={handleSearchInputChange}
               ref={inputRef}
               value={searchTerm}

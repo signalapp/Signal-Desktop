@@ -4,9 +4,9 @@
 import type { MutableRefObject } from 'react';
 import React, {
   forwardRef,
+  memo,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -32,7 +32,7 @@ import {
   getPanelInformation,
   getWasPanelAnimated,
 } from '../selectors/conversations';
-import { focusableSelectors } from '../../util/focusableSelectors';
+import { focusableSelector } from '../../util/focusableSelectors';
 import { missingCaseError } from '../../util/missingCaseError';
 import { useConversationsActions } from '../ducks/conversations';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
@@ -49,7 +49,6 @@ type AnimationProps<T> = {
 };
 
 function doAnimate({
-  isRTL,
   onAnimationStarted,
   onAnimationDone,
   overlay,
@@ -59,7 +58,9 @@ function doAnimate({
   onAnimationStarted: () => unknown;
   onAnimationDone: () => unknown;
   overlay: AnimationProps<{ backgroundColor: string }>;
-  panel: AnimationProps<{ transform: string }>;
+  panel: AnimationProps<
+    { transform: string } | { left: string } | { right: string }
+  >;
 }) {
   const animateNode = panel.ref.current;
   if (!animateNode) {
@@ -74,7 +75,6 @@ function doAnimate({
   const animation = animateNode.animate(panel.keyframes, {
     ...ANIMATION_CONFIG,
     id: 'panel-animation',
-    direction: isRTL ? 'reverse' : 'normal',
   });
 
   onAnimationStarted();
@@ -92,11 +92,11 @@ function doAnimate({
   };
 }
 
-export function ConversationPanel({
+export const ConversationPanel = memo(function ConversationPanel({
   conversationId,
 }: {
   conversationId: string;
-}): JSX.Element | null {
+}) {
   const panelInformation = useSelector(getPanelInformation);
   const { panelAnimationDone, panelAnimationStarted } =
     useConversationsActions();
@@ -155,7 +155,7 @@ export function ConversationPanel({
           ref: animateRef,
           keyframes: [
             { transform: 'translateX(0%)' },
-            { transform: 'translateX(100%)' },
+            { transform: isRTL ? 'translateX(-100%)' : 'translateX(100%)' },
           ],
         },
       });
@@ -178,8 +178,11 @@ export function ConversationPanel({
         panel: {
           ref: animateRef,
           keyframes: [
-            { transform: 'translateX(100%)' },
-            { transform: 'translateX(0%)' },
+            // Note that we can't use translateX here because it breaks
+            // gradients for the message in message details screen.
+            // See: https://issues.chromium.org/issues/327027598
+            isRTL ? { right: '100%' } : { left: '100%' },
+            isRTL ? { right: '0' } : { left: '0' },
           ],
         },
       });
@@ -248,7 +251,7 @@ export function ConversationPanel({
   }
 
   return null;
-}
+});
 
 type PanelPropsType = {
   conversationId: string;
@@ -266,7 +269,6 @@ const PanelContainer = forwardRef<
   const { popPanelForConversation } = useConversationsActions();
   const conversationTitle = getConversationTitleForPanelType(i18n, panel.type);
 
-  const selectors = useMemo(() => focusableSelectors.join(','), []);
   const focusRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (!isActive) {
@@ -278,12 +280,12 @@ const PanelContainer = forwardRef<
       return;
     }
 
-    const elements = focusNode.querySelectorAll<HTMLElement>(selectors);
+    const elements = focusNode.querySelectorAll<HTMLElement>(focusableSelector);
     if (!elements.length) {
       return;
     }
     elements[0]?.focus();
-  }, [isActive, panel, selectors]);
+  }, [isActive, panel]);
 
   return (
     <div className="ConversationPanel" ref={ref}>

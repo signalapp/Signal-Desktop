@@ -3,11 +3,15 @@
 
 import assert from 'assert';
 import fs from 'fs/promises';
+import crypto from 'crypto';
 import path from 'path';
 import os from 'os';
 import createDebug from 'debug';
 import pTimeout from 'p-timeout';
 import normalizePath from 'normalize-path';
+import pixelmatch from 'pixelmatch';
+import { PNG } from 'pngjs';
+import type { Page } from 'playwright';
 
 import type { Device, PrimaryDevice } from '@signalapp/mock-server';
 import {
@@ -18,7 +22,9 @@ import {
 import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants';
 import * as durations from '../util/durations';
 import { drop } from '../util/drop';
+import type { RendererConfigType } from '../types/RendererConfig';
 import { App } from './playwright';
+import { CONTACT_COUNT } from './benchmarks/fixtures';
 
 export { App };
 
@@ -40,6 +46,10 @@ const CONTACT_FIRST_NAMES = [
   'Alice',
   'Bob',
   'Charlie',
+  'Danielle',
+  'Elaine',
+  'Frankie',
+  'Grandma',
   'Paul',
   'Steve',
   'William',
@@ -51,7 +61,23 @@ const CONTACT_LAST_NAMES = [
   'Miller',
   'Davis',
   'Lopez',
-  'Gonazales',
+  'Gonzales',
+  'Singh',
+  'Baker',
+  'Farmer',
+];
+
+const CONTACT_SUFFIXES = [
+  'Sr.',
+  'Jr.',
+  'the 3rd',
+  'the 4th',
+  'the 5th',
+  'the 6th',
+  'the 7th',
+  'the 8th',
+  'the 9th',
+  'the 10th',
 ];
 
 const CONTACT_NAMES = new Array<string>();
@@ -61,29 +87,40 @@ for (const firstName of CONTACT_FIRST_NAMES) {
   }
 }
 
+for (const suffix of CONTACT_SUFFIXES) {
+  for (const firstName of CONTACT_FIRST_NAMES) {
+    for (const lastName of CONTACT_LAST_NAMES) {
+      CONTACT_NAMES.push(`${firstName} ${lastName}, ${suffix}`);
+    }
+  }
+}
+
 const MAX_CONTACTS = CONTACT_NAMES.length;
 
-const DEFAULT_START_APP_TIMEOUT = 10 * durations.SECOND;
-
 export type BootstrapOptions = Readonly<{
-  extraConfig?: Record<string, unknown>;
   benchmark?: boolean;
 
   linkedDevices?: number;
   contactCount?: number;
   contactsWithoutProfileKey?: number;
+  unknownContactCount?: number;
   contactNames?: ReadonlyArray<string>;
   contactPreKeyCount?: number;
 }>;
 
-type BootstrapInternalOptions = Pick<BootstrapOptions, 'extraConfig'> &
+type BootstrapInternalOptions = BootstrapOptions &
   Readonly<{
     benchmark: boolean;
     linkedDevices: number;
     contactCount: number;
     contactsWithoutProfileKey: number;
+    unknownContactCount: number;
     contactNames: ReadonlyArray<string>;
   }>;
+
+function sanitizePathComponent(component: string): string {
+  return normalizePath(component.replace(/[^a-z]+/gi, '-'));
+}
 
 //
 // Bootstrap is a class that prepares mock server and desktop for running
@@ -116,11 +153,14 @@ export class Bootstrap {
   private readonly options: BootstrapInternalOptions;
   private privContacts?: ReadonlyArray<PrimaryDevice>;
   private privContactsWithoutProfileKey?: ReadonlyArray<PrimaryDevice>;
+  private privUnknownContacts?: ReadonlyArray<PrimaryDevice>;
   private privPhone?: PrimaryDevice;
   private privDesktop?: Device;
   private storagePath?: string;
+  private backupPath?: string;
   private timestamp: number = Date.now() - durations.WEEK;
   private lastApp?: App;
+  private readonly randomId = crypto.randomBytes(8).toString('hex');
 
   constructor(options: BootstrapOptions = {}) {
     this.server = new Server({
@@ -130,18 +170,21 @@ export class Bootstrap {
 
     this.options = {
       linkedDevices: 5,
-      contactCount: MAX_CONTACTS,
+      contactCount: CONTACT_COUNT,
       contactsWithoutProfileKey: 0,
+      unknownContactCount: 0,
       contactNames: CONTACT_NAMES,
       benchmark: false,
 
       ...options,
     };
 
-    assert(
-      this.options.contactCount + this.options.contactsWithoutProfileKey <=
-        this.options.contactNames.length
-    );
+    const totalContactCount =
+      this.options.contactCount +
+      this.options.contactsWithoutProfileKey +
+      this.options.unknownContactCount;
+    assert(totalContactCount <= this.options.contactNames.length);
+    assert(totalContactCount <= MAX_CONTACTS);
   }
 
   public async init(): Promise<void> {
@@ -152,29 +195,36 @@ export class Bootstrap {
     const { port } = this.server.address();
     debug('started server on port=%d', port);
 
-    const contactNames = this.options.contactNames.slice(
-      0,
-      this.options.contactCount + this.options.contactsWithoutProfileKey
-    );
+    const totalContactCount =
+      this.options.contactCount +
+      this.options.contactsWithoutProfileKey +
+      this.options.unknownContactCount;
 
     const allContacts = await Promise.all(
-      contactNames.map(async profileName => {
-        const primary = await this.server.createPrimaryDevice({
-          profileName,
-        });
+      this.options.contactNames
+        .slice(0, totalContactCount)
+        .map(async profileName => {
+          const primary = await this.server.createPrimaryDevice({
+            profileName,
+          });
 
-        for (let i = 0; i < this.options.linkedDevices; i += 1) {
-          // eslint-disable-next-line no-await-in-loop
-          await this.server.createSecondaryDevice(primary);
-        }
+          for (let i = 0; i < this.options.linkedDevices; i += 1) {
+            // eslint-disable-next-line no-await-in-loop
+            await this.server.createSecondaryDevice(primary);
+          }
 
-        return primary;
-      })
+          return primary;
+        })
     );
 
-    this.privContacts = allContacts.slice(0, this.options.contactCount);
-    this.privContactsWithoutProfileKey = allContacts.slice(
-      this.contacts.length
+    this.privContacts = allContacts.splice(0, this.options.contactCount);
+    this.privContactsWithoutProfileKey = allContacts.splice(
+      0,
+      this.options.contactsWithoutProfileKey
+    );
+    this.privUnknownContacts = allContacts.splice(
+      0,
+      this.options.unknownContactCount
     );
 
     this.privPhone = await this.server.createPrimaryDevice({
@@ -184,6 +234,9 @@ export class Bootstrap {
     });
 
     this.storagePath = await fs.mkdtemp(path.join(os.tmpdir(), 'mock-signal-'));
+    this.backupPath = await fs.mkdtemp(
+      path.join(os.tmpdir(), 'mock-signal-backup-')
+    );
 
     debug('setting storage path=%j', this.storagePath);
   }
@@ -204,6 +257,30 @@ export class Bootstrap {
     return path.join(this.storagePath, 'logs');
   }
 
+  public getBackupPath(fileName: string): string {
+    assert(
+      this.backupPath !== undefined,
+      'Bootstrap has to be initialized first, see: bootstrap.init()'
+    );
+
+    return path.join(this.backupPath, fileName);
+  }
+
+  public eraseStorage(): Promise<void> {
+    return this.resetAppStorage();
+  }
+
+  private async resetAppStorage(): Promise<void> {
+    assert(
+      this.storagePath !== undefined,
+      'Bootstrap has to be initialized first, see: bootstrap.init()'
+    );
+
+    // Note that backupPath must remain unchanged!
+    await fs.rm(this.storagePath, { recursive: true });
+    this.storagePath = await fs.mkdtemp(path.join(os.tmpdir(), 'mock-signal-'));
+  }
+
   public async teardown(): Promise<void> {
     debug('tearing down');
 
@@ -212,6 +289,9 @@ export class Bootstrap {
         this.storagePath
           ? fs.rm(this.storagePath, { recursive: true })
           : Promise.resolve(),
+        this.backupPath
+          ? fs.rm(this.backupPath, { recursive: true })
+          : Promise.resolve(),
         this.server.close(),
         this.lastApp?.close(),
       ]),
@@ -219,10 +299,22 @@ export class Bootstrap {
     ]);
   }
 
-  public async link(): Promise<App> {
+  public async link(extraConfig?: Partial<RendererConfigType>): Promise<App> {
     debug('linking');
 
-    const app = await this.startApp();
+    const app = await this.startApp(extraConfig);
+
+    const window = await app.getWindow();
+    const qrCode = window.locator(
+      '.module-InstallScreenQrCodeNotScannedStep__qr-code__code'
+    );
+    const relinkButton = window.locator('.LeftPaneDialog__icon--relink');
+    await qrCode.or(relinkButton).waitFor();
+    if (await relinkButton.isVisible()) {
+      debug('unlinked, clicking left pane button');
+      await relinkButton.click();
+      await qrCode.waitFor();
+    }
 
     const provision = await this.server.waitForProvision();
 
@@ -262,7 +354,9 @@ export class Bootstrap {
     await app.close();
   }
 
-  public async startApp(timeout = DEFAULT_START_APP_TIMEOUT): Promise<App> {
+  public async startApp(
+    extraConfig?: Partial<RendererConfigType>
+  ): Promise<App> {
     assert(
       this.storagePath !== undefined,
       'Bootstrap has to be initialized first, see: bootstrap.init()'
@@ -271,21 +365,39 @@ export class Bootstrap {
     debug('starting the app');
 
     const { port } = this.server.address();
-    const config = await this.generateConfig(port);
 
+    let startAttempts = 0;
+    const MAX_ATTEMPTS = 4;
     let app: App | undefined;
     while (!app) {
+      startAttempts += 1;
+      if (startAttempts > MAX_ATTEMPTS) {
+        throw new Error(
+          `App failed to start after ${MAX_ATTEMPTS} times, giving up`
+        );
+      }
+
+      // eslint-disable-next-line no-await-in-loop
+      const config = await this.generateConfig(port, extraConfig);
+
       const startedApp = new App({
         main: ELECTRON,
         args: [CI_SCRIPT],
         config,
       });
+
       try {
         // eslint-disable-next-line no-await-in-loop
-        await pTimeout(startedApp.start(), timeout);
+        await startedApp.start();
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.error('Failed to start the app on time, retrying', error);
+        console.error(
+          `Failed to start the app, attempt ${startAttempts}, retrying`,
+          error
+        );
+
+        // eslint-disable-next-line no-await-in-loop
+        await this.resetAppStorage();
         continue;
       }
 
@@ -309,7 +421,7 @@ export class Bootstrap {
   }
 
   public async maybeSaveLogs(
-    test?: Mocha.Test,
+    test?: Mocha.Runnable,
     app: App | undefined = this.lastApp
   ): Promise<void> {
     const { FORCE_ARTIFACT_SAVE } = process.env;
@@ -320,35 +432,101 @@ export class Bootstrap {
 
   public async saveLogs(
     app: App | undefined = this.lastApp,
-    pathPrefix?: string
+    testName?: string
   ): Promise<void> {
-    const { ARTIFACTS_DIR } = process.env;
-    if (!ARTIFACTS_DIR) {
-      // eslint-disable-next-line no-console
-      console.error('Not saving logs. Please set ARTIFACTS_DIR env variable');
+    const outDir = await this.getArtifactsDir(testName);
+    if (outDir == null) {
       return;
     }
-
-    await fs.mkdir(ARTIFACTS_DIR, { recursive: true });
-
-    const normalizedPrefix = pathPrefix
-      ? `-${normalizePath(pathPrefix.replace(/[^a-z]+/gi, '-'))}-`
-      : '';
-    const outDir = await fs.mkdtemp(
-      path.join(ARTIFACTS_DIR, `logs-${normalizedPrefix}`)
-    );
 
     // eslint-disable-next-line no-console
     console.error(`Saving logs to ${outDir}`);
 
     const { logsDir } = this;
-    await fs.rename(logsDir, outDir);
+    await fs.rename(logsDir, path.join(outDir, 'logs'));
 
+    const page = await app?.getWindow();
+    if (process.env.TRACING) {
+      await page
+        ?.context()
+        .tracing.stop({ path: path.join(outDir, 'trace.zip') });
+    }
     if (app) {
       const window = await app.getWindow();
       const screenshot = await window.screenshot();
       await fs.writeFile(path.join(outDir, 'screenshot.png'), screenshot);
     }
+  }
+
+  public async createScreenshotComparator(
+    app: App,
+    callback: (
+      page: Page,
+      snapshot: (name: string) => Promise<void>
+    ) => Promise<void>,
+    test?: Mocha.Runnable
+  ): Promise<(app: App) => Promise<void>> {
+    const snapshots = new Array<{ name: string; data: Buffer }>();
+
+    const window = await app.getWindow();
+    await callback(window, async (name: string) => {
+      debug('creating screenshot');
+      snapshots.push({ name, data: await window.screenshot() });
+    });
+
+    let index = 0;
+
+    return async (anotherApp: App): Promise<void> => {
+      const anotherWindow = await anotherApp.getWindow();
+      await callback(anotherWindow, async (name: string) => {
+        index += 1;
+
+        const before = snapshots.shift();
+        assert(before != null, 'No previous snapshot');
+        assert.strictEqual(before.name, name, 'Wrong snapshot order');
+
+        const after = await anotherWindow.screenshot();
+
+        const beforePng = PNG.sync.read(before.data);
+        const afterPng = PNG.sync.read(after);
+
+        const { width, height } = beforePng;
+        const diffPng = new PNG({ width, height });
+
+        const numPixels = pixelmatch(
+          beforePng.data,
+          afterPng.data,
+          diffPng.data,
+          width,
+          height,
+          {}
+        );
+
+        if (numPixels === 0) {
+          debug('no screenshot difference');
+          return;
+        }
+
+        debug('screenshot difference', numPixels);
+
+        const outDir = await this.getArtifactsDir(test?.fullTitle());
+        if (outDir != null) {
+          debug('saving screenshots and diff');
+          const prefix = `${index}-${sanitizePathComponent(name)}`;
+          await fs.writeFile(
+            path.join(outDir, `${prefix}-before.png`),
+            before.data
+          );
+          await fs.writeFile(path.join(outDir, `${prefix}-after.png`), after);
+          await fs.writeFile(
+            path.join(outDir, `${prefix}-diff.png`),
+            PNG.sync.write(diffPng)
+          );
+        }
+
+        assert.strictEqual(numPixels, 0, 'Expected no pixels to be different');
+      });
+    };
   }
 
   //
@@ -386,14 +564,47 @@ export class Bootstrap {
     );
     return this.privContactsWithoutProfileKey;
   }
+  public get unknownContacts(): ReadonlyArray<PrimaryDevice> {
+    assert(
+      this.privUnknownContacts,
+      'Bootstrap has to be initialized first, see: bootstrap.init()'
+    );
+    return this.privUnknownContacts;
+  }
 
   public get allContacts(): ReadonlyArray<PrimaryDevice> {
-    return [...this.contacts, ...this.contactsWithoutProfileKey];
+    return [
+      ...this.contacts,
+      ...this.contactsWithoutProfileKey,
+      ...this.unknownContacts,
+    ];
   }
 
   //
   // Private
   //
+
+  private async getArtifactsDir(
+    testName?: string
+  ): Promise<string | undefined> {
+    const { ARTIFACTS_DIR } = process.env;
+    if (!ARTIFACTS_DIR) {
+      // eslint-disable-next-line no-console
+      console.error(
+        'Not saving artifacts. Please set ARTIFACTS_DIR env variable'
+      );
+      return undefined;
+    }
+
+    const normalizedPath = testName
+      ? `${this.randomId}-${sanitizePathComponent(testName)}`
+      : this.randomId;
+
+    const outDir = path.join(ARTIFACTS_DIR, normalizedPath);
+    await fs.mkdir(outDir, { recursive: true });
+
+    return outDir;
+  }
 
   private static async runBenchmark(
     fn: (bootstrap: Bootstrap) => Promise<void>,
@@ -407,6 +618,9 @@ export class Bootstrap {
 
     try {
       await pTimeout(fn(bootstrap), timeout);
+      if (process.env.FORCE_ARTIFACT_SAVE) {
+        await bootstrap.saveLogs();
+      }
     } catch (error) {
       await bootstrap.saveLogs();
       throw error;
@@ -415,7 +629,10 @@ export class Bootstrap {
     }
   }
 
-  private async generateConfig(port: number): Promise<string> {
+  private async generateConfig(
+    port: number,
+    extraConfig?: Partial<RendererConfigType>
+  ): Promise<string> {
     const url = `https://127.0.0.1:${port}`;
     return JSON.stringify({
       ...(await loadCertificates()),
@@ -428,6 +645,7 @@ export class Bootstrap {
       storageProfile: 'mock',
       serverUrl: url,
       storageUrl: url,
+      sfuUrl: url,
       cdn: {
         '0': url,
         '2': url,
@@ -439,7 +657,7 @@ export class Bootstrap {
       directoryCDSIMRENCLAVE:
         '51133fecb3fa18aaf0c8f64cb763656d3272d9faaacdb26ae7df082e414fb142',
 
-      ...this.options.extraConfig,
+      ...extraConfig,
     });
   }
 }

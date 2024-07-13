@@ -13,14 +13,12 @@
     padding-inline: 10px;
     width: 100%;
 
-    @include keyboard-mode {
-      &:focus {
-        @include light-theme {
-          background: $color-gray-15;
-        }
-        @include dark-theme {
-          background: $color-gray-65;
-        }
+    &:focus {
+      @include keyboard-mode {
+        background: $color-gray-15;
+      }
+      @include dark-keyboard-mode {
+        background: $color-gray-65;
       }
     }
 

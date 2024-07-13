@@ -8,10 +8,16 @@ import type {
 import { combineNames } from './combineNames';
 import { getRegionCodeForNumber } from './libphonenumberUtil';
 import { isDirectConversation } from './whatTypeOfConversation';
+import { getE164 } from './getE164';
+
+type TitleOptions = {
+  isShort?: boolean;
+  ignoreNickname?: boolean;
+};
 
 export function getTitle(
   attributes: ConversationRenderInfoType,
-  options?: { isShort?: boolean }
+  options?: TitleOptions
 ): string {
   const title = getTitleNoDefault(attributes, options);
   if (title) {
@@ -26,7 +32,7 @@ export function getTitle(
 
 export function getTitleNoDefault(
   attributes: ConversationRenderInfoType,
-  { isShort = false }: { isShort?: boolean } = {}
+  { isShort = false, ignoreNickname = false }: TitleOptions = {}
 ): string | undefined {
   if (!isDirectConversation(attributes)) {
     return attributes.name;
@@ -34,7 +40,15 @@ export function getTitleNoDefault(
 
   const { username } = attributes;
 
+  let nicknameValue: string | undefined;
+  if (!ignoreNickname) {
+    nicknameValue =
+      (isShort ? attributes.nicknameGivenName : undefined) ||
+      getNicknameName(attributes);
+  }
+
   return (
+    nicknameValue ||
     (isShort ? attributes.systemGivenName : undefined) ||
     getSystemName(attributes) ||
     (isShort ? attributes.profileName : undefined) ||
@@ -58,6 +72,8 @@ export function canHaveUsername(
     | 'systemGivenName'
     | 'systemFamilyName'
     | 'systemNickname'
+    | 'nicknameGivenName'
+    | 'nicknameFamilyName'
     | 'type'
   >,
   ourConversationId: string | undefined
@@ -71,6 +87,7 @@ export function canHaveUsername(
   }
 
   return (
+    !getNicknameName(attributes) &&
     !getSystemName(attributes) &&
     !getProfileName(attributes) &&
     !getNumber(attributes)
@@ -87,6 +104,21 @@ export function getProfileName(
     return combineNames(attributes.profileName, attributes.profileFamilyName);
   }
 
+  return undefined;
+}
+
+export function getNicknameName(
+  attributes: Pick<
+    ConversationAttributesType,
+    'nicknameGivenName' | 'nicknameFamilyName' | 'type'
+  >
+): string | undefined {
+  if (isDirectConversation(attributes)) {
+    return combineNames(
+      attributes.nicknameGivenName ?? undefined,
+      attributes.nicknameFamilyName ?? undefined
+    );
+  }
   return undefined;
 }
 
@@ -107,13 +139,16 @@ export function getSystemName(
 }
 
 export function getNumber(
-  attributes: Pick<ConversationAttributesType, 'e164' | 'type'>
+  attributes: Pick<
+    ConversationAttributesType,
+    'e164' | 'type' | 'sharingPhoneNumber' | 'profileKey'
+  >
 ): string | undefined {
   if (!isDirectConversation(attributes)) {
     return '';
   }
 
-  const { e164 } = attributes;
+  const e164 = getE164(attributes);
   if (!e164) {
     return '';
   }
@@ -138,4 +173,33 @@ export function renderNumber(e164: string): string | undefined {
   } catch (e) {
     return undefined;
   }
+}
+
+export function hasNumberTitle(
+  attributes: Pick<
+    ConversationAttributesType,
+    'e164' | 'type' | 'sharingPhoneNumber' | 'profileKey'
+  >
+): boolean {
+  return (
+    !getNicknameName(attributes) &&
+    !getSystemName(attributes) &&
+    !getProfileName(attributes) &&
+    Boolean(getNumber(attributes))
+  );
+}
+
+export function hasUsernameTitle(
+  attributes: Pick<
+    ConversationAttributesType,
+    'e164' | 'type' | 'sharingPhoneNumber' | 'profileKey' | 'username'
+  >
+): boolean {
+  return (
+    !getNicknameName(attributes) &&
+    !getSystemName(attributes) &&
+    !getProfileName(attributes) &&
+    !getNumber(attributes) &&
+    Boolean(attributes.username)
+  );
 }

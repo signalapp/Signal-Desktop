@@ -28,18 +28,17 @@ import {
   shell,
   systemPreferences,
   Notification,
+  safeStorage,
+  protocol as electronProtocol,
 } from 'electron';
-import type {
-  MenuItemConstructorOptions,
-  TitleBarOverlayOptions,
-  LoginItemSettingsOptions,
-} from 'electron';
+import type { MenuItemConstructorOptions, Settings } from 'electron';
 import { z } from 'zod';
 
 import packageJson from '../package.json';
 import * as GlobalErrors from './global_errors';
 import { setup as setupCrashReports } from './crashReports';
 import { setup as setupSpellChecker } from './spell_check';
+import { getDNSFallback } from './dns-fallback';
 import { redactAll, addSensitivePath } from '../ts/util/privacy';
 import { createSupportUrl } from '../ts/util/createSupportUrl';
 import { missingCaseError } from '../ts/util/missingCaseError';
@@ -56,7 +55,6 @@ import { explodePromise } from '../ts/util/explodePromise';
 
 import './startup_config';
 
-import type { ConfigType } from './config';
 import type { RendererConfigType } from '../ts/types/RendererConfig';
 import {
   directoryConfigSchema,
@@ -83,32 +81,27 @@ import { updateDefaultSession } from './updateDefaultSession';
 import { PreventDisplaySleepService } from './PreventDisplaySleepService';
 import { SystemTrayService, focusAndForceToTop } from './SystemTrayService';
 import { SystemTraySettingCache } from './SystemTraySettingCache';
+import { OptionalResourceService } from './OptionalResourceService';
+import { EmojiService } from './EmojiService';
 import {
   SystemTraySetting,
   shouldMinimizeToSystemTray,
   parseSystemTraySetting,
 } from '../ts/types/SystemTraySetting';
-import { isSystemTraySupported } from '../ts/types/Settings';
+import {
+  getDefaultSystemTraySetting,
+  isSystemTraySupported,
+} from '../ts/types/Settings';
 import * as ephemeralConfig from './ephemeral_config';
 import * as logging from '../ts/logging/main_process_logging';
 import { MainSQL } from '../ts/sql/main';
 import * as sqlChannels from './sql_channel';
 import * as windowState from './window_state';
 import type { CreateTemplateOptionsType } from './menu';
-import type { MenuActionType } from '../ts/types/menu';
 import { createTemplate } from './menu';
 import { installFileHandler, installWebHandler } from './protocol_filter';
 import OS from '../ts/util/os/osMain';
 import { isProduction } from '../ts/util/version';
-import {
-  isSgnlHref,
-  isCaptchaHref,
-  isSignalHttpsLink,
-  parseSgnlHref,
-  parseCaptchaHref,
-  parseSignalHttpsLink,
-  rewriteSignalHrefsIfNecessary,
-} from '../ts/util/sgnlHref';
 import { clearTimeoutIfNecessary } from '../ts/util/clearTimeoutIfNecessary';
 import { toggleMaximizedBrowserWindow } from '../ts/util/toggleMaximizedBrowserWindow';
 import { ChallengeMainHandler } from '../ts/main/challengeMain';
@@ -118,14 +111,17 @@ import { SettingsChannel } from '../ts/main/settingsChannel';
 import { maybeParseUrl, setUrlSearchParams } from '../ts/util/url';
 import { getHeicConverter } from '../ts/workers/heicConverterMain';
 
-import type { LocaleType } from './locale';
+import type { LocaleDirection, LocaleType } from './locale';
 import { load as loadLocale } from './locale';
 
 import type { LoggerType } from '../ts/types/Logging';
 import { HourCyclePreference } from '../ts/types/I18N';
+import { ScreenShareStatus } from '../ts/types/Calling';
 import { DBVersionFromFutureError } from '../ts/sql/migrations';
-
-const STICKER_CREATOR_PARTITION = 'sticker-creator';
+import type { ParsedSignalRoute } from '../ts/util/signalRoutes';
+import { parseSignalRoute } from '../ts/util/signalRoutes';
+import * as dns from '../ts/util/dns';
+import { ZoomFactorService } from '../ts/services/ZoomFactorService';
 
 const animationSettings = systemPreferences.getAnimationSettings();
 
@@ -150,6 +146,8 @@ const consoleLogger = createBufferedConsoleLogger();
 // These will be set after app fires the 'ready' event
 let logger: LoggerType | undefined;
 let preferredSystemLocales: Array<string> | undefined;
+let localeOverride: string | null | undefined;
+
 let resolvedTranslationsLocale: LocaleType | undefined;
 let settingsChannel: SettingsChannel | undefined;
 
@@ -165,6 +163,11 @@ const development =
 
 const ciMode = config.get<'full' | 'benchmark' | false>('ciMode');
 const forcePreloadBundle = config.get<boolean>('forcePreloadBundle');
+const localeDirectionTestingOverride = config.has(
+  'localeDirectionTestingOverride'
+)
+  ? config.get<LocaleDirection>('localeDirectionTestingOverride')
+  : null;
 
 const preventDisplaySleepService = new PreventDisplaySleepService(
   powerSaveBlocker
@@ -200,18 +203,20 @@ const defaultWebPrefs = {
     'CSSPseudoDir', // status=experimental, needed for RTL (ex: :dir(rtl))
     'CSSLogical', // status=experimental, needed for RTL (ex: margin-inline-start)
   ].join(','),
+  enablePreferredSizeMode: true,
 };
 
 const DISABLE_GPU =
   OS.isLinux() && !process.argv.some(arg => arg === '--enable-gpu');
 
+const DISABLE_IPV6 = process.argv.some(arg => arg === '--disable-ipv6');
 const FORCE_ENABLE_CRASH_REPORTS = process.argv.some(
   arg => arg === '--enable-crash-reports'
 );
 
 const CLI_LANG = cliOptions.lang as string | undefined;
 
-setupCrashReports(getLogger, FORCE_ENABLE_CRASH_REPORTS);
+setupCrashReports(getLogger, showDebugLogWindow, FORCE_ENABLE_CRASH_REPORTS);
 
 let sendDummyKeystroke: undefined | (() => void);
 if (OS.isWindows()) {
@@ -221,7 +226,7 @@ if (OS.isWindows()) {
     sendDummyKeystroke = windowsNotifications.sendDummyKeystroke;
   } catch (error) {
     getLogger().error(
-      'Failed to initalize Windows Notifications:',
+      'Failed to initialize Windows Notifications:',
       error.stack
     );
   }
@@ -270,23 +275,22 @@ if (!process.mas) {
         return;
       }
 
-      const incomingCaptchaHref = getIncomingCaptchaHref(argv);
-      if (incomingCaptchaHref) {
-        const { captcha } = parseCaptchaHref(incomingCaptchaHref, getLogger());
-        challengeHandler.handleCaptcha(captcha);
-        return true;
+      const route = maybeGetIncomingSignalRoute(argv);
+      if (route != null) {
+        handleSignalRoute(route);
       }
-      // Are they trying to open a sgnl:// href?
-      const incomingHref = getIncomingHref(argv);
-      if (incomingHref) {
-        handleSgnlHref(incomingHref);
-      }
-      // Handled
       return true;
+    });
+
+    app.on('open-url', (event, incomingHref) => {
+      event.preventDefault();
+      const route = parseSignalRoute(incomingHref);
+      if (route != null) {
+        handleSignalRoute(route);
+      }
     });
   }
 }
-/* eslint-enable no-console */
 
 let sqlInitTimeStart = 0;
 let sqlInitTimeEnd = 0;
@@ -295,22 +299,18 @@ const sql = new MainSQL();
 const heicConverter = getHeicConverter();
 
 async function getSpellCheckSetting(): Promise<boolean> {
-  const fastValue = ephemeralConfig.get('spell-check');
-  if (typeof fastValue === 'boolean') {
-    getLogger().info('got fast spellcheck setting', fastValue);
-    return fastValue;
+  const value = ephemeralConfig.get('spell-check');
+  if (typeof value === 'boolean') {
+    getLogger().info('got fast spellcheck setting', value);
+    return value;
   }
 
-  const json = await sql.sqlCall('getItemById', 'spell-check');
-
   // Default to `true` if setting doesn't exist yet
-  const slowValue = typeof json?.value === 'boolean' ? json.value : true;
+  ephemeralConfig.set('spell-check', true);
 
-  ephemeralConfig.set('spell-check', slowValue);
+  getLogger().info('initializing spellcheck setting', true);
 
-  getLogger().info('got slow spellcheck setting', slowValue);
-
-  return slowValue;
+  return true;
 }
 
 type GetThemeSettingOptionsType = Readonly<{
@@ -320,29 +320,22 @@ type GetThemeSettingOptionsType = Readonly<{
 async function getThemeSetting({
   ephemeralOnly = false,
 }: GetThemeSettingOptionsType = {}): Promise<ThemeSettingType> {
-  let result: unknown;
-
-  const fastValue = ephemeralConfig.get('theme-setting');
-  if (fastValue !== undefined) {
-    getLogger().info('got fast theme-setting value', fastValue);
-    result = fastValue;
+  const value = ephemeralConfig.get('theme-setting');
+  if (value !== undefined) {
+    getLogger().info('got fast theme-setting value', value);
   } else if (ephemeralOnly) {
     return 'system';
-  } else {
-    const json = await sql.sqlCall('getItemById', 'theme-setting');
-
-    result = json?.value;
   }
 
   // Default to `system` if setting doesn't exist or is invalid
   const validatedResult =
-    result === 'light' || result === 'dark' || result === 'system'
-      ? result
+    value === 'light' || value === 'dark' || value === 'system'
+      ? value
       : 'system';
 
-  if (fastValue !== validatedResult) {
+  if (value !== validatedResult) {
     ephemeralConfig.set('theme-setting', validatedResult);
-    getLogger().info('got slow theme-setting value', result);
+    getLogger().info('saving theme-setting value', validatedResult);
   }
 
   return validatedResult;
@@ -374,12 +367,42 @@ async function getBackgroundColor(
   throw missingCaseError(theme);
 }
 
+async function getLocaleOverrideSetting(): Promise<string | null> {
+  const value = ephemeralConfig.get('localeOverride');
+  // eslint-disable-next-line eqeqeq -- Checking for null explicitly
+  if (typeof value === 'string' || value === null) {
+    getLogger().info('got fast localeOverride setting', value);
+    return value;
+  }
+
+  // Default to `null` if setting doesn't exist yet
+  ephemeralConfig.set('localeOverride', null);
+
+  getLogger().info('initializing localeOverride setting', null);
+
+  return null;
+}
+
+const zoomFactorService = new ZoomFactorService({
+  async getZoomFactorSetting() {
+    const item = await sql.sqlCall('getItemById', 'zoomFactor');
+    if (typeof item?.value !== 'number') {
+      return null;
+    }
+    return item.value;
+  },
+  async setZoomFactorSetting(zoomFactor) {
+    await sql.sqlCall('createOrUpdateItem', {
+      id: 'zoomFactor',
+      value: zoomFactor,
+    });
+  },
+});
+
 let systemTrayService: SystemTrayService | undefined;
 const systemTraySettingCache = new SystemTraySettingCache(
-  sql,
   ephemeralConfig,
-  process.argv,
-  app.getVersion()
+  process.argv
 );
 
 const windowFromUserConfig = userConfig.get('window');
@@ -426,6 +449,13 @@ function getPreferredSystemLocales(): Array<string> {
   return preferredSystemLocales;
 }
 
+function getLocaleOverride(): string | null {
+  if (typeof localeOverride === 'undefined') {
+    throw new Error('getLocaleOverride: Locale not yet initialized!');
+  }
+  return localeOverride;
+}
+
 function getResolvedMessagesLocale(): LocaleType {
   if (!resolvedTranslationsLocale) {
     throw new Error('getResolvedMessagesLocale: Locale not yet initialized!');
@@ -458,7 +488,7 @@ async function prepareFileUrl(
   options: PrepareUrlOptions = {}
 ): Promise<string> {
   const filePath = join(...pathSegments);
-  const fileUrl = pathToFileURL(filePath);
+  const fileUrl = pathToFileURL(filePath) as URL;
   return prepareUrl(fileUrl, options);
 }
 
@@ -475,33 +505,28 @@ async function handleUrl(rawTarget: string) {
     return;
   }
 
-  const target = rewriteSignalHrefsIfNecessary(rawTarget);
+  const signalRoute = parseSignalRoute(rawTarget);
+
+  // We only want to specially handle urls that aren't requesting the dev server
+  if (signalRoute != null) {
+    handleSignalRoute(signalRoute);
+    return;
+  }
 
   const { protocol, hostname } = parsedUrl;
   const isDevServer =
     process.env.SIGNAL_ENABLE_HTTP && hostname === 'localhost';
-  // We only want to specially handle urls that aren't requesting the dev server
-  if (
-    isSgnlHref(target, getLogger()) ||
-    isSignalHttpsLink(target, getLogger())
-  ) {
-    handleSgnlHref(target);
-    return;
-  }
 
   if ((protocol === 'http:' || protocol === 'https:') && !isDevServer) {
     try {
-      await shell.openExternal(target);
+      await shell.openExternal(rawTarget);
     } catch (error) {
       getLogger().error(`Failed to open url: ${Errors.toLogFormat(error)}`);
     }
   }
 }
 
-function handleCommonWindowEvents(
-  window: BrowserWindow,
-  titleBarOverlay: TitleBarOverlayOptions | false = false
-) {
+async function handleCommonWindowEvents(window: BrowserWindow) {
   window.webContents.on('will-navigate', (event, rawTarget) => {
     event.preventDefault();
 
@@ -532,73 +557,9 @@ function handleCommonWindowEvents(
   const focusInterval = setInterval(setWindowFocus, 10000);
   window.on('closed', () => clearInterval(focusInterval));
 
-  // Works only for mainWindow and settings because they have `enablePreferredSizeMode`
-  let lastZoomFactor = window.webContents.getZoomFactor();
-  const onZoomChanged = () => {
-    if (
-      window.isDestroyed() ||
-      !window.webContents ||
-      window.webContents.isDestroyed()
-    ) {
-      return;
-    }
-
-    const zoomFactor = window.webContents.getZoomFactor();
-    if (lastZoomFactor === zoomFactor) {
-      return;
-    }
-
-    lastZoomFactor = zoomFactor;
-    if (!mainWindow) {
-      return;
-    }
-
-    if (window === mainWindow) {
-      drop(
-        settingsChannel?.invokeCallbackInMainWindow('persistZoomFactor', [
-          zoomFactor,
-        ])
-      );
-    } else {
-      mainWindow.webContents.setZoomFactor(zoomFactor);
-    }
-  };
-  window.on('show', () => {
-    // Install handler here after we init zoomFactor otherwise an initial
-    // preferred-size-changed event emits with an undesired zoomFactor.
-    window.webContents.on('preferred-size-changed', onZoomChanged);
-  });
-
-  // Workaround to apply zoomFactor because webPreferences does not handle it
-  // https://github.com/electron/electron/issues/10572
-  // But main window emits ready-to-show before window.Events is available
-  // so set main window zoom in background.ts
-  if (window !== mainWindow) {
-    window.once('ready-to-show', async () => {
-      const zoomFactor =
-        (await settingsChannel?.getSettingFromMainWindow('zoomFactor')) ?? 1;
-      window.webContents.setZoomFactor(zoomFactor);
-    });
-  }
+  await zoomFactorService.syncWindow(window);
 
   nativeThemeNotifier.addWindow(window);
-
-  if (titleBarOverlay) {
-    const onThemeChange = async () => {
-      try {
-        const newOverlay = await getTitleBarOverlay();
-        if (!newOverlay) {
-          return;
-        }
-        window.setTitleBarOverlay(newOverlay);
-      } catch (error) {
-        console.error('onThemeChange error', error);
-      }
-    };
-
-    nativeTheme.on('updated', onThemeChange);
-    settingsChannel?.on('change:themeSetting', onThemeChange);
-  }
 }
 
 const DEFAULT_WIDTH = ciMode ? 1024 : 800;
@@ -658,45 +619,11 @@ if (OS.isWindows()) {
 //   - Windows < 10 (7, 8)
 //   - macOS (but no custom titlebar is displayed, see
 //     `--title-bar-drag-area-height` in `stylesheets/_titlebar.scss`
-const mainTitleBarStyle =
-  (OS.isMacOS() || OS.hasCustomTitleBar()) &&
-  !isTestEnvironment(getEnvironment())
-    ? ('hidden' as const)
-    : ('default' as const);
-
-const nonMainTitleBarStyle = OS.hasCustomTitleBar()
+const mainTitleBarStyle = OS.isMacOS()
   ? ('hidden' as const)
   : ('default' as const);
 
-async function getTitleBarOverlay(): Promise<TitleBarOverlayOptions | false> {
-  if (!OS.hasCustomTitleBar()) {
-    return false;
-  }
-
-  const theme = await getResolvedThemeSetting();
-
-  let color: string;
-  let symbolColor: string;
-  if (theme === 'light') {
-    color = '#e8e8e8';
-    symbolColor = '#1b1b1b';
-  } else if (theme === 'dark') {
-    // $color-gray-80
-    color = '#2e2e2e';
-    // $color-gray-05
-    symbolColor = '#e9e9e9';
-  } else {
-    throw missingCaseError(theme);
-  }
-
-  return {
-    color,
-    symbolColor,
-
-    // Should match `--titlebar-height` in stylesheets/_titlebar.scss
-    height: 28 - 1,
-  };
-}
+const nonMainTitleBarStyle = 'default' as const;
 
 async function safeLoadURL(window: BrowserWindow, url: string): Promise<void> {
   let wasDestroyed = false;
@@ -735,8 +662,6 @@ async function createWindow() {
   const usePreloadBundle =
     !isTestEnvironment(getEnvironment()) || forcePreloadBundle;
 
-  const titleBarOverlay = await getTitleBarOverlay();
-
   const windowOptions: Electron.BrowserWindowConstructorOptions = {
     show: false,
     width: DEFAULT_WIDTH,
@@ -745,7 +670,6 @@ async function createWindow() {
     minHeight: MIN_HEIGHT,
     autoHideMenuBar: false,
     titleBarStyle: mainTitleBarStyle,
-    titleBarOverlay,
     backgroundColor: isTestEnvironment(getEnvironment())
       ? '#ffffff' // Tests should always be rendered on a white background
       : await getBackgroundColor(),
@@ -763,7 +687,6 @@ async function createWindow() {
       ),
       spellcheck: await getSpellCheckSetting(),
       backgroundThrottling: true,
-      enablePreferredSizeMode: true,
       disableBlinkFeatures: 'Accelerated2dCanvas,AcceleratedSmallCanvases',
     },
     icon: windowIcon,
@@ -821,6 +744,7 @@ async function createWindow() {
   setupSpellChecker(
     mainWindow,
     getPreferredSystemLocales(),
+    getLocaleOverride(),
     getResolvedMessagesLocale().i18n,
     getLogger()
   );
@@ -891,10 +815,16 @@ async function createWindow() {
     mainWindow.webContents.openDevTools();
   }
 
-  handleCommonWindowEvents(mainWindow, titleBarOverlay);
+  await handleCommonWindowEvents(mainWindow);
 
   // App dock icon bounce
   bounce.init(mainWindow);
+
+  mainWindow.on('hide', () => {
+    if (mainWindow && !windowState.shouldQuit()) {
+      mainWindow.webContents.send('set-media-playback-disabled', true);
+    }
+  });
 
   // Emitted when the window is about to be closed.
   // Note: We do most of our shutdown logic here because all windows are closed by
@@ -919,6 +849,22 @@ async function createWindow() {
 
     // Prevent the shutdown
     e.preventDefault();
+
+    // In certain cases such as during an active call, we ask the user to confirm close
+    // which includes shutdown, clicking X on MacOS or closing to tray.
+    let shouldClose = true;
+    try {
+      shouldClose = await maybeRequestCloseConfirmation();
+    } catch (error) {
+      getLogger().warn(
+        'Error while requesting close confirmation.',
+        Errors.toLogFormat(error)
+      );
+    }
+    if (!shouldClose) {
+      updater.onRestartCancelled();
+      return;
+    }
 
     /**
      * if the user is in fullscreen mode and closes the window, not the
@@ -978,6 +924,7 @@ async function createWindow() {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
+    getLogger().info('main window closed event');
     mainWindow = undefined;
     if (settingsChannel) {
       settingsChannel.setMainWindow(mainWindow);
@@ -988,13 +935,21 @@ async function createWindow() {
   });
 
   mainWindow.on('enter-full-screen', () => {
+    getLogger().info('mainWindow enter-full-screen event');
     if (mainWindow) {
       mainWindow.webContents.send('full-screen-change', true);
     }
   });
   mainWindow.on('leave-full-screen', () => {
+    getLogger().info('mainWindow leave-full-screen event');
     if (mainWindow) {
       mainWindow.webContents.send('full-screen-change', false);
+    }
+  });
+
+  mainWindow.on('show', () => {
+    if (mainWindow) {
+      mainWindow.webContents.send('set-media-playback-disabled', false);
     }
   });
 
@@ -1007,6 +962,8 @@ async function createWindow() {
     if (!mainWindow) {
       return;
     }
+
+    mainWindow.webContents.send('ci:event', 'db-initialized', {});
 
     const shouldShowWindow =
       !app.getLoginItemSettings().wasOpenedAsHidden && !startInTray;
@@ -1044,21 +1001,24 @@ ipc.handle('database-ready', async () => {
   getLogger().info('sending `database-ready`');
 });
 
-ipc.handle('get-art-creator-auth', () => {
-  const { promise, resolve } = explodePromise<unknown>();
-  strictAssert(mainWindow, 'Main window did not exist');
+ipc.handle(
+  'art-creator:uploadStickerPack',
+  (_event: Electron.Event, data: unknown) => {
+    const { promise, resolve } = explodePromise<unknown>();
+    strictAssert(mainWindow, 'Main window did not exist');
 
-  mainWindow.webContents.send('open-art-creator');
+    mainWindow.webContents.send('art-creator:uploadStickerPack', data);
 
-  ipc.handleOnce('open-art-creator', (_event, { username, password }) => {
-    resolve({
-      baseUrl: config.get<string>('artCreatorUrl'),
-      username,
-      password,
+    ipc.once('art-creator:uploadStickerPack:done', (_doneEvent, response) => {
+      resolve(response);
     });
-  });
 
-  return promise;
+    return promise;
+  }
+);
+
+ipc.on('art-creator:onUploadProgress', () => {
+  stickerCreatorWindow?.webContents.send('art-creator:onUploadProgress');
 });
 
 ipc.on('show-window', () => {
@@ -1125,9 +1085,9 @@ async function readyForUpdates() {
   isReadyForUpdates = true;
 
   // First, install requested sticker pack
-  const incomingHref = getIncomingHref(process.argv);
+  const incomingHref = maybeGetIncomingSignalRoute(process.argv);
   if (incomingHref) {
-    handleSgnlHref(incomingHref);
+    handleSignalRoute(incomingHref);
   }
 
   // Second, start checking for app updates
@@ -1136,7 +1096,18 @@ async function readyForUpdates() {
       settingsChannel !== undefined,
       'SettingsChannel must be initialized'
     );
-    await updater.start(settingsChannel, getLogger(), getMainWindow);
+    await updater.start({
+      settingsChannel,
+      logger: getLogger(),
+      getMainWindow,
+      canRunSilently: () => {
+        return (
+          systemTrayService?.isVisible() === true &&
+          mainWindow?.isVisible() !== true &&
+          mainWindow?.webContents?.getBackgroundThrottling() !== false
+        );
+      },
+    });
   } catch (error) {
     getLogger().error(
       'Error starting update checks:',
@@ -1251,7 +1222,7 @@ async function showScreenShareWindow(sourceName: string) {
 
   screenShareWindow = new BrowserWindow(options);
 
-  handleCommonWindowEvents(screenShareWindow);
+  await handleCommonWindowEvents(screenShareWindow);
 
   screenShareWindow.on('closed', () => {
     screenShareWindow = undefined;
@@ -1269,6 +1240,67 @@ async function showScreenShareWindow(sourceName: string) {
   );
 }
 
+let callingDevToolsWindow: BrowserWindow | undefined;
+async function showCallingDevToolsWindow() {
+  if (callingDevToolsWindow) {
+    callingDevToolsWindow.show();
+    return;
+  }
+
+  const options = {
+    height: 1200,
+    width: 1000,
+    alwaysOnTop: false,
+    autoHideMenuBar: true,
+    backgroundColor: '#ffffff',
+    darkTheme: false,
+    frame: true,
+    fullscreenable: true,
+    maximizable: true,
+    minimizable: true,
+    resizable: true,
+    show: false,
+    title: getResolvedMessagesLocale().i18n('icu:callingDeveloperTools'),
+    titleBarStyle: nonMainTitleBarStyle,
+    webPreferences: {
+      ...defaultWebPrefs,
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      sandbox: true,
+      contextIsolation: true,
+      nativeWindowOpen: true,
+      preload: join(__dirname, '../bundles/calling-tools/preload.js'),
+    },
+  };
+
+  callingDevToolsWindow = new BrowserWindow(options);
+
+  await handleCommonWindowEvents(callingDevToolsWindow);
+
+  callingDevToolsWindow.once('closed', () => {
+    callingDevToolsWindow = undefined;
+
+    mainWindow?.webContents.send('calling:set-rtc-stats-interval', null);
+  });
+
+  ipc.on('calling:set-rtc-stats-interval', (_, intervalMillis: number) => {
+    mainWindow?.webContents.send(
+      'calling:set-rtc-stats-interval',
+      intervalMillis
+    );
+  });
+
+  ipc.on('calling:rtc-stats-report', (_, report) => {
+    callingDevToolsWindow?.webContents.send('calling:rtc-stats-report', report);
+  });
+
+  await safeLoadURL(
+    callingDevToolsWindow,
+    await prepareFileUrl([__dirname, '../calling_tools.html'])
+  );
+  callingDevToolsWindow.show();
+}
+
 let aboutWindow: BrowserWindow | undefined;
 async function showAbout() {
   if (aboutWindow) {
@@ -1276,15 +1308,12 @@ async function showAbout() {
     return;
   }
 
-  const titleBarOverlay = await getTitleBarOverlay();
-
   const options = {
     width: 500,
     height: 500,
     resizable: false,
     title: getResolvedMessagesLocale().i18n('icu:aboutSignalDesktop'),
     titleBarStyle: nonMainTitleBarStyle,
-    titleBarOverlay,
     autoHideMenuBar: true,
     backgroundColor: await getBackgroundColor(),
     show: false,
@@ -1301,7 +1330,7 @@ async function showAbout() {
 
   aboutWindow = new BrowserWindow(options);
 
-  handleCommonWindowEvents(aboutWindow, titleBarOverlay);
+  await handleCommonWindowEvents(aboutWindow);
 
   aboutWindow.on('closed', () => {
     aboutWindow = undefined;
@@ -1326,8 +1355,6 @@ async function showSettingsWindow() {
     return;
   }
 
-  const titleBarOverlay = await getTitleBarOverlay();
-
   const options = {
     width: 700,
     height: 700,
@@ -1335,7 +1362,6 @@ async function showSettingsWindow() {
     resizable: false,
     title: getResolvedMessagesLocale().i18n('icu:signalDesktopPreferences'),
     titleBarStyle: mainTitleBarStyle,
-    titleBarOverlay,
     autoHideMenuBar: true,
     backgroundColor: await getBackgroundColor(),
     show: false,
@@ -1347,13 +1373,12 @@ async function showSettingsWindow() {
       contextIsolation: true,
       preload: join(__dirname, '../bundles/settings/preload.js'),
       nativeWindowOpen: true,
-      enablePreferredSizeMode: true,
     },
   };
 
   settingsWindow = new BrowserWindow(options);
 
-  handleCommonWindowEvents(settingsWindow, titleBarOverlay);
+  await handleCommonWindowEvents(settingsWindow);
 
   settingsWindow.on('closed', () => {
     settingsWindow = undefined;
@@ -1423,15 +1448,12 @@ async function showDebugLogWindow() {
     }
   }
 
-  const titleBarOverlay = await getTitleBarOverlay();
-
   const options: Electron.BrowserWindowConstructorOptions = {
     width: 700,
     height: 500,
     resizable: false,
     title: getResolvedMessagesLocale().i18n('icu:debugLog'),
     titleBarStyle: nonMainTitleBarStyle,
-    titleBarOverlay,
     autoHideMenuBar: true,
     backgroundColor: await getBackgroundColor(),
     show: false,
@@ -1448,7 +1470,7 @@ async function showDebugLogWindow() {
 
   debugLogWindow = new BrowserWindow(options);
 
-  handleCommonWindowEvents(debugLogWindow, titleBarOverlay);
+  await handleCommonWindowEvents(debugLogWindow);
 
   debugLogWindow.on('closed', () => {
     debugLogWindow = undefined;
@@ -1508,7 +1530,7 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
 
     permissionsPopupWindow = new BrowserWindow(options);
 
-    handleCommonWindowEvents(permissionsPopupWindow);
+    await handleCommonWindowEvents(permissionsPopupWindow);
 
     permissionsPopupWindow.on('closed', () => {
       removeDarkOverlay();
@@ -1563,35 +1585,79 @@ const runSQLReadonlyHandler = async () => {
   throw error;
 };
 
-async function initializeSQL(
-  userDataPath: string
-): Promise<{ ok: true; error: undefined } | { ok: false; error: Error }> {
-  let key: string | undefined;
-  const keyFromConfig = userConfig.get('key');
-  if (typeof keyFromConfig === 'string') {
-    key = keyFromConfig;
-  } else if (keyFromConfig) {
-    getLogger().warn(
-      "initializeSQL: got key from config, but it wasn't a string"
-    );
+function generateSQLKey(): string {
+  getLogger().info(
+    'key/initialize: Generating new encryption key, since we did not find it on disk'
+  );
+  // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
+  return randomBytes(32).toString('hex');
+}
+
+function getSQLKey(): string {
+  let update = false;
+  const legacyKeyValue = userConfig.get('key');
+  const modernKeyValue = userConfig.get('encryptedKey');
+
+  const isEncryptionAvailable =
+    safeStorage.isEncryptionAvailable() &&
+    (!OS.isLinux() || safeStorage.getSelectedStorageBackend() !== 'basic_text');
+
+  let key: string;
+  if (typeof modernKeyValue === 'string') {
+    if (!isEncryptionAvailable) {
+      throw new Error("Can't decrypt database key");
+    }
+
+    getLogger().info('getSQLKey: decrypting key');
+    const encrypted = Buffer.from(modernKeyValue, 'hex');
+    key = safeStorage.decryptString(encrypted);
+
+    if (legacyKeyValue != null) {
+      getLogger().info('getSQLKey: removing legacy key');
+      userConfig.set('key', undefined);
+    }
+  } else if (typeof legacyKeyValue === 'string') {
+    key = legacyKeyValue;
+    update = isEncryptionAvailable;
+    if (update) {
+      getLogger().info('getSQLKey: migrating key');
+    } else {
+      getLogger().info('getSQLKey: using legacy key');
+    }
+  } else {
+    getLogger().warn("getSQLKey: got key from config, but it wasn't a string");
+    key = generateSQLKey();
+    update = true;
   }
-  if (!key) {
-    getLogger().info(
-      'key/initialize: Generating new encryption key, since we did not find it on disk'
-    );
-    // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
-    key = randomBytes(32).toString('hex');
+
+  if (!update) {
+    return key;
+  }
+
+  if (isEncryptionAvailable) {
+    getLogger().info('getSQLKey: updating encrypted key in the config');
+    const encrypted = safeStorage.encryptString(key).toString('hex');
+    userConfig.set('encryptedKey', encrypted);
+  } else {
+    getLogger().info('getSQLKey: updating plaintext key in the config');
     userConfig.set('key', key);
   }
 
+  return key;
+}
+
+async function initializeSQL(
+  userDataPath: string
+): Promise<{ ok: true; error: undefined } | { ok: false; error: Error }> {
   sqlInitTimeStart = Date.now();
   try {
     // This should be the first awaited call in this function, otherwise
     // `sql.sqlCall` will throw an uninitialized error instead of waiting for
     // init to finish.
     await sql.initialize({
+      appVersion: app.getVersion(),
       configDir: userDataPath,
-      key,
+      key: getSQLKey(),
       logger: getLogger(),
     });
   } catch (error: unknown) {
@@ -1630,6 +1696,7 @@ const onDatabaseError = async (error: string) => {
 
   const buttons = [i18n('icu:copyErrorAndQuit')];
   const copyErrorAndQuitButtonIndex = 0;
+  const SIGNAL_SUPPORT_LINK = 'https://support.signal.org/error';
 
   if (error.includes(DBVersionFromFutureError.name)) {
     // If the DB version is too new, the user likely opened an older version of Signal,
@@ -1639,7 +1706,9 @@ const onDatabaseError = async (error: string) => {
   } else {
     // Otherwise, this is some other kind of DB error, let's give them the option to
     // delete.
-    messageDetail = i18n('icu:databaseError__detail');
+    messageDetail = i18n('icu:databaseError__detail', {
+      link: SIGNAL_SUPPORT_LINK,
+    });
 
     buttons.push(i18n('icu:deleteAndRestart'));
     deleteAllDataButtonIndex = 1;
@@ -1722,7 +1791,7 @@ function loadPreferredSystemLocales(): Array<string> {
   return app.getPreferredSystemLanguages();
 }
 
-async function getDefaultLoginItemSettings(): Promise<LoginItemSettingsOptions> {
+async function getDefaultLoginItemSettings(): Promise<Settings> {
   if (!OS.isWindows()) {
     return {};
   }
@@ -1744,10 +1813,10 @@ async function getDefaultLoginItemSettings(): Promise<LoginItemSettingsOptions> 
 
 // Signal doesn't really use media keys so we set this switch here to unblock
 // them so that other apps can use them if they need to.
-app.commandLine.appendSwitch('disable-features', 'HardwareMediaKeyHandling');
-
-// If we don't set this, Desktop will ask for access to keychain/keyring on startup
-app.commandLine.appendSwitch('password-store', 'basic');
+const featuresToDisable = `HardwareMediaKeyHandling,${app.commandLine.getSwitchValue(
+  'disable-features'
+)}`;
+app.commandLine.appendSwitch('disable-features', featuresToDisable);
 
 // <canvas/> rendering is often utterly broken on Linux when using GPU
 // acceleration.
@@ -1755,30 +1824,42 @@ if (DISABLE_GPU) {
   app.disableHardwareAcceleration();
 }
 
+// This has to run before the 'ready' event.
+electronProtocol.registerSchemesAsPrivileged([
+  {
+    scheme: 'attachment',
+    privileges: {
+      supportFetchAPI: true,
+      stream: true,
+    },
+  },
+]);
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 let ready = false;
 app.on('ready', async () => {
+  dns.setFallback(await getDNSFallback());
+  if (DISABLE_IPV6) {
+    dns.setIPv6Enabled(false);
+  }
+
   const [userDataPath, crashDumpsPath, installPath] = await Promise.all([
     realpath(app.getPath('userData')),
     realpath(app.getPath('crashDumps')),
     realpath(app.getAppPath()),
   ]);
 
-  const webSession = session.fromPartition(STICKER_CREATOR_PARTITION);
+  updateDefaultSession(session.defaultSession);
 
-  for (const s of [session.defaultSession, webSession]) {
-    updateDefaultSession(s);
-
-    if (getEnvironment() !== Environment.Test) {
-      installFileHandler({
-        session: s,
-        userDataPath,
-        installPath,
-        isWindows: OS.isWindows(),
-      });
-    }
+  if (getEnvironment() !== Environment.Test) {
+    installFileHandler({
+      session: session.defaultSession,
+      userDataPath,
+      installPath,
+      isWindows: OS.isWindows(),
+    });
   }
 
   installWebHandler({
@@ -1786,20 +1867,22 @@ app.on('ready', async () => {
     session: session.defaultSession,
   });
 
-  installWebHandler({
-    enableHttp: true,
-    session: webSession,
-  });
-
   logger = await logging.initialize(getMainWindow);
 
   // Write buffered information into newly created logger.
   consoleLogger.writeBufferInto(logger);
 
+  const resourceService = OptionalResourceService.create(
+    join(userDataPath, 'optionalResources')
+  );
+  await EmojiService.create(resourceService);
+
   if (!resolvedTranslationsLocale) {
     preferredSystemLocales = resolveCanonicalLocales(
       loadPreferredSystemLocales()
     );
+
+    localeOverride = await getLocaleOverrideSetting();
 
     const hourCyclePreference = getHourCyclePreference();
     logger.info(`app.ready: hour cycle preference: ${hourCyclePreference}`);
@@ -1811,6 +1894,8 @@ app.on('ready', async () => {
     );
     resolvedTranslationsLocale = loadLocale({
       preferredSystemLocales,
+      localeOverride,
+      localeDirectionTestingOverride,
       hourCyclePreference,
       logger: getLogger(),
     });
@@ -1823,19 +1908,14 @@ app.on('ready', async () => {
   // would still show the window.
   // (User can change these settings later)
   if (
-    isSystemTraySupported(OS, app.getVersion()) &&
+    isSystemTraySupported(OS) &&
     (await systemTraySettingCache.get()) === SystemTraySetting.Uninitialized
   ) {
-    const newValue = SystemTraySetting.MinimizeToSystemTray;
+    const newValue = getDefaultSystemTraySetting(OS, app.getVersion());
     getLogger().info(`app.ready: setting system-tray-setting to ${newValue}`);
     systemTraySettingCache.set(newValue);
 
-    // Update both stores
     ephemeralConfig.set('system-tray-setting', newValue);
-    await sql.sqlCall('createOrUpdateItem', {
-      id: 'system-tray-setting',
-      value: newValue,
-    });
 
     if (OS.isWindows()) {
       getLogger().info('app.ready: enabling open at login');
@@ -1850,6 +1930,32 @@ app.on('ready', async () => {
 
   settingsChannel = new SettingsChannel();
   settingsChannel.install();
+
+  settingsChannel.on('change:systemTraySetting', async rawSystemTraySetting => {
+    const { openAtLogin } = app.getLoginItemSettings(
+      await getDefaultLoginItemSettings()
+    );
+
+    const systemTraySetting = parseSystemTraySetting(rawSystemTraySetting);
+    systemTraySettingCache.set(systemTraySetting);
+
+    if (systemTrayService) {
+      const isEnabled = shouldMinimizeToSystemTray(systemTraySetting);
+      systemTrayService.setEnabled(isEnabled);
+    }
+
+    // Default login item settings might have changed, so update the object.
+    getLogger().info('refresh-auto-launch: new value', openAtLogin);
+    app.setLoginItemSettings({
+      ...(await getDefaultLoginItemSettings()),
+      openAtLogin,
+    });
+  });
+
+  settingsChannel.on(
+    'ephemeral-setting-changed',
+    sendPreferencesChangedEventToWindows
+  );
 
   // We use this event only a single time to log the startup time of the app
   // from when it's first ready until the loading screen disappears.
@@ -2066,9 +2172,13 @@ function setupMenu(options?: Partial<CreateTemplateOptionsType>) {
     setupAsStandalone,
     showAbout,
     showDebugLog: showDebugLogWindow,
+    showCallingDevTools: showCallingDevToolsWindow,
     showKeyboardShortcuts,
     showSettings: showSettingsWindow,
     showWindow,
+    zoomIn,
+    zoomOut,
+    zoomReset,
 
     // overrides
     ...options,
@@ -2087,6 +2197,59 @@ function setupMenu(options?: Partial<CreateTemplateOptionsType>) {
     isProduction: menuOptions.isProduction,
     platform: menuOptions.platform,
   });
+}
+
+async function maybeRequestCloseConfirmation(): Promise<boolean> {
+  if (!mainWindow || !mainWindow.webContents) {
+    return true;
+  }
+
+  getLogger().info(
+    'maybeRequestCloseConfirmation: Checking to see if close confirmation is needed'
+  );
+  const request = new Promise<boolean>(resolveFn => {
+    let timeout: NodeJS.Timeout | undefined;
+
+    if (!mainWindow) {
+      resolveFn(true);
+      return;
+    }
+
+    ipc.once('received-close-confirmation', (_event, result) => {
+      getLogger().info('maybeRequestCloseConfirmation: Response received');
+
+      clearTimeoutIfNecessary(timeout);
+      resolveFn(result);
+    });
+
+    ipc.once('requested-close-confirmation', () => {
+      getLogger().info(
+        'maybeRequestCloseConfirmation: Confirmation dialog shown, waiting for user.'
+      );
+      clearTimeoutIfNecessary(timeout);
+    });
+
+    mainWindow.webContents.send('maybe-request-close-confirmation');
+
+    // Wait a short time then proceed. Normally the dialog should be
+    // shown right away.
+    timeout = setTimeout(() => {
+      getLogger().error(
+        'maybeRequestCloseConfirmation: Response never received; continuing with close.'
+      );
+      resolveFn(true);
+    }, 10 * 1000);
+  });
+
+  try {
+    return await request;
+  } catch (error) {
+    getLogger().error(
+      'maybeRequestCloseConfirmation error:',
+      Errors.toLogFormat(error)
+    );
+    return true;
+  }
 }
 
 async function requestShutdown() {
@@ -2138,14 +2301,48 @@ async function requestShutdown() {
   }
 }
 
-app.on('before-quit', () => {
+function getWindowDebugInfo() {
+  const windows = BrowserWindow.getAllWindows();
+
+  try {
+    return {
+      windowCount: windows.length,
+      mainWindowExists: windows.some(win => win === mainWindow),
+      mainWindowIsFullScreen: mainWindow?.isFullScreen(),
+    };
+  } catch {
+    return {
+      windowCount: 0,
+      mainWindowExists: false,
+      mainWindowIsFullScreen: false,
+    };
+  }
+}
+
+app.on('before-quit', e => {
   getLogger().info('before-quit event', {
     readyForShutdown: windowState.readyForShutdown(),
     shouldQuit: windowState.shouldQuit(),
+    hasEventBeenPrevented: e.defaultPrevented,
+    ...getWindowDebugInfo(),
   });
 
   systemTrayService?.markShouldQuit();
   windowState.markShouldQuit();
+});
+
+app.on('will-quit', e => {
+  getLogger().info('will-quit event', {
+    hasEventBeenPrevented: e.defaultPrevented,
+    ...getWindowDebugInfo(),
+  });
+});
+
+app.on('quit', e => {
+  getLogger().info('quit event', {
+    hasEventBeenPrevented: e.defaultPrevented,
+    ...getWindowDebugInfo(),
+  });
 });
 
 // Quit when all windows are closed.
@@ -2190,26 +2387,6 @@ app.on(
 
 app.setAsDefaultProtocolClient('sgnl');
 app.setAsDefaultProtocolClient('signalcaptcha');
-
-app.on('will-finish-launching', () => {
-  // open-url must be set from within will-finish-launching for macOS
-  // https://stackoverflow.com/a/43949291
-  app.on('open-url', (event, incomingHref) => {
-    event.preventDefault();
-
-    if (isCaptchaHref(incomingHref, getLogger())) {
-      const { captcha } = parseCaptchaHref(incomingHref, getLogger());
-      challengeHandler.handleCaptcha(captcha);
-
-      // Show window after handling captcha
-      showWindow();
-
-      return;
-    }
-
-    handleSgnlHref(incomingHref);
-  });
-});
 
 ipc.on(
   'set-badge',
@@ -2275,35 +2452,20 @@ ipc.on(
   }
 );
 
-ipc.handle(
-  'update-system-tray-setting',
-  async (_event, rawSystemTraySetting /* : Readonly<unknown> */) => {
-    const { openAtLogin } = app.getLoginItemSettings(
-      await getDefaultLoginItemSettings()
-    );
-
-    const systemTraySetting = parseSystemTraySetting(rawSystemTraySetting);
-    systemTraySettingCache.set(systemTraySetting);
-
-    if (systemTrayService) {
-      const isEnabled = shouldMinimizeToSystemTray(systemTraySetting);
-      systemTrayService.setEnabled(isEnabled);
+ipc.on(
+  'screen-share:status-change',
+  (_event: Electron.Event, status: ScreenShareStatus) => {
+    if (!screenShareWindow) {
+      return;
     }
 
-    // Default login item settings might have changed, so update the object.
-    getLogger().info('refresh-auto-launch: new value', openAtLogin);
-    app.setLoginItemSettings({
-      ...(await getDefaultLoginItemSettings()),
-      openAtLogin,
-    });
+    if (status === ScreenShareStatus.Disconnected) {
+      screenShareWindow.close();
+    } else {
+      screenShareWindow.webContents.send('status-change', status);
+    }
   }
 );
-
-ipc.on('close-screen-share-controller', () => {
-  if (screenShareWindow) {
-    screenShareWindow.close();
-  }
-});
 
 ipc.on('stop-screen-share', () => {
   if (mainWindow) {
@@ -2394,10 +2556,12 @@ ipc.on('get-config', async event => {
 
   const parsed = rendererConfigSchema.safeParse({
     name: packageJson.productName,
+    availableLocales: getResolvedMessagesLocale().availableLocales,
     resolvedTranslationsLocale: getResolvedMessagesLocale().name,
     resolvedTranslationsLocaleDirection: getResolvedMessagesLocale().direction,
     hourCyclePreference: getResolvedMessagesLocale().hourCyclePreference,
     preferredSystemLocales: getPreferredSystemLocales(),
+    localeOverride: getLocaleOverride(),
     version: app.getVersion(),
     buildCreation: config.get<number>('buildCreation'),
     buildExpiration: config.get<number>('buildExpiration'),
@@ -2406,16 +2570,20 @@ ipc.on('get-config', async event => {
     storageUrl: config.get<string>('storageUrl'),
     updatesUrl: config.get<string>('updatesUrl'),
     resourcesUrl: config.get<string>('resourcesUrl'),
-    artCreatorUrl: config.get<string>('artCreatorUrl'),
-    cdnUrl0: config.get<ConfigType>('cdn').get<string>('0'),
-    cdnUrl2: config.get<ConfigType>('cdn').get<string>('2'),
-    cdnUrl3: config.get<ConfigType>('cdn').get<string>('3'),
+    cdnUrl0: config.get<string>('cdn.0'),
+    cdnUrl2: config.get<string>('cdn.2'),
+    cdnUrl3: config.get<string>('cdn.3'),
     certificateAuthority: config.get<string>('certificateAuthority'),
     environment:
       !isTestEnvironment(getEnvironment()) && ciMode
         ? Environment.Production
         : getEnvironment(),
+    isMockTestEnvironment: Boolean(process.env.MOCK_TEST),
     ciMode,
+    // Should be already computed and cached at this point
+    dnsFallback: await getDNSFallback(),
+    disableIPv6: DISABLE_IPV6,
+    ciBackupPath: config.get<string | null>('ciBackupPath') || undefined,
     nodeVersion: process.versions.node,
     hostname: os.hostname(),
     osRelease: os.release(),
@@ -2428,6 +2596,8 @@ ipc.on('get-config', async event => {
     registrationChallengeUrl: config.get<string>('registrationChallengeUrl'),
     serverPublicParams: config.get<string>('serverPublicParams'),
     serverTrustRoot: config.get<string>('serverTrustRoot'),
+    genericServerPublicParams: config.get<string>('genericServerPublicParams'),
+    backupServerPublicParams: config.get<string>('backupServerPublicParams'),
     theme,
     appStartInitialSpellcheckSetting,
 
@@ -2465,10 +2635,16 @@ ipc.on('locale-data', event => {
   event.returnValue = getResolvedMessagesLocale().messages;
 });
 
-// TODO DESKTOP-5241
-ipc.on('OS.getHasCustomTitleBar', event => {
+// Ingested in preload.js via a sendSync call
+ipc.on('locale-display-names', event => {
   // eslint-disable-next-line no-param-reassign
-  event.returnValue = OS.hasCustomTitleBar();
+  event.returnValue = getResolvedMessagesLocale().localeDisplayNames;
+});
+
+// Ingested in preload.js via a sendSync call
+ipc.on('country-display-names', event => {
+  // eslint-disable-next-line no-param-reassign
+  event.returnValue = getResolvedMessagesLocale().countryDisplayNames;
 });
 
 // TODO DESKTOP-5241
@@ -2499,97 +2675,85 @@ ipc.handle('DebugLogs.upload', async (_event, content: string) => {
   });
 });
 
-ipc.on('user-config-key', event => {
-  // eslint-disable-next-line no-param-reassign
-  event.returnValue = userConfig.get('key');
-});
-
 ipc.on('get-user-data-path', event => {
   // eslint-disable-next-line no-param-reassign
   event.returnValue = app.getPath('userData');
 });
 
 // Refresh the settings window whenever preferences change
-ipc.on('preferences-changed', () => {
+const sendPreferencesChangedEventToWindows = () => {
   for (const window of activeWindows) {
     if (window.webContents) {
       window.webContents.send('preferences-changed');
     }
   }
-});
+};
+ipc.on('preferences-changed', sendPreferencesChangedEventToWindows);
 
-function getIncomingHref(argv: Array<string>) {
-  return argv.find(arg => isSgnlHref(arg, getLogger()));
+function maybeGetIncomingSignalRoute(argv: Array<string>) {
+  for (const arg of argv) {
+    const route = parseSignalRoute(arg);
+    if (route != null) {
+      return route;
+    }
+  }
+  return null;
 }
 
-function getIncomingCaptchaHref(argv: Array<string>) {
-  return argv.find(arg => isCaptchaHref(arg, getLogger()));
-}
+function handleSignalRoute(route: ParsedSignalRoute) {
+  const log = getLogger();
 
-function handleSgnlHref(incomingHref: string) {
-  let command;
-  let args;
-  let hash;
-
-  if (isSgnlHref(incomingHref, getLogger())) {
-    ({ command, args, hash } = parseSgnlHref(incomingHref, getLogger()));
-  } else if (isSignalHttpsLink(incomingHref, getLogger())) {
-    ({ command, args, hash } = parseSignalHttpsLink(incomingHref, getLogger()));
+  if (mainWindow == null || !mainWindow.webContents) {
+    log.error('handleSignalRoute: mainWindow is null or missing webContents');
+    return;
   }
 
-  if (mainWindow && mainWindow.webContents) {
-    if (command === 'addstickers') {
-      getLogger().info('Opening sticker pack from sgnl protocol link');
-      const packId = args?.get('pack_id');
-      const packKeyHex = args?.get('pack_key');
-      const packKey = packKeyHex
-        ? Buffer.from(packKeyHex, 'hex').toString('base64')
-        : '';
-      mainWindow.webContents.send('show-sticker-pack', { packId, packKey });
-    } else if (command === 'art-auth') {
-      const token = args?.get('token');
-      const pubKeyBase64 = args?.get('pub_key');
+  log.info('handleSignalRoute: Matched signal route:', route.key);
 
-      mainWindow.webContents.send('authorize-art-creator', {
-        token,
-        pubKeyBase64,
-      });
-    } else if (command === 'signal.group' && hash) {
-      getLogger().info('Showing group from sgnl protocol link');
-      mainWindow.webContents.send('show-group-via-link', { hash });
-    } else if (command === 'signal.me' && hash) {
-      getLogger().info('Showing conversation from sgnl protocol link');
-      mainWindow.webContents.send('show-conversation-via-signal.me', { hash });
-    } else if (
-      command === 'show-conversation' &&
-      args &&
-      args.get('conversationId')
-    ) {
-      getLogger().info('Showing conversation from notification');
-      mainWindow.webContents.send('show-conversation-via-notification', {
-        conversationId: args.get('conversationId'),
-        messageId: args.get('messageId'),
-        storyId: args.get('storyId'),
-      });
-    } else if (
-      command === 'start-call-lobby' &&
-      args &&
-      args.get('conversationId')
-    ) {
-      getLogger().info('Starting call lobby from notification');
-      mainWindow.webContents.send('start-call-lobby', {
-        conversationId: args.get('conversationId'),
-      });
-    } else if (command === 'show-window') {
-      mainWindow.webContents.send('show-window');
-    } else if (command === 'set-is-presenting') {
-      mainWindow.webContents.send('set-is-presenting');
-    } else {
-      getLogger().info('Showing warning that we cannot process link');
-      mainWindow.webContents.send('unknown-sgnl-link');
-    }
+  if (route.key === 'artAddStickers') {
+    mainWindow.webContents.send('show-sticker-pack', {
+      packId: route.args.packId,
+      packKey: Buffer.from(route.args.packKey, 'hex').toString('base64'),
+    });
+  } else if (route.key === 'groupInvites') {
+    mainWindow.webContents.send('show-group-via-link', {
+      value: route.args.inviteCode,
+    });
+  } else if (route.key === 'contactByPhoneNumber') {
+    mainWindow.webContents.send('show-conversation-via-signal.me', {
+      kind: 'phoneNumber',
+      value: route.args.phoneNumber,
+    });
+  } else if (route.key === 'contactByEncryptedUsername') {
+    mainWindow.webContents.send('show-conversation-via-signal.me', {
+      kind: 'encryptedUsername',
+      value: route.args.encryptedUsername,
+    });
+  } else if (route.key === 'showConversation') {
+    mainWindow.webContents.send('show-conversation-via-notification', {
+      conversationId: route.args.conversationId,
+      messageId: route.args.messageId,
+      storyId: route.args.storyId,
+    });
+  } else if (route.key === 'startCallLobby') {
+    mainWindow.webContents.send('start-call-lobby', {
+      conversationId: route.args.conversationId,
+    });
+  } else if (route.key === 'linkCall') {
+    mainWindow.webContents.send('start-call-link', {
+      key: route.args.key,
+    });
+  } else if (route.key === 'showWindow') {
+    mainWindow.webContents.send('show-window');
+  } else if (route.key === 'setIsPresenting') {
+    mainWindow.webContents.send('set-is-presenting');
+  } else if (route.key === 'captcha') {
+    challengeHandler.handleCaptcha(route.args.captchaId);
+    // Show window after handling captcha
+    showWindow();
   } else {
-    getLogger().error('Unhandled sgnl link');
+    log.info('handleSignalRoute: Unknown signal route:', route.key);
+    mainWindow.webContents.send('unknown-sgnl-link');
   }
 }
 
@@ -2649,6 +2813,15 @@ async function ensureFilePermissions(onlyFiles?: Array<string>) {
 
   getLogger().info(`Finish ensuring permissions in ${Date.now() - start}ms`);
 }
+
+ipc.handle('get-media-access-status', async (_event, value) => {
+  // This function is not supported on Linux
+  if (!systemPreferences.getMediaAccessStatus) {
+    return undefined;
+  }
+
+  return systemPreferences.getMediaAccessStatus(value);
+});
 
 ipc.handle('get-auto-launch', async () => {
   return app.getLoginItemSettings(await getDefaultLoginItemSettings())
@@ -2746,16 +2919,6 @@ ipc.handle('executeMenuRole', async ({ sender }, untypedRole) => {
       sender.toggleDevTools();
       break;
 
-    case 'resetZoom':
-      sender.setZoomLevel(0);
-      break;
-    case 'zoomIn':
-      sender.setZoomLevel(sender.getZoomLevel() + 1);
-      break;
-    case 'zoomOut':
-      sender.setZoomLevel(sender.getZoomLevel() - 1);
-      break;
-
     case 'togglefullscreen':
       senderWindow?.setFullScreen(!senderWindow?.isFullScreen());
       break;
@@ -2793,39 +2956,17 @@ ipc.handle('getMenuOptions', async () => {
   };
 });
 
-ipc.handle('executeMenuAction', async (_event, action: MenuActionType) => {
-  if (action === 'forceUpdate') {
-    drop(forceUpdate());
-  } else if (action === 'openArtCreator') {
-    drop(openArtCreator());
-  } else if (action === 'openContactUs') {
-    openContactUs();
-  } else if (action === 'openForums') {
-    openForums();
-  } else if (action === 'openJoinTheBeta') {
-    openJoinTheBeta();
-  } else if (action === 'openReleaseNotes') {
-    openReleaseNotes();
-  } else if (action === 'openSupportPage') {
-    openSupportPage();
-  } else if (action === 'setupAsNewDevice') {
-    setupAsNewDevice();
-  } else if (action === 'setupAsStandalone') {
-    setupAsStandalone();
-  } else if (action === 'showAbout') {
-    drop(showAbout());
-  } else if (action === 'showDebugLog') {
-    drop(showDebugLogWindow());
-  } else if (action === 'showKeyboardShortcuts') {
-    showKeyboardShortcuts();
-  } else if (action === 'showSettings') {
-    drop(showSettingsWindow());
-  } else if (action === 'showWindow') {
-    showWindow();
-  } else {
-    throw missingCaseError(action);
-  }
-});
+async function zoomIn() {
+  await zoomFactorService.zoomIn();
+}
+
+async function zoomOut() {
+  await zoomFactorService.zoomOut();
+}
+
+async function zoomReset() {
+  await zoomFactorService.zoomReset();
+}
 
 ipc.handle(
   'net.resolveHost',
@@ -2859,7 +3000,6 @@ async function showStickerCreatorWindow() {
     show: false,
     webPreferences: {
       ...defaultWebPrefs,
-      partition: STICKER_CREATOR_PARTITION,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       sandbox: true,
@@ -2871,7 +3011,7 @@ async function showStickerCreatorWindow() {
 
   stickerCreatorWindow = new BrowserWindow(options);
 
-  handleCommonWindowEvents(stickerCreatorWindow);
+  await handleCommonWindowEvents(stickerCreatorWindow);
 
   stickerCreatorWindow.once('ready-to-show', () => {
     stickerCreatorWindow?.show();
@@ -2888,18 +3028,27 @@ async function showStickerCreatorWindow() {
 }
 
 if (isTestEnvironment(getEnvironment())) {
+  ipc.on('ci:test-electron:getArgv', event => {
+    // eslint-disable-next-line no-param-reassign
+    event.returnValue = process.argv;
+  });
+
   ipc.handle('ci:test-electron:debug', async (_event, info) => {
     process.stdout.write(`ci:test-electron:debug=${JSON.stringify(info)}\n`);
   });
 
-  ipc.handle('ci:test-electron:done', async (_event, info) => {
-    if (!process.env.TEST_QUIT_ON_COMPLETE) {
-      return;
-    }
-
+  ipc.handle('ci:test-electron:event', async (_event, event) => {
     process.stdout.write(
-      `ci:test-electron:done=${JSON.stringify(info)}\n`,
-      () => app.quit()
+      `ci:test-electron:event=${JSON.stringify(event)}\n`,
+      () => {
+        if (event.type !== 'end') {
+          return;
+        }
+        if (!process.env.TEST_QUIT_ON_COMPLETE) {
+          return;
+        }
+        app.quit();
+      }
     );
   });
 }

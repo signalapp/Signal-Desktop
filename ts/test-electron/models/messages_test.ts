@@ -18,7 +18,7 @@ import enMessages from '../../../_locales/en/messages.json';
 import { SendStatus } from '../../messages/MessageSendState';
 import { SignalService as Proto } from '../../protobuf';
 import { generateAci } from '../../types/ServiceId';
-import { getContact } from '../../messages/helpers';
+import { getAuthor } from '../../messages/helpers';
 import { setupI18n } from '../../util/setupI18n';
 import {
   APPLICATION_JSON,
@@ -91,11 +91,11 @@ describe('Message', () => {
     );
   });
 
-  beforeEach(function beforeEach() {
+  beforeEach(function (this: Mocha.Context) {
     this.sandbox = sinon.createSandbox();
   });
 
-  afterEach(function afterEach() {
+  afterEach(function (this: Mocha.Context) {
     this.sandbox.restore();
   });
 
@@ -103,7 +103,7 @@ describe('Message', () => {
   describe('send', () => {
     let oldMessageSender: undefined | MessageSender;
 
-    beforeEach(function beforeEach() {
+    beforeEach(function (this: Mocha.Context) {
       oldMessageSender = window.textsecure.messaging;
 
       window.textsecure.messaging =
@@ -124,7 +124,7 @@ describe('Message', () => {
       }
     });
 
-    it('updates `sendStateByConversationId`', async function test() {
+    it('updates `sendStateByConversationId`', async function (this: Mocha.Context) {
       this.sandbox.useFakeTimers(1234);
 
       const ourConversationId =
@@ -183,7 +183,10 @@ describe('Message', () => {
         editMessage: undefined,
       });
 
-      await message.send(promise);
+      await message.send({
+        promise,
+        targetTimestamp: message.get('timestamp'),
+      });
 
       const result = message.get('sendStateByConversationId') || {};
       assert.hasAllKeys(result, [
@@ -203,7 +206,10 @@ describe('Message', () => {
       const message = createMessage({ type: 'outgoing', source });
 
       const promise = Promise.reject(new Error('foo bar'));
-      await message.send(promise);
+      await message.send({
+        promise,
+        targetTimestamp: message.get('timestamp'),
+      });
 
       const errors = message.get('errors') || [];
       assert.lengthOf(errors, 1);
@@ -217,7 +223,10 @@ describe('Message', () => {
         errors: [new Error('baz qux')],
       };
       const promise = Promise.reject(result);
-      await message.send(promise);
+      await message.send({
+        promise,
+        targetTimestamp: message.get('timestamp'),
+      });
 
       const errors = message.get('errors') || [];
       assert.lengthOf(errors, 1);
@@ -228,7 +237,7 @@ describe('Message', () => {
   describe('getContact', () => {
     it('gets outgoing contact', () => {
       const message = createMessage(attributes);
-      assert.exists(getContact(message.attributes));
+      assert.exists(getAuthor(message.attributes));
     });
 
     it('gets incoming contact', () => {
@@ -236,7 +245,7 @@ describe('Message', () => {
         type: 'incoming',
         source,
       });
-      assert.exists(getContact(message.attributes));
+      assert.exists(getAuthor(message.attributes));
     });
   });
 
@@ -681,7 +690,7 @@ describe('Message', () => {
       );
     });
 
-    it("shows a notification's emoji on non-Linux", async function test() {
+    it("shows a notification's emoji on non-Linux", async function (this: Mocha.Context) {
       this.sandbox.replace(window.Signal, 'OS', {
         ...window.Signal.OS,
         isLinux() {
@@ -710,7 +719,7 @@ describe('Message', () => {
       );
     });
 
-    it('hides emoji on Linux', async function test() {
+    it('hides emoji on Linux', async function (this: Mocha.Context) {
       this.sandbox.replace(window.Signal, 'OS', {
         ...window.Signal.OS,
         isLinux() {

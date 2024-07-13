@@ -6,6 +6,7 @@ import type { EditAttributesType } from '../messageModifiers/Edits';
 import type {
   EditHistoryType,
   MessageAttributesType,
+  QuotedAttachmentType,
   QuotedMessageType,
 } from '../model-types.d';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
@@ -115,11 +116,14 @@ export async function handleEditMessage(
     {
       attachments: mainMessage.attachments,
       body: mainMessage.body,
+      bodyAttachment: mainMessage.bodyAttachment,
       bodyRanges: mainMessage.bodyRanges,
       preview: mainMessage.preview,
       quote: mainMessage.quote,
       sendStateByConversationId: { ...mainMessage.sendStateByConversationId },
       timestamp: mainMessage.timestamp,
+      received_at: mainMessage.received_at,
+      received_at_ms: mainMessage.received_at_ms,
     },
   ];
 
@@ -140,7 +144,7 @@ export async function handleEditMessage(
   // and they have already been downloaded.
   const attachmentSignatures: Map<string, AttachmentType> = new Map();
   const previewSignatures: Map<string, LinkPreviewType> = new Map();
-  const quoteSignatures: Map<string, AttachmentType> = new Map();
+  const quoteSignatures: Map<string, QuotedAttachmentType> = new Map();
 
   mainMessage.attachments?.forEach(attachment => {
     const signature = getAttachmentSignatureSafe(attachment);
@@ -223,13 +227,13 @@ export async function handleEditMessage(
           return attachment;
         }
         const signature = getAttachmentSignatureSafe(attachment.thumbnail);
-        const existingThumbnail = signature
+        const existingQuoteAttachment = signature
           ? quoteSignatures.get(signature)
           : undefined;
-        if (existingThumbnail) {
+        if (existingQuoteAttachment) {
           return {
             ...attachment,
-            thumbnail: existingThumbnail,
+            thumbnail: existingQuoteAttachment.thumbnail,
           };
         }
 
@@ -252,6 +256,8 @@ export async function handleEditMessage(
     sendStateByConversationId:
       upgradedEditedMessageData.sendStateByConversationId,
     timestamp: upgradedEditedMessageData.timestamp,
+    received_at: upgradedEditedMessageData.received_at,
+    received_at_ms: upgradedEditedMessageData.received_at_ms,
     quote: nextEditedMessageQuote,
   };
 
@@ -267,6 +273,8 @@ export async function handleEditMessage(
     bodyRanges: editedMessage.bodyRanges,
     editHistory,
     editMessageTimestamp: upgradedEditedMessageData.timestamp,
+    editMessageReceivedAt: upgradedEditedMessageData.received_at,
+    editMessageReceivedAtMs: upgradedEditedMessageData.received_at_ms,
     preview: editedMessage.preview,
     quote: editedMessage.quote,
   });
@@ -275,6 +283,25 @@ export async function handleEditMessage(
   const updatedFields = await queueAttachmentDownloads(
     mainMessageModel.attributes
   );
+
+  // If we've scheduled a bodyAttachment download, we need that edit to know about it
+  if (updatedFields?.bodyAttachment) {
+    const existing =
+      updatedFields.editHistory || mainMessageModel.get('editHistory') || [];
+
+    updatedFields.editHistory = existing.map(item => {
+      if (item.timestamp !== editedMessage.timestamp) {
+        return item;
+      }
+
+      return {
+        ...item,
+        attachments: updatedFields.attachments,
+        bodyAttachment: updatedFields.bodyAttachment,
+      };
+    });
+  }
+
   if (updatedFields) {
     mainMessageModel.set(updatedFields);
   }
@@ -342,7 +369,6 @@ export async function handleEditMessage(
     await modifyTargetMessage(mainMessageModel, mainMessageConversation, {
       isFirstRun: false,
       skipEdits: true,
-      skipSave: true,
     });
   }
 

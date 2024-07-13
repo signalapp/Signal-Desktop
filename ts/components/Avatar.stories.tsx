@@ -1,13 +1,11 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-import { expect } from '@storybook/jest';
 import { isBoolean } from 'lodash';
-import { within, userEvent } from '@storybook/testing-library';
-
+import { expect, fn, within, userEvent } from '@storybook/test';
 import type { AvatarColorType } from '../types/Colors';
 import type { Props } from './Avatar';
 import enMessages from '../../_locales/en/messages.json';
@@ -20,19 +18,6 @@ import { setupI18n } from '../util/setupI18n';
 
 const i18n = setupI18n('en', enMessages);
 
-const colorMap: Record<string, AvatarColorType> = AvatarColors.reduce(
-  (m, color) => ({
-    ...m,
-    [color]: color,
-  }),
-  {}
-);
-
-const conversationTypeMap: Record<string, Props['conversationType']> = {
-  direct: 'direct',
-  group: 'group',
-};
-
 export default {
   title: 'Components/Avatar',
   component: Avatar,
@@ -42,23 +27,20 @@ export default {
     },
     blur: {
       control: { type: 'radio' },
-      defaultValue: undefined,
-      options: {
-        Undefined: undefined,
-        NoBlur: AvatarBlur.NoBlur,
-        BlurPicture: AvatarBlur.BlurPicture,
-        BlurPictureWithClickToView: AvatarBlur.BlurPictureWithClickToView,
-      },
+      options: [
+        undefined,
+        AvatarBlur.NoBlur,
+        AvatarBlur.BlurPicture,
+        AvatarBlur.BlurPictureWithClickToView,
+      ],
     },
     color: {
-      defaultValue: AvatarColors[0],
-      options: colorMap,
+      options: AvatarColors,
     },
     conversationType: {
       control: { type: 'radio' },
-      options: conversationTypeMap,
+      options: ['direct', 'group'],
     },
-    onClick: { action: true },
     size: {
       control: false,
     },
@@ -68,17 +50,22 @@ export default {
     },
     theme: {
       control: { type: 'radio' },
-      defaultValue: ThemeType.light,
-      options: ThemeType,
+      options: [ThemeType.light, ThemeType.dark],
     },
   },
-} as Meta;
+  args: {
+    blur: undefined,
+    color: AvatarColors[0],
+    onClick: action('onClick'),
+    theme: ThemeType.light,
+  },
+} satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   acceptedMessageRequest: isBoolean(overrideProps.acceptedMessageRequest)
     ? overrideProps.acceptedMessageRequest
     : true,
-  avatarPath: overrideProps.avatarPath || '',
+  avatarUrl: overrideProps.avatarUrl || '',
   badge: overrideProps.badge,
   blur: overrideProps.blur,
   color: overrideProps.color || AvatarColors[0],
@@ -87,7 +74,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isMe: false,
   loading: Boolean(overrideProps.loading),
   noteToSelf: Boolean(overrideProps.noteToSelf),
-  onClick: action('onClick'),
+  onClick: fn(action('onClick')),
   onClickBadge: action('onClickBadge'),
   phoneNumber: overrideProps.phoneNumber || '',
   searchResult: Boolean(overrideProps.searchResult),
@@ -103,89 +90,69 @@ const sizes = Object.values(AvatarSize).filter(
 ) as Array<AvatarSize>;
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<Props> = args => (
-  <>
-    {sizes.map(size => (
-      <Avatar key={size} {...args} size={size} />
-    ))}
-  </>
-);
+const Template: StoryFn<Props> = (args: Props) => {
+  return (
+    <>
+      {sizes.map(size => (
+        <Avatar key={size} {...args} size={size} />
+      ))}
+    </>
+  );
+};
 
 // eslint-disable-next-line react/function-component-definition
-const TemplateSingle: Story<Props> = args => (
+const TemplateSingle: StoryFn<Props> = (args: Props) => (
   <Avatar {...args} size={AvatarSize.EIGHTY} />
 );
 
 export const Default = Template.bind({});
 Default.args = createProps({
-  avatarPath: '/fixtures/giphy-GVNvOUpeYmI7e.gif',
+  avatarUrl: '/fixtures/giphy-GVNvOUpeYmI7e.gif',
 });
-Default.play = async ({ args, canvasElement }) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+Default.play = async (context: any) => {
+  const { args, canvasElement } = context;
   const canvas = within(canvasElement);
   const [avatar] = canvas.getAllByRole('button');
   await userEvent.click(avatar);
   await expect(args.onClick).toHaveBeenCalled();
 };
-Default.story = {
-  name: 'Avatar',
-};
 
 export const WithBadge = Template.bind({});
 WithBadge.args = createProps({
-  avatarPath: '/fixtures/kitten-3-64-64.jpg',
+  avatarUrl: '/fixtures/kitten-3-64-64.jpg',
   badge: getFakeBadge(),
 });
-WithBadge.story = {
-  name: 'With badge',
-};
 
 export const WideImage = Template.bind({});
 WideImage.args = createProps({
-  avatarPath: '/fixtures/wide.jpg',
+  avatarUrl: '/fixtures/wide.jpg',
 });
-WideImage.story = {
-  name: 'Wide image',
-};
 
 export const OneWordName = Template.bind({});
 OneWordName.args = createProps({
   title: 'John',
 });
-OneWordName.story = {
-  name: 'One-word Name',
-};
 
 export const TwoWordName = Template.bind({});
 TwoWordName.args = createProps({
   title: 'John Smith',
 });
-TwoWordName.story = {
-  name: 'Two-word Name',
-};
 
 export const WideInitials = Template.bind({});
 WideInitials.args = createProps({
   title: 'Walter White',
 });
-WideInitials.story = {
-  name: 'Wide initials',
-};
 
 export const ThreeWordName = Template.bind({});
 ThreeWordName.args = createProps({
   title: 'Walter H. White',
 });
-ThreeWordName.story = {
-  name: 'Three-word name',
-};
 
 export const NoteToSelf = Template.bind({});
 NoteToSelf.args = createProps({
   noteToSelf: true,
 });
-NoteToSelf.story = {
-  name: 'Note to Self',
-};
 
 export const ContactIcon = Template.bind({});
 ContactIcon.args = createProps();
@@ -219,17 +186,14 @@ BrokenColor.args = createProps({
 
 export const BrokenAvatar = Template.bind({});
 BrokenAvatar.args = createProps({
-  avatarPath: 'badimage.png',
+  avatarUrl: 'badimage.png',
 });
 
 export const BrokenAvatarForGroup = Template.bind({});
 BrokenAvatarForGroup.args = createProps({
-  avatarPath: 'badimage.png',
+  avatarUrl: 'badimage.png',
   conversationType: 'group',
 });
-BrokenAvatarForGroup.story = {
-  name: 'Broken Avatar for Group',
-};
 
 export const Loading = Template.bind({});
 Loading.args = createProps({
@@ -239,45 +203,29 @@ Loading.args = createProps({
 export const BlurredBasedOnProps = TemplateSingle.bind({});
 BlurredBasedOnProps.args = createProps({
   acceptedMessageRequest: false,
-  avatarPath: '/fixtures/kitten-3-64-64.jpg',
+  avatarUrl: '/fixtures/kitten-3-64-64.jpg',
 });
-
-BlurredBasedOnProps.story = {
-  name: 'Blurred based on props',
-};
 
 export const ForceBlurred = TemplateSingle.bind({});
 ForceBlurred.args = createProps({
-  avatarPath: '/fixtures/kitten-3-64-64.jpg',
+  avatarUrl: '/fixtures/kitten-3-64-64.jpg',
   blur: AvatarBlur.BlurPicture,
 });
-ForceBlurred.story = {
-  name: 'Force-blurred',
-};
 
 export const BlurredWithClickToView = TemplateSingle.bind({});
 BlurredWithClickToView.args = createProps({
-  avatarPath: '/fixtures/kitten-3-64-64.jpg',
+  avatarUrl: '/fixtures/kitten-3-64-64.jpg',
   blur: AvatarBlur.BlurPictureWithClickToView,
 });
-BlurredWithClickToView.story = {
-  name: 'Blurred with "click to view"',
-};
 
 export const StoryUnread = TemplateSingle.bind({});
 StoryUnread.args = createProps({
-  avatarPath: '/fixtures/kitten-3-64-64.jpg',
+  avatarUrl: '/fixtures/kitten-3-64-64.jpg',
   storyRing: HasStories.Unread,
 });
-StoryUnread.story = {
-  name: 'Story: unread',
-};
 
 export const StoryRead = TemplateSingle.bind({});
 StoryRead.args = createProps({
-  avatarPath: '/fixtures/kitten-3-64-64.jpg',
+  avatarUrl: '/fixtures/kitten-3-64-64.jpg',
   storyRing: HasStories.Read,
 });
-StoryRead.story = {
-  name: 'Story: read',
-};

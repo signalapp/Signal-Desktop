@@ -117,6 +117,10 @@ export class SystemTrayService {
     this.isQuitting = true;
   }
 
+  isVisible(): boolean {
+    return this.tray !== undefined;
+  }
+
   private render(): void {
     if (this.isEnabled && this.browserWindow) {
       this.renderEnabled();
@@ -247,6 +251,7 @@ function getIcon(unreadCount: number) {
     case 'darwin':
       iconSize = '16';
       break;
+    case 'linux':
     case 'win32':
       iconSize = '32';
       break;

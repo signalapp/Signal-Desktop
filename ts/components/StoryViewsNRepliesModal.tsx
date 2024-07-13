@@ -51,6 +51,7 @@ const MESSAGE_DEFAULT_PROPS = {
   isMessageRequestAccepted: true,
   isSelected: false,
   isSelectMode: false,
+  isSMS: false,
   onToggleSelect: shouldNeverBeCalled,
   onReplyToMessage: shouldNeverBeCalled,
   kickOffAttachmentDownload: shouldNeverBeCalled,
@@ -91,8 +92,6 @@ export type PropsType = {
   i18n: LocalizerType;
   platform: string;
   isFormattingEnabled: boolean;
-  isFormattingFlagEnabled: boolean;
-  isFormattingSpoilersFlagEnabled: boolean;
   isInternalUser?: boolean;
   onChangeViewTarget: (target: StoryViewTargetType) => unknown;
   onClose: () => unknown;
@@ -128,8 +127,6 @@ export function StoryViewsNRepliesModal({
   i18n,
   platform,
   isFormattingEnabled,
-  isFormattingFlagEnabled,
-  isFormattingSpoilersFlagEnabled,
   isInternalUser,
   onChangeViewTarget,
   onClose,
@@ -240,9 +237,8 @@ export function StoryViewsNRepliesModal({
               getPreferredBadge={getPreferredBadge}
               i18n={i18n}
               inputApi={inputApiRef}
+              isActive
               isFormattingEnabled={isFormattingEnabled}
-              isFormattingFlagEnabled={isFormattingFlagEnabled}
-              isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
               moduleClassName="StoryViewsNRepliesModal__input"
               onCloseLinkPreview={noop}
               onEditorStateChange={({ messageText }) => {
@@ -264,8 +260,15 @@ export function StoryViewsNRepliesModal({
               }
               platform={platform}
               sendCounter={0}
-              sortedGroupMembers={sortedGroupMembers}
+              skinTone={skinTone ?? null}
+              sortedGroupMembers={sortedGroupMembers ?? null}
               theme={ThemeType.dark}
+              conversationId={null}
+              draftBodyRanges={null}
+              draftEditMessage={null}
+              large={null}
+              shouldHidePopovers={null}
+              linkPreviewResult={null}
             >
               <EmojiButton
                 className="StoryViewsNRepliesModal__emoji-button"
@@ -365,7 +368,7 @@ export function StoryViewsNRepliesModal({
             <div>
               <Avatar
                 acceptedMessageRequest={view.recipient.acceptedMessageRequest}
-                avatarPath={view.recipient.avatarPath}
+                avatarUrl={view.recipient.avatarUrl}
                 badge={undefined}
                 color={getAvatarColor(view.recipient.color)}
                 conversationType="direct"
@@ -439,16 +442,16 @@ export function StoryViewsNRepliesModal({
       <Modal
         modalName="StoryViewsNRepliesModal"
         i18n={i18n}
-        moduleClassName="StoryViewsNRepliesModal"
+        moduleClassName={classNames({
+          StoryViewsNRepliesModal: true,
+          'StoryViewsNRepliesModal--group': Boolean(group),
+        })}
         onClose={onClose}
+        padded={false}
         useFocusTrap={Boolean(composerElement)}
         theme={Theme.Dark}
       >
-        <div
-          className={classNames({
-            'StoryViewsNRepliesModal--group': Boolean(group),
-          })}
-        >
+        <div className="StoryViewsNRepliesModal__content">
           {tabsElement || (
             <>
               {viewsElement || repliesElement}
@@ -547,7 +550,7 @@ function ReplyOrReactionMessage({
           <div className="StoryViewsNRepliesModal__reaction--container">
             <Avatar
               acceptedMessageRequest={reply.author.acceptedMessageRequest}
-              avatarPath={reply.author.avatarPath}
+              avatarUrl={reply.author.avatarUrl}
               badge={getPreferredBadge(reply.author.badges)}
               color={getAvatarColor(reply.author.color)}
               conversationType="direct"

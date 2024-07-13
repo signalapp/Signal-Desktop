@@ -23,7 +23,7 @@ import {
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import * as Errors from '../types/errors';
-import { getValue, isEnabled } from '../RemoteConfig';
+import { getValue } from '../RemoteConfig';
 import type { ServiceIdString } from '../types/ServiceId';
 import { ServiceIdKind } from '../types/ServiceId';
 import { isRecord } from './isRecord';
@@ -199,11 +199,7 @@ export async function sendContentMessageToGroup({
     'sendContentMessageToGroup: textsecure.messaging not available!'
   );
 
-  if (
-    isEnabled('desktop.sendSenderKey3') &&
-    isEnabled('desktop.senderKey.send') &&
-    sendTarget.isValid()
-  ) {
+  if (sendTarget.isValid()) {
     try {
       return await sendToGroupViaSenderKey({
         contentHint,
@@ -724,6 +720,37 @@ export async function sendToGroupViaSenderKey(options: {
   }
 }
 
+// Public utility methods
+
+export async function resetSenderKey(
+  sendTarget: SenderKeyTargetType
+): Promise<void> {
+  const logId = sendTarget.idForLogging();
+
+  log.info(`resetSenderKey/${logId}: Sender key needs reset. Clearing data...`);
+  const senderKeyInfo = sendTarget.getSenderKeyInfo();
+  if (!senderKeyInfo) {
+    log.warn(`resetSenderKey/${logId}: No sender key info`);
+    return;
+  }
+
+  const { distributionId } = senderKeyInfo;
+  const ourAddress = getOurAddress();
+
+  // Note: We preserve existing distributionId to minimize space for sender key storage
+  await sendTarget.saveSenderKeyInfo({
+    createdAtDate: Date.now(),
+    distributionId,
+    memberDevices: [],
+  });
+
+  const ourAci = window.storage.user.getCheckedAci();
+  await window.textsecure.storage.protocol.removeSenderKey(
+    new QualifiedAddress(ourAci, ourAddress),
+    distributionId
+  );
+}
+
 // Utility Methods
 
 function mergeSendResult({
@@ -819,6 +846,11 @@ export function _shouldFailSend(error: unknown, logId: string): boolean {
   //   SendMessageChallengeError
   //   MessageError
   if (isRecord(error) && typeof error.code === 'number') {
+    if (error.code === -1) {
+      logError("We don't have connectivity. Failing.");
+      return true;
+    }
+
     if (error.code === 400) {
       logError('Invalid request, failing.');
       return true;
@@ -1232,33 +1264,6 @@ function getOurAddress(): Address {
   return new Address(ourAci, ourDeviceId);
 }
 
-async function resetSenderKey(sendTarget: SenderKeyTargetType): Promise<void> {
-  const logId = sendTarget.idForLogging();
-
-  log.info(`resetSenderKey/${logId}: Sender key needs reset. Clearing data...`);
-  const senderKeyInfo = sendTarget.getSenderKeyInfo();
-  if (!senderKeyInfo) {
-    log.warn(`resetSenderKey/${logId}: No sender key info`);
-    return;
-  }
-
-  const { distributionId } = senderKeyInfo;
-  const ourAddress = getOurAddress();
-
-  // Note: We preserve existing distributionId to minimize space for sender key storage
-  await sendTarget.saveSenderKeyInfo({
-    createdAtDate: Date.now(),
-    distributionId,
-    memberDevices: [],
-  });
-
-  const ourAci = window.storage.user.getCheckedAci();
-  await window.textsecure.storage.protocol.removeSenderKey(
-    new QualifiedAddress(ourAci, ourAddress),
-    distributionId
-  );
-}
-
 function getAccessKey(
   attributes: ConversationAttributesType,
   { story }: { story?: boolean }
@@ -1273,10 +1278,11 @@ function getAccessKey(
     return accessKey || undefined;
   }
 
-  if (
-    sealedSender === SEALED_SENDER.UNKNOWN ||
-    sealedSender === SEALED_SENDER.UNRESTRICTED
-  ) {
+  if (sealedSender === SEALED_SENDER.UNKNOWN) {
+    return accessKey || ZERO_ACCESS_KEY;
+  }
+
+  if (sealedSender === SEALED_SENDER.UNRESTRICTED) {
     return ZERO_ACCESS_KEY;
   }
 

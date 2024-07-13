@@ -2,14 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { last } from 'lodash';
-import React from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-
 import { TypingBubble } from '../../components/conversation/TypingBubble';
 import { useGlobalModalActions } from '../ducks/globalModals';
-import { useProxySelector } from '../../hooks/useProxySelector';
 import { getIntl, getTheme } from '../selectors/user';
-import { getTimelineItem } from '../selectors/timeline';
+import { useTimelineItem } from '../selectors/timeline';
 import {
   getConversationSelector,
   getConversationMessagesSelector,
@@ -20,7 +18,7 @@ type ExternalProps = {
   conversationId: string;
 };
 
-export function SmartTypingBubble({
+export const SmartTypingBubble = memo(function SmartTypingBubble({
   conversationId,
 }: ExternalProps): JSX.Element {
   const i18n = useSelector(getIntl);
@@ -37,15 +35,15 @@ export function SmartTypingBubble({
     conversationId
   );
   const lastMessageId = last(conversationMessages.items);
-  const lastItem = useProxySelector(getTimelineItem, lastMessageId);
+  const lastItem = useTimelineItem(lastMessageId, conversationId);
   let lastItemAuthorId: string | undefined;
   let lastItemTimestamp: number | undefined;
   if (lastItem?.data) {
     if ('author' in lastItem.data) {
       lastItemAuthorId = lastItem.data.author?.id;
     }
-    if ('timestamp' in lastItem.data) {
-      lastItemTimestamp = lastItem.data.timestamp;
+    if ('receivedAtMS' in lastItem.data) {
+      lastItemTimestamp = lastItem.data.receivedAtMS;
     }
   }
 
@@ -66,4 +64,4 @@ export function SmartTypingBubble({
       showContactModal={showContactModal}
     />
   );
-}
+});

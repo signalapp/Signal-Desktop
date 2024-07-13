@@ -1,0 +1,28 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.CollidingAvatars {
+  position: relative;
+  width: 36px;
+  height: 36px;
+
+  &__avatar {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+  }
+
+  &__avatar:nth-child(1) {
+    // See https://developer.mozilla.org/en-US/docs/Web/CSS/clip-path#clip-source
+    clip-path: var(--clip-path);
+  }
+
+  &__avatar:nth-child(2) {
+    inset-block-start: 12px;
+    inset-inline-start: 12px;
+  }
+
+  &__clip_svg {
+    position: absolute;
+  }
+}

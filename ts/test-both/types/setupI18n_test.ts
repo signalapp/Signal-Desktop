@@ -14,19 +14,6 @@ describe('setupI18n', () => {
   });
 
   describe('i18n', () => {
-    it('throws an error for legacy strings', () => {
-      assert.throws(() => {
-        // eslint-disable-next-line local-rules/valid-i18n-keys
-        i18n('legacystring');
-      }, /Legacy message format is no longer supported/);
-    });
-
-    it('throws an error for unknown string', () => {
-      assert.throws(() => {
-        // eslint-disable-next-line local-rules/valid-i18n-keys
-        assert.strictEqual(i18n('icu:random'), '');
-      }, /missing translation/);
-    });
     it('returns message for given string', () => {
       assert.strictEqual(i18n('icu:reportIssue'), 'Contact Support');
     });
@@ -74,17 +61,6 @@ describe('setupI18n', () => {
         result,
         'Click the ICONIC above and search for your contacts or groups to message.'
       );
-    });
-  });
-
-  describe('isLegacyFormat', () => {
-    it('returns false for new format', () => {
-      assert.isFalse(
-        i18n.isLegacyFormat(
-          'icu:AddUserToAnotherGroupModal__toast--adding-user-to-group'
-        )
-      );
-      assert.isTrue(i18n.isLegacyFormat('softwareAcknowledgments'));
     });
   });
 });

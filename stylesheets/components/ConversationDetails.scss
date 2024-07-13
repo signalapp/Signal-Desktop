@@ -2,84 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .ConversationDetails {
-  &-header {
-    &__root {
-      align-items: center;
-      display: flex;
-      flex-direction: column;
-      margin-block: 0 20px;
-      margin-inline: 0;
-      padding-block: 0;
-      padding-inline: 24px;
-      text-align: center;
-      width: 100%;
-    }
-
-    &__root--editable {
-      @include button-reset();
-    }
-
-    &__root--editable {
-      cursor: pointer;
-    }
-
-    &__title {
-      @include font-title-1;
-      align-items: center;
-      display: flex;
-      justify-content: center;
-      padding-bottom: 8px;
-      padding-top: 12px;
-      user-select: text;
-    }
-
-    &__subtitle {
-      @include font-body-1;
-      color: $color-gray-60;
-      justify-content: center;
-      padding-bottom: 6px;
-
-      @include dark-theme {
-        color: $color-gray-25;
-      }
-
-      &__about,
-      &__phone-number {
-        user-select: text;
-      }
-    }
-
-    &__root--editable &__title {
-      $icon: '../images/icons/v3/edit/edit.svg';
-
-      &::after {
-        $size: 24px;
-
-        content: '';
-        height: $size;
-        inset-inline-start: $size + 13px;
-        margin-inline-start: -$size;
-        opacity: 0;
-        position: relative;
-        transition: opacity 100ms ease-out;
-        width: $size;
-
-        @include light-theme {
-          @include color-svg($icon, $color-gray-60);
-        }
-        @include dark-theme {
-          @include color-svg($icon, $color-gray-25);
-        }
-      }
-    }
-
-    &__root--editable:hover &__title::after {
-      opacity: 1;
-    }
-  }
-
   &__chat-color {
-    @include color-bubble(20px);
+    @include color-bubble(32px);
   }
 
   &-membership-list,
@@ -265,6 +189,12 @@
         }
       }
 
+      &--forward {
+        &::after {
+          @include details-icon('../images/icons/v3/forward/forward.svg');
+        }
+      }
+
       &--down {
         border-radius: 18px;
         @include light-theme {
@@ -376,6 +306,7 @@
       padding-inline: 24px;
       user-select: none;
       width: 100%;
+      @include font-body-2;
 
       &--button {
         color: inherit;
@@ -426,7 +357,6 @@
     }
 
     &__info {
-      @include font-body-2;
       margin-top: 4px;
 
       @include light-theme {
@@ -519,6 +449,10 @@
   }
 }
 
+.ConversationDetails__MemberName {
+  user-select: text;
+}
+
 .ConversationDetails__CallHistoryGroup__List {
   list-style: none;
   margin: 0;
@@ -558,10 +492,58 @@
   }
 }
 
+.ConversationDetails__CallHistoryGroup__ItemIcon--Adhoc {
+  @include light-theme {
+    @include color-svg('../images/icons/v3/link/link.svg', $color-black);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v3/link/link.svg', $color-gray-15);
+  }
+}
+
 .ConversationDetails__CallHistoryGroup__ItemLabel {
   flex: 1;
 }
 
 .ConversationDetails__CallHistoryGroup__ItemTimestamp {
   flex-shrink: 0;
+}
+
+.ConversationDetails--nickname-actions {
+  @include button-reset;
+  width: 32px;
+  height: 32px;
+  &::before {
+    display: inline-block;
+    content: '';
+    width: 20px;
+    height: 20px;
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-down.svg',
+        $color-black
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-down.svg',
+        $color-white
+      );
+    }
+  }
+}
+
+.ConversationDetails--nickname-actions-label {
+  @include sr-only;
+}
+
+.ConversationDetails--nickname-actions--delete {
+  width: 16px;
+  height: 16px;
+  @include light-theme {
+    @include color-svg('../images/icons/v3/trash/trash.svg', $color-black);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v3/trash/trash.svg', $color-white);
+  }
 }

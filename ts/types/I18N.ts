@@ -19,6 +19,7 @@ type SmartlingConfigType = {
 export type LocaleMessageType = {
   messageformat?: string;
   description?: string;
+  ignoreUnused?: boolean;
 };
 
 export type LocaleMessagesType = {
@@ -26,10 +27,6 @@ export type LocaleMessagesType = {
   //  we get typescript error 2411 (incompatible type signatures) if we try to
   //  special-case that key.
   [key: string]: LocaleMessageType | SmartlingConfigType;
-};
-
-export type ReplacementValuesType<T> = {
-  [key: string]: T;
 };
 
 export type LocaleType = {

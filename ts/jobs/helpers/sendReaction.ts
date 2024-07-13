@@ -173,6 +173,11 @@ export async function sendReaction(
         })
       ),
     });
+    // Adds the reaction's attributes to the message cache so that we can
+    // safely `set` on it later.
+    window.MessageCache.toMessageAttributes(
+      ephemeralMessageForReactionSend.attributes
+    );
 
     ephemeralMessageForReactionSend.doNotSave = true;
 
@@ -193,10 +198,11 @@ export async function sendReaction(
         recipients: allRecipientServiceIds,
         timestamp: pendingReaction.timestamp,
       });
-      await ephemeralMessageForReactionSend.sendSyncMessageOnly(
+      await ephemeralMessageForReactionSend.sendSyncMessageOnly({
         dataMessage,
-        saveErrors
-      );
+        saveErrors,
+        targetTimestamp: pendingReaction.timestamp,
+      });
 
       didFullySend = true;
       successfulConversationIds.add(ourConversationId);
@@ -284,13 +290,14 @@ export async function sendReaction(
         );
       }
 
-      await ephemeralMessageForReactionSend.send(
-        handleMessageSend(promise, {
+      await ephemeralMessageForReactionSend.send({
+        promise: handleMessageSend(promise, {
           messageIds: [messageId],
           sendType: 'reaction',
         }),
-        saveErrors
-      );
+        saveErrors,
+        targetTimestamp: pendingReaction.timestamp,
+      });
 
       // Because message.send swallows and processes errors, we'll await the inner promise
       //   to get the SendMessageProtoError, which gives us information upstream
@@ -382,7 +389,7 @@ const setReactions = (
   if (reactions.length) {
     message.set('reactions', reactions);
   } else {
-    message.unset('reactions');
+    message.set('reactions', undefined);
   }
 };
 

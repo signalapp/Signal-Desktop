@@ -7,7 +7,7 @@ import { compact, flatten } from 'lodash';
 
 import { ContactName } from './ContactName';
 import { SystemMessage } from './SystemMessage';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import type { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
@@ -69,14 +69,14 @@ function GroupNotificationChange({
   switch (type) {
     case 'name':
       return (
-        <Intl
+        <I18n
           i18n={i18n}
           id="icu:titleIsNow"
           components={{ name: newName || '' }}
         />
       );
     case 'avatar':
-      return <Intl i18n={i18n} id="icu:updatedGroupAvatar" />;
+      return <I18n i18n={i18n} id="icu:updatedGroupAvatar" />;
     case 'add':
       if (!contacts || !contacts.length) {
         throw new Error('Group update is missing contacts');
@@ -87,13 +87,13 @@ function GroupNotificationChange({
           {otherPeople.length > 0 && (
             <>
               {otherPeople.length === 1 ? (
-                <Intl
+                <I18n
                   i18n={i18n}
                   id="icu:joinedTheGroup"
-                  components={{ name: otherPeopleWithCommas }}
+                  components={{ name: otherPeople[0] }}
                 />
               ) : (
-                <Intl
+                <I18n
                   i18n={i18n}
                   id="icu:multipleJoinedTheGroup"
                   components={{ names: otherPeopleWithCommas }}
@@ -103,7 +103,7 @@ function GroupNotificationChange({
           )}
           {contactsIncludesMe && (
             <div className="module-group-notification__change">
-              <Intl i18n={i18n} id="icu:youJoinedTheGroup" />
+              <I18n i18n={i18n} id="icu:youJoinedTheGroup" />
             </div>
           )}
         </>
@@ -118,13 +118,13 @@ function GroupNotificationChange({
       }
 
       return contacts.length > 1 ? (
-        <Intl
+        <I18n
           id="icu:multipleLeftTheGroup"
           i18n={i18n}
-          components={{ name: otherPeopleWithCommas }}
+          components={{ name: otherPeople[0] }}
         />
       ) : (
-        <Intl
+        <I18n
           id="icu:leftTheGroup"
           i18n={i18n}
           components={{ name: otherPeopleWithCommas }}
@@ -151,9 +151,9 @@ export function GroupNotification({
   const isLeftOnly = changes.length === 1 && firstChange?.type === 'remove';
 
   const fromLabel = from.isMe ? (
-    <Intl i18n={i18n} id="icu:youUpdatedTheGroup" />
+    <I18n i18n={i18n} id="icu:youUpdatedTheGroup" />
   ) : (
-    <Intl
+    <I18n
       i18n={i18n}
       id="icu:updatedTheGroup"
       components={{ name: <ContactName title={from.title} /> }}

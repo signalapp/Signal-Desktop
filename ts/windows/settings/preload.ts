@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { contextBridge, ipcRenderer, webFrame } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron';
 import { MinimalSignalContext } from '../minimalContext';
 
 import type { PropsPreloadType } from '../../components/Preferences';
@@ -22,6 +22,7 @@ function doneRendering() {
 
 const settingMessageAudio = createSetting('audioMessage');
 const settingAudioNotification = createSetting('audioNotification');
+const settingAutoConvertEmoji = createSetting('autoConvertEmoji');
 const settingAutoDownloadUpdate = createSetting('autoDownloadUpdate');
 const settingAutoLaunch = createSetting('autoLaunch');
 const settingCallRingtoneNotification = createSetting(
@@ -30,6 +31,7 @@ const settingCallRingtoneNotification = createSetting(
 const settingCallSystemNotification = createSetting('callSystemNotification');
 const settingCountMutedConversations = createSetting('countMutedConversations');
 const settingDeviceName = createSetting('deviceName', { setter: false });
+const settingPhoneNumber = createSetting('phoneNumber', { setter: false });
 const settingHideMenuBar = createSetting('hideMenuBar');
 const settingIncomingCallNotification = createSetting(
   'incomingCallNotification'
@@ -46,6 +48,7 @@ const settingSpellCheck = createSetting('spellCheck');
 const settingTextFormatting = createSetting('textFormatting');
 const settingTheme = createSetting('themeSetting');
 const settingSystemTraySetting = createSetting('systemTraySetting');
+const settingLocaleOverride = createSetting('localeOverride');
 
 const settingLastSyncTime = createSetting('lastSyncTime');
 
@@ -78,13 +81,8 @@ const settingUniversalExpireTimer = createSetting('universalExpireTimer');
 // Callbacks
 const ipcGetAvailableIODevices = createCallback('getAvailableIODevices');
 const ipcGetCustomColors = createCallback('getCustomColors');
-const ipcIsFormattingFlagEnabled = createCallback('isFormattingFlagEnabled');
 const ipcIsSyncNotSupported = createCallback('isPrimary');
 const ipcMakeSyncRequest = createCallback('syncRequest');
-const ipcPNP = createCallback('isPhoneNumberSharingEnabled');
-const ipcShouldShowStoriesSettings = createCallback(
-  'shouldShowStoriesSettings'
-);
 const ipcDeleteAllMyStories = createCallback('deleteAllMyStories');
 
 // ChatColorPicker redux hookups
@@ -143,6 +141,7 @@ async function renderPreferences() {
     blockedCount,
     deviceName,
     hasAudioNotifications,
+    hasAutoConvertEmoji,
     hasAutoDownloadUpdate,
     hasAutoLaunch,
     hasCallNotifications,
@@ -161,14 +160,14 @@ async function renderPreferences() {
     hasStoriesDisabled,
     hasTextFormatting,
     hasTypingIndicators,
-    isFormattingFlagEnabled,
-    isPhoneNumberSharingSupported,
     lastSyncTime,
     notificationContent,
+    phoneNumber,
     selectedCamera,
     selectedMicrophone,
     selectedSpeaker,
     sentMediaQualitySetting,
+    localeOverride,
     systemTraySetting,
     themeSetting,
     universalExpireTimer,
@@ -180,11 +179,11 @@ async function renderPreferences() {
     customColors,
     defaultConversationColor,
     isSyncNotSupported,
-    shouldShowStoriesSettings,
   } = await awaitObject({
     blockedCount: settingBlockedCount.getValue(),
     deviceName: settingDeviceName.getValue(),
     hasAudioNotifications: settingAudioNotification.getValue(),
+    hasAutoConvertEmoji: settingAutoConvertEmoji.getValue(),
     hasAutoDownloadUpdate: settingAutoDownloadUpdate.getValue(),
     hasAutoLaunch: settingAutoLaunch.getValue(),
     hasCallNotifications: settingCallSystemNotification.getValue(),
@@ -203,13 +202,14 @@ async function renderPreferences() {
     hasStoriesDisabled: settingHasStoriesDisabled.getValue(),
     hasTextFormatting: settingTextFormatting.getValue(),
     hasTypingIndicators: settingTypingIndicators.getValue(),
-    isPhoneNumberSharingSupported: ipcPNP(),
     lastSyncTime: settingLastSyncTime.getValue(),
     notificationContent: settingNotificationSetting.getValue(),
+    phoneNumber: settingPhoneNumber.getValue(),
     selectedCamera: settingVideoInput.getValue(),
     selectedMicrophone: settingAudioInput.getValue(),
     selectedSpeaker: settingAudioOutput.getValue(),
     sentMediaQualitySetting: settingSentMediaQuality.getValue(),
+    localeOverride: settingLocaleOverride.getValue(),
     systemTraySetting: settingSystemTraySetting.getValue(),
     themeSetting: settingTheme.getValue(),
     universalExpireTimer: settingUniversalExpireTimer.getValue(),
@@ -221,9 +221,7 @@ async function renderPreferences() {
     availableIODevices: ipcGetAvailableIODevices(),
     customColors: ipcGetCustomColors(),
     defaultConversationColor: ipcGetDefaultConversationColor(),
-    isFormattingFlagEnabled: ipcIsFormattingFlagEnabled(),
     isSyncNotSupported: ipcIsSyncNotSupported(),
-    shouldShowStoriesSettings: ipcShouldShowStoriesSettings(),
   });
 
   const { availableCameras, availableMicrophones, availableSpeakers } =
@@ -236,9 +234,15 @@ async function renderPreferences() {
     settingUniversalExpireTimer.setValue
   );
 
+  const availableLocales = MinimalSignalContext.getI18nAvailableLocales();
+  const resolvedLocale = MinimalSignalContext.getI18nLocale();
+  const preferredSystemLocales =
+    MinimalSignalContext.getPreferredSystemLocales();
+
   const props = {
     // Settings
     availableCameras,
+    availableLocales,
     availableMicrophones,
     availableSpeakers,
     blockedCount,
@@ -246,6 +250,7 @@ async function renderPreferences() {
     defaultConversationColor,
     deviceName,
     hasAudioNotifications,
+    hasAutoConvertEmoji,
     hasAutoDownloadUpdate,
     hasAutoLaunch,
     hasCallNotifications,
@@ -268,7 +273,11 @@ async function renderPreferences() {
     hasTextFormatting,
     hasTypingIndicators,
     lastSyncTime,
+    localeOverride,
     notificationContent,
+    phoneNumber,
+    preferredSystemLocales,
+    resolvedLocale,
     selectedCamera,
     selectedMicrophone,
     selectedSpeaker,
@@ -294,31 +303,23 @@ async function renderPreferences() {
     resetAllChatColors: ipcResetAllChatColors,
     resetDefaultChatColor: ipcResetDefaultChatColor,
     setGlobalDefaultConversationColor: ipcSetGlobalDefaultConversationColor,
-    shouldShowStoriesSettings,
 
     // Limited support features
     isAutoDownloadUpdatesSupported: Settings.isAutoDownloadUpdatesSupported(OS),
     isAutoLaunchSupported: Settings.isAutoLaunchSupported(OS),
     isHideMenuBarSupported: Settings.isHideMenuBarSupported(OS),
     isNotificationAttentionSupported: Settings.isDrawAttentionSupported(OS),
-    isPhoneNumberSharingSupported,
     isSyncSupported: !isSyncNotSupported,
-    isSystemTraySupported: Settings.isSystemTraySupported(
-      OS,
-      MinimalSignalContext.getVersion()
-    ),
+    isSystemTraySupported: Settings.isSystemTraySupported(OS),
     isMinimizeToAndStartInSystemTraySupported:
-      Settings.isMinimizeToAndStartInSystemTraySupported(
-        OS,
-        MinimalSignalContext.getVersion()
-      ),
-
-    // Feature flags
-    isFormattingFlagEnabled,
+      Settings.isMinimizeToAndStartInSystemTraySupported(OS),
 
     // Change handlers
     onAudioNotificationsChange: attachRenderCallback(
       settingAudioNotification.setValue
+    ),
+    onAutoConvertEmojiChange: attachRenderCallback(
+      settingAutoConvertEmoji.setValue
     ),
     onAutoDownloadUpdateChange: attachRenderCallback(
       settingAutoDownloadUpdate.setValue
@@ -347,6 +348,10 @@ async function renderPreferences() {
       settingIncomingCallNotification.setValue
     ),
     onLastSyncTimeChange: attachRenderCallback(settingLastSyncTime.setValue),
+    onLocaleChange: async (locale: string | null) => {
+      await settingLocaleOverride.setValue(locale);
+      MinimalSignalContext.restartApp();
+    },
     onMediaCameraPermissionsChange: attachRenderCallback(
       settingMediaCameraPermissions.setValue
     ),
@@ -412,26 +417,16 @@ async function renderPreferences() {
     onWhoCanSeeMeChange: attachRenderCallback(
       settingPhoneNumberSharing.setValue
     ),
-
-    // Zoom factor change doesn't require immediate rerender since it will:
-    // 1. Update the zoom factor in the main window
-    // 2. Trigger `preferred-size-changed` in the main process
-    // 3. Finally result in `window.storage` update which will cause the
-    //    rerender.
-    onZoomFactorChange: (value: number) => {
-      // Update Settings window zoom factor to match the selected value.
-      webFrame.setZoomFactor(value);
-      return settingZoomFactor.setValue(value);
+    onZoomFactorChange: (zoomFactorValue: number) => {
+      ipcRenderer.send('setZoomFactor', zoomFactorValue);
     },
-
-    hasCustomTitleBar: MinimalSignalContext.OS.hasCustomTitleBar(),
-    executeMenuRole: MinimalSignalContext.executeMenuRole,
   };
 
   renderInBrowser(props);
 }
 
-ipcRenderer.on('preferences-changed', () => renderPreferences());
+ipcRenderer.on('preferences-changed', renderPreferences);
+ipcRenderer.on('zoomFactorChanged', renderPreferences);
 
 const Signal = {
   SettingsWindowProps: {

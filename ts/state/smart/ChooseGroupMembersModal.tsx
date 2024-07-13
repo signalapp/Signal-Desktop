@@ -1,25 +1,20 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import { connect } from 'react-redux';
-
-import type { StateType } from '../reducer';
-import { mapDispatchToProps } from '../actions';
+import React, { memo, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { strictAssert } from '../../util/assert';
 import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId';
-
-import type { StatePropsType } from '../../components/conversation/conversation-details/AddGroupMembersModal/ChooseGroupMembersModal';
+import { getUsernameFromSearch } from '../../util/Username';
 import { ChooseGroupMembersModal } from '../../components/conversation/conversation-details/AddGroupMembersModal/ChooseGroupMembersModal';
-
 import { getIntl, getTheme, getRegionCode } from '../selectors/user';
-import { getUsernamesEnabled } from '../selectors/items';
 import {
   getCandidateContactsForNewGroup,
   getConversationByIdSelector,
+  getMe,
 } from '../selectors/conversations';
-import { getPreferredBadgeSelector } from '../selectors/badges';
+import { useGlobalModalActions } from '../ducks/globalModals';
 
-export type SmartChooseGroupMembersModalPropsType = {
+export type SmartChooseGroupMembersModalPropsType = Readonly<{
   conversationIdsAlreadyInGroup: Set<string>;
   maxGroupSize: number;
   confirmAdds: () => void;
@@ -29,37 +24,63 @@ export type SmartChooseGroupMembersModalPropsType = {
   selectedConversationIds: ReadonlyArray<string>;
   setSearchTerm: (_: string) => void;
   toggleSelectedContact: (conversationId: string) => void;
-};
+}>;
 
-const mapStateToProps = (
-  state: StateType,
-  props: SmartChooseGroupMembersModalPropsType
-): StatePropsType => {
-  const conversationSelector = getConversationByIdSelector(state);
+export const SmartChooseGroupMembersModal = memo(
+  function SmartChooseGroupMembersModal({
+    conversationIdsAlreadyInGroup,
+    maxGroupSize,
+    confirmAdds,
+    onClose,
+    removeSelectedContact,
+    searchTerm,
+    selectedConversationIds,
+    setSearchTerm,
+    toggleSelectedContact,
+  }: SmartChooseGroupMembersModalPropsType) {
+    const i18n = useSelector(getIntl);
+    const theme = useSelector(getTheme);
+    const regionCode = useSelector(getRegionCode);
+    const me = useSelector(getMe);
+    const conversationSelector = useSelector(getConversationByIdSelector);
 
-  const candidateContacts = getCandidateContactsForNewGroup(state);
-  const selectedContacts = props.selectedConversationIds.map(conversationId => {
-    const convo = conversationSelector(conversationId);
-    strictAssert(
-      convo,
-      '<SmartChooseGroupMemberModal> selected conversation not found'
+    const candidateContacts = useSelector(getCandidateContactsForNewGroup);
+    const selectedContacts = selectedConversationIds.map(conversationId => {
+      const convo = conversationSelector(conversationId);
+      strictAssert(
+        convo,
+        '<SmartChooseGroupMemberModal> selected conversation not found'
+      );
+      return convo;
+    });
+
+    const { showUserNotFoundModal } = useGlobalModalActions();
+
+    const username = useMemo(() => {
+      return getUsernameFromSearch(searchTerm);
+    }, [searchTerm]);
+
+    return (
+      <ChooseGroupMembersModal
+        regionCode={regionCode}
+        candidateContacts={candidateContacts}
+        confirmAdds={confirmAdds}
+        conversationIdsAlreadyInGroup={conversationIdsAlreadyInGroup}
+        i18n={i18n}
+        maxGroupSize={maxGroupSize}
+        onClose={onClose}
+        ourE164={me.e164}
+        ourUsername={me.username}
+        removeSelectedContact={removeSelectedContact}
+        searchTerm={searchTerm}
+        selectedContacts={selectedContacts}
+        setSearchTerm={setSearchTerm}
+        theme={theme}
+        toggleSelectedContact={toggleSelectedContact}
+        lookupConversationWithoutServiceId={lookupConversationWithoutServiceId}
+        showUserNotFoundModal={showUserNotFoundModal}
+        username={username}
+      />
     );
-    return convo;
-  });
-
-  return {
-    ...props,
-    regionCode: getRegionCode(state),
-    candidateContacts,
-    getPreferredBadge: getPreferredBadgeSelector(state),
-    i18n: getIntl(state),
-    theme: getTheme(state),
-    selectedContacts,
-    lookupConversationWithoutServiceId,
-    isUsernamesEnabled: getUsernamesEnabled(state),
-  };
-};
-
-const smart = connect(mapStateToProps, mapDispatchToProps);
-
-export const SmartChooseGroupMembersModal = smart(ChooseGroupMembersModal);
+  }
+);

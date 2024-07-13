@@ -1,0 +1,113 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.CountryCodeSelect {
+  @include button-reset();
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+
+  @include font-body-2;
+  border: solid 1px transparent;
+  border-radius: 8px;
+  height: 28px;
+  padding-inline: 12px;
+  width: 100%;
+
+  @include light-theme {
+    background-color: $color-black-alpha-06;
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    background-color: $color-white-alpha-12;
+    color: $color-gray-05;
+  }
+
+  &__text {
+    flex-grow: 1;
+  }
+
+  &__arrow {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v3/dropdown/dropdown-compact.svg',
+        $color-black
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v3/dropdown/dropdown-compact.svg',
+        $color-gray-05
+      );
+    }
+  }
+
+  &__Modal__body {
+    padding-inline: 10px;
+    padding-block: 16px 0;
+  }
+
+  &__Modal__Search__container.module-SearchInput__container {
+    margin-block: 8px;
+    margin-inline: 10px;
+  }
+
+  &__table {
+    flex-grow: 1;
+    // 90px is the size of the modal title + search field, 89vh max modal height
+    min-height: calc(min(89vh - 90px, 344px));
+    max-height: 344px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__CountryButton {
+    @include button-reset();
+    @include font-body-1;
+
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    height: 40px;
+    padding-inline: 14px;
+    border-radius: 8px;
+
+    @include mouse-mode {
+      &:hover {
+        @include light-theme {
+          background-color: $color-black-alpha-06;
+        }
+        @include dark-theme {
+          background-color: $color-white-alpha-12;
+        }
+      }
+    }
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: inset 0px 0px 0px 2px $color-ultramarine;
+      }
+    }
+  }
+
+  &__CountryButton__name {
+    flex-grow: 1;
+  }
+
+  &__CountryButton__code {
+    opacity: 0.5;
+  }
+}

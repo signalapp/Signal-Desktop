@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import React, {
   useState,
   useRef,
@@ -22,20 +22,28 @@ import {
 } from './CallingAudioIndicator';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { ContactName } from './conversation/ContactName';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants';
 import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate';
+import { Theme } from '../util/theme';
+import { isOlderThan } from '../util/timestamp';
+import type { CallingImageDataCache } from './CallManager';
+import { usePrevious } from '../hooks/usePrevious';
 
-const MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES = 5000;
+const MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES = 10000;
 const MAX_TIME_TO_SHOW_STALE_SCREENSHARE_FRAMES = 60000;
+const DELAY_TO_SHOW_MISSING_MEDIA_KEYS = 5000;
 
 type BasePropsType = {
   getFrameBuffer: () => Buffer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
+  imageDataCache: React.RefObject<CallingImageDataCache>;
   isActiveSpeakerInSpeakerView: boolean;
+  isCallReconnecting: boolean;
+  onClickRaisedHand?: () => void;
   onVisibilityChanged?: (demuxId: number, isVisible: boolean) => unknown;
   remoteParticipant: GroupCallRemoteParticipantType;
   remoteParticipantsCount: number;
@@ -65,21 +73,27 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     const {
       getFrameBuffer,
       getGroupCallVideoFrameSource,
+      imageDataCache,
       i18n,
+      onClickRaisedHand,
       onVisibilityChanged,
       remoteParticipantsCount,
       isActiveSpeakerInSpeakerView,
+      isCallReconnecting,
     } = props;
 
     const {
       acceptedMessageRequest,
-      avatarPath,
+      addedTime,
+      avatarUrl,
       color,
       demuxId,
       hasRemoteAudio,
       hasRemoteVideo,
+      isHandRaised,
       isBlocked,
       isMe,
+      mediaKeysReceived,
       profileName,
       sharedGroupNames,
       sharingScreen,
@@ -91,13 +105,16 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       !props.isInPip ? props.audioLevel > 0 : false,
       SPEAKING_LINGER_MS
     );
+    const previousSharingScreen = usePrevious(sharingScreen, sharingScreen);
 
+    const isImageDataCached =
+      sharingScreen && imageDataCache.current?.has(demuxId);
     const [hasReceivedVideoRecently, setHasReceivedVideoRecently] =
-      useState(false);
+      useState(isImageDataCached);
     const [isWide, setIsWide] = useState<boolean>(
       videoAspectRatio ? videoAspectRatio >= 1 : true
     );
-    const [showBlockInfo, setShowBlockInfo] = useState(false);
+    const [showErrorDialog, setShowErrorDialog] = useState(false);
 
     // We have some state (`hasReceivedVideoRecently`) and this ref. We can't have a
     //   single state value like `lastReceivedVideoAt` because (1) it won't automatically
@@ -122,8 +139,19 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       onVisibilityChanged?.(demuxId, isVisible);
     }, [demuxId, isVisible, onVisibilityChanged]);
 
+    useEffect(() => {
+      if (sharingScreen !== previousSharingScreen) {
+        imageDataCache.current?.delete(demuxId);
+      }
+    }, [demuxId, imageDataCache, previousSharingScreen, sharingScreen]);
+
     const wantsToShowVideo = hasRemoteVideo && !isBlocked && isVisible;
     const hasVideoToShow = wantsToShowVideo && hasReceivedVideoRecently;
+    const showMissingMediaKeys = Boolean(
+      !mediaKeysReceived &&
+        addedTime &&
+        isOlderThan(addedTime, DELAY_TO_SHOW_MISSING_MEDIA_KEYS)
+    );
 
     const videoFrameSource = useMemo(
       () => getGroupCallVideoFrameSource(demuxId),
@@ -136,7 +164,13 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
         ? MAX_TIME_TO_SHOW_STALE_SCREENSHARE_FRAMES
         : MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES;
       if (frameAge > maxFrameAge) {
-        setHasReceivedVideoRecently(false);
+        // We consider that we have received video recently from a remote participant if
+        // we have received it recently relative to the last time we had a connection. If
+        // we lost their video due to our reconnecting, we still want to show the last
+        // frame of video (blurred out) until we have reconnected.
+        if (!isCallReconnecting) {
+          setHasReceivedVideoRecently(false);
+        }
       }
 
       const canvasEl = remoteVideoRef.current;
@@ -152,46 +186,74 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       // This frame buffer is shared by all participants, so it may contain pixel data
       //   for other participants, or pixel data from a previous frame. That's why we
       //   return early and use the `frameWidth` and `frameHeight`.
+      let frameWidth: number | undefined;
+      let frameHeight: number | undefined;
+      let imageData = imageDataRef.current;
+
       const frameBuffer = getFrameBuffer();
       const frameDimensions = videoFrameSource.receiveVideoFrame(
         frameBuffer,
         MAX_FRAME_WIDTH,
         MAX_FRAME_HEIGHT
       );
-      if (!frameDimensions) {
-        return;
+      if (frameDimensions) {
+        [frameWidth, frameHeight] = frameDimensions;
+
+        if (
+          frameWidth < 2 ||
+          frameHeight < 2 ||
+          frameWidth > MAX_FRAME_WIDTH ||
+          frameHeight > MAX_FRAME_HEIGHT
+        ) {
+          return;
+        }
+
+        if (
+          imageData?.width !== frameWidth ||
+          imageData?.height !== frameHeight
+        ) {
+          imageData = new ImageData(frameWidth, frameHeight);
+          imageDataRef.current = imageData;
+        }
+        imageData.data.set(
+          frameBuffer.subarray(0, frameWidth * frameHeight * 4)
+        );
+
+        // Screen share is at a slow FPS so updates slowly if we PiP then restore.
+        // Cache the image data so we can quickly show the most recent frame.
+        if (sharingScreen) {
+          imageDataCache.current?.set(demuxId, imageData);
+        }
+      } else if (sharingScreen && !imageData) {
+        // Try to use the screenshare cache the first time we show
+        const cachedImageData = imageDataCache.current?.get(demuxId);
+        if (cachedImageData) {
+          frameWidth = cachedImageData.width;
+          frameHeight = cachedImageData.height;
+          imageDataRef.current = cachedImageData;
+          imageData = cachedImageData;
+        }
       }
 
-      const [frameWidth, frameHeight] = frameDimensions;
-
-      if (
-        frameWidth < 2 ||
-        frameHeight < 2 ||
-        frameWidth > MAX_FRAME_WIDTH ||
-        frameHeight > MAX_FRAME_HEIGHT
-      ) {
+      if (!frameWidth || !frameHeight || !imageData) {
         return;
       }
 
       canvasEl.width = frameWidth;
       canvasEl.height = frameHeight;
-
-      let imageData = imageDataRef.current;
-      if (
-        imageData?.width !== frameWidth ||
-        imageData?.height !== frameHeight
-      ) {
-        imageData = new ImageData(frameWidth, frameHeight);
-        imageDataRef.current = imageData;
-      }
-      imageData.data.set(frameBuffer.subarray(0, frameWidth * frameHeight * 4));
       canvasContext.putImageData(imageData, 0, 0);
-
       lastReceivedVideoAt.current = Date.now();
 
       setHasReceivedVideoRecently(true);
       setIsWide(frameWidth > frameHeight);
-    }, [getFrameBuffer, videoFrameSource, sharingScreen]);
+    }, [
+      demuxId,
+      imageDataCache,
+      isCallReconnecting,
+      sharingScreen,
+      videoFrameSource,
+      getFrameBuffer,
+    ]);
 
     useEffect(() => {
       if (!hasRemoteVideo) {
@@ -229,6 +291,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     }
 
     let avatarSize: number;
+    let footerInfoElement: ReactNode;
 
     if (props.isInPip) {
       containerStyles = canvasStyles;
@@ -238,7 +301,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       const shorterDimension = Math.min(width, height);
 
       if (shorterDimension >= 180) {
-        avatarSize = AvatarSize.EIGHTY;
+        avatarSize = AvatarSize.NINETY_SIX;
       } else {
         avatarSize = AvatarSize.FORTY_EIGHT;
       }
@@ -250,33 +313,149 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
 
       if ('top' in props) {
         containerStyles.position = 'absolute';
-        containerStyles.transform = `translate(${props.left}px, ${props.top}px)`;
+        containerStyles.insetInlineStart = `${props.left}px`;
+        containerStyles.top = `${props.top}px`;
+      }
+
+      const nameElement = (
+        <ContactName
+          module="module-ongoing-call__group-call-remote-participant__info__contact-name"
+          title={title}
+        />
+      );
+
+      if (isHandRaised) {
+        footerInfoElement = (
+          <button
+            className="module-ongoing-call__group-call-remote-participant__info module-ongoing-call__group-call-remote-participant__info--clickable"
+            onClick={onClickRaisedHand}
+            type="button"
+          >
+            <div className="CallingStatusIndicator CallingStatusIndicator--HandRaised" />
+            {nameElement}
+          </button>
+        );
+      } else {
+        footerInfoElement = (
+          <div className="module-ongoing-call__group-call-remote-participant__info">
+            {nameElement}
+          </div>
+        );
       }
     }
 
+    let noVideoNode: ReactNode;
+    if (!hasVideoToShow) {
+      const showDialogButton = (
+        <button
+          type="button"
+          className="module-ongoing-call__group-call-remote-participant__more-info"
+          onClick={() => {
+            setShowErrorDialog(true);
+          }}
+        >
+          {i18n('icu:moreInfo')}
+        </button>
+      );
+      if (isBlocked) {
+        noVideoNode = (
+          <>
+            <i className="module-ongoing-call__group-call-remote-participant__error-icon module-ongoing-call__group-call-remote-participant__error-icon--blocked" />
+            {showDialogButton}
+          </>
+        );
+      } else if (showMissingMediaKeys) {
+        noVideoNode = (
+          <>
+            <i className="module-ongoing-call__group-call-remote-participant__error-icon module-ongoing-call__group-call-remote-participant__error-icon--missing-media-keys" />
+            <div className="module-ongoing-call__group-call-remote-participant__error">
+              {i18n('icu:calling__missing-media-keys', { name: title })}
+            </div>
+            {showDialogButton}
+          </>
+        );
+      } else {
+        noVideoNode = (
+          <Avatar
+            acceptedMessageRequest={acceptedMessageRequest}
+            avatarUrl={avatarUrl}
+            badge={undefined}
+            color={color || AvatarColors[0]}
+            noteToSelf={false}
+            conversationType="direct"
+            i18n={i18n}
+            isMe={isMe}
+            profileName={profileName}
+            title={title}
+            sharedGroupNames={sharedGroupNames}
+            size={avatarSize}
+          />
+        );
+      }
+    }
+
+    // Error dialog maintains state, so if you have it open and the underlying
+    // error changes or resolves, you can keep reading the same dialog info.
+    const [errorDialogTitle, setErrorDialogTitle] = useState<ReactNode | null>(
+      null
+    );
+    const [errorDialogBody, setErrorDialogBody] = useState<string>('');
+    useEffect(() => {
+      if (hasVideoToShow || showErrorDialog) {
+        return;
+      }
+
+      if (isBlocked) {
+        setErrorDialogTitle(
+          <div className="module-ongoing-call__group-call-remote-participant__more-info-modal-title">
+            <I18n
+              i18n={i18n}
+              id="icu:calling__you-have-blocked"
+              components={{
+                name: <ContactName key="name" title={title} />,
+              }}
+            />
+          </div>
+        );
+        setErrorDialogBody(i18n('icu:calling__block-info'));
+      } else if (showMissingMediaKeys) {
+        setErrorDialogTitle(
+          <div className="module-ongoing-call__group-call-remote-participant__more-info-modal-title">
+            <I18n
+              i18n={i18n}
+              id="icu:calling__missing-media-keys"
+              components={{
+                name: <ContactName key="name" title={title} />,
+              }}
+            />
+          </div>
+        );
+        setErrorDialogBody(i18n('icu:calling__missing-media-keys-info'));
+      } else {
+        setErrorDialogTitle(null);
+        setErrorDialogBody('');
+      }
+    }, [
+      hasVideoToShow,
+      i18n,
+      isBlocked,
+      showErrorDialog,
+      showMissingMediaKeys,
+      title,
+    ]);
+
     return (
       <>
-        {showBlockInfo && (
+        {showErrorDialog && (
           <ConfirmationDialog
             dialogName="GroupCallRemoteParticipant.blockInfo"
             cancelText={i18n('icu:ok')}
             i18n={i18n}
-            onClose={() => {
-              setShowBlockInfo(false);
-            }}
-            title={
-              <div className="module-ongoing-call__group-call-remote-participant__blocked--modal-title">
-                <Intl
-                  i18n={i18n}
-                  id="icu:calling__you-have-blocked"
-                  components={{
-                    name: <ContactName key="name" title={title} />,
-                  }}
-                />
-              </div>
-            }
+            onClose={() => setShowErrorDialog(false)}
+            theme={Theme.Dark}
+            title={errorDialogTitle}
           >
-            {i18n('icu:calling__block-info')}
+            {errorDialogBody}
           </ConfirmationDialog>
         )}
 
@@ -286,31 +465,32 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
             isSpeaking &&
               !isActiveSpeakerInSpeakerView &&
               remoteParticipantsCount > 1 &&
-              'module-ongoing-call__group-call-remote-participant--speaking'
+              'module-ongoing-call__group-call-remote-participant--speaking',
+            isHandRaised &&
+              'module-ongoing-call__group-call-remote-participant--hand-raised'
           )}
           ref={intersectionRef}
           style={containerStyles}
         >
           {!props.isInPip && (
-            <div
-              className={classNames(
-                'module-ongoing-call__group-call-remote-participant__info'
-              )}
-            >
-              <ContactName
-                module="module-ongoing-call__group-call-remote-participant__info__contact-name"
-                title={title}
-              />
+            <>
               <CallingAudioIndicator
                 hasAudio={hasRemoteAudio}
                 audioLevel={props.audioLevel}
                 shouldShowSpeaking={isSpeaking}
               />
-            </div>
+              <div className="module-ongoing-call__group-call-remote-participant__footer">
+                {footerInfoElement}
+              </div>
+            </>
           )}
           {wantsToShowVideo && (
             <canvas
-              className="module-ongoing-call__group-call-remote-participant__remote-video"
+              className={classNames(
+                'module-ongoing-call__group-call-remote-participant__remote-video',
+                isCallReconnecting &&
+                  'module-ongoing-call__group-call-remote-participant__remote-video--reconnecting'
+              )}
               style={{
                 ...canvasStyles,
                 // If we want to show video but don't have any yet, we still render the
@@ -321,48 +501,19 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
               ref={canvasEl => {
                 remoteVideoRef.current = canvasEl;
                 if (canvasEl) {
-                  canvasContextRef.current = canvasEl.getContext('2d', {
-                    alpha: false,
-                    desynchronized: true,
-                    storage: 'discardable',
-                  } as CanvasRenderingContext2DSettings);
+                  canvasContextRef.current = canvasEl.getContext('2d');
                 } else {
                   canvasContextRef.current = null;
                 }
               }}
             />
           )}
-          {!hasVideoToShow && (
-            <CallBackgroundBlur avatarPath={avatarPath} color={color}>
-              {isBlocked ? (
-                <>
-                  <i className="module-ongoing-call__group-call-remote-participant__blocked" />
-                  <button
-                    type="button"
-                    className="module-ongoing-call__group-call-remote-participant__blocked--info"
-                    onClick={() => {
-                      setShowBlockInfo(true);
-                    }}
-                  >
-                    {i18n('icu:moreInfo')}
-                  </button>
-                </>
-              ) : (
-                <Avatar
-                  acceptedMessageRequest={acceptedMessageRequest}
-                  avatarPath={avatarPath}
-                  badge={undefined}
-                  color={color || AvatarColors[0]}
-                  noteToSelf={false}
-                  conversationType="direct"
-                  i18n={i18n}
-                  isMe={isMe}
-                  profileName={profileName}
-                  title={title}
-                  sharedGroupNames={sharedGroupNames}
-                  size={avatarSize}
-                />
-              )}
+          {noVideoNode && (
+            <CallBackgroundBlur
+              avatarUrl={avatarUrl}
+              className="module-ongoing-call__group-call-remote-participant-background"
+            >
+              {noVideoNode}
             </CallBackgroundBlur>
           )}
         </div>

@@ -4,7 +4,22 @@
 import type { ConversationType } from '../state/ducks/conversations';
 
 export function getParticipantName(
-  participant: Readonly<Pick<ConversationType, 'firstName' | 'title'>>
+  participant: Readonly<
+    Pick<
+      ConversationType,
+      | 'firstName'
+      | 'systemGivenName'
+      | 'systemNickname'
+      | 'title'
+      | 'nicknameGivenName'
+    >
+  >
 ): string {
-  return participant.firstName || participant.title;
+  return (
+    participant.nicknameGivenName ||
+    participant.systemNickname ||
+    participant.systemGivenName ||
+    participant.firstName ||
+    participant.title
+  );
 }

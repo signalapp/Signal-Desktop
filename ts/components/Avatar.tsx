@@ -36,24 +36,30 @@ export enum AvatarBlur {
 
 export enum AvatarSize {
   TWENTY = 20,
+  TWENTY_FOUR = 24,
   TWENTY_EIGHT = 28,
+  THIRTY = 30,
   THIRTY_TWO = 32,
   THIRTY_SIX = 36,
+  FORTY = 40,
   FORTY_EIGHT = 48,
   FIFTY_TWO = 52,
+  SIXTY_FOUR = 64,
   EIGHTY = 80,
+  NINETY_SIX = 96,
+  TWO_HUNDRED_SIXTEEN = 216,
 }
 
 type BadgePlacementType = { bottom: number; right: number };
 
 export type Props = {
-  avatarPath?: string;
+  avatarUrl?: string;
   blur?: AvatarBlur;
   color?: AvatarColorType;
   loading?: boolean;
 
   acceptedMessageRequest: boolean;
-  conversationType: 'group' | 'direct';
+  conversationType: 'group' | 'direct' | 'callLink';
   isMe: boolean;
   noteToSelf?: boolean;
   phoneNumber?: string;
@@ -61,7 +67,7 @@ export type Props = {
   sharedGroupNames: ReadonlyArray<string>;
   size: AvatarSize;
   title: string;
-  unblurredAvatarPath?: string;
+  unblurredAvatarUrl?: string;
   searchResult?: boolean;
   storyRing?: HasStories;
 
@@ -81,6 +87,7 @@ export type Props = {
 
 const BADGE_PLACEMENT_BY_SIZE = new Map<number, BadgePlacementType>([
   [28, { bottom: -4, right: -2 }],
+  [30, { bottom: -4, right: -2 }],
   [32, { bottom: -4, right: -2 }],
   [36, { bottom: -3, right: 0 }],
   [40, { bottom: -6, right: -4 }],
@@ -100,7 +107,7 @@ const getDefaultBlur = (
 
 export function Avatar({
   acceptedMessageRequest,
-  avatarPath,
+  avatarUrl,
   badge,
   className,
   color = 'A200',
@@ -116,15 +123,15 @@ export function Avatar({
   size,
   theme,
   title,
-  unblurredAvatarPath,
+  unblurredAvatarUrl,
   searchResult,
   storyRing,
   blur = getDefaultBlur({
     acceptedMessageRequest,
-    avatarPath,
+    avatarUrl,
     isMe,
     sharedGroupNames,
-    unblurredAvatarPath,
+    unblurredAvatarUrl,
   }),
   ...ariaProps
 }: Props): JSX.Element {
@@ -132,15 +139,15 @@ export function Avatar({
 
   useEffect(() => {
     setImageBroken(false);
-  }, [avatarPath]);
+  }, [avatarUrl]);
 
   useEffect(() => {
-    if (!avatarPath) {
+    if (!avatarUrl) {
       return noop;
     }
 
     const image = new Image();
-    image.src = avatarPath;
+    image.src = avatarUrl;
     image.onerror = () => {
       log.warn('Avatar: Image failed to load; failing over to placeholder');
       setImageBroken(true);
@@ -149,12 +156,15 @@ export function Avatar({
     return () => {
       image.onerror = noop;
     };
-  }, [avatarPath]);
+  }, [avatarUrl]);
 
   const initials = getInitials(title);
-  const hasImage = !noteToSelf && avatarPath && !imageBroken;
+  const hasImage = !noteToSelf && avatarUrl && !imageBroken;
   const shouldUseInitials =
-    !hasImage && conversationType === 'direct' && Boolean(initials);
+    !hasImage &&
+    conversationType === 'direct' &&
+    Boolean(initials) &&
+    title !== i18n('icu:unknownContact');
 
   let contentsChildren: ReactNode;
   if (loading) {
@@ -169,7 +179,7 @@ export function Avatar({
       </div>
     );
   } else if (hasImage) {
-    assertDev(avatarPath, 'avatarPath should be defined here');
+    assertDev(avatarUrl, 'avatarUrl should be defined here');
 
     assertDev(
       blur !== AvatarBlur.BlurPictureWithClickToView ||
@@ -185,7 +195,7 @@ export function Avatar({
         <div
           className="module-Avatar__image"
           style={{
-            backgroundImage: `url('${encodeURI(avatarPath)}')`,
+            backgroundImage: `url('${avatarUrl}')`,
             ...(isBlurred ? { filter: `blur(${Math.ceil(size / 2)}px)` } : {}),
           }}
         />
@@ -306,7 +316,7 @@ export function Avatar({
         Boolean(storyRing) && 'module-Avatar--with-story',
         storyRing === HasStories.Unread && 'module-Avatar--with-story--unread',
         className,
-        avatarPath === SIGNAL_AVATAR_PATH
+        avatarUrl === SIGNAL_AVATAR_PATH
           ? 'module-Avatar--signal-official'
           : undefined
       )}

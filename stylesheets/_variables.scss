@@ -1,9 +1,9 @@
 // Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-$inter: Inter, 'Helvetica Neue', 'Source Sans Pro', 'Source Han Sans SC',
-  'Source Han Sans CN', 'Hiragino Sans GB', 'Hiragino Kaku Gothic',
-  'Microsoft Yahei UI', Helvetica, Arial, sans-serif;
+// Note: Add language-specific fallbacks in @localized-fonts mixin
+$inter: Inter, 'Source Sans Pro', 'Source Han Sans', -apple-system, system-ui,
+  'Segoe UI', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 // Note: This font-family is checked for in matchMonospace, to support paste scenarios
 $monospace: 'SF Mono', SFMono-Regular, ui-monospace, 'DejaVu Sans Mono', Menlo,
@@ -28,6 +28,7 @@ $color-gray-60: #5e5e5e;
 $color-gray-62: #545454;
 $color-gray-65: #4a4a4a;
 $color-gray-75: #3b3b3b;
+$color-gray-78: #343434;
 $color-gray-80: #2e2e2e;
 $color-gray-90: #1b1b1b;
 $color-gray-95: #121212;
@@ -47,6 +48,8 @@ $color-white-alpha-90: rgba($color-white, 0.9);
 $color-black-alpha-05: rgba($color-black, 0.05);
 $color-black-alpha-06: rgba($color-black, 0.06);
 $color-black-alpha-08: rgba($color-black, 0.08);
+// Equivalent to gray-05 on a white background
+$color-black-alpha-085: rgba($color-black, 0.085);
 $color-black-alpha-12: rgba($color-black, 0.12);
 $color-black-alpha-16: rgba($color-black, 0.16);
 $color-black-alpha-20: rgba($color-black, 0.2);
@@ -65,6 +68,7 @@ $color-ultramarine-dark: #1851b4;
 $color-ultramarine-icon: #3a76f0;
 $color-ultramarine-light: #6191f3;
 $color-ultramarine-dawn: #406ec9;
+$color-ultramarine-pastel: #abc4f8;
 $color-ultramarine: #2c6bed;
 
 // Flat colors
@@ -253,7 +257,10 @@ $header-height: 52px;
 
 $ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 
-$calling-background-color: $color-gray-95;
+$calling-background-color: $color-gray-90;
+
+// Maintain aspect ratio 960x720 with $local-preview-height
+$calling-local-preview-width: 106.67px;
 
 // General
 
@@ -261,6 +268,7 @@ $z-index-negative: -1;
 $z-index-base: 1;
 $z-index-above-base: 2;
 $z-index-above-above-base: 3;
+$z-index-megaphone: 75;
 $z-index-popup-overlay: 99;
 $z-index-popup: 100;
 $z-index-context-menu: 125;
@@ -288,3 +296,6 @@ $NavTabs__width: 80px;
 $NavTabs__Item__blockPadding: 2px;
 $NavTabs__Toggle__blockPadding: 8px;
 $NavTabs__ItemButton__blockPadding: 10px;
+$CallControls__height: 80px;
+$CallControls__max-width: 640px;
+$CallControls__initial-width: 480px;

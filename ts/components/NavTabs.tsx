@@ -234,6 +234,7 @@ export function NavTabs({
   return (
     <Tabs orientation="vertical" className="NavTabs__Container">
       <nav
+        data-supertab
         className={classNames('NavTabs', {
           'NavTabs--collapsed': navTabsCollapsed,
         })}
@@ -255,14 +256,14 @@ export function NavTabs({
           <NavTabsItem
             i18n={i18n}
             id={NavTab.Chats}
-            label="Chats"
+            label={i18n('icu:NavTabs__ItemLabel--Chats')}
             iconClassName="NavTabs__ItemIcon--Chats"
             unreadStats={unreadConversationsStats}
           />
           <NavTabsItem
             i18n={i18n}
             id={NavTab.Calls}
-            label="Calls"
+            label={i18n('icu:NavTabs__ItemLabel--Calls')}
             iconClassName="NavTabs__ItemIcon--Calls"
             unreadStats={{
               unreadCount: unreadCallsCount,
@@ -274,7 +275,7 @@ export function NavTabs({
             <NavTabsItem
               i18n={i18n}
               id={NavTab.Stories}
-              label="Stories"
+              label={i18n('icu:NavTabs__ItemLabel--Stories')}
               iconClassName="NavTabs__ItemIcon--Stories"
               hasError={hasFailedStorySends}
               unreadStats={{
@@ -356,7 +357,6 @@ export function NavTabs({
           <button
             type="button"
             className="NavTabs__Item NavTabs__Item--Profile"
-            data-supertab
             onClick={() => {
               onToggleProfileEditor();
             }}
@@ -372,7 +372,7 @@ export function NavTabs({
                 <span className="NavTabs__ItemContent">
                   <Avatar
                     acceptedMessageRequest
-                    avatarPath={me.avatarPath}
+                    avatarUrl={me.avatarUrl}
                     badge={badge}
                     className="module-main-header__avatar"
                     color={me.color}

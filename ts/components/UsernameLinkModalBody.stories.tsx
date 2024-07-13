@@ -2,15 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useState } from 'react';
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 
+import { action } from '@storybook/addon-actions';
 import enMessages from '../../_locales/en/messages.json';
 import { UsernameLinkState } from '../state/ducks/usernameEnums';
 import { setupI18n } from '../util/setupI18n';
 import { SignalService as Proto } from '../protobuf';
 
 import type { PropsType } from './UsernameLinkModalBody';
-import { UsernameLinkModalBody } from './UsernameLinkModalBody';
+import {
+  UsernameLinkModalBody,
+  PRINT_WIDTH,
+  PRINT_HEIGHT,
+} from './UsernameLinkModalBody';
 import { Modal } from './Modal';
 
 const ColorEnum = Proto.AccountRecord.UsernameLink.Color;
@@ -21,26 +26,25 @@ export default {
   component: UsernameLinkModalBody,
   title: 'Components/UsernameLinkModalBody',
   argTypes: {
-    i18n: {
-      defaultValue: i18n,
-    },
     link: {
       control: { type: 'text' },
-      defaultValue:
-        'https://signal.me/#eu/n-AJkmmykrFB7j6UODGndSycxcMdp_v6ppRp9rFu5Ad39q_9Ngi_k9-TARWfT43t',
     },
     username: {
       control: { type: 'text' },
-      defaultValue: 'alice.12',
+    },
+    usernameLinkCorrupted: {
+      control: 'boolean',
     },
     usernameLinkState: {
       control: { type: 'select' },
-      defaultValue: UsernameLinkState.Ready,
-      options: [UsernameLinkState.Ready, UsernameLinkState.Updating],
+      options: [
+        UsernameLinkState.Ready,
+        UsernameLinkState.Updating,
+        UsernameLinkState.Error,
+      ],
     },
     colorId: {
       control: { type: 'select' },
-      defaultValue: ColorEnum.BLUE,
       mapping: {
         blue: ColorEnum.BLUE,
         white: ColorEnum.WHITE,
@@ -52,17 +56,22 @@ export default {
         purple: ColorEnum.PURPLE,
       },
     },
-    showToast: { action: true },
-    resetUsernameLink: { action: true },
-    setUsernameLinkColor: { action: true },
-    onBack: { action: true },
   },
-} as Meta;
-
-type ArgsType = PropsType;
+  args: {
+    i18n,
+    link: 'https://signal.me/#eu/n-AJkmmykrFB7j6UODGndSycxcMdp_v6ppRp9rFu5Ad39q_9Ngi_k9-TARWfT43t',
+    username: 'alice.12',
+    usernameLinkState: UsernameLinkState.Ready,
+    colorId: ColorEnum.BLUE,
+    showToast: action('showToast'),
+    resetUsernameLink: action('resetUsernameLink'),
+    setUsernameLinkColor: action('setUsernameLinkColor'),
+    onBack: action('onBack'),
+  },
+} satisfies Meta<PropsType>;
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<ArgsType> = args => {
+const Template: StoryFn<PropsType> = args => {
   const [attachment, setAttachment] = useState<string | undefined>();
   const saveAttachment = useCallback(({ data }: { data?: Uint8Array }) => {
     if (!data) {
@@ -87,19 +96,19 @@ const Template: Story<ArgsType> = args => {
       <Modal modalName="story" i18n={i18n} hasXButton>
         <UsernameLinkModalBody {...args} saveAttachment={saveAttachment} />
       </Modal>
-      {attachment && <img src={attachment} alt="printable qr code" />}
+      {attachment && (
+        <img
+          src={attachment}
+          width={PRINT_WIDTH}
+          height={PRINT_HEIGHT}
+          alt="printable qr code"
+        />
+      )}
     </>
   );
 };
 
 export const Normal = Template.bind({});
-Normal.args = {};
-Normal.story = {
-  name: 'normal',
-};
 
 export const NoLink = Template.bind({});
 NoLink.args = { link: '' };
-NoLink.story = {
-  name: 'normal',
-};

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../util/setupI18n';
@@ -27,18 +27,13 @@ export default {
   argTypes: {
     count: {
       control: { type: 'radio' },
-      options: {
-        None: undefined,
-        Some: 5,
-        Plenty: 85,
-        'Please Stop': 1000,
-      },
+      options: [undefined, 5, 85, 1000],
     },
   },
-} as Meta;
+} satisfies Meta<ScrollDownButtonPropsType>;
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<ScrollDownButtonPropsType> = args => (
+const Template: StoryFn<ScrollDownButtonPropsType> = args => (
   <ScrollDownButton {...args} />
 );
 
@@ -46,14 +41,8 @@ export const UnreadMessages = Template.bind({});
 UnreadMessages.args = createProps({
   variant: ScrollDownButtonVariant.UNREAD_MESSAGES,
 });
-UnreadMessages.story = {
-  name: 'UnreadMessages',
-};
 
 export const UnreadMentions = Template.bind({});
 UnreadMentions.args = createProps({
   variant: ScrollDownButtonVariant.UNREAD_MENTIONS,
 });
-UnreadMentions.story = {
-  name: 'UnreadMentions',
-};

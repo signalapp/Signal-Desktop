@@ -2,18 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { boolean, date, select, text } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import type { Props } from './MessageTimestamp';
 import { MessageTimestamp } from './MessageTimestamp';
 
 const i18n = setupI18n('en', enMessages);
-
-export default {
-  title: 'Components/Conversation/MessageTimestamp',
-};
 
 const { now } = Date;
 const seconds = (n: number) => n * 1000;
@@ -40,51 +35,57 @@ const times = (): Array<[string, number]> => [
   ['366d ago', now() - days(366)],
 ];
 
-const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  i18n,
-  timestamp: overrideProps.timestamp || Date.now(),
-  module: text('module', ''),
-  withImageNoCaption: boolean('withImageNoCaption', false),
-  withSticker: boolean('withSticker', false),
-  withTapToViewExpired: boolean('withTapToViewExpired', false),
-  direction:
-    select(
-      'direction',
-      { none: '', incoming: 'incoming', outgoing: 'outgoing' },
-      ''
-    ) || undefined,
-});
+export default {
+  title: 'Components/Conversation/MessageTimestamp',
+  argTypes: {
+    timestamp: { control: { type: 'number' } },
+    module: { control: { type: 'text' } },
+    withImageNoCaption: { control: { type: 'boolean' } },
+    withSticker: { control: { type: 'boolean' } },
+    withTapToViewExpired: { control: { type: 'boolean' } },
+    direction: {
+      control: {
+        type: 'select',
+        options: ['', 'incoming', 'outgoing'],
+      },
+    },
+  },
+  args: {
+    i18n,
+    timestamp: Date.now(),
+    module: '',
+    withImageNoCaption: false,
+    withSticker: false,
+    withTapToViewExpired: false,
+    direction: undefined,
+  },
+} satisfies Meta<Props>;
 
-const createTable = (overrideProps: Partial<Props> = {}) => (
-  <table cellPadding={5}>
-    <tbody>
-      <tr>
-        <th>Description</th>
-        <th>Timestamp</th>
-      </tr>
-      {times().map(([description, timestamp]) => (
-        <tr key={timestamp}>
-          <td>{description}</td>
-          <td>
-            <MessageTimestamp
-              key={timestamp}
-              {...createProps({ ...overrideProps, timestamp })}
-            />
-          </td>
+export function Normal(args: Props): JSX.Element {
+  return (
+    <table cellPadding={5}>
+      <tbody>
+        <tr>
+          <th>Description</th>
+          <th>Timestamp</th>
         </tr>
-      ))}
-    </tbody>
-  </table>
-);
+        {times().map(([description, timestamp]) => (
+          <tr key={timestamp}>
+            <td>{description}</td>
+            <td>
+              <MessageTimestamp
+                key={timestamp}
+                {...args}
+                timestamp={timestamp}
+              />
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
 
-export const Normal = (): JSX.Element => {
-  return createTable();
-};
-
-export function Knobs(): JSX.Element {
-  const props = createProps({
-    timestamp: date('timestamp', new Date()),
-  });
-
-  return <MessageTimestamp {...props} />;
+export function Knobs(args: Props): JSX.Element {
+  return <MessageTimestamp {...args} />;
 }

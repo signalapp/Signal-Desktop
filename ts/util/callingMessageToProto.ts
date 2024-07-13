@@ -13,10 +13,8 @@ export function callingMessageToProto(
     offer,
     answer,
     iceCandidates,
-    legacyHangup,
     busy,
     hangup,
-    supportsMultiRing,
     destinationDeviceId,
     opaque,
   }: CallingMessage,
@@ -61,13 +59,6 @@ export function callingMessageToProto(
           };
         })
       : undefined,
-    legacyHangup: legacyHangup
-      ? {
-          ...legacyHangup,
-          callId: Long.fromValue(legacyHangup.callId),
-          type: legacyHangup.type as number,
-        }
-      : undefined,
     busy: busy
       ? {
           ...busy,
@@ -81,7 +72,6 @@ export function callingMessageToProto(
           type: hangup.type as number,
         }
       : undefined,
-    supportsMultiRing,
     destinationDeviceId,
     opaque: opaqueField,
   };

@@ -19,7 +19,7 @@ import { convertShortName } from './emoji/lib';
 import { offsetDistanceModifier } from '../util/popperUtil';
 import { handleOutsideClick } from '../util/handleOutsideClick';
 
-type PropsType = {
+export type PropsType = {
   draftPreferredReactions: ReadonlyArray<string>;
   hadSaveError: boolean;
   i18n: LocalizerType;
@@ -193,6 +193,7 @@ export function CustomizingPreferredReactionsModal({
             onClose={() => {
               deselectDraftEmoji();
             }}
+            wasInvokedFromKeyboard={false}
           />
         </div>
       )}

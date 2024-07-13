@@ -4,6 +4,10 @@
 import type { IntlShape } from 'react-intl';
 import type { AciString } from './ServiceId';
 import type { LocaleDirection } from '../../app/locale';
+import type {
+  ICUJSXMessageParamsByKeyType,
+  ICUStringMessageParamsByKeyType,
+} from '../../build/ICUMessageParams.d';
 
 import type { HourCyclePreference, LocaleMessagesType } from './I18N';
 
@@ -17,14 +21,23 @@ export type RenderTextCallbackType = (options: {
   key: number;
 }) => JSX.Element | string;
 
-export type ReplacementValuesType = {
-  [key: string]: string | number | undefined;
+export { ICUJSXMessageParamsByKeyType, ICUStringMessageParamsByKeyType };
+
+export type LocalizerOptions = {
+  textIsBidiFreeSkipNormalization?: boolean;
 };
 
 export type LocalizerType = {
-  (key: string, values?: ReplacementValuesType): string;
+  <Key extends keyof ICUStringMessageParamsByKeyType>(
+    key: Key,
+    ...values: ICUStringMessageParamsByKeyType[Key] extends undefined
+      ? [params?: undefined, options?: LocalizerOptions]
+      : [
+          params: ICUStringMessageParamsByKeyType[Key],
+          options?: LocalizerOptions
+        ]
+  ): string;
   getIntl(): IntlShape;
-  isLegacyFormat(key: string): boolean;
   getLocale(): string;
   getLocaleMessages(): LocaleMessagesType;
   getLocaleDirection(): LocaleDirection;
@@ -83,3 +96,6 @@ export type JSONWithUnknownFields<Value> = Value extends Record<
   : Value extends Array<infer E>
   ? ReadonlyArray<JSONWithUnknownFields<E>>
   : Value;
+
+export type WithRequiredProperties<T, P extends keyof T> = Omit<T, P> &
+  Required<Pick<T, P>>;

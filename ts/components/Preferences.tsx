@@ -10,9 +10,10 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { noop } from 'lodash';
+import { noop, partition } from 'lodash';
 import classNames from 'classnames';
 import uuid from 'uuid';
+import * as LocaleMatcher from '@formatjs/intl-localematcher';
 
 import type { MediaDeviceSettings } from '../types/Calling';
 import type {
@@ -21,6 +22,8 @@ import type {
   ZoomFactorType,
 } from '../types/Storage.d';
 import type { ThemeSettingType } from '../types/StorageUIKeys';
+import type { AnyToast } from '../types/Toast';
+import { ToastType } from '../types/Toast';
 import type { ConversationType } from '../state/ducks/conversations';
 import type {
   ConversationColorType,
@@ -32,11 +35,11 @@ import type {
   SentMediaQualityType,
   ThemeType,
 } from '../types/Util';
-import type { ExecuteMenuRoleType } from './TitleBarContainer';
 
 import { Button, ButtonVariant } from './Button';
 import { ChatColorPicker } from './ChatColorPicker';
 import { Checkbox } from './Checkbox';
+import { WidthBreakpoint } from './_util';
 import {
   CircleCheckbox,
   Variant as CircleCheckboxVariant,
@@ -47,8 +50,9 @@ import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
 import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import { Select } from './Select';
 import { Spinner } from './Spinner';
-import { TitleBarContainer } from './TitleBarContainer';
+import { ToastManager } from './ToastManager';
 import { getCustomColorStyle } from '../util/getCustomColorStyle';
+import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled';
 import {
   DEFAULT_DURATIONS_IN_SECONDS,
   DEFAULT_DURATIONS_SET,
@@ -57,8 +61,12 @@ import {
 import { DurationInSeconds } from '../util/durations';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import { useUniqueId } from '../hooks/useUniqueId';
-import { useTheme } from '../hooks/useTheme';
-import { focusableSelectors } from '../util/focusableSelectors';
+import { focusableSelector } from '../util/focusableSelectors';
+import { Modal } from './Modal';
+import { SearchInput } from './SearchInput';
+import { removeDiacritics } from '../util/removeDiacritics';
+import { assertDev } from '../util/assert';
+import { I18n } from './I18n';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -70,6 +78,7 @@ export type PropsDataType = {
   defaultConversationColor: DefaultConversationColorType;
   deviceName?: string;
   hasAudioNotifications?: boolean;
+  hasAutoConvertEmoji: boolean;
   hasAutoDownloadUpdate: boolean;
   hasAutoLaunch: boolean;
   hasCallNotifications: boolean;
@@ -93,6 +102,7 @@ export type PropsDataType = {
   hasTypingIndicators: boolean;
   lastSyncTime?: number;
   notificationContent: NotificationSettingType;
+  phoneNumber: string | undefined;
   selectedCamera?: string;
   selectedMicrophone?: AudioDevice;
   selectedSpeaker?: AudioDevice;
@@ -103,20 +113,20 @@ export type PropsDataType = {
   whoCanSeeMe: PhoneNumberSharingMode;
   zoomFactor: ZoomFactorType;
 
-  // Other props
-  hasCustomTitleBar: boolean;
-  initialSpellCheckSetting: boolean;
-  shouldShowStoriesSettings: boolean;
+  // Localization
+  availableLocales: ReadonlyArray<string>;
+  localeOverride: string | null;
+  preferredSystemLocales: ReadonlyArray<string>;
+  resolvedLocale: string;
 
-  // Feature flags
-  isFormattingFlagEnabled: boolean;
+  // Other props
+  initialSpellCheckSetting: boolean;
 
   // Limited support features
   isAutoDownloadUpdatesSupported: boolean;
   isAutoLaunchSupported: boolean;
   isHideMenuBarSupported: boolean;
   isNotificationAttentionSupported: boolean;
-  isPhoneNumberSharingSupported: boolean;
   isSyncSupported: boolean;
   isSystemTraySupported: boolean;
   isMinimizeToAndStartInSystemTraySupported: boolean;
@@ -133,7 +143,6 @@ type PropsFunctionType = {
   doDeleteAllData: () => unknown;
   doneRendering: () => unknown;
   editCustomColor: (colorId: string, color: CustomColorType) => unknown;
-  executeMenuRole: ExecuteMenuRoleType;
   getConversationsWithCustomColor: (
     colorId: string
   ) => Promise<Array<ConversationType>>;
@@ -152,6 +161,7 @@ type PropsFunctionType = {
 
   // Change handlers
   onAudioNotificationsChange: CheckboxChangeHandlerType;
+  onAutoConvertEmojiChange: CheckboxChangeHandlerType;
   onAutoDownloadUpdateChange: CheckboxChangeHandlerType;
   onAutoLaunchChange: CheckboxChangeHandlerType;
   onCallNotificationsChange: CheckboxChangeHandlerType;
@@ -161,6 +171,7 @@ type PropsFunctionType = {
   onHideMenuBarChange: CheckboxChangeHandlerType;
   onIncomingCallNotificationsChange: CheckboxChangeHandlerType;
   onLastSyncTimeChange: (time: number) => unknown;
+  onLocaleChange: (locale: string | null) => void;
   onMediaCameraPermissionsChange: CheckboxChangeHandlerType;
   onMediaPermissionsChange: CheckboxChangeHandlerType;
   onMessageAudioChange: CheckboxChangeHandlerType;
@@ -204,6 +215,11 @@ enum Page {
   PNP = 'PNP',
 }
 
+enum LanguageDialog {
+  Selection,
+  Confirmation,
+}
+
 const DEFAULT_ZOOM_FACTORS = [
   {
     text: '75%',
@@ -230,6 +246,7 @@ const DEFAULT_ZOOM_FACTORS = [
 export function Preferences({
   addCustomColor,
   availableCameras,
+  availableLocales,
   availableMicrophones,
   availableSpeakers,
   blockedCount,
@@ -240,9 +257,9 @@ export function Preferences({
   doDeleteAllData,
   doneRendering,
   editCustomColor,
-  executeMenuRole,
   getConversationsWithCustomColor,
   hasAudioNotifications,
+  hasAutoConvertEmoji,
   hasAutoDownloadUpdate,
   hasAutoLaunch,
   hasCallNotifications,
@@ -268,18 +285,16 @@ export function Preferences({
   initialSpellCheckSetting,
   isAutoDownloadUpdatesSupported,
   isAutoLaunchSupported,
-  isFormattingFlagEnabled,
   isHideMenuBarSupported,
-  isPhoneNumberSharingSupported,
   isNotificationAttentionSupported,
   isSyncSupported,
   isSystemTraySupported,
   isMinimizeToAndStartInSystemTraySupported,
-  hasCustomTitleBar,
   lastSyncTime,
   makeSyncRequest,
   notificationContent,
   onAudioNotificationsChange,
+  onAutoConvertEmojiChange,
   onAutoDownloadUpdateChange,
   onAutoLaunchChange,
   onCallNotificationsChange,
@@ -289,6 +304,7 @@ export function Preferences({
   onHideMenuBarChange,
   onIncomingCallNotificationsChange,
   onLastSyncTimeChange,
+  onLocaleChange,
   onMediaCameraPermissionsChange,
   onMediaPermissionsChange,
   onMessageAudioChange,
@@ -309,16 +325,19 @@ export function Preferences({
   onWhoCanSeeMeChange,
   onWhoCanFindMeChange,
   onZoomFactorChange,
+  phoneNumber = '',
+  preferredSystemLocales,
   removeCustomColor,
   removeCustomColorOnConversations,
   resetAllChatColors,
   resetDefaultChatColor,
+  resolvedLocale,
   selectedCamera,
   selectedMicrophone,
   selectedSpeaker,
   sentMediaQualitySetting,
   setGlobalDefaultConversationColor,
-  shouldShowStoriesSettings,
+  localeOverride,
   themeSetting,
   universalExpireTimer = DurationInSeconds.ZERO,
   whoCanFindMe,
@@ -328,6 +347,7 @@ export function Preferences({
   const storiesId = useUniqueId();
   const themeSelectId = useUniqueId();
   const zoomSelectId = useUniqueId();
+  const languageId = useUniqueId();
 
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [confirmStoriesOff, setConfirmStoriesOff] = useState(false);
@@ -336,13 +356,33 @@ export function Preferences({
   const [nowSyncing, setNowSyncing] = useState(false);
   const [showDisappearingTimerDialog, setShowDisappearingTimerDialog] =
     useState(false);
-  const theme = useTheme();
+  const [languageDialog, setLanguageDialog] = useState<LanguageDialog | null>(
+    null
+  );
+  const [selectedLanguageLocale, setSelectedLanguageLocale] = useState<
+    string | null
+  >(localeOverride);
+  const [languageSearchInput, setLanguageSearchInput] = useState('');
+  const [toast, setToast] = useState<AnyToast | undefined>();
+  const [confirmPnpNotDiscoverable, setConfirmPnpNoDiscoverable] =
+    useState(false);
+
+  function closeLanguageDialog() {
+    setLanguageDialog(null);
+    setSelectedLanguageLocale(localeOverride);
+  }
 
   useEffect(() => {
     doneRendering();
   }, [doneRendering]);
 
-  useEscapeHandling(closeSettings);
+  useEscapeHandling(() => {
+    if (languageDialog != null) {
+      closeLanguageDialog();
+    } else {
+      closeSettings();
+    }
+  });
 
   const onZoomSelectChange = useCallback(
     (value: string) => {
@@ -363,7 +403,6 @@ export function Preferences({
     [onSelectedMicrophoneChange, availableMicrophones]
   );
 
-  const selectors = useMemo(() => focusableSelectors.join(','), []);
   const settingsPaneRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const settingsPane = settingsPaneRef.current;
@@ -377,12 +416,12 @@ export function Preferences({
       | HTMLInputElement
       | HTMLSelectElement
       | HTMLTextAreaElement
-    >(selectors);
+    >(focusableSelector);
     if (!elements.length) {
       return;
     }
     elements[0]?.focus();
-  }, [page, selectors]);
+  }, [page]);
 
   const onAudioOutputSelectChange = useCallback(
     (value: string) => {
@@ -395,6 +434,95 @@ export function Preferences({
     [onSelectedSpeakerChange, availableSpeakers]
   );
 
+  const localeDisplayNames = window.SignalContext.getLocaleDisplayNames();
+
+  const getLocaleDisplayName = useCallback(
+    (inLocale: string, ofLocale: string): string => {
+      const displayName = localeDisplayNames[inLocale]?.[ofLocale];
+      assertDev(
+        displayName != null,
+        `Locale display name in ${inLocale} of ${ofLocale} does not exist`
+      );
+      return (
+        displayName ??
+        new Intl.DisplayNames(inLocale, {
+          type: 'language',
+          languageDisplay: 'standard',
+          style: 'long',
+          fallback: 'code',
+        }).of(ofLocale)
+      );
+    },
+    [localeDisplayNames]
+  );
+
+  const localeSearchOptions = useMemo(() => {
+    const collator = new Intl.Collator('en', { usage: 'sort' });
+
+    const availableLocalesOptions = availableLocales
+      .map(locale => {
+        const currentLocaleLabel = getLocaleDisplayName(resolvedLocale, locale);
+        const matchingLocaleLabel = getLocaleDisplayName(locale, locale);
+        return { locale, currentLocaleLabel, matchingLocaleLabel };
+      })
+      .sort((a, b) => {
+        return collator.compare(a.locale, b.locale);
+      });
+
+    const [localeOverrideMatches, localeOverrideNonMatches] = partition(
+      availableLocalesOptions,
+      option => {
+        return option.locale === localeOverride;
+      }
+    );
+
+    const preferredSystemLocaleMatch = LocaleMatcher.match(
+      preferredSystemLocales as Array<string>, // bad types
+      availableLocales as Array<string>, // bad types
+      'en',
+      { algorithm: 'best fit' }
+    );
+
+    return [
+      ...localeOverrideMatches,
+      {
+        locale: null,
+        currentLocaleLabel: i18n('icu:Preferences__Language__SystemLanguage'),
+        matchingLocaleLabel: getLocaleDisplayName(
+          preferredSystemLocaleMatch,
+          preferredSystemLocaleMatch
+        ),
+      },
+      ...localeOverrideNonMatches,
+    ];
+  }, [
+    i18n,
+    availableLocales,
+    resolvedLocale,
+    localeOverride,
+    preferredSystemLocales,
+    getLocaleDisplayName,
+  ]);
+
+  const localeSearchResults = useMemo(() => {
+    return localeSearchOptions.filter(option => {
+      const input = removeDiacritics(languageSearchInput.trim().toLowerCase());
+
+      if (input === '') {
+        return true;
+      }
+
+      function isMatch(value: string) {
+        return removeDiacritics(value.toLowerCase()).includes(input);
+      }
+
+      return (
+        isMatch(option.currentLocaleLabel) ||
+        (option.matchingLocaleLabel && isMatch(option.matchingLocaleLabel))
+      );
+    });
+  }, [localeSearchOptions, languageSearchInput]);
+
   let settings: JSX.Element | undefined;
   if (page === Page.General) {
     settings = (
@@ -405,6 +533,10 @@ export function Preferences({
           </div>
         </div>
         <SettingsRow>
+          <Control
+            left={i18n('icu:Preferences--phone-number')}
+            right={phoneNumber}
+          />
           <Control
             left={i18n('icu:Preferences--device-name')}
             right={deviceName}
@@ -504,6 +636,129 @@ export function Preferences({
         </div>
         <SettingsRow>
           <Control
+            icon="Preferences__LanguageIcon"
+            left={i18n('icu:Preferences__Language__Label')}
+            right={
+              <span
+                className="Preferences__LanguageButton"
+                lang={localeOverride ?? resolvedLocale}
+              >
+                {localeOverride != null
+                  ? getLocaleDisplayName(resolvedLocale, localeOverride)
+                  : i18n('icu:Preferences__Language__SystemLanguage')}
+              </span>
+            }
+            onClick={() => {
+              setLanguageDialog(LanguageDialog.Selection);
+            }}
+          />
+          {languageDialog === LanguageDialog.Selection && (
+            <Modal
+              i18n={i18n}
+              modalName="Preferences__LanguageModal"
+              moduleClassName="Preferences__LanguageModal"
+              padded={false}
+              onClose={closeLanguageDialog}
+              title={i18n('icu:Preferences__Language__ModalTitle')}
+              modalHeaderChildren={
+                <SearchInput
+                  i18n={i18n}
+                  value={languageSearchInput}
+                  placeholder={i18n(
+                    'icu:Preferences__Language__SearchLanguages'
+                  )}
+                  moduleClassName="Preferences__LanguageModal__SearchInput"
+                  onChange={event => {
+                    setLanguageSearchInput(event.currentTarget.value);
+                  }}
+                />
+              }
+              modalFooter={
+                <>
+                  <Button
+                    variant={ButtonVariant.Secondary}
+                    onClick={closeLanguageDialog}
+                  >
+                    {i18n('icu:cancel')}
+                  </Button>
+                  <Button
+                    variant={ButtonVariant.Primary}
+                    disabled={selectedLanguageLocale === localeOverride}
+                    onClick={() => {
+                      setLanguageDialog(LanguageDialog.Confirmation);
+                    }}
+                  >
+                    {i18n('icu:Preferences__LanguageModal__Set')}
+                  </Button>
+                </>
+              }
+            >
+              {localeSearchResults.length === 0 && (
+                <div className="Preferences__LanguageModal__NoResults">
+                  {i18n('icu:Preferences__Language__NoResults', {
+                    searchTerm: languageSearchInput.trim(),
+                  })}
+                </div>
+              )}
+              {localeSearchResults.map(option => {
+                const id = `${languageId}:${option.locale ?? 'system'}`;
+                const isSelected = option.locale === selectedLanguageLocale;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    className="Preferences__LanguageModal__Item"
+                    onClick={() => {
+                      setSelectedLanguageLocale(option.locale);
+                    }}
+                    aria-pressed={isSelected}
+                  >
+                    <span className="Preferences__LanguageModal__Item__Inner">
+                      <span className="Preferences__LanguageModal__Item__Label">
+                        <span className="Preferences__LanguageModal__Item__Current">
+                          {option.currentLocaleLabel}
+                        </span>
+                        {option.matchingLocaleLabel != null && (
+                          <span
+                            lang={option.locale ?? resolvedLocale}
+                            className="Preferences__LanguageModal__Item__Matching"
+                          >
+                            {option.matchingLocaleLabel}
+                          </span>
+                        )}
+                      </span>
+                      {isSelected && (
+                        <span className="Preferences__LanguageModal__Item__Check" />
+                      )}
+                    </span>
+                  </button>
+                );
+              })}
+            </Modal>
+          )}
+          {languageDialog === LanguageDialog.Confirmation && (
+            <ConfirmationDialog
+              dialogName="Preferences__Language"
+              i18n={i18n}
+              title={i18n('icu:Preferences__LanguageModal__Restart__Title')}
+              onCancel={closeLanguageDialog}
+              onClose={closeLanguageDialog}
+              cancelText={i18n('icu:cancel')}
+              actions={[
+                {
+                  text: i18n('icu:Preferences__LanguageModal__Restart__Button'),
+                  style: 'affirmative',
+                  action: () => {
+                    onLocaleChange(selectedLanguageLocale);
+                  },
+                },
+              ]}
+            >
+              {i18n('icu:Preferences__LanguageModal__Restart__Description')}
+            </ConfirmationDialog>
+          )}
+          <Control
+            icon
             left={
               <label htmlFor={themeSelectId}>
                 {i18n('icu:Preferences--theme')}
@@ -532,6 +787,7 @@ export function Preferences({
             }
           />
           <Control
+            icon
             left={i18n('icu:showChatColorEditor')}
             onClick={() => {
               setPage(Page.ChatColor);
@@ -548,6 +804,7 @@ export function Preferences({
             }
           />
           <Control
+            icon
             left={
               <label htmlFor={zoomSelectId}>
                 {i18n('icu:Preferences--zoom')}
@@ -591,15 +848,13 @@ export function Preferences({
             name="spellcheck"
             onChange={onSpellCheckChange}
           />
-          {isFormattingFlagEnabled && (
-            <Checkbox
-              checked={hasTextFormatting}
-              label={i18n('icu:textFormattingDescription')}
-              moduleClassName="Preferences__checkbox"
-              name="textFormatting"
-              onChange={onTextFormattingChange}
-            />
-          )}
+          <Checkbox
+            checked={hasTextFormatting}
+            label={i18n('icu:textFormattingDescription')}
+            moduleClassName="Preferences__checkbox"
+            name="textFormatting"
+            onChange={onTextFormattingChange}
+          />
           <Checkbox
             checked={hasLinkPreviews}
             description={i18n('icu:Preferences__link-previews--description')}
@@ -608,6 +863,19 @@ export function Preferences({
             moduleClassName="Preferences__checkbox"
             name="linkPreviews"
             onChange={noop}
+          />
+          <Checkbox
+            checked={hasAutoConvertEmoji}
+            description={
+              <I18n
+                i18n={i18n}
+                id="icu:Preferences__auto-convert-emoji--description"
+              />
+            }
+            label={i18n('icu:Preferences__auto-convert-emoji--title')}
+            moduleClassName="Preferences__checkbox"
+            name="autoConvertEmoji"
+            onChange={onAutoConvertEmojiChange}
           />
           <Control
             left={i18n('icu:Preferences__sent-media-quality')}
@@ -928,20 +1196,26 @@ export function Preferences({
             {i18n('icu:Preferences__button--privacy')}
           </div>
         </div>
-        {isPhoneNumberSharingSupported ? (
-          <button
-            type="button"
-            className="Preferences__link"
-            onClick={() => setPage(Page.PNP)}
-          >
-            <h3 className="Preferences__padding">
-              {i18n('icu:Preferences__pnp__row--title')}
-            </h3>
-            <div className="Preferences__padding Preferences__description">
-              {i18n('icu:Preferences__pnp__row--body')}
-            </div>
-          </button>
-        ) : null}
+        <SettingsRow>
+          <Control
+            left={
+              <div className="Preferences__pnp">
+                <h3>{i18n('icu:Preferences__pnp__row--title')}</h3>
+                <div className="Preferences__description">
+                  {i18n('icu:Preferences__pnp__row--body')}
+                </div>
+              </div>
+            }
+            right={
+              <Button
+                onClick={() => setPage(Page.PNP)}
+                variant={ButtonVariant.Secondary}
+              >
+                {i18n('icu:Preferences__pnp__row--button')}
+              </Button>
+            }
+          />
+        </SettingsRow>
         <SettingsRow>
           <Control
             left={i18n('icu:Preferences--blocked')}
@@ -1032,38 +1306,36 @@ export function Preferences({
             }
           />
         </SettingsRow>
-        {shouldShowStoriesSettings && (
-          <SettingsRow title={i18n('icu:Stories__title')}>
-            <Control
-              left={
-                <label htmlFor={storiesId}>
-                  <div>{i18n('icu:Stories__settings-toggle--title')}</div>
-                  <div className="Preferences__description">
-                    {i18n('icu:Stories__settings-toggle--description')}
-                  </div>
-                </label>
-              }
-              right={
-                hasStoriesDisabled ? (
-                  <Button
-                    onClick={() => onHasStoriesDisabledChanged(false)}
-                    variant={ButtonVariant.Secondary}
-                  >
-                    {i18n('icu:Preferences__turn-stories-on')}
-                  </Button>
-                ) : (
-                  <Button
-                    className="Preferences__stories-off"
-                    onClick={() => setConfirmStoriesOff(true)}
-                    variant={ButtonVariant.SecondaryDestructive}
-                  >
-                    {i18n('icu:Preferences__turn-stories-off')}
-                  </Button>
-                )
-              }
-            />
-          </SettingsRow>
-        )}
+        <SettingsRow title={i18n('icu:Stories__title')}>
+          <Control
+            left={
+              <label htmlFor={storiesId}>
+                <div>{i18n('icu:Stories__settings-toggle--title')}</div>
+                <div className="Preferences__description">
+                  {i18n('icu:Stories__settings-toggle--description')}
+                </div>
+              </label>
+            }
+            right={
+              hasStoriesDisabled ? (
+                <Button
+                  onClick={() => onHasStoriesDisabledChanged(false)}
+                  variant={ButtonVariant.Secondary}
+                >
+                  {i18n('icu:Preferences__turn-stories-on')}
+                </Button>
+              ) : (
+                <Button
+                  className="Preferences__stories-off"
+                  onClick={() => setConfirmStoriesOff(true)}
+                  variant={ButtonVariant.SecondaryDestructive}
+                >
+                  {i18n('icu:Preferences__turn-stories-off')}
+                </Button>
+              )
+            }
+          />
+        </SettingsRow>
         <SettingsRow>
           <Control
             left={
@@ -1159,6 +1431,21 @@ export function Preferences({
       </>
     );
   } else if (page === Page.PNP) {
+    let sharingDescription: string;
+
+    if (whoCanSeeMe === PhoneNumberSharingMode.Everybody) {
+      sharingDescription = i18n(
+        'icu:Preferences__pnp__sharing--description--everyone'
+      );
+    } else if (whoCanFindMe === PhoneNumberDiscoverability.Discoverable) {
+      sharingDescription = i18n(
+        'icu:Preferences__pnp__sharing--description--nobody'
+      );
+    } else {
+      sharingDescription = i18n(
+        'icu:Preferences__pnp__sharing--description--nobody--not-discoverable'
+      );
+    }
     settings = (
       <>
         <div className="Preferences__title">
@@ -1195,11 +1482,7 @@ export function Preferences({
             value={whoCanSeeMe}
           />
           <div className="Preferences__padding">
-            <div className="Preferences__description">
-              {whoCanSeeMe === PhoneNumberSharingMode.Everybody
-                ? i18n('icu:Preferences__pnp__sharing--description--everyone')
-                : i18n('icu:Preferences__pnp__sharing--description--nobody')}
-            </div>
+            <div className="Preferences__description">{sharingDescription}</div>
           </div>
         </SettingsRow>
 
@@ -1207,22 +1490,28 @@ export function Preferences({
           title={i18n('icu:Preferences__pnp__discoverability--title')}
         >
           <SettingsRadio
-            onChange={onWhoCanFindMeChange}
+            onChange={value => {
+              if (value === PhoneNumberDiscoverability.NotDiscoverable) {
+                setConfirmPnpNoDiscoverable(true);
+              } else {
+                onWhoCanFindMeChange(value);
+              }
+            }}
             options={[
               {
                 text: i18n('icu:Preferences__pnp__discoverability__everyone'),
                 value: PhoneNumberDiscoverability.Discoverable,
               },
-              ...(whoCanSeeMe === PhoneNumberSharingMode.Nobody
-                ? [
-                    {
-                      text: i18n(
-                        'icu:Preferences__pnp__discoverability__nobody'
-                      ),
-                      value: PhoneNumberDiscoverability.NotDiscoverable,
-                    },
-                  ]
-                : []),
+              {
+                text: i18n('icu:Preferences__pnp__discoverability__nobody'),
+                value: PhoneNumberDiscoverability.NotDiscoverable,
+                readOnly: whoCanSeeMe === PhoneNumberSharingMode.Everybody,
+                onClick:
+                  whoCanSeeMe === PhoneNumberSharingMode.Everybody
+                    ? () =>
+                        setToast({ toastType: ToastType.WhoCanFindMeReadOnly })
+                    : noop,
+              },
             ]}
             value={whoCanFindMe}
           />
@@ -1238,16 +1527,49 @@ export function Preferences({
             </div>
           </div>
         </SettingsRow>
+        {confirmPnpNotDiscoverable && (
+          <ConfirmationDialog
+            i18n={i18n}
+            title={i18n(
+              'icu:Preferences__pnp__discoverability__nobody__confirmModal__title'
+            )}
+            dialogName="Preference.turnPnpDiscoveryOff"
+            onClose={() => {
+              setConfirmPnpNoDiscoverable(false);
+            }}
+            actions={[
+              {
+                action: () =>
+                  onWhoCanFindMeChange(
+                    PhoneNumberDiscoverability.NotDiscoverable
+                  ),
+                style: 'affirmative',
+                text: i18n('icu:ok'),
+              },
+            ]}
+          >
+            {i18n(
+              'icu:Preferences__pnp__discoverability__nobody__confirmModal__description',
+              {
+                // This is a rare instance where we want to interpolate the exact
+                // text of the string into quotes in the translation as an
+                // explanation.
+                settingTitle: i18n(
+                  'icu:Preferences__pnp__discoverability--title'
+                ),
+                nobodyLabel: i18n(
+                  'icu:Preferences__pnp__discoverability__nobody'
+                ),
+              }
+            )}
+          </ConfirmationDialog>
+        )}
       </>
     );
   }
 
   return (
-    <TitleBarContainer
-      hasCustomTitleBar={hasCustomTitleBar}
-      theme={theme}
-      executeMenuRole={executeMenuRole}
-    >
+    <>
       <div className="module-title-bar-drag-area" />
       <div className="Preferences">
         <div className="Preferences__page-selector">
@@ -1307,6 +1629,7 @@ export function Preferences({
           >
             {i18n('icu:Preferences__button--notifications')}
           </button>
+
           <button
             type="button"
             className={classNames({
@@ -1324,7 +1647,18 @@ export function Preferences({
           {settings}
         </div>
       </div>
-    </TitleBarContainer>
+      <ToastManager
+        OS="unused"
+        hideToast={() => setToast(undefined)}
+        i18n={i18n}
+        onShowDebugLog={shouldNeverBeCalled}
+        onUndoArchive={shouldNeverBeCalled}
+        openFileInFolder={shouldNeverBeCalled}
+        toast={toast}
+        containerWidthBreakpoint={WidthBreakpoint.Narrow}
+        isInFullScreenCall={false}
+      />
+    </>
   );
 }
 
@@ -1346,16 +1680,27 @@ function SettingsRow({
 }
 
 function Control({
+  icon,
   left,
   onClick,
   right,
 }: {
+  /** A className or `true` to leave room for icon */
+  icon?: string | true;
   left: ReactNode;
   onClick?: () => unknown;
   right: ReactNode;
 }): JSX.Element {
   const content = (
     <>
+      {icon && (
+        <div
+          className={classNames(
+            'Preferences__control--icon',
+            icon === true ? null : icon
+          )}
+        />
+      )}
       <div className="Preferences__control--key">{left}</div>
       <div className="Preferences__control--value">{right}</div>
     </>
@@ -1379,6 +1724,8 @@ function Control({
 type SettingsRadioOptionType<Enum> = Readonly<{
   text: string;
   value: Enum;
+  readOnly?: boolean;
+  onClick?: () => void;
 }>;
 
 function SettingsRadio<Enum>({
@@ -1396,11 +1743,13 @@ function SettingsRadio<Enum>({
 
   return (
     <div className="Preferences__padding">
-      {options.map(({ text, value: optionValue }, i) => {
+      {options.map(({ text, value: optionValue, readOnly, onClick }, i) => {
         const htmlId = htmlIds[i];
         return (
           <label
-            className="Preferences__settings-radio__label"
+            className={classNames('Preferences__settings-radio__label', {
+              'Preferences__settings-radio__label--readonly': readOnly,
+            })}
             key={htmlId}
             htmlFor={htmlId}
           >
@@ -1409,7 +1758,8 @@ function SettingsRadio<Enum>({
               variant={CircleCheckboxVariant.Small}
               id={htmlId}
               checked={value === optionValue}
-              onChange={() => onChange(optionValue)}
+              onClick={onClick}
+              onChange={readOnly ? noop : () => onChange(optionValue)}
             />
             {text}
           </label>

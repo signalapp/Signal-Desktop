@@ -5,21 +5,53 @@ import { createSelector } from 'reselect';
 
 import type { StateType } from '../reducer';
 import type {
-  ActiveCallStateType,
   CallingStateType,
   CallsByConversationType,
+  AdhocCallsType,
+  CallLinksByRoomIdType,
   DirectCallStateType,
   GroupCallStateType,
 } from '../ducks/calling';
 import { getIncomingCall as getIncomingCallHelper } from '../ducks/callingHelpers';
+import { CallMode } from '../../types/Calling';
+import type { CallLinkType } from '../../types/CallLink';
 import { getUserACI } from './user';
 import { getOwn } from '../../util/getOwn';
-import { CallViewMode } from '../../types/Calling';
 import type { AciString } from '../../types/ServiceId';
 
 export type CallStateType = DirectCallStateType | GroupCallStateType;
 
 const getCalling = (state: StateType): CallingStateType => state.calling;
+
+export const getAvailableMicrophones = createSelector(
+  getCalling,
+  ({ availableMicrophones }) => availableMicrophones
+);
+
+export const getSelectedMicrophone = createSelector(
+  getCalling,
+  ({ selectedMicrophone }) => selectedMicrophone
+);
+
+export const getAvailableSpeakers = createSelector(
+  getCalling,
+  ({ availableSpeakers }) => availableSpeakers
+);
+
+export const getSelectedSpeaker = createSelector(
+  getCalling,
+  ({ selectedSpeaker }) => selectedSpeaker
+);
+
+export const getAvailableCameras = createSelector(
+  getCalling,
+  ({ availableCameras }) => availableCameras
+);
+
+export const getSelectedCamera = createSelector(
+  getCalling,
+  ({ selectedCamera }) => selectedCamera
+);
 
 export const getActiveCallState = createSelector(
   getCalling,
@@ -32,6 +64,30 @@ export const getCallsByConversation = createSelector(
     state.callsByConversation
 );
 
+export const getAdhocCalls = createSelector(
+  getCalling,
+  (state: CallingStateType): AdhocCallsType => state.adhocCalls
+);
+
+export const getCallLinksByRoomId = createSelector(
+  getCalling,
+  (state: CallingStateType): CallLinksByRoomIdType => state.callLinks
+);
+
+export type CallLinkSelectorType = (roomId: string) => CallLinkType | undefined;
+
+export const getCallLinkSelector = createSelector(
+  getCallLinksByRoomId,
+  (callLinksByRoomId: CallLinksByRoomIdType): CallLinkSelectorType =>
+    (roomId: string): CallLinkType | undefined =>
+      getOwn(callLinksByRoomId, roomId)
+);
+
+export const getAllCallLinks = createSelector(
+  getCallLinksByRoomId,
+  (lookup): Array<CallLinkType> => Object.values(lookup)
+);
+
 export type CallSelectorType = (
   conversationId: string
 ) => CallStateType | undefined;
@@ -42,15 +98,33 @@ export const getCallSelector = createSelector(
       getOwn(callsByConversation, conversationId)
 );
 
+export type AdhocCallSelectorType = (
+  conversationId: string
+) => GroupCallStateType | undefined;
+export const getAdhocCallSelector = createSelector(
+  getAdhocCalls,
+  (adhocCalls: AdhocCallsType): AdhocCallSelectorType =>
+    (roomId: string) =>
+      getOwn(adhocCalls, roomId)
+);
+
 export const getActiveCall = createSelector(
   getActiveCallState,
   getCallSelector,
-  (activeCallState, callSelector): undefined | CallStateType => {
-    if (activeCallState && activeCallState.conversationId) {
-      return callSelector(activeCallState.conversationId);
+  getAdhocCallSelector,
+  (
+    activeCallState,
+    callSelector,
+    adhocCallSelector
+  ): undefined | CallStateType => {
+    const { callMode, conversationId } = activeCallState || {};
+    if (!conversationId) {
+      return undefined;
     }
 
-    return undefined;
+    return callMode === CallMode.Adhoc
+      ? adhocCallSelector(conversationId)
+      : callSelector(conversationId);
   }
 );
 
@@ -85,12 +159,3 @@ export const areAnyCallsActiveOrRinging = createSelector(
   getIncomingCall,
   (activeCall, incomingCall): boolean => Boolean(activeCall || incomingCall)
 );
-
-export const isInSpeakerView = (
-  call: Pick<ActiveCallStateType, 'viewMode'> | undefined
-): boolean => {
-  return Boolean(
-    call?.viewMode === CallViewMode.Presentation ||
-      call?.viewMode === CallViewMode.Speaker
-  );
-};

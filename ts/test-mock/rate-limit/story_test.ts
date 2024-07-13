@@ -15,9 +15,8 @@ export const debug = createDebug('mock:test:rate-limit');
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
-describe('story/no-sender-key', function needsName() {
+describe('story/no-sender-key', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;
@@ -57,7 +56,7 @@ describe('story/no-sender-key', function needsName() {
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();
@@ -95,12 +94,13 @@ describe('story/no-sender-key', function needsName() {
         .click();
 
       debug('Focusing textarea');
-      await storiesCreator.locator('.TextAttachment__story').click();
+      // Note: For some reason `.click()` doesn't work here anymore.
+      await storiesCreator.locator('.TextAttachment').dispatchEvent('click');
 
       debug('Entering text');
       await storiesCreator
         .locator('.TextAttachment__text__textarea')
-        .type('123');
+        .fill('123');
 
       debug('Clicking "Next"');
       await storiesCreator

@@ -11,6 +11,7 @@ import type {
   SaveAvatarToDiskActionType,
 } from '../../types/Avatar';
 import type { DurationInSeconds } from '../../util/durations';
+import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId';
 import type { ShowConversationType } from '../../state/ducks/conversations';
 
 export enum FindDirection {
@@ -43,9 +44,12 @@ export abstract class LeftPaneHelper<T> {
       onChangeComposeSearchTerm: (
         event: ChangeEvent<HTMLInputElement>
       ) => unknown;
+      onChangeComposeSelectedRegion: (newRegion: string) => void;
       updateSearchTerm: (searchTerm: string) => unknown;
       showConversation: ShowConversationType;
-    }>
+      showInbox: () => void;
+    }> &
+      LookupConversationWithoutServiceIdActionsType
   ): null | ReactChild {
     return null;
   }
@@ -83,11 +87,15 @@ export abstract class LeftPaneHelper<T> {
   }
 
   getFooterContents(
-    _: Readonly<{
-      i18n: LocalizerType;
-      startSettingGroupMetadata: () => void;
-      createGroup: () => unknown;
-    }>
+    _: Readonly<
+      {
+        i18n: LocalizerType;
+        startSettingGroupMetadata: () => void;
+        createGroup: () => unknown;
+        showInbox: () => void;
+        showConversation: ShowConversationType;
+      } & LookupConversationWithoutServiceIdActionsType
+    >
   ): null | ReactChild {
     return null;
   }

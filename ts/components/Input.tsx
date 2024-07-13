@@ -18,22 +18,27 @@ import { useRefMerger } from '../hooks/useRefMerger';
 import { byteLength } from '../Bytes';
 
 export type PropsType = {
+  autoFocus?: boolean;
   countBytes?: (value: string) => number;
   countLength?: (value: string) => number;
   disabled?: boolean;
   disableSpellcheck?: boolean;
   expandable?: boolean;
+  forceTextarea?: boolean;
   hasClearButton?: boolean;
   i18n: LocalizerType;
   icon?: ReactNode;
+  id?: string;
   maxByteCount?: number;
   maxLengthCount?: number;
   moduleClassName?: string;
   onChange: (value: string) => unknown;
+  onBlur?: () => unknown;
   onEnter?: () => unknown;
   placeholder: string;
   value?: string;
   whenToShowRemainingCount?: number;
+  whenToWarnRemainingCount?: number;
   children?: ReactNode;
 };
 
@@ -59,22 +64,27 @@ export const Input = forwardRef<
   PropsType
 >(function InputInner(
   {
+    autoFocus,
     countBytes = byteLength,
     countLength = grapheme.count,
     disabled,
     disableSpellcheck,
     expandable,
+    forceTextarea,
     hasClearButton,
     i18n,
     icon,
+    id,
     maxByteCount = 0,
     maxLengthCount = 0,
     moduleClassName,
     onChange,
+    onBlur,
     onEnter,
     placeholder,
     value = '',
     whenToShowRemainingCount = Infinity,
+    whenToWarnRemainingCount = Infinity,
     children,
   },
   ref
@@ -195,16 +205,21 @@ export const Input = forwardRef<
   const lengthCount = maxLengthCount ? countLength(value) : -1;
   const getClassName = getClassNamesFor('Input', moduleClassName);
 
+  const isTextarea = expandable || forceTextarea;
+
   const inputProps = {
+    autoFocus,
     className: classNames(
       getClassName('__input'),
       icon && getClassName('__input--with-icon'),
       isLarge && getClassName('__input--large'),
-      expandable && getClassName('__input--expandable')
+      isTextarea && getClassName('__input--textarea')
     ),
     disabled: Boolean(disabled),
+    id,
     spellCheck: !disableSpellcheck,
     onChange: handleChange,
+    onBlur,
     onKeyDown: handleKeyDown,
     onPaste: handlePaste,
     placeholder,
@@ -228,7 +243,12 @@ export const Input = forwardRef<
     ) : null;
 
   const lengthCountElement = lengthCount >= whenToShowRemainingCount && (
-    <div className={getClassName('__remaining-count')}>
+    <div
+      className={classNames(getClassName('__remaining-count'), {
+        [getClassName('__remaining-count--warn')]:
+          lengthCount >= whenToWarnRemainingCount,
+      })}
+    >
       {maxLengthCount - lengthCount}
     </div>
   );
@@ -242,7 +262,7 @@ export const Input = forwardRef<
       )}
     >
       {icon ? <div className={getClassName('__icon')}>{icon}</div> : null}
-      {expandable ? (
+      {isTextarea || forceTextarea ? (
         <textarea dir="auto" rows={1} {...inputProps} />
       ) : (
         <input dir="auto" {...inputProps} />

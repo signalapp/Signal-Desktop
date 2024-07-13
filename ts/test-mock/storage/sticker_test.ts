@@ -2,100 +2,34 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { range } from 'lodash';
 import { Proto } from '@signalapp/mock-server';
-import type { StorageStateRecord } from '@signalapp/mock-server';
-import fs from 'fs/promises';
-import path from 'path';
-
 import * as durations from '../../util/durations';
 import type { App, Bootstrap } from './fixtures';
-import { initStorage, debug } from './fixtures';
+import {
+  initStorage,
+  debug,
+  STICKER_PACKS,
+  EMPTY,
+  storeStickerPacks,
+  getStickerPackRecordPredicate,
+  getStickerPackLink,
+} from './fixtures';
 
 const { StickerPackOperation } = Proto.SyncMessage;
 
-const FIXTURES = path.join(__dirname, '..', '..', '..', 'fixtures');
-const IdentifierType = Proto.ManifestRecord.Identifier.Type;
-
-const EMPTY = new Uint8Array(0);
-
-export type StickerPackType = Readonly<{
-  id: Buffer;
-  key: Buffer;
-  stickerCount: number;
-}>;
-
-const STICKER_PACKS: ReadonlyArray<StickerPackType> = [
-  {
-    id: Buffer.from('c40ed069cdc2b91eccfccf25e6bcddfc', 'hex'),
-    key: Buffer.from(
-      'cefadd6e81c128680aead1711eb5c92c10f63bdfbc78528a4519ba682de396e4',
-      'hex'
-    ),
-    stickerCount: 1,
-  },
-  {
-    id: Buffer.from('ae8fedafda4768fd3384d4b3b9db963d', 'hex'),
-    key: Buffer.from(
-      '53f4aa8b95e1c2e75afab2328fe67eb6d7affbcd4f50cd4da89dfc325dbc73ca',
-      'hex'
-    ),
-    stickerCount: 1,
-  },
-];
-
-function getStickerPackLink(pack: StickerPackType): string {
-  return (
-    `https://signal.art/addstickers/#pack_id=${pack.id.toString('hex')}&` +
-    `pack_key=${pack.key.toString('hex')}`
-  );
-}
-
-function getStickerPackRecordPredicate(
-  pack: StickerPackType
-): (record: StorageStateRecord) => boolean {
-  return ({ type, record }: StorageStateRecord): boolean => {
-    if (type !== IdentifierType.STICKER_PACK) {
-      return false;
-    }
-    return pack.id.equals(record.stickerPack?.packId ?? EMPTY);
-  };
-}
-
-describe('storage service', function needsName() {
+describe('storage service', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;
 
   beforeEach(async () => {
     ({ bootstrap, app } = await initStorage());
-
     const { server } = bootstrap;
-
-    await Promise.all(
-      STICKER_PACKS.map(async ({ id, stickerCount }) => {
-        const hexId = id.toString('hex');
-
-        await server.storeStickerPack({
-          id,
-          manifest: await fs.readFile(
-            path.join(FIXTURES, `stickerpack-${hexId}.bin`)
-          ),
-          stickers: await Promise.all(
-            range(0, stickerCount).map(async index =>
-              fs.readFile(
-                path.join(FIXTURES, `stickerpack-${hexId}-${index}.bin`)
-              )
-            )
-          ),
-        });
-      })
-    );
+    await storeStickerPacks(server, STICKER_PACKS);
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     if (!bootstrap) {
       return;
     }

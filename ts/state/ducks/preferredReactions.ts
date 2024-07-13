@@ -101,8 +101,9 @@ export const actions = {
   selectDraftEmojiToBeReplaced,
 };
 
-export const useActions = (): BoundActionCreatorsMapObject<typeof actions> =>
-  useBoundActions(actions);
+export const usePreferredReactionsActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 function cancelCustomizePreferredReactionsModal(): CancelCustomizePreferredReactionsModalActionType {
   return { type: CANCEL_CUSTOMIZE_PREFERRED_REACTIONS_MODAL };

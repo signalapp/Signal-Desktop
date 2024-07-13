@@ -10,27 +10,8 @@ body {
   // It'd be great if we could use the `:fullscreen` selector here, but that does not seem
   //   to work with Electron, at least on macOS.
   --title-bar-drag-area-height: 0px; // Needs to have a unit to work with `calc()`.
-  --draggable-app-region: initial;
-  &.os-macos:not(.full-screen) {
+  &.os-macos:not(.full-screen),
+  .app-loading-screen--before-app-load {
     --title-bar-drag-area-height: calc(28px / var(--zoom-factor));
-    --draggable-app-region: drag;
-  }
-
-  --window-height: 100vh;
-  --window-width: 100vw;
-  --unscaled-window-border: 0px;
-  --window-border: calc(var(--unscaled-window-border) / var(--zoom-factor));
-  --titlebar-height: 0px;
-
-  &.os-has-custom-titlebar {
-    &:not(.maximized) {
-      --unscaled-window-border: 1px;
-    }
-
-    --titlebar-height: calc(28px / var(--zoom-factor));
-    --window-width: calc(100vw - 2 * var(--window-border));
-    --window-height: calc(
-      100vh - var(--titlebar-height) - var(--window-border)
-    );
   }
 }

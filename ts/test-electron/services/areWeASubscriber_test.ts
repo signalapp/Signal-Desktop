@@ -20,11 +20,13 @@ describe('"are we a subscriber?" service', () => {
     sandbox = sinon.createSandbox();
 
     service = new AreWeASubscriberService();
-    sandbox.stub(navigator, 'onLine').get(() => true);
   });
 
   it("stores false if there's no local subscriber ID", done => {
-    const fakeServer = { getHasSubscription: sandbox.stub() };
+    const fakeServer = {
+      getHasSubscription: sandbox.stub(),
+      isOnline: () => true,
+    };
     const fakeStorage = {
       ...fakeStorageDefaults,
       get: () => undefined,
@@ -39,7 +41,10 @@ describe('"are we a subscriber?" service', () => {
   });
 
   it("doesn't make a network request if there's no local subscriber ID", done => {
-    const fakeServer = { getHasSubscription: sandbox.stub() };
+    const fakeServer = {
+      getHasSubscription: sandbox.stub(),
+      isOnline: () => true,
+    };
     const fakeStorage = {
       ...fakeStorageDefaults,
       get: () => undefined,
@@ -53,7 +58,10 @@ describe('"are we a subscriber?" service', () => {
   });
 
   it('requests the subscriber ID from the server', done => {
-    const fakeServer = { getHasSubscription: sandbox.stub().resolves(false) };
+    const fakeServer = {
+      getHasSubscription: sandbox.stub().resolves(false),
+      isOnline: () => true,
+    };
     const fakeStorage = {
       ...fakeStorageDefaults,
       put: sandbox
@@ -72,7 +80,10 @@ describe('"are we a subscriber?" service', () => {
   });
 
   it("stores when we're not a subscriber", done => {
-    const fakeServer = { getHasSubscription: sandbox.stub().resolves(false) };
+    const fakeServer = {
+      getHasSubscription: sandbox.stub().resolves(false),
+      isOnline: () => true,
+    };
     const fakeStorage = {
       ...fakeStorageDefaults,
       put: sandbox.stub().callsFake((key, value) => {
@@ -86,7 +97,10 @@ describe('"are we a subscriber?" service', () => {
   });
 
   it("stores when we're a subscriber", done => {
-    const fakeServer = { getHasSubscription: sandbox.stub().resolves(true) };
+    const fakeServer = {
+      getHasSubscription: sandbox.stub().resolves(true),
+      isOnline: () => true,
+    };
     const fakeStorage = {
       ...fakeStorageDefaults,
       put: sandbox.stub().callsFake((key, value) => {
@@ -103,7 +117,10 @@ describe('"are we a subscriber?" service', () => {
     const allDone = explodePromise<void>();
     let putCallCount = 0;
 
-    const fakeServer = { getHasSubscription: sandbox.stub().resolves(false) };
+    const fakeServer = {
+      getHasSubscription: sandbox.stub().resolves(false),
+      isOnline: () => true,
+    };
     const fakeStorage = {
       ...fakeStorageDefaults,
       put: sandbox.stub().callsFake(() => {

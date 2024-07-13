@@ -8,12 +8,16 @@ import type { MessageAttributesType } from './model-types.d';
 import * as log from './logging/log';
 import { explodePromise } from './util/explodePromise';
 import { ipcInvoke } from './sql/channels';
+import { backupsService } from './services/backups';
 import { SECOND } from './util/durations';
+import { isSignalRoute } from './util/signalRoutes';
+import { strictAssert } from './util/assert';
 
 type ResolveType = (data: unknown) => void;
 
 export type CIType = {
   deviceName: string;
+  backupData?: Uint8Array;
   getConversationId: (address: string | null) => string | null;
   getMessagesBySentAt(
     sentAt: number
@@ -28,9 +32,17 @@ export type CIType = {
       ignorePastEvents?: boolean;
     }
   ) => unknown;
+  openSignalRoute(url: string): Promise<void>;
+  exportBackupToDisk(path: string): Promise<void>;
+  unlink: () => void;
 };
 
-export function getCI(deviceName: string): CIType {
+export type GetCIOptionsType = Readonly<{
+  deviceName: string;
+  backupData?: Uint8Array;
+}>;
+
+export function getCI({ deviceName, backupData }: GetCIOptionsType): CIType {
   const eventListeners = new Map<string, Array<ResolveType>>();
   const completedEvents = new Map<string, Array<unknown>>();
 
@@ -133,13 +145,39 @@ export function getCI(deviceName: string): CIType {
     return window.ConversationController.getConversationId(address);
   }
 
+  async function openSignalRoute(url: string) {
+    strictAssert(
+      isSignalRoute(url),
+      `openSignalRoute: not a valid signal route ${url}`
+    );
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.hidden = true;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  async function exportBackupToDisk(path: string) {
+    await backupsService.exportToDisk(path);
+  }
+
+  function unlink() {
+    window.Whisper.events.trigger('unlinkAndDisconnect');
+  }
+
   return {
     deviceName,
+    backupData,
     getConversationId,
     getMessagesBySentAt,
     handleEvent,
     setProvisioningURL,
     solveChallenge,
     waitForEvent,
+    openSignalRoute,
+    exportBackupToDisk,
+    unlink,
   };
 }

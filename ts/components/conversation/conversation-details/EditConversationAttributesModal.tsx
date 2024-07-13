@@ -23,7 +23,7 @@ import type { AvatarColorType } from '../../../types/Colors';
 
 type PropsType = {
   avatarColor?: AvatarColorType;
-  avatarPath?: string;
+  avatarUrl?: string;
   conversationId: string;
   groupDescription?: string;
   i18n: LocalizerType;
@@ -46,7 +46,7 @@ type PropsType = {
 
 export function EditConversationAttributesModal({
   avatarColor,
-  avatarPath: externalAvatarPath,
+  avatarUrl: externalAvatarUrl,
   conversationId,
   groupDescription: externalGroupDescription = '',
   i18n,
@@ -66,7 +66,7 @@ export function EditConversationAttributesModal({
   const focusDescription = focusDescriptionRef.current;
 
   const startingTitleRef = useRef<string>(externalTitle);
-  const startingAvatarPathRef = useRef<undefined | string>(externalAvatarPath);
+  const startingAvatarUrlRef = useRef<undefined | string>(externalAvatarUrl);
 
   const [editingAvatar, setEditingAvatar] = useState(false);
   const [avatar, setAvatar] = useState<undefined | Uint8Array>();
@@ -87,7 +87,7 @@ export function EditConversationAttributesModal({
   };
 
   const hasChangedExternally =
-    startingAvatarPathRef.current !== externalAvatarPath ||
+    startingAvatarUrlRef.current !== externalAvatarUrl ||
     startingTitleRef.current !== externalTitle;
   const hasTitleChanged = trimmedTitle !== externalTitle.trim();
   const hasGroupDescriptionChanged =
@@ -123,16 +123,14 @@ export function EditConversationAttributesModal({
     makeRequest(request);
   };
 
-  const avatarPathForPreview = hasAvatarChanged
-    ? undefined
-    : externalAvatarPath;
+  const avatarUrlForPreview = hasAvatarChanged ? undefined : externalAvatarUrl;
 
   let content: JSX.Element;
   if (editingAvatar) {
     content = (
       <AvatarEditor
         avatarColor={avatarColor}
-        avatarPath={avatarPathForPreview}
+        avatarUrl={avatarUrlForPreview}
         avatarValue={avatar}
         conversationId={conversationId}
         deleteAvatarFromDisk={deleteAvatarFromDisk}
@@ -161,7 +159,7 @@ export function EditConversationAttributesModal({
       >
         <AvatarPreview
           avatarColor={avatarColor}
-          avatarPath={avatarPathForPreview}
+          avatarUrl={avatarUrlForPreview}
           avatarValue={avatar}
           i18n={i18n}
           isEditable

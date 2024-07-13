@@ -6,9 +6,10 @@ import * as log from '../logging/log';
 import { PanelType } from '../types/Panels';
 import { clearConversationDraftAttachments } from '../util/clearConversationDraftAttachments';
 import { drop } from '../util/drop';
-import { focusableSelectors } from '../util/focusableSelectors';
+import { matchOrQueryFocusable } from '../util/focusableSelectors';
 import { getQuotedMessageSelector } from '../state/selectors/composer';
 import { removeLinkPreview } from './LinkPreview';
+import { ForwardMessagesModalType } from '../components/ForwardMessagesModal';
 
 export function addGlobalKeyboardShortcuts(): void {
   const isMacOS = window.platform === 'darwin';
@@ -48,24 +49,31 @@ export function addGlobalKeyboardShortcuts(): void {
     ) {
       window.enterKeyboardMode();
       const focusedElement = document.activeElement;
-      const targets: Array<HTMLElement> = Array.from(
-        document.querySelectorAll('[data-supertab="true"]')
+      const targets = Array.from(
+        document.querySelectorAll<HTMLElement>('[data-supertab="true"]')
       );
-      const focusedIndex = targets.findIndex(target => {
-        if (!target || !focusedElement) {
-          return false;
-        }
+      const focusedIndexes: Array<number> = [];
 
-        if (target === focusedElement) {
-          return true;
+      targets.forEach((target, index) => {
+        if (
+          (focusedElement != null && target === focusedElement) ||
+          target.contains(focusedElement)
+        ) {
+          focusedIndexes.push(index);
         }
-
-        if (target.contains(focusedElement)) {
-          return true;
-        }
-
-        return false;
       });
+
+      if (focusedIndexes.length > 1) {
+        log.error(
+          `supertab: found multiple supertab elements containing the current active element: ${focusedIndexes.join(
+            ', '
+          )}`
+        );
+      }
+
+      // Default to the last focusable element to avoid cycles when multiple
+      // elements match (generally going to be a parent element)
+      const focusedIndex = focusedIndexes.at(-1) ?? -1;
 
       const lastIndex = targets.length - 1;
       const increment = shiftKey ? -1 : 1;
@@ -85,9 +93,7 @@ export function addGlobalKeyboardShortcuts(): void {
       }
 
       const node = targets[index];
-      const firstFocusableElement = node.querySelectorAll<HTMLElement>(
-        focusableSelectors.join(',')
-      )[0];
+      const firstFocusableElement = matchOrQueryFocusable(node);
 
       if (firstFocusableElement) {
         firstFocusableElement.focus();
@@ -487,7 +493,7 @@ export function addGlobalKeyboardShortcuts(): void {
         event.stopPropagation();
 
         window.reduxActions.globalModals.toggleForwardMessagesModal(
-          messageIds,
+          { type: ForwardMessagesModalType.Forward, messageIds },
           () => {
             if (selectedMessageIds != null) {
               window.reduxActions.conversations.toggleSelectMode(false);

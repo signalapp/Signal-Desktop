@@ -21,6 +21,9 @@ import type {
   NotificationClickData,
   WindowsNotificationData,
 } from '../../services/notifications';
+import { isAdhocCallingEnabled } from '../../util/isAdhocCallingEnabled';
+import { AggregatedStats } from '../../textsecure/WebsocketResources';
+import { UNAUTHENTICATED_CHANNEL_NAME } from '../../textsecure/SocketManager';
 
 // It is important to call this as early as possible
 window.i18n = SignalContext.i18n;
@@ -52,8 +55,9 @@ window.getBuildExpiration = () => config.buildExpiration;
 window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
 window.getServerPublicParams = () => config.serverPublicParams;
+window.getGenericServerPublicParams = () => config.genericServerPublicParams;
+window.getBackupServerPublicParams = () => config.backupServerPublicParams;
 window.getSfuUrl = () => config.sfuUrl;
-window.isBehindProxy = () => Boolean(config.proxyUrl);
 
 let title = config.name;
 if (getEnvironment() !== Environment.Production) {
@@ -78,7 +82,7 @@ const IPC: IPCType = {
   closeAbout: () => ipc.send('close-about'),
   crashReports: {
     getCount: () => ipc.invoke('crash-reports:get-count'),
-    upload: () => ipc.invoke('crash-reports:upload'),
+    writeToLog: () => ipc.invoke('crash-reports:write-to-log'),
     erase: () => ipc.invoke('crash-reports:erase'),
   },
   drawAttention: () => {
@@ -86,6 +90,8 @@ const IPC: IPCType = {
     ipc.send('draw-attention');
   },
   getAutoLaunch: () => ipc.invoke('get-auto-launch'),
+  getMediaAccessStatus: mediaType =>
+    ipc.invoke('get-media-access-status', mediaType),
   getMediaPermissions: () => ipc.invoke('settings:get:mediaPermissions'),
   getMediaCameraPermissions: () =>
     ipc.invoke('settings:get:mediaCameraPermissions'),
@@ -97,10 +103,6 @@ const IPC: IPCType = {
     }),
   readyForUpdates: () => ipc.send('ready-for-updates'),
   removeSetupMenuItems: () => ipc.send('remove-setup-menu-items'),
-  restart: () => {
-    log.info('restart');
-    ipc.send('restart');
-  },
   setAutoHideMenuBar: autoHide => ipc.send('set-auto-hide-menu-bar', autoHide),
   setAutoLaunch: value => ipc.invoke('set-auto-launch', value),
   setBadge: badge => ipc.send('set-badge', badge),
@@ -126,11 +128,6 @@ const IPC: IPCType = {
   },
   titleBarDoubleClick: () => {
     ipc.send('title-bar-double-click');
-  },
-  updateSystemTraySetting: (
-    systemTraySetting /* : Readonly<SystemTraySetting> */
-  ) => {
-    void ipc.invoke('update-system-tray-setting', systemTraySetting);
   },
   updateTrayIcon: unreadCount => ipc.send('update-tray-icon', unreadCount),
 };
@@ -176,6 +173,16 @@ if (config.ciMode !== 'full' && config.environment !== 'test') {
   window.eval = global.eval = () => null;
 }
 
+type NetworkStatistics = {
+  signalConnectionCount?: string;
+  unauthorizedConnectionFailures?: string;
+  unauthorizedRequestsCompared?: string;
+  unauthorizedHealthcheckFailures?: string;
+  unauthorizedHealthcheckBadStatus?: string;
+  unauthorizedUnexpectedReconnects?: string;
+  unauthorizedIpVersionMismatches?: string;
+};
+
 ipc.on('additional-log-data-request', async event => {
   const ourConversation = window.ConversationController.getOurConversation();
   const ourCapabilities = ourConversation
@@ -191,6 +198,36 @@ ipc.on('additional-log-data-request', async event => {
     statistics = {};
   }
 
+  let networkStatistics: NetworkStatistics = {
+    signalConnectionCount: formatCountForLogging(getSignalConnections().length),
+  };
+  const unauthorizedStats = AggregatedStats.loadOrCreateEmpty(
+    UNAUTHENTICATED_CHANNEL_NAME
+  );
+  if (unauthorizedStats.requestsCompared > 0) {
+    networkStatistics = {
+      ...networkStatistics,
+      unauthorizedConnectionFailures: formatCountForLogging(
+        unauthorizedStats.connectionFailures
+      ),
+      unauthorizedRequestsCompared: formatCountForLogging(
+        unauthorizedStats.requestsCompared
+      ),
+      unauthorizedHealthcheckFailures: formatCountForLogging(
+        unauthorizedStats.healthcheckFailures
+      ),
+      unauthorizedHealthcheckBadStatus: formatCountForLogging(
+        unauthorizedStats.healthcheckBadStatus
+      ),
+      unauthorizedUnexpectedReconnects: formatCountForLogging(
+        unauthorizedStats.unexpectedReconnects
+      ),
+      unauthorizedIpVersionMismatches: formatCountForLogging(
+        unauthorizedStats.ipVersionMismatches
+      ),
+    };
+  }
+
   const ourAci = window.textsecure.storage.user.getAci();
   const ourPni = window.textsecure.storage.user.getPni();
 
@@ -203,13 +240,10 @@ ipc.on('additional-log-data-request', async event => {
     }),
     statistics: {
       ...statistics,
-      signalConnectionCount: formatCountForLogging(
-        getSignalConnections().length
-      ),
+      ...networkStatistics,
     },
     user: {
       deviceId: window.textsecure.storage.user.getDeviceId(),
-      e164: window.textsecure.storage.user.getNumber(),
       uuid: ourAci,
       pni: ourPni,
       conversationId: ourConversation && ourConversation.id,
@@ -240,6 +274,16 @@ ipc.on('power-channel:resume', () => {
 ipc.on('power-channel:lock-screen', () => {
   window.Whisper.events.trigger('powerMonitorLockScreen');
 });
+
+ipc.on(
+  'set-media-playback-disabled',
+  (_event: unknown, playbackDisabled: unknown) => {
+    const { setMediaPlaybackDisabled } = window.Events || {};
+    if (setMediaPlaybackDisabled) {
+      setMediaPlaybackDisabled(Boolean(playbackDisabled));
+    }
+  }
+);
 
 ipc.on('window:set-window-stats', (_event, stats) => {
   if (!window.reduxActions) {
@@ -287,48 +331,39 @@ ipc.on('delete-all-data', async () => {
 });
 
 ipc.on('show-sticker-pack', (_event, info) => {
-  const { packId, packKey } = info;
-  const { showStickerPack } = window.Events;
-  if (showStickerPack) {
-    showStickerPack(packId, packKey);
-  }
+  window.Events.showStickerPack?.(info.packId, info.packKey);
 });
 
 ipc.on('show-group-via-link', (_event, info) => {
-  const { hash } = info;
-  const { showGroupViaLink } = window.Events;
-  if (showGroupViaLink) {
-    void showGroupViaLink(hash);
-  }
-});
-
-ipc.on('open-art-creator', () => {
-  drop(window.Events.openArtCreator());
-});
-window.openArtCreator = ({
-  username,
-  password,
-}: {
-  username: string;
-  password: string;
-}) => {
-  return ipc.invoke('open-art-creator', { username, password });
-};
-
-ipc.on('authorize-art-creator', (_event, info) => {
-  const { token, pubKeyBase64 } = info;
-  window.Events.authorizeArtCreator?.({ token, pubKeyBase64 });
+  strictAssert(typeof info.value === 'string', 'Got an invalid value over IPC');
+  drop(window.Events.showGroupViaLink?.(info.value));
 });
 
 ipc.on('start-call-lobby', (_event, { conversationId }) => {
+  window.IPC.showWindow();
   window.reduxActions?.calling?.startCallingLobby({
     conversationId,
     isVideoCall: true,
   });
 });
+
+ipc.on('start-call-link', (_event, { key }) => {
+  if (isAdhocCallingEnabled()) {
+    window.reduxActions?.calling?.startCallLinkLobby({
+      rootKey: key,
+    });
+  } else {
+    const { unknownSignalLink } = window.Events;
+    if (unknownSignalLink) {
+      unknownSignalLink();
+    }
+  }
+});
+
 ipc.on('show-window', () => {
   window.IPC.showWindow();
 });
+
 ipc.on('set-is-presenting', () => {
   window.reduxActions?.calling?.setPresenting();
 });
@@ -343,12 +378,13 @@ ipc.on(
   }
 );
 ipc.on('show-conversation-via-signal.me', (_event, info) => {
-  const { hash } = info;
-  strictAssert(typeof hash === 'string', 'Got an invalid hash over IPC');
+  const { kind, value } = info;
+  strictAssert(typeof kind === 'string', 'Got an invalid kind over IPC');
+  strictAssert(typeof value === 'string', 'Got an invalid value over IPC');
 
   const { showConversationViaSignalDotMe } = window.Events;
   if (showConversationViaSignalDotMe) {
-    void showConversationViaSignalDotMe(hash);
+    void showConversationViaSignalDotMe(kind, value);
   }
 });
 
@@ -383,9 +419,37 @@ ipc.on('get-ready-for-shutdown', async () => {
   }
 });
 
+ipc.on('maybe-request-close-confirmation', async () => {
+  const { getIsInCall, requestCloseConfirmation } = window.Events;
+  if (!getIsInCall || !getIsInCall() || !requestCloseConfirmation) {
+    ipc.send('received-close-confirmation', true);
+    return;
+  }
+
+  log.info('Requesting close confirmation.');
+  ipc.send('requested-close-confirmation');
+  const result = await requestCloseConfirmation();
+  ipc.send('received-close-confirmation', result);
+});
+
 ipc.on('show-release-notes', () => {
   const { showReleaseNotes } = window.Events;
   if (showReleaseNotes) {
     showReleaseNotes();
   }
 });
+
+ipc.on(
+  'art-creator:uploadStickerPack',
+  async (
+    event,
+    {
+      manifest,
+      stickers,
+    }: { manifest: Uint8Array; stickers: ReadonlyArray<Uint8Array> }
+  ) => {
+    const packId = await window.Events?.uploadStickerPack(manifest, stickers);
+
+    event.sender.send('art-creator:uploadStickerPack:done', packId);
+  }
+);

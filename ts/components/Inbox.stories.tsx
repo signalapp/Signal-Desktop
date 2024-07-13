@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState, useEffect, useMemo } from 'react';
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import { noop } from 'lodash';
 
 import { Inbox } from './Inbox';
@@ -16,41 +16,20 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Inbox',
-  argTypes: {
-    i18n: {
-      defaultValue: i18n,
-    },
-    hasInitialLoadCompleted: {
-      defaultValue: false,
-    },
-    daysAgo: {
-      control: 'select',
-      defaultValue: undefined,
-      options: [undefined, 1, 2, 3, 7, 14, 21],
-    },
-    isCustomizingPreferredReactions: {
-      defaultValue: false,
-    },
-    onConversationClosed: {
-      action: true,
-    },
-    onConversationOpened: {
-      action: true,
-    },
-    scrollToMessage: {
-      action: true,
-    },
-    showConversation: {
-      action: true,
-    },
-    showWhatsNewModal: {
-      action: true,
-    },
+  args: {
+    i18n,
+    hasInitialLoadCompleted: false,
+    isAlpha: false,
+    isCustomizingPreferredReactions: false,
   },
-} as Meta;
+  argTypes: {
+    daysAgo: { control: { type: 'number' } },
+    isAlpha: { control: { type: 'boolean' } },
+  },
+} satisfies Meta<PropsType & { daysAgo?: number }>;
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<PropsType & { daysAgo?: number }> = ({
+const Template: StoryFn<PropsType & { daysAgo?: number }> = ({
   daysAgo,
   ...args
 }) => {
@@ -58,7 +37,7 @@ const Template: Story<PropsType & { daysAgo?: number }> = ({
   const [dayOffset, setDayOffset] = useState(0);
 
   useEffect(() => {
-    if (daysAgo === undefined) {
+    if (!daysAgo) {
       setDayOffset(0);
       return noop;
     }
@@ -90,6 +69,8 @@ const Template: Story<PropsType & { daysAgo?: number }> = ({
 };
 
 export const Default = Template.bind({});
-Default.story = {
-  name: 'Default',
+
+export const FourDaysAgo = Template.bind({});
+FourDaysAgo.args = {
+  daysAgo: 4,
 };

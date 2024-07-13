@@ -17,7 +17,7 @@ import type {
 } from '../../state/ducks/conversations';
 import { LeftPaneSearchInput } from '../LeftPaneSearchInput';
 
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import { assertDev } from '../../util/assert';
 import { UserText } from '../UserText';
 
@@ -147,7 +147,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     let noResults: ReactChild;
     if (searchConversationName) {
       noResults = (
-        <Intl
+        <I18n
           id="icu:noSearchResultsInConversation"
           i18n={i18n}
           components={{

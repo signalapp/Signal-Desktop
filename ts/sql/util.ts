@@ -36,7 +36,12 @@ export function jsonToObject<T>(json: string): T {
   return JSON.parse(json);
 }
 
-export type QueryTemplateParam = string | number | null | undefined;
+export type QueryTemplateParam =
+  | Uint8Array
+  | string
+  | number
+  | null
+  | undefined;
 export type QueryFragmentValue = QueryFragment | QueryTemplateParam;
 
 export type QueryFragment = [
@@ -105,9 +110,9 @@ export function sqlConstant(value: QueryTemplateParam): QueryFragment {
 /**
  * Like `Array.prototype.join`, but for SQL fragments.
  */
+const SQL_JOIN_SEPARATOR = ',';
 export function sqlJoin(
-  items: ReadonlyArray<QueryFragmentValue>,
-  separator: string
+  items: ReadonlyArray<QueryFragmentValue>
 ): QueryFragment {
   let query = '';
   const params: Array<QueryTemplateParam> = [];
@@ -118,7 +123,7 @@ export function sqlJoin(
     params.push(...fragmentParams);
 
     if (index < items.length - 1) {
-      query += separator;
+      query += SQL_JOIN_SEPARATOR;
     }
   });
 
@@ -148,7 +153,7 @@ export type QueryTemplate = [string, ReadonlyArray<QueryTemplateParam>];
  */
 export function sql(
   strings: TemplateStringsArray,
-  ...values: ReadonlyArray<QueryFragment | QueryTemplateParam>
+  ...values: Array<QueryFragment | QueryTemplateParam>
 ): QueryTemplate {
   const [{ fragment }, params] = sqlFragment(strings, ...values);
   return [fragment, params];
@@ -323,37 +328,39 @@ export function getById<Key extends string | number, Result = unknown>(
 
 export function removeById<Key extends string | number>(
   db: Database,
-  table: TableType,
+  tableName: TableType,
   id: Key | Array<Key>
-): void {
+): number {
+  const table = sqlConstant(tableName);
   if (!Array.isArray(id)) {
-    db.prepare<Query>(
-      `
+    const [query, params] = sql`
       DELETE FROM ${table}
-      WHERE id = $id;
-      `
-    ).run({ id });
-    return;
+      WHERE id = ${id};
+    `;
+    return db.prepare(query).run(params).changes;
   }
 
   if (!id.length) {
     throw new Error('removeById: No ids to delete!');
   }
 
+  let totalChanges = 0;
+
   const removeByIdsSync = (ids: ReadonlyArray<string | number>): void => {
-    db.prepare<ArrayQuery>(
-      `
+    const [query, params] = sql`
       DELETE FROM ${table}
-      WHERE id IN ( ${id.map(() => '?').join(', ')} );
-      `
-    ).run(ids);
+      WHERE id IN (${sqlJoin(ids)});
+    `;
+    totalChanges += db.prepare(query).run(params).changes;
   };
 
   batchMultiVarQuery(db, id, removeByIdsSync);
+
+  return totalChanges;
 }
 
-export function removeAllFromTable(db: Database, table: TableType): void {
-  db.prepare<EmptyQuery>(`DELETE FROM ${table};`).run();
+export function removeAllFromTable(db: Database, table: TableType): number {
+  return db.prepare<EmptyQuery>(`DELETE FROM ${table};`).run().changes;
 }
 
 export function getAllFromTable<T>(db: Database, table: TableType): Array<T> {

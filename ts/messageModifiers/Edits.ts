@@ -5,9 +5,13 @@ import type { MessageAttributesType } from '../model-types.d';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import { drop } from '../util/drop';
-import { getContactId } from '../messages/helpers';
+import { getAuthorId } from '../messages/helpers';
 import { handleEditMessage } from '../util/handleEditMessage';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
+import {
+  isAttachmentDownloadQueueEmpty,
+  registerQueueEmptyCallback,
+} from '../util/attachmentDownloadQueue';
 
 export type EditAttributesType = {
   conversationId: string;
@@ -40,10 +44,18 @@ export function forMessage(
   const sentAt = getMessageSentTimestamp(messageAttributes, { log });
   const editValues = Array.from(edits.values());
 
+  if (!isAttachmentDownloadQueueEmpty()) {
+    log.info(
+      'Edits.forMessage attachmentDownloadQueue not empty, not processing edits'
+    );
+    registerQueueEmptyCallback(flushEdits);
+    return [];
+  }
+
   const matchingEdits = editValues.filter(item => {
     return (
       item.targetSentTimestamp === sentAt &&
-      item.fromId === getContactId(messageAttributes)
+      item.fromId === getAuthorId(messageAttributes)
     );
   });
 
@@ -66,10 +78,25 @@ export function forMessage(
   return [];
 }
 
+export async function flushEdits(): Promise<void> {
+  log.info('Edits.flushEdits running');
+  return drop(
+    Promise.all(Array.from(edits.values()).map(edit => onEdit(edit)))
+  );
+}
+
 export async function onEdit(edit: EditAttributesType): Promise<void> {
   edits.set(edit.envelopeId, edit);
 
   const logId = `Edits.onEdit(timestamp=${edit.message.timestamp};target=${edit.targetSentTimestamp})`;
+
+  if (!isAttachmentDownloadQueueEmpty()) {
+    log.info(
+      `${logId}: attachmentDownloadQueue not empty, not processing edits`
+    );
+    registerQueueEmptyCallback(flushEdits);
+    return;
+  }
 
   try {
     // The conversation the edited message was in; we have to find it in the database
@@ -98,7 +125,7 @@ export async function onEdit(edit: EditAttributesType): Promise<void> {
         const targetMessage = messages.find(
           m =>
             edit.conversationId === m.conversationId &&
-            edit.fromId === getContactId(m)
+            edit.fromId === getAuthorId(m)
         );
 
         if (!targetMessage) {

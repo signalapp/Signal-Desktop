@@ -2,95 +2,107 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { select } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './Tooltip';
 import { Tooltip, TooltipPlacement } from './Tooltip';
 import { Theme } from '../util/theme';
 
-const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  content: overrideProps.content || 'Hello World',
-  direction: select('direction', TooltipPlacement, overrideProps.direction),
-  sticky: overrideProps.sticky,
-  theme: overrideProps.theme,
-});
-
 export default {
   title: 'Components/Tooltip',
-};
+  argTypes: {
+    content: { control: { type: 'text' } },
+    direction: {
+      control: { type: 'select' },
+      options: Object.values(TooltipPlacement),
+    },
+    sticky: { control: { type: 'boolean' } },
+    theme: {
+      control: { type: 'select' },
+      options: Object.keys(Theme),
+      mappings: Theme,
+    },
+  },
+  args: {
+    content: 'Hello World',
+    direction: TooltipPlacement.Top,
+    sticky: false,
+  },
+  decorators: [
+    (Story): JSX.Element => {
+      return (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+          }}
+        >
+          <Story />
+        </div>
+      );
+    },
+  ],
+} satisfies Meta<PropsType>;
 
 const Trigger = (
   <span
     style={{
       display: 'inline-block',
-      marginTop: 200,
-      marginBottom: 200,
-      marginInlineStart: 200,
-      marginInlineEnd: 200,
+      background: '#eee',
+      padding: 20,
+      borderRadius: 4,
     }}
   >
     Trigger
   </span>
 );
 
-export const _Top = (): JSX.Element => (
-  <Tooltip
-    {...createProps({
-      direction: TooltipPlacement.Top,
-    })}
-  >
-    {Trigger}
-  </Tooltip>
-);
-
-export const _Right = (): JSX.Element => (
-  <Tooltip
-    {...createProps({
-      direction: TooltipPlacement.Right,
-    })}
-  >
-    {Trigger}
-  </Tooltip>
-);
-
-export const _Bottom = (): JSX.Element => (
-  <Tooltip
-    {...createProps({
-      direction: TooltipPlacement.Bottom,
-    })}
-  >
-    {Trigger}
-  </Tooltip>
-);
-
-export const _Left = (): JSX.Element => (
-  <Tooltip
-    {...createProps({
-      direction: TooltipPlacement.Left,
-    })}
-  >
-    {Trigger}
-  </Tooltip>
-);
-
-export function Sticky(): JSX.Element {
+export function Top(args: PropsType): JSX.Element {
   return (
-    <Tooltip
-      {...createProps({
-        sticky: true,
-      })}
-    >
+    <Tooltip {...args} direction={TooltipPlacement.Top}>
       {Trigger}
     </Tooltip>
   );
 }
 
-export function WithAppliedPopperModifiers(): JSX.Element {
+export function Right(args: PropsType): JSX.Element {
+  return (
+    <Tooltip {...args} direction={TooltipPlacement.Right}>
+      {Trigger}
+    </Tooltip>
+  );
+}
+
+export function Bottom(args: PropsType): JSX.Element {
+  return (
+    <Tooltip {...args} direction={TooltipPlacement.Bottom}>
+      {Trigger}
+    </Tooltip>
+  );
+}
+
+export function Left(args: PropsType): JSX.Element {
+  return (
+    <Tooltip {...args} direction={TooltipPlacement.Left}>
+      {Trigger}
+    </Tooltip>
+  );
+}
+
+export function Sticky(args: PropsType): JSX.Element {
+  return (
+    <Tooltip {...args} sticky>
+      {Trigger}
+    </Tooltip>
+  );
+}
+
+export function WithAppliedPopperModifiers(args: PropsType): JSX.Element {
   return (
     <Tooltip
-      {...createProps({
-        direction: TooltipPlacement.Bottom,
-      })}
+      {...args}
+      direction={TooltipPlacement.Bottom}
       popperModifiers={[
         {
           name: 'offset',
@@ -105,14 +117,9 @@ export function WithAppliedPopperModifiers(): JSX.Element {
   );
 }
 
-export function DarkTheme(): JSX.Element {
+export function DarkTheme(args: PropsType): JSX.Element {
   return (
-    <Tooltip
-      {...createProps({
-        sticky: true,
-        theme: Theme.Dark,
-      })}
-    >
+    <Tooltip {...args} sticky theme={Theme.Dark}>
       {Trigger}
     </Tooltip>
   );

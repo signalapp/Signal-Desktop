@@ -6,7 +6,8 @@ import { readFileSync } from 'fs';
 import { merge } from 'lodash';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import { z } from 'zod';
-import { setupI18n } from '../ts/util/setupI18n';
+import { setupI18n } from '../ts/util/setupI18nMain';
+import { shouldNeverBeCalled } from '../ts/util/shouldNeverBeCalled';
 
 import type { LoggerType } from '../ts/types/Logging';
 import type { HourCyclePreference, LocaleMessagesType } from '../ts/types/I18N';
@@ -23,14 +24,40 @@ function getLocaleMessages(locale: string): LocaleMessagesType {
   return JSON.parse(readFileSync(targetFile, 'utf-8'));
 }
 
+export type LocaleDisplayNames = Record<string, Record<string, string>>;
+export type CountryDisplayNames = Record<string, Record<string, string>>;
+
+function getLocaleDisplayNames(): LocaleDisplayNames {
+  const targetFile = join(
+    __dirname,
+    '..',
+    'build',
+    'locale-display-names.json'
+  );
+  return JSON.parse(readFileSync(targetFile, 'utf-8'));
+}
+
+function getCountryDisplayNames(): CountryDisplayNames {
+  const targetFile = join(
+    __dirname,
+    '..',
+    'build',
+    'country-display-names.json'
+  );
+  return JSON.parse(readFileSync(targetFile, 'utf-8'));
+}
+
 export type LocaleDirection = 'ltr' | 'rtl';
 
 export type LocaleType = {
+  availableLocales: Array<string>;
   i18n: LocalizerType;
   name: string;
   direction: LocaleDirection;
   messages: LocaleMessagesType;
   hourCyclePreference: HourCyclePreference;
+  localeDisplayNames: LocaleDisplayNames;
+  countryDisplayNames: CountryDisplayNames;
 };
 
 function getLocaleDirection(
@@ -64,30 +91,6 @@ function getLocaleDirection(
   return 'ltr';
 }
 
-function finalize(
-  messages: LocaleMessagesType,
-  backupMessages: LocaleMessagesType,
-  localeName: string,
-  hourCyclePreference: HourCyclePreference,
-  logger: LoggerType
-): LocaleType {
-  // We start with english, then overwrite that with anything present in locale
-  const finalMessages = merge(backupMessages, messages);
-
-  const i18n = setupI18n(localeName, finalMessages);
-
-  const direction = getLocaleDirection(localeName, logger);
-  logger.info(`locale: Text info direction for ${localeName}: ${direction}`);
-
-  return {
-    i18n,
-    name: localeName,
-    direction,
-    messages: finalMessages,
-    hourCyclePreference,
-  };
-}
-
 export function _getAvailableLocales(): Array<string> {
   return JSON.parse(
     readFileSync(
@@ -99,10 +102,14 @@ export function _getAvailableLocales(): Array<string> {
 
 export function load({
   preferredSystemLocales,
+  localeOverride,
+  localeDirectionTestingOverride,
   hourCyclePreference,
   logger,
 }: {
   preferredSystemLocales: Array<string>;
+  localeOverride: string | null;
+  localeDirectionTestingOverride: LocaleDirection | null;
   hourCyclePreference: HourCyclePreference;
   logger: LoggerType;
 }): LocaleType {
@@ -117,10 +124,11 @@ export function load({
   const availableLocales = _getAvailableLocales();
 
   logger.info('locale: Supported locales:', availableLocales.join(', '));
-  logger.info('locale: Preferred locales: ', preferredSystemLocales.join(', '));
+  logger.info('locale: Preferred locales:', preferredSystemLocales.join(', '));
+  logger.info('locale: Locale Override:', localeOverride);
 
   const matchedLocale = LocaleMatcher.match(
-    preferredSystemLocales,
+    localeOverride != null ? [localeOverride] : preferredSystemLocales,
     availableLocales,
     'en',
     { algorithm: 'best fit' }
@@ -130,12 +138,26 @@ export function load({
 
   const matchedLocaleMessages = getLocaleMessages(matchedLocale);
   const englishMessages = getLocaleMessages('en');
+  const localeDisplayNames = getLocaleDisplayNames();
+  const countryDisplayNames = getCountryDisplayNames();
 
-  return finalize(
-    matchedLocaleMessages,
-    englishMessages,
-    matchedLocale,
+  // We start with english, then overwrite that with anything present in locale
+  const finalMessages = merge(englishMessages, matchedLocaleMessages);
+  const i18n = setupI18n(matchedLocale, finalMessages, {
+    renderEmojify: shouldNeverBeCalled,
+  });
+  const direction =
+    localeDirectionTestingOverride ?? getLocaleDirection(matchedLocale, logger);
+  logger.info(`locale: Text info direction for ${matchedLocale}: ${direction}`);
+
+  return {
+    availableLocales,
+    i18n,
+    name: matchedLocale,
+    direction,
+    messages: finalMessages,
     hourCyclePreference,
-    logger
-  );
+    localeDisplayNames,
+    countryDisplayNames,
+  };
 }

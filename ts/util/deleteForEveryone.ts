@@ -5,7 +5,7 @@ import type { DeleteAttributesType } from '../messageModifiers/Deletes';
 import type { MessageModel } from '../models/messages';
 import * as log from '../logging/log';
 import { isMe } from './whatTypeOfConversation';
-import { getContactId } from '../messages/helpers';
+import { getAuthorId } from '../messages/helpers';
 import { isStory } from '../state/selectors/message';
 import { isTooOldToModifyMessage } from './isTooOldToModifyMessage';
 
@@ -54,7 +54,7 @@ function isDeletionByMe(
   const ourConversationId =
     window.ConversationController.getOurConversationIdOrThrow();
   return (
-    getContactId(message.attributes) === ourConversationId &&
+    getAuthorId(message.attributes) === ourConversationId &&
     doe.fromId === ourConversationId
   );
 }

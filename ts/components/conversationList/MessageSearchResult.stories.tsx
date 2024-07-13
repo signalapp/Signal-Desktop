@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
@@ -23,7 +23,7 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/MessageSearchResult',
-};
+} satisfies Meta<PropsType>;
 
 const someone = getDefaultConversation({
   title: 'Some Person',
@@ -85,10 +85,6 @@ export function SenderHasABadge(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-SenderHasABadge.story = {
-  name: 'Sender has a badge',
-};
-
 export function Selected(): JSX.Element {
   const props = useProps({
     from: someone,
@@ -118,10 +114,6 @@ export function SearchingInConversation(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-SearchingInConversation.story = {
-  name: 'Searching in Conversation',
-};
-
 export function FromYouToYourself(): JSX.Element {
   const props = useProps({
     from: me,
@@ -130,10 +122,6 @@ export function FromYouToYourself(): JSX.Element {
 
   return <MessageSearchResult {...props} />;
 }
-
-FromYouToYourself.story = {
-  name: 'From You to Yourself',
-};
 
 export function FromYouToGroup(): JSX.Element {
   const props = useProps({
@@ -144,10 +132,6 @@ export function FromYouToGroup(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-FromYouToGroup.story = {
-  name: 'From You to Group',
-};
-
 export function FromSomeoneToGroup(): JSX.Element {
   const props = useProps({
     from: someone,
@@ -157,26 +141,21 @@ export function FromSomeoneToGroup(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-FromSomeoneToGroup.story = {
-  name: 'From Someone to Group',
-};
-
 export function LongSearchResult(): JSX.Element {
-  const snippets = [
-    'This is a really <<left>>detail<<right>>ed long line which will wrap and only be cut off after it gets to three lines. So maybe this will make it in as well?',
-    "Okay, here are the <<left>>detail<<right>>s:\n\n1355 Ridge Way\nCode: 234\n\nI'm excited!",
-  ];
-
   const props1 = useProps({
     from: someone,
     to: me,
-    snippet: snippets[0],
+    snippet:
+      'This is a really <<left>>detail<<right>>ed long line which will wrap and only be cut off after it gets to three lines. So maybe this will make it in as well?',
+    body: 'This is a really detailed long line which will wrap and only be cut off after it gets to three lines. So maybe this will make it in as well?',
   });
 
   const props2 = useProps({
     from: someone,
     to: me,
-    snippet: snippets[1],
+    snippet:
+      "Okay, here are the <<left>>detail<<right>>s:\n\n1355 Ridge Way\nCode: 234\n\nI'm excited!",
+    body: "Okay, here are the details:\n\n1355 Ridge Way\nCode: 234\n\nI'm excited!",
   });
 
   return (
@@ -192,10 +171,6 @@ export function EmptyShouldBeInvalid(): JSX.Element {
 
   return <MessageSearchResult {...props} />;
 }
-
-EmptyShouldBeInvalid.story = {
-  name: 'Empty (should be invalid)',
-};
 
 export function Mention(): JSX.Element {
   const props = useProps({
@@ -225,10 +200,6 @@ export function Mention(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-Mention.story = {
-  name: '@mention',
-};
-
 export function MentionRegexp(): JSX.Element {
   const props = useProps({
     body: '\uFFFC This is a (long) /text/ ^$ that is ... specially **crafted** to (test) our regexp escaping mechanism! Making sure that the code we write works in all sorts of scenarios',
@@ -250,10 +221,6 @@ export function MentionRegexp(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-MentionRegexp.story = {
-  name: '@mention regexp',
-};
-
 export function MentionNoMatches(): JSX.Element {
   const props = useProps({
     body: '\uFFFC hello',
@@ -273,10 +240,6 @@ export function MentionNoMatches(): JSX.Element {
 
   return <MessageSearchResult {...props} />;
 }
-
-MentionNoMatches.story = {
-  name: '@mention no-matches',
-};
 
 export const _MentionNoMatches = (): JSX.Element => {
   const props = useProps({
@@ -306,10 +269,6 @@ export const _MentionNoMatches = (): JSX.Element => {
   return <MessageSearchResult {...props} />;
 };
 
-_MentionNoMatches.story = {
-  name: '@mention no-matches',
-};
-
 export function DoubleMention(): JSX.Element {
   const props = useProps({
     body: 'Hey \uFFFC \uFFFC --- test! Two mentions!',
@@ -336,10 +295,6 @@ export function DoubleMention(): JSX.Element {
 
   return <MessageSearchResult {...props} />;
 }
-
-DoubleMention.story = {
-  name: 'Double @mention',
-};
 
 export function WithFormatting(): JSX.Element {
   const props = useProps({

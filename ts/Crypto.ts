@@ -7,13 +7,13 @@ import { HKDF } from '@signalapp/libsignal-client';
 
 import * as Bytes from './Bytes';
 import { calculateAgreement, generateKeyPair } from './Curve';
-import { HashType, CipherType } from './types/Crypto';
+import { HashType, CipherType, UUID_BYTE_SIZE } from './types/Crypto';
 import { ProfileDecryptError } from './types/errors';
 import { getBytesSubarray } from './util/uuidToBytes';
+import { logPadSize } from './util/logPadding';
+import { Environment } from './environment';
 
 export { HashType, CipherType };
-
-export const UUID_BYTE_SIZE = 16;
 
 const PROFILE_IV_LENGTH = 12; // bytes
 const PROFILE_KEY_LENGTH = 32; // bytes
@@ -29,6 +29,7 @@ export const PaddedLengths = {
 export type EncryptedAttachment = {
   ciphertext: Uint8Array;
   digest: Uint8Array;
+  plaintextHash: string;
 };
 
 export function generateRegistrationId(): number {
@@ -129,6 +130,10 @@ export function decryptDeviceName(
   return Bytes.toString(plaintext);
 }
 
+export function deriveStorageServiceKey(masterKey: Uint8Array): Uint8Array {
+  return hmacSha256(masterKey, Bytes.fromString('Storage Service Encryption'));
+}
+
 export function deriveStorageManifestKey(
   storageServiceKey: Uint8Array,
   version: Long = Long.fromNumber(0)
@@ -136,6 +141,166 @@ export function deriveStorageManifestKey(
   return hmacSha256(storageServiceKey, Bytes.fromString(`Manifest_${version}`));
 }
 
+const BACKUP_KEY_LEN = 32;
+const BACKUP_KEY_INFO = '20231003_Signal_Backups_GenerateBackupKey';
+
+export function deriveBackupKey(masterKey: Uint8Array): Uint8Array {
+  const hkdf = HKDF.new(3);
+  return hkdf.deriveSecrets(
+    BACKUP_KEY_LEN,
+    Buffer.from(masterKey),
+    Buffer.from(BACKUP_KEY_INFO),
+    Buffer.alloc(0)
+  );
+}
+
+const BACKUP_SIGNATURE_KEY_LEN = 32;
+const BACKUP_SIGNATURE_KEY_INFO =
+  '20231003_Signal_Backups_GenerateBackupIdKeyPair';
+
+export function deriveBackupSignatureKey(
+  backupKey: Uint8Array,
+  aciBytes: Uint8Array
+): Uint8Array {
+  if (backupKey.byteLength !== BACKUP_KEY_LEN) {
+    throw new Error('deriveBackupId: invalid backup key length');
+  }
+
+  if (aciBytes.byteLength !== UUID_BYTE_SIZE) {
+    throw new Error('deriveBackupId: invalid aci length');
+  }
+
+  const hkdf = HKDF.new(3);
+  return hkdf.deriveSecrets(
+    BACKUP_SIGNATURE_KEY_LEN,
+    Buffer.from(backupKey),
+    Buffer.from(BACKUP_SIGNATURE_KEY_INFO),
+    Buffer.from(aciBytes)
+  );
+}
+
+const BACKUP_ID_LEN = 16;
+const BACKUP_ID_INFO = '20231003_Signal_Backups_GenerateBackupId';
+
+export function deriveBackupId(
+  backupKey: Uint8Array,
+  aciBytes: Uint8Array
+): Uint8Array {
+  if (backupKey.byteLength !== BACKUP_KEY_LEN) {
+    throw new Error('deriveBackupId: invalid backup key length');
+  }
+
+  if (aciBytes.byteLength !== UUID_BYTE_SIZE) {
+    throw new Error('deriveBackupId: invalid aci length');
+  }
+
+  const hkdf = HKDF.new(3);
+  return hkdf.deriveSecrets(
+    BACKUP_ID_LEN,
+    Buffer.from(backupKey),
+    Buffer.from(BACKUP_ID_INFO),
+    Buffer.from(aciBytes)
+  );
+}
+
+export type BackupKeyMaterialType = Readonly<{
+  macKey: Uint8Array;
+  aesKey: Uint8Array;
+}>;
+
+export type BackupMediaKeyMaterialType = Readonly<{
+  macKey: Uint8Array;
+  aesKey: Uint8Array;
+  iv: Uint8Array;
+}>;
+
+const BACKUP_AES_KEY_LEN = 32;
+const BACKUP_MAC_KEY_LEN = 32;
+const BACKUP_MATERIAL_INFO = '20231003_Signal_Backups_EncryptMessageBackup';
+
+const BACKUP_MEDIA_ID_INFO = '20231003_Signal_Backups_Media_ID';
+const BACKUP_MEDIA_ID_LEN = 15;
+const BACKUP_MEDIA_ENCRYPT_INFO = '20231003_Signal_Backups_Media_ID';
+const BACKUP_MEDIA_AES_KEY_LEN = 32;
+const BACKUP_MEDIA_MAC_KEY_LEN = 32;
+const BACKUP_MEDIA_IV_LEN = 16;
+
+export function deriveBackupKeyMaterial(
+  backupKey: Uint8Array,
+  backupId: Uint8Array
+): BackupKeyMaterialType {
+  if (backupKey.byteLength !== BACKUP_KEY_LEN) {
+    throw new Error('deriveBackupId: invalid backup key length');
+  }
+
+  if (backupId.byteLength !== BACKUP_ID_LEN) {
+    throw new Error('deriveBackupId: invalid backup id length');
+  }
+
+  const hkdf = HKDF.new(3);
+  const material = hkdf.deriveSecrets(
+    BACKUP_AES_KEY_LEN + BACKUP_MAC_KEY_LEN,
+    Buffer.from(backupKey),
+    Buffer.from(BACKUP_MATERIAL_INFO),
+    Buffer.from(backupId)
+  );
+
+  return {
+    macKey: material.slice(0, BACKUP_MAC_KEY_LEN),
+    aesKey: material.slice(BACKUP_MAC_KEY_LEN),
+  };
+}
+
+export function deriveMediaIdFromMediaName(
+  backupKey: Uint8Array,
+  mediaName: string
+): Uint8Array {
+  if (backupKey.byteLength !== BACKUP_KEY_LEN) {
+    throw new Error('deriveMediaIdFromMediaName: invalid backup key length');
+  }
+
+  if (!mediaName) {
+    throw new Error('deriveMediaIdFromMediaName: mediaName missing');
+  }
+
+  const hkdf = HKDF.new(3);
+  return hkdf.deriveSecrets(
+    BACKUP_MEDIA_ID_LEN,
+    Buffer.from(backupKey),
+    Buffer.from(BACKUP_MEDIA_ID_INFO),
+    Buffer.from(Bytes.fromBase64(mediaName))
+  );
+}
+
+export function deriveBackupMediaKeyMaterial(
+  backupKey: Uint8Array,
+  mediaId: Uint8Array
+): BackupMediaKeyMaterialType {
+  if (backupKey.byteLength !== BACKUP_KEY_LEN) {
+    throw new Error('deriveMediaIdFromMediaName: invalid backup key length');
+  }
+
+  if (!mediaId.length) {
+    throw new Error('deriveMediaIdFromMediaName: mediaId missing');
+  }
+
+  const hkdf = HKDF.new(3);
+  const material = hkdf.deriveSecrets(
+    BACKUP_MEDIA_MAC_KEY_LEN + BACKUP_MEDIA_AES_KEY_LEN + BACKUP_MEDIA_IV_LEN,
+    Buffer.from(backupKey),
+    Buffer.from(BACKUP_MEDIA_ENCRYPT_INFO),
+    Buffer.from(mediaId)
+  );
+
+  return {
+    macKey: material.subarray(0, BACKUP_MEDIA_MAC_KEY_LEN),
+    aesKey: material.subarray(
+      BACKUP_MEDIA_MAC_KEY_LEN,
+      BACKUP_MEDIA_MAC_KEY_LEN + BACKUP_MEDIA_AES_KEY_LEN
+    ),
+    iv: material.subarray(BACKUP_MEDIA_MAC_KEY_LEN + BACKUP_MEDIA_AES_KEY_LEN),
+  };
+}
 export function deriveStorageItemKey(
   storageServiceKey: Uint8Array,
   itemID: string
@@ -171,8 +336,8 @@ export function verifyAccessKey(
 }
 
 const IV_LENGTH = 16;
-const MAC_LENGTH = 16;
 const NONCE_LENGTH = 16;
+const SYMMETRIC_MAC_LENGTH = 16;
 
 export function encryptSymmetric(
   key: Uint8Array,
@@ -185,7 +350,10 @@ export function encryptSymmetric(
   const macKey = hmacSha256(key, cipherKey);
 
   const ciphertext = encryptAes256CbcPkcsPadding(cipherKey, plaintext, iv);
-  const mac = getFirstBytes(hmacSha256(macKey, ciphertext), MAC_LENGTH);
+  const mac = getFirstBytes(
+    hmacSha256(macKey, ciphertext),
+    SYMMETRIC_MAC_LENGTH
+  );
 
   return Bytes.concatenate([nonce, ciphertext, mac]);
 }
@@ -200,18 +368,21 @@ export function decryptSymmetric(
   const ciphertext = getBytesSubarray(
     data,
     NONCE_LENGTH,
-    data.byteLength - NONCE_LENGTH - MAC_LENGTH
+    data.byteLength - NONCE_LENGTH - SYMMETRIC_MAC_LENGTH
   );
   const theirMac = getBytesSubarray(
     data,
-    data.byteLength - MAC_LENGTH,
-    MAC_LENGTH
+    data.byteLength - SYMMETRIC_MAC_LENGTH,
+    SYMMETRIC_MAC_LENGTH
   );
 
   const cipherKey = hmacSha256(key, nonce);
   const macKey = hmacSha256(key, cipherKey);
 
-  const ourMac = getFirstBytes(hmacSha256(macKey, ciphertext), MAC_LENGTH);
+  const ourMac = getFirstBytes(
+    hmacSha256(macKey, ciphertext),
+    SYMMETRIC_MAC_LENGTH
+  );
   if (!constantTimeEqual(theirMac, ourMac)) {
     throw new Error(
       'decryptSymmetric: Failed to decrypt; MAC verification failed'
@@ -377,7 +548,7 @@ function verifyDigest(data: Uint8Array, theirDigest: Uint8Array): void {
   }
 }
 
-export function decryptAttachment(
+export function decryptAttachmentV1(
   encryptedBin: Uint8Array,
   keys: Uint8Array,
   theirDigest?: Uint8Array
@@ -409,20 +580,31 @@ export function decryptAttachment(
   return decryptAes256CbcPkcsPadding(aesKey, ciphertext, iv);
 }
 
-export function encryptAttachment(
-  plaintext: Readonly<Uint8Array>,
-  keys: Readonly<Uint8Array>
-): EncryptedAttachment {
+export function encryptAttachment({
+  plaintext,
+  keys,
+  dangerousTestOnlyIv,
+}: {
+  plaintext: Readonly<Uint8Array>;
+  keys: Readonly<Uint8Array>;
+  dangerousTestOnlyIv?: Readonly<Uint8Array>;
+}): Omit<EncryptedAttachment, 'plaintextHash'> {
+  const logId = 'encryptAttachment';
   if (!(plaintext instanceof Uint8Array)) {
     throw new TypeError(
-      `\`plaintext\` must be an \`Uint8Array\`; got: ${typeof plaintext}`
+      `${logId}: \`plaintext\` must be an \`Uint8Array\`; got: ${typeof plaintext}`
     );
   }
 
   if (keys.byteLength !== 64) {
-    throw new Error('Got invalid length attachment keys');
+    throw new Error(`${logId}: invalid length attachment keys`);
   }
-  const iv = getRandomBytes(16);
+
+  if (dangerousTestOnlyIv && window.getEnvironment() !== Environment.Test) {
+    throw new Error(`${logId}: Used dangerousTestOnlyIv outside tests!`);
+  }
+
+  const iv = dangerousTestOnlyIv || getRandomBytes(16);
   const aesKey = keys.slice(0, 32);
   const macKey = keys.slice(32, 64);
 
@@ -441,22 +623,30 @@ export function encryptAttachment(
   };
 }
 
-export function getAttachmentSizeBucket(size: number): number {
-  return Math.max(
-    541,
-    Math.floor(1.05 ** Math.ceil(Math.log(size) / Math.log(1.05)))
-  );
-}
-
-export function padAndEncryptAttachment(
-  data: Readonly<Uint8Array>,
-  keys: Readonly<Uint8Array>
-): EncryptedAttachment {
-  const size = data.byteLength;
-  const paddedSize = getAttachmentSizeBucket(size);
+export function padAndEncryptAttachment({
+  plaintext,
+  keys,
+  dangerousTestOnlyIv,
+}: {
+  plaintext: Readonly<Uint8Array>;
+  keys: Readonly<Uint8Array>;
+  dangerousTestOnlyIv?: Readonly<Uint8Array>;
+}): EncryptedAttachment {
+  const size = plaintext.byteLength;
+  const paddedSize = logPadSize(size);
   const padding = getZeroes(paddedSize - size);
 
-  return encryptAttachment(Bytes.concatenate([data, padding]), keys);
+  return {
+    ...encryptAttachment({
+      plaintext: Bytes.concatenate([plaintext, padding]),
+      keys,
+      dangerousTestOnlyIv,
+    }),
+    // We generate the plaintext hash here for forwards-compatibility with streaming
+    // attachment encryption, which may be the only place that the whole attachment flows
+    // through memory
+    plaintextHash: Buffer.from(sha256(plaintext)).toString('hex'),
+  };
 }
 
 export function encryptProfile(data: Uint8Array, key: Uint8Array): Uint8Array {

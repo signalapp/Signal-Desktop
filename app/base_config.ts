@@ -1,7 +1,8 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { readFileSync, writeFileSync, unlinkSync } from 'fs';
+import { readFileSync, unlinkSync } from 'fs';
+import { sync as writeFileSync } from 'write-file-atomic';
 
 import { get } from 'lodash';
 import { set } from 'lodash/fp';

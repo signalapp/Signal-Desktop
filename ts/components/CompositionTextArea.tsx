@@ -19,11 +19,10 @@ import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import * as grapheme from '../util/grapheme';
 
 export type CompositionTextAreaProps = {
-  bodyRanges?: HydratedBodyRangesType;
+  bodyRanges: HydratedBodyRangesType | null;
   i18n: LocalizerType;
+  isActive: boolean;
   isFormattingEnabled: boolean;
-  isFormattingFlagEnabled: boolean;
-  isFormattingSpoilersFlagEnabled: boolean;
   maxLength?: number;
   placeholder?: string;
   whenToShowRemainingCount?: number;
@@ -60,9 +59,8 @@ export function CompositionTextArea({
   draftText,
   getPreferredBadge,
   i18n,
+  isActive,
   isFormattingEnabled,
-  isFormattingFlagEnabled,
-  isFormattingSpoilersFlagEnabled,
   maxLength,
   onChange,
   onPickEmoji,
@@ -143,9 +141,8 @@ export function CompositionTextArea({
         getPreferredBadge={getPreferredBadge}
         getQuotedMessage={noop}
         i18n={i18n}
+        isActive={isActive}
         isFormattingEnabled={isFormattingEnabled}
-        isFormattingFlagEnabled={isFormattingFlagEnabled}
-        isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
         inputApi={inputApiRef}
         large
         moduleClassName="CompositionTextArea__input"
@@ -159,6 +156,17 @@ export function CompositionTextArea({
         scrollerRef={scrollerRef}
         sendCounter={0}
         theme={theme}
+        skinTone={skinTone ?? null}
+        // These do not apply in the forward modal because there isn't
+        // strictly one conversation
+        conversationId={null}
+        sortedGroupMembers={null}
+        // we don't edit in this context
+        draftEditMessage={null}
+        // rendered in the forward modal
+        linkPreviewResult={null}
+        // Panels appear behind this modal
+        shouldHidePopovers={null}
       />
       <div className="CompositionTextArea__emoji">
         <EmojiButton

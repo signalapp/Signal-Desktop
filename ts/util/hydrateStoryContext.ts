@@ -14,8 +14,10 @@ export async function hydrateStoryContext(
   storyMessageParam?: MessageAttributesType,
   {
     shouldSave,
+    isStoryErased,
   }: {
     shouldSave?: boolean;
+    isStoryErased?: boolean;
   } = {}
 ): Promise<void> {
   let messageAttributes: MessageAttributesType;
@@ -35,7 +37,11 @@ export async function hydrateStoryContext(
 
   const { storyReplyContext: context } = messageAttributes;
   // We'll continue trying to get the attachment as long as the message still exists
-  if (context && (context.attachment?.url || !context.messageId)) {
+  if (
+    !isStoryErased &&
+    context &&
+    (context.attachment?.url || !context.messageId)
+  ) {
     return;
   }
 
@@ -52,7 +58,7 @@ export async function hydrateStoryContext(
     storyMessage = undefined;
   }
 
-  if (!storyMessage) {
+  if (!storyMessage || isStoryErased) {
     const conversation = window.ConversationController.get(
       messageAttributes.conversationId
     );
@@ -60,20 +66,28 @@ export async function hydrateStoryContext(
       conversation && isDirectConversation(conversation.attributes),
       'hydrateStoryContext: Not a type=direct conversation'
     );
-    window.MessageCache.setAttributes({
-      messageId,
-      messageAttributes: {
-        storyReplyContext: {
-          attachment: undefined,
-          // This is ok to do because story replies only show in 1:1 conversations
-          // so the story that was quoted should be from the same conversation.
-          authorAci: conversation?.getAci(),
-          // No messageId = referenced story not found
-          messageId: '',
-        },
+    const newMessageAttributes: Partial<MessageAttributesType> = {
+      storyReplyContext: {
+        ...context,
+        attachment: undefined,
+        // No messageId = referenced story not found
+        messageId: '',
       },
-      skipSaveToDatabase: !shouldSave,
-    });
+    };
+    if (shouldSave) {
+      await window.MessageCache.setAttributes({
+        messageId,
+        messageAttributes: newMessageAttributes,
+        skipSaveToDatabase: false,
+      });
+    } else {
+      window.MessageCache.setAttributes({
+        messageId,
+        messageAttributes: newMessageAttributes,
+        skipSaveToDatabase: true,
+      });
+    }
+
     return;
   }
 
@@ -85,15 +99,24 @@ export async function hydrateStoryContext(
 
   const { sourceServiceId: authorAci } = storyMessage;
   strictAssert(isAciString(authorAci), 'Story message from pni');
-  window.MessageCache.setAttributes({
-    messageId,
-    messageAttributes: {
-      storyReplyContext: {
-        attachment: omit(attachment, 'screenshotData'),
-        authorAci,
-        messageId: storyMessage.id,
-      },
+  const newMessageAttributes: Partial<MessageAttributesType> = {
+    storyReplyContext: {
+      attachment: attachment ? omit(attachment, 'screenshotData') : undefined,
+      authorAci,
+      messageId: storyMessage.id,
     },
-    skipSaveToDatabase: !shouldSave,
-  });
+  };
+  if (shouldSave) {
+    await window.MessageCache.setAttributes({
+      messageId,
+      messageAttributes: newMessageAttributes,
+      skipSaveToDatabase: false,
+    });
+  } else {
+    window.MessageCache.setAttributes({
+      messageId,
+      messageAttributes: newMessageAttributes,
+      skipSaveToDatabase: true,
+    });
+  }
 }

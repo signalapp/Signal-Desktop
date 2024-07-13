@@ -1,8 +1,11 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LocalizerType } from './types/Util';
-import type { ReplacementValuesType } from './types/I18N';
+import type {
+  LocalizerType,
+  ICUStringMessageParamsByKeyType,
+  ICUJSXMessageParamsByKeyType,
+} from './types/Util';
 import type { ServiceIdString, AciString, PniString } from './types/ServiceId';
 import { missingCaseError } from './util/missingCaseError';
 
@@ -10,40 +13,49 @@ import type { GroupV2ChangeDetailType, GroupV2ChangeType } from './groups';
 import { SignalService as Proto } from './protobuf';
 import * as log from './logging/log';
 
-export type SmartContactRendererType<T> = (
-  serviceId: ServiceIdString
-) => T | string;
-export type StringRendererType<T> = (
-  id: string,
-  i18n: LocalizerType,
-  components?: ReplacementValuesType<T | string | number>
-) => T | string;
+type SelectParamsByKeyType<T extends string | JSX.Element> = T extends string
+  ? ICUStringMessageParamsByKeyType
+  : ICUJSXMessageParamsByKeyType;
 
-export type RenderOptionsType<T> = {
+export type SmartContactRendererType<T extends string | JSX.Element> = (
+  serviceId: ServiceIdString
+) => T extends string ? string : JSX.Element;
+
+type StringRendererType<
+  T extends string | JSX.Element,
+  ParamsByKeyType extends SelectParamsByKeyType<T> = SelectParamsByKeyType<T>
+> = <Key extends keyof ParamsByKeyType>(
+  id: Key,
+  i18n: LocalizerType,
+  components: ParamsByKeyType[Key]
+) => T;
+
+export type RenderOptionsType<T extends string | JSX.Element> = {
   // `from` will be a PNI when the change is "declining a PNI invite".
   from?: ServiceIdString;
   i18n: LocalizerType;
   ourAci: AciString | undefined;
   ourPni: PniString | undefined;
   renderContact: SmartContactRendererType<T>;
-  renderString: StringRendererType<T>;
+  renderIntl: StringRendererType<T>;
 };
 
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 const RoleEnum = Proto.Member.Role;
 
-export type RenderChangeResultType<T> = ReadonlyArray<
-  Readonly<{
-    detail: GroupV2ChangeDetailType;
-    text: T | string;
+export type RenderChangeResultType<T extends string | JSX.Element> =
+  ReadonlyArray<
+    Readonly<{
+      detail: GroupV2ChangeDetailType;
+      text: T extends string ? string : JSX.Element;
 
-    // Used to differentiate between the multiple texts produced by
-    // 'admin-approval-bounce'
-    isLastText: boolean;
-  }>
->;
+      // Used to differentiate between the multiple texts produced by
+      // 'admin-approval-bounce'
+      isLastText: boolean;
+    }>
+  >;
 
-export function renderChange<T>(
+export function renderChange<T extends string | JSX.Element>(
   change: GroupV2ChangeType,
   options: RenderOptionsType<T>
 ): RenderChangeResultType<T> {
@@ -66,25 +78,32 @@ export function renderChange<T>(
   });
 }
 
-export function renderChangeDetail<T>(
+function renderChangeDetail<T extends string | JSX.Element>(
   detail: GroupV2ChangeDetailType,
   options: RenderOptionsType<T>
-): T | string | ReadonlyArray<T | string> {
+): string | T | ReadonlyArray<string | T> {
   const {
     from,
     i18n: localizer,
     ourAci,
     ourPni,
     renderContact,
-    renderString,
+    renderIntl,
   } = options;
 
-  function i18n(
-    id: string,
-    components?: ReplacementValuesType<T | number | string>
-  ) {
-    return renderString(id, localizer, components);
-  }
+  type JSXLocalizerType = <Key extends keyof ICUJSXMessageParamsByKeyType>(
+    key: Key,
+    ...values: ICUJSXMessageParamsByKeyType[Key] extends undefined
+      ? [undefined?]
+      : [ICUJSXMessageParamsByKeyType[Key]]
+  ) => string;
+
+  const i18n = (<Key extends keyof SelectParamsByKeyType<T>>(
+    id: Key,
+    components: SelectParamsByKeyType<T>[Key]
+  ): T => {
+    return renderIntl(id, localizer, components);
+  }) as JSXLocalizerType;
 
   const isOurServiceId = (serviceId?: ServiceIdString): boolean => {
     if (!serviceId) {
@@ -224,11 +243,9 @@ export function renderChangeDetail<T>(
         return i18n('icu:GroupV2--access-invite-link--enabled--you');
       }
       if (from) {
-        return i18n(
-          'icu:GroupV2--access-invite-link--enabled--other',
-
-          { adminName: renderContact(from) }
-        );
+        return i18n('icu:GroupV2--access-invite-link--enabled--other', {
+          adminName: renderContact(from),
+        });
       }
       return i18n('icu:GroupV2--access-invite-link--enabled--unknown');
     }
@@ -237,11 +254,9 @@ export function renderChangeDetail<T>(
         return i18n('icu:GroupV2--access-invite-link--disabled--you');
       }
       if (from) {
-        return i18n(
-          'icu:GroupV2--access-invite-link--disabled--other',
-
-          { adminName: renderContact(from) }
-        );
+        return i18n('icu:GroupV2--access-invite-link--disabled--other', {
+          adminName: renderContact(from),
+        });
       }
       return i18n('icu:GroupV2--access-invite-link--disabled--unknown');
     }
@@ -281,11 +296,14 @@ export function renderChangeDetail<T>(
     });
   }
   if (detail.type === 'member-add-from-invite') {
-    const { aci, inviter } = detail;
+    const { aci, inviter, pni } = detail;
     const weAreJoiner = isOurServiceId(aci);
     const weAreInviter = isOurServiceId(inviter);
 
-    if (!from || from !== aci) {
+    const fromPni = pni && from === pni;
+    const fromAci = from === aci;
+
+    if (!from || (!fromPni && !fromAci)) {
       if (weAreJoiner) {
         // They can't be the same, no fromYou check here
         if (from) {
@@ -331,13 +349,9 @@ export function renderChangeDetail<T>(
         inviterName: renderContact(inviter),
       });
     }
-    return i18n(
-      'icu:GroupV2--member-add--from-invite--other-no-from',
-
-      {
-        inviteeName: renderContact(aci),
-      }
-    );
+    return i18n('icu:GroupV2--member-add--from-invite--other-no-from', {
+      inviteeName: renderContact(aci),
+    });
   }
   if (detail.type === 'member-add-from-link') {
     const { aci } = detail;
@@ -364,11 +378,9 @@ export function renderChangeDetail<T>(
 
     if (weAreJoiner) {
       if (from) {
-        return i18n(
-          'icu:GroupV2--member-add-from-admin-approval--you--other',
-
-          { adminName: renderContact(from) }
-        );
+        return i18n('icu:GroupV2--member-add-from-admin-approval--you--other', {
+          adminName: renderContact(from),
+        });
       }
 
       // Note: this shouldn't happen, because we only capture 'add-from-admin-approval'
@@ -380,31 +392,23 @@ export function renderChangeDetail<T>(
     }
 
     if (fromYou) {
-      return i18n(
-        'icu:GroupV2--member-add-from-admin-approval--other--you',
-
-        { joinerName: renderContact(aci) }
-      );
+      return i18n('icu:GroupV2--member-add-from-admin-approval--other--you', {
+        joinerName: renderContact(aci),
+      });
     }
     if (from) {
-      return i18n(
-        'icu:GroupV2--member-add-from-admin-approval--other--other',
-
-        {
-          adminName: renderContact(from),
-          joinerName: renderContact(aci),
-        }
-      );
+      return i18n('icu:GroupV2--member-add-from-admin-approval--other--other', {
+        adminName: renderContact(from),
+        joinerName: renderContact(aci),
+      });
     }
 
     // Note: this shouldn't happen, because we only capture 'add-from-admin-approval'
     //   status from group change events, which always have a sender.
     log.warn('member-add-from-admin-approval change type; we have no from');
-    return i18n(
-      'icu:GroupV2--member-add-from-admin-approval--other--unknown',
-
-      { joinerName: renderContact(aci) }
-    );
+    return i18n('icu:GroupV2--member-add-from-admin-approval--other--unknown', {
+      joinerName: renderContact(aci),
+    });
   }
   if (detail.type === 'member-remove') {
     const { aci } = detail;
@@ -449,11 +453,9 @@ export function renderChangeDetail<T>(
     if (newPrivilege === RoleEnum.ADMINISTRATOR) {
       if (weAreMember) {
         if (from) {
-          return i18n(
-            'icu:GroupV2--member-privilege--promote--you--other',
-
-            { adminName: renderContact(from) }
-          );
+          return i18n('icu:GroupV2--member-privilege--promote--you--other', {
+            adminName: renderContact(from),
+          });
         }
 
         return i18n('icu:GroupV2--member-privilege--promote--you--unknown');
@@ -490,20 +492,14 @@ export function renderChangeDetail<T>(
         });
       }
       if (from) {
-        return i18n(
-          'icu:GroupV2--member-privilege--demote--other--other',
-
-          {
-            adminName: renderContact(from),
-            memberName: renderContact(aci),
-          }
-        );
+        return i18n('icu:GroupV2--member-privilege--demote--other--other', {
+          adminName: renderContact(from),
+          memberName: renderContact(aci),
+        });
       }
-      return i18n(
-        'icu:GroupV2--member-privilege--demote--other--unknown',
-
-        { memberName: renderContact(aci) }
-      );
+      return i18n('icu:GroupV2--member-privilege--demote--other--unknown', {
+        memberName: renderContact(aci),
+      });
     }
     log.warn(
       `member-privilege change type, privilege ${newPrivilege} is unknown`
@@ -567,14 +563,12 @@ export function renderChangeDetail<T>(
       if (fromYou) {
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from-you--one--you',
-
           { inviteeName: renderContact(serviceId) }
         );
       }
       if (from) {
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from-you--one--other',
-
           {
             adminName: renderContact(from),
             inviteeName: renderContact(serviceId),
@@ -583,7 +577,6 @@ export function renderChangeDetail<T>(
       }
       return i18n(
         'icu:GroupV2--pending-remove--revoke-invite-from-you--one--unknown',
-
         { inviteeName: renderContact(serviceId) }
       );
     }
@@ -600,30 +593,24 @@ export function renderChangeDetail<T>(
     }
     if (inviter && sentByInviter) {
       if (weAreInvited) {
-        return i18n(
-          'icu:GroupV2--pending-remove--revoke-own--to-you',
-
-          { inviterName: renderContact(inviter) }
-        );
+        return i18n('icu:GroupV2--pending-remove--revoke-own--to-you', {
+          inviterName: renderContact(inviter),
+        });
       }
-      return i18n(
-        'icu:GroupV2--pending-remove--revoke-own--unknown',
-
-        { inviterName: renderContact(inviter) }
-      );
+      return i18n('icu:GroupV2--pending-remove--revoke-own--unknown', {
+        inviterName: renderContact(inviter),
+      });
     }
     if (inviter) {
       if (fromYou) {
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from--one--you',
-
           { memberName: renderContact(inviter) }
         );
       }
       if (from) {
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from--one--other',
-
           {
             adminName: renderContact(from),
             memberName: renderContact(inviter),
@@ -632,7 +619,6 @@ export function renderChangeDetail<T>(
       }
       return i18n(
         'icu:GroupV2--pending-remove--revoke-invite-from--one--unknown',
-
         { memberName: renderContact(inviter) }
       );
     }
@@ -654,14 +640,12 @@ export function renderChangeDetail<T>(
       if (fromYou) {
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from-you--many--you',
-
           { count }
         );
       }
       if (from) {
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from-you--many--other',
-
           {
             adminName: renderContact(from),
             count,
@@ -670,7 +654,6 @@ export function renderChangeDetail<T>(
       }
       return i18n(
         'icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown',
-
         { count }
       );
     }
@@ -678,7 +661,6 @@ export function renderChangeDetail<T>(
       if (fromYou) {
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from--many--you',
-
           {
             count,
             memberName: renderContact(inviter),
@@ -688,7 +670,6 @@ export function renderChangeDetail<T>(
       if (from) {
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from--many--other',
-
           {
             adminName: renderContact(from),
             count,
@@ -698,7 +679,6 @@ export function renderChangeDetail<T>(
       }
       return i18n(
         'icu:GroupV2--pending-remove--revoke-invite-from--many--unknown',
-
         {
           count,
           memberName: renderContact(inviter),
@@ -711,20 +691,14 @@ export function renderChangeDetail<T>(
       });
     }
     if (from) {
-      return i18n(
-        'icu:GroupV2--pending-remove--revoke--many--other',
-
-        {
-          memberName: renderContact(from),
-          count,
-        }
-      );
+      return i18n('icu:GroupV2--pending-remove--revoke--many--other', {
+        memberName: renderContact(from),
+        count,
+      });
     }
-    return i18n(
-      'icu:GroupV2--pending-remove--revoke--many--unknown',
-
-      { count }
-    );
+    return i18n('icu:GroupV2--pending-remove--revoke--many--unknown', {
+      count,
+    });
   }
   if (detail.type === 'admin-approval-add-one') {
     const { aci } = detail;
@@ -749,37 +723,25 @@ export function renderChangeDetail<T>(
     }
 
     if (fromYou) {
-      return i18n(
-        'icu:GroupV2--admin-approval-remove-one--other--you',
-
-        { joinerName: renderContact(aci) }
-      );
+      return i18n('icu:GroupV2--admin-approval-remove-one--other--you', {
+        joinerName: renderContact(aci),
+      });
     }
-    if (from && from === aci) {
-      return i18n(
-        'icu:GroupV2--admin-approval-remove-one--other--own',
-
-        { joinerName: renderContact(aci) }
-      );
+    if (from && fromYou) {
+      return i18n('icu:GroupV2--admin-approval-remove-one--other--own', {
+        joinerName: renderContact(aci),
+      });
     }
     if (from) {
-      return i18n(
-        'icu:GroupV2--admin-approval-remove-one--other--other',
-
-        {
-          adminName: renderContact(from),
-          joinerName: renderContact(aci),
-        }
-      );
+      return i18n('icu:GroupV2--admin-approval-remove-one--other--other', {
+        adminName: renderContact(from),
+        joinerName: renderContact(aci),
+      });
     }
 
-    // We default to the user canceling their request, because it is far more likely that
-    //   if an admin does the denial, we'll get a change event from them.
-    return i18n(
-      'icu:GroupV2--admin-approval-remove-one--other--own',
-
-      { joinerName: renderContact(aci) }
-    );
+    return i18n('icu:GroupV2--admin-approval-remove-one--other--unknown', {
+      joinerName: renderContact(aci),
+    });
   }
   if (detail.type === 'admin-approval-bounce') {
     const { aci, times, isApprovalPending } = detail;

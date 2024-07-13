@@ -1,0 +1,125 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.UsernameOnboardingModal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  user-select: none;
+
+  &__title {
+    @include font-title-2;
+    margin-bottom: 20px;
+    max-width: 240px;
+    text-align: center;
+  }
+
+  &__row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 32px;
+
+    &__icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background-size: cover;
+
+      &--number {
+        @include light-theme {
+          background-image: url(../images/phone_40_color.svg);
+        }
+
+        @include dark-theme {
+          background-image: url(../images/phone_40_color_dark.svg);
+        }
+      }
+
+      &--username {
+        @include light-theme {
+          background-image: url(../images/usernames_40_color.svg);
+        }
+
+        @include dark-theme {
+          background-image: url(../images/usernames_40_color_dark.svg);
+        }
+      }
+
+      &--qr {
+        @include light-theme {
+          background-image: url(../images/qr_codes_40_color.svg);
+        }
+
+        @include dark-theme {
+          background-image: url(../images/qr_codes_40_color_dark.svg);
+        }
+      }
+    }
+
+    &__body {
+      @include font-body-2;
+
+      @include light-theme {
+        color: $color-gray-60;
+      }
+
+      @include dark-theme {
+        color: $color-gray-25;
+      }
+
+      max-width: 248px;
+
+      h2 {
+        @include font-body-1;
+
+        margin-top: 0;
+        margin-bottom: 2px;
+        font-weight: 400;
+
+        @include light-theme {
+          color: $color-gray-90;
+        }
+        @include dark-theme {
+          color: $color-gray-05;
+        }
+      }
+    }
+
+    &--center {
+      justify-content: center;
+    }
+  }
+
+  &__submit {
+    width: 100%;
+    max-width: 296px;
+    margin-top: 16px;
+    margin-bottom: 12px;
+  }
+
+  &__skip {
+    margin-bottom: 0;
+
+    @include light-theme {
+      background: transparent;
+
+      &:hover,
+      &:active {
+        @include not-disabled {
+          background: transparent;
+        }
+      }
+    }
+
+    @include dark-theme {
+      background: transparent;
+
+      &:hover,
+      &:active {
+        @include not-disabled {
+          background: transparent;
+        }
+      }
+    }
+  }
+}

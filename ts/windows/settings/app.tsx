@@ -9,6 +9,7 @@ import { i18n } from '../sandboxedInit';
 import { Preferences } from '../../components/Preferences';
 import { startInteractionMode } from '../../services/InteractionMode';
 import { strictAssert } from '../../util/assert';
+import { parseEnvironment, setEnvironment } from '../../environment';
 
 const { SettingsWindowProps } = window.Signal;
 
@@ -16,10 +17,16 @@ strictAssert(SettingsWindowProps, 'window values not provided');
 
 startInteractionMode();
 
+setEnvironment(
+  parseEnvironment(window.SignalContext.getEnvironment()),
+  window.SignalContext.isTestOrMockEnvironment()
+);
+
 SettingsWindowProps.onRender(
   ({
     addCustomColor,
     availableCameras,
+    availableLocales,
     availableMicrophones,
     availableSpeakers,
     blockedCount,
@@ -27,18 +34,18 @@ SettingsWindowProps.onRender(
     customColors,
     defaultConversationColor,
     deviceName,
+    phoneNumber,
     doDeleteAllData,
     doneRendering,
     editCustomColor,
-    executeMenuRole,
     getConversationsWithCustomColor,
     hasAudioNotifications,
+    hasAutoConvertEmoji,
     hasAutoDownloadUpdate,
     hasAutoLaunch,
     hasCallNotifications,
     hasCallRingtoneNotification,
     hasCountMutedConversations,
-    hasCustomTitleBar,
     hasHideMenuBar,
     hasIncomingCallNotifications,
     hasLinkPreviews,
@@ -58,17 +65,16 @@ SettingsWindowProps.onRender(
     initialSpellCheckSetting,
     isAutoDownloadUpdatesSupported,
     isAutoLaunchSupported,
-    isFormattingFlagEnabled,
     isHideMenuBarSupported,
     isMinimizeToAndStartInSystemTraySupported,
     isNotificationAttentionSupported,
-    isPhoneNumberSharingSupported,
     isSyncSupported,
     isSystemTraySupported,
     lastSyncTime,
     makeSyncRequest,
     notificationContent,
     onAudioNotificationsChange,
+    onAutoConvertEmojiChange,
     onAutoDownloadUpdateChange,
     onAutoLaunchChange,
     onCallNotificationsChange,
@@ -78,6 +84,7 @@ SettingsWindowProps.onRender(
     onHideMenuBarChange,
     onIncomingCallNotificationsChange,
     onLastSyncTimeChange,
+    onLocaleChange,
     onMediaCameraPermissionsChange,
     onMediaPermissionsChange,
     onMessageAudioChange,
@@ -98,16 +105,18 @@ SettingsWindowProps.onRender(
     onWhoCanFindMeChange,
     onWhoCanSeeMeChange,
     onZoomFactorChange,
+    preferredSystemLocales,
     removeCustomColor,
     removeCustomColorOnConversations,
     resetAllChatColors,
     resetDefaultChatColor,
+    resolvedLocale,
     selectedCamera,
     selectedMicrophone,
     selectedSpeaker,
     sentMediaQualitySetting,
     setGlobalDefaultConversationColor,
-    shouldShowStoriesSettings,
+    localeOverride,
     themeSetting,
     universalExpireTimer,
     whoCanFindMe,
@@ -118,6 +127,7 @@ SettingsWindowProps.onRender(
       <Preferences
         addCustomColor={addCustomColor}
         availableCameras={availableCameras}
+        availableLocales={availableLocales}
         availableMicrophones={availableMicrophones}
         availableSpeakers={availableSpeakers}
         blockedCount={blockedCount}
@@ -125,18 +135,18 @@ SettingsWindowProps.onRender(
         customColors={customColors}
         defaultConversationColor={defaultConversationColor}
         deviceName={deviceName}
+        phoneNumber={phoneNumber}
         doDeleteAllData={doDeleteAllData}
         doneRendering={doneRendering}
         editCustomColor={editCustomColor}
-        executeMenuRole={executeMenuRole}
         getConversationsWithCustomColor={getConversationsWithCustomColor}
         hasAudioNotifications={hasAudioNotifications}
+        hasAutoConvertEmoji={hasAutoConvertEmoji}
         hasAutoDownloadUpdate={hasAutoDownloadUpdate}
         hasAutoLaunch={hasAutoLaunch}
         hasCallNotifications={hasCallNotifications}
         hasCallRingtoneNotification={hasCallRingtoneNotification}
         hasCountMutedConversations={hasCountMutedConversations}
-        hasCustomTitleBar={hasCustomTitleBar}
         hasHideMenuBar={hasHideMenuBar}
         hasIncomingCallNotifications={hasIncomingCallNotifications}
         hasLinkPreviews={hasLinkPreviews}
@@ -157,19 +167,19 @@ SettingsWindowProps.onRender(
         initialSpellCheckSetting={initialSpellCheckSetting}
         isAutoDownloadUpdatesSupported={isAutoDownloadUpdatesSupported}
         isAutoLaunchSupported={isAutoLaunchSupported}
-        isFormattingFlagEnabled={isFormattingFlagEnabled}
         isHideMenuBarSupported={isHideMenuBarSupported}
         isMinimizeToAndStartInSystemTraySupported={
           isMinimizeToAndStartInSystemTraySupported
         }
         isNotificationAttentionSupported={isNotificationAttentionSupported}
-        isPhoneNumberSharingSupported={isPhoneNumberSharingSupported}
         isSyncSupported={isSyncSupported}
         isSystemTraySupported={isSystemTraySupported}
         lastSyncTime={lastSyncTime}
+        localeOverride={localeOverride}
         makeSyncRequest={makeSyncRequest}
         notificationContent={notificationContent}
         onAudioNotificationsChange={onAudioNotificationsChange}
+        onAutoConvertEmojiChange={onAutoConvertEmojiChange}
         onAutoDownloadUpdateChange={onAutoDownloadUpdateChange}
         onAutoLaunchChange={onAutoLaunchChange}
         onCallNotificationsChange={onCallNotificationsChange}
@@ -179,6 +189,7 @@ SettingsWindowProps.onRender(
         onHideMenuBarChange={onHideMenuBarChange}
         onIncomingCallNotificationsChange={onIncomingCallNotificationsChange}
         onLastSyncTimeChange={onLastSyncTimeChange}
+        onLocaleChange={onLocaleChange}
         onMediaCameraPermissionsChange={onMediaCameraPermissionsChange}
         onMediaPermissionsChange={onMediaPermissionsChange}
         onMessageAudioChange={onMessageAudioChange}
@@ -201,16 +212,17 @@ SettingsWindowProps.onRender(
         onWhoCanFindMeChange={onWhoCanFindMeChange}
         onWhoCanSeeMeChange={onWhoCanSeeMeChange}
         onZoomFactorChange={onZoomFactorChange}
+        preferredSystemLocales={preferredSystemLocales}
         removeCustomColorOnConversations={removeCustomColorOnConversations}
         removeCustomColor={removeCustomColor}
         resetAllChatColors={resetAllChatColors}
         resetDefaultChatColor={resetDefaultChatColor}
+        resolvedLocale={resolvedLocale}
         selectedCamera={selectedCamera}
         selectedMicrophone={selectedMicrophone}
         selectedSpeaker={selectedSpeaker}
         sentMediaQualitySetting={sentMediaQualitySetting}
         setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
-        shouldShowStoriesSettings={shouldShowStoriesSettings}
         themeSetting={themeSetting}
         universalExpireTimer={universalExpireTimer}
         whoCanFindMe={whoCanFindMe}

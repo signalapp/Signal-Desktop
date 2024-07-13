@@ -19,38 +19,54 @@ const prepareText = (text: string) => {
   return `<span>${escapedEntities}</span>`;
 };
 
+type ClipboardOptions = Readonly<{
+  isDisabled: boolean;
+}>;
+
 export class SignalClipboard {
   quill: Quill;
+  options: ClipboardOptions;
 
-  constructor(quill: Quill) {
+  constructor(quill: Quill, options: ClipboardOptions) {
     this.quill = quill;
+    this.options = options;
 
     this.quill.root.addEventListener('paste', e => this.onCapturePaste(e));
   }
 
+  updateOptions(options: Partial<ClipboardOptions>): void {
+    this.options = { ...this.options, ...options };
+  }
+
   onCapturePaste(event: ClipboardEvent): void {
+    if (this.options.isDisabled) {
+      return;
+    }
+
     if (event.clipboardData == null) {
+      event.preventDefault();
+      event.stopPropagation();
+
       return;
     }
 
     const clipboard = this.quill.getModule('clipboard');
     const selection = this.quill.getSelection();
-
-    if (selection == null) {
-      return;
-    }
-
     const text = event.clipboardData.getData('text/plain');
     const signal = event.clipboardData.getData('text/signal');
-
-    if (!text && !signal) {
-      return;
-    }
 
     const clipboardContainsFiles = event.clipboardData.files?.length > 0;
     if (!clipboardContainsFiles) {
       event.preventDefault();
       event.stopPropagation();
+    }
+
+    if (selection == null) {
+      return;
+    }
+
+    if (!text && !signal) {
+      return;
     }
 
     const clipboardDelta = signal

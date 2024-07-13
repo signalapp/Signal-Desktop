@@ -1,145 +1,156 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
 import type { LocalizerType } from '../types/Util';
+import { CallViewMode } from '../types/Calling';
 import { Tooltip } from './Tooltip';
 import { Theme } from '../util/theme';
+import { ContextMenu } from './ContextMenu';
 
 export type PropsType = {
+  callViewMode?: CallViewMode;
   i18n: LocalizerType;
-  isInSpeakerView?: boolean;
   isGroupCall?: boolean;
-  message?: ReactNode;
   onCancel?: () => void;
   participantCount: number;
-  showParticipantsList: boolean;
-  title?: string;
-  toggleParticipants?: () => void;
   togglePip?: () => void;
   toggleSettings: () => void;
-  toggleSpeakerView?: () => void;
+  changeCallView?: (mode: CallViewMode) => void;
 };
 
 export function CallingHeader({
+  callViewMode,
+  changeCallView,
   i18n,
-  isInSpeakerView,
   isGroupCall = false,
-  message,
   onCancel,
   participantCount,
-  showParticipantsList,
-  title,
-  toggleParticipants,
   togglePip,
   toggleSettings,
-  toggleSpeakerView,
 }: PropsType): JSX.Element {
   return (
-    <div className="module-calling__header">
-      {title ? (
-        <div className="module-calling__header--header-name">{title}</div>
-      ) : null}
-      {message ? (
-        <div className="module-ongoing-call__header-message">{message}</div>
-      ) : null}
-      <div className="module-calling-tools">
-        {isGroupCall && participantCount ? (
+    <div className="module-calling-tools">
+      {isGroupCall &&
+        participantCount > 2 &&
+        callViewMode &&
+        changeCallView && (
           <div className="module-calling-tools__button">
-            <Tooltip
-              content={i18n('icu:calling__participants', {
-                people: String(participantCount),
-              })}
+            <ContextMenu
+              ariaLabel={i18n('icu:calling__change-view')}
+              i18n={i18n}
+              menuOptions={[
+                {
+                  icon: 'CallSettingsButton__Icon--PaginatedView',
+                  label: i18n('icu:calling__view_mode--paginated'),
+                  onClick: () => changeCallView(CallViewMode.Paginated),
+                  value: CallViewMode.Paginated,
+                },
+                {
+                  icon: 'CallSettingsButton__Icon--OverflowView',
+                  label: i18n('icu:calling__view_mode--overflow'),
+                  onClick: () => changeCallView(CallViewMode.Overflow),
+                  value: CallViewMode.Overflow,
+                },
+                {
+                  icon: 'CallSettingsButton__Icon--SpeakerView',
+                  label: i18n('icu:calling__view_mode--speaker'),
+                  onClick: () => changeCallView(CallViewMode.Speaker),
+                  value: CallViewMode.Speaker,
+                },
+              ]}
               theme={Theme.Dark}
+              popperOptions={{
+                placement: 'bottom',
+                strategy: 'absolute',
+              }}
+              value={
+                // If it's Presentation we want to still show Speaker as selected
+                callViewMode === CallViewMode.Presentation
+                  ? CallViewMode.Speaker
+                  : callViewMode
+              }
             >
-              <button
-                aria-label={i18n('icu:calling__participants', {
-                  people: String(participantCount),
-                })}
-                className={classNames(
-                  'CallingButton__participants--container',
-                  {
-                    'CallingButton__participants--shown': showParticipantsList,
-                  }
-                )}
-                onClick={toggleParticipants}
-                type="button"
+              <Tooltip
+                content={i18n('icu:calling__change-view')}
+                className="CallingButton__tooltip"
+                theme={Theme.Dark}
               >
-                <i className="CallingButton__participants" />
-                <span className="CallingButton__participants--count">
-                  {participantCount}
-                </span>
-              </button>
-            </Tooltip>
+                <div className="CallSettingsButton__Button">
+                  <span
+                    className={classNames(
+                      'CallSettingsButton__Icon',
+                      getCallViewIconClassname(callViewMode)
+                    )}
+                  />
+                </div>
+              </Tooltip>
+            </ContextMenu>
           </div>
-        ) : null}
+        )}
+      <div className="module-calling-tools__button">
+        <Tooltip
+          content={i18n('icu:callingDeviceSelection__settings')}
+          className="CallingButton__tooltip"
+          theme={Theme.Dark}
+        >
+          <button
+            aria-label={i18n('icu:callingDeviceSelection__settings')}
+            className="CallSettingsButton__Button"
+            onClick={toggleSettings}
+            type="button"
+          >
+            <span className="CallSettingsButton__Icon CallSettingsButton__Icon--Settings" />
+          </button>
+        </Tooltip>
+      </div>
+      {togglePip && (
         <div className="module-calling-tools__button">
           <Tooltip
-            content={i18n('icu:callingDeviceSelection__settings')}
+            content={i18n('icu:calling__pip--on')}
+            className="CallingButton__tooltip"
             theme={Theme.Dark}
           >
             <button
-              aria-label={i18n('icu:callingDeviceSelection__settings')}
-              className="CallingButton__settings"
-              onClick={toggleSettings}
+              aria-label={i18n('icu:calling__pip--on')}
+              className="CallSettingsButton__Button"
+              onClick={togglePip}
               type="button"
-            />
+            >
+              <span className="CallSettingsButton__Icon CallSettingsButton__Icon--Pip" />
+            </button>
           </Tooltip>
         </div>
-        {isGroupCall && participantCount > 2 && toggleSpeakerView && (
-          <div className="module-calling-tools__button">
-            <Tooltip
-              content={
-                isInSpeakerView
-                  ? i18n('icu:calling__switch-view--to-grid')
-                  : i18n('icu:calling__switch-view--to-speaker')
-              }
-              theme={Theme.Dark}
+      )}
+      {onCancel && (
+        <div className="module-calling-tools__button">
+          <Tooltip
+            content={i18n('icu:cancel')}
+            theme={Theme.Dark}
+            className="CallingButton__tooltip"
+          >
+            <button
+              aria-label={i18n('icu:cancel')}
+              className="CallSettingsButton__Button CallSettingsButton__Button--Cancel"
+              onClick={onCancel}
+              type="button"
             >
-              <button
-                aria-label={
-                  isInSpeakerView
-                    ? i18n('icu:calling__switch-view--to-grid')
-                    : i18n('icu:calling__switch-view--to-speaker')
-                }
-                className={
-                  isInSpeakerView
-                    ? 'CallingButton__grid-view'
-                    : 'CallingButton__speaker-view'
-                }
-                onClick={toggleSpeakerView}
-                type="button"
-              />
-            </Tooltip>
-          </div>
-        )}
-        {togglePip && (
-          <div className="module-calling-tools__button">
-            <Tooltip content={i18n('icu:calling__pip--on')} theme={Theme.Dark}>
-              <button
-                aria-label={i18n('icu:calling__pip--on')}
-                className="CallingButton__pip"
-                onClick={togglePip}
-                type="button"
-              />
-            </Tooltip>
-          </div>
-        )}
-        {onCancel && (
-          <div className="module-calling-tools__button">
-            <Tooltip content={i18n('icu:cancel')} theme={Theme.Dark}>
-              <button
-                aria-label={i18n('icu:cancel')}
-                className="CallingButton__cancel"
-                onClick={onCancel}
-                type="button"
-              />
-            </Tooltip>
-          </div>
-        )}
-      </div>
+              <span className="CallSettingsButton__Icon CallSettingsButton__Icon--Cancel" />
+            </button>
+          </Tooltip>
+        </div>
+      )}
     </div>
   );
+}
+
+const CALL_VIEW_MODE_ICON_CLASSNAMES: Record<CallViewMode, string> = {
+  [CallViewMode.Overflow]: 'CallSettingsButton__Icon--OverflowView',
+  [CallViewMode.Paginated]: 'CallSettingsButton__Icon--PaginatedView',
+  [CallViewMode.Speaker]: 'CallSettingsButton__Icon--SpeakerView',
+  [CallViewMode.Presentation]: 'CallSettingsButton__Icon--SpeakerView',
+};
+export function getCallViewIconClassname(viewMode: CallViewMode): string {
+  return CALL_VIEW_MODE_ICON_CLASSNAMES[viewMode];
 }

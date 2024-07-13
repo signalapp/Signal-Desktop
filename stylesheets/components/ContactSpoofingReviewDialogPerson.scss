@@ -3,16 +3,21 @@
 
 .module-ContactSpoofingReviewDialogPerson {
   display: flex;
+  padding-block: 8px;
+  gap: 16px;
 
   &:is(button) {
     @include button-reset;
   }
 
   &__info {
-    margin-inline-start: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 
     &__contact-name {
       @include font-body-1-bold;
+      display: block;
     }
 
     &__property {
@@ -26,10 +31,68 @@
         color: $color-gray-05;
       }
 
-      &--callout {
-        @include font-body-2-italic;
-        margin-block: 12px;
-        margin-inline: 0;
+      display: flex;
+      gap: 12px;
+
+      &__icon {
+        display: inline-block;
+        height: 20px;
+        width: 20px;
+        vertical-align: text-top;
+        flex-shrink: 0;
+
+        @mixin contact-spoofing-icon($url) {
+          @include light-theme {
+            @include color-svg($url, $color-gray-90);
+          }
+
+          @include dark-theme {
+            @include color-svg($url, $color-gray-05);
+          }
+        }
+
+        &--connections {
+          @include contact-spoofing-icon(
+            '../images/icons/v3/connections/connections.svg'
+          );
+        }
+
+        &--person {
+          @include contact-spoofing-icon(
+            '../images/icons/v3/person/person.svg'
+          );
+        }
+
+        &--phone {
+          @include contact-spoofing-icon(
+            '../images/icons/v3/phone/phone-compact.svg'
+          );
+        }
+
+        &--group {
+          @include contact-spoofing-icon('../images/icons/v3/group/group.svg');
+        }
+      }
+
+      &__signal-connection {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        @include button-reset();
+        cursor: pointer;
+
+        &::after {
+          content: '';
+          display: inline-block;
+          height: 20px;
+          width: 20px;
+
+          @include color-svg(
+            '../images/icons/v3/chevron/chevron-right-bold.svg',
+            $color-gray-45
+          );
+        }
       }
     }
   }

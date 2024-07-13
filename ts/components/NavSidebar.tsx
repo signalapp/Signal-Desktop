@@ -55,6 +55,9 @@ export type NavSidebarProps = Readonly<{
   savePreferredLeftPaneWidth: (width: number) => void;
   title: string;
   otherTabsUnreadStats: UnreadStats;
+  renderToastManager: (_: {
+    containerWidthBreakpoint: WidthBreakpoint;
+  }) => JSX.Element;
 }>;
 
 enum DragState {
@@ -78,7 +81,9 @@ export function NavSidebar({
   savePreferredLeftPaneWidth,
   title,
   otherTabsUnreadStats,
+  renderToastManager,
 }: NavSidebarProps): JSX.Element {
+  const isRTL = i18n.getLocaleDirection() === 'rtl';
   const [dragState, setDragState] = useState(DragState.INITIAL);
 
   const [preferredWidth, setPreferredWidth] = useState(() => {
@@ -102,7 +107,8 @@ export function NavSidebar({
       setDragState(DragState.DRAGEND);
     },
     onMove(event) {
-      const { deltaX, shiftKey, pointerType } = event;
+      const { shiftKey, pointerType } = event;
+      const deltaX = isRTL ? -event.deltaX : event.deltaX;
       const isKeyboard = pointerType === 'keyboard';
       const increment = isKeyboard && shiftKey ? 10 : 1;
       setPreferredWidth(prevWidth => {
@@ -216,6 +222,8 @@ export function NavSidebar({
         tabIndex={0}
         {...moveProps}
       />
+
+      {renderToastManager({ containerWidthBreakpoint: widthBreakpoint })}
     </div>
   );
 }

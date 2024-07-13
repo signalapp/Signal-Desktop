@@ -1,9 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
+import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoryListItem';
 import { StoryListItem } from './StoryListItem';
 import enMessages from '../../_locales/en/messages.json';
@@ -19,30 +20,26 @@ const i18n = setupI18n('en', enMessages);
 export default {
   title: 'Components/StoryListItem',
   component: StoryListItem,
-  argTypes: {
-    conversationId: {
-      defaultValue: getDefaultConversation().id,
-    },
-    getPreferredBadge: { action: true },
-    i18n: {
-      defaultValue: i18n,
-    },
-    onGoToConversation: { action: true },
-    onHideStory: { action: true },
-    queueStoryDownload: { action: true },
+  args: {
+    conversationId: getDefaultConversation().id,
+    getPreferredBadge: () => undefined,
+    i18n,
+    onGoToConversation: action('onGoToConversation'),
+    onHideStory: action('onHideStory'),
+    queueStoryDownload: action('queueStoryDownload'),
     story: {
-      defaultValue: {
-        messageId: '123',
-        sender: getDefaultConversation(),
-        timestamp: Date.now(),
-      },
+      messageId: '123',
+      sender: getDefaultConversation(),
+      timestamp: Date.now(),
+      messageIdForLogging: '123',
+      expirationTimestamp: undefined,
     },
-    viewUserStories: { action: true },
+    viewUserStories: action('viewUserStories'),
   },
-} as Meta;
+} satisfies Meta<PropsType>;
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<PropsType> = args => <StoryListItem {...args} />;
+const Template: StoryFn<PropsType> = args => <StoryListItem {...args} />;
 
 export const SomeonesStory = Template.bind({});
 SomeonesStory.args = {
@@ -59,7 +56,4 @@ SomeonesStory.args = {
     timestamp: Date.now(),
     expirationTimestamp: undefined,
   },
-};
-SomeonesStory.story = {
-  name: "Someone's story",
 };

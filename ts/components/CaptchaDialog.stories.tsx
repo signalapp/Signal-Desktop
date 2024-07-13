@@ -3,36 +3,33 @@
 
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
-import { boolean } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './CaptchaDialog';
 import { CaptchaDialog } from './CaptchaDialog';
 import { Button } from './Button';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
-export default {
-  title: 'Components/CaptchaDialog',
-};
-
 const i18n = setupI18n('en', enMessages);
 
-export const _CaptchaDialog = (): JSX.Element => {
+export default {
+  title: 'Components/CaptchaDialog',
+  argTypes: {
+    isPending: { control: { type: 'boolean' } },
+  },
+  args: {
+    i18n,
+    isPending: false,
+    onContinue: action('onContinue'),
+  },
+} satisfies Meta<PropsType>;
+
+export function Basic(args: PropsType): JSX.Element {
   const [isSkipped, setIsSkipped] = useState(false);
 
   if (isSkipped) {
     return <Button onClick={() => setIsSkipped(false)}>Show again</Button>;
   }
 
-  return (
-    <CaptchaDialog
-      i18n={i18n}
-      isPending={boolean('isPending', false)}
-      onContinue={action('onContinue')}
-      onSkip={() => setIsSkipped(true)}
-    />
-  );
-};
-
-_CaptchaDialog.story = {
-  name: 'CaptchaDialog',
-};
+  return <CaptchaDialog {...args} onSkip={() => setIsSkipped(true)} />;
+}

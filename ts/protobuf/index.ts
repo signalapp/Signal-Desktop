@@ -3,6 +3,10 @@
 
 import './wrap';
 
-import { signalservice as SignalService, signal as Signal } from './compiled';
+import {
+  signal as Signal,
+  signalbackups as Backups,
+  signalservice as SignalService,
+} from './compiled';
 
-export { SignalService, Signal };
+export { Backups, SignalService, Signal };

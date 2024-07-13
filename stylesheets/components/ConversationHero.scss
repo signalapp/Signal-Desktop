@@ -10,6 +10,39 @@
     margin-bottom: 12px;
   }
 
+  &__title {
+    @include button-reset();
+    cursor: pointer;
+  }
+
+  &__title span {
+    @include font-title-1;
+    font-weight: 400;
+  }
+
+  &__title__chevron {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+
+    // Align with the text
+    position: relative;
+    inset-block-start: 2px;
+
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-right-bold.svg',
+        $color-gray-90
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v3/chevron/chevron-right-bold.svg',
+        $color-gray-05
+      );
+    }
+  }
+
   &__profile-name {
     display: flex;
     align-items: center;
@@ -17,6 +50,7 @@
 
     @include font-title-2;
     margin-bottom: 2px;
+    margin-top: 0;
 
     @include light-theme {
       color: $color-gray-90;
@@ -31,7 +65,7 @@
     @include font-body-2;
     margin-block: 0;
     margin-inline: auto;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     max-width: 500px;
 
     @include light-theme {
@@ -43,11 +77,10 @@
     }
   }
 
-  &__membership {
+  &__note-to-self {
     @include font-body-2;
 
     padding-block: 0;
-
     padding-inline: 16px;
 
     @include light-theme {
@@ -57,48 +90,97 @@
     @include dark-theme {
       color: $color-gray-25;
     }
-
-    &__name {
-      @include font-body-2-bold;
-    }
   }
 
-  &__message-request-warning {
-    @include font-body-2;
+  &__safety-tips-button {
+    border-radius: 9999px;
+    padding-block: 6px;
+    padding-inline: 14px;
+    margin-top: 12px;
+    @include font-subtitle;
+  }
 
-    &__message {
-      display: flex;
-      margin-bottom: 12px;
-      align-items: center;
-      justify-content: center;
-      user-select: none;
+  &__membership {
+    @include font-body-2;
+    user-select: none;
+
+    max-width: 255px;
+    margin-inline: auto;
+    padding-block: 16px;
+    padding-inline: 20px;
+
+    border-radius: 18px;
+    border-style: solid;
+    border-width: 1.5px;
+
+    @include light-theme() {
+      border-color: $color-gray-05;
+    }
+    @include dark-theme() {
+      border-color: $color-gray-80;
+    }
+
+    @include light-theme {
+      color: $color-gray-90;
+    }
+
+    @include dark-theme {
+      color: $color-gray-02;
+    }
+
+    &__chevron {
+      display: inline-block;
+      height: 18px;
+      width: 18px;
+      vertical-align: text-top;
+      margin-inline-end: 8px;
 
       @include light-theme {
-        color: $color-gray-60;
-      }
-      @include dark-theme {
-        color: $color-gray-25;
+        @include color-svg('../images/icons/v3/group/group.svg', $color-black);
       }
 
-      &::before {
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v3/group/group.svg',
+          $color-gray-05
+        );
+      }
+    }
+
+    &__name {
+      // Cancel bold
+      font-weight: normal;
+    }
+
+    &__warning {
+      line-height: 20px;
+
+      &__icon {
         content: '';
-        display: block;
-        height: 14px;
+        display: inline-block;
+        height: 18px;
         margin-inline-end: 8px;
-        width: 14px;
+        width: 18px;
+        vertical-align: middle;
 
         @include light-theme {
           @include color-svg(
             '../images/icons/v3/info/info.svg',
-            $color-gray-60
+            $color-gray-90
           );
         }
         @include dark-theme {
           @include color-svg(
             '../images/icons/v3/info/info.svg',
-            $color-gray-25
+            $color-gray-02
           );
         }
+      }
+
+      &__learn-more {
+        @include button-reset();
+        cursor: pointer;
+        text-decoration: underline;
       }
     }
   }
@@ -106,7 +188,7 @@
   &__linkNotification {
     @include font-body-2;
 
-    margin-top: 15px;
+    margin-top: 12px;
     text-align: center;
     user-select: none;
 

@@ -13,6 +13,7 @@ import type {
 } from '../state/ducks/calling';
 import { missingCaseError } from '../util/missingCaseError';
 import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting';
+import type { CallingImageDataCache } from './CallManager';
 
 enum PositionMode {
   BeingDragged,
@@ -54,6 +55,7 @@ export type PropsType = {
   hangUpActiveCall: (reason: string) => void;
   hasLocalVideo: boolean;
   i18n: LocalizerType;
+  imageDataCache: React.RefObject<CallingImageDataCache>;
   setGroupCallVideoRequest: (
     _: Array<GroupCallVideoRequest>,
     speakerHeight: number
@@ -75,6 +77,7 @@ export function CallingPip({
   getGroupCallVideoFrameSource,
   hangUpActiveCall,
   hasLocalVideo,
+  imageDataCache,
   i18n,
   setGroupCallVideoRequest,
   setLocalPreview,
@@ -83,6 +86,8 @@ export function CallingPip({
   switchFromPresentationView,
   togglePip,
 }: PropsType): JSX.Element {
+  const isRTL = i18n.getLocaleDirection() === 'rtl';
+
   const videoContainerRef = React.useRef<null | HTMLDivElement>(null);
   const localVideoRef = React.useRef(null);
 
@@ -128,14 +133,24 @@ export function CallingPip({
       const offsetX = mouseX - dragOffsetX;
       const offsetY = mouseY - dragOffsetY;
 
+      let distanceToLeftEdge: number;
+      let distanceToRightEdge: number;
+      if (isRTL) {
+        distanceToLeftEdge = innerWidth - (offsetX + PIP_WIDTH);
+        distanceToRightEdge = offsetX;
+      } else {
+        distanceToLeftEdge = offsetX;
+        distanceToRightEdge = innerWidth - (offsetX + PIP_WIDTH);
+      }
+
       const snapCandidates: Array<SnapCandidate> = [
         {
           mode: PositionMode.SnapToLeft,
-          distanceToEdge: offsetX,
+          distanceToEdge: distanceToLeftEdge,
         },
         {
           mode: PositionMode.SnapToRight,
-          distanceToEdge: innerWidth - (offsetX + PIP_WIDTH),
+          distanceToEdge: distanceToRightEdge,
         },
         {
           mode: PositionMode.SnapToTop,
@@ -165,14 +180,14 @@ export function CallingPip({
         case PositionMode.SnapToBottom:
           setPositionState({
             mode: snapTo.mode,
-            offsetX,
+            offsetX: isRTL ? innerWidth - (offsetX + PIP_WIDTH) : offsetX,
           });
           break;
         default:
           throw missingCaseError(snapTo.mode);
       }
     }
-  }, [positionState, setPositionState]);
+  }, [isRTL, positionState, setPositionState]);
 
   React.useEffect(() => {
     if (positionState.mode === PositionMode.BeingDragged) {
@@ -209,7 +224,11 @@ export function CallingPip({
     switch (positionState.mode) {
       case PositionMode.BeingDragged:
         return [
-          positionState.mouseX - positionState.dragOffsetX,
+          isRTL
+            ? windowWidth -
+              positionState.mouseX -
+              (PIP_WIDTH - positionState.dragOffsetX)
+            : positionState.mouseX - positionState.dragOffsetX,
           positionState.mouseY - positionState.dragOffsetY,
         ];
       case PositionMode.SnapToLeft:
@@ -247,7 +266,8 @@ export function CallingPip({
       default:
         throw missingCaseError(positionState);
     }
-  }, [windowWidth, windowHeight, positionState]);
+  }, [isRTL, windowWidth, windowHeight, positionState]);
+  const localizedTranslateX = isRTL ? -translateX : translateX;
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
@@ -258,6 +278,7 @@ export function CallingPip({
         if (!node) {
           return;
         }
+
         const rect = node.getBoundingClientRect();
         const dragOffsetX = ev.clientX - rect.left;
         const dragOffsetY = ev.clientY - rect.top;
@@ -276,7 +297,7 @@ export function CallingPip({
           positionState.mode === PositionMode.BeingDragged
             ? '-webkit-grabbing'
             : '-webkit-grab',
-        transform: `translate3d(${translateX}px,calc(${translateY}px - var(--titlebar-height)), 0)`,
+        transform: `translate3d(${localizedTranslateX}px,calc(${translateY}px), 0)`,
         transition:
           positionState.mode === PositionMode.BeingDragged
             ? 'none'
@@ -286,6 +307,7 @@ export function CallingPip({
       <CallingPipRemoteVideo
         activeCall={activeCall}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+        imageDataCache={imageDataCache}
         i18n={i18n}
         setRendererCanvas={setRendererCanvas}
         setGroupCallVideoRequest={setGroupCallVideoRequest}

@@ -1,0 +1,167 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+// Overriding default style
+.module-Modal__body.CallLinkEditModal__body {
+  padding-inline: 12px 3px;
+  scrollbar-gutter: stable;
+}
+
+.CallLinkEditModal__SrOnly {
+  @include sr-only;
+}
+
+.CallLinkEditModal__Header {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 26px;
+}
+
+.CallLinkEditModal__Header__Details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0; // fix overflow issue
+}
+
+.CallLinkEditModal__Header__Title {
+  @include font-body-1-bold;
+}
+
+.CallLinkEditModal__Header__CallLinkButton {
+  @include button-reset;
+  @include font-subtitle;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
+.CallLinkEditModal__Header__CallLinkButton__Text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.CallLinkEditModal__Header__Actions {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.CallLinkEditModal__JoinButton {
+  @include font-body-1-bold;
+}
+
+.CallLinkEditModal__Row {
+  display: flex;
+  padding: 12px;
+  align-items: center;
+  gap: 16px;
+}
+
+.CallLinkEditModal__RowButton {
+  @include button-reset;
+  width: 100%;
+  padding-block: 1px;
+
+  .CallLinkEditModal__Row {
+    border-radius: 8px;
+  }
+
+  &:hover,
+  &:focus {
+    .CallLinkEditModal__Row {
+      @include light-theme {
+        background: $color-gray-02;
+      }
+      @include dark-theme {
+        background: $color-gray-75;
+      }
+    }
+  }
+}
+
+.CallLinkEditModal__Row--Button {
+  @include font-body-2;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+
+  @include light-theme {
+    color: $color-black;
+  }
+  @include dark-theme {
+    color: $color-gray-15;
+  }
+}
+
+.CallLinkEditModal__RowLabel {
+  @include font-body-1;
+  flex: 1;
+}
+
+.CallLinkEditModal__RowIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
+
+@mixin CallLinkEditModal__RowIcon($iconPath) {
+  &::after {
+    @include light-theme {
+      @include color-svg($iconPath, $color-gray-75);
+    }
+    @include dark-theme {
+      @include color-svg($iconPath, $color-gray-15);
+    }
+  }
+}
+
+.CallLinkEditModal__RowIcon--Edit {
+  @include CallLinkEditModal__RowIcon('../images/icons/v3/edit/edit.svg');
+}
+
+.CallLinkEditModal__RowIcon--Approve {
+  @include CallLinkEditModal__RowIcon(
+    '../images/icons/v3/person/person-check-compact.svg'
+  );
+}
+
+.CallLinkEditModal__RowIcon--Copy {
+  @include CallLinkEditModal__RowIcon('../images/icons/v3/copy/copy.svg');
+}
+
+.CallLinkEditModal__RowIcon--Share {
+  @include CallLinkEditModal__RowIcon('../images/icons/v3/forward/forward.svg');
+}
+
+.CallLinkEditModal__Hr {
+  border: none;
+  height: 1px;
+  background: $color-black-alpha-12;
+}
+
+// Overriding default style
+.CallLinkEditModal__RowSelect.module-select select {
+  min-width: 0;
+}

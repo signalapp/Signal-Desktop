@@ -153,7 +153,9 @@ describe('updateConversationsWithUuidLookup', () => {
 
     sinonSandbox.stub(window.Signal.Data, 'updateConversation');
 
-    fakeCdsLookup = sinonSandbox.stub().resolves(new Map());
+    fakeCdsLookup = sinonSandbox.stub().resolves({
+      entries: new Map(),
+    });
     fakeCheckAccountExistence = sinonSandbox.stub().resolves(false);
     fakeServer = {
       cdsLookup: fakeCdsLookup,
@@ -198,12 +200,12 @@ describe('updateConversationsWithUuidLookup', () => {
     const aci1 = generateAci();
     const aci2 = generateAci();
 
-    fakeCdsLookup.resolves(
-      new Map([
+    fakeCdsLookup.resolves({
+      entries: new Map([
         ['+13215559876', { aci: aci1, pni: undefined }],
         ['+16545559876', { aci: aci2, pni: undefined }],
-      ])
-    );
+      ]),
+    });
 
     await updateConversationsWithUuidLookup({
       conversationController: new FakeConversationController([

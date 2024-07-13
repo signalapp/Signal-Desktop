@@ -12,6 +12,11 @@ const Embed: typeof Parchment.Embed = Quill.import('blots/embed');
 // ts/components/conversation/Emojify.tsx
 // ts/components/emoji/Emoji.tsx
 
+export type EmojiBlotValue = Readonly<{
+  value: string;
+  source?: string;
+}>;
+
 export class EmojiBlot extends Embed {
   static override blotName = 'emoji';
 
@@ -19,21 +24,30 @@ export class EmojiBlot extends Embed {
 
   static override className = 'emoji-blot';
 
-  static override create(emoji: string): Node {
+  static override create({ value: emoji, source }: EmojiBlotValue): Node {
     const node = super.create(undefined) as HTMLElement;
     node.dataset.emoji = emoji;
+    node.dataset.source = source;
 
     const image = emojiToImage(emoji);
 
     node.setAttribute('src', image || '');
     node.setAttribute('data-emoji', emoji);
+    node.setAttribute('data-source', source || '');
     node.setAttribute('title', emoji);
     node.setAttribute('aria-label', emoji);
 
     return node;
   }
 
-  static override value(node: HTMLElement): string | undefined {
-    return node.dataset.emoji;
+  static override value(node: HTMLElement): EmojiBlotValue | undefined {
+    const { emoji, source } = node.dataset;
+    if (emoji === undefined) {
+      throw new Error(
+        `Failed to make EmojiBlot with emoji: ${emoji}, source: ${source}`
+      );
+    }
+
+    return { value: emoji, source };
   }
 }

@@ -9,14 +9,12 @@ import type { LocalizerType } from '../types/Util';
 import { Button, ButtonVariant } from './Button';
 import { Spinner } from './Spinner';
 
-const PADDING_HORIZONTAL = 48;
-const PADDING_VERTICAL = 12;
-
 export enum CallingLobbyJoinButtonVariant {
   CallIsFull = 'CallIsFull',
   Join = 'Join',
   Loading = 'Loading',
   Start = 'Start',
+  AskToJoin = 'AskToJoin',
 }
 
 type PropsType = {
@@ -47,18 +45,27 @@ export function CallingLobbyJoinButton({
 
   const childrenByVariant: Record<CallingLobbyJoinButtonVariant, ReactChild> = {
     [CallingLobbyJoinButtonVariant.CallIsFull]: i18n(
-      'icu:calling__call-is-full'
+      'icu:CallingLobbyJoinButton--call-full'
     ),
-    [CallingLobbyJoinButtonVariant.Loading]: <Spinner svgSize="small" />,
-    [CallingLobbyJoinButtonVariant.Join]: i18n('icu:calling__join'),
-    [CallingLobbyJoinButtonVariant.Start]: i18n('icu:calling__start'),
+    [CallingLobbyJoinButtonVariant.Loading]: (
+      <Spinner size="18px" svgSize="small" />
+    ),
+    [CallingLobbyJoinButtonVariant.Join]: i18n(
+      'icu:CallingLobbyJoinButton--join'
+    ),
+    [CallingLobbyJoinButtonVariant.Start]: i18n(
+      'icu:CallingLobbyJoinButton--start'
+    ),
+    [CallingLobbyJoinButtonVariant.AskToJoin]: i18n(
+      'icu:CallingLobbyJoinButton--ask-to-join'
+    ),
   };
 
   return (
     <>
       {Boolean(width && height) && (
         <Button
-          className="module-CallingLobbyJoinButton"
+          className="CallingLobbyJoinButton CallControls__JoinLeaveButton"
           disabled={disabled}
           onClick={onClick}
           style={{ width, height }}
@@ -79,7 +86,7 @@ export function CallingLobbyJoinButton({
         {Object.values(CallingLobbyJoinButtonVariant).map(candidateVariant => (
           <Button
             key={candidateVariant}
-            className="module-CallingLobbyJoinButton"
+            className="CallingLobbyJoinButton CallControls__JoinLeaveButton"
             variant={ButtonVariant.Calling}
             onClick={noop}
             ref={(button: HTMLButtonElement | null) => {
@@ -95,14 +102,10 @@ export function CallingLobbyJoinButton({
               //   we compute the size, then the font makes the text a bit larger, and
               //   there's a layout issue.
               setWidth((previousWidth = 0) =>
-                Math.ceil(
-                  Math.max(previousWidth, variantWidth + PADDING_HORIZONTAL)
-                )
+                Math.ceil(Math.max(previousWidth, variantWidth))
               );
               setHeight((previousHeight = 0) =>
-                Math.ceil(
-                  Math.max(previousHeight, variantHeight + PADDING_VERTICAL)
-                )
+                Math.ceil(Math.max(previousHeight, variantHeight))
               );
             }}
           >

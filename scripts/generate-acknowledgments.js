@@ -7,15 +7,19 @@ const { join } = require('path');
 const pMap = require('p-map');
 const prettier = require('prettier');
 
+// During development, you might use local versions of dependencies which are missing
+// acknowledgment files. In this case we'll skip rebuilding the acknowledgment files.
+// Enable this flag to throw an error.
+const REQUIRE_SIGNAL_LIB_FILES = Boolean(process.env.REQUIRE_SIGNAL_LIB_FILES);
+
 const {
   dependencies = {},
   optionalDependencies = {},
 } = require('../package.json');
 
-const SKIPPED_DEPENDENCIES = new Set([
-  '@signalapp/libsignal-client',
-  '@signalapp/ringrtc',
-]);
+const SIGNAL_LIBS = ['@signalapp/libsignal-client', '@signalapp/ringrtc'];
+
+const SKIPPED_DEPENDENCIES = new Set(SIGNAL_LIBS);
 
 const rootDir = join(__dirname, '..');
 const nodeModulesPath = join(rootDir, 'node_modules');
@@ -70,6 +74,37 @@ async function getMarkdownForDependency(dependencyName) {
   ].join('\n');
 }
 
+async function getMarkdownForSignalLib(dependencyName) {
+  const dependencyRootPath = join(nodeModulesPath, dependencyName);
+  const licenseFilePath = join(
+    dependencyRootPath,
+    'dist',
+    'acknowledgments.md'
+  );
+
+  let licenseBody;
+  try {
+    licenseBody = await fs.promises.readFile(licenseFilePath, 'utf8');
+  } catch (err) {
+    if (err) {
+      if (err.code === 'ENOENT' && !REQUIRE_SIGNAL_LIB_FILES) {
+        console.warn(
+          `Missing acknowledgments file for ${dependencyName}. Skipping generation of acknowledgments.`
+        );
+        process.exit(0);
+      }
+
+      throw err;
+    }
+  }
+
+  return [
+    `# Acknowledgements for ${dependencyName}`,
+    '',
+    licenseBody.replace(/^# Acknowledgments/, '').trim(),
+  ].join('\n');
+}
+
 async function main() {
   assert.deepStrictEqual(
     Object.keys(optionalDependencies),
@@ -94,6 +129,52 @@ async function main() {
     }
   );
 
+  // For our libraries copy the respective acknowledgement lists
+  const markdownsFromSignalLibs = await pMap(
+    SIGNAL_LIBS,
+    getMarkdownForSignalLib,
+    {
+      concurrency: 100,
+      timeout: 1000 * 60 * 2,
+    }
+  );
+
+  const markdownForChromiumDashboard = [
+    '## Chromium WebRTC Internals Dashboard',
+    '',
+    [
+      'Copyright 2015 The Chromium Authors',
+      '',
+      'Redistribution and use in source and binary forms, with or without',
+      'modification, are permitted provided that the following conditions are',
+      'met:',
+      '',
+      '   * Redistributions of source code must retain the above copyright',
+      'notice, this list of conditions and the following disclaimer.',
+      '   * Redistributions in binary form must reproduce the above',
+      'copyright notice, this list of conditions and the following disclaimer',
+      'in the documentation and/or other materials provided with the',
+      'distribution.',
+      '   * Neither the name of Google LLC nor the names of its',
+      'contributors may be used to endorse or promote products derived from',
+      'this software without specific prior written permission.',
+      '',
+      'THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS',
+      '"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT',
+      'LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR',
+      'A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT',
+      'OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,',
+      'SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT',
+      'LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,',
+      'DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY',
+      'THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT',
+      '(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE',
+      'OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.',
+    ]
+      .map(line => `\t${line}`)
+      .join('\n'),
+  ].join('\n');
+
   const unformattedOutput = [
     '<!-- Copyright 2020 Signal Messenger, LLC -->',
     '<!-- SPDX-License-Identifier: AGPL-3.0-only -->',
@@ -102,6 +183,13 @@ async function main() {
     'Signal Desktop makes use of the following open source projects.',
     '',
     markdownsForDependency.join('\n\n'),
+    markdownForChromiumDashboard,
+    '',
+    '## Kyber Patent License',
+    '',
+    '<https://csrc.nist.gov/csrc/media/Projects/post-quantum-cryptography/documents/selected-algos-2022/nist-pqc-license-summary-and-excerpts.pdf>',
+    '',
+    markdownsFromSignalLibs.join('\n\n'),
   ].join('\n');
 
   const prettierConfig = await prettier.resolveConfig(destinationPath);

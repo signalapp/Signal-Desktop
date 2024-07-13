@@ -22,6 +22,7 @@
 
     padding-block: 22px;
     padding-inline: 28px;
+    margin-block-start: 8px;
     background: var(--bg-color);
     border-radius: 18px;
     max-width: 204px;
@@ -55,21 +56,21 @@
         width: 100%;
       }
 
-      &__logo {
-        --size: 25px;
-        position: absolute;
-        top: calc(50% - var(--size) / 2);
-        inset-inline-start: calc(50% - var(--size) / 2);
-        width: var(--size);
-        height: var(--size);
-        @include color-svg('../images/signal-qr-logo.svg', var(--fg-color));
+      &__error-icon {
+        -webkit-mask-size: 100%;
+        display: block;
+        height: 28px;
+        width: 28px;
+
+        @include color-svg(
+          '../images/icons/v3/error/error-circle.svg',
+          $color-gray-25
+        );
       }
     }
 
     &__username {
       display: flex;
-      flex-direction: row;
-      gap: 4px;
       justify-content: center;
       margin-block: 12px 2px;
 
@@ -82,20 +83,26 @@
         text-align: center;
       }
 
-      &__copy {
+      &__copy__button {
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+
+        i {
+          flex-shrink: 0;
+          margin-top: 2px;
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+
+          @include color-svg(
+            '../images/icons/v3/copy/copy.svg',
+            var(--text-color)
+          );
+        }
+
         @include button-reset;
         @include button-focus-outline;
-
-        flex-shrink: 0;
-        margin-top: 2px;
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-
-        @include color-svg(
-          '../images/icons/v3/copy/copy.svg',
-          var(--text-color)
-        );
       }
     }
   }
@@ -209,11 +216,31 @@
           );
         }
       }
+
+      &:disabled:after {
+        @include light-theme() {
+          background-color: $color-gray-45;
+        }
+
+        @include dark-theme() {
+          background-color: $color-gray-25;
+        }
+      }
     }
 
     &__text {
       word-break: break-all;
       user-select: text;
+
+      &--resetting {
+        @include light-theme() {
+          color: $color-gray-45;
+        }
+
+        @include dark-theme() {
+          color: $color-gray-25;
+        }
+      }
     }
   }
 

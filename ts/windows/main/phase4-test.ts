@@ -5,6 +5,8 @@
 /* eslint-disable no-console */
 /* eslint-disable global-require */
 
+import fs from 'fs';
+
 const { config } = window.SignalContext;
 
 if (config.environment === 'test') {
@@ -14,8 +16,14 @@ if (config.environment === 'test') {
 
 if (config.ciMode) {
   console.log(
-    `Importing CI infrastructure; enabled in config, mode: ${config.ciMode}`
+    `Importing CI infrastructure; enabled in config, mode: ${config.ciMode}, ` +
+      `backupPath: ${config.ciBackupPath}`
   );
   const { getCI } = require('../../CI');
-  window.SignalCI = getCI(window.getTitle());
+  window.SignalCI = getCI({
+    deviceName: window.getTitle(),
+    backupData: config.ciBackupPath
+      ? fs.readFileSync(config.ciBackupPath)
+      : undefined,
+  });
 }

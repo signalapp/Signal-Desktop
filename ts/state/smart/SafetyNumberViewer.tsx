@@ -1,26 +1,38 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { connect } from 'react-redux';
-import { mapDispatchToProps } from '../actions';
+import React, { memo } from 'react';
+import { useSelector } from 'react-redux';
 import { SafetyNumberViewer } from '../../components/SafetyNumberViewer';
-import type { StateType } from '../reducer';
 import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog';
-import { getContactSafetyNumber } from '../selectors/safetyNumber';
+import { getContactSafetyNumberSelector } from '../selectors/safetyNumber';
 import { getConversationSelector } from '../selectors/conversations';
-import { getSafetyNumberMode } from '../selectors/items';
 import { getIntl } from '../selectors/user';
+import { useSafetyNumberActions } from '../ducks/safetyNumber';
 
-const mapStateToProps = (state: StateType, props: SafetyNumberProps) => {
-  return {
-    ...props,
-    ...getContactSafetyNumber(state, props),
-    contact: getConversationSelector(state)(props.contactID),
-    safetyNumberMode: getSafetyNumberMode(state, { now: Date.now() }),
-    i18n: getIntl(state),
-  };
-};
+export const SmartSafetyNumberViewer = memo(function SmartSafetyNumberViewer({
+  contactID,
+  onClose,
+}: SafetyNumberProps) {
+  const i18n = useSelector(getIntl);
+  const contactSafetyNumberSelector = useSelector(
+    getContactSafetyNumberSelector
+  );
+  const safetyNumberContact = contactSafetyNumberSelector(contactID);
+  const conversationSelector = useSelector(getConversationSelector);
+  const contact = conversationSelector(contactID);
 
-const smart = connect(mapStateToProps, mapDispatchToProps);
+  const { generateSafetyNumber, toggleVerified } = useSafetyNumberActions();
 
-export const SmartSafetyNumberViewer = smart(SafetyNumberViewer);
+  return (
+    <SafetyNumberViewer
+      contact={contact}
+      generateSafetyNumber={generateSafetyNumber}
+      i18n={i18n}
+      onClose={onClose}
+      safetyNumber={safetyNumberContact?.safetyNumber ?? null}
+      toggleVerified={toggleVerified}
+      verificationDisabled={safetyNumberContact?.verificationDisabled ?? null}
+    />
+  );
+});

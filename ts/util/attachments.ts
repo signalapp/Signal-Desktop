@@ -3,58 +3,50 @@
 
 import { blobToArrayBuffer } from 'blob-util';
 
+import * as log from '../logging/log';
 import { scaleImageToLevel } from './scaleImageToLevel';
 import { dropNull } from './dropNull';
+import { getLocalAttachmentUrl } from './getLocalAttachmentUrl';
 import type {
   AttachmentType,
   UploadedAttachmentType,
 } from '../types/Attachment';
 import { canBeTranscoded } from '../types/Attachment';
-import type { LoggerType } from '../types/Logging';
-import * as MIME from '../types/MIME';
 import * as Errors from '../types/errors';
 import * as Bytes from '../Bytes';
 
-// Upgrade steps
-// NOTE: This step strips all EXIF metadata from JPEG images as
-// part of re-encoding the image:
-export async function autoOrientJPEG(
-  attachment: AttachmentType,
-  { logger }: { logger: LoggerType },
-  {
-    sendHQImages = false,
-    isIncoming = false,
-  }: {
-    sendHQImages?: boolean;
-    isIncoming?: boolean;
-  } = {}
-): Promise<AttachmentType> {
-  if (isIncoming && !MIME.isJPEG(attachment.contentType)) {
-    return attachment;
-  }
-
+// All outgoing images go through handleImageAttachment before being sent and thus have
+// already been scaled to high-quality level, stripped of exif data, and saved. This
+// should be called just before message send to downscale the attachment further if
+// needed.
+export const downscaleOutgoingAttachment = async (
+  attachment: AttachmentType
+): Promise<AttachmentType> => {
   if (!canBeTranscoded(attachment)) {
     return attachment;
   }
 
-  // If we haven't downloaded the attachment yet, we won't have the data.
-  // All images go through handleImageAttachment before being sent and thus have
-  // already been scaled to level, oriented, stripped of exif data, and saved
-  // in high quality format. If we want to send the image in HQ we can return
-  // the attachment as-is. Otherwise we'll have to further scale it down.
-  if (!attachment.data || sendHQImages) {
-    return attachment;
+  let scaleTarget: string | Blob;
+  const { data, path, size } = attachment;
+
+  if (data) {
+    scaleTarget = new Blob([data], {
+      type: attachment.contentType,
+    });
+  } else {
+    if (!path) {
+      return attachment;
+    }
+    scaleTarget = getLocalAttachmentUrl(attachment);
   }
 
-  const dataBlob = new Blob([attachment.data], {
-    type: attachment.contentType,
-  });
   try {
-    const { blob: xcodedDataBlob } = await scaleImageToLevel(
-      dataBlob,
-      attachment.contentType,
-      isIncoming
-    );
+    const { blob: xcodedDataBlob } = await scaleImageToLevel({
+      fileOrBlobOrURL: scaleTarget,
+      contentType: attachment.contentType,
+      size,
+      highQuality: false,
+    });
     const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);
 
     // IMPORTANT: We overwrite the existing `data` `Uint8Array` losing the original
@@ -62,27 +54,31 @@ export async function autoOrientJPEG(
     // retain it but due to reports of data loss, we don’t want to overburden IndexedDB
     // by potentially doubling stored image data.
     // See: https://github.com/signalapp/Signal-Desktop/issues/1589
+    // We also clear out the attachment path because we're changing
+    // the attachment data so it no longer matches the old path.
+    // Path and data should always be in agreement.
     const xcodedAttachment = {
       ...attachment,
       data: new Uint8Array(xcodedDataArrayBuffer),
       size: xcodedDataArrayBuffer.byteLength,
+      path: undefined,
     };
 
     return xcodedAttachment;
   } catch (error: unknown) {
     const errorString = Errors.toLogFormat(error);
-    logger.error(
-      'autoOrientJPEG: Failed to rotate/scale attachment',
+    log.error(
+      'downscaleOutgoingAttachment: Failed to scale attachment',
       errorString
     );
 
     return attachment;
   }
-}
+};
 
 export type CdnFieldsType = Pick<
   AttachmentType,
-  'cdnId' | 'cdnKey' | 'cdnNumber' | 'key' | 'digest'
+  'cdnId' | 'cdnKey' | 'cdnNumber' | 'key' | 'digest' | 'iv' | 'plaintextHash'
 >;
 
 export function copyCdnFields(
@@ -96,6 +92,8 @@ export function copyCdnFields(
     cdnKey: uploaded.cdnKey,
     cdnNumber: dropNull(uploaded.cdnNumber),
     key: Bytes.toBase64(uploaded.key),
+    iv: Bytes.toBase64(uploaded.iv),
     digest: Bytes.toBase64(uploaded.digest),
+    plaintextHash: uploaded.plaintextHash,
   };
 }

@@ -71,10 +71,26 @@ import { updateToSchemaVersion920 } from './920-clean-more-keys';
 import { updateToSchemaVersion930 } from './930-fts5-secure-delete';
 import { updateToSchemaVersion940 } from './940-fts5-revert';
 import { updateToSchemaVersion950 } from './950-fts5-secure-delete';
+import { updateToSchemaVersion960 } from './960-untag-pni';
+import { updateToSchemaVersion970 } from './970-fts5-optimize';
+import { updateToSchemaVersion980 } from './980-reaction-timestamp';
+import { updateToSchemaVersion990 } from './990-phone-number-sharing';
+import { updateToSchemaVersion1000 } from './1000-mark-unread-call-history-messages-as-unseen';
+import { updateToSchemaVersion1010 } from './1010-call-links-table';
+import { updateToSchemaVersion1020 } from './1020-self-merges';
+import { updateToSchemaVersion1030 } from './1030-unblock-event';
+import { updateToSchemaVersion1040 } from './1040-undownloaded-backed-up-media';
+import { updateToSchemaVersion1050 } from './1050-group-send-endorsements';
+import { updateToSchemaVersion1060 } from './1060-addressable-messages-and-sync-tasks';
+import { updateToSchemaVersion1070 } from './1070-attachment-backup';
+import { updateToSchemaVersion1080 } from './1080-nondisappearing-addressable';
+import { updateToSchemaVersion1090 } from './1090-message-delete-indexes';
+import { updateToSchemaVersion1100 } from './1100-optimize-mark-call-history-read-in-conversation';
+import { updateToSchemaVersion1110 } from './1110-sticker-local-key';
 import {
+  updateToSchemaVersion1120,
   version as MAX_VERSION,
-  updateToSchemaVersion960,
-} from './960-untag-pni';
+} from './1120-messages-foreign-keys-indexes';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -2013,10 +2029,50 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion940,
   updateToSchemaVersion950,
   updateToSchemaVersion960,
+  updateToSchemaVersion970,
+  updateToSchemaVersion980,
+  updateToSchemaVersion990,
+
+  updateToSchemaVersion1000,
+  updateToSchemaVersion1010,
+  updateToSchemaVersion1020,
+  updateToSchemaVersion1030,
+  updateToSchemaVersion1040,
+  updateToSchemaVersion1050,
+  updateToSchemaVersion1060,
+  updateToSchemaVersion1070,
+  updateToSchemaVersion1080,
+  updateToSchemaVersion1090,
+  updateToSchemaVersion1100,
+  updateToSchemaVersion1110,
+  updateToSchemaVersion1120,
 ];
 
 export class DBVersionFromFutureError extends Error {
   override name = 'DBVersionFromFutureError';
+}
+
+export function enableFTS5SecureDelete(db: Database, logger: LoggerType): void {
+  const isEnabled =
+    db
+      .prepare(
+        `
+          SELECT v FROM messages_fts_config WHERE k is 'secure-delete';
+        `
+      )
+      .pluck()
+      .get() === 1;
+
+  if (!isEnabled) {
+    logger.info('enableFTS5SecureDelete: enabling');
+    db.exec(`
+      -- Enable secure-delete
+      INSERT INTO messages_fts
+      (messages_fts, rank)
+      VALUES
+      ('secure-delete', 1);
+    `);
+  }
 }
 
 export function updateSchema(db: Database, logger: LoggerType): void {
@@ -2046,6 +2102,8 @@ export function updateSchema(db: Database, logger: LoggerType): void {
 
     runSchemaUpdate(startingVersion, db, logger);
   }
+
+  enableFTS5SecureDelete(db, logger);
 
   if (startingVersion !== MAX_VERSION) {
     const start = Date.now();

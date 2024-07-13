@@ -8,7 +8,7 @@ import { SystemMessage } from './SystemMessage';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import { ContactName } from './ContactName';
 import { GroupV1MigrationDialog } from '../GroupV1MigrationDialog';
 import * as log from '../../logging/log';
@@ -16,8 +16,10 @@ import * as log from '../../logging/log';
 export type PropsDataType = {
   areWeInvited: boolean;
   conversationId: string;
-  droppedMembers: Array<ConversationType>;
-  invitedMembers: Array<ConversationType>;
+  droppedMembers?: Array<ConversationType>;
+  invitedMembers?: Array<ConversationType>;
+  droppedMemberCount: number;
+  invitedMemberCount: number;
 };
 
 export type PropsHousekeepingType = {
@@ -31,11 +33,12 @@ export type PropsType = PropsDataType & PropsHousekeepingType;
 export function GroupV1Migration(props: PropsType): React.ReactElement {
   const {
     areWeInvited,
-    conversationId,
     droppedMembers,
+    droppedMemberCount,
     getPreferredBadge,
     i18n,
     invitedMembers,
+    invitedMemberCount,
     theme,
   } = props;
   const [showingDialog, setShowingDialog] = React.useState(false);
@@ -56,12 +59,23 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
           <>
             <p>{i18n('icu:GroupV1--Migration--was-upgraded')}</p>
             <p>
+              {' '}
               {areWeInvited ? (
                 i18n('icu:GroupV1--Migration--invited--you')
               ) : (
                 <>
-                  {renderUsers(invitedMembers, i18n, 'invited')}
-                  {renderUsers(droppedMembers, i18n, 'removed')}
+                  {renderUsers({
+                    members: invitedMembers,
+                    count: invitedMemberCount,
+                    i18n,
+                    kind: 'invited',
+                  })}
+                  {renderUsers({
+                    members: droppedMembers,
+                    count: droppedMemberCount,
+                    i18n,
+                    kind: 'removed',
+                  })}
                 </>
               )}
             </p>
@@ -80,13 +94,14 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
       {showingDialog ? (
         <GroupV1MigrationDialog
           areWeInvited={areWeInvited}
-          conversationId={conversationId}
           droppedMembers={droppedMembers}
+          droppedMemberCount={droppedMemberCount}
           getPreferredBadge={getPreferredBadge}
           hasMigrated
           i18n={i18n}
           invitedMembers={invitedMembers}
-          migrate={() => log.warn('GroupV1Migration: Modal called migrate()')}
+          invitedMemberCount={invitedMemberCount}
+          onMigrate={() => log.warn('GroupV1Migration: Modal called migrate()')}
           onClose={dismissDialog}
           theme={theme}
         />
@@ -95,28 +110,34 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
   );
 }
 
-function renderUsers(
-  members: Array<ConversationType>,
-  i18n: LocalizerType,
-  kind: 'invited' | 'removed'
-): React.ReactElement | null {
-  if (!members || members.length === 0) {
+function renderUsers({
+  members,
+  count,
+  i18n,
+  kind,
+}: {
+  members?: Array<ConversationType>;
+  count: number;
+  i18n: LocalizerType;
+  kind: 'invited' | 'removed';
+}): React.ReactElement | null {
+  if (count === 0) {
     return null;
   }
 
-  if (members.length === 1) {
+  if (members && count === 1) {
     const contact = <ContactName title={members[0].title} />;
     return (
       <p>
         {kind === 'invited' && (
-          <Intl
+          <I18n
             i18n={i18n}
             id="icu:GroupV1--Migration--invited--one"
             components={{ contact }}
           />
         )}
         {kind === 'removed' && (
-          <Intl
+          <I18n
             i18n={i18n}
             id="icu:GroupV1--Migration--removed--one"
             components={{ contact }}
@@ -126,19 +147,17 @@ function renderUsers(
     );
   }
 
-  const count = members.length.toString();
-
   return (
     <p>
-      {kind === 'invited' && members.length > 1 && (
-        <Intl
+      {kind === 'invited' && (
+        <I18n
           i18n={i18n}
           id="icu:GroupV1--Migration--invited--many"
           components={{ count }}
         />
       )}
-      {kind === 'removed' && members.length > 1 && (
-        <Intl
+      {kind === 'removed' && (
+        <I18n
           i18n={i18n}
           id="icu:GroupV1--Migration--removed--many"
           components={{ count }}

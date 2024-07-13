@@ -5,7 +5,6 @@ import moment from 'moment';
 import {
   isNumber,
   padStart,
-  isTypedArray,
   isFunction,
   isUndefined,
   isString,
@@ -22,13 +21,16 @@ import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../util/GoogleChrome';
-import type { LocalizerType } from './Util';
+import type { LocalizerType, WithRequiredProperties } from './Util';
 import { ThemeType } from './Util';
 import * as GoogleChrome from '../util/GoogleChrome';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import type { MessageStatusType } from '../components/conversation/Message';
 import { strictAssert } from '../util/assert';
 import type { SignalService as Proto } from '../protobuf';
+import { isMoreRecentThan } from '../util/timestamp';
+import { DAY } from '../util/durations';
+import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
@@ -37,13 +39,24 @@ const MIN_HEIGHT = 50;
 
 // Used for display
 
+export class AttachmentSizeError extends Error {}
+
+type ScreenshotType = Omit<AttachmentType, 'size'> & {
+  height: number;
+  width: number;
+  path: string;
+  size?: number;
+};
+
 export type AttachmentType = {
   error?: boolean;
   blurHash?: string;
   caption?: string;
+  clientUuid?: string;
   contentType: MIME.MIMEType;
   digest?: string;
   fileName?: string;
+  plaintextHash?: string;
   uploadTimestamp?: number;
   /** Not included in protobuf, needs to be pulled from flags */
   isVoiceMessage?: boolean;
@@ -55,26 +68,33 @@ export type AttachmentType = {
   width?: number;
   height?: number;
   path?: string;
-  screenshot?: {
-    height: number;
-    width: number;
-    url?: string;
-    contentType: MIME.MIMEType;
-    path: string;
-    data?: Uint8Array;
-  };
+  screenshot?: ScreenshotType;
   screenshotData?: Uint8Array;
+  // Legacy Draft
   screenshotPath?: string;
   flags?: number;
   thumbnail?: ThumbnailType;
   isCorrupted?: boolean;
-  downloadJobId?: string;
   cdnNumber?: number;
   cdnId?: string;
   cdnKey?: string;
   key?: string;
+  iv?: string;
   data?: Uint8Array;
   textAttachment?: TextAttachmentType;
+  wasTooBig?: boolean;
+
+  incrementalMac?: string;
+  incrementalMacChunkSize?: number;
+
+  backupLocator?: {
+    mediaName: string;
+    cdnNumber?: number;
+  };
+
+  // See app/attachment_channel.ts
+  version?: 1 | 2;
+  localKey?: string; // AES + MAC
 
   /** Legacy field. Used only for downloading old attachments */
   id?: number;
@@ -83,14 +103,34 @@ export type AttachmentType = {
   schemaVersion?: number;
 };
 
+export type LocalAttachmentV2Type = Readonly<{
+  version: 2;
+  path: string;
+  localKey: string;
+  plaintextHash: string;
+  size: number;
+}>;
+
+export type AddressableAttachmentType = Readonly<{
+  version?: 1 | 2;
+  path: string;
+  localKey?: string;
+  size?: number;
+
+  // In-memory data, for outgoing attachments that are not saved to disk.
+  data?: Uint8Array;
+}>;
+
 export type UploadedAttachmentType = Proto.IAttachmentPointer &
   Readonly<{
     // Required fields
     cdnKey: string;
+    iv: Uint8Array;
     key: Uint8Array;
     size: number;
     digest: Uint8Array;
     contentType: string;
+    plaintextHash: string;
   }>;
 
 export type AttachmentWithHydratedData = AttachmentType & {
@@ -116,12 +156,10 @@ export type TextAttachmentType = {
     startColor?: number | null;
     endColor?: number | null;
     angle?: number | null;
+    colors?: ReadonlyArray<number> | null;
+    positions?: ReadonlyArray<number> | null;
   } | null;
   color?: number | null;
-};
-
-export type DownloadedAttachmentType = AttachmentType & {
-  data: Uint8Array;
 };
 
 export type BaseAttachmentDraftType = {
@@ -137,6 +175,7 @@ export type BaseAttachmentDraftType = {
 export type InMemoryAttachmentDraftType =
   | ({
       data: Uint8Array;
+      clientUuid: string;
       pending: false;
       screenshotData?: Uint8Array;
       fileName?: string;
@@ -144,6 +183,7 @@ export type InMemoryAttachmentDraftType =
     } & BaseAttachmentDraftType)
   | {
       contentType: MIME.MIMEType;
+      clientUuid: string;
       fileName?: string;
       path?: string;
       pending: true;
@@ -154,6 +194,8 @@ export type InMemoryAttachmentDraftType =
 export type AttachmentDraftType =
   | ({
       url?: string;
+      screenshot?: ScreenshotType;
+      // Legacy field
       screenshotPath?: string;
       pending: false;
       // Old draft attachments may have a caption, though they are no longer editable
@@ -163,8 +205,12 @@ export type AttachmentDraftType =
       path: string;
       width?: number;
       height?: number;
+      clientUuid: string;
+      version?: 2;
+      localKey?: string;
     } & BaseAttachmentDraftType)
   | {
+      clientUuid: string;
       contentType: MIME.MIMEType;
       fileName?: string;
       path?: string;
@@ -172,49 +218,12 @@ export type AttachmentDraftType =
       size: number;
     };
 
-export type ThumbnailType = Pick<
-  AttachmentType,
-  'height' | 'width' | 'url' | 'contentType' | 'path' | 'data'
-> & {
+export type ThumbnailType = AttachmentType & {
   // Only used when quote needed to make an in-memory thumbnail
   objectUrl?: string;
+  // Whether the thumbnail has been copied from the original (quoted) message
+  copied?: boolean;
 };
-
-export async function migrateDataToFileSystem(
-  attachment: AttachmentType,
-  {
-    writeNewAttachmentData,
-    logger,
-  }: {
-    writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
-    logger: LoggerType;
-  }
-): Promise<AttachmentType> {
-  if (!isFunction(writeNewAttachmentData)) {
-    throw new TypeError("'writeNewAttachmentData' must be a function");
-  }
-
-  const { data } = attachment;
-  const attachmentHasData = !isUndefined(data);
-  const shouldSkipSchemaUpgrade = !attachmentHasData;
-
-  if (shouldSkipSchemaUpgrade) {
-    return attachment;
-  }
-
-  // This attachment was already broken by a roundtrip to the database - repair it now
-  if (!isTypedArray(data)) {
-    logger.warn(
-      'migrateDataToFileSystem: Attachment had non-array `data` field; deleting.'
-    );
-    return omit({ ...attachment }, ['data']);
-  }
-
-  const path = await writeNewAttachmentData(data);
-
-  const attachmentWithoutData = omit({ ...attachment, path }, ['data']);
-  return attachmentWithoutData;
-}
 
 // // Incoming message attachment fields
 // {
@@ -333,11 +342,13 @@ export function hasData(attachment: AttachmentType): boolean {
 }
 
 export function loadData(
-  readAttachmentData: (path: string) => Promise<Uint8Array>
+  readAttachmentV2Data: (
+    attachment: Partial<AddressableAttachmentType>
+  ) => Promise<Uint8Array>
 ): (
-  attachment: Pick<AttachmentType, 'data' | 'path'>
+  attachment: Partial<AttachmentType>
 ) => Promise<AttachmentWithHydratedData> {
-  if (!isFunction(readAttachmentData)) {
+  if (!isFunction(readAttachmentV2Data)) {
     throw new TypeError("'readAttachmentData' must be a function");
   }
 
@@ -355,7 +366,7 @@ export function loadData(
       throw new TypeError("'attachment.path' is required");
     }
 
-    const data = await readAttachmentData(attachment.path);
+    const data = await readAttachmentV2Data(attachment);
     return { ...attachment, data, size: data.byteLength };
   };
 }
@@ -393,8 +404,9 @@ const THUMBNAIL_CONTENT_TYPE = MIME.IMAGE_PNG;
 export async function captureDimensionsAndScreenshot(
   attachment: AttachmentType,
   params: {
-    writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
-    getAbsoluteAttachmentPath: (path: string) => string;
+    writeNewAttachmentData: (
+      data: Uint8Array
+    ) => Promise<LocalAttachmentV2Type>;
     makeObjectUrl: (
       data: Uint8Array | ArrayBuffer,
       contentType: MIME.MIMEType
@@ -425,7 +437,6 @@ export async function captureDimensionsAndScreenshot(
 
   const {
     writeNewAttachmentData,
-    getAbsoluteAttachmentPath,
     makeObjectUrl,
     revokeObjectUrl,
     getImageDimensions: getImageDimensionsFromURL,
@@ -446,24 +457,24 @@ export async function captureDimensionsAndScreenshot(
     return attachment;
   }
 
-  const absolutePath = getAbsoluteAttachmentPath(attachment.path);
+  const localUrl = getLocalAttachmentUrl(attachment);
 
   if (GoogleChrome.isImageTypeSupported(contentType)) {
     try {
       const { width, height } = await getImageDimensionsFromURL({
-        objectUrl: absolutePath,
+        objectUrl: localUrl,
         logger,
       });
       const thumbnailBuffer = await blobToArrayBuffer(
         await makeImageThumbnail({
           size: THUMBNAIL_SIZE,
-          objectUrl: absolutePath,
+          objectUrl: localUrl,
           contentType: THUMBNAIL_CONTENT_TYPE,
           logger,
         })
       );
 
-      const thumbnailPath = await writeNewAttachmentData(
+      const thumbnail = await writeNewAttachmentData(
         new Uint8Array(thumbnailBuffer)
       );
       return {
@@ -471,7 +482,7 @@ export async function captureDimensionsAndScreenshot(
         width,
         height,
         thumbnail: {
-          path: thumbnailPath,
+          ...thumbnail,
           contentType: THUMBNAIL_CONTENT_TYPE,
           width: THUMBNAIL_SIZE,
           height: THUMBNAIL_SIZE,
@@ -491,7 +502,7 @@ export async function captureDimensionsAndScreenshot(
   try {
     const screenshotBuffer = await blobToArrayBuffer(
       await makeVideoScreenshot({
-        objectUrl: absolutePath,
+        objectUrl: localUrl,
         contentType: THUMBNAIL_CONTENT_TYPE,
         logger,
       })
@@ -504,7 +515,7 @@ export async function captureDimensionsAndScreenshot(
       objectUrl: screenshotObjectUrl,
       logger,
     });
-    const screenshotPath = await writeNewAttachmentData(
+    const screenshot = await writeNewAttachmentData(
       new Uint8Array(screenshotBuffer)
     );
 
@@ -517,20 +528,20 @@ export async function captureDimensionsAndScreenshot(
       })
     );
 
-    const thumbnailPath = await writeNewAttachmentData(
+    const thumbnail = await writeNewAttachmentData(
       new Uint8Array(thumbnailBuffer)
     );
 
     return {
       ...attachment,
       screenshot: {
+        ...screenshot,
         contentType: THUMBNAIL_CONTENT_TYPE,
-        path: screenshotPath,
         width,
         height,
       },
       thumbnail: {
-        path: thumbnailPath,
+        ...thumbnail,
         contentType: THUMBNAIL_CONTENT_TYPE,
         width: THUMBNAIL_SIZE,
         height: THUMBNAIL_SIZE,
@@ -676,14 +687,18 @@ export function hasImage(attachments?: ReadonlyArray<AttachmentType>): boolean {
   );
 }
 
-export function isVideo(attachments?: ReadonlyArray<AttachmentType>): boolean {
+export function isVideo(
+  attachments?: ReadonlyArray<Pick<AttachmentType, 'contentType'>>
+): boolean {
   if (!attachments || attachments.length === 0) {
     return false;
   }
   return isVideoAttachment(attachments[0]);
 }
 
-export function isVideoAttachment(attachment?: AttachmentType): boolean {
+export function isVideoAttachment(
+  attachment?: Pick<AttachmentType, 'contentType'>
+): boolean {
   if (!attachment || !attachment.contentType) {
     return false;
   }
@@ -726,7 +741,7 @@ export function hasNotResolved(attachment?: AttachmentType): boolean {
 
 export function isDownloading(attachment?: AttachmentType): boolean {
   const resolved = resolveNestedAttachment(attachment);
-  return Boolean(resolved && resolved.downloadJobId && resolved.pending);
+  return Boolean(resolved && resolved.pending);
 }
 
 export function hasFailed(attachment?: AttachmentType): boolean {
@@ -896,7 +911,9 @@ export const isFile = (attachment: AttachmentType): boolean => {
   return true;
 };
 
-export const isVoiceMessage = (attachment: AttachmentType): boolean => {
+export const isVoiceMessage = (
+  attachment: Pick<AttachmentType, 'contentType' | 'fileName' | 'flags'>
+): boolean => {
   const flag = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
   const hasFlag =
     // eslint-disable-next-line no-bitwise
@@ -925,7 +942,9 @@ export const save = async ({
 }: {
   attachment: AttachmentType;
   index?: number;
-  readAttachmentData: (relativePath: string) => Promise<Uint8Array>;
+  readAttachmentData: (
+    attachment: Partial<AddressableAttachmentType>
+  ) => Promise<Uint8Array>;
   saveAttachmentToDisk: (options: {
     data: Uint8Array;
     name: string;
@@ -934,7 +953,7 @@ export const save = async ({
 }): Promise<string | null> => {
   let data: Uint8Array;
   if (attachment.path) {
-    data = await readAttachmentData(attachment.path);
+    data = await readAttachmentData(attachment);
   } else if (attachment.data) {
     data = attachment.data;
   } else {
@@ -1008,12 +1027,133 @@ export const defaultBlurHash = (theme: ThemeType = ThemeType.light): string => {
 };
 
 export const canBeDownloaded = (
-  attachment: Pick<AttachmentType, 'key' | 'digest'>
+  attachment: Pick<AttachmentType, 'digest' | 'key' | 'wasTooBig'>
 ): boolean => {
-  return Boolean(attachment.key && attachment.digest);
+  return Boolean(attachment.digest && attachment.key && !attachment.wasTooBig);
 };
 
 export function getAttachmentSignature(attachment: AttachmentType): string {
   strictAssert(attachment.digest, 'attachment missing digest');
   return attachment.digest;
+}
+
+type RequiredPropertiesForDecryption = 'key' | 'digest';
+type RequiredPropertiesForReencryption = 'key' | 'digest' | 'iv';
+
+type DecryptableAttachment = WithRequiredProperties<
+  AttachmentType,
+  RequiredPropertiesForDecryption
+>;
+
+type ReencryptableAttachment = WithRequiredProperties<
+  AttachmentType,
+  RequiredPropertiesForReencryption
+>;
+
+export type AttachmentDownloadableFromTransitTier = WithRequiredProperties<
+  DecryptableAttachment,
+  'cdnKey' | 'cdnNumber'
+>;
+
+export type AttachmentDownloadableFromBackupTier = WithRequiredProperties<
+  DecryptableAttachment,
+  'backupLocator'
+>;
+
+export type LocallySavedAttachment = WithRequiredProperties<
+  AttachmentType,
+  'path'
+>;
+
+export type AttachmentReadyForBackup = WithRequiredProperties<
+  LocallySavedAttachment,
+  RequiredPropertiesForReencryption
+>;
+
+export function isDecryptable(
+  attachment: AttachmentType
+): attachment is DecryptableAttachment {
+  return Boolean(attachment.key) && Boolean(attachment.digest);
+}
+
+export function isReencryptableToSameDigest(
+  attachment: AttachmentType
+): attachment is ReencryptableAttachment {
+  return (
+    Boolean(attachment.key) &&
+    Boolean(attachment.digest) &&
+    Boolean(attachment.iv)
+  );
+}
+
+const TIME_ON_TRANSIT_TIER = 30 * DAY;
+// Extend range in case the attachment is actually still there (this function is meant to
+// be optimistic)
+const BUFFERED_TIME_ON_TRANSIT_TIER = TIME_ON_TRANSIT_TIER + 5 * DAY;
+
+export function mightStillBeOnTransitTier(
+  attachment: Pick<AttachmentType, 'cdnKey' | 'cdnNumber' | 'uploadTimestamp'>
+): boolean {
+  if (!attachment.cdnKey) {
+    return false;
+  }
+  if (attachment.cdnNumber == null) {
+    return false;
+  }
+
+  if (!attachment.uploadTimestamp) {
+    // Let's be conservative and still assume it might be downloadable
+    return true;
+  }
+
+  if (
+    isMoreRecentThan(attachment.uploadTimestamp, BUFFERED_TIME_ON_TRANSIT_TIER)
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+export function mightBeOnBackupTier(
+  attachment: Pick<AttachmentType, 'backupLocator'>
+): boolean {
+  return Boolean(attachment.backupLocator?.mediaName);
+}
+
+export function isDownloadableFromTransitTier(
+  attachment: AttachmentType
+): attachment is AttachmentDownloadableFromTransitTier {
+  if (!isDecryptable(attachment)) {
+    return false;
+  }
+  if (attachment.cdnKey && attachment.cdnNumber != null) {
+    return true;
+  }
+  return false;
+}
+
+export function isDownloadableFromBackupTier(
+  attachment: AttachmentType
+): attachment is AttachmentDownloadableFromBackupTier {
+  if (!attachment.key || !attachment.digest) {
+    return false;
+  }
+  if (attachment.backupLocator?.mediaName) {
+    return true;
+  }
+  return false;
+}
+
+export function isDownloadable(attachment: AttachmentType): boolean {
+  return (
+    isDownloadableFromTransitTier(attachment) ||
+    isDownloadableFromBackupTier(attachment)
+  );
+}
+
+export function isAttachmentLocallySaved(
+  attachment: AttachmentType
+): attachment is LocallySavedAttachment {
+  return Boolean(attachment.path);
 }

@@ -12,8 +12,6 @@ import { SearchInput } from '../SearchInput';
 import type { LocalizerType } from '../../types/Util';
 import type { ParsedE164Type } from '../../util/libphonenumberInstance';
 import { parseAndFormatPhoneNumber } from '../../util/libphonenumberInstance';
-import { missingCaseError } from '../../util/missingCaseError';
-import { getUsernameFromSearch } from '../../types/Username';
 import type { UUIDFetchStateType } from '../../util/uuidFetchState';
 import {
   isFetchingByUsername,
@@ -28,12 +26,12 @@ export type LeftPaneComposePropsType = {
   regionCode: string | undefined;
   searchTerm: string;
   uuidFetchState: UUIDFetchStateType;
-  isUsernamesEnabled: boolean;
+  username: string | undefined;
 };
 
-enum TopButton {
-  None,
-  CreateNewGroup,
+enum TopButtons {
+  None = 'None',
+  Visible = 'Visible',
 }
 
 export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsType> {
@@ -58,8 +56,8 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     composeGroups,
     regionCode,
     searchTerm,
-    isUsernamesEnabled,
     uuidFetchState,
+    username,
   }: Readonly<LeftPaneComposePropsType>) {
     super();
 
@@ -68,17 +66,10 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     this.searchTerm = searchTerm;
     this.uuidFetchState = uuidFetchState;
 
-    const username = getUsernameFromSearch(this.searchTerm);
-
-    if (isUsernamesEnabled) {
-      this.username = username;
-      this.isUsernameVisible =
-        isUsernamesEnabled &&
-        Boolean(username) &&
-        this.composeContacts.every(contact => contact.username !== username);
-    } else {
-      this.isUsernameVisible = false;
-    }
+    this.username = username;
+    this.isUsernameVisible =
+      Boolean(username) &&
+      this.composeContacts.every(contact => contact.username !== username);
 
     const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
     if (!username && phoneNumber) {
@@ -153,8 +144,8 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
 
   getRowCount(): number {
     let result = this.composeContacts.length + this.composeGroups.length;
-    if (this.hasTopButton()) {
-      result += 1;
+    if (this.hasTopButtons()) {
+      result += 3;
     }
     if (this.hasContactsHeader()) {
       result += 1;
@@ -174,20 +165,18 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
 
   getRow(actualRowIndex: number): undefined | Row {
     let virtualRowIndex = actualRowIndex;
-    if (this.hasTopButton()) {
+    if (this.hasTopButtons()) {
       if (virtualRowIndex === 0) {
-        const topButton = this.getTopButton();
-        switch (topButton) {
-          case TopButton.None:
-            break;
-          case TopButton.CreateNewGroup:
-            return { type: RowType.CreateNewGroup };
-          default:
-            throw missingCaseError(topButton);
-        }
+        return { type: RowType.CreateNewGroup };
+      }
+      if (virtualRowIndex === 1) {
+        return { type: RowType.FindByUsername };
+      }
+      if (virtualRowIndex === 2) {
+        return { type: RowType.FindByPhoneNumber };
       }
 
-      virtualRowIndex -= 1;
+      virtualRowIndex -= 3;
     }
 
     if (this.hasContactsHeader()) {
@@ -310,15 +299,15 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     );
   }
 
-  private getTopButton(): TopButton {
+  private getTopButtons(): TopButtons {
     if (this.searchTerm) {
-      return TopButton.None;
+      return TopButtons.None;
     }
-    return TopButton.CreateNewGroup;
+    return TopButtons.Visible;
   }
 
-  private hasTopButton(): boolean {
-    return this.getTopButton() !== TopButton.None;
+  private hasTopButtons(): boolean {
+    return this.getTopButtons() !== TopButtons.None;
   }
 
   private hasContactsHeader(): boolean {
@@ -344,9 +333,9 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
 
     let rowCount = 0;
 
-    if (this.hasTopButton()) {
+    if (this.hasTopButtons()) {
       top = 0;
-      rowCount += 1;
+      rowCount += 3;
     }
     if (this.hasContactsHeader()) {
       contact = rowCount;

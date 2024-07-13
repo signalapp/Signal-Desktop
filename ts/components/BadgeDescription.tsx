@@ -5,15 +5,17 @@ import type { ReactChild, ReactElement } from 'react';
 import React from 'react';
 import { ContactName } from './conversation/ContactName';
 
+export type Props = Readonly<{
+  firstName?: string;
+  template: string;
+  title: string;
+}>;
+
 export function BadgeDescription({
   firstName,
   template,
   title,
-}: Readonly<{
-  firstName?: string;
-  template: string;
-  title: string;
-}>): ReactElement {
+}: Props): ReactElement {
   const result: Array<ReactChild> = [];
 
   let lastIndex = 0;

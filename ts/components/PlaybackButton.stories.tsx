@@ -4,12 +4,14 @@
 import React from 'react';
 import type { CSSProperties } from 'react';
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+import type { ButtonProps } from './PlaybackButton';
 import { PlaybackButton } from './PlaybackButton';
 
 export default {
   title: 'components/PlaybackButton',
   component: PlaybackButton,
-};
+} satisfies Meta<ButtonProps>;
 
 const rowStyles: CSSProperties = {
   display: 'flex',

@@ -104,6 +104,7 @@
   @include button-reset;
   flex-shrink: 0;
   padding: 4px;
+  margin-inline-end: 8px;
   border-radius: 4px;
 
   &:not(.CallsList__ToggleFilterByMissed--pressed):hover {
@@ -160,7 +161,7 @@
   @include NavTabs__Scroller;
 }
 
-.CallsList__List--loading {
+.CallsList__List--disableScrolling {
   overflow: hidden !important;
 }
 
@@ -320,6 +321,66 @@
   &[aria-disabled='true'] {
     opacity: 0.5;
   }
+}
+
+.CallsNewCall__ItemActionButton--join-call {
+  $background: $color-accent-green;
+
+  @include font-body-2-bold;
+  @include rounded-corners;
+
+  display: flex;
+  width: auto;
+  height: 26px;
+  padding-block: 4px;
+  padding-inline: 10px;
+  align-items: center;
+  background-color: $background;
+  color: $color-white;
+  outline: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  user-select: none;
+
+  &:before {
+    $icon-size: 16px;
+
+    @include color-svg(
+      '../images/icons/v3/video/video-compact-fill.svg',
+      $color-white
+    );
+    content: '';
+    display: block;
+    height: $icon-size;
+    margin-inline-end: 4px;
+    min-width: $icon-size;
+    width: $icon-size;
+  }
+
+  &:not(:disabled) {
+    &:hover {
+      @include any-theme {
+        background-color: darken($background, 16%);
+      }
+    }
+
+    &:focus {
+      @include keyboard-mode {
+        background-color: darken($background, 16%);
+      }
+    }
+  }
+}
+
+.CallsNewCall__ItemActionButton--join-call-disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.CallsNewCall__ItemActionButtonTooltip {
+  @include tooltip;
+  max-width: 212px;
 }
 
 .CallsNewCall__ItemIcon {

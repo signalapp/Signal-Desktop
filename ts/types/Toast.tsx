@@ -3,11 +3,14 @@
 
 export enum ToastType {
   AddingUserToGroup = 'AddingUserToGroup',
+  AddedUsersToCall = 'AddedUsersToCall',
   AlreadyGroupMember = 'AlreadyGroupMember',
   AlreadyRequestedToJoin = 'AlreadyRequestedToJoin',
   Blocked = 'Blocked',
   BlockedGroup = 'BlockedGroup',
   CallHistoryCleared = 'CallHistoryCleared',
+  CaptchaFailed = 'CaptchaFailed',
+  CaptchaSolved = 'CaptchaSolved',
   CannotEditMessage = 'CannotEditMessage',
   CannotForwardEmptyMessage = 'CannotForwardEmptyMessage',
   CannotMixMultiAndNonMultiAttachments = 'CannotMixMultiAndNonMultiAttachments',
@@ -18,23 +21,33 @@ export enum ToastType {
   ConversationMarkedUnread = 'ConversationMarkedUnread',
   ConversationRemoved = 'ConversationRemoved',
   ConversationUnarchived = 'ConversationUnarchived',
+  CopiedCallLink = 'CopiedCallLink',
   CopiedUsername = 'CopiedUsername',
   CopiedUsernameLink = 'CopiedUsernameLink',
   DangerousFileType = 'DangerousFileType',
+  DecryptionError = 'DecryptionError',
+  DebugLogError = 'DebugLogError',
   DeleteForEveryoneFailed = 'DeleteForEveryoneFailed',
   Error = 'Error',
   Expired = 'Expired',
   FailedToDeleteUsername = 'FailedToDeleteUsername',
+  FailedToFetchPhoneNumber = 'FailedToFetchPhoneNumber',
+  FailedToFetchUsername = 'FailedToFetchUsername',
   FileSaved = 'FileSaved',
   FileSize = 'FileSize',
+  GroupLinkCopied = 'GroupLinkCopied',
   InvalidConversation = 'InvalidConversation',
   LeftGroup = 'LeftGroup',
+  LinkCopied = 'LinkCopied',
+  LoadingFullLogs = 'LoadingFullLogs',
   MaxAttachments = 'MaxAttachments',
   MessageBodyTooLong = 'MessageBodyTooLong',
   OriginalMessageNotFound = 'OriginalMessageNotFound',
   PinnedConversationsFull = 'PinnedConversationsFull',
   ReactionFailed = 'ReactionFailed',
+  ReportedSpam = 'ReportedSpam',
   ReportedSpamAndBlocked = 'ReportedSpamAndBlocked',
+  StickerPackInstallFailed = 'StickerPackInstallFailed',
   StoryMuted = 'StoryMuted',
   StoryReact = 'StoryReact',
   StoryReply = 'StoryReply',
@@ -44,14 +57,23 @@ export enum ToastType {
   TapToViewExpiredOutgoing = 'TapToViewExpiredOutgoing',
   TooManyMessagesToDeleteForEveryone = 'TooManyMessagesToDeleteForEveryone',
   TooManyMessagesToForward = 'TooManyMessagesToForward',
+  TransportError = 'TransportError',
   UnableToLoadAttachment = 'UnableToLoadAttachment',
   UnsupportedMultiAttachment = 'UnsupportedMultiAttachment',
   UnsupportedOS = 'UnsupportedOS',
   UserAddedToGroup = 'UserAddedToGroup',
+  UsernameRecovered = 'UsernameRecovered',
+  VoiceNoteLimit = 'VoiceNoteLimit',
+  VoiceNoteMustBeTheOnlyAttachment = 'VoiceNoteMustBeTheOnlyAttachment',
+  WhoCanFindMeReadOnly = 'WhoCanFindMeReadOnly',
 }
 
 export type AnyToast =
   | { toastType: ToastType.AddingUserToGroup; parameters: { contact: string } }
+  | {
+      toastType: ToastType.AddedUsersToCall;
+      parameters: { count: number };
+    }
   | { toastType: ToastType.AlreadyGroupMember }
   | { toastType: ToastType.AlreadyRequestedToJoin }
   | { toastType: ToastType.Blocked }
@@ -63,6 +85,8 @@ export type AnyToast =
   | { toastType: ToastType.CannotOpenGiftBadgeIncoming }
   | { toastType: ToastType.CannotOpenGiftBadgeOutgoing }
   | { toastType: ToastType.CannotStartGroupCall }
+  | { toastType: ToastType.CaptchaFailed }
+  | { toastType: ToastType.CaptchaSolved }
   | {
       toastType: ToastType.ConversationArchived;
       parameters: { conversationId: string };
@@ -70,26 +94,42 @@ export type AnyToast =
   | { toastType: ToastType.ConversationMarkedUnread }
   | { toastType: ToastType.ConversationRemoved; parameters: { title: string } }
   | { toastType: ToastType.ConversationUnarchived }
+  | { toastType: ToastType.CopiedCallLink }
   | { toastType: ToastType.CopiedUsername }
   | { toastType: ToastType.CopiedUsernameLink }
   | { toastType: ToastType.DangerousFileType }
+  | { toastType: ToastType.DebugLogError }
   | { toastType: ToastType.DeleteForEveryoneFailed }
   | { toastType: ToastType.Error }
   | { toastType: ToastType.Expired }
   | { toastType: ToastType.FailedToDeleteUsername }
+  | { toastType: ToastType.FailedToFetchPhoneNumber }
+  | { toastType: ToastType.FailedToFetchUsername }
   | { toastType: ToastType.FileSaved; parameters: { fullPath: string } }
   | {
       toastType: ToastType.FileSize;
       parameters: { limit: number; units: string };
     }
+  | { toastType: ToastType.GroupLinkCopied }
+  | {
+      toastType: ToastType.DecryptionError;
+      parameters: {
+        name: string;
+        deviceId: number;
+      };
+    }
   | { toastType: ToastType.InvalidConversation }
   | { toastType: ToastType.LeftGroup }
+  | { toastType: ToastType.LinkCopied }
+  | { toastType: ToastType.LoadingFullLogs }
   | { toastType: ToastType.MaxAttachments }
   | { toastType: ToastType.MessageBodyTooLong }
   | { toastType: ToastType.OriginalMessageNotFound }
   | { toastType: ToastType.PinnedConversationsFull }
   | { toastType: ToastType.ReactionFailed }
+  | { toastType: ToastType.ReportedSpam }
   | { toastType: ToastType.ReportedSpamAndBlocked }
+  | { toastType: ToastType.StickerPackInstallFailed }
   | { toastType: ToastType.StoryMuted }
   | { toastType: ToastType.StoryReact }
   | { toastType: ToastType.StoryReply }
@@ -102,10 +142,18 @@ export type AnyToast =
       parameters: { count: number };
     }
   | { toastType: ToastType.TooManyMessagesToForward }
+  | { toastType: ToastType.TransportError }
   | { toastType: ToastType.UnableToLoadAttachment }
   | { toastType: ToastType.UnsupportedMultiAttachment }
   | { toastType: ToastType.UnsupportedOS }
   | {
       toastType: ToastType.UserAddedToGroup;
       parameters: { contact: string; group: string };
-    };
+    }
+  | {
+      toastType: ToastType.UsernameRecovered;
+      parameters: { username: string };
+    }
+  | { toastType: ToastType.VoiceNoteLimit }
+  | { toastType: ToastType.VoiceNoteMustBeTheOnlyAttachment }
+  | { toastType: ToastType.WhoCanFindMeReadOnly };

@@ -1,9 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
+import { action } from '@storybook/addon-actions';
 import type { PropsType } from './MediaEditor';
 import { MediaEditor } from './MediaEditor';
 import enMessages from '../../_locales/en/messages.json';
@@ -19,48 +20,26 @@ const IMAGE_4 = '/fixtures/snow.jpg';
 export default {
   title: 'Components/MediaEditor',
   component: MediaEditor,
-  argTypes: {
-    getPreferredBadge: { action: true },
-    i18n: {
-      defaultValue: i18n,
-    },
-    imageToBlurHash: { action: true },
-    imageSrc: {
-      defaultValue: IMAGE_2,
-    },
-    installedPacks: {
-      defaultValue: installedPacks,
-    },
-    isFormattingEnabled: {
-      defaultValue: true,
-    },
-    isFormattingFlagEnabled: {
-      defaultValue: true,
-    },
-    isFormattingSpoilersFlagEnabled: {
-      defaultValue: true,
-    },
-    isSending: {
-      defaultValue: false,
-    },
-    onClose: { action: true },
-    onDone: { action: true },
-    onPickEmoji: { action: true },
-    onTextTooLong: { action: true },
-    platform: {
-      defaultValue: 'darwin',
-    },
-    recentStickers: {
-      defaultValue: [Stickers.wide, Stickers.tall, Stickers.abe],
-    },
-    skinTone: {
-      defaultValue: 0,
-    },
+  args: {
+    getPreferredBadge: () => undefined,
+    i18n,
+    imageToBlurHash: input => Promise.resolve(input.toString()),
+    imageSrc: IMAGE_2,
+    installedPacks,
+    isFormattingEnabled: true,
+    isSending: false,
+    onClose: action('onClose'),
+    onDone: action('onDone'),
+    onPickEmoji: action('onPickEmoji'),
+    onTextTooLong: action('onTextTooLong'),
+    platform: 'darwin',
+    recentStickers: [Stickers.wide, Stickers.tall, Stickers.abe],
+    skinTone: 0,
   },
-} as Meta;
+} satisfies Meta<PropsType>;
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<PropsType> = args => <MediaEditor {...args} />;
+const Template: StoryFn<PropsType> = args => <MediaEditor {...args} />;
 
 export const ExtraLarge = Template.bind({});
 

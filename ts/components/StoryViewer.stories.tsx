@@ -1,9 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import React from 'react';
-
+import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoryViewer';
 import enMessages from '../../_locales/en/messages.json';
 import { SendStatus } from '../messages/MessageSendState';
@@ -15,6 +15,7 @@ import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { getFakeStoryView } from '../test-both/helpers/getFakeStory';
 import { setupI18n } from '../util/setupI18n';
+import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -22,244 +23,237 @@ export default {
   title: 'Components/StoryViewer',
   component: StoryViewer,
   argTypes: {
-    currentIndex: {
-      defaultvalue: 0,
-    },
-    getPreferredBadge: { action: true },
-    group: {
-      defaultValue: undefined,
-    },
-    hasAllStoriesMuted: {
+    hasAllStoriesUnmuted: {
       control: 'boolean',
-      defaultValue: false,
     },
     hasViewReceiptSetting: {
       control: 'boolean',
-      defaultValue: true,
     },
-    i18n: {
-      defaultValue: i18n,
-    },
-    platform: {
-      defaultValue: 'darwin',
-    },
-    loadStoryReplies: { action: true },
-    markStoryRead: { action: true },
-    numStories: {
-      defaultValue: 1,
-    },
-    onGoToConversation: { action: true },
-    onHideStory: { action: true },
-    onReactToStory: { action: true },
-    onReplyToStory: { action: true },
-    onSetSkinTone: { action: true },
-    onTextTooLong: { action: true },
-    onUseEmoji: { action: true },
-    preferredReactionEmoji: {
-      defaultValue: ['❤️', '👍', '👎', '😂', '😮', '😢'],
-    },
-    queueStoryDownload: { action: true },
-    renderEmojiPicker: { action: true },
-    retryMessageSend: { action: true },
-    showToast: { action: true },
-    skinTone: {
-      defaultValue: 0,
-    },
-    story: {
-      defaultValue: getFakeStoryView(),
-    },
-    storyViewMode: {
-      defaultValue: StoryViewModeType.All,
-    },
-    toggleHasAllStoriesMuted: { action: true },
-    viewStory: { action: true },
-    isWindowActive: { defaultValue: true },
   },
   args: {
     currentIndex: 0,
+    getPreferredBadge: () => undefined,
+    group: undefined,
+    hasAllStoriesUnmuted: true,
+    hasViewReceiptSetting: true,
+    i18n,
+    platform: 'darwin',
+    loadStoryReplies: action('loadStoryReplies'),
+    markStoryRead: action('markStoryRead'),
+    numStories: 1,
+    onGoToConversation: action('onGoToConversation'),
+    onHideStory: action('onHideStory'),
+    onReactToStory: action('onReactToStory'),
+    onReplyToStory: action('onReplyToStory'),
+    onSetSkinTone: action('onSetSkinTone'),
+    onTextTooLong: action('onTextTooLong'),
+    onUseEmoji: action('onUseEmoji'),
+    onMediaPlaybackStart: action('onMediaPlaybackStart'),
+    preferredReactionEmoji: DEFAULT_PREFERRED_REACTION_EMOJI,
+    queueStoryDownload: action('queueStoryDownload'),
+    renderEmojiPicker: () => <>EmojiPicker</>,
+    retryMessageSend: action('retryMessageSend'),
+    showToast: action('showToast'),
+    skinTone: 0,
+    story: getFakeStoryView(),
+    storyViewMode: StoryViewModeType.All,
+    viewStory: action('viewStory'),
+    isWindowActive: true,
   },
-} as Meta;
+} satisfies Meta<PropsType>;
 
-// eslint-disable-next-line react/function-component-definition
-const Template: Story<PropsType> = args => <StoryViewer {...args} />;
+export function SomeonesStory(args: PropsType): JSX.Element {
+  return <StoryViewer {...args} />;
+}
 
-export const SomeonesStory = Template.bind({});
-SomeonesStory.args = {};
-SomeonesStory.story = {
-  name: "Someone's story",
-};
+export function WideStory(args: PropsType): JSX.Element {
+  return (
+    <StoryViewer
+      {...args}
+      story={getFakeStoryView('/fixtures/nathan-anderson-316188-unsplash.jpg')}
+    />
+  );
+}
 
-export const WideStory = Template.bind({});
-WideStory.args = {
-  story: getFakeStoryView('/fixtures/nathan-anderson-316188-unsplash.jpg'),
-};
-WideStory.story = {
-  name: 'Wide story',
-};
+export function InAGroup(args: PropsType): JSX.Element {
+  return (
+    <StoryViewer
+      {...args}
+      group={getDefaultConversation({
+        avatarUrl: '/fixtures/kitten-4-112-112.jpg',
+        title: 'Family Group',
+        type: 'group',
+      })}
+    />
+  );
+}
 
-export const InAGroup = Template.bind({});
-InAGroup.args = {
-  group: getDefaultConversation({
-    avatarPath: '/fixtures/kitten-4-112-112.jpg',
-    title: 'Family Group',
-    type: 'group',
-  }),
-};
-InAGroup.story = {
-  name: 'In a group',
-};
+export function MultiStory(args: PropsType): JSX.Element {
+  return (
+    <StoryViewer
+      {...args}
+      currentIndex={2}
+      numStories={7}
+      story={{
+        ...getFakeStoryView(),
+        attachment: fakeAttachment({
+          contentType: VIDEO_MP4,
+          fileName: 'pixabay-Soap-Bubble-7141.mp4',
+          url: '/fixtures/kitten-4-112-112.jpg',
+          screenshotPath: '/fixtures/kitten-4-112-112.jpg',
+        }),
+      }}
+    />
+  );
+}
 
-export const MultiStory = Template.bind({});
-MultiStory.args = {
-  currentIndex: 2,
-  numStories: 7,
-  story: {
-    ...getFakeStoryView(),
-    attachment: fakeAttachment({
-      contentType: VIDEO_MP4,
-      fileName: 'pixabay-Soap-Bubble-7141.mp4',
-      url: '/fixtures/kitten-4-112-112.jpg',
-      screenshotPath: '/fixtures/kitten-4-112-112.jpg',
-    }),
-  },
-};
-MultiStory.story = {
-  name: 'Multi story',
-};
+export function Caption(args: PropsType): JSX.Element {
+  return (
+    <StoryViewer
+      {...args}
+      story={{
+        ...getFakeStoryView(),
+        attachment: fakeAttachment({
+          caption: 'This place looks lovely',
+          path: 'file.jpg',
+          url: '/fixtures/nathan-anderson-316188-unsplash.jpg',
+        }),
+      }}
+    />
+  );
+}
 
-export const Caption = Template.bind({});
-Caption.args = {
-  story: {
-    ...getFakeStoryView(),
-    attachment: fakeAttachment({
-      caption: 'This place looks lovely',
-      path: 'file.jpg',
-      url: '/fixtures/nathan-anderson-316188-unsplash.jpg',
-    }),
-  },
-};
+export function EmojiCaption(args: PropsType): JSX.Element {
+  return (
+    <StoryViewer
+      {...args}
+      story={{
+        ...getFakeStoryView(),
+        attachment: fakeAttachment({
+          caption: 'WOOOOOOOOW 🥰',
+          path: 'file.jpg',
+          url: '/fixtures/nathan-anderson-316188-unsplash.jpg',
+        }),
+      }}
+    />
+  );
+}
 
-export const EmojiCaption = Template.bind({});
-EmojiCaption.args = {
-  story: {
-    ...getFakeStoryView(),
-    attachment: fakeAttachment({
-      caption: 'WOOOOOOOOW 🥰',
-      path: 'file.jpg',
-      url: '/fixtures/nathan-anderson-316188-unsplash.jpg',
-    }),
-  },
-};
+export function LongCaption(args: PropsType): JSX.Element {
+  return (
+    <StoryViewer
+      {...args}
+      story={{
+        ...getFakeStoryView(),
+        attachment: fakeAttachment({
+          caption:
+            'Snowycle, snowycle, snowycle\nI want to ride my snowycle, snowycle, snowycle\nI want to ride my snowycle\nI want to ride my snow\nI want to ride my snowycle\nI want to ride it where I like\nSnowycle, snowycle, snowycle\nI want to ride my snowycle, snowycle, snowycle\nI want to ride my snowycle\nI want to ride my snow\nI want to ride my snowycle\nI want to ride it where I like\nSnowycle, snowycle, snowycle\nI want to ride my snowycle, snowycle, snowycle\nI want to ride my snowycle\nI want to ride my snow\nI want to ride my snowycle\nI want to ride it where I like',
+          path: 'file.jpg',
+          url: '/fixtures/snow.jpg',
+        }),
+      }}
+    />
+  );
+}
 
-export const LongCaption = Template.bind({});
-LongCaption.args = {
-  story: {
-    ...getFakeStoryView(),
-    attachment: fakeAttachment({
-      caption:
-        'Snowycle, snowycle, snowycle\nI want to ride my snowycle, snowycle, snowycle\nI want to ride my snowycle\nI want to ride my snow\nI want to ride my snowycle\nI want to ride it where I like\nSnowycle, snowycle, snowycle\nI want to ride my snowycle, snowycle, snowycle\nI want to ride my snowycle\nI want to ride my snow\nI want to ride my snowycle\nI want to ride it where I like\nSnowycle, snowycle, snowycle\nI want to ride my snowycle, snowycle, snowycle\nI want to ride my snowycle\nI want to ride my snow\nI want to ride my snowycle\nI want to ride it where I like',
-      path: 'file.jpg',
-      url: '/fixtures/snow.jpg',
-    }),
-  },
-};
+export function YourStory(args: PropsType): JSX.Element {
+  const storyView = getFakeStoryView(
+    '/fixtures/nathan-anderson-316188-unsplash.jpg'
+  );
+  return (
+    <StoryViewer
+      {...args}
+      distributionList={{
+        id: generateStoryDistributionId(),
+        name: 'Close Friends',
+      }}
+      story={{
+        ...storyView,
+        sender: {
+          ...storyView.sender,
+          isMe: true,
+        },
+        sendState: [
+          {
+            recipient: getDefaultConversation(),
+            status: SendStatus.Viewed,
+          },
+          {
+            recipient: getDefaultConversation(),
+            status: SendStatus.Delivered,
+          },
+          {
+            recipient: getDefaultConversation(),
+            status: SendStatus.Pending,
+          },
+        ],
+      }}
+    />
+  );
+}
 
-export const YourStory = Template.bind({});
-{
+export function YourStoryFailed(args: PropsType): JSX.Element {
   const storyView = getFakeStoryView(
     '/fixtures/nathan-anderson-316188-unsplash.jpg'
   );
 
-  YourStory.args = {
-    distributionList: {
-      id: generateStoryDistributionId(),
-      name: 'Close Friends',
-    },
-    story: {
-      ...storyView,
-      sender: {
-        ...storyView.sender,
-        isMe: true,
-      },
-      sendState: [
-        {
-          recipient: getDefaultConversation(),
-          status: SendStatus.Viewed,
+  return (
+    <StoryViewer
+      {...args}
+      distributionList={{
+        id: generateStoryDistributionId(),
+        name: 'Close Friends',
+      }}
+      story={{
+        ...storyView,
+        sender: {
+          ...storyView.sender,
+          isMe: true,
         },
-        {
-          recipient: getDefaultConversation(),
-          status: SendStatus.Delivered,
-        },
-        {
-          recipient: getDefaultConversation(),
-          status: SendStatus.Pending,
-        },
-      ],
-    },
-  };
-  YourStory.storyName = 'Your story';
+        sendState: [
+          {
+            recipient: getDefaultConversation(),
+            status: SendStatus.Viewed,
+          },
+          {
+            recipient: getDefaultConversation(),
+            status: SendStatus.Failed,
+          },
+        ],
+      }}
+    />
+  );
 }
 
-export const YourStoryFailed = Template.bind({});
-{
+export function ReadReceiptsOff(args: PropsType): JSX.Element {
   const storyView = getFakeStoryView(
     '/fixtures/nathan-anderson-316188-unsplash.jpg'
   );
-
-  YourStoryFailed.args = {
-    distributionList: {
-      id: generateStoryDistributionId(),
-      name: 'Close Friends',
-    },
-    story: {
-      ...storyView,
-      sender: {
-        ...storyView.sender,
-        isMe: true,
-      },
-      sendState: [
-        {
-          recipient: getDefaultConversation(),
-          status: SendStatus.Viewed,
+  return (
+    <StoryViewer
+      {...args}
+      hasViewReceiptSetting={false}
+      story={{
+        ...storyView,
+        sender: {
+          ...storyView.sender,
+          isMe: true,
         },
-        {
-          recipient: getDefaultConversation(),
-          status: SendStatus.Failed,
-        },
-      ],
-    },
-  };
-  YourStory.storyName = 'Your story';
-}
-
-export const ReadReceiptsOff = Template.bind({});
-{
-  const storyView = getFakeStoryView(
-    '/fixtures/nathan-anderson-316188-unsplash.jpg'
+        sendState: [
+          {
+            recipient: getDefaultConversation(),
+            status: SendStatus.Viewed,
+          },
+          {
+            recipient: getDefaultConversation(),
+            status: SendStatus.Delivered,
+          },
+          {
+            recipient: getDefaultConversation(),
+            status: SendStatus.Pending,
+          },
+        ],
+      }}
+    />
   );
-  ReadReceiptsOff.args = {
-    hasViewReceiptSetting: false,
-    story: {
-      ...storyView,
-      sender: {
-        ...storyView.sender,
-        isMe: true,
-      },
-      sendState: [
-        {
-          recipient: getDefaultConversation(),
-          status: SendStatus.Viewed,
-        },
-        {
-          recipient: getDefaultConversation(),
-          status: SendStatus.Delivered,
-        },
-        {
-          recipient: getDefaultConversation(),
-          status: SendStatus.Pending,
-        },
-      ],
-    },
-  };
 }
-ReadReceiptsOff.storyName = 'Read receipts turned off';

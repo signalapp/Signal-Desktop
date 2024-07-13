@@ -7,9 +7,8 @@ import * as durations from '../../util/durations';
 import type { App, Bootstrap } from './fixtures';
 import { initStorage, debug } from './fixtures';
 
-describe('storage service', function needsName() {
+describe('storage service', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;
@@ -18,7 +17,7 @@ describe('storage service', function needsName() {
     ({ bootstrap, app } = await initStorage());
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     if (!bootstrap) {
       return;
     }
@@ -98,7 +97,7 @@ describe('storage service', function needsName() {
       );
       await moreButton.click();
 
-      const archiveButton = conversationStack.locator(
+      const archiveButton = window.locator(
         '.react-contextmenu-item >> "Archive"'
       );
       await archiveButton.click();

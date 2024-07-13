@@ -5,24 +5,24 @@ import type { ConversationType } from '../state/ducks/conversations';
 
 export const shouldBlurAvatar = ({
   acceptedMessageRequest,
-  avatarPath,
+  avatarUrl,
   isMe,
   sharedGroupNames,
-  unblurredAvatarPath,
+  unblurredAvatarUrl,
 }: Readonly<
   Pick<
     ConversationType,
     | 'acceptedMessageRequest'
-    | 'avatarPath'
+    | 'avatarUrl'
     | 'isMe'
     | 'sharedGroupNames'
-    | 'unblurredAvatarPath'
+    | 'unblurredAvatarUrl'
   >
 >): boolean =>
   Boolean(
     !isMe &&
       !acceptedMessageRequest &&
       !sharedGroupNames.length &&
-      avatarPath &&
-      avatarPath !== unblurredAvatarPath
+      avatarUrl &&
+      avatarUrl !== unblurredAvatarUrl
   );

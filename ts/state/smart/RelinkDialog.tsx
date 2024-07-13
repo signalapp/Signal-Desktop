@@ -1,22 +1,26 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import { connect } from 'react-redux';
-import { mapDispatchToProps } from '../actions';
+import React, { memo } from 'react';
+import { useSelector } from 'react-redux';
 import { DialogRelink } from '../../components/DialogRelink';
-import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 import type { WidthBreakpoint } from '../../components/_util';
+import { useNetworkActions } from '../ducks/network';
 
-type PropsType = Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>;
+type SmartRelinkDialogProps = Readonly<{
+  containerWidthBreakpoint: WidthBreakpoint;
+}>;
 
-const mapStateToProps = (state: StateType, ownProps: PropsType) => {
-  return {
-    i18n: getIntl(state),
-    ...ownProps,
-  };
-};
-
-const smart = connect(mapStateToProps, mapDispatchToProps);
-
-export const SmartRelinkDialog = smart(DialogRelink);
+export const SmartRelinkDialog = memo(function SmartRelinkDialog({
+  containerWidthBreakpoint,
+}: SmartRelinkDialogProps) {
+  const i18n = useSelector(getIntl);
+  const { relinkDevice } = useNetworkActions();
+  return (
+    <DialogRelink
+      i18n={i18n}
+      containerWidthBreakpoint={containerWidthBreakpoint}
+      relinkDevice={relinkDevice}
+    />
+  );
+});

@@ -13,7 +13,13 @@ import { sleep } from '../util/sleep';
 import { getMinNickname, getMaxNickname } from '../util/Username';
 import { bytesToUuid, uuidToBytes } from '../util/uuidToBytes';
 import type { UsernameReservationType } from '../types/Username';
-import { ReserveUsernameError, ConfirmUsernameResult } from '../types/Username';
+import {
+  ReserveUsernameError,
+  ConfirmUsernameResult,
+  getNickname,
+  getDiscriminator,
+  isCaseChange,
+} from '../types/Username';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import MessageSender from '../textsecure/SendMessage';
@@ -35,6 +41,7 @@ export type WriteUsernameOptionsType = Readonly<
 
 export type ReserveUsernameOptionsType = Readonly<{
   nickname: string;
+  customDiscriminator: string | undefined;
   previousUsername: string | undefined;
   abortSignal?: AbortSignal;
 }>;
@@ -60,7 +67,8 @@ export async function reserveUsername(
     throw new Error('server interface is not available!');
   }
 
-  const { nickname, previousUsername, abortSignal } = options;
+  const { nickname, customDiscriminator, previousUsername, abortSignal } =
+    options;
 
   const me = window.ConversationController.getOurConversationOrThrow();
 
@@ -69,11 +77,39 @@ export async function reserveUsername(
   }
 
   try {
-    const candidates = usernames.generateCandidates(
-      nickname,
-      getMinNickname(),
-      getMaxNickname()
-    );
+    if (previousUsername !== undefined && !customDiscriminator) {
+      const previousNickname = getNickname(previousUsername);
+
+      // Case change
+      if (
+        previousNickname !== undefined &&
+        nickname.toLowerCase() === previousNickname.toLowerCase()
+      ) {
+        const previousDiscriminator = getDiscriminator(previousUsername);
+        const newUsername = `${nickname}.${previousDiscriminator}`;
+        const hash = usernames.hash(newUsername);
+        return {
+          ok: true,
+          reservation: { previousUsername, username: newUsername, hash },
+        };
+      }
+    }
+
+    const candidates = customDiscriminator
+      ? [
+          usernames.fromParts(
+            nickname,
+            customDiscriminator,
+            getMinNickname(),
+            getMaxNickname()
+          ).username,
+        ]
+      : usernames.generateCandidates(
+          nickname,
+          getMinNickname(),
+          getMaxNickname()
+        );
+
     const hashes = candidates.map(username => usernames.hash(username));
 
     const { usernameHash } = await server.reserveUsername({
@@ -102,16 +138,15 @@ export async function reserveUsername(
         return { ok: false, error: ReserveUsernameError.Conflict };
       }
       if (error.code === 413 || error.code === 429) {
-        const time = findRetryAfterTimeFromError(error);
-        log.warn(`reserveUsername: got ${error.code}, waiting ${time}ms`);
-        await sleep(time, abortSignal);
-
-        return reserveUsername(options);
+        return {
+          ok: false,
+          error: ReserveUsernameError.TooManyAttempts,
+        };
       }
     }
     if (error instanceof LibSignalErrorBase) {
       if (
-        error.code === ErrorCode.CannotBeEmpty ||
+        error.code === ErrorCode.NicknameCannotBeEmpty ||
         error.code === ErrorCode.NicknameTooShort
       ) {
         return {
@@ -135,6 +170,32 @@ export async function reserveUsername(
         return {
           ok: false,
           error: ReserveUsernameError.CheckCharacters,
+        };
+      }
+
+      if (error.code === ErrorCode.DiscriminatorCannotBeZero) {
+        return {
+          ok: false,
+          error: ReserveUsernameError.AllZeroDiscriminator,
+        };
+      }
+
+      if (error.code === ErrorCode.DiscriminatorCannotHaveLeadingZeros) {
+        return {
+          ok: false,
+          error: ReserveUsernameError.LeadingZeroDiscriminator,
+        };
+      }
+
+      if (
+        error.code === ErrorCode.DiscriminatorCannotBeEmpty ||
+        error.code === ErrorCode.DiscriminatorCannotBeSingleDigit ||
+        // This is handled on UI level
+        error.code === ErrorCode.DiscriminatorTooLarge
+      ) {
+        return {
+          ok: false,
+          error: ReserveUsernameError.NotEnoughDiscriminator,
         };
       }
     }
@@ -171,30 +232,54 @@ export async function confirmUsername(
     throw new Error('server interface is not available!');
   }
 
-  const { previousUsername, username, hash } = reservation;
+  const { previousUsername, username } = reservation;
+  const previousLink = window.storage.get('usernameLink');
 
   const me = window.ConversationController.getOurConversationOrThrow();
 
   if (me.get('username') !== previousUsername) {
     throw new Error('Username has changed on another device');
   }
-  const proof = usernames.generateProof(username);
+
+  const { hash } = reservation;
   strictAssert(usernames.hash(username).equals(hash), 'username hash mismatch');
 
-  try {
-    const { entropy, encryptedUsername } =
-      usernames.createUsernameLink(username);
+  const wasCorrupted = window.storage.get('usernameCorrupted');
 
+  try {
     await window.storage.remove('usernameLink');
 
-    const { usernameLinkHandle: serverIdString } = await server.confirmUsername(
-      {
+    let serverIdString: string;
+    let entropy: Buffer;
+    if (previousLink && isCaseChange(reservation)) {
+      log.info('confirmUsername: updating link only');
+
+      const updatedLink = usernames.createUsernameLink(
+        username,
+        Buffer.from(previousLink.entropy)
+      );
+      ({ entropy } = updatedLink);
+
+      ({ usernameLinkHandle: serverIdString } =
+        await server.replaceUsernameLink({
+          encryptedUsername: updatedLink.encryptedUsername,
+          keepLinkHandle: true,
+        }));
+    } else {
+      log.info('confirmUsername: confirming and replacing link');
+
+      const newLink = usernames.createUsernameLink(username);
+      ({ entropy } = newLink);
+
+      const proof = usernames.generateProof(username);
+
+      ({ usernameLinkHandle: serverIdString } = await server.confirmUsername({
         hash,
         proof,
-        encryptedUsername,
+        encryptedUsername: newLink.encryptedUsername,
         abortSignal,
-      }
-    );
+      }));
+    }
 
     await window.storage.put('usernameLink', {
       entropy,
@@ -202,6 +287,8 @@ export async function confirmUsername(
     });
 
     await updateUsernameAndSyncProfile(username);
+    await window.storage.remove('usernameCorrupted');
+    await window.storage.remove('usernameLinkCorrupted');
   } catch (error) {
     if (error instanceof HTTPError) {
       if (error.code === 413 || error.code === 429) {
@@ -219,11 +306,13 @@ export async function confirmUsername(
     throw error;
   }
 
-  return ConfirmUsernameResult.Ok;
+  return wasCorrupted
+    ? ConfirmUsernameResult.OkRecovered
+    : ConfirmUsernameResult.Ok;
 }
 
 export async function deleteUsername(
-  previousUsername: string,
+  previousUsername: string | undefined,
   abortSignal?: AbortSignal
 ): Promise<void> {
   const { server } = window.textsecure;
@@ -239,6 +328,7 @@ export async function deleteUsername(
 
   await window.storage.remove('usernameLink');
   await server.deleteUsername(abortSignal);
+  await window.storage.remove('usernameCorrupted');
   await updateUsernameAndSyncProfile(undefined);
 }
 
@@ -259,12 +349,16 @@ export async function resetLink(username: string): Promise<void> {
   await window.storage.remove('usernameLink');
 
   const { usernameLinkHandle: serverIdString } =
-    await server.replaceUsernameLink({ encryptedUsername });
+    await server.replaceUsernameLink({
+      encryptedUsername,
+      keepLinkHandle: false,
+    });
 
   await window.storage.put('usernameLink', {
     entropy,
     serverId: uuidToBytes(serverIdString),
   });
+  await window.storage.remove('usernameLinkCorrupted');
 
   me.captureChange('usernameLink');
   storageServiceUploadJob();
@@ -275,14 +369,26 @@ const USERNAME_LINK_ENTROPY_SIZE = 32;
 export async function resolveUsernameByLinkBase64(
   base64: string
 ): Promise<string | undefined> {
+  const content = Bytes.fromBase64(base64);
+  const entropy = content.slice(0, USERNAME_LINK_ENTROPY_SIZE);
+  const serverId = content.slice(USERNAME_LINK_ENTROPY_SIZE);
+
+  return resolveUsernameByLink({ entropy, serverId });
+}
+
+export type ResolveUsernameByLinkOptionsType = Readonly<{
+  entropy: Uint8Array;
+  serverId: Uint8Array;
+}>;
+
+export async function resolveUsernameByLink({
+  entropy,
+  serverId: serverIdBytes,
+}: ResolveUsernameByLinkOptionsType): Promise<string | undefined> {
   const { server } = window.textsecure;
   if (!server) {
     throw new Error('server interface is not available!');
   }
-
-  const content = Bytes.fromBase64(base64);
-  const entropy = content.slice(0, USERNAME_LINK_ENTROPY_SIZE);
-  const serverIdBytes = content.slice(USERNAME_LINK_ENTROPY_SIZE);
 
   const serverId = bytesToUuid(serverIdBytes);
   strictAssert(serverId, 'Failed to re-encode server id as uuid');

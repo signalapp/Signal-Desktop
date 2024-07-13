@@ -17,7 +17,7 @@
   }
 
   &__description {
-    margin-top: 4px;
+    margin-block: 0 16px;
   }
 
   h2 {
@@ -29,19 +29,19 @@
   hr {
     border: 0;
     height: 1px;
-    margin-block: 20px;
+    margin-block: 12px;
     margin-inline: 0;
 
     @include light-theme {
       background: $color-gray-05;
     }
     @include dark-theme {
-      background: $color-gray-90;
+      background: $color-gray-75;
     }
   }
 
   &__buttons {
-    margin-top: 12px;
+    margin-top: 4px;
 
     .module-Button:not(:last-child) {
       margin-inline-end: 12px;

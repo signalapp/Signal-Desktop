@@ -8,17 +8,20 @@ import { Button, ButtonVariant } from './Button';
 import { Modal } from './Modal';
 import { Spinner } from './Spinner';
 
-type PropsType = {
+export type PropsType = Readonly<{
   i18n: LocalizerType;
   isPending: boolean;
 
   onContinue: () => void;
   onSkip: () => void;
-};
+}>;
 
-export function CaptchaDialog(props: Readonly<PropsType>): JSX.Element {
-  const { i18n, isPending, onSkip, onContinue } = props;
-
+export function CaptchaDialog({
+  i18n,
+  isPending,
+  onSkip,
+  onContinue,
+}: PropsType): JSX.Element {
   const [isClosing, setIsClosing] = useState(false);
 
   const buttonRef = useRef<HTMLButtonElement | null>(null);

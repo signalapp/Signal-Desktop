@@ -5,7 +5,6 @@ import { createSelector } from 'reselect';
 import { isInteger } from 'lodash';
 
 import { ITEM_NAME as UNIVERSAL_EXPIRE_TIMER_ITEM } from '../../util/universalExpireTimer';
-import { SafetyNumberMode } from '../../types/safetyNumber';
 import { innerIsBucketValueEnabled } from '../../RemoteConfig';
 import type { ConfigKeyType, ConfigMapType } from '../../RemoteConfig';
 import type { StateType } from '../reducer';
@@ -17,11 +16,9 @@ import type {
 import type { AciString } from '../../types/ServiceId';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji';
-import { isBeta } from '../../util/version';
 import { DurationInSeconds } from '../../util/durations';
-import { generateUsernameLink } from '../../util/sgnlHref';
 import * as Bytes from '../../Bytes';
-import { getUserNumber, getUserACI } from './user';
+import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes';
 
 const DEFAULT_PREFERRED_LEFT_PANE_WIDTH = 320;
 
@@ -56,7 +53,7 @@ export const isRemoteConfigFlagEnabled = (
 ): boolean => Boolean(config[key]?.enabled);
 
 // See isBucketValueEnabled in RemoteConfig.ts
-const isRemoteConfigBucketEnabled = (
+export const isRemoteConfigBucketEnabled = (
   config: Readonly<ConfigMapType>,
   name: ConfigKeyType,
   e164: string | undefined,
@@ -76,12 +73,6 @@ export const getServerTimeSkew = createSelector(
   (state: ItemsStateType): number => state.serverTimeSkew || 0
 );
 
-export const getUsernamesEnabled = createSelector(
-  getRemoteConfig,
-  (remoteConfig: ConfigMapType): boolean =>
-    isRemoteConfigFlagEnabled(remoteConfig, 'desktop.usernames')
-);
-
 export const getHasCompletedUsernameOnboarding = createSelector(
   getItems,
   (state: ItemsStateType): boolean =>
@@ -94,10 +85,14 @@ export const getHasCompletedUsernameLinkOnboarding = createSelector(
     Boolean(state.hasCompletedUsernameLinkOnboarding)
 );
 
-export const getHasCompletedSafetyNumberOnboarding = createSelector(
+export const getUsernameCorrupted = createSelector(
   getItems,
-  (state: ItemsStateType): boolean =>
-    Boolean(state.hasCompletedSafetyNumberOnboarding)
+  (state: ItemsStateType): boolean => Boolean(state.usernameCorrupted)
+);
+
+export const getUsernameLinkCorrupted = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => Boolean(state.usernameLinkCorrupted)
 );
 
 export const getUsernameLinkColor = createSelector(
@@ -119,7 +114,9 @@ export const getUsernameLink = createSelector(
 
     const content = Bytes.concatenate([entropy, serverId]);
 
-    return generateUsernameLink(Bytes.toBase64(content));
+    return contactByEncryptedUsernameRoute
+      .toWebUrl({ encryptedUsername: Bytes.toBase64url(content) })
+      .toString();
   }
 );
 
@@ -133,93 +130,7 @@ export const isInternalUser = createSelector(
 // Note: ts/util/stories is the other place this check is done
 export const getStoriesEnabled = createSelector(
   getItems,
-  getRemoteConfig,
-  getUserNumber,
-  getUserACI,
-  (
-    state: ItemsStateType,
-    remoteConfig: ConfigMapType,
-    e164: string | undefined,
-    aci: AciString | undefined
-  ): boolean => {
-    if (state.hasStoriesDisabled) {
-      return false;
-    }
-
-    if (
-      isRemoteConfigBucketEnabled(remoteConfig, 'desktop.stories2', e164, aci)
-    ) {
-      return true;
-    }
-
-    if (isRemoteConfigFlagEnabled(remoteConfig, 'desktop.internalUser')) {
-      return true;
-    }
-
-    if (
-      isRemoteConfigFlagEnabled(remoteConfig, 'desktop.stories2.beta') &&
-      isBeta(window.getVersion())
-    ) {
-      return true;
-    }
-
-    return false;
-  }
-);
-
-export const getContactManagementEnabled = createSelector(
-  getRemoteConfig,
-  (remoteConfig: ConfigMapType): boolean => {
-    if (isRemoteConfigFlagEnabled(remoteConfig, 'desktop.contactManagement')) {
-      return true;
-    }
-
-    if (
-      isRemoteConfigFlagEnabled(
-        remoteConfig,
-        'desktop.contactManagement.beta'
-      ) &&
-      isBeta(window.getVersion())
-    ) {
-      return true;
-    }
-
-    return false;
-  }
-);
-
-export const getSafetyNumberMode = createSelector(
-  getRemoteConfig,
-  getServerTimeSkew,
-  (_state: StateType, { now }: { now: number }) => now,
-  (
-    remoteConfig: ConfigMapType,
-    serverTimeSkew: number,
-    now: number
-  ): SafetyNumberMode => {
-    if (
-      !isRemoteConfigFlagEnabled(remoteConfig, 'desktop.safetyNumberAci') &&
-      !(
-        isRemoteConfigFlagEnabled(
-          remoteConfig,
-          'desktop.safetyNumberAci.beta'
-        ) && isBeta(window.getVersion())
-      )
-    ) {
-      return SafetyNumberMode.JustE164;
-    }
-
-    const timestamp = remoteConfig['global.safetyNumberAci']?.value;
-    if (typeof timestamp !== 'number') {
-      return SafetyNumberMode.DefaultE164AndThenACI;
-    }
-
-    // Note: serverTimeSkew is a difference between server time and local time,
-    // so we have to add local time to it to correct it for a skew.
-    return now + serverTimeSkew >= timestamp
-      ? SafetyNumberMode.DefaultACIAndMaybeE164
-      : SafetyNumberMode.DefaultE164AndThenACI;
-  }
+  (state: ItemsStateType): boolean => !state.hasStoriesDisabled
 );
 
 export const getDefaultConversationColor = createSelector(
@@ -316,4 +227,24 @@ export const getTextFormattingEnabled = createSelector(
 export const getNavTabsCollapsed = createSelector(
   getItems,
   (state: ItemsStateType): boolean => Boolean(state.navTabsCollapsed ?? false)
+);
+
+export const getShowStickersIntroduction = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => {
+    return state.showStickersIntroduction ?? false;
+  }
+);
+
+export const getShowStickerPickerHint = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => {
+    return state.showStickerPickerHint ?? false;
+  }
+);
+
+export const getLocalDeleteWarningShown = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean =>
+    Boolean(state.localDeleteWarningShown ?? false)
 );

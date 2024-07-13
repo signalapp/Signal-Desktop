@@ -8,8 +8,9 @@ import type { LocalizerType } from '../types/Util';
 import type { ShowToastAction } from '../state/ducks/toast';
 import { ToastType } from '../types/Toast';
 
-type DeleteMessagesModalProps = Readonly<{
+export type DeleteMessagesModalProps = Readonly<{
   isMe: boolean;
+  isDeleteSyncSendEnabled: boolean;
   canDeleteForEveryone: boolean;
   i18n: LocalizerType;
   messageCount: number;
@@ -23,6 +24,7 @@ const MAX_DELETE_FOR_EVERYONE = 30;
 
 export default function DeleteMessagesModal({
   isMe,
+  isDeleteSyncSendEnabled,
   canDeleteForEveryone,
   i18n,
   messageCount,
@@ -33,15 +35,22 @@ export default function DeleteMessagesModal({
 }: DeleteMessagesModalProps): JSX.Element {
   const actions: Array<ActionSpec> = [];
 
+  const syncNoteToSelfDelete = isMe && isDeleteSyncSendEnabled;
+
+  let deleteForMeText = i18n('icu:DeleteMessagesModal--deleteForMe');
+  if (syncNoteToSelfDelete) {
+    deleteForMeText = i18n('icu:DeleteMessagesModal--noteToSelf--deleteSync');
+  } else if (isMe) {
+    deleteForMeText = i18n('icu:DeleteMessagesModal--deleteFromThisDevice');
+  }
+
   actions.push({
     action: onDeleteForMe,
     style: 'negative',
-    text: isMe
-      ? i18n('icu:DeleteMessagesModal--deleteFromThisDevice')
-      : i18n('icu:DeleteMessagesModal--deleteForMe'),
+    text: deleteForMeText,
   });
 
-  if (canDeleteForEveryone) {
+  if (canDeleteForEveryone && !syncNoteToSelfDelete) {
     const tooManyMessages = messageCount > MAX_DELETE_FOR_EVERYONE;
     actions.push({
       'aria-disabled': tooManyMessages,
@@ -63,6 +72,20 @@ export default function DeleteMessagesModal({
     });
   }
 
+  let descriptionText = i18n('icu:DeleteMessagesModal--description', {
+    count: messageCount,
+  });
+  if (syncNoteToSelfDelete) {
+    descriptionText = i18n(
+      'icu:DeleteMessagesModal--description--noteToSelf--deleteSync',
+      { count: messageCount }
+    );
+  } else if (isMe) {
+    descriptionText = i18n('icu:DeleteMessagesModal--description--noteToSelf', {
+      count: messageCount,
+    });
+  }
+
   return (
     <ConfirmationDialog
       actions={actions}
@@ -74,13 +97,7 @@ export default function DeleteMessagesModal({
       })}
       moduleClassName="DeleteMessagesModal"
     >
-      {isMe
-        ? i18n('icu:DeleteMessagesModal--description--noteToSelf', {
-            count: messageCount,
-          })
-        : i18n('icu:DeleteMessagesModal--description', {
-            count: messageCount,
-          })}
+      {descriptionText}
     </ConfirmationDialog>
   );
 }

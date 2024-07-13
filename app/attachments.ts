@@ -1,12 +1,19 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { PassThrough } from 'node:stream';
 import { join, relative, normalize } from 'path';
 import fastGlob from 'fast-glob';
 import fse from 'fs-extra';
 import { map, isString } from 'lodash';
 import normalizePath from 'normalize-path';
 import { isPathInside } from '../ts/util/isPathInside';
+import {
+  generateKeys,
+  decryptAttachmentV2ToSink,
+  encryptAttachmentV2ToDisk,
+} from '../ts/AttachmentCrypto';
+import type { LocalAttachmentV2Type } from '../ts/types/Attachment';
 
 const PATH = 'attachments.noindex';
 const AVATAR_PATH = 'avatars.noindex';
@@ -189,4 +196,58 @@ export const deleteAllDraftAttachments = async ({
   }
 
   console.log(`deleteAllDraftAttachments: deleted ${attachments.length} files`);
+};
+
+export const readAndDecryptDataFromDisk = async ({
+  absolutePath,
+  keysBase64,
+  size,
+}: {
+  absolutePath: string;
+  keysBase64: string;
+  size: number;
+}): Promise<Uint8Array> => {
+  const sink = new PassThrough();
+
+  const chunks = new Array<Buffer>();
+
+  sink.on('data', chunk => chunks.push(chunk));
+  sink.resume();
+
+  await decryptAttachmentV2ToSink(
+    {
+      ciphertextPath: absolutePath,
+      idForLogging: 'attachments/readAndDecryptDataFromDisk',
+      keysBase64,
+      size,
+      isLocal: true,
+    },
+    sink
+  );
+
+  return Buffer.concat(chunks);
+};
+
+export const writeNewAttachmentData = async ({
+  data,
+  getAbsoluteAttachmentPath,
+}: {
+  data: Uint8Array;
+  getAbsoluteAttachmentPath: (relativePath: string) => string;
+}): Promise<LocalAttachmentV2Type> => {
+  const keys = generateKeys();
+
+  const { plaintextHash, path } = await encryptAttachmentV2ToDisk({
+    plaintext: { data },
+    getAbsoluteAttachmentPath,
+    keys,
+  });
+
+  return {
+    version: 2,
+    plaintextHash,
+    size: data.byteLength,
+    path,
+    localKey: Buffer.from(keys).toString('base64'),
+  };
 };

@@ -2,29 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AudioDevice } from '@signalapp/ringrtc';
-import { AudioDeviceModule } from './audioDeviceModule';
 
 export function findBestMatchingAudioDeviceIndex({
   available,
   preferred,
-  previousAudioDeviceModule,
-  currentAudioDeviceModule,
 }: Readonly<{
   available: ReadonlyArray<AudioDevice>;
   preferred: undefined | AudioDevice;
-  previousAudioDeviceModule: AudioDeviceModule;
-  currentAudioDeviceModule: AudioDeviceModule;
 }>): undefined | number {
   if (!preferred) {
     return available.length > 0 ? 0 : undefined;
   }
 
   if (
-    (currentAudioDeviceModule === AudioDeviceModule.WindowsAdm2 &&
-      preferred.index === 0) ||
-    (previousAudioDeviceModule === AudioDeviceModule.WindowsAdm2 &&
-      preferred.index === 1 &&
-      available.length >= 2)
+    preferred.index === 0 ||
+    (preferred.index === 1 && available.length >= 2)
   ) {
     return preferred.index;
   }

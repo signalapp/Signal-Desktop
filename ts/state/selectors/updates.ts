@@ -11,6 +11,26 @@ import type { UpdatesStateType } from '../ducks/updates';
 export const getUpdatesState = (state: Readonly<StateType>): UpdatesStateType =>
   state.updates;
 
+export const getUpdateDialogType = createSelector(
+  getUpdatesState,
+  ({ dialogType }) => dialogType
+);
+
+export const getUpdateVersion = createSelector(
+  getUpdatesState,
+  ({ version }) => version
+);
+
+export const getUpdateDownloadSize = createSelector(
+  getUpdatesState,
+  ({ downloadSize }) => downloadSize
+);
+
+export const getUpdateDownloadedSize = createSelector(
+  getUpdatesState,
+  ({ downloadedSize }) => downloadedSize
+);
+
 export const isUpdateDialogVisible = createSelector(
   getUpdatesState,
   ({ dialogType, didSnooze }) => {

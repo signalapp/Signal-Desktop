@@ -8,6 +8,7 @@ import { ReceiptType } from '@signalapp/mock-server';
 
 import { Bootstrap, debug, RUN_COUNT, DISCARD_COUNT } from './fixtures';
 import { stats } from '../../util/benchmark/stats';
+import { typeIntoInput } from '../helpers';
 
 const CONVERSATION_SIZE = 500; // messages
 
@@ -76,13 +77,19 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     '.timeline-wrapper, .Inbox__conversation .ConversationView'
   );
 
+  debug('accepting conversation');
+  await window.getByRole('button', { name: 'Continue' }).click();
+
+  const { dataMessage: profileKeyMsg } = await first.waitForMessage();
+  assert(profileKeyMsg.profileKey != null, 'Profile key message');
+
   const deltaList = new Array<number>();
   for (let runId = 0; runId < RUN_COUNT + DISCARD_COUNT; runId += 1) {
     debug('finding composition input and clicking it');
     const input = await app.waitForEnabledComposer();
 
     debug('entering message text');
-    await input.type(`my message ${runId}`);
+    await typeIntoInput(input, `my message ${runId}`);
     await input.press('Enter');
 
     debug('waiting for message on server side');

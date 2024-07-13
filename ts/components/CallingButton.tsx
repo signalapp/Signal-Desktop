@@ -13,16 +13,20 @@ export enum CallingButtonType {
   AUDIO_DISABLED = 'AUDIO_DISABLED',
   AUDIO_OFF = 'AUDIO_OFF',
   AUDIO_ON = 'AUDIO_ON',
-  HANG_UP = 'HANG_UP',
   PRESENTING_DISABLED = 'PRESENTING_DISABLED',
   PRESENTING_OFF = 'PRESENTING_OFF',
   PRESENTING_ON = 'PRESENTING_ON',
+  RAISE_HAND_OFF = 'RAISE_HAND_OFF',
+  RAISE_HAND_ON = 'RAISE_HAND_ON',
+  REACT_OFF = 'REACT_OFF',
+  REACT_ON = 'REACT_ON',
   RING_DISABLED = 'RING_DISABLED',
   RING_OFF = 'RING_OFF',
   RING_ON = 'RING_ON',
   VIDEO_DISABLED = 'VIDEO_DISABLED',
   VIDEO_OFF = 'VIDEO_OFF',
   VIDEO_ON = 'VIDEO_ON',
+  MORE_OPTIONS = 'MORE_OPTIONS',
 }
 
 export type PropsType = {
@@ -48,101 +52,101 @@ export function CallingButton({
 
   let classNameSuffix = '';
   let tooltipContent = '';
-  let label = '';
   let disabled = false;
   if (buttonType === CallingButtonType.AUDIO_DISABLED) {
     classNameSuffix = 'audio--disabled';
     tooltipContent = i18n('icu:calling__button--audio-disabled');
-    label = i18n('icu:calling__button--audio__label');
     disabled = true;
   } else if (buttonType === CallingButtonType.AUDIO_OFF) {
     classNameSuffix = 'audio--off';
     tooltipContent = i18n('icu:calling__button--audio-on');
-    label = i18n('icu:calling__button--audio__label');
   } else if (buttonType === CallingButtonType.AUDIO_ON) {
     classNameSuffix = 'audio--on';
     tooltipContent = i18n('icu:calling__button--audio-off');
-    label = i18n('icu:calling__button--audio__label');
   } else if (buttonType === CallingButtonType.VIDEO_DISABLED) {
     classNameSuffix = 'video--disabled';
     tooltipContent = i18n('icu:calling__button--video-disabled');
     disabled = true;
-    label = i18n('icu:calling__button--video__label');
   } else if (buttonType === CallingButtonType.VIDEO_OFF) {
     classNameSuffix = 'video--off';
     tooltipContent = i18n('icu:calling__button--video-on');
-    label = i18n('icu:calling__button--video__label');
   } else if (buttonType === CallingButtonType.VIDEO_ON) {
     classNameSuffix = 'video--on';
     tooltipContent = i18n('icu:calling__button--video-off');
-    label = i18n('icu:calling__button--video__label');
-  } else if (buttonType === CallingButtonType.HANG_UP) {
-    classNameSuffix = 'hangup';
-    tooltipContent = i18n('icu:calling__hangup');
-    label = i18n('icu:calling__hangup');
   } else if (buttonType === CallingButtonType.RING_DISABLED) {
     classNameSuffix = 'ring--disabled';
     disabled = true;
     tooltipContent = i18n(
       'icu:calling__button--ring__disabled-because-group-is-too-large'
     );
-    label = i18n('icu:calling__button--ring__label');
+  } else if (buttonType === CallingButtonType.REACT_OFF) {
+    classNameSuffix = 'react--off';
+    tooltipContent = i18n('icu:calling__button--react');
+  } else if (buttonType === CallingButtonType.REACT_ON) {
+    classNameSuffix = 'react--on';
+  } else if (buttonType === CallingButtonType.RAISE_HAND_OFF) {
+    classNameSuffix = 'raise-hand--off';
+    tooltipContent = i18n('icu:CallControls__MenuItemRaiseHand');
+  } else if (buttonType === CallingButtonType.RAISE_HAND_ON) {
+    classNameSuffix = 'raise-hand--on';
+    tooltipContent = i18n('icu:CallControls__MenuItemRaiseHand--lower');
   } else if (buttonType === CallingButtonType.RING_OFF) {
     classNameSuffix = 'ring--off';
-    tooltipContent = i18n('icu:calling__button--ring__on');
-    label = i18n('icu:calling__button--ring__label');
+    tooltipContent = i18n('icu:CallingButton--ring-on');
   } else if (buttonType === CallingButtonType.RING_ON) {
     classNameSuffix = 'ring--on';
-    tooltipContent = i18n('icu:calling__button--ring__off');
-    label = i18n('icu:calling__button--ring__label');
+    tooltipContent = i18n('icu:CallingButton__ring-off');
   } else if (buttonType === CallingButtonType.PRESENTING_DISABLED) {
     classNameSuffix = 'presenting--disabled';
     tooltipContent = i18n('icu:calling__button--presenting-disabled');
     disabled = true;
-    label = i18n('icu:calling__button--presenting__label');
   } else if (buttonType === CallingButtonType.PRESENTING_ON) {
     classNameSuffix = 'presenting--on';
     tooltipContent = i18n('icu:calling__button--presenting-off');
-    label = i18n('icu:calling__button--presenting__label');
   } else if (buttonType === CallingButtonType.PRESENTING_OFF) {
     classNameSuffix = 'presenting--off';
     tooltipContent = i18n('icu:calling__button--presenting-on');
-    label = i18n('icu:calling__button--presenting__label');
+  } else if (buttonType === CallingButtonType.MORE_OPTIONS) {
+    classNameSuffix = 'more-options';
+    tooltipContent = i18n('icu:CallingButton--more-options');
   }
 
-  const className = classNames(
-    'CallingButton__icon',
-    `CallingButton__icon--${classNameSuffix}`
+  const buttonContent = (
+    <button
+      aria-label={tooltipContent}
+      className={classNames(
+        'CallingButton__icon',
+        `CallingButton__icon--${classNameSuffix}`
+      )}
+      disabled={disabled}
+      id={uniqueButtonId}
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      type="button"
+    >
+      <div />
+    </button>
   );
 
   return (
-    <Tooltip
-      content={tooltipContent}
-      direction={tooltipDirection}
-      theme={Theme.Dark}
-    >
-      <div
-        className={classNames(
-          'CallingButton__container',
-          !isVisible && 'CallingButton__container--hidden'
-        )}
-      >
-        <button
-          aria-label={tooltipContent}
-          className={className}
-          disabled={disabled}
-          id={uniqueButtonId}
-          onClick={onClick}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          type="button"
+    <div className="CallingButton">
+      {tooltipContent === '' ? (
+        <div className="CallingButton__button-container">{buttonContent}</div>
+      ) : (
+        <Tooltip
+          className="CallingButton__tooltip"
+          wrapperClassName={classNames(
+            'CallingButton__button-container',
+            !isVisible && 'CallingButton__button-container--hidden'
+          )}
+          content={tooltipContent}
+          direction={tooltipDirection}
+          theme={Theme.Dark}
         >
-          <div />
-        </button>
-        <label className="CallingButton__label" htmlFor={uniqueButtonId}>
-          {label}
-        </label>
-      </div>
-    </Tooltip>
+          {buttonContent}
+        </Tooltip>
+      )}
+    </div>
   );
 }

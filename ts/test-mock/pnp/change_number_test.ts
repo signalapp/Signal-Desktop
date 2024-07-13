@@ -10,9 +10,8 @@ import type { App } from '../bootstrap';
 
 export const debug = createDebug('mock:test:change-number');
 
-describe('pnp/change number', function needsName() {
+describe('pnp/change number', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;
@@ -23,7 +22,7 @@ describe('pnp/change number', function needsName() {
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();

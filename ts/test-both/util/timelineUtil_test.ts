@@ -156,11 +156,11 @@ describe('<Timeline> utilities', () => {
         'sending',
       ];
       for (const status of statuses) {
-        const sameStatusNewer = {
+        const sameStatusNewer: MaybeMessageTimelineItemType = {
           ...defaultNewer,
           data: { ...defaultNewer.data, status },
         };
-        const current = {
+        const current: MaybeMessageTimelineItemType = {
           ...defaultCurrent,
           data: { ...defaultCurrent.data, status },
         };
@@ -216,6 +216,9 @@ describe('<Timeline> utilities', () => {
       isSomeoneTyping: false,
       items: fakeItems(10),
       scrollToIndexCounter: 0,
+      messageLoadingState: null,
+      oldestUnseenIndex: null,
+      scrollToIndex: null,
     } as const;
 
     describe('during initial load', () => {

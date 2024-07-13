@@ -13,6 +13,7 @@ import type {
 } from '../types/BodyRange';
 import { BodyRange } from '../types/BodyRange';
 import type { MentionBlot } from './mentions/blot';
+import type { EmojiBlot } from './emoji/blot';
 import { isNewlineOnlyOp, QuillFormattingStyle } from './formatting/menu';
 import { isNotNil } from '../util/isNotNil';
 import type { AciString } from '../types/ServiceId';
@@ -27,6 +28,9 @@ export type FormattingBlotValue = {
   style: BodyRange.Style;
 };
 
+export const isEmojiBlot = (blot: LeafBlot): blot is EmojiBlot =>
+  blot.value() && blot.value().emoji;
+
 export const isMentionBlot = (blot: LeafBlot): blot is MentionBlot =>
   blot.value() && blot.value().mention;
 
@@ -37,7 +41,10 @@ export type RetainOp = Op & { retain: number };
 export type InsertOp<K extends string, T> = Op & { insert: { [V in K]: T } };
 
 export type InsertMentionOp = InsertOp<'mention', MentionBlotValue>;
-export type InsertEmojiOp = InsertOp<'emoji', string>;
+export type InsertEmojiOp = InsertOp<
+  'emoji',
+  { value: string; source?: string }
+>;
 
 export const isRetainOp = (op?: Op): op is RetainOp =>
   op !== undefined && op.retain !== undefined;
@@ -64,7 +71,7 @@ export const getTextFromOps = (ops: Array<DeltaOperation>): string =>
       }
 
       if (isInsertEmojiOp(op)) {
-        return acc + op.insert.emoji;
+        return acc + op.insert.emoji.value;
       }
 
       if (isInsertMentionOp(op)) {
@@ -157,6 +164,7 @@ export const getTextAndRangesFromOps = (
   ops: Array<Op>
 ): { text: string; bodyRanges: DraftBodyRanges } => {
   const startingBodyRanges: Array<DraftBodyRange> = [];
+  let earliestMonospaceIndex = Number.MAX_SAFE_INTEGER;
   let formats: Record<BodyRange.Style, { start: number } | undefined> = {
     [BOLD]: undefined,
     [ITALIC]: undefined,
@@ -175,12 +183,18 @@ export const getTextAndRangesFromOps = (
     // Start or finish format sections as needed
     formats = extractAllFormats(startingBodyRanges, formats, acc.length, op);
 
+    const newMonospaceStart =
+      formats[MONOSPACE]?.start ?? earliestMonospaceIndex;
+    if (newMonospaceStart < earliestMonospaceIndex) {
+      earliestMonospaceIndex = newMonospaceStart;
+    }
+
     if (typeof op.insert === 'string') {
       return acc + op.insert;
     }
 
     if (isInsertEmojiOp(op)) {
-      return acc + op.insert.emoji;
+      return acc + op.insert.emoji.value;
     }
 
     if (isInsertMentionOp(op)) {
@@ -201,8 +215,15 @@ export const getTextAndRangesFromOps = (
   extractAllFormats(startingBodyRanges, formats, preTrimText.length);
 
   // Now repair bodyRanges after trimming
-  const trimStart = preTrimText.trimStart();
-  const trimmedFromStart = preTrimText.length - trimStart.length;
+  let trimStart = preTrimText.trimStart();
+  let trimmedFromStart = preTrimText.length - trimStart.length;
+
+  // We don't want to trim leading monospace text
+  if (earliestMonospaceIndex < trimmedFromStart) {
+    trimStart = preTrimText.slice(earliestMonospaceIndex);
+    trimmedFromStart = earliestMonospaceIndex;
+  }
+
   const text = trimStart.trimEnd();
   const textLength = text.length;
 
@@ -287,6 +308,27 @@ export const getDeltaToRestartMention = (ops: Array<Op>): Delta => {
   }, Array<Op>());
   changes.push({ delete: 1 });
   changes.push({ insert: '@' });
+  return new Delta(changes);
+};
+
+export const getDeltaToRestartEmoji = (ops: Array<Op>): Delta => {
+  const changes = new Array<Op>();
+  for (const op of ops.slice(0, -1)) {
+    if (op.insert && typeof op.insert === 'string') {
+      changes.push({ retain: op.insert.length });
+    } else {
+      changes.push({ retain: 1 });
+    }
+  }
+  const last = ops.at(-1);
+  if (!last || !last.insert) {
+    throw new Error('No emoji to delete');
+  }
+
+  changes.push({ delete: 1 });
+  if ((last as InsertEmojiOp).insert.emoji?.source) {
+    changes.push({ insert: (last as InsertEmojiOp).insert.emoji?.source });
+  }
   return new Delta(changes);
 };
 
@@ -408,7 +450,7 @@ export const insertEmojiOps = (
         if (emojiData) {
           ops.push({ insert: text.slice(index, match.index), attributes });
           ops.push({
-            insert: { emoji },
+            insert: { emoji: { value: emoji } },
             attributes: { ...existingAttributes, ...attributes },
           });
           index = match.index + emoji.length;

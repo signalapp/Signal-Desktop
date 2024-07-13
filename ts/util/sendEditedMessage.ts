@@ -15,7 +15,7 @@ import { ErrorWithToast } from '../types/ErrorWithToast';
 import { SendStatus } from '../messages/MessageSendState';
 import { ToastType } from '../types/Toast';
 import type { AciString } from '../types/ServiceId';
-import { canEditMessage } from './canEditMessage';
+import { canEditMessage, isWithinMaxEdits } from './canEditMessage';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
@@ -77,7 +77,10 @@ export async function sendEditedMessage(
     return;
   }
 
-  if (!canEditMessage(targetMessage.attributes)) {
+  if (
+    !canEditMessage(targetMessage.attributes) ||
+    !isWithinMaxEdits(targetMessage.attributes)
+  ) {
     throw new ErrorWithToast(
       `${idLog}: cannot edit`,
       ToastType.CannotEditMessage
@@ -215,7 +218,7 @@ export async function sendEditedMessage(
           conversationId,
           messageId: targetMessageId,
           revision: conversation.get('revision'),
-          editedMessageTimestamp: targetSentTimestamp,
+          editedMessageTimestamp: timestamp,
         },
         async jobToInsert => {
           log.info(
@@ -243,7 +246,7 @@ export async function sendEditedMessage(
         now: timestamp,
       });
     },
-    duration => `${idLog}: batchDisptach took ${duration}ms`
+    duration => `${idLog}: batchDispatch took ${duration}ms`
   );
 
   window.Signal.Data.updateConversation(conversation.attributes);

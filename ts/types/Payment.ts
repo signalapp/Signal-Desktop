@@ -12,6 +12,11 @@ export enum PaymentEventKind {
 export type PaymentNotificationEvent = {
   kind: PaymentEventKind.Notification;
   note: string | null;
+
+  // Backup related data
+  transactionDetailsBase64?: string;
+  amountMob?: string;
+  feeMob?: string;
 };
 
 export type PaymentActivationRequestEvent = {

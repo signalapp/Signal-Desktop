@@ -12,7 +12,6 @@ import { omit } from 'lodash';
 import type { ListRowProps } from 'react-virtualized';
 
 import type { LocalizerType, ThemeType } from '../../../../types/Util';
-import { getUsernameFromSearch } from '../../../../types/Username';
 import { strictAssert, assertDev } from '../../../../util/assert';
 import { refMerger } from '../../../../util/refMerger';
 import { useRestoreFocus } from '../../../../hooks/useRestoreFocus';
@@ -20,9 +19,8 @@ import { missingCaseError } from '../../../../util/missingCaseError';
 import type { LookupConversationWithoutServiceIdActionsType } from '../../../../util/lookupConversationWithoutServiceId';
 import { parseAndFormatPhoneNumber } from '../../../../util/libphonenumberInstance';
 import type { ParsedE164Type } from '../../../../util/libphonenumberInstance';
-import { filterAndSortConversationsByRecent } from '../../../../util/filterAndSortConversations';
+import { filterAndSortConversations } from '../../../../util/filterAndSortConversations';
 import type { ConversationType } from '../../../../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../../../../state/selectors/badges';
 import type {
   UUIDFetchStateKeyType,
   UUIDFetchStateType,
@@ -51,19 +49,20 @@ export type StatePropsType = {
   regionCode: string | undefined;
   candidateContacts: ReadonlyArray<ConversationType>;
   conversationIdsAlreadyInGroup: Set<string>;
-  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   theme: ThemeType;
   maxGroupSize: number;
+  ourE164: string | undefined;
+  ourUsername: string | undefined;
   searchTerm: string;
   selectedContacts: ReadonlyArray<ConversationType>;
+  username: string | undefined;
 
   confirmAdds: () => void;
   onClose: () => void;
   removeSelectedContact: (_: string) => void;
   setSearchTerm: (_: string) => void;
   toggleSelectedContact: (conversationId: string) => void;
-  isUsernamesEnabled: boolean;
 } & Pick<
   LookupConversationWithoutServiceIdActionsType,
   'lookupConversationWithoutServiceId'
@@ -85,6 +84,8 @@ export function ChooseGroupMembersModal({
   i18n,
   maxGroupSize,
   onClose,
+  ourE164,
+  ourUsername,
   removeSelectedContact,
   searchTerm,
   selectedContacts,
@@ -93,28 +94,21 @@ export function ChooseGroupMembersModal({
   toggleSelectedContact,
   lookupConversationWithoutServiceId,
   showUserNotFoundModal,
-  isUsernamesEnabled,
+  username,
 }: PropsType): JSX.Element {
   const [focusRef] = useRestoreFocus();
 
-  const parsedUsername = getUsernameFromSearch(searchTerm);
-  let username: string | undefined;
-  let isUsernameChecked = false;
-  let isUsernameVisible = false;
-  if (isUsernamesEnabled) {
-    username = parsedUsername;
+  const isUsernameChecked = selectedContacts.some(
+    contact => contact.username === username
+  );
 
-    isUsernameChecked = selectedContacts.some(
-      contact => contact.username === username
-    );
-
-    isUsernameVisible =
-      Boolean(username) &&
-      candidateContacts.every(contact => contact.username !== username);
-  }
+  const isUsernameVisible =
+    Boolean(username) &&
+    username !== ourUsername &&
+    candidateContacts.every(contact => contact.username !== username);
 
   let phoneNumber: ParsedE164Type | undefined;
-  if (!parsedUsername) {
+  if (!username) {
     phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
   }
 
@@ -126,9 +120,9 @@ export function ChooseGroupMembersModal({
       phoneNumber.isValid &&
       selectedContacts.some(contact => contact.e164 === e164);
 
-    isPhoneNumberVisible = candidateContacts.every(
-      contact => contact.e164 !== e164
-    );
+    isPhoneNumberVisible =
+      e164 !== ourE164 &&
+      candidateContacts.every(contact => contact.e164 !== e164);
   }
 
   const inputRef = useRef<null | HTMLInputElement>(null);
@@ -146,13 +140,13 @@ export function ChooseGroupMembersModal({
   const canContinue = Boolean(selectedContacts.length);
 
   const [filteredContacts, setFilteredContacts] = useState(
-    filterAndSortConversationsByRecent(candidateContacts, '', regionCode)
+    filterAndSortConversations(candidateContacts, '', regionCode)
   );
   const normalizedSearchTerm = searchTerm.trim();
   useEffect(() => {
     const timeout = setTimeout(() => {
       setFilteredContacts(
-        filterAndSortConversationsByRecent(
+        filterAndSortConversations(
           candidateContacts,
           normalizedSearchTerm,
           regionCode
@@ -329,6 +323,7 @@ export function ChooseGroupMembersModal({
             onClick={handleContactClick}
             isChecked={row.isChecked}
             badge={undefined}
+            disabledReason={row.disabledReason}
           />
         );
         break;
@@ -417,7 +412,7 @@ export function ChooseGroupMembersModal({
               <ContactPill
                 key={contact.id}
                 acceptedMessageRequest={contact.acceptedMessageRequest}
-                avatarPath={contact.avatarPath}
+                avatarUrl={contact.avatarUrl}
                 color={contact.color}
                 firstName={contact.systemGivenName ?? contact.firstName}
                 i18n={i18n}

@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 import { Manager, Reference, Popper } from 'react-popper';
 import type { StrictModifiers } from '@popperjs/core';
+import { createPortal } from 'react-dom';
 import type { Theme } from '../util/theme';
 import { themeClassName } from '../util/theme';
 import { refMerger } from '../util/refMerger';
@@ -90,6 +91,7 @@ export type PropsType = {
   theme?: Theme;
   wrapperClassName?: string;
   delay?: number;
+  hideArrow?: boolean;
 };
 
 let GLOBAL_EXIT_TIMER: NodeJS.Timeout | undefined;
@@ -105,6 +107,7 @@ export function Tooltip({
   popperModifiers = [],
   wrapperClassName,
   delay,
+  hideArrow,
 }: PropsType): JSX.Element {
   const timeoutRef = useRef<NodeJS.Timeout | undefined>();
   const [active, setActive] = React.useState(false);
@@ -167,32 +170,37 @@ export function Tooltip({
           </TooltipEventWrapper>
         )}
       </Reference>
-      <Popper
-        placement={direction}
-        modifiers={[offsetDistanceModifier(12), ...popperModifiers]}
-      >
-        {({ arrowProps, placement, ref, style }) =>
-          showTooltip && (
-            <div
-              className={classNames(
-                'module-tooltip',
-                tooltipThemeClassName,
-                className
-              )}
-              ref={ref}
-              style={style}
-              data-placement={placement}
-            >
-              {content}
+      {createPortal(
+        <Popper
+          placement={direction}
+          modifiers={[offsetDistanceModifier(12), ...popperModifiers]}
+        >
+          {({ arrowProps, placement, ref, style }) =>
+            showTooltip && (
               <div
-                className="module-tooltip-arrow"
-                ref={arrowProps.ref}
-                style={arrowProps.style}
-              />
-            </div>
-          )
-        }
-      </Popper>
+                className={classNames(
+                  'module-tooltip',
+                  tooltipThemeClassName,
+                  className
+                )}
+                ref={ref}
+                style={style}
+                data-placement={placement}
+              >
+                {content}
+                {!hideArrow ? (
+                  <div
+                    className="module-tooltip-arrow"
+                    ref={arrowProps.ref}
+                    style={arrowProps.style}
+                  />
+                ) : null}
+              </div>
+            )
+          }
+        </Popper>,
+        document.body
+      )}
     </Manager>
   );
 }

@@ -3,14 +3,12 @@
 
 import { usernames, LibSignalErrorBase } from '@signalapp/libsignal-client';
 
-import { ToastFailedToFetchUsername } from '../components/ToastFailedToFetchUsername';
-import { ToastFailedToFetchPhoneNumber } from '../components/ToastFailedToFetchPhoneNumber';
 import type { UserNotFoundModalStateType } from '../state/ducks/globalModals';
 import * as log from '../logging/log';
 import type { AciString } from '../types/ServiceId';
 import * as Errors from '../types/errors';
+import { ToastType } from '../types/Toast';
 import { HTTPError } from '../textsecure/Errors';
-import { showToast } from './showToast';
 import { strictAssert } from './assert';
 import type { UUIDFetchStateKeyType } from './uuidFetchState';
 import { getServiceIdsForE164s } from './getServiceIdsForE164s';
@@ -48,11 +46,13 @@ type FoundUsernameType = {
 export async function lookupConversationWithoutServiceId(
   options: LookupConversationWithoutServiceIdOptionsType
 ): Promise<string | undefined> {
-  const knownConversation = window.ConversationController.get(
-    options.type === 'e164' ? options.e164 : options.username
-  );
-  if (knownConversation && knownConversation.getServiceId()) {
-    return knownConversation.id;
+  if (options.type === 'username') {
+    const knownConversation = window.ConversationController.get(
+      options.username
+    );
+    if (knownConversation && knownConversation.getServiceId()) {
+      return knownConversation.id;
+    }
   }
 
   const identifier: UUIDFetchStateKeyType =
@@ -71,7 +71,9 @@ export async function lookupConversationWithoutServiceId(
   try {
     let conversationId: string | undefined;
     if (options.type === 'e164') {
-      const serverLookup = await getServiceIdsForE164s(server, [options.e164]);
+      const { entries: serverLookup } = await getServiceIdsForE164s(server, [
+        options.e164,
+      ]);
 
       const maybePair = serverLookup.get(options.e164);
 
@@ -121,9 +123,13 @@ export async function lookupConversationWithoutServiceId(
     );
 
     if (options.type === 'e164') {
-      showToast(ToastFailedToFetchPhoneNumber);
+      window.reduxActions.toast.showToast({
+        toastType: ToastType.FailedToFetchPhoneNumber,
+      });
     } else {
-      showToast(ToastFailedToFetchUsername);
+      window.reduxActions.toast.showToast({
+        toastType: ToastType.FailedToFetchUsername,
+      });
     }
 
     return undefined;
@@ -132,7 +138,7 @@ export async function lookupConversationWithoutServiceId(
   }
 }
 
-async function checkForUsername(
+export async function checkForUsername(
   username: string
 ): Promise<FoundUsernameType | undefined> {
   let hash: Buffer;

@@ -2,13 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer as ipc } from 'electron';
-import PQueue from 'p-queue';
-import { batch } from 'react-redux';
 
 import { has, get, groupBy, isTypedArray, last, map, omit } from 'lodash';
 
 import { deleteExternalFiles } from '../types/Conversation';
-import { expiringMessagesDeletionService } from '../services/expiringMessagesDeletion';
+import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion';
 import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService';
 import * as Bytes from '../Bytes';
 import { createBatcher } from '../util/batcher';
@@ -24,18 +22,12 @@ import * as Errors from '../types/errors';
 
 import type { StoredJob } from '../jobs/types';
 import { formatJobForInsert } from '../jobs/formatJobForInsert';
-import {
-  cleanupMessage,
-  cleanupMessageFromMemory,
-  deleteMessageData,
-} from '../util/cleanup';
-import { drop } from '../util/drop';
+import { cleanupMessages } from '../util/cleanup';
 import { ipcInvoke, doShutdown } from './channels';
 
 import type {
   AdjacentMessagesByConversationOptionsType,
   AllItemsType,
-  AttachmentDownloadJobType,
   ClientInterface,
   ClientExclusiveInterface,
   ClientSearchResultMessageType,
@@ -61,11 +53,12 @@ import type {
   KyberPreKeyType,
   StoredKyberPreKeyType,
 } from './Interface';
-import { MINUTE } from '../util/durations';
 import { getMessageIdForLogging } from '../util/idForLogging';
 import type { MessageAttributesType } from '../model-types';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import { generateSnippetAroundMention } from '../util/search';
+import type { AttachmentDownloadJobType } from '../types/AttachmentDownload';
+import type { SingleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 
 const ERASE_SQL_KEY = 'erase-sql-key';
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
@@ -104,6 +97,8 @@ const exclusiveInterface: ClientExclusiveInterface = {
   removeConversation,
 
   searchMessages,
+  removeMessage,
+  removeMessages,
 
   getRecentStoryReplies,
   getOlderMessagesByConversation,
@@ -115,7 +110,7 @@ const exclusiveInterface: ClientExclusiveInterface = {
   flushUpdateConversationBatcher,
 
   shutdown,
-  removeAllMessagesInConversation,
+  removeMessagesInConversation,
 
   removeOtherData,
   cleanupOrphanedAttachments,
@@ -125,8 +120,6 @@ const exclusiveInterface: ClientExclusiveInterface = {
 type ClientOverridesType = ClientExclusiveInterface &
   Pick<
     ServerInterface,
-    | 'removeMessage'
-    | 'removeMessages'
     | 'saveAttachmentDownloadJob'
     | 'saveMessage'
     | 'saveMessages'
@@ -142,8 +135,6 @@ const channels: ServerInterface = new Proxy({} as ServerInterface, {
 
 const clientExclusiveOverrides: ClientOverridesType = {
   ...exclusiveInterface,
-  removeMessage,
-  removeMessages,
   saveAttachmentDownloadJob,
   saveMessage,
   saveMessages,
@@ -562,7 +553,7 @@ async function saveMessage(
 
   softAssert(isValidUuid(id), 'saveMessage: messageId is not a UUID');
 
-  void expiringMessagesDeletionService.update();
+  void updateExpiringMessagesService();
   void tapToViewMessagesDeletionService.update();
 
   return id;
@@ -571,53 +562,72 @@ async function saveMessage(
 async function saveMessages(
   arrayOfMessages: ReadonlyArray<MessageType>,
   options: { forceSave?: boolean; ourAci: AciString }
-): Promise<void> {
-  await channels.saveMessages(
+): Promise<Array<string>> {
+  const result = await channels.saveMessages(
     arrayOfMessages.map(message => _cleanMessageData(message)),
     options
   );
 
-  void expiringMessagesDeletionService.update();
+  void updateExpiringMessagesService();
   void tapToViewMessagesDeletionService.update();
+
+  return result;
 }
 
-async function removeMessage(id: string): Promise<void> {
+async function removeMessage(
+  id: string,
+  options: {
+    singleProtoJobQueue: SingleProtoJobQueue;
+    fromSync?: boolean;
+  }
+): Promise<void> {
   const message = await channels.getMessageById(id);
 
   // Note: It's important to have a fully database-hydrated model to delete here because
   //   it needs to delete all associated on-disk files along with the database delete.
   if (message) {
     await channels.removeMessage(id);
-    await cleanupMessage(message);
+    await cleanupMessages([message], {
+      ...options,
+      markCallHistoryDeleted: dataInterface.markCallHistoryDeleted,
+    });
   }
 }
 
-async function _cleanupMessages(
-  messages: ReadonlyArray<MessageAttributesType>
+export async function deleteAndCleanup(
+  messages: Array<MessageAttributesType>,
+  logId: string,
+  options: {
+    fromSync?: boolean;
+    singleProtoJobQueue: SingleProtoJobQueue;
+  }
 ): Promise<void> {
-  // First, remove messages from memory, so we can batch the updates in redux
-  batch(() => {
-    messages.forEach(message => cleanupMessageFromMemory(message));
+  const ids = messages.map(message => message.id);
+
+  log.info(`deleteAndCleanup/${logId}: Deleting ${ids.length} messages...`);
+  await channels.removeMessages(ids);
+
+  log.info(`deleteAndCleanup/${logId}: Cleanup for ${ids.length} messages...`);
+  await cleanupMessages(messages, {
+    ...options,
+    markCallHistoryDeleted: dataInterface.markCallHistoryDeleted,
   });
 
-  // Then, handle any asynchronous actions (e.g. deleting data from disk)
-  const queue = new PQueue({ concurrency: 3, timeout: MINUTE * 30 });
-  drop(
-    queue.addAll(
-      messages.map(
-        (message: MessageAttributesType) => async () =>
-          deleteMessageData(message)
-      )
-    )
-  );
-  await queue.onIdle();
+  log.info(`deleteAndCleanup/${logId}: Complete`);
 }
 
 async function removeMessages(
-  messageIds: ReadonlyArray<string>
+  messageIds: ReadonlyArray<string>,
+  options: {
+    fromSync?: boolean;
+    singleProtoJobQueue: SingleProtoJobQueue;
+  }
 ): Promise<void> {
   const messages = await channels.getMessagesById(messageIds);
-  await _cleanupMessages(messages);
+  await cleanupMessages(messages, {
+    ...options,
+    markCallHistoryDeleted: dataInterface.markCallHistoryDeleted,
+  });
   await channels.removeMessages(messageIds);
 }
 
@@ -664,12 +674,18 @@ async function getConversationRangeCenteredOnMessage(
   };
 }
 
-async function removeAllMessagesInConversation(
+async function removeMessagesInConversation(
   conversationId: string,
   {
     logId,
+    receivedAt,
+    singleProtoJobQueue,
+    fromSync,
   }: {
+    fromSync?: boolean;
     logId: string;
+    receivedAt?: number;
+    singleProtoJobQueue: SingleProtoJobQueue;
   }
 ): Promise<void> {
   let messages;
@@ -685,6 +701,7 @@ async function removeAllMessagesInConversation(
       conversationId,
       limit: chunkSize,
       includeStoryReplies: true,
+      receivedAt,
       storyId: undefined,
     });
 
@@ -692,15 +709,8 @@ async function removeAllMessagesInConversation(
       return;
     }
 
-    const ids = messages.map(message => message.id);
-
-    log.info(`removeAllMessagesInConversation/${logId}: Cleanup...`);
     // eslint-disable-next-line no-await-in-loop
-    await _cleanupMessages(messages);
-
-    log.info(`removeAllMessagesInConversation/${logId}: Deleting...`);
-    // eslint-disable-next-line no-await-in-loop
-    await channels.removeMessages(ids);
+    await deleteAndCleanup(messages, logId, { fromSync, singleProtoJobQueue });
   } while (messages.length > 0);
 }
 

@@ -11,3 +11,11 @@ export enum CipherType {
   AES256CTR = 'aes-256-ctr',
   AES256GCM = 'aes-256-gcm',
 }
+
+export const UUID_BYTE_SIZE = 16;
+
+export const IV_LENGTH = 16;
+
+export const KEY_LENGTH = 32;
+
+export const MAC_LENGTH = 32;

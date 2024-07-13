@@ -12,20 +12,21 @@ import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 
-export type PropTypes = {
-  readonly children?: ReactNode;
-  readonly disabled?: boolean;
-  readonly label?: string;
-  readonly hasSearchIcon?: boolean;
-  readonly i18n: LocalizerType;
-  readonly moduleClassName?: string;
-  readonly onClear?: () => unknown;
-  readonly onBlur?: FocusEventHandler<HTMLInputElement>;
-  readonly onChange: (ev: ChangeEvent<HTMLInputElement>) => unknown;
-  readonly onKeyDown?: (ev: KeyboardEvent<HTMLInputElement>) => unknown;
-  readonly placeholder: string;
-  readonly value: string;
-};
+export type PropTypes = Readonly<{
+  children?: ReactNode;
+  disabled?: boolean;
+  label?: string;
+  hasSearchIcon?: boolean;
+  i18n: LocalizerType;
+  moduleClassName?: string;
+  onClear?: () => unknown;
+  onBlur?: FocusEventHandler<HTMLInputElement>;
+  onChange: (ev: ChangeEvent<HTMLInputElement>) => unknown;
+  onKeyDown?: (ev: KeyboardEvent<HTMLInputElement>) => unknown;
+  placeholder: string;
+  value: string;
+  description?: string;
+}>;
 
 const BASE_CLASS_NAME = 'module-SearchInput';
 
@@ -44,6 +45,7 @@ export const SearchInput = forwardRef<HTMLInputElement, PropTypes>(
       onKeyDown,
       placeholder,
       value,
+      description,
     },
     ref
   ) {
@@ -91,6 +93,9 @@ export const SearchInput = forwardRef<HTMLInputElement, PropTypes>(
             tabIndex={-1}
             type="button"
           />
+        )}
+        {description && (
+          <div className={getClassName('__description')}>{description}</div>
         )}
       </div>
     );

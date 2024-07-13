@@ -8,7 +8,10 @@ import {
   setEnvironment,
 } from '../environment';
 
-setEnvironment(parseEnvironment(config.environment));
+setEnvironment(
+  parseEnvironment(config.environment),
+  config.isMockTestEnvironment
+);
 
 const environment = getEnvironment();
 

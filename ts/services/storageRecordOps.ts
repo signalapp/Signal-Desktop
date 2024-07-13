@@ -24,7 +24,6 @@ import {
   PhoneNumberDiscoverability,
   parsePhoneNumberDiscoverability,
 } from '../util/phoneNumberDiscoverability';
-import { isPnpEnabled } from '../util/isPnpEnabled';
 import { arePinnedConversationsEqual } from '../util/arePinnedConversationsEqual';
 import type { ConversationModel } from '../models/conversations';
 import {
@@ -62,10 +61,10 @@ import type {
 } from '../sql/Interface';
 import dataInterface from '../sql/Client';
 import { MY_STORY_ID, StorySendMode } from '../types/Stories';
-import * as RemoteConfig from '../RemoteConfig';
 import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboardingStoryIfExists';
 import { downloadOnboardingStory } from '../util/downloadOnboardingStory';
 import { drop } from '../util/drop';
+import { redactExtendedStorageID } from '../util/privacy';
 
 const MY_STORY_BYTES = uuidToBytes(MY_STORY_ID);
 
@@ -174,9 +173,11 @@ export async function toContactRecord(
     contactRecord.username = username;
   }
   const pni = conversation.getPni();
-  if (pni && RemoteConfig.isEnabled('desktop.pnp')) {
+  if (pni) {
     contactRecord.pni = toUntaggedPni(pni);
   }
+  contactRecord.pniSignatureVerified =
+    conversation.get('pniSignatureVerified') ?? false;
   const profileKey = conversation.get('profileKey');
   if (profileKey) {
     contactRecord.profileKey = Bytes.fromBase64(String(profileKey));
@@ -200,6 +201,18 @@ export async function toContactRecord(
   const profileFamilyName = conversation.get('profileFamilyName');
   if (profileFamilyName) {
     contactRecord.familyName = profileFamilyName;
+  }
+  const nicknameGivenName = conversation.get('nicknameGivenName');
+  const nicknameFamilyName = conversation.get('nicknameFamilyName');
+  if (nicknameGivenName || nicknameFamilyName) {
+    contactRecord.nickname = {
+      given: nicknameGivenName,
+      family: nicknameFamilyName,
+    };
+  }
+  const note = conversation.get('note');
+  if (note) {
+    contactRecord.note = note;
   }
   const systemGivenName = conversation.get('systemGivenName');
   if (systemGivenName) {
@@ -278,11 +291,6 @@ export function toAccountRecord(
   const primarySendsSms = window.storage.get('primarySendsSms');
   if (primarySendsSms !== undefined) {
     accountRecord.primarySendsSms = Boolean(primarySendsSms);
-  }
-
-  const accountE164 = window.storage.get('accountE164');
-  if (accountE164 !== undefined) {
-    accountRecord.e164 = accountE164;
   }
 
   const rawPreferredReactionEmoji = window.storage.get(
@@ -380,12 +388,38 @@ export function toAccountRecord(
   accountRecord.pinnedConversations = pinnedConversations;
 
   const subscriberId = window.storage.get('subscriberId');
-  if (subscriberId instanceof Uint8Array) {
+  if (Bytes.isNotEmpty(subscriberId)) {
     accountRecord.subscriberId = subscriberId;
   }
-  const subscriberCurrencyCode = window.storage.get('subscriberCurrencyCode');
+  const subscriberCurrencyCode = window.storage.get(
+    'backupsSubscriberCurrencyCode'
+  );
   if (typeof subscriberCurrencyCode === 'string') {
     accountRecord.subscriberCurrencyCode = subscriberCurrencyCode;
+  }
+  const donorSubscriptionManuallyCancelled = window.storage.get(
+    'donorSubscriptionManuallyCancelled'
+  );
+  if (typeof donorSubscriptionManuallyCancelled === 'boolean') {
+    accountRecord.donorSubscriptionManuallyCancelled =
+      donorSubscriptionManuallyCancelled;
+  }
+  const backupsSubscriberId = window.storage.get('backupsSubscriberId');
+  if (Bytes.isNotEmpty(backupsSubscriberId)) {
+    accountRecord.backupsSubscriberId = backupsSubscriberId;
+  }
+  const backupsSubscriberCurrencyCode = window.storage.get(
+    'backupsSubscriberCurrencyCode'
+  );
+  if (typeof backupsSubscriberCurrencyCode === 'string') {
+    accountRecord.backupsSubscriberCurrencyCode = backupsSubscriberCurrencyCode;
+  }
+  const backupsSubscriptionManuallyCancelled = window.storage.get(
+    'backupsSubscriptionManuallyCancelled'
+  );
+  if (typeof backupsSubscriptionManuallyCancelled === 'boolean') {
+    accountRecord.backupsSubscriptionManuallyCancelled =
+      backupsSubscriptionManuallyCancelled;
   }
   const displayBadgesOnProfile = window.storage.get('displayBadgesOnProfile');
   if (displayBadgesOnProfile !== undefined) {
@@ -414,6 +448,14 @@ export function toAccountRecord(
   if (hasCompletedUsernameOnboarding !== undefined) {
     accountRecord.hasCompletedUsernameOnboarding =
       hasCompletedUsernameOnboarding;
+  }
+
+  const hasSeenGroupStoryEducationSheet = window.storage.get(
+    'hasSeenGroupStoryEducationSheet'
+  );
+  if (hasSeenGroupStoryEducationSheet !== undefined) {
+    accountRecord.hasSeenGroupStoryEducationSheet =
+      hasSeenGroupStoryEducationSheet;
   }
 
   const hasStoriesDisabled = window.storage.get('hasStoriesDisabled');
@@ -699,8 +741,12 @@ export async function mergeGroupV1Record(
   storageVersion: number,
   groupV1Record: Proto.IGroupV1Record
 ): Promise<MergeResultType> {
+  const redactedStorageID = redactExtendedStorageID({
+    storageID,
+    storageVersion,
+  });
   if (!groupV1Record.id) {
-    throw new Error(`No ID for ${storageID}`);
+    throw new Error(`No ID for ${redactedStorageID}`);
   }
 
   const groupId = Bytes.toBinary(groupV1Record.id);
@@ -866,8 +912,12 @@ export async function mergeGroupV2Record(
   storageVersion: number,
   groupV2Record: Proto.IGroupV2Record
 ): Promise<MergeResultType> {
+  const redactedStorageID = redactExtendedStorageID({
+    storageID,
+    storageVersion,
+  });
   if (!groupV2Record.masterKey) {
-    throw new Error(`No master key for ${storageID}`);
+    throw new Error(`No master key for ${redactedStorageID}`);
   }
 
   const masterKeyBuffer = groupV2Record.masterKey;
@@ -986,11 +1036,10 @@ export async function mergeContactRecord(
         : undefined,
   };
 
-  const isPniSupported = RemoteConfig.isEnabled('desktop.pnp');
-
   const e164 = dropNull(contactRecord.serviceE164);
   const { aci } = contactRecord;
-  const pni = isPniSupported ? dropNull(contactRecord.pni) : undefined;
+  const pni = dropNull(contactRecord.pni);
+  const pniSignatureVerified = contactRecord.pniSignatureVerified || false;
   const serviceId = aci || pni;
 
   // All contacts must have UUID
@@ -1013,14 +1062,22 @@ export async function mergeContactRecord(
     aci,
     e164,
     pni,
+    fromPniSignature: pniSignatureVerified,
     reason: 'mergeContactRecord',
   });
 
   // We're going to ignore this; it's likely a PNI-only contact we've already merged
   if (conversation.getServiceId() !== serviceId) {
+    const previousStorageID = conversation.get('storageID');
+    const redactedpreviousStorageID = previousStorageID
+      ? redactExtendedStorageID({
+          storageID: previousStorageID,
+          storageVersion: conversation.get('storageVersion'),
+        })
+      : '<none>';
     log.warn(
       `mergeContactRecord: ${conversation.idForLogging()} ` +
-        `with storageId ${conversation.get('storageID')} ` +
+        `with storageId ${redactedpreviousStorageID} ` +
         `had serviceId that didn't match provided serviceId ${serviceId}`
     );
     return {
@@ -1053,7 +1110,11 @@ export async function mergeContactRecord(
   ) {
     // Local name doesn't match remote name, fetch profile
     if (localName) {
-      void conversation.getProfiles();
+      drop(
+        conversation.getProfiles().catch(() => {
+          /* nothing to do here; logging already happened */
+        })
+      );
       details.push('refreshing profile');
     } else {
       conversation.set({
@@ -1067,6 +1128,9 @@ export async function mergeContactRecord(
     systemGivenName: dropNull(contactRecord.systemGivenName),
     systemFamilyName: dropNull(contactRecord.systemFamilyName),
     systemNickname: dropNull(contactRecord.systemNickname),
+    nicknameGivenName: dropNull(contactRecord.nickname?.given),
+    nicknameFamilyName: dropNull(contactRecord.nickname?.family),
+    note: dropNull(contactRecord.note),
   });
 
   // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/database/RecipientDatabase.kt#L921-L936
@@ -1190,13 +1254,17 @@ export async function mergeAccountRecord(
     preferContactAvatars,
     primarySendsSms,
     universalExpireTimer,
-    e164: accountE164,
     preferredReactionEmoji: rawPreferredReactionEmoji,
     subscriberId,
     subscriberCurrencyCode,
+    donorSubscriptionManuallyCancelled,
+    backupsSubscriberId,
+    backupsSubscriberCurrencyCode,
+    backupsSubscriptionManuallyCancelled,
     displayBadgesOnProfile,
     keepMutedChatsArchived,
     hasCompletedUsernameOnboarding,
+    hasSeenGroupStoryEducationSheet,
     hasSetMyStoriesPrivacy,
     hasViewedOnboardingStory,
     storiesDisabled,
@@ -1234,17 +1302,6 @@ export async function mergeAccountRecord(
     await window.storage.put('primarySendsSms', primarySendsSms);
   }
 
-  if (typeof accountE164 === 'string') {
-    await window.storage.put('accountE164', accountE164);
-    if (
-      !RemoteConfig.isEnabled('desktop.pnp') &&
-      !RemoteConfig.isEnabled('desktop.pnp.accountE164Deprecation') &&
-      !isPnpEnabled()
-    ) {
-      await window.storage.user.setNumber(accountE164);
-    }
-  }
-
   if (preferredReactionEmoji.canBeSynced(rawPreferredReactionEmoji)) {
     const localPreferredReactionEmoji =
       window.storage.get('preferredReactionEmoji') || [];
@@ -1274,7 +1331,7 @@ export async function mergeAccountRecord(
     case PHONE_NUMBER_SHARING_MODE_ENUM.EVERYBODY:
       phoneNumberSharingModeToStore = PhoneNumberSharingMode.Everybody;
       break;
-    case PHONE_NUMBER_SHARING_MODE_ENUM.CONTACTS_ONLY:
+    case PHONE_NUMBER_SHARING_MODE_ENUM.UNKNOWN:
     case PHONE_NUMBER_SHARING_MODE_ENUM.NOBODY:
       phoneNumberSharingModeToStore = PhoneNumberSharingMode.Nobody;
       break;
@@ -1410,11 +1467,32 @@ export async function mergeAccountRecord(
     );
   }
 
-  if (subscriberId instanceof Uint8Array) {
+  if (Bytes.isNotEmpty(subscriberId)) {
     await window.storage.put('subscriberId', subscriberId);
   }
   if (typeof subscriberCurrencyCode === 'string') {
     await window.storage.put('subscriberCurrencyCode', subscriberCurrencyCode);
+  }
+  if (donorSubscriptionManuallyCancelled != null) {
+    await window.storage.put(
+      'donorSubscriptionManuallyCancelled',
+      donorSubscriptionManuallyCancelled
+    );
+  }
+  if (Bytes.isNotEmpty(backupsSubscriberId)) {
+    await window.storage.put('backupsSubscriberId', backupsSubscriberId);
+  }
+  if (typeof backupsSubscriberCurrencyCode === 'string') {
+    await window.storage.put(
+      'backupsSubscriberCurrencyCode',
+      backupsSubscriberCurrencyCode
+    );
+  }
+  if (backupsSubscriptionManuallyCancelled != null) {
+    await window.storage.put(
+      'backupsSubscriptionManuallyCancelled',
+      backupsSubscriptionManuallyCancelled
+    );
   }
   await window.storage.put(
     'displayBadgesOnProfile',
@@ -1450,6 +1528,15 @@ export async function mergeAccountRecord(
     );
   }
   {
+    const hasCompletedUsernameOnboardingBool = Boolean(
+      hasSeenGroupStoryEducationSheet
+    );
+    await window.storage.put(
+      'hasSeenGroupStoryEducationSheet',
+      hasCompletedUsernameOnboardingBool
+    );
+  }
+  {
     const hasStoriesDisabled = Boolean(storiesDisabled);
     await window.storage.put('hasStoriesDisabled', hasStoriesDisabled);
     window.textsecure.server?.onHasStoriesDisabledChange(hasStoriesDisabled);
@@ -1469,6 +1556,17 @@ export async function mergeAccountRecord(
   }
 
   if (usernameLink?.entropy?.length && usernameLink?.serverId?.length) {
+    const oldLink = window.storage.get('usernameLink');
+    if (
+      window.storage.get('usernameLinkCorrupted') &&
+      (!oldLink ||
+        !Bytes.areEqual(usernameLink.entropy, oldLink.entropy) ||
+        !Bytes.areEqual(usernameLink.serverId, oldLink.serverId))
+    ) {
+      details.push('clearing username link corruption');
+      await window.storage.remove('usernameLinkCorrupted');
+    }
+
     await Promise.all([
       usernameLink.color &&
         window.storage.put('usernameLinkColor', usernameLink.color),
@@ -1499,6 +1597,14 @@ export async function mergeAccountRecord(
 
   const oldStorageID = conversation.get('storageID');
   const oldStorageVersion = conversation.get('storageVersion');
+
+  if (
+    window.storage.get('usernameCorrupted') &&
+    username !== conversation.get('username')
+  ) {
+    details.push('clearing username corruption');
+    await window.storage.remove('usernameCorrupted');
+  }
 
   conversation.set({
     isArchived: Boolean(noteToSelfArchived),
@@ -1546,8 +1652,14 @@ export async function mergeStoryDistributionListRecord(
   storageVersion: number,
   storyDistributionListRecord: Proto.IStoryDistributionListRecord
 ): Promise<MergeResultType> {
+  const redactedStorageID = redactExtendedStorageID({
+    storageID,
+    storageVersion,
+  });
   if (!storyDistributionListRecord.identifier) {
-    throw new Error(`No storyDistributionList identifier for ${storageID}`);
+    throw new Error(
+      `No storyDistributionList identifier for ${redactedStorageID}`
+    );
   }
 
   const details: Array<string> = [];
@@ -1681,8 +1793,12 @@ export async function mergeStickerPackRecord(
   storageVersion: number,
   stickerPackRecord: Proto.IStickerPackRecord
 ): Promise<MergeResultType> {
+  const redactedStorageID = redactExtendedStorageID({
+    storageID,
+    storageVersion,
+  });
   if (!stickerPackRecord.packId || Bytes.isEmpty(stickerPackRecord.packId)) {
-    throw new Error(`No stickerPackRecord identifier for ${storageID}`);
+    throw new Error(`No stickerPackRecord identifier for ${redactedStorageID}`);
   }
 
   const details: Array<string> = [];
@@ -1712,7 +1828,7 @@ export async function mergeStickerPackRecord(
       !stickerPackRecord.packKey ||
       Bytes.isEmpty(stickerPackRecord.packKey)
     ) {
-      throw new Error(`No stickerPackRecord key for ${storageID}`);
+      throw new Error(`No stickerPackRecord key for ${redactedStorageID}`);
     }
 
     stickerPack = {

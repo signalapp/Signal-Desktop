@@ -2,65 +2,46 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import { action } from '@storybook/addon-actions';
-import { boolean, text } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import type { Props } from './PanelSection';
 import { PanelSection } from './PanelSection';
 import { PanelRow } from './PanelRow';
 
 export default {
   title: 'Components/Conversation/ConversationDetails/PanelSection',
-};
+  argTypes: {},
+  args: {
+    title: 'this is a panel row',
+    centerTitle: false,
+    actions: null,
+  },
+} satisfies Meta<Props>;
 
-const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  title: text('label', overrideProps.title || ''),
-  centerTitle: boolean('centerTitle', overrideProps.centerTitle || false),
-  actions: boolean('with action', overrideProps.actions !== undefined) ? (
-    <button onClick={action('actions onClick')} type="button">
-      action
-    </button>
-  ) : null,
-});
-
-export function Basic(): JSX.Element {
-  const props = createProps({
-    title: 'panel section header',
-  });
-
-  return <PanelSection {...props} />;
+export function Basic(args: Props): JSX.Element {
+  return <PanelSection {...args} />;
 }
 
-export function Centered(): JSX.Element {
-  const props = createProps({
-    title: 'this is a panel row',
-    centerTitle: true,
-  });
-
-  return <PanelSection {...props} />;
+export function Centered(args: Props): JSX.Element {
+  return <PanelSection {...args} centerTitle />;
 }
 
-export function WithActions(): JSX.Element {
-  const props = createProps({
-    title: 'this is a panel row',
-    actions: (
-      <button onClick={action('actions onClick')} type="button">
-        action
-      </button>
-    ),
-  });
-
-  return <PanelSection {...props} />;
-}
-
-export function WithContent(): JSX.Element {
-  const props = createProps({
-    title: 'this is a panel row',
-  });
-
+export function WithActions(args: Props): JSX.Element {
   return (
-    <PanelSection {...props}>
+    <PanelSection
+      {...args}
+      actions={
+        <button onClick={action('actions onClick')} type="button">
+          action
+        </button>
+      }
+    />
+  );
+}
+
+export function WithContent(args: Props): JSX.Element {
+  return (
+    <PanelSection {...args}>
       <PanelRow label="this is panel row one" />
       <PanelRow label="this is panel row two" />
       <PanelRow label="this is panel row three" />

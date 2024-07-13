@@ -1,57 +1,107 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { connect } from 'react-redux';
-import { mapDispatchToProps } from '../actions';
-import type { PropsDataType } from '../../components/conversation/ContactModal';
+import React, { memo, useCallback, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { ContactModal } from '../../components/conversation/ContactModal';
-import type { StateType } from '../reducer';
-
 import { getAreWeASubscriber } from '../selectors/items';
 import { getIntl, getTheme } from '../selectors/user';
 import { getBadgesSelector } from '../selectors/badges';
 import { getConversationSelector } from '../selectors/conversations';
 import { getHasStoriesSelector } from '../selectors/stories2';
+import {
+  getActiveCallState,
+  isInFullScreenCall as getIsInFullScreenCall,
+} from '../selectors/calling';
+import { useStoriesActions } from '../ducks/stories';
+import { useConversationsActions } from '../ducks/conversations';
+import { useGlobalModalActions } from '../ducks/globalModals';
+import { useCallingActions } from '../ducks/calling';
+import { getContactModalState } from '../selectors/globalModals';
+import { strictAssert } from '../../util/assert';
 
-const mapStateToProps = (state: StateType): PropsDataType => {
-  const { contactId, conversationId } =
-    state.globalModals.contactModalState || {};
+export const SmartContactModal = memo(function SmartContactModal() {
+  const i18n = useSelector(getIntl);
+  const theme = useSelector(getTheme);
+  const { conversationId, contactId } = useSelector(getContactModalState) ?? {};
+  const conversationSelector = useSelector(getConversationSelector);
+  const hasStoriesSelector = useSelector(getHasStoriesSelector);
+  const activeCallState = useSelector(getActiveCallState);
+  const isInFullScreenCall = useSelector(getIsInFullScreenCall);
+  const badgesSelector = useSelector(getBadgesSelector);
+  const areWeASubscriber = useSelector(getAreWeASubscriber);
 
-  const currentConversation = getConversationSelector(state)(conversationId);
-  const contact = getConversationSelector(state)(contactId);
+  const conversation = conversationSelector(conversationId);
+  const contact = conversationSelector(contactId);
+  const hasStories = hasStoriesSelector(contactId);
+  const hasActiveCall = activeCallState != null;
+  const badges = badgesSelector(contact.badges);
 
-  const areWeAdmin =
-    currentConversation && currentConversation.areWeAdmin
-      ? currentConversation.areWeAdmin
-      : false;
+  const areWeAdmin = conversation?.areWeAdmin ?? false;
 
-  let isMember = false;
-  let isAdmin = false;
-  if (contact && currentConversation && currentConversation.memberships) {
-    currentConversation.memberships.forEach(membership => {
-      if (membership.aci === contact.serviceId) {
-        isMember = true;
-        isAdmin = membership.isAdmin;
-      }
+  const ourMembership = useMemo(() => {
+    return conversation?.memberships?.find(membership => {
+      return membership.aci === contact.serviceId;
     });
-  }
+  }, [conversation?.memberships, contact]);
 
-  const hasStories = getHasStoriesSelector(state)(conversationId);
+  const isMember = ourMembership != null;
+  const isAdmin = ourMembership?.isAdmin ?? false;
 
-  return {
-    areWeASubscriber: getAreWeASubscriber(state),
-    areWeAdmin,
-    badges: getBadgesSelector(state)(contact.badges),
-    contact,
-    conversation: currentConversation,
-    hasStories,
-    i18n: getIntl(state),
-    isAdmin,
-    isMember,
-    theme: getTheme(state),
-  };
-};
+  const {
+    removeMemberFromGroup,
+    showConversation,
+    updateConversationModelSharedGroups,
+    toggleAdmin,
+    blockConversation,
+  } = useConversationsActions();
+  const { viewUserStories } = useStoriesActions();
+  const {
+    toggleAboutContactModal,
+    toggleAddUserToAnotherGroupModal,
+    toggleSafetyNumberModal,
+    hideContactModal,
+    toggleEditNicknameAndNoteModal,
+  } = useGlobalModalActions();
+  const {
+    onOutgoingVideoCallInConversation,
+    onOutgoingAudioCallInConversation,
+    togglePip,
+  } = useCallingActions();
 
-const smart = connect(mapStateToProps, mapDispatchToProps);
+  const handleOpenEditNicknameAndNoteModal = useCallback(() => {
+    strictAssert(contactId != null, 'Expected conversationId to be set');
+    toggleEditNicknameAndNoteModal({ conversationId: contactId });
+  }, [toggleEditNicknameAndNoteModal, contactId]);
 
-export const SmartContactModal = smart(ContactModal);
+  return (
+    <ContactModal
+      areWeAdmin={areWeAdmin}
+      areWeASubscriber={areWeASubscriber}
+      badges={badges}
+      blockConversation={blockConversation}
+      contact={contact}
+      conversation={conversation}
+      hasActiveCall={hasActiveCall}
+      hasStories={hasStories}
+      hideContactModal={hideContactModal}
+      i18n={i18n}
+      isAdmin={isAdmin}
+      isInFullScreenCall={isInFullScreenCall}
+      isMember={isMember}
+      onOpenEditNicknameAndNoteModal={handleOpenEditNicknameAndNoteModal}
+      onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
+      onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
+      removeMemberFromGroup={removeMemberFromGroup}
+      showConversation={showConversation}
+      theme={theme}
+      toggleAboutContactModal={toggleAboutContactModal}
+      toggleAddUserToAnotherGroupModal={toggleAddUserToAnotherGroupModal}
+      toggleAdmin={toggleAdmin}
+      togglePip={togglePip}
+      toggleSafetyNumberModal={toggleSafetyNumberModal}
+      updateConversationModelSharedGroups={updateConversationModelSharedGroups}
+      viewUserStories={viewUserStories}
+    />
+  );
+});

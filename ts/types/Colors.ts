@@ -90,6 +90,8 @@ export const AvatarColorMap = new Map([
 
 export const AvatarColors = Array.from(AvatarColorMap.keys());
 
+export const AVATAR_COLOR_COUNT = AvatarColors.length;
+
 export const ConversationColors = [
   'ultramarine',
   'crimson',

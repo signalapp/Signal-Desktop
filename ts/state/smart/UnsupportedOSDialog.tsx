@@ -1,9 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-
 import { UnsupportedOSDialog } from '../../components/UnsupportedOSDialog';
 import { getIntl } from '../selectors/user';
 import { getExpirationTimestamp } from '../selectors/expiration';
@@ -15,7 +14,9 @@ export type PropsType = Readonly<{
   containerWidthBreakpoint: WidthBreakpoint;
 }>;
 
-export function SmartUnsupportedOSDialog(ownProps: PropsType): JSX.Element {
+export const SmartUnsupportedOSDialog = memo(function SmartUnsupportedOSDialog(
+  ownProps: PropsType
+): JSX.Element {
   const i18n = useSelector(getIntl);
   const expirationTimestamp = useSelector(getExpirationTimestamp);
   const osName = OS.getName();
@@ -28,4 +29,4 @@ export function SmartUnsupportedOSDialog(ownProps: PropsType): JSX.Element {
       OS={osName}
     />
   );
-}
+});

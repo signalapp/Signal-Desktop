@@ -1,12 +1,15 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { join } from 'path';
 import type { Dictionary } from 'lodash';
 import { compact, filter, map, orderBy, reject, sortBy, values } from 'lodash';
 import { createSelector } from 'reselect';
 
 import type { RecentStickerType } from '../../types/Stickers';
+import {
+  getLocalAttachmentUrl,
+  AttachmentDisposition,
+} from '../../util/getLocalAttachmentUrl';
 import type {
   StickerType as StickerDBType,
   StickerPackType as StickerPackDBType,
@@ -17,14 +20,11 @@ import type {
   StickerPackType,
   StickerType,
 } from '../ducks/stickers';
-import { getStickersPath, getTempPath } from './user';
 
 const getSticker = (
   packs: Dictionary<StickerPackDBType>,
   packId: string,
-  stickerId: number,
-  stickerPath: string,
-  tempPath: string
+  stickerId: number
 ): StickerType | undefined => {
   const pack = packs[packId];
   if (!pack) {
@@ -38,32 +38,31 @@ const getSticker = (
 
   const isEphemeral = pack.status === 'ephemeral';
 
-  return translateStickerFromDB(sticker, stickerPath, tempPath, isEphemeral);
+  return translateStickerFromDB(sticker, isEphemeral);
 };
 
 const translateStickerFromDB = (
   sticker: StickerDBType,
-  stickerPath: string,
-  tempPath: string,
   isEphemeral: boolean
 ): StickerType => {
-  const { id, packId, emoji, path } = sticker;
-  const prefix = isEphemeral ? tempPath : stickerPath;
+  const { id, packId, emoji } = sticker;
 
   return {
     id,
     packId,
     emoji,
-    url: join(prefix, path),
+    url: getLocalAttachmentUrl(sticker, {
+      disposition: isEphemeral
+        ? AttachmentDisposition.Temporary
+        : AttachmentDisposition.Sticker,
+    }),
   };
 };
 
 export const translatePackFromDB = (
   pack: StickerPackDBType,
   packs: Dictionary<StickerPackDBType>,
-  blessedPacks: Dictionary<boolean>,
-  stickersPath: string,
-  tempPath: string
+  blessedPacks: Dictionary<boolean>
 ): StickerPackType => {
   const { id, stickers, status, coverStickerId } = pack;
   const isEphemeral = status === 'ephemeral';
@@ -75,13 +74,13 @@ export const translatePackFromDB = (
     sticker => sticker.isCoverOnly
   );
   const translatedStickers = map(filteredStickers, sticker =>
-    translateStickerFromDB(sticker, stickersPath, tempPath, isEphemeral)
+    translateStickerFromDB(sticker, isEphemeral)
   );
 
   return {
     ...pack,
     isBlessed: Boolean(blessedPacks[id]),
-    cover: getSticker(packs, id, coverStickerId, stickersPath, tempPath),
+    cover: getSticker(packs, id, coverStickerId),
     stickers: sortBy(translatedStickers, sticker => sticker.id),
   };
 };
@@ -90,16 +89,12 @@ const filterAndTransformPacks = (
   packs: Dictionary<StickerPackDBType>,
   packFilter: (sticker: StickerPackDBType) => boolean,
   packSort: (sticker: StickerPackDBType) => number | undefined,
-  blessedPacks: Dictionary<boolean>,
-  stickersPath: string,
-  tempPath: string
+  blessedPacks: Dictionary<boolean>
 ): Array<StickerPackType> => {
   const list = filter(packs, packFilter);
   const sorted = orderBy<StickerPackDBType>(list, packSort, ['desc']);
 
-  return sorted.map(pack =>
-    translatePackFromDB(pack, packs, blessedPacks, stickersPath, tempPath)
-  );
+  return sorted.map(pack => translatePackFromDB(pack, packs, blessedPacks));
 };
 
 const getStickers = (state: StateType) => state.stickers;
@@ -122,17 +117,13 @@ export const getBlessedPacks = createSelector(
 export const getRecentStickers = createSelector(
   getRecents,
   getPacks,
-  getStickersPath,
-  getTempPath,
   (
     recents: ReadonlyArray<RecentStickerType>,
-    packs: Dictionary<StickerPackDBType>,
-    stickersPath: string,
-    tempPath: string
+    packs: Dictionary<StickerPackDBType>
   ) => {
     return compact(
       recents.map(({ packId, stickerId }) => {
-        return getSticker(packs, packId, stickerId, stickersPath, tempPath);
+        return getSticker(packs, packId, stickerId);
       })
     );
   }
@@ -141,21 +132,15 @@ export const getRecentStickers = createSelector(
 export const getInstalledStickerPacks = createSelector(
   getPacks,
   getBlessedPacks,
-  getStickersPath,
-  getTempPath,
   (
     packs: Dictionary<StickerPackDBType>,
-    blessedPacks: Dictionary<boolean>,
-    stickersPath: string,
-    tempPath: string
+    blessedPacks: Dictionary<boolean>
   ): Array<StickerPackType> => {
     return filterAndTransformPacks(
       packs,
       pack => pack.status === 'installed',
       pack => pack.installedAt,
-      blessedPacks,
-      stickersPath,
-      tempPath
+      blessedPacks
     );
   }
 );
@@ -175,13 +160,9 @@ export const getRecentlyInstalledStickerPack = createSelector(
 export const getReceivedStickerPacks = createSelector(
   getPacks,
   getBlessedPacks,
-  getStickersPath,
-  getTempPath,
   (
     packs: Dictionary<StickerPackDBType>,
-    blessedPacks: Dictionary<boolean>,
-    stickersPath: string,
-    tempPath: string
+    blessedPacks: Dictionary<boolean>
   ): Array<StickerPackType> => {
     return filterAndTransformPacks(
       packs,
@@ -189,9 +170,7 @@ export const getReceivedStickerPacks = createSelector(
         (pack.status === 'downloaded' || pack.status === 'pending') &&
         !blessedPacks[pack.id],
       pack => pack.createdAt,
-      blessedPacks,
-      stickersPath,
-      tempPath
+      blessedPacks
     );
   }
 );
@@ -199,21 +178,15 @@ export const getReceivedStickerPacks = createSelector(
 export const getBlessedStickerPacks = createSelector(
   getPacks,
   getBlessedPacks,
-  getStickersPath,
-  getTempPath,
   (
     packs: Dictionary<StickerPackDBType>,
-    blessedPacks: Dictionary<boolean>,
-    stickersPath: string,
-    tempPath: string
+    blessedPacks: Dictionary<boolean>
   ): Array<StickerPackType> => {
     return filterAndTransformPacks(
       packs,
       pack => blessedPacks[pack.id] && pack.status !== 'installed',
       pack => pack.createdAt,
-      blessedPacks,
-      stickersPath,
-      tempPath
+      blessedPacks
     );
   }
 );
@@ -221,21 +194,15 @@ export const getBlessedStickerPacks = createSelector(
 export const getKnownStickerPacks = createSelector(
   getPacks,
   getBlessedPacks,
-  getStickersPath,
-  getTempPath,
   (
     packs: Dictionary<StickerPackDBType>,
-    blessedPacks: Dictionary<boolean>,
-    stickersPath: string,
-    tempPath: string
+    blessedPacks: Dictionary<boolean>
   ): Array<StickerPackType> => {
     return filterAndTransformPacks(
       packs,
       pack => !blessedPacks[pack.id] && pack.status === 'known',
       pack => pack.createdAt,
-      blessedPacks,
-      stickersPath,
-      tempPath
+      blessedPacks
     );
   }
 );

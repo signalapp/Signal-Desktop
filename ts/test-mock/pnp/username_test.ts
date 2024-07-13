@@ -9,11 +9,11 @@ import createDebug from 'debug';
 
 import * as durations from '../../util/durations';
 import { uuidToBytes } from '../../util/uuidToBytes';
-import { generateUsernameLink } from '../../util/sgnlHref';
 import { MY_STORY_ID } from '../../types/Stories';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
-import { bufferToUuid } from '../helpers';
+import { bufferToUuid, typeIntoInput } from '../helpers';
+import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes';
 
 export const debug = createDebug('mock:test:username');
 
@@ -23,9 +23,8 @@ const USERNAME = 'signalapp.55';
 const NICKNAME = 'signalapp';
 const CARL_USERNAME = 'carl.84';
 
-describe('pnp/username', function needsName() {
+describe('pnp/username', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;
@@ -75,7 +74,7 @@ describe('pnp/username', function needsName() {
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();
@@ -94,7 +93,15 @@ describe('pnp/username', function needsName() {
         .locator(
           `[data-testid="${usernameContact.device.aci}"] >> "${USERNAME}"`
         )
-        .waitFor();
+        .click();
+
+      debug('Send message to username');
+      {
+        const compositionInput = await app.waitForEnabledComposer();
+
+        await typeIntoInput(compositionInput, 'Hello username');
+        await compositionInput.press('Enter');
+      }
 
       let state = await phone.expectStorageState('consistency check');
 
@@ -142,6 +149,31 @@ describe('pnp/username', function needsName() {
         assert.strictEqual(removed[0].contact?.aci, usernameContact.device.aci);
         assert.strictEqual(removed[0].contact?.username, USERNAME);
       }
+
+      if (type === 'system') {
+        // No notifications
+        const notifications = window.locator('.SystemMessage');
+        assert.strictEqual(
+          await notifications.count(),
+          0,
+          'notification count'
+        );
+      } else {
+        // One notification - the username transition
+        const notifications = window.locator('.SystemMessage');
+        await notifications.waitFor();
+        assert.strictEqual(
+          await notifications.count(),
+          1,
+          'notification count'
+        );
+
+        const first = await notifications.first();
+        assert.strictEqual(
+          await first.innerText(),
+          `You started this chat with ${USERNAME}`
+        );
+      }
     });
   }
 
@@ -157,23 +189,20 @@ describe('pnp/username', function needsName() {
     const profileEditor = window.locator('.ProfileEditor');
     await profileEditor.locator('.ProfileEditor__row >> "Username"').click();
 
-    debug('skipping onboarding');
-    await profileEditor.locator('.module-Button >> "Continue"').click();
-
     debug('entering new username');
     const usernameField = profileEditor.locator('.Input__input');
-    await usernameField.type(NICKNAME);
+    await typeIntoInput(usernameField, NICKNAME);
 
     debug('waiting for generated discriminator');
     const discriminator = profileEditor.locator(
-      '.EditUsernameModalBody__discriminator:not(:empty)'
+      '.EditUsernameModalBody__discriminator__input[value]'
     );
     await discriminator.waitFor();
 
-    const discriminatorValue = await discriminator.innerText();
-    assert.match(discriminatorValue, /^\.\d+$/);
+    const discriminatorValue = await discriminator.inputValue();
+    assert.match(discriminatorValue, /^\d+$/);
 
-    const username = `${NICKNAME}${discriminatorValue}`;
+    const username = `${NICKNAME}.${discriminatorValue}`;
 
     debug('saving username');
     let state = await phone.expectStorageState('consistency check');
@@ -279,16 +308,18 @@ describe('pnp/username', function needsName() {
     await window.getByRole('button', { name: 'New chat' }).click();
 
     const searchInput = window.locator('.module-SearchInput__container input');
-    await searchInput.type(CARL_USERNAME);
+    await typeIntoInput(searchInput, CARL_USERNAME);
 
     debug('starting lookup');
-    await window.locator(`div.ListTile >> "${CARL_USERNAME}"`).click();
+    await window
+      .locator(`div.ListTile >> "${CARL_USERNAME}"`)
+      .click({ timeout: 2000 });
 
     debug('sending a message');
     {
       const compositionInput = await app.waitForEnabledComposer();
 
-      await compositionInput.type('Hello Carl');
+      await typeIntoInput(compositionInput, 'Hello Carl');
       await compositionInput.press('Enter');
 
       const { body, source } = await carl.waitForMessage();
@@ -311,9 +342,14 @@ describe('pnp/username', function needsName() {
       CARL_USERNAME
     );
 
-    const linkUrl = generateUsernameLink(
-      Buffer.concat([entropy, uuidToBytes(serverId)]).toString('base64')
-    );
+    const linkUrl = contactByEncryptedUsernameRoute
+      .toWebUrl({
+        encryptedUsername: Buffer.concat([
+          entropy,
+          uuidToBytes(serverId),
+        ]).toString('base64url'),
+      })
+      .toString();
 
     debug('sending link to Note to Self');
     await phone.sendText(desktop, linkUrl, {
@@ -340,7 +376,7 @@ describe('pnp/username', function needsName() {
     {
       const compositionInput = await app.waitForEnabledComposer();
 
-      await compositionInput.type('Hello Carl');
+      await typeIntoInput(compositionInput, 'Hello Carl');
       await compositionInput.press('Enter');
 
       const { body, source } = await carl.waitForMessage();

@@ -27,7 +27,9 @@ type PropsType = {
   i18n: LocalizerType;
   id: string;
   isEditedMessage?: boolean;
+  isSMS?: boolean;
   isInline?: boolean;
+  isOutlineOnlyBubble?: boolean;
   isShowingImage: boolean;
   isSticker?: boolean;
   isTapToViewExpired?: boolean;
@@ -55,6 +57,8 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       i18n,
       id,
       isEditedMessage,
+      isSMS,
+      isOutlineOnlyBubble,
       isInline,
       isShowingImage,
       isSticker,
@@ -136,8 +140,8 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
             className={classNames({
               'module-message__metadata__date': true,
               'module-message__metadata__date--with-sticker': isSticker,
-              'module-message__metadata__date--deleted-for-everyone':
-                deletedForEveryone,
+              'module-message__metadata__date--outline-only-bubble':
+                isOutlineOnlyBubble,
               [`module-message__metadata__date--${direction}`]: !isSticker,
               'module-message__metadata__date--with-image-no-caption':
                 withImageNoCaption,
@@ -149,9 +153,9 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       } else {
         timestampNode = (
           <MessageTimestamp
-            deletedForEveryone={deletedForEveryone}
             direction={metadataDirection}
             i18n={i18n}
+            isOutlineOnlyBubble={isOutlineOnlyBubble}
             module="module-message__metadata__date"
             timestamp={timestamp}
             withImageNoCaption={withImageNoCaption}
@@ -195,7 +199,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       'module-message__metadata',
       isInline && 'module-message__metadata--inline',
       withImageNoCaption && 'module-message__metadata--with-image-no-caption',
-      deletedForEveryone && 'module-message__metadata--deleted-for-everyone'
+      isOutlineOnlyBubble && 'module-message__metadata--outline-only-bubble'
     );
     const children = (
       <>
@@ -209,10 +213,15 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
           </button>
         )}
         {timestampNode}
+        {isSMS ? (
+          <div
+            className={`module-message__metadata__sms module-message__metadata__sms--${direction}`}
+          />
+        ) : null}
         {expirationLength ? (
           <ExpireTimer
             direction={metadataDirection}
-            deletedForEveryone={deletedForEveryone}
+            isOutlineOnlyBubble={isOutlineOnlyBubble}
             expirationLength={expirationLength}
             expirationTimestamp={expirationTimestamp}
             withImageNoCaption={withImageNoCaption}
@@ -240,8 +249,8 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
               withImageNoCaption
                 ? 'module-message__metadata__status-icon--with-image-no-caption'
                 : null,
-              deletedForEveryone
-                ? 'module-message__metadata__status-icon--deleted-for-everyone'
+              isOutlineOnlyBubble
+                ? 'module-message__metadata__status-icon--outline-only-bubble'
                 : null,
               isTapToViewExpired
                 ? 'module-message__metadata__status-icon--with-tap-to-view-expired'

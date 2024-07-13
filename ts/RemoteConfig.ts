@@ -10,55 +10,42 @@ import { parseIntOrThrow } from './util/parseIntOrThrow';
 import { SECOND, HOUR } from './util/durations';
 import * as Bytes from './Bytes';
 import { uuidToBytes } from './util/uuidToBytes';
+import { dropNull } from './util/dropNull';
 import { HashType } from './types/Crypto';
 import { getCountryCode } from './types/PhoneNumber';
 
 export type ConfigKeyType =
-  | 'cds.disableCompatibilityMode'
-  | 'desktop.announcementGroup'
-  | 'desktop.calling.audioLevelForSpeaking'
-  | 'desktop.cdsi.returnAcisWithoutUaks'
+  | 'desktop.calling.adhoc'
+  | 'desktop.calling.adhoc.create'
+  | 'desktop.calling.raiseHand'
   | 'desktop.clientExpiration'
-  | 'desktop.editMessageSend'
-  | 'desktop.contactManagement.beta'
-  | 'desktop.contactManagement'
-  | 'desktop.groupCallOutboundRing2.beta'
-  | 'desktop.groupCallOutboundRing2'
-  | 'desktop.groupMultiTypingIndicators'
+  | 'desktop.backup.credentialFetch'
+  | 'desktop.deleteSync.send'
+  | 'desktop.deleteSync.receive'
   | 'desktop.internalUser'
-  | 'desktop.mandatoryProfileSharing'
   | 'desktop.mediaQuality.levels'
   | 'desktop.messageCleanup'
-  | 'desktop.messageRequests'
-  | 'desktop.pnp'
-  | 'desktop.pnp.accountE164Deprecation'
   | 'desktop.retryRespondMaxAge'
-  | 'desktop.safetyNumberAci'
-  | 'desktop.safetyNumberAci.beta'
   | 'desktop.senderKey.retry'
-  | 'desktop.senderKey.send'
   | 'desktop.senderKeyMaxAge'
-  | 'desktop.sendSenderKey3'
-  | 'desktop.showUserBadges.beta'
-  | 'desktop.showUserBadges2'
-  | 'desktop.stories2.beta'
-  | 'desktop.stories2'
-  | 'desktop.textFormatting.spoilerSend'
-  | 'desktop.textFormatting'
-  | 'desktop.usernames'
+  | 'desktop.experimentalTransportEnabled.alpha'
+  | 'desktop.experimentalTransportEnabled.beta'
+  | 'desktop.experimentalTransportEnabled.prod'
+  | 'desktop.cdsiViaLibsignal'
   | 'global.attachments.maxBytes'
+  | 'global.attachments.maxReceiveBytes'
   | 'global.calling.maxGroupCallRingSize'
   | 'global.groupsv2.groupSizeHardLimit'
   | 'global.groupsv2.maxGroupSize'
   | 'global.nicknames.max'
   | 'global.nicknames.min'
-  | 'global.safetyNumberAci';
+  | 'global.textAttachmentLimitBytes';
 
 type ConfigValueType = {
   name: ConfigKeyType;
   enabled: boolean;
   enabledAt?: number;
-  value?: unknown;
+  value?: string;
 };
 export type ConfigMapType = {
   [key in ConfigKeyType]?: ConfigValueType;
@@ -94,6 +81,7 @@ export const refreshRemoteConfig = async (
 ): Promise<void> => {
   const now = Date.now();
   const { config: newConfig, serverEpochTime } = await server.getConfig();
+
   const serverTimeSkew = serverEpochTime * SECOND - now;
 
   if (Math.abs(serverTimeSkew) > HOUR) {
@@ -109,7 +97,11 @@ export const refreshRemoteConfig = async (
   const oldConfig = config;
   config = newConfig.reduce((acc, { name, enabled, value }) => {
     const previouslyEnabled: boolean = get(oldConfig, [name, 'enabled'], false);
-    const previousValue: unknown = get(oldConfig, [name, 'value'], undefined);
+    const previousValue: string | undefined = get(
+      oldConfig,
+      [name, 'value'],
+      undefined
+    );
     // If a flag was previously not enabled and is now enabled,
     // record the time it was enabled
     const enabledAt: number | undefined =
@@ -119,7 +111,7 @@ export const refreshRemoteConfig = async (
       name: name as ConfigKeyType,
       enabled,
       enabledAt,
-      value,
+      value: dropNull(value),
     };
 
     const hasChanged =
@@ -140,6 +132,15 @@ export const refreshRemoteConfig = async (
       [name]: configValue,
     };
   }, {});
+
+  // If remote configuration fetch worked - we are not expired anymore.
+  if (
+    !getValue('desktop.clientExpiration') &&
+    window.storage.get('remoteBuildExpiration') != null
+  ) {
+    log.warn('Remote Config: clearing remote expiration on successful fetch');
+    await window.storage.remove('remoteBuildExpiration');
+  }
 
   await window.storage.put('remoteConfig', config);
   await window.storage.put('serverTimeSkew', serverTimeSkew);

@@ -4,23 +4,28 @@
 import type { MenuItemConstructorOptions } from 'electron';
 import { ipcRenderer } from 'electron';
 
-import type { MenuOptionsType, MenuActionType } from '../types/menu';
+import type { MenuOptionsType } from '../types/menu';
+import type { LocaleEmojiListType } from '../types/emoji';
+import { LocaleEmojiListSchema } from '../types/emoji';
 import type { MainWindowStatsType, MinimalSignalContextType } from './context';
 import { activeWindowService } from '../context/activeWindowService';
 import { config } from '../context/config';
 import { createNativeThemeListener } from '../context/createNativeThemeListener';
 import { createSetting } from '../util/preload';
 import { environment } from '../context/environment';
-import { localeMessages } from '../context/localeMessages';
+import {
+  localeDisplayNames,
+  countryDisplayNames,
+  localeMessages,
+} from '../context/localeMessages';
 import { waitForSettingsChange } from '../context/waitForSettingsChange';
+import { isTestOrMockEnvironment } from '../environment';
 
-const hasCustomTitleBar = ipcRenderer.sendSync('OS.getHasCustomTitleBar');
+const emojiListCache = new Map<string, LocaleEmojiListType>();
+
 export const MinimalSignalContext: MinimalSignalContextType = {
   activeWindowService,
   config,
-  async executeMenuAction(action: MenuActionType): Promise<void> {
-    return ipcRenderer.invoke('executeMenuAction', action);
-  },
   async executeMenuRole(
     role: MenuItemConstructorOptions['role']
   ): Promise<void> {
@@ -40,19 +45,38 @@ export const MinimalSignalContext: MinimalSignalContextType = {
   async getMenuOptions(): Promise<MenuOptionsType> {
     return ipcRenderer.invoke('getMenuOptions');
   },
+  async getLocalizedEmojiList(locale: string) {
+    const cached = emojiListCache.get(locale);
+    if (cached) {
+      return cached;
+    }
+
+    const buf = await ipcRenderer.invoke(
+      'OptionalResourceService:getData',
+      `emoji-index-${locale}.json`
+    );
+    const json = JSON.parse(Buffer.from(buf).toString());
+    const result = LocaleEmojiListSchema.parse(json);
+    emojiListCache.set(locale, result);
+    return result;
+  },
+  getI18nAvailableLocales: () => config.availableLocales,
   getI18nLocale: () => config.resolvedTranslationsLocale,
   getI18nLocaleMessages: () => localeMessages,
+  getLocaleDisplayNames: () => localeDisplayNames,
+  getCountryDisplayNames: () => countryDisplayNames,
 
   getResolvedMessagesLocale: () => config.resolvedTranslationsLocale,
   getResolvedMessagesLocaleDirection: () =>
     config.resolvedTranslationsLocaleDirection,
   getHourCyclePreference: () => config.hourCyclePreference,
   getPreferredSystemLocales: () => config.preferredSystemLocales,
-
+  getLocaleOverride: () => config.localeOverride,
+  isTestOrMockEnvironment,
   nativeThemeListener: createNativeThemeListener(ipcRenderer, window),
+  restartApp: () => ipcRenderer.send('restart'),
   OS: {
     getClassName: () => ipcRenderer.sendSync('OS.getClassName'),
-    hasCustomTitleBar: () => hasCustomTitleBar,
     platform: process.platform,
     release: config.osRelease,
   },

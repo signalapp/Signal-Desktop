@@ -5,7 +5,6 @@ import type { CDSResponseType } from '../textsecure/cds/Types.d';
 import type { WebAPIType } from '../textsecure/WebAPI';
 import type { AciString } from '../types/ServiceId';
 import * as log from '../logging/log';
-import { isEnabled } from '../RemoteConfig';
 import { isDirectConversation, isMe } from './whatTypeOfConversation';
 
 export async function getServiceIdsForE164s(
@@ -15,8 +14,7 @@ export async function getServiceIdsForE164s(
   // Note: these have no relationship to supplied e164s. We just provide
   // all available information to the server so that it could return as many
   // ACI+PNI+E164 matches as possible.
-  const acis = new Array<AciString>();
-  const accessKeys = new Array<string>();
+  const acisAndAccessKeys = new Array<{ aci: AciString; accessKey: string }>();
 
   for (const convo of window.ConversationController.getAll()) {
     if (!isDirectConversation(convo.attributes) || isMe(convo.attributes)) {
@@ -34,22 +32,19 @@ export async function getServiceIdsForE164s(
       continue;
     }
 
-    acis.push(aci);
-    accessKeys.push(accessKey);
+    acisAndAccessKeys.push({ aci, accessKey });
   }
 
-  const returnAcisWithoutUaks =
-    !isEnabled('cds.disableCompatibilityMode') &&
-    isEnabled('desktop.cdsi.returnAcisWithoutUaks');
-
   log.info(
-    `getServiceIdsForE164s(${e164s}): acis=${acis.length} ` +
-      `accessKeys=${accessKeys.length}`
+    `getServiceIdsForE164s(${e164s}): acis=${acisAndAccessKeys.length} ` +
+      `accessKeys=${acisAndAccessKeys.length}`
   );
   return server.cdsLookup({
     e164s,
-    acis,
-    accessKeys,
-    returnAcisWithoutUaks,
+    acisAndAccessKeys,
+    returnAcisWithoutUaks: false,
+    useLibsignal: window.Signal.RemoteConfig.isEnabled(
+      'desktop.cdsiViaLibsignal'
+    ),
   });
 }

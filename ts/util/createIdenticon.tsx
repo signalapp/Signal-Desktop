@@ -106,7 +106,9 @@ export function createIdenticon(
           }
 
           const data = new Uint8Array(arrayBuffer);
-          const path = await window.Signal.Migrations.writeNewTempData(data);
+          const path = await window.Signal.Migrations.writeNewPlaintextTempData(
+            data
+          );
           resolve({ url, path });
         });
         reader.readAsArrayBuffer(blob);

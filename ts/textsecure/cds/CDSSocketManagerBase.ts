@@ -1,6 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type {
+  RateLimitedError as NetRateLimitedError,
+  Net,
+} from '@signalapp/libsignal-client';
+import {
+  ErrorCode as LibSignalErrorCode,
+  LibSignalErrorBase,
+} from '@signalapp/libsignal-client';
 import type { connection as WebSocket } from 'websocket';
 import pTimeout from 'p-timeout';
 
@@ -35,6 +43,10 @@ export abstract class CDSSocketManagerBase<
 > extends CDSBase<Options> {
   private retryAfter?: number;
 
+  constructor(private readonly libsignalNet: Net.Net, options: Options) {
+    super(options);
+  }
+
   public async request(
     options: CDSRequestOptionsType
   ): Promise<CDSResponseType> {
@@ -47,6 +59,16 @@ export abstract class CDSSocketManagerBase<
       await sleep(delay);
     }
 
+    if (options.useLibsignal) {
+      return this.requestViaLibsignal(options);
+    }
+    return this.requestViaNativeSocket(options);
+  }
+
+  private async requestViaNativeSocket(
+    options: CDSRequestOptionsType
+  ): Promise<CDSResponseType> {
+    const log = this.logger;
     const auth = await this.getAuth();
 
     log.info('CDSSocketManager: connecting socket');
@@ -82,6 +104,44 @@ export abstract class CDSSocketManagerBase<
     } finally {
       log.info('CDSSocketManager: closing socket');
       void socket.close(3000, 'Normal');
+    }
+  }
+
+  private async requestViaLibsignal(
+    options: CDSRequestOptionsType
+  ): Promise<CDSResponseType> {
+    const log = this.logger;
+    const { acisAndAccessKeys, e164s, returnAcisWithoutUaks = false } = options;
+    const auth = await this.getAuth();
+
+    log.info('CDSSocketManager: making request via libsignal');
+    try {
+      log.info('CDSSocketManager: starting lookup request');
+
+      const { timeout = REQUEST_TIMEOUT } = options;
+      const response = await pTimeout(
+        this.libsignalNet.cdsiLookup(auth, {
+          acisAndAccessKeys,
+          e164s,
+          returnAcisWithoutUaks,
+        }),
+        timeout
+      );
+
+      log.info('CDSSocketManager: lookup request finished');
+      return response as CDSResponseType;
+    } catch (error) {
+      if (
+        error instanceof LibSignalErrorBase &&
+        error.code === LibSignalErrorCode.RateLimitedError
+      ) {
+        const retryError = error as NetRateLimitedError;
+        this.retryAfter = Math.max(
+          this.retryAfter ?? Date.now(),
+          Date.now() + retryError.retryAfterSecs * durations.SECOND
+        );
+      }
+      throw error;
     }
   }
 

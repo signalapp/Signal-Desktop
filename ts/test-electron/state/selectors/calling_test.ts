@@ -62,13 +62,13 @@ describe('state/selectors/calling', () => {
   const stateWithActiveDirectCall: CallingStateType = {
     ...stateWithDirectCall,
     activeCallState: {
+      callMode: CallMode.Direct,
       conversationId: 'fake-direct-call-conversation-id',
       hasLocalAudio: true,
       hasLocalVideo: false,
       localAudioLevel: 0,
-      viewMode: CallViewMode.Grid,
+      viewMode: CallViewMode.Paginated,
       showParticipantsList: false,
-      safetyNumberChangedAcis: [],
       outgoingRing: true,
       pip: false,
       settingsDialogOpen: false,
@@ -97,8 +97,10 @@ describe('state/selectors/calling', () => {
     conversationId: 'fake-group-call-conversation-id',
     connectionState: GroupCallConnectionState.NotConnected,
     joinState: GroupCallJoinState.NotJoined,
+    localDemuxId: undefined,
     peekInfo: {
       acis: [ACI_1],
+      pendingAcis: [],
       creatorAci: ACI_1,
       maxDevices: Infinity,
       deviceCount: 1,
@@ -179,6 +181,7 @@ describe('state/selectors/calling', () => {
             ...incomingGroupCall,
             peekInfo: {
               acis: [],
+              pendingAcis: [],
               maxDevices: Infinity,
               deviceCount: 1,
             },

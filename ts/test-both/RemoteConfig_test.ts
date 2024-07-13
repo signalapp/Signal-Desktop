@@ -11,15 +11,15 @@ import {
 } from '../RemoteConfig';
 
 describe('RemoteConfig', () => {
-  const aci = normalizeAci('15b9729c-51ea-4ddb-b516-652befe78062', 'test');
+  const aci = normalizeAci('95b9729c-51ea-4ddb-b516-652befe78062', 'test');
 
   describe('#innerIsBucketValueEnabled', () => {
-    // Note: bucketValue is 497941 for 'desktop.stories2' key
+    // Note: bucketValue is 376321 for 'desktop.internalUser' key
 
     it('returns true for 100% wildcard', () => {
       assert.strictEqual(
         innerIsBucketValueEnabled(
-          'desktop.stories2',
+          'desktop.internalUser',
           '*:1000000',
           '+12125550000',
           aci
@@ -28,11 +28,11 @@ describe('RemoteConfig', () => {
       );
     });
 
-    it('returns true for 50% on country code 1', () => {
+    it('returns true for 70% on country code 1', () => {
       assert.strictEqual(
         innerIsBucketValueEnabled(
-          'desktop.stories2',
-          '1:500000',
+          'desktop.internalUser',
+          '1:700000',
           '+12125550000',
           aci
         ),
@@ -40,11 +40,11 @@ describe('RemoteConfig', () => {
       );
     });
 
-    it('returns false for 40% on country code 1', () => {
+    it('returns false for 30% on country code 1', () => {
       assert.strictEqual(
         innerIsBucketValueEnabled(
-          'desktop.stories2',
-          '1:400000',
+          'desktop.internalUser',
+          '1:300000',
           '+12125550000',
           aci
         ),
@@ -92,7 +92,7 @@ describe('RemoteConfig', () => {
     it('returns undefined for empty value', () => {
       const flagName = 'research.megaphone.1';
 
-      assert.strictEqual(getBucketValue(aci, flagName), 243315);
+      assert.strictEqual(getBucketValue(aci, flagName), 222732);
     });
   });
 });

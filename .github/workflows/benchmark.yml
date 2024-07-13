@@ -9,11 +9,13 @@ on:
       - main
       - '[0-9]+.[0-9]+.x'
   pull_request:
+  schedule:
+    - cron: '0 */12 * * *'
 
 jobs:
   linux:
     runs-on: ubuntu-latest-8-cores
-    if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
+    if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && (!github.event.schedule || github.ref == 'refs/heads/main') }}
     timeout-minutes: 30
 
     steps:
@@ -23,35 +25,35 @@ jobs:
       run: uname -a
 
     - name: Clone Desktop repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: '18.15.0'
+        node-version-file: '.nvmrc'
     - name: Install global dependencies
-      run: npm install -g yarn@1.22.10
+      run: npm install -g npm@10.2.5
 
     - name: Install xvfb
       run: sudo apt-get install xvfb
 
     - name: Cache Desktop node_modules
       id: cache-desktop-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
+        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
 
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: yarn install --frozen-lockfile
+      run: npm ci
       env:
         NPM_CONFIG_LOGLEVEL: verbose
 
     - name: Build typescript
-      run: yarn generate
+      run: npm run generate
     - name: Bundle
-      run: yarn build:esbuild:prod
+      run: npm run build:esbuild:prod
 
     - name: Run startup benchmarks
       run: |
@@ -89,8 +91,28 @@ jobs:
       env:
         NODE_ENV: production
         RUN_COUNT: 100
+        CONVERSATION_SIZE: 500
         ELECTRON_ENABLE_STACK_DUMPING: on
         ARTIFACTS_DIR: artifacts/group-send
+
+    - name: Run large group send benchmarks with delivery receipts
+      run: |
+        set -o pipefail
+        rm -rf /tmp/mock
+        xvfb-run --auto-servernum node \
+          ts/test-mock/benchmarks/group_send_bench.js | \
+          tee benchmark-large-group-send.log
+      timeout-minutes: 10
+      env:
+        NODE_ENV: production
+        GROUP_SIZE: 500
+        CONTACT_COUNT: 500
+        GROUP_DELIVERY_RECEIPTS: 500
+        DISCARD_COUNT: 2
+        RUN_COUNT: 20
+        CONVERSATION_SIZE: 50
+        ELECTRON_ENABLE_STACK_DUMPING: on
+        ARTIFACTS_DIR: artifacts/large-group-send
 
     - name: Run conversation open benchmarks
       run: |
@@ -108,34 +130,31 @@ jobs:
 
     - name: Upload benchmark logs on failure
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: logs
         path: artifacts
 
     - name: Clone benchmark repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: 'signalapp/Signal-Desktop-Benchmarks-Private'
         path: 'benchmark-results'
         token: ${{ secrets.AUTOMATED_GITHUB_PAT }}
 
-    - name: Push benchmark repo
+    - name: Build benchmark repo
       working-directory: benchmark-results
       run: |
-        for attempt in {1..5}; do
-          echo "Attempting to push to repository #$attempt"
-          git fetch origin
-          git reset --hard origin/main
-          npm ci
-          node ./bin/collect.js ../benchmark-startup.log data/startup.json
-          node ./bin/collect.js ../benchmark-send.log data/send.json
-          node ./bin/collect.js ../benchmark-group-send.log data/group-send.json
-          node ./bin/collect.js ../benchmark-convo-open.log data/convo-open.json
-          npm run build
-          git config --global user.email "no-reply@signal.org"
-          git config --global user.name "Signal Bot"
-          git add .
-          git commit --message "${GITHUB_REF} ${GITHUB_SHA}"
-          git push origin main && break || sleep "$((1 + RANDOM % 5))"
-        done
+        npm ci
+        npm run build
+
+    - name: Publish to DataDog
+      working-directory: benchmark-results
+      run: |
+        node ./bin/publish.js ../benchmark-startup.log desktop.ci.performance.startup
+        node ./bin/publish.js ../benchmark-send.log desktop.ci.performance.send
+        node ./bin/publish.js ../benchmark-group-send.log desktop.ci.performance.groupSend
+        node ./bin/publish.js ../benchmark-large-group-send.log desktop.ci.performance.largeGroupSend
+        node ./bin/publish.js ../benchmark-convo-open.log desktop.ci.performance.convoOpen
+      env:
+        DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}

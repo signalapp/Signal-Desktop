@@ -55,6 +55,7 @@ export const sendTypesEnum = z.enum([
   'pniIdentitySync',
 
   // Syncs, default non-urgent
+  'deleteForMeSync',
   'fetchLatestManifestSync',
   'fetchLocalProfileSync',
   'messageRequestSync',
@@ -65,6 +66,7 @@ export const sendTypesEnum = z.enum([
   'viewOnceSync',
   'viewSync',
   'callEventSync',
+  'callLinkUpdateSync',
   'callLogEventSync',
 
   // No longer used, all non-urgent

@@ -4,9 +4,8 @@
 import * as React from 'react';
 import { times } from 'lodash';
 import { v4 as uuid } from 'uuid';
-import { text, boolean, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../util/setupI18n';
 import { DurationInSeconds } from '../../util/durations';
 import enMessages from '../../../_locales/en/messages.json';
@@ -14,10 +13,8 @@ import type { PropsType } from './Timeline';
 import { Timeline } from './Timeline';
 import type { TimelineItemType } from './TimelineItem';
 import { TimelineItem } from './TimelineItem';
-import { ContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
 import { ConversationHero } from './ConversationHero';
-import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from '../../state/smart/ContactSpoofingReviewDialog';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { TypingBubble } from './TypingBubble';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
@@ -27,12 +24,18 @@ import { ThemeType } from '../../types/Util';
 import { TextDirection } from './Message';
 import { PaymentEventKind } from '../../types/Payment';
 import type { PropsData as TimelineMessageProps } from './TimelineMessage';
+import { CollidingAvatars } from '../CollidingAvatars';
 
 const i18n = setupI18n('en', enMessages);
 
+const alice = getDefaultConversation();
+const bob = getDefaultConversation();
+
 export default {
   title: 'Components/Conversation/Timeline',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<PropsType>;
 
 // eslint-disable-next-line
 const noop = () => {};
@@ -64,6 +67,7 @@ function mockMessageTimelineItem(
       isMessageRequestAccepted: true,
       isSelected: false,
       isSelectMode: false,
+      isSMS: false,
       isSpoilerExpanded: {},
       previews: [],
       readStatus: ReadStatus.Read,
@@ -311,7 +315,7 @@ const actions = () => ({
   toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
 
   toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
-
+  onOpenEditNicknameAndNoteModal: action('onOpenEditNicknameAndNoteModal'),
   onOutgoingAudioCallInConversation: action(
     'onOutgoingAudioCallInConversation'
   ),
@@ -322,10 +326,7 @@ const actions = () => ({
   returnToActiveCall: action('returnToActiveCall'),
 
   closeContactSpoofingReview: action('closeContactSpoofingReview'),
-  reviewGroupMemberNameCollision: action('reviewGroupMemberNameCollision'),
-  reviewMessageRequestNameCollision: action(
-    'reviewMessageRequestNameCollision'
-  ),
+  reviewConversationNameCollision: action('reviewConversationNameCollision'),
 
   unblurAvatar: action('unblurAvatar'),
 
@@ -335,6 +336,10 @@ const actions = () => ({
   viewStory: action('viewStory'),
 
   onReplyToMessage: action('onReplyToMessage'),
+
+  onOpenMessageRequestActionsConfirmation: action(
+    'onOpenMessageRequestActionsConfirmation'
+  ),
 });
 
 const renderItem = ({
@@ -350,6 +355,8 @@ const renderItem = ({
     getPreferredBadge={() => undefined}
     id=""
     isTargeted={false}
+    isBlocked={false}
+    isGroup={false}
     i18n={i18n}
     interactionMode="keyboard"
     isNextItemCallingNotification={false}
@@ -360,7 +367,7 @@ const renderItem = ({
     conversationId=""
     item={items[messageId]}
     renderAudioAttachment={() => <div>*AudioAttachment*</div>}
-    renderContact={() => '*ContactName*'}
+    renderContact={() => <div>*ContactName*</div>}
     renderEmojiPicker={() => <div />}
     renderReactionPicker={() => <div />}
     renderUniversalTimerNotification={() => (
@@ -374,43 +381,16 @@ const renderItem = ({
   />
 );
 
-const renderContactSpoofingReviewDialog = (
-  props: SmartContactSpoofingReviewDialogPropsType
-) => {
-  const sharedProps = {
-    acceptConversation: action('acceptConversation'),
-    blockAndReportSpam: action('blockAndReportSpam'),
-    blockConversation: action('blockConversation'),
-    deleteConversation: action('deleteConversation'),
-    getPreferredBadge: () => undefined,
-    i18n,
-    removeMember: action('removeMember'),
-    showContactModal: action('showContactModal'),
-    theme: ThemeType.dark,
-  };
-
-  if (props.type === ContactSpoofingType.MultipleGroupMembersWithSameTitle) {
-    return (
-      <ContactSpoofingReviewDialog
-        {...props}
-        {...sharedProps}
-        group={{
-          ...getDefaultConversation(),
-          areWeAdmin: true,
-        }}
-      />
-    );
-  }
-
-  return <ContactSpoofingReviewDialog {...props} {...sharedProps} />;
+const renderContactSpoofingReviewDialog = () => {
+  // hasContactSpoofingReview is always false in stories
+  return <div />;
 };
 
-const getAbout = () => text('about', '👍 Free to chat');
-const getTitle = () => text('name', 'Cayce Bollard');
-const getProfileName = () => text('profileName', 'Cayce Bollard (profile)');
-const getAvatarPath = () =>
-  text('avatarPath', '/fixtures/kitten-4-112-112.jpg');
-const getPhoneNumber = () => text('phoneNumber', '+1 (808) 555-1234');
+const getAbout = () => '👍 Free to chat';
+const getTitle = () => 'Cayce Bollard';
+const getProfileName = () => 'Cayce Bollard (profile)';
+const getAvatarPath = () => '/fixtures/kitten-4-112-112.jpg';
+const getPhoneNumber = () => '+1 (808) 555-1234';
 
 const renderHeroRow = () => {
   function Wrapper() {
@@ -419,7 +399,7 @@ const renderHeroRow = () => {
       <ConversationHero
         about={getAbout()}
         acceptedMessageRequest
-        avatarPath={getAvatarPath()}
+        avatarUrl={getAvatarPath()}
         badge={undefined}
         conversationType="direct"
         id={getDefaultConversation().id}
@@ -433,6 +413,7 @@ const renderHeroRow = () => {
         unblurAvatar={action('unblurAvatar')}
         updateSharedGroups={noop}
         viewUserStories={action('viewUserStories')}
+        toggleAboutContactModal={action('toggleAboutContactModal')}
       />
     );
   }
@@ -452,6 +433,9 @@ const renderTypingBubble = () => (
     theme={ThemeType.light}
   />
 );
+const renderCollidingAvatars = () => (
+  <CollidingAvatars i18n={i18n} conversations={[alice, bob]} />
+);
 const renderMiniPlayer = () => (
   <div>If active, this is where smart mini player would be</div>
 );
@@ -463,31 +447,32 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   theme: React.useContext(StorybookThemeContext),
 
   getTimestampForMessage: Date.now,
-  haveNewest: boolean('haveNewest', overrideProps.haveNewest !== false),
-  haveOldest: boolean('haveOldest', overrideProps.haveOldest !== false),
+  haveNewest: overrideProps.haveNewest ?? false,
+  haveOldest: overrideProps.haveOldest ?? false,
+  isBlocked: false,
   isConversationSelected: true,
-  isIncomingMessageRequest: boolean(
-    'isIncomingMessageRequest',
-    overrideProps.isIncomingMessageRequest === true
-  ),
-  items: overrideProps.items || Object.keys(items),
+  isIncomingMessageRequest: overrideProps.isIncomingMessageRequest ?? false,
+  items: overrideProps.items ?? Object.keys(items),
   messageChangeCounter: 0,
-  scrollToIndex: overrideProps.scrollToIndex,
+  messageLoadingState: null,
+  isNearBottom: null,
+  scrollToIndex: overrideProps.scrollToIndex ?? null,
   scrollToIndexCounter: 0,
   shouldShowMiniPlayer: Boolean(overrideProps.shouldShowMiniPlayer),
-  totalUnseen: number('totalUnseen', overrideProps.totalUnseen || 0),
-  oldestUnseenIndex:
-    number('oldestUnseenIndex', overrideProps.oldestUnseenIndex || 0) ||
-    undefined,
+  totalUnseen: overrideProps.totalUnseen ?? 0,
+  oldestUnseenIndex: overrideProps.oldestUnseenIndex ?? 0,
   invitedContactsForNewlyCreatedGroup:
     overrideProps.invitedContactsForNewlyCreatedGroup || [],
   warning: overrideProps.warning,
+  hasContactSpoofingReview: false,
+  conversationType: 'direct',
 
   id: uuid(),
   renderItem,
   renderHeroRow,
   renderMiniPlayer,
   renderTypingBubble,
+  renderCollidingAvatars,
   renderContactSpoofingReviewDialog,
   isSomeoneTyping: overrideProps.isSomeoneTyping || false,
 
@@ -500,10 +485,6 @@ export function OldestAndNewest(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-OldestAndNewest.story = {
-  name: 'Oldest and Newest',
-};
-
 export function WithActiveMessageRequest(): JSX.Element {
   const props = useProps({
     isIncomingMessageRequest: true,
@@ -511,10 +492,6 @@ export function WithActiveMessageRequest(): JSX.Element {
 
   return <Timeline {...props} />;
 }
-
-WithActiveMessageRequest.story = {
-  name: 'With active message request',
-};
 
 export function WithoutNewestMessage(): JSX.Element {
   const props = useProps({
@@ -533,10 +510,6 @@ export function WithoutNewestMessageActiveMessageRequest(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-WithoutNewestMessageActiveMessageRequest.story = {
-  name: 'Without newest message, active message request',
-};
-
 export function WithoutOldestMessage(): JSX.Element {
   const props = useProps({
     haveOldest: false,
@@ -554,10 +527,6 @@ export function EmptyJustHero(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-EmptyJustHero.story = {
-  name: 'Empty (just hero)',
-};
-
 export function LastSeen(): JSX.Element {
   const props = useProps({
     oldestUnseenIndex: 13,
@@ -574,10 +543,6 @@ export function TargetIndexToTop(): JSX.Element {
 
   return <Timeline {...props} />;
 }
-
-TargetIndexToTop.story = {
-  name: 'Target Index to Top',
-};
 
 export function TypingIndicator(): JSX.Element {
   const props = useProps({ isSomeoneTyping: true });
@@ -602,15 +567,13 @@ export function WithInvitedContactsForANewlyCreatedGroup(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-WithInvitedContactsForANewlyCreatedGroup.story = {
-  name: 'With invited contacts for a newly-created group',
-};
-
 export function WithSameNameInDirectConversationWarning(): JSX.Element {
   const props = useProps({
     warning: {
       type: ContactSpoofingType.DirectConversationWithSameTitle,
-      safeConversation: getDefaultConversation(),
+
+      // Just to pacify type-script
+      safeConversationId: '123',
     },
     items: [],
   });
@@ -618,11 +581,22 @@ export function WithSameNameInDirectConversationWarning(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-WithSameNameInDirectConversationWarning.story = {
-  name: 'With "same name in direct conversation" warning',
-};
-
 export function WithSameNameInGroupConversationWarning(): JSX.Element {
+  const props = useProps({
+    warning: {
+      type: ContactSpoofingType.MultipleGroupMembersWithSameTitle,
+      acknowledgedGroupNameCollisions: {},
+      groupNameCollisions: {
+        Alice: times(2, () => uuid()),
+      },
+    },
+    items: [],
+  });
+
+  return <Timeline {...props} />;
+}
+
+export function WithSameNamesInGroupConversationWarning(): JSX.Element {
   const props = useProps({
     warning: {
       type: ContactSpoofingType.MultipleGroupMembersWithSameTitle,
@@ -637,10 +611,6 @@ export function WithSameNameInGroupConversationWarning(): JSX.Element {
 
   return <Timeline {...props} />;
 }
-
-WithSameNameInGroupConversationWarning.story = {
-  name: 'With "same name in group conversation" warning',
-};
 
 export function WithJustMiniPlayer(): JSX.Element {
   const props = useProps({

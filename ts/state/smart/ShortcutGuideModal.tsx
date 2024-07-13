@@ -1,11 +1,9 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { connect } from 'react-redux';
-import { mapDispatchToProps } from '../actions';
+import React, { memo, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { ShortcutGuideModal } from '../../components/ShortcutGuideModal';
-import type { StateType } from '../reducer';
-
 import { countStickers } from '../../components/stickers/lib';
 import { getIntl, getPlatform } from '../selectors/user';
 import {
@@ -14,40 +12,35 @@ import {
   getKnownStickerPacks,
   getReceivedStickerPacks,
 } from '../selectors/stickers';
-import {
-  getIsFormattingFlagEnabled,
-  getIsFormattingSpoilersFlagEnabled,
-} from '../selectors/composer';
+import { useGlobalModalActions } from '../ducks/globalModals';
 
-const mapStateToProps = (state: StateType) => {
-  const blessedPacks = getBlessedStickerPacks(state);
-  const installedPacks = getInstalledStickerPacks(state);
-  const knownPacks = getKnownStickerPacks(state);
-  const receivedPacks = getReceivedStickerPacks(state);
+export const SmartShortcutGuideModal = memo(function SmartShortcutGuideModal() {
+  const i18n = useSelector(getIntl);
+  const blessedPacks = useSelector(getBlessedStickerPacks);
+  const installedPacks = useSelector(getInstalledStickerPacks);
+  const knownPacks = useSelector(getKnownStickerPacks);
+  const receivedPacks = useSelector(getReceivedStickerPacks);
+  const platform = useSelector(getPlatform);
 
-  const isFormattingFlagEnabled = getIsFormattingFlagEnabled(state);
-  const isFormattingSpoilersFlagEnabled =
-    getIsFormattingSpoilersFlagEnabled(state);
+  const { closeShortcutGuideModal } = useGlobalModalActions();
 
-  const hasInstalledStickers =
-    countStickers({
-      knownPacks,
-      blessedPacks,
-      installedPacks,
-      receivedPacks,
-    }) > 0;
+  const hasInstalledStickers = useMemo(() => {
+    return (
+      countStickers({
+        knownPacks,
+        blessedPacks,
+        installedPacks,
+        receivedPacks,
+      }) > 0
+    );
+  }, [blessedPacks, installedPacks, knownPacks, receivedPacks]);
 
-  const platform = getPlatform(state);
-
-  return {
-    hasInstalledStickers,
-    isFormattingFlagEnabled,
-    isFormattingSpoilersFlagEnabled,
-    platform,
-    i18n: getIntl(state),
-  };
-};
-
-const smart = connect(mapStateToProps, mapDispatchToProps);
-
-export const SmartShortcutGuideModal = smart(ShortcutGuideModal);
+  return (
+    <ShortcutGuideModal
+      hasInstalledStickers={hasInstalledStickers}
+      platform={platform}
+      closeShortcutGuideModal={closeShortcutGuideModal}
+      i18n={i18n}
+    />
+  );
+});

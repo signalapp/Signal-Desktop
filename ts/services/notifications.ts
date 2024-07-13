@@ -36,8 +36,8 @@ type NotificationDataType = Readonly<{
 
 export type NotificationClickData = Readonly<{
   conversationId: string;
-  messageId?: string;
-  storyId?: string;
+  messageId: string | null;
+  storyId: string | null;
 }>;
 export type WindowsNotificationData = {
   avatarPath?: string;
@@ -208,8 +208,8 @@ class NotificationService extends EventEmitter {
           window.IPC.showWindow();
           window.Events.showConversationViaNotification({
             conversationId,
-            messageId,
-            storyId,
+            messageId: messageId ?? null,
+            storyId: storyId ?? null,
           });
         } else if (type === NotificationType.IncomingGroupCall) {
           window.IPC.showWindow();

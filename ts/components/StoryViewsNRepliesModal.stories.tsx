@@ -1,11 +1,11 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
-import React from 'react';
+import type { Meta, StoryFn } from '@storybook/react';
+import React, { useState } from 'react';
 import { v4 as generateUuid } from 'uuid';
 
-import { useArgs } from '@storybook/addons';
+import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoryViewsNRepliesModal';
 import * as durations from '../util/durations';
 import enMessages from '../../_locales/en/messages.json';
@@ -14,6 +14,7 @@ import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
 import { StoryViewTargetType } from '../types/Stories';
+import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -21,51 +22,35 @@ export default {
   title: 'Components/StoryViewsNRepliesModal',
   component: StoryViewsNRepliesModal,
   argTypes: {
-    authorTitle: {
-      defaultValue: getDefaultConversation().title,
-    },
-    canReply: {
-      defaultValue: true,
-    },
-    getPreferredBadge: { action: true },
     hasViewReceiptSetting: {
       control: 'boolean',
-      defaultValue: true,
     },
     hasViewsCapability: {
       control: 'boolean',
-      defaultValue: false,
-    },
-    i18n: {
-      defaultValue: i18n,
-    },
-    platform: {
-      defaultValue: 'darwin',
-    },
-    onClose: { action: true },
-    onSetSkinTone: { action: true },
-    onReact: { action: true },
-    onReply: { action: true },
-    onTextTooLong: { action: true },
-    onUseEmoji: { action: true },
-    preferredReactionEmoji: {
-      defaultValue: ['❤️', '👍', '👎', '😂', '😮', '😢'],
-    },
-    renderEmojiPicker: { action: true },
-    replies: {
-      defaultValue: [],
-    },
-    views: {
-      defaultValue: [],
-    },
-    viewTarget: {
-      defaultValue: StoryViewTargetType.Views,
-    },
-    onChangeViewTarget: {
-      action: true,
     },
   },
-} as Meta;
+  args: {
+    authorTitle: getDefaultConversation().title,
+    canReply: true,
+    getPreferredBadge: () => undefined,
+    hasViewReceiptSetting: true,
+    hasViewsCapability: false,
+    i18n,
+    platform: 'darwin',
+    onClose: action('onClose'),
+    onSetSkinTone: action('onSetSkinTone'),
+    onReact: action('onReact'),
+    onReply: action('onReply'),
+    onTextTooLong: action('onTextTooLong'),
+    onUseEmoji: action('onUseEmoji'),
+    preferredReactionEmoji: DEFAULT_PREFERRED_REACTION_EMOJI,
+    renderEmojiPicker: () => <>EmojiPicker</>,
+    replies: [],
+    views: [],
+    viewTarget: StoryViewTargetType.Views,
+    onChangeViewTarget: action('onChangeViewTarget'),
+  },
+} satisfies Meta<PropsType>;
 
 function getViewsAndReplies() {
   const p1 = getDefaultConversation();
@@ -162,17 +147,18 @@ function getViewsAndReplies() {
 }
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<PropsType> = args => {
-  const [, updateArgs] = useArgs();
+const Template: StoryFn<PropsType> = args => {
+  const [viewTarget, setViewTarget] = useState(args.viewTarget);
 
-  function onChangeViewTarget(viewTarget: StoryViewTargetType) {
-    args.onChangeViewTarget(viewTarget);
-    updateArgs({ viewTarget });
+  function onChangeViewTarget(newViewTarget: StoryViewTargetType) {
+    args.onChangeViewTarget(newViewTarget);
+    setViewTarget(newViewTarget);
   }
 
   return (
     <StoryViewsNRepliesModal
       {...args}
+      viewTarget={viewTarget}
       onChangeViewTarget={onChangeViewTarget}
     />
   );
@@ -202,7 +188,7 @@ export const InAGroupNoReplies = Template.bind({});
 InAGroupNoReplies.args = {
   group: {},
 };
-InAGroupNoReplies.storyName = 'In a group (no replies)';
+InAGroupNoReplies.storyName = 'In a group (no replies, can reply)';
 
 export const InAGroup = Template.bind({});
 {

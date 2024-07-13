@@ -11,6 +11,8 @@ import {
   getSourceServiceId,
 } from '../messages/helpers';
 import { isDirectConversation, isGroupV2 } from './whatTypeOfConversation';
+import { getE164 } from './getE164';
+import type { ConversationType } from '../state/ducks/conversations';
 
 export function getMessageIdForLogging(
   message: Pick<
@@ -26,11 +28,11 @@ export function getMessageIdForLogging(
 }
 
 export function getConversationIdForLogging(
-  conversation: ConversationAttributesType
+  conversation: ConversationAttributesType | ConversationType
 ): string {
   if (isDirectConversation(conversation)) {
-    const { serviceId, pni, e164, id } = conversation;
-    return `${serviceId || pni || e164} (${id})`;
+    const { serviceId, pni, id } = conversation;
+    return `${serviceId || pni || getE164(conversation)} (${id})`;
   }
   if (isGroupV2(conversation)) {
     return `groupv2(${conversation.groupId})`;

@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../util/setupI18n';
 import { generateAci, generatePni } from '../../types/ServiceId';
 import type { ServiceIdString, AciString } from '../../types/ServiceId';
@@ -11,27 +11,42 @@ import enMessages from '../../../_locales/en/messages.json';
 import type { GroupV2ChangeType } from '../../groups';
 import { SignalService as Proto } from '../../protobuf';
 import type { SmartContactRendererType } from '../../groupChange';
+import type { PropsType } from './GroupV2Change';
 import { GroupV2Change } from './GroupV2Change';
-import type { FullJSXType } from '../Intl';
+
+// Note: this should be kept up to date with backup_groupv2_notifications_test.ts, to
+//   maintain the comprehensive set of GroupV2 notifications we need to handle
 
 const i18n = setupI18n('en', enMessages);
 
 const OUR_ACI = generateAci();
 const OUR_PNI = generatePni();
 const CONTACT_A = generateAci();
+const CONTACT_A_PNI = generatePni();
 const CONTACT_B = generateAci();
 const CONTACT_C = generateAci();
 const ADMIN_A = generateAci();
 const INVITEE_A = generateAci();
 
+const contactMap = {
+  [OUR_ACI]: 'YOU',
+  [OUR_PNI]: 'YOU',
+  [CONTACT_A]: 'CONTACT_A',
+  [CONTACT_A_PNI]: 'CONTACT_A',
+  [CONTACT_B]: 'CONTACT_B',
+  [CONTACT_C]: 'CONTACT_C',
+  [ADMIN_A]: 'ADMIN_A',
+  [INVITEE_A]: 'INVITEE_A',
+};
+
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 const RoleEnum = Proto.Member.Role;
 
-const renderContact: SmartContactRendererType<FullJSXType> = (
+const renderContact: SmartContactRendererType<JSX.Element> = (
   conversationId: string
 ) => (
   <React.Fragment key={conversationId}>
-    {`Conversation(${conversationId})`}
+    {contactMap[conversationId] || 'UNKNOWN'}
   </React.Fragment>
 );
 
@@ -69,7 +84,7 @@ const renderChange = (
 
 export default {
   title: 'Components/Conversation/GroupV2Change',
-};
+} satisfies Meta<PropsType>;
 
 export function Multiple(): JSX.Element {
   return (
@@ -313,10 +328,6 @@ export function AccessAttributes(): JSX.Element {
   );
 }
 
-AccessAttributes.story = {
-  name: 'Access (Attributes)',
-};
-
 export function AccessMembers(): JSX.Element {
   return (
     <>
@@ -376,10 +387,6 @@ export function AccessMembers(): JSX.Element {
   );
 }
 
-AccessMembers.story = {
-  name: 'Access (Members)',
-};
-
 export function AccessInviteLink(): JSX.Element {
   return (
     <>
@@ -438,10 +445,6 @@ export function AccessInviteLink(): JSX.Element {
     </>
   );
 }
-
-AccessInviteLink.story = {
-  name: 'Access (Invite Link)',
-};
 
 export function MemberAdd(): JSX.Element {
   return (
@@ -604,7 +607,39 @@ export function MemberAddFromInvited(): JSX.Element {
           },
         ],
       })}
-      ACI accepts PNI invite:
+      ACI accepts PNI invite (X joined the group)
+      {renderChange({
+        from: OUR_PNI,
+        details: [
+          {
+            type: 'member-add-from-invite',
+            aci: OUR_ACI,
+            pni: OUR_PNI,
+            inviter: CONTACT_B,
+          },
+        ],
+      })}
+      {renderChange({
+        from: OUR_PNI,
+        details: [
+          {
+            type: 'member-add-from-invite',
+            aci: OUR_ACI,
+            pni: OUR_PNI,
+          },
+        ],
+      })}
+      {renderChange({
+        from: CONTACT_A_PNI,
+        details: [
+          {
+            type: 'member-add-from-invite',
+            aci: CONTACT_A,
+            pni: CONTACT_A_PNI,
+          },
+        ],
+      })}
+      ACI accepts PNI invite, the old way (X added X to group)
       {renderChange({
         from: OUR_PNI,
         details: [
@@ -615,13 +650,27 @@ export function MemberAddFromInvited(): JSX.Element {
           },
         ],
       })}
+      {renderChange({
+        from: OUR_PNI,
+        details: [
+          {
+            type: 'member-add-from-invite',
+            aci: OUR_ACI,
+          },
+        ],
+      })}
+      {renderChange({
+        from: CONTACT_A_PNI,
+        details: [
+          {
+            type: 'member-add-from-invite',
+            aci: CONTACT_A,
+          },
+        ],
+      })}
     </>
   );
 }
-
-MemberAddFromInvited.story = {
-  name: 'Member Add (from invited)',
-};
 
 export function MemberAddFromLink(): JSX.Element {
   return (
@@ -655,10 +704,6 @@ export function MemberAddFromLink(): JSX.Element {
     </>
   );
 }
-
-MemberAddFromLink.story = {
-  name: 'Member Add (from link)',
-};
 
 export function MemberAddFromAdminApproval(): JSX.Element {
   return (
@@ -709,10 +754,6 @@ export function MemberAddFromAdminApproval(): JSX.Element {
     </>
   );
 }
-
-MemberAddFromAdminApproval.story = {
-  name: 'Member Add (from admin approval)',
-};
 
 export function MemberRemove(): JSX.Element {
   return (
@@ -935,10 +976,6 @@ export function PendingAddOne(): JSX.Element {
   );
 }
 
-PendingAddOne.story = {
-  name: 'Pending Add - one',
-};
-
 export function PendingAddMany(): JSX.Element {
   return (
     <>
@@ -952,11 +989,29 @@ export function PendingAddMany(): JSX.Element {
         ],
       })}
       {renderChange({
+        from: OUR_ACI,
+        details: [
+          {
+            type: 'pending-add-many',
+            count: 1,
+          },
+        ],
+      })}
+      {renderChange({
         from: CONTACT_A,
         details: [
           {
             type: 'pending-add-many',
             count: 5,
+          },
+        ],
+      })}
+      {renderChange({
+        from: CONTACT_A,
+        details: [
+          {
+            type: 'pending-add-many',
+            count: 1,
           },
         ],
       })}
@@ -968,13 +1023,17 @@ export function PendingAddMany(): JSX.Element {
           },
         ],
       })}
+      {renderChange({
+        details: [
+          {
+            type: 'pending-add-many',
+            count: 1,
+          },
+        ],
+      })}
     </>
   );
 }
-
-PendingAddMany.story = {
-  name: 'Pending Add - many',
-};
 
 export function PendingRemoveOne(): JSX.Element {
   return (
@@ -1119,10 +1178,6 @@ export function PendingRemoveOne(): JSX.Element {
   );
 }
 
-PendingRemoveOne.story = {
-  name: 'Pending Remove - one',
-};
-
 export function PendingRemoveMany(): JSX.Element {
   return (
     <>
@@ -1137,7 +1192,36 @@ export function PendingRemoveMany(): JSX.Element {
         ],
       })}
       {renderChange({
+        from: OUR_ACI,
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 1,
+            inviter: OUR_ACI,
+          },
+        ],
+      })}
+      {renderChange({
         from: ADMIN_A,
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 5,
+            inviter: OUR_ACI,
+          },
+        ],
+      })}
+      {renderChange({
+        from: ADMIN_A,
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 1,
+            inviter: OUR_ACI,
+          },
+        ],
+      })}
+      {renderChange({
         details: [
           {
             type: 'pending-remove-many',
@@ -1150,7 +1234,7 @@ export function PendingRemoveMany(): JSX.Element {
         details: [
           {
             type: 'pending-remove-many',
-            count: 5,
+            count: 1,
             inviter: OUR_ACI,
           },
         ],
@@ -1166,6 +1250,16 @@ export function PendingRemoveMany(): JSX.Element {
         ],
       })}
       {renderChange({
+        from: OUR_ACI,
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 1,
+            inviter: CONTACT_A,
+          },
+        ],
+      })}
+      {renderChange({
         from: ADMIN_A,
         details: [
           {
@@ -1176,10 +1270,29 @@ export function PendingRemoveMany(): JSX.Element {
         ],
       })}
       {renderChange({
+        from: ADMIN_A,
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 1,
+            inviter: CONTACT_A,
+          },
+        ],
+      })}
+      {renderChange({
         details: [
           {
             type: 'pending-remove-many',
             count: 5,
+            inviter: CONTACT_A,
+          },
+        ],
+      })}
+      {renderChange({
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 1,
             inviter: CONTACT_A,
           },
         ],
@@ -1190,6 +1303,15 @@ export function PendingRemoveMany(): JSX.Element {
           {
             type: 'pending-remove-many',
             count: 5,
+          },
+        ],
+      })}
+      {renderChange({
+        from: OUR_ACI,
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 1,
           },
         ],
       })}
@@ -1204,6 +1326,15 @@ export function PendingRemoveMany(): JSX.Element {
         ],
       })}
       {renderChange({
+        from: CONTACT_A,
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 1,
+          },
+        ],
+      })}
+      {renderChange({
         details: [
           {
             type: 'pending-remove-many',
@@ -1211,18 +1342,23 @@ export function PendingRemoveMany(): JSX.Element {
           },
         ],
       })}
+      {renderChange({
+        details: [
+          {
+            type: 'pending-remove-many',
+            count: 1,
+          },
+        ],
+      })}
     </>
   );
 }
-
-PendingRemoveMany.story = {
-  name: 'Pending Remove - many',
-};
 
 export function AdminApprovalAdd(): JSX.Element {
   return (
     <>
       {renderChange({
+        from: OUR_ACI,
         details: [
           {
             type: 'admin-approval-add-one',
@@ -1231,6 +1367,7 @@ export function AdminApprovalAdd(): JSX.Element {
         ],
       })}
       {renderChange({
+        from: CONTACT_A,
         details: [
           {
             type: 'admin-approval-add-one',
@@ -1241,10 +1378,6 @@ export function AdminApprovalAdd(): JSX.Element {
     </>
   );
 }
-
-AdminApprovalAdd.story = {
-  name: 'Admin Approval (Add)',
-};
 
 export function AdminApprovalRemove(): JSX.Element {
   return (
@@ -1278,10 +1411,6 @@ export function AdminApprovalRemove(): JSX.Element {
     </>
   );
 }
-
-AdminApprovalRemove.story = {
-  name: 'Admin Approval (Remove)',
-};
 
 export function AdminApprovalBounce(): JSX.Element {
   return (
@@ -1380,13 +1509,24 @@ export function AdminApprovalBounce(): JSX.Element {
 
         { groupBannedMemberships: [CONTACT_A] }
       )}
+      Open request
+      {renderChange(
+        {
+          from: CONTACT_A,
+          details: [
+            {
+              type: 'admin-approval-bounce',
+              aci: CONTACT_A,
+              times: 4,
+              isApprovalPending: true,
+            },
+          ],
+        },
+        { groupBannedMemberships: [] }
+      )}
     </>
   );
 }
-
-AdminApprovalBounce.story = {
-  name: 'Admin Approval (Bounce)',
-};
 
 export function GroupLinkAdd(): JSX.Element {
   return (
@@ -1447,10 +1587,6 @@ export function GroupLinkAdd(): JSX.Element {
   );
 }
 
-GroupLinkAdd.story = {
-  name: 'Group Link (Add)',
-};
-
 export function GroupLinkReset(): JSX.Element {
   return (
     <>
@@ -1481,10 +1617,6 @@ export function GroupLinkReset(): JSX.Element {
   );
 }
 
-GroupLinkReset.story = {
-  name: 'Group Link (Reset)',
-};
-
 export function GroupLinkRemove(): JSX.Element {
   return (
     <>
@@ -1514,10 +1646,6 @@ export function GroupLinkRemove(): JSX.Element {
     </>
   );
 }
-
-GroupLinkRemove.story = {
-  name: 'Group Link (Remove)',
-};
 
 export function DescriptionRemove(): JSX.Element {
   return (
@@ -1551,10 +1679,6 @@ export function DescriptionRemove(): JSX.Element {
     </>
   );
 }
-
-DescriptionRemove.story = {
-  name: 'Description (Remove)',
-};
 
 export function DescriptionChange(): JSX.Element {
   return (
@@ -1600,10 +1724,6 @@ export function DescriptionChange(): JSX.Element {
     </>
   );
 }
-
-DescriptionChange.story = {
-  name: 'Description (Change)',
-};
 
 export function AnnouncementGroupChange(): JSX.Element {
   return (
@@ -1663,10 +1783,6 @@ export function AnnouncementGroupChange(): JSX.Element {
     </>
   );
 }
-
-AnnouncementGroupChange.story = {
-  name: 'Announcement Group (Change)',
-};
 
 export function Summary(): JSX.Element {
   return (

@@ -7,12 +7,12 @@ import React from 'react';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { ContactName } from './conversation/ContactName';
 import { GroupDialog } from './GroupDialog';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 
-type PropsType = {
+export type PropsType = {
   contacts: Array<ConversationType>;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
@@ -34,7 +34,7 @@ export function NewlyCreatedGroupInvitedContactsDialog({
     body = (
       <>
         <GroupDialog.Paragraph>
-          <Intl
+          <I18n
             i18n={i18n}
             id="icu:NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one"
             components={{ name: <ContactName title={contact.title} /> }}

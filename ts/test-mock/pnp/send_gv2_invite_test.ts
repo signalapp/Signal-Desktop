@@ -16,9 +16,8 @@ const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
 export const debug = createDebug('mock:test:gv2');
 
-describe('pnp/send gv2 invite', function needsName() {
+describe('pnp/send gv2 invite', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;
@@ -85,7 +84,7 @@ describe('pnp/send gv2 invite', function needsName() {
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();
@@ -105,7 +104,7 @@ describe('pnp/send gv2 invite', function needsName() {
 
     await window.getByRole('button', { name: 'New chat' }).click();
 
-    await leftPane.getByTestId('CreateNewGroupButton').click();
+    await leftPane.getByTestId('ComposeStepButton--group').click();
 
     debug('inviting ACI member');
 
@@ -166,9 +165,7 @@ describe('pnp/send gv2 invite', function needsName() {
       .locator('button.module-ConversationHeader__button--more')
       .click();
 
-    await conversationStack
-      .locator('.react-contextmenu-item >> "Group settings"')
-      .click();
+    await window.locator('.react-contextmenu-item >> "Group settings"').click();
 
     debug('editing group title');
     {
@@ -178,10 +175,7 @@ describe('pnp/send gv2 invite', function needsName() {
       await detailsHeader.locator('button >> "My group"').click();
 
       const modal = window.locator('.module-Modal:has-text("Edit group")');
-
-      // Group title should be immediately focused.
-      await modal.type(' (v2)');
-
+      await modal.locator('input').fill('My group (v2)');
       await modal.locator('button >> "Save"').click();
     }
 

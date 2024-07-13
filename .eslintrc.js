@@ -1,6 +1,5 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-const { messagesCacheKey } = require('./.eslint/rules/valid-i18n-keys');
 
 // For reference: https://github.com/airbnb/javascript
 
@@ -142,6 +141,13 @@ const rules = {
 
   'jsx-a11y/label-has-associated-control': ['error', { assert: 'either' }],
 
+  'jsx-a11y/no-static-element-interactions': 'error',
+
+  '@typescript-eslint/no-non-null-assertion': ['error'],
+  '@typescript-eslint/no-empty-interface': ['error'],
+  'no-empty-function': 'off',
+  '@typescript-eslint/no-empty-function': 'error',
+
   'no-restricted-syntax': [
     'error',
     {
@@ -238,8 +244,6 @@ const typescriptRules = {
 
   // TODO: DESKTOP-4655
   'import/no-cycle': 'off',
-
-  'local-rules/valid-i18n-keys': ['error', { messagesCacheKey }],
 };
 
 module.exports = {
@@ -298,6 +302,12 @@ module.exports = {
       files: ['ts/state/ducks/**/*.ts'],
       rules: {
         'local-rules/type-alias-readonlydeep': 'error',
+      },
+    },
+    {
+      files: ['ts/**/*_test.{ts,tsx}'],
+      rules: {
+        'func-names': 'off',
       },
     },
   ],

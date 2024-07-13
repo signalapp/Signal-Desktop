@@ -24,6 +24,7 @@ import { StoriesPane } from './StoriesPane';
 import { NavSidebar, NavSidebarActionButton } from './NavSidebar';
 import { StoriesAddStoryButton } from './StoriesAddStoryButton';
 import { ContextMenu } from './ContextMenu';
+import type { WidthBreakpoint } from './_util';
 import type { UnreadStats } from '../util/countUnreadStats';
 
 export type PropsType = {
@@ -50,6 +51,9 @@ export type PropsType = {
   preferredWidthFromStorage: number;
   queueStoryDownload: (storyId: string) => unknown;
   renderStoryCreator: () => JSX.Element;
+  renderToastManager: (_: {
+    containerWidthBreakpoint: WidthBreakpoint;
+  }) => JSX.Element;
   retryMessageSend: (messageId: string) => unknown;
   savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
   setAddStoryData: (data: AddStoryData) => unknown;
@@ -84,6 +88,7 @@ export function StoriesTab({
   preferredLeftPaneWidth,
   queueStoryDownload,
   renderStoryCreator,
+  renderToastManager,
   retryMessageSend,
   savePreferredLeftPaneWidth,
   setAddStoryData,
@@ -127,13 +132,14 @@ export function StoriesTab({
           preferredLeftPaneWidth={preferredLeftPaneWidth}
           queueStoryDownload={queueStoryDownload}
           retryMessageSend={retryMessageSend}
+          renderToastManager={renderToastManager}
           savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
           theme={theme}
           viewStory={viewStory}
         />
       ) : (
         <NavSidebar
-          title="Stories"
+          title={i18n('icu:Stories__title')}
           i18n={i18n}
           hasFailedStorySends={hasFailedStorySends}
           hasPendingUpdate={hasPendingUpdate}
@@ -143,6 +149,7 @@ export function StoriesTab({
           requiresFullWidth
           savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
           otherTabsUnreadStats={otherTabsUnreadStats}
+          renderToastManager={renderToastManager}
           actions={
             <>
               <StoriesAddStoryButton

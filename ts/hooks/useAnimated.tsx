@@ -76,7 +76,10 @@ export function useAnimated(
   useChain(shouldShowModal ? [overlayRef, modalRef] : [modalRef, overlayRef]);
   const close = useCallback(() => {
     setState(currentState => {
-      if (currentState === ModalState.Open) {
+      if (
+        currentState === ModalState.Open ||
+        currentState === ModalState.Opening
+      ) {
         return ModalState.Closing;
       }
       return currentState;

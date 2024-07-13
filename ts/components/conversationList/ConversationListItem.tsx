@@ -39,12 +39,13 @@ export type MessageStatusType = typeof MessageStatuses[number];
 export type PropsData = Pick<
   ConversationType,
   | 'acceptedMessageRequest'
-  | 'avatarPath'
+  | 'avatarUrl'
   | 'badges'
   | 'color'
   | 'draftPreview'
   | 'groupId'
   | 'id'
+  | 'isBlocked'
   | 'isMe'
   // NOTE: Passed for CI, not used for rendering
   | 'isPinned'
@@ -61,7 +62,7 @@ export type PropsData = Pick<
   | 'title'
   | 'type'
   | 'typingContactIdTimestamps'
-  | 'unblurredAvatarPath'
+  | 'unblurredAvatarUrl'
   | 'unreadCount'
   | 'unreadMentionsCount'
   | 'serviceId'
@@ -81,7 +82,7 @@ export type Props = PropsData & PropsHousekeeping;
 export const ConversationListItem: FunctionComponent<Props> = React.memo(
   function ConversationListItem({
     acceptedMessageRequest,
-    avatarPath,
+    avatarUrl,
     badge,
     buttonAriaLabel,
     color,
@@ -89,6 +90,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     groupId,
     i18n,
     id,
+    isBlocked,
     isMe,
     isSelected,
     lastMessage,
@@ -105,7 +107,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     title,
     type,
     typingContactIdTimestamps,
-    unblurredAvatarPath,
+    unblurredAvatarUrl,
     unreadCount,
     unreadMentionsCount,
     serviceId,
@@ -135,7 +137,13 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     let messageText: ReactNode = null;
     let messageStatusIcon: ReactNode = null;
 
-    if (!acceptedMessageRequest && removalStage !== 'justNotification') {
+    if (isBlocked) {
+      messageText = (
+        <span className={`${MESSAGE_TEXT_CLASS_NAME}__blocked`}>
+          {i18n('icu:ConversationListItem--blocked')}
+        </span>
+      );
+    } else if (!acceptedMessageRequest && removalStage !== 'justNotification') {
       messageText = (
         <span className={`${MESSAGE_TEXT_CLASS_NAME}__message-request`}>
           {i18n('icu:ConversationListItem--message-request')}
@@ -198,7 +206,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     return (
       <BaseConversationListItem
         acceptedMessageRequest={acceptedMessageRequest}
-        avatarPath={avatarPath}
+        avatarUrl={avatarUrl}
         badge={badge}
         buttonAriaLabel={buttonAriaLabel}
         color={color}
@@ -222,7 +230,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         title={title}
         unreadCount={unreadCount}
         unreadMentionsCount={unreadMentionsCount}
-        unblurredAvatarPath={unblurredAvatarPath}
+        unblurredAvatarUrl={unblurredAvatarUrl}
         serviceId={serviceId}
       />
     );

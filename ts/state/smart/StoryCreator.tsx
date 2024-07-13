@@ -1,11 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-
-import { ThemeType, type LocalizerType } from '../../types/Util';
-import type { StateType } from '../reducer';
+import { ThemeType } from '../../types/Util';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
 import { StoryCreator } from '../../components/StoryCreator';
 import {
@@ -23,10 +21,6 @@ import {
   getRecentStickers,
 } from '../selectors/stickers';
 import { getAddStoryData } from '../selectors/stories';
-import {
-  getIsFormattingFlagEnabled,
-  getIsFormattingSpoilersFlagEnabled,
-} from '../selectors/composer';
 import { getLinkPreview } from '../selectors/linkPreviews';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
@@ -36,7 +30,7 @@ import {
 } from '../selectors/items';
 import { imageToBlurHash } from '../../util/imageToBlurHash';
 import { processAttachment } from '../../util/processAttachment';
-import { useActions as useEmojisActions } from '../ducks/emojis';
+import { useEmojisActions } from '../ducks/emojis';
 import { useAudioPlayerActions } from '../ducks/audioPlayer';
 import { useComposerActions } from '../ducks/composer';
 import { useConversationsActions } from '../ducks/conversations';
@@ -52,7 +46,7 @@ export type PropsType = {
   onClose: () => unknown;
 };
 
-export function SmartStoryCreator(): JSX.Element | null {
+export const SmartStoryCreator = memo(function SmartStoryCreator() {
   const { debouncedMaybeGrabLinkPreview } = useLinkPreviewActions();
   const {
     sendStoryModalOpenStateChanged,
@@ -79,7 +73,7 @@ export function SmartStoryCreator(): JSX.Element | null {
   const groupConversations = useSelector(getNonGroupStories);
   const groupStories = useSelector(getGroupStories);
   const hasSetMyStoriesPrivacy = useSelector(getHasSetMyStoriesPrivacy);
-  const i18n = useSelector<StateType, LocalizerType>(getIntl);
+  const i18n = useSelector(getIntl);
   const installedPacks = useSelector(getInstalledStickerPacks);
   const linkPreviewForSource = useSelector(getLinkPreview);
   const me = useSelector(getMe);
@@ -100,7 +94,7 @@ export function SmartStoryCreator(): JSX.Element | null {
   }
 
   const recentEmojis = useRecentEmojis();
-  const skinTone = useSelector<StateType, number>(getEmojiSkinTone);
+  const skinTone = useSelector(getEmojiSkinTone);
   const { onSetSkinTone } = useItemsActions();
   const { onUseEmoji } = useEmojisActions();
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
@@ -108,11 +102,11 @@ export function SmartStoryCreator(): JSX.Element | null {
   const { onUseEmoji: onPickEmoji } = useEmojisActions();
 
   const isFormattingEnabled = useSelector(getTextFormattingEnabled);
-  const isFormattingFlagEnabled = useSelector(getIsFormattingFlagEnabled);
-  const isFormattingSpoilersFlagEnabled = useSelector(
-    getIsFormattingSpoilersFlagEnabled
-  );
   const platform = useSelector(getPlatform);
+
+  const linkPreview = useMemo(() => {
+    return linkPreviewForSource(LinkPreviewSourceType.StoryCreator);
+  }, [linkPreviewForSource]);
 
   return (
     <StoryCreator
@@ -128,10 +122,8 @@ export function SmartStoryCreator(): JSX.Element | null {
       imageToBlurHash={imageToBlurHash}
       installedPacks={installedPacks}
       isFormattingEnabled={isFormattingEnabled}
-      isFormattingFlagEnabled={isFormattingFlagEnabled}
-      isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
       isSending={isSending}
-      linkPreview={linkPreviewForSource(LinkPreviewSourceType.StoryCreator)}
+      linkPreview={linkPreview}
       me={me}
       mostRecentActiveStoryTimestampByGroupOrDistributionList={
         mostRecentActiveStoryTimestampByGroupOrDistributionList
@@ -158,10 +150,11 @@ export function SmartStoryCreator(): JSX.Element | null {
       sendStoryModalOpenStateChanged={sendStoryModalOpenStateChanged}
       setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
       signalConnections={signalConnections}
+      sortedGroupMembers={null}
       skinTone={skinTone}
       theme={ThemeType.dark}
       toggleGroupsForStorySend={toggleGroupsForStorySend}
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}
     />
   );
-}
+});

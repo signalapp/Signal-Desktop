@@ -2,26 +2,62 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .SignalConnectionsModal {
+  padding-inline: 8px;
+  padding-block-end: 20px;
+
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+
   &__icon {
-    @include color-svg(
-      '../images/icons/v3/connections/connections-display.svg',
-      $color-ultramarine-light
-    );
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v3/connections/connections-display.svg',
+        $color-gray-90
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v3/connections/connections-display.svg',
+        $color-gray-25
+      );
+    }
     display: block;
-    height: 69px;
+    height: 48px;
     margin-block: 0;
     margin-inline: auto;
     margin-bottom: 24px;
-    width: 75px;
+    width: 48px;
   }
 
   &__list {
-    margin-block: 16px;
+    margin-block: 20px;
     margin-inline: 0;
+    padding-inline-start: 12px;
 
     li {
-      margin-block: 8px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+
+      list-style: none;
+      margin-block: 16px;
       margin-inline: 0;
+    }
+
+    li::before {
+      display: block;
+      content: '';
+      width: 4px;
+      height: 14px;
+      border-radius: 6px;
+
+      @include light-theme {
+        background-color: $color-gray-20;
+      }
+      @include dark-theme {
+        background-color: $color-gray-25;
+      }
     }
   }
 

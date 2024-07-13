@@ -9,6 +9,7 @@ import path from 'path';
 
 import { MONTH } from '../util/durations';
 import { isOlderThan } from '../util/timestamp';
+import { DELETED_REGEXP } from './constants';
 
 const ROOT_DIR = path.join(__dirname, '..', '..');
 const MESSAGES_FILE = path.join(ROOT_DIR, '_locales', 'en', 'messages.json');
@@ -26,7 +27,7 @@ async function main() {
         const value = messages[key];
 
         const match = (value as Record<string, string>).description?.match(
-          /\(\s*deleted\s+(\d{2,4}\/\d{2}\/\d{2,4})\s*\)/
+          DELETED_REGEXP
         );
         if (!match) {
           return;
@@ -39,7 +40,7 @@ async function main() {
 
         // Find uses in either:
         // - `i18n('key')`
-        // - `<Intl id="key"/>`
+        // - `<I18n id="key"/>`
 
         try {
           const result = await execa(

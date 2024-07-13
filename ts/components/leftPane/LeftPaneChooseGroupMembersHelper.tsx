@@ -18,7 +18,6 @@ import {
 } from '../AddGroupMemberErrorDialog';
 import { Button } from '../Button';
 import type { LocalizerType } from '../../types/Util';
-import { getUsernameFromSearch } from '../../types/Username';
 import type { ParsedE164Type } from '../../util/libphonenumberInstance';
 import { parseAndFormatPhoneNumber } from '../../util/libphonenumberInstance';
 import type { UUIDFetchStateType } from '../../util/uuidFetchState';
@@ -34,9 +33,11 @@ export type LeftPaneChooseGroupMembersPropsType = {
   groupSizeHardLimit: number;
   isShowingRecommendedGroupSizeModal: boolean;
   isShowingMaximumGroupSizeModal: boolean;
-  isUsernamesEnabled: boolean;
+  ourE164: string | undefined;
+  ourUsername: string | undefined;
   searchTerm: string;
   regionCode: string | undefined;
+  username: string | undefined;
   selectedContacts: Array<ConversationType>;
 };
 
@@ -71,13 +72,15 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     candidateContacts,
     isShowingMaximumGroupSizeModal,
     isShowingRecommendedGroupSizeModal,
-    isUsernamesEnabled,
     groupSizeRecommendedLimit,
     groupSizeHardLimit,
+    ourE164,
+    ourUsername,
     searchTerm,
     regionCode,
     selectedContacts,
     uuidFetchState,
+    username,
   }: Readonly<LeftPaneChooseGroupMembersPropsType>) {
     super();
 
@@ -91,32 +94,33 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       isShowingRecommendedGroupSizeModal;
     this.searchTerm = searchTerm;
 
-    const username = getUsernameFromSearch(searchTerm);
     const isUsernameVisible =
       username !== undefined &&
+      username !== ourUsername &&
       this.candidateContacts.every(contact => contact.username !== username);
 
-    if (isUsernamesEnabled) {
-      if (isUsernameVisible) {
-        this.username = username;
-      }
-
-      this.isUsernameChecked = selectedContacts.some(
-        contact => contact.username === this.username
-      );
-    } else {
-      this.isUsernameChecked = false;
+    if (isUsernameVisible) {
+      this.username = username;
     }
 
+    this.isUsernameChecked = selectedContacts.some(
+      contact => contact.username === this.username
+    );
+
     const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
-    if (!isUsernameVisible && phoneNumber) {
+    if (
+      !isUsernameVisible &&
+      (ourUsername === undefined || username !== ourUsername) &&
+      phoneNumber
+    ) {
+      const { e164 } = phoneNumber;
       this.isPhoneNumberChecked =
         phoneNumber.isValid &&
-        selectedContacts.some(contact => contact.e164 === phoneNumber.e164);
+        selectedContacts.some(contact => contact.e164 === e164);
 
-      const isVisible = this.candidateContacts.every(
-        contact => contact.e164 !== phoneNumber.e164
-      );
+      const isVisible =
+        e164 !== ourE164 &&
+        this.candidateContacts.every(contact => contact.e164 !== e164);
       if (isVisible) {
         this.phoneNumber = phoneNumber;
       }
@@ -224,7 +228,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
               <ContactPill
                 key={contact.id}
                 acceptedMessageRequest={contact.acceptedMessageRequest}
-                avatarPath={contact.avatarPath}
+                avatarUrl={contact.avatarUrl}
                 color={contact.color}
                 firstName={contact.systemGivenName ?? contact.firstName}
                 i18n={i18n}

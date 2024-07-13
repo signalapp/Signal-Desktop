@@ -16,7 +16,7 @@ describe('scroll utilities', () => {
   // These tests to be flaky on Windows CI, sometimes timing out. That doesn't really
   //   make sense because the test is synchronous, but this quick-and-dirty fix is
   //   probably better than a full investigation.
-  before(function thisNeeded() {
+  before(function (this: Mocha.Context) {
     if (process.platform === 'win32') {
       this.skip();
     }

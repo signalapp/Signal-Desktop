@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { MiniPlayer, PlayerState } from '../../components/MiniPlayer';
 import type { Props as DumbProps } from '../../components/MiniPlayer';
@@ -23,7 +23,9 @@ type Props = Pick<DumbProps, 'shouldFlow'>;
  * It also triggers side-effecting actions (actual playback) in response to changes in
  * the state
  */
-export function SmartMiniPlayer({ shouldFlow }: Props): JSX.Element | null {
+export const SmartMiniPlayer = memo(function SmartMiniPlayer({
+  shouldFlow,
+}: Props): JSX.Element | null {
   const i18n = useSelector(getIntl);
   const active = useSelector(selectAudioPlayerActive);
   const getVoiceNoteTitle = useSelector(selectVoiceNoteTitle);
@@ -47,14 +49,14 @@ export function SmartMiniPlayer({ shouldFlow }: Props): JSX.Element | null {
     state = active.playing ? PlayerState.playing : PlayerState.paused;
   }
 
+  const title = AudioPlayerContent.isDraft(content)
+    ? i18n('icu:you')
+    : getVoiceNoteTitle(content.current);
+
   return (
     <MiniPlayer
       i18n={i18n}
-      title={
-        AudioPlayerContent.isDraft(content)
-          ? i18n('icu:you')
-          : getVoiceNoteTitle(content.current)
-      }
+      title={title}
       onPlay={handlePlay}
       onPause={handlePause}
       onPlaybackRate={setPlaybackRate}
@@ -66,4 +68,4 @@ export function SmartMiniPlayer({ shouldFlow }: Props): JSX.Element | null {
       playbackRate={active.playbackRate}
     />
   );
-}
+});

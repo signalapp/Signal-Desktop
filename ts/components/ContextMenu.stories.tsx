@@ -4,6 +4,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './ContextMenu';
 import { ContextMenu } from './ContextMenu';
 import enMessages from '../../_locales/en/messages.json';
@@ -13,7 +14,7 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/ContextMenu',
-};
+} satisfies Meta<PropsType<unknown>>;
 
 const getDefaultProps = (): PropsType<number> => ({
   i18n,

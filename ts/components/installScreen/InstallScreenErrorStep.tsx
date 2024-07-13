@@ -15,21 +15,22 @@ export enum InstallError {
   TooManyDevices,
   TooOld,
   ConnectionFailed,
-  UnknownError,
   QRCodeFailed,
 }
+
+export type Props = Readonly<{
+  error: InstallError;
+  i18n: LocalizerType;
+  quit: () => unknown;
+  tryAgain: () => unknown;
+}>;
 
 export function InstallScreenErrorStep({
   error,
   i18n,
   quit,
   tryAgain,
-}: Readonly<{
-  error: InstallError;
-  i18n: LocalizerType;
-  quit: () => unknown;
-  tryAgain: () => unknown;
-}>): ReactElement {
+}: Props): ReactElement {
   let errorMessage: string;
   let buttonText = i18n('icu:installTryAgain');
   let onClickButton = () => tryAgain();
@@ -49,9 +50,6 @@ export function InstallScreenErrorStep({
       break;
     case InstallError.ConnectionFailed:
       errorMessage = i18n('icu:installConnectionFailed');
-      break;
-    case InstallError.UnknownError:
-      errorMessage = i18n('icu:installUnknownError');
       break;
     case InstallError.QRCodeFailed:
       buttonText = i18n('icu:Install__learn-more');

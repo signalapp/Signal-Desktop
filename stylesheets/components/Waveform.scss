@@ -2,6 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .Waveform {
+  /**
+   * Progress indicators for audio or video content should always be left-to-right.
+   * This overrides the default direction of the page.
+   */
+  /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+  direction: ltr;
+
   flex-shrink: 0;
 
   display: flex;

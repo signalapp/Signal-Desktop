@@ -4,7 +4,6 @@
 import type { ReactNode } from 'react';
 import React, { useEffect, useState, useCallback } from 'react';
 
-import classNames from 'classnames';
 import { Button, ButtonIconType, ButtonVariant } from '../../Button';
 import { Tooltip } from '../../Tooltip';
 import type {
@@ -53,44 +52,19 @@ import type {
 import { isConversationMuted } from '../../../util/isConversationMuted';
 import { ConversationDetailsGroups } from './ConversationDetailsGroups';
 import { PanelType } from '../../../types/Panels';
-import type { CallStatus } from '../../../types/CallDisposition';
-import {
-  CallType,
-  type CallHistoryGroup,
-  CallDirection,
-  DirectCallStatus,
-  GroupCallStatus,
-} from '../../../types/CallDisposition';
-import { formatDate, formatTime } from '../../../util/timestamp';
+import { type CallHistoryGroup } from '../../../types/CallDisposition';
 import { NavTab } from '../../../state/ducks/nav';
-
-function describeCallHistory(
-  i18n: LocalizerType,
-  type: CallType,
-  direction: CallDirection,
-  status: CallStatus
-): string {
-  if (status === DirectCallStatus.Missed || status === GroupCallStatus.Missed) {
-    if (direction === CallDirection.Incoming) {
-      return i18n('icu:CallHistory__Description--Missed', { type });
-    }
-    return i18n('icu:CallHistory__Description--Unanswered', { type });
-  }
-  if (
-    status === DirectCallStatus.Declined ||
-    status === GroupCallStatus.Declined
-  ) {
-    return i18n('icu:CallHistory__Description--Declined', { type });
-  }
-  return i18n('icu:CallHistory__Description--Default', { type, direction });
-}
+import { ContextMenu } from '../../ContextMenu';
+import { canHaveNicknameAndNote } from '../../../util/nicknames';
+import { CallHistoryGroupPanelSection } from './CallHistoryGroupPanelSection';
 
 enum ModalState {
-  NothingOpen,
+  AddingGroupMembers,
+  ConfirmDeleteNicknameAndNote,
   EditingGroupDescription,
   EditingGroupTitle,
-  AddingGroupMembers,
   MuteNotifications,
+  NothingOpen,
   UnmuteNotifications,
 }
 
@@ -140,6 +114,8 @@ type ActionProps = {
   getProfilesForConversation: (id: string) => unknown;
   leaveGroup: (conversationId: string) => void;
   loadRecentMediaItems: (id: string, limit: number) => void;
+  onDeleteNicknameAndNote: () => void;
+  onOpenEditNicknameAndNoteModal: () => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => unknown;
   onOutgoingVideoCallInConversation: (conversationId: string) => unknown;
   pushPanelForConversation: PushPanelForConversationActionType;
@@ -150,6 +126,7 @@ type ActionProps = {
   setMuteExpiration: (id: string, muteExpiresAt: undefined | number) => unknown;
   showContactModal: (contactId: string, conversationId?: string) => void;
   showConversation: ShowConversationType;
+  toggleAboutContactModal: (contactId: string) => void;
   toggleAddUserToAnotherGroupModal: (contactId?: string) => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
   updateGroupAttributes: (
@@ -206,6 +183,8 @@ export function ConversationDetails({
   memberships,
   maxGroupSize,
   maxRecommendedGroupSize,
+  onDeleteNicknameAndNote,
+  onOpenEditNicknameAndNoteModal,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
   pendingApprovalMemberships,
@@ -223,6 +202,7 @@ export function ConversationDetails({
   showConversation,
   showLightboxWithMedia,
   theme,
+  toggleAboutContactModal,
   toggleSafetyNumberModal,
   toggleAddUserToAnotherGroupModal,
   updateGroupAttributes,
@@ -265,7 +245,7 @@ export function ConversationDetails({
       modalNode = (
         <EditConversationAttributesModal
           avatarColor={conversation.color}
-          avatarPath={conversation.avatarPath}
+          avatarUrl={conversation.avatarUrl}
           conversationId={conversation.id}
           groupDescription={conversation.groupDescription}
           i18n={i18n}
@@ -342,6 +322,30 @@ export function ConversationDetails({
         />
       );
       break;
+    case ModalState.ConfirmDeleteNicknameAndNote:
+      modalNode = (
+        <ConfirmationDialog
+          dialogName="ConversationDetails.ConfirmDeleteNicknameAndNote"
+          actions={[
+            {
+              action: onDeleteNicknameAndNote,
+              style: 'negative',
+              text: i18n('icu:delete'),
+            },
+          ]}
+          hasXButton
+          i18n={i18n}
+          title={i18n(
+            'icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title'
+          )}
+          onClose={onCloseModal}
+        >
+          {i18n(
+            'icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description'
+          )}
+        </ConfirmationDialog>
+      );
+      break;
     case ModalState.MuteNotifications:
       modalNode = (
         <ConversationNotificationsModal
@@ -373,6 +377,7 @@ export function ConversationDetails({
         </ConfirmationDialog>
       );
       break;
+
     default:
       throw missingCaseError(modalState);
   }
@@ -389,7 +394,7 @@ export function ConversationDetails({
         i18n={i18n}
         isMe={conversation.isMe}
         isGroup={isGroup}
-        memberships={memberships}
+        membersCount={conversation.membersCount ?? null}
         startEditing={(isGroupTitle: boolean) => {
           setModalState(
             isGroupTitle
@@ -398,6 +403,7 @@ export function ConversationDetails({
           );
         }}
         theme={theme}
+        toggleAboutContactModal={toggleAboutContactModal}
       />
 
       <div className="ConversationDetails__header-buttons">
@@ -462,41 +468,10 @@ export function ConversationDetails({
       </div>
 
       {callHistoryGroup && (
-        <PanelSection title={formatDate(i18n, callHistoryGroup.timestamp)}>
-          <ol className="ConversationDetails__CallHistoryGroup__List">
-            {callHistoryGroup.children.map(child => {
-              return (
-                <li
-                  key={child.callId}
-                  className="ConversationDetails__CallHistoryGroup__Item"
-                >
-                  <span
-                    className={classNames(
-                      'ConversationDetails__CallHistoryGroup__ItemIcon',
-                      {
-                        'ConversationDetails__CallHistoryGroup__ItemIcon--Audio':
-                          callHistoryGroup.type === CallType.Audio,
-                        'ConversationDetails__CallHistoryGroup__ItemIcon--Video':
-                          callHistoryGroup.type !== CallType.Audio,
-                      }
-                    )}
-                  />
-                  <span className="ConversationDetails__CallHistoryGroup__ItemLabel">
-                    {describeCallHistory(
-                      i18n,
-                      callHistoryGroup.type,
-                      callHistoryGroup.direction,
-                      callHistoryGroup.status
-                    )}
-                  </span>
-                  <span className="ConversationDetails__CallHistoryGroup__ItemTimestamp">
-                    {formatTime(i18n, child.timestamp, Date.now(), false)}
-                  </span>
-                </li>
-              );
-            })}
-          </ol>
-        </PanelSection>
+        <CallHistoryGroupPanelSection
+          callHistoryGroup={callHistoryGroup}
+          i18n={i18n}
+        />
       )}
 
       <PanelSection>
@@ -531,6 +506,57 @@ export function ConversationDetails({
             }
           />
         ) : null}
+        {canHaveNicknameAndNote(conversation) && (
+          <PanelRow
+            icon={
+              <ConversationDetailsIcon
+                ariaLabel={i18n('icu:ConversationDetails--nickname-label')}
+                icon={IconType.edit}
+              />
+            }
+            label={i18n('icu:ConversationDetails--nickname-label')}
+            onClick={onOpenEditNicknameAndNoteModal}
+            actions={
+              (conversation.nicknameGivenName ||
+                conversation.nicknameFamilyName ||
+                conversation.note) && (
+                <ContextMenu
+                  i18n={i18n}
+                  portalToRoot
+                  popperOptions={{
+                    placement: 'bottom',
+                    strategy: 'absolute',
+                  }}
+                  menuOptions={[
+                    {
+                      icon: 'ConversationDetails--nickname-actions--delete',
+                      label: i18n(
+                        'icu:ConversationDetails--nickname-actions--delete'
+                      ),
+                      onClick: () => {
+                        setModalState(ModalState.ConfirmDeleteNicknameAndNote);
+                      },
+                    },
+                  ]}
+                >
+                  {({ openMenu }) => {
+                    return (
+                      <button
+                        type="button"
+                        className="ConversationDetails--nickname-actions"
+                        onClick={openMenu}
+                      >
+                        <span className="ConversationDetails--nickname-actions-label">
+                          {i18n('icu:ConversationDetails--nickname-actions')}
+                        </span>
+                      </button>
+                    );
+                  }}
+                </ContextMenu>
+              )
+            }
+          />
+        )}
         {selectedNavTab === NavTab.Chats && (
           <PanelRow
             icon={

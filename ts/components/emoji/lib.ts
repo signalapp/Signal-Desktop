@@ -23,6 +23,7 @@ import { getOwn } from '../../util/getOwn';
 import * as log from '../../logging/log';
 import { MINUTE } from '../../util/durations';
 import { drop } from '../../util/drop';
+import type { LocaleEmojiType } from '../../types/emoji';
 
 export const skinTones = ['1F3FB', '1F3FC', '1F3FD', '1F3FE', '1F3FF'];
 
@@ -218,34 +219,101 @@ export function getImagePath(
   return makeImagePath(emojiData.image);
 }
 
-const fuse = new Fuse(data, {
-  shouldSort: true,
-  threshold: 0.2,
-  minMatchCharLength: 1,
-  keys: ['short_name', 'short_names'],
-});
+export type SearchFnType = (query: string, count?: number) => Array<string>;
 
-const fuseExactPrefix = new Fuse(data, {
-  shouldSort: true,
-  threshold: 0, // effectively a prefix search
-  minMatchCharLength: 2,
-  keys: ['short_name', 'short_names'],
-});
+export type SearchEmojiListType = ReadonlyArray<
+  Pick<LocaleEmojiType, 'shortName' | 'rank' | 'tags'>
+>;
 
-export function search(query: string, count = 0): Array<EmojiData> {
-  // when we only have 2 characters, do an exact prefix match
-  // to avoid matching on emoticon, like :-P
-  const fuseIndex = query.length === 2 ? fuseExactPrefix : fuse;
+type CachedSearchFnType = Readonly<{
+  localeEmoji: SearchEmojiListType;
+  fn: SearchFnType;
+}>;
 
-  const results = fuseIndex
-    .search(query.substr(0, 32))
-    .map(result => result.item);
+let cachedSearchFn: CachedSearchFnType | undefined;
 
-  if (count) {
-    return take(results, count);
+export function createSearch(localeEmoji: SearchEmojiListType): SearchFnType {
+  if (cachedSearchFn && cachedSearchFn.localeEmoji === localeEmoji) {
+    return cachedSearchFn.fn;
   }
 
-  return results;
+  const knownSet = new Set<string>();
+
+  const knownEmoji = localeEmoji.filter(({ shortName }) => {
+    knownSet.add(shortName);
+    return dataByShortName[shortName] != null;
+  });
+
+  for (const entry of data) {
+    if (!knownSet.has(entry.short_name)) {
+      knownEmoji.push({
+        shortName: entry.short_name,
+        rank: 0,
+        tags: entry.short_names,
+      });
+    }
+  }
+
+  let maxShortNameLength = 0;
+  for (const { shortName } of knownEmoji) {
+    maxShortNameLength = Math.max(maxShortNameLength, shortName.length);
+  }
+
+  const fuse = new Fuse(knownEmoji, {
+    shouldSort: false,
+    threshold: 0.2,
+    minMatchCharLength: 1,
+    keys: ['shortName', 'tags'],
+    includeScore: true,
+  });
+
+  const fuseExactPrefix = new Fuse(knownEmoji, {
+    // We re-rank and sort manually below
+    shouldSort: false,
+    threshold: 0, // effectively a prefix search
+    minMatchCharLength: 2,
+    keys: ['shortName', 'tags'],
+    includeScore: true,
+  });
+
+  const fn = (query: string, count = 0): Array<string> => {
+    // when we only have 2 characters, do an exact prefix match
+    // to avoid matching on emoticon, like :-P
+    const fuseIndex = query.length === 2 ? fuseExactPrefix : fuse;
+
+    const rawResults = fuseIndex.search(query.substr(0, 32));
+
+    const rankedResults = rawResults.map(entry => {
+      const rank = entry.item.rank || 1e9;
+
+      // Rank exact prefix matches in [0,1] range
+      if (entry.item.shortName.startsWith(query)) {
+        return {
+          score: entry.item.shortName.length / maxShortNameLength,
+          item: entry.item,
+        };
+      }
+
+      // Other matches in [1,], ordered by score and rank
+      return {
+        score: 1 + (entry.score ?? 0) + rank / knownEmoji.length,
+        item: entry.item,
+      };
+    });
+
+    const results = rankedResults
+      .sort((a, b) => a.score - b.score)
+      .map(result => result.item.shortName);
+
+    if (count) {
+      return take(results, count);
+    }
+
+    return results;
+  };
+
+  cachedSearchFn = { localeEmoji, fn };
+  return fn;
 }
 
 const shortNames = new Set([

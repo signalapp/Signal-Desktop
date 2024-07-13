@@ -5,6 +5,7 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import enMessages from '../../_locales/en/messages.json';
 import { AvatarColors } from '../types/Colors';
 import type { PropsType } from './BetterAvatarBubble';
@@ -25,7 +26,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
 export default {
   title: 'Components/BetterAvatarBubble',
-};
+} satisfies Meta<PropsType>;
 
 export function Children(): JSX.Element {
   return (

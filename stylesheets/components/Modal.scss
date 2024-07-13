@@ -21,15 +21,17 @@
   }
 
   &__header {
+    &--with-back-button .module-Modal__title {
+      text-align: center;
+    }
+  }
+
+  &__headerTitle {
     align-items: center;
     display: flex;
     justify-content: space-between;
     padding-block: 16px 1em;
     padding-inline: 16px;
-
-    &--with-back-button .module-Modal__title {
-      text-align: center;
-    }
   }
 
   &__title {
@@ -187,8 +189,8 @@
     padding-inline: 16px;
     gap: 8px;
 
-    .module-Button {
-      margin-inline-start: 8px;
+    .module-Button:not(:first-child) {
+      margin-inline-start: 4px;
     }
 
     &--one-button-per-line {

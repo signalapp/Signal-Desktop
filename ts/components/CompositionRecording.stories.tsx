@@ -3,8 +3,9 @@
 
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+import type { Props } from './CompositionRecording';
 import { CompositionRecording } from './CompositionRecording';
-
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -13,7 +14,7 @@ const i18n = setupI18n('en', enMessages);
 export default {
   title: 'components/CompositionRecording',
   component: CompositionRecording,
-};
+} satisfies Meta<Props>;
 
 export function Default(): JSX.Element {
   const [active, setActive] = useState(false);
@@ -44,12 +45,14 @@ export function Default(): JSX.Element {
       {active && (
         <CompositionRecording
           i18n={i18n}
-          conversationId="convo-id"
           onCancel={handleCancel}
           onSend={handleSend}
           errorRecording={_ => action('error')()}
           addAttachment={action('addAttachment')}
           completeRecording={action('completeRecording')}
+          saveDraftRecordingIfNeeded={action('saveDraftRecordingIfNeeded')}
+          showToast={action('showToast')}
+          hideToast={action('hideToast')}
         />
       )}
     </>

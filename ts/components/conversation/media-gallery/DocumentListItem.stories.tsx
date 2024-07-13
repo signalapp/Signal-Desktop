@@ -2,25 +2,30 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { boolean, date, number, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
+import type { Props } from './DocumentListItem';
 import { DocumentListItem } from './DocumentListItem';
 
 export default {
   title: 'Components/Conversation/MediaGallery/DocumentListItem',
-};
+  argTypes: {
+    timestamp: { control: { type: 'date' } },
+    fileName: { control: { type: 'text' } },
+    fileSize: { control: { type: 'number' } },
+    shouldShowSeparator: { control: { type: 'boolean' } },
+  },
+  args: {
+    timestamp: Date.now(),
+    fileName: 'meow.jpg',
+    fileSize: 1024 * 1000 * 2,
+    shouldShowSeparator: false,
+    onClick: action('onClick'),
+  },
+} satisfies Meta<Props>;
 
-export function Single(): JSX.Element {
-  return (
-    <DocumentListItem
-      timestamp={date('timestamp', new Date())}
-      fileName={text('fileName', 'meow.jpg')}
-      fileSize={number('fileSize', 1024 * 1000 * 2)}
-      shouldShowSeparator={boolean('shouldShowSeparator', false)}
-      onClick={action('onClick')}
-    />
-  );
+export function Single(args: Props): JSX.Element {
+  return <DocumentListItem {...args} />;
 }
 
 export function Multiple(): JSX.Element {

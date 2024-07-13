@@ -3,18 +3,15 @@
 
 .StoryViewsNRepliesModal {
   min-width: 320px;
-  min-height: min(400px, 80vh);
   max-height: 80vh;
-  overflow: hidden;
 
   &--group {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+    min-height: min(400px, 80vh);
 
-    .StoryViewsNRepliesModal__replies {
+    .StoryViewsNRepliesModal__content {
+      display: flex;
+      flex-direction: column;
       flex: 1;
-      overflow: auto;
     }
   }
 
@@ -22,7 +19,6 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    overflow: hidden; // override modal's overflow: auto
   }
 
   &__body_inner {
@@ -31,12 +27,26 @@
     flex: 1;
   }
 
+  &__content {
+    &:not(:has(.Tabs)) {
+      padding-block-start: 16px;
+    }
+
+    // When picking from full emoji set, compensate for for hidden quick picker
+    &:has(.module-emoji-picker)::before {
+      content: '';
+      display: block;
+      height: 52px;
+    }
+
+    padding-block-end: 16px;
+    padding-inline: 16px;
+  }
+
   &__replies {
     flex: 1;
     margin-block: 0;
     margin-inline: -16px;
-    max-height: 75vh;
-    overflow-y: overlay;
 
     &--none {
       align-items: center;
@@ -249,15 +259,20 @@
   }
 
   .module-emoji-picker {
-    bottom: 55px;
     position: absolute;
+    bottom: 55px;
+    max-height: calc(100vh - 100px);
   }
 }
 
 .Tabs.StoryViewsNRepliesModal__tabs {
+  position: sticky;
+  top: 0;
+  z-index: $z-index-base;
+  padding-block: 16px;
+  background: $color-gray-80;
   border-bottom: none;
   justify-content: center;
-  margin-bottom: 16px;
 }
 
 .Tabs__tab.StoryViewsNRepliesModal__tabs__tab {

@@ -3,6 +3,7 @@
 
 import React from 'react';
 import type { ConversationType } from '../state/ducks/conversations';
+import type { CallingConversationType } from '../types/Calling';
 import type { LocalizerType } from '../types/Util';
 import { Avatar, AvatarSize } from './Avatar';
 import { getParticipantName } from '../util/callingGetParticipantName';
@@ -15,29 +16,39 @@ export enum RingMode {
   IsRinging,
 }
 
-type PropsType = {
+export type PropsType = {
   conversation: Pick<
-    ConversationType,
+    CallingConversationType,
     | 'acceptedMessageRequest'
-    | 'avatarPath'
+    | 'avatarUrl'
     | 'color'
     | 'isMe'
     | 'phoneNumber'
     | 'profileName'
     | 'sharedGroupNames'
+    | 'systemGivenName'
+    | 'systemNickname'
     | 'title'
     | 'type'
-    | 'unblurredAvatarPath'
+    | 'unblurredAvatarUrl'
   >;
   i18n: LocalizerType;
   me: Pick<ConversationType, 'id' | 'serviceId'>;
   ringMode: RingMode;
 
   // The following should only be set for group conversations.
-  groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
+  groupMembers?: Array<
+    Pick<
+      ConversationType,
+      'id' | 'firstName' | 'systemGivenName' | 'systemNickname' | 'title'
+    >
+  >;
   isCallFull?: boolean;
   peekedParticipants?: Array<
-    Pick<ConversationType, 'firstName' | 'title' | 'serviceId'>
+    Pick<
+      ConversationType,
+      'firstName' | 'systemGivenName' | 'systemNickname' | 'title' | 'serviceId'
+    >
   >;
 };
 
@@ -93,7 +104,7 @@ export function CallingPreCallInfo({
         subtitle = i18n('icu:calling__pre-call-info--many-people-in-call', {
           first: participantNames[0],
           second: participantNames[1],
-          others: String(participantNames.length - 2),
+          others: participantNames.length - 2,
         });
         break;
     }
@@ -104,6 +115,7 @@ export function CallingPreCallInfo({
         memberNames = [getParticipantName(conversation)];
         break;
       case 'group':
+      case 'callLink':
         memberNames = groupMembers
           .filter(member => member.id !== me.id)
           .map(getParticipantName);
@@ -159,12 +171,12 @@ export function CallingPreCallInfo({
           ? i18n('icu:calling__pre-call-info--will-ring-many', {
               first: memberNames[0],
               second: memberNames[1],
-              others: String(memberNames.length - 2),
+              others: memberNames.length - 2,
             })
           : i18n('icu:calling__pre-call-info--will-notify-many', {
               first: memberNames[0],
               second: memberNames[1],
-              others: String(memberNames.length - 2),
+              others: memberNames.length - 2,
             });
         break;
       }
@@ -174,7 +186,7 @@ export function CallingPreCallInfo({
   return (
     <div className="module-CallingPreCallInfo">
       <Avatar
-        avatarPath={conversation.avatarPath}
+        avatarUrl={conversation.avatarUrl}
         badge={undefined}
         color={conversation.color}
         acceptedMessageRequest={conversation.acceptedMessageRequest}
@@ -184,9 +196,9 @@ export function CallingPreCallInfo({
         phoneNumber={conversation.phoneNumber}
         profileName={conversation.profileName}
         sharedGroupNames={conversation.sharedGroupNames}
-        size={AvatarSize.EIGHTY}
+        size={AvatarSize.NINETY_SIX}
         title={conversation.title}
-        unblurredAvatarPath={conversation.unblurredAvatarPath}
+        unblurredAvatarUrl={conversation.unblurredAvatarUrl}
         i18n={i18n}
       />
       <div className="module-CallingPreCallInfo__title">

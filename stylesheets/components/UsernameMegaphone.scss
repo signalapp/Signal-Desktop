@@ -1,0 +1,112 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.UsernameMegaphone {
+  @include font-body-2;
+
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+
+  user-select: none;
+  z-index: $z-index-megaphone;
+  padding-block: 12px;
+  padding-inline: 8px;
+
+  @include light-theme {
+    background-color: $color-white;
+    border: 1px solid $color-gray-20;
+  }
+  @include dark-theme {
+    background: $color-gray-75;
+    border: 1px solid $color-gray-60;
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: row;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    gap: 12px;
+  }
+
+  &__row__icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 2px;
+    margin-inline-start: 8px;
+
+    background-size: cover;
+    @include light-theme {
+      background-image: url(../images/usernames_40_color.svg);
+    }
+
+    @include dark-theme {
+      background-image: url(../images/usernames_40_color_dark.svg);
+    }
+  }
+
+  &__row__text {
+    @include font-body-2;
+
+    padding-inline-end: 8px;
+
+    h2 {
+      @include font-body-2-bold;
+      margin: 0;
+      line-height: 20px;
+    }
+
+    p {
+      margin: 0;
+
+      @include light-theme {
+        color: $color-gray-60;
+      }
+      @include dark-theme {
+        color: $color-gray-25;
+      }
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 12px;
+  }
+
+  &__buttons__button {
+    margin-bottom: 0;
+    font-weight: 600;
+    padding-block: 5px;
+
+    @include light-theme {
+      background: transparent;
+
+      &:hover,
+      &:active {
+        @include not-disabled {
+          background: transparent;
+        }
+      }
+    }
+
+    @include dark-theme {
+      background: transparent;
+
+      &:hover,
+      &:active {
+        @include not-disabled {
+          background: transparent;
+        }
+      }
+    }
+  }
+
+  .NavSidebar--narrow & {
+    display: none;
+  }
+}

@@ -11,6 +11,7 @@ import { SignalProtocolStore } from '../../SignalProtocolStore';
 import type { ConversationModel } from '../../models/conversations';
 import * as KeyChangeListener from '../../textsecure/KeyChangeListener';
 import * as Bytes from '../../Bytes';
+import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
 
 describe('KeyChangeListener', () => {
   let oldNumberId: string | undefined;
@@ -67,8 +68,9 @@ describe('KeyChangeListener', () => {
   });
 
   afterEach(async () => {
-    await window.Signal.Data.removeAllMessagesInConversation(convo.id, {
+    await window.Signal.Data.removeMessagesInConversation(convo.id, {
       logId: ourServiceIdWithKeyChange,
+      singleProtoJobQueue,
     });
     await window.Signal.Data.removeConversation(convo.id);
 
@@ -104,8 +106,9 @@ describe('KeyChangeListener', () => {
     });
 
     afterEach(async () => {
-      await window.Signal.Data.removeAllMessagesInConversation(groupConvo.id, {
+      await window.Signal.Data.removeMessagesInConversation(groupConvo.id, {
         logId: ourServiceIdWithKeyChange,
+        singleProtoJobQueue,
       });
       await window.Signal.Data.removeConversation(groupConvo.id);
     });

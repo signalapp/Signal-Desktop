@@ -9,12 +9,13 @@ import { AvatarLightbox } from '../../AvatarLightbox';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import { GroupDescription } from '../GroupDescription';
 import { About } from '../About';
-import type { GroupV2Membership } from './ConversationDetailsMembershipList';
 import type { LocalizerType, ThemeType } from '../../../types/Util';
-import { bemGenerator } from './util';
+import { assertDev } from '../../../util/assert';
 import { BadgeDialog } from '../../BadgeDialog';
 import type { BadgeType } from '../../../badges/types';
 import { UserText } from '../../UserText';
+import { isInSystemContacts } from '../../../util/isInSystemContacts';
+import { InContactsIcon } from '../../InContactsIcon';
 
 export type Props = {
   areWeASubscriber: boolean;
@@ -24,8 +25,9 @@ export type Props = {
   i18n: LocalizerType;
   isGroup: boolean;
   isMe: boolean;
-  memberships: ReadonlyArray<GroupV2Membership>;
+  membersCount: number | null;
   startEditing: (isGroupTitle: boolean) => void;
+  toggleAboutContactModal: (contactId: string) => void;
   theme: ThemeType;
 };
 
@@ -33,8 +35,6 @@ enum ConversationDetailsHeaderActiveModal {
   ShowingAvatar,
   ShowingBadges,
 }
-
-const bem = bemGenerator('ConversationDetails-header');
 
 export function ConversationDetailsHeader({
   areWeASubscriber,
@@ -44,8 +44,9 @@ export function ConversationDetailsHeader({
   i18n,
   isGroup,
   isMe,
-  memberships,
+  membersCount,
   startEditing,
+  toggleAboutContactModal,
   theme,
 }: Props): JSX.Element {
   const [activeModal, setActiveModal] = useState<
@@ -69,19 +70,14 @@ export function ConversationDetailsHeader({
       subtitle = i18n('icu:ConversationDetailsHeader--add-group-description');
     } else {
       subtitle = i18n('icu:ConversationDetailsHeader--members', {
-        number: memberships.length,
+        number: membersCount ?? 0,
       });
     }
   } else if (!isMe) {
     subtitle = (
-      <>
-        <div className={bem('subtitle__about')}>
-          <About text={conversation.about} />
-        </div>
-        <div className={bem('subtitle__phone-number')}>
-          {conversation.phoneNumber}
-        </div>
-      </>
+      <div className="ConversationDetailsHeader__subtitle__about">
+        <About text={conversation.about} />
+      </div>
     );
     preferredBadge = badges?.[0];
   }
@@ -105,22 +101,13 @@ export function ConversationDetailsHeader({
     />
   );
 
-  const contents = (
-    <div>
-      <div className={bem('title')}>
-        {isMe ? i18n('icu:noteToSelf') : <UserText text={conversation.title} />}
-        {isMe && <span className="ContactModal__official-badge__large" />}
-      </div>
-    </div>
-  );
-
   let modal: ReactNode;
   switch (activeModal) {
     case ConversationDetailsHeaderActiveModal.ShowingAvatar:
       modal = (
         <AvatarLightbox
           avatarColor={conversation.color}
-          avatarPath={conversation.avatarPath}
+          avatarUrl={conversation.avatarUrl}
           conversationTitle={conversation.title}
           i18n={i18n}
           isGroup={isGroup}
@@ -150,8 +137,13 @@ export function ConversationDetailsHeader({
   }
 
   if (canEdit) {
+    assertDev(isGroup, 'Only groups support editable title');
+
     return (
-      <div className={bem('root')} data-testid="ConversationDetailsHeader">
+      <div
+        className="ConversationDetailsHeader"
+        data-testid="ConversationDetailsHeader"
+      >
         {modal}
         {avatar}
         <button
@@ -161,12 +153,14 @@ export function ConversationDetailsHeader({
             ev.stopPropagation();
             startEditing(true);
           }}
-          className={bem('root', 'editable')}
+          className="ConversationDetailsHeader__edit-button"
         >
-          {contents}
+          <div className="ConversationDetailsHeader__title">
+            <UserText text={conversation.title} />
+          </div>
         </button>
         {hasNestedButton ? (
-          <div className={bem('subtitle')}>{subtitle}</div>
+          <div className="ConversationDetailsHeader__subtitle">{subtitle}</div>
         ) : (
           <button
             type="button"
@@ -179,21 +173,69 @@ export function ConversationDetailsHeader({
               ev.stopPropagation();
               startEditing(false);
             }}
-            className={bem('root', 'editable')}
+            className="ConversationDetailsHeader__edit-button"
           >
-            <div className={bem('subtitle')}>{subtitle}</div>
+            <div className="ConversationDetailsHeader__subtitle">
+              {subtitle}
+            </div>
           </button>
         )}
       </div>
     );
   }
 
+  let title: JSX.Element;
+
+  if (isMe) {
+    title = (
+      <div className="ConversationDetailsHeader__title">
+        {i18n('icu:noteToSelf')}
+        <span className="ContactModal__official-badge__large" />
+      </div>
+    );
+  } else if (isGroup) {
+    title = (
+      <div className="ConversationDetailsHeader__title">
+        <UserText text={conversation.title} />
+      </div>
+    );
+  } else {
+    title = (
+      <button
+        type="button"
+        onClick={ev => {
+          ev.preventDefault();
+          ev.stopPropagation();
+          toggleAboutContactModal(conversation.id);
+        }}
+        className="ConversationDetailsHeader__about-button"
+      >
+        <div className="ConversationDetailsHeader__title">
+          <UserText text={conversation.title} />
+          {isInSystemContacts(conversation) && (
+            <span>
+              {' '}
+              <InContactsIcon
+                className="ConversationDetailsHeader__title-contact-icon"
+                i18n={i18n}
+              />
+            </span>
+          )}
+          <span className="ConversationDetailsHeader__about-icon" />
+        </div>
+      </button>
+    );
+  }
+
   return (
-    <div className={bem('root')} data-testid="ConversationDetailsHeader">
+    <div
+      className="ConversationDetailsHeader"
+      data-testid="ConversationDetailsHeader"
+    >
       {modal}
       {avatar}
-      {contents}
-      <div className={bem('subtitle')}>{subtitle}</div>
+      {title}
+      <div className="ConversationDetailsHeader__subtitle">{subtitle}</div>
     </div>
   );
 }

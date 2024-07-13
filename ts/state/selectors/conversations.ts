@@ -30,14 +30,12 @@ import { deconstructLookup } from '../../util/deconstructLookup';
 import type { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
 import { assertDev } from '../../util/assert';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
-import {
-  filterAndSortConversationsAlphabetically,
-  filterAndSortConversationsByRecent,
-} from '../../util/filterAndSortConversations';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations';
 import type { ContactNameColorType } from '../../types/Colors';
 import { ContactNameColors } from '../../types/Colors';
 import type { AvatarDataType } from '../../types/Avatar';
 import type { AciString, ServiceIdString } from '../../types/ServiceId';
+import { normalizeServiceId } from '../../types/ServiceId';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 import { isSignalConnection } from '../../util/getSignalConnections';
 import { sortByTitle } from '../../util/sortByTitle';
@@ -153,11 +151,34 @@ export const getAllSignalConnections = createSelector(
     conversations.filter(isSignalConnection)
 );
 
-export const getConversationsByTitleSelector = createSelector(
+export const getSafeConversationWithSameTitle = createSelector(
   getAllConversations,
-  (conversations): ((title: string) => Array<ConversationType>) =>
-    (title: string) =>
-      conversations.filter(conversation => conversation.title === title)
+  (
+    _state: StateType,
+    {
+      possiblyUnsafeConversation,
+    }: {
+      possiblyUnsafeConversation: ConversationType;
+    }
+  ) => possiblyUnsafeConversation,
+  (conversations, possiblyUnsafeConversation): ConversationType | undefined => {
+    const conversationsWithSameTitle = conversations.filter(conversation => {
+      return conversation.title === possiblyUnsafeConversation.title;
+    });
+    assertDev(
+      conversationsWithSameTitle.length,
+      'Expected at least 1 conversation with the same title (this one)'
+    );
+
+    const safeConversation = conversationsWithSameTitle.find(
+      otherConversation =>
+        otherConversation.acceptedMessageRequest &&
+        otherConversation.type === 'direct' &&
+        otherConversation.id !== possiblyUnsafeConversation.id
+    );
+
+    return safeConversation;
+  }
 );
 
 export const getSelectedConversationId = createSelector(
@@ -182,6 +203,12 @@ export const getTargetedMessage = createSelector(
       id: state.targetedMessage,
       counter: state.targetedMessageCounter,
     };
+  }
+);
+export const getTargetedMessageSource = createSelector(
+  getConversations,
+  (state: ConversationsStateType): string | undefined => {
+    return state.targetedMessageSource;
   }
 );
 export const getSelectedMessageIds = createSelector(
@@ -276,8 +303,9 @@ const collator = new Intl.Collator();
 //   phone numbers and contacts from scratch here again.
 export const _getConversationComparator = () => {
   return (left: ConversationType, right: ConversationType): number => {
-    const leftTimestamp = left.timestamp;
-    const rightTimestamp = right.timestamp;
+    // These two fields can be sorted with each other; they are timestamps
+    const leftTimestamp = left.lastMessageReceivedAtMs || left.timestamp;
+    const rightTimestamp = right.lastMessageReceivedAtMs || right.timestamp;
     if (leftTimestamp && !rightTimestamp) {
       return -1;
     }
@@ -286,6 +314,19 @@ export const _getConversationComparator = () => {
     }
     if (leftTimestamp && rightTimestamp && leftTimestamp !== rightTimestamp) {
       return rightTimestamp - leftTimestamp;
+    }
+
+    // This field looks like a timestamp, but is actually a counter
+    const leftCounter = left.lastMessageReceivedAt;
+    const rightCounter = right.lastMessageReceivedAt;
+    if (leftCounter && !rightCounter) {
+      return -1;
+    }
+    if (rightCounter && !leftCounter) {
+      return 1;
+    }
+    if (leftCounter && rightCounter && leftCounter !== rightCounter) {
+      return rightCounter - leftCounter;
     }
 
     if (
@@ -447,6 +488,24 @@ export const getComposerConversationSearchTerm = createSelector(
   }
 );
 
+export const getComposerSelectedRegion = createSelector(
+  getComposerState,
+  (composer): string => {
+    if (!composer) {
+      assertDev(false, 'getComposerSelectedRegion: composer is not open');
+      return '';
+    }
+    if (composer.step !== ComposerStep.FindByPhoneNumber) {
+      assertDev(
+        false,
+        'getComposerSelectedRegion: composer does not have a selected region'
+      );
+      return '';
+    }
+    return composer.selectedRegion;
+  }
+);
+
 export const getComposerUUIDFetchState = createSelector(
   getComposerState,
   (composer): UUIDFetchStateType => {
@@ -456,6 +515,8 @@ export const getComposerUUIDFetchState = createSelector(
     }
     if (
       composer.step !== ComposerStep.StartDirectConversation &&
+      composer.step !== ComposerStep.FindByUsername &&
+      composer.step !== ComposerStep.FindByPhoneNumber &&
       composer.step !== ComposerStep.ChooseGroupMembers
     ) {
       assertDev(
@@ -466,6 +527,13 @@ export const getComposerUUIDFetchState = createSelector(
       return {};
     }
     return composer.uuidFetchState;
+  }
+);
+
+export const getHasContactSpoofingReview = createSelector(
+  getConversations,
+  (state: ConversationsStateType): boolean => {
+    return state.hasContactSpoofingReview;
   }
 );
 
@@ -500,7 +568,8 @@ function canComposeConversation(conversation: ConversationType): boolean {
     !isSignalConversation(conversation) &&
       !conversation.isBlocked &&
       !conversation.removalStage &&
-      (isGroupV2(conversation) || !isConversationUnregistered(conversation)) &&
+      ((isGroupV2(conversation) && !conversation.left) ||
+        !isConversationUnregistered(conversation)) &&
       hasDisplayInfo(conversation) &&
       isTrusted(conversation)
   );
@@ -515,7 +584,7 @@ export const getAllComposableConversations = createSelector(
         !conversation.isBlocked &&
         !conversation.removalStage &&
         !conversation.isGroupV1AndDisabled &&
-        (isGroupV2(conversation) ||
+        ((isGroupV2(conversation) && !conversation.left) ||
           !isConversationUnregistered(conversation)) &&
         // All conversation should have a title except in weird cases where
         // they don't, in that case we don't want to show these for Forwarding.
@@ -602,8 +671,7 @@ export const getNonGroupStories = createSelector(
     conversationIdsWithStories: Set<string>
   ): Array<ConversationType> => {
     return groups.filter(
-      group =>
-        !isGroupInStoryMode(group, conversationIdsWithStories) && !group.left
+      group => !isGroupInStoryMode(group, conversationIdsWithStories)
     );
   }
 );
@@ -667,11 +735,7 @@ export const getFilteredComposeContacts = createSelector(
     contacts: ReadonlyArray<ConversationType>,
     regionCode: string | undefined
   ): Array<ConversationType> => {
-    return filterAndSortConversationsAlphabetically(
-      contacts,
-      searchTerm,
-      regionCode
-    );
+    return filterAndSortConversations(contacts, searchTerm, regionCode);
   }
 );
 
@@ -693,18 +757,16 @@ export const getFilteredComposeGroups = createSelector(
       }>;
     }
   > => {
-    return filterAndSortConversationsAlphabetically(
-      groups,
-      searchTerm,
-      regionCode
-    ).map(group => ({
-      ...group,
-      // we don't disable groups when composing, already filtered
-      disabledReason: undefined,
-      // should always be populated for a group
-      membersCount: group.membersCount ?? 0,
-      memberships: group.memberships ?? [],
-    }));
+    return filterAndSortConversations(groups, searchTerm, regionCode).map(
+      group => ({
+        ...group,
+        // we don't disable groups when composing, already filtered
+        disabledReason: undefined,
+        // should always be populated for a group
+        membersCount: group.membersCount ?? 0,
+        memberships: group.memberships ?? [],
+      })
+    );
   }
 );
 
@@ -712,7 +774,7 @@ export const getFilteredCandidateContactsForNewGroup = createSelector(
   getCandidateContactsForNewGroup,
   getNormalizedComposerConversationSearchTerm,
   getRegionCode,
-  filterAndSortConversationsByRecent
+  filterAndSortConversations
 );
 
 const getGroupCreationComposerState = createSelector(
@@ -800,43 +862,66 @@ export const getCachedSelectorForConversation = createSelector(
   }
 );
 
-export type GetConversationByIdType = (id?: string) => ConversationType;
-export const getConversationSelector = createSelector(
-  getCachedSelectorForConversation,
+export type GetConversationByAnyIdSelectorType = (
+  id?: string
+) => ConversationType | undefined;
+export const getConversationByAnyIdSelector = createSelector(
   getConversationLookup,
   getConversationsByServiceId,
   getConversationsByE164,
   getConversationsByGroupId,
   (
-    selector: CachedConversationSelectorType,
     byId: ConversationLookupType,
     byServiceId: ConversationLookupType,
     byE164: ConversationLookupType,
     byGroupId: ConversationLookupType
+  ): GetConversationByAnyIdSelectorType => {
+    return (id?: string) => {
+      if (!id) {
+        return undefined;
+      }
+
+      const onGroupId = getOwn(byGroupId, id);
+      if (onGroupId) {
+        return onGroupId;
+      }
+      const onServiceId = getOwn(
+        byServiceId,
+        normalizeServiceId(id, 'getConversationSelector')
+      );
+      if (onServiceId) {
+        return onServiceId;
+      }
+      const onE164 = getOwn(byE164, id);
+      if (onE164) {
+        return onE164;
+      }
+      const onId = getOwn(byId, id);
+      if (onId) {
+        return onId;
+      }
+
+      return undefined;
+    };
+  }
+);
+
+export type GetConversationByIdType = (id?: string) => ConversationType;
+export const getConversationSelector = createSelector(
+  getCachedSelectorForConversation,
+  getConversationByAnyIdSelector,
+  (
+    selector: CachedConversationSelectorType,
+    getById: GetConversationByAnyIdSelectorType
   ): GetConversationByIdType => {
     return (id?: string) => {
       if (!id) {
         return selector(undefined);
       }
 
-      const onServiceId = getOwn(
-        byServiceId,
-        id.toLowerCase ? id.toLowerCase() : id
-      );
-      if (onServiceId) {
-        return selector(onServiceId);
-      }
-      const onE164 = getOwn(byE164, id);
-      if (onE164) {
-        return selector(onE164);
-      }
-      const onGroupId = getOwn(byGroupId, id);
-      if (onGroupId) {
-        return selector(onGroupId);
-      }
-      const onId = getOwn(byId, id);
-      if (onId) {
-        return selector(onId);
+      const byId = getById(id);
+      if (byId) {
+        return selector(byId);
       }
 
       log.warn(`getConversationSelector: No conversation found for id ${id}`);
@@ -860,7 +945,7 @@ export const getConversationByServiceIdSelector = createSelector(
       getOwn(conversationsByServiceId, serviceId)
 );
 
-const getCachedConversationMemberColorsSelector = createSelector(
+export const getCachedConversationMemberColorsSelector = createSelector(
   getConversationSelector,
   getUserConversationId,
   (
@@ -914,31 +999,38 @@ export const getContactNameColorSelector = createSelector(
       conversationId: string,
       contactId: string | undefined
     ): ContactNameColorType => {
-      if (!contactId) {
-        log.warn('No color generated for missing contactId');
-        return ContactNameColors[0];
-      }
-
       const contactNameColors =
         conversationMemberColorsSelector(conversationId);
-      const color = contactNameColors.get(contactId);
-      if (!color) {
-        log.warn(`No color generated for contact ${contactId}`);
-        return ContactNameColors[0];
-      }
-      return color;
+      return getContactNameColor(contactNameColors, contactId);
     };
   }
 );
+
+export const getContactNameColor = (
+  contactNameColors: Map<string, string>,
+  contactId: string | undefined
+): string => {
+  if (!contactId) {
+    log.warn('No color generated for missing contactId');
+    return ContactNameColors[0];
+  }
+
+  const color = contactNameColors.get(contactId);
+  if (!color) {
+    log.warn(`No color generated for contact ${contactId}`);
+    return ContactNameColors[0];
+  }
+  return color;
+};
 
 export function _conversationMessagesSelector(
   conversation: ConversationMessageType
 ): TimelinePropsType {
   const {
-    isNearBottom,
+    isNearBottom = null,
     messageChangeCounter,
     messageIds,
-    messageLoadingState,
+    messageLoadingState = null,
     metrics,
     scrollToMessageCounter,
     scrollToMessageId,
@@ -958,10 +1050,10 @@ export function _conversationMessagesSelector(
 
   const oldestUnseenIndex = oldestUnseen
     ? messageIds.findIndex(id => id === oldestUnseen.id)
-    : undefined;
+    : null;
   const scrollToIndex = scrollToMessageId
     ? messageIds.findIndex(id => id === scrollToMessageId)
-    : undefined;
+    : null;
   const { totalUnseen } = metrics;
 
   return {
@@ -974,9 +1066,9 @@ export function _conversationMessagesSelector(
     oldestUnseenIndex:
       isNumber(oldestUnseenIndex) && oldestUnseenIndex >= 0
         ? oldestUnseenIndex
-        : undefined,
+        : null,
     scrollToIndex:
-      isNumber(scrollToIndex) && scrollToIndex >= 0 ? scrollToIndex : undefined,
+      isNumber(scrollToIndex) && scrollToIndex >= 0 ? scrollToIndex : null,
     scrollToIndexCounter: scrollToMessageCounter,
     totalUnseen,
   };
@@ -1014,6 +1106,9 @@ export const getConversationMessagesSelector = createSelector(
           scrollToIndexCounter: 0,
           totalUnseen: 0,
           items: [],
+          isNearBottom: null,
+          oldestUnseenIndex: null,
+          scrollToIndex: null,
         };
       }
 
@@ -1049,12 +1144,12 @@ export function isMissingRequiredProfileSharing(
   const doesConversationRequireIt =
     !conversation.isMe &&
     !conversation.left &&
+    !conversation.removalStage &&
     (isGroupV1(conversation) || isDirectConversation(conversation));
 
   return Boolean(
     doesConversationRequireIt &&
       !conversation.profileSharing &&
-      window.Signal.RemoteConfig.isEnabled('desktop.mandatoryProfileSharing') &&
       conversation.hasMessages
   );
 }
@@ -1215,6 +1310,7 @@ export const getConversationTitle = createSelector(
     getConversationTitleForPanelType(i18n, panel?.type)
 );
 
+// Note that this doesn't take into account max edit count. See canEditMessage.
 export const getLastEditableMessageId = createSelector(
   getConversationMessages,
   getMessages,

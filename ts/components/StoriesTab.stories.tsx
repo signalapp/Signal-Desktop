@@ -1,9 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
+import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoriesTab';
 import { StoriesTab } from './StoriesTab';
 import enMessages from '../../_locales/en/messages.json';
@@ -20,50 +21,33 @@ const i18n = setupI18n('en', enMessages);
 export default {
   title: 'Components/StoriesTab',
   component: StoriesTab,
-  argTypes: {
-    deleteStoryForEveryone: { action: true },
-    getPreferredBadge: { action: true },
-    hiddenStories: {
-      defaultValue: [],
-    },
-    i18n: {
-      defaultValue: i18n,
-    },
-    maxAttachmentSizeInKb: {
-      defaultValue: 100 * 1024,
-    },
-    me: {
-      defaultValue: getDefaultConversation(),
-    },
-    myStories: {
-      defaultValue: [],
-    },
-    onForwardStory: { action: true },
-    onSaveStory: { action: true },
-    ourConversationId: {
-      defaultValue: getDefaultConversation().id,
-    },
-    preferredWidthFromStorage: {
-      defaultValue: 380,
-    },
-    queueStoryDownload: { action: true },
-    renderStoryCreator: { action: true },
-    retryMessageSend: { action: true },
-    showConversation: { action: true },
-    showStoriesSettings: { action: true },
-    showToast: { action: true },
-    stories: {
-      defaultValue: [],
-    },
-    toggleHideStories: { action: true },
-    toggleStoriesView: { action: true },
-    viewUserStories: { action: true },
-    viewStory: { action: true },
+  args: {
+    deleteStoryForEveryone: action('deleteStoryForEveryone'),
+    getPreferredBadge: () => undefined,
+    hiddenStories: [],
+    i18n,
+    maxAttachmentSizeInKb: 100 * 1024,
+    me: getDefaultConversation(),
+    myStories: [],
+    onForwardStory: action('onForwardStory'),
+    onSaveStory: action('onSaveStory'),
+    preferredWidthFromStorage: 380,
+    queueStoryDownload: action('queueStoryDownload'),
+    renderToastManager: () => <i />,
+    renderStoryCreator: () => <>StoryCreator</>,
+    retryMessageSend: action('retryMessageSend'),
+    showConversation: action('showConversation'),
+    showStoriesSettings: action('showStoriesSettings'),
+    showToast: action('showToast'),
+    stories: [],
+    toggleHideStories: action('toggleHideStories'),
+    viewUserStories: action('viewUserStories'),
+    viewStory: action('viewStory'),
   },
-} as Meta;
+} satisfies Meta<PropsType>;
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<PropsType> = args => <StoriesTab {...args} />;
+const Template: StoryFn<PropsType> = args => <StoriesTab {...args} />;
 
 export const Blank = Template.bind({});
 Blank.args = {};

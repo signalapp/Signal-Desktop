@@ -26,7 +26,10 @@ import { ContactListItem } from './conversationList/ContactListItem';
 import { ContactCheckbox as ContactCheckboxComponent } from './conversationList/ContactCheckbox';
 import { PhoneNumberCheckbox as PhoneNumberCheckboxComponent } from './conversationList/PhoneNumberCheckbox';
 import { UsernameCheckbox as UsernameCheckboxComponent } from './conversationList/UsernameCheckbox';
-import { CreateNewGroupButton } from './conversationList/CreateNewGroupButton';
+import {
+  ComposeStepButton,
+  Icon as ComposeStepButtonIcon,
+} from './conversationList/ComposeStepButton';
 import { StartNewConversation as StartNewConversationComponent } from './conversationList/StartNewConversation';
 import { SearchResultsLoadingFakeHeader as SearchResultsLoadingFakeHeaderComponent } from './conversationList/SearchResultsLoadingFakeHeader';
 import { SearchResultsLoadingFakeRow as SearchResultsLoadingFakeRowComponent } from './conversationList/SearchResultsLoadingFakeRow';
@@ -43,6 +46,8 @@ export enum RowType {
   UsernameCheckbox = 'UsernameCheckbox',
   Conversation = 'Conversation',
   CreateNewGroup = 'CreateNewGroup',
+  FindByUsername = 'FindByUsername',
+  FindByPhoneNumber = 'FindByPhoneNumber',
   Header = 'Header',
   MessageSearchResult = 'MessageSearchResult',
   SearchResultsLoadingFakeHeader = 'SearchResultsLoadingFakeHeader',
@@ -97,6 +102,14 @@ type CreateNewGroupRowType = {
   type: RowType.CreateNewGroup;
 };
 
+type FindByUsername = {
+  type: RowType.FindByUsername;
+};
+
+type FindByPhoneNumber = {
+  type: RowType.FindByPhoneNumber;
+};
+
 type MessageRowType = {
   type: RowType.MessageSearchResult;
   messageId: string;
@@ -149,6 +162,8 @@ export type Row =
   | UsernameCheckboxRowType
   | ConversationRowType
   | CreateNewGroupRowType
+  | FindByUsername
+  | FindByPhoneNumber
   | MessageRowType
   | HeaderRowType
   | SearchResultsLoadingFakeHeaderType
@@ -185,9 +200,11 @@ export type PropsType = {
   onSelectConversation: (conversationId: string, messageId?: string) => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
-  removeConversation?: (conversationId: string) => void;
+  removeConversation: (conversationId: string) => void;
   renderMessageSearchResult?: (id: string) => JSX.Element;
   showChooseGroupMembers: () => void;
+  showFindByUsername: () => void;
+  showFindByPhoneNumber: () => void;
   showConversation: ShowConversationType;
 } & LookupConversationWithoutServiceIdActionsType;
 
@@ -214,6 +231,8 @@ export function ConversationList({
   scrollable = true,
   shouldRecomputeRowHeights,
   showChooseGroupMembers,
+  showFindByUsername,
+  showFindByPhoneNumber,
   lookupConversationWithoutServiceId,
   showUserNotFoundModal,
   setIsFetchingUUID,
@@ -235,6 +254,8 @@ export function ConversationList({
         case RowType.ContactCheckbox:
         case RowType.Contact:
         case RowType.CreateNewGroup:
+        case RowType.FindByUsername:
+        case RowType.FindByPhoneNumber:
           return SELECT_ROW_HEIGHT;
         default:
           return NORMAL_ROW_HEIGHT;
@@ -350,12 +371,13 @@ export function ConversationList({
         case RowType.Conversation: {
           const itemProps = pick(row.conversation, [
             'acceptedMessageRequest',
-            'avatarPath',
+            'avatarUrl',
             'badges',
             'color',
             'draftPreview',
             'groupId',
             'id',
+            'isBlocked',
             'isMe',
             'isSelected',
             'isPinned',
@@ -371,7 +393,7 @@ export function ConversationList({
             'title',
             'type',
             'typingContactIdTimestamps',
-            'unblurredAvatarPath',
+            'unblurredAvatarUrl',
             'unreadCount',
             'unreadMentionsCount',
             'serviceId',
@@ -385,7 +407,7 @@ export function ConversationList({
                   get(lastMessage, 'text') ||
                   i18n('icu:ConversationList__last-message-undefined'),
                 title,
-                unreadCount,
+                unreadCount: unreadCount ?? 0,
               })}
               key={key}
               badge={getPreferredBadge(badges)}
@@ -398,9 +420,28 @@ export function ConversationList({
         }
         case RowType.CreateNewGroup:
           result = (
-            <CreateNewGroupButton
-              i18n={i18n}
+            <ComposeStepButton
+              icon={ComposeStepButtonIcon.Group}
+              title={i18n('icu:createNewGroupButton')}
               onClick={showChooseGroupMembers}
+            />
+          );
+          break;
+        case RowType.FindByUsername:
+          result = (
+            <ComposeStepButton
+              icon={ComposeStepButtonIcon.Username}
+              title={i18n('icu:LeftPane__compose__findByUsername')}
+              onClick={showFindByUsername}
+            />
+          );
+          break;
+        case RowType.FindByPhoneNumber:
+          result = (
+            <ComposeStepButton
+              icon={ComposeStepButtonIcon.PhoneNumber}
+              title={i18n('icu:LeftPane__compose__findByPhoneNumber')}
+              onClick={showFindByPhoneNumber}
             />
           );
           break;
@@ -491,6 +532,8 @@ export function ConversationList({
       renderMessageSearchResult,
       setIsFetchingUUID,
       showChooseGroupMembers,
+      showFindByUsername,
+      showFindByPhoneNumber,
       showConversation,
       showUserNotFoundModal,
       theme,

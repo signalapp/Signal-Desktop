@@ -82,4 +82,16 @@
       @include color-svg('../images/icons/v3/x/x-compact.svg', $color-gray-25);
     }
   }
+
+  &__description {
+    margin-block-start: 12px;
+    @include font-subtitle;
+
+    @include light-theme {
+      color: $color-gray-60;
+    }
+    @include dark-theme {
+      color: $color-gray-05;
+    }
+  }
 }

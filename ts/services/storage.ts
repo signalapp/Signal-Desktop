@@ -14,6 +14,7 @@ import {
   encryptProfile,
   decryptProfile,
   deriveMasterKeyFromGroupV1,
+  deriveStorageServiceKey,
 } from '../Crypto';
 import {
   mergeAccountRecord,
@@ -33,6 +34,7 @@ import type { MergeResultType } from './storageRecordOps';
 import { MAX_READ_KEYS } from './storageConstants';
 import type { ConversationModel } from '../models/conversations';
 import { strictAssert } from '../util/assert';
+import { drop } from '../util/drop';
 import { dropNull } from '../util/dropNull';
 import * as durations from '../util/durations';
 import { BackOff } from '../util/BackOff';
@@ -65,6 +67,7 @@ import type {
 import { MY_STORY_ID } from '../types/Stories';
 import { isNotNil } from '../util/isNotNil';
 import { isSignalConversation } from '../util/isSignalConversation';
+import { redactExtendedStorageID, redactStorageID } from '../util/privacy';
 
 type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
 
@@ -101,22 +104,6 @@ const conflictBackOff = new BackOff([
   5 * durations.SECOND,
   30 * durations.SECOND,
 ]);
-
-function redactStorageID(
-  storageID: string,
-  version?: number,
-  conversation?: ConversationModel
-): string {
-  const convoId = conversation ? ` ${conversation?.idForLogging()}` : '';
-  return `${version ?? '?'}:${storageID.substring(0, 3)}${convoId}`;
-}
-
-function redactExtendedStorageID({
-  storageID,
-  storageVersion,
-}: ExtendedStorageID): string {
-  return redactStorageID(storageID, storageVersion);
-}
 
 function encryptRecord(
   storageID: string | undefined,
@@ -900,23 +887,24 @@ async function fetchManifest(
       return decryptManifest(encryptedManifest);
     } catch (err) {
       await stopStorageServiceSync(err);
-      return;
     }
   } catch (err) {
     if (err.code === 204) {
       log.info('storageService.sync: no newer manifest, ok');
-      return;
+      return undefined;
     }
 
     log.error('storageService.sync: failed!', Errors.toLogFormat(err));
 
     if (err.code === 404) {
       await createNewManifest();
-      return;
+      return undefined;
     }
 
     throw err;
   }
+
+  return undefined;
 }
 
 type MergeableItemType = {
@@ -939,6 +927,10 @@ async function mergeRecord(
   itemToMerge: MergeableItemType
 ): Promise<MergedRecordType> {
   const { itemType, storageID, storageRecord } = itemToMerge;
+  const redactedStorageID = redactExtendedStorageID({
+    storageID,
+    storageVersion,
+  });
 
   const ITEM_TYPE = Proto.ManifestRecord.Identifier.Type;
 
@@ -950,7 +942,10 @@ async function mergeRecord(
 
   try {
     if (itemType === ITEM_TYPE.UNKNOWN) {
-      log.warn('storageService.mergeRecord: Unknown item type', storageID);
+      log.warn(
+        'storageService.mergeRecord: Unknown item type',
+        redactedStorageID
+      );
     } else if (itemType === ITEM_TYPE.CONTACT && storageRecord.contact) {
       mergeResult = await mergeContactRecord(
         storageID,
@@ -996,10 +991,7 @@ async function mergeRecord(
     } else {
       isUnsupported = true;
       log.warn(
-        `storageService.merge(${redactStorageID(
-          storageID,
-          storageVersion
-        )}): unknown item type=${itemType}`
+        `storageService.merge(${redactedStorageID}): unknown item type=${itemType}`
       );
     }
 
@@ -1427,9 +1419,13 @@ async function fetchRemoteRecords(
 
       const remoteRecord = remoteOnlyRecords.get(base64ItemID);
       if (!remoteRecord) {
+        const redactedStorageID = redactExtendedStorageID({
+          storageID: base64ItemID,
+          storageVersion,
+        });
         throw new Error(
           "Got a remote record that wasn't requested with " +
-            `storageID: ${base64ItemID}`
+            `storageID: ${redactedStorageID}`
         );
       }
 
@@ -1513,7 +1509,7 @@ async function processRemoteRecords(
   });
 
   // Find remote contact records that:
-  // - Have `remote.pni === remote.serviceUuid` and have `remote.serviceE164`
+  // - Have `remote.pni` and have `remote.serviceE164`
   // - Match local contact that has `aci`.
   const splitPNIContacts = new Array<MergeableItemType>();
   prunedStorageItems = prunedStorageItems.filter(item => {
@@ -1605,7 +1601,13 @@ async function processRemoteRecords(
     );
 
     // Intentionally not awaiting
-    needProfileFetch.map(convo => convo.getProfiles());
+    needProfileFetch.map(convo =>
+      drop(
+        convo.getProfiles().catch(() => {
+          /* nothing to do here; logging already happened */
+        })
+      )
+    );
 
     // Collect full map of previously and currently unknown records
     const unknownRecords: Map<string, UnknownRecord> = new Map();
@@ -1723,7 +1725,18 @@ async function sync(
   ignoreConflicts = false
 ): Promise<Proto.ManifestRecord | undefined> {
   if (!window.storage.get('storageKey')) {
-    throw new Error('storageService.sync: Cannot start; no storage key!');
+    const masterKeyBase64 = window.storage.get('masterKey');
+    if (!masterKeyBase64) {
+      throw new Error(
+        'storageService.sync: Cannot start; no storage or master key!'
+      );
+    }
+
+    const masterKey = Bytes.fromBase64(masterKeyBase64);
+    const storageKeyBase64 = Bytes.toBase64(deriveStorageServiceKey(masterKey));
+    await window.storage.put('storageKey', storageKeyBase64);
+
+    log.warn('storageService.sync: fixed storage key');
   }
 
   log.info(

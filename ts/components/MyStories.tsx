@@ -20,6 +20,7 @@ import { Theme } from '../util/theme';
 import { resolveStorySendStatus } from '../util/resolveStorySendStatus';
 import { useRetryStorySend } from '../hooks/useRetryStorySend';
 import { NavSidebar } from './NavSidebar';
+import type { WidthBreakpoint } from './_util';
 import type { UnreadStats } from '../util/countUnreadStats';
 
 export type PropsType = {
@@ -40,6 +41,9 @@ export type PropsType = {
   viewStory: ViewStoryActionCreatorType;
   hasViewReceiptSetting: boolean;
   preferredLeftPaneWidth: number;
+  renderToastManager: (_: {
+    containerWidthBreakpoint: WidthBreakpoint;
+  }) => JSX.Element;
   savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
   theme: ThemeType;
 };
@@ -62,6 +66,7 @@ export function MyStories({
   onMediaPlaybackStart,
   onToggleNavTabsCollapse,
   preferredLeftPaneWidth,
+  renderToastManager,
   savePreferredLeftPaneWidth,
   theme,
 }: PropsType): JSX.Element {
@@ -98,6 +103,7 @@ export function MyStories({
         onToggleNavTabsCollapse={onToggleNavTabsCollapse}
         preferredLeftPaneWidth={preferredLeftPaneWidth}
         requiresFullWidth
+        renderToastManager={renderToastManager}
         savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
       >
         <div className="Stories__pane__list">

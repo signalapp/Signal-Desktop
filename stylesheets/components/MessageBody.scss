@@ -19,6 +19,10 @@
     }
   }
 
+  &__message-too-long {
+    font-weight: bold;
+  }
+
   &__at-mention {
     border-radius: 4px;
     cursor: pointer;

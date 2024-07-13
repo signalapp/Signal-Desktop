@@ -4,6 +4,7 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './DialogNetworkStatus';
 import { DialogNetworkStatus } from './DialogNetworkStatus';
 import { SocketStatus } from '../types/SocketStatus';
@@ -19,6 +20,7 @@ const defaultProps = {
   hasNetworkDialog: true,
   i18n,
   isOnline: true,
+  isOutage: false,
   socketStatus: SocketStatus.CONNECTING,
   manualReconnect: action('manual-reconnect'),
   withinConnectingGracePeriod: false,
@@ -27,7 +29,7 @@ const defaultProps = {
 
 export default {
   title: 'Components/DialogNetworkStatus',
-};
+} satisfies Meta<PropsType>;
 
 export function KnobsPlayground(args: PropsType): JSX.Element {
   /*
@@ -53,6 +55,7 @@ KnobsPlayground.args = {
   containerWidthBreakpoint: WidthBreakpoint.Wide,
   hasNetworkDialog: true,
   isOnline: true,
+  isOutage: false,
   socketStatus: SocketStatus.CONNECTING,
 };
 
@@ -68,10 +71,6 @@ export function ConnectingWide(): JSX.Element {
   );
 }
 
-ConnectingWide.story = {
-  name: 'Connecting Wide',
-};
-
 export function ClosingWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
@@ -83,10 +82,6 @@ export function ClosingWide(): JSX.Element {
     </FakeLeftPaneContainer>
   );
 }
-
-ClosingWide.story = {
-  name: 'Closing Wide',
-};
 
 export function ClosedWide(): JSX.Element {
   return (
@@ -100,10 +95,6 @@ export function ClosedWide(): JSX.Element {
   );
 }
 
-ClosedWide.story = {
-  name: 'Closed Wide',
-};
-
 export function OfflineWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
@@ -116,9 +107,18 @@ export function OfflineWide(): JSX.Element {
   );
 }
 
-OfflineWide.story = {
-  name: 'Offline Wide',
-};
+export function OutageWide(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
+      <DialogNetworkStatus
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Wide}
+        isOnline={false}
+        isOutage
+      />
+    </FakeLeftPaneContainer>
+  );
+}
 
 export function ConnectingNarrow(): JSX.Element {
   return (
@@ -132,10 +132,6 @@ export function ConnectingNarrow(): JSX.Element {
   );
 }
 
-ConnectingNarrow.story = {
-  name: 'Connecting Narrow',
-};
-
 export function ClosingNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
@@ -147,10 +143,6 @@ export function ClosingNarrow(): JSX.Element {
     </FakeLeftPaneContainer>
   );
 }
-
-ClosingNarrow.story = {
-  name: 'Closing Narrow',
-};
 
 export function ClosedNarrow(): JSX.Element {
   return (
@@ -164,10 +156,6 @@ export function ClosedNarrow(): JSX.Element {
   );
 }
 
-ClosedNarrow.story = {
-  name: 'Closed Narrow',
-};
-
 export function OfflineNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
@@ -180,6 +168,15 @@ export function OfflineNarrow(): JSX.Element {
   );
 }
 
-OfflineNarrow.story = {
-  name: 'Offline Narrow',
-};
+export function OutageNarrow(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
+      <DialogNetworkStatus
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Narrow}
+        isOnline={false}
+        isOutage
+      />
+    </FakeLeftPaneContainer>
+  );
+}

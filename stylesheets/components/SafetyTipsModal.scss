@@ -1,0 +1,220 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+$SafetyTipsModal__paddingInline: 32px;
+$SafetyTipsModal__paddingBlock: 24px;
+
+.SafetyTipsModal {
+  .module-Modal__headerTitle {
+    align-items: start;
+  }
+
+  .module-Modal__title {
+    padding-top: 20px;
+    @include font-title-1;
+    text-align: center;
+  }
+
+  .module-Modal__body {
+    padding-inline: 0;
+  }
+
+  .module-Modal__button-footer {
+    padding-block: $SafetyTipsModal__paddingBlock;
+    padding-inline: $SafetyTipsModal__paddingInline;
+  }
+}
+
+.SafetyTipsModal__width-container {
+  max-width: 420px;
+  width: 95%;
+}
+
+.SafetyTipsModal__Description {
+  margin: 0;
+  padding-inline: $SafetyTipsModal__paddingInline;
+  padding-bottom: 24px;
+  text-align: center;
+  @include font-body-1;
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
+.SafetyTipsModal__Footer {
+  display: flex;
+  gap: 16px;
+}
+
+.SafetyTipsModal__Button {
+  flex: 1;
+}
+
+.SafetyTipsModal__Button--Previous {
+  &,
+  &:is(:disabled, [aria-disabled='true']) {
+    @include any-theme {
+      background: transparent;
+    }
+    @include light-theme {
+      color: $color-accent-blue;
+    }
+    @include dark-theme {
+      color: $color-white;
+    }
+  }
+
+  &:is(:disabled, [aria-disabled='true']) {
+    opacity: 0.5;
+  }
+
+  &:not(:disabled):not([aria-disabled='true']) {
+    &:hover,
+    &:focus {
+      @include light-theme {
+        background: $color-gray-15;
+      }
+      @include dark-theme {
+        background: $color-gray-65;
+      }
+    }
+
+    &:active {
+      @include light-theme {
+        background: $color-gray-20;
+      }
+      @include dark-theme {
+        background: $color-gray-60;
+      }
+    }
+  }
+}
+
+.SafetyTipsModal__CardWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: $SafetyTipsModal__paddingInline;
+  overflow: hidden;
+  scroll-snap-type: x mandatory;
+  padding-inline: $SafetyTipsModal__paddingInline;
+}
+
+.SafetyTipsModal__Card {
+  width: 100%;
+  flex-shrink: 0;
+  scroll-snap-align: center;
+  padding-block: 14px 32px;
+  padding-inline: 12px;
+  border-radius: 18px;
+  text-align: center;
+  @include light-theme {
+    background: $color-gray-02;
+  }
+  @include dark-theme {
+    background: $color-gray-75;
+  }
+}
+
+.SafetyTipsModal__CardImage {
+  width: 100%;
+  height: auto;
+  vertical-align: top;
+  border-radius: 12px;
+  @include light-theme {
+    background: white;
+  }
+  @include dark-theme {
+    background: $color-gray-65;
+  }
+}
+
+.SafetyTipsModal__CardTitle {
+  margin-block: 14px 0;
+  @include font-title-2;
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.SafetyTipsModal__CardDescription {
+  margin-block: 8px 0;
+  @include font-body-1;
+  @include light-theme {
+    color: $color-gray-62;
+  }
+  @include dark-theme {
+    color: $color-gray-20;
+  }
+}
+
+.SafetyTipsModal__Dots {
+  display: flex;
+  justify-content: center;
+  padding-block: 24px 20px;
+}
+
+.SafetyTipsModal__DotsButton {
+  @include button-reset;
+  padding: 4px;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    transition: background 100ms ease;
+    @include light-theme {
+      background: rgba($color-black, 30%);
+    }
+    @include dark-theme {
+      background: rgba($color-white, 30%);
+    }
+  }
+
+  &:not([aria-current]) {
+    &:hover,
+    &:focus {
+      &::before {
+        @include light-theme {
+          background: rgba($color-black, 45%);
+        }
+        @include dark-theme {
+          background: rgba($color-white, 45%);
+        }
+      }
+    }
+  }
+
+  &[aria-current]::before {
+    @include light-theme {
+      background: $color-black;
+    }
+    @include dark-theme {
+      background: $color-white;
+    }
+  }
+
+  &:focus {
+    @include keyboard-mode {
+      &::before {
+        box-shadow: 0 0 0 2px $color-white, 0 0 0 4px $color-accent-blue;
+      }
+    }
+    @include dark-keyboard-mode {
+      &::before {
+        box-shadow: 0 0 0 2px $color-gray-80, 0 0 0 4px $color-accent-blue;
+      }
+    }
+  }
+}
+
+.SafetyTipsModal__DotsButtonLabel {
+  @include sr-only;
+}

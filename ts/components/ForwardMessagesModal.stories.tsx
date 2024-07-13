@@ -2,38 +2,39 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import { action } from '@storybook/addon-actions';
-import { text } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import enMessages from '../../_locales/en/messages.json';
 import type { AttachmentType } from '../types/Attachment';
 import type { PropsType } from './ForwardMessagesModal';
-import { ForwardMessagesModal } from './ForwardMessagesModal';
+import {
+  ForwardMessagesModal,
+  ForwardMessagesModalType,
+} from './ForwardMessagesModal';
 import { IMAGE_JPEG, VIDEO_MP4, stringToMIMEType } from '../types/MIME';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import { CompositionTextArea } from './CompositionTextArea';
-import type { MessageForwardDraft } from '../util/maybeForwardMessages';
+import type { MessageForwardDraft } from '../types/ForwardDraft';
 
 const createAttachment = (
   props: Partial<AttachmentType> = {}
 ): AttachmentType => ({
   pending: false,
   path: 'fileName.jpg',
-  contentType: stringToMIMEType(
-    text('attachment contentType', props.contentType || '')
-  ),
-  fileName: text('attachment fileName', props.fileName || ''),
+  contentType: stringToMIMEType(props.contentType ?? ''),
+  fileName: props.fileName ?? '',
   screenshotPath: props.pending === false ? props.screenshotPath : undefined,
-  url: text('attachment url', props.pending === false ? props.url || '' : ''),
+  url: props.pending === false ? props.url ?? '' : '',
   size: 3433,
 });
 
 export default {
   title: 'Components/ForwardMessageModal',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<PropsType>;
 
 const i18n = setupI18n('en', enMessages);
 
@@ -51,6 +52,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   doForwardMessages: action('doForwardMessages'),
   getPreferredBadge: () => undefined,
   i18n,
+  isInFullScreenCall: false,
   linkPreviewForSource: () => undefined,
   onClose: action('onClose'),
   onChange: action('onChange'),
@@ -60,9 +62,8 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
       {...props}
       getPreferredBadge={() => undefined}
       i18n={i18n}
+      isActive
       isFormattingEnabled
-      isFormattingFlagEnabled
-      isFormattingSpoilersFlagEnabled
       onPickEmoji={action('onPickEmoji')}
       onSetSkinTone={action('onSetSkinTone')}
       onTextTooLong={action('onTextTooLong')}
@@ -71,6 +72,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     />
   ),
   showToast: action('showToast'),
+  type: ForwardMessagesModalType.Forward,
   theme: React.useContext(StorybookThemeContext),
   regionCode: 'US',
 });
@@ -82,7 +84,7 @@ function getMessageForwardDraft(
     attachments: overrideProps.attachments,
     hasContact: Boolean(overrideProps.hasContact),
     isSticker: Boolean(overrideProps.isSticker),
-    messageBody: text('messageBody', overrideProps.messageBody || ''),
+    messageBody: overrideProps.messageBody ?? '',
     originalMessageId: '123',
     previews: overrideProps.previews ?? [],
   };
@@ -102,10 +104,6 @@ export function WithText(): JSX.Element {
   );
 }
 
-WithText.story = {
-  name: 'with text',
-};
-
 export function ASticker(): JSX.Element {
   return (
     <ForwardMessagesModal
@@ -116,10 +114,6 @@ export function ASticker(): JSX.Element {
   );
 }
 
-ASticker.story = {
-  name: 'a sticker',
-};
-
 export function WithAContact(): JSX.Element {
   return (
     <ForwardMessagesModal
@@ -129,10 +123,6 @@ export function WithAContact(): JSX.Element {
     />
   );
 }
-
-WithAContact.story = {
-  name: 'with a contact',
-};
 
 export function LinkPreview(): JSX.Element {
   return (
@@ -152,6 +142,7 @@ export function LinkPreview(): JSX.Element {
                   contentType: IMAGE_JPEG,
                 }),
                 isStickerPack: false,
+                isCallLink: false,
                 title: LONG_TITLE,
               },
             ],
@@ -161,10 +152,6 @@ export function LinkPreview(): JSX.Element {
     />
   );
 }
-
-LinkPreview.story = {
-  name: 'link preview',
-};
 
 export function MediaAttachments(): JSX.Element {
   return (
@@ -196,10 +183,6 @@ export function MediaAttachments(): JSX.Element {
   );
 }
 
-MediaAttachments.story = {
-  name: 'media attachments',
-};
-
 export function AnnouncementOnlyGroupsNonAdmin(): JSX.Element {
   return (
     <ForwardMessagesModal
@@ -213,7 +196,3 @@ export function AnnouncementOnlyGroupsNonAdmin(): JSX.Element {
     />
   );
 }
-
-AnnouncementOnlyGroupsNonAdmin.story = {
-  name: 'announcement only groups non-admin',
-};

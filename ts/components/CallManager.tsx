@@ -11,10 +11,10 @@ import { CallingParticipantsList } from './CallingParticipantsList';
 import { CallingSelectPresentingSourcesModal } from './CallingSelectPresentingSourcesModal';
 import { CallingPip } from './CallingPip';
 import { IncomingCallBar } from './IncomingCallBar';
-import type { SafetyNumberProps } from './SafetyNumberChangeDialog';
-import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog';
 import type {
   ActiveCallType,
+  CallingConversationType,
+  CallViewMode,
   GroupCallVideoRequest,
   PresentedSource,
 } from '../types/Calling';
@@ -26,12 +26,16 @@ import {
   GroupCallJoinState,
 } from '../types/Calling';
 import type { ConversationType } from '../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type {
   AcceptCallType,
+  BatchUserActionPayloadType,
   CancelCallType,
   DeclineCallType,
-  KeyChangeOkType,
+  GroupCallParticipantInfoType,
+  PendingUserActionPayloadType,
+  RemoveClientType,
+  SendGroupCallRaiseHandType,
+  SendGroupCallReactionType,
   SetGroupCallVideoRequestType,
   SetLocalAudioType,
   SetLocalPreviewType,
@@ -39,45 +43,73 @@ import type {
   SetRendererCanvasType,
   StartCallType,
 } from '../state/ducks/calling';
-import type { LocalizerType, ThemeType } from '../types/Util';
+import { CallLinkRestrictions } from '../types/CallLink';
+import type { CallLinkType } from '../types/CallLink';
+import type { LocalizerType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
+import { CallingToastProvider } from './CallingToast';
+import type { SmartReactionPicker } from '../state/smart/ReactionPicker';
+import type { Props as ReactionPickerProps } from './conversation/ReactionPicker';
+import * as log from '../logging/log';
+import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
+import { CallingAdhocCallInfo } from './CallingAdhocCallInfo';
+import { callLinkRootKeyToUrl } from '../util/callLinkRootKeyToUrl';
+import { usePrevious } from '../hooks/usePrevious';
+import { copyCallLink } from '../util/copyLinksWithToast';
 
 const GROUP_CALL_RING_DURATION = 60 * 1000;
+
+export type DirectIncomingCall = Readonly<{
+  callMode: CallMode.Direct;
+  callState?: CallState;
+  callEndedReason?: CallEndedReason;
+  conversation: ConversationType;
+  isVideoCall: boolean;
+}>;
+
+export type GroupIncomingCall = Readonly<{
+  callMode: CallMode.Group;
+  connectionState: GroupCallConnectionState;
+  joinState: GroupCallJoinState;
+  conversation: ConversationType;
+  otherMembersRung: Array<Pick<ConversationType, 'firstName' | 'title'>>;
+  ringer: Pick<ConversationType, 'firstName' | 'title'>;
+  remoteParticipants: Array<GroupCallParticipantInfoType>;
+}>;
+
+export type CallingImageDataCache = Map<number, ImageData>;
 
 export type PropsType = {
   activeCall?: ActiveCallType;
   availableCameras: Array<MediaDeviceInfo>;
+  callLink: CallLinkType | undefined;
   cancelCall: (_: CancelCallType) => void;
+  changeCallView: (mode: CallViewMode) => void;
   closeNeedPermissionScreen: () => void;
   getGroupCallVideoFrameSource: (
     conversationId: string,
     demuxId: number
   ) => VideoFrameSource;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  getIsSharingPhoneNumberWithEverybody: () => boolean;
   getPresentingSources: () => void;
-  incomingCall?:
-    | {
-        callMode: CallMode.Direct;
-        conversation: ConversationType;
-        isVideoCall: boolean;
-      }
-    | {
-        callMode: CallMode.Group;
-        conversation: ConversationType;
-        otherMembersRung: Array<Pick<ConversationType, 'firstName' | 'title'>>;
-        ringer: Pick<ConversationType, 'firstName' | 'title'>;
-      };
-  keyChangeOk: (_: KeyChangeOkType) => void;
+  incomingCall: DirectIncomingCall | GroupIncomingCall | null;
   renderDeviceSelection: () => JSX.Element;
-  renderSafetyNumberViewer: (props: SafetyNumberProps) => JSX.Element;
+  renderReactionPicker: (
+    props: React.ComponentProps<typeof SmartReactionPicker>
+  ) => JSX.Element;
+  showContactModal: (contactId: string, conversationId?: string) => void;
   startCall: (payload: StartCallType) => void;
   toggleParticipants: () => void;
   acceptCall: (_: AcceptCallType) => void;
+  approveUser: (payload: PendingUserActionPayloadType) => void;
+  batchUserAction: (payload: BatchUserActionPayloadType) => void;
   bounceAppIconStart: () => unknown;
   bounceAppIconStop: () => unknown;
   declineCall: (_: DeclineCallType) => void;
+  denyUser: (payload: PendingUserActionPayloadType) => void;
+  hasInitialLoadCompleted: boolean;
   i18n: LocalizerType;
-  isGroupCallOutboundRingEnabled: boolean;
+  isGroupCallRaiseHandEnabled: boolean;
   me: ConversationType;
   notifyForCall: (
     conversationId: string,
@@ -86,6 +118,10 @@ export type PropsType = {
   ) => unknown;
   openSystemPreferencesAction: () => unknown;
   playRingtone: () => unknown;
+  removeClient: (payload: RemoveClientType) => void;
+  blockClient: (payload: RemoveClientType) => void;
+  sendGroupCallRaiseHand: (payload: SendGroupCallRaiseHandType) => void;
+  sendGroupCallReaction: (payload: SendGroupCallReactionType) => void;
   setGroupCallVideoRequest: (_: SetGroupCallVideoRequestType) => void;
   setIsCallActive: (_: boolean) => void;
   setLocalAudio: (_: SetLocalAudioType) => void;
@@ -94,39 +130,63 @@ export type PropsType = {
   setOutgoingRing: (_: boolean) => void;
   setPresenting: (_?: PresentedSource) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
+  showShareCallLinkViaSignal: (
+    callLink: CallLinkType,
+    i18n: LocalizerType
+  ) => void;
   stopRingtone: () => unknown;
   switchToPresentationView: () => void;
   switchFromPresentationView: () => void;
   hangUpActiveCall: (reason: string) => void;
-  theme: ThemeType;
   togglePip: () => void;
   toggleScreenRecordingPermissionsDialog: () => unknown;
   toggleSettings: () => void;
-  toggleSpeakerView: () => void;
   isConversationTooBigToRing: boolean;
   pauseVoiceNotePlayer: () => void;
-};
+} & Pick<ReactionPickerProps, 'renderEmojiPicker'>;
 
-type ActiveCallManagerPropsType = PropsType & {
+type ActiveCallManagerPropsType = {
   activeCall: ActiveCallType;
-};
+} & Omit<
+  PropsType,
+  | 'acceptCall'
+  | 'bounceAppIconStart'
+  | 'bounceAppIconStop'
+  | 'declineCall'
+  | 'hasInitialLoadCompleted'
+  | 'incomingCall'
+  | 'notifyForCall'
+  | 'playRingtone'
+  | 'setIsCallActive'
+  | 'stopRingtone'
+  | 'isConversationTooBigToRing'
+>;
 
 function ActiveCallManager({
   activeCall,
+  approveUser,
   availableCameras,
+  batchUserAction,
+  blockClient,
+  callLink,
   cancelCall,
+  changeCallView,
   closeNeedPermissionScreen,
+  denyUser,
   hangUpActiveCall,
   i18n,
-  isGroupCallOutboundRingEnabled,
-  keyChangeOk,
+  isGroupCallRaiseHandEnabled,
+  getIsSharingPhoneNumberWithEverybody,
   getGroupCallVideoFrameSource,
-  getPreferredBadge,
   getPresentingSources,
   me,
   openSystemPreferencesAction,
   renderDeviceSelection,
-  renderSafetyNumberViewer,
+  renderEmojiPicker,
+  renderReactionPicker,
+  removeClient,
+  sendGroupCallRaiseHand,
+  sendGroupCallReaction,
   setGroupCallVideoRequest,
   setLocalAudio,
   setLocalPreview,
@@ -134,15 +194,15 @@ function ActiveCallManager({
   setPresenting,
   setRendererCanvas,
   setOutgoingRing,
+  showContactModal,
+  showShareCallLinkViaSignal,
   startCall,
   switchToPresentationView,
   switchFromPresentationView,
-  theme,
   toggleParticipants,
   togglePip,
   toggleScreenRecordingPermissionsDialog,
   toggleSettings,
-  toggleSpeakerView,
   pauseVoiceNotePlayer,
 }: ActiveCallManagerPropsType): JSX.Element {
   const {
@@ -180,6 +240,16 @@ function ActiveCallManager({
     pauseVoiceNotePlayer,
   ]);
 
+  // For caching screenshare frames which update slowly, between Pip and CallScreen.
+  const imageDataCache = React.useRef<CallingImageDataCache>(new Map());
+
+  const previousConversationId = usePrevious(conversation.id, conversation.id);
+  useEffect(() => {
+    if (conversation.id !== previousConversationId) {
+      imageDataCache.current.clear();
+    }
+  }, [conversation.id, previousConversationId]);
+
   const getGroupCallVideoFrameSourceForActiveCall = useCallback(
     (demuxId: number) => {
       return getGroupCallVideoFrameSource(conversation.id, demuxId);
@@ -198,9 +268,25 @@ function ActiveCallManager({
     [setGroupCallVideoRequest, conversation.id]
   );
 
-  const onSafetyNumberDialogCancel = useCallback(() => {
-    hangUpActiveCall('safety number dialog cancel');
-  }, [hangUpActiveCall]);
+  const onCopyCallLink = useCallback(async () => {
+    if (!callLink) {
+      return;
+    }
+
+    const link = callLinkRootKeyToUrl(callLink.rootKey);
+    if (link) {
+      await copyCallLink(link);
+    }
+  }, [callLink]);
+
+  const handleShareCallLinkViaSignal = useCallback(() => {
+    if (!callLink) {
+      log.error('Missing call link');
+      return;
+    }
+
+    showShareCallLinkViaSignal(callLink, i18n);
+  }, [callLink, i18n, showShareCallLinkViaSignal]);
 
   let isCallFull: boolean;
   let showCallLobby: boolean;
@@ -208,6 +294,9 @@ function ActiveCallManager({
     | undefined
     | Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   let isConvoTooBigToRing = false;
+  let isAdhocAdminApprovalRequired = false;
+  let isAdhocJoinRequestPending = false;
+  let isCallLinkAdmin = false;
 
   switch (activeCall.callMode) {
     case CallMode.Direct: {
@@ -230,55 +319,23 @@ function ActiveCallManager({
       groupMembers = undefined;
       break;
     }
-    case CallMode.Group: {
+    case CallMode.Group:
+    case CallMode.Adhoc: {
       showCallLobby = activeCall.joinState !== GroupCallJoinState.Joined;
       isCallFull = activeCall.deviceCount >= activeCall.maxDevices;
       isConvoTooBigToRing = activeCall.isConversationTooBigToRing;
       ({ groupMembers } = activeCall);
+      isAdhocAdminApprovalRequired =
+        !callLink?.adminKey &&
+        callLink?.restrictions === CallLinkRestrictions.AdminApproval;
+      isAdhocJoinRequestPending =
+        isAdhocAdminApprovalRequired &&
+        activeCall.joinState === GroupCallJoinState.Pending;
+      isCallLinkAdmin = Boolean(callLink?.adminKey);
       break;
     }
     default:
       throw missingCaseError(activeCall);
-  }
-
-  if (showCallLobby) {
-    return (
-      <>
-        <CallingLobby
-          availableCameras={availableCameras}
-          conversation={conversation}
-          groupMembers={groupMembers}
-          hasLocalAudio={hasLocalAudio}
-          hasLocalVideo={hasLocalVideo}
-          i18n={i18n}
-          isGroupCall={activeCall.callMode === CallMode.Group}
-          isGroupCallOutboundRingEnabled={isGroupCallOutboundRingEnabled}
-          isCallFull={isCallFull}
-          isConversationTooBigToRing={isConvoTooBigToRing}
-          me={me}
-          onCallCanceled={cancelActiveCall}
-          onJoinCall={joinActiveCall}
-          outgoingRing={outgoingRing}
-          peekedParticipants={peekedParticipants}
-          setLocalPreview={setLocalPreview}
-          setLocalAudio={setLocalAudio}
-          setLocalVideo={setLocalVideo}
-          setOutgoingRing={setOutgoingRing}
-          showParticipantsList={showParticipantsList}
-          toggleParticipants={toggleParticipants}
-          toggleSettings={toggleSettings}
-        />
-        {settingsDialogOpen && renderDeviceSelection()}
-        {showParticipantsList && activeCall.callMode === CallMode.Group ? (
-          <CallingParticipantsList
-            i18n={i18n}
-            onClose={toggleParticipants}
-            ourServiceId={me.serviceId}
-            participants={peekedParticipants}
-          />
-        ) : null}
-      </>
-    );
   }
 
   if (pip) {
@@ -286,6 +343,7 @@ function ActiveCallManager({
       <CallingPip
         activeCall={activeCall}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
+        imageDataCache={imageDataCache}
         hangUpActiveCall={hangUpActiveCall}
         hasLocalVideo={hasLocalVideo}
         i18n={i18n}
@@ -299,35 +357,115 @@ function ActiveCallManager({
     );
   }
 
-  const groupCallParticipantsForParticipantsList =
-    activeCall.callMode === CallMode.Group
-      ? [
-          ...activeCall.remoteParticipants.map(participant => ({
-            ...participant,
-            hasRemoteAudio: participant.hasRemoteAudio,
-            hasRemoteVideo: participant.hasRemoteVideo,
-            presenting: participant.presenting,
-          })),
-          {
-            ...me,
-            hasRemoteAudio: hasLocalAudio,
-            hasRemoteVideo: hasLocalVideo,
-            presenting: Boolean(activeCall.presentingSource),
-          },
-        ]
-      : [];
+  if (showCallLobby) {
+    return (
+      <>
+        <CallingLobby
+          availableCameras={availableCameras}
+          callMode={activeCall.callMode}
+          conversation={conversation}
+          groupMembers={groupMembers}
+          hasLocalAudio={hasLocalAudio}
+          hasLocalVideo={hasLocalVideo}
+          i18n={i18n}
+          isAdhocAdminApprovalRequired={isAdhocAdminApprovalRequired}
+          isAdhocJoinRequestPending={isAdhocJoinRequestPending}
+          isCallFull={isCallFull}
+          isConversationTooBigToRing={isConvoTooBigToRing}
+          getIsSharingPhoneNumberWithEverybody={
+            getIsSharingPhoneNumberWithEverybody
+          }
+          me={me}
+          onCallCanceled={cancelActiveCall}
+          onJoinCall={joinActiveCall}
+          outgoingRing={outgoingRing}
+          peekedParticipants={peekedParticipants}
+          setLocalPreview={setLocalPreview}
+          setLocalAudio={setLocalAudio}
+          setLocalVideo={setLocalVideo}
+          setOutgoingRing={setOutgoingRing}
+          showParticipantsList={showParticipantsList}
+          toggleParticipants={toggleParticipants}
+          togglePip={togglePip}
+          toggleSettings={toggleSettings}
+        />
+        {settingsDialogOpen && renderDeviceSelection()}
+        {showParticipantsList &&
+          (activeCall.callMode === CallMode.Adhoc && callLink ? (
+            <CallingAdhocCallInfo
+              callLink={callLink}
+              i18n={i18n}
+              isCallLinkAdmin={isCallLinkAdmin}
+              isUnknownContactDiscrete={false}
+              ourServiceId={me.serviceId}
+              participants={peekedParticipants}
+              onClose={toggleParticipants}
+              onCopyCallLink={onCopyCallLink}
+              onShareCallLinkViaSignal={handleShareCallLinkViaSignal}
+              removeClient={removeClient}
+              blockClient={blockClient}
+              showContactModal={showContactModal}
+            />
+          ) : (
+            <CallingParticipantsList
+              conversationId={conversation.id}
+              i18n={i18n}
+              onClose={toggleParticipants}
+              ourServiceId={me.serviceId}
+              participants={peekedParticipants}
+              showContactModal={showContactModal}
+            />
+          ))}
+      </>
+    );
+  }
+
+  let isHandRaised = false;
+  if (isGroupOrAdhocActiveCall(activeCall)) {
+    const { raisedHands, localDemuxId } = activeCall;
+    if (localDemuxId) {
+      isHandRaised = raisedHands.has(localDemuxId);
+    }
+  }
+
+  const groupCallParticipantsForParticipantsList = isGroupOrAdhocActiveCall(
+    activeCall
+  )
+    ? [
+        ...activeCall.remoteParticipants,
+        {
+          ...me,
+          hasRemoteAudio: hasLocalAudio,
+          hasRemoteVideo: hasLocalVideo,
+          isHandRaised,
+          presenting: Boolean(activeCall.presentingSource),
+          demuxId: activeCall.localDemuxId,
+        },
+      ]
+    : [];
 
   return (
     <>
       <CallScreen
         activeCall={activeCall}
+        approveUser={approveUser}
+        batchUserAction={batchUserAction}
+        changeCallView={changeCallView}
+        denyUser={denyUser}
         getPresentingSources={getPresentingSources}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
         groupMembers={groupMembers}
         hangUpActiveCall={hangUpActiveCall}
         i18n={i18n}
+        imageDataCache={imageDataCache}
+        isCallLinkAdmin={isCallLinkAdmin}
+        isGroupCallRaiseHandEnabled={isGroupCallRaiseHandEnabled}
         me={me}
         openSystemPreferencesAction={openSystemPreferencesAction}
+        renderEmojiPicker={renderEmojiPicker}
+        renderReactionPicker={renderReactionPicker}
+        sendGroupCallRaiseHand={sendGroupCallRaiseHand}
+        sendGroupCallReaction={sendGroupCallReaction}
         setGroupCallVideoRequest={setGroupCallVideoRequestForConversation}
         setLocalPreview={setLocalPreview}
         setRendererCanvas={setRendererCanvas}
@@ -343,7 +481,6 @@ function ActiveCallManager({
         toggleParticipants={toggleParticipants}
         togglePip={togglePip}
         toggleSettings={toggleSettings}
-        toggleSpeakerView={toggleSpeakerView}
       />
       {presentingSourcesAvailable && presentingSourcesAvailable.length ? (
         <CallingSelectPresentingSourcesModal
@@ -353,64 +490,107 @@ function ActiveCallManager({
         />
       ) : null}
       {settingsDialogOpen && renderDeviceSelection()}
-      {showParticipantsList && activeCall.callMode === CallMode.Group ? (
-        <CallingParticipantsList
-          i18n={i18n}
-          onClose={toggleParticipants}
-          ourServiceId={me.serviceId}
-          participants={groupCallParticipantsForParticipantsList}
-        />
-      ) : null}
-      {activeCall.callMode === CallMode.Group &&
-      activeCall.conversationsWithSafetyNumberChanges.length ? (
-        <SafetyNumberChangeDialog
-          confirmText={i18n('icu:continueCall')}
-          contacts={[
-            {
-              story: undefined,
-              contacts: activeCall.conversationsWithSafetyNumberChanges,
-            },
-          ]}
-          getPreferredBadge={getPreferredBadge}
-          i18n={i18n}
-          onCancel={onSafetyNumberDialogCancel}
-          onConfirm={() => {
-            keyChangeOk({ conversationId: activeCall.conversation.id });
-          }}
-          renderSafetyNumber={renderSafetyNumberViewer}
-          theme={theme}
-        />
-      ) : null}
+      {showParticipantsList &&
+        (activeCall.callMode === CallMode.Adhoc && callLink ? (
+          <CallingAdhocCallInfo
+            callLink={callLink}
+            i18n={i18n}
+            isCallLinkAdmin={isCallLinkAdmin}
+            isUnknownContactDiscrete
+            ourServiceId={me.serviceId}
+            participants={groupCallParticipantsForParticipantsList}
+            onClose={toggleParticipants}
+            onCopyCallLink={onCopyCallLink}
+            onShareCallLinkViaSignal={handleShareCallLinkViaSignal}
+            removeClient={removeClient}
+            blockClient={blockClient}
+            showContactModal={showContactModal}
+          />
+        ) : (
+          <CallingParticipantsList
+            conversationId={conversation.id}
+            i18n={i18n}
+            onClose={toggleParticipants}
+            ourServiceId={me.serviceId}
+            participants={groupCallParticipantsForParticipantsList}
+            showContactModal={showContactModal}
+          />
+        ))}
     </>
   );
 }
 
-export function CallManager(props: PropsType): JSX.Element | null {
-  const {
-    acceptCall,
-    activeCall,
-    bounceAppIconStart,
-    bounceAppIconStop,
-    declineCall,
-    i18n,
-    incomingCall,
-    notifyForCall,
-    playRingtone,
-    stopRingtone,
-    setIsCallActive,
-    setOutgoingRing,
-  } = props;
-
+export function CallManager({
+  acceptCall,
+  activeCall,
+  approveUser,
+  availableCameras,
+  batchUserAction,
+  blockClient,
+  bounceAppIconStart,
+  bounceAppIconStop,
+  callLink,
+  cancelCall,
+  changeCallView,
+  closeNeedPermissionScreen,
+  declineCall,
+  denyUser,
+  getGroupCallVideoFrameSource,
+  getPresentingSources,
+  hangUpActiveCall,
+  hasInitialLoadCompleted,
+  i18n,
+  incomingCall,
+  isConversationTooBigToRing,
+  isGroupCallRaiseHandEnabled,
+  getIsSharingPhoneNumberWithEverybody,
+  me,
+  notifyForCall,
+  openSystemPreferencesAction,
+  pauseVoiceNotePlayer,
+  playRingtone,
+  removeClient,
+  renderDeviceSelection,
+  renderEmojiPicker,
+  renderReactionPicker,
+  sendGroupCallRaiseHand,
+  sendGroupCallReaction,
+  setGroupCallVideoRequest,
+  setIsCallActive,
+  setLocalAudio,
+  setLocalPreview,
+  setLocalVideo,
+  setOutgoingRing,
+  setPresenting,
+  setRendererCanvas,
+  showContactModal,
+  showShareCallLinkViaSignal,
+  startCall,
+  stopRingtone,
+  switchFromPresentationView,
+  switchToPresentationView,
+  toggleParticipants,
+  togglePip,
+  toggleScreenRecordingPermissionsDialog,
+  toggleSettings,
+}: PropsType): JSX.Element | null {
   const isCallActive = Boolean(activeCall);
   useEffect(() => {
     setIsCallActive(isCallActive);
   }, [isCallActive, setIsCallActive]);
 
-  const shouldRing = getShouldRing(props);
+  const shouldRing = getShouldRing({
+    activeCall,
+    incomingCall,
+    isConversationTooBigToRing,
+    hasInitialLoadCompleted,
+  });
   useEffect(() => {
     if (shouldRing) {
+      log.info('CallManager: Playing ringtone');
       playRingtone();
       return () => {
+        log.info('CallManager: Stopping ringtone');
         stopRingtone();
       };
     }
@@ -420,7 +600,7 @@ export function CallManager(props: PropsType): JSX.Element | null {
   }, [shouldRing, playRingtone, stopRingtone]);
 
   const mightBeRingingOutgoingGroupCall =
-    activeCall?.callMode === CallMode.Group &&
+    isGroupOrAdhocActiveCall(activeCall) &&
     activeCall.outgoingRing &&
     activeCall.joinState !== GroupCallJoinState.NotJoined;
   useEffect(() => {
@@ -439,7 +619,57 @@ export function CallManager(props: PropsType): JSX.Element | null {
   if (activeCall) {
     // `props` should logically have an `activeCall` at this point, but TypeScript can't
     //   figure that out, so we pass it in again.
-    return <ActiveCallManager {...props} activeCall={activeCall} />;
+    return (
+      <CallingToastProvider i18n={i18n}>
+        <ActiveCallManager
+          activeCall={activeCall}
+          availableCameras={availableCameras}
+          approveUser={approveUser}
+          batchUserAction={batchUserAction}
+          blockClient={blockClient}
+          callLink={callLink}
+          cancelCall={cancelCall}
+          changeCallView={changeCallView}
+          closeNeedPermissionScreen={closeNeedPermissionScreen}
+          denyUser={denyUser}
+          getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+          getPresentingSources={getPresentingSources}
+          hangUpActiveCall={hangUpActiveCall}
+          i18n={i18n}
+          isGroupCallRaiseHandEnabled={isGroupCallRaiseHandEnabled}
+          getIsSharingPhoneNumberWithEverybody={
+            getIsSharingPhoneNumberWithEverybody
+          }
+          me={me}
+          openSystemPreferencesAction={openSystemPreferencesAction}
+          pauseVoiceNotePlayer={pauseVoiceNotePlayer}
+          removeClient={removeClient}
+          renderDeviceSelection={renderDeviceSelection}
+          renderEmojiPicker={renderEmojiPicker}
+          renderReactionPicker={renderReactionPicker}
+          sendGroupCallRaiseHand={sendGroupCallRaiseHand}
+          sendGroupCallReaction={sendGroupCallReaction}
+          setGroupCallVideoRequest={setGroupCallVideoRequest}
+          setLocalAudio={setLocalAudio}
+          setLocalPreview={setLocalPreview}
+          setLocalVideo={setLocalVideo}
+          setOutgoingRing={setOutgoingRing}
+          setPresenting={setPresenting}
+          setRendererCanvas={setRendererCanvas}
+          showContactModal={showContactModal}
+          showShareCallLinkViaSignal={showShareCallLinkViaSignal}
+          startCall={startCall}
+          switchFromPresentationView={switchFromPresentationView}
+          switchToPresentationView={switchToPresentationView}
+          toggleParticipants={toggleParticipants}
+          togglePip={togglePip}
+          toggleScreenRecordingPermissionsDialog={
+            toggleScreenRecordingPermissionsDialog
+          }
+          toggleSettings={toggleSettings}
+        />
+      </CallingToastProvider>
+    );
   }
 
   // In the future, we may want to show the incoming call bar when a call is active.
@@ -460,42 +690,99 @@ export function CallManager(props: PropsType): JSX.Element | null {
   return null;
 }
 
+function isRinging(callState: CallState | undefined): boolean {
+  return callState === CallState.Prering || callState === CallState.Ringing;
+}
+
+function isConnected(connectionState: GroupCallConnectionState): boolean {
+  return (
+    connectionState === GroupCallConnectionState.Connecting ||
+    connectionState === GroupCallConnectionState.Connected
+  );
+}
+
+function isJoined(joinState: GroupCallJoinState): boolean {
+  return joinState !== GroupCallJoinState.NotJoined;
+}
+
+function hasRemoteParticipants(
+  remoteParticipants: Array<GroupCallParticipantInfoType>
+): boolean {
+  return remoteParticipants.length > 0;
+}
+
+function isLonelyGroup(conversation: CallingConversationType): boolean {
+  return (conversation.sortedGroupMembers?.length ?? 0) < 2;
+}
+
 function getShouldRing({
   activeCall,
   incomingCall,
   isConversationTooBigToRing,
+  hasInitialLoadCompleted,
 }: Readonly<
-  Pick<PropsType, 'activeCall' | 'incomingCall' | 'isConversationTooBigToRing'>
+  Pick<
+    PropsType,
+    | 'activeCall'
+    | 'incomingCall'
+    | 'isConversationTooBigToRing'
+    | 'hasInitialLoadCompleted'
+  >
 >): boolean {
-  if (incomingCall) {
+  if (!hasInitialLoadCompleted) {
+    return false;
+  }
+
+  if (incomingCall != null) {
     // don't ring a large group
     if (isConversationTooBigToRing) {
       return false;
     }
 
-    return !activeCall;
+    if (activeCall != null) {
+      return false;
+    }
+
+    if (incomingCall.callMode === CallMode.Direct) {
+      return (
+        isRinging(incomingCall.callState) &&
+        incomingCall.callEndedReason == null
+      );
+    }
+
+    if (incomingCall.callMode === CallMode.Group) {
+      return (
+        !isConnected(incomingCall.connectionState) &&
+        !isJoined(incomingCall.joinState) &&
+        !isLonelyGroup(incomingCall.conversation)
+      );
+    }
+
+    // Adhoc calls can't be incoming.
+
+    throw missingCaseError(incomingCall);
   }
 
-  if (!activeCall) {
-    return false;
+  if (activeCall != null) {
+    switch (activeCall.callMode) {
+      case CallMode.Direct:
+        return (
+          activeCall.callState === CallState.Prering ||
+          activeCall.callState === CallState.Ringing
+        );
+      case CallMode.Group:
+      case CallMode.Adhoc:
+        return (
+          activeCall.outgoingRing &&
+          isConnected(activeCall.connectionState) &&
+          isJoined(activeCall.joinState) &&
+          !hasRemoteParticipants(activeCall.remoteParticipants) &&
+          !isLonelyGroup(activeCall.conversation)
+        );
+      default:
+        throw missingCaseError(activeCall);
+    }
   }
 
-  switch (activeCall.callMode) {
-    case CallMode.Direct:
-      return (
-        activeCall.callState === CallState.Prering ||
-        activeCall.callState === CallState.Ringing
-      );
-    case CallMode.Group:
-      return (
-        activeCall.outgoingRing &&
-        (activeCall.connectionState === GroupCallConnectionState.Connecting ||
-          activeCall.connectionState === GroupCallConnectionState.Connected) &&
-        activeCall.joinState !== GroupCallJoinState.NotJoined &&
-        !activeCall.remoteParticipants.length &&
-        (activeCall.conversation.sortedGroupMembers || []).length >= 2
-      );
-    default:
-      throw missingCaseError(activeCall);
-  }
+  return false;
 }

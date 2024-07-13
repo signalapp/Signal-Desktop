@@ -12,9 +12,9 @@ import { Time } from '../Time';
 import { useNowThatUpdatesEveryMinute } from '../../hooks/useNowThatUpdatesEveryMinute';
 
 export type Props = {
-  deletedForEveryone?: boolean;
   direction?: 'incoming' | 'outgoing';
   i18n: LocalizerType;
+  isOutlineOnlyBubble?: boolean;
   isRelativeTime?: boolean;
   module?: string;
   timestamp: number;
@@ -24,10 +24,10 @@ export type Props = {
 };
 
 export function MessageTimestamp({
-  deletedForEveryone,
   direction,
   i18n,
   isRelativeTime,
+  isOutlineOnlyBubble,
   module,
   timestamp,
   withImageNoCaption,
@@ -47,7 +47,7 @@ export function MessageTimestamp({
           : null,
         withImageNoCaption ? `${moduleName}--with-image-no-caption` : null,
         withSticker ? `${moduleName}--with-sticker` : null,
-        deletedForEveryone ? `${moduleName}--deleted-for-everyone` : null
+        isOutlineOnlyBubble ? `${moduleName}--outline-only-bubble` : null
       )}
       timestamp={timestamp}
     >

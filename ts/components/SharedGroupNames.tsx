@@ -4,7 +4,7 @@
 import React from 'react';
 import { take } from 'lodash';
 
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import type { LocalizerType } from '../types/Util';
 import { UserText } from './UserText';
 
@@ -30,7 +30,7 @@ export function SharedGroupNames({
   if (sharedGroupNames.length >= 5) {
     const remainingCount = sharedGroupNames.length - 3;
     return (
-      <Intl
+      <I18n
         i18n={i18n}
         id="icu:member-of-more-than-3-groups--multiple-more"
         components={{
@@ -44,7 +44,7 @@ export function SharedGroupNames({
   }
   if (sharedGroupNames.length === 4) {
     return (
-      <Intl
+      <I18n
         i18n={i18n}
         id="icu:member-of-more-than-3-groups--one-more"
         components={{
@@ -57,7 +57,7 @@ export function SharedGroupNames({
   }
   if (firstThreeGroups.length === 3) {
     return (
-      <Intl
+      <I18n
         i18n={i18n}
         id="icu:member-of-3-groups"
         components={{
@@ -70,7 +70,7 @@ export function SharedGroupNames({
   }
   if (firstThreeGroups.length >= 2) {
     return (
-      <Intl
+      <I18n
         i18n={i18n}
         id="icu:member-of-2-groups"
         components={{
@@ -82,7 +82,7 @@ export function SharedGroupNames({
   }
   if (firstThreeGroups.length >= 1) {
     return (
-      <Intl
+      <I18n
         i18n={i18n}
         id="icu:member-of-1-group"
         components={{

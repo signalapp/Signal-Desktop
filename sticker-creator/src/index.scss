@@ -24,6 +24,7 @@ body {
   width: 100%;
   margin: 0;
 
+  @include font-family;
   @include font-body-1;
 
   @include light-theme() {
@@ -34,6 +35,14 @@ body {
     background-color: $color-gray-95;
     color: $color-gray-05;
   }
+}
+
+input,
+button,
+select,
+optgroup,
+textarea {
+  font-family: inherit;
 }
 
 button {
@@ -133,6 +142,8 @@ a {
     // Override
     max-height: var(--original-size);
     max-width: var(--original-size);
+    min-height: var(--original-size);
+    min-width: var(--original-size);
     padding: 0;
 
     height: var(--original-size);

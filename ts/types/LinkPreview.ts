@@ -9,6 +9,11 @@ import { maybeParseUrl } from '../util/url';
 import { replaceEmojiWithSpaces } from '../util/emoji';
 
 import type { AttachmentWithHydratedData } from './Attachment';
+import {
+  artAddStickersRoute,
+  groupInvitesRoute,
+  linkCallRoute,
+} from '../util/signalRoutes';
 
 export type LinkPreviewImage = AttachmentWithHydratedData;
 
@@ -94,12 +99,19 @@ export function shouldLinkifyMessage(
   return true;
 }
 
+export function isCallLink(link = ''): boolean {
+  const url = maybeParseUrl(link);
+  return url?.protocol === 'https:' && linkCallRoute.isMatch(url);
+}
+
 export function isStickerPack(link = ''): boolean {
-  return link.startsWith('https://signal.art/addstickers/');
+  const url = maybeParseUrl(link);
+  return url?.protocol === 'https:' && artAddStickersRoute.isMatch(url);
 }
 
 export function isGroupLink(link = ''): boolean {
-  return link.startsWith('https://signal.group/');
+  const url = maybeParseUrl(link);
+  return url?.protocol === 'https:' && groupInvitesRoute.isMatch(url);
 }
 
 export function findLinks(text: string, caretLocation?: number): Array<string> {

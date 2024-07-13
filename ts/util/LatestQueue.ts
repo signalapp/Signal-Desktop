@@ -16,6 +16,9 @@
  * Most notably, if something is queued and the function is called again, we discard the
  *   previously queued task completely.
  */
+
+import { drop } from './drop';
+
 export class LatestQueue {
   private isRunning: boolean;
 
@@ -40,23 +43,25 @@ export class LatestQueue {
       this.queuedTask = task;
     } else {
       this.isRunning = true;
-      task().finally(() => {
-        this.isRunning = false;
+      drop(
+        task().finally(() => {
+          this.isRunning = false;
 
-        const { queuedTask } = this;
-        if (queuedTask) {
-          this.queuedTask = undefined;
-          this.add(queuedTask);
-        } else {
-          try {
-            this.onceEmptyCallbacks.forEach(callback => {
-              callback();
-            });
-          } finally {
-            this.onceEmptyCallbacks = [];
+          const { queuedTask } = this;
+          if (queuedTask) {
+            this.queuedTask = undefined;
+            this.add(queuedTask);
+          } else {
+            try {
+              this.onceEmptyCallbacks.forEach(callback => {
+                callback();
+              });
+            } finally {
+              this.onceEmptyCallbacks = [];
+            }
           }
-        }
-      });
+        })
+      );
     }
   }
 

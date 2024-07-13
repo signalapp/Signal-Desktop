@@ -3,8 +3,6 @@
 
 import React from 'react';
 import { noop } from 'lodash';
-import type { FormatXMLElementFn } from 'intl-messageformat';
-import formatFileSize from 'filesize';
 
 import { DialogType } from '../../types/Dialogs';
 import type { LocalizerType } from '../../types/Util';
@@ -17,7 +15,8 @@ import type { UpdatesStateType } from '../../state/ducks/updates';
 import { isBeta } from '../../util/version';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { Modal } from '../Modal';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
+import { formatFileSize } from '../../util/formatFileSize';
 
 export type PropsType = UpdatesStateType &
   Readonly<{
@@ -36,14 +35,14 @@ export function InstallScreenUpdateDialog({
   currentVersion,
   OS,
 }: PropsType): JSX.Element | null {
-  const learnMoreLink: FormatXMLElementFn<JSX.Element | string> = children => (
+  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
     <a
       key="signal-support"
       href={UNSUPPORTED_OS_URL}
       rel="noreferrer"
       target="_blank"
     >
-      {children}
+      {parts}
     </a>
   );
 
@@ -57,7 +56,7 @@ export function InstallScreenUpdateDialog({
         noMouseClose
         title={i18n('icu:InstallScreenUpdateDialog--unsupported-os__title')}
       >
-        <Intl
+        <I18n
           id="icu:UnsupportedOSErrorDialog__body"
           i18n={i18n}
           components={{
@@ -86,13 +85,13 @@ export function InstallScreenUpdateDialog({
       dialogType === DialogType.FullDownloadReady
     ) {
       actionText = (
-        <Intl
+        <I18n
           id="icu:InstallScreenUpdateDialog--manual-update__action"
           i18n={i18n}
           components={{
             downloadSize: (
               <span className="InstallScreenUpdateDialog__download-size">
-                ({formatFileSize(downloadSize ?? 0, { round: 0 })})
+                ({formatFileSize(downloadSize ?? 0)})
               </span>
             ),
           }}
@@ -160,7 +159,7 @@ export function InstallScreenUpdateDialog({
       : PRODUCTION_DOWNLOAD_URL;
     const title = i18n('icu:cannotUpdate');
     const body = (
-      <Intl
+      <I18n
         i18n={i18n}
         id="icu:InstallScreenUpdateDialog--cannot-update__body"
         components={{
@@ -219,7 +218,7 @@ export function InstallScreenUpdateDialog({
         useFocusTrap={false}
         title={i18n('icu:cannotUpdate')}
       >
-        <Intl
+        <I18n
           components={{
             app: <strong key="app">Signal.app</strong>,
             folder: <strong key="folder">/Applications</strong>,

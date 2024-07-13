@@ -3,6 +3,7 @@
 
 /* eslint-disable max-classes-per-file */
 
+import type { Response } from 'node-fetch';
 import type { LibSignalErrorBase } from '@signalapp/libsignal-client';
 
 import { parseRetryAfter } from '../util/parseRetryAfter';
@@ -16,24 +17,28 @@ function appendStack(newError: Error, originalError: Error) {
   newError.stack += `\nOriginal stack:\n${originalError.stack}`;
 }
 
-export type HTTPErrorHeadersType = {
-  [name: string]: string | ReadonlyArray<string>;
-};
-
 export class HTTPError extends Error {
   public override readonly name = 'HTTPError';
 
   public readonly code: number;
 
-  public readonly responseHeaders: HTTPErrorHeadersType;
+  public readonly responseHeaders: HeaderListType;
 
   public readonly response: unknown;
+
+  static fromResponse(response: Response): HTTPError {
+    return new HTTPError(response.statusText, {
+      code: response.status,
+      headers: Object.fromEntries(response.headers),
+      response,
+    });
+  }
 
   constructor(
     message: string,
     options: {
       code: number;
-      headers: HTTPErrorHeadersType;
+      headers: HeaderListType;
       response?: unknown;
       stack?: string;
       cause?: unknown;

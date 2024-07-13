@@ -49,6 +49,9 @@
       &:disabled {
         color: inherit;
         cursor: inherit;
+        // By disabling pointer-events, we prevent the disabled textarea from swallowing
+        // all click events
+        pointer-events: none;
       }
 
       &:focus {

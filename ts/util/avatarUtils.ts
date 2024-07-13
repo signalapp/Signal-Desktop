@@ -2,8 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d';
+import type { ContactAvatarType } from '../types/Avatar';
 import { isMe } from './whatTypeOfConversation';
 import { isSignalConversation } from './isSignalConversation';
+import { getLocalAttachmentUrl } from './getLocalAttachmentUrl';
 
 export function getAvatarHash(
   conversationAttrs: ConversationAttributesType
@@ -14,43 +16,78 @@ export function getAvatarHash(
   return avatar?.hash || undefined;
 }
 
-export function getAvatarPath(
+export function getAvatar(
   conversationAttrs: ConversationAttributesType
-): undefined | string {
+): undefined | ContactAvatarType {
   const shouldShowProfileAvatar =
     isMe(conversationAttrs) ||
     window.storage.get('preferContactAvatars') === false;
   const avatar = shouldShowProfileAvatar
     ? conversationAttrs.profileAvatar || conversationAttrs.avatar
     : conversationAttrs.avatar || conversationAttrs.profileAvatar;
-  return avatar?.path || undefined;
+  return avatar || undefined;
 }
 
-export function getAbsoluteAvatarPath(
+export function getLocalAvatarUrl(
   conversationAttrs: ConversationAttributesType
 ): string | undefined {
-  const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
-  const avatarPath = getAvatarPath(conversationAttrs);
-  if (isSignalConversation(conversationAttrs)) {
-    return avatarPath;
+  const avatar = getAvatar(conversationAttrs);
+  if (!avatar) {
+    return undefined;
   }
-  return avatarPath ? getAbsoluteAttachmentPath(avatarPath) : undefined;
+
+  if (isSignalConversation(conversationAttrs)) {
+    return avatar.path;
+  }
+  return avatar.path ? getLocalAttachmentUrl(avatar) : undefined;
 }
 
-export function getAbsoluteProfileAvatarPath(
+// Used only for ts/services/writeProfile.ts
+export function getRawAvatarPath(
   conversationAttrs: ConversationAttributesType
 ): string | undefined {
+  const avatar = getAvatar(conversationAttrs);
+  if (!avatar?.path) {
+    return undefined;
+  }
+
+  if (isSignalConversation(conversationAttrs)) {
+    return avatar.path;
+  }
+
   const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
-  const avatarPath = conversationAttrs.profileAvatar?.path;
-  return avatarPath ? getAbsoluteAttachmentPath(avatarPath) : undefined;
+  return getAbsoluteAttachmentPath(avatar.path);
 }
 
-export function getAbsoluteUnblurredAvatarPath(
+export function getLocalProfileAvatarUrl(
   conversationAttrs: ConversationAttributesType
 ): string | undefined {
-  const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
-  const { unblurredAvatarPath } = conversationAttrs;
-  return unblurredAvatarPath
-    ? getAbsoluteAttachmentPath(unblurredAvatarPath)
-    : undefined;
+  const avatar = conversationAttrs.profileAvatar;
+  return avatar?.path ? getLocalAttachmentUrl(avatar) : undefined;
+}
+
+export function getLocalUnblurredAvatarUrl(
+  conversationAttrs: ConversationAttributesType
+): string | undefined {
+  const { unblurredAvatarPath, unblurredAvatarUrl } = conversationAttrs;
+  if (unblurredAvatarUrl != null) {
+    return unblurredAvatarUrl;
+  }
+
+  if (unblurredAvatarPath == null) {
+    return undefined;
+  }
+
+  // Compatibility mode
+  const avatar = getAvatar(conversationAttrs);
+
+  // Since we use `unblurredAvatarUrl` only for equality checks - if the path
+  // is the same - return equivalent url
+  if (avatar?.path === unblurredAvatarPath) {
+    return getLocalAvatarUrl(conversationAttrs);
+  }
+
+  // Otherwise generate some valid url, but it will never be the same because of
+  // absent "size".
+  return getLocalAttachmentUrl({ path: unblurredAvatarPath });
 }

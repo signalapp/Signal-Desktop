@@ -1,34 +1,39 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import { connect } from 'react-redux';
-import { mapDispatchToProps } from '../actions';
+import React, { memo } from 'react';
+import { useSelector } from 'react-redux';
 import { SafetyNumberModal } from '../../components/SafetyNumberModal';
-import type { StateType } from '../reducer';
-import { getContactSafetyNumber } from '../selectors/safetyNumber';
+import { getContactSafetyNumberSelector } from '../selectors/safetyNumber';
 import { getConversationSelector } from '../selectors/conversations';
-import {
-  getSafetyNumberMode,
-  getHasCompletedSafetyNumberOnboarding,
-} from '../selectors/items';
 import { getIntl } from '../selectors/user';
+import { useSafetyNumberActions } from '../ducks/safetyNumber';
+import { useGlobalModalActions } from '../ducks/globalModals';
 
-export type Props = {
+export type SmartSafetyNumberModalProps = {
   contactID: string;
 };
 
-const mapStateToProps = (state: StateType, props: Props) => {
-  return {
-    ...props,
-    ...getContactSafetyNumber(state, props),
-    contact: getConversationSelector(state)(props.contactID),
-    safetyNumberMode: getSafetyNumberMode(state, { now: Date.now() }),
-    hasCompletedSafetyNumberOnboarding:
-      getHasCompletedSafetyNumberOnboarding(state),
-    i18n: getIntl(state),
-  };
-};
-
-const smart = connect(mapStateToProps, mapDispatchToProps);
-
-export const SmartSafetyNumberModal = smart(SafetyNumberModal);
+export const SmartSafetyNumberModal = memo(function SmartSafetyNumberModal({
+  contactID,
+}: SmartSafetyNumberModalProps) {
+  const i18n = useSelector(getIntl);
+  const conversationSelector = useSelector(getConversationSelector);
+  const contact = conversationSelector(contactID);
+  const contactSafetyNumberSelector = useSelector(
+    getContactSafetyNumberSelector
+  );
+  const contactSafetyNumber = contactSafetyNumberSelector(contactID);
+  const { generateSafetyNumber, toggleVerified } = useSafetyNumberActions();
+  const { toggleSafetyNumberModal } = useGlobalModalActions();
+  return (
+    <SafetyNumberModal
+      i18n={i18n}
+      contact={contact}
+      safetyNumber={contactSafetyNumber?.safetyNumber ?? null}
+      verificationDisabled={contactSafetyNumber?.verificationDisabled ?? null}
+      toggleSafetyNumberModal={toggleSafetyNumberModal}
+      generateSafetyNumber={generateSafetyNumber}
+      toggleVerified={toggleVerified}
+    />
+  );
+});

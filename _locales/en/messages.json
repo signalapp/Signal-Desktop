@@ -15,18 +15,6 @@
       }
     ]
   },
-  "icu:AddCaptionModal__title": {
-    "messageformat": "Add a message",
-    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
-  },
-  "icu:AddCaptionModal__placeholder": {
-    "messageformat": "Message",
-    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
-  },
-  "icu:AddCaptionModal__submit-button": {
-    "messageformat": "Done",
-    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
-  },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Add to a group",
     "description": "Shown as the title of the dialog that allows you to add a contact to an group"
@@ -42,6 +30,10 @@
   "icu:AddUserToAnotherGroupModal__confirm-message": {
     "messageformat": "Add “{contact}” to the group “{group}”",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
+  },
+  "icu:AddUserToAnotherGroupModal__search-placeholder": {
+    "messageformat": "Search",
+    "description": "Placeholder to use when searching for groups in the AddUserToAnotherGroupModal"
   },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "{contact} was added to {group}",
@@ -112,7 +104,7 @@
     "description": "Title of a popup if the database cannot start up properly"
   },
   "icu:databaseError__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can delete your data and restart.\n\nContact support by visiting: https://support.signal.org/hc/requests/new?desktop",
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can delete your data and restart.\n\nContact support by visiting: {link}",
     "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
@@ -130,6 +122,14 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "The version of your database does not match this version of Signal. Make sure you are opening the newest version of Signal on your computer.",
     "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
+  },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}",
+    "description": "(Deleted 2024/07/11) Description shown in a popup if the database key cannot be read, but can be recovered"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data",
+    "description": "(Deleted 2024/07/11) Text of a button shown in a popup if the database cannot start up properly; allows user to attempt data recovery of their database"
   },
   "icu:mainMenuFile": {
     "messageformat": "&File",
@@ -255,6 +255,10 @@
     "messageformat": "Toggle Developer Tools",
     "description": "View menu command to show or hide the developer tools"
   },
+  "icu:viewMenuOpenCallingDevTools": {
+    "messageformat": "Open Calling Developer Tools",
+    "description": "View menu command to open calling developer tools window"
+  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Set Up as New Device",
     "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
@@ -283,14 +287,6 @@
     "messageformat": "View Archive",
     "description": "One of the menu options available in the Avatar popup menu"
   },
-  "icu:avatarMenuChatColors": {
-    "messageformat": "Chat Color",
-    "description": "One of the menu options available in the Avatar popup menu"
-  },
-  "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "Update Signal",
-    "description": "One of the menu options available in the Avatar popup menu"
-  },
   "icu:loading": {
     "messageformat": "Loading...",
     "description": "Message shown on the loading screen before we've loaded any messages"
@@ -315,6 +311,58 @@
     "messageformat": "Chats",
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
+  "icu:LeftPane--corrupted-username--text": {
+    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
+    "description": "Text of corrupted username banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username--action-text": {
+    "messageformat": "Fix now",
+    "description": "Text of the button in the corrupted username banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username-link--text": {
+    "messageformat": "Something went wrong with your QR code and username link, it’s no longer valid. Create a new link to share with others.",
+    "description": "Text of corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane--corrupted-username-link--action-text": {
+    "messageformat": "Fix now",
+    "description": "Text of the button in the corrupted username link banner in the left pane"
+  },
+  "icu:LeftPane__compose__findByUsername": {
+    "messageformat": "Find by username",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPane__compose__findByPhoneNumber": {
+    "messageformat": "Find by phone number",
+    "description": "Text of the button displayed when clicking compose button in left pane"
+  },
+  "icu:LeftPaneFindByHelper__title--findByUsername": {
+    "messageformat": "Find by username",
+    "description": "Title of the left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
+    "messageformat": "Find by phone number",
+    "description": "Title of the left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
+    "messageformat": "Username",
+    "description": "Placeholder of the search input in left pane when looking up someone by username"
+  },
+  "icu:LeftPaneFindByHelper__placeholder--findByPhoneNumber": {
+    "messageformat": "Phone number",
+    "description": "Placeholder of the search input in left pane when looking up someone by phone number"
+  },
+  "icu:LeftPaneFindByHelper__description--findByUsername": {
+    "messageformat": "Enter a username followed by a dot and its set of numbers.",
+    "description": "Description displayed under search input in left pane when looking up someone by username"
+  },
+  "icu:CountryCodeSelect__placeholder": {
+    "messageformat": "Country code",
+    "description": "Placeholder displayed as default value of country code select element"
+  },
+  "icu:CountryCodeSelect__Modal__title": {
+    "messageformat": "Country code",
+    "description": "Title of the country code modal"
+  },
   "icu:NavTabsToggle__showTabs": {
     "messageformat": "Show Tabs",
     "description": "Show in the left pane when the nav tabs are hidden, shows the nav tabs"
@@ -334,6 +382,18 @@
   "icu:NavTabs__ItemIconLabel--MarkedUnread": {
     "messageformat": "Marked unread",
     "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Chats": {
+    "messageformat": "Chats",
+    "description": "Nav Tabs > Chats Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Calls": {
+    "messageformat": "Calls",
+    "description": "Nav Tabs > Calls Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Stories": {
+    "messageformat": "Stories",
+    "description": "Nav Tabs > Stories Button > Label & Accessibility Text"
   },
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Settings",
@@ -370,6 +430,26 @@
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Select messages",
     "description": "Shown in menu for conversation, allows the user to start selecting multiple messages in the conversation"
+  },
+  "icu:ConversationHeader__MenuItem--Accept": {
+    "messageformat": "Accept",
+    "description": "Shown in menu for conversation, allows the user to accept a message request"
+  },
+  "icu:ConversationHeader__MenuItem--Block": {
+    "messageformat": "Block",
+    "description": "Shown in menu for conversation, allows the user to block the contact"
+  },
+  "icu:ConversationHeader__MenuItem--Unblock": {
+    "messageformat": "Unblock",
+    "description": "Shown in menu for conversation, allows the user to unblock the contact"
+  },
+  "icu:ConversationHeader__MenuItem--ReportSpam": {
+    "messageformat": "Report Spam",
+    "description": "Shown in menu for conversation, allows the user to report the conversation as spam"
+  },
+  "icu:ConversationHeader__MenuItem--DeleteChat": {
+    "messageformat": "Delete Chat",
+    "description": "Shown in menu for conversation, allows the user to delete the conversation"
   },
   "icu:ContactListItem__menu": {
     "messageformat": "Manage Contact",
@@ -431,66 +511,6 @@
     "messageformat": "You can only pin up to 4 chats",
     "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
-  "icu:chooseDirectory": {
-    "messageformat": "Choose folder",
-    "description": "Button to allow the user to find a folder on disk"
-  },
-  "icu:chooseFile": {
-    "messageformat": "Choose file",
-    "description": "Button to allow the user to find a file on disk"
-  },
-  "icu:loadDataHeader": {
-    "messageformat": "Load your data",
-    "description": "Header shown on the first screen in the data import process"
-  },
-  "icu:loadDataDescription": {
-    "messageformat": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
-    "description": "Introduction to the process of importing messages and contacts from disk"
-  },
-  "icu:importChooserTitle": {
-    "messageformat": "Choose directory with exported data",
-    "description": "Title of the popup window used to select data previously exported"
-  },
-  "icu:importErrorHeader": {
-    "messageformat": "Something went wrong!",
-    "description": "Header of the error screen after a failed import"
-  },
-  "icu:importingHeader": {
-    "messageformat": "Loading contacts and messages",
-    "description": "Header of screen shown as data is import"
-  },
-  "icu:importErrorFirst": {
-    "messageformat": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
-    "description": "Message shown if the import went wrong; first paragraph"
-  },
-  "icu:importErrorSecond": {
-    "messageformat": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
-    "description": "Message shown if the import went wrong; second paragraph"
-  },
-  "icu:importAgain": {
-    "messageformat": "Choose folder and try again",
-    "description": "Button shown if the user runs into an error during import, allowing them to start over"
-  },
-  "icu:importCompleteHeader": {
-    "messageformat": "Success!",
-    "description": "Header shown on the screen at the end of a successful import process"
-  },
-  "icu:importCompleteStartButton": {
-    "messageformat": "Start using Signal Desktop",
-    "description": "Button shown at end of successful import process, nothing left but a restart"
-  },
-  "icu:importCompleteLinkButton": {
-    "messageformat": "Link this device to your phone",
-    "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
-  },
-  "icu:selectedLocation": {
-    "messageformat": "your selected location",
-    "description": "Message shown as the export location if we didn't capture the target directory"
-  },
-  "icu:upgradingDatabase": {
-    "messageformat": "Upgrading database. This may take some time...",
-    "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
-  },
   "icu:loadingMessages--other": {
     "messageformat": "Loading messages from {daysAgo, plural, one {# day} other {# days}} ago...",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages from day before yesterday and earlier"
@@ -527,10 +547,6 @@
     "messageformat": "New mentions below",
     "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
   },
-  "icu:unreadMessage": {
-    "messageformat": "1 Unread Message",
-    "description": "Text for unread message separator, just one message"
-  },
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {# Unread Message} other {# Unread Messages}}",
     "description": "Text for unread message separator, with count"
@@ -554,10 +570,6 @@
   "icu:youMarkedAsNotVerifiedOtherDevice": {
     "messageformat": "You marked your Safety Number with {name} as not verified from another device",
     "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device."
-  },
-  "icu:membersNeedingVerification": {
-    "messageformat": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
-    "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "The safety number you are trying to verify has changed. Please review your new safety number with {name1}. Remember, this change could mean that someone is trying to intercept your communication or that {name2} has simply reinstalled Signal.",
@@ -607,10 +619,6 @@
     "messageformat": "Actions for story {story}",
     "description": "Label for button that opens context menu for story"
   },
-  "icu:identityKeyErrorOnSend": {
-    "messageformat": "Your safety number with {name1} has changed. This could either mean that someone is trying to intercept your communication or that {name2} has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
-    "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
-  },
   "icu:sendAnyway": {
     "messageformat": "Send anyway",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
@@ -630,18 +638,6 @@
   "icu:joinAnyway": {
     "messageformat": "Join anyway",
     "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
-  },
-  "icu:continueCall": {
-    "messageformat": "Continue Call",
-    "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
-  },
-  "icu:noLongerVerified": {
-    "messageformat": "Your safety number with {name} has changed and is no longer verified. Click to show.",
-    "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified."
-  },
-  "icu:multipleNoLongerVerified": {
-    "messageformat": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
-    "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
   },
   "icu:debugLogExplanation": {
     "messageformat": "When you click Submit, your log will be posted online for 30 days at a unique, unpublished URL. You may Save it locally first.",
@@ -679,36 +675,8 @@
     "messageformat": "Contact Support",
     "description": "Link to open the issue tracker"
   },
-  "icu:gotIt": {
-    "messageformat": "Got it!",
-    "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
-  },
   "icu:submit": {
     "messageformat": "Submit"
-  },
-  "icu:acceptNewKey": {
-    "messageformat": "Accept",
-    "description": "Label for a button to accept a new safety number"
-  },
-  "icu:SafetyNumberViewer__migration__text": {
-    "messageformat": "Safety numbers are being updated.",
-    "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
-  },
-  "icu:SafetyNumberViewer__migration__learn_more": {
-    "messageformat": "Learn more",
-    "description": "A link text in SafetyNumberViewer describing the safety number migration process."
-  },
-  "icu:SafetyNumberViewer__card__prev": {
-    "messageformat": "Previous Safety number",
-    "description": "An ARIA label for safety number navigation button."
-  },
-  "icu:SafetyNumberViewer__card__next": {
-    "messageformat": "Next Safety number",
-    "description": "An ARIA label for safety number navigation button."
-  },
-  "icu:SafetyNumberViewer__carousel__dot": {
-    "messageformat": "Safety number version, {index, number} of {total, number}",
-    "description": "An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Mark as verified",
@@ -718,33 +686,13 @@
     "messageformat": "Clear verification",
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
-  "icu:SafetyNumberViewer__hint--migration": {
-    "messageformat": "To verify end-to-end encryption with {name}, match the color card above with their device and compare the numbers. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
-    "description": "Safety number viewer, text of the hint during migration period"
-  },
-  "icu:SafetyNumberViewer__hint--normal": {
+  "icu:SafetyNumberViewer__hint": {
     "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
-    "description": "Safety number viewer, text of the hint after migration period"
+    "description": "Safety number viewer, text of the hint"
   },
-  "icu:SafetyNumberOnboarding__title": {
-    "messageformat": "Changes to safety numbers",
-    "description": "Title of Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__p1": {
-    "messageformat": "Safety numbers are being updated over a transition period to enable upcoming privacy features in Signal.",
-    "description": "Paragraph 1 of Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__p2": {
-    "messageformat": "To verify safety numbers, match the color card with your contact’s device. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
-    "description": "Paragraph 2 of Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__help": {
-    "messageformat": "Need help?",
-    "description": "Text of a secondary button in Safety number onboarding modal"
-  },
-  "icu:SafetyNumberOnboarding__close": {
-    "messageformat": "Got it",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+  "icu:SafetyNumberViewer__learn_more": {
+    "messageformat": "Learn more",
+    "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "A safety number will be created with this person after you exchange messages with them.",
@@ -754,23 +702,12 @@
     "messageformat": "Learn more",
     "description": "Text of 'Learn more' button of SafetyNumberNotReady modal"
   },
-  "icu:isVerified": {
-    "messageformat": "You have verified your safety number with {name}.",
-    "description": "Summary state shown at top of the safety number screen if user has verified contact."
-  },
-  "icu:isNotVerified": {
-    "messageformat": "You have not verified your safety number with {name}.",
-    "description": "Summary state shown at top of the safety number screen if user has not verified contact."
-  },
   "icu:verified": {
     "messageformat": "Verified"
   },
   "icu:newIdentity": {
     "messageformat": "New safety number",
     "description": "Header for a key change dialog"
-  },
-  "icu:identityChanged": {
-    "messageformat": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below."
   },
   "icu:incomingError": {
     "messageformat": "Error handling incoming message"
@@ -815,14 +752,6 @@
     "messageformat": "Unsupported attachment type. Click to save.",
     "description": "Displayed for incoming unsupported attachment"
   },
-  "icu:clickToSave": {
-    "messageformat": "Click to save",
-    "description": "Hover text for attachment filenames"
-  },
-  "icu:unnamedFile": {
-    "messageformat": "Unnamed File",
-    "description": "Hover text for attachment filenames"
-  },
   "icu:voiceMessage": {
     "messageformat": "Voice Message",
     "description": "Name for a voice message attachment"
@@ -846,10 +775,6 @@
   "icu:stagedImageAttachment": {
     "messageformat": "Draft image attachment: {path}",
     "description": "Alt text for staged attachments"
-  },
-  "icu:cdsMirroringErrorToast": {
-    "messageformat": "Desktop ran into a Contact Discovery Service inconsistency.",
-    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
   },
   "icu:decryptionErrorToast": {
     "messageformat": "Desktop ran into a decryption error from {name}, device {deviceId}",
@@ -953,6 +878,14 @@
   "icu:screenShareWindow": {
     "messageformat": "Sharing screen",
     "description": "Title for screen sharing window"
+  },
+  "icu:callingDeveloperTools": {
+    "messageformat": "Calling Developer Tools",
+    "description": "Title for calling developer tools window"
+  },
+  "icu:callingDeveloperToolsDescription": {
+    "messageformat": "This window is used during development to display diagnostics from ongoing calls.",
+    "description": "Description displayed for calling developer tools window"
   },
   "icu:speech": {
     "messageformat": "Speech",
@@ -1101,29 +1034,13 @@
     "messageformat": "Original message not found",
     "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
   },
-  "icu:messageFoundButNotLoaded": {
-    "messageformat": "Original message found, but not loaded. Scroll up to load it.",
-    "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
-  },
   "icu:voiceRecording--start": {
     "messageformat": "Start recording voice message",
     "description": "Tooltip for microphone button to start voice message"
   },
-  "icu:voiceRecording--complete": {
-    "messageformat": "Complete voice message and send",
-    "description": "Tooltip for green complete voice message and send"
-  },
-  "icu:voiceRecording--cancel": {
-    "messageformat": "Cancel voice message",
-    "description": "Tooltip for red button to cancel voice message"
-  },
   "icu:voiceRecordingInterruptedMax": {
     "messageformat": "Voice message recording stopped because the maximum time limit was reached.",
     "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
-  },
-  "icu:voiceRecordingInterruptedBlur": {
-    "messageformat": "Voice message recording stopped because you switched to another app.",
-    "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
   },
   "icu:voiceNoteLimit": {
     "messageformat": "Voice messages are limited to one hour. Recording will stop if you switch to another app.",
@@ -1149,10 +1066,6 @@
     "messageformat": "You",
     "description": "Shown when the user represented is the current user."
   },
-  "icu:replyingTo": {
-    "messageformat": "Replying to {name}",
-    "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
-  },
   "icu:audioPermissionNeeded": {
     "messageformat": "To send voice messages, allow Signal Desktop to access your microphone.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
@@ -1168,10 +1081,6 @@
   "icu:allowAccess": {
     "messageformat": "Allow Access",
     "description": "Button shown in popup asking to enable microphone/video permissions to send audio messages"
-  },
-  "icu:showSettings": {
-    "messageformat": "Show Settings",
-    "description": "A button shown in dialog requesting the user to turn on audio permissions"
   },
   "icu:audio": {
     "messageformat": "Audio",
@@ -1192,10 +1101,6 @@
   "icu:cannotUpdate": {
     "messageformat": "Cannot Update",
     "description": "Shown as the title of our update error dialogs on windows"
-  },
-  "icu:muted": {
-    "messageformat": "Muted",
-    "description": "Shown in a button when a conversation is muted"
   },
   "icu:mute": {
     "messageformat": "Mute",
@@ -1222,14 +1127,8 @@
   "icu:discard": {
     "messageformat": "Discard"
   },
-  "icu:failedToSend": {
-    "messageformat": "Failed to send to some recipients. Check your network connection."
-  },
   "icu:error": {
     "messageformat": "Error"
-  },
-  "icu:messageDetail": {
-    "messageformat": "Message Detail"
   },
   "icu:delete": {
     "messageformat": "Delete"
@@ -1273,10 +1172,6 @@
     "messageformat": "From",
     "description": "Label for the sender of a message"
   },
-  "icu:to": {
-    "messageformat": "To",
-    "description": "Label for the receiver of a message"
-  },
   "icu:searchResultHeader--sender-to-group": {
     "messageformat": "{sender} to {receiverGroup}",
     "description": "Shown for search result items - like 'Jon to Friends Group'"
@@ -1305,25 +1200,59 @@
     "messageformat": "Message",
     "description": "Placeholder text in the message entry field"
   },
-  "icu:groupMembers": {
-    "messageformat": "Group members"
-  },
   "icu:showMembers": {
     "messageformat": "Show members"
   },
   "icu:showSafetyNumber": {
     "messageformat": "View safety number"
   },
-  "icu:ContactModal__showSafetyNumber": {
-    "messageformat": "View safety number",
-    "description": "Contact modal, label for button to show safety number modal"
+  "icu:AboutContactModal__title": {
+    "messageformat": "About",
+    "description": "Title of About modal"
+  },
+  "icu:AboutContactModal__title--myself": {
+    "messageformat": "You",
+    "description": "Title of About modal when viewing your own information"
+  },
+  "icu:AboutContactModal__TitleAndTitleWithoutNickname": {
+    "messageformat": "{nickname} <muted>({titleNoNickname})</muted>",
+    "description": "Title of conversation when there is a nickname, example: 'Jim (James Smith)'"
+  },
+  "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
+    "messageformat": "“{title}” is the profile name this person set for themselves in Signal.",
+    "description": "Tooltip for the non-nickname title of a conversation."
+  },
+  "icu:AboutContactModal__verified": {
+    "messageformat": "Verified",
+    "description": "Text of a button on About modal leading to a safety number modal"
+  },
+  "icu:AboutContactModal__blocked": {
+    "messageformat": "{name} is blocked",
+    "description": "Text of a row on About modal when user is blocked"
+  },
+  "icu:AboutContactModal__message-request": {
+    "messageformat": "Pending message request",
+    "description": "Text of a row on About modal when user is in message request state"
+  },
+  "icu:AboutContactModal__no-dms": {
+    "messageformat": "No direct messages with {name}",
+    "description": "Text of a row on About modal when there are no direct messages with a user"
+  },
+  "icu:AboutContactModal__signal-connection": {
+    "messageformat": "Signal Connection",
+    "description": "Text of a button on About modal leading to an education modal"
+  },
+  "icu:AboutContactModal__system-contact": {
+    "messageformat": "{name} is in your system contacts",
+    "description": "Text of a row in the About modal describing that the contact is in system contacts"
+  },
+  "icu:NotePreviewModal__Title": {
+    "messageformat": "Note",
+    "description": "Title of Note Preview modal"
   },
   "icu:viewRecentMedia": {
     "messageformat": "View recent media",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
-  },
-  "icu:theirIdentityUnknown": {
-    "messageformat": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
   },
   "icu:back": {
     "messageformat": "Back",
@@ -1385,17 +1314,21 @@
     "messageformat": "Info",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
-  "icu:deleteMessages": {
-    "messageformat": "Delete",
-    "description": "Menu item for deleting messages, title case."
+  "icu:deleteMessagesInConversation": {
+    "messageformat": "Delete messages",
+    "description": "Menu item for deleting all messages in a conversation from your device"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
-    "messageformat": "Delete chat?",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
+    "messageformat": "Delete messages?",
+    "description": "Title for confirmation modal to delete all messages in a conversation"
   },
-  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
-    "messageformat": "This chat will be deleted from this device.",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
+    "messageformat": "All messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "description": "Description for confirmation modal to delete all messages in a conversation"
+  },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
+    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages.",
+    "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Leave group",
@@ -1465,6 +1398,10 @@
     "messageformat": "{sender} changed their phone number",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
   },
+  "icu:JoinedSignal--notification": {
+    "messageformat": "Contact joined Signal",
+    "description": "Shown in timeline when a contact joins Signal"
+  },
   "icu:ConversationMerge--notification": {
     "messageformat": "{obsoleteConversationTitle} and {conversationTitle} are the same account. Your message history for both chats are here.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
@@ -1489,9 +1426,17 @@
     "messageformat": "Your message history for both chats have been merged here.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
   },
-  "icu:quoteThumbnailAlt": {
-    "messageformat": "Thumbnail of image from quoted message",
-    "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} belongs to {conversationTitle}. You're both members of {sharedGroup}.",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} belongs to {conversationTitle}",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
+  },
+  "icu:TitleTransition--notification": {
+    "messageformat": "You started this chat with {oldTitle}",
+    "description": "Shown when we've received profile information for a contact we have been messaging by username/phone number"
   },
   "icu:imageAttachmentAlt": {
     "messageformat": "Image attached to message",
@@ -1516,18 +1461,6 @@
   "icu:reset": {
     "messageformat": "Reset",
     "description": "Used on reset buttons"
-  },
-  "icu:fileIconAlt": {
-    "messageformat": "File icon",
-    "description": "Used in the media gallery documents tab to visually represent a file"
-  },
-  "icu:installWelcome": {
-    "messageformat": "Welcome to Signal Desktop",
-    "description": "Welcome title on the install page"
-  },
-  "icu:installTagline": {
-    "messageformat": "Privacy is possible. Signal makes it easy.",
-    "description": "Tagline displayed under 'installWelcome' string on the install page"
   },
   "icu:linkedDevices": {
     "messageformat": "Linked Devices",
@@ -1561,13 +1494,29 @@
     "messageformat": "Tap {plusButton} (Android) or {linkNewDevice} (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "icu:Install__qr-failed": {
-    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
   "icu:Install__qr-failed-load": {
     "messageformat": "The QR code couldn't load. Check your internet and try again. <retry>Retry</retry>",
-    "description": "Shown on the install screen if the QR code fails to load"
+    "description": "(Deleted 2024/07/01) Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load__error--timeout": {
+    "messageformat": "The QR code couldn't load. Check your connection and try again.",
+    "description": "Shown on the install screen if the QR code fails to load due to connection timeout"
+  },
+  "icu:Install__qr-failed-load__error--unknown": {
+    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>",
+    "description": "Shown on the install screen if the QR code fails to load due to an unknown error"
+  },
+  "icu:Install__qr-failed-load__error--network": {
+    "messageformat": "Signal cannot link this device using your current network.",
+    "description": "Shown on the install screen if the QR code fails to load due to a network error"
+  },
+  "icu:Install__qr-failed-load__retry": {
+    "messageformat": "Retry",
+    "description": "Text of the button shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load__get-help": {
+    "messageformat": "Get help",
+    "description": "Text of the link to support page shown on the install screen if the QR code fails to load"
   },
   "icu:Install__support-link": {
     "messageformat": "Need help?",
@@ -1581,8 +1530,12 @@
     "messageformat": "My Computer",
     "description": "The placeholder for the 'choose device name' input"
   },
+  "icu:Preferences--phone-number": {
+    "messageformat": "Phone Number",
+    "description": "The label in settings panel shown for the phone number associated with user's account"
+  },
   "icu:Preferences--device-name": {
-    "messageformat": "Device name",
+    "messageformat": "Device Name",
     "description": "The label in settings panel shown for the user-provided name for this desktop instance"
   },
   "icu:chooseDeviceName": {
@@ -1636,10 +1589,6 @@
     "messageformat": "Call Again",
     "description": "Button to call someone again"
   },
-  "icu:calling__start": {
-    "messageformat": "Start Call",
-    "description": "Button label in the call lobby for starting a call"
-  },
   "icu:calling__join": {
     "messageformat": "Join Call",
     "description": "Button label in the call lobby for joining a call"
@@ -1652,13 +1601,81 @@
     "messageformat": "Microphone muted due to the size of the call",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
+  "icu:calling__toasts--aria-label": {
+    "messageformat": "Call notifications",
+    "description": "Aria label for region of toasts shown during a call (for, e.g. reconnecting, person joined, audio device changed notifications)"
+  },
   "icu:calling__call-is-full": {
     "messageformat": "Call is full",
     "description": "Text in the call lobby when you can't join because the call is full"
   },
-  "icu:calling__button--video__label": {
-    "messageformat": "Camera",
-    "description": "Label under the video button"
+  "icu:calling__cant-join": {
+    "messageformat": "Can't join call",
+    "description": "Modal dialog title when you can't join a call"
+  },
+  "icu:calling__dialog-already-in-call": {
+    "messageformat": "You are already in a call.",
+    "description": "Error message when clicking a call link to join a call, but you're in a call already."
+  },
+  "icu:calling__call-link-connection-issues": {
+    "messageformat": "Could not fetch call link information. Please check your network connection and try again.",
+    "description": "Error message when unable to fetch call link info from server."
+  },
+  "icu:calling__call-link-copied": {
+    "messageformat": "Call link copied.",
+    "description": "Toast shown when a call link is copied to the clipboard."
+  },
+  "icu:calling__call-link-no-longer-valid": {
+    "messageformat": "This call link is no longer valid.",
+    "description": "Error message when a call link has been revoked or expires."
+  },
+  "icu:calling__call-link-default-title": {
+    "messageformat": "Signal Call",
+    "description": "Default title for Signal call links."
+  },
+  "icu:calling__join-request-denied": {
+    "messageformat": "Your request to join this call has been denied.",
+    "description": "Error message when a request to join a call link call was rejected by a call admin."
+  },
+  "icu:calling__join-request-denied-title": {
+    "messageformat": "Join request denied",
+    "description": "Title of error when a request to join a call link call was rejected by a call admin."
+  },
+  "icu:calling__removed-from-call": {
+    "messageformat": "Someone has removed you from the call.",
+    "description": "Error message when in a call then a call admin removes you."
+  },
+  "icu:calling__removed-from-call-title": {
+    "messageformat": "Removed from call",
+    "description": "Title of error when in a call then a call admin removes you."
+  },
+  "icu:CallingLobby__CallLinkNotice": {
+    "messageformat": "Anyone who joins this call via the link will see your name and photo.",
+    "description": "Toast shown in call lobby before joining a call link call to inform user that profile info will be shared."
+  },
+  "icu:CallingLobby__CallLinkNotice--phone-sharing": {
+    "messageformat": "Anyone who joins this call via the link will see your name, photo, and phone number.",
+    "description": "Toast shown in call lobby before joining a call link call to inform user that profile info will be shared, when the phone number sharing account setting is enabled."
+  },
+  "icu:CallingLobby__CallLinkNotice--join-request-pending": {
+    "messageformat": "Waiting to be let in…",
+    "description": "Notice shown in call lobby after you requested to join a call link to indicate your request is pending approval."
+  },
+  "icu:CallingLobbyJoinButton--join": {
+    "messageformat": "Join",
+    "description": "Button label in the call lobby for joining a call"
+  },
+  "icu:CallingLobbyJoinButton--start": {
+    "messageformat": "Start",
+    "description": "Button label in the call lobby for starting a call"
+  },
+  "icu:CallingLobbyJoinButton--call-full": {
+    "messageformat": "Call full",
+    "description": "Button in the call lobby when you can't join because the call is full"
+  },
+  "icu:CallingLobbyJoinButton--ask-to-join": {
+    "messageformat": "Ask to join",
+    "description": "Button label in the call lobby for joining a call link which requires admin approval"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "Camera disabled",
@@ -1672,10 +1689,6 @@
     "messageformat": "Turn on camera",
     "description": "Button tooltip label for turning on the camera"
   },
-  "icu:calling__button--audio__label": {
-    "messageformat": "Mute",
-    "description": "Label under the audio button"
-  },
   "icu:calling__button--audio-disabled": {
     "messageformat": "Microphone disabled",
     "description": "Button tooltip label when the microphone is disabled"
@@ -1687,10 +1700,6 @@
   "icu:calling__button--audio-on": {
     "messageformat": "Unmute mic",
     "description": "Button tooltip label for turning on the microphone"
-  },
-  "icu:calling__button--presenting__label": {
-    "messageformat": "Share",
-    "description": "Label under the share screen button"
   },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "Presenting disabled",
@@ -1704,21 +1713,85 @@
     "messageformat": "Stop presenting",
     "description": "Button tooltip label for stopping screen sharing"
   },
-  "icu:calling__button--ring__label": {
-    "messageformat": "Ring",
-    "description": "Label under the ring button"
+  "icu:calling__button--react": {
+    "messageformat": "React",
+    "description": "Button tooltip label to send a reaction during a call"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "Group is too large to ring the participants.",
     "description": "Button tooltip label when you can't ring because the group is too large"
   },
-  "icu:calling__button--ring__off": {
-    "messageformat": "Notify, don't ring",
+  "icu:CallingButton__ring-off": {
+    "messageformat": "Turn off ringing",
     "description": "Button tooltip label for turning ringing off"
   },
-  "icu:calling__button--ring__on": {
-    "messageformat": "Enable ringing",
+  "icu:CallingButton--ring-on": {
+    "messageformat": "Turn on ringing",
     "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton--more-options": {
+    "messageformat": "More options",
+    "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
+  },
+  "icu:CallingPendingParticipants__ApproveUser": {
+    "messageformat": "Approve join request",
+    "description": "Tooltip label for check mark button to approve a user's request to join a call."
+  },
+  "icu:CallingPendingParticipants__DenyUser": {
+    "messageformat": "Deny join request",
+    "description": "Tooltip label for check mark button to deny a user's request to join a call."
+  },
+  "icu:CallingPendingParticipants__ApproveAll": {
+    "messageformat": "Approve all",
+    "description": "Button to approve all pending requests to join a call."
+  },
+  "icu:CallingPendingParticipants__DenyAll": {
+    "messageformat": "Deny all",
+    "description": "Button to deny all pending requests to join a call."
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
+    "messageformat": "Approve {count, plural, one {# request} other {# requests}}?",
+    "description": "Title of confirmation dialog when approving all pending requests to join a call."
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
+    "messageformat": "Deny {count, plural, one {# request} other {# requests}}?",
+    "description": "Title of confirmation dialog when approving all pending requests to join a call."
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
+    "messageformat": "{count, plural, one {# person} other {# people}} will be added to the call.",
+    "description": "Title of confirmation dialog when approving all pending requests to join a call."
+  },
+  "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
+    "messageformat": "{count, plural, one {# person} other {# people}} will not be added to the call.",
+    "description": "Title of confirmation dialog when denying all pending requests to join a call."
+  },
+  "icu:CallingPendingParticipants__RequestsToJoin": {
+    "messageformat": "{count, plural, one {# request} other {# requests}} to join the call",
+    "description": "Shown in the call pending join request list to describe how many people are requesting to join"
+  },
+  "icu:CallingPendingParticipants__WouldLikeToJoin": {
+    "messageformat": "Would like to join...",
+    "description": "Participant info text in the call pending join requests compact list, visible only to call admins. Indicates that the participant would like to join the call and is requesting action."
+  },
+  "icu:CallingPendingParticipants__AdditionalRequests": {
+    "messageformat": "{count, plural, one {+# request} other {+# requests}}",
+    "description": "Button text in the call pending join requests compact list. When clicked the list expands to the full list"
+  },
+  "icu:CallingPendingParticipants__Toast--added-users-to-call": {
+    "messageformat": "{count, plural, one {# person} other {# people}} added to the call",
+    "description": "Shown in toast after batch approving requests to join a call"
+  },
+  "icu:CallingRaisedHandsList__Title": {
+    "messageformat": "{count, plural, one {# raised hand} other {# raised hands}}",
+    "description": "Shown in the call raised hands list to describe how many people have active raised hands"
+  },
+  "icu:CallingRaisedHandsList__TitleHint": {
+    "messageformat": "(first to last)",
+    "description": "Shown in the call raised hands list next to the raised hands count to explain list ordering"
+  },
+  "icu:CallingReactions--me": {
+    "messageformat": "You",
+    "description": "Label next to in-call reactions to indicate that the current user sent that reaction."
   },
   "icu:calling__your-video-is-off": {
     "messageformat": "Your camera is off",
@@ -1745,7 +1818,7 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
-    "messageformat": "{first}, {second}, and {others} others are in this call",
+    "messageformat": "{first}, {second}, and {others, plural, one {#} other {#}} others are in this call",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--will-ring-1": {
@@ -1761,7 +1834,7 @@
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "Signal will ring {first}, {second}, and {others} others",
+    "messageformat": "Signal will ring {first}, {second}, and {others, plural, one {#} other {#}} others",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-notify-1": {
@@ -1777,19 +1850,15 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__pre-call-info--will-notify-many": {
-    "messageformat": "{first}, {second}, and {others} others will be notified",
+    "messageformat": "{first}, {second}, and {others, plural, one {#} other {#}} others will be notified",
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "No one else is here",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
-  "icu:calling__in-this-call--one": {
-    "messageformat": "In this call · 1 person",
-    "description": "Shown in the participants list to describe how many people are in the call"
-  },
-  "icu:calling__in-this-call--many": {
-    "messageformat": "In this call · {people} people",
+  "icu:calling__in-this-call": {
+    "messageformat": "In this call · {people, plural, one {# person} other {# people}}",
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "icu:calling__you-have-blocked": {
@@ -1799,6 +1868,14 @@
   "icu:calling__block-info": {
     "messageformat": "You won't receive their voice or video and they won't receive yours.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
+  },
+  "icu:calling__missing-media-keys": {
+    "messageformat": "Can't receive audio and video from {name}",
+    "description": "When you can't view someone's audio and video in a call because their media keys are unavailable"
+  },
+  "icu:calling__missing-media-keys-info": {
+    "messageformat": "This may be because they have not verified your safety number change, there's a problem with their device, or they have blocked you.",
+    "description": "Detailed explanation why you can't view someone's audio and video in a call because their media keys are unavailable."
   },
   "icu:calling__overflow__scroll-up": {
     "messageformat": "Scroll up",
@@ -1816,9 +1893,21 @@
     "messageformat": "Click here to return to the call when you're ready to stop presenting.",
     "description": "Body text for the share screen notification"
   },
+  "icu:calling__presenting--reconnecting--notification-title": {
+    "messageformat": "Reconnecting...",
+    "description": "Title for the share screen reconnecting notification"
+  },
+  "icu:calling__presenting--reconnecting--notification-body": {
+    "messageformat": "Your connection was lost. Signal is reconnecting.",
+    "description": "Body text for the share screen reconnecting notification"
+  },
   "icu:calling__presenting--info": {
     "messageformat": "Signal is sharing {window}.",
     "description": "Text that appears in the screen sharing controller to inform person that they are presenting"
+  },
+  "icu:calling__presenting--reconnecting": {
+    "messageformat": "Reconnecting...",
+    "description": "Text that appears in the screen sharing controller to inform person that the call is in reconnecting state"
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Stop sharing",
@@ -1884,10 +1973,6 @@
     "messageformat": "Allow access to the camera",
     "description": "Description of the media permission description"
   },
-  "icu:general": {
-    "messageformat": "General",
-    "description": "Header for general options on the settings screen"
-  },
   "icu:spellCheckDescription": {
     "messageformat": "Spell check text entered in message composition box",
     "description": "Description of the spell check setting"
@@ -1917,15 +2002,15 @@
     "description": "Description for the automatic launch setting"
   },
   "icu:clearDataHeader": {
-    "messageformat": "Clear application data",
+    "messageformat": "Delete application data",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "This will clear all data in the application, removing all messages and saved account information.",
+    "messageformat": "This will delete all data in the application, removing all messages and saved account information.",
     "description": "Text describing what the clear data button will do."
   },
   "icu:clearDataButton": {
-    "messageformat": "Clear data",
+    "messageformat": "Delete data",
     "description": "Button in the settings dialog starting process to delete all data"
   },
   "icu:deleteAllDataHeader": {
@@ -1933,12 +2018,8 @@
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+    "messageformat": "Delete all data and messages from this version of Signal Desktop? You can always relink this desktop, but your messages will not restore. Your Signal account and data on your phone or other linked devices will not be deleted.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
-  },
-  "icu:deleteAllDataButton": {
-    "messageformat": "Delete all data",
-    "description": "Text of the button that deletes all data"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Disconnecting and deleting all data",
@@ -1951,18 +2032,6 @@
   "icu:deleteOldData": {
     "messageformat": "Delete Old Data",
     "description": "Button to make the delete happen"
-  },
-  "icu:notifications": {
-    "messageformat": "Notifications",
-    "description": "Header for notification settings"
-  },
-  "icu:notificationSettingsDialog": {
-    "messageformat": "When messages arrive, display notifications that reveal:",
-    "description": "Explain the purpose of the notification settings"
-  },
-  "icu:disableNotifications": {
-    "messageformat": "Disable notifications",
-    "description": "Label for disabling notifications"
   },
   "icu:nameAndMessage": {
     "messageformat": "Name, content, and actions",
@@ -2014,18 +2083,6 @@
     "messageformat": "Partially deleted, click to retry",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
-  "icu:showMore": {
-    "messageformat": "Details",
-    "description": "Displays the details of a key change"
-  },
-  "icu:showLess": {
-    "messageformat": "Hide details",
-    "description": "Hides the details of a key change"
-  },
-  "icu:learnMore": {
-    "messageformat": "Learn more about verifying safety numbers",
-    "description": "Text that links to a support article on verifying safety numbers"
-  },
   "icu:expiredWarning": {
     "messageformat": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
     "description": "Warning notification that this version of the app has expired"
@@ -2038,10 +2095,6 @@
     "messageformat": "Media Message",
     "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
   },
-  "icu:unregisteredUser": {
-    "messageformat": "Number is not registered",
-    "description": "Error message displayed when sending to an unregistered user."
-  },
   "icu:sync": {
     "messageformat": "Import contacts",
     "description": "Label for contact and group sync settings"
@@ -2049,10 +2102,6 @@
   "icu:syncExplanation": {
     "messageformat": "Import all Signal groups and contacts from your mobile device.",
     "description": "Explanatory text for sync settings"
-  },
-  "icu:lastSynced": {
-    "messageformat": "Last import at",
-    "description": "Label for date and time of last sync operation"
   },
   "icu:syncNow": {
     "messageformat": "Import now",
@@ -2210,10 +2259,6 @@
     "messageformat": "This user can't be verified until you've exchanged messages with them.",
     "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
   },
-  "icu:yourSafetyNumberWith": {
-    "messageformat": "Your safety number with {name1}:",
-    "description": "Heading for safety number view"
-  },
   "icu:themeLight": {
     "messageformat": "Light",
     "description": "Label text for light theme (normal)"
@@ -2242,10 +2287,6 @@
     "messageformat": "Hide menu bar",
     "description": "Label text for menu bar visibility setting"
   },
-  "icu:startConversation": {
-    "messageformat": "Start new chat",
-    "description": "Label underneath number a user enters that is not an existing contact"
-  },
   "icu:newConversation": {
     "messageformat": "New chat",
     "description": "Label for header when starting a new conversation"
@@ -2255,7 +2296,7 @@
     "description": "Label for header to go to stories view"
   },
   "icu:contactSearchPlaceholder": {
-    "messageformat": "Search by name or phone number",
+    "messageformat": "Name, username, or number",
     "description": "Placeholder to use when searching for contacts in the composer"
   },
   "icu:noContactsFound": {
@@ -2290,12 +2331,12 @@
     "messageformat": "Failed to fetch phone number. Check your connection and try again.",
     "description": "Shown if request to Signal servers to find phone number fails"
   },
-  "icu:ToastManager__CannotEditMessage": {
-    "messageformat": "Edits can only be applied within 3 hours from the time you sent this message.",
+  "icu:ToastManager__CannotEditMessage_24": {
+    "messageformat": "Edits can only be applied within 24 hours from the time you sent this message.",
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "User not found. {atUsername} is not a Signal user; make sure you’ve entered the complete username.",
+    "messageformat": "{atUsername} is not a Signal user. Make sure you've entered the complete username.",
     "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
   },
   "icu:startConversation--phone-number-not-found": {
@@ -2374,26 +2415,11 @@
     "messageformat": "Failed to update the group. Check your connection and try again.",
     "description": "Shown in the modal when we can't update a group"
   },
-  "icu:notSupportedSMS": {
-    "messageformat": "SMS/MMS messages are not supported.",
-    "description": "Label underneath number informing user that SMS is not supported on desktop"
-  },
-  "icu:newPhoneNumber": {
-    "messageformat": "Enter a phone number to add a contact.",
-    "description": "Placeholder for adding a new number to a contact"
-  },
-  "icu:invalidNumberError": {
-    "messageformat": "Invalid number",
-    "description": "When a person inputs a number that is invalid"
-  },
   "icu:unlinkedWarning": {
     "messageformat": "Click to relink Signal Desktop to your mobile device to continue messaging."
   },
   "icu:unlinked": {
     "messageformat": "Unlinked"
-  },
-  "icu:relink": {
-    "messageformat": "Relink"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Update Available"
@@ -2416,9 +2442,6 @@
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Restart Signal"
-  },
-  "icu:autoUpdateLaterButtonLabel": {
-    "messageformat": "Later"
   },
   "icu:autoUpdateIgnoreButtonLabel": {
     "messageformat": "Ignore update"
@@ -2474,6 +2497,10 @@
   "icu:ConversationListItem--message-request": {
     "messageformat": "Message Request",
     "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
+  },
+  "icu:ConversationListItem--blocked": {
+    "messageformat": "Blocked",
+    "description": "Preview shown for conversation that has been blocked"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Draft:",
@@ -2535,6 +2562,18 @@
     "messageformat": "This message was deleted.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "icu:message--attachmentTooBig--one": {
+    "messageformat": "Attachment too large to display.",
+    "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
+  },
+  "icu:message--attachmentTooBig--multiple": {
+    "messageformat": "Some attachments are too large to display.",
+    "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
+  },
+  "icu:message--call-link-description": {
+    "messageformat": "Use this link to join a Signal call",
+    "description": "Shown in message previews for Signal call links."
+  },
   "icu:donation--missing": {
     "messageformat": "Unable to fetch donation details",
     "description": "Aria label for donation when we can't fetch the details."
@@ -2595,10 +2634,6 @@
     "messageformat": "Expired",
     "description": "Shows that a donation badge is expired"
   },
-  "icu:message--giftBadge--view": {
-    "messageformat": "View",
-    "description": "Shown when you've sent a gift badge to someone then opened it"
-  },
   "icu:message--donation--view": {
     "messageformat": "View",
     "description": "Shown when you've sent a donation badge to someone then opened it"
@@ -2626,10 +2661,6 @@
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "Sticker pack could not be installed",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
-  },
-  "icu:stickers--StickerManager--title": {
-    "messageformat": "Stickers",
-    "description": "Title for the sticker manager"
   },
   "icu:stickers--StickerManager--Available": {
     "messageformat": "Available",
@@ -2822,6 +2853,10 @@
   "icu:MessageBody--read-more": {
     "messageformat": "Read more",
     "description": "When a message is too long this is the affordance to expand the message"
+  },
+  "icu:MessageBody--message-too-long": {
+    "messageformat": "Message too long to display more",
+    "description": "When an incoming message is too long, and we refused to download it"
   },
   "icu:Message--unsupported-message": {
     "messageformat": "{contact} sent you a message that can't be processed or displayed because it uses a new Signal feature."
@@ -3175,42 +3210,6 @@
     "messageformat": "Chat marked unread",
     "description": "A toast that shows up when user marks a conversation as unread"
   },
-  "icu:SendEdit--dialog--title": {
-    "messageformat": "Signal beta only",
-    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
-  },
-  "icu:SendEdit--dialog--body": {
-    "messageformat": "Editing messages is available to Signal beta users only. If you edit a message, it will only be visible to people who are on the latest version of Signal beta.",
-    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
-  },
-  "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
-    "description": "Title of the modal shown before sending your first edit message"
-  },
-  "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
-    "description": "Body text of the modal shown before sending your first edit message"
-  },
-  "icu:SendFormatting--dialog--title": {
-    "messageformat": "Sending formatted text",
-    "description": "Title of the modal shown before sending your first formatting message"
-  },
-  "icu:SendFormatting--dialog--body": {
-    "messageformat": "Some people may be using a version of Signal that doesn’t support formatted text. They will not be able to see the formatting changes you’ve made to your message.",
-    "description": "Body text of the modal shown before sending your first formatting message"
-  },
-  "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "Would you like to open Signal Sticker Pack Creator?",
-    "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
-  },
-  "icu:AuthArtCreator--dialog--confirm": {
-    "messageformat": "Confirm",
-    "description": "A buttle title for confirming Signal Sticker Pack Creator dialog"
-  },
-  "icu:AuthArtCreator--dialog--dismiss": {
-    "messageformat": "Dismiss",
-    "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
-  },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
@@ -3230,6 +3229,62 @@
   "icu:ReactionsViewer--all": {
     "messageformat": "All",
     "description": "Shown in reaction viewer as the title for the 'all' category"
+  },
+  "icu:SafetyTipsModal__Title": {
+    "messageformat": "Safety Tips",
+    "description": "Title of the safety tips modal"
+  },
+  "icu:SafetyTipsModal__Description": {
+    "messageformat": "Be careful when accepting message requests from people you don’t know. Watch out for:",
+    "description": "Description of the safety tips modal"
+  },
+  "icu:SafetyTipsModal__TipTitle--Crypto": {
+    "messageformat": "Crypto or money scams",
+    "description": "Title of the crypto safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--Crypto": {
+    "messageformat": "If someone you don’t know messages about cryptocurrency (like Bitcoin) or a financial opportunity, be careful—it’s likely spam.",
+    "description": "Description of the crypto safety tip"
+  },
+  "icu:SafetyTipsModal__TipTitle--Vague": {
+    "messageformat": "Vague or irrelevant messages",
+    "description": "Title of the vague safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--Vague": {
+    "messageformat": "Spammers often start with a simple message like “Hi” to draw you in. If you respond they may engage you further.",
+    "description": "Description of the vague safety tip"
+  },
+  "icu:SafetyTipsModal__TipTitle--Links": {
+    "messageformat": "Messages with links",
+    "description": "Title of the links safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--Links": {
+    "messageformat": "Be careful of messages from people you don’t know that have links to websites. Never visit links from people you don’t trust.",
+    "description": "Description of the links safety tip"
+  },
+  "icu:SafetyTipsModal__TipTitle--Business": {
+    "messageformat": "Fake businesses and institutions",
+    "description": "Title of the business safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--Business": {
+    "messageformat": "Be careful of businesses or government agencies contacting you. Messages involving tax agencies, couriers, and more can be spam.",
+    "description": "Description of the business safety tip"
+  },
+  "icu:SafetyTipsModal__DotLabel": {
+    "messageformat": "Go to page {page, number}",
+    "description": "Label for the dots in the safety tips modal that when clicked will take you to a specific tip"
+  },
+  "icu:SafetyTipsModal__Button--Previous": {
+    "messageformat": "Previous tip",
+    "description": "Button to go to the previous safety tip"
+  },
+  "icu:SafetyTipsModal__Button--Next": {
+    "messageformat": "Next tip",
+    "description": "Button to go to the next safety tip"
+  },
+  "icu:SafetyTipsModal__Button--Done": {
+    "messageformat": "Done",
+    "description": "Button to close the safety tips modal when you've reached the last tip"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "Let {name} message you and share your name and photo with them? They won’t know you’ve seen their messages until you accept.",
@@ -3271,10 +3326,6 @@
     "messageformat": "Group members will be able to add you to this group again.",
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
-  "icu:MessageRequests--block-and-report-spam": {
-    "messageformat": "Report Spam and Block",
-    "description": "Shown as a button to let the user block a message request and report spam"
-  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Reported as spam and blocked.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
@@ -3294,6 +3345,42 @@
   "icu:MessageRequests--block-group-confirm-body": {
     "messageformat": "You will no longer receive messages or updates from this group and members won't be able to add you to this group again.",
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
+  },
+  "icu:MessageRequests--reportAndMaybeBlock": {
+    "messageformat": "Report...",
+    "description": "Shown as a button to let the user report a message request and maybe block the user"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-title": {
+    "messageformat": "Report as spam?",
+    "description": "Shown as the title in the modal for reporting and maybe blocking a message request"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-body--direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats.",
+    "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a direct conversation"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-body--group--unknown-contact": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can’t see the content of any chats.",
+    "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a group conversation when the contact is unknown"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-body--group": {
+    "messageformat": "Signal will be notified that {name}, who invited you to this group, may be sending spam. Signal can’t see the content of any chats.",
+    "description": "Shown as the body in the modal for reporting and maybe blocking a message request in a group conversation"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-report": {
+    "messageformat": "Report Spam",
+    "description": "Shown as a button to let the user report a message request"
+  },
+  "icu:MessageRequests--ReportAndMaybeBlockModal-reportAndBlock": {
+    "messageformat": "Report and Block",
+    "description": "Shown as a button to let the user report a message request and block the user"
+  },
+  "icu:MessageRequests--AcceptedOptionsModal--body": {
+    "messageformat": "You accepted a message request from {name}. If this was a mistake, you can choose an action below.",
+    "description": "Shown as the body in the modal for accepting a message request in a direct conversation"
+  },
+  "icu:MessageRequests--report-spam-success-toast": {
+    "messageformat": "Reported as spam.",
+    "description": "Shown in a toast when you successfully report a user as spam"
   },
   "icu:MessageRequests--delete": {
     "messageformat": "Delete",
@@ -3360,12 +3447,8 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount, number} more",
+    "messageformat": "Member of {group1}, {group2}, {group3} and {remainingCount, plural, one {#} other {#}} more",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
-  },
-  "icu:ConversationHero--membership-added": {
-    "messageformat": "{name} added you to the group.",
-    "description": "Shown Indicates that you were added to a group by a given individual."
   },
   "icu:no-groups-in-common": {
     "messageformat": "No groups in common",
@@ -3495,16 +3578,92 @@
     "messageformat": "Reconnecting...",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
-  "icu:callDuration": {
-    "messageformat": "Signal {duration}",
-    "description": "Shown in the call screen to indicate how long the call has been connected"
+  "icu:CallControls__InfoDisplay--participants": {
+    "messageformat": "{count, plural, one {# person} other {# people}}",
+    "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
+  },
+  "icu:CallControls__InfoDisplay--audio-call": {
+    "messageformat": "Audio call",
+    "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
+  },
+  "icu:CallControls__InfoDisplay--adhoc-call": {
+    "messageformat": "Call link",
+    "description": "Shown in the call lobby for a call link."
+  },
+  "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
+    "messageformat": "Waiting to be let in",
+    "description": "Shown in the call lobby for call link calls when requesting to join a call which requires admin approval."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-1-1": {
+    "messageformat": "End",
+    "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-group": {
+    "messageformat": "Leave",
+    "description": "Title for the hangup button for a group call."
+  },
+  "icu:CallControls__MutedToast--muted": {
+    "messageformat": "Mic off",
+    "description": "Shown in a call when the user mutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__MutedToast--unmuted": {
+    "messageformat": "Mic on",
+    "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-on": {
+    "messageformat": "Ringing on",
+    "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-off": {
+    "messageformat": "Ringing off",
+    "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RaiseHandsToast--you": {
+    "messageformat": "You raised a hand.",
+    "description": "Shown in a call when the user raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-one": {
+    "messageformat": "You and {otherName} raised a hand.",
+    "description": "Shown in a call when the user and one other person raise their hands."
+  },
+  "icu:CallControls__RaiseHandsToast--you-and-more": {
+    "messageformat": "You, {otherName}, and {overflowCount, plural, one {#} other {#}} more raised a hand.",
+    "description": "Shown in a call when the user and 2 or more other persons raise their hands."
+  },
+  "icu:CallControls__RaiseHandsToast--one": {
+    "messageformat": "{name} raised a hand.",
+    "description": "Shown in a call when someone else raises their hand."
+  },
+  "icu:CallControls__RaiseHandsToast--two": {
+    "messageformat": "{name} and {otherName} raised a hand.",
+    "description": "Shown in a call when 2 persons raise their hands."
+  },
+  "icu:CallControls__RaiseHandsToast--more": {
+    "messageformat": "{name}, {otherName}, and {overflowCount, plural, one {#} other {#}} more raised a hand.",
+    "description": "Shown in a call when 3 or more persons raise their hands."
+  },
+  "icu:CallControls__RaiseHands--open-queue": {
+    "messageformat": "Open queue",
+    "description": "Link in call raised hands list and in toast shown when someone else raises their hand. Link opens the list of all raised hands."
+  },
+  "icu:CallControls__RaiseHands--lower": {
+    "messageformat": "Lower",
+    "description": "Link in call raised hands list and in toast shown when user raises their hand. Link allows user to lower their hand."
+  },
+  "icu:CallControls__MenuItemRaiseHand": {
+    "messageformat": "Raise Hand",
+    "description": "Menu item to raise your hand during a call."
+  },
+  "icu:CallControls__MenuItemRaiseHand--lower": {
+    "messageformat": "Lower Hand",
+    "description": "Menu item to lower your previously raised hand during a call."
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Settings",
     "description": "Title for device selection settings"
   },
-  "icu:calling__participants": {
-    "messageformat": "{people} in call",
+  "icu:calling__participants--pluralized": {
+    "messageformat": "{people, plural, one {#} other {#}} in call",
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
@@ -3539,13 +3698,25 @@
     "messageformat": "Fullscreen call",
     "description": "Title for picture-in-picture toggle"
   },
-  "icu:calling__switch-view--to-grid": {
-    "messageformat": "Switch to grid view",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__change-view": {
+    "messageformat": "Change view",
+    "description": "Tooltip for changing the in-call layout of remote participants in a group call"
   },
-  "icu:calling__switch-view--to-speaker": {
-    "messageformat": "Switch to speaker view",
-    "description": "Title for grid/speaker view toggle when on a call"
+  "icu:calling__view_mode--paginated": {
+    "messageformat": "Grid view",
+    "description": "Label for option to view participants in a group call in a paginated grid view"
+  },
+  "icu:calling__view_mode--overflow": {
+    "messageformat": "Sidebar view",
+    "description": "Label for option to view participants in a group call where videos that don't fit onto the page are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--speaker": {
+    "messageformat": "Speaker view",
+    "description": "Label for option to view participants where only the current speaker's video is fully visible and all others are put into a scrollable overflow sidebar"
+  },
+  "icu:calling__view_mode--updated": {
+    "messageformat": "View updated",
+    "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
   },
   "icu:calling__hangup": {
     "messageformat": "Leave call",
@@ -3570,6 +3741,54 @@
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "A window",
     "description": "Title for the select your screen sharing sources modal"
+  },
+  "icu:calling__ParticipantInfoButton": {
+    "messageformat": "More info about this contact",
+    "description": "Aria label for clickable contact info button in the in-call participant info popup. When clicked a popup appears with the contact's details and options to message them."
+  },
+  "icu:CallingAdhocCallInfo__CopyLink": {
+    "messageformat": "Copy call link",
+    "description": "Menu item in the in-call info popup for call link calls. The action is to add the call link to the clipboard."
+  },
+  "icu:CallingAdhocCallInfo__ShareViaSignal": {
+    "messageformat": "Share call link via Signal",
+    "description": "Menu item in the in-call info popup for call link calls. Clicking the item opens the sharing dialog where you can send the call link to your Signal contacts or groups."
+  },
+  "icu:CallingAdhocCallInfo__RemoveClient": {
+    "messageformat": "Remove this person from the call",
+    "description": "Button in the in-call info popup for call link calls showing all participants. The action is to remove the participant from the call."
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
+    "messageformat": "Remove {name} from the call?",
+    "description": "Info text in confirmation dialog when removing or blocking someone from an ongoing call for a call link."
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
+    "messageformat": "Remove",
+    "description": "Button in confirmation dialog when removing or blocking someone from an ongoing call for a call link."
+  },
+  "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
+    "messageformat": "Block from call",
+    "description": "Button in confirmation dialog when removing or blocking someone from an ongoing call for a call link."
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel": {
+    "messageformat": "{count, plural, one {# person} other {# people}}",
+    "description": "Label showing number of unknown contacts in the in-call participant info popup for call links."
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
+    "messageformat": "{count, plural, one {+# more} other {+# more}}",
+    "description": "Label showing number of unknown contacts in the in-call participant info popup for call links, when known contacts are also present in the call."
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
+    "messageformat": "More info about new contacts",
+    "description": "Aria label for info button in the in-call participant info popup for call links when unknown contacts are in the call."
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
+    "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call.",
+    "description": "Text for an info dialog which can be opened from the in-call participant list, which is available in call links when unknown contacts are in the call"
+  },
+  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
+    "messageformat": "Got it",
+    "description": "Button text for info dialog which can be opened from the in-call participant list, which is available in call links when unknown contacts are in the call."
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video",
@@ -3646,6 +3865,14 @@
   "icu:Confirmation--confirm": {
     "messageformat": "Okay",
     "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
+  },
+  "icu:MessageMaxEditsModal__Title": {
+    "messageformat": "Can't edit message",
+    "description": "Title in popup dialog when attempting to edit a message too many times."
+  },
+  "icu:MessageMaxEditsModal__Description": {
+    "messageformat": "Only {max, plural, one {#} other {#}} edits can be applied to this message.",
+    "description": "Description text in popup dialog when attempting to edit a message too many times."
   },
   "icu:unknown-sgnl-link": {
     "messageformat": "Sorry, that sgnl:// link didn't make sense!",
@@ -4068,15 +4295,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{memberName} invited {count, number} people to the group.",
+    "messageformat": "{memberName} invited {count, plural, one {# person} other {# people}} to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "You invited {count, number} people to the group.",
+    "messageformat": "You invited {count, plural, one {# person} other {# people}} to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-add--many--unknown": {
-    "messageformat": "{count, number} people were invited to the group.",
+    "messageformat": "{count, plural, one {# person was} other {# people were}} invited to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--decline--other": {
@@ -4116,15 +4343,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
-    "messageformat": "{memberName} revoked invitations to the group for {count, number} people.",
+    "messageformat": "{memberName} revoked {count, plural, one {an invitation to the group for # person} other {invitations to the group for # people}}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke--many--you": {
-    "messageformat": "You revoked invitations to the group for {count, number} people.",
+    "messageformat": "You revoked {count, plural, one {an invitation to the group for # person} other {invitations to the group for # people}}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke--many--unknown": {
-    "messageformat": "An admin revoked invitations to the group for {count, number} people.",
+    "messageformat": "An admin revoked {count, plural, one {an invitation to the group for # person} other {invitations to the group for # people}}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
@@ -4152,27 +4379,27 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
-    "messageformat": "{adminName} revoked invitations to the group for {count, number} people invited by {memberName}.",
+    "messageformat": "{adminName} revoked {count, plural, one {an invitation to the group for # person} other {invitations to the group for # people}} invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--you": {
-    "messageformat": "You revoked invitations to the group for {count, number} people invited by {memberName}.",
+    "messageformat": "You revoked {count, plural, one {an invitation to the group for # person} other {invitations to the group for # people}} invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-    "messageformat": "An admin revoked invitations to the group for {count, number} people invited by {memberName}.",
+    "messageformat": "An admin revoked {count, plural, one {an invitation to the group for # person} other {invitations to the group for # people}} invited by {memberName}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "messageformat": "{adminName} revoked the invitations to the group you sent to {count, number} people.",
+    "messageformat": "{adminName} revoked the {count, plural, one {invitation to the group you sent to # person} other {invitations to the group you sent to # people}}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-    "messageformat": "You rescinded your invitation to {count, number} people.",
+    "messageformat": "You rescinded your invitation to {count, plural, one {# person} other {# people}}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "messageformat": "An admin revoked the invitations to the group you sent to {count, number} people.",
+    "messageformat": "An admin revoked the {count, plural, one {invitation to the group you sent to # person} other {invitations to the group you sent to # people}}.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
@@ -4201,6 +4428,10 @@
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
     "messageformat": "{adminName} denied a request to join the group from {joinerName}.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-remove-one--other--unknown": {
+    "messageformat": "A request to join the group from {joinerName} was denied.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--one": {
@@ -4359,6 +4590,10 @@
     "messageformat": "This member will need to accept an invite to join this group again, and will not receive group messages until they accept:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
+  "icu:GroupV1--Migration--info--invited--count": {
+    "messageformat": "{count, plural, one {# member} other {# members}} will need to accept an invite to join this group again, and will not receive group messages until they accept.",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "These members are not capable of joining New Groups, and will be removed from the group:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
@@ -4367,12 +4602,20 @@
     "messageformat": "This member is not capable of joining New Groups, and will be removed from the group:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
+  "icu:GroupV1--Migration--info--removed--before--count": {
+    "messageformat": "{count, plural, one {# member is} other {# members are}} not capable of joining New Groups, and will be removed from the group.",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "These members were not capable of joining New Groups, and were removed from the group:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "icu:GroupV1--Migration--info--removed--after--one": {
     "messageformat": "This member was not capable of joining New Groups, and was removed from the group:",
+    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+  },
+  "icu:GroupV1--Migration--info--removed--after--count": {
+    "messageformat": "{count, plural, one {# member was not capable of joining New Groups, and was} other {# members were not capable of joining New Groups, and were}} removed from the group.",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "icu:GroupV1--Migration--invited--you": {
@@ -4384,7 +4627,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added"
   },
   "icu:GroupV1--Migration--invited--many": {
-    "messageformat": "{count, number} members couldn’t be added to the New Group and have been invited to join.",
+    "messageformat": "{count, plural, one {# member couldn’t be added to the New Group and has been invited to join} other {# members couldn’t be added to the New Group and have been invited to join}}.",
     "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "icu:GroupV1--Migration--removed--one": {
@@ -4392,7 +4635,7 @@
     "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "icu:GroupV1--Migration--removed--many": {
-    "messageformat": "{count, number} members were removed from the group.",
+    "messageformat": "{count, plural, one {# member was} other {# members were}} removed from the group.",
     "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "icu:close": {
@@ -4467,9 +4710,9 @@
     "messageformat": "Include muted chats in badge count",
     "description": "Description for counting muted conversations in badge setting"
   },
-  "icu:ContactModal--message": {
-    "messageformat": "Message",
-    "description": "Button text for send message button in Group Contact Details modal"
+  "icu:ContactModal--nickname": {
+    "messageformat": "Nickname",
+    "description": "Label for the nickname field in the Group Contact Details modal"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "Remove as admin",
@@ -4494,6 +4737,10 @@
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Remove from group",
     "description": "Button text for remove from group button in Group Contact Details modal"
+  },
+  "icu:ContactModal--already-in-call": {
+    "messageformat": "You are already in a call",
+    "description": "Tooltip text for video or audio call button in Contact Details modal"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Chat color",
@@ -4526,6 +4773,26 @@
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "When enabled, messages sent and received in this 1:1 chat will disappear after they've been seen.",
     "description": "This is the info about the disappearing messages setting, for direct conversations"
+  },
+  "icu:ConversationDetails--nickname-label": {
+    "messageformat": "Nickname",
+    "description": "This is the label for the nickname setting panel"
+  },
+  "icu:ConversationDetails--nickname-actions": {
+    "messageformat": "Actions",
+    "description": "This is the label for the nickname actions panel"
+  },
+  "icu:ConversationDetails--nickname-actions--delete": {
+    "messageformat": "Delete",
+    "description": "This is the label for the delete nickname action"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
+    "messageformat": "Delete nickname?",
+    "description": "Title for the modal to confirm deleting a nickname"
+  },
+  "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
+    "messageformat": "This will permanently delete this nickname and note.",
+    "description": "Description for the modal to confirm deleting a nickname"
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "Notifications",
@@ -4651,6 +4918,38 @@
     "messageformat": "See all",
     "description": "This is a button on the conversation details (for a direct contact) to show all groups-in-common"
   },
+  "icu:EditNicknameAndNoteModal__Title": {
+    "messageformat": "Nickname",
+    "description": "Title for the edit nickname and note modal"
+  },
+  "icu:EditNicknameAndNoteModal__Description": {
+    "messageformat": "Nicknames & notes are stored with Signal and end-to-end encrypted. They are only visible to you.",
+    "description": "Description for the edit nickname and note modal"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Label": {
+    "messageformat": "First name",
+    "description": "Label for the first name input in the edit nickname and note modal"
+  },
+  "icu:EditNicknameAndNoteModal__FirstName__Placeholder": {
+    "messageformat": "First name",
+    "description": "Input placeholder for the first name input in the edit nickname and note modal"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Label": {
+    "messageformat": "Last name",
+    "description": "Label for the last name input in the edit nickname and note modal"
+  },
+  "icu:EditNicknameAndNoteModal__LastName__Placeholder": {
+    "messageformat": "Last name",
+    "description": "Input placeholder for the last name input in the edit nickname and note modal"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Label": {
+    "messageformat": "Note",
+    "description": "Label for the note input in the edit nickname and note modal"
+  },
+  "icu:EditNicknameAndNoteModal__Note__Placeholder": {
+    "messageformat": "Note",
+    "description": "Input placeholder for the note input in the edit nickname and note modal"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Mentions",
     "description": "In the conversation notifications settings, this is the label for the mentions option"
@@ -4710,10 +5009,6 @@
   "icu:PendingRequests--deny-for--with-link": {
     "messageformat": "Deny request from \"{name}\"? They will not be able to request to join via the group link again.",
     "description": "This is the modal content when confirming denying a group request to join"
-  },
-  "icu:PendingInvites--invites": {
-    "messageformat": "Invited by you",
-    "description": "This is the title list of all invites"
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "Invited by you",
@@ -4780,7 +5075,7 @@
     "description": "conversation > in select mode > composition area actions > exit select mode > accessibility label"
   },
   "icu:SelectModeActions--selectedMessages": {
-    "messageformat": "{count, number} selected",
+    "messageformat": "{count, plural, one {#} other {#}} selected",
     "description": "conversation > in select mode > composition area actions > count of selected messsages"
   },
   "icu:SelectModeActions--deleteSelectedMessages": {
@@ -4803,6 +5098,10 @@
     "messageformat": "What devices would you like to delete {count, plural, one {this message} other {these messages}} from?",
     "description": "within note to self conversation > delete selected messages > confirmation modal > description"
   },
+  "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
+    "messageformat": "{count, plural, one {This message} other {These messages}} will be deleted from all your devices.",
+    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
+  },
   "icu:DeleteMessagesModal--deleteForMe": {
     "messageformat": "Delete for me",
     "description": "delete selected messages > confirmation modal > delete for me"
@@ -4819,6 +5118,10 @@
     "messageformat": "Delete from all devices",
     "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
   },
+  "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
+    "messageformat": "Delete",
+    "description": "When delete sync is enabled, there is only one Delete option in Note to Self"
+  },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "You can only select up to {count, plural, one {# message} other {# messages}} to delete for everyone",
     "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
@@ -4827,33 +5130,9 @@
     "messageformat": "You can only forward up to 30 messages",
     "description": "conversation > in select mode > composition area actions > forward selected messages (disabled) > toast message when too many messages"
   },
-  "icu:AvatarInput--no-photo-label--group": {
-    "messageformat": "Add a group photo",
-    "description": "The label for the avatar uploader when no group photo is selected"
-  },
-  "icu:AvatarInput--no-photo-label--profile": {
-    "messageformat": "Add a photo",
-    "description": "The label for the avatar uploader when no profile photo is selected"
-  },
-  "icu:AvatarInput--change-photo-label": {
-    "messageformat": "Change photo",
-    "description": "The label for the avatar uploader when a photo is selected"
-  },
-  "icu:AvatarInput--upload-photo-choice": {
-    "messageformat": "Upload photo",
-    "description": "The button text when you click on an uploaded avatar and want to upload a new one"
-  },
-  "icu:AvatarInput--remove-photo-choice": {
-    "messageformat": "Remove photo",
-    "description": "The button text when you click on an uploaded avatar and want to remove it"
-  },
   "icu:ContactPill--remove": {
     "messageformat": "Remove contact",
     "description": "The label for the 'remove' button on the contact pill"
-  },
-  "icu:ComposeErrorDialog--close": {
-    "messageformat": "Okay",
-    "description": "The text on the button when there's an error in the composer"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
     "messageformat": "{count, plural, one {Invitation sent} other {# invitations sent}}",
@@ -4967,6 +5246,10 @@
     "messageformat": "Forward To",
     "description": "Title for the forward a message modal dialog"
   },
+  "icu:ForwardMessageModal__ShareCallLink": {
+    "messageformat": "Share call link",
+    "description": "Title for the forward a message modal dialog in share call link mode"
+  },
   "icu:ForwardMessageModal--continue": {
     "messageformat": "Continue",
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
@@ -4975,9 +5258,17 @@
     "messageformat": "Cannot forward empty or deleted messages",
     "description": "Toast message shown when trying to forward an empty or deleted message"
   },
+  "icu:ShareCallLinkViaSignal__DraftMessageText": {
+    "messageformat": "Use this link to join a Signal call: {url}",
+    "description": "Draft message text for sharing a call link"
+  },
   "icu:MessageRequestWarning__learn-more": {
     "messageformat": "Learn more",
     "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
+  },
+  "icu:MessageRequestWarning__safety-tips": {
+    "messageformat": "Safety Tips",
+    "description": "Shown on the message request warning. Clicking this button will open a dialog with safety tips"
   },
   "icu:MessageRequestWarning__dialog__details": {
     "messageformat": "You have no groups in common with this person. Review requests carefully before accepting to avoid unwanted messages.",
@@ -5020,16 +5311,20 @@
     "description": "Title for the contact name spoofing review dialog in groups"
   },
   "icu:ContactSpoofingReviewDialog__group__description": {
-    "messageformat": "{count, plural, one {# group member} other {# group members}} have similar names. Review the members below or choose to take action.",
+    "messageformat": "{count, plural, one {# group member} other {# group members}} have the same name, review the members below or choose to take action.",
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
     "messageformat": "{count, plural, one {# name conflict was} other {# name conflicts were}} found in this group. Review the members below or choose to take action.",
     "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
-  "icu:ContactSpoofingReviewDialog__group__members-header": {
-    "messageformat": "Members",
-    "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
+  "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
+    "messageformat": "No other groups in common",
+    "description": "Informational text displayed next to a contact on ContactSpoofingReviewDialog"
+  },
+  "icu:ContactSpoofingReviewDialog__signal-connection": {
+    "messageformat": "Signal Connection",
+    "description": "Text of a button on ContactSpoofingReviewDialog leading to an education modal"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
     "messageformat": "Recently changed their profile name from {oldName} to {newName}",
@@ -5090,10 +5385,6 @@
   "icu:ChatColorPicker__delete--message": {
     "messageformat": "This custom color is used in {num, plural, one {# chat} other {# chats}}. Do you want to delete it for all chats?",
     "description": "Confirm message for deleting custom color"
-  },
-  "icu:ChatColorPicker__global-chat-color": {
-    "messageformat": "Global Chat Color",
-    "description": "Modal title for the chat color picker and editor for all conversations"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Chat Color",
@@ -5323,9 +5614,25 @@
     "messageformat": "Username",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor--username--corrupted--body": {
+    "messageformat": "Something went wrong with your username, it’s no longer assigned to your account. You can try and set it again or choose a new one.",
+    "description": "Text of confirmation modal when the username gets corrupted"
+  },
+  "icu:ProfileEditor--username--corrupted--fix-button": {
+    "messageformat": "Fix now",
+    "description": "Button text for creation of a new username in case of corruption"
+  },
   "icu:ProfileEditor__username-link": {
     "messageformat": "QR code or link",
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username__error-icon": {
+    "messageformat": "Username needs reset",
+    "description": "Accessibility title of an icon in profile editor"
+  },
+  "icu:ProfileEditor__username-link__error-icon": {
+    "messageformat": "Username link needs reset",
+    "description": "Accessibility title of an icon in profile editor"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Share your username",
@@ -5344,24 +5651,44 @@
     "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "icu:ProfileEditor--username--check-starting-character": {
-    "messageformat": "Usernames may not begin with a number.",
+    "messageformat": "Usernames cannot begin with a number.",
     "description": "Shown if user has attempted to begin their username with a number"
   },
   "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have a least {min, number} characters.",
-    "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
+    "messageformat": "Usernames must have at least {min, number} characters.",
+    "description": "(Deleted 2024/06/13) Shown if user has attempted to enter a username with too few characters - currently min is 3"
   },
   "icu:ProfileEditor--username--check-character-max": {
     "messageformat": "Usernames must have at most {max, number} characters.",
+    "description": "(Deleted 2024/06/13) Shown if user has attempted to enter a username with too many characters - currently min is 25"
+  },
+  "icu:ProfileEditor--username--check-character-min-plural": {
+    "messageformat": "Usernames must have at least {min, plural, one {# character} other {# characters}}.",
+    "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
+  },
+  "icu:ProfileEditor--username--check-character-max-plural": {
+    "messageformat": "Usernames must have at most {max, plural, one {# character} other {# characters}}.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
+  },
+  "icu:ProfileEditor--username--check-discriminator-min": {
+    "messageformat": "Invalid username, enter a minimum of 2 digits.",
+    "description": "Shown if user has attempted to enter a username with too few digits in discriminator - currently min is 2"
+  },
+  "icu:ProfileEditor--username--check-discriminator-all-zero": {
+    "messageformat": "This number can’t be 00. Enter a digit between 1-9",
+    "description": "Shown if user has attempted to enter a username with 00 as discriminator"
+  },
+  "icu:ProfileEditor--username--check-discriminator-leading-zero": {
+    "messageformat": "Numbers with more than 2 digits can’t start with 0",
+    "description": "Shown if user has attempted to enter a username with leading 0 in discriminator"
+  },
+  "icu:ProfileEditor--username--too-many-attempts": {
+    "messageformat": "Too many attempts made, please try again later",
+    "description": "Shown if user has made too many attempts to pick a username and has to wait before retrying"
   },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "This username is not available",
     "description": "Shown if the username is not available for registration"
-  },
-  "icu:ProfileEditor--username--check-username-taken": {
-    "messageformat": "This username is taken.",
-    "description": "Shown if user has attempted to save a username which is not available"
   },
   "icu:ProfileEditor--username--general-error": {
     "messageformat": "Your username couldn’t be saved. Check your connection and try again.",
@@ -5387,10 +5714,6 @@
     "messageformat": "Deleting username",
     "description": "Shown as aria label for spinner icon next to username"
   },
-  "icu:ProfileEditor--username--delete-username": {
-    "messageformat": "Delete username",
-    "description": "Shown as aria label for trash icon next to username"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "This will remove your username and disable your QR code and link. “{username}” will be available for others to claim. Are you sure?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
@@ -5399,6 +5722,10 @@
     "messageformat": "Delete",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "icu:ProfileEditor--username--delete-unavailable-notice": {
+    "messageformat": "To delete your username, open Signal on your phone and navigate to Settings > Profile.",
+    "description": "(Deleted 2024/06/04) Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
+  },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Copy or delete username",
     "description": "Shown as aria label for context menu next to username"
@@ -5406,10 +5733,6 @@
   "icu:ProfileEditor--username--copy": {
     "messageformat": "Copy username",
     "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
-  },
-  "icu:ProfileEditor--username--copy-link": {
-    "messageformat": "Copy link",
-    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "Delete",
@@ -5431,9 +5754,29 @@
     "messageformat": "Would you like to discard these changes?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "icu:ProfileEditor--info--link": {
-    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. <learnMoreLink>Learn More</learnMoreLink>",
-    "description": "Information shown at the bottom of the profile editor section"
+  "icu:ConfirmationDialog__Title--in-call-close-requested": {
+    "messageformat": "Close Signal and end the call?",
+    "description": "ConfirmationDialog title when trying to close the app while in a call."
+  },
+  "icu:ConfirmationDialog__Title--close-requested-not-now": {
+    "messageformat": "Not Now",
+    "description": "Confirmation dialog button to cancel closing the app, while in a call and trying to close the app."
+  },
+  "icu:ProfileEditor--edit-photo": {
+    "messageformat": "Edit photo",
+    "description": "Text of a button on profile editor that leads to the avatar editor"
+  },
+  "icu:ProfileEditor--info--general": {
+    "messageformat": "Your profile and changes to it will be visible to people you message, contacts and groups.",
+    "description": "Information shown in profile editor below profile name and about fields"
+  },
+  "icu:ProfileEditor--info--pnp": {
+    "messageformat": "Your username, QR code & link aren’t visible on your profile. Only share them with people you trust.",
+    "description": "Information shown in profile editor below pnp settings when username is set"
+  },
+  "icu:ProfileEditor--info--pnp--no-username": {
+    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number.",
+    "description": "Information shown in profile editor below pnp settings when no username is set"
   },
   "icu:Bio--speak-freely": {
     "messageformat": "Speak Freely",
@@ -5555,6 +5898,14 @@
     "messageformat": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
     "description": "Description for the generate link previews setting"
   },
+  "icu:Preferences__auto-convert-emoji--title": {
+    "messageformat": "Convert typed emoticons to emoji",
+    "description": "Title for the auto convert emoji setting"
+  },
+  "icu:Preferences__auto-convert-emoji--description": {
+    "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>",
+    "description": "Description for the auto convert emoji setting"
+  },
   "icu:Preferences--advanced": {
     "messageformat": "Advanced",
     "description": "Title for advanced settings"
@@ -5583,17 +5934,25 @@
     "messageformat": "Choose who can see your phone number and who can contact you on Signal with it.",
     "description": "Body of Phone Number row in Privacy section of Preferences window"
   },
+  "icu:Preferences__pnp__row--button": {
+    "messageformat": "Change…",
+    "description": "Text of Phone Number row button in Privacy section of Preferences window"
+  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Who can see my number",
     "description": "Title for the phone number sharing setting row"
   },
   "icu:Preferences__pnp__sharing--description--everyone": {
-    "messageformat": "Your phone number will be visible to people and groups you message. People who have your number in their phone contacts will also see it on Signal.",
+    "messageformat": "Your phone number will be visible to people and groups you message.",
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "Nobody will see your phone number on Signal.",
-    "description": "Description for the phone number sharing setting row when the value is Nobody"
+    "messageformat": "Your phone number will not be visible to anyone unless they have it saved in their phone’s contacts.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Everyone"
+  },
+  "icu:Preferences__pnp__sharing--description--nobody--not-discoverable": {
+    "messageformat": "Your phone number will not be visible to anyone.",
+    "description": "Description for the phone number sharing setting row when the value is Nobody and phone number discoverability setting is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
     "messageformat": "Phone Number",
@@ -5612,11 +5971,11 @@
     "description": "Title for the phone number discoverability setting row"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "Anyone who has your phone number in their contacts will see you as a contact on Signal. Others will be able to reach you with your phone number when they start a new chat or group.",
+    "messageformat": "Anyone who has your phone number will see you're on Signal and can start chats with you.",
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
-    "messageformat": "Nobody on Signal will be able to reach you with your phone number.",
+    "messageformat": "Nobody will be able to see you're on Signal unless you message them or have an existing chat with them.",
     "description": "Description for the phone number discoverability setting row wth the value is nobody"
   },
   "icu:Preferences__pnp__discoverability__everyone": {
@@ -5627,17 +5986,17 @@
     "messageformat": "Nobody",
     "description": "Option for letting nobody discover you by phone number"
   },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
+    "messageformat": "Are you sure?",
+    "description": "Title for the confirmation modal when turning the phone number discoverability setting to nobody"
+  },
+  "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
+    "messageformat": "If you change “{settingTitle}” to “{nobodyLabel}” it will make it harder for people to find you on Signal.",
+    "description": "Description for the confirmation modal when turning the phone number discoverability setting to nobody"
+  },
   "icu:Preferences--messaging": {
     "messageformat": "Messaging",
     "description": "Title for the messaging settings"
-  },
-  "icu:Preferences--see-me": {
-    "messageformat": "See my phone number",
-    "description": "Label for the see my phone number setting"
-  },
-  "icu:Preferences--find-me": {
-    "messageformat": "Find me by my phone number",
-    "description": "Label for the find me by my phone number setting"
   },
   "icu:Preferences--read-receipts": {
     "messageformat": "Read receipts",
@@ -5679,6 +6038,42 @@
     "messageformat": "You will no longer be able to share or view stories. Story updates you have recently shared will also be deleted.",
     "description": "Confirmation modal body for disabling stories"
   },
+  "icu:Preferences__Language__Label": {
+    "messageformat": "Language",
+    "description": "Language setting label"
+  },
+  "icu:Preferences__Language__ModalTitle": {
+    "messageformat": "Language",
+    "description": "Language setting modal title"
+  },
+  "icu:Preferences__Language__SystemLanguage": {
+    "messageformat": "System Language",
+    "description": "Option for system language"
+  },
+  "icu:Preferences__Language__SearchLanguages": {
+    "messageformat": "Search languages",
+    "description": "Placholder for language preference search box"
+  },
+  "icu:Preferences__Language__NoResults": {
+    "messageformat": "No results for “{searchTerm}”",
+    "description": "When no results are found for language preference search"
+  },
+  "icu:Preferences__LanguageModal__Set": {
+    "messageformat": "Set",
+    "description": "Button to set language preference"
+  },
+  "icu:Preferences__LanguageModal__Restart__Title": {
+    "messageformat": "Restart Signal to apply",
+    "description": "Title for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Description": {
+    "messageformat": "To change the language, the app needs to restart.",
+    "description": "Description for restart Signal modal to apply language changes"
+  },
+  "icu:Preferences__LanguageModal__Restart__Button": {
+    "messageformat": "Restart",
+    "description": "Button to restart Signal to apply language changes"
+  },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Update to version {version} available",
     "description": "Tooltip for new update available"
@@ -5690,6 +6085,10 @@
   "icu:DialogUpdate__downloaded": {
     "messageformat": "Update Downloaded",
     "description": "The title of update dialog when update download is completed."
+  },
+  "icu:DialogNetworkStatus__outage": {
+    "messageformat": "Signal is experiencing technical difficulties. We are working hard to restore service as quickly as possible.",
+    "description": "The title of outage dialog during service outage."
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Update Required",
@@ -5713,27 +6112,33 @@
   },
   "icu:NSIS__retry-dialog--first-line": {
     "messageformat": "Signal cannot be closed.",
-    "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation.",
+    "ignoreUnused": true
   },
   "icu:NSIS__retry-dialog--second-line": {
     "messageformat": "Please close it manually and click Retry to continue.",
-    "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation.",
+    "ignoreUnused": true
   },
   "icu:NSIS__appRunning": {
     "messageformat": "{appName} is running.\nClick OK to close it.\nIf it doesn't close, try closing it manually.",
-    "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines"
+    "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
+    "ignoreUnused": true
   },
   "icu:NSIS__decompressionFailed": {
     "messageformat": "Failed to decompress files. Please try running the installer again.",
-    "description": "Displayed when Windows installer cannot decompress application files"
+    "description": "Displayed when Windows installer cannot decompress application files",
+    "ignoreUnused": true
   },
   "icu:NSIS__uninstallFailed": {
     "messageformat": "Failed to uninstall old application files. Please try running the installer again.",
-    "description": "Displayed when Windows installer cannot uninstall the old application"
+    "description": "Displayed when Windows installer cannot uninstall the old application",
+    "ignoreUnused": true
   },
   "icu:NSIS__semver-downgrade": {
     "messageformat": "A newer version of Signal is already installed. Are you sure you want to continue?",
-    "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version."
+    "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version.",
+    "ignoreUnused": true
   },
   "icu:CrashReportDialog__title": {
     "messageformat": "Application crashed",
@@ -5779,10 +6184,6 @@
     "messageformat": "Add text",
     "description": "Label for the text button in the media editor"
   },
-  "icu:MediaEditor__control--sticker": {
-    "messageformat": "Stickers",
-    "description": "Label for the sticker button in the media editor"
-  },
   "icu:MediaEditor__control--crop": {
     "messageformat": "Crop and rotate",
     "description": "Label for the crop & rotate button in the media editor"
@@ -5805,10 +6206,6 @@
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "Outline",
-    "description": "Describes what attribute the color picker will change on the text"
-  },
-  "icu:MediaEditor__text--underline": {
-    "messageformat": "Underline",
     "description": "Describes what attribute the color picker will change on the text"
   },
   "icu:MediaEditor__draw--pen": {
@@ -5851,13 +6248,17 @@
     "messageformat": "Lock",
     "description": "Lock the aspect ratio"
   },
-  "icu:MediaEditor__crop--crop": {
-    "messageformat": "Crop",
-    "description": "Performs the crop"
+  "icu:MediaEditor__crop-preset--freeform": {
+    "messageformat": "Freeform",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Freeform"
   },
-  "icu:MediaEditor__caption-button": {
-    "messageformat": "Add a message",
-    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  "icu:MediaEditor__crop-preset--square": {
+    "messageformat": "Square",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > Square"
+  },
+  "icu:MediaEditor__crop-preset--9-16": {
+    "messageformat": "9:16",
+    "description": "Media editor > image editing controls > crop tool > Crop presets > 9:16 (9 by 16)"
   },
   "icu:MyStories__title": {
     "messageformat": "My Stories",
@@ -5939,6 +6340,38 @@
     "messageformat": "Check your primary device for this payment’s status",
     "description": "Payment event notification check device label"
   },
+  "icu:MessageRequestResponseNotification__Message--Accepted": {
+    "messageformat": "You accepted the message request",
+    "description": "Message request response notification message when the user accepted the message request or unblocked another user"
+  },
+  "icu:MessageRequestResponseNotification__Message--Reported": {
+    "messageformat": "Reported as spam",
+    "description": "Message request response notification message when the user reported the message request as spam"
+  },
+  "icu:MessageRequestResponseNotification__Message--Blocked": {
+    "messageformat": "You blocked this person",
+    "description": "Message request response notification message when the user blocked another user"
+  },
+  "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
+    "messageformat": "You blocked the group",
+    "description": "Message request response notification message when the user blocked a group"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked": {
+    "messageformat": "You unblocked this person",
+    "description": "Message request response notification message when the user unblocked another user"
+  },
+  "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
+    "messageformat": "You unblocked the group",
+    "description": "Message request response notification message when the user unblocked a group"
+  },
+  "icu:MessageRequestResponseNotification__Button--Options": {
+    "messageformat": "Options",
+    "description": "Message request response notification button to show options"
+  },
+  "icu:MessageRequestResponseNotification__Button--LearnMore": {
+    "messageformat": "Learn More",
+    "description": "Message request response notification button to learn more"
+  },
   "icu:SignalConnectionsModal__title": {
     "messageformat": "Signal Connections",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5962,6 +6395,18 @@
   "icu:SignalConnectionsModal__footer": {
     "messageformat": "Your connections can see your name and photo, and can see posts to \"My Story\" unless you hide it from them",
     "description": "Additional information about signal connections and the stories they can see"
+  },
+  "icu:LocalDeleteWarningModal__header": {
+    "messageformat": "Deleting is synced across your devices",
+    "description": "Emphasized text at the top of the explainer dialog you get when you first delete a message or conversation"
+  },
+  "icu:LocalDeleteWarningModal__description": {
+    "messageformat": "When you delete messages or chats, they will be deleted from all of your devices.",
+    "description": "More detailed description of new delete behavior shown in explainer dialog"
+  },
+  "icu:LocalDeleteWarningModal__confirm": {
+    "messageformat": "Got it",
+    "description": "Button to dismiss the dialog explaining that 'delete for me' now syncs between devices"
   },
   "icu:Stories__title": {
     "messageformat": "Stories",
@@ -6047,10 +6492,6 @@
     "messageformat": "New Story",
     "description": "Label to create a new custom distribution list"
   },
-  "icu:StoriesSettings__new-list--visibility": {
-    "messageformat": "Only you can see the name of this story.",
-    "description": "Explanation about the visibility of custom distribution list names"
-  },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Custom story",
     "description": "Story settings modal custom story distribution list selection subtitle"
@@ -6123,29 +6564,13 @@
     "messageformat": "All Signal connections",
     "description": "Input label to describe all signal connections"
   },
-  "icu:StoriesSettings__mine__all--description": {
-    "messageformat": "Share with all connections",
-    "description": "Description of button StoriesSettings__mine__all--label"
-  },
   "icu:StoriesSettings__mine__exclude--label": {
     "messageformat": "All except...",
     "description": "Input label to create a block list"
   },
-  "icu:StoriesSettings__mine__exclude--description": {
-    "messageformat": "{num, number} people excluded",
-    "description": "Description of how many people are excluded in a list"
-  },
   "icu:StoriesSettings__mine__only--label": {
     "messageformat": "Only share with...",
     "description": "Input label to create an exclude list"
-  },
-  "icu:StoriesSettings__mine__only--description": {
-    "messageformat": "Only share with selected people",
-    "description": "Description of button StoriesSettings__mine__only--label"
-  },
-  "icu:StoriesSettings__mine__only--description--people": {
-    "messageformat": "{num, number} people",
-    "description": "Description of how many people are in the exclusive allow list"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "Choose who can view your story. Changes won't affect stories you've already sent. <learnMoreLink>Learn more.</learnMoreLink>",
@@ -6254,22 +6679,6 @@
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "Only admins can send stories to this group.",
     "description": "Alert body for groups that non-admins cannot send stories to"
-  },
-  "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "All Signal connections · {viewersCount, plural, one {# viewer} other {# viewers}}",
-    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
-  },
-  "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "All Signal connections · {excludedCount, plural, one {# excluded} other {# excluded}}",
-    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
-  },
-  "icu:SendStoryModal__private-story-description": {
-    "messageformat": "Private story · {viewersCount, plural, one {# viewer} other {# viewers}}",
-    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
-  },
-  "icu:SendStoryModal__group-story-description": {
-    "messageformat": "Group story · {membersCount, plural, one {# member} other {# members}}",
-    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "Share & View Stories",
@@ -6467,10 +6876,6 @@
     "messageformat": "Add link",
     "description": "Button label to apply the link preview to story"
   },
-  "icu:StoryCreator__input-placeholder": {
-    "messageformat": "Add text",
-    "description": "Placeholder to add text"
-  },
   "icu:StoryCreator__text--regular": {
     "messageformat": "Regular",
     "description": "Label for font"
@@ -6531,6 +6936,10 @@
     "messageformat": "Reacted to a story from {name}",
     "description": "Label for when a person reacts to a story"
   },
+  "icu:Quote__story-reaction--you": {
+    "messageformat": "Reacted to your story",
+    "description": "Label for when someone reacts to your story"
+  },
   "icu:Quote__story-reaction--single": {
     "messageformat": "Reacted to a story",
     "description": "Used whenever we can't find a user's first name"
@@ -6560,7 +6969,7 @@
     "description": "Placeholder for the username field"
   },
   "icu:EditUsernameModalBody__username-helper": {
-    "messageformat": "Usernames let others message you without needing your phone number. They are paired with a set of digits to help keep your address private.",
+    "messageformat": "Usernames are always paired with a set of numbers.",
     "description": "Shown on the edit username screen"
   },
   "icu:EditUsernameModalBody__learn-more": {
@@ -6582,6 +6991,18 @@
   "icu:EditUsernameModalBody__change-confirmation__continue": {
     "messageformat": "Continue",
     "description": "Text of the primary button on username change confirmation modal"
+  },
+  "icu:EditUsernameModalBody__recover-confirmation": {
+    "messageformat": "Recovering your username will reset your existing QR code and link. Are you sure?",
+    "description": "Body of the confirmation dialog displayed when user is about to recover their username"
+  },
+  "icu:EditUsernameModalBody__username-recovered__text": {
+    "messageformat": "Your QR code and link have been reset and your username is {username}",
+    "description": "Text of toast displayed upon successful recovery of username"
+  },
+  "icu:UsernameLinkModalBody__hint": {
+    "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
+    "descrption": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
     "messageformat": "Save",
@@ -6612,32 +7033,76 @@
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "If you reset your QR code, your existing QR code and link will no longer work.",
+    "messageformat": "If you reset your QR code and link, your existing QR code and link will no longer work.",
     "description": "Text of confirmation modal when resetting the username link"
   },
+  "icu:UsernameLinkModalBody__resetting-link": {
+    "messageformat": "Resetting link...",
+    "description": "Text shown when resetting the username link"
+  },
+  "icu:UsernameLinkModalBody__error__text": {
+    "messageformat": "Something went wrong with your QR code and link, it’s no longer valid. Try resetting it to create a new QR code and link.",
+    "description": "Text of the confirmation dialog shown on username link error"
+  },
+  "icu:UsernameLinkModalBody__error__fix-now": {
+    "messageformat": "Fix now",
+    "description": "Text of the button in a confirmation dialog shown on username link error"
+  },
+  "icu:UsernameLinkModalBody__recovered__text": {
+    "messageformat": "Your QR code and link have been reset and a new QR code and link has been created.",
+    "description": "Text of the confirmation dialog shown on successful username link recovery"
+  },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "Set up your Signal username",
+    "messageformat": "New ways to connect",
     "description": "Title of username onboarding modal"
   },
-  "icu:UsernameOnboardingModalBody__row__number": {
-    "messageformat": "Usernames are paired with a set of digits and aren’t shared on your profile",
-    "description": "Content of the first row of username onboarding modal"
+  "icu:UsernameOnboardingModalBody__row__number__title": {
+    "messageformat": "Phone number privacy",
+    "description": "Title of the first row of username onboarding modal"
   },
-  "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Each username has a unique QR code and link you can share with friends to start a chat with you",
-    "description": "Content of the second row of username onboarding modal"
+  "icu:UsernameOnboardingModalBody__row__number__body": {
+    "messageformat": "Your phone number is no longer visible in chats. If your number is saved to a friend’s contacts, they will still see it.",
+    "description": "Body of the first row of username onboarding modal"
   },
-  "icu:UsernameOnboardingModalBody__row__lock": {
-    "messageformat": "Turn off phone number discovery under Settings > Privacy > Phone Number > Who can find my number, to use your username as the primary way others can contact you.",
-    "description": "Content of the third row of username onboarding modal"
+  "icu:UsernameOnboardingModalBody__row__username__title": {
+    "messageformat": "Usernames",
+    "description": "Title of the second row of username onboarding modal"
   },
-  "icu:UsernameOnboardingModalBody__learn-more": {
-    "messageformat": "Learn More",
-    "description": "Text that open a popup with information about username onboarding"
+  "icu:UsernameOnboardingModalBody__row__username__body": {
+    "messageformat": "People can now message you using your optional username so you don’t have to give out your phone number. Usernames aren’t visible on your profile.",
+    "description": "Body of the second row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__qr__title": {
+    "messageformat": "QR codes and links",
+    "description": "Title of the third row of username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__row__qr__body": {
+    "messageformat": "Usernames have a unique QR code and link you can share with friends to quickly start a chat with you.",
+    "description": "Body of the third row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Continue",
+    "messageformat": "Set up username",
     "description": "Text of the primary button on username onboarding modal"
+  },
+  "icu:UsernameOnboardingModalBody__skip": {
+    "messageformat": "Not now",
+    "description": "Text of the secondary button on username onboarding modal"
+  },
+  "icu:UsernameMegaphone__title": {
+    "messageformat": "New ways to connect",
+    "description": "Title of username megaphone"
+  },
+  "icu:UsernameMegaphone__body": {
+    "messageformat": "Introducing phone number privacy, optional usernames and links.",
+    "description": "Body of username megaphone"
+  },
+  "icu:UsernameMegaphone__learn-more": {
+    "messageformat": "Learn more",
+    "description": "Text of the primary button on username megaphone"
+  },
+  "icu:UsernameMegaphone__dismiss": {
+    "messageformat": "Dismiss",
+    "description": "Text of the secondary button on username megaphone"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop will no longer support your computer’s version of {OS} soon. To keep using Signal, update your computer’s operating system by {expirationDate}. <learnMoreLink>Learn more</learnMoreLink>",
@@ -6731,6 +7196,10 @@
     "messageformat": "No results for “{query}”",
     "description": "Calls Tab > Calls List > When no results found > With a search query"
   },
+  "icu:CallsList__CreateCallLink": {
+    "messageformat": "Create a Call Link",
+    "description": "Calls Tab > Calls List > Create Call Link Button"
+  },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Incoming",
     "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was incoming"
@@ -6747,6 +7216,26 @@
     "messageformat": "Group call",
     "description": "Calls Tab > Calls List > Call Item > Call Status > When group call is in its default state"
   },
+  "icu:CallsList__ItemCallInfo--CallLink": {
+    "messageformat": "Call link",
+    "description": "On the Calls Tab, the subtitle text for a Call Link entry."
+  },
+  "icu:CallsList__ItemCallInfo--Active": {
+    "messageformat": "Active",
+    "description": "On the Calls Tab, the subtitle text for an active call."
+  },
+  "icu:CallsList__LeaveCallDialogTitle": {
+    "messageformat": "Leave the current call?",
+    "description": "On the Calls Tab, when trying to join a different call when you're already in another one, this is the title of the confirmation dialog to leave the other call."
+  },
+  "icu:CallsList__LeaveCallDialogBody": {
+    "messageformat": "You must leave the current call before joining a new call.",
+    "description": "On the Calls Tab, when trying to join a different call when you're already in another one, this is the body of the confirmation dialog to leave the other call."
+  },
+  "icu:CallsList__LeaveCallDialogButton--leave": {
+    "messageformat": "Leave call",
+    "description": "On the Calls Tab, when trying to join a different call when you're already in another one, this is the button to confirm leaving the other call."
+  },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "No recent conversations.",
     "description": "Calls Tab > New Call > Conversations List > When no results found > With no search query"
@@ -6754,6 +7243,14 @@
   "icu:CallsNewCall__EmptyState--hasQuery": {
     "messageformat": "No results for “{query}”",
     "description": "Calls Tab > New Call > Conversations List > When no results found > With a search query"
+  },
+  "icu:CallsNewCallButton--return": {
+    "messageformat": "Return",
+    "description": "Calls Tab button label for returning to the call you're currently in"
+  },
+  "icu:CallsNewCallButtonTooltip--in-another-call": {
+    "messageformat": "You must leave the current call before joining a new call",
+    "description": "Calls Tab button tooltip for the join call button when you are already in a different call."
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{direction, select, Outgoing {Outgoing} other {Incoming}} {type, select, Audio {voice} Video {video} Group {group} other {}} call",
@@ -6771,9 +7268,65 @@
     "messageformat": "Declined {type, select, Audio {voice} Video {video} Group {group} other {}} call",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:CallHistory__Description--Adhoc": {
+    "messageformat": "Call link",
+    "description": "Call History > Short description of call > When you joined a call link call"
+  },
+  "icu:CallLinkDetails__Join": {
+    "messageformat": "Join",
+    "description": "Call History > Call Link Details > Join Button"
+  },
+  "icu:CallLinkDetails__CopyLink": {
+    "messageformat": "Copy link",
+    "description": "Call History > Call Link Details > Copy Link Button"
+  },
+  "icu:CallLinkDetails__ShareLinkViaSignal": {
+    "messageformat": "Share link via Signal",
+    "description": "Call History > Call Link Details > Share Link via Signal Button"
+  },
+  "icu:CallLinkEditModal__Title": {
+    "messageformat": "Call link details",
+    "description": "Call Link Edit Modal > Title"
+  },
+  "icu:CallLinkEditModal__JoinButtonLabel": {
+    "messageformat": "Join",
+    "description": "Call Link Edit Modal > Join Button > Label"
+  },
+  "icu:CallLinkEditModal__AddCallNameLabel": {
+    "messageformat": "Add call name",
+    "description": "Call Link Edit Modal > Add Call Name Button > Label"
+  },
+  "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
+    "messageformat": "Approve all members",
+    "description": "Call Link Edit Modal > Approve All Members Checkbox > Label"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
+    "messageformat": "Off",
+    "description": "Call Link Edit Modal > Approve All Members Checkbox > Option > Off"
+  },
+  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
+    "messageformat": "On",
+    "description": "Call Link Edit Modal > Approve All Members Checkbox > Option > On"
+  },
+  "icu:CallLinkAddNameModal__Title": {
+    "messageformat": "Add call name",
+    "description": "Call Link Add Name Modal > Title"
+  },
+  "icu:CallLinkAddNameModal__NameLabel": {
+    "messageformat": "Call name",
+    "description": "Call Link Add Name Modal > Name Input > Label"
+  },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {# other is} other {# others are}} typing.",
     "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
+  "icu:TransportError": {
+    "messageformat": "Experimental WebSocket Transport is seeing too many errors. Please submit a debug log",
+    "description": "A toast that is shown to alpha/beta version users when an experimental transport is seeing too many errors"
+  },
+  "icu:WhoCanFindMeReadOnlyToast": {
+    "messageformat": "To change this setting, set “Who can see my number” to “Nobody”.",
+    "description": "A toast displayed when user clicks disabled option in settings window"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "What's New",
@@ -6781,39 +7334,53 @@
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--1": {
     "messageformat": "Additional small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "Handful of bug fixes to keep your app running smoothly. More exciting changes on the horizon! ",
-    "description": "Release notes for releases that only include bug fixes"
+    "messageformat": "Handful of bug fixes to keep your app running smoothly. More exciting changes on the horizon!",
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
     "messageformat": "Tweaks, bug fixes, and performance enhancements. Keep on texting, calling, and video chatting as usual.",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--4": {
     "messageformat": "Hard at work fixing bugs and making other performance improvements to keep the app running smoothly for you. ",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--5": {
     "messageformat": "Additional small tweaks, bug fixes, and assorted plans for the future.",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
-    "description": "Release notes for releases that only include bug fixes"
+    "description": "Release notes for releases that only include bug fixes",
+    "ignoreUnused": true
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+  "icu:WhatsNew__v7.15--0": {
+    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone.",
+    "description": "(Deleted 2024/07/02) Release notes for version 7.15"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+  "icu:WhatsNew__v7.15--1": {
+    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels.",
+    "description": "(Deleted 2024/07/02) Release notes for version 7.15"
   },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+  "icu:WhatsNew__v7.15--2": {
+    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard.",
+    "description": "(Deleted 2024/07/02) Release notes for version 7.15"
+  },
+  "icu:WhatsNew__v7.16--0": {
+    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected.",
+    "description": "Release notes for version 7.16"
   }
 }

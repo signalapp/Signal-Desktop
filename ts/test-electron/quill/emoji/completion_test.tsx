@@ -5,16 +5,18 @@ import { assert } from 'chai';
 import sinon from 'sinon';
 
 import { EmojiCompletion } from '../../../quill/emoji/completion';
-import type { EmojiData } from '../../../components/emoji/lib';
+import type { InsertEmojiOptionsType } from '../../../quill/emoji/completion';
+import { createSearch } from '../../../components/emoji/lib';
 
 describe('emojiCompletion', () => {
   let emojiCompletion: EmojiCompletion;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let mockQuill: any;
 
-  beforeEach(function beforeEach() {
+  beforeEach(function (this: Mocha.Context) {
     mockQuill = {
       getLeaf: sinon.stub(),
+      getText: sinon.stub(),
       getSelection: sinon.stub(),
       keyboard: {
         addBinding: sinon.stub(),
@@ -27,6 +29,10 @@ describe('emojiCompletion', () => {
       onPickEmoji: sinon.stub(),
       setEmojiPickerElement: sinon.stub(),
       skinTone: 0,
+      search: createSearch([
+        { shortName: 'smile', tags: [], rank: 0 },
+        { shortName: 'smile_cat', tags: [], rank: 0 },
+      ]),
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -51,26 +57,22 @@ describe('emojiCompletion', () => {
   });
 
   describe('onTextChange', () => {
-    let insertEmojiStub: sinon.SinonStub<
-      [EmojiData, number, number, (boolean | undefined)?],
-      void
-    >;
+    let insertEmojiStub: sinon.SinonStub<[InsertEmojiOptionsType], void>;
 
-    beforeEach(function beforeEach() {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      emojiCompletion.results = [{ short_name: 'joy' } as any];
+    beforeEach(() => {
+      emojiCompletion.results = ['joy'];
       emojiCompletion.index = 5;
       insertEmojiStub = sinon
         .stub(emojiCompletion, 'insertEmoji')
         .callThrough();
     });
 
-    afterEach(function afterEach() {
+    afterEach(() => {
       insertEmojiStub.restore();
     });
 
     describe('given an emoji is not starting (no colon)', () => {
-      beforeEach(function beforeEach() {
+      beforeEach(() => {
         mockQuill.getSelection.returns({
           index: 3,
           length: 0,
@@ -90,7 +92,7 @@ describe('emojiCompletion', () => {
     });
 
     describe('given a colon in a string (but not an emoji)', () => {
-      beforeEach(function beforeEach() {
+      beforeEach(() => {
         mockQuill.getSelection.returns({
           index: 5,
           length: 0,
@@ -110,7 +112,7 @@ describe('emojiCompletion', () => {
     });
 
     describe('given an emoji is starting but does not have 2 characters', () => {
-      beforeEach(function beforeEach() {
+      beforeEach(() => {
         mockQuill.getSelection.returns({
           index: 2,
           length: 0,
@@ -130,7 +132,7 @@ describe('emojiCompletion', () => {
     });
 
     describe('given an emoji is starting but does not match a short name', () => {
-      beforeEach(function beforeEach() {
+      beforeEach(() => {
         mockQuill.getSelection.returns({
           index: 4,
           length: 0,
@@ -150,7 +152,7 @@ describe('emojiCompletion', () => {
     });
 
     describe('given an emoji is starting and matches short names', () => {
-      beforeEach(function beforeEach() {
+      beforeEach(() => {
         mockQuill.getSelection.returns({
           index: 4,
           length: 0,
@@ -171,7 +173,7 @@ describe('emojiCompletion', () => {
     });
 
     describe('given an emoji was just completed', () => {
-      beforeEach(function beforeEach() {
+      beforeEach(() => {
         mockQuill.getSelection.returns({
           index: 7,
           length: 0,
@@ -181,7 +183,7 @@ describe('emojiCompletion', () => {
       describe('and given it matches a short name', () => {
         const text = ':smile:';
 
-        beforeEach(function beforeEach() {
+        beforeEach(() => {
           const blot = {
             text,
           };
@@ -191,9 +193,9 @@ describe('emojiCompletion', () => {
         });
 
         it('inserts the emoji at the current cursor position', () => {
-          const [emoji, index, range] = insertEmojiStub.args[0];
+          const [{ shortName, index, range }] = insertEmojiStub.args[0];
 
-          assert.equal(emoji.short_name, 'smile');
+          assert.equal(shortName, 'smile');
           assert.equal(index, 0);
           assert.equal(range, 7);
         });
@@ -206,7 +208,7 @@ describe('emojiCompletion', () => {
       describe('and given it matches a short name inside a larger string', () => {
         const text = 'have a :smile: nice day';
 
-        beforeEach(function beforeEach() {
+        beforeEach(() => {
           const blot = {
             text,
           };
@@ -220,9 +222,9 @@ describe('emojiCompletion', () => {
         });
 
         it('inserts the emoji at the current cursor position', () => {
-          const [emoji, index, range] = insertEmojiStub.args[0];
+          const [{ shortName, index, range }] = insertEmojiStub.args[0];
 
-          assert.equal(emoji.short_name, 'smile');
+          assert.equal(shortName, 'smile');
           assert.equal(index, 7);
           assert.equal(range, 7);
         });
@@ -242,7 +244,7 @@ describe('emojiCompletion', () => {
       describe('and given it does not match a short name', () => {
         const text = ':smyle:';
 
-        beforeEach(function beforeEach() {
+        beforeEach(() => {
           const blot = {
             text,
           };
@@ -262,7 +264,7 @@ describe('emojiCompletion', () => {
       const invalidEmoji = ':smyle:';
       const middleCursorIndex = validEmoji.length - 3;
 
-      beforeEach(function beforeEach() {
+      beforeEach(() => {
         mockQuill.getSelection.returns({
           index: middleCursorIndex,
           length: 0,
@@ -270,7 +272,7 @@ describe('emojiCompletion', () => {
       });
 
       describe('and given it matches a short name', () => {
-        beforeEach(function beforeEach() {
+        beforeEach(() => {
           const blot = {
             text: validEmoji,
           };
@@ -280,9 +282,9 @@ describe('emojiCompletion', () => {
         });
 
         it('inserts the emoji at the current cursor position', () => {
-          const [emoji, index, range] = insertEmojiStub.args[0];
+          const [{ shortName, index, range }] = insertEmojiStub.args[0];
 
-          assert.equal(emoji.short_name, 'smile');
+          assert.equal(shortName, 'smile');
           assert.equal(index, 0);
           assert.equal(range, validEmoji.length);
         });
@@ -293,7 +295,7 @@ describe('emojiCompletion', () => {
       });
 
       describe('and given it does not match a short name', () => {
-        beforeEach(function beforeEach() {
+        beforeEach(() => {
           const blot = {
             text: invalidEmoji,
           };
@@ -309,7 +311,7 @@ describe('emojiCompletion', () => {
     });
 
     describe('given a completeable emoji and colon was just pressed', () => {
-      beforeEach(function beforeEach() {
+      beforeEach(() => {
         mockQuill.getSelection.returns({
           index: 6,
           length: 0,
@@ -319,7 +321,7 @@ describe('emojiCompletion', () => {
       describe('and given it matches a short name', () => {
         const text = ':smile';
 
-        beforeEach(function beforeEach() {
+        beforeEach(() => {
           const blot = {
             text,
           };
@@ -329,9 +331,9 @@ describe('emojiCompletion', () => {
         });
 
         it('inserts the emoji at the current cursor position', () => {
-          const [emoji, index, range] = insertEmojiStub.args[0];
+          const [{ shortName, index, range }] = insertEmojiStub.args[0];
 
-          assert.equal(emoji.short_name, 'smile');
+          assert.equal(shortName, 'smile');
           assert.equal(index, 0);
           assert.equal(range, 6);
         });
@@ -344,18 +346,10 @@ describe('emojiCompletion', () => {
   });
 
   describe('completeEmoji', () => {
-    let insertEmojiStub: sinon.SinonStub<
-      [EmojiData, number, number, (boolean | undefined)?],
-      void
-    >;
+    let insertEmojiStub: sinon.SinonStub<[InsertEmojiOptionsType], void>;
 
-    beforeEach(function beforeEach() {
-      emojiCompletion.results = [
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        { short_name: 'smile' } as any,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        { short_name: 'smile_cat' } as any,
-      ];
+    beforeEach(() => {
+      emojiCompletion.results = ['smile', 'smile_cat'];
       emojiCompletion.index = 1;
       insertEmojiStub = sinon.stub(emojiCompletion, 'insertEmoji');
     });
@@ -364,7 +358,7 @@ describe('emojiCompletion', () => {
       const text = ':smi';
       const index = text.length;
 
-      beforeEach(function beforeEach() {
+      beforeEach(() => {
         mockQuill.getSelection.returns({
           index,
           length: 0,
@@ -379,9 +373,10 @@ describe('emojiCompletion', () => {
       });
 
       it('inserts the currently selected emoji at the current cursor position', () => {
-        const [emoji, insertIndex, range] = insertEmojiStub.args[0];
+        const [{ shortName, index: insertIndex, range }] =
+          insertEmojiStub.args[0];
 
-        assert.equal(emoji.short_name, 'smile_cat');
+        assert.equal(shortName, 'smile_cat');
         assert.equal(insertIndex, 0);
         assert.equal(range, text.length);
       });
@@ -391,7 +386,7 @@ describe('emojiCompletion', () => {
       const text = 'smi';
       const index = text.length;
 
-      beforeEach(function beforeEach() {
+      beforeEach(() => {
         mockQuill.getSelection.returns({
           index,
           length: 0,

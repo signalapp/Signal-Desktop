@@ -14,7 +14,7 @@ import { getMuteOptions } from '../../../util/getMuteOptions';
 import { parseIntOrThrow } from '../../../util/parseIntOrThrow';
 import { useUniqueId } from '../../../hooks/useUniqueId';
 
-type PropsType = {
+export type PropsType = {
   id: string;
   conversationType: ConversationTypeType;
   dontNotifyForMentionsIfMuted: boolean;

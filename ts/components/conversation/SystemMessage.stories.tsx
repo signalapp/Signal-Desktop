@@ -2,11 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './SystemMessage';
 import { SystemMessage, SystemMessageKind } from './SystemMessage';
 
 export default {
   title: 'Components/Conversation/SystemMessage',
-};
+} satisfies Meta<PropsType>;
 
 export function PlainSystemMessage(): JSX.Element {
   return (
@@ -18,10 +20,6 @@ export function PlainSystemMessage(): JSX.Element {
   );
 }
 
-PlainSystemMessage.story = {
-  name: 'Plain',
-};
-
 export function DangerSystemMessage(): JSX.Element {
   return (
     <SystemMessage
@@ -32,10 +30,6 @@ export function DangerSystemMessage(): JSX.Element {
   );
 }
 
-DangerSystemMessage.story = {
-  name: 'Danger',
-};
-
 export function ErrorSystemMessage(): JSX.Element {
   return (
     <SystemMessage
@@ -45,7 +39,3 @@ export function ErrorSystemMessage(): JSX.Element {
     />
   );
 }
-
-ErrorSystemMessage.story = {
-  name: 'Error',
-};

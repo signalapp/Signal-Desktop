@@ -3,14 +3,12 @@
 
 import { ipcRenderer } from 'electron';
 import type { MenuItemConstructorOptions } from 'electron';
-import { usernames } from '@signalapp/libsignal-client';
 
-import type { MenuOptionsType, MenuActionType } from '../types/menu';
-import type { IPCEventsValuesType } from '../util/createIPCEvents';
+import type { MenuOptionsType } from '../types/menu';
 import type { LocalizerType } from '../types/Util';
 import type { LoggerType } from '../types/Logging';
 import type { NativeThemeType } from '../context/createNativeThemeListener';
-import type { SettingType } from '../util/preload';
+import type { SettingType, SettingsValuesType } from '../util/preload';
 import type { RendererConfigType } from '../types/RendererConfig';
 
 import { Bytes } from '../context/Bytes';
@@ -24,6 +22,7 @@ import { initialize as initializeLogging } from '../logging/set_up_renderer_logg
 import { MinimalSignalContext } from './minimalContext';
 import type { LocaleDirection } from '../../app/locale';
 import type { HourCyclePreference } from '../types/I18N';
+import type { LocaleEmojiListType } from '../types/emoji';
 
 strictAssert(Boolean(window.SignalContext), 'context must be defined');
 
@@ -37,28 +36,35 @@ export type MainWindowStatsType = Readonly<{
 export type MinimalSignalContextType = {
   activeWindowService: ActiveWindowServiceType;
   config: RendererConfigType;
-  executeMenuAction: (action: MenuActionType) => Promise<void>;
   executeMenuRole: (role: MenuItemConstructorOptions['role']) => Promise<void>;
   getAppInstance: () => string | undefined;
   getEnvironment: () => string;
+  getI18nAvailableLocales: () => ReadonlyArray<string>;
   getI18nLocale: LocalizerType['getLocale'];
   getI18nLocaleMessages: LocalizerType['getLocaleMessages'];
+  getLocaleDisplayNames: () => Record<string, Record<string, string>>;
+  getCountryDisplayNames: () => Record<string, Record<string, string>>;
   getResolvedMessagesLocaleDirection: () => LocaleDirection;
   getHourCyclePreference: () => HourCyclePreference;
   getResolvedMessagesLocale: () => string;
   getPreferredSystemLocales: () => Array<string>;
+  getLocaleOverride: () => string | null;
+  getLocalizedEmojiList: (
+    locale: string
+  ) => Promise<LocaleEmojiListType | undefined>;
   getMainWindowStats: () => Promise<MainWindowStatsType>;
   getMenuOptions: () => Promise<MenuOptionsType>;
   getNodeVersion: () => string;
   getPath: (name: 'userData' | 'home' | 'install') => string;
   getVersion: () => string;
+  isTestOrMockEnvironment: () => boolean;
   nativeThemeListener: NativeThemeType;
+  restartApp: () => void;
   Settings: {
-    themeSetting: SettingType<IPCEventsValuesType['themeSetting']>;
+    themeSetting: SettingType<SettingsValuesType['themeSetting']>;
     waitForChange: () => Promise<void>;
   };
   OS: {
-    hasCustomTitleBar: () => boolean;
     getClassName: () => string;
     platform: string;
     release: string;
@@ -68,7 +74,6 @@ export type MinimalSignalContextType = {
 export type SignalContextType = {
   bytes: Bytes;
   crypto: Crypto;
-  usernames: typeof usernames;
   i18n: LocalizerType;
   log: LoggerType;
   renderWindow?: () => void;
@@ -80,7 +85,6 @@ export const SignalContext: SignalContextType = {
   ...MinimalSignalContext,
   bytes: new Bytes(),
   crypto: new Crypto(),
-  usernames,
   i18n,
   log: window.SignalContext.log,
   setIsCallActive(isCallActive: boolean): void {

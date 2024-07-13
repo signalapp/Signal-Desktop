@@ -32,5 +32,5 @@ export async function deleteAllData(): Promise<void> {
       Errors.toLogFormat(error)
     );
   }
-  window.IPC.restart();
+  window.SignalContext.restartApp();
 }

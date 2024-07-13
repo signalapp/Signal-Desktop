@@ -136,7 +136,7 @@ export function LeftPaneSearchInput({
         >
           <Avatar
             acceptedMessageRequest={searchConversation.acceptedMessageRequest}
-            avatarPath={searchConversation.avatarPath}
+            avatarUrl={searchConversation.avatarUrl}
             badge={undefined}
             color={searchConversation.color}
             conversationType={searchConversation.type}
@@ -146,7 +146,7 @@ export function LeftPaneSearchInput({
             sharedGroupNames={searchConversation.sharedGroupNames}
             size={AvatarSize.TWENTY}
             title={searchConversation.title}
-            unblurredAvatarPath={searchConversation.unblurredAvatarPath}
+            unblurredAvatarUrl={searchConversation.unblurredAvatarUrl}
           />
           <button
             aria-label={i18n('icu:clearSearch')}

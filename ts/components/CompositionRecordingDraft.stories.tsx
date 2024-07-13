@@ -3,8 +3,9 @@
 
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+import type { Props } from './CompositionRecordingDraft';
 import { CompositionRecordingDraft } from './CompositionRecordingDraft';
-
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -13,7 +14,7 @@ const i18n = setupI18n('en', enMessages);
 export default {
   title: 'components/CompositionRecordingDraft',
   component: CompositionRecordingDraft,
-};
+} satisfies Meta<Props>;
 
 export function Default(): JSX.Element {
   const [isPlaying, setIsPlaying] = useState(false);

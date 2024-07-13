@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { CallMode } from '../../types/Calling';
@@ -26,7 +26,7 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/CallingNotification',
-};
+} satisfies Meta<PropsType>;
 
 const getCommonProps = (options: {
   mode: CallMode;
@@ -58,6 +58,7 @@ const getCommonProps = (options: {
     mode === CallMode.Group ? getDefaultGroup() : getDefaultConversation();
 
   return {
+    id: 'message-id',
     conversationId: conversation.id,
     i18n,
     isNextItemCallingNotification: false,
@@ -67,6 +68,7 @@ const getCommonProps = (options: {
     onOutgoingVideoCallInConversation: action(
       'onOutgoingVideoCallInConversation'
     ),
+    toggleDeleteMessagesModal: action('toggleDeleteMessagesModal'),
     returnToActiveCall: action('returnToActiveCall'),
     callHistory: {
       callId: '123',
@@ -83,6 +85,8 @@ const getCommonProps = (options: {
     groupCallEnded,
     maxDevices,
     deviceCount,
+    isSelectMode: false,
+    isTargeted: false,
   };
 };
 
@@ -256,10 +260,6 @@ export function TwoIncomingDirectCallsBackToBack(): JSX.Element {
   );
 }
 
-TwoIncomingDirectCallsBackToBack.story = {
-  name: 'Two incoming direct calls back-to-back',
-};
-
 export function TwoOutgoingDirectCallsBackToBack(): JSX.Element {
   return (
     <>
@@ -289,10 +289,6 @@ export function TwoOutgoingDirectCallsBackToBack(): JSX.Element {
     </>
   );
 }
-
-TwoOutgoingDirectCallsBackToBack.story = {
-  name: 'Two outgoing direct calls back-to-back',
-};
 
 export function GroupCallByUnknown(): JSX.Element {
   return (
@@ -362,10 +358,6 @@ export function GroupCallStartedBySomeoneWithALongName(): JSX.Element {
   );
 }
 
-GroupCallStartedBySomeoneWithALongName.story = {
-  name: 'Group call: started by someone with a long name',
-};
-
 export function GroupCallActiveCallFull(): JSX.Element {
   return (
     <CallingNotification
@@ -382,10 +374,6 @@ export function GroupCallActiveCallFull(): JSX.Element {
   );
 }
 
-GroupCallActiveCallFull.story = {
-  name: 'Group call: active, call full',
-};
-
 export function GroupCallEnded(): JSX.Element {
   return (
     <CallingNotification
@@ -401,7 +389,3 @@ export function GroupCallEnded(): JSX.Element {
     />
   );
 }
-
-GroupCallEnded.story = {
-  name: 'Group call: ended',
-};

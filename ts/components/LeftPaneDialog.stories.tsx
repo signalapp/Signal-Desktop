@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './LeftPaneDialog';
 import { LeftPaneDialog } from './LeftPaneDialog';
 import { WidthBreakpoint } from './_util';
 
@@ -11,8 +13,7 @@ const widths = {
   [WidthBreakpoint.Narrow]: '100px',
 };
 
-// eslint-disable-next-line max-len
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function WidthDecorator(Story: any, context: any): JSX.Element {
   return (
     <div
@@ -32,46 +33,46 @@ export default {
   argTypes: {
     type: {
       options: [undefined, 'warning', 'error'],
-      type: 'select',
+      control: { type: 'select' },
     },
     icon: {
       options: [undefined, 'update', 'relink', 'network', 'warning'],
-      type: 'select',
+      control: { type: 'select' },
     },
     title: {
-      control: 'text',
+      control: { type: 'text' },
     },
     subtitle: {
-      control: 'text',
+      control: { type: 'text' },
     },
     hoverText: {
-      control: 'text',
-      defaultValue:
-        'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+      control: { type: 'text' },
     },
     hasXButton: {
-      control: 'boolean',
+      control: { type: 'boolean' },
     },
     hasAction: {
-      control: 'boolean',
+      control: { type: 'boolean' },
     },
     containerWidthBreakpoint: {
       options: Object.keys(WidthBreakpoint),
       mapping: WidthBreakpoint,
-      type: 'select',
+      control: { type: 'select' },
     },
   },
   args: {
     title: 'Lorem ipsum dolor sit amet',
     subtitle:
       'Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    hoverText:
+      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
     hasXButton: true,
     hasAction: true,
     onClick: (): null => null,
     clickLabel: 'Click me',
     containerWidthBreakpoint: WidthBreakpoint.Wide,
   },
-};
+} satisfies Meta<PropsType>;
 
 export const Update = {
   args: {

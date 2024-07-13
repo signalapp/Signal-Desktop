@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 import { animated } from '@react-spring/web';
 
+import { v4 as uuid } from 'uuid';
 import type { LocalizerType } from '../types/Util';
 import { ModalHost } from './ModalHost';
 import type { Theme } from '../util/theme';
@@ -30,16 +31,19 @@ type PropsType = {
   hasFooterDivider?: boolean;
   i18n: LocalizerType;
   modalFooter?: JSX.Element;
+  modalHeaderChildren?: ReactNode;
   moduleClassName?: string;
   onBackButtonClick?: () => unknown;
   onClose?: () => void;
   title?: ReactNode;
   useFocusTrap?: boolean;
   padded?: boolean;
+  ['aria-describedby']?: string;
 };
 
 export type ModalPropsType = PropsType & {
   noTransform?: boolean;
+  noEscapeClose?: boolean;
   noMouseClose?: boolean;
   theme?: Theme;
 };
@@ -52,7 +56,9 @@ export function Modal({
   hasXButton,
   i18n,
   modalFooter,
+  modalHeaderChildren,
   moduleClassName,
+  noEscapeClose,
   noMouseClose,
   onBackButtonClick,
   onClose = noop,
@@ -63,6 +69,7 @@ export function Modal({
   hasFooterDivider = false,
   noTransform = false,
   padded = true,
+  'aria-describedby': ariaDescribedBy,
 }: Readonly<ModalPropsType>): JSX.Element | null {
   const { close, isClosed, modalStyles, overlayStyles } = useAnimated(
     onClose,
@@ -109,6 +116,7 @@ export function Modal({
     <ModalHost
       modalName={modalName}
       moduleClassName={moduleClassName}
+      noEscapeClose={noEscapeClose}
       noMouseClose={noMouseClose}
       onClose={close}
       onEscape={onBackButtonClick}
@@ -122,6 +130,7 @@ export function Modal({
           hasXButton={hasXButton}
           i18n={i18n}
           modalFooter={modalFooter}
+          modalHeaderChildren={modalHeaderChildren}
           moduleClassName={moduleClassName}
           onBackButtonClick={onBackButtonClick}
           onClose={close}
@@ -129,6 +138,7 @@ export function Modal({
           padded={padded}
           hasHeaderDivider={hasHeaderDivider}
           hasFooterDivider={hasFooterDivider}
+          aria-describedby={ariaDescribedBy}
         >
           {children}
         </ModalPage>
@@ -162,6 +172,8 @@ export function ModalPage({
   hasXButton,
   i18n,
   modalFooter,
+  modalHeaderChildren,
+  modalName,
   moduleClassName,
   onBackButtonClick,
   onClose,
@@ -169,6 +181,7 @@ export function ModalPage({
   padded = true,
   hasHeaderDivider = false,
   hasFooterDivider = false,
+  'aria-describedby': ariaDescribedBy,
 }: ModalPageProps): JSX.Element {
   const modalRef = useRef<HTMLDivElement | null>(null);
 
@@ -179,8 +192,12 @@ export function ModalPage({
   const [scrolledToBottom, setScrolledToBottom] = useState(false);
   const [hasOverflow, setHasOverflow] = useState(false);
 
-  const hasHeader = Boolean(hasXButton || title || onBackButtonClick);
+  const hasHeader = Boolean(
+    hasXButton || title || modalHeaderChildren || onBackButtonClick
+  );
   const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
+
+  const [id] = useState(() => uuid());
 
   useScrollObserver(bodyRef, bodyInnerRef, scroll => {
     setScrolled(isScrolled(scroll));
@@ -192,7 +209,7 @@ export function ModalPage({
     <>
       {/* We don't want the click event to propagate to its container node. */}
       {/* eslint-disable-next-line max-len */}
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
       <div
         className={classNames(
           getClassName(''),
@@ -203,6 +220,11 @@ export function ModalPage({
           hasFooterDivider && getClassName('--footer-divider')
         )}
         ref={modalRef}
+        role="dialog"
+        tabIndex={-1}
+        aria-labelledby={title ? `${id}-title` : undefined}
+        aria-describedby={ariaDescribedBy}
+        data-testid={modalName}
         onClick={event => {
           event.stopPropagation();
         }}
@@ -216,37 +238,41 @@ export function ModalPage({
                 : null
             )}
           >
-            {onBackButtonClick && (
-              <button
-                aria-label={i18n('icu:back')}
-                className={getClassName('__back-button')}
-                onClick={onBackButtonClick}
-                tabIndex={0}
-                type="button"
-              />
-            )}
-            {title && (
-              <h1
-                className={classNames(
-                  getClassName('__title'),
-                  hasXButton ? getClassName('__title--with-x-button') : null
-                )}
-              >
-                {title}
-              </h1>
-            )}
-            {hasXButton && !title && (
-              <div className={getClassName('__title')} />
-            )}
-            {hasXButton && (
-              <button
-                aria-label={i18n('icu:close')}
-                className={getClassName('__close-button')}
-                onClick={onClose}
-                tabIndex={0}
-                type="button"
-              />
-            )}
+            <div className={getClassName('__headerTitle')}>
+              {onBackButtonClick && (
+                <button
+                  aria-label={i18n('icu:back')}
+                  className={getClassName('__back-button')}
+                  onClick={onBackButtonClick}
+                  tabIndex={0}
+                  type="button"
+                />
+              )}
+              {title && (
+                <h1
+                  id={`${id}-title`}
+                  className={classNames(
+                    getClassName('__title'),
+                    hasXButton ? getClassName('__title--with-x-button') : null
+                  )}
+                >
+                  {title}
+                </h1>
+              )}
+              {hasXButton && !title && (
+                <div className={getClassName('__title')} />
+              )}
+              {hasXButton && (
+                <button
+                  aria-label={i18n('icu:close')}
+                  className={getClassName('__close-button')}
+                  onClick={onClose}
+                  tabIndex={0}
+                  type="button"
+                />
+              )}
+            </div>
+            {modalHeaderChildren}
           </div>
         )}
         <div

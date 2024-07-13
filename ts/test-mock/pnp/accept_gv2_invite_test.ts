@@ -2,36 +2,66 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { Group } from '@signalapp/mock-server';
-import { Proto, ServiceIdKind } from '@signalapp/mock-server';
+import type { Group, PrimaryDevice } from '@signalapp/mock-server';
+import { Proto, ServiceIdKind, StorageState } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
 import * as durations from '../../util/durations';
+import {
+  parseAndFormatPhoneNumber,
+  PhoneNumberFormat,
+} from '../../util/libphonenumberInstance';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
+import { expectSystemMessages } from '../helpers';
 
 export const debug = createDebug('mock:test:gv2');
 
-describe('pnp/accept gv2 invite', function needsName() {
+describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;
   let group: Group;
+  let unknownContact: PrimaryDevice;
+  let unknownPniContact: PrimaryDevice;
 
   beforeEach(async () => {
-    bootstrap = new Bootstrap();
+    bootstrap = new Bootstrap({
+      contactCount: 10,
+      unknownContactCount: 3,
+    });
     await bootstrap.init();
 
-    const { contacts } = bootstrap;
-
+    const { phone, contacts, unknownContacts } = bootstrap;
     const [first, second] = contacts;
+    [unknownContact, unknownPniContact] = unknownContacts;
 
     group = await first.createGroup({
-      title: 'Invite by PNI',
-      members: [first, second],
+      title: 'Invited Desktop PNI',
+      members: [first, second, unknownContact],
     });
+
+    let state = StorageState.getEmpty();
+
+    state = state.updateAccount({
+      profileKey: phone.profileKey.serialize(),
+      e164: phone.device.number,
+    });
+
+    state = state.addContact(
+      unknownPniContact,
+      {
+        identityState: Proto.ContactRecord.IdentityState.DEFAULT,
+        whitelisted: true,
+        profileKey: undefined,
+
+        serviceE164: unknownPniContact.device.number,
+      },
+      ServiceIdKind.PNI
+    );
+
+    await phone.setStorageState(state);
 
     app = await bootstrap.link();
 
@@ -42,7 +72,7 @@ describe('pnp/accept gv2 invite', function needsName() {
     });
 
     // Verify that created group has pending member
-    assert.strictEqual(group.state?.members?.length, 2);
+    assert.strictEqual(group.state?.members?.length, 3);
     assert(!group.getMemberByServiceId(desktop.aci));
     assert(!group.getMemberByServiceId(desktop.pni));
     assert(!group.getPendingMemberByServiceId(desktop.aci));
@@ -56,7 +86,7 @@ describe('pnp/accept gv2 invite', function needsName() {
     await leftPane.locator(`[data-testid="${group.id}"]`).click();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();
@@ -77,7 +107,7 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 2);
-    assert.strictEqual(group.state?.members?.length, 3);
+    assert.strictEqual(group.state?.members?.length, 4);
     assert(group.getMemberByServiceId(desktop.aci));
     assert(!group.getMemberByServiceId(desktop.pni));
     assert(!group.getPendingMemberByServiceId(desktop.aci));
@@ -85,11 +115,13 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     debug('Checking that notifications are present');
     await window
-      .locator(`"${first.profileName} invited you to the group."`)
+      .locator(
+        `.SystemMessage:has-text("${first.profileName} invited you to the group.")`
+      )
       .waitFor();
     await window
       .locator(
-        `"You accepted an invitation to the group from ${first.profileName}."`
+        `.SystemMessage:has-text("You accepted an invitation to the group from ${first.profileName}.")`
       )
       .waitFor();
 
@@ -101,7 +133,9 @@ describe('pnp/accept gv2 invite', function needsName() {
     assert(group.getPendingMemberByServiceId(desktop.pni));
 
     await window
-      .locator(`"${second.profileName} invited you to the group."`)
+      .locator(
+        `.SystemMessage:has-text("${second.profileName} invited you to the group.")`
+      )
       .waitFor();
 
     debug('Verify that message request state is not visible');
@@ -109,30 +143,48 @@ describe('pnp/accept gv2 invite', function needsName() {
       .locator('.module-message-request-actions button >> "Accept"')
       .waitFor({ state: 'hidden' });
 
-    debug('Leave the group through settings');
-
-    await conversationStack
+    await window
       .locator('button.module-ConversationHeader__button--more')
       .click();
 
-    await conversationStack
-      .locator('.react-contextmenu-item >> "Group settings"')
-      .click();
+    await window.locator('.react-contextmenu-item >> "Group settings"').click();
+
+    debug(
+      'Checking that we see all members of group, including (previously) unknown contact'
+    );
+    await window
+      .locator('.ConversationDetails-panel-section__title >> "4 members"')
+      .waitFor();
+    await window.getByText(unknownContact.profileName).waitFor();
+
+    debug('Leave the group through settings');
 
     await conversationStack
       .locator('.conversation-details-panel >> "Leave group"')
       .click();
 
-    await window.locator('.module-Modal button >> "Leave"').click();
+    await window
+      .getByTestId('ConfirmationDialog.ConversationDetailsAction.confirmLeave')
+      .getByRole('button', { name: 'Leave' })
+      .click();
+
+    debug('Get back to timeline');
+
+    await window.locator('.ConversationPanel__header__back-button').click();
 
     debug('Waiting for final group update');
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 4);
-    assert.strictEqual(group.state?.members?.length, 2);
+    assert.strictEqual(group.state?.members?.length, 3);
     assert(!group.getMemberByServiceId(desktop.aci));
     assert(!group.getMemberByServiceId(desktop.pni));
     assert(!group.getPendingMemberByServiceId(desktop.aci));
     assert(group.getPendingMemberByServiceId(desktop.pni));
+
+    debug('Waiting for notification');
+    await window
+      .locator('.SystemMessage:has-text("You left the group")')
+      .waitFor();
   });
 
   it('should decline PNI invite and modify the group state', async () => {
@@ -144,15 +196,15 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     debug('Declining');
     await conversationStack
-      .locator('.module-message-request-actions button >> "Delete"')
+      .locator('.module-message-request-actions button >> "Block"')
       .click();
 
     debug('waiting for confirmation modal');
-    await window.locator('.module-Modal button >> "Delete and Leave"').click();
+    await window.locator('.module-Modal button >> "Block"').click();
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 2);
-    assert.strictEqual(group.state?.members?.length, 2);
+    assert.strictEqual(group.state?.members?.length, 3);
     assert(!group.getMemberByServiceId(desktop.aci));
     assert(!group.getMemberByServiceId(desktop.pni));
     assert(!group.getPendingMemberByServiceId(desktop.aci));
@@ -182,7 +234,9 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     debug('Waiting for the PNI invite');
     await window
-      .locator(`text=${first.profileName} invited you to the group.`)
+      .locator(
+        `.SystemMessage:has-text("${first.profileName} invited you to the group.")`
+      )
       .waitFor();
 
     debug('Inviting ACI from another contact');
@@ -194,7 +248,9 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     debug('Waiting for the ACI invite');
     await window
-      .locator(`text=${second.profileName} invited you to the group.`)
+      .locator(
+        `.SystemMessage:has-text("${second.profileName} invited you to the group.")`
+      )
       .waitFor();
 
     debug('Accepting');
@@ -205,14 +261,13 @@ describe('pnp/accept gv2 invite', function needsName() {
     debug('Checking final notification');
     await window
       .locator(
-        '.SystemMessage >> text=You accepted an invitation to the group from ' +
-          `${second.profileName}.`
+        `.SystemMessage:has-text("You accepted an invitation to the group from ${second.profileName}.")`
       )
       .waitFor();
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 3);
-    assert.strictEqual(group.state?.members?.length, 3);
+    assert.strictEqual(group.state?.members?.length, 4);
     assert(group.getMemberByServiceId(desktop.aci));
     assert(!group.getMemberByServiceId(desktop.pni));
     assert(!group.getPendingMemberByServiceId(desktop.aci));
@@ -256,15 +311,15 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     debug('Declining');
     await conversationStack
-      .locator('.module-message-request-actions button >> "Delete"')
+      .locator('.module-message-request-actions button >> "Block"')
       .click();
 
     debug('waiting for confirmation modal');
-    await window.locator('.module-Modal button >> "Delete and Leave"').click();
+    await window.locator('.module-Modal button >> "Block"').click();
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 3);
-    assert.strictEqual(group.state?.members?.length, 2);
+    assert.strictEqual(group.state?.members?.length, 3);
     assert(!group.getMemberByServiceId(desktop.aci));
     assert(!group.getMemberByServiceId(desktop.pni));
     assert(!group.getPendingMemberByServiceId(desktop.aci));
@@ -291,7 +346,7 @@ describe('pnp/accept gv2 invite', function needsName() {
       timestamp: bootstrap.getTimestamp(),
 
       // There is no one to receive it so don't bother.
-      sendInvite: false,
+      sendUpdateTo: [],
     });
 
     debug('Sending message to group');
@@ -307,16 +362,73 @@ describe('pnp/accept gv2 invite', function needsName() {
     await leftPane.locator(`[data-testid="${group.id}"]`).click();
 
     debug('Accepting remote invite');
-    await second.acceptPniInvite(group, desktop, {
+    await second.acceptPniInvite(group, {
+      timestamp: bootstrap.getTimestamp(),
+      sendUpdateTo: [{ device: desktop }],
+    });
+
+    await expectSystemMessages(window, [
+      'You were added to the group.',
+      `${second.profileName} accepted an invitation to the group from ${first.profileName}.`,
+    ]);
+  });
+
+  it('should display a e164 for a PNI invite', async () => {
+    const { phone, contacts, desktop } = bootstrap;
+
+    const [first] = contacts;
+
+    debug('Creating new group with Desktop');
+    group = await phone.createGroup({
+      title: 'Remote Invite',
+      members: [phone, first],
+    });
+
+    debug('Sending message to group');
+    await first.sendText(desktop, 'howdy', {
+      group,
       timestamp: bootstrap.getTimestamp(),
     });
 
+    const window = await app.getWindow();
+    const leftPane = window.locator('#LeftPane');
+
+    debug('Opening new group');
+    await leftPane.locator(`[data-testid="${group.id}"]`).click();
+
+    debug('Inviting remote PNI to group');
+    group = await phone.inviteToGroup(group, unknownPniContact.device, {
+      timestamp: bootstrap.getTimestamp(),
+
+      serviceIdKind: ServiceIdKind.PNI,
+      sendUpdateTo: [{ device: desktop }],
+    });
+
+    debug('Waiting for invite notification');
+    const parsedE164 = parseAndFormatPhoneNumber(
+      unknownPniContact.device.number,
+      '+1',
+      PhoneNumberFormat.NATIONAL
+    );
+    if (!parsedE164) {
+      throw new Error('Failed to parse device number');
+    }
+    const { e164 } = parsedE164;
     await window
-      .locator(
-        '.SystemMessage >> ' +
-          `text=${second.profileName} accepted an invitation to the group ` +
-          `from ${first.profileName}.`
-      )
+      .locator(`.SystemMessage:has-text("You invited ${e164} to the group")`)
       .waitFor();
+
+    debug('Accepting remote invite');
+    await unknownPniContact.acceptPniInvite(group, {
+      timestamp: bootstrap.getTimestamp(),
+      sendUpdateTo: [{ device: desktop }],
+    });
+
+    debug('Waiting for accept notification');
+    await expectSystemMessages(window, [
+      'You were added to the group.',
+      /^You invited .* to the group\.$/,
+      `${unknownPniContact.profileName} accepted your invitation to the group.`,
+    ]);
   });
 });

@@ -4,7 +4,7 @@
 import type { SignalService as Proto } from '../protobuf';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
 import type { ServiceIdString, AciString, PniString } from '../types/ServiceId';
-import type { TextAttachmentType } from '../types/Attachment';
+import type { AttachmentType, TextAttachmentType } from '../types/Attachment';
 import type { GiftBadgeStates } from '../components/conversation/Message';
 import type { MIMEType } from '../types/MIME';
 import type { DurationInSeconds } from '../util/durations';
@@ -105,8 +105,9 @@ export type ProcessedEnvelope = Readonly<{
 export type ProcessedAttachment = {
   cdnId?: string;
   cdnKey?: string;
-  digest?: string;
   contentType: MIMEType;
+  clientUuid?: string;
+  digest?: string;
   key?: string;
   size: number;
   fileName?: string;
@@ -117,6 +118,7 @@ export type ProcessedAttachment = {
   blurHash?: string;
   cdnNumber?: number;
   textAttachment?: Omit<TextAttachmentType, 'preview'>;
+  backupLocator?: AttachmentType['backupLocator'];
 };
 
 export type ProcessedGroupV2Context = {
@@ -131,7 +133,7 @@ export type ProcessedGroupV2Context = {
 };
 
 export type ProcessedQuoteAttachment = {
-  contentType?: string;
+  contentType: MIMEType;
   fileName?: string;
   thumbnail?: ProcessedAttachment;
 };

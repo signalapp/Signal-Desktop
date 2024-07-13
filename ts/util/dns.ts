@@ -1,35 +1,36 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LookupOneOptions, LookupAllOptions, LookupAddress } from 'dns';
-import { lookup as nodeLookup } from 'dns';
+import type {
+  LookupOneOptions,
+  LookupAllOptions,
+  LookupAddress,
+  lookup as nodeLookup,
+} from 'dns';
 import { ipcRenderer, net } from 'electron';
-import type { ResolvedHost } from 'electron';
+import type { ResolvedHost, ResolvedEndpoint } from 'electron';
+import pTimeout from 'p-timeout';
 
 import { strictAssert } from './assert';
 import { drop } from './drop';
+import type { DNSFallbackType } from '../types/DNSFallback';
+import { SECOND } from './durations';
 
-const HOST_ALLOWLIST = new Set([
-  // Production
-  'chat.signal.org',
-  'storage.signal.org',
-  'cdsi.signal.org',
-  'cdn.signal.org',
-  'cdn2.signal.org',
-  'create.signal.art',
+const LOOKUP_TIMEOUT_MS = 5 * SECOND;
+const fallbackAddrs = new Map<string, ReadonlyArray<ResolvedEndpoint>>();
 
-  // Staging
-  'chat.staging.signal.org',
-  'storage-staging.signal.org',
-  'cdsi.staging.signal.org',
-  'cdn-staging.signal.org',
-  'cdn2-staging.signal.org',
-  'create.staging.signal.art',
+export function setFallback(dnsFallback: DNSFallbackType): void {
+  fallbackAddrs.clear();
+  for (const { domain, endpoints } of dnsFallback) {
+    fallbackAddrs.set(domain, endpoints);
+  }
+}
 
-  // Common
-  'updates2.signal.org',
-  'sfu.voip.signal.org',
-]);
+let ipv6Enabled = true;
+
+export function setIPv6Enabled(value: boolean): void {
+  ipv6Enabled = value;
+}
 
 function lookupAll(
   hostname: string,
@@ -40,72 +41,79 @@ function lookupAll(
     family?: number
   ) => void
 ): void {
-  if (!HOST_ALLOWLIST.has(hostname)) {
-    nodeLookup(hostname, opts, callback);
-    return;
-  }
-
   // Node.js support various signatures, but we only support one.
   strictAssert(typeof opts === 'object', 'missing options');
   strictAssert(typeof callback === 'function', 'missing callback');
 
   async function run() {
-    let result: ResolvedHost;
+    let result: Pick<ResolvedHost, 'endpoints'>;
+
+    let queryType: 'A' | 'AAAA' | undefined;
+    if (opts.family === 4) {
+      queryType = 'A';
+    } else if (opts.family === 6) {
+      queryType = 'AAAA';
+    }
 
     try {
-      let queryType: 'A' | 'AAAA' | undefined;
-      if (opts.family === 4) {
-        queryType = 'A';
-      } else if (opts.family === 6) {
-        queryType = 'AAAA';
-      }
-
       if (net) {
         // Main process
-        result = await net.resolveHost(hostname, {
-          queryType,
-        });
+        result = await pTimeout(
+          net.resolveHost(hostname, {
+            queryType,
+          }),
+          LOOKUP_TIMEOUT_MS,
+          'lookupAll: Electron lookup timed out'
+        );
       } else {
         // Renderer
-        result = await ipcRenderer.invoke(
-          'net.resolveHost',
-          hostname,
-          queryType
+        result = await pTimeout(
+          ipcRenderer.invoke('net.resolveHost', hostname, queryType),
+          LOOKUP_TIMEOUT_MS,
+          'lookupAll: Electron lookup timed out'
         );
       }
-      const addresses = result.endpoints.map(({ address, family }) => {
-        let numericFamily = -1;
-        if (family === 'ipv4') {
-          numericFamily = 4;
-        } else if (family === 'ipv6') {
-          numericFamily = 6;
-        }
-        return {
-          address,
-          family: numericFamily,
-        };
-      });
-
-      if (!opts.all) {
-        const random = addresses.at(
-          Math.floor(Math.random() * addresses.length)
-        );
-        if (random === undefined) {
-          callback(
-            new Error(`Hostname: ${hostname} cannot be resolved`),
-            '',
-            -1
-          );
-          return;
-        }
-        callback(null, random.address, random.family);
+    } catch (error) {
+      const fallback = fallbackAddrs.get(hostname);
+      if (fallback) {
+        result = { endpoints: fallback.slice() };
+      } else {
+        callback(error, []);
         return;
       }
-
-      callback(null, addresses);
-    } catch (error) {
-      callback(error, []);
     }
+
+    let addresses = result.endpoints.map(({ address, family }) => {
+      let numericFamily = -1;
+      if (family === 'ipv4') {
+        numericFamily = 4;
+      } else if (family === 'ipv6') {
+        numericFamily = 6;
+      }
+      return {
+        address,
+        family: numericFamily,
+      };
+    });
+
+    if (!ipv6Enabled) {
+      const ipv4Only = addresses.filter(({ family }) => family !== 6);
+      if (ipv4Only.length !== 0) {
+        addresses = ipv4Only;
+      }
+    }
+
+    if (!opts.all) {
+      const random = addresses.at(Math.floor(Math.random() * addresses.length));
+      if (random === undefined) {
+        callback(new Error(`Hostname: ${hostname} cannot be resolved`), '', -1);
+        return;
+      }
+      callback(null, random.address, random.family);
+      return;
+    }
+
+    callback(null, addresses);
   }
 
   drop(run());

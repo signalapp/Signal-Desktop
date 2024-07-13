@@ -21,6 +21,8 @@ import {
 } from '../types/Attachment';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import { isVideoTypeSupported } from '../util/GoogleChrome';
+import * as log from '../logging/log';
+import * as Errors from '../types/errors';
 
 export type PropsType = {
   readonly attachment?: AttachmentType;
@@ -75,7 +77,12 @@ export function StoryImage({
       videoRef.current.pause();
     } else {
       onMediaPlaybackStart();
-      void videoRef.current.play();
+      void videoRef.current.play().catch(error => {
+        log.error(
+          'StoryImage: Failed to play video',
+          Errors.toLogFormat(error)
+        );
+      });
     }
   }, [isPaused, onMediaPlaybackStart]);
 

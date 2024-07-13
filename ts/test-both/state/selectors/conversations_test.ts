@@ -29,7 +29,7 @@ import {
   getContactNameColorSelector,
   getConversationByIdSelector,
   getConversationServiceIdsStoppingSend,
-  getConversationsByTitleSelector,
+  getSafeConversationWithSameTitle,
   getConversationSelector,
   getConversationsStoppingSend,
   getFilteredCandidateContactsForNewGroup,
@@ -149,7 +149,7 @@ describe('both/state/selectors/conversations-extra', () => {
       assert.deepEqual(actual, getPlaceholderContact());
     });
 
-    it('returns conversation by uuid first', () => {
+    it('returns conversation by uuid', () => {
       const id = 'id';
 
       const conversation = makeConversation(id);
@@ -167,9 +167,6 @@ describe('both/state/selectors/conversations-extra', () => {
           },
           conversationsByServiceId: {
             [id]: conversation,
-          },
-          conversationsByGroupId: {
-            [id]: wrongConversation,
           },
         },
       };
@@ -196,9 +193,6 @@ describe('both/state/selectors/conversations-extra', () => {
           conversationsByE164: {
             [id]: conversation,
           },
-          conversationsByGroupId: {
-            [id]: wrongConversation,
-          },
         },
       };
 
@@ -223,6 +217,37 @@ describe('both/state/selectors/conversations-extra', () => {
           },
           conversationsByGroupId: {
             [id]: conversation,
+          },
+        },
+      };
+
+      const selector = getConversationSelector(state);
+
+      const actual = selector(id);
+
+      assert.strictEqual(actual, conversation);
+    });
+    it('returns conversation by groupId first', () => {
+      const id = 'id';
+
+      const conversation = makeConversation(id);
+      const wrongConversation = makeConversation('wrong');
+
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            [id]: wrongConversation,
+          },
+          conversationsByGroupId: {
+            [id]: conversation,
+          },
+          conversationsByE164: {
+            [id]: wrongConversation,
+          },
+          conversationsByServiceId: {
+            [id]: wrongConversation,
           },
         },
       };
@@ -1577,32 +1602,32 @@ describe('both/state/selectors/conversations-extra', () => {
     });
   });
 
-  describe('#getConversationsByTitleSelector', () => {
+  describe('#getSafeConversationWithSameTitle', () => {
     it('returns a selector that finds conversations by title', () => {
+      const unsafe = { ...makeConversation('abc'), title: 'Janet' };
+      const safe = { ...makeConversation('def'), title: 'Janet' };
+      const unique = { ...makeConversation('geh'), title: 'Rick' };
       const state = {
         ...getEmptyRootState(),
         conversations: {
           ...getEmptyState(),
           conversationLookup: {
-            abc: { ...makeConversation('abc'), title: 'Janet' },
-            def: { ...makeConversation('def'), title: 'Janet' },
-            geh: { ...makeConversation('geh'), title: 'Rick' },
+            abc: unsafe,
+            def: safe,
+            geh: unique,
           },
         },
       };
 
-      const selector = getConversationsByTitleSelector(state);
+      const janet = getSafeConversationWithSameTitle(state, {
+        possiblyUnsafeConversation: unsafe,
+      });
+      assert.strictEqual(janet, safe);
 
-      assert.sameMembers(
-        selector('Janet').map(c => c.id),
-        ['abc', 'def']
-      );
-      assert.sameMembers(
-        selector('Rick').map(c => c.id),
-        ['geh']
-      );
-      assert.isEmpty(selector('abc'));
-      assert.isEmpty(selector('xyz'));
+      const rick = getSafeConversationWithSameTitle(state, {
+        possiblyUnsafeConversation: unique,
+      });
+      assert.strictEqual(rick, undefined);
     });
   });
 

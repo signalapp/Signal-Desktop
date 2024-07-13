@@ -54,3 +54,9 @@ export const getUsernameReservationError = createSelector(
     reservation: UsernameReservationStateType
   ): UsernameReservationError | undefined => reservation.error
 );
+
+export const getRecoveredUsername = createSelector(
+  getUsernameReservation,
+  (reservation: UsernameReservationStateType): string | undefined =>
+    reservation.recoveredUsername
+);

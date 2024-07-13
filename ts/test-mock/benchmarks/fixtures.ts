@@ -19,6 +19,18 @@ export const GROUP_SIZE = process.env.GROUP_SIZE
   ? parseInt(process.env.GROUP_SIZE, 10)
   : 8;
 
+export const CONTACT_COUNT = process.env.CONTACT_COUNT
+  ? parseInt(process.env.CONTACT_COUNT, 10)
+  : 10;
+
+export const CONVERSATION_SIZE = process.env.CONVERSATION_SIZE
+  ? parseInt(process.env.CONVERSATION_SIZE, 10)
+  : 10;
+
+export const GROUP_DELIVERY_RECEIPTS = process.env.GROUP_DELIVERY_RECEIPTS
+  ? parseInt(process.env.GROUP_DELIVERY_RECEIPTS, 10)
+  : 1;
+
 export const DISCARD_COUNT = process.env.DISCARD_COUNT
   ? parseInt(process.env.DISCARD_COUNT, 10)
   : 5;

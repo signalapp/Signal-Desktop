@@ -33,7 +33,7 @@ export type OwnProps = Readonly<{
 export type Props = OwnProps &
   Pick<
     EmojiPickerProps,
-    'doSend' | 'onPickEmoji' | 'onSetSkinTone' | 'recentEmojis' | 'skinTone'
+    'onPickEmoji' | 'onSetSkinTone' | 'recentEmojis' | 'skinTone'
   >;
 
 export type EmojiButtonAPI = Readonly<{
@@ -46,7 +46,6 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
   emoji,
   emojiButtonApi,
   i18n,
-  doSend,
   onClose,
   onOpen,
   onPickEmoji,
@@ -55,7 +54,11 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
   recentEmojis,
   variant = EmojiButtonVariant.Normal,
 }: Props) {
+  const isRTL = i18n.getLocaleDirection() === 'rtl';
+
   const [open, setOpen] = React.useState(false);
+  const [wasInvokedFromKeyboard, setWasInvokedFromKeyboard] =
+    React.useState(false);
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
   const popperRef = React.useRef<HTMLDivElement | null>(null);
   const refMerger = useRefMerger();
@@ -68,25 +71,30 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
   }, [open, onOpen]);
 
   const handleClickButton = React.useCallback(() => {
+    setWasInvokedFromKeyboard(false);
     if (open) {
       setOpen(false);
     } else {
       setOpen(true);
     }
-  }, [open, setOpen]);
+  }, [open, setOpen, setWasInvokedFromKeyboard]);
 
   const handleClose = React.useCallback(() => {
     setOpen(false);
+    setWasInvokedFromKeyboard(false);
     if (onClose) {
       onClose();
     }
-  }, [setOpen, onClose]);
+  }, [setOpen, setWasInvokedFromKeyboard, onClose]);
 
   const api = React.useMemo(
     () => ({
-      close: () => setOpen(false),
+      close: () => {
+        setOpen(false);
+        setWasInvokedFromKeyboard(false);
+      },
     }),
-    [setOpen]
+    [setOpen, setWasInvokedFromKeyboard]
   );
 
   if (emojiButtonApi) {
@@ -121,9 +129,9 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
       const commandOrCtrl = commandKey || controlKey;
       const key = KeyboardLayout.lookup(event);
 
-      // We don't want to open up if the conversation has any panels open
-      const panels = document.querySelectorAll('.conversation .panel');
-      if (panels && panels.length > 1) {
+      // We don't want to open up if the current conversation panel is hidden
+      const parentPanel = buttonRef.current?.closest('.ConversationPanel');
+      if (parentPanel?.classList.contains('ConversationPanel__hidden')) {
         return;
       }
 
@@ -131,6 +139,7 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
         event.stopPropagation();
         event.preventDefault();
 
+        setWasInvokedFromKeyboard(true);
         setOpen(!open);
       }
     };
@@ -164,7 +173,7 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
       </Reference>
       {open ? (
         <div ref={popperRef}>
-          <Popper placement="top-start" strategy="fixed">
+          <Popper placement={isRTL ? 'top-end' : 'top-start'} strategy="fixed">
             {({ ref, style }) => (
               <EmojiPicker
                 ref={ref}
@@ -176,10 +185,10 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
                     handleClose();
                   }
                 }}
-                doSend={doSend}
                 onClose={handleClose}
                 skinTone={skinTone}
                 onSetSkinTone={onSetSkinTone}
+                wasInvokedFromKeyboard={wasInvokedFromKeyboard}
                 recentEmojis={recentEmojis}
               />
             )}

@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import cloneDeep from 'lodash/cloneDeep';
+import { throttle } from 'lodash';
+import LRU from 'lru-cache';
 import type { MessageAttributesType } from '../model-types.d';
 import type { MessageModel } from '../models/messages';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
-import { drop } from '../util/drop';
 import { getEnvironment, Environment } from '../environment';
 import { getMessageConversation } from '../util/getMessageConversation';
 import { getMessageModelLogger } from '../util/MessageModelLogger';
@@ -14,7 +15,11 @@ import { getSenderIdentifier } from '../util/getSenderIdentifier';
 import { isNotNil } from '../util/isNotNil';
 import { map } from '../util/iterables';
 import { softAssert, strictAssert } from '../util/assert';
+import { isStory } from '../messages/helpers';
+import type { SendStateByConversationId } from '../messages/MessageSendState';
+import { getStoryDataFromMessageAttributes } from './storyLoader';
 
+const MAX_THROTTLED_REDUX_UPDATERS = 200;
 export class MessageCache {
   private state = {
     messages: new Map<string, MessageAttributesType>(),
@@ -91,13 +96,42 @@ export class MessageCache {
     conversationId: string;
     obsoleteId: string;
   }): void {
+    const updateSendState = (
+      sendState?: SendStateByConversationId
+    ): SendStateByConversationId | undefined => {
+      if (!sendState?.[obsoleteId]) {
+        return sendState;
+      }
+      const { [obsoleteId]: obsoleteSendState, ...rest } = sendState;
+      return {
+        [conversationId]: obsoleteSendState,
+        ...rest,
+      };
+    };
+
     for (const [messageId, messageAttributes] of this.state.messages) {
       if (messageAttributes.conversationId !== obsoleteId) {
         continue;
       }
+
+      const editHistory = messageAttributes.editHistory?.map(history => {
+        return {
+          ...history,
+          sendStateByConversationId: updateSendState(
+            history.sendStateByConversationId
+          ),
+        };
+      });
+
       this.setAttributes({
         messageId,
-        messageAttributes: { conversationId },
+        messageAttributes: {
+          conversationId,
+          sendStateByConversationId: updateSendState(
+            messageAttributes.sendStateByConversationId
+          ),
+          editHistory,
+        },
         skipSaveToDatabase: true,
       });
     }
@@ -139,15 +173,39 @@ export class MessageCache {
 
   // Updates a message's attributes and saves the message to cache and to the
   // database. Option to skip the save to the database.
+
+  // Overload #1: if skipSaveToDatabase = true, returns void
+  public setAttributes({
+    messageId,
+    messageAttributes,
+    skipSaveToDatabase,
+  }: {
+    messageId: string;
+    messageAttributes: Partial<MessageAttributesType>;
+    skipSaveToDatabase: true;
+  }): void;
+
+  // Overload #2: if skipSaveToDatabase = false, returns DB save promise
+  public setAttributes({
+    messageId,
+    messageAttributes,
+    skipSaveToDatabase,
+  }: {
+    messageId: string;
+    messageAttributes: Partial<MessageAttributesType>;
+    skipSaveToDatabase: false;
+  }): Promise<string>;
+
+  // Implementation
   public setAttributes({
     messageId,
     messageAttributes: partialMessageAttributes,
-    skipSaveToDatabase = false,
+    skipSaveToDatabase,
   }: {
     messageId: string;
     messageAttributes: Partial<MessageAttributesType>;
     skipSaveToDatabase: boolean;
-  }): void {
+  }): Promise<string> | undefined {
     let messageAttributes = this.accessAttributes(messageId);
 
     softAssert(messageAttributes, 'could not find message attributes');
@@ -196,21 +254,57 @@ export class MessageCache {
 
     this.markModelStale(nextMessageAttributes);
 
-    if (window.reduxActions) {
-      window.reduxActions.conversations.messageChanged(
-        messageId,
-        nextMessageAttributes.conversationId,
-        nextMessageAttributes
-      );
-    }
+    this.throttledUpdateRedux(nextMessageAttributes);
 
     if (skipSaveToDatabase) {
       return;
     }
-    drop(
-      window.Signal.Data.saveMessage(messageAttributes, {
-        ourAci: window.textsecure.storage.user.getCheckedAci(),
-      })
+
+    return window.Signal.Data.saveMessage(nextMessageAttributes, {
+      ourAci: window.textsecure.storage.user.getCheckedAci(),
+    });
+  }
+
+  private throttledReduxUpdaters = new LRU<string, typeof this.updateRedux>({
+    max: MAX_THROTTLED_REDUX_UPDATERS,
+  });
+
+  private throttledUpdateRedux(attributes: MessageAttributesType) {
+    let updater = this.throttledReduxUpdaters.get(attributes.id);
+    if (!updater) {
+      updater = throttle(this.updateRedux.bind(this), 200, {
+        leading: true,
+        trailing: true,
+      });
+      this.throttledReduxUpdaters.set(attributes.id, updater);
+    }
+
+    updater(attributes);
+  }
+
+  private updateRedux(attributes: MessageAttributesType) {
+    if (!window.reduxActions) {
+      return;
+    }
+    if (isStory(attributes)) {
+      const storyData = getStoryDataFromMessageAttributes({
+        ...attributes,
+      });
+
+      if (!storyData) {
+        return;
+      }
+
+      window.reduxActions.stories.storyChanged(storyData);
+
+      // We don't want messageChanged to run
+      return;
+    }
+
+    window.reduxActions.conversations.messageChanged(
+      attributes.id,
+      attributes.conversationId,
+      attributes
     );
   }
 

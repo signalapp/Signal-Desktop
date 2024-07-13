@@ -6,6 +6,7 @@ import { times } from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import { ContactPills } from './ContactPills';
@@ -18,7 +19,7 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Contact Pills',
-};
+} satisfies Meta<ContactPillPropsType>;
 
 type ContactType = Omit<ContactPillPropsType, 'i18n' | 'onClickRemove'>;
 
@@ -37,7 +38,7 @@ const contactPillProps = (
 ): ContactPillPropsType => ({
   ...(overrideProps ??
     getDefaultConversation({
-      avatarPath: gifUrl,
+      avatarUrl: gifUrl,
       firstName: 'John',
       id: 'abc123',
       isMe: false,
@@ -54,10 +55,6 @@ export function EmptyList(): JSX.Element {
   return <ContactPills />;
 }
 
-EmptyList.story = {
-  name: 'Empty list',
-};
-
 export function OneContact(): JSX.Element {
   return (
     <ContactPills>
@@ -65,10 +62,6 @@ export function OneContact(): JSX.Element {
     </ContactPills>
   );
 }
-
-OneContact.story = {
-  name: 'One contact',
-};
 
 export function ThreeContacts(): JSX.Element {
   return (
@@ -79,10 +72,6 @@ export function ThreeContacts(): JSX.Element {
     </ContactPills>
   );
 }
-
-ThreeContacts.story = {
-  name: 'Three contacts',
-};
 
 export function FourContactsOneWithALongName(): JSX.Element {
   return (
@@ -101,10 +90,6 @@ export function FourContactsOneWithALongName(): JSX.Element {
   );
 }
 
-FourContactsOneWithALongName.story = {
-  name: 'Four contacts, one with a long name',
-};
-
 export function FiftyContacts(): JSX.Element {
   return (
     <ContactPills>
@@ -114,7 +99,3 @@ export function FiftyContacts(): JSX.Element {
     </ContactPills>
   );
 }
-
-FiftyContacts.story = {
-  name: 'Fifty contacts',
-};

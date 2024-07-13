@@ -1,20 +1,27 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AudioDevice } from '@signalapp/ringrtc';
+import type { AudioDevice, Reaction as CallReaction } from '@signalapp/ringrtc';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { AciString, ServiceIdString } from './ServiceId';
+import type { CallLinkConversationType } from './CallLink';
+
+export const MAX_CALLING_REACTIONS = 5;
+export const CALLING_REACTIONS_LIFETIME = 4000;
 
 // These are strings (1) for the database (2) for Storybook.
 export enum CallMode {
   Direct = 'Direct',
   Group = 'Group',
+  Adhoc = 'Adhoc',
 }
 
-// Speaker and Presentation has the same UI, but Presentation mode will switch
-// to Grid mode when the presentation is over.
+// Speaker and Presentation mode have the same UI, but Presentation is only set
+// automatically when someone starts to present, and will revert to the previous view mode
+// once presentation is complete
 export enum CallViewMode {
-  Grid = 'Grid',
+  Paginated = 'Paginated',
+  Overflow = 'Overflow',
   Speaker = 'Speaker',
   Presentation = 'Presentation',
 }
@@ -32,12 +39,23 @@ export type PresentedSource = {
   name: string;
 };
 
+// export type ActiveCallReactionsType = {
+//   [timestamp: number]: ReadonlyArray<CallReaction>;
+// };
+
+export type ActiveCallReaction = {
+  timestamp: number;
+} & CallReaction;
+
+export type ActiveCallReactionsType = ReadonlyArray<ActiveCallReaction>;
+
 export type ActiveCallBaseType = {
-  conversation: ConversationType;
+  conversation: CallingConversationType;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   localAudioLevel: number;
   viewMode: CallViewMode;
+  viewModeBeforePresentation?: CallViewMode;
   isSharingScreen?: boolean;
   joinedAt: number | null;
   outgoingRing: boolean;
@@ -47,6 +65,7 @@ export type ActiveCallBaseType = {
   settingsDialogOpen: boolean;
   showNeedsScreenRecordingPermissionsWarning?: boolean;
   showParticipantsList: boolean;
+  reactions?: ActiveCallReactionsType;
 };
 
 export type ActiveDirectCallType = ActiveCallBaseType & {
@@ -68,15 +87,18 @@ export type ActiveDirectCallType = ActiveCallBaseType & {
 };
 
 export type ActiveGroupCallType = ActiveCallBaseType & {
-  callMode: CallMode.Group;
+  callMode: CallMode.Group | CallMode.Adhoc;
   connectionState: GroupCallConnectionState;
-  conversationsWithSafetyNumberChanges: Array<ConversationType>;
+  conversationsByDemuxId: ConversationsByDemuxIdType;
   joinState: GroupCallJoinState;
+  localDemuxId: number | undefined;
   maxDevices: number;
   deviceCount: number;
   groupMembers: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   isConversationTooBigToRing: boolean;
   peekedParticipants: Array<ConversationType>;
+  pendingParticipants: Array<ConversationType>;
+  raisedHands: Set<number>;
   remoteParticipants: Array<GroupCallRemoteParticipantType>;
   remoteAudioLevels: Map<number, number>;
 };
@@ -136,14 +158,19 @@ export enum GroupCallJoinState {
 
 export type GroupCallRemoteParticipantType = ConversationType & {
   aci: AciString;
+  addedTime?: number;
   demuxId: number;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
+  isHandRaised: boolean;
+  mediaKeysReceived: boolean;
   presenting: boolean;
   sharingScreen: boolean;
   speakerTime?: number;
   videoAspectRatio: number;
 };
+
+export type ConversationsByDemuxIdType = Map<number, ConversationType>;
 
 // Similar to RingRTC's `VideoRequest` but without the `framerate` property.
 export type GroupCallVideoRequest = {
@@ -174,3 +201,13 @@ export type ChangeIODevicePayloadType =
   | { type: CallingDeviceType.CAMERA; selectedDevice: string }
   | { type: CallingDeviceType.MICROPHONE; selectedDevice: AudioDevice }
   | { type: CallingDeviceType.SPEAKER; selectedDevice: AudioDevice };
+
+export type CallingConversationType =
+  | ConversationType
+  | CallLinkConversationType;
+
+export enum ScreenShareStatus {
+  Connected = 'Connected',
+  Reconnecting = 'Reconnecting',
+  Disconnected = 'Disconnected',
+}

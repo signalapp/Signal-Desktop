@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import type { Props } from './CircleCheckbox';
 import { CircleCheckbox, Variant } from './CircleCheckbox';
 
@@ -15,7 +15,7 @@ const createProps = (): Props => ({
 
 export default {
   title: 'Components/CircleCheckbox',
-};
+} satisfies Meta<Props>;
 
 export function Normal(): JSX.Element {
   return <CircleCheckbox {...createProps()} />;

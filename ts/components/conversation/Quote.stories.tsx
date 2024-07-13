@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
@@ -34,49 +34,40 @@ export default {
   component: Quote,
   title: 'Components/Conversation/Quote',
   argTypes: {
-    authorTitle: {
-      defaultValue: 'Default Sender',
-    },
-    conversationColor: {
-      defaultValue: 'forest',
-    },
-    doubleCheckMissingQuoteReference: { action: true },
-    i18n: {
-      defaultValue: i18n,
-    },
-    platform: {
-      defautlValue: 'darwin',
-    },
     isFromMe: {
-      control: { type: 'checkbox' },
-      defaultValue: false,
+      control: { type: 'boolean' },
     },
     isGiftBadge: {
-      control: { type: 'checkbox' },
-      defaultValue: false,
+      control: { type: 'boolean' },
     },
     isIncoming: {
-      control: { type: 'checkbox' },
-      defaultValue: false,
+      control: { type: 'boolean' },
     },
     isViewOnce: {
-      control: { type: 'checkbox' },
-      defaultValue: false,
-    },
-    onClick: { action: true },
-    onClose: { action: true },
-    rawAttachment: {
-      defaultValue: undefined,
+      control: { type: 'boolean' },
     },
     referencedMessageNotFound: {
-      control: { type: 'checkbox' },
-      defaultValue: false,
-    },
-    text: {
-      defaultValue: 'A sample message from a pal',
+      control: { type: 'boolean' },
     },
   },
-} as Meta;
+  args: {
+    authorTitle: 'Default Sender',
+    conversationColor: 'forest',
+    doubleCheckMissingQuoteReference: action(
+      'doubleCheckMissingQuoteReference'
+    ),
+    i18n,
+    isFromMe: false,
+    isGiftBadge: false,
+    isIncoming: false,
+    isViewOnce: false,
+    onClick: action('onClick'),
+    onClose: action('onClose'),
+    rawAttachment: undefined,
+    referencedMessageNotFound: false,
+    text: 'A sample message from a pal',
+  },
+} satisfies Meta<Props>;
 
 const defaultMessageProps: TimelineMessagesProps = {
   author: getDefaultConversation({
@@ -114,6 +105,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   isMessageRequestAccepted: true,
   isSelected: false,
   isSelectMode: false,
+  isSMS: false,
   isSpoilerExpanded: {},
   toggleSelectMessage: action('toggleSelectMessage'),
   kickOffAttachmentDownload: action('default--kickOffAttachmentDownload'),
@@ -197,23 +189,17 @@ const renderInMessage = ({
 };
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<Props> = args => <Quote {...args} />;
-const TemplateInMessage: Story<Props> = args => renderInMessage(args);
+const Template: StoryFn<Props> = args => <Quote {...args} />;
+const TemplateInMessage: StoryFn<Props> = args => renderInMessage(args);
 
 export const OutgoingByAnotherAuthor = Template.bind({});
 OutgoingByAnotherAuthor.args = {
   authorTitle: getDefaultConversation().title,
 };
-OutgoingByAnotherAuthor.story = {
-  name: 'Outgoing by Another Author',
-};
 
 export const OutgoingByMe = Template.bind({});
 OutgoingByMe.args = {
   isFromMe: true,
-};
-OutgoingByMe.story = {
-  name: 'Outgoing by Me',
 };
 
 export const IncomingByAnotherAuthor = Template.bind({});
@@ -221,17 +207,11 @@ IncomingByAnotherAuthor.args = {
   authorTitle: getDefaultConversation().title,
   isIncoming: true,
 };
-IncomingByAnotherAuthor.story = {
-  name: 'Incoming by Another Author',
-};
 
 export const IncomingByMe = Template.bind({});
 IncomingByMe.args = {
   isFromMe: true,
   isIncoming: true,
-};
-IncomingByMe.story = {
-  name: 'Incoming by Me',
 };
 
 export function IncomingOutgoingColors(args: Props): JSX.Element {
@@ -244,9 +224,6 @@ export function IncomingOutgoingColors(args: Props): JSX.Element {
   );
 }
 IncomingOutgoingColors.args = {};
-IncomingOutgoingColors.story = {
-  name: 'Incoming/Outgoing Colors',
-};
 
 export const ImageOnly = Template.bind({});
 ImageOnly.args = {
@@ -259,6 +236,7 @@ ImageOnly.args = {
       contentType: IMAGE_PNG,
       height: 100,
       width: 100,
+      size: 100,
       path: pngUrl,
       objectUrl: pngUrl,
     },
@@ -275,6 +253,7 @@ ImageAttachment.args = {
       contentType: IMAGE_PNG,
       height: 100,
       width: 100,
+      size: 100,
       path: pngUrl,
       objectUrl: pngUrl,
     },
@@ -289,9 +268,6 @@ ImageAttachmentNoThumbnail.args = {
     isVoiceMessage: false,
   },
 };
-ImageAttachmentNoThumbnail.story = {
-  name: 'Image Attachment w/o Thumbnail',
-};
 
 export const ImageTapToView = Template.bind({});
 ImageTapToView.args = {
@@ -302,9 +278,6 @@ ImageTapToView.args = {
     fileName: 'sax.png',
     isVoiceMessage: false,
   },
-};
-ImageTapToView.story = {
-  name: 'Image Tap-to-View',
 };
 
 export const VideoOnly = Template.bind({});
@@ -317,6 +290,7 @@ VideoOnly.args = {
       contentType: IMAGE_PNG,
       height: 100,
       width: 100,
+      size: 100,
       path: pngUrl,
       objectUrl: pngUrl,
     },
@@ -334,6 +308,7 @@ VideoAttachment.args = {
       contentType: IMAGE_PNG,
       height: 100,
       width: 100,
+      size: 100,
       path: pngUrl,
       objectUrl: pngUrl,
     },
@@ -348,9 +323,6 @@ VideoAttachmentNoThumbnail.args = {
     isVoiceMessage: false,
   },
 };
-VideoAttachmentNoThumbnail.story = {
-  name: 'Video Attachment w/o Thumbnail',
-};
 
 export const VideoTapToView = Template.bind({});
 VideoTapToView.args = {
@@ -361,9 +333,6 @@ VideoTapToView.args = {
     fileName: 'great-video.mp4',
     isVoiceMessage: false,
   },
-};
-VideoTapToView.story = {
-  name: 'Video Tap-to-View',
 };
 
 export const GiftBadge = TemplateInMessage.bind({});
@@ -430,9 +399,6 @@ MediaTapToView.args = {
     isVoiceMessage: false,
   },
 };
-MediaTapToView.story = {
-  name: 'Media Tap-to-View',
-};
 
 export const OtherFileAttachment = Template.bind({});
 OtherFileAttachment.args = {
@@ -451,9 +417,6 @@ LongMessageAttachmentShouldBeHidden.args = {
     isVoiceMessage: false,
   },
 };
-LongMessageAttachmentShouldBeHidden.story = {
-  name: 'Long message attachment (should be hidden)',
-};
 
 export const NoCloseButton = Template.bind({});
 NoCloseButton.args = {
@@ -469,26 +432,17 @@ export const MissingTextAttachment = Template.bind({});
 MissingTextAttachment.args = {
   text: undefined,
 };
-MissingTextAttachment.story = {
-  name: 'Missing Text & Attachment',
-};
 
 export const MentionOutgoingAnotherAuthor = Template.bind({});
 MentionOutgoingAnotherAuthor.args = {
   authorTitle: 'Tony Stark',
   text: '@Captain America Lunch later?',
 };
-MentionOutgoingAnotherAuthor.story = {
-  name: '@mention + outgoing + another author',
-};
 
 export const MentionOutgoingMe = Template.bind({});
 MentionOutgoingMe.args = {
   isFromMe: true,
   text: '@Captain America Lunch later?',
-};
-MentionOutgoingMe.story = {
-  name: '@mention + outgoing + me',
 };
 
 export const MentionIncomingAnotherAuthor = Template.bind({});
@@ -497,18 +451,12 @@ MentionIncomingAnotherAuthor.args = {
   isIncoming: true,
   text: '@Tony Stark sure',
 };
-MentionIncomingAnotherAuthor.story = {
-  name: '@mention + incoming + another author',
-};
 
 export const MentionIncomingMe = Template.bind({});
 MentionIncomingMe.args = {
   isFromMe: true,
   isIncoming: true,
   text: '@Tony Stark sure',
-};
-MentionIncomingMe.story = {
-  name: '@mention + incoming + me',
 };
 
 export function CustomColor(args: Props): JSX.Element {
@@ -551,9 +499,6 @@ IsStoryReply.args = {
     isVoiceMessage: false,
   },
 };
-IsStoryReply.story = {
-  name: 'isStoryReply',
-};
 
 export const IsStoryReplyEmoji = Template.bind({});
 IsStoryReplyEmoji.args = {
@@ -569,14 +514,12 @@ IsStoryReplyEmoji.args = {
       contentType: IMAGE_PNG,
       height: 100,
       width: 100,
+      size: 100,
       path: pngUrl,
       objectUrl: pngUrl,
     },
   },
   reactionEmoji: '🏋️',
-};
-IsStoryReplyEmoji.story = {
-  name: 'isStoryReply emoji',
 };
 
 export const Payment = Template.bind({});

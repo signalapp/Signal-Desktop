@@ -1,12 +1,9 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { DecoratorFunction } from '@storybook/addons';
-import * as React from 'react';
-
+import React, { useContext } from 'react';
 import { action } from '@storybook/addon-actions';
-import { boolean, select } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import { IMAGE_JPEG } from '../types/MIME';
 import type { Props } from './CompositionArea';
 import { CompositionArea } from './CompositionArea';
@@ -28,287 +25,234 @@ export default {
   decorators: [
     // necessary for the add attachment button to render properly
     storyFn => <div className="file-input">{storyFn()}</div>,
-  ] as Array<DecoratorFunction<JSX.Element>>,
-};
+  ],
+  argTypes: {
+    recordingState: {
+      control: { type: 'select' },
+      options: Object.keys(RecordingState),
+      mappings: RecordingState,
+    },
+    announcementsOnly: { control: { type: 'boolean' } },
+    areWePendingApproval: { control: { type: 'boolean' } },
+  },
+  args: {
+    addAttachment: action('addAttachment'),
+    conversationId: '123',
+    convertDraftBodyRangesIntoHydrated: () => undefined,
+    discardEditMessage: action('discardEditMessage'),
+    focusCounter: 0,
+    sendCounter: 0,
+    i18n,
+    isDisabled: false,
+    isFormattingEnabled: true,
+    messageCompositionId: '456',
+    sendEditedMessage: action('sendEditedMessage'),
+    sendMultiMediaMessage: action('sendMultiMediaMessage'),
+    platform: 'darwin',
+    processAttachments: action('processAttachments'),
+    removeAttachment: action('removeAttachment'),
+    setComposerFocus: action('setComposerFocus'),
+    setMessageToEdit: action('setMessageToEdit'),
+    setQuoteByMessageId: action('setQuoteByMessageId'),
+    showToast: action('showToast'),
 
-const useProps = (overrideProps: Partial<Props> = {}): Props => ({
-  addAttachment: action('addAttachment'),
-  conversationId: '123',
-  convertDraftBodyRangesIntoHydrated: () => undefined,
-  discardEditMessage: action('discardEditMessage'),
-  focusCounter: 0,
-  sendCounter: 0,
-  i18n,
-  isDisabled: false,
-  isFormattingFlagEnabled:
-    overrideProps.isFormattingFlagEnabled === false
-      ? overrideProps.isFormattingFlagEnabled
-      : true,
-  isFormattingSpoilersFlagEnabled:
-    overrideProps.isFormattingSpoilersFlagEnabled === false
-      ? overrideProps.isFormattingSpoilersFlagEnabled
-      : true,
-  isFormattingEnabled:
-    overrideProps.isFormattingEnabled === false
-      ? overrideProps.isFormattingEnabled
-      : true,
-  messageCompositionId: '456',
-  sendEditedMessage: action('sendEditedMessage'),
-  sendMultiMediaMessage: action('sendMultiMediaMessage'),
-  platform: 'darwin',
-  processAttachments: action('processAttachments'),
-  removeAttachment: action('removeAttachment'),
-  theme: React.useContext(StorybookThemeContext),
-  setComposerFocus: action('setComposerFocus'),
-  setMessageToEdit: action('setMessageToEdit'),
-  setQuoteByMessageId: action('setQuoteByMessageId'),
-  showToast: action('showToast'),
+    // AttachmentList
+    draftAttachments: [],
+    onClearAttachments: action('onClearAttachments'),
+    // AudioCapture
+    cancelRecording: action('cancelRecording'),
+    completeRecording: action('completeRecording'),
+    errorRecording: action('errorRecording'),
+    recordingState: RecordingState.Idle,
+    startRecording: action('startRecording'),
+    // StagedLinkPreview
+    linkPreviewLoading: false,
+    linkPreviewResult: undefined,
+    onCloseLinkPreview: action('onCloseLinkPreview'),
+    // Quote
+    quotedMessageProps: undefined,
+    scrollToMessage: action('scrollToMessage'),
+    // MediaEditor
+    imageToBlurHash: async () => 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+    // MediaQualitySelector
+    setMediaQualitySetting: action('setMediaQualitySetting'),
+    shouldSendHighQualityAttachments: false,
+    // CompositionInput
+    onEditorStateChange: action('onEditorStateChange'),
+    onTextTooLong: action('onTextTooLong'),
+    draftText: undefined,
+    clearQuotedMessage: action('clearQuotedMessage'),
+    getPreferredBadge: () => undefined,
+    getQuotedMessage: action('getQuotedMessage'),
+    sortedGroupMembers: [],
+    // EmojiButton
+    onPickEmoji: action('onPickEmoji'),
+    onSetSkinTone: action('onSetSkinTone'),
+    recentEmojis: [],
+    skinTone: 1,
+    // StickerButton
+    knownPacks: [],
+    receivedPacks: [],
+    installedPacks: [],
+    blessedPacks: [],
+    recentStickers: [],
+    clearInstalledStickerPack: action('clearInstalledStickerPack'),
+    pushPanelForConversation: action('pushPanelForConversation'),
+    sendStickerMessage: action('sendStickerMessage'),
+    clearShowIntroduction: action('clearShowIntroduction'),
+    showPickerHint: false,
+    clearShowPickerHint: action('clearShowPickerHint'),
+    // Message Requests
+    conversationType: 'direct',
+    acceptConversation: action('acceptConversation'),
+    blockConversation: action('blockConversation'),
+    blockAndReportSpam: action('blockAndReportSpam'),
+    deleteConversation: action('deleteConversation'),
+    conversationName: getDefaultConversation(),
+    // GroupV1 Disabled Actions
+    showGV2MigrationDialog: action('showGV2MigrationDialog'),
+    // GroupV2
+    announcementsOnly: false,
+    areWeAdmin: false,
+    areWePendingApproval: false,
+    groupAdmins: [],
+    cancelJoinRequest: action('cancelJoinRequest'),
+    showConversation: action('showConversation'),
+    // SMS-only
+    isSMSOnly: false,
+    isFetchingUUID: false,
+    renderSmartCompositionRecording: _ => <div>RECORDING</div>,
+    renderSmartCompositionRecordingDraft: _ => <div>RECORDING DRAFT</div>,
+    // Select mode
+    selectedMessageIds: undefined,
+    toggleSelectMode: action('toggleSelectMode'),
+    toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
+  },
+} satisfies Meta<Props>;
 
-  // AttachmentList
-  draftAttachments: overrideProps.draftAttachments || [],
-  onClearAttachments: action('onClearAttachments'),
-  // AudioCapture
-  cancelRecording: action('cancelRecording'),
-  completeRecording: action('completeRecording'),
-  errorRecording: action('errorRecording'),
-  recordingState: select(
-    'recordingState',
-    RecordingState,
-    overrideProps.recordingState || RecordingState.Idle
-  ),
-  startRecording: action('startRecording'),
-  // StagedLinkPreview
-  linkPreviewLoading: Boolean(overrideProps.linkPreviewLoading),
-  linkPreviewResult: overrideProps.linkPreviewResult,
-  onCloseLinkPreview: action('onCloseLinkPreview'),
-  // Quote
-  quotedMessageProps: overrideProps.quotedMessageProps,
-  scrollToMessage: action('scrollToMessage'),
-  // MediaEditor
-  imageToBlurHash: async () => 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
-  // MediaQualitySelector
-  setMediaQualitySetting: action('setMediaQualitySetting'),
-  shouldSendHighQualityAttachments: Boolean(
-    overrideProps.shouldSendHighQualityAttachments
-  ),
-  // CompositionInput
-  onEditorStateChange: action('onEditorStateChange'),
-  onTextTooLong: action('onTextTooLong'),
-  draftText: overrideProps.draftText || undefined,
-  clearQuotedMessage: action('clearQuotedMessage'),
-  getPreferredBadge: () => undefined,
-  getQuotedMessage: action('getQuotedMessage'),
-  sortedGroupMembers: [],
-  // EmojiButton
-  onPickEmoji: action('onPickEmoji'),
-  onSetSkinTone: action('onSetSkinTone'),
-  recentEmojis: [],
-  skinTone: 1,
-  // StickerButton
-  knownPacks: overrideProps.knownPacks || [],
-  receivedPacks: [],
-  installedPacks: [],
-  blessedPacks: [],
-  recentStickers: [],
-  clearInstalledStickerPack: action('clearInstalledStickerPack'),
-  pushPanelForConversation: action('pushPanelForConversation'),
-  sendStickerMessage: action('sendStickerMessage'),
-  clearShowIntroduction: action('clearShowIntroduction'),
-  showPickerHint: false,
-  clearShowPickerHint: action('clearShowPickerHint'),
-  // Message Requests
-  conversationType: 'direct',
-  acceptConversation: action('acceptConversation'),
-  blockConversation: action('blockConversation'),
-  blockAndReportSpam: action('blockAndReportSpam'),
-  deleteConversation: action('deleteConversation'),
-  messageRequestsEnabled: boolean(
-    'messageRequestsEnabled',
-    overrideProps.messageRequestsEnabled || false
-  ),
-  title: '',
-  // GroupV1 Disabled Actions
-  showGV2MigrationDialog: action('showGV2MigrationDialog'),
-  // GroupV2
-  announcementsOnly: boolean(
-    'announcementsOnly',
-    Boolean(overrideProps.announcementsOnly)
-  ),
-  areWeAdmin: boolean('areWeAdmin', Boolean(overrideProps.areWeAdmin)),
-  areWePendingApproval: boolean(
-    'areWePendingApproval',
-    Boolean(overrideProps.areWePendingApproval)
-  ),
-  groupAdmins: [],
-  cancelJoinRequest: action('cancelJoinRequest'),
-  showConversation: action('showConversation'),
-  // SMS-only
-  isSMSOnly: overrideProps.isSMSOnly || false,
-  isFetchingUUID: overrideProps.isFetchingUUID || false,
-  renderSmartCompositionRecording: _ => <div>RECORDING</div>,
-  renderSmartCompositionRecordingDraft: _ => <div>RECORDING DRAFT</div>,
-  // Select mode
-  selectedMessageIds: undefined,
-  toggleSelectMode: action('toggleSelectMode'),
-  toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
-});
-
-export function Default(): JSX.Element {
-  const props = useProps();
-
-  return <CompositionArea {...props} />;
+export function Default(args: Props): JSX.Element {
+  const theme = useContext(StorybookThemeContext);
+  return <CompositionArea {...args} theme={theme} />;
 }
 
-export function StartingText(): JSX.Element {
-  const props = useProps({
-    draftText: "here's some starting text",
-  });
-
-  return <CompositionArea {...props} />;
-}
-
-export function StickerButton(): JSX.Element {
-  const props = useProps({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    knownPacks: [{} as any],
-  });
-
-  return <CompositionArea {...props} />;
-}
-
-export function MessageRequest(): JSX.Element {
-  const props = useProps({
-    messageRequestsEnabled: true,
-  });
-
-  return <CompositionArea {...props} />;
-}
-
-export function SmsOnlyFetchingUuid(): JSX.Element {
-  const props = useProps({
-    isSMSOnly: true,
-    isFetchingUUID: true,
-  });
-
-  return <CompositionArea {...props} />;
-}
-
-SmsOnlyFetchingUuid.story = {
-  name: 'SMS-only fetching UUID',
-};
-
-export function SmsOnly(): JSX.Element {
-  const props = useProps({
-    isSMSOnly: true,
-  });
-
-  return <CompositionArea {...props} />;
-}
-
-SmsOnly.story = {
-  name: 'SMS-only',
-};
-
-export function Attachments(): JSX.Element {
-  const props = useProps({
-    draftAttachments: [
-      fakeDraftAttachment({
-        contentType: IMAGE_JPEG,
-        url: landscapeGreenUrl,
-      }),
-    ],
-  });
-
-  return <CompositionArea {...props} />;
-}
-
-export function PendingApproval(): JSX.Element {
+export function StartingText(args: Props): JSX.Element {
+  const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea
-      {...useProps({
-        areWePendingApproval: true,
-      })}
+      {...args}
+      theme={theme}
+      draftText="here's some starting text"
     />
   );
 }
 
-AnnouncementsOnlyGroup.story = {
-  name: 'Announcements Only group',
-};
-
-export function AnnouncementsOnlyGroup(): JSX.Element {
+export function StickerButton(args: Props): JSX.Element {
+  const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea
-      {...useProps({
-        announcementsOnly: true,
-        areWeAdmin: false,
-      })}
+      {...args}
+      theme={theme}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      knownPacks={[{} as any]}
     />
   );
 }
 
-AnnouncementsOnlyGroup.story = {
-  name: 'Announcements Only group',
-};
+export function MessageRequest(args: Props): JSX.Element {
+  const theme = useContext(StorybookThemeContext);
+  return <CompositionArea {...args} theme={theme} />;
+}
 
-export function Quote(): JSX.Element {
+export function SmsOnlyFetchingUuid(args: Props): JSX.Element {
+  const theme = useContext(StorybookThemeContext);
+  return <CompositionArea {...args} theme={theme} isSMSOnly isFetchingUUID />;
+}
+
+export function SmsOnly(args: Props): JSX.Element {
+  const theme = useContext(StorybookThemeContext);
+  return <CompositionArea {...args} theme={theme} isSMSOnly />;
+}
+
+export function Attachments(args: Props): JSX.Element {
+  const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea
-      {...useProps({
-        quotedMessageProps: {
-          text: 'something',
-          conversationColor: ConversationColors[10],
-          conversationTitle: getDefaultConversation().title,
-          isGiftBadge: false,
-          isViewOnce: false,
-          referencedMessageNotFound: false,
-          authorTitle: 'Someone',
-          isFromMe: false,
+      {...args}
+      theme={theme}
+      draftAttachments={[
+        fakeDraftAttachment({
+          contentType: IMAGE_JPEG,
+          url: landscapeGreenUrl,
+        }),
+      ]}
+    />
+  );
+}
+
+export function PendingApproval(args: Props): JSX.Element {
+  const theme = useContext(StorybookThemeContext);
+  return <CompositionArea {...args} theme={theme} areWePendingApproval />;
+}
+
+export function AnnouncementsOnlyGroup(args: Props): JSX.Element {
+  const theme = useContext(StorybookThemeContext);
+  return (
+    <CompositionArea
+      {...args}
+      theme={theme}
+      announcementsOnly
+      areWeAdmin={false}
+    />
+  );
+}
+
+export function Quote(args: Props): JSX.Element {
+  const theme = useContext(StorybookThemeContext);
+  return (
+    <CompositionArea
+      {...args}
+      theme={theme}
+      quotedMessageProps={{
+        text: 'something',
+        conversationColor: ConversationColors[10],
+        conversationTitle: getDefaultConversation().title,
+        isGiftBadge: false,
+        isViewOnce: false,
+        referencedMessageNotFound: false,
+        authorTitle: 'Someone',
+        isFromMe: false,
+      }}
+    />
+  );
+}
+
+export function QuoteWithPayment(args: Props): JSX.Element {
+  const theme = useContext(StorybookThemeContext);
+  return (
+    <CompositionArea
+      {...args}
+      theme={theme}
+      quotedMessageProps={{
+        text: '',
+        conversationColor: ConversationColors[10],
+        conversationTitle: getDefaultConversation().title,
+        isGiftBadge: false,
+        isViewOnce: false,
+        referencedMessageNotFound: false,
+        authorTitle: 'Someone',
+        isFromMe: false,
+        payment: {
+          kind: PaymentEventKind.Notification,
+          note: 'Thanks',
         },
-      })}
+      }}
     />
   );
 }
 
-export function QuoteWithPayment(): JSX.Element {
+export function NoFormattingMenu(args: Props): JSX.Element {
+  const theme = useContext(StorybookThemeContext);
   return (
-    <CompositionArea
-      {...useProps({
-        quotedMessageProps: {
-          text: '',
-          conversationColor: ConversationColors[10],
-          conversationTitle: getDefaultConversation().title,
-          isGiftBadge: false,
-          isViewOnce: false,
-          referencedMessageNotFound: false,
-          authorTitle: 'Someone',
-          isFromMe: false,
-          payment: {
-            kind: PaymentEventKind.Notification,
-            note: 'Thanks',
-          },
-        },
-      })}
-    />
-  );
-}
-
-QuoteWithPayment.story = {
-  name: 'Quote with payment',
-};
-
-export function NoFormattingMenu(): JSX.Element {
-  return <CompositionArea {...useProps({ isFormattingEnabled: false })} />;
-}
-
-export function NoFormattingFlag(): JSX.Element {
-  return <CompositionArea {...useProps({ isFormattingFlagEnabled: false })} />;
-}
-
-export function NoSpoilerFormattingFlag(): JSX.Element {
-  return (
-    <CompositionArea
-      {...useProps({ isFormattingSpoilersFlagEnabled: false })}
-    />
+    <CompositionArea {...args} theme={theme} isFormattingEnabled={false} />
   );
 }

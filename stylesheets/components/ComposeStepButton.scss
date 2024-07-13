@@ -1,0 +1,49 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.ComposeStepButton {
+  &__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+
+    @include light-theme {
+      background-color: $color-black-alpha-06;
+    }
+    @include dark-theme {
+      background-color: $color-white-alpha-12;
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 20px;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+
+      @include light-theme {
+        background-color: $color-black;
+      }
+      @include dark-theme {
+        background-color: $color-gray-05;
+      }
+    }
+
+    &--group::before {
+      -webkit-mask-image: url('../images/icons/v3/group/group.svg');
+    }
+
+    &--username::before {
+      -webkit-mask-image: url('../images/icons/v3/at/at.svg');
+    }
+
+    &--phone-number::before {
+      -webkit-mask-image: url('../images/icons/v3/number/number-light.svg');
+    }
+  }
+}

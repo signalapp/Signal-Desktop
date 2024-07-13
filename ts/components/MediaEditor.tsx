@@ -86,14 +86,12 @@ export type PropsType = {
     | 'draftBodyRanges'
     | 'getPreferredBadge'
     | 'isFormattingEnabled'
-    | 'isFormattingFlagEnabled'
-    | 'isFormattingSpoilersFlagEnabled'
     | 'onPickEmoji'
     | 'onTextTooLong'
     | 'platform'
     | 'sortedGroupMembers'
   > &
-  EmojiPickerProps;
+  Omit<EmojiPickerProps, 'wasInvokedFromKeyboard'>;
 
 const INITIAL_IMAGE_STATE: ImageStateType = {
   angle: 0,
@@ -156,8 +154,6 @@ export function MediaEditor({
   draftBodyRanges,
   getPreferredBadge,
   isFormattingEnabled,
-  isFormattingFlagEnabled,
-  isFormattingSpoilersFlagEnabled,
   onPickEmoji,
   onTextTooLong,
   platform,
@@ -180,13 +176,12 @@ export function MediaEditor({
   const [isEmojiPopperOpen, setEmojiPopperOpen] = useState<boolean>(false);
 
   const [caption, setCaption] = useState(draftText ?? '');
-  const [captionBodyRanges, setCaptionBodyRanges] = useState<
-    DraftBodyRanges | undefined
-  >(draftBodyRanges);
+  const [captionBodyRanges, setCaptionBodyRanges] =
+    useState<DraftBodyRanges | null>(draftBodyRanges);
 
   const conversationSelector = useSelector(getConversationSelector);
   const hydratedBodyRanges = useMemo(
-    () => hydrateRanges(captionBodyRanges, conversationSelector),
+    () => hydrateRanges(captionBodyRanges ?? undefined, conversationSelector),
     [captionBodyRanges, conversationSelector]
   );
 
@@ -916,7 +911,7 @@ export function MediaEditor({
             onClick={() => setCropPreset(CropPreset.Freeform)}
             type="button"
           >
-            Freeform
+            {i18n('icu:MediaEditor__crop-preset--freeform')}
           </button>
           <button
             className={classNames(
@@ -929,7 +924,7 @@ export function MediaEditor({
             onClick={() => setCropPreset(CropPreset.Square)}
             type="button"
           >
-            Square
+            {i18n('icu:MediaEditor__crop-preset--square')}
           </button>
           <button
             className={classNames(
@@ -942,7 +937,7 @@ export function MediaEditor({
             onClick={() => setCropPreset(CropPreset.Vertical)}
             type="button"
           >
-            9:16
+            {i18n('icu:MediaEditor__crop-preset--9-16')}
           </button>
         </div>
         <div className="MediaEditor__tools-row-2">
@@ -1301,21 +1296,19 @@ export function MediaEditor({
               <div className="MediaEditor__tools--input dark-theme">
                 <CompositionInput
                   draftText={caption}
-                  draftBodyRanges={hydratedBodyRanges}
+                  draftBodyRanges={hydratedBodyRanges ?? null}
                   getPreferredBadge={getPreferredBadge}
                   i18n={i18n}
                   inputApi={inputApiRef}
+                  isActive
                   isFormattingEnabled={isFormattingEnabled}
-                  isFormattingFlagEnabled={isFormattingFlagEnabled}
-                  isFormattingSpoilersFlagEnabled={
-                    isFormattingSpoilersFlagEnabled
-                  }
                   moduleClassName="StoryViewsNRepliesModal__input"
                   onCloseLinkPreview={noop}
                   onEditorStateChange={({ bodyRanges, messageText }) => {
                     setCaptionBodyRanges(bodyRanges);
                     setCaption(messageText);
                   }}
+                  skinTone={skinTone ?? null}
                   onPickEmoji={onPickEmoji}
                   onSubmit={noop}
                   onTextTooLong={onTextTooLong}
@@ -1324,6 +1317,16 @@ export function MediaEditor({
                   sendCounter={0}
                   sortedGroupMembers={sortedGroupMembers}
                   theme={ThemeType.dark}
+                  // Only needed for state updates and we need to override those
+                  conversationId={null}
+                  // Cannot enter media editor while editing
+                  draftEditMessage={null}
+                  // We don't use the large editor mode
+                  large={null}
+                  // panels do not appear over the media editor
+                  shouldHidePopovers={null}
+                  // link previews not displayed with media
+                  linkPreviewResult={null}
                 >
                   <EmojiButton
                     className="StoryViewsNRepliesModal__emoji-button"
@@ -1402,7 +1405,7 @@ export function MediaEditor({
                     contentType: IMAGE_PNG,
                     data,
                     caption: caption !== '' ? caption : undefined,
-                    captionBodyRanges,
+                    captionBodyRanges: captionBodyRanges ?? undefined,
                     blurHash,
                   });
                 }}

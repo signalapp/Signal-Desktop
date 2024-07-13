@@ -1,11 +1,9 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { connect } from 'react-redux';
-import { mapDispatchToProps } from '../actions';
+import React, { memo } from 'react';
+import { useSelector } from 'react-redux';
 import { StickerManager } from '../../components/stickers/StickerManager';
-import type { StateType } from '../reducer';
-
 import { getIntl } from '../selectors/user';
 import {
   getBlessedStickerPacks,
@@ -13,22 +11,31 @@ import {
   getKnownStickerPacks,
   getReceivedStickerPacks,
 } from '../selectors/stickers';
+import { useStickersActions } from '../ducks/stickers';
+import { useGlobalModalActions } from '../ducks/globalModals';
 
-const mapStateToProps = (state: StateType) => {
-  const blessedPacks = getBlessedStickerPacks(state);
-  const receivedPacks = getReceivedStickerPacks(state);
-  const installedPacks = getInstalledStickerPacks(state);
-  const knownPacks = getKnownStickerPacks(state);
+export const SmartStickerManager = memo(function SmartStickerManager() {
+  const i18n = useSelector(getIntl);
+  const blessedPacks = useSelector(getBlessedStickerPacks);
+  const receivedPacks = useSelector(getReceivedStickerPacks);
+  const installedPacks = useSelector(getInstalledStickerPacks);
+  const knownPacks = useSelector(getKnownStickerPacks);
 
-  return {
-    blessedPacks,
-    receivedPacks,
-    installedPacks,
-    knownPacks,
-    i18n: getIntl(state),
-  };
-};
+  const { downloadStickerPack, installStickerPack, uninstallStickerPack } =
+    useStickersActions();
+  const { closeStickerPackPreview } = useGlobalModalActions();
 
-const smart = connect(mapStateToProps, mapDispatchToProps);
-
-export const SmartStickerManager = smart(StickerManager);
+  return (
+    <StickerManager
+      blessedPacks={blessedPacks}
+      closeStickerPackPreview={closeStickerPackPreview}
+      downloadStickerPack={downloadStickerPack}
+      i18n={i18n}
+      installStickerPack={installStickerPack}
+      installedPacks={installedPacks}
+      knownPacks={knownPacks}
+      receivedPacks={receivedPacks}
+      uninstallStickerPack={uninstallStickerPack}
+    />
+  );
+});

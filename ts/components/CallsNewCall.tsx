@@ -6,24 +6,27 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { partition } from 'lodash';
 import type { ListRowProps } from 'react-virtualized';
 import { List } from 'react-virtualized';
+import classNames from 'classnames';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/I18N';
 import { SearchInput } from './SearchInput';
-import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
+import { filterAndSortConversations } from '../util/filterAndSortConversations';
 import { NavSidebarSearchHeader } from './NavSidebar';
 import { ListTile } from './ListTile';
 import { strictAssert } from '../util/assert';
 import { UserText } from './UserText';
 import { Avatar, AvatarSize } from './Avatar';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { SizeObserver } from '../hooks/useSizeObserver';
 import { CallType } from '../types/CallDisposition';
+import type { CallsTabSelectedView } from './CallsTab';
+import { Tooltip, TooltipPlacement } from './Tooltip';
 
 type CallsNewCallProps = Readonly<{
   hasActiveCall: boolean;
   allConversations: ReadonlyArray<ConversationType>;
   i18n: LocalizerType;
-  onSelectConversation: (conversationId: string) => void;
+  onChangeCallsTabSelectedView: (selectedView: CallsTabSelectedView) => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
   regionCode: string | undefined;
@@ -35,32 +38,68 @@ type Row =
 
 export function CallsNewCallButton({
   callType,
-  hasActiveCall,
+  isEnabled,
+  isActive,
+  isInCall,
+  i18n,
   onClick,
 }: {
   callType: CallType;
-  hasActiveCall: boolean;
+  isActive: boolean;
+  isEnabled: boolean;
+  isInCall: boolean;
+  i18n: LocalizerType;
   onClick: () => void;
 }): JSX.Element {
-  return (
+  let innerContent: React.ReactNode | string;
+  let tooltipContent = '';
+  if (callType === CallType.Audio) {
+    innerContent = (
+      <span className="CallsNewCall__ItemIcon CallsNewCall__ItemIcon--Phone" />
+    );
+  } else if (isActive) {
+    innerContent = isInCall
+      ? i18n('icu:CallsNewCallButton--return')
+      : i18n('icu:joinOngoingCall');
+    if (!isEnabled) {
+      tooltipContent = i18n('icu:CallsNewCallButtonTooltip--in-another-call');
+    }
+  } else {
+    innerContent = (
+      <span className="CallsNewCall__ItemIcon CallsNewCall__ItemIcon--Video" />
+    );
+  }
+
+  const buttonContent = (
     <button
       type="button"
-      className="CallsNewCall__ItemActionButton"
-      aria-disabled={hasActiveCall}
+      className={classNames(
+        'CallsNewCall__ItemActionButton',
+        isActive ? 'CallsNewCall__ItemActionButton--join-call' : undefined,
+        isEnabled
+          ? undefined
+          : 'CallsNewCall__ItemActionButton--join-call-disabled'
+      )}
+      aria-label={tooltipContent}
       onClick={event => {
         event.stopPropagation();
-        if (!hasActiveCall) {
-          onClick();
-        }
+        onClick();
       }}
     >
-      {callType === CallType.Audio && (
-        <span className="CallsNewCall__ItemIcon CallsNewCall__ItemIcon--Phone" />
-      )}
-      {callType !== CallType.Audio && (
-        <span className="CallsNewCall__ItemIcon CallsNewCall__ItemIcon--Video" />
-      )}
+      {innerContent}
     </button>
+  );
+
+  return tooltipContent === '' ? (
+    buttonContent
+  ) : (
+    <Tooltip
+      className="CallsNewCall__ItemActionButtonTooltip"
+      content={tooltipContent}
+      direction={TooltipPlacement.Top}
+    >
+      {buttonContent}
+    </Tooltip>
   );
 }
 
@@ -68,7 +107,7 @@ export function CallsNewCall({
   hasActiveCall,
   allConversations,
   i18n,
-  onSelectConversation,
+  onChangeCallsTabSelectedView,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
   regionCode,
@@ -89,11 +128,7 @@ export function CallsNewCall({
     if (query === '') {
       return activeConversations;
     }
-    return filterAndSortConversationsByRecent(
-      activeConversations,
-      query,
-      regionCode
-    );
+    return filterAndSortConversations(activeConversations, query, regionCode);
   }, [activeConversations, query, regionCode]);
 
   const [groupConversations, directConversations] = useMemo(() => {
@@ -177,13 +212,15 @@ export function CallsNewCall({
         );
       }
 
+      const isNewCallEnabled = !hasActiveCall;
+
       return (
         <div key={key} style={style}>
           <ListTile
             leading={
               <Avatar
                 acceptedMessageRequest
-                avatarPath={item.conversation.avatarPath}
+                avatarUrl={item.conversation.avatarUrl}
                 conversationType="group"
                 i18n={i18n}
                 isMe={false}
@@ -199,24 +236,38 @@ export function CallsNewCall({
                 {item.conversation.type === 'direct' && (
                   <CallsNewCallButton
                     callType={CallType.Audio}
-                    hasActiveCall={hasActiveCall}
+                    isActive={false}
+                    isEnabled={isNewCallEnabled}
+                    isInCall={false}
                     onClick={() => {
-                      onOutgoingAudioCallInConversation(item.conversation.id);
+                      if (isNewCallEnabled) {
+                        onOutgoingAudioCallInConversation(item.conversation.id);
+                      }
                     }}
+                    i18n={i18n}
                   />
                 )}
                 <CallsNewCallButton
                   // It's okay if this is a group
                   callType={CallType.Video}
-                  hasActiveCall={hasActiveCall}
+                  isActive={false}
+                  isEnabled={isNewCallEnabled}
+                  isInCall={false}
                   onClick={() => {
-                    onOutgoingVideoCallInConversation(item.conversation.id);
+                    if (isNewCallEnabled) {
+                      onOutgoingVideoCallInConversation(item.conversation.id);
+                    }
                   }}
+                  i18n={i18n}
                 />
               </div>
             }
             onClick={() => {
-              onSelectConversation(item.conversation.id);
+              onChangeCallsTabSelectedView({
+                type: 'conversation',
+                conversationId: item.conversation.id,
+                callHistoryGroup: null,
+              });
             }}
           />
         </div>
@@ -226,7 +277,7 @@ export function CallsNewCall({
       rows,
       i18n,
       hasActiveCall,
-      onSelectConversation,
+      onChangeCallsTabSelectedView,
       onOutgoingAudioCallInConversation,
       onOutgoingVideoCallInConversation,
     ]
@@ -248,7 +299,7 @@ export function CallsNewCall({
           {query === '' ? (
             i18n('icu:CallsNewCall__EmptyState--noQuery')
           ) : (
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:CallsNewCall__EmptyState--hasQuery"
               components={{

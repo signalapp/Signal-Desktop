@@ -25,6 +25,7 @@ import {
 import { VERSION_NEEDED_FOR_DISPLAY } from '../../types/Message2';
 import { isDownloading, hasFailed } from '../../types/Attachment';
 import { isNotNil } from '../../util/isNotNil';
+import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
@@ -74,8 +75,7 @@ function loadMediaItems(
   conversationId: string
 ): ThunkAction<void, RootStateType, unknown, LoadMediaItemslActionType> {
   return async dispatch => {
-    const { getAbsoluteAttachmentPath, upgradeMessageSchema } =
-      window.Signal.Migrations;
+    const { upgradeMessageSchema } = window.Signal.Migrations;
 
     // We fetch more documents than media as they don’t require to be loaded
     // into memory right away. Revisit this once we have infinite scrolling:
@@ -116,13 +116,11 @@ function loadMediaItems(
       })
     );
 
+    let index = 0;
     const media: Array<MediaType> = rawMedia
       .flatMap(message => {
         return (message.attachments || []).map(
-          (
-            attachment: AttachmentType,
-            index: number
-          ): MediaType | undefined => {
+          (attachment: AttachmentType): MediaType | undefined => {
             if (
               !attachment.path ||
               !attachment.thumbnail ||
@@ -133,11 +131,11 @@ function loadMediaItems(
             }
 
             const { thumbnail } = attachment;
-            return {
+            const result = {
               path: attachment.path,
-              objectURL: getAbsoluteAttachmentPath(attachment.path),
+              objectURL: getLocalAttachmentUrl(attachment),
               thumbnailObjectUrl: thumbnail?.path
-                ? getAbsoluteAttachmentPath(thumbnail.path)
+                ? getLocalAttachmentUrl(thumbnail)
                 : undefined,
               contentType: attachment.contentType,
               index,
@@ -156,6 +154,10 @@ function loadMediaItems(
                 sent_at: message.sent_at,
               },
             };
+
+            index += 1;
+
+            return result;
           }
         );
       })

@@ -34,6 +34,9 @@ export const getIncomingCall = (
           call.connectionState === GroupCallConnectionState.NotConnected &&
           isAnybodyElseInGroupCall(call.peekInfo, ourAci)
         );
+      case CallMode.Adhoc:
+        // Adhoc calls cannot be incoming.
+        return;
       default:
         throw missingCaseError(call);
     }
@@ -43,3 +46,12 @@ export const isAnybodyElseInGroupCall = (
   peekInfo: undefined | Readonly<Pick<GroupCallPeekInfoType, 'acis'>>,
   ourAci: AciString
 ): boolean => Boolean(peekInfo?.acis.some(id => id !== ourAci));
+
+export const isAnybodyInGroupCall = (
+  peekInfo: undefined | Readonly<Pick<GroupCallPeekInfoType, 'acis'>>
+): boolean => {
+  if (!peekInfo?.acis) {
+    return false;
+  }
+  return peekInfo.acis.length > 0;
+};

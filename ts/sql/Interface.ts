@@ -7,27 +7,35 @@ import type {
   SenderKeyInfoType,
 } from '../model-types.d';
 import type { StoredJob } from '../jobs/types';
-import type { ReactionType } from '../types/Reactions';
+import type { ReactionType, ReactionReadStatus } from '../types/Reactions';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
 import type { StorageAccessType } from '../types/Storage.d';
-import type { AttachmentType } from '../types/Attachment';
 import type { BytesToStrings } from '../types/Util';
 import type { QualifiedAddressStringType } from '../types/QualifiedAddress';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import type { AciString, PniString, ServiceIdString } from '../types/ServiceId';
 import type { BadgeType } from '../badges/types';
-import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import type { LoggerType } from '../types/Logging';
 import type { ReadStatus } from '../messages/MessageReadStatus';
 import type { RawBodyRange } from '../types/BodyRange';
-import type { GetMessagesBetweenOptions } from './Server';
+import type {
+  GetMessagesBetweenOptions,
+  MaybeStaleCallHistory,
+} from './Server';
 import type { MessageTimestamps } from '../state/ducks/conversations';
 import type {
   CallHistoryDetails,
   CallHistoryFilter,
   CallHistoryGroup,
   CallHistoryPagination,
+  CallLogEventTarget,
 } from '../types/CallDisposition';
+import type { CallLinkStateType, CallLinkType } from '../types/CallLink';
+import type { AttachmentDownloadJobType } from '../types/AttachmentDownload';
+import type { GroupSendEndorsementsData } from '../types/GroupSendEndorsements';
+import type { SyncTaskType } from '../util/syncTasks';
+import type { AttachmentBackupJobType } from '../types/AttachmentBackup';
+import type { SingleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 
 export type AdjacentMessagesByConversationOptionsType = Readonly<{
   conversationId: string;
@@ -48,24 +56,6 @@ export type GetNearbyMessageFromDeletedSetOptionsType = Readonly<{
   includeStoryReplies: boolean;
 }>;
 
-export type AttachmentDownloadJobTypeType =
-  | 'long-message'
-  | 'attachment'
-  | 'preview'
-  | 'contact'
-  | 'quote'
-  | 'sticker';
-
-export type AttachmentDownloadJobType = {
-  attachment: AttachmentType;
-  attempts: number;
-  id: string;
-  index: number;
-  messageId: string;
-  pending: number;
-  timestamp: number;
-  type: AttachmentDownloadJobTypeType;
-};
 export type MessageMetricsType = {
   id: string;
   received_at: number;
@@ -238,6 +228,10 @@ export type StickerType = Readonly<{
 
   width: number;
   height: number;
+
+  version: 1 | 2;
+  localKey?: string;
+  size?: number;
 }>;
 
 export const StickerPackStatuses = [
@@ -383,6 +377,7 @@ export type GetUnreadByConversationAndMarkReadResultType = Array<
     | 'type'
     | 'readStatus'
     | 'seenStatus'
+    | 'expirationStartTimestamp'
   >
 >;
 
@@ -393,15 +388,30 @@ export type GetConversationRangeCenteredOnMessageResultType<Message> =
     metrics: ConversationMetricsType;
   }>;
 
-export type MessageAttachmentsCursorType = Readonly<{
+export type MessageCursorType = Readonly<{
   done: boolean;
   runId: string;
   count: number;
 }>;
 
+export type MessageAttachmentsCursorType = MessageCursorType &
+  Readonly<{
+    __message_attachments_cursor: never;
+  }>;
+
 export type GetKnownMessageAttachmentsResultType = Readonly<{
   cursor: MessageAttachmentsCursorType;
   attachments: ReadonlyArray<string>;
+}>;
+
+export type PageMessagesCursorType = MessageCursorType &
+  Readonly<{
+    __page_messages_cursor: never;
+  }>;
+
+export type PageMessagesResultType = Readonly<{
+  cursor: PageMessagesCursorType;
+  messages: ReadonlyArray<MessageAttributesType>;
 }>;
 
 export type GetAllStoriesResultType = ReadonlyArray<
@@ -411,6 +421,11 @@ export type GetAllStoriesResultType = ReadonlyArray<
   }
 >;
 
+export type FTSOptimizationStateType = Readonly<{
+  steps: number;
+  done?: boolean;
+}>;
+
 export type EditedMessageType = Readonly<{
   conversationId: string;
   messageId: string;
@@ -418,32 +433,41 @@ export type EditedMessageType = Readonly<{
   readStatus: MessageType['readStatus'];
 }>;
 
+export type BackupCdnMediaObjectType = {
+  mediaId: string;
+  cdnNumber: number;
+  sizeOnBackupCdn: number;
+};
+
 export type DataInterface = {
   close: () => Promise<void>;
+  pauseWriteAccess(): Promise<void>;
+  resumeWriteAccess(): Promise<void>;
+
   removeDB: () => Promise<void>;
   removeIndexedDBFiles: () => Promise<void>;
 
-  removeIdentityKeyById: (id: IdentityKeyIdType) => Promise<void>;
-  removeAllIdentityKeys: () => Promise<void>;
+  removeIdentityKeyById: (id: IdentityKeyIdType) => Promise<number>;
+  removeAllIdentityKeys: () => Promise<number>;
 
   removeKyberPreKeyById: (
     id: PreKeyIdType | Array<PreKeyIdType>
-  ) => Promise<void>;
+  ) => Promise<number>;
   removeKyberPreKeysByServiceId: (serviceId: ServiceIdString) => Promise<void>;
-  removeAllKyberPreKeys: () => Promise<void>;
+  removeAllKyberPreKeys: () => Promise<number>;
 
-  removePreKeyById: (id: PreKeyIdType | Array<PreKeyIdType>) => Promise<void>;
+  removePreKeyById: (id: PreKeyIdType | Array<PreKeyIdType>) => Promise<number>;
   removePreKeysByServiceId: (serviceId: ServiceIdString) => Promise<void>;
-  removeAllPreKeys: () => Promise<void>;
+  removeAllPreKeys: () => Promise<number>;
 
   removeSignedPreKeyById: (
     id: SignedPreKeyIdType | Array<SignedPreKeyIdType>
-  ) => Promise<void>;
+  ) => Promise<number>;
   removeSignedPreKeysByServiceId: (serviceId: ServiceIdString) => Promise<void>;
-  removeAllSignedPreKeys: () => Promise<void>;
+  removeAllSignedPreKeys: () => Promise<number>;
 
-  removeAllItems: () => Promise<void>;
-  removeItemById: (id: ItemKeyType | Array<ItemKeyType>) => Promise<void>;
+  removeAllItems: () => Promise<number>;
+  removeItemById: (id: ItemKeyType | Array<ItemKeyType>) => Promise<number>;
 
   createOrUpdateSenderKey: (key: SenderKeyType) => Promise<void>;
   getSenderKeyById: (id: SenderKeyIdType) => Promise<SenderKeyType | undefined>;
@@ -489,10 +513,10 @@ export type DataInterface = {
     unprocessed: Array<UnprocessedType>;
   }): Promise<void>;
   bulkAddSessions: (array: Array<SessionType>) => Promise<void>;
-  removeSessionById: (id: SessionIdType) => Promise<void>;
+  removeSessionById: (id: SessionIdType) => Promise<number>;
   removeSessionsByConversation: (conversationId: string) => Promise<void>;
   removeSessionsByServiceId: (serviceId: ServiceIdString) => Promise<void>;
-  removeAllSessions: () => Promise<void>;
+  removeAllSessions: () => Promise<number>;
   getAllSessions: () => Promise<Array<SessionType>>;
 
   getConversationCount: () => Promise<number>;
@@ -518,6 +542,14 @@ export type DataInterface = {
     serviceId: ServiceIdString
   ) => Promise<Array<ConversationType>>;
 
+  replaceAllEndorsementsForGroup: (
+    data: GroupSendEndorsementsData
+  ) => Promise<void>;
+  deleteAllEndorsementsForGroup: (groupId: string) => Promise<void>;
+  getGroupSendCombinedEndorsementExpiration: (
+    groupId: string
+  ) => Promise<number | null>;
+
   getMessageCount: (conversationId?: string) => Promise<number>;
   getStoryCount: (conversationId: string) => Promise<number>;
   saveMessage: (
@@ -531,9 +563,11 @@ export type DataInterface = {
   saveMessages: (
     arrayOfMessages: ReadonlyArray<MessageType>,
     options: { forceSave?: boolean; ourAci: AciString }
-  ) => Promise<void>;
-  removeMessage: (id: string) => Promise<void>;
-  removeMessages: (ids: ReadonlyArray<string>) => Promise<void>;
+  ) => Promise<Array<string>>;
+  pageMessages: (
+    cursor?: PageMessagesCursorType
+  ) => Promise<PageMessagesResultType>;
+  finishPageMessages: (cursor: PageMessagesCursorType) => Promise<void>;
   getTotalUnreadForConversation: (
     conversationId: string,
     options: {
@@ -582,7 +616,16 @@ export type DataInterface = {
     targetAuthorServiceId: ServiceIdString;
     targetTimestamp: number;
   }) => Promise<void>;
-  addReaction: (reactionObj: ReactionType) => Promise<void>;
+  getReactionByTimestamp: (
+    fromId: string,
+    timestamp: number
+  ) => Promise<ReactionType | undefined>;
+  addReaction: (
+    reactionObj: ReactionType,
+    options: {
+      readStatus: ReactionReadStatus;
+    }
+  ) => Promise<void>;
   _getAllReactions: () => Promise<Array<ReactionType>>;
   _removeAllReactions: () => Promise<void>;
   getMessageBySender: (options: {
@@ -629,11 +672,17 @@ export type DataInterface = {
     conversationId: string;
   }): Promise<MessageType | undefined>;
   getAllCallHistory: () => Promise<ReadonlyArray<CallHistoryDetails>>;
-  clearCallHistory: (beforeTimestamp: number) => Promise<Array<string>>;
+  clearCallHistory: (
+    target: CallLogEventTarget
+  ) => Promise<ReadonlyArray<string>>;
+  markCallHistoryDeleted: (callId: string) => Promise<void>;
   cleanupCallHistoryMessages: () => Promise<void>;
   getCallHistoryUnreadCount(): Promise<number>;
   markCallHistoryRead(callId: string): Promise<void>;
-  markAllCallHistoryRead(): Promise<ReadonlyArray<string>>;
+  markAllCallHistoryRead(target: CallLogEventTarget): Promise<void>;
+  markAllCallHistoryReadInConversation(
+    target: CallLogEventTarget
+  ): Promise<void>;
   getCallHistoryMessageByCallId(options: {
     conversationId: string;
     callId: string;
@@ -652,6 +701,22 @@ export type DataInterface = {
     conversationId: string,
     eraId: string
   ) => Promise<boolean>;
+  markCallHistoryMissed(callIds: ReadonlyArray<string>): Promise<void>;
+  getRecentStaleRingsAndMarkOlderMissed(): Promise<
+    ReadonlyArray<MaybeStaleCallHistory>
+  >;
+  callLinkExists(roomId: string): Promise<boolean>;
+  getAllCallLinks: () => Promise<ReadonlyArray<CallLinkType>>;
+  getCallLinkByRoomId: (roomId: string) => Promise<CallLinkType | undefined>;
+  insertCallLink(callLink: CallLinkType): Promise<void>;
+  updateCallLinkAdminKeyByRoomId(
+    roomId: string,
+    adminKey: string
+  ): Promise<void>;
+  updateCallLinkState(
+    roomId: string,
+    callLinkState: CallLinkStateType
+  ): Promise<CallLinkType>;
   migrateConversationMessages: (
     obsoleteId: string,
     currentId: string
@@ -668,6 +733,24 @@ export type DataInterface = {
     ourAci: AciString,
     opts: EditedMessageType
   ) => Promise<void>;
+  saveEditedMessages: (
+    mainMessage: MessageType,
+    ourAci: AciString,
+    history: ReadonlyArray<EditedMessageType>
+  ) => Promise<void>;
+  getMostRecentAddressableMessages: (
+    conversationId: string,
+    limit?: number
+  ) => Promise<Array<MessageType>>;
+  getMostRecentAddressableNondisappearingMessages: (
+    conversationId: string,
+    limit?: number
+  ) => Promise<Array<MessageType>>;
+
+  removeSyncTaskById: (id: string) => Promise<void>;
+  saveSyncTasks: (tasks: Array<SyncTaskType>) => Promise<void>;
+  getAllSyncTasks: () => Promise<Array<SyncTaskType>>;
+
   getUnprocessedCount: () => Promise<number>;
   getUnprocessedByIdsAndIncrementAttempts: (
     ids: ReadonlyArray<string>
@@ -686,21 +769,38 @@ export type DataInterface = {
   /** only for testing */
   removeAllUnprocessed: () => Promise<void>;
 
-  getAttachmentDownloadJobById: (
-    id: string
-  ) => Promise<AttachmentDownloadJobType | undefined>;
-  getNextAttachmentDownloadJobs: (
-    limit?: number,
-    options?: { timestamp?: number }
-  ) => Promise<Array<AttachmentDownloadJobType>>;
+  getAttachmentDownloadJob(
+    job: Pick<
+      AttachmentDownloadJobType,
+      'messageId' | 'attachmentType' | 'digest'
+    >
+  ): AttachmentDownloadJobType;
+  getNextAttachmentDownloadJobs: (options: {
+    limit: number;
+    prioritizeMessageIds?: Array<string>;
+    timestamp?: number;
+  }) => Promise<Array<AttachmentDownloadJobType>>;
   saveAttachmentDownloadJob: (job: AttachmentDownloadJobType) => Promise<void>;
-  resetAttachmentDownloadPending: () => Promise<void>;
-  setAttachmentDownloadJobPending: (
-    id: string,
-    pending: boolean
+  resetAttachmentDownloadActive: () => Promise<void>;
+  removeAttachmentDownloadJob: (
+    job: AttachmentDownloadJobType
   ) => Promise<void>;
-  removeAttachmentDownloadJob: (id: string) => Promise<void>;
-  removeAllAttachmentDownloadJobs: () => Promise<void>;
+
+  getNextAttachmentBackupJobs: (options: {
+    limit: number;
+    timestamp?: number;
+  }) => Promise<Array<AttachmentBackupJobType>>;
+  saveAttachmentBackupJob: (job: AttachmentBackupJobType) => Promise<void>;
+  markAllAttachmentBackupJobsInactive: () => Promise<void>;
+  removeAttachmentBackupJob: (job: AttachmentBackupJobType) => Promise<void>;
+
+  clearAllBackupCdnObjectMetadata: () => Promise<void>;
+  saveBackupCdnObjectMetadata: (
+    mediaObjects: Array<BackupCdnMediaObjectType>
+  ) => Promise<void>;
+  getBackupCdnObjectMetadata: (
+    mediaId: string
+  ) => Promise<BackupCdnMediaObjectType | undefined>;
 
   createOrUpdateStickerPack: (pack: StickerPackType) => Promise<void>;
   updateStickerPackStatus: (
@@ -710,6 +810,9 @@ export type DataInterface = {
   ) => Promise<void>;
   updateStickerPackInfo: (info: StickerPackInfoType) => Promise<void>;
   createOrUpdateSticker: (sticker: StickerType) => Promise<void>;
+  createOrUpdateStickers: (
+    sticker: ReadonlyArray<StickerType>
+  ) => Promise<void>;
   updateStickerLastUsed: (
     packId: string,
     stickerId: number,
@@ -789,7 +892,7 @@ export type DataInterface = {
   countStoryReadsByConversation(conversationId: string): Promise<number>;
 
   removeAll: () => Promise<void>;
-  removeAllConfiguration: (type?: RemoveAllConfiguration) => Promise<void>;
+  removeAllConfiguration: () => Promise<void>;
   eraseStorageServiceState: () => Promise<void>;
 
   getMessagesNeedingUpgrade: (
@@ -819,6 +922,10 @@ export type DataInterface = {
   getMaxMessageCounter(): Promise<number | undefined>;
 
   getStatisticsForLogging(): Promise<Record<string, string>>;
+
+  optimizeFTS: (
+    state?: FTSOptimizationStateType
+  ) => Promise<FTSOptimizationStateType | undefined>;
 };
 
 export type ServerInterface = DataInterface & {
@@ -838,6 +945,8 @@ export type ServerInterface = DataInterface & {
     options?: { limit?: number };
     contactServiceIdsMatchingQuery?: Array<ServiceIdString>;
   }) => Promise<Array<ServerSearchResultMessageType>>;
+  removeMessage: (id: string) => Promise<void>;
+  removeMessages: (ids: ReadonlyArray<string>) => Promise<void>;
 
   getRecentStoryReplies(
     storyId: string,
@@ -892,6 +1001,7 @@ export type ServerInterface = DataInterface & {
   // Server-only
 
   initialize: (options: {
+    appVersion: string;
     configDir: string;
     key: string;
     logger: LoggerType;
@@ -911,6 +1021,8 @@ export type ServerInterface = DataInterface & {
     allStickers: ReadonlyArray<string>
   ) => Promise<Array<string>>;
   getAllBadgeImageFileLocalPaths: () => Promise<Set<string>>;
+
+  runCorruptionChecks: () => void;
 };
 
 export type GetRecentStoryRepliesOptionsType = {
@@ -928,6 +1040,20 @@ export type ClientExclusiveInterface = {
   removeConversation: (id: string) => Promise<void>;
   flushUpdateConversationBatcher: () => Promise<void>;
 
+  removeMessage: (
+    id: string,
+    options: {
+      fromSync?: boolean;
+      singleProtoJobQueue: SingleProtoJobQueue;
+    }
+  ) => Promise<void>;
+  removeMessages: (
+    ids: ReadonlyArray<string>,
+    options: {
+      fromSync?: boolean;
+      singleProtoJobQueue: SingleProtoJobQueue;
+    }
+  ) => Promise<void>;
   searchMessages: ({
     query,
     conversationId,
@@ -987,10 +1113,13 @@ export type ClientExclusiveInterface = {
   // Client-side only
 
   shutdown: () => Promise<void>;
-  removeAllMessagesInConversation: (
+  removeMessagesInConversation: (
     conversationId: string,
     options: {
+      fromSync?: boolean;
       logId: string;
+      receivedAt?: number;
+      singleProtoJobQueue: SingleProtoJobQueue;
     }
   ) => Promise<void>;
   removeOtherData: () => Promise<void>;

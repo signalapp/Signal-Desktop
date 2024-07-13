@@ -14,7 +14,8 @@ const isProd = process.argv.some(argv => argv === '-prod' || argv === '--prod');
 const nodeDefaults = {
   platform: 'node',
   target: 'esnext',
-  sourcemap: isProd ? false : 'inline',
+  // Disabled even in dev because the debugger is broken
+  sourcemap: false,
   // Otherwise React components get renamed
   // See: https://github.com/evanw/esbuild/issues/1147
   keepNames: true,
@@ -131,6 +132,13 @@ async function sandboxedEnv() {
         path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'app.tsx'),
         path.join(ROOT_DIR, 'ts', 'windows', 'screenShare', 'app.tsx'),
         path.join(ROOT_DIR, 'ts', 'windows', 'settings', 'app.tsx'),
+        path.join(
+          ROOT_DIR,
+          'ts',
+          'windows',
+          'calling-tools',
+          'webrtc_internals.ts'
+        ),
       ],
     },
     preloadConfig: {
@@ -141,6 +149,7 @@ async function sandboxedEnv() {
         path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'preload.ts'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'calling-tools', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'screenShare', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'settings', 'preload.ts'),
       ],

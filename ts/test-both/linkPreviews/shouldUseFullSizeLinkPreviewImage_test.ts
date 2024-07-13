@@ -14,6 +14,7 @@ describe('shouldUseFullSizeLinkPreviewImage', () => {
     domain: 'example.com',
     url: 'https://example.com/foo.html',
     isStickerPack: false,
+    isCallLink: false,
   };
 
   it('returns false if there is no image', () => {

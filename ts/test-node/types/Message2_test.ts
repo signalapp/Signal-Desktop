@@ -11,8 +11,19 @@ import * as MIME from '../../types/MIME';
 
 import type { EmbeddedContactType } from '../../types/EmbeddedContact';
 import type { MessageAttributesType } from '../../model-types.d';
-import type { AttachmentType } from '../../types/Attachment';
+import type {
+  AddressableAttachmentType,
+  LocalAttachmentV2Type,
+} from '../../types/Attachment';
 import type { LoggerType } from '../../types/Logging';
+
+const FAKE_LOCAL_ATTACHMENT: LocalAttachmentV2Type = {
+  version: 2,
+  size: 1,
+  plaintextHash: 'bogus',
+  path: 'fake',
+  localKey: 'absent',
+};
 
 describe('Message', () => {
   const logger: LoggerType = {
@@ -42,9 +53,6 @@ describe('Message', () => {
     props?: Partial<Message.ContextType>
   ): Message.ContextType {
     return {
-      getAbsoluteAttachmentPath: (_path: string) =>
-        'fake-absolute-attachment-path',
-      getAbsoluteStickerPath: (_path: string) => 'fake-absolute-sticker-path',
       getImageDimensions: async (_params: {
         objectUrl: string;
         logger: LoggerType;
@@ -70,217 +78,26 @@ describe('Message', () => {
         logger: LoggerType;
       }) => new Blob(),
       revokeObjectUrl: (_objectUrl: string) => undefined,
-      writeNewAttachmentData: async (_data: Uint8Array) =>
-        'fake-attachment-path',
-      writeNewStickerData: async (_data: Uint8Array) => 'fake-sticker-path',
+      readAttachmentData: async (
+        attachment: Partial<AddressableAttachmentType>
+      ): Promise<Uint8Array> => {
+        assert.strictEqual(attachment.version, 2);
+        return Buffer.from('old data');
+      },
+      writeNewAttachmentData: async (_data: Uint8Array) => {
+        return FAKE_LOCAL_ATTACHMENT;
+      },
+      writeNewStickerData: async (_data: Uint8Array) => ({
+        version: 2,
+        path: 'fake-sticker-path',
+        size: 1,
+        localKey: '123',
+        plaintextHash: 'hash',
+      }),
+      deleteOnDisk: async (_path: string) => undefined,
       ...props,
     };
   }
-  const writeExistingAttachmentData = () => Promise.resolve('path');
-
-  describe('createAttachmentDataWriter', () => {
-    it('should ignore messages that didn’t go through attachment migration', async () => {
-      const input = getDefaultMessage({
-        body: 'Imagine there is no heaven…',
-        schemaVersion: 2,
-      });
-      const expected = getDefaultMessage({
-        body: 'Imagine there is no heaven…',
-        schemaVersion: 2,
-      });
-
-      const actual = await Message.createAttachmentDataWriter({
-        writeExistingAttachmentData,
-        logger,
-      })(input);
-      assert.deepEqual(actual, expected);
-    });
-
-    it('should ignore messages without attachments', async () => {
-      const input = getDefaultMessage({
-        body: 'Imagine there is no heaven…',
-        schemaVersion: 4,
-        attachments: [],
-      });
-      const expected = getDefaultMessage({
-        body: 'Imagine there is no heaven…',
-        schemaVersion: 4,
-        attachments: [],
-      });
-
-      const actual = await Message.createAttachmentDataWriter({
-        writeExistingAttachmentData,
-        logger,
-      })(input);
-      assert.deepEqual(actual, expected);
-    });
-
-    it('should write attachments to file system on original path', async () => {
-      const input = getDefaultMessage({
-        body: 'Imagine there is no heaven…',
-        schemaVersion: 4,
-        attachments: [
-          {
-            contentType: MIME.IMAGE_GIF,
-            size: 3534,
-            path: 'ab/abcdefghi',
-            data: Bytes.fromString('It’s easy if you try'),
-          },
-        ],
-      });
-      const expected = getDefaultMessage({
-        body: 'Imagine there is no heaven…',
-        schemaVersion: 4,
-        attachments: [
-          {
-            contentType: MIME.IMAGE_GIF,
-            size: 3534,
-            path: 'ab/abcdefghi',
-          },
-        ],
-        contact: [],
-        preview: [],
-      });
-
-      // eslint-disable-next-line @typescript-eslint/no-shadow
-      const writeExistingAttachmentData = async (
-        attachment: Pick<AttachmentType, 'data' | 'path'>
-      ) => {
-        assert.equal(attachment.path, 'ab/abcdefghi');
-        assert.strictEqual(
-          Bytes.toString(attachment.data || new Uint8Array()),
-          'It’s easy if you try'
-        );
-        return 'path';
-      };
-
-      const actual = await Message.createAttachmentDataWriter({
-        writeExistingAttachmentData,
-        logger,
-      })(input);
-      assert.deepEqual(actual, expected);
-    });
-
-    it('should process quote attachment thumbnails', async () => {
-      const input = getDefaultMessage({
-        body: 'Imagine there is no heaven…',
-        schemaVersion: 4,
-        attachments: [],
-        quote: {
-          id: 3523,
-          isViewOnce: false,
-          messageId: 'some-message-id',
-          referencedMessageNotFound: false,
-          attachments: [
-            {
-              thumbnail: {
-                path: 'ab/abcdefghi',
-                data: Bytes.fromString('It’s easy if you try'),
-              },
-            },
-          ],
-        },
-      });
-      const expected = getDefaultMessage({
-        body: 'Imagine there is no heaven…',
-        schemaVersion: 4,
-        attachments: [],
-        quote: {
-          id: 3523,
-          isViewOnce: false,
-          messageId: 'some-message-id',
-          referencedMessageNotFound: false,
-          attachments: [
-            {
-              thumbnail: {
-                path: 'ab/abcdefghi',
-              },
-            },
-          ],
-        },
-        contact: [],
-        preview: [],
-      });
-
-      // eslint-disable-next-line @typescript-eslint/no-shadow
-      const writeExistingAttachmentData = async (
-        attachment: Pick<AttachmentType, 'data' | 'path'>
-      ) => {
-        assert.equal(attachment.path, 'ab/abcdefghi');
-        assert.strictEqual(
-          Bytes.toString(attachment.data || new Uint8Array()),
-          'It’s easy if you try'
-        );
-        return 'path';
-      };
-
-      const actual = await Message.createAttachmentDataWriter({
-        writeExistingAttachmentData,
-        logger,
-      })(input);
-      assert.deepEqual(actual, expected);
-    });
-
-    it('should process contact avatars', async () => {
-      const input = getDefaultMessage({
-        body: 'Imagine there is no heaven…',
-        schemaVersion: 4,
-        attachments: [],
-        contact: [
-          {
-            name: { givenName: 'john' },
-            avatar: {
-              isProfile: false,
-              avatar: {
-                contentType: MIME.IMAGE_PNG,
-                size: 47,
-                path: 'ab/abcdefghi',
-                data: Bytes.fromString('It’s easy if you try'),
-              },
-            },
-          },
-        ],
-      });
-      const expected = getDefaultMessage({
-        body: 'Imagine there is no heaven…',
-        schemaVersion: 4,
-        attachments: [],
-        contact: [
-          {
-            name: { givenName: 'john' },
-            avatar: {
-              isProfile: false,
-              avatar: {
-                contentType: MIME.IMAGE_PNG,
-                size: 47,
-                path: 'ab/abcdefghi',
-              },
-            },
-          },
-        ],
-        preview: [],
-      });
-
-      // eslint-disable-next-line @typescript-eslint/no-shadow
-      const writeExistingAttachmentData = async (
-        attachment: Pick<AttachmentType, 'data' | 'path'>
-      ) => {
-        assert.equal(attachment.path, 'ab/abcdefghi');
-        assert.strictEqual(
-          Bytes.toString(attachment.data || new Uint8Array()),
-          'It’s easy if you try'
-        );
-        return 'path';
-      };
-
-      const actual = await Message.createAttachmentDataWriter({
-        writeExistingAttachmentData,
-        logger,
-      })(input);
-      assert.deepEqual(actual, expected);
-      return 'path';
-    });
-  });
 
   describe('initializeSchemaVersion', () => {
     it('should ignore messages with previously inherited schema', () => {
@@ -371,11 +188,10 @@ describe('Message', () => {
       const expected = getDefaultMessage({
         attachments: [
           {
+            ...FAKE_LOCAL_ATTACHMENT,
             contentType: MIME.AUDIO_AAC,
             flags: 1,
-            path: 'abc/abcdefg',
             fileName: 'test\uFFFDfig.exe',
-            size: 1111,
           },
         ],
         hasAttachments: 1,
@@ -392,7 +208,7 @@ describe('Message', () => {
             Bytes.toString(attachmentData),
             expectedAttachmentData
           );
-          return 'abc/abcdefg';
+          return FAKE_LOCAL_ATTACHMENT;
         },
       });
       const actual = await Message.upgradeSchema(input, context);
@@ -704,7 +520,7 @@ describe('Message', () => {
           attachments: [
             {
               fileName: 'manifesto.txt',
-              contentType: 'text/plain',
+              contentType: MIME.TEXT_ATTACHMENT,
             },
           ],
           id: 34233,
@@ -723,7 +539,7 @@ describe('Message', () => {
     it('does not eliminate thumbnails with missing data field', async () => {
       const upgradeAttachment = sinon
         .stub()
-        .returns({ fileName: 'processed!' });
+        .returns({ contentType: MIME.IMAGE_GIF, size: 42 });
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
       const message = getDefaultMessage({
@@ -733,9 +549,10 @@ describe('Message', () => {
           attachments: [
             {
               fileName: 'cat.gif',
-              contentType: 'image/gif',
+              contentType: MIME.IMAGE_GIF,
               thumbnail: {
-                fileName: 'not yet downloaded!',
+                contentType: MIME.IMAGE_GIF,
+                size: 128,
               },
             },
           ],
@@ -751,10 +568,11 @@ describe('Message', () => {
           text: 'hey!',
           attachments: [
             {
-              contentType: 'image/gif',
+              contentType: MIME.IMAGE_GIF,
               fileName: 'cat.gif',
               thumbnail: {
-                fileName: 'processed!',
+                contentType: MIME.IMAGE_GIF,
+                size: 42,
               },
             },
           ],
@@ -774,6 +592,8 @@ describe('Message', () => {
     it('calls provided async function for each quoted attachment', async () => {
       const upgradeAttachment = sinon.stub().resolves({
         path: '/new/path/on/disk',
+        contentType: MIME.TEXT_ATTACHMENT,
+        size: 100,
       });
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
@@ -783,8 +603,11 @@ describe('Message', () => {
           text: 'hey!',
           attachments: [
             {
+              contentType: MIME.TEXT_ATTACHMENT,
               thumbnail: {
-                data: 'data is here',
+                contentType: MIME.TEXT_ATTACHMENT,
+                size: 100,
+                data: Buffer.from('data is here'),
               },
             },
           ],
@@ -800,7 +623,10 @@ describe('Message', () => {
           text: 'hey!',
           attachments: [
             {
+              contentType: MIME.TEXT_ATTACHMENT,
               thumbnail: {
+                contentType: MIME.TEXT_ATTACHMENT,
+                size: 100,
                 path: '/new/path/on/disk',
               },
             },

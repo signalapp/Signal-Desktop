@@ -9,14 +9,14 @@ export const KIBIBYTE = 1024;
 const MEBIBYTE = 1024 * 1024;
 const DEFAULT_MAX = 100 * MEBIBYTE;
 
-export const getMaximumAttachmentSizeInKb = (
+export const getMaximumOutgoingAttachmentSizeInKb = (
   getValue: typeof RemoteConfig.getValue
 ): number => {
   try {
     return (
       parseIntOrThrow(
         getValue('global.attachments.maxBytes'),
-        'preProcessAttachment/maxAttachmentSize'
+        'getMaximumOutgoingAttachmentSizeInKb'
       ) / KIBIBYTE
     );
   } catch (error) {
@@ -24,6 +24,38 @@ export const getMaximumAttachmentSizeInKb = (
       'Failed to parse integer out of global.attachments.maxBytes feature flag'
     );
     return DEFAULT_MAX / KIBIBYTE;
+  }
+};
+
+export const getMaximumIncomingAttachmentSizeInKb = (
+  getValue: typeof RemoteConfig.getValue
+): number => {
+  try {
+    return (
+      parseIntOrThrow(
+        getValue('global.attachments.maxReceiveBytes'),
+        'getMaximumIncomingAttachmentSizeInKb'
+      ) / KIBIBYTE
+    );
+  } catch (_error) {
+    // TODO: DESKTOP-5913. We're not gonna log until the new flag is fully deployed
+    return getMaximumOutgoingAttachmentSizeInKb(getValue) * 1.25;
+  }
+};
+
+export const getMaximumIncomingTextAttachmentSizeInKb = (
+  getValue: typeof RemoteConfig.getValue
+): number => {
+  try {
+    return (
+      parseIntOrThrow(
+        getValue('global.textAttachmentLimitBytes'),
+        'getMaximumIncomingTextAttachmentSizeInKb'
+      ) / KIBIBYTE
+    );
+  } catch (_error) {
+    // TODO: DESKTOP-6314. We're not gonna log until the new flag is fully deployed
+    return KIBIBYTE * 5;
   }
 };
 

@@ -4,17 +4,19 @@
 import type { FileHandle } from 'fs/promises';
 import { readFile, open } from 'fs/promises';
 import type { Readable } from 'stream';
+import { pipeline } from 'stream/promises';
 import { promisify } from 'util';
 import { gunzip as nativeGunzip } from 'zlib';
 import got from 'got';
 import { chunk as lodashChunk, noop } from 'lodash';
 import pMap from 'p-map';
-import Dicer from 'dicer';
+import Dicer from '@indutny/dicer';
 
 import { strictAssert } from '../util/assert';
 import { wrapEventEmitterOnce } from '../util/wrapEventEmitterOnce';
 import type { LoggerType } from '../types/Logging';
 import { getGotOptions } from './got';
+import type { GotOptions } from './got';
 import { checkIntegrity } from './util';
 
 const gunzip = promisify(nativeGunzip);
@@ -74,7 +76,7 @@ export type DownloadOptionsType = Readonly<{
   logger?: LoggerType;
 
   // Testing
-  gotOptions?: ReturnType<typeof getGotOptions>;
+  gotOptions?: GotOptions;
 }>;
 
 export type DownloadRangesOptionsType = Readonly<{
@@ -86,7 +88,7 @@ export type DownloadRangesOptionsType = Readonly<{
   chunkStatusCallback: (chunkSize: number) => void;
 
   // Testing
-  gotOptions?: ReturnType<typeof getGotOptions>;
+  gotOptions?: GotOptions;
 }>;
 
 export function getBlockMapFileName(fileName: string): string {
@@ -212,7 +214,7 @@ export async function prepareDownload({
 
   const newBlockMapData = await got(
     getBlockMapFileName(newUrl),
-    getGotOptions()
+    await getGotOptions()
   ).buffer();
 
   const newBlockMap = await parseBlockMap(newBlockMapData);
@@ -343,7 +345,7 @@ export async function downloadRanges(
     logger,
     abortSignal,
     chunkStatusCallback,
-    gotOptions = getGotOptions(),
+    gotOptions = await getGotOptions(),
   } = options;
 
   logger?.info('updater/downloadRanges: downloading ranges', ranges.length);
@@ -423,18 +425,8 @@ export async function downloadRanges(
   const partPromises = new Array<Promise<void>>();
   dicer.on('part', part => partPromises.push(onPart(part)));
 
-  dicer.once('finish', () => stream.destroy());
-  stream.once('error', err => dicer.destroy(err));
-
   // Pipe the response stream fully into dicer
-  // NOTE: we can't use `pipeline` due to a dicer bug:
-  // https://github.com/mscdex/dicer/issues/26
-  stream.pipe(dicer);
-  await wrapEventEmitterOnce(dicer, 'finish');
-
-  // Due to the bug above we need to do a manual cleanup
-  stream.unpipe(dicer);
-  stream.destroy();
+  await pipeline(stream, dicer);
 
   // Wait for individual parts to be fully written to FS
   await Promise.all(partPromises);

@@ -94,17 +94,17 @@ export class UpdateKeysListener {
   }
 
   private runWhenOnline() {
-    if (window.navigator.onLine) {
+    if (window.textsecure.server?.isOnline()) {
       void this.run();
     } else {
       log.info(
         'UpdateKeysListener: We are offline; will update keys when we are next online'
       );
       const listener = () => {
-        window.removeEventListener('online', listener);
+        window.Whisper.events.off('online', listener);
         this.setTimeoutForNextRun();
       };
-      window.addEventListener('online', listener);
+      window.Whisper.events.on('online', listener);
     }
   }
 

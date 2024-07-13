@@ -1,10 +1,9 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { webFrame } from 'electron';
+import { ipcRenderer } from 'electron';
 import type { AudioDevice } from '@signalapp/ringrtc';
 import { noop } from 'lodash';
-import { getStoriesAvailable } from './stories';
 
 import type { ZoomFactorType } from '../types/Storage.d';
 import type {
@@ -15,13 +14,12 @@ import type {
 import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors';
 import * as Errors from '../types/errors';
 import * as Stickers from '../types/Stickers';
-import type { SystemTraySetting } from '../types/SystemTraySetting';
-import { parseSystemTraySetting } from '../types/SystemTraySetting';
 
 import type { ConversationType } from '../state/ducks/conversations';
-import type { AuthorizeArtCreatorDataType } from '../state/ducks/globalModals';
 import { calling } from '../services/calling';
 import { resolveUsernameByLinkBase64 } from '../services/username';
+import { writeProfile } from '../services/writeProfile';
+import { isInCall } from '../state/selectors/calling';
 import { getConversationsWithCustomColorSelector } from '../state/selectors/conversations';
 import { getCustomColors } from '../state/selectors/items';
 import { themeChanged } from '../shims/themeChanged';
@@ -33,27 +31,33 @@ import { PhoneNumberSharingMode } from './phoneNumberSharingMode';
 import { strictAssert, assertDev } from './assert';
 import * as durations from './durations';
 import type { DurationInSeconds } from './durations';
-import { isPhoneNumberSharingEnabled } from './isPhoneNumberSharingEnabled';
 import * as Registration from './registration';
-import {
-  parseE164FromSignalDotMeHash,
-  parseUsernameBase64FromSignalDotMeHash,
-} from './sgnlHref';
 import { lookupConversationWithoutServiceId } from './lookupConversationWithoutServiceId';
 import * as log from '../logging/log';
 import { deleteAllMyStories } from './deleteAllMyStories';
-import { isEnabled } from '../RemoteConfig';
 import type { NotificationClickData } from '../services/notifications';
 import { StoryViewModeType, StoryViewTargetType } from '../types/Stories';
+import { isValidE164 } from './isValidE164';
+import { fromWebSafeBase64 } from './webSafeBase64';
+import { getConversation } from './getConversation';
+import { instance, PhoneNumberFormat } from './libphonenumberInstance';
+import { showConfirmationDialog } from './showConfirmationDialog';
+import type {
+  EphemeralSettings,
+  SettingsValuesType,
+  ThemeType,
+} from './preload';
+import type { SystemTraySetting } from '../types/SystemTraySetting';
+import { drop } from './drop';
 
 type SentMediaQualityType = 'standard' | 'high';
-type ThemeType = 'light' | 'dark' | 'system';
 type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 
 export type IPCEventsValuesType = {
   alwaysRelayCalls: boolean | undefined;
   audioNotification: boolean | undefined;
   audioMessage: boolean;
+  autoConvertEmoji: boolean;
   autoDownloadUpdate: boolean;
   autoLaunch: boolean;
   callRingtoneNotification: boolean;
@@ -69,10 +73,7 @@ export type IPCEventsValuesType = {
   preferredAudioOutputDevice: AudioDevice | undefined;
   preferredVideoInputDevice: string | undefined;
   sentMediaQualitySetting: SentMediaQualityType;
-  spellCheck: boolean;
-  systemTraySetting: SystemTraySetting;
   textFormatting: boolean;
-  themeSetting: ThemeType;
   universalExpireTimer: DurationInSeconds;
   zoomFactor: ZoomFactorType;
   storyViewReceiptsEnabled: boolean;
@@ -90,10 +91,10 @@ export type IPCEventsValuesType = {
   readReceiptSetting: boolean;
   typingIndicatorSetting: boolean;
   deviceName: string | undefined;
+  phoneNumber: string | undefined;
 };
 
 export type IPCEventsCallbacksType = {
-  openArtCreator(): Promise<void>;
   getAvailableIODevices(): Promise<{
     availableCameras: Array<
       Pick<MediaDeviceInfo, 'deviceId' | 'groupId' | 'kind' | 'label'>
@@ -103,26 +104,32 @@ export type IPCEventsCallbacksType = {
   }>;
   addCustomColor: (customColor: CustomColorType) => void;
   addDarkOverlay: () => void;
-  authorizeArtCreator: (data: AuthorizeArtCreatorDataType) => void;
   deleteAllData: () => Promise<void>;
   deleteAllMyStories: () => Promise<void>;
   editCustomColor: (colorId: string, customColor: CustomColorType) => void;
   getConversationsWithCustomColor: (x: string) => Array<ConversationType>;
+  getMediaAccessStatus: (
+    mediaType: 'screen' | 'microphone' | 'camera'
+  ) => Promise<string | unknown>;
   installStickerPack: (packId: string, key: string) => Promise<void>;
-  isFormattingFlagEnabled: () => boolean;
-  isPhoneNumberSharingEnabled: () => boolean;
   isPrimary: () => boolean;
   removeCustomColor: (x: string) => void;
   removeCustomColorOnConversations: (x: string) => void;
   removeDarkOverlay: () => void;
   resetAllChatColors: () => void;
   resetDefaultChatColor: () => void;
+  setMediaPlaybackDisabled: (playbackDisabled: boolean) => void;
   showConversationViaNotification: (data: NotificationClickData) => void;
-  showConversationViaSignalDotMe: (hash: string) => Promise<void>;
+  showConversationViaSignalDotMe: (
+    kind: string,
+    value: string
+  ) => Promise<void>;
   showKeyboardShortcuts: () => void;
-  showGroupViaLink: (x: string) => Promise<void>;
+  showGroupViaLink: (value: string) => Promise<void>;
   showReleaseNotes: () => void;
   showStickerPack: (packId: string, key: string) => void;
+  requestCloseConfirmation: () => Promise<boolean>;
+  getIsInCall: () => boolean;
   shutdown: () => Promise<void>;
   unknownSignalLink: () => void;
   getCustomColors: () => Record<string, CustomColorType>;
@@ -131,40 +138,74 @@ export type IPCEventsCallbacksType = {
     color: ConversationColorType,
     customColor?: { id: string; value: CustomColorType }
   ) => void;
-  shouldShowStoriesSettings: () => boolean;
   getDefaultConversationColor: () => DefaultConversationColorType;
-  persistZoomFactor: (factor: number) => Promise<void>;
+  uploadStickerPack: (
+    manifest: Uint8Array,
+    stickers: ReadonlyArray<Uint8Array>
+  ) => Promise<string>;
 };
 
 type ValuesWithGetters = Omit<
-  IPCEventsValuesType,
+  SettingsValuesType,
+  // Async
+  | 'zoomFactor'
+  | 'localeOverride'
+  | 'spellCheck'
+  | 'themeSetting'
   // Optional
-  'mediaPermissions' | 'mediaCameraPermissions' | 'autoLaunch'
+  | 'mediaPermissions'
+  | 'mediaCameraPermissions'
+  | 'autoLaunch'
+  | 'systemTraySetting'
 >;
 
 type ValuesWithSetters = Omit<
-  IPCEventsValuesType,
+  SettingsValuesType,
   | 'blockedCount'
   | 'defaultConversationColor'
   | 'linkPreviewSetting'
   | 'readReceiptSetting'
   | 'typingIndicatorSetting'
   | 'deviceName'
+  | 'phoneNumber'
 
   // Optional
   | 'mediaPermissions'
   | 'mediaCameraPermissions'
+
+  // Only set in the Settings window
+  | 'localeOverride'
+  | 'spellCheck'
+  | 'systemTraySetting'
 >;
 
-export type IPCEventGetterType<Key extends keyof IPCEventsValuesType> =
+export type IPCEventsUpdatersType = {
+  [Key in keyof EphemeralSettings as IPCEventUpdaterType<Key>]?: (
+    value: EphemeralSettings[Key]
+  ) => void;
+};
+
+export type IPCEventGetterType<Key extends keyof SettingsValuesType> =
   `get${Capitalize<Key>}`;
 
-export type IPCEventSetterType<Key extends keyof IPCEventsValuesType> =
+export type IPCEventSetterType<Key extends keyof SettingsValuesType> =
   `set${Capitalize<Key>}`;
+
+export type IPCEventUpdaterType<Key extends keyof SettingsValuesType> =
+  `update${Capitalize<Key>}`;
 
 export type IPCEventsGettersType = {
   [Key in keyof ValuesWithGetters as IPCEventGetterType<Key>]: () => ValuesWithGetters[Key];
 } & {
+  // Async
+  getZoomFactor: () => Promise<ZoomFactorType>;
+  getLocaleOverride: () => Promise<string | null>;
+  getSpellCheck: () => Promise<boolean>;
+  getSystemTraySetting: () => Promise<SystemTraySetting>;
+  getThemeSetting: () => Promise<ThemeType>;
+  // Events
+  onZoomFactorChange: (callback: (zoomFactor: ZoomFactorType) => void) => void;
+  // Optional
   getMediaPermissions?: () => Promise<boolean>;
   getMediaCameraPermissions?: () => Promise<boolean>;
   getAutoLaunch?: () => Promise<boolean>;
@@ -181,6 +222,7 @@ export type IPCEventsSettersType = {
 
 export type IPCEventsType = IPCEventsGettersType &
   IPCEventsSettersType &
+  IPCEventsUpdatersType &
   IPCEventsCallbacksType;
 
 export function createIPCEvents(
@@ -199,25 +241,37 @@ export function createIPCEvents(
   };
 
   return {
-    openArtCreator: async () => {
-      const auth = await window.textsecure.server?.getArtAuth();
-      if (!auth) {
-        return;
+    getDeviceName: () => window.textsecure.storage.user.getDeviceName(),
+    getPhoneNumber: () => {
+      try {
+        const e164 = window.textsecure.storage.user.getNumber();
+        const parsedNumber = instance.parse(e164);
+        return instance.format(parsedNumber, PhoneNumberFormat.INTERNATIONAL);
+      } catch (error) {
+        log.warn(
+          'IPC.getPhoneNumber: failed to parse our E164',
+          Errors.toLogFormat(error)
+        );
+        return '';
       }
-
-      window.openArtCreator(auth);
     },
 
-    getDeviceName: () => window.textsecure.storage.user.getDeviceName(),
-
-    getZoomFactor: () => window.storage.get('zoomFactor', 1),
-    setZoomFactor: async (zoomFactor: ZoomFactorType) => {
-      webFrame.setZoomFactor(zoomFactor);
+    getZoomFactor: () => {
+      return ipcRenderer.invoke('getZoomFactor');
+    },
+    setZoomFactor: async zoomFactor => {
+      ipcRenderer.send('setZoomFactor', zoomFactor);
+    },
+    onZoomFactorChange: callback => {
+      ipcRenderer.on('zoomFactorChanged', (_event, zoomFactor) => {
+        callback(zoomFactor);
+      });
     },
 
     setPhoneNumberDiscoverabilitySetting,
     setPhoneNumberSharingSetting: async (newValue: PhoneNumberSharingMode) => {
       const account = window.ConversationController.getOurConversationOrThrow();
+
       const promises = new Array<Promise<void>>();
       promises.push(window.storage.put('phoneNumberSharingMode', newValue));
       if (newValue === PhoneNumberSharingMode.Everybody) {
@@ -229,6 +283,12 @@ export function createIPCEvents(
       }
       account.captureChange('phoneNumberSharingMode');
       await Promise.all(promises);
+
+      // Write profile after updating storage so that the write has up-to-date
+      // information.
+      await writeProfile(getConversation(account), {
+        keepAvatar: true,
+      });
     },
 
     getHasStoriesDisabled: () =>
@@ -343,15 +403,20 @@ export function createIPCEvents(
       window.storage.get('auto-download-update', true),
     setAutoDownloadUpdate: value =>
       window.storage.put('auto-download-update', value),
+    getAutoConvertEmoji: () => window.storage.get('autoConvertEmoji', true),
+    setAutoConvertEmoji: value => window.storage.put('autoConvertEmoji', value),
     getSentMediaQualitySetting: () =>
       window.storage.get('sent-media-quality', 'standard'),
     setSentMediaQualitySetting: value =>
       window.storage.put('sent-media-quality', value),
-    getThemeSetting: () => window.storage.get('theme-setting', 'system'),
-    setThemeSetting: value => {
-      const promise = window.storage.put('theme-setting', value);
-      themeChanged();
-      return promise;
+    getThemeSetting: async () => {
+      return getEphemeralSetting('themeSetting') ?? null;
+    },
+    setThemeSetting: async value => {
+      drop(setEphemeralSetting('themeSetting', value));
+    },
+    updateThemeSetting: _theme => {
+      drop(themeChanged());
     },
     getHideMenuBar: () => window.storage.get('hide-menu-bar'),
     setHideMenuBar: value => {
@@ -360,14 +425,10 @@ export function createIPCEvents(
       window.IPC.setMenuBarVisibility(!value);
       return promise;
     },
-    getSystemTraySetting: () =>
-      parseSystemTraySetting(window.storage.get('system-tray-setting')),
-    setSystemTraySetting: value => {
-      const promise = window.storage.put('system-tray-setting', value);
-      window.IPC.updateSystemTraySetting(value);
-      return promise;
+    getSystemTraySetting: () => getEphemeralSetting('systemTraySetting'),
+    getLocaleOverride: async () => {
+      return getEphemeralSetting('localeOverride') ?? null;
     },
-
     getNotificationSetting: () =>
       window.storage.get('notification-setting', 'message'),
     setNotificationSetting: (value: 'message' | 'name' | 'count' | 'off') =>
@@ -404,8 +465,9 @@ export function createIPCEvents(
     setIncomingCallNotification: value =>
       window.storage.put('incoming-call-notification', value),
 
-    getSpellCheck: () => window.storage.get('spell-check', true),
-    setSpellCheck: value => window.storage.put('spell-check', value),
+    getSpellCheck: () => {
+      return getEphemeralSetting('spellCheck');
+    },
     getTextFormatting: () => window.storage.get('textFormatting', true),
     setTextFormatting: value => window.storage.put('textFormatting', value),
 
@@ -418,10 +480,7 @@ export function createIPCEvents(
       return window.IPC.setAutoLaunch(value);
     },
 
-    isFormattingFlagEnabled: () => isEnabled('desktop.textFormatting'),
-    isPhoneNumberSharingEnabled: () => isPhoneNumberSharingEnabled(),
     isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
-    shouldShowStoriesSettings: () => getStoriesAvailable(),
     syncRequest: () =>
       new Promise<void>((resolve, reject) => {
         const FIVE_MINUTES = 5 * durations.MINUTE;
@@ -464,14 +523,6 @@ export function createIPCEvents(
       });
       document.body.prepend(newOverlay);
     },
-    authorizeArtCreator: (data: AuthorizeArtCreatorDataType) => {
-      // We can get these events even if the user has never linked this instance.
-      if (!Registration.everDone()) {
-        log.warn('authorizeArtCreator: Not registered, returning early');
-        return;
-      }
-      window.reduxActions.globalModals.showAuthorizeArtCreator(data);
-    },
     removeDarkOverlay: () => {
       const elems = document.querySelectorAll('.dark-overlay');
 
@@ -494,14 +545,14 @@ export function createIPCEvents(
       }
       window.reduxActions.globalModals.showStickerPackPreview(packId, key);
     },
-    showGroupViaLink: async hash => {
+    showGroupViaLink: async value => {
       // We can get these events even if the user has never linked this instance.
       if (!Registration.everDone()) {
         log.warn('showGroupViaLink: Not registered, returning early');
         return;
       }
       try {
-        await window.Signal.Groups.joinViaLink(hash);
+        await window.Signal.Groups.joinViaLink(value);
       } catch (error) {
         log.error(
           'showGroupViaLink: Ran into an error!',
@@ -529,14 +580,14 @@ export function createIPCEvents(
         } else {
           window.reduxActions.conversations.showConversation({
             conversationId,
-            messageId,
+            messageId: messageId ?? undefined,
           });
         }
       } else {
         window.reduxActions.app.openInbox();
       }
     },
-    async showConversationViaSignalDotMe(hash: string) {
+    async showConversationViaSignalDotMe(kind: string, value: string) {
       if (!Registration.everDone()) {
         log.info(
           'showConversationViaSignalDotMe: Not registered, returning early'
@@ -546,50 +597,74 @@ export function createIPCEvents(
 
       const { showUserNotFoundModal } = window.reduxActions.globalModals;
 
-      const maybeE164 = parseE164FromSignalDotMeHash(hash);
-      if (maybeE164) {
-        const convoId = await lookupConversationWithoutServiceId({
-          type: 'e164',
-          e164: maybeE164,
-          phoneNumber: maybeE164,
-          showUserNotFoundModal,
-          setIsFetchingUUID: noop,
-        });
-        if (convoId) {
-          window.reduxActions.conversations.showConversation({
-            conversationId: convoId,
+      let conversationId: string | undefined;
+
+      if (kind === 'phoneNumber') {
+        if (isValidE164(value, true)) {
+          conversationId = await lookupConversationWithoutServiceId({
+            type: 'e164',
+            e164: value,
+            phoneNumber: value,
+            showUserNotFoundModal,
+            setIsFetchingUUID: noop,
           });
-          return;
         }
-        // We will show not found modal on error
-        return;
+      } else if (kind === 'encryptedUsername') {
+        const usernameBase64 = fromWebSafeBase64(value);
+        const username = await resolveUsernameByLinkBase64(usernameBase64);
+        if (username != null) {
+          conversationId = await lookupConversationWithoutServiceId({
+            type: 'username',
+            username,
+            showUserNotFoundModal,
+            setIsFetchingUUID: noop,
+          });
+        }
       }
 
-      const maybeUsernameBase64 = parseUsernameBase64FromSignalDotMeHash(hash);
-      let username: string | undefined;
-      if (maybeUsernameBase64) {
-        username = await resolveUsernameByLinkBase64(maybeUsernameBase64);
-      }
-
-      if (username) {
-        const convoId = await lookupConversationWithoutServiceId({
-          type: 'username',
-          username,
-          showUserNotFoundModal,
-          setIsFetchingUUID: noop,
+      if (conversationId != null) {
+        window.reduxActions.conversations.showConversation({
+          conversationId,
         });
-        if (convoId) {
-          window.reduxActions.conversations.showConversation({
-            conversationId: convoId,
-          });
-          return;
-        }
-        // We will show not found modal on error
         return;
       }
 
       log.info('showConversationViaSignalDotMe: invalid E164');
       showUnknownSgnlLinkModal();
+    },
+
+    requestCloseConfirmation: async (): Promise<boolean> => {
+      try {
+        await new Promise<void>((resolve, reject) => {
+          showConfirmationDialog({
+            dialogName: 'closeConfirmation',
+            onTopOfEverything: true,
+            cancelText: window.i18n(
+              'icu:ConfirmationDialog__Title--close-requested-not-now'
+            ),
+            confirmStyle: 'negative',
+            title: window.i18n(
+              'icu:ConfirmationDialog__Title--in-call-close-requested'
+            ),
+            okText: window.i18n('icu:close'),
+            reject: () => reject(),
+            resolve: () => resolve(),
+          });
+        });
+        log.info('requestCloseConfirmation: Close confirmed by user.');
+        window.reduxActions.calling.hangUpActiveCall(
+          'User confirmed in-call close.'
+        );
+
+        return true;
+      } catch {
+        log.info('requestCloseConfirmation: Close cancelled by user.');
+        return false;
+      }
+    },
+
+    getIsInCall: (): boolean => {
+      return isInCall(window.reduxStore.getState());
     },
 
     unknownSignalLink: () => {
@@ -609,11 +684,30 @@ export function createIPCEvents(
       showWhatsNewModal();
     },
 
+    getMediaAccessStatus: async (
+      mediaType: 'screen' | 'microphone' | 'camera'
+    ) => {
+      return window.IPC.getMediaAccessStatus(mediaType);
+    },
     getMediaPermissions: window.IPC.getMediaPermissions,
     getMediaCameraPermissions: window.IPC.getMediaCameraPermissions,
 
-    persistZoomFactor: zoomFactor =>
-      window.storage.put('zoomFactor', zoomFactor),
+    setMediaPlaybackDisabled: (playbackDisabled: boolean) => {
+      window.reduxActions?.lightbox.setPlaybackDisabled(playbackDisabled);
+      if (playbackDisabled) {
+        window.reduxActions?.audioPlayer.pauseVoiceNotePlayer();
+      }
+    },
+
+    uploadStickerPack: (
+      manifest: Uint8Array,
+      stickers: ReadonlyArray<Uint8Array>
+    ): Promise<string> => {
+      strictAssert(window.textsecure.server, 'WebAPI must be available');
+      return window.textsecure.server.putStickers(manifest, stickers, () =>
+        ipcRenderer.send('art-creator:onUploadProgress')
+      );
+    },
 
     ...overrideEvents,
   };
@@ -623,4 +717,17 @@ function showUnknownSgnlLinkModal(): void {
   window.reduxActions.globalModals.showErrorModal({
     description: window.i18n('icu:unknown-sgnl-link'),
   });
+}
+
+function getEphemeralSetting<Name extends keyof EphemeralSettings>(
+  name: Name
+): Promise<EphemeralSettings[Name]> {
+  return ipcRenderer.invoke(`settings:get:${name}`);
+}
+
+function setEphemeralSetting<Name extends keyof EphemeralSettings>(
+  name: Name,
+  value: EphemeralSettings[Name]
+): Promise<void> {
+  return ipcRenderer.invoke(`settings:set:${name}`, value);
 }

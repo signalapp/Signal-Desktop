@@ -1,0 +1,35 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.LocalDeleteWarningModal__width-container {
+  max-width: 440px;
+}
+
+.LocalDeleteWarningModal__image {
+  margin-block: 18px;
+  text-align: center;
+}
+
+.LocalDeleteWarningModal__header {
+  @include font-title-2;
+
+  margin-block: 18px;
+  margin-inline: 8px;
+  text-align: center;
+}
+
+.LocalDeleteWarningModal__description {
+  margin-block: 12px;
+  margin-inline: 8px;
+  text-align: center;
+}
+
+.LocalDeleteWarningModal__button {
+  display: flex;
+  justify-content: center;
+  margin-top: 49px;
+
+  button {
+    padding-inline: 26px;
+  }
+}

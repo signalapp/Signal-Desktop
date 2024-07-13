@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import classNames from 'classnames';
 
 import { Modal } from '../Modal';
 
 import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 
 import type { LocalizerType } from '../../types/Util';
+import { Button, ButtonSize, ButtonVariant } from '../Button';
 
 export type PropsType = {
   i18n: LocalizerType;
@@ -24,14 +24,35 @@ export function ChatSessionRefreshedDialog(
   // Focus first button after initial render, restore focus on teardown
   const [focusRef] = useRestoreFocus();
 
+  const footer = (
+    <>
+      <Button
+        onClick={contactSupport}
+        size={ButtonSize.Medium}
+        variant={ButtonVariant.Secondary}
+      >
+        {i18n('icu:ChatRefresh--contactSupport')}
+      </Button>
+      <Button
+        onClick={onClose}
+        ref={focusRef}
+        size={ButtonSize.Medium}
+        variant={ButtonVariant.Primary}
+        className="module-chat-session-refreshed-dialog__close-button"
+      >
+        {i18n('icu:Confirmation--confirm')}
+      </Button>
+    </>
+  );
   return (
     <Modal
       modalName="ChatSessionRefreshedDialog"
       hasXButton={false}
       onClose={onClose}
       i18n={i18n}
+      modalFooter={footer}
     >
-      <div className="module-chat-session-refreshed-dialog">
+      <>
         <div className="module-chat-session-refreshed-dialog__image">
           <img
             src="images/chat-session-refresh.svg"
@@ -46,27 +67,7 @@ export function ChatSessionRefreshedDialog(
         <div className="module-chat-session-refreshed-dialog__description">
           {i18n('icu:ChatRefresh--summary')}
         </div>
-        <div className="module-chat-session-refreshed-dialog__buttons">
-          <button
-            type="button"
-            onClick={contactSupport}
-            className={classNames(
-              'module-chat-session-refreshed-dialog__button',
-              'module-chat-session-refreshed-dialog__button--secondary'
-            )}
-          >
-            {i18n('icu:ChatRefresh--contactSupport')}
-          </button>
-          <button
-            type="button"
-            onClick={onClose}
-            ref={focusRef}
-            className="module-chat-session-refreshed-dialog__button"
-          >
-            {i18n('icu:Confirmation--confirm')}
-          </button>
-        </div>
-      </div>
+      </>
     </Modal>
   );
 }

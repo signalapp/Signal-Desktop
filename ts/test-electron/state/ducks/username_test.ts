@@ -116,7 +116,8 @@ describe('electron/state/ducks/username', () => {
       const doReserveUsername = sinon.stub().resolves(DEFAULT_RESERVATION);
       const dispatch = sinon.spy();
 
-      actions.reserveUsername('test', {
+      actions.reserveUsername({
+        nickname: 'test',
         doReserveUsername,
         delay: 1000,
       })(dispatch, () => emptyState, null);

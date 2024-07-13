@@ -4,3 +4,7 @@
 import { ipcRenderer } from 'electron';
 
 export const localeMessages = ipcRenderer.sendSync('locale-data');
+export const localeDisplayNames = ipcRenderer.sendSync('locale-display-names');
+export const countryDisplayNames = ipcRenderer.sendSync(
+  'country-display-names'
+);

@@ -18,42 +18,49 @@ jobs:
     steps:
     - run: lsb_release -a
     - run: uname -a
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - name: Setup node.js
+      uses: actions/setup-node@v4
       with:
-        node-version: '18.15.0'
-    - run: npm install -g yarn@1.22.10
-
-    - name: Cache Desktop node_modules
-      id: cache-desktop-modules
-      uses: actions/cache@v3
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
+        node-version-file: '.nvmrc'
+    - run: npm install -g npm@10.2.5
 
     - name: Restore cached .eslintcache and tsconfig.tsbuildinfo
-      uses: actions/cache/restore@v3
+      uses: actions/cache/restore@v4
       id: cache-lint
       with:
         path: |
           .eslintcache
           tsconfig.tsbuildinfo
-        key: lint-${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**', '.eslintrc.js', '.eslint/**', 'tsconfig.json') }}
+        key: lint-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**', '.eslintrc.js', '.eslint/**', 'tsconfig.json') }}
+
+    - name: Cache Desktop node_modules
+      id: cache-desktop-modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
 
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: yarn install --frozen-lockfile
+      run: npm ci
       env:
         NPM_CONFIG_LOGLEVEL: verbose
 
-    - run: yarn generate
-    - run: yarn lint
-    - run: yarn lint-deps
-    - run: yarn lint-license-comments
+    - run: npm run generate
+    - run: npm run lint
+    - run: npm run lint-deps
+    - run: npm run lint-license-comments
+
+    - name: Check acknowledgments file is up to date
+      run: npm run build:acknowledgments
+      env:
+        REQUIRE_SIGNAL_LIB_FILES: 1
+
     - run: git diff --exit-code
 
     - name: Update cached .eslintcache and tsconfig.tsbuildinfo
-      uses: actions/cache/save@v3
+      uses: actions/cache/save@v4
       if: github.ref == 'refs/heads/main'
       with:
         path: |
@@ -69,44 +76,49 @@ jobs:
 
     steps:
     - run: uname -a
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - name: Setup node.js
+      uses: actions/setup-node@v4
       with:
-        node-version: '18.15.0'
-    - run: npm install -g yarn@1.22.10
+        node-version-file: '.nvmrc'
+
+    - run: npm install -g npm@10.2.5
 
     - name: Cache Desktop node_modules
       id: cache-desktop-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
+        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
+
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: yarn install --frozen-lockfile
+      run: npm ci
       env:
         NPM_CONFIG_LOGLEVEL: verbose
 
-    - run: yarn generate
-    - run: yarn prepare-beta-build
-    - run: yarn test-node
-    - run: yarn test-electron
+    - run: npm run generate
+    - run: npm run prepare-beta-build
+    - run: npm run test-node
+    - run: npm run test-electron
       env:
         ARTIFACTS_DIR: artifacts/macos
       timeout-minutes: 5
-    - run: yarn build
+    - run: touch noop.sh && chmod +x noop.sh
+    - run: npm run build
       env:
         DISABLE_INSPECT_FUSE: on
+        SIGN_MACOS_SCRIPT: noop.sh
     - name: Rebuild native modules for x64
-      run: yarn electron:install-app-deps
-    - run: yarn test-release
+      run: npm run electron:install-app-deps
+    - run: npm run test-release
       env:
         NODE_ENV: production
-    - run: yarn test-eslint
+    - run: npm run test-eslint
 
     - name: Upload artifacts on failure
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         path: artifacts
 
@@ -118,56 +130,59 @@ jobs:
     steps:
     - run: lsb_release -a
     - run: uname -a
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - name: Setup node.js
+      uses: actions/setup-node@v4
       with:
-        node-version: '18.15.0'
+        node-version-file: '.nvmrc'
     - run: sudo apt-get install xvfb
-    - run: npm install -g yarn@1.22.10
+
+    - run: npm install -g npm@10.2.5
 
     - name: Cache Desktop node_modules
       id: cache-desktop-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
+        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
+
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: yarn install --frozen-lockfile
+      run: npm ci
       env:
         NPM_CONFIG_LOGLEVEL: verbose
 
-    - run: yarn generate
-    - run: yarn prepare-beta-build
+    - run: npm run generate
+    - run: npm run prepare-beta-build
 
     - name: Create bundle
-      run: yarn build:esbuild:prod
+      run: npm run build:esbuild:prod
 
     - name: Build with packaging .deb file
-      run: yarn build:release -- --publish=never
+      run: npm run build:release -- --publish=never
       if: github.ref == 'refs/heads/main'
       env:
         DISABLE_INSPECT_FUSE: on
     - name: Build without packaging .deb file
-      run: yarn build:release --linux dir
+      run: npm run build:release -- --linux dir
       if: github.ref != 'refs/heads/main'
       env:
         DISABLE_INSPECT_FUSE: on
 
-    - run: xvfb-run --auto-servernum yarn test-node
-    - run: xvfb-run --auto-servernum yarn test-electron
+    - run: xvfb-run --auto-servernum npm run test-node
+    - run: xvfb-run --auto-servernum npm run test-electron
       timeout-minutes: 5
       env:
         ARTIFACTS_DIR: artifacts/linux
         LANG: en_US
         LANGUAGE: en_US
-    - run: xvfb-run --auto-servernum yarn test-release
+    - run: xvfb-run --auto-servernum npm run test-release
       env:
         NODE_ENV: production
 
     - name: Upload artifacts on failure
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         path: artifacts
 
@@ -184,11 +199,12 @@ jobs:
     - run: systeminfo
     - run: git config --global core.autocrlf false
     - run: git config --global core.eol lf
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - name: Setup node.js
+      uses: actions/setup-node@v4
       with:
-        node-version: '18.15.0'
-    - run: npm install -g yarn@1.22.10
+        node-version-file: '.nvmrc'
+    - run: npm install -g npm@10.2.5 node-gyp@10.0.1
 
     # Set things up so @nodert-win10-rs4 dependencies build properly
     - run: dir "$env:BUILD_LOCATION"
@@ -198,51 +214,88 @@ jobs:
 
     - name: Cache Desktop node_modules
       id: cache-desktop-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
+        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
+
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: yarn install --frozen-lockfile
+      run: npm ci
       env:
         CHILD_CONCURRENCY: 1
         NPM_CONFIG_LOGLEVEL: verbose
 
-    - run: yarn generate
-    - run: yarn test-node
+    - run: npm run generate
+    - run: npm run test-node
     - run: copy package.json temp.json
     - run: del package.json
     - run: type temp.json | findstr /v certificateSubjectName | findstr /v certificateSha1 > package.json
-    - run: yarn prepare-beta-build
+    - run: npm run prepare-beta-build
 
     - name: Create bundle
-      run: yarn build:esbuild:prod
+      run: npm run build:esbuild:prod
 
     - name: Build with NSIS
-      run: yarn build:release
+      run: npm run build:release
       if: github.ref == 'refs/heads/main'
       env:
         DISABLE_INSPECT_FUSE: on
     - name: Build without NSIS
-      run: yarn build:release --win dir
+      run: npm run build:release -- --win dir
       if: github.ref != 'refs/heads/main'
       env:
         DISABLE_INSPECT_FUSE: on
 
-    - run: yarn test-electron
+    - run: npm run test-electron
       env:
         ARTIFACTS_DIR: artifacts/windows
       timeout-minutes: 5
-    - run: yarn test-release
+    - run: npm run test-release
       env:
         SIGNAL_ENV: production
 
     - name: Upload artifacts on failure
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         path: artifacts
+
+  sticker-creator:
+    name: Sticker Creator
+    runs-on: ubuntu-latest-8-cores
+    timeout-minutes: 30
+
+    defaults:
+      run:
+        working-directory: sticker-creator
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: '.nvmrc'
+        cache: 'npm'
+        cache-dependency-path: 'package-lock.json'
+
+    - name: Install Sticker Creator node_modules
+      run: npm ci
+
+    - name: Build Sticker Creator
+      run: npm run build
+
+    - name: Check Sticker Creator types
+      run: npm run check:types
+
+    - name: Check Sticker Creator formatting
+      run: npm run prettier:check
+
+    - name: Check Sticker Creator linting
+      run: npm run lint
+
+    - name: Run tests
+      run: npm test -- --run
 
   mock-tests:
     needs: lint
@@ -257,40 +310,40 @@ jobs:
       run: uname -a
 
     - name: Clone Desktop repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: '18.15.0'
+        node-version-file: '.nvmrc'
     - name: Install global dependencies
-      run: npm install -g yarn@1.22.10
+      run: npm install -g npm@10.2.5
 
     - name: Install xvfb
       run: sudo apt-get install xvfb
 
     - name: Cache Desktop node_modules
       id: cache-desktop-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
+        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
 
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: yarn install --frozen-lockfile
+      run: npm ci
       env:
         NPM_CONFIG_LOGLEVEL: verbose
 
     - name: Build typescript
-      run: yarn generate
+      run: npm run generate
     - name: Bundle
-      run: yarn build:esbuild:prod
+      run: npm run build:esbuild:prod
 
     - name: Run mock server tests
       run: |
         set -o pipefail
-        xvfb-run --auto-servernum yarn test-mock
+        xvfb-run --auto-servernum npm run test-mock
       timeout-minutes: 10
       env:
         NODE_ENV: production
@@ -299,7 +352,7 @@ jobs:
 
     - name: Upload mock server test logs on failure
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: logs
         path: artifacts

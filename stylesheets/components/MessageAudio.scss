@@ -9,6 +9,12 @@ $audio-attachment-button-margin-small: 4px;
   display: flex;
   flex-direction: column;
   margin-top: 2px;
+  /**
+   * Players for audio or video content should always be left-to-right.
+   * This overrides the default direction of the surrounding elements.
+   */
+  /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+  direction: ltr;
 
   .PlaybackButton {
     @media (min-width: 0px) and (max-width: 799px) {

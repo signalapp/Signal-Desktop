@@ -21,3 +21,6 @@ export enum ReceiptType {
 }
 
 export type Receipt = z.infer<typeof receiptSchema>;
+
+export const RECEIPT_BATCHER_WAIT_MS = 250;
+export const DELETE_SENT_PROTO_BATCHER_WAIT_MS = 250;

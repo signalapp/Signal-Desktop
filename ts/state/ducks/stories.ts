@@ -69,6 +69,7 @@ import {
   conversationQueueJobEnum,
 } from '../../jobs/conversationJobQueue';
 import { ReceiptType } from '../../types/Receipt';
+import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
 
 export type StoryDataType = ReadonlyDeep<
   {
@@ -284,7 +285,7 @@ function deleteGroupStoryReply(
   messageId: string
 ): ThunkAction<void, RootStateType, unknown, StoryReplyDeletedActionType> {
   return async dispatch => {
-    await window.Signal.Data.removeMessage(messageId);
+    await window.Signal.Data.removeMessage(messageId, { singleProtoJobQueue });
     dispatch({
       type: STORY_REPLY_DELETED,
       payload: messageId,
@@ -380,13 +381,6 @@ function markStoryRead(
       return;
     }
 
-    if (matchingStory.readStatus !== ReadStatus.Unread) {
-      log.warn(
-        `markStoryRead: not unread, ${messageId} read status: ${matchingStory.readStatus}`
-      );
-      return;
-    }
-
     const message = await __DEPRECATED$getMessageById(messageId);
 
     if (!message) {
@@ -414,6 +408,13 @@ function markStoryRead(
       log.warn(
         'markStoryRead: Failed to mark onboarding story read normally; failing over'
       );
+    }
+
+    if (matchingStory.readStatus !== ReadStatus.Unread) {
+      log.warn(
+        `markStoryRead: not unread, ${messageId} read status: ${matchingStory.readStatus}`
+      );
+      return;
     }
 
     const storyReadDate = Date.now();
@@ -512,10 +513,9 @@ function queueStoryDownload(
       return;
     }
 
-    // isDownloading checks for the downloadJobId which is set by
-    // queueAttachmentDownloads but we optimistically set story.startedDownload
-    // in redux to prevent race conditions from queuing up multiple attachment
-    // downloads before the attachment save takes place.
+    // isDownloading checks if the download is pending but we optimistically set
+    // story.startedDownload in redux to prevent race conditions from queuing up multiple
+    // attachment downloads before the attachment save takes place.
     if (isDownloading(attachment) || story.startedDownload) {
       return;
     }
@@ -1409,10 +1409,7 @@ function removeAllContactStories(
 
     log.info(`${logId}: removing ${messages.length} stories`);
 
-    await Promise.all([
-      messages.map(m => m.cleanup()),
-      await dataInterface.removeMessages(messageIds),
-    ]);
+    await dataInterface.removeMessages(messageIds, { singleProtoJobQueue });
 
     dispatch({
       type: 'NOOP',

@@ -5,10 +5,10 @@ import React from 'react';
 
 import { Button, ButtonVariant } from './Button';
 import { Modal } from './Modal';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 import type { LocalizerType } from '../types/Util';
-import { SAFETY_NUMBER_MIGRATION_URL } from '../types/support';
+import { SAFETY_NUMBER_URL } from '../types/support';
 
 export type PropsType = {
   i18n: LocalizerType;
@@ -16,7 +16,7 @@ export type PropsType = {
 };
 
 function onLearnMore() {
-  openLinkInWebBrowser(SAFETY_NUMBER_MIGRATION_URL);
+  openLinkInWebBrowser(SAFETY_NUMBER_URL);
 }
 
 export function SafetyNumberNotReady({
@@ -26,15 +26,15 @@ export function SafetyNumberNotReady({
   return (
     <div className="module-SafetyNumberNotReady">
       <div>
-        <Intl i18n={i18n} id="icu:SafetyNumberNotReady__body" />
+        <I18n i18n={i18n} id="icu:SafetyNumberNotReady__body" />
       </div>
 
       <Modal.ButtonFooter>
         <Button onClick={onLearnMore} variant={ButtonVariant.Secondary}>
-          <Intl i18n={i18n} id="icu:SafetyNumberNotReady__learn-more" />
+          <I18n i18n={i18n} id="icu:SafetyNumberNotReady__learn-more" />
         </Button>
         <Button onClick={onClose} variant={ButtonVariant.Secondary}>
-          <Intl i18n={i18n} id="icu:ok" />
+          <I18n i18n={i18n} id="icu:ok" />
         </Button>
       </Modal.ButtonFooter>
     </div>
