@@ -116,11 +116,17 @@ export class SettingsChannel extends EventEmitter {
 
     // These ones are different because its single source of truth is userConfig,
     // not IndexedDB
+    ipc.handle('settings:get:allowAnyFileType', () => {
+      return userConfig.get('allowAnyFileType') || false;
+    });
     ipc.handle('settings:get:mediaPermissions', () => {
       return userConfig.get('mediaPermissions') || false;
     });
     ipc.handle('settings:get:mediaCameraPermissions', () => {
       return userConfig.get('mediaCameraPermissions') || false;
+    });
+    ipc.handle('settings:set:allowAnyFileType', (_event, value) => {
+      userConfig.set('allowAnyFileType', value);
     });
     ipc.handle('settings:set:mediaPermissions', (_event, value) => {
       userConfig.set('mediaPermissions', value);

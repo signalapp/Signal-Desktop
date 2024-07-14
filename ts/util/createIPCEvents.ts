@@ -54,6 +54,7 @@ type SentMediaQualityType = 'standard' | 'high';
 type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 
 export type IPCEventsValuesType = {
+  allowAnyFileType: boolean;
   alwaysRelayCalls: boolean | undefined;
   audioNotification: boolean | undefined;
   audioMessage: boolean;
@@ -148,6 +149,7 @@ export type IPCEventsCallbacksType = {
 type ValuesWithGetters = Omit<
   SettingsValuesType,
   // Async
+  | 'allowAnyFileType'
   | 'zoomFactor'
   | 'localeOverride'
   | 'spellCheck'
@@ -198,6 +200,7 @@ export type IPCEventsGettersType = {
   [Key in keyof ValuesWithGetters as IPCEventGetterType<Key>]: () => ValuesWithGetters[Key];
 } & {
   // Async
+  getAllowAnyFileType: () => Promise<boolean>;
   getZoomFactor: () => Promise<ZoomFactorType>;
   getLocaleOverride: () => Promise<string | null>;
   getSpellCheck: () => Promise<boolean>;
@@ -241,6 +244,9 @@ export function createIPCEvents(
   };
 
   return {
+    getAllowAnyFileType: () => {
+      return ipcRenderer.invoke('settings:get:allowAnyFileType')
+    },
     getDeviceName: () => window.textsecure.storage.user.getDeviceName(),
     getPhoneNumber: () => {
       try {
@@ -267,7 +273,9 @@ export function createIPCEvents(
         callback(zoomFactor);
       });
     },
-
+    setAllowAnyFileType: () => {
+      return ipcRenderer.invoke('settings:set:allowAnyFileType')
+    },
     setPhoneNumberDiscoverabilitySetting,
     setPhoneNumberSharingSetting: async (newValue: PhoneNumberSharingMode) => {
       const account = window.ConversationController.getOurConversationOrThrow();

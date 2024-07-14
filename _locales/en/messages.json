@@ -7328,6 +7328,10 @@
     "messageformat": "To change this setting, set “Who can see my number” to “Nobody”.",
     "description": "A toast displayed when user clicks disabled option in settings window"
   },
+  "icu:AllowAnyFileType": {
+    "messageformat": "Allow sending and downloading any file types",
+    "description": "Title for the allow any file type setting"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "What's New",
     "description": "Title for the whats new modal"

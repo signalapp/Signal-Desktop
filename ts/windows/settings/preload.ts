@@ -21,6 +21,7 @@ function doneRendering() {
 }
 
 const settingMessageAudio = createSetting('audioMessage');
+const settingAnyFileType = createSetting('allowAnyFileType');
 const settingAudioNotification = createSetting('audioNotification');
 const settingAutoConvertEmoji = createSetting('autoConvertEmoji');
 const settingAutoDownloadUpdate = createSetting('autoDownloadUpdate');
@@ -140,6 +141,7 @@ async function renderPreferences() {
   const {
     blockedCount,
     deviceName,
+    hasAnyFileTypeAllowed,
     hasAudioNotifications,
     hasAutoConvertEmoji,
     hasAutoDownloadUpdate,
@@ -182,6 +184,7 @@ async function renderPreferences() {
   } = await awaitObject({
     blockedCount: settingBlockedCount.getValue(),
     deviceName: settingDeviceName.getValue(),
+    hasAnyFileTypeAllowed: settingAnyFileType.getValue(),
     hasAudioNotifications: settingAudioNotification.getValue(),
     hasAutoConvertEmoji: settingAutoConvertEmoji.getValue(),
     hasAutoDownloadUpdate: settingAutoDownloadUpdate.getValue(),
@@ -249,6 +252,7 @@ async function renderPreferences() {
     customColors,
     defaultConversationColor,
     deviceName,
+    hasAnyFileTypeAllowed,
     hasAudioNotifications,
     hasAutoConvertEmoji,
     hasAutoDownloadUpdate,
@@ -315,6 +319,9 @@ async function renderPreferences() {
       Settings.isMinimizeToAndStartInSystemTraySupported(OS),
 
     // Change handlers
+    onAnyFileTypeAllowedChange: attachRenderCallback(
+      settingAnyFileType.setValue
+    ),
     onAudioNotificationsChange: attachRenderCallback(
       settingAudioNotification.setValue
     ),

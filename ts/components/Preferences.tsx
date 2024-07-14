@@ -77,6 +77,7 @@ export type PropsDataType = {
   customColors: Record<string, CustomColorType>;
   defaultConversationColor: DefaultConversationColorType;
   deviceName?: string;
+  hasAnyFileTypeAllowed: boolean;
   hasAudioNotifications?: boolean;
   hasAutoConvertEmoji: boolean;
   hasAutoDownloadUpdate: boolean;
@@ -160,6 +161,7 @@ type PropsFunctionType = {
   ) => unknown;
 
   // Change handlers
+  onAnyFileTypeAllowedChange: CheckboxChangeHandlerType;
   onAudioNotificationsChange: CheckboxChangeHandlerType;
   onAutoConvertEmojiChange: CheckboxChangeHandlerType;
   onAutoDownloadUpdateChange: CheckboxChangeHandlerType;
@@ -273,6 +275,7 @@ export function Preferences({
   hasMessageAudio,
   hasMinimizeToAndStartInSystemTray,
   hasMinimizeToSystemTray,
+  hasAnyFileTypeAllowed,
   hasNotificationAttention,
   hasNotifications,
   hasReadReceipts,
@@ -293,6 +296,7 @@ export function Preferences({
   lastSyncTime,
   makeSyncRequest,
   notificationContent,
+  onAnyFileTypeAllowedChange,
   onAudioNotificationsChange,
   onAutoConvertEmojiChange,
   onAutoDownloadUpdateChange,
@@ -896,6 +900,13 @@ export function Preferences({
               />
             }
           />
+          <Checkbox
+              checked={hasAnyFileTypeAllowed}
+              label={i18n('icu:AllowAnyFileType')}
+              moduleClassName="Preferences__checkbox"
+              name="allow-any-file-type"
+              onChange={onAnyFileTypeAllowedChange}
+            />
         </SettingsRow>
         {isSyncSupported && (
           <SettingsRow>

@@ -47,6 +47,7 @@ SettingsWindowProps.onRender(
     hasCallRingtoneNotification,
     hasCountMutedConversations,
     hasHideMenuBar,
+    hasAnyFileTypeAllowed,
     hasIncomingCallNotifications,
     hasLinkPreviews,
     hasMediaCameraPermissions,
@@ -88,6 +89,7 @@ SettingsWindowProps.onRender(
     onMediaCameraPermissionsChange,
     onMediaPermissionsChange,
     onMessageAudioChange,
+    onAnyFileTypeAllowedChange,
     onMinimizeToAndStartInSystemTrayChange,
     onMinimizeToSystemTrayChange,
     onNotificationAttentionChange,
@@ -140,6 +142,7 @@ SettingsWindowProps.onRender(
         doneRendering={doneRendering}
         editCustomColor={editCustomColor}
         getConversationsWithCustomColor={getConversationsWithCustomColor}
+        hasAnyFileTypeAllowed={hasAnyFileTypeAllowed}
         hasAudioNotifications={hasAudioNotifications}
         hasAutoConvertEmoji={hasAutoConvertEmoji}
         hasAutoDownloadUpdate={hasAutoDownloadUpdate}
@@ -178,6 +181,7 @@ SettingsWindowProps.onRender(
         localeOverride={localeOverride}
         makeSyncRequest={makeSyncRequest}
         notificationContent={notificationContent}
+        onAnyFileTypeAllowedChange={onAnyFileTypeAllowedChange}
         onAudioNotificationsChange={onAudioNotificationsChange}
         onAutoConvertEmojiChange={onAutoConvertEmojiChange}
         onAutoDownloadUpdateChange={onAutoDownloadUpdateChange}
