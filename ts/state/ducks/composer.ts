@@ -1039,7 +1039,7 @@ function processAttachments({
     const filesToProcess: Array<File> = [];
     for (let i = 0; i < files.length; i += 1) {
       const file = files[i];
-      const processingResult = preProcessAttachment(file, nextDraftAttachments);
+      const processingResult = await preProcessAttachment(file, nextDraftAttachments);
       if (processingResult != null) {
         toastToShow = processingResult;
       } else {
@@ -1108,15 +1108,15 @@ function processAttachments({
   };
 }
 
-function preProcessAttachment(
+async function preProcessAttachment(
   file: File,
   draftAttachments: Array<AttachmentDraftType>
-): AnyToast | undefined {
+): Promise<AnyToast | undefined> {
   if (!file) {
     return;
   }
 
-  if (isFileDangerous(file.name)) {
+  if (await isFileDangerous(file.name)) {
     return { toastType: ToastType.DangerousFileType };
   }
 

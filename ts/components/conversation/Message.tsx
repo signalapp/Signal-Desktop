@@ -380,6 +380,8 @@ type State = {
   showOutgoingGiftBadgeModal: boolean;
 
   hasDeleteForEveryoneTimerExpired: boolean;
+
+  isThisFileDangerous: boolean;
 };
 
 export class Message extends React.PureComponent<Props, State> {
@@ -428,6 +430,8 @@ export class Message extends React.PureComponent<Props, State> {
 
       hasDeleteForEveryoneTimerExpired:
         this.getTimeRemainingForDeleteForEveryone() <= 0,
+
+      isThisFileDangerous: true,
     };
   }
 
@@ -493,7 +497,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
   };
 
-  public override componentDidMount(): void {
+  public override async componentDidMount(): Promise<void> {
     const { conversationId } = this.props;
     window.ConversationController?.onConvoMessageMount(conversationId);
 
@@ -524,6 +528,13 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     document.addEventListener('selectionchange', this.handleSelectionChange);
+
+    const { attachments } = this.props;
+    if (attachments) {
+      const { fileName } = attachments[0];
+      const isDangerous = await isFileDangerous(fileName || '');
+      this.setState({ isThisFileDangerous: isDangerous });
+    }
   }
 
   public override componentWillUnmount(): void {
@@ -1058,7 +1069,6 @@ export class Message extends React.PureComponent<Props, State> {
     }
     const { pending, fileName, fileSize, contentType } = firstAttachment;
     const extension = getExtensionForDisplay({ contentType, fileName });
-    const isDangerous = isFileDangerous(fileName || '');
 
     return (
       <button
@@ -1104,7 +1114,7 @@ export class Message extends React.PureComponent<Props, State> {
                 </div>
               ) : null}
             </div>
-            {isDangerous ? (
+            {this.state.isThisFileDangerous ? (
               <div className="module-message__generic-attachment__icon-dangerous-container">
                 <div className="module-message__generic-attachment__icon-dangerous" />
               </div>

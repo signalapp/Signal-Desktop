@@ -3728,7 +3728,7 @@ function saveAttachment(
   return async dispatch => {
     const { fileName = '' } = attachment;
 
-    const isDangerous = isFileDangerous(fileName);
+    const isDangerous = await isFileDangerous(fileName);
 
     if (isDangerous) {
       dispatch({
