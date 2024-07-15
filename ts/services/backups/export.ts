@@ -84,7 +84,8 @@ import { getCallsHistoryForRedux } from '../callHistoryLoader';
 import { makeLookup } from '../../util/makeLookup';
 import type { CallHistoryDetails } from '../../types/CallDisposition';
 import { isAciString } from '../../util/isAciString';
-import type { AboutMe } from './types';
+import { hslToRGB } from '../../util/hslToRGB';
+import type { AboutMe, LocalChatStyle } from './types';
 import { messageHasPaymentEvent } from '../../messages/helpers';
 import {
   numberToAddressType,
@@ -172,6 +173,10 @@ export class BackupExportStream extends Readable {
   private buffers = new Array<Uint8Array>();
   private nextRecipientId = 0;
   private flushResolve: (() => void) | undefined;
+
+  // Map from custom color uuid to an index in accountSettings.customColors
+  // array.
+  private customColorIdByUuid = new Map<string, number>();
 
   public run(backupLevel: BackupLevel): void {
     drop(
@@ -338,6 +343,15 @@ export class BackupExportStream extends Readable {
           markedUnread: attributes.markedUnread === true,
           dontNotifyForMentionsIfMuted:
             attributes.dontNotifyForMentionsIfMuted === true,
+
+          style: this.toChatStyle({
+            wallpaperPhotoPointer: attributes.wallpaperPhotoPointerBase64
+              ? Bytes.fromBase64(attributes.wallpaperPhotoPointerBase64)
+              : undefined,
+            wallpaperPreset: attributes.wallpaperPreset,
+            color: attributes.conversationColor,
+            customColorId: attributes.customColorId,
+          }),
         },
       });
 
@@ -545,6 +559,10 @@ export class BackupExportStream extends Readable {
           'hasSeenGroupStoryEducationSheet'
         ),
         phoneNumberSharingMode,
+        // Note that this should be called before `toDefaultChatStyle` because
+        // it builds `customColorIdByUuid`
+        customChatColors: this.toCustomChatColors(),
+        defaultChatStyle: this.toDefaultChatStyle(),
       },
     };
   }
@@ -2237,6 +2255,160 @@ export class BackupExportStream extends Readable {
         .reverse()
     );
   }
+
+  private toCustomChatColors(): Array<Backups.ChatStyle.ICustomChatColor> {
+    const customColors = window.storage.get('customColors');
+    if (!customColors) {
+      return [];
+    }
+
+    const result = new Array<Backups.ChatStyle.ICustomChatColor>();
+    for (const [uuid, color] of Object.entries(customColors.colors)) {
+      const id = result.length;
+      this.customColorIdByUuid.set(uuid, id);
+
+      const start = hslToRGBInt(color.start.hue, color.start.saturation);
+
+      if (color.end == null) {
+        result.push({
+          id,
+          solid: start,
+        });
+      } else {
+        const end = hslToRGBInt(color.end.hue, color.end.saturation);
+
+        result.push({
+          id,
+          gradient: {
+            colors: [start, end],
+            positions: [0, 1],
+            angle: color.deg,
+          },
+        });
+      }
+    }
+
+    return result;
+  }
+
+  private toDefaultChatStyle(): Backups.IChatStyle {
+    const defaultColor = window.storage.get('defaultConversationColor');
+
+    return this.toChatStyle({
+      wallpaperPhotoPointer: window.storage.get('defaultWallpaperPhotoPointer'),
+      wallpaperPreset: window.storage.get('defaultWallpaperPreset'),
+      color: defaultColor?.color,
+      customColorId: defaultColor?.customColorData?.id,
+    });
+  }
+
+  private toChatStyle({
+    wallpaperPhotoPointer,
+    wallpaperPreset,
+    color,
+    customColorId,
+  }: LocalChatStyle): Backups.IChatStyle {
+    const result: Backups.IChatStyle = {};
+
+    if (Bytes.isNotEmpty(wallpaperPhotoPointer)) {
+      result.wallpaperPhoto = Backups.FilePointer.decode(wallpaperPhotoPointer);
+    } else if (wallpaperPreset) {
+      result.wallpaperPreset = wallpaperPreset;
+    }
+
+    if (color == null) {
+      result.autoBubbleColor = {};
+      return result;
+    }
+
+    if (color === 'custom') {
+      strictAssert(
+        customColorId != null,
+        'No custom color id for custom color'
+      );
+
+      const index = this.customColorIdByUuid.get(customColorId);
+      strictAssert(index != null, 'Missing custom color');
+
+      result.customColorId = index;
+      return result;
+    }
+
+    const { BubbleColorPreset } = Backups.ChatStyle;
+
+    switch (color) {
+      case 'ultramarine':
+        result.bubbleColorPreset = BubbleColorPreset.SOLID_ULTRAMARINE;
+        break;
+      case 'crimson':
+        result.bubbleColorPreset = BubbleColorPreset.SOLID_CRIMSON;
+        break;
+      case 'vermilion':
+        result.bubbleColorPreset = BubbleColorPreset.SOLID_VERMILION;
+        break;
+      case 'burlap':
+        result.bubbleColorPreset = BubbleColorPreset.SOLID_BURLAP;
+        break;
+      case 'forest':
+        result.bubbleColorPreset = BubbleColorPreset.SOLID_FOREST;
+        break;
+      case 'wintergreen':
+        result.bubbleColorPreset = BubbleColorPreset.SOLID_WINTERGREEN;
+        break;
+      case 'teal':
+        result.bubbleColorPreset = BubbleColorPreset.SOLID_TEAL;
+        break;
+      case 'blue':
+        result.bubbleColorPreset = BubbleColorPreset.SOLID_BLUE;
+        break;
+      case 'indigo':
+        result.bubbleColorPreset = BubbleColorPreset.SOLID_INDIGO;
+        break;
+      case 'violet':
+        result.bubbleColorPreset = BubbleColorPreset.SOLID_VIOLET;
+        break;
+      case 'plum':
+        result.bubbleColorPreset = BubbleColorPreset.SOLID_PLUM;
+        break;
+      case 'taupe':
+        result.bubbleColorPreset = BubbleColorPreset.SOLID_TAUPE;
+        break;
+      case 'steel':
+        result.bubbleColorPreset = BubbleColorPreset.SOLID_STEEL;
+        break;
+      case 'ember':
+        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_EMBER;
+        break;
+      case 'midnight':
+        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_MIDNIGHT;
+        break;
+      case 'infrared':
+        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_INFRARED;
+        break;
+      case 'lagoon':
+        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_LAGOON;
+        break;
+      case 'fluorescent':
+        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_FLUORESCENT;
+        break;
+      case 'basil':
+        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_BASIL;
+        break;
+      case 'sublime':
+        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_SUBLIME;
+        break;
+      case 'sea':
+        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_SEA;
+        break;
+      case 'tangerine':
+        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_TANGERINE;
+        break;
+      default:
+        throw missingCaseError(color);
+    }
+
+    return result;
+  }
 }
 
 function checkServiceIdEquivalence(
@@ -2247,4 +2419,10 @@ function checkServiceIdEquivalence(
   const rightConvo = window.ConversationController.get(right);
 
   return leftConvo && rightConvo && leftConvo === rightConvo;
+}
+
+function hslToRGBInt(hue: number, saturation: number): number {
+  const { r, g, b } = hslToRGB(hue, saturation, 1);
+  // eslint-disable-next-line no-bitwise
+  return ((0xff << 24) | (r << 16) | (g << 8) | b) >>> 0;
 }

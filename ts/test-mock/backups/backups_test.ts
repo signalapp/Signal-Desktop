@@ -49,6 +49,7 @@ describe('backups', function (this: Mocha.Suite) {
     state = state.addContact(pinned, {
       identityKey: pinned.publicKey.serialize(),
       profileKey: pinned.profileKey.serialize(),
+      whitelisted: true,
     });
 
     state = state.pin(pinned);
@@ -99,19 +100,53 @@ describe('backups', function (this: Mocha.Suite) {
     const { contacts, phone, desktop, server } = bootstrap;
     const [friend, pinned] = contacts;
 
-    debug('wait for storage service sync to finish');
     {
+      debug('wait for storage service sync to finish');
       const window = await app.getWindow();
 
       const leftPane = window.locator('#LeftPane');
-      await leftPane
-        .locator(
-          `[data-testid="${pinned.device.aci}"] >> "${pinned.profileName}"`
-        )
-        .waitFor();
+      const contact = leftPane.locator(
+        `[data-testid="${pinned.device.aci}"] >> "${pinned.profileName}"`
+      );
+      await contact.click();
+
+      debug('setting bubble color');
+      const conversationStack = window.locator('.Inbox__conversation-stack');
+      await conversationStack
+        .locator('button.module-ConversationHeader__button--more')
+        .click();
+
+      await window
+        .locator('.react-contextmenu-item >> "Chat settings"')
+        .click();
+
+      await conversationStack
+        .locator('.ConversationDetails__chat-color')
+        .click();
+      await conversationStack
+        .locator('.ChatColorPicker__bubble--infrared')
+        .click();
+
+      const backButton = conversationStack.locator(
+        '.ConversationPanel__header__back-button'
+      );
+      // Go back from colors
+      await backButton.first().click();
+      // Go back from settings
+      await backButton.last().click();
     }
 
     for (let i = 0; i < 5; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await server.send(
+        desktop,
+        // eslint-disable-next-line no-await-in-loop
+        await phone.encryptSyncSent(desktop, `to pinned ${i}`, {
+          timestamp: bootstrap.getTimestamp(),
+          destinationServiceId: pinned.device.aci,
+        })
+      );
+
       const theirTimestamp = bootstrap.getTimestamp();
 
       // eslint-disable-next-line no-await-in-loop
@@ -159,14 +194,21 @@ describe('backups', function (this: Mocha.Suite) {
       app,
       async (window, snapshot) => {
         const leftPane = window.locator('#LeftPane');
+        const pinnedElem = leftPane.locator(
+          `[data-testid="${pinned.toContact().aci}"] >> "to pinned 4"`
+        );
+
+        debug('Waiting for messages to pinned contact to come through');
+        await pinnedElem.click();
+
         const contactElem = leftPane.locator(
           `[data-testid="${friend.toContact().aci}"] >> "respond 4"`
         );
 
-        debug('Waiting for messages to come through');
+        debug('Waiting for messages to regular contact to come through');
         await contactElem.waitFor();
 
-        await snapshot('main screen');
+        await snapshot('styled bubbles');
 
         debug('Going into the conversation');
         await contactElem.click();

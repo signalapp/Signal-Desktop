@@ -368,6 +368,7 @@ async function bulkAddSignedPreKeys(
 // Items
 
 const ITEM_SPECS: Partial<Record<ItemKeyType, ObjectMappingSpecType>> = {
+  defaultWallpaperPhotoPointer: ['value'],
   identityKeyMap: {
     key: 'value',
     valueSpec: {
@@ -379,6 +380,7 @@ const ITEM_SPECS: Partial<Record<ItemKeyType, ObjectMappingSpecType>> = {
   senderCertificate: ['value.serialized'],
   senderCertificateNoE164: ['value.serialized'],
   subscriberId: ['value'],
+  backupsSubscriberId: ['value'],
   usernameLink: ['value.entropy', 'value.serverId'],
 };
 async function createOrUpdateItem<K extends ItemKeyType>(
