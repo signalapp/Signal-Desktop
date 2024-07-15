@@ -6,6 +6,7 @@ import Long from 'long';
 import { HKDF } from '@signalapp/libsignal-client';
 
 import * as Bytes from './Bytes';
+import { Crypto } from './context/Crypto';
 import { calculateAgreement, generateKeyPair } from './Curve';
 import { HashType, CipherType, UUID_BYTE_SIZE } from './types/Crypto';
 import { ProfileDecryptError } from './types/errors';
@@ -734,7 +735,7 @@ export function decryptProfileName(
 // SignalContext APIs
 //
 
-const { crypto } = globalThis.window?.SignalContext ?? {};
+const crypto = globalThis.window?.SignalContext.crypto || new Crypto();
 
 export function sign(key: Uint8Array, data: Uint8Array): Uint8Array {
   return crypto.sign(key, data);

@@ -352,6 +352,10 @@ export async function handleAttachmentRequest(req: Request): Promise<Response> {
         plaintext
       );
     } catch (error) {
+      console.error(
+        'handleAttachmentRequest: decryption error',
+        Errors.toLogFormat(error)
+      );
       plaintext.emit('error', error);
     }
   }
@@ -459,6 +463,10 @@ function handleRangeRequest({
       try {
         await pipeline(plaintext, transform);
       } catch (error) {
+        console.error(
+          'handleAttachmentRequest: range transform error',
+          Errors.toLogFormat(error)
+        );
         transform.emit('error', error);
       }
     })()
