@@ -1009,6 +1009,7 @@ async function encryptLegacySticker(
     window.Signal.Migrations;
 
   const updated = await encryptLegacyAttachment(sticker, {
+    logId: 'sticker',
     readAttachmentData: readStickerData,
     writeNewAttachmentData: writeNewStickerData,
     disposition: AttachmentDisposition.Sticker,

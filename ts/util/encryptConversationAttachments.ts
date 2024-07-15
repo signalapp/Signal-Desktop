@@ -10,6 +10,7 @@ import { encryptLegacyAttachment } from './encryptLegacyAttachment';
 import { AttachmentDisposition } from './getLocalAttachmentUrl';
 import { isNotNil } from './isNotNil';
 import { isSignalConversation } from './isSignalConversation';
+import { getConversationIdForLogging } from './idForLogging';
 
 const CONCURRENCY = 32;
 
@@ -66,6 +67,7 @@ async function encryptOne(attributes: ConversationAttributesType): Promise<
     return undefined;
   }
 
+  const logId = getConversationIdForLogging(attributes);
   const result = { ...attributes };
 
   const {
@@ -86,6 +88,7 @@ async function encryptOne(attributes: ConversationAttributesType): Promise<
     result.profileAvatar = await encryptLegacyAttachment(
       attributes.profileAvatar,
       {
+        logId: `${logId}.profileAvatar`,
         readAttachmentData,
         writeNewAttachmentData,
         disposition: AttachmentDisposition.Attachment,
@@ -99,6 +102,7 @@ async function encryptOne(attributes: ConversationAttributesType): Promise<
 
   if (attributes.avatar?.path) {
     result.avatar = await encryptLegacyAttachment(attributes.avatar, {
+      logId: `${logId}.avatar`,
       readAttachmentData,
       writeNewAttachmentData,
       disposition: AttachmentDisposition.Attachment,
@@ -111,7 +115,7 @@ async function encryptOne(attributes: ConversationAttributesType): Promise<
 
   if (attributes.avatars?.length) {
     result.avatars = await Promise.all(
-      attributes.avatars.map(async avatar => {
+      attributes.avatars.map(async (avatar, i) => {
         if (avatar.version === 2 || !avatar.imagePath) {
           return avatar;
         }
@@ -121,6 +125,7 @@ async function encryptOne(attributes: ConversationAttributesType): Promise<
             path: avatar.imagePath,
           },
           {
+            logId: `${logId}.avatars[${i}]`,
             readAttachmentData: readAvatarData,
             writeNewAttachmentData: writeNewAvatarData,
             disposition: AttachmentDisposition.AvatarData,
@@ -141,8 +146,9 @@ async function encryptOne(attributes: ConversationAttributesType): Promise<
 
   if (attributes.draftAttachments?.length) {
     result.draftAttachments = await Promise.all(
-      attributes.draftAttachments.map(async draft => {
+      attributes.draftAttachments.map(async (draft, i) => {
         const updated = await encryptLegacyAttachment(draft, {
+          logId: `${logId}.draft[${i}]`,
           readAttachmentData: readDraftData,
           writeNewAttachmentData: writeNewDraftData,
           disposition: AttachmentDisposition.Draft,
