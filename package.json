@@ -133,7 +133,7 @@
     "fs-extra": "5.0.0",
     "fuse.js": "6.5.3",
     "glob": "7.1.6",
-    "google-libphonenumber": "3.2.34",
+    "google-libphonenumber": "3.2.36",
     "got": "11.8.5",
     "heic-convert": "1.2.4",
     "humanize-duration": "3.27.1",
