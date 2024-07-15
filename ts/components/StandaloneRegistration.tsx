@@ -7,15 +7,16 @@ import type { Plugin } from 'intl-tel-input';
 import intlTelInput from 'intl-tel-input';
 
 import { strictAssert } from '../util/assert';
-import * as log from '../logging/log';
 import { parseNumber } from '../util/libphonenumberUtil';
-import { getChallengeURL } from '../challenge';
+import { missingCaseError } from '../util/missingCaseError';
 import { VerificationTransport } from '../types/VerificationTransport';
 
 function PhoneInput({
+  initialValue,
   onValidation,
   onNumberChange,
 }: {
+  initialValue: string | undefined;
   onValidation: (isValid: boolean) => void;
   onNumberChange: (number?: string) => void;
 }): JSX.Element {
@@ -23,18 +24,26 @@ function PhoneInput({
   const pluginRef = useRef<Plugin | undefined>();
   const elemRef = useRef<HTMLInputElement | null>(null);
 
-  const onRef = useCallback((elem: HTMLInputElement | null) => {
-    elemRef.current = elem;
+  const onRef = useCallback(
+    (elem: HTMLInputElement | null) => {
+      elemRef.current = elem;
 
-    if (!elem) {
-      return;
-    }
+      if (!elem) {
+        return;
+      }
 
-    pluginRef.current?.destroy();
+      if (initialValue !== undefined) {
+        // eslint-disable-next-line no-param-reassign
+        elem.value = initialValue;
+      }
 
-    const plugin = intlTelInput(elem);
-    pluginRef.current = plugin;
-  }, []);
+      pluginRef.current?.destroy();
+
+      const plugin = intlTelInput(elem);
+      pluginRef.current = plugin;
+    },
+    [initialValue]
+  );
 
   const validateNumber = useCallback(
     (number: string) => {
@@ -94,34 +103,45 @@ function PhoneInput({
   );
 }
 
-export function StandaloneRegistration({
-  onComplete,
+enum Stage {
+  PhoneNumber,
+  VerificationCode,
+  ProfileName,
+}
+
+type StageData =
+  | {
+      stage: Stage.PhoneNumber;
+      initialNumber: string | undefined;
+    }
+  | {
+      stage: Stage.VerificationCode;
+      number: string;
+      sessionId: string;
+    }
+  | {
+      stage: Stage.ProfileName;
+    };
+
+function PhoneNumberStage({
+  initialNumber,
+  getCaptchaToken,
   requestVerification,
-  registerSingleDevice,
+  onNext,
 }: {
-  onComplete: () => void;
+  initialNumber: string | undefined;
+  getCaptchaToken: () => Promise<string>;
   requestVerification: (
     number: string,
     captcha: string,
     transport: VerificationTransport
   ) => Promise<{ sessionId: string }>;
-  registerSingleDevice: (
-    number: string,
-    code: string,
-    sessionId: string
-  ) => Promise<void>;
+  onNext: (result: { number: string; sessionId: string }) => void;
 }): JSX.Element {
-  useEffect(() => {
-    window.IPC.readyForUpdates();
-  }, []);
+  const [number, setNumber] = useState<string | undefined>(initialNumber);
 
   const [isValidNumber, setIsValidNumber] = useState(false);
-  const [isValidCode, setIsValidCode] = useState(false);
-  const [number, setNumber] = useState<string | undefined>(undefined);
-  const [code, setCode] = useState('');
   const [error, setError] = useState<string | undefined>(undefined);
-  const [sessionId, setSessionId] = useState<string | undefined>(undefined);
-  const [status, setStatus] = useState<string | undefined>(undefined);
 
   const onRequestCode = useCallback(
     async (transport: VerificationTransport) => {
@@ -135,26 +155,25 @@ export function StandaloneRegistration({
         return;
       }
 
-      const url = getChallengeURL('registration');
-      log.info(`StandaloneRegistration: navigating to ${url}`);
-      document.location.href = url;
-      if (!window.Signal.challengeHandler) {
-        setError('Captcha handler is not ready!');
-        return;
-      }
-      const token = await window.Signal.challengeHandler.requestCaptcha({
-        reason: 'standalone registration',
-      });
-
       try {
+        const token = await getCaptchaToken();
         const result = await requestVerification(number, token, transport);
-        setSessionId(result.sessionId);
         setError(undefined);
+
+        onNext({ number, sessionId: result.sessionId });
       } catch (err) {
         setError(err.message);
       }
     },
-    [isValidNumber, setIsValidNumber, setError, requestVerification, number]
+    [
+      getCaptchaToken,
+      isValidNumber,
+      setIsValidNumber,
+      setError,
+      requestVerification,
+      number,
+      onNext,
+    ]
   );
 
   const onSMSClick = useCallback(
@@ -177,6 +196,65 @@ export function StandaloneRegistration({
     [onRequestCode]
   );
 
+  return (
+    <div className="step-body">
+      <div className="banner-image module-splash-screen__logo module-img--128" />
+      <div className="header">Create your Signal Account</div>
+
+      <div>
+        <div className="phone-input-form">
+          <PhoneInput
+            initialValue={initialNumber}
+            onValidation={setIsValidNumber}
+            onNumberChange={setNumber}
+          />
+        </div>
+      </div>
+      <div className="StandaloneRegistration__error">{error}</div>
+      <div className="clearfix">
+        <button
+          type="button"
+          className="button"
+          disabled={!isValidNumber}
+          onClick={onSMSClick}
+        >
+          Send SMS
+        </button>
+        <button
+          type="button"
+          className="link"
+          tabIndex={-1}
+          disabled={!isValidNumber}
+          onClick={onVoiceClick}
+        >
+          Call
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export function VerificationCodeStage({
+  number,
+  sessionId,
+  registerSingleDevice,
+  onNext,
+  onBack,
+}: {
+  number: string;
+  sessionId: string;
+  registerSingleDevice: (
+    number: string,
+    code: string,
+    sessionId: string
+  ) => Promise<void>;
+  onNext: () => void;
+  onBack: () => void;
+}): JSX.Element {
+  const [code, setCode] = useState('');
+  const [isValidCode, setIsValidCode] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
+
   const onChangeCode = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const { value } = event.target;
@@ -187,12 +265,21 @@ export function StandaloneRegistration({
     [setIsValidCode, setCode]
   );
 
+  const onBackClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      event.stopPropagation();
+      onBack();
+    },
+    [onBack]
+  );
+
   const onVerifyCode = useCallback(
     async (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
       event.stopPropagation();
 
-      if (!isValidNumber || !isValidCode || !sessionId) {
+      if (!isValidCode || !sessionId) {
         return;
       }
 
@@ -200,84 +287,246 @@ export function StandaloneRegistration({
 
       try {
         await registerSingleDevice(number, code, sessionId);
-        onComplete();
+        onNext();
       } catch (err) {
-        setStatus(err.message);
+        setError(err.message);
       }
     },
     [
       registerSingleDevice,
-      onComplete,
+      onNext,
       number,
       code,
       sessionId,
-      setStatus,
-      isValidNumber,
+      setError,
       isValidCode,
     ]
   );
+
+  return (
+    <>
+      <div className="step-body">
+        <div className="banner-image module-splash-screen__logo module-img--128" />
+        <div className="header">Create your Signal Account</div>
+
+        <input
+          className={`form-control ${isValidCode ? 'valid' : 'invalid'}`}
+          type="text"
+          dir="auto"
+          pattern="\s*[0-9]{3}-?[0-9]{3}\s*"
+          title="Enter your 6-digit verification code. If you did not receive a code, click Call or Send SMS to request a new one"
+          placeholder="Verification Code"
+          autoComplete="off"
+          value={code}
+          onChange={onChangeCode}
+        />
+        <div className="StandaloneRegistration__error">{error}</div>
+      </div>
+      <div className="nav">
+        <button type="button" className="button" onClick={onBackClick}>
+          Back
+        </button>
+        <button
+          type="button"
+          className="button"
+          disabled={!isValidCode}
+          onClick={onVerifyCode}
+        >
+          Register
+        </button>
+      </div>
+    </>
+  );
+}
+
+export function ProfileNameStage({
+  uploadProfile,
+  onNext,
+}: {
+  uploadProfile: (opts: {
+    firstName: string;
+    lastName: string;
+  }) => Promise<void>;
+  onNext: () => void;
+}): JSX.Element {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [error, setError] = useState<string | undefined>(undefined);
+
+  const onChangeFirstName = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => setFirstName(event.target.value),
+    []
+  );
+
+  const onChangeLastName = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => setLastName(event.target.value),
+    []
+  );
+
+  const onNextClick = useCallback(
+    async (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      event.stopPropagation();
+      try {
+        await uploadProfile({ firstName, lastName });
+        onNext();
+      } catch (err) {
+        setError(err.message);
+      }
+    },
+    [onNext, firstName, lastName, uploadProfile]
+  );
+
+  return (
+    <>
+      <div className="step-body">
+        <div className="banner-image module-splash-screen__logo module-img--128" />
+        <div className="header">Select Profile Name</div>
+
+        <input
+          className={`form-control ${firstName ? 'valid' : 'invalid'}`}
+          type="text"
+          dir="auto"
+          pattern="\s*[0-9]{3}-?[0-9]{3}\s*"
+          title="Enter your first name"
+          placeholder="First name"
+          autoComplete="off"
+          value={firstName}
+          onChange={onChangeFirstName}
+        />
+        <input
+          className="form-control"
+          type="text"
+          dir="auto"
+          pattern="\s*[0-9]{3}-?[0-9]{3}\s*"
+          title="Enter your last name"
+          placeholder="First name"
+          autoComplete="off"
+          value={lastName}
+          onChange={onChangeLastName}
+        />
+
+        {/* TODO(indutny): highlight error */}
+        <div>{error}</div>
+      </div>
+      <div className="nav">
+        <button
+          type="button"
+          className="button"
+          disabled={!firstName}
+          onClick={onNextClick}
+        >
+          Finish
+        </button>
+      </div>
+    </>
+  );
+}
+
+export type PropsType = Readonly<{
+  onComplete: () => void;
+  getCaptchaToken: () => Promise<string>;
+  requestVerification: (
+    number: string,
+    captcha: string,
+    transport: VerificationTransport
+  ) => Promise<{ sessionId: string }>;
+  registerSingleDevice: (
+    number: string,
+    code: string,
+    sessionId: string
+  ) => Promise<void>;
+  uploadProfile: (opts: {
+    firstName: string;
+    lastName: string;
+  }) => Promise<void>;
+  readyForUpdates: () => void;
+}>;
+
+export function StandaloneRegistration({
+  onComplete,
+  getCaptchaToken,
+  requestVerification,
+  registerSingleDevice,
+  uploadProfile,
+  readyForUpdates,
+}: PropsType): JSX.Element {
+  useEffect(() => {
+    readyForUpdates();
+  }, [readyForUpdates]);
+
+  const [stageData, setStageData] = useState<StageData>({
+    stage: Stage.PhoneNumber,
+    initialNumber: undefined,
+  });
+
+  const onPhoneNumber = useCallback(
+    ({ number, sessionId }: { number: string; sessionId: string }) => {
+      setStageData({
+        stage: Stage.VerificationCode,
+        number,
+        sessionId,
+      });
+    },
+    []
+  );
+
+  const onBackToPhoneNumber = useCallback(() => {
+    setStageData(data => {
+      if (data.stage !== Stage.VerificationCode) {
+        return data;
+      }
+
+      return {
+        stage: Stage.PhoneNumber,
+        initialNumber: data.number,
+      };
+    });
+  }, []);
+
+  const onRegistered = useCallback(() => {
+    setStageData({
+      stage: Stage.ProfileName,
+    });
+  }, []);
+
+  let body: JSX.Element;
+  if (stageData.stage === Stage.PhoneNumber) {
+    body = (
+      <PhoneNumberStage
+        {...stageData}
+        getCaptchaToken={getCaptchaToken}
+        requestVerification={requestVerification}
+        onNext={onPhoneNumber}
+      />
+    );
+  } else if (stageData.stage === Stage.VerificationCode) {
+    body = (
+      <VerificationCodeStage
+        {...stageData}
+        registerSingleDevice={registerSingleDevice}
+        onNext={onRegistered}
+        onBack={onBackToPhoneNumber}
+      />
+    );
+  } else if (stageData.stage === Stage.ProfileName) {
+    body = (
+      <ProfileNameStage
+        {...stageData}
+        uploadProfile={uploadProfile}
+        onNext={onComplete}
+      />
+    );
+  } else {
+    throw missingCaseError(stageData);
+  }
 
   return (
     <div className="full-screen-flow">
       <div className="module-title-bar-drag-area" />
 
       <div className="step">
-        <div className="inner">
-          <div className="step-body">
-            <div className="banner-image module-splash-screen__logo module-img--128" />
-            <div className="header">Create your Signal Account</div>
-            <div>
-              <div className="phone-input-form">
-                <PhoneInput
-                  onValidation={setIsValidNumber}
-                  onNumberChange={setNumber}
-                />
-              </div>
-            </div>
-            <div className="clearfix">
-              <button
-                type="button"
-                className="button"
-                disabled={!isValidNumber}
-                onClick={onSMSClick}
-              >
-                Send SMS
-              </button>
-              <button
-                type="button"
-                className="link"
-                tabIndex={-1}
-                disabled={!isValidNumber}
-                onClick={onVoiceClick}
-              >
-                Call
-              </button>
-            </div>
-            <input
-              className={`form-control ${isValidCode ? 'valid' : 'invalid'}`}
-              type="text"
-              dir="auto"
-              pattern="\s*[0-9]{3}-?[0-9]{3}\s*"
-              title="Enter your 6-digit verification code. If you did not receive a code, click Call or Send SMS to request a new one"
-              placeholder="Verification Code"
-              autoComplete="off"
-              value={code}
-              onChange={onChangeCode}
-            />
-            <div>{error}</div>
-            <div>{status}</div>
-          </div>
-          <div className="nav">
-            <button
-              type="button"
-              className="button"
-              disabled={!isValidNumber || !isValidCode}
-              onClick={onVerifyCode}
-            >
-              Register
-            </button>
-          </div>
-        </div>
+        <div className="inner">{body}</div>
       </div>
     </div>
   );
