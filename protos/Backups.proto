@@ -78,6 +78,7 @@ message AccountData {
     bool hasCompletedUsernameOnboarding = 16;
     PhoneNumberSharingMode phoneNumberSharingMode = 17;
     ChatStyle defaultChatStyle = 18;
+    repeated ChatStyle.CustomChatColor customChatColors = 19;
   }
 
   message SubscriberData {
@@ -1055,6 +1056,15 @@ message ChatStyle {
     repeated float positions = 3; // percent from 0 to 1
   }
 
+  message CustomChatColor {
+    uint32 id = 1;
+
+    oneof color {
+      uint32 solid = 2;
+      Gradient gradient = 3;
+    }
+  }
+
   message AutomaticBubbleColor {
   }
 
@@ -1115,10 +1125,12 @@ message ChatStyle {
   }
 
   oneof bubbleColor {
-    BubbleColorPreset bubbleColorPreset = 3;
-    Gradient bubbleGradient = 4;
-    uint32 bubbleSolidColor = 5;
-    // Bubble setting is automatically determined based on the wallpaper setting.
-    AutomaticBubbleColor autoBubbleColor = 6;
+    // Bubble setting is automatically determined based on the wallpaper setting,
+    // or `SOLID_ULTRAMARINE` for `noWallpaper`
+    AutomaticBubbleColor autoBubbleColor = 3;
+    BubbleColorPreset bubbleColorPreset = 4;
+
+    // See AccountSettings.customChatColors
+    uint32 customColorId = 5;
   }
 }

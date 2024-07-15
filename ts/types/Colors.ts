@@ -170,12 +170,14 @@ export type ConversationColorType =
   | typeof ConversationColors[number]
   | 'custom';
 
+export type CustomColorDataType = {
+  id: string;
+  value: CustomColorType;
+};
+
 export type DefaultConversationColorType = {
   color: ConversationColorType;
-  customColorData?: {
-    id: string;
-    value: CustomColorType;
-  };
+  customColorData?: CustomColorDataType;
 };
 
 export const DEFAULT_CONVERSATION_COLOR: DefaultConversationColorType = {

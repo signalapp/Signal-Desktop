@@ -162,7 +162,7 @@ describe('backup/bubble messages', () => {
     ]);
   });
 
-  it.skip('roundtrips unopened gift badge', async () => {
+  it('roundtrips unopened gift badge', async () => {
     await symmetricRoundtripHarness([
       {
         conversationId: contactA.id,
@@ -187,7 +187,7 @@ describe('backup/bubble messages', () => {
     ]);
   });
 
-  it.skip('roundtrips opened gift badge', async () => {
+  it('roundtrips opened gift badge', async () => {
     await symmetricRoundtripHarness([
       {
         conversationId: contactA.id,
@@ -212,7 +212,7 @@ describe('backup/bubble messages', () => {
     ]);
   });
 
-  it.skip('roundtrips gift badge quote', async () => {
+  it('roundtrips gift badge quote', async () => {
     await symmetricRoundtripHarness([
       {
         conversationId: contactA.id,
