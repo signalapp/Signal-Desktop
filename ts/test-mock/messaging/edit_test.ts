@@ -348,7 +348,7 @@ describe('editing', function (this: Mocha.Suite) {
 
       await sendEditedMessage(
         window,
-        firstEdit.dataMessage?.timestamp?.toNumber() ?? 0,
+        originalMessage.timestamp?.toNumber() ?? 0,
         '.3'
       );
 
@@ -361,7 +361,7 @@ describe('editing', function (this: Mocha.Suite) {
 
       debug('opening edit history');
       const secondEditMessage = window.locator(
-        `.module-message[data-testid="${secondEdit.dataMessage?.timestamp?.toNumber()}"]`
+        `.module-message[data-testid="${originalMessage?.timestamp?.toNumber()}"]`
       );
       await secondEditMessage
         .locator('.module-message__metadata__edited')
@@ -669,7 +669,7 @@ describe('editing', function (this: Mocha.Suite) {
       debug('sending edit message v3 desktop -> friend');
       await sendEditedMessage(
         page,
-        editMessageV2.dataMessage?.timestamp?.toNumber() ?? 0,
+        originalMessage?.timestamp?.toNumber() ?? 0,
         '3'
       );
 
@@ -690,7 +690,7 @@ describe('editing', function (this: Mocha.Suite) {
       debug('sending edit message v4 desktop -> friend');
       await sendEditedMessage(
         page,
-        editMessageV3.dataMessage?.timestamp?.toNumber() ?? 0,
+        originalMessage?.timestamp?.toNumber() ?? 0,
         '4'
       );
 
