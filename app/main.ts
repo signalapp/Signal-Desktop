@@ -672,10 +672,19 @@ async function createWindow() {
   const usePreloadBundle =
     !isTestEnvironment(getEnvironment()) || forcePreloadBundle;
 
+  const primaryDisplay = screen.getPrimaryDisplay();
+  const { width: maxWidth, height: maxHeight } = primaryDisplay.workAreaSize;
+  const width = windowConfig
+    ? Math.min(windowConfig.width, maxWidth)
+    : DEFAULT_WIDTH;
+  const height = windowConfig
+    ? Math.min(windowConfig.height, maxHeight)
+    : DEFAULT_HEIGHT;
+
   const windowOptions: Electron.BrowserWindowConstructorOptions = {
     show: false,
-    width: DEFAULT_WIDTH,
-    height: DEFAULT_HEIGHT,
+    width,
+    height,
     minWidth: MIN_WIDTH,
     minHeight: MIN_HEIGHT,
     autoHideMenuBar: false,
@@ -700,7 +709,7 @@ async function createWindow() {
       disableBlinkFeatures: 'Accelerated2dCanvas,AcceleratedSmallCanvases',
     },
     icon: windowIcon,
-    ...pick(windowConfig, ['autoHideMenuBar', 'width', 'height', 'x', 'y']),
+    ...pick(windowConfig, ['autoHideMenuBar', 'x', 'y']),
   };
 
   if (!isNumber(windowOptions.width) || windowOptions.width < MIN_WIDTH) {
