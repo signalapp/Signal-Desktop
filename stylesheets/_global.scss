@@ -631,6 +631,10 @@ $loading-height: 16px;
       float: inline-start;
     }
   }
+
+  .StandaloneRegistration__error {
+    color: $color-accent-red;
+  }
 }
 
 //yellow border fix

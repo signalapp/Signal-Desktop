@@ -5,6 +5,9 @@ import { useSelector } from 'react-redux';
 import type { VerificationTransport } from '../../types/VerificationTransport';
 import { App } from '../../components/App';
 import OS from '../../util/os/osMain';
+import { getConversation } from '../../util/getConversation';
+import { getChallengeURL } from '../../challenge';
+import { writeProfile } from '../../services/writeProfile';
 import { strictAssert } from '../../util/assert';
 import { SmartCallManager } from './CallManager';
 import { SmartGlobalModalContainer } from './GlobalModalContainer';
@@ -52,6 +55,17 @@ function renderStoryViewer(closeView: () => unknown): JSX.Element {
   );
 }
 
+async function getCaptchaToken(): Promise<string> {
+  const url = getChallengeURL('registration');
+  document.location.href = url;
+  if (!window.Signal.challengeHandler) {
+    throw new Error('Captcha handler is not ready!');
+  }
+  return window.Signal.challengeHandler.requestCaptcha({
+    reason: 'standalone registration',
+  });
+}
+
 function requestVerification(
   number: string,
   captcha: string,
@@ -72,6 +86,28 @@ function registerSingleDevice(
     .registerSingleDevice(number, code, sessionId);
 }
 
+function readyForUpdates(): void {
+  window.IPC.readyForUpdates();
+}
+
+async function uploadProfile({
+  firstName,
+  lastName,
+}: {
+  firstName: string;
+  lastName: string;
+}): Promise<void> {
+  const us = window.ConversationController.getOurConversationOrThrow();
+  us.set('profileName', firstName);
+  us.set('profileFamilyName', lastName);
+  us.captureChange('standaloneProfile');
+  await window.Signal.Data.updateConversation(us.attributes);
+
+  await writeProfile(getConversation(us), {
+    keepAvatar: true,
+  });
+}
+
 export const SmartApp = memo(function SmartApp() {
   const appView = useSelector(getAppView);
   const isMaximized = useSelector(getIsMainWindowMaximized);
@@ -90,15 +126,18 @@ export const SmartApp = memo(function SmartApp() {
       appView={appView}
       isMaximized={isMaximized}
       isFullScreen={isFullScreen}
+      getCaptchaToken={getCaptchaToken}
       osClassName={osClassName}
       renderCallManager={renderCallManager}
       renderGlobalModalContainer={renderGlobalModalContainer}
       renderLightbox={renderLightbox}
       hasSelectedStoryData={hasSelectedStoryData}
+      readyForUpdates={readyForUpdates}
       renderStoryViewer={renderStoryViewer}
       renderInbox={renderInbox}
       requestVerification={requestVerification}
       registerSingleDevice={registerSingleDevice}
+      uploadProfile={uploadProfile}
       theme={theme}
       openInbox={openInbox}
       scrollToMessage={scrollToMessage}
