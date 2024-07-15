@@ -1654,6 +1654,7 @@ function getSQLKey(): string {
     getLogger().info('getSQLKey: updating encrypted key in the config');
     const encrypted = safeStorage.encryptString(key).toString('hex');
     userConfig.set('encryptedKey', encrypted);
+    userConfig.set('key', undefined);
   } else {
     getLogger().info('getSQLKey: updating plaintext key in the config');
     userConfig.set('key', key);
