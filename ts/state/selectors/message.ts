@@ -774,7 +774,7 @@ export const getPropsForMessage = (
     status: getMessagePropStatus(message, ourConversationId),
     text: message.body,
     textDirection: getTextDirection(message.body),
-    timestamp: getMessageSentTimestamp(message, { includeEdits: true, log }),
+    timestamp: getMessageSentTimestamp(message, { includeEdits: false, log }),
     receivedAtMS: message.received_at_ms,
   };
 };
