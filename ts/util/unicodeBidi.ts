@@ -109,7 +109,8 @@ export const ANY_UNICODE_DIR_CONTROL_CHAR_REGEX = new RegExp(
     POP_DIRECTIONAL_FORMATTING,
     LTR_OVERRIDE,
     RTL_OVERRIDE,
-  ].join('|')
+  ].join('|'),
+  'g'
 );
 
 export function hasAnyUnicodeDirControlChars(input: string): boolean {
@@ -215,4 +216,8 @@ export function bidiIsolate(text: string): string {
     return text;
   }
   return _bidiIsolate(text);
+}
+
+export function bidiStrip(text: string): string {
+  return text.replace(ANY_UNICODE_DIR_CONTROL_CHAR_REGEX, '');
 }
