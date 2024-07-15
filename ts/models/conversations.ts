@@ -4205,10 +4205,7 @@ export class ConversationModel extends window.Backbone
         : undefined;
 
       timestamp =
-        callHistory?.timestamp ||
-        activityMessage.get('editMessageTimestamp') ||
-        activityMessage.get('sent_at') ||
-        timestamp;
+        callHistory?.timestamp || activityMessage.get('sent_at') || timestamp;
       lastMessageReceivedAt =
         activityMessage.get('received_at') || lastMessageReceivedAt;
       lastMessageReceivedAtMs =
