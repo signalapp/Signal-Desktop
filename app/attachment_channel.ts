@@ -352,11 +352,18 @@ export async function handleAttachmentRequest(req: Request): Promise<Response> {
         plaintext
       );
     } catch (error) {
+      plaintext.emit('error', error);
+
+      // These errors happen when canceling fetch from `attachment://` urls,
+      // ignore them to avoid noise in the logs.
+      if (error.name === 'AbortError') {
+        return;
+      }
+
       console.error(
         'handleAttachmentRequest: decryption error',
         Errors.toLogFormat(error)
       );
-      plaintext.emit('error', error);
     }
   }
 
@@ -463,11 +470,18 @@ function handleRangeRequest({
       try {
         await pipeline(plaintext, transform);
       } catch (error) {
+        transform.emit('error', error);
+
+        // These errors happen when canceling fetch from `attachment://` urls,
+        // ignore them to avoid noise in the logs.
+        if (error.name === 'AbortError') {
+          return;
+        }
+
         console.error(
           'handleAttachmentRequest: range transform error',
           Errors.toLogFormat(error)
         );
-        transform.emit('error', error);
       }
     })()
   );
