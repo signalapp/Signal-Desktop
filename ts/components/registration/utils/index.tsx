@@ -17,7 +17,7 @@ export function sanitizeDisplayNameOrToast(
       onDisplayNameError(errorString); // this is is either calling dispatch in the caller or just `setDisplayNameError`
     }
 
-    return sanitizedName;
+    return trimName;
   } catch (e) {
     if (dispatch) {
       dispatch(onDisplayNameError(window.i18n('displayNameErrorDescriptionShorter')));
