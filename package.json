@@ -83,7 +83,7 @@
     "build:esbuild": "node scripts/esbuild.js",
     "build:esbuild:prod": "node scripts/esbuild.js --prod",
     "build:electron": "electron-builder --config.extraMetadata.environment=$SIGNAL_ENV",
-    "build:release": "cross-env SIGNAL_ENV=production npm run build:electron -- --config.directories.output=release",
+    "build:release": "cross-env SOURCE_DATE_EPOCH=1984 SIGNAL_ENV=production npm run build:electron -- --config.directories.output=release",
     "verify": "run-p --print-label verify:*",
     "verify:ts": "tsc --noEmit",
     "electron:install-app-deps": "electron-builder install-app-deps"
