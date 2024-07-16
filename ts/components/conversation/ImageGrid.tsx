@@ -4,7 +4,10 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import type { AttachmentType } from '../../types/Attachment';
+import type {
+  AttachmentForUIType,
+  AttachmentType,
+} from '../../types/Attachment';
 import {
   areAllAttachmentsVisual,
   getAlt,
@@ -21,7 +24,7 @@ import type { LocalizerType, ThemeType } from '../../types/Util';
 export type DirectionType = 'incoming' | 'outgoing';
 
 export type Props = {
-  attachments: ReadonlyArray<AttachmentType>;
+  attachments: ReadonlyArray<AttachmentForUIType>;
   bottomOverlay?: boolean;
   direction: DirectionType;
   isSticker?: boolean;
@@ -158,7 +161,9 @@ export function ImageGrid({
           playIconOverlay={isVideoAttachment(attachments[0])}
           height={height}
           width={width}
-          url={getUrl(attachments[0])}
+          url={
+            getUrl(attachments[0]) ?? attachments[0].thumbnailFromBackup?.url
+          }
           tabIndex={tabIndex}
           onClick={onClick}
           onError={onError}

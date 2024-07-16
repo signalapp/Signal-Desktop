@@ -14,18 +14,21 @@ import {
   AttachmentSizeError,
   mightBeOnBackupTier,
   type AttachmentType,
+  AttachmentVariant,
 } from '../types/Attachment';
-import * as MIME from '../types/MIME';
 import * as Bytes from '../Bytes';
 import {
   deriveBackupMediaKeyMaterial,
   type BackupMediaKeyMaterialType,
+  deriveBackupMediaThumbnailInnerEncryptionKeyMaterial,
 } from '../Crypto';
 import {
-  reencryptAttachmentV2,
   getAttachmentCiphertextLength,
   safeUnlinkSync,
   splitKeys,
+  type ReencryptedAttachmentV2,
+  decryptAndReencryptLocally,
+  measureSize,
 } from '../AttachmentCrypto';
 import type { ProcessedAttachment } from './Types.d';
 import type { WebAPIType } from './WebAPI';
@@ -33,7 +36,13 @@ import { createName, getRelativePath } from '../util/attachmentPath';
 import { MediaTier } from '../types/AttachmentDownload';
 import { getBackupKey } from '../services/backups/crypto';
 import { backupsService } from '../services/backups';
-import { getMediaIdForAttachment } from '../services/backups/util/mediaId';
+import {
+  getMediaIdForAttachment,
+  getMediaIdForAttachmentThumbnail,
+} from '../services/backups/util/mediaId';
+import { MAX_BACKUP_THUMBNAIL_SIZE } from '../types/VisualAttachment';
+import { missingCaseError } from '../util/missingCaseError';
+import { IV_LENGTH, MAC_LENGTH } from '../types/Crypto';
 
 const DEFAULT_BACKUP_CDN_NUMBER = 3;
 
@@ -43,10 +52,28 @@ export function getCdnKey(attachment: ProcessedAttachment): string {
   return cdnKey;
 }
 
-function getBackupMediaKeyMaterial(
+function getBackupMediaOuterEncryptionKeyMaterial(
   attachment: AttachmentType
 ): BackupMediaKeyMaterialType {
   const mediaId = getMediaIdForAttachment(attachment);
+  const backupKey = getBackupKey();
+  return deriveBackupMediaKeyMaterial(backupKey, mediaId.bytes);
+}
+
+function getBackupThumbnailInnerEncryptionKeyMaterial(
+  attachment: AttachmentType
+): BackupMediaKeyMaterialType {
+  const mediaId = getMediaIdForAttachmentThumbnail(attachment);
+  const backupKey = getBackupKey();
+  return deriveBackupMediaThumbnailInnerEncryptionKeyMaterial(
+    backupKey,
+    mediaId.bytes
+  );
+}
+function getBackupThumbnailOuterEncryptionKeyMaterial(
+  attachment: AttachmentType
+): BackupMediaKeyMaterialType {
+  const mediaId = getMediaIdForAttachmentThumbnail(attachment);
   const backupKey = getBackupKey();
   return deriveBackupMediaKeyMaterial(backupKey, mediaId.bytes);
 }
@@ -75,16 +102,17 @@ export async function getCdnNumberForBackupTier(
 export async function downloadAttachment(
   server: WebAPIType,
   attachment: ProcessedAttachment,
-  options?: {
+  options: {
+    variant?: AttachmentVariant;
     disableRetries?: boolean;
     timeout?: number;
     mediaTier?: MediaTier;
     logPrefix?: string;
-  }
-): Promise<AttachmentType> {
-  const logId = `${options?.logPrefix}/downloadAttachment`;
+  } = { variant: AttachmentVariant.Default }
+): Promise<ReencryptedAttachmentV2 & { size?: number }> {
+  const logId = `downloadAttachment/${options.logPrefix ?? ''}`;
 
-  const { digest, key, size, contentType } = attachment;
+  const { digest, key, size } = attachment;
 
   strictAssert(digest, `${logId}: missing digest`);
   strictAssert(key, `${logId}: missing key`);
@@ -94,8 +122,13 @@ export async function downloadAttachment(
     options?.mediaTier ??
     (mightBeOnBackupTier(attachment) ? MediaTier.BACKUP : MediaTier.STANDARD);
 
-  let downloadedPath: string;
+  let downloadResult: Awaited<ReturnType<typeof downloadToDisk>>;
+
   if (mediaTier === MediaTier.STANDARD) {
+    strictAssert(
+      options.variant !== AttachmentVariant.ThumbnailFromBackup,
+      'Thumbnails can only be downloaded from backup tier'
+    );
     const cdnKey = getCdnKey(attachment);
     const { cdnNumber } = attachment;
 
@@ -104,9 +137,13 @@ export async function downloadAttachment(
       cdnNumber,
       options,
     });
-    downloadedPath = await downloadToDisk({ downloadStream, size });
+    downloadResult = await downloadToDisk({ downloadStream, size });
   } else {
-    const mediaId = getMediaIdForAttachment(attachment);
+    const mediaId =
+      options.variant === AttachmentVariant.ThumbnailFromBackup
+        ? getMediaIdForAttachmentThumbnail(attachment)
+        : getMediaIdForAttachment(attachment);
+
     const cdnNumber = await getCdnNumberForBackupTier(attachment);
     const cdnCredentials =
       await backupsService.credentials.getCDNReadCredentials(cdnNumber);
@@ -122,51 +159,75 @@ export async function downloadAttachment(
       cdnNumber,
       options,
     });
-    downloadedPath = await downloadToDisk({
+    downloadResult = await downloadToDisk({
       downloadStream,
-      size: getAttachmentCiphertextLength(size),
+      size: getAttachmentCiphertextLength(
+        options.variant === AttachmentVariant.ThumbnailFromBackup
+          ? // be generous, accept downloads of up to twice what we expect for thumbnail
+            MAX_BACKUP_THUMBNAIL_SIZE * 2
+          : size
+      ),
     });
   }
 
+  const { relativePath: downloadedRelativePath, downloadSize } = downloadResult;
+
   const cipherTextAbsolutePath =
-    window.Signal.Migrations.getAbsoluteAttachmentPath(downloadedPath);
+    window.Signal.Migrations.getAbsoluteAttachmentPath(downloadedRelativePath);
 
-  const { aesKey, macKey } = splitKeys(Bytes.fromBase64(key));
-  const {
-    path,
-    plaintextHash,
-    iv,
-    key: localKey,
-  } = await reencryptAttachmentV2({
-    ciphertextPath: cipherTextAbsolutePath,
-    idForLogging: logId,
-    aesKey,
-    macKey,
-    size,
-    theirDigest: Bytes.fromBase64(digest),
-    outerEncryption:
-      mediaTier === 'backup'
-        ? getBackupMediaKeyMaterial(attachment)
-        : undefined,
-    getAbsoluteAttachmentPath:
-      window.Signal.Migrations.getAbsoluteAttachmentPath,
-  });
-
-  safeUnlinkSync(cipherTextAbsolutePath);
-
-  return {
-    ...attachment,
-    path,
-    size,
-    contentType: contentType
-      ? MIME.stringToMIMEType(contentType)
-      : MIME.APPLICATION_OCTET_STREAM,
-    plaintextHash,
-    iv: Bytes.toBase64(iv),
-
-    version: 2,
-    localKey: Bytes.toBase64(localKey),
-  };
+  try {
+    switch (options.variant) {
+      case AttachmentVariant.Default:
+      case undefined: {
+        const { aesKey, macKey } = splitKeys(Bytes.fromBase64(key));
+        return await decryptAndReencryptLocally({
+          type: 'standard',
+          ciphertextPath: cipherTextAbsolutePath,
+          idForLogging: logId,
+          aesKey,
+          macKey,
+          size,
+          theirDigest: Bytes.fromBase64(digest),
+          outerEncryption:
+            mediaTier === 'backup'
+              ? getBackupMediaOuterEncryptionKeyMaterial(attachment)
+              : undefined,
+          getAbsoluteAttachmentPath:
+            window.Signal.Migrations.getAbsoluteAttachmentPath,
+        });
+      }
+      case AttachmentVariant.ThumbnailFromBackup: {
+        strictAssert(
+          mediaTier === 'backup',
+          'Thumbnail must be downloaded from backup tier'
+        );
+        const thumbnailEncryptionKeys =
+          getBackupThumbnailInnerEncryptionKeyMaterial(attachment);
+        // backup thumbnails don't get trimmed, so we just calculate the size as the
+        // ciphertextSize, less IV and MAC
+        const calculatedSize = downloadSize - IV_LENGTH - MAC_LENGTH;
+        return {
+          ...(await decryptAndReencryptLocally({
+            type: 'backupThumbnail',
+            ciphertextPath: cipherTextAbsolutePath,
+            idForLogging: logId,
+            size: calculatedSize,
+            ...thumbnailEncryptionKeys,
+            outerEncryption:
+              getBackupThumbnailOuterEncryptionKeyMaterial(attachment),
+            getAbsoluteAttachmentPath:
+              window.Signal.Migrations.getAbsoluteAttachmentPath,
+          })),
+          size: calculatedSize,
+        };
+      }
+      default: {
+        throw missingCaseError(options.variant);
+      }
+    }
+  } finally {
+    safeUnlinkSync(cipherTextAbsolutePath);
+  }
 }
 
 async function downloadToDisk({
@@ -175,16 +236,24 @@ async function downloadToDisk({
 }: {
   downloadStream: Readable;
   size: number;
-}): Promise<string> {
+}): Promise<{ relativePath: string; downloadSize: number }> {
   const relativeTargetPath = getRelativePath(createName());
   const absoluteTargetPath =
     window.Signal.Migrations.getAbsoluteAttachmentPath(relativeTargetPath);
   await ensureFile(absoluteTargetPath);
   const writeStream = createWriteStream(absoluteTargetPath);
   const targetSize = getAttachmentCiphertextLength(size);
+  let downloadSize = 0;
 
   try {
-    await pipeline(downloadStream, checkSize(targetSize), writeStream);
+    await pipeline(
+      downloadStream,
+      checkSize(targetSize),
+      measureSize(bytesSeen => {
+        downloadSize = bytesSeen;
+      }),
+      writeStream
+    );
   } catch (error) {
     try {
       safeUnlinkSync(absoluteTargetPath);
@@ -198,7 +267,7 @@ async function downloadToDisk({
     throw error;
   }
 
-  return relativeTargetPath;
+  return { relativePath: relativeTargetPath, downloadSize };
 }
 
 // A simple transform that throws if it sees more than maxBytes on the stream.

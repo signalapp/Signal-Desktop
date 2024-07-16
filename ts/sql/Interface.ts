@@ -793,6 +793,7 @@ export type DataInterface = {
   saveAttachmentBackupJob: (job: AttachmentBackupJobType) => Promise<void>;
   markAllAttachmentBackupJobsInactive: () => Promise<void>;
   removeAttachmentBackupJob: (job: AttachmentBackupJobType) => Promise<void>;
+  clearAllAttachmentBackupJobs: () => Promise<void>;
 
   clearAllBackupCdnObjectMetadata: () => Promise<void>;
   saveBackupCdnObjectMetadata: (

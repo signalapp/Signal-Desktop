@@ -7,12 +7,13 @@ import type {
   AttachmentType,
   AttachmentDraftType,
   ThumbnailType,
+  AttachmentForUIType,
 } from '../../types/Attachment';
 import { IMAGE_JPEG } from '../../types/MIME';
 
 export const fakeAttachment = (
   overrides: Partial<AttachmentType> = {}
-): AttachmentType => ({
+): AttachmentForUIType => ({
   contentType: IMAGE_JPEG,
   width: 800,
   height: 600,

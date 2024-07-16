@@ -29,6 +29,7 @@ import * as Errors from './types/errors';
 import { isNotNil } from './util/isNotNil';
 import { missingCaseError } from './util/missingCaseError';
 import { getEnvironment, Environment } from './environment';
+import { toBase64 } from './Bytes';
 
 // This file was split from ts/Crypto.ts because it pulls things in from node, and
 //   too many things pull in Crypto.ts, so it broke storybook.
@@ -37,7 +38,7 @@ const DIGEST_LENGTH = MAC_LENGTH;
 const HEX_DIGEST_LENGTH = DIGEST_LENGTH * 2;
 const ATTACHMENT_MAC_LENGTH = MAC_LENGTH;
 
-export class ReencyptedDigestMismatchError extends Error {}
+export class ReencryptedDigestMismatchError extends Error {}
 
 /** @private */
 export const KEY_SET_LENGTH = KEY_LENGTH + MAC_LENGTH;
@@ -59,21 +60,13 @@ export type EncryptedAttachmentV2 = {
 
 export type ReencryptedAttachmentV2 = {
   path: string;
-  iv: Uint8Array;
+  iv: string;
   plaintextHash: string;
-
-  key: Uint8Array;
+  localKey: string;
+  version: 2;
 };
 
 export type DecryptedAttachmentV2 = {
-  path: string;
-  iv: Uint8Array;
-  plaintextHash: string;
-};
-
-export type ReecryptedAttachmentV2 = {
-  key: Uint8Array;
-  mac: Uint8Array;
   path: string;
   iv: Uint8Array;
   plaintextHash: string;
@@ -228,7 +221,7 @@ export async function encryptAttachmentV2({
 
   if (dangerousIv?.reason === 'reencrypting-for-backup') {
     if (!constantTimeEqual(ourDigest, dangerousIv.digestToMatch)) {
-      throw new ReencyptedDigestMismatchError(
+      throw new ReencryptedDigestMismatchError(
         `${logId}: iv was hardcoded for backup re-encryption, but digest does not match`
       );
     }
@@ -253,12 +246,13 @@ type DecryptAttachmentToSinkOptionsType = Readonly<
     };
   } & (
     | {
-        isLocal?: false;
+        type: 'standard';
         theirDigest: Readonly<Uint8Array>;
       }
     | {
-        // No need to check integrity for already downloaded attachments
-        isLocal: true;
+        // No need to check integrity for locally reencrypted attachments, or for backup
+        // thumbnails (since we created it)
+        type: 'local' | 'backupThumbnail';
         theirDigest?: undefined;
       }
   ) &
@@ -427,8 +421,22 @@ export async function decryptAttachmentV2ToSink(
   if (!constantTimeEqual(ourMac, theirMac)) {
     throw new Error(`${logId}: Bad MAC`);
   }
-  if (!options.isLocal && !constantTimeEqual(ourDigest, options.theirDigest)) {
-    throw new Error(`${logId}: Bad digest`);
+
+  const { type } = options;
+  switch (type) {
+    case 'local':
+    case 'backupThumbnail':
+      log.info(
+        `${logId}: skipping digest check since this is a ${type} attachment`
+      );
+      break;
+    case 'standard':
+      if (!constantTimeEqual(ourDigest, options.theirDigest)) {
+        throw new Error(`${logId}: Bad digest`);
+      }
+      break;
+    default:
+      throw missingCaseError(type);
   }
 
   strictAssert(
@@ -461,7 +469,7 @@ export async function decryptAttachmentV2ToSink(
   };
 }
 
-export async function reencryptAttachmentV2(
+export async function decryptAndReencryptLocally(
   options: DecryptAttachmentOptionsType
 ): Promise<ReencryptedAttachmentV2> {
   const { idForLogging } = options;
@@ -499,8 +507,10 @@ export async function reencryptAttachmentV2(
 
     return {
       ...result,
-      key: keys,
+      localKey: toBase64(keys),
+      iv: toBase64(result.iv),
       path: relativeTargetPath,
+      version: 2,
     };
   } catch (error) {
     log.error(

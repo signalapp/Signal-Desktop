@@ -3960,7 +3960,11 @@ export default class MessageReceiver
     options?: { timeout?: number; disableRetries?: boolean }
   ): Promise<AttachmentType> {
     const cleaned = processAttachment(attachment);
-    return downloadAttachment(this.server, cleaned, options);
+    const downloaded = await downloadAttachment(this.server, cleaned, options);
+    return {
+      ...cleaned,
+      ...downloaded,
+    };
   }
 
   private async handleEndSession(

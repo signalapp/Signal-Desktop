@@ -220,7 +220,7 @@ export const readAndDecryptDataFromDisk = async ({
       idForLogging: 'attachments/readAndDecryptDataFromDisk',
       keysBase64,
       size,
-      isLocal: true,
+      type: 'local',
     },
     sink
   );

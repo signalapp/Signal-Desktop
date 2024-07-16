@@ -171,10 +171,6 @@ export function convertBackupMessageAttachmentToAttachment(
 async function generateNewEncryptionInfoForAttachment(
   attachment: Readonly<LocallySavedAttachment>
 ): Promise<AttachmentReadyForBackup> {
-  strictAssert(
-    attachment.version !== 2,
-    'generateNewEncryptionInfoForAttachment can only be used on legacy attachments'
-  );
   const fixedUpAttachment = { ...attachment };
 
   // Since we are changing the encryption, we need to delete all encryption & location
@@ -461,6 +457,8 @@ export async function maybeGetBackupJobForAttachmentAndFilePointer({
     cdnKey,
     cdnNumber,
     uploadTimestamp,
+    version,
+    localKey,
   } = attachment;
 
   return {
@@ -474,6 +472,8 @@ export async function maybeGetBackupJobForAttachmentAndFilePointer({
       digest,
       iv,
       size,
+      version,
+      localKey,
       transitCdnInfo:
         cdnKey && cdnNumber != null
           ? {

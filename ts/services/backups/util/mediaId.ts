@@ -26,12 +26,28 @@ export function getMediaIdForAttachment(attachment: AttachmentType): {
   return getMediaIdFromMediaName(mediaName);
 }
 
+export function getMediaIdForAttachmentThumbnail(attachment: AttachmentType): {
+  string: string;
+  bytes: Uint8Array;
+} {
+  const mediaName = getMediaNameForAttachmentThumbnail(
+    getMediaNameForAttachment(attachment)
+  );
+  return getMediaIdFromMediaName(mediaName);
+}
+
 export function getMediaNameForAttachment(attachment: AttachmentType): string {
   if (attachment.backupLocator) {
     return attachment.backupLocator.mediaName;
   }
   strictAssert(attachment.digest, 'Digest must be present');
   return attachment.digest;
+}
+
+export function getMediaNameForAttachmentThumbnail(
+  fullsizeMediaName: string
+): string {
+  return Bytes.toBase64(Bytes.fromString(`${fullsizeMediaName}_thumbnail`));
 }
 
 export function getBytesFromMediaIdString(mediaId: string): Uint8Array {

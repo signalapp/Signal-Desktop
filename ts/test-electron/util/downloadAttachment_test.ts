@@ -13,11 +13,13 @@ import { HTTPError } from '../../textsecure/Errors';
 import { getCdnNumberForBackupTier } from '../../textsecure/downloadAttachment';
 import { MASTER_KEY } from '../backup/helpers';
 import { getMediaIdFromMediaName } from '../../services/backups/util/mediaId';
+import { AttachmentVariant } from '../../types/Attachment';
 
 describe('utils/downloadAttachment', () => {
   const baseAttachment = {
     size: 100,
     contentType: IMAGE_PNG,
+    digest: 'digest',
   };
 
   let sandbox: sinon.SinonSandbox;
@@ -37,14 +39,21 @@ describe('utils/downloadAttachment', () => {
       cdnKey: 'cdnKey',
       cdnNumber: 2,
     };
-    await downloadAttachment(attachment, {
-      downloadAttachmentFromServer: stubDownload,
+    await downloadAttachment({
+      attachment,
+      dependencies: {
+        downloadAttachmentFromServer: stubDownload,
+      },
     });
     assert.equal(stubDownload.callCount, 1);
     assert.deepEqual(stubDownload.getCall(0).args, [
       fakeServer,
       attachment,
-      { mediaTier: MediaTier.STANDARD },
+      {
+        mediaTier: MediaTier.STANDARD,
+        variant: AttachmentVariant.Default,
+        logPrefix: '[REDACTED]est',
+      },
     ]);
   });
 
@@ -60,8 +69,11 @@ describe('utils/downloadAttachment', () => {
       cdnNumber: 2,
     };
     await assert.isRejected(
-      downloadAttachment(attachment, {
-        downloadAttachmentFromServer: stubDownload,
+      downloadAttachment({
+        attachment,
+        dependencies: {
+          downloadAttachmentFromServer: stubDownload,
+        },
       }),
       AttachmentPermanentlyUndownloadableError
     );
@@ -70,7 +82,11 @@ describe('utils/downloadAttachment', () => {
     assert.deepEqual(stubDownload.getCall(0).args, [
       fakeServer,
       attachment,
-      { mediaTier: MediaTier.STANDARD },
+      {
+        mediaTier: MediaTier.STANDARD,
+        variant: AttachmentVariant.Default,
+        logPrefix: '[REDACTED]est',
+      },
     ]);
   });
 
@@ -84,14 +100,21 @@ describe('utils/downloadAttachment', () => {
         mediaName: 'medianame',
       },
     };
-    await downloadAttachment(attachment, {
-      downloadAttachmentFromServer: stubDownload,
+    await downloadAttachment({
+      attachment,
+      dependencies: {
+        downloadAttachmentFromServer: stubDownload,
+      },
     });
     assert.equal(stubDownload.callCount, 1);
     assert.deepEqual(stubDownload.getCall(0).args, [
       fakeServer,
       attachment,
-      { mediaTier: MediaTier.BACKUP },
+      {
+        mediaTier: MediaTier.BACKUP,
+        variant: AttachmentVariant.Default,
+        logPrefix: '[REDACTED]est',
+      },
     ]);
   });
 
@@ -109,19 +132,30 @@ describe('utils/downloadAttachment', () => {
         mediaName: 'medianame',
       },
     };
-    await downloadAttachment(attachment, {
-      downloadAttachmentFromServer: stubDownload,
+    await downloadAttachment({
+      attachment,
+      dependencies: {
+        downloadAttachmentFromServer: stubDownload,
+      },
     });
     assert.equal(stubDownload.callCount, 2);
     assert.deepEqual(stubDownload.getCall(0).args, [
       fakeServer,
       attachment,
-      { mediaTier: MediaTier.BACKUP },
+      {
+        mediaTier: MediaTier.BACKUP,
+        variant: AttachmentVariant.Default,
+        logPrefix: '[REDACTED]est',
+      },
     ]);
     assert.deepEqual(stubDownload.getCall(1).args, [
       fakeServer,
       attachment,
-      { mediaTier: MediaTier.STANDARD },
+      {
+        mediaTier: MediaTier.STANDARD,
+        variant: AttachmentVariant.Default,
+        logPrefix: '[REDACTED]est',
+      },
     ]);
   });
 
@@ -139,19 +173,30 @@ describe('utils/downloadAttachment', () => {
         mediaName: 'medianame',
       },
     };
-    await downloadAttachment(attachment, {
-      downloadAttachmentFromServer: stubDownload,
+    await downloadAttachment({
+      attachment,
+      dependencies: {
+        downloadAttachmentFromServer: stubDownload,
+      },
     });
     assert.equal(stubDownload.callCount, 2);
     assert.deepEqual(stubDownload.getCall(0).args, [
       fakeServer,
       attachment,
-      { mediaTier: MediaTier.BACKUP },
+      {
+        mediaTier: MediaTier.BACKUP,
+        variant: AttachmentVariant.Default,
+        logPrefix: '[REDACTED]est',
+      },
     ]);
     assert.deepEqual(stubDownload.getCall(1).args, [
       fakeServer,
       attachment,
-      { mediaTier: MediaTier.STANDARD },
+      {
+        mediaTier: MediaTier.STANDARD,
+        variant: AttachmentVariant.Default,
+        logPrefix: '[REDACTED]est',
+      },
     ]);
   });
 
@@ -170,8 +215,11 @@ describe('utils/downloadAttachment', () => {
     };
 
     await assert.isRejected(
-      downloadAttachment(attachment, {
-        downloadAttachmentFromServer: stubDownload,
+      downloadAttachment({
+        attachment,
+        dependencies: {
+          downloadAttachmentFromServer: stubDownload,
+        },
       }),
       HTTPError
     );
@@ -179,12 +227,20 @@ describe('utils/downloadAttachment', () => {
     assert.deepEqual(stubDownload.getCall(0).args, [
       fakeServer,
       attachment,
-      { mediaTier: MediaTier.BACKUP },
+      {
+        mediaTier: MediaTier.BACKUP,
+        variant: AttachmentVariant.Default,
+        logPrefix: '[REDACTED]est',
+      },
     ]);
     assert.deepEqual(stubDownload.getCall(1).args, [
       fakeServer,
       attachment,
-      { mediaTier: MediaTier.STANDARD },
+      {
+        mediaTier: MediaTier.STANDARD,
+        variant: AttachmentVariant.Default,
+        logPrefix: '[REDACTED]est',
+      },
     ]);
   });
 });

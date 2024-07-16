@@ -327,7 +327,7 @@ export async function handleAttachmentRequest(req: Request): Promise<Response> {
     return new Response('Missing key', { status: 400 });
   }
 
-  // Size is required for trimming padding.
+  // Size is required for trimming padding
   if (maybeSize == null) {
     return new Response('Missing size', { status: 400 });
   }
@@ -345,9 +345,8 @@ export async function handleAttachmentRequest(req: Request): Promise<Response> {
           ciphertextPath: path,
           idForLogging: 'attachment_channel',
           keysBase64,
+          type: 'local',
           size,
-
-          isLocal: true,
         },
         plaintext
       );

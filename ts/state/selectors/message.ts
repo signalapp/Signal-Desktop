@@ -58,7 +58,10 @@ import type { AssertProps } from '../../types/Util';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { getMentionsRegex } from '../../types/Message';
 import { SignalService as Proto } from '../../protobuf';
-import type { AttachmentType } from '../../types/Attachment';
+import type {
+  AttachmentForUIType,
+  AttachmentType,
+} from '../../types/Attachment';
 import {
   isVoiceMessage,
   canBeDownloaded,
@@ -1821,12 +1824,13 @@ export function getPropsForEmbeddedContact(
 
 export function getPropsForAttachment(
   attachment: AttachmentType
-): AttachmentType | undefined {
+): AttachmentForUIType | undefined {
   if (!attachment) {
     return undefined;
   }
 
-  const { path, pending, size, screenshot, thumbnail } = attachment;
+  const { path, pending, size, screenshot, thumbnail, thumbnailFromBackup } =
+    attachment;
 
   return {
     ...attachment,
@@ -1834,6 +1838,12 @@ export function getPropsForAttachment(
     isVoiceMessage: isVoiceMessage(attachment),
     pending,
     url: path ? getLocalAttachmentUrl(attachment) : undefined,
+    thumbnailFromBackup: thumbnailFromBackup?.path
+      ? {
+          ...thumbnailFromBackup,
+          url: getLocalAttachmentUrl(thumbnailFromBackup),
+        }
+      : undefined,
     screenshot: screenshot?.path
       ? {
           ...screenshot,

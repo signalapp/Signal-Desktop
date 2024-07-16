@@ -403,6 +403,7 @@ const dataInterface: ServerInterface = {
   saveAttachmentBackupJob,
   markAllAttachmentBackupJobsInactive,
   removeAttachmentBackupJob,
+  clearAllAttachmentBackupJobs,
 
   clearAllBackupCdnObjectMetadata,
   saveBackupCdnObjectMetadata,
@@ -5014,6 +5015,11 @@ async function removeAttachmentDownloadJob(
 
 // Backup Attachments
 
+async function clearAllAttachmentBackupJobs(): Promise<void> {
+  const db = await getWritableInstance();
+  db.prepare('DELETE FROM attachment_backup_jobs;').run();
+}
+
 async function markAllAttachmentBackupJobsInactive(): Promise<void> {
   const db = await getWritableInstance();
   db.prepare<EmptyQuery>(
@@ -5068,7 +5074,9 @@ async function getNextAttachmentBackupJobs({
       active = 0
     AND
       (retryAfter is NULL OR retryAfter <= ${timestamp})
-    ORDER BY receivedAt DESC
+    ORDER BY 
+      -- type is "standard" or "thumbnail"; we prefer "standard" jobs
+      type ASC, receivedAt DESC
     LIMIT ${limit}
   `;
   const rows = db.prepare(query).all(params);
@@ -6750,7 +6758,12 @@ function getExternalFilesForMessage(message: MessageType): Array<string> {
   const files: Array<string> = [];
 
   forEach(attachments, attachment => {
-    const { path: file, thumbnail, screenshot } = attachment;
+    const {
+      path: file,
+      thumbnail,
+      screenshot,
+      thumbnailFromBackup,
+    } = attachment;
     if (file) {
       files.push(file);
     }
@@ -6761,6 +6774,10 @@ function getExternalFilesForMessage(message: MessageType): Array<string> {
 
     if (screenshot && screenshot.path) {
       files.push(screenshot.path);
+    }
+
+    if (thumbnailFromBackup && thumbnailFromBackup.path) {
+      files.push(thumbnailFromBackup.path);
     }
   });
 

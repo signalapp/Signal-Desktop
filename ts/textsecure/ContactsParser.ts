@@ -60,7 +60,7 @@ export async function parseContactsV2(
       ),
       keysBase64: attachment.localKey,
       size: attachment.size,
-      isLocal: true,
+      type: 'local',
     },
     parseContactsTransform
   );

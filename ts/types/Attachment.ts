@@ -95,6 +95,10 @@ export type AttachmentType = {
   // See app/attachment_channel.ts
   version?: 1 | 2;
   localKey?: string; // AES + MAC
+  thumbnailFromBackup?: Pick<
+    AttachmentType,
+    'path' | 'version' | 'plaintextHash'
+  >;
 
   /** Legacy field. Used only for downloading old attachments */
   id?: number;
@@ -120,6 +124,12 @@ export type AddressableAttachmentType = Readonly<{
   // In-memory data, for outgoing attachments that are not saved to disk.
   data?: Uint8Array;
 }>;
+
+export type AttachmentForUIType = AttachmentType & {
+  thumbnailFromBackup?: {
+    url?: string;
+  };
+};
 
 export type UploadedAttachmentType = Proto.IAttachmentPointer &
   Readonly<{
@@ -224,6 +234,11 @@ export type ThumbnailType = AttachmentType & {
   // Whether the thumbnail has been copied from the original (quoted) message
   copied?: boolean;
 };
+
+export enum AttachmentVariant {
+  Default = 'Default',
+  ThumbnailFromBackup = 'thumbnailFromBackup',
+}
 
 // // Incoming message attachment fields
 // {
@@ -383,7 +398,8 @@ export function deleteData(
       throw new TypeError('deleteData: attachment is not valid');
     }
 
-    const { path, thumbnail, screenshot } = attachment;
+    const { path, thumbnail, screenshot, thumbnailFromBackup } = attachment;
+
     if (isString(path)) {
       await deleteOnDisk(path);
     }
@@ -394,6 +410,10 @@ export function deleteData(
 
     if (screenshot && isString(screenshot.path)) {
       await deleteOnDisk(screenshot.path);
+    }
+
+    if (thumbnailFromBackup && isString(thumbnailFromBackup.path)) {
+      await deleteOnDisk(thumbnailFromBackup.path);
     }
   };
 }
@@ -629,7 +649,7 @@ export function canDisplayImage(
 }
 
 export function getThumbnailUrl(
-  attachment: AttachmentType
+  attachment: AttachmentForUIType
 ): string | undefined {
   if (attachment.thumbnail) {
     return attachment.thumbnail.url;
@@ -638,7 +658,7 @@ export function getThumbnailUrl(
   return getUrl(attachment);
 }
 
-export function getUrl(attachment: AttachmentType): string | undefined {
+export function getUrl(attachment: AttachmentForUIType): string | undefined {
   if (attachment.screenshot) {
     return attachment.screenshot.url;
   }
@@ -647,7 +667,7 @@ export function getUrl(attachment: AttachmentType): string | undefined {
     return undefined;
   }
 
-  return attachment.url;
+  return attachment.url ?? attachment.thumbnailFromBackup?.url;
 }
 
 export function isImage(attachments?: ReadonlyArray<AttachmentType>): boolean {

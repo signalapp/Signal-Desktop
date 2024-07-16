@@ -182,7 +182,7 @@ export class BackupExportStream extends Readable {
     drop(
       (async () => {
         log.info('BackupExportStream: starting...');
-
+        drop(AttachmentBackupManager.stop());
         await Data.pauseWriteAccess();
         try {
           await this.unsafeRun(backupLevel);
@@ -190,9 +190,11 @@ export class BackupExportStream extends Readable {
           this.emit('error', error);
         } finally {
           await Data.resumeWriteAccess();
+          // TODO (DESKTOP-7344): Clear & add backup jobs in a single transaction
+          await Data.clearAllAttachmentBackupJobs();
           await Promise.all(
             this.attachmentBackupJobs.map(job =>
-              AttachmentBackupManager.addJob(job)
+              AttachmentBackupManager.addJobAndMaybeThumbnailJob(job)
             )
           );
           drop(AttachmentBackupManager.start());

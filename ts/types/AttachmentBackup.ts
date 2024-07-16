@@ -11,7 +11,7 @@ export type CoreAttachmentBackupJobType =
   | StandardAttachmentBackupJobType
   | ThumbnailAttachmentBackupJobType;
 
-type StandardAttachmentBackupJobType = {
+export type StandardAttachmentBackupJobType = {
   type: 'standard';
   mediaName: string;
   receivedAt: number;
@@ -27,20 +27,21 @@ type StandardAttachmentBackupJobType = {
       uploadTimestamp?: number;
     };
     size: number;
-
-    version?: 2;
+    version?: 1 | 2;
     localKey?: string;
   };
 };
 
-type ThumbnailAttachmentBackupJobType = {
+export type ThumbnailAttachmentBackupJobType = {
   type: 'thumbnail';
   mediaName: string;
   receivedAt: number;
   data: {
     fullsizePath: string | null;
+    fullsizeSize: number;
     contentType: MIMEType;
-    keys: string;
+    version?: 1 | 2;
+    localKey?: string;
   };
 };
 
@@ -60,7 +61,7 @@ const standardBackupJobDataSchema = z.object({
         uploadTimestamp: z.number().optional(),
       })
       .optional(),
-    version: z.literal(2).optional(),
+    version: z.union([z.literal(1), z.literal(2)]).optional(),
     localKey: z.string().optional(),
   }),
 });
@@ -69,8 +70,10 @@ const thumbnailBackupJobDataSchema = z.object({
   type: z.literal('thumbnail'),
   data: z.object({
     fullsizePath: z.string(),
+    fullsizeSize: z.number(),
     contentType: MIMETypeSchema,
-    keys: z.string(),
+    version: z.union([z.literal(1), z.literal(2)]).optional(),
+    localKey: z.string().optional(),
   }),
 });
 

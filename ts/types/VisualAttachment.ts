@@ -12,8 +12,11 @@ import { canvasToBlob } from '../util/canvasToBlob';
 import { KIBIBYTE } from './AttachmentSize';
 import { explodePromise } from '../util/explodePromise';
 import { SECOND } from '../util/durations';
+import * as logging from '../logging/log';
 
 export { blobToArrayBuffer };
+
+export const MAX_BACKUP_THUMBNAIL_SIZE = 8 * KIBIBYTE;
 
 export type GetImageDimensionsOptionsType = Readonly<{
   objectUrl: string;
@@ -107,7 +110,6 @@ export type MakeImageThumbnailForBackupOptionsType = Readonly<{
   maxDimension?: number;
   maxSize?: number;
   objectUrl: string;
-  logger: LoggerType;
 }>;
 
 // 0.7 quality seems to result in a good result in 1 interation for most images
@@ -122,11 +124,10 @@ export type CreatedThumbnailType = {
   mimeType: MIMEType;
 };
 
-export function makeImageThumbnailForBackup({
+export async function makeImageThumbnailForBackup({
   maxDimension = 256,
-  maxSize = 8 * KIBIBYTE,
+  maxSize = MAX_BACKUP_THUMBNAIL_SIZE,
   objectUrl,
-  logger,
 }: MakeImageThumbnailForBackupOptionsType): Promise<CreatedThumbnailType> {
   return new Promise((resolve, reject) => {
     const image = document.createElement('img');
@@ -174,7 +175,7 @@ export function makeImageThumbnailForBackup({
 
         const duration = (performance.now() - start).toFixed(1);
 
-        const logMethod = blob.size > maxSize ? logger.warn : logger.info;
+        const logMethod = blob.size > maxSize ? logging.warn : logging.info;
         const sizeInKiB = blob.size / KIBIBYTE;
         logMethod(
           'makeImageThumbnail: generated thumbnail of dimensions: ' +
@@ -196,7 +197,7 @@ export function makeImageThumbnailForBackup({
     });
 
     image.addEventListener('error', error => {
-      logger.error('makeImageThumbnail error', toLogFormat(error));
+      logging.error('makeImageThumbnail error', toLogFormat(error));
       reject(error);
     });
 
@@ -207,7 +208,6 @@ export function makeImageThumbnailForBackup({
 export type MakeVideoScreenshotOptionsType = Readonly<{
   objectUrl: string;
   contentType?: MIMEType;
-  logger: Pick<LoggerType, 'error'>;
 }>;
 
 const MAKE_VIDEO_SCREENSHOT_TIMEOUT = 30 * SECOND;
@@ -228,7 +228,6 @@ function captureScreenshot(
 export async function makeVideoScreenshot({
   objectUrl,
   contentType = IMAGE_PNG,
-  logger,
 }: MakeVideoScreenshotOptionsType): Promise<Blob> {
   const signal = AbortSignal.timeout(MAKE_VIDEO_SCREENSHOT_TIMEOUT);
   const video = document.createElement('video');
@@ -256,7 +255,7 @@ export async function makeVideoScreenshot({
     await videoLoadedAndSeeked;
     return await captureScreenshot(video, contentType);
   } catch (error) {
-    logger.error('makeVideoScreenshot error:', toLogFormat(error));
+    logging.error('makeVideoScreenshot error:', toLogFormat(error));
     throw error;
   } finally {
     // hard reset the video element so it doesn't keep loading

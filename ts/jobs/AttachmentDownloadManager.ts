@@ -12,15 +12,18 @@ import {
 } from '../types/AttachmentDownload';
 import {
   AttachmentPermanentlyUndownloadableError,
-  downloadAttachment,
+  downloadAttachment as downloadAttachmentUtil,
 } from '../util/downloadAttachment';
 import dataInterface from '../sql/Client';
 import { getValue } from '../RemoteConfig';
 
 import { isInCall as isInCallSelector } from '../state/selectors/calling';
-import { AttachmentSizeError, type AttachmentType } from '../types/Attachment';
+import {
+  AttachmentSizeError,
+  type AttachmentType,
+  AttachmentVariant,
+} from '../types/Attachment';
 import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
-import type { MessageModel } from '../models/messages';
 import {
   KIBIBYTE,
   getMaximumIncomingAttachmentSizeInKb,
@@ -34,6 +37,11 @@ import {
   type JobManagerParamsType,
   type JobManagerJobResultType,
 } from './JobManager';
+import {
+  isImageTypeSupported,
+  isVideoTypeSupported,
+} from '../util/GoogleChrome';
+import type { MIMEType } from '../types/MIME';
 
 export enum AttachmentDownloadUrgency {
   IMMEDIATE = 'immediate',
@@ -63,13 +71,19 @@ const DEFAULT_RETRY_CONFIG = {
 };
 type AttachmentDownloadManagerParamsType = Omit<
   JobManagerParamsType<CoreAttachmentDownloadJobType>,
-  'getNextJobs'
+  'getNextJobs' | 'runJob'
 > & {
   getNextJobs: (options: {
     limit: number;
     prioritizeMessageIds?: Array<string>;
     timestamp?: number;
   }) => Promise<Array<AttachmentDownloadJobType>>;
+  runDownloadAttachmentJob: (args: {
+    job: AttachmentDownloadJobType;
+    isLastAttempt: boolean;
+    options?: { isForCurrentlyVisibleMessage: boolean };
+    dependencies: { downloadAttachment: typeof downloadAttachmentUtil };
+  }) => Promise<JobManagerJobResultType<CoreAttachmentDownloadJobType>>;
 };
 
 function getJobId(job: CoreAttachmentDownloadJobType): string {
@@ -84,7 +98,7 @@ function getJobIdForLogging(job: CoreAttachmentDownloadJobType): string {
 }
 
 export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownloadJobType> {
-  private visibleTimelineMessages: Array<string> = [];
+  private visibleTimelineMessages: Set<string> = new Set();
   private static _instance: AttachmentDownloadManager | undefined;
   override logPrefix = 'AttachmentDownloadManager';
 
@@ -93,7 +107,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     saveJob: dataInterface.saveAttachmentDownloadJob,
     removeJob: dataInterface.removeAttachmentDownloadJob,
     getNextJobs: dataInterface.getNextAttachmentDownloadJobs,
-    runJob: runDownloadAttachmentJob,
+    runDownloadAttachmentJob,
     shouldHoldOffOnStartingQueuedJobs: () => {
       const reduxState = window.reduxStore?.getState();
       if (reduxState) {
@@ -113,8 +127,21 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       getNextJobs: ({ limit }) => {
         return params.getNextJobs({
           limit,
-          prioritizeMessageIds: this.visibleTimelineMessages,
+          prioritizeMessageIds: [...this.visibleTimelineMessages],
           timestamp: Date.now(),
+        });
+      },
+      runJob: (job: AttachmentDownloadJobType, isLastAttempt: boolean) => {
+        const isForCurrentlyVisibleMessage = this.visibleTimelineMessages.has(
+          job.messageId
+        );
+        return params.runDownloadAttachmentJob({
+          job,
+          isLastAttempt,
+          options: {
+            isForCurrentlyVisibleMessage,
+          },
+          dependencies: { downloadAttachment: downloadAttachmentUtil },
         });
       },
     });
@@ -168,7 +195,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
   }
 
   updateVisibleTimelineMessages(messageIds: Array<string>): void {
-    this.visibleTimelineMessages = messageIds;
+    this.visibleTimelineMessages = new Set(messageIds);
   }
 
   static get instance(): AttachmentDownloadManager {
@@ -202,14 +229,17 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     );
   }
 }
-
-// TODO (DESKTOP-6913): if a prioritized job is selected, we will to update the
-// in-memory job with that information so we can handle it differently, including
-// e.g. downloading a thumbnail before the full-size version
-async function runDownloadAttachmentJob(
-  job: AttachmentDownloadJobType,
-  isLastAttempt: boolean
-): Promise<JobManagerJobResultType> {
+async function runDownloadAttachmentJob({
+  job,
+  isLastAttempt,
+  options,
+  dependencies,
+}: {
+  job: AttachmentDownloadJobType;
+  isLastAttempt: boolean;
+  options?: { isForCurrentlyVisibleMessage: boolean };
+  dependencies: { downloadAttachment: typeof downloadAttachmentUtil };
+}): Promise<JobManagerJobResultType<CoreAttachmentDownloadJobType>> {
   const jobIdForLogging = getJobIdForLogging(job);
   const logId = `AttachmentDownloadManager/runDownloadAttachmentJob/${jobIdForLogging}`;
 
@@ -222,8 +252,24 @@ async function runDownloadAttachmentJob(
 
   try {
     log.info(`${logId}: Starting job`);
-    await runDownloadAttachmentJobInner(job, message);
-    return { status: 'finished' };
+
+    const result = await runDownloadAttachmentJobInner({
+      job,
+      isForCurrentlyVisibleMessage:
+        options?.isForCurrentlyVisibleMessage ?? false,
+      dependencies,
+    });
+
+    if (result.onlyAttemptedBackupThumbnail) {
+      return {
+        status: 'finished',
+        newJob: { ...job, attachment: result.attachmentWithThumbnail },
+      };
+    }
+
+    return {
+      status: 'finished',
+    };
   } catch (error) {
     log.error(
       `${logId}: Failed to download attachment, attempt ${job.attempts}:`,
@@ -281,20 +327,32 @@ async function runDownloadAttachmentJob(
   }
 }
 
-async function runDownloadAttachmentJobInner(
-  job: AttachmentDownloadJobType,
-  message: MessageModel
-): Promise<void> {
-  const { messageId, attachment, attachmentType: type } = job;
+type DownloadAttachmentResultType =
+  | {
+      onlyAttemptedBackupThumbnail: false;
+    }
+  | {
+      onlyAttemptedBackupThumbnail: true;
+      attachmentWithThumbnail: AttachmentType;
+    };
+
+export async function runDownloadAttachmentJobInner({
+  job,
+  isForCurrentlyVisibleMessage,
+  dependencies,
+}: {
+  job: AttachmentDownloadJobType;
+  isForCurrentlyVisibleMessage: boolean;
+  dependencies: { downloadAttachment: typeof downloadAttachmentUtil };
+}): Promise<DownloadAttachmentResultType> {
+  const { messageId, attachment, attachmentType } = job;
 
   const jobIdForLogging = getJobIdForLogging(job);
-  const logId = `AttachmentDownloadManager/runDownloadJobInner(${jobIdForLogging})`;
+  let logId = `AttachmentDownloadManager/runDownloadJobInner(${jobIdForLogging})`;
 
   if (!job || !attachment || !messageId) {
     throw new Error(`${logId}: Key information required for job was missing.`);
   }
-
-  log.info(`${logId}: starting`);
 
   const maxInKib = getMaximumIncomingAttachmentSizeInKb(getValue);
   const maxTextAttachmentSizeInKib =
@@ -308,32 +366,123 @@ async function runDownloadAttachmentJobInner(
       `${logId}: Attachment was ${sizeInKib}kib, max is ${maxInKib}kib`
     );
   }
-  if (type === 'long-message' && sizeInKib > maxTextAttachmentSizeInKib) {
+  if (
+    attachmentType === 'long-message' &&
+    sizeInKib > maxTextAttachmentSizeInKib
+  ) {
     throw new AttachmentSizeError(
       `${logId}: Text attachment was ${sizeInKib}kib, max is ${maxTextAttachmentSizeInKib}kib`
     );
   }
 
+  const preferBackupThumbnail =
+    isForCurrentlyVisibleMessage &&
+    mightHaveThumbnailOnBackupTier(job.attachment) &&
+    // TODO (DESKTOP-7204): check if thumbnail exists on attachment, not on job
+    !job.attachment.thumbnailFromBackup;
+
+  if (preferBackupThumbnail) {
+    logId += '.preferringBackupThumbnail';
+  }
+
+  if (preferBackupThumbnail) {
+    try {
+      const attachmentWithThumbnail = await downloadBackupThumbnail({
+        attachment,
+        dependencies,
+      });
+      await addAttachmentToMessage(messageId, attachmentWithThumbnail, logId, {
+        type: attachmentType,
+      });
+      return {
+        onlyAttemptedBackupThumbnail: true,
+        attachmentWithThumbnail,
+      };
+    } catch (e) {
+      log.warn(`${logId}: error when trying to download thumbnail`);
+    }
+  }
+
+  // TODO (DESKTOP-7204): currently we only set pending state when downloading the
+  // full-size attachment
   await addAttachmentToMessage(
-    message.id,
+    messageId,
     { ...attachment, pending: true },
     logId,
-    { type }
+    { type: attachmentType }
   );
 
-  const downloaded = await downloadAttachment(attachment);
+  try {
+    const downloaded = await dependencies.downloadAttachment({
+      attachment,
+      variant: AttachmentVariant.Default,
+    });
 
-  const upgradedAttachment =
-    await window.Signal.Migrations.processNewAttachment(downloaded);
+    const upgradedAttachment =
+      await window.Signal.Migrations.processNewAttachment({
+        ...omit(attachment, ['error', 'pending']),
+        ...downloaded,
+      });
 
-  await addAttachmentToMessage(
-    message.id,
-    omit(upgradedAttachment, ['error', 'pending']),
-    logId,
-    {
-      type,
+    await addAttachmentToMessage(messageId, upgradedAttachment, logId, {
+      type: attachmentType,
+    });
+    return { onlyAttemptedBackupThumbnail: false };
+  } catch (error) {
+    if (
+      !job.attachment.thumbnailFromBackup &&
+      mightHaveThumbnailOnBackupTier(attachment) &&
+      !preferBackupThumbnail
+    ) {
+      log.error(
+        `${logId}: failed to download fullsize attachment, falling back to thumbnail`,
+        Errors.toLogFormat(error)
+      );
+      try {
+        const attachmentWithThumbnail = await downloadBackupThumbnail({
+          attachment,
+          dependencies,
+        });
+        await addAttachmentToMessage(
+          messageId,
+          omit(attachmentWithThumbnail, 'pending'),
+          logId,
+          {
+            type: attachmentType,
+          }
+        );
+        return {
+          onlyAttemptedBackupThumbnail: false,
+        };
+      } catch (thumbnailError) {
+        log.error(
+          `${logId}: fallback attempt to download thumbnail failed`,
+          Errors.toLogFormat(thumbnailError)
+        );
+      }
     }
-  );
+    throw error;
+  }
+}
+
+async function downloadBackupThumbnail({
+  attachment,
+  dependencies,
+}: {
+  attachment: AttachmentType;
+  dependencies: { downloadAttachment: typeof downloadAttachmentUtil };
+}): Promise<AttachmentType> {
+  const downloadedThumbnail = await dependencies.downloadAttachment({
+    attachment,
+    variant: AttachmentVariant.ThumbnailFromBackup,
+  });
+
+  const attachmentWithThumbnail = {
+    ...attachment,
+    thumbnailFromBackup: downloadedThumbnail,
+  };
+
+  return attachmentWithThumbnail;
 }
 
 function _markAttachmentAsTooBig(attachment: AttachmentType): AttachmentType {
@@ -353,4 +502,18 @@ function _markAttachmentAsTransientlyErrored(
   attachment: AttachmentType
 ): AttachmentType {
   return { ...attachment, pending: false, error: true };
+}
+
+function mightHaveThumbnailOnBackupTier(
+  attachment: Pick<AttachmentType, 'backupLocator' | 'contentType'>
+): boolean {
+  if (!attachment.backupLocator?.mediaName) {
+    return false;
+  }
+
+  return canAttachmentHaveThumbnail(attachment.contentType);
+}
+
+export function canAttachmentHaveThumbnail(contentType: MIMEType): boolean {
+  return isVideoTypeSupported(contentType) || isImageTypeSupported(contentType);
 }

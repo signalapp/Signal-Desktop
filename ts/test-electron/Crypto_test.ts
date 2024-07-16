@@ -577,6 +577,7 @@ describe('Crypto', () => {
         writeFileSync(ciphertextPath, encryptedAttachment.ciphertext);
 
         const decryptedAttachment = await decryptAttachmentV2({
+          type: 'standard',
           ciphertextPath,
           idForLogging: 'test',
           ...splitKeys(keys),
@@ -634,6 +635,7 @@ describe('Crypto', () => {
           );
 
           const decryptedAttachment = await decryptAttachmentV2({
+            type: 'standard',
             ciphertextPath,
             idForLogging: 'test',
             ...splitKeys(keys),
@@ -931,6 +933,7 @@ describe('Crypto', () => {
           outerCiphertextPath = encryptResult.outerCiphertextPath;
 
           const decryptedAttachment = await decryptAttachmentV2({
+            type: 'standard',
             ciphertextPath: outerCiphertextPath,
             idForLogging: 'test',
             ...splitKeys(innerKeys),
@@ -986,6 +989,7 @@ describe('Crypto', () => {
           outerCiphertextPath = encryptResult.outerCiphertextPath;
 
           const decryptedAttachment = await decryptAttachmentV2({
+            type: 'standard',
             ciphertextPath: outerCiphertextPath,
             idForLogging: 'test',
             ...splitKeys(innerKeys),
@@ -1035,6 +1039,7 @@ describe('Crypto', () => {
 
           await assert.isRejected(
             decryptAttachmentV2({
+              type: 'standard',
               ciphertextPath: outerCiphertextPath,
               idForLogging: 'test',
               ...splitKeys(innerKeys),

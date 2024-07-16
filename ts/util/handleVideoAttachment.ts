@@ -4,7 +4,6 @@
 import { blobToArrayBuffer } from 'blob-util';
 import { v4 as generateUuid } from 'uuid';
 
-import * as log from '../logging/log';
 import { makeVideoScreenshot } from '../types/VisualAttachment';
 import { IMAGE_PNG, stringToMIMEType } from '../types/MIME';
 import type { InMemoryAttachmentDraftType } from '../types/Attachment';
@@ -36,7 +35,6 @@ export async function handleVideoAttachment(
       const screenshotBlob = await makeVideoScreenshot({
         objectUrl,
         contentType: screenshotContentType,
-        logger: log,
       });
       attachment.screenshotData = new Uint8Array(
         await blobToArrayBuffer(screenshotBlob)

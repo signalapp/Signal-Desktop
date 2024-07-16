@@ -156,14 +156,25 @@ export function Image({
       }}
     >
       {pending ? (
-        blurHash ? (
+        url || blurHash ? (
           <div className="module-image__download-pending">
-            <Blurhash
-              hash={blurHash}
-              width={width}
-              height={height}
-              style={{ display: 'block' }}
-            />
+            {url ? (
+              <img
+                onError={onError}
+                className="module-image__image"
+                alt={alt}
+                height={height}
+                width={width}
+                src={url}
+              />
+            ) : blurHash ? (
+              <Blurhash
+                hash={blurHash}
+                width={width}
+                height={height}
+                style={{ display: 'block' }}
+              />
+            ) : undefined}
             <div className="module-image__download-pending--spinner-container">
               <div
                 className="module-image__download-pending--spinner"

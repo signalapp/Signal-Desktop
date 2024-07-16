@@ -5375,7 +5375,7 @@ export class ConversationModel extends window.Backbone
       size: avatar.size,
 
       getAbsoluteAttachmentPath,
-      isLocal: true,
+      type: 'local',
     });
 
     try {

@@ -1,22 +1,35 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { type AttachmentType, mightBeOnBackupTier } from '../types/Attachment';
+import {
+  type AttachmentType,
+  mightBeOnBackupTier,
+  AttachmentVariant,
+} from '../types/Attachment';
 import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment';
 import { MediaTier } from '../types/AttachmentDownload';
 import * as log from '../logging/log';
 import { redactGenericText } from './privacy';
 import { HTTPError } from '../textsecure/Errors';
 import { toLogFormat } from '../types/errors';
+import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto';
 
 export class AttachmentPermanentlyUndownloadableError extends Error {}
 
-export async function downloadAttachment(
-  attachmentData: AttachmentType,
-  dependencies = { downloadAttachmentFromServer: doDownloadAttachment }
-): Promise<AttachmentType> {
-  const redactedDigest = redactGenericText(attachmentData.digest ?? '');
-  const logId = `downloadAttachment(${redactedDigest})`;
+export async function downloadAttachment({
+  attachment,
+  variant = AttachmentVariant.Default,
+  dependencies = { downloadAttachmentFromServer: doDownloadAttachment },
+}: {
+  attachment: AttachmentType;
+  variant?: AttachmentVariant;
+  dependencies?: { downloadAttachmentFromServer: typeof doDownloadAttachment };
+}): Promise<ReencryptedAttachmentV2> {
+  const redactedDigest = redactGenericText(attachment.digest ?? '');
+  const variantForLogging =
+    variant !== AttachmentVariant.Default ? `[${variant}]` : '';
+  const dataId = `${redactedDigest}${variantForLogging}`;
+  const logId = `downloadAttachmentUtil(${dataId})`;
 
   const { server } = window.textsecure;
   if (!server) {
@@ -25,12 +38,12 @@ export async function downloadAttachment(
 
   let migratedAttachment: AttachmentType;
 
-  const { id: legacyId } = attachmentData;
+  const { id: legacyId } = attachment;
   if (legacyId === undefined) {
-    migratedAttachment = attachmentData;
+    migratedAttachment = attachment;
   } else {
     migratedAttachment = {
-      ...attachmentData,
+      ...attachment,
       cdnId: String(legacyId),
     };
   }
@@ -41,7 +54,9 @@ export async function downloadAttachment(
         server,
         migratedAttachment,
         {
+          variant,
           mediaTier: MediaTier.BACKUP,
+          logPrefix: dataId,
         }
       );
     } catch (error) {
@@ -53,7 +68,7 @@ export async function downloadAttachment(
         // We also just log this error instead of throwing, since we want to still try to
         // find it on the attachment tier.
         log.error(
-          `${logId}: error when downloading from backup CDN`,
+          `${logId}: error when downloading from backup CDN; will try transit tier`,
           toLogFormat(error)
         );
       }
@@ -65,7 +80,9 @@ export async function downloadAttachment(
       server,
       migratedAttachment,
       {
+        variant,
         mediaTier: MediaTier.STANDARD,
+        logPrefix: dataId,
       }
     );
   } catch (error) {

@@ -17,6 +17,7 @@ import type { AttachmentType } from '../../types/Attachment';
 import { strictAssert } from '../../util/assert';
 import type { GetBackupCdnInfoType } from '../../services/backups/util/mediaId';
 import { MASTER_KEY } from './helpers';
+import { getRandomBytes } from '../../Crypto';
 
 describe('convertFilePointerToAttachment', () => {
   it('processes filepointer with attachmentLocator', () => {
@@ -179,6 +180,8 @@ function composeAttachment(
     incrementalMac: 'incrementalMac',
     incrementalMacChunkSize: 1000,
     uploadTimestamp: 1234,
+    localKey: Bytes.toBase64(getRandomBytes(32)),
+    version: 2,
     ...overrides,
   };
 }
@@ -545,6 +548,12 @@ describe('getFilePointerForAttachment', () => {
 });
 
 describe('getBackupJobForAttachmentAndFilePointer', async () => {
+  beforeEach(async () => {
+    await window.storage.put('masterKey', Bytes.toBase64(getRandomBytes(32)));
+  });
+  afterEach(async () => {
+    await window.Signal.Data.removeAll();
+  });
   const attachment = composeAttachment();
 
   it('returns null if filePointer does not have backupLocator', async () => {
@@ -590,6 +599,8 @@ describe('getBackupJobForAttachmentAndFilePointer', async () => {
           digest: 'digest',
           iv: 'iv',
           size: 100,
+          localKey: attachment.localKey,
+          version: attachment.version,
           transitCdnInfo: {
             cdnKey: 'cdnKey',
             cdnNumber: 2,
