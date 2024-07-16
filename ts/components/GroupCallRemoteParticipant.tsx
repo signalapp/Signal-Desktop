@@ -361,6 +361,9 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
         noVideoNode = (
           <>
             <i className="module-ongoing-call__group-call-remote-participant__error-icon module-ongoing-call__group-call-remote-participant__error-icon--blocked" />
+            <div className="module-ongoing-call__group-call-remote-participant__error">
+              {i18n('icu:calling__blocked-participant', { name: title })}
+            </div>
             {showDialogButton}
           </>
         );
@@ -410,7 +413,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
           <div className="module-ongoing-call__group-call-remote-participant__more-info-modal-title">
             <I18n
               i18n={i18n}
-              id="icu:calling__you-have-blocked"
+              id="icu:calling__block-info-title"
               components={{
                 name: <ContactName key="name" title={title} />,
               }}
@@ -510,7 +513,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
           )}
           {noVideoNode && (
             <CallBackgroundBlur
-              avatarUrl={avatarUrl}
+              avatarUrl={isBlocked ? undefined : avatarUrl}
               className="module-ongoing-call__group-call-remote-participant-background"
             >
               {noVideoNode}

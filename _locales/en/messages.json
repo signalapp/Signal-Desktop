@@ -1863,10 +1863,18 @@
   },
   "icu:calling__you-have-blocked": {
     "messageformat": "You have blocked {name}",
-    "description": "when you block someone and cannot view their video"
+    "description": "(Deleted 2024/07/15) when you block someone and cannot view their video"
+  },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked",
+    "description": "Shown in a group call when you have blocked someone and cannot view their video."
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked",
+    "description": "Title of modal dialog to describe how blocking works in a group call"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won't receive their voice or video and they won't receive yours.",
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "icu:calling__missing-media-keys": {
