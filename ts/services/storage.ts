@@ -40,7 +40,7 @@ import * as durations from '../util/durations';
 import { BackOff } from '../util/BackOff';
 import { storageJobQueue } from '../util/JobQueue';
 import { sleep } from '../util/sleep';
-import { isMoreRecentThan } from '../util/timestamp';
+import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
 import { map, filter } from '../util/iterables';
 import { ourProfileKeyService } from './ourProfileKey';
 import {
@@ -335,11 +335,34 @@ async function generateManifest(
       `adding storyDistributionLists=${storyDistributionLists.length}`
   );
 
-  storyDistributionLists.forEach(storyDistributionList => {
+  for (const storyDistributionList of storyDistributionLists) {
     const storageRecord = new Proto.StorageRecord();
     storageRecord.storyDistributionList = toStoryDistributionListRecord(
       storyDistributionList
     );
+
+    if (
+      storyDistributionList.deletedAtTimestamp != null &&
+      isOlderThan(storyDistributionList.deletedAtTimestamp, durations.MONTH)
+    ) {
+      const droppedID = storyDistributionList.storageID;
+      const droppedVersion = storyDistributionList.storageVersion;
+      if (!droppedID) {
+        continue;
+      }
+
+      const recordID = redactStorageID(droppedID, droppedVersion);
+
+      log.warn(
+        `storageService.generateManifest(${version}): ` +
+          `dropping storyDistributionList=${recordID} ` +
+          `due to expired deleted timestamp=${storyDistributionList.deletedAtTimestamp}`
+      );
+      deleteKeys.add(droppedID);
+
+      drop(dataInterface.deleteStoryDistribution(storyDistributionList.id));
+      continue;
+    }
 
     const { isNewItem, storageID } = processStorageRecord({
       currentStorageID: storyDistributionList.storageID,
@@ -359,7 +382,7 @@ async function generateManifest(
         });
       });
     }
-  });
+  }
 
   log.info(
     `storageService.upload(${version}): ` +
@@ -586,6 +609,17 @@ async function generateManifest(
         pendingDeletes.add(storageID);
       }
     });
+
+    // Save pending deletes until we have a confirmed upload
+    await window.storage.put(
+      'storage-service-pending-deletes',
+      // Note: `deleteKeys` already includes the prev value of
+      // 'storage-service-pending-deletes'
+      Array.from(deleteKeys, storageID => ({
+        storageID,
+        storageVersion: version,
+      }))
+    );
 
     if (deleteKeys.size !== pendingDeletes.size) {
       const localDeletes = Array.from(deleteKeys).map(key =>
