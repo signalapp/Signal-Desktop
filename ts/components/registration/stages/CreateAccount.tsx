@@ -6,6 +6,7 @@ import { mnDecode } from '../../../session/crypto/mnemonic';
 import { ProfileManager } from '../../../session/profile_manager/ProfileManager';
 import { StringUtils } from '../../../session/utils';
 import { fromHex } from '../../../session/utils/String';
+import LIBSESSION_CONSTANTS from '../../../session/utils/libsession/libsession_constants';
 import { trigger } from '../../../shims/events';
 import {
   AccountCreation,
@@ -164,6 +165,7 @@ export const CreateAccount = () => {
           }}
           onEnterPressed={signUpWithDetails}
           error={displayNameError}
+          maxLength={LIBSESSION_CONSTANTS.CONTACT_MAX_NAME_LENGTH}
           inputDataTestId="display-name-input"
         />
         <SpacerLG />

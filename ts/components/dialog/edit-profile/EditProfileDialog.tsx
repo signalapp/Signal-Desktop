@@ -10,6 +10,7 @@ import { YourSessionIDPill, YourSessionIDSelectable } from '../../basic/YourSess
 import { useHotkey } from '../../../hooks/useHotkey';
 import { useOurAvatarPath, useOurConversationUsername } from '../../../hooks/useParamSelector';
 import { ProfileManager } from '../../../session/profile_manager/ProfileManager';
+import LIBSESSION_CONSTANTS from '../../../session/utils/libsession/libsession_constants';
 import { editProfileModal, updateEditProfilePictureModel } from '../../../state/ducks/modalDialog';
 import { SessionWrapperModal } from '../../SessionWrapperModal';
 import { Flex } from '../../basic/Flex';
@@ -332,6 +333,7 @@ export const EditProfileDialog = () => {
             tabIndex={0}
             required={true}
             error={profileNameError}
+            maxLength={LIBSESSION_CONSTANTS.CONTACT_MAX_NAME_LENGTH}
             textSize={'xl'}
             centerText={true}
             inputRef={inputRef}

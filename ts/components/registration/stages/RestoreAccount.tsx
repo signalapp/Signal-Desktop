@@ -7,6 +7,7 @@ import { ProfileManager } from '../../../session/profile_manager/ProfileManager'
 import { PromiseUtils } from '../../../session/utils';
 import { TaskTimedOutError } from '../../../session/utils/Promise';
 import { NotFoundError } from '../../../session/utils/errors';
+import LIBSESSION_CONSTANTS from '../../../session/utils/libsession/libsession_constants';
 import { trigger } from '../../../shims/events';
 import {
   AccountRestoration,
@@ -253,6 +254,7 @@ export const RestoreAccount = () => {
               }}
               onEnterPressed={recoverAndFetchDisplayName}
               error={recoveryPasswordError}
+              maxLength={LIBSESSION_CONSTANTS.CONTACT_MAX_NAME_LENGTH}
               enableShowHideButton={true}
               showHideButtonAriaLabels={{
                 hide: 'Hide recovery password toggle',
