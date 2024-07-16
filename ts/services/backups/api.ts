@@ -4,7 +4,7 @@
 import { strictAssert } from '../../util/assert';
 import type {
   WebAPIType,
-  AttachmentV3ResponseType,
+  AttachmentUploadFormResponseType,
   GetBackupInfoResponseType,
   BackupMediaItemType,
   BackupMediaBatchResponseType,
@@ -66,7 +66,7 @@ export class BackupAPI {
     });
   }
 
-  public async getMediaUploadForm(): Promise<AttachmentV3ResponseType> {
+  public async getMediaUploadForm(): Promise<AttachmentUploadFormResponseType> {
     return this.server.getBackupMediaUploadForm(
       await this.credentials.getHeadersForToday()
     );

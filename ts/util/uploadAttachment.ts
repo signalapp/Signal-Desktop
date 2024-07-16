@@ -11,7 +11,7 @@ import { strictAssert } from './assert';
 import { backupsService } from '../services/backups';
 import { tusUpload } from './uploads/tusProtocol';
 import { defaultFileReader } from './uploads/uploads';
-import type { AttachmentV3ResponseType } from '../textsecure/WebAPI';
+import type { AttachmentUploadFormResponseType } from '../textsecure/WebAPI';
 import {
   type EncryptedAttachmentV2,
   encryptAttachmentV2ToDisk,
@@ -79,7 +79,7 @@ export async function encryptAndUploadAttachment({
   const { server } = window.textsecure;
   strictAssert(server, 'WebAPI must be initialized');
 
-  let uploadForm: AttachmentV3ResponseType;
+  let uploadForm: AttachmentUploadFormResponseType;
   let absoluteCiphertextPath: string | undefined;
 
   try {
@@ -127,7 +127,7 @@ export async function uploadFile({
 }: {
   absoluteCiphertextPath: string;
   ciphertextFileSize: number;
-  uploadForm: AttachmentV3ResponseType;
+  uploadForm: AttachmentUploadFormResponseType;
 }): Promise<void> {
   const { server } = window.textsecure;
   strictAssert(server, 'WebAPI must be initialized');
