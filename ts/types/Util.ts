@@ -24,7 +24,13 @@ export type RenderTextCallbackType = (options: {
 export { ICUJSXMessageParamsByKeyType, ICUStringMessageParamsByKeyType };
 
 export type LocalizerOptions = {
-  textIsBidiFreeSkipNormalization?: boolean;
+  /**
+   * - 'default' will fence all string parameters with unicode bidi isolates
+   *   and balance the control characters within them
+   * - 'strip' should only be used when all of the parameters are not
+   *   user-generated and should not contain any control characters.
+   */
+  bidi?: 'default' | 'strip';
 };
 
 export type LocalizerType = {

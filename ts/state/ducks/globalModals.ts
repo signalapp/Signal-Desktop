@@ -673,10 +673,8 @@ function showShareCallLinkViaSignal(
           ],
           messageBody: i18n(
             'icu:ShareCallLinkViaSignal__DraftMessageText',
-            {
-              url,
-            },
-            { textIsBidiFreeSkipNormalization: true }
+            { url },
+            { bidi: 'strip' }
           ),
         },
       })

@@ -1675,6 +1675,7 @@ async function initializeSQL(
   userDataPath: string
 ): Promise<{ ok: true; error: undefined } | { ok: false; error: Error }> {
   sqlInitTimeStart = Date.now();
+
   try {
     // This should be the first awaited call in this function, otherwise
     // `sql.sqlCall` will throw an uninitialized error instead of waiting for
@@ -1731,9 +1732,11 @@ const onDatabaseError = async (error: string) => {
   } else {
     // Otherwise, this is some other kind of DB error, let's give them the option to
     // delete.
-    messageDetail = i18n('icu:databaseError__detail', {
-      link: SIGNAL_SUPPORT_LINK,
-    });
+    messageDetail = i18n(
+      'icu:databaseError__detail',
+      { link: SIGNAL_SUPPORT_LINK },
+      { bidi: 'strip' }
+    );
 
     buttons.push(i18n('icu:deleteAndRestart'));
     deleteAllDataButtonIndex = 1;
