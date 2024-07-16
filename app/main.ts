@@ -890,15 +890,18 @@ async function createWindow() {
      * if the user is in fullscreen mode and closes the window, not the
      * application, we need them leave fullscreen first before closing it to
      * prevent a black screen.
+     * Also check for mainWindow because it might become undefined while
+     * waiting for close confirmation.
      *
      * issue: https://github.com/signalapp/Signal-Desktop/issues/4348
      */
-
-    if (mainWindow.isFullScreen()) {
-      mainWindow.once('leave-full-screen', () => mainWindow?.hide());
-      mainWindow.setFullScreen(false);
-    } else {
-      mainWindow.hide();
+    if (mainWindow) {
+      if (mainWindow.isFullScreen()) {
+        mainWindow.once('leave-full-screen', () => mainWindow?.hide());
+        mainWindow.setFullScreen(false);
+      } else {
+        mainWindow.hide();
+      }
     }
 
     // On Mac, or on other platforms when the tray icon is in use, the window
@@ -906,7 +909,11 @@ async function createWindow() {
     const usingTrayIcon = shouldMinimizeToSystemTray(
       await systemTraySettingCache.get()
     );
-    if (!windowState.shouldQuit() && (usingTrayIcon || OS.isMacOS())) {
+    if (
+      mainWindow &&
+      !windowState.shouldQuit() &&
+      (usingTrayIcon || OS.isMacOS())
+    ) {
       if (usingTrayIcon) {
         const shownTrayNotice = ephemeralConfig.get('shown-tray-notice');
         if (shownTrayNotice) {
