@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import { isNumber, omit, partition } from 'lodash';
+import { isEqual, isNumber, omit, orderBy, partition } from 'lodash';
 
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
@@ -848,4 +848,28 @@ export function applyRangesToText(
   }
 
   return state;
+}
+
+// For ease of working with draft mentions in Quill, a conversationID field is present.
+function normalizeBodyRanges(bodyRanges: DraftBodyRanges) {
+  return orderBy(bodyRanges, ['start', 'length']).map(item => {
+    if (BodyRange.isMention(item)) {
+      return { ...item, conversationID: undefined };
+    }
+    return item;
+  });
+}
+
+export function areBodyRangesEqual(
+  left: DraftBodyRanges,
+  right: DraftBodyRanges
+): boolean {
+  const normalizedLeft = normalizeBodyRanges(left);
+  const sortedRight = normalizeBodyRanges(right);
+
+  if (normalizedLeft.length !== sortedRight.length) {
+    return false;
+  }
+
+  return isEqual(normalizedLeft, sortedRight);
 }

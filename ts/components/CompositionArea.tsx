@@ -359,7 +359,15 @@ export const CompositionArea = memo(function CompositionArea({
   const editedMessageId = draftEditMessage?.targetMessageId;
 
   const handleSubmit = useCallback(
-    (message: string, bodyRanges: DraftBodyRanges, timestamp: number) => {
+    (
+      message: string,
+      bodyRanges: DraftBodyRanges,
+      timestamp: number
+    ): boolean => {
+      if (!dirty) {
+        return false;
+      }
+
       emojiButtonRef.current?.close();
 
       if (editedMessageId) {
@@ -380,9 +388,12 @@ export const CompositionArea = memo(function CompositionArea({
         });
       }
       setLarge(false);
+
+      return true;
     },
     [
       conversationId,
+      dirty,
       draftAttachments,
       editedMessageId,
       quotedMessageSentAt,
@@ -592,6 +603,7 @@ export const CompositionArea = memo(function CompositionArea({
         <button
           aria-label={i18n('icu:CompositionArea__edit-action--send')}
           className="CompositionArea__edit-button CompositionArea__edit-button--accept"
+          disabled={!dirty}
           onClick={() => inputApiRef.current?.submit()}
           type="button"
         />
