@@ -1913,18 +1913,20 @@ function setMessageToEdit(
         : undefined;
     }
 
+    const draftBodyRanges = processBodyRanges(message, {
+      conversationSelector: getConversationSelector(getState()),
+    });
     conversation.set({
       draftEditMessage: {
         body: message.body,
+        bodyRanges: draftBodyRanges,
         editHistoryLength: message.editHistory?.length ?? 0,
         attachmentThumbnail,
         preview: message.preview ? message.preview[0] : undefined,
         targetMessageId: messageId,
         quote: message.quote,
       },
-      draftBodyRanges: processBodyRanges(message, {
-        conversationSelector: getConversationSelector(getState()),
-      }),
+      draftBodyRanges,
     });
 
     dispatch({
