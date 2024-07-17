@@ -18,3 +18,11 @@ export function getColorForCallLink(rootKey: string): string {
 
   return AvatarColors[index];
 }
+
+export function getKeyFromCallLink(callLink: string): string {
+  const url = new URL(callLink);
+  const hash = url.hash.slice(1);
+  const hashParams = new URLSearchParams(hash);
+
+  return hashParams.get('key') || '';
+}

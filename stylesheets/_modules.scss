@@ -953,7 +953,7 @@ $message-padding-horizontal: 12px;
   padding-inline: $message-padding-horizontal;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
 
   @include light-theme {
     background-color: $color-gray-02;
@@ -992,6 +992,7 @@ $message-padding-horizontal: 12px;
 .module-message__link-preview__description {
   @include font-body-2;
 
+  margin-top: 4px;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 5;
@@ -7598,22 +7599,35 @@ button.module-calling-participants-list__contact {
 
 .module-message__action {
   @include button-reset();
-  margin-top: 5px;
-  padding: 10px;
+  border-radius: 30px;
+  margin-top: 14px;
+  margin-bottom: 4px;
+  padding: 8px;
   text-align: center;
   width: 100%;
+
   @include font-body-1-bold();
-  border-top: 1px solid;
 }
 .module-message__action--outgoing {
-  border-top-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba($color-white, 0.22);
+  &:hover {
+    background-color: rgba($color-white, 0.36);
+  }
 }
 .module-message__action--incoming {
   @include light-theme {
-    border-top-color: rgba(0, 0, 0, 0.25);
+    color: $color-link;
+    background-color: $color-white-alpha-70;
+    &:hover {
+      background-color: $color-white;
+    }
   }
   @include dark-theme {
-    border-top-color: rgba(255, 255, 255, 0.25);
+    color: $color-white;
+    background-color: rgba($color-white, 0.07);
+    &:hover {
+      background-color: rgba($color-white, 0.17);
+    }
   }
 }
 
@@ -7621,19 +7635,7 @@ button.module-calling-participants-list__contact {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
   margin-inline-end: 12px;
-  background: #e5e5fe;
-  @include rounded-corners();
-  &::before {
-    content: '';
-    display: block;
-    width: 36px;
-    height: 36px;
-    @include color-svg(
-      '../images/icons/v3/video/video-display-bold.svg',
-      #5151f6
-    );
-  }
+  margin-top: 4px;
+  margin-bottom: 4px;
 }
