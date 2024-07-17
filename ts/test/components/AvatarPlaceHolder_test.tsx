@@ -26,7 +26,6 @@ describe('AvatarPlaceHolder', () => {
   });
 
   it('should render an svg', async () => {
-    // TODO[epic=ses-968] Fix warnings that appear when we run this test.
     const result = renderComponent(
       <AvatarPlaceHolder
         diameter={AvatarSize.XL}

@@ -35,6 +35,7 @@ import { resetRegistration } from '../RegistrationStages';
 import { ContinueButton, OnboardDescription, OnboardHeading } from '../components';
 import { BackButtonWithinContainer } from '../components/BackButton';
 import { displayNameIsValid, sanitizeDisplayNameOrToast } from '../utils';
+import { ProfileManager } from '../../../session/profile_manager/ProfileManager';
 
 export type AccountDetails = {
   recoveryPassword: string;
@@ -100,8 +101,10 @@ export const CreateAccount = () => {
         throw new Error('Private key not found');
       }
 
+      const validName = await ProfileManager.updateOurProfileDisplayName(displayName, true);
+
       await signUp({
-        displayName,
+        displayName: validName,
         recoveryPassword,
       });
 

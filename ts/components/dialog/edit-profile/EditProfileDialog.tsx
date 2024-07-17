@@ -194,17 +194,17 @@ export const EditProfileDialog = () => {
   const backButton =
     mode === 'edit' || mode === 'qr'
       ? [
-        {
-          iconType: 'chevron',
-          iconRotation: 90,
-          onClick: () => {
-            if (loading) {
-              return;
-            }
-            setMode('default');
+          {
+            iconType: 'chevron',
+            iconRotation: 90,
+            onClick: () => {
+              if (loading) {
+                return;
+              }
+              setMode('default');
+            },
           },
-        },
-      ]
+        ]
       : undefined;
 
   const onClickOK = async () => {

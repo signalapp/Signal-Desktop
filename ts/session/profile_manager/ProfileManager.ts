@@ -99,8 +99,18 @@ export async function updateOurProfileDisplayName(newName: string, onboarding?: 
   const cleanName = sanitizeSessionUsername(newName).trim();
 
   if (onboarding) {
-    const userInfoName = await UserConfigWrapperActions.setUserInfo(cleanName, CONVERSATION_PRIORITIES.default, null);
-    return userInfoName;
+    try {
+      const userInfoName = await UserConfigWrapperActions.setUserInfo(
+        cleanName,
+        CONVERSATION_PRIORITIES.default,
+        null
+      );
+      return userInfoName;
+    } catch (err) {
+      throw err;
+    } finally {
+      await UserConfigWrapperActions.free();
+    }
   }
 
   const ourNumber = UserUtils.getOurPubKeyStrFromCache();
@@ -120,9 +130,9 @@ export async function updateOurProfileDisplayName(newName: string, onboarding?: 
     dbPriority,
     dbProfileUrl && dbProfileKey
       ? {
-        url: dbProfileUrl,
-        key: dbProfileKey,
-      }
+          url: dbProfileUrl,
+          key: dbProfileKey,
+        }
       : null
   );
 
