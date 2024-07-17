@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "La version de votre base de données ne peut pas supporter cette version de Signal. Assurez-vous d’ouvrir la dernière version de Signal sur votre ordinateur."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Fichier"
   },
@@ -732,7 +738,7 @@
     "messageformat": "mobile"
   },
   "icu:email": {
-    "messageformat": "courriel"
+    "messageformat": "e-mail"
   },
   "icu:phone": {
     "messageformat": "téléphone"
@@ -990,7 +996,7 @@
     "messageformat": "Tous les messages de cette conversation seront supprimés de cet appareil. Vous pourrez tout de même rechercher cette conversation après avoir supprimé les messages."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Tous les messages de cette conversation seront supprimés de tous vos appareils.Vous pourrez tout de même rechercher cette conversation une fois les messages supprimés."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Quitter le groupe"
@@ -1119,19 +1125,19 @@
     "messageformat": "Impossible de charger le code QR. Veuillez vérifier votre connexion Internet et réessayer. <retry>Réessayer</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Impossible de charger le code QR. Vérifiez votre connexion et réessayez."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Une erreur inattendue s’est produite.</paragraph><paragraph>Veuillez réessayer.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Impossible d’associer cet appareil via le réseau actuel."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Réessayer"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Obtenir de l’aide"
   },
   "icu:Install__support-link": {
     "messageformat": "Besoin d’aide ?"
@@ -1305,34 +1311,34 @@
     "messageformat": "Refuser la demande"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Tout accepter"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Tout refuser"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Accepter {count,number} demande ?} other {Accepter {count,number} demandes ?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Refuser {count,number} demande ?} other {Refuser {count,number} demandes ?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} personne sera ajoutée à l’appel.} other {{count,number} personnes seront ajoutées à l’appel.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} personne ne sera pas ajoutée à l’appel.} other {{count,number} personnes ne seront pas ajoutées à l’appel.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} personne demande à rejoindre l’appel} other {{count,number} personnes demandent à rejoindre l’appel}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "voudrait rejoindre l’appel…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} demande} other {+{count,number} demandes}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} personne ajoutée à l’appel} other {{count,number} personnes ajoutées à l’appel}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} participant a levé la main} other {{count,number} participants ont levé la main}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "Vous avez bloqué {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "Vous ne recevez ni l’audio, ni la vidéo de cet utilisateur et il ne reçoit pas les vôtres."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Impossible de recevoir l’audio et la vidéo de {name}"
@@ -2829,13 +2841,13 @@
     "messageformat": "Retirer cet utilisateur de l’appel"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Retirer {name} de l’appel ?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Retirer"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Bloquer"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} personne} other {{count,number} personnes}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "Un nom d’utilisateur ne peut pas commencer par un chiffre."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Le nom d’utilisateur doit comporter au moins {min,number} caractères."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Le nom d’utilisateur doit comporter au maximum {max,number} caractères."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {Le nom d’utilisateur doit comporter au moins {min,number} caractère.} other {Le nom d’utilisateur doit comporter au moins {min,number} caractères.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Supprimer"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Pour supprimer votre nom d’utilisateur, ouvrez Signal sur votre téléphone et accédez à Paramètres > Profil."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Copier ou supprimer le nom d'utilisateur"
@@ -4809,7 +4812,7 @@
     "messageformat": "Vos contacts peuvent voir votre nom et votre photo de profil. Ils peuvent aussi afficher vos stories, sauf si vous décidez de les masquer."
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "La suppression des messages est synchronisée sur vos appareils."
+    "messageformat": "Suppression des messages synchronisée sur vos appareils"
   },
   "icu:LocalDeleteWarningModal__description": {
     "messageformat": "Lorsque vous supprimez des messages ou des conversations, ils sont supprimés de tous vos appareils."
@@ -5377,19 +5380,19 @@
     "messageformat": "Davantage d’actions"
   },
   "icu:CallsTab__ClearCallHistoryLabel": {
-    "messageformat": "Effacer l’historique des appels"
+    "messageformat": "Supprimer l’historique des appels"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Title": {
-    "messageformat": "Effacer l’historique des appels ?"
+    "messageformat": "Supprimer l’historique des appels ?"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "Cette action supprimera l’historique des appels de manière permanente."
+    "messageformat": "Cela supprimera définitivement l’historique des appels."
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
     "messageformat": "Réinitialiser"
   },
   "icu:CallsTab__ToastCallHistoryCleared": {
-    "messageformat": "Journal d'appels vidé"
+    "messageformat": "Historique des appels supprimé"
   },
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Cliquer sur un appel pour l’afficher ou passer un nouvel appel"
@@ -5482,7 +5485,7 @@
     "messageformat": "Rejoindre"
   },
   "icu:CallLinkEditModal__AddCallNameLabel": {
-    "messageformat": "Ajouter un libellé d’appel"
+    "messageformat": "Nommer l’appel"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Approuver tous les membres"
@@ -5494,10 +5497,10 @@
     "messageformat": "Activé"
   },
   "icu:CallLinkAddNameModal__Title": {
-    "messageformat": "Ajouter un libellé d’appel"
+    "messageformat": "Nommer l’appel"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
-    "messageformat": "Libellé de l’appel"
+    "messageformat": "Nom de l’appel"
   },
   "icu:TypingBubble__avatar--overflow-count": {
     "messageformat": "{count, plural, one {{count,number} autre personne est en train d’écrire.} other {{count,number} autres personnes sont en train d’écrire.}}"
@@ -5539,16 +5542,10 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Vous pouvez désormais transférer des fiches de contact envoyées à partir d’un appareil mobile. Bonne nouvelle pour les plus paresseux : Signal vous permet désormais de partager le numéro de votre restaurant préféré directement depuis votre ordinateur, sans même avoir besoin d’utiliser votre téléphone (par contre, à vous de vous débrouiller pour vous y rendre, on ne peut pas tout faire pour vous…)"
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "Signal a la folie des grandeurs ! Découvrez les « jumbomoji », des émojis grandeur nature (enfin presque…) pour des détails plus vrais que nature !"
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "Et pour finir, notre outil de création de stickers vous propose enfin les tout derniers émojis (désolés pour les passionnés du vintage… mais l’ancienne version de vos émojis préférés reviendra peut-être à la mode !)"
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "On dit adieu à un autre bug : quand on tentait de se reconnecter à un appel, le bouton permettant de réduire la fenêtre d’appel ne s’affichait pas. Le problème est réglé. Désormais, vous ne perdez plus de vue vos conversations, même en cas de perte de connexion."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

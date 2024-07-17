@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Versioni i bazës së të dhënave nuk përputhet me këtë version të Signal. Sigurohu që po hap versionin më të ri të Signal në kompjuterin tënd."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Kartelë"
   },
@@ -990,7 +996,7 @@
     "messageformat": "Të gjitha mesazhet në këtë bisedë do të fshihen nga kjo pajisje. Mund ta kërkosh ende këtë bisedë pasi të fshish mesazhet."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Të gjitha mesazhet në këtë bisedë do të fshihen nga të gjitha pajisjet. Mund ta kërkosh ende këtë bisedë pasi të fshish mesazhet."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Largohu nga grupi"
@@ -1119,19 +1125,19 @@
     "messageformat": "Kodi QR nuk mundi të ngarkohej. Kontrollo internetin dhe provo sërish. <retry>Riprovo</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Kodi QR nuk mundi të ngarkohej. Kontrollo lidhjen e internetit dhe riprovo."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Ndodhi një gabim i papritur.</paragraph><paragraph>Të lutem, provo përsëri.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal nuk mund ta lidhë pajisjen përmes rrjetit aktual."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Riprovo"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Merr ndihmë"
   },
   "icu:Install__support-link": {
     "messageformat": "Ju duhet ndihmë?"
@@ -1305,34 +1311,34 @@
     "messageformat": "Refuzo kërkesën për t'ju bashkuar"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Mirato të gjitha"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Refuzo të gjitha"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Të miratohet {count,number} kërkesë?} other {Të miratohen {count,number} kërkesat?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Të refuzohet {count,number} kërkesa?} other {Të refuzohen {count,number} kërkesat?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} person do t'i shtohet telefonatës.} other {{count,number} persona do t'i shtohen telefonatës.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} person do t'i shtohet telefonatës.} other {{count,number} persona do t'i shtohen telefonatës.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} kërkesë për t'ju bashkuar telefonatës} other {{count,number} kërkesa për t'ju bashkuar telefonatës}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Dëshiron t'i bashkohet…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} kërkesë} other {+{count,number} kërkesa}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} person u shtua në telefonatë} other {{count,number} persona u shtuan në telefonatë}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} ngriti dorën} other {{count,number} ngritën duart}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "Ke bllokuar {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "Ti nuk do të marrësh thirrje zanore apo me video dhe ata nuk do të marrin të tuat."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "S\\’mund të merret audio dhe video prej {name}"
@@ -2829,13 +2841,13 @@
     "messageformat": "Hiqe këtë person nga telefonata"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Të hiqet {name} nga telefonata?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Fshije"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Bllokoje nga telefonata"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} person} other {{count,number} persona}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "Emrat e përdoruesve nuk mund të fillojnë me numër."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Emrat e përdoruesve duhet të kenë të paktën {min,number} karaktere."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Emrat e përdoruesve duhet të kenë e shumta {max,number} shenja."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {Emrat e përdoruesve duhet të kenë të paktën {min,number} karakter.} other {Emrat e përdoruesve duhet të kenë të paktën {min,number} karaktere.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Fshije"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Për të fshirë emrin e përdoruesit, hap Signal në telefon dhe shko te Parametrat > Profili."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopjo ose fshi emrin e përdoruesit"
@@ -5539,16 +5542,10 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Tani mund t'i përcjellësh kartat e kontaktit që janë dërguar nga një pajisje celulare. Shpërndaj numrin e porosive të restorantit tënd të preferuar pa përdorur telefonin."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "Ndihma e re për \"jumbomoji\" me rezolucion të lartë shton detaje jashtëzakonisht të qarta dhe të gjalla tek emojit e mëdhenj, veçanërisht në ekrane të mëdha me pikselë të vegjël."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "Ne gjithashtu përditësuam Krijuesin e Ngjitësve për të mbështetur emojit më të fundit, nda ngjitësit e sotëm nuk kufizohen më te standardi i djeshëm i Unicode."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Defekti që pengonte shfaqjen e butonit për të minimizuar një telefonatë gjatë rilidhjes së saj u rregullua. Tani nuk ke nevojë të ndihesh i shkëputur nga bisedat e mëparshme edhe nëse interneti duket sikur shkëputet."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

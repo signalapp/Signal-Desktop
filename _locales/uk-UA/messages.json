@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Версія вашої бази даних не відповідає цій версії Signal. Переконайтеся, що відкриваєте на комп'ютері останню версію Signal."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Файл"
   },
@@ -483,7 +489,7 @@
     "messageformat": "Зберегти"
   },
   "icu:debugLogLinkCopied": {
-    "messageformat": "Посилання скопійовано до буферу обміну"
+    "messageformat": "Посилання скопійовано в буфер обміну"
   },
   "icu:reportIssue": {
     "messageformat": "Звернутися в службу підтримки"
@@ -990,7 +996,7 @@
     "messageformat": "Усі повідомлення в цьому чаті буде видалено з пристрою. Ви зможете знайти цей чат навіть після видалення повідомлень."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Усі повідомлення в цьому чаті буде видалено з усіх ваших пристроїв. Після видалення повідомлень ви все одно зможете знайти цей чат."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Покинути групу"
@@ -1119,19 +1125,19 @@
     "messageformat": "Не вдалося завантажити QR-код. Перевірте з'єднання з інтернетом і спробуйте ще раз. <retry>Повторити</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Не вдалося завантажити QR-код. Перевірте з'єднання з мережею і спробуйте знову."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Сталася несподівана помилка.</paragraph><paragraph>Будь ласка, спробуйте знову.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal не може зв'язати пристрій, використовуючи з'єднання з поточною мережею."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Сканувати знову"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Допомога"
   },
   "icu:Install__support-link": {
     "messageformat": "Потрібна допомога?"
@@ -1305,34 +1311,34 @@
     "messageformat": "Не дозволити приєднатися"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Прийняти всі"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Відхилити всі"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Прийняти {count,number} запит?} few {Прийняти {count,number} запити?} many {Прийняти {count,number} запитів?} other {Прийняти {count,number} запита?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Відхилити {count,number} запит?} few {Відхилити {count,number} запити?} many {Відхилити {count,number} запитів?} other {Відхилити {count,number} запита?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {До виклику буде додано {count,number} людину.} few {До виклику буде додано {count,number} людини.} many {До виклику буде додано {count,number} людей.} other {До виклику буде додано {count,number} людини.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {До виклику не буде додано {count,number} людину.} few {До виклику не буде додано {count,number} людини.} many {До виклику не буде додано {count,number} людей.} other {До виклику не буде додано {count,number} людини.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} запит на приєднання до виклику} few {{count,number} запити на приєднання до виклику} many {{count,number} запитів на приєднання до виклику} other {{count,number} запиту на приєднання до виклику}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Хоче приєднатися…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} запит} few {+{count,number} запити} many {+{count,number} запитів} other {+{count,number} запиту}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {До виклику додано {count,number} людину} few {До виклику додано {count,number} людини} many {До виклику додано {count,number} людей} other {До виклику додано {count,number} людини}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} піднята рука} few {{count,number} підняті руки} many {{count,number} піднятих рук} other {{count,number} піднятої руки}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "Ви заблокували користувача {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "Ви не отримаєте голосові повідомлення чи відео від цього користувача, а користувач не отримає ваші."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Неможливо отримати аудіо та відео від {name}"
@@ -1512,7 +1524,7 @@
     "messageformat": "Видалити усі дані?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Видалити всі дані та повідомлення з цієї версії Signal для комп'ютера? Ви завжди можете повторно прив'язати цю версію програми для комп'ютера, але повідомлення не буде відновлено. Ваш акаунт Signal і дані з телефона чи інших зв'язаних пристроїв не буде видалено."
+    "messageformat": "Видалити всі дані й повідомлення з цієї версії Signal Desktop? Ви завжди зможете повторно зв'язати цей ПК, але можливості відновити повідомлення не буде. Ваш акаунт Signal і дані на телефоні й інших зв'язаних пристроях не буде видалено."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Відключається і видаляє всі дані"
@@ -2253,7 +2265,7 @@
     "messageformat": "Показати інформацію про обране повідомлення"
   },
   "icu:Keyboard--toggle-reply": {
-    "messageformat": "Створити / скасувати відповідь на обране повідомлення"
+    "messageformat": "Створити / Скасувати відповідь на обране повідомлення"
   },
   "icu:Keyboard--toggle-reaction-picker": {
     "messageformat": "Показати / приховати панель реакцій для обраного повідомлення"
@@ -2829,13 +2841,13 @@
     "messageformat": "Вилучити з виклику"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Вилучити користувача {name} з виклику?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Вилучити"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Заблокувати участь у виклику"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} учасник} few {{count,number} учасники} many {{count,number} учасників} other {{count,number} учасника}}"
@@ -4197,13 +4209,13 @@
     "messageformat": "Очікування"
   },
   "icu:MessageDetailsHeader--Sent": {
-    "messageformat": "Надіслано до"
+    "messageformat": "Кому надіслано:"
   },
   "icu:MessageDetailsHeader--Delivered": {
-    "messageformat": "Доставлено"
+    "messageformat": "Кому доставлено:"
   },
   "icu:MessageDetailsHeader--Read": {
-    "messageformat": "Прочитано"
+    "messageformat": "Хто прочитав:"
   },
   "icu:MessageDetailsHeader--Viewed": {
     "messageformat": "Переглянули"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "Ім'я користувача не може починатися з цифри."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Ім'я користувача повинне містити принаймні {min,number} символи."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Імена користувачів мають містити щонайбільше {max,number} символів."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {Ім'я користувача повинне містити принаймні {min,number} символ.} few {Ім'я користувача повинне містити принаймні {min,number} символи.} many {Ім'я користувача повинне містити принаймні {min,number} символів.} other {Ім'я користувача повинне містити принаймні {min,number} символу.}}"
   },
@@ -4301,9 +4307,6 @@
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Видалити"
   },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Щоб видалити ім'я користувача, відкрийте Signal на телефоні та перейдіть у налаштування > Профіль."
-  },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Копіювати або видалити ім'я користувача"
   },
@@ -4335,7 +4338,7 @@
     "messageformat": "Змінити фото"
   },
   "icu:ProfileEditor--info--general": {
-    "messageformat": "Ваш профіль і зміни в ньому бачитимуть ваші співрозмовники, контакти та групи."
+    "messageformat": "Ваш профіль і зміни в ньому бачать ваші співрозмовники, контакти й групи."
   },
   "icu:ProfileEditor--info--pnp": {
     "messageformat": "Ім'я користувача, QR-код і посилання не відображаються у вашому профілі. Діліться ними тільки з людьми, яким довіряєте."
@@ -5073,7 +5076,7 @@
     "messageformat": "Зникне через {countdown}"
   },
   "icu:StoryDetailsModal__copy-timestamp": {
-    "messageformat": "Копіювати позначку часу"
+    "messageformat": "Скопіювати часову позначку"
   },
   "icu:StoryDetailsModal__download-attachment": {
     "messageformat": "Завантажити вкладення"
@@ -5106,7 +5109,7 @@
     "messageformat": "Видалити для всіх"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
-    "messageformat": "Копіювати позначку часу"
+    "messageformat": "Скопіювати часову позначку"
   },
   "icu:StoryListItem__label": {
     "messageformat": "Історія"
@@ -5539,16 +5542,10 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Тепер ви можете пересилати візитки, надіслані з мобільного пристрою. Поділіться номером улюбленої доставки, навіть не виймаючи телефон з кишені."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "Маленькі покращення великих емоджі: тепер вони мають високу роздільну здатність, що особливо помітно на великих екранах зі щільно розміщеними пікселями."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "Також ми оновили конструктор стікерів останньою колекцією емоджі, щоб ви могли йти в ногу з цифровими трендами."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Втрата з'єднання, але не часу: ми виправили помилку, через яку кнопка згортання виклику зникала під час втрати з'єднання. Тепер у такій ситуації ви зможете згорнути виклик і заглянути в інший чат."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

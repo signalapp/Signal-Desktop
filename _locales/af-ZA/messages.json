@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Die weergawe van jou databasis pas nie by hierdie weergawe van Signal nie. Maak seker dat jy die jongste weergawe van Signal op jou rekenaar oopmaak."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Lêer"
   },
@@ -990,7 +996,7 @@
     "messageformat": "Al die boodskappe in hierdie klets sal van hierdie toestel af geskrap word. Jy kan steeds vir hierdie klets soek nadat jy boodskappe uitgevee het."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Al die boodskappe in hierdie klets sal van al jou toestelle af geskrap word. Jy kan steeds vir hierdie klets soek nadat jy boodskappe geskrap het."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Verlaat groep"
@@ -1119,19 +1125,19 @@
     "messageformat": "Die QR-kode kon nie gelaai word nie. Kontroleer jou internetverbinding en probeer weer. <retry>Probeer weer</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Die QR-kode kon nie gelaai word nie. Gaan jou verbinding na en probeer weer."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>'n Onverwagse fout het voorgekom.</paragraph><paragraph>Probeer asb weer.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal kan nie hierdie toestel met gebruik van jou huidige netwerk koppel nie."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Probeer weer"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Kry hulp"
   },
   "icu:Install__support-link": {
     "messageformat": "Hulp nodig?"
@@ -1305,34 +1311,34 @@
     "messageformat": "Weier aansluitingsversoek"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Keur almal goed"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Weier almal"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Keur {count,number} versoek goed?} other {Keur {count,number} versoeke goed?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Weier {count,number} versoek?} other {Weier {count,number} versoeke?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} persoon sal by die oproep gevoeg word.} other {{count,number} persone sal by die oproep gevoeg word.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} persoon sal nie by die oproep gevoeg word nie.} other {{count,number} persone sal nie by die oproep gevoeg word nie.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} versoek om by hierdie oproep aan te sluit} other {{count,number} versoeke om by hierdie oproep aan te sluit}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Wil graag aansluit…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} versoek} other {+{count,number} versoeke}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} persoon by die oproep gevoeg} other {{count,number} persone by die oproep gevoeg}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} opgesteekte hand} other {{count,number} opgesteekte hande}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "Jy het {name} versper"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "Julle sal nie mekaar se stem of video ontvang nie."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Kan nie oudio en video van {name} ontvang nie"
@@ -2829,13 +2841,13 @@
     "messageformat": "Verwyder hierdie persoon uit die oproep"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Verwyder {name} uit die oproep?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Verwyder"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Blokkeer toegang tot oproep"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} mens} other {{count,number} mense}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "Gebruikersname kan nie met 'n syfer begin nie."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Gebruikersname moet minstens {min,number} karakters bevat."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Gebruikersname moet hoogstens {max,number} karakters bevat."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {Gebruikersname moet minstens {min,number} karakter bevat.} other {Gebruikersname moet minstens {min,number} karakters bevat.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Skrap"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Om jou gebruikersnaam te skrap, maak Signal op jou foon oop en gaan na Instellings > Profiel."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopieer of skrap gebruikersnaam"
@@ -5539,16 +5542,10 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Nou kan jy kontakkaarte aanstuur wat van 'n mobiele toestel af gestuur is."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "Nuwe ondersteuning vir emoji's met hoë resolusie verbeter hoe groot emoji-karakters vertoon word."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "Ons het ook die Plakkerskepper opgedateer om die jongste Emoji-karakters te ondersteun."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Ons het 'n fout reggemaak wat verhoed het dat die knoppie verskyn wat 'n oproep minimaliseer terwyl daardie oproep herkonnekteer word."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

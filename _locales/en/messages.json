@@ -5662,14 +5662,6 @@
     "messageformat": "Usernames cannot begin with a number.",
     "description": "Shown if user has attempted to begin their username with a number"
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Usernames must have at least {min, number} characters.",
-    "description": "(Deleted 2024/06/13) Shown if user has attempted to enter a username with too few characters - currently min is 3"
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Usernames must have at most {max, number} characters.",
-    "description": "(Deleted 2024/06/13) Shown if user has attempted to enter a username with too many characters - currently min is 25"
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "Usernames must have at least {min, plural, one {# character} other {# characters}}.",
     "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
@@ -5729,10 +5721,6 @@
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Delete",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "To delete your username, open Signal on your phone and navigate to Settings > Profile.",
-    "description": "(Deleted 2024/06/04) Shown in dialog body if user is trying to delete username, but it is only supported on mobile"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Copy or delete username",
@@ -7377,7 +7365,7 @@
   },
   "icu:WhatsNew__v7.16--0": {
     "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected.",
-    "description": "Release notes for version 7.16"
+    "description": "(Deleted 2024/07/17) Release notes for version 7.16"
   },
   "icu:WhatsNew__v7.17--0": {
     "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed.",

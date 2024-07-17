@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Tietokantasi versio ei vastaa tätä Signal-versiota. Varmista, että avaat Signalin uusimman version tietokoneellasi."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Tiedosto"
   },
@@ -990,7 +996,7 @@
     "messageformat": "Tämän keskustelun viestit poistetaan tästä laitteesta. Voit edelleen etsiä tätä keskustelua viestien poistamisen jälkeen."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Kaikki tämän keskustelun viestit poistetaan kaikista laitteistasi. Voit edelleen etsiä tätä keskustelua viestien poistamisen jälkeen."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Poistu ryhmästä"
@@ -1119,19 +1125,19 @@
     "messageformat": "QR-koodin lataaminen epäonnistui. Tarkista internetyhteys ja yritä uudelleen. <retry>Yritä uudelleen</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR-koodin lataaminen epäonnistui. Tarkista yhteytesi ja yritä uudelleen."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Tapahtui odottamaton virhe.</paragraph><paragraph>Yritä uudelleen.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal ei voi yhdistää tätä laitetta nykyisessä verkossasi."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Yritä uudelleen"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Pyydä apua"
   },
   "icu:Install__support-link": {
     "messageformat": "Tarvitsetko apua?"
@@ -1305,34 +1311,34 @@
     "messageformat": "Hylkää liittymispyyntö"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Hyväksy kaikki"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Hylkää kaikki"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Hyväksytäänkö {count,number} pyyntö?} other {Hyväksytäänkö {count,number} pyyntöä?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Hylätäänkö {count,number} pyyntö?} other {Hylätäänkö {count,number} pyyntöä?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} henkilö lisätään puheluun.} other {{count,number} henkilöä lisätään puheluun.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} henkilöä ei lisätä puheluun.} other {{count,number} henkilöä ei lisätä puheluun.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} pyyntö liittyä puheluun} other {{count,number} pyyntöä liittyä puheluun}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Haluaa liittyä..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} pyyntö} other {+{count,number} pyyntöä}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} henkilö lisätty puheluun} other {{count,number} henkilöä lisätty puheluun}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} kädennosto} other {{count,number} kädennostoa}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "Olet estänyt käyttäjän {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "Et voi enää käydä ääni- tai videoviestinvaihtoa estettyjen käyttäjien kanssa."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Ääni- ja videoviestin vastaanottaminen käyttäjältä {name} epäonnistui"
@@ -2829,13 +2841,13 @@
     "messageformat": "Poista tämä henkilö puhelusta"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Poistetaanko {name} puhelusta?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Poista"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Estä puhelusta"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} henkilöä} other {{count,number} henkilöä}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "Käyttäjänimi ei voi alkaa numerolla."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Käyttäjänimessä on oltava vähintään {min,number} merkkiä."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Käyttäjänimessä voi olla enintään {max,number} merkkiä."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {Käyttäjänimessä on oltava vähintään {min,number} merkki.} other {Käyttäjänimessä on oltava vähintään {min,number} merkkiä.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Poista"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Poistaaksesi käyttäjätunnuksesi, avaa Signal puhelimessasi ja siirry kohtaan Asetukset > Profiili."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopioi tai poista käyttäjänimi"
@@ -5539,16 +5542,10 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Nyt voit lähettää edelleen mobiililaitteesta lähetetyt yhteystietokortit."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "Uusi tuki korkearesoluutioiselle ”jumbomojille” parantaa suurten emojien näyttämistä."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "Päivitimme myös tarranluojan tukemaan uusimpia emoji-merkkejä."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Korjasimme virheen, joka esti puhelun pienentävän painikkeen näkymisen puhelun yhdistämisen aikana."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Дерекқордың нұсқасы Signal-дың бұл нұсқасына сәйкес келмейді. Компьютеріңізде Signal-дың соңғы нұсқасын ашып отырғаныңзға көз жеткізіңіз."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Файл"
   },
@@ -990,7 +996,7 @@
     "messageformat": "Осы чаттағы хаттардың барлығы бұл құрылғыдан жойылады. Хаттарды жойған соң да, бұл чатты іздеп табуыңызға болады."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Осы чаттағы хаттардың барлығы барлық құрылғыларыңыздан жойылады. Хабарларды жойғаннан кейін бұл чатты әлі де іздей аласыз."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Топтан шығып кету"
@@ -1119,19 +1125,19 @@
     "messageformat": "QR коды жүктелмеді. Интернетті тексеріп, қайталап көріңіз. <retry>Қайталап көру</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR коды жүктелмеді. Контактіні тексеріп, қайталап көріңіз."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Күтпеген қате шықты.</paragraph><paragraph>Қайталап көріңіз.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Ағымдағы желінің көмегімен Signal бұл құрылғыға байланыса алмайды."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Қайтадан байқап көру"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Анықтама алу"
   },
   "icu:Install__support-link": {
     "messageformat": "Көмек керек пе?"
@@ -1305,34 +1311,34 @@
     "messageformat": "Қосылуға өтінішті қабылдамау"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Барлығын мақұлдау"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Ешбірін қабылдамау"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} өтінішті мақұлдау керек пе?} other {{count,number} өтінішті мақұлдау керек пе?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} өтінішті қабылдамау керек пе?} other {{count,number} өтінішті қабылдамау керек пе?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {Қоңырауға {count,number} адам қосылады.} other {Қоңырауға {count,number} адам қосылады.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {Қоңырауға {count,number} адам қосылмайды.} other {Қоңырауға {count,number} адам қосылмайды.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {Қоңырауға қосылу туралы {count,number} өтініш} other {Қоңырауға қосылу туралы {count,number} өтініш}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Қосылғысы келеді..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} өтініш} other {+{count,number} өтініш}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {Қоңырауға {count,number} адам қосылды} other {Қоңырауға {count,number} адам қосылды}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} адам қол көтерді} other {{count,number} адам қол көтерді}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "{name} деген кісіні блоктадыңыз"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "Сіз олардың, ал олар сіздің дауыстық хаттарыңызды немесе видеоларыңызды ала алмайды."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} жіберген аудио және видеоларды ала алмайсыз"
@@ -2829,13 +2841,13 @@
     "messageformat": "Бұл адамды қоңыраудан өшіріп тастау"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "{name} қоңыраудан шығарылсын ба?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Өшіру"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Қоңыраудан блоктау"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} адам} other {{count,number} адам}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "Пайдаланушы аттары саннан басталмауы керек."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Пайдаланушы атында кемінде {min,number} таңба болуы керек."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Пайдаланушы аттарындағы таңбалар саны {max,number} таңбадан аспауы керек."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {PIN-код кемінде {min,number} таңбадан тұруы керек} other {Пайдаланушы атында кемінде {min,number} таңба болуы керек.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Жою"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Пайдаланушы атын жою үшін телефоныңыздан Signal қолданбасын ашып, \"Параметрлер > Профиль\" тармағына өтіңіз."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Пайдаланушы атын көшіру немесе жою"
@@ -5539,16 +5542,10 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Енді сіз мобильдік құрылғыдан жіберілген контакт карталарын қайта жібере аласыз. Енді телефоныңызды шығармай-ақ таңдаулы мейрамханаңыздың нөмірін бөлісе аласыз."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "Ажыратымдылығы жоғары «джамбоэмодзилерді» жаңа қолдау үлкен эмодзиге көп кішігірім элементтерді қосады, әсіресе пиксельдері кішкентай үлкен экрандарда."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "Соңғы эмодзилерге қолдау көрсету үшін Sticker Creator функциясын да жаңарттық, осылайша бүгінгі стикерлер енді кешегі Юникод стандартында тұрып қалмайды."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Қоңырау қайта қосылып жатқанда қоңыраудың пайда болуын барынша азайтуға кедергі келтірген ақауды түзеттік. Интернет ажырап тұрса да, алдыңғы чаттардан ажырамайтын боласыз."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

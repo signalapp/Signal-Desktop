@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Versjonen av databasen passer ikke sammen med denne versjonen av Signal. Sørg for at du bruker den nyeste versjonen av Signal på datamaskinen din."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Fil"
   },
@@ -990,7 +996,7 @@
     "messageformat": "Alle meldingene i denne samtalen slettes fra enheten. Du kan søke etter samtalen selv om meldingene er slettet."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Alle meldingene i denne samtalen slettes fra alle enhetene dine. Du kan søke etter samtalen selv om meldingene er slettet."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Forlat gruppen"
@@ -1119,19 +1125,19 @@
     "messageformat": "QR-koden kunne ikke lastes inn. Sjekk internettilkoblingen og prøv igjen. <retry>Prøv på nytt</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR-koden kunne ikke lastes inn. Sjekk internettilkoblingen og prøv igjen."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>En uventet feil oppstod.</paragraph> <paragraph>Prøv igjen.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal kunne ikke koble til enheten via dette nettverket."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Prøv på nytt"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Få hjelp"
   },
   "icu:Install__support-link": {
     "messageformat": "Ønsker du hjelp?"
@@ -1305,34 +1311,34 @@
     "messageformat": "Ikke la bli med"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Godkjenn alle"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Avvis alle"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Vil du godkjenne {count,number} forespørsel?} other {Vil du godkjenne {count,number} forespørsler?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Vil du avvise {count,number} forespørsel?} other {Vil du avvise {count,number} forespørsler?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} person legges til i samtalen.} other {{count,number} personer legges til i samtalen.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} person legges ikke til i samtalen.} other {{count,number} personer legges ikke til i samtalen.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} person ber om å bli med i samtalen} other {{count,number} personer ber om å bli med i samtalen}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Ønsker å bli med …"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} forespørsel} other {+{count,number} forespørsler}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} person ble lagt til i samtalen} other {{count,number} personer ble lagt til i samtalen}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} har rukket opp hånden} other {{count,number} har rukket opp hånden}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "Du har blokkert {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "De kan ikke ringe deg, og du kan ikke ringe dem."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Kan ikke motta lyd og bilde fra {name}"
@@ -2829,13 +2841,13 @@
     "messageformat": "Fjern personen fra samtalen"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Vil du fjerne {name} fra samtalen?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Fjern"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Blokkér fra samtalen"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} person} other {{count,number} personer}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "Brukernavn kan ikke begynne med et tall."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Brukernavn må bestå av minst {min,number} tegn."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Brukernavn kan ha maks. {max,number} tegn."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {Brukernavn må bestå av minst {min,number} tegn.} other {Brukernavn må bestå av minst {min,number} tegn.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Slett"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Åpne Signal på mobilen og gå til Innstillinger > Profil for å slette brukernavnet."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopier eller slett brukernavnet"
@@ -5539,16 +5542,10 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Nå kan du videresende kontakter som er sendt fra mobilenheter."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "Vi har også gjort visningen av store emojier bedre i appen."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "I tillegg har vi oppdatert verktøyet for å lage klistremerker, slik at du også kan bruke alle de nyeste emojiene."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Vi har fikset en feil som førte til at «Minimer»-knappen forsvant i samtalevinduer når appen forsøkte å koble til en samtale på nytt."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

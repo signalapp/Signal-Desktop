@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Верзија ваше базе података не одговара овој верзији Signal-а. Проверите да ли сте отворили најновију верзију Signal-а на рачунару."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Фајл"
   },
@@ -990,7 +996,7 @@
     "messageformat": "Све поруке у овом ћаскању ће бити избрисане са овог уређаја. И даље можете да тражите ово ћаскање након што избришете поруке."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Све поруке у овом ћаскању ће бити избрисане са свих ваших уређаја. И даље можете да тражите ово ћаскање након што избришете поруке."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Напусти групу"
@@ -1119,19 +1125,19 @@
     "messageformat": "QR код не може да се учита. Проверите да ли сте повезани на интернет и пробајте поново. <retry>Пробајте поново</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR код не може да се учита. Проверите да ли сте повезани и пробајте поново."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Дошло је до неочекиване грешке.</paragraph><paragraph>Молимо вас, покушајте поново.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Сигнал не може да повеже овај уређај користећи вашу тренутну мрежу."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Пробај поново"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Потражите помоћ"
   },
   "icu:Install__support-link": {
     "messageformat": "Потребна вам је помоћ?"
@@ -1305,34 +1311,34 @@
     "messageformat": "Одбијте захтев за укључивање"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Прихвати све"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Одбиј све"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Желите ли да одобрите захтеве ({count,number})?} other {Желите ли да одобрите захтеве ({count,number})?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Желите ли да одбијете захтеве ({count,number})?} other {Желите ли да одбијете захтеве ({count,number})?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {Њих {count,number} ће бити додато у позив.} other {Њих {count,number} ће бити додато у позив.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {Њих {count,number} неће бити додато у позив.} other {Њих {count,number} неће бити додато у позив.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {Захтева за укључивање у позив: {count,number}} other {Захтева за укључивање у позив: {count,number}}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Жели да се прикључи…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} захтев(а)} other {+{count,number} захтев(а)}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} особа је додата у позив} other {Њих {count,number} је додато у позив}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {Подигнутих руку: {count,number}} other {Подигнутих руку: {count,number}}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "Блокирали сте корисника {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "Нећете примати гласовне или видео позиве од те особе, а ни та особа од вас."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Није могуће примити аудио и видео од корисника {name}"
@@ -2829,13 +2841,13 @@
     "messageformat": "Уклони ову особу из позива"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Желите ли да уклоните корисника {name} из позива?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Уклони"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Блокирај из позива"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} особа} other {Њих {count,number}}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "Корисничко име не може да почиње бројем."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Минималан број знакова које корисничко име може садржати је {min,number}."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Максималан број знакова које корисничко име може садржати је {max,number}."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {Минималан број знакова које корисничко име мора садржати је {min,number}.} other {Минималан број знакова које корисничко име мора садржати је {min,number}.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Избриши"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Да бисте избрисали своје корисничко име, отворите Signal на телефону и идите на Подешавања > Профил."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Копирајте или избришите корисничко име"
@@ -5539,16 +5542,10 @@
     "messageformat": "Обавили смо мања фина прилагођавања, исправке грешака и побољшања перформанси. Хвала што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Сада можете проследити картице контаката које су послате са мобилног уређаја."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "Нова подршка за емоџије високе резолуције побољшава приказ великих емоџија."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "Такође смо ажурирали и креатор налепница да подржи најновије емоџије."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Исправили смо грешку која је спречавала да се дугме за минимизирање позива појави док се позив поново повезује."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

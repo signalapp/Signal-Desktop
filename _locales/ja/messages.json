@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "データベースのバージョンと、開いたSignalのバージョンが一致しません。 ご利用のコンピューターで、最新バージョンのSignalを開いているかをお確かめください。"
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "ファイル (&F)"
   },
@@ -990,7 +996,7 @@
     "messageformat": "このチャット内のすべてのメッセージはこの端末から消去されます。メッセージを消去した後も、このチャットを検索できます。"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "このチャット内のすべてのメッセージはこの端末から消去されます。メッセージを消去した後も、このチャットを検索できます。"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "グループを退出する"
@@ -1119,19 +1125,19 @@
     "messageformat": "QR コードを読み込めませんでした。インターネット接続を確認して再度お試しください。<retry>再試行</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR コードを読み込めませんでした。インターネット接続を確認して再度試してください。"
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>不明なエラーが発生しました。</paragraph><paragraph>再度お試しください。</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "今お使いのネットワークでは、Signalはこの端末をリンクできません。"
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "再試行"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "ヘルプを表示する"
   },
   "icu:Install__support-link": {
     "messageformat": "お困りですか？"
@@ -1305,34 +1311,34 @@
     "messageformat": "参加リクエストを拒否する"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "全員承認する"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "全員拒否する"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, other {{count,number} 人のリクエストを承認しますか？}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, other {{count,number} 人のリクエストを拒否しますか？}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, other {{count,number} 人のユーザーが通話に追加されます。}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, other {{count,number} 人のユーザーは通話に追加されません。}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, other {{count,number}人が通話への参加をリクエストしています}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "待機中..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, other {{count,number} 人以上のリクエスト}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, other {{count,number} 人のユーザーが通話に加わりました}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, other {{count,number}人が手を挙げています}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "{name} はブロックしています"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "お互いに音声やビデオのやり取りがされることはありません。"
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} からの音声と映像を受信できません"
@@ -2829,13 +2841,13 @@
     "messageformat": "このユーザーを通話から退出させる"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "{name} を通話から削除しますか？"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "削除"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "通話をブロックする"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, other {{count,number}人}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "ユーザーネームの先頭に数字は使用できません。"
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "ユーザーネームは、少なくとも{min,number}文字以上に設定してください。"
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "ユーザーネームは{max,number}文字以下にしてください。"
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, other {ユーザーネームは{min,number}文字以上に設定してください。}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "消去"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "ユーザー名を消去するには、お使いのスマートフォンでSignalを開き、設定 > プロフィール の順に移動します。"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "ユーザーネームをコピーまたは消去します"
@@ -5539,16 +5542,10 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "モバイル端末から送信された連絡先カードを転送できるようになりました。"
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "高解像度の絵文字を新たにサポートし、大きな絵文字の表示方法を改善しました。"
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "また、最新の絵文字をサポートするためにステッカークリエイターを更新しました。"
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "再接続中に、通話を最小化するボタンが表示されないバグを修正しました。"
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Različica vaše zbirke podatkov se ne ujema s to različico Signala. Prepričajte se, da v računalniku odpirate najnovejšo različico Signala."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Datoteka"
   },
@@ -990,7 +996,7 @@
     "messageformat": "Vsa sporočila v tem klepetu bodo izbrisana iz te naprave. Ko izbrišete sporočila, lahko še vedno poiščete ta klepet."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Vsa sporočila v tem klepetu bodo izbrisana iz vseh vaših naprav. Ko izbrišete sporočila, lahko še vedno poiščete ta klepet."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Zapusti skupino"
@@ -1119,19 +1125,19 @@
     "messageformat": "Kode QR ni bilo mogoče naložiti. Preverite svojo internetno povezavo in poskusite znova. <retry>Poskusi znova</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Kode QR ni bilo mogoče naložiti. Preverite povezavo in poskusite znova."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Prišlo je do nepredvidene napake.</paragraph><paragraph>Poskusite znova.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal te naprave z uporabo trenutnega omrežja ne more povezati."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Ponovno"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Pomoč"
   },
   "icu:Install__support-link": {
     "messageformat": "Potrebujete pomoč?"
@@ -1305,34 +1311,34 @@
     "messageformat": "Zavrni zahtevek za pridružitev"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Potrdi vse"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Zavrni vse"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Želite odobriti {count,number} zahtevo?} two {Želite odobriti {count,number} zahtevi?} few {Želite odobriti {count,number} zahteve?} other {Želite odobriti {count,number} zahtev?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Želite zavrniti {count,number} zahtevo?} two {Želite zavrniti {count,number} zahtevi?} few {Želite zavrniti {count,number} zahteve?} other {Želite zavrniti {count,number} zahtev?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {Klicu bo dodana {count,number} oseba.} two {Klicu bosta dodani {count,number} osebi.} few {Klicu bodo dodane {count,number} osebe.} other {Klicu bo dodanih {count,number} oseb.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} oseba ne bo dodana v klic.} two {{count,number} osebi ne bosta dodani v klic.} few {{count,number} osebe ne bodo dodane v klic.} other {{count,number} oseb ne bo dodanih v klic.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} zahteva za pridružitev klicu} two {{count,number} zahtevi za pridružitev klicu} few {{count,number} zahteve za pridružitev klicu} other {{count,number} zahtev za pridružitev klicu}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Bi se rad_a pridružil_a ..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} zahteva} two {+{count,number} zahtevi} few {+{count,number} zahteve} other {+{count,number} zahtev}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {Klicu je bila dodana {count,number} oseba.} two {Klicu sta bili dodani {count,number} osebi.} few {Klicu so bile dodane {count,number} osebe.} other {Klicu je bilo dodanih {count,number} oseb.}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} dvignjena roka} two {{count,number} dvignjeni roki} few {{count,number} dvignjene roke} other {{count,number} dvignjenih rok}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "Blokirali ste uporabnika_co {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "Njihovega zvoka in slike ne boste prejemali in oni ne vaših."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Ne morete prejemati zvoka in videa od uporabnika_ce {name}"
@@ -2829,13 +2841,13 @@
     "messageformat": "Odstrani te osebe iz klica"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Želite odstraniti uporabnika_co {name} iz klica?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Odstrani"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Blokiraj iz klica"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} oseba} two {{count,number} osebi} few {{count,number} osebe} other {{count,number} ljudi}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "Uporabniška imena se ne smejo začeti s števikami."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Uporabniško ime mora vsebovati vsaj {min,number} znake."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Uporabniško ime lahko vsebuje največ  {max,number} znakov."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {Uporabniško ime mora vsebovati vsaj {min,number} znak.} two {Uporabniško ime mora vsebovati vsaj {min,number} znaka.} few {Uporabniško ime mora vsebovati vsaj {min,number} znake.} other {Uporabniško ime mora vsebovati vsaj {min,number} znakov.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Izbriši"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Če želite izbrisati svoje uporabniško ime, odprite Signal v telefonu in pojdite v Nastavitve > Profil."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopiranje ali brisanje uporabniškega imena"
@@ -5539,16 +5542,10 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Zdaj lahko posredujete kartice stikov, ki so bile poslane iz mobilne naprave. Sporočite številko najljubše restavracije, brez da bi vzeli v roke telefon."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "Nova podpora za visoko ločljivost \"jumbomojijev\" dodaja velikim emojijem izjemne detajle, zlasti na velikih zaslonih z majhnimi slikovnimi pikami."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "Ustvarjalnik nalepk smo posodobili tako, da podpira najnovejše emojije, zato današnje nalepke niso več vezane na včerajšnji Unicode standard."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Odpravili smo napako, ki je preprečevala, da bi se gumb za minimizacijo klica prikazal, ko se je klic ponovno povezoval. Zdaj se vam ni treba počutiti nepovezanega/-o s prejšnjimi klepeti, tudi če je internet nepovezan."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

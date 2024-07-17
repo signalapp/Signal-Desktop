@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Η έκδοση της βάσης δεδομένων σου δεν ταιριάζει με αυτή την έκδοση του Signal. Βεβαιώσου ότι ανοίγεις την πιο πρόσφατη έκδοση του Signal στον υπολογιστή σου."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Αρχείο"
   },
@@ -990,7 +996,7 @@
     "messageformat": "Όλα τα μηνύματα σε αυτή τη συνομιλία θα διαγραφούν από αυτή τη συσκευή. Μπορείς ακόμα να κάνεις αναζήτηση αυτής της συνομιλίας αφού διαγράψεις μηνύματα."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Όλα τα μηνύματα σε αυτήν τη συνομιλία θα διαγραφούν από όλες τις συσκευές. Μπορείς ακόμα να κάνεις αναζήτηση αυτής της συνομιλίας αφού διαγράψεις μηνύματα."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Αποχώρηση απ' την ομάδα"
@@ -1119,19 +1125,19 @@
     "messageformat": "Δεν ήταν δυνατή η φόρτωση του κωδικού QR. Έλεγξε τη σύνδεσή σου στο διαδίκτυο και προσπάθησε ξανά. <retry>Επανάληψη</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Δεν ήταν δυνατή η φόρτωση του κωδικού QR. Έλεγξε τη σύνδεσή σου και δοκίμασε πάλι."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Προέκυψε κάποιο αναπάντεχο σφάλμα.</paragraph><paragraph>Προσπάθησε ξανά.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Το Signal δεν μπορεί να συνδέσει αυτήν τη συσκευή χρησιμοποιώντας το τρέχον δίκτυο."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Επανάληψη"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Βοήθεια"
   },
   "icu:Install__support-link": {
     "messageformat": "Χρειάζεσαι βοήθεια;"
@@ -1305,34 +1311,34 @@
     "messageformat": "Απόρριψη αίτησης συμμετοχής"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Έγκριση όλων"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Απόρριψη όλων"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Έγκριση {count,number} αιτήματος;} other {Έγκριση {count,number} αιτημάτων;}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Απόρριψη {count,number} αιτήματος;} other {Απόρριψη {count,number} αιτημάτων;}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} άτομο θα προστεθεί στην κλήση.} other {{count,number} άτομα θα προστεθούν στην κλήση.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} άτομο δεν θα προστεθεί στην κλήση.} other {{count,number} άτομα δεν θα προστεθούν στην κλήση.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} έκανε αίτηση συμμετοχής στην κλήση} other {{count,number} έκαναν αίτηση συμμετοχής στην κλήση}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Θα ήθελε να συμμετάσχει…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} αίτημα} other {+{count,number} αιτήματα}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} άτομο προστέθηκε στην κλήση} other {{count,number} άτομα προστέθηκαν στην κλήση}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} σήκωσε το χέρι του} other {{count,number} σήκωσαν το χέρι τους}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "Έχεις αποκλείσει τον/την {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "Δεν θα μπορείς να λάβεις τον ήχο ή την εικόνα του/της και αυτός/ή δεν θα λαμβάνει τα δικά σου."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Αδυναμία λήψης ήχου και εικόνας από τον/την {name}"
@@ -2829,13 +2841,13 @@
     "messageformat": "Αφαίρεση αυτού του ατόμου από την κλήση"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Αφαίρεση του χρήστη {name} από την κλήση;"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Αφαίρεση"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Αποκλεισμός από την κλήση"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} άτομο} other {{count,number} άτομα}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "Τα ονόματα χρήστη δεν μπορούν να αρχίζουν με αριθμό"
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Τα ονόματα χρήστη πρέπει να αποτελούνται από τουλάχιστον {min,number} χαρακτήρες."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Τα ονόματα χρήστη πρέπει να αποτελούνται το πολύ από {max,number} χαρακτήρες."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {Τα ονόματα χρήστη πρέπει να αποτελούνται από τουλάχιστον {min,number} χαρακτήρα.} other {Τα ονόματα χρήστη πρέπει να αποτελούνται από τουλάχιστον {min,number} χαρακτήρες.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Διαγραφή"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Για να διαγράψεις το όνομα χρήστη σου, άνοιξε το Signal στο τηλέφωνό σου και πήγαινε στις Ρυθμίσεις > Προφίλ."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Αντιγραφή ή διαγραφή ονόματος χρήστη"
@@ -5539,16 +5542,10 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Τώρα μπορείς να προωθείς κάρτες επαφών που έχουν σταλεί από κινητή συσκευή."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "Η νέα υποστήριξη για emoji υψηλής ανάλυσης βελτιώνει τον τρόπο εμφάνισης των μεγάλων χαρακτήρων emoji."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "Ενημερώσαμε επίσης το πρόγραμμα δημιουργίας αυτοκόλλητων για την υποστήριξη των τελευταίων χαρακτήρων emoji."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Διορθώσαμε ένα σφάλμα που εμπόδιζε την εμφάνιση του κουμπιού ελαχιστοποίησης μιας κλήσης ενώ γινόταν επανασύνδεση της κλήσης."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }
