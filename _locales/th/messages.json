@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "เวอร์ชันฐานข้อมูลของคุณไม่ตรงกับ Signal เวอร์ชันนี้ ตรวจสอบให้แน่ใจว่า Signal ที่คุณเปิดอยู่บนคอมพิวเตอร์เป็นเวอร์ชันล่าสุด"
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "แ&ฟ้ม"
   },
@@ -990,7 +996,7 @@
     "messageformat": "ระบบจะลบข้อความทั้งหมดในแชทออกจากอุปกรณ์เครื่องนี้ โดยคุณจะยังสามารถค้นหาแชทนี้ได้แม้จะลบข้อความไปแล้ว"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "ข้อความทั้งหมดในแชทนี้จะถูกลบออกจากอุปกรณ์ทุกเครื่องของคุณ โดยคุณจะยังสามารถค้นหาแชทนี้ได้แม้จะลบข้อความไปแล้ว"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ออกจากกลุ่ม"
@@ -1119,19 +1125,19 @@
     "messageformat": "ไม่สามารถโหลดคิวอาร์โค้ดได้ ตรวจสอบอินเทอร์เน็ตแล้วลองอีกครั้ง <retry>ลองอีกครั้ง</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "ไม่สามารถโหลดคิวอาร์โค้ดได้ กรุณาตรวจสอบการเชื่อมต่อแล้วลองอีกครั้ง"
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>มีข้อผิดพลาดที่ไม่คาดคิดเกิดขึ้น</paragraph> <paragraph>โปรดลองอีกครั้ง</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal ไม่สามารถเชื่อมโยงอุปกรณ์เครื่องนี้โดยใช้เครือข่ายที่คุณใช้งานอยู่"
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "ลองอีกครั้ง"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "ขอความช่วยเหลือ"
   },
   "icu:Install__support-link": {
     "messageformat": "ต้องการความช่วยเหลือหรือไม่?"
@@ -1305,34 +1311,34 @@
     "messageformat": "ปฏิเสธคำขอเข้าร่วม"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "อนุมัติทั้งหมด"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "ปฏิเสธทั้งหมด"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, other {อนุมัติคำขอ {count,number} รายการใช่หรือไม่}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, other {ปฏิเสธคำขอ {count,number} รายการใช่หรือไม่}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, other {ผู้ใช้ {count,number} คนจะถูกเพิ่มให้เข้าร่วมการโทรนี้}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, other {ผู้ใช้ {count,number} คนจะไม่ถูกเพิ่มให้เข้าร่วมการโทรนี้}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, other {{count,number} คนขอเข้าร่วมการโทร}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "ต้องการเข้าร่วม..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, other {+{count,number} คำขอ}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, other {เพิ่มผู้เข้าร่วม {count,number} คนในการโทรนี้แล้ว}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, other {{count,number} คนกำลังยกมือ}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "คุณบล็อก {name} แล้ว"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "คุณจะไม่ได้รับสายโทรเสียงหรือวิดีโอคอลจากผู้ติดต่อคนนี้ และเขาก็จะไม่ได้รับสายจากคุณเช่นกัน"
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "ไม่สามารถเสียงและวิดีโอจาก {name}"
@@ -2829,13 +2841,13 @@
     "messageformat": "ลบผู้ใช้คนนี้ออกจากการโทร"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "ลบ {name} ออกจากการโทรใช่หรือไม่"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "ลบ"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "บล็อกจากการโทร"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, other {{count,number} คน}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "ชื่อผู้ใช้ไม่สามารถเริ่มต้นด้วยตัวเลข"
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "ชื่อผู้ใช้ต้องมีอักขระอย่างน้อย {min,number} ตัว"
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "ชื่อผู้ใช้มีอักขระได้มากสุด {max,number} ตัว"
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, other {ชื่อผู้ใช้ต้องมีอักขระอย่างน้อย {min,number} ตัว}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "ลบ"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "หากต้องการลบชื่อผู้ใช้ของคุณ ให้เปิด Signal บนมือถือ แล้วไปที่การตั้งค่า > โปรไฟล์"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "คัดลอกหรือลบชื่อผู้ใช้"
@@ -5539,16 +5542,10 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "เพิ่มคุณสมบัติให้คุณสามารถส่งต่อการ์ดข้อมูลผู้ติดต่อที่ได้รับจากอุปกรณ์เคลื่อนที่ได้แล้ว"
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "รองรับอีโมจิความละเอียดสูงเพื่อปรับปรุงการแสดงผลอีโมจิตัวใหญ่ให้ดูดีเต็มตายิ่งกว่าเดิม"
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "นอกจากนั้น เรายังอัปเดตผู้สร้างสติกเกอร์ (Sticker Creator) เพื่อรองรับเหล่าอีโมจิเซตใหม่ล่าสุดอีกด้วย"
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "เราแก้ไขบั๊กที่ทำให้ปุ่มย่อหน้าต่างการโทรหายไปในระหว่างที่ระบบกำลังเชื่อมต่อสายนั้นใหม่"
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

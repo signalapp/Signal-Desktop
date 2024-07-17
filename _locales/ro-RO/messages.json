@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Versiunea bazei de date nu se potrivește cu această versiune de Signal. Asigură-te că deschizi cea mai nouă versiune de Signal pe computer."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Fișier"
   },
@@ -990,7 +996,7 @@
     "messageformat": "Mesajele din această conversație vor fi șterse de pe acest dispozitiv. Poți căuta în continuare acest chat, după ce ștergi mesajele."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Toate mesajele din această conversație vor fi eliminate de pe toate dispozitivele tale. Poți căuta în continuare această conversație după ce ștergi mesajele."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Părăsește grupul"
@@ -1119,19 +1125,19 @@
     "messageformat": "Codul QR nu a putut fi încărcat. Verifică internetul și încearcă din nou. <retry>Încearcă din nou</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Codul QR nu a putut fi încărcat. Verifică-ți conexiunea și încearcă din nou."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>A apărut o eroare neașteptată.</paragraph><paragraph>Te rugăm să încerci din nou.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal nu poate asocia acest dispozitiv folosind rețeaua curentă."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Încearcă din nou"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Obține ajutor"
   },
   "icu:Install__support-link": {
     "messageformat": "Ai nevoie de ajutor?"
@@ -1305,34 +1311,34 @@
     "messageformat": "Refuză solicitarea de participare"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Aprob"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Nu aprob"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Aprobi solicitarea lui {count,number} ?} few {Aprobi solicitarile {count,number}?} other {Aprobi solicitarile {count,number}?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Respingi solicitarea lui {count,number}?} few {Respingi solicitările {count,number}?} other {Respingi solicitările {count,number}?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} persoană va fi adăugată la apel.} few {{count,number} persoane vor fi adăugate la apel.} other {{count,number} de persoane vor fi adăugate la apel.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} persoană nu va fi adăugată la apel.} few {{count,number} persoane nu vor fi adăugate la apel.} other {{count,number} de persoane nu vor fi adăugate la apel.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} solicitare de participare la apel} few {{count,number} solicitări de participare la apel} other {{count,number} de solicitări de participare la apel}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Ar dori să se alăture..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} solicitare} few {+{count,number} solicitări} other {+{count,number} de solicitări}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} persoană adăugată la apel} few {{count,number} persoane adăugate la apel} other {{count,number} de persoane adăugate la apel}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} a ridicat mâna} few {{count,number} au ridicat mâinile} other {{count,number} au ridicat mâinile}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "Ai blocat pe {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "Nu vei primi vocalul sau videoclipul său, iar persoana respectivă nu le va primi pe ale tale."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Nu pot primi semnal voce și semnal video de la {name}"
@@ -2829,13 +2841,13 @@
     "messageformat": "Scoate această persoană din apel"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Elimini pe {name} din apel?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Elimină"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Blochează din apel"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} persoană} few {{count,number} persoane} other {{count,number} persoane}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "Numele de utilizator nu pot începe cu un număr."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Numele de utilizatori trebuie sa aibă cel puțin {min,number} caractere."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Numele de utilizatori trebuie sa aibă cel mult {max,number} de caractere."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {Numele de utilizator trebuie să înceapă cu cel puțin {min,number} caracter.} few {Numele de utilizator trebuie să înceapă cu cel puțin {min,number} caractere.} other {Numele de utilizator trebuie să înceapă cu cel puțin {min,number} de caractere.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Șterge"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Ca să ștergi numele de utilizator, deschide Signal pe telefonul tău și navighează la Setări > Profil."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Copiază sau șterge numele de utilizator"
@@ -5539,16 +5542,10 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Acum poți redirecționa cartea de vizită a unui contact, trimisă de pe un dispozitiv mobil. Partajează numărul de comandă pentru restaurantul tău preferat fără a scoate telefonul."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "Noua asistență pentru \"jumbomoji\" de înaltă rezoluție adaugă detalii extraordinare emoji-urilor mari, în special pe ecrane mari cu pixeli mici."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "Am actualizat și Creatorul de autocolante, pentru a oferi asistență celor mai recente Emoji, astfel încât autocolantele de azi să nu mai fie blocate de standardul Unicode de ieri."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Am remediat o eroare care împiedica să apară butonul pentru minimizarea apelului, când apelul se reconecta. Acum nu trebuie să te simți deconectat/ă de la conversațiile precedente, chiar dacă uneori așa se întâmplă pe internet."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

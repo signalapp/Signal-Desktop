@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Versi basis data Anda tidak cocok dengan versi Signal ini. Pastikan Anda membuka Signal versi terbaru di komputer Anda."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Berkas"
   },
@@ -990,7 +996,7 @@
     "messageformat": "Semua pesan dalam obrolan ini akan dihapus dari perangkat. Anda masih bisa mencari obrolan ini setelah menghapus pesan."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Semua pesan di obrolan ini akan dihapus dari semua perangkat Anda. Anda masih bisa mencari obrolan ini setelah pesan dihapus."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Keluar grup"
@@ -1119,19 +1125,19 @@
     "messageformat": "Kode QR tidak dapat dimuat. Periksa internet Anda dan coba lagi. <retry>Coba lagi</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Kode QR tidak dapat dimuat. Periksa koneksi Anda dan coba lagi."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Terjadi kesalahan tak terduga.</paragraph><paragraph>Mohon coba lagi.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal tidak dapat menghubungkan perangkat ini menggunakan jaringan Anda saat ini."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Coba lagi"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Dapatkan bantuan"
   },
   "icu:Install__support-link": {
     "messageformat": "Butuh bantuan?"
@@ -1305,34 +1311,34 @@
     "messageformat": "Tolak permintaan gabung"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Setujui semua"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Tolak semua"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, other {Setujui {count,number} permintaan?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, other {Tolak {count,number} permintaan?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, other {{count,number} orang akan ditambahkan ke panggilan.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, other {{count,number} orang tidak akan ditambahkan ke panggilan.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, other {{count,number} permintaan gabung panggilan}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Ingin bergabung …"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, other {+{count,number} permintaan}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, other {{count,number} orang ditambahkan ke panggilan}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, other {{count,number} mengangkat tangan}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "Anda telah memblokir {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "Anda tidak akan bisa menerima panggilan suara atau video mereka dan mereka tidak bisa menerima panggilan Anda."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Tidak dapat menerima audio dan video dari {name}"
@@ -2829,13 +2841,13 @@
     "messageformat": "Keluarkan orang ini dari panggilan"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Hapus {name} dari panggilan?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Hapus"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Blokir dari panggilan"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, other {{count,number} orang}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "Nama pengguna tidak boleh dimulai dengan angka."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Nama pengguna harus memiliki minimal {min,number} karakter."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Nama pengguna harus memiliki maksimal {max,number} karakter."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, other {Nama pengguna harus terdiri dari minimal {min,number} karakter.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Hapus"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Untuk menghapus nama pengguna, buka Signal di ponsel dan buka Pengaturan > Profil."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Salin atau hapus nama pengguna"
@@ -5539,16 +5542,10 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Kini Anda dapat meneruskan kartu kontak yang dikirim dari perangkat seluler."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "Dukungan baru untuk emoji resolusi tinggi menyempurnakan seberapa besar karakter emoji ditampilkan."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "Kami juga memperbarui Pembuat Stiker agar mendukung karakter Emoji terbaru."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Kami memperbaiki bug penyebab tombol perkecil layar panggilan tidak muncul saat panggilan sedang dihubungkan ulang."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

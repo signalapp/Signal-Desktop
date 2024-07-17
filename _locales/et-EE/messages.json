@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Sinu andmebaasi versioon ei klapi selle Signali versiooniga. Veendu, et avasid oma arvutis uusima Signali versiooni."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Fail"
   },
@@ -990,7 +996,7 @@
     "messageformat": "Kõik selle vestluse sõnumid kustutatakse sellest seadmest. Saad pärast sõnumite kustutamist endiselt seda vestlust otsida."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Kõik selle vestluse sõnumid kustutatakse kõigist sinu seadmetest. Saad pärast sõnumite kustutamist endiselt seda vestlust otsida."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Lahku grupist"
@@ -1119,19 +1125,19 @@
     "messageformat": "QR-koodi ei saanud laadida. Kontrolli oma internetiühendust ja proovi uuesti. <retry>Proovi uuesti</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR-koodi ei saanud laadida. Kontrolli oma ühendust ja proovi uuesti."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Tekkis ootamatu tõrge.</paragraph><paragraph>Palun proovi uuesti.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal ei saa seda seadet sinu praeguse võrgu kaudu linkida."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Proovi uuesti"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Otsi abi"
   },
   "icu:Install__support-link": {
     "messageformat": "Kas vajad abi?"
@@ -1305,34 +1311,34 @@
     "messageformat": "Tühista liitumistaotlus"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Kinnita kõik"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Keeldu kõigist"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Kas kinnitada {count,number} taotlus?} other {Kas kinnitada {count,number} taotlust?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Kas keelduda {count,number} taotlusest?} other {Kas keelduda {count,number} taotlusest?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} inimene lisatakse kõnesse.} other {{count,number} inimest lisatakse kõnesse.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} inimest ei lisata kõnesse.} other {{count,number} inimest ei lisata kõnesse.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} kõnega liitumise taotlus} other {{count,number} kõnega liitumise taotlust}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Soovib liituda …"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} taotlus} other {+{count,number} taotlust}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} inimene lisati kõnesse} other {{count,number} inimest lisati kõnesse}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} tõstis käe} other {{count,number} tõstsid käe}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "Sa blokeerisid kasutaja {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "Sinule ei edastata tema heli- või videosõnumeid ega temale sinu omasid."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Kasutajalt {name} heli ja video saamine ei õnnestu"
@@ -2829,13 +2841,13 @@
     "messageformat": "Eemalda see isik kõnest"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Kas eemaldada {name} kõnest?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Eemalda"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Blokeeri kõnest"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} inimene} other {{count,number} inimest}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "Kasutajanimed ei tohi alata numbriga."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Kasutajanimed peavad sisaldama vähemalt {min,number} tähemärki."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Kasutajanimed peavad sisaldama maksimaalselt {max,number} tähemärki."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {Kasutajanimes peab olema vähemalt {min,number} tähemärk.} other {Kasutajanimes peab olema vähemalt {min,number} tähemärki.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Kustuta"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Oma kasutajanime kustutamiseks ava Signal oma telefonis ja vali Sätted > Profiil."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopeeri või kustuta kasutajanimi"
@@ -5539,16 +5542,10 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Nüüd saad mobiilseadmest saadetud kontaktikaarte edasi saata."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "Uus kõrge resolutsiooniga emojide tugi võimaldab suuri emojisid paremini kuvada."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "Uuendasime kleebiste loomise keskkonda, et toetada ka uusimaid emojisid."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Parandasime vea, mis ei lasknud kõne taasühendamise ajal kuvada kõne minimeerimise nuppu."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

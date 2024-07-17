@@ -69,7 +69,7 @@
     "messageformat": "یک خطای پایگاه داده رخ داد. می‌توانید خطا را کپی کنید و برای کمک به رفع مشکل با پشتیبانی سیگنال تماس بگیرید. اگر فوراً نیاز به استفاده از سیگنال دارید، می‌توانید داده‌هایتان را پاک کنید و سیگنال را دوباره راه‌اندازی کنید.\n\nتماس با پشتیبانی از طریق مراجعه به: {link}"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "پاک کردن داده‌ها و راه‌اندازی مجدد"
+    "messageformat": "حذف داده‌ها و راه‌اندازی مجدد"
   },
   "icu:databaseError__deleteDataConfirmation": {
     "messageformat": "همه داده‌ها به‌طور دائم پاک شود؟"
@@ -79,6 +79,12 @@
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "نسخه پایگاه داده شما با این نسخه سیگنال مطابقت ندارد. مطمئن شوید که جدیدترین نسخه سیگنال را در رایانه‌تان باز می‌کنید."
+  },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
   },
   "icu:mainMenuFile": {
     "messageformat": "&فایل"
@@ -990,7 +996,7 @@
     "messageformat": "همۀ پیام‌های این گفتگو از این دستگاه حذف خواهد شد. بعد از حذف پیام‌ها همچنان می‌توانید این گفتگو را جستجو کنید."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "همه پیام‌های این گفتگو از همه دستگاه‌های شما حذف خواهد شد. بعد از حذف پیام‌ها همچنان می‌توانید این گفتگو را جستجو کنید."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ترک گروه"
@@ -1119,19 +1125,19 @@
     "messageformat": "کد QR بارگیری نشد. اینترنت خود را بررسی کنید و دوباره امتحان کنید. <retry>تلاش مجدد</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "کد QR بارگیری نشد. اتصال خود را بررسی و دوباره تلاش کنید."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>خطای غیرمنتظره‌ای رخ داد.</paragraph><paragraph>لطفاً دوباره تلاش کنید.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "سیگنال با شبکه فعلی شما نمی‌تواند این دستگاه را متصل کند."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "تلاش مجدد"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "دریافت کمک"
   },
   "icu:Install__support-link": {
     "messageformat": "به راهنمایی نیاز دارید؟"
@@ -1305,34 +1311,34 @@
     "messageformat": "رد درخواست پیوستن"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "تأیید همه"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "رد کردن همه"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} درخواست تأیید شود؟} other {{count,number} درخواست تأیید شود؟}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {{count,number} درخواست رد شود؟} other {{count,number} درخواست رد شود؟}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} نفر به این تماس اضافه خواهد شد.} other {{count,number} نفر به تماس اضافه خواهند شد.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} نفر به این تماس اضافه نخواهد شد.} other {{count,number} نفر به این تماس اضافه نخواهند شد.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {‏{count,number} درخواست برای پیوستن به تماس} other {‏{count,number} درخواست برای پیوستن به تماس}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "می‌خواهد بپیوندد..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {و {count,number} درخواست دیگر} other {و {count,number} درخواست دیگر}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {‏{count,number} نفر به تماس اضافه شد} other {‏{count,number} نفر به تماس اضافه شدند}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {‏{count,number} نفر دستش را بالا برده است} other {‏{count,number} نفر دستشان را بالا برده‌اند}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "شما {name} را مسدود کرده‌اید"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "شما صدا و تصویر آن‌ها را دریافت نمی‌کنید و آن‌ها هم صدا و تصویر شما را دریافت نخواهند کرد."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "دریافت صدا و تصویر از {name} ممکن نیست"
@@ -1506,7 +1518,7 @@
     "messageformat": "این کار با حذف کردن همۀ پیام‌ها و اطلاعات ذخیره‌شده در حساب، تمام داده‌های موجود در برنامه را حذف خواهد کرد."
   },
   "icu:clearDataButton": {
-    "messageformat": "پاک کردن داده‌ها"
+    "messageformat": "حذف داده‌ها"
   },
   "icu:deleteAllDataHeader": {
     "messageformat": "پاک کردن همه اطلاعات؟"
@@ -2829,13 +2841,13 @@
     "messageformat": "این شخص از تماس حذف شود"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "{name} از تماس حذف شود؟"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "حذف"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "مسدود کردن امکان تماس"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} نفر} other {{count,number} نفر}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "نام‌های کاربری نمی‌توانند با عدد آغاز شوند."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "نام کاربری باید حداقل {min,number} نویسه داشته باشد."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "نام کاربری حتما باید حداکثر {max,number} نویسه داشته باشد."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {نام کاربری باید حداقل {min,number} نویسه داشته باشد.} other {نام کاربری باید حداقل {min,number} نویسه داشته باشد.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "پاک کردن"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "برای پاک کردن نام کاربری خود، سیگنال را در تلفن‌تان باز کنید و به «تنظیمات > نمایه» بروید."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "کپی یا پاک کردن نام کاربری"
@@ -5539,16 +5542,10 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "اکنون می‌توانید کارت‌های تماسی را که از دستگاه تلفن همراه ارسال شده‌اند، بازارسال کنید."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "پشتیبانی جدید از ایموجی‌های با وضوح بالا نحوه نمایش کاراکترهای ایموجی بزرگ را بهبود می‌بخشد."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "همچنین برای پشتیبانی از جدیدترین کاراکترهای ایموجی، «استیکرساز» را به‌روزرسانی کردیم."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "اشکالی را رفع کردیم که اجازه نمی‌داد وقتی تماس در حال اتصال مجدد است، دکمه کوچک‌سازی تماس ظاهر شود."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

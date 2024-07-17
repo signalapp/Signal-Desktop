@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Ní hionann an leagan bunachair shonraí atá agat agus an leagan seo de Signal. Cinntigh go bhfuil an leagan is nuaí de Signal á oscailt agat ar do ríomhaire."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Comhad"
   },
@@ -990,7 +996,7 @@
     "messageformat": "Scriosfar gach teachtaireacht sa chomhrá seo ón ngléas seo. Beidh tú in ann cuardach le haghaidh an chomhrá seo fós tar éis duit teachtaireachtaí a scriosadh."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Scriosfar gach teachtaireacht sa chomhrá seo ó gach gléas agat. Beidh tú in ann an comhrá seo a chuardach i gcónaí tar éis duit teachtaireachtaí a scriosadh."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Imigh as an ngrúpa"
@@ -1119,19 +1125,19 @@
     "messageformat": "Níorbh fhéidir an cód QR a lódáil. Seiceáil d'Idirlíon agus triail arís. <retry>Triail arís</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Níorbh fhéidir an cód QR a lódáil. Seiceáil do nasc agus triail arís."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Tharla earráid gan choinne.</paragraph><paragraph>Triail arís é.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Ní féidir le Signal an gléas seo a nascadh ag úsáid do líonra reatha."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Bain triail eile as"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Faigh cabhair"
   },
   "icu:Install__support-link": {
     "messageformat": "An bhfuil cúnamh uait?"
@@ -1305,34 +1311,34 @@
     "messageformat": "Diúltaigh an t-iarratas ar dhul isteach ann"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Faomh gach ceann"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Diúltaigh do gach ceann"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Faomh {count,number} iarratas?} two {Faomh {count,number} iarratas?} few {Faomh {count,number} iarratas?} many {Faomh {count,number} n-iarratas?} other {Faomh {count,number} iarratas?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Diúltaigh do {count,number} iarratas?} two {Diúltaigh do {count,number} iarratas?} few {Diúltaigh do {count,number} iarratas?} many {Diúltaigh do {count,number} n-iarratas?} other {Diúltaigh do {count,number} iarratas?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {Cuirfear {count,number} duine leis an nglao.} two {Cuirfear {count,number} dhuine leis an nglao.} few {Cuirfear {count,number} dhuine leis an nglao.} many {Cuirfear {count,number} nduine leis an nglao.} other {Cuirfear {count,number} duine leis an nglao.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {Ní chuirfear {count,number} duine leis an nglao.} two {Ní chuirfear {count,number} dhuine leis an nglao.} few {Ní chuirfear {count,number} dhuine leis an nglao.} many {Ní chuirfear {count,number} nduine leis an nglao.} other {Ní chuirfear {count,number} duine leis an nglao.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} iarratas ar dhul isteach sa ghlao} two {{count,number} iarratas ar dhul isteach sa ghlao} few {{count,number} iarratas ar dhul isteach sa ghlao} many {{count,number} n-iarratas ar dhul isteach sa ghlao} other {{count,number} iarratas ar dhul isteach sa ghlao}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Ag iarraidh dul isteach ann..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} iarratas} two {+{count,number} iarratas} few {+{count,number} iarratas} many {+{count,number} n-iarratas} other {+{count,number} iarratas}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} duine curtha leis an nglao} two {{count,number} dhuine curtha leis an nglao} few {{count,number} dhuine curtha leis an nglao} many {{count,number} nduine curtha leis an nglao} other {{count,number} duine curtha leis an nglao}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {D'ardaigh {count,number} duine amháin a lámh} two {D'ardaigh {count,number} dhuine a lámh} few {D'ardaigh {count,number} dhuine a lámh} many {D'ardaigh {count,number} nduine a lámh} other {D'ardaigh {count,number} duine a lámh}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "Chuir tú bac ar {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "Ní bhfaighidh tú guthghlaonna ná físghlaonna an duine sin agus a mhalairt de chás."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Can't receive audio and video from {name}"
@@ -2829,13 +2841,13 @@
     "messageformat": "Bain an duine seo den ghlao"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Bain {name} den ghlao?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Bain"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Cuir bac ón ghlao"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} duine} two {{count,number} dhuine} few {{count,number} dhuine} many {{count,number} nduine} other {{count,number} duine}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "Ní cheadaítear uimhir ag tús ainm úsáideora."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Ní mór {min,number} charachtar ar a laghad a bheith in ainmneacha úsáideora."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Ní mór go mbeidh an líon seo carachtar ar a mhó in ainmneacha úsáideora: {max,number}."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {Ní mór {min,number} charachtar ar a laghad a bheith in ainmneacha úsáideora.} two {Ní mór {min,number} charachtar ar a laghad a bheith in ainmneacha úsáideora.} few {Ní mór {min,number} charachtar ar a laghad a bheith in ainmneacha úsáideora.} many {Ní mór {min,number} gcarachtar ar a laghad a bheith in ainmneacha úsáideora.} other {Ní mór {min,number} carachtar ar a laghad a bheith in ainmneacha úsáideora.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Scrios"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Chun d'ainm úsáideora a scriosadh, oscail Signal ar do ghuthán agus téigh chuig Socruithe > Próifíl."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Cóipeáil nó scrios ainm úsáideora"
@@ -5539,16 +5542,10 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Anois is féidir leat cártaí teagmhála, a seoladh ó ghléas móibíleach, a chur ar aghaidh. Comhroinn uimhir beir leat na bialainne is fearr leat gan d'fhón a thógáil amach."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "Cuireann tacaíocht nua do \"jumbomoji\" ardtaifeach feabhas ar thaispeáint na gcarachtar mór emoji, go háirithe ar scáileáin mhóra a bhfuil pictilíní beaga iontu."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "Rinneamar nuashonrú freisin ar Chruthaitheoir Greamán le tacú leis na carachtair emoji is déanaí, ionas nach mbeidh greamáin an lae inniu teanntaithe ag caighdeán Unicode an lae inné."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Réitíomar fabht a chuir cosc ar an gcnaipe taispeáint glao a íoslaghdú le linn don nglao sin a athnascadh. Anois ní gá duit a bhrath go bhfuil tú dínasctha ó chomhráite roimhe seo fiú más rud é go sílfeá go raibh an t-idirlíon dínasctha."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

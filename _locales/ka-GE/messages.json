@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "შენი მონაცემთა ბაზის ვერსია Signal-ის ამ ვერსიას არ ემთხვევა. დარწმუნდი, რომ შენს კომპიუტერში Signal-ის უახლეს ვერსიას ხსნი."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&ფაილი"
   },
@@ -990,7 +996,7 @@
     "messageformat": "ამ ჩატში არსებული მიმოწერა ამ მოწყობილობიდან წაიშლება. შეტყობინებების წაშლის შემდეგ ამ ჩატის მოძებნას მაინც შეძლებ."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "ამ ჩატის ყველა შეტყობინება შენი ყველა მოწყობილობიდან წაიშლება. შეტყობინებების წაშლის შემდეგ ამ ჩატის მოძებნას მაინც შეძლებ."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ჯგუფის დატოვება"
@@ -1119,19 +1125,19 @@
     "messageformat": "QR კოდის ჩატვირთვა ვერ მოხერხდა. შეამოწმე შენი ინტერნეტი და თავიდან სცადე. <retry>თავიდან ცდა</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR კოდის ჩატვირთვა ვერ მოხერხდა. შეამოწმე შენი კავშირი და თავიდან სცადე."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>დაფიქსირდა მოულოდნელი ხარვეზი.</paragraph><paragraph>გთხოვთ, თავიდან სცადე.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "მიმდინარე ქსელის გამოყენებით Signal-ი ამ მოწყობილობას ვერ დააკავშირებს."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "თავიდან ცდა"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "დახმარების მიღება"
   },
   "icu:Install__support-link": {
     "messageformat": "დახმარება გჭირდება?"
@@ -1305,34 +1311,34 @@
     "messageformat": "შემოსვლის მოთხოვნის უარყოფა"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "ყველას დადასტურება"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "ყველას უარყოფა"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {გსურს {count,number} მოთხოვნა დაადასტურო?} other {გსურს {count,number} მოთხოვნა დაადასტურო?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {გსურს {count,number} მოთხოვნა უარყო?} other {გსურს {count,number} მოთხოვნა უარყო?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {ზარს დაემატება {count,number} ადამიანი.} other {ზარს დაემატება {count,number} ადამიანი.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {ზარს არ დაემატება {count,number} ადამიანი.} other {ზარს არ დაემატება {count,number} ადამიანი.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {ზარზე შემოსვლის {count,number} მოთხოვნა} other {ზარზე შემოსვლის {count,number} მოთხოვნა}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "სურს შემოსვლა..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} მოთხოვნა} other {+{count,number} მოთხოვნა}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {ზარზე დაემატა {count,number} ადამიანი} other {ზარზე დაემატა {count,number} ადამიანი}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number}-მა აიწია ხელი} other {{count,number}-მა აიწია ხელი}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "შენ დაბლოკე {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "შენ არ მიიღებ მათ ხმოვან ან ვიდეო შეტყობინებებს და არც ისინი მიიღებენ შენსას."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "აუდიოსა და ვიდეოს მიღება {name}-სგან შეუძლებელია"
@@ -2829,13 +2841,13 @@
     "messageformat": "ამ ადამიანის ზარიდან გაგდება"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "გავთიშოთ {name} ზარიდან?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "გათიშვა"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "ზარიდან დაბლოკვა"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} ადამიანი} other {{count,number} ადამიანი}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "მომხმარებლის სახელი ციფრით ვერ დაიწყება."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "მომხმარებლის სახელი მინიმუმ {min,number} სიმბოლოს უნდა შეიცავდეს."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "მომხმარებლის სახელი მაქსიმუმ {max,number} სიმბოლოს უნდა შეიცავდეს."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {მომხმარებლის სახელები მინიმუმ {min,number} სიმბოლოსგან უნდა შედგებოდეს.} other {მომხმარებლის სახელები მინიმუმ {min,number} სიმბოლოსგან უნდა შედგებოდეს.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "წაშლა"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "შენი მომხმარებლის სახელის წასაშლელად გახსენი Signal-ი შენს ტელეფონზე და აირჩიე პარამეტრები > პროფილი."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "დააკოპირე ან წაშალე მომხმარებლის სახელი"
@@ -5539,16 +5542,10 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "ახლა უკვე შეგიძლია მობილური მოწყობილობიდან გამოგზავნილი კონტაქტები გადაგზავნო."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "მაღალი რეზოლუციის emoji-ების ახალი მხარდაჭერა დიდი emoji სიმბოლოების ჩვენებას აუმჯობესებს."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "ჩვენ ასევე უახლესი Emoji სიმბოლოების მხარდასაჭერად Sticker Creator განვაახლეთ."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "ჩვენ გამოვასწორეთ შეცდომა, რომელიც ზარის თავიდან დაკავშირებისას ზარის ფანჯრის დაპატარავების ღილაკს ფარავდა. ახლა წინა ჩატებისგან გამოთიშული აღარ იქნები, მაშინაც კი, თუ ინტერნეტი გათიშულია."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

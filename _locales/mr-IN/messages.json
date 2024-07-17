@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "आपल्या डेटाबेसची आवृत्ती या Signal च्या आवृत्ती बरोबर जुळत नाही. आपण आपल्या संगणकावर Signal ची नवीनतम आवृत्ती उघडत असल्याची खात्री करा."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "फाईल"
   },
@@ -990,7 +996,7 @@
     "messageformat": "या चॅट्समधील सर्व संदेश या डिव्हाइस वरून हटवले जातील. आपण संदेश हटवल्यानंतर देखील अद्याप हे चॅट्स शोधू शकता."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "या चॅट्स मधील सर्व संदेश आपल्या सर्व डिव्हाइसेस वरून हटवण्यात येतील. आपण संदेश हटवल्यानंतर देखील अद्याप आपण हे चॅट्स शोधू शकता."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "गट सोडा"
@@ -1119,19 +1125,19 @@
     "messageformat": "QR कोड लोड केला जाऊ शकत नाही. आपले इंटरनेट कनेक्शन तपासा आणि पुन्हा प्रयत्न करा. <retry>पुन्हा प्रयत्न करा</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR कोड लोड केला जाऊ शकत नाही. आपले कनेक्शन तपासा आणि पुन्हा प्रयत्न करा."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>एक अनपेक्षित त्रुटी उद्भवली.</paragraph><paragraph>कृपया पुन्हा प्रयत्न करा.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "आपले सध्याचे नेटवर्क वापरून Signal हे डिव्हाइस लिंक करू शकत नाही."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "पुन्हा प्रयत्न करा"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "मदत मिळवा"
   },
   "icu:Install__support-link": {
     "messageformat": "मदत हवी?"
@@ -1305,34 +1311,34 @@
     "messageformat": "सामील होण्याची विनंती नाकारली"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "सर्व मंजूर करा"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "सर्व नाकारा"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {विनंती {count,number} मंजूर करायची?} other {विनंती {count,number} मंजूर करावयाच्या?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {विनंती {count,number} नाकारायची?} other {विनंती {count,number} नाकारायच्या?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} व्यक्ती कॉलमध्ये जोडली जाईल.} other {{count,number} लोकांना कॉलमध्ये जोडले जाईल.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} व्यक्ती कॉलमध्ये जोडले जाणार नाही.} other {{count,number} लोक कॉलमध्ये जोडले जाणार नाहीत.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} कॉलमध्ये सामील होण्याची विनंती} other {{count,number} कॉलमध्ये सामील होण्याच्या विनंत्या}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "कॉलमध्ये सामील होऊ इच्छितो..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} विनंती} other {+{count,number} विनंती}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} व्यक्ती कॉलमध्ये जोडला} other {{count,number} लोक कॉलमध्ये जोडले}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} ने हात वर केला} other {{count,number} नी हात वर केले}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "आपण {name} ला ब्लॉक केले"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "आपणाला त्यांचा आवाज किंवा व्हिडीओ प्राप्त होणार नाही आणि त्यांना आपला प्राप्त होणार नाही."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} कडून ऑडिओ आणि व्हिडिओ प्राप्त करू शकत नाही"
@@ -2829,13 +2841,13 @@
     "messageformat": "ह्या व्यक्तीला कॉलमधून हटवा"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "कॉल {name} मधून हटवायचे?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "काढून टाका"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "कॉलमधून अवरोधित"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} व्यक्ति} other {{count,number} लोक}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "वापरकर्तानाव अंकांसोबत सोबत चालू होऊ शकत नाही."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "वापरकर्ता नावे किमान {min,number} वर्ण असलीच पाहिजेत."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "वापरकर्तानावात कमाल {max,number} वर्णच असलेच पाहिजेत."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {वापरकर्ता नाव कमीत कमी {min,number} वर्णाचे असायला हवे.} other {वापरकर्ता नाव हे कमीत कमी {min,number} वर्णांचे असणे आवश्यक आहे.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "हटवा"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "आपले वापरकर्तानाव हटवण्यासाठी, आपल्या फोनवर Signal उघडा आणि सेटिंग्ज > प्रोफाइल कडे नेव्हिगेट करा."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "वापरकर्तानाव कॉपी करा किंवा हटवा"
@@ -5539,16 +5542,10 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "आता आपण मोबाइल डिव्हाइसवरून पाठविण्यात आलेल्या संपर्क कार्डना फॉरवर्ड करू शकता. आपला फोन बाहेर न काढता आपल्या आवडत्या रेस्टॉरंटचा टेक-आऊट नंबर शेअर करा."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "उच्च-रिझोल्यूशन असलेल्या \" जम्बोमोजी \" साठी नवीन सपोर्ट मोठ्या इमोजीमध्ये, खासकरून लहान पिक्सेलसह मोठ्या स्क्रीनवर, अत्यंत तपशीलवारपणे जोडतो."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "आम्ही नवीनतम इमोजीना सपोर्ट करण्यासाठी स्टिकर क्रिएटर देखील अद्यतनित केला आहे, ज्यामुळे आजचे स्टिकर यापुढे जुन्या युनिकोड मानकांमध्ये अडकून राहणार नाहीत."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "आम्ही त्या दोषाचे निराकरण केले आहे जो त्या कॉलला पुन्हा कनेक्ट केले जात असताना दिसण्यापासून छोटे करण्यास प्रतिबंधित करणाऱ्या बटणाला रोखत होते. आता इंटरनेट डिस्कनेक्ट झाल्यासारखे वाटत असले तरीही आपणाला मागील चॅट्स पासून डिस्कनेक्ट झाल्यासारखे वाटण्याची गरज नाही."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

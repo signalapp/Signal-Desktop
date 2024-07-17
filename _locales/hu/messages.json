@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Az adatbázisod verziója nem egyezik a Signal ezen verziójával. Győződj meg róla, hogy a Signal legújabb verzióját nyitod meg a számítógépeden."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Fájl"
   },
@@ -990,7 +996,7 @@
     "messageformat": "Az ebben a csevegésben lévő összes üzenet törlődik erről az eszközről. Az üzenetek törlése után továbbra is rákereshetsz erre a csevegésre."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "A csevegésben lévő összes üzenet törlődik az összes eszközödről. Az üzenetek törlése után továbbra is rákereshetsz erre a csevegésre."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Kilépés a csoportból"
@@ -1119,19 +1125,19 @@
     "messageformat": "Nem sikerült betölteni a QR-kódot. Ellenőrizd a hálózati kapcsolatot, és próbáld újra. <retry>Újra</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Nem sikerült betölteni a QR-kódot. Ellenőrizd az internetkapcsolatod, és próbáld újra!"
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Váratlan hiba történt.</paragraph><paragraph>Kérjük, próbáld újra.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "A Signal nem tudja összekapcsolni ezt az eszközt a jelenlegi hálózaton keresztül."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Újra"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Kérj segítséget!"
   },
   "icu:Install__support-link": {
     "messageformat": "Segítségre van szükséged?"
@@ -1305,34 +1311,34 @@
     "messageformat": "Csatlakozási kérelem elutasítása"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Összes jóváhagyása"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Összes elutasítása"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Jóváhagysz {count,number} kérést?} other {Jóváhagysz {count,number} kérést?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Elutasítasz {count,number} kérést?} other {Elutasítasz {count,number} kérést?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} személy hozzáadásra kerül a híváshoz.} other {{count,number} személy hozzáadásra kerül a híváshoz.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} személy nem kerül hozzáadásra a híváshoz.} other {{count,number} személy nem kerül hozzáadásra a híváshoz.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} csatlakozni szeretne a híváshoz} other {{count,number} csatlakozni szeretne a híváshoz}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "szeretne csatlakozni..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} kérés} other {+{count,number} kérés}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} személy hozzáadva a híváshoz} other {{count,number} személy hozzáadva a híváshoz}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} felemelte a kezét} other {{count,number} felemelte a kezét}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "Letiltottad {name} nevű felhasználót"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "Nem fogod hallani és látni, illetve ő sem téged."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} hang és kép adása nem megjeleníthető"
@@ -2829,13 +2841,13 @@
     "messageformat": "E személy eltávolítása a hívásból"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "{name} eltávolítása a hívásból?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Eltávolítás"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Letiltás a hívásból"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} személy} other {{count,number} személy}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "A felhasználónevek nem kezdődhetnek számmal."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "A felhasználónevek hossza legalább {min,number} karakter."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "A felhasználónevek hossza maximum {max,number} karakter"
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {A felhasználóneveknek legalább {min,number} karaktert kell tartalmazniuk.} other {A felhasználóneveknek legalább {min,number} karaktert kell tartalmazniuk.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Törlés"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "A felhasználónév törléséhez nyisd meg a telefonodon a Signalt, és navigálj a Beállítások > Profil menüpontra."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Felhasználónév másolása vagy törlése"
@@ -5539,16 +5542,10 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Most már továbbíthatod a mobileszközről küldött névjegykártyákat."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "A nagy felbontású hangulatjelek új támogatása javítja a nagy hangulatjel karakterek megjelenítését."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "Frissítettük a Matricakészítőt is, hogy támogassa a legújabb hangulatjel karaktereket."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Kijavítottunk egy hibát, amely megakadályozta, hogy a hívást minimalizáló gomb megjelenjen a hívás újracsatlakozása közben."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

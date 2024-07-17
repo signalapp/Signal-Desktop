@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "A versión da túa base de datos non coincide con esta versión de Signal. Asegúrate de abrir a última versión de Signal no teu ordenador."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Ficheiro"
   },
@@ -990,7 +996,7 @@
     "messageformat": "Todas as mensaxes desta conversa eliminaranse deste dispositivo. Podes buscar esta conversa despois de eliminar as mensaxes."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Todas as mensaxes desta conversa eliminaranse de todos os dispositivos. Podes buscar esta conversa despois de eliminar as mensaxes."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Abandonar grupo"
@@ -1119,19 +1125,19 @@
     "messageformat": "Erro ao cargar o código QR. Comproba a túa conexión a Internet e inténtao de novo. <retry>Tentar de novo</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Erro ao cargar o código QR. Comproba a túa conexión e inténtao de novo."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Algo saíu mal!</paragraph><paragraph>Inténtao de novo.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal non pode vincular este dispositivo coa túa rede actual."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Tentar de novo"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Axuda"
   },
   "icu:Install__support-link": {
     "messageformat": "Necesitas axuda?"
@@ -1305,34 +1311,34 @@
     "messageformat": "Denegar solicitude de unión"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Aprobar todas"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Rexeitar todas"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Aprobar {count,number} solicitude?} other {Aprobar {count,number} solicitudes?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Rexeitar {count,number} solicitude?} other {Rexeitar {count,number} solicitudes?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {Engadirase {count,number} persoa á chamada.} other {Engadiranse {count,number} persoas á chamada.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {Non se engadirá {count,number} persoa á chamada.} other {Non se engadirán {count,number} persoa á chamada.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} solicitude para unirse á chamada} other {{count,number} solicitudes para unirse á chamada}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Quere unirse…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} solicitude} other {+{count,number} solicitudes}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {Engadiuse {count,number} persoa á chamada} other {Engadíronse {count,number} persoas á chamada}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} alzou a man} other {{count,number} alzaron a man}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "Bloqueaches a {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "Non recibirás as súas mensaxes de son ou vídeos nin eles os teus."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Non se pode recibir o audio e vídeo de {name}"
@@ -2829,13 +2841,13 @@
     "messageformat": "Expulsar esta persoa da chamada"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Eliminar a {name} da chamada?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Eliminar"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Bloquear da chamada"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number}persoa} other {{count,number} persoas}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "Os nomes de usuario non poden comezar por un número."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Os nomes de usuario deben ter, polo menos, {min,number} caracteres."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Os nomes de usuario non poden pasar dos {max,number} caracteres."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {O nome de usuario debe ter {min,number} carácter como mínimo.} other {O nome de usuario deben ter, polo menos, {min,number} caracteres.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Eliminar"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Para borrar o teu nome de usuario, abre Signal no teu teléfono e vai a Configuración > Perfil."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Copiar ou borrar nome de usuario"
@@ -5539,16 +5542,10 @@
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Agora podes reenviar tarxetas de contacto enviadas dende un dispositivo móbil."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "A nova compatibilidade con emojis de alta resolución mellora a visualización destas emoticonas de gran tamaño."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "Tamén actualizamos o Creador de stickers para que admita as últimas emoticonas."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Corriximos un erro que impedía que o botón para minimizar unha chamada aparecese mentres a chamada se reconectaba."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "သင်၏ ဒေတာဘေ့စ်ဗားရှင်းသည် ဤ Signal ဗားရှင်းနှင့် မကိုက်ညီပါ။ သင့်ကွန်ပျူတာတွင် Signal နောက်ဆုံးထွက်ဗားရှင်းကို ဖွင့်ထားခြင်းဖြစ်ကြောင်း သေချာအောင်လုပ်ပါ။"
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&ဖိုင်"
   },
@@ -990,7 +996,7 @@
     "messageformat": "ဤချက်(တ်)မှ မက်ဆေ့ချ်များအားလုံးကို ယခုစက်မှ ဖျက်လိုက်ပါမည်။ မက်ဆေ့ချ်များကို ဖျက်ပြီးနောက် ဤချက်(တ်)ကို သင် ရှာ၍ရပါသေးသည်။"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "ဤချက်(တ်)ရှိ မက်ဆေ့ချ်များအားလုံးကို သင်၏စက်များအားလုံးမှ ဖျက်လိုက်ပါမည်။ မက်ဆေ့ချ်များကို ဖျက်ပြီးနောက် ဤချက်(တ်)ကို သင် ရှာ၍ရပါသေးသည်။"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "အဖွဲ့မှ ထွက်မည်"
@@ -1119,19 +1125,19 @@
     "messageformat": "QR ကုဒ်ကို ဖွင့်၍မရပါ။ သင့်အင်တာနက်ကို စစ်ဆေးပြီး ထပ်ကြိုးစားကြည့်ပါ။ <retry>ထပ်ကြိုးစားရန်</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "QR ကုဒ်ကို ဖွင့်၍မရပါ။ ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားကြည့်ပါ။"
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>မမျှော်လင့်ထားသော ချို့ယွင်းချက်တစ်ခု ဖြစ်ခဲ့သည်။</paragraph><paragraph>ထပ်ကြိုးစားကြည့်ပါ။</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal သည် သင့်လက်ရှိကွန်ရက်ကို အသုံးပြု၍ ဤစက်ကို ချိတ်ဆက်မရပါ။"
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "ထပ်ကြိုးစားပါ"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "အကူအညီရယူပါ"
   },
   "icu:Install__support-link": {
     "messageformat": "အကူအညီ လိုအပ်ပါသလား?"
@@ -1305,34 +1311,34 @@
     "messageformat": "ပါဝင်ရန် တောင်းဆိုမှုကို ငြင်းပယ်သည်"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "အားလုံးကို ခွင့်ပြုမည်"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "အားလုံးကို ငြင်းပယ်မည်"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, other {တောင်းဆိုမှု {count,number} ခုကို ခွင့်ပြုမည်လား။}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, other {တောင်းဆိုမှု {count,number} ခုကို ငြင်းပယ်မည်လား။}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, other {လူ {count,number} ဦးကို ကောလ်တွင် ထည့်လိုက်ပါမည်။}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, other {လူ {count,number} ဦးကို ဤကောလ်တွင် ထည့်မည်မဟုတ်ပါ။}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, other {{count,number} သည် ခေါ်ဆိုမှုထဲပါဝင်ရန် တောင်းဆိုထားသည်}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "ပါဝင်လိုသည်..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, other {တောင်းဆိုမှု +{count,number} ခု}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, other {လူ {count,number} ဦးကို ကောလ်တွင် ထည့်လိုက်ပါသည်}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, other {{count,number} လက်ထောင်ထားပါသည်}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "သင်သည် {name} ကို ဘလော့ခ်ထားပါသည်"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "၎င်းတို့၏ အသံ သို့မဟုတ် ဗီဒီယိုခေါ်ဆိုမှုကို သင်လက်ခံရရှိမည် မဟုတ်ဘဲ ၎င်းတို့သည် သင့်ခေါ်ဆိုမှုများကို လက်ခံရရှိမည် မဟုတ်ပါ။"
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} မှ အသံနှင့် ဗီဒီယို မရရှိနိုင်ပါ"
@@ -2829,13 +2841,13 @@
     "messageformat": "ဤလူကို ခေါ်ဆိုမှုမှ ဖယ်ရှားသည်"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "{name} ကို ကောလ်မှ ဖယ်ရှားမည်လား။"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "ဖယ်ရှားရန်"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "ကောလ်မှ ဘလော့ခ်မည်"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, other {{count,number} ဦး}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "သုံးစွဲသူအမည်များသည် နံပါတ်နှင့် စတင်၍ မရပါ။"
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "သုံးစွဲသူအမည်များတွင် အနည်းဆုံး အက္ခရာ {min,number} လုံး ရှိရပါမည်။"
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "သုံးစွဲသူအမည်များတွင် အက္ခရာ {max,number} လုံး အများဆုံး ရှိရပါမည်။"
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, other {သုံးစွဲသူအမည်သည် အနည်းဆုံး အက္ခရာ {min,number} လုံး ရှိရပါမည်။}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "ဖျက်ရန်"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "သင့်သုံးစွဲသူအမည်ကို ဖျက်ရန် သင့်ဖုန်းတွင် Signal ဖွင့်ပြီး ဆက်တင် > ပရိုဖိုင်သို့ သွားပါ။"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "သုံးစွဲသူအမည်ကို ကူးရန် သို့မဟုတ် ဖျက်ရန်"
@@ -5539,16 +5542,10 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "ယခု သင်သည် မိုဘိုင်းမှ ပေးပို့ထားသော အဆက်အသွယ်ကတ်များကို ထပ်ဆင့်ပို့နိုင်ပါပြီ။"
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "အရည်သွေးမြင့် အီမိုဂျီ ပံ့ပိုးမှုအသစ်သည် အီမိုဂျီပုံ အကြီးစားများ ပြသမှုကို ပိုမိုကောင်းမွန်စေသည်။"
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "နောက်ဆုံးပေါ် အီမိုဂျီပုံများကို ပံ့ပိုးရန် စတစ်ကာဖန်တီးမှုကို အပ်ဒိတ်လုပ်ထားသည်။"
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "ခေါ်ဆိုမှု ပြန်လည်ချိတ်ဆက်နေချိန်တွင် ထိုခေါ်ဆိုမှုကို ချုံ့သည့် ခလုတ်ကို တားဆီးထားသည့် ချွတ်ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ပြင်ဆင်ထားပါသည်။"
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

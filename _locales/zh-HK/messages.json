@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "你的資料庫版本與此 Signal 的版本不匹配。請確定你在電腦上開啟了最新版本的 Signal。"
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "檔案 (&F)"
   },
@@ -990,7 +996,7 @@
     "messageformat": "此聊天中的訊息將從此裝置上刪除。刪除訊息後，你仍可搜尋此聊天。"
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "此聊天內的全部訊息將自你所有裝置中刪除。刪除訊息後，你仍可搜尋此聊天。"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "離開群組"
@@ -1119,19 +1125,19 @@
     "messageformat": "無法載入 QR Code。請檢查你的網路，然後再試一次。<retry>重試</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "無法載入 QR Code。請檢查你的網路連線，然後再試一次。"
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>發生一個意外狀況。</paragraph><paragraph>請再試一次。</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal 無法使用你目前的網絡連結此裝置。"
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "重試"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "尋求幫助"
   },
   "icu:Install__support-link": {
     "messageformat": "需要幫助嗎？"
@@ -1305,34 +1311,34 @@
     "messageformat": "拒絕加入請求"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "全部批准"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "全部拒絕"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, other {批准 {count,number} 個請求？}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, other {拒絕 {count,number} 個請求？}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, other {新增 {count,number} 個人到通話中。}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, other {不會新增 {count,number} 個人到通話中。}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, other {{count,number} 請求加入通話}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "想加入..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, other {+{count,number} 個請求}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, other {已新增 {count,number} 個人到通話中}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, other {{count,number} 舉了手}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "你已經封鎖了 {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "你們都不會收到對方的語音或視訊通話。"
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "無法接收 {name} 的音訊和影片"
@@ -2829,13 +2841,13 @@
     "messageformat": "將此人從通話中移除"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "要將{name}從通話中移除嗎？"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "移除"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "從通話中封鎖"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, other {{count,number} 人}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "用戶名稱不得以數字開首。"
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "用戶名稱必須至少包含 {min,number} 個字符。"
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "用戶名稱最多只能包含 {max,number} 個字符。"
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, other {用戶名稱必須至少包含 {min,number} 個字元。}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "刪除"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "要刪除你的用戶名稱，請在你的手機上開啟 Signal 並前往設定 > 個人資訊。"
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "複製或刪除用戶名稱"
@@ -5539,16 +5542,10 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "現在你可以轉發從行動裝置傳送的聯絡人卡片。以後無需拿出手機，也可分享你最愛餐廳的外賣電話號碼。"
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "新支援高解析度「巨型表情符號」，令大型表情符號更耀眼奪目，尤其是在小像素的大螢幕上。"
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "我們還更新了貼圖製作器以支援最新的表情符號。"
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "我們修復了一個錯誤，該錯誤導致在通話重新連線時，最小化通話的按鈕無法顯示。"
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

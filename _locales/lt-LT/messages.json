@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Tavo duomenų bazės versija neatitinka šios „Signal“ versijos. Įsitikink, kad savo kompiuteryje bandai atidaryti naujausią „Signal“ versiją."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&Failas"
   },
@@ -990,7 +996,7 @@
     "messageformat": "Visos šio pokalbio žinutės bus ištrintos iš šio įrenginio. Net kai ištrinsite žinutes, vis tiek galėsite ieškoti šio pokalbio."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "Visos šio pokalbio žinutės bus ištrintos iš visų jūsų įrenginių. Net kai ištrinsite žinutes, vis tiek galėsite ieškoti šio pokalbio."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Išeiti iš grupės"
@@ -1119,19 +1125,19 @@
     "messageformat": "Nepavyko įkelti QR kodo. Patikrink interneto ryšį ir bandyk dar kartą. <retry>Bandyti dar kartą</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "Nepavyko įkelti QR kodo. Patikrink interneto ryšį ir bandyk dar kartą."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>Įvyko netikėta klaida.</paragraph><paragraph>Bandykite dar kartą.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "„Signal“ negali susieti šio įrenginio naudojant dabartinį tinklą."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "Bandyti dar kartą"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "Gauti pagalbos"
   },
   "icu:Install__support-link": {
     "messageformat": "Reikia pagalbos?"
@@ -1305,34 +1311,34 @@
     "messageformat": "Atmesti prisijungimo prašymą"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "Visus patvirtinti"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "Visus atmesti"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Patvirtinti {count,number} prašymą?} few {Patvirtinti {count,number} prašymus?} many {Patvirtinti {count,number} prašymo?} other {Patvirtinti {count,number} prašymų?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {Atmesti {count,number} prašymą?} few {Atmesti {count,number} prašymus?} many {Atmesti {count,number} prašymo?} other {Atmesti {count,number} prašymų?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} asmuo bus pridėtas prie skambučio.} few {{count,number} asmenys bus pridėti prie skambučio.} many {{count,number} asmens bus pridėta prie skambučio.} other {{count,number} asmenų bus pridėta prie skambučio.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} asmuo nebus pridėtas prie skambučio.} few {{count,number} asmenys nebus pridėti prie skambučio.} many {{count,number} asmens nebus pridėta prie skambučio.} other {{count,number} asmenų nebus pridėta prie skambučio.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} prašymas prisijungti prie skambučio} few {{count,number} prašymai prisijungti prie skambučio} many {{count,number} prašymo prisijungti prie skambučio} other {{count,number} prašymų prisijungti prie skambučio}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Nori prisijungti..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} prašymas} few {+{count,number} prašymai} many {+{count,number} prašymo} other {+{count,number} prašymų}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} asmuo pridėtas prie skambučio} few {{count,number} asmenys pridėti prie skambučio} many {{count,number} asmenų pridėta prie skambučio} other {{count,number} asmenų pridėta prie skambučio}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} pakėlė ranką} few {{count,number} pakėlė rankas} many {{count,number} pakėlė rankas} other {{count,number} pakėlė rankas}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "Tu užblokavai naudotoją {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "Tu negirdėsi ir nematysi naudotojo, o šis negirdės ir nematys tavęs."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Negalima gauti garso ir vaizdo iš {name}"
@@ -2829,13 +2841,13 @@
     "messageformat": "Pašalinti šį asmenį iš skambučio"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Pašalinti {name} iš skambučio?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Šalinti"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Blokuoti nuo skambučio"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} žmogus} few {{count,number} žmonės} many {{count,number} žmonių} other {{count,number} žmogus}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "Naudotojo vardai negali prasidėti skaitmenimi."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "Naudotojo varduose privalo būti bent {min,number} simboliai."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "Naudotojo varduose privalo būti ne daugiau kaip {max,number} simboliai."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {Naudotojo varduose privalo būti bent {min,number} simbolis.} few {Naudotojo varduose privalo būti bent {min,number} simboliai.} many {Naudotojo varduose privalo būti bent {min,number} simbolio.} other {Naudotojo varduose privalo būti bent {min,number} simboliai.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "Ištrinti"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "Jei norite ištrinti savo naudotojo vardą, atidarykite „Signal“ savo telefone ir eikite į „Nustatymai“ > „Profilis“."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "Kopijuoti arba ištrinti naudotojo vardą"
@@ -5539,16 +5542,10 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Dabar galite persiųsti adresatų korteles, kurios buvo išsiųstos iš mobiliojo įrenginio."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "Naujas didelės raiškos jaustukų palaikymas pagerina didelių jaustukų rodymą."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "Be to, atnaujinome lipdukų kūrimo įrankį, kad palaikytume naujausius jaustukus."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Ištaisėme klaidą, dėl kurios nebuvo parodomas skambučio suskleidimo mygtukas, kol tas skambutis buvo jungiamas iš naujo."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

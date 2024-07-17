@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "لا يتطابق إصدار قاعدة بياناتك مع إصدار سيجنال هذا. تأكد من فتح أحدث إصدار لِسيجنال على حاسوبك."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&ملف"
   },
@@ -990,7 +996,7 @@
     "messageformat": "ستُحذَف رسائل هذه المحادثة من هذا الجهاز. يُمكنك البحث عن هذه الدردشة حتى بعد حذف الرسائل."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "ستُحذَف جميع رسائل هذه المُحادثة من جميع أجهزتك. يُمكنك البحث عن هذه الدردشة حتى بعد حذف الرسائل."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "مغادرة المجموعة"
@@ -1119,19 +1125,19 @@
     "messageformat": "لقد تعذر تحميل رمز الاستجابة السريعة. يُرجى التحقق من اتصالك بالأنترنت ثم المحاولة مرة أخرى. <retry>إعادة المُحاولة</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "لقد تعذر تحميل رمز الاستجابة السريعة. تحقّق من اتصالك بالشبكة ثم حاول مُجددًا."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>‫لقد حدث خطأ غير متوقع.</paragraph><paragraph>يُرجى إعادة المحاولة لاحقا.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "لا يُمكن لسيجنال ربط هذا الحساب باستخدام شبكتك الحالية."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "إعادة المُحاولة"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "احصل على المساعدة"
   },
   "icu:Install__support-link": {
     "messageformat": "بحاجة إلى مساعدة ؟"
@@ -1305,34 +1311,34 @@
     "messageformat": "رفض طلب الانضمام"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "موافقة على الكل"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "رفض الكل"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, zero {الموافقة على {count,number} طلب؟} one {الموافقة على {count,number} طلب؟} two {الموافقة على {count,number} طلبين؟} few {الموافقة على {count,number} طلبات؟} many {الموافقة على {count,number} طلبًا؟} other {الموافقة على {count,number} طلب؟}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, zero {رفض {count,number} طلب؟} one {رفض {count,number} طلب؟} two {رفض {count,number} طلبين؟} few {رفض {count,number} طلبات؟} many {رفض {count,number} طلبًا؟} other {رفض {count,number} طلب؟}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, zero {سيُضاف {count,number} شخص إلى المكالمة.} one {سيُضاف {count,number} شخص إلى المكالمة.} two {سيُضاف {count,number} شخصين إلى المكالمة.} few {سيُضاف {count,number} أشخاص إلى المكالمة.} many {سيُضاف {count,number} شخصًا إلى المكالمة.} other {سيُضاف {count,number} شخص إلى المكالمة.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, zero {لن يتم إضافة {count,number} شخص إلى المكالمة.} one {لن يتم إضافة {count,number} شخص إلى المكالمة.} two {لن يتم إضافة {count,number} شخصين إلى المكالمة.} few {لن يتم إضافة {count,number} أشخاص إلى المكالمة.} many {لن يتم إضافة {count,number} شخصًا إلى المكالمة.} other {لن يتم إضافة {count,number} شخص إلى المكالمة.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, zero {{count,number} يطلب الانضمام إلى المكالمة} one {{count,number} يطلب الانضمام إلى المكالمة} two {{count,number} يطلبان الانضمام إلى المكالمة} few {{count,number} يطلبون الانضمام إلى المكالمة} many {{count,number} يطلبون الانضمام إلى المكالمة} other {{count,number} يطلبون الانضمام إلى المكالمة}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "يرغب في الانضمام…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, zero {+ {count,number} طلب} one {+{count,number} طلب} two {+{count,number} طلبين} few {+{count,number} طلبات} many {+{count,number} طلبًا} other {+{count,number} طلب}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, zero {أُضيف {count,number} أشخاص إلى المكالمة} one {أُضيف {count,number} شخص إلى المكالمة} two {أُضيف {count,number} شخصين إلى المكالمة} few {أُضيف {count,number} أشخاص إلى المكالمة} many {أُضيف {count,number} شخصًا إلى المكالمة} other {أُضيف {count,number} شخص إلى المكالمة}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, zero {{count,number} رفعوا أيديهم} one {{count,number} رفع يده} two {{count,number} رفعا يديهما} few {{count,number} رفعوا أيديهم} many {{count,number} رفعوا أيديهم} other {{count,number} رفعوا أيديهم}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "لقد حظرت {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "كلاكما لن يتلقّى مكالمة صوتية أو فيديو من الآخر."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "لا يُمكن تلقي الصوت والصورة من {name}"
@@ -2829,13 +2841,13 @@
     "messageformat": "إزالة هذا الشخص من المكالمة"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "إزالة {name} من المكالمة؟"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "إزالة"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "حظر من المكالمة"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, zero {لا أحد ({count,number})} one {شخص واحد ({count,number})} two {شخصان ({count,number})} few {{count,number} أفراد} many {{count,number} فردا} other {{count,number} فرد}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "اسم المُستخدم لا يمكن أن يبدأ برقم."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "يَجب أن يحتوي اسم المُستخدم على {min,number} رموز على الأقل."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "يجب أن تحتوي أسماء المُستخدمين على {max,number} رموز كحد أقصى."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, zero {يجب أن تحتوي أسماء المُستخدمين على {min,number} أحرف على الأقل.} one {يجب أن تحتوي أسماء المُستخدمين على {min,number} حرف على الأقل.} two {يجب أن تحتوي أسماء المُستخدمين على {min,number} حرفين على الأقل.} few {يجب أن تحتوي أسماء المُستخدمين على {min,number} أحرف على الأقل.} many {يجب أن تحتوي أسماء المُستخدمين على {min,number} حرفًا على الأقل.} other {يجب أن تحتوي أسماء المُستخدمين على {min,number} حرف على الأقل.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "حذف"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "لِحذف اسم المستخدم، افتح سيجنال على هاتفك وانتقل إلى الإعدادات > الحساب الشخصي."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "نسخ أو حذف اِسمُ المُستخدِم"
@@ -5539,16 +5542,10 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "يُمكنك الآن إعادة توجيه بطاقات جهات الاتصال التي أُرسلت من جهاز محمول."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "يُحسّن الدعم الجديد للوجه التعبيري عالي الدقة كيف تُعرض الرموز التعبيرية الكبيرة."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "لقد قمنا بتحديث مُنشئ الملصقات لدعم أحدث الرموز التعبيرية."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "لقد أصلحنا خللًا كان يمنع ظهور زر تصغير المُكالمة أثناء إعادة اتصال المكالمة. وهكذا لن تنقطع عن الدردشات السابقة، حتى لو كان الإنترنت مقطوعًا."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

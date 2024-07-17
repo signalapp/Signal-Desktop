@@ -80,6 +80,12 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "הגרסה של מסד הנתונים שלך לא תואמת לגרסה זו של Signal. יש לוודא שפתחת את הגרסה החדשה ביותר של Signal במחשב שלך."
   },
+  "icu:databaseError__recover__detail": {
+    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+  },
+  "icu:databaseError__recover__button": {
+    "messageformat": "Recover data"
+  },
   "icu:mainMenuFile": {
     "messageformat": "&קובץ"
   },
@@ -990,7 +996,7 @@
     "messageformat": "כל ההודעות בצ׳אט הזה יימחקו ממכשיר זה. עדיין תהיה לך אפשרות לחפש את הצ׳אט הזה אחרי מחיקת ההודעות."
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You can still search for this chat after you delete messages."
+    "messageformat": "כל ההודעות בצ׳אט הזה יימחקו מכל המכשירים שלך. עדיין תהיה לך אפשרות לחפש את הצ׳אט הזה אחרי מחיקת ההודעות."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "עזיבת קבוצה"
@@ -1119,19 +1125,19 @@
     "messageformat": "קוד ה–QR לא הצליח להיטען. כדאי לבדוק את חיבור האינטרנט ולנסות שוב. <retry>ניסיון חוזר</retry>"
   },
   "icu:Install__qr-failed-load__error--timeout": {
-    "messageformat": "The QR code couldn't load. Check your connection and try again."
+    "messageformat": "קוד ה–QR לא הצליח להיטען. יש לבדוק את החיבור שלך ולנסות שוב."
   },
   "icu:Install__qr-failed-load__error--unknown": {
-    "messageformat": "<paragraph>An unexpected error occurred.</paragraph><paragraph>Please try again.</paragraph>"
+    "messageformat": "<paragraph>אירעה שגיאה בלתי צפויה.</paragraph><paragraph>יש לנסות שוב.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal cannot link this device using your current network."
+    "messageformat": "Signal לא יכולה לקשר את המכשיר הזה באמצעות הרשת הנוכחית שלך."
   },
   "icu:Install__qr-failed-load__retry": {
-    "messageformat": "Retry"
+    "messageformat": "נסה שוב"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Get help"
+    "messageformat": "לעזרה"
   },
   "icu:Install__support-link": {
     "messageformat": "צריך עזרה?"
@@ -1305,34 +1311,34 @@
     "messageformat": "דחיית בקשת הצטרפות"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Approve all"
+    "messageformat": "אישור הכל"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Deny all"
+    "messageformat": "דחיית הכל"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
-    "messageformat": "{count, plural, one {Approve {count,number} request?} other {Approve {count,number} requests?}}"
+    "messageformat": "{count, plural, one {לאשר בקשה {count,number}?} two {לאשר {count,number} בקשות?} many {לאשר {count,number} בקשות?} other {לאשר {count,number} בקשות?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Deny {count,number} request?} other {Deny {count,number} requests?}}"
+    "messageformat": "{count, plural, one {לדחות בקשה {count,number}?} two {לדחות {count,number} בקשות?} many {לדחות {count,number} בקשות?} other {לדחות {count,number} בקשות?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} אחד יתווסף לשיחה.} two {{count,number} אנשים יתווספו לשיחה.} many {{count,number} אנשים יתווספו לשיחה.} other {{count,number} אנשים יתווספו לשיחה.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} אחד לא יתווסף לשיחה.} two {{count,number} אנשים לא יתווספו לשיחה.} many {{count,number} אנשים לא יתווספו לשיחה.} other {{count,number} אנשים לא יתווספו לשיחה.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {בקשה {count,number} להצטרף לשיחה} two {{count,number} בקשות להצטרף לשיחה זו} many {{count,number} בקשות להצטרף לשיחה} other {{count,number} בקשות להצטרף לשיחה}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "רוצה להצטרף…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+בקשה {count,number}} two {+{count,number} בקשות} many {+{count,number} בקשות} other {+{count,number} בקשות}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {אדם {count,number} נוסף לשיחה} two {{count,number} אנשים נוספו לשיחה} many {{count,number} אנשים נוספו לשיחה} other {{count,number} אנשים נוספו לשיחה}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {יד מורמת {count,number}} two {{count,number} ידיים מורמות} many {{count,number} ידיים מורמות} other {{count,number} ידיים מורמות}}"
@@ -1397,8 +1403,14 @@
   "icu:calling__you-have-blocked": {
     "messageformat": "חסמת את {name}"
   },
+  "icu:calling__blocked-participant": {
+    "messageformat": "{name} is blocked"
+  },
+  "icu:calling__block-info-title": {
+    "messageformat": "{name} is blocked"
+  },
   "icu:calling__block-info": {
-    "messageformat": "הוא או היא לא יוכלו לקבל ממך או לשלוח לך אודיו או וידאו."
+    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "לא ניתן לקבל שמע ווידאו מאת {name}"
@@ -2829,13 +2841,13 @@
     "messageformat": "להסיר את אדם זה מהשיחה"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "להסיר את {name} מהשיחה?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "הסרה"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "חסימה מהשיחה"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {איש {count,number}} two {{count,number} אנשים} many {{count,number} אנשים} other {{count,number} אנשים}}"
@@ -4250,12 +4262,6 @@
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "שמות משתמש אינם יכולים להתחיל במספר."
   },
-  "icu:ProfileEditor--username--check-character-min": {
-    "messageformat": "שמות משתמש חייבים להכיל לפחות {min,number} תווים."
-  },
-  "icu:ProfileEditor--username--check-character-max": {
-    "messageformat": "שמות משתמש חייבים להכיל לכל היותר {max,number} תווים."
-  },
   "icu:ProfileEditor--username--check-character-min-plural": {
     "messageformat": "{min, plural, one {שמות משתמש חייבים להכיל לפחות תו {min,number}.} two {שמות משתמש חייבים להכיל לפחות {min,number} תווים.} many {שמות משתמש חייבים להכיל לפחות {min,number} תווים.} other {שמות משתמש חייבים להכיל לפחות {min,number} תווים.}}"
   },
@@ -4300,9 +4306,6 @@
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
     "messageformat": "מחיקה"
-  },
-  "icu:ProfileEditor--username--delete-unavailable-notice": {
-    "messageformat": "כדי למחוק את שם המשתמש שלך, יש לפתוח את Signal בטלפון ולנווט אל הגדרות > פרופיל."
   },
   "icu:ProfileEditor--username--context-menu": {
     "messageformat": "העתקה או מחיקה של שם משתמש"
@@ -5539,16 +5542,10 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "עכשיו אפשר להעביר בהודעה כרטיס אנשי קשר שנשלחו ממכשיר נייד."
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "תמיכה חדשה באימוג׳ים ברזולוציה גבוהה משפרת את אופן התצוגה של אימוג׳ים גדולים."
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "עדכנו גם את יוצר הסטיקרים כדי לתמוך באימוג׳ים העדכניים ביותר."
-  },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "תיקנו באג שלא אפשר לכפתור מזעור השיחה להופיע בזמן שהשיחה מתחברת מחדש."
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
   }
 }

@@ -13,7 +13,7 @@ LangString signalMinAppVersionErr 1031 "Eine neuere Version von Signal ist berei
 LangString signalMinWinVersionErr 1036 "La version Desktop de Signal ne fonctionne plus sur cet ordinateur. Pour continuer d’utiliser la version Desktop de Signal, veuillez mettre à jour la version Windows de votre ordinateur."
 LangString signalMinAppVersionErr 1036 "Une nouvelle version de Signal est déjà installée. Êtes-vous sûr de vouloir continuer ?"
 # es_ES
-LangString signalMinWinVersionErr 3082 "Signal para Escritorio ya no funciona en este ordenador. Para volver a usar Signal para Escritorio, actualiza la versión de Windows de tu ordenador."
+LangString signalMinWinVersionErr 3082 "Signal Desktop ya no funciona en este ordenador. Para volver a usar Signal en tu scritorio, actualiza la versión de Windows de tu ordenador."
 LangString signalMinAppVersionErr 3082 "Ya está instalada una versión más reciente de Signal. ¿Segurx que quieres continuar?"
 # zh_CN
 LangString signalMinWinVersionErr 2052 "Signal desktop 无法在此电脑上运行。如您希望再次使用 Signal desktop，请更新您电脑的 Windows 版本。"
