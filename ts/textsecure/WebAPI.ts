@@ -1305,7 +1305,8 @@ export type WebAPIType = {
     elements: VerifyServiceIdRequestType
   ) => Promise<VerifyServiceIdResponseType>;
   putEncryptedAttachment: (
-    encryptedBin: Uint8Array | (() => Readable),
+    encryptedBin: (start: number, end?: number) => Readable,
+    encryptedSize: number,
     uploadForm: AttachmentUploadFormResponseType
   ) => Promise<void>;
   putProfile: (
@@ -3532,7 +3533,8 @@ export function initialize({
     }
 
     async function putEncryptedAttachment(
-      encryptedBin: Uint8Array | (() => Readable),
+      encryptedBin: (start: number, end?: number) => Readable,
+      encryptedSize: number,
       uploadForm: AttachmentUploadFormResponseType
     ) {
       const { signedUploadLocation, headers } = uploadForm;
@@ -3563,21 +3565,78 @@ export function initialize({
         'attachment upload form header has no location'
       );
 
-      // This is going to the CDN, not the service, so we use _outerAjax
-      await _outerAjax(uploadLocation, {
-        certificateAuthority,
-        proxyUrl,
-        timeout: 0,
-        type: 'PUT',
-        version,
-        data: encryptedBin,
-        redactUrl: () => {
-          const tmp = new URL(uploadLocation);
-          tmp.search = '';
-          tmp.pathname = '';
-          return `${tmp}[REDACTED]`;
-        },
-      });
+      const redactUrl = () => {
+        const tmp = new URL(uploadLocation);
+        tmp.search = '';
+        tmp.pathname = '';
+        return `${tmp}[REDACTED]`;
+      };
+
+      const MAX_RETRIES = 10;
+      for (
+        let start = 0, retries = 0;
+        start < encryptedSize && retries < MAX_RETRIES;
+        retries += 1
+      ) {
+        const logId = `putEncryptedAttachment(attempt=${retries})`;
+
+        if (retries !== 0) {
+          log.warn(`${logId}: resuming from ${start}`);
+        }
+
+        try {
+          // This is going to the CDN, not the service, so we use _outerAjax
+          // eslint-disable-next-line no-await-in-loop
+          await _outerAjax(uploadLocation, {
+            disableRetries: true,
+            certificateAuthority,
+            proxyUrl,
+            timeout: 0,
+            type: 'PUT',
+            version,
+            headers: {
+              'Content-Range': `bytes ${start}-*/${encryptedSize}`,
+            },
+            data: () => encryptedBin(start),
+            redactUrl,
+          });
+
+          if (retries !== 0) {
+            log.warn(`${logId}: Attachment upload succeeded`);
+          }
+          return;
+        } catch (error) {
+          log.warn(
+            `${logId}: Failed to upload attachment chunk: ${toLogFormat(error)}`
+          );
+        }
+
+        // eslint-disable-next-line no-await-in-loop
+        const result: BytesWithDetailsType = await _outerAjax(uploadLocation, {
+          certificateAuthority,
+          proxyUrl,
+          type: 'PUT',
+          version,
+          headers: {
+            'Content-Range': `bytes */${encryptedSize}`,
+          },
+          data: new Uint8Array(0),
+          redactUrl,
+          responseType: 'byteswithdetails',
+        });
+        const { response } = result;
+        strictAssert(response.status === 308, 'Invalid server response');
+        const range = response.headers.get('range');
+        if (range != null) {
+          const match = range.match(/^bytes=0-(\d+)$/);
+          strictAssert(match != null, `Invalid range header: ${range}`);
+          start = parseInt(match[1], 10);
+        } else {
+          log.warn(`${logId}: No range header`);
+        }
+      }
+
+      throw new Error('Upload failed');
     }
 
     function getHeaderPadding() {

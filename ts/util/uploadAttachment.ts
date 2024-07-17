@@ -148,7 +148,8 @@ export async function uploadFile({
     });
   } else {
     await server.putEncryptedAttachment(
-      () => createReadStream(absoluteCiphertextPath),
+      (start, end) => createReadStream(absoluteCiphertextPath, { start, end }),
+      ciphertextFileSize,
       uploadForm
     );
   }
