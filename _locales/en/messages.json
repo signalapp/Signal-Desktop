@@ -7375,20 +7375,12 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.15--0": {
-    "messageformat": "Now you can forward contact cards that were sent from a mobile device. Share the take-out number for your favorite restaurant without taking out your phone.",
-    "description": "(Deleted 2024/07/02) Release notes for version 7.15"
-  },
-  "icu:WhatsNew__v7.15--1": {
-    "messageformat": "New support for high-resolution \"jumbomoji\" adds larger-than-life detail to large emoji, especially on big screens with small pixels.",
-    "description": "(Deleted 2024/07/02) Release notes for version 7.15"
-  },
-  "icu:WhatsNew__v7.15--2": {
-    "messageformat": "We also updated the Sticker Creator to support the latest Emoji, so today's stickers are no longer stuck with yesterday's Unicode standard.",
-    "description": "(Deleted 2024/07/02) Release notes for version 7.15"
-  },
   "icu:WhatsNew__v7.16--0": {
     "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected.",
     "description": "Release notes for version 7.16"
+  },
+  "icu:WhatsNew__v7.17--0": {
+    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed.",
+    "description": "Release notes for version 7.17"
   }
 }
