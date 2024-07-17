@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Odmietnuť {count,number} žiadosť?} few {Odmietnuť {count,number} žiadosti?} many {Odmietnuť {count,number} žiadosti?} other {Odmietnuť {count,number} žiadostí?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {K hovoru sa pridá {count,number} osoba.} few {K hovoru sa pridajú {count,number} ľudia.} many {K hovoru sa pridá {count,number} osoby.} other {K hovoru sa pridá {count,number} ľudí.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {K hovoru sa nepridá {count,number} osoba.} few {K hovoru sa nepridajú {count,number} ľudia.} many {K hovoru sa nepridá {count,number} osoby.} other {K hovoru sa nepridá {count,number} ľudí.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} žiadosť o pripojenie k hovoru} few {{count,number} žiadosti o pripojenie k hovoru} many {{count,number} žiadosti o pripojenie k hovoru} other {{count,number} žiadostí o pripojenie k hovoru}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Chce sa pridať..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} žiadosť} few {+{count,number} žiadosti} many {+{count,number} žiadosti} other {+{count,number} žiadostí}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {K hovoru bola pridaná {count,number} osoba} few {K hovoru boli pridaní {count,number} ľudia} many {K hovoru bolo pridanej {count,number} osoby} other {K hovoru bolo pridaných {count,number} ľudí}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} používateľ zdvihol ruku} few {{count,number} používatelia zdvihli ruku} many {{count,number} používateľa zdvihlo ruku} other {{count,number} používateľov zdvihlo ruku}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Odstrániť tohto používateľa z hovoru"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Odstrániť používateľa {name} z hovoru?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Odstrániť"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Blokovať prístup k hovoru"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} osoba} few {{count,number} ľudia} many {{count,number} ľudí} other {{count,number} ľudí}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Aktualizovali sme tiež aplikáciu Sticker Creator pre zobrazovanie najnovších emoji."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Opravili sme chybu, ktorá bránila zobrazeniu tlačidla na minimalizáciu hovoru pri opätovnom pripájaní hovoru."
   }
 }

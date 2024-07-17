@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, other {{count,number} 人のリクエストを拒否しますか？}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, other {{count,number} 人のユーザーが通話に追加されます。}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, other {{count,number} 人のユーザーは通話に追加されません。}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, other {{count,number}人が通話への参加をリクエストしています}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "待機中..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, other {{count,number} 人以上のリクエスト}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, other {{count,number} 人のユーザーが通話に加わりました}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, other {{count,number}人が手を挙げています}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "このユーザーを通話から退出させる"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "{name} を通話から削除しますか？"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "削除"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "通話をブロックする"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, other {{count,number}人}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "また、最新の絵文字をサポートするためにステッカークリエイターを更新しました。"
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "再接続中に、通話を最小化するボタンが表示されないバグを修正しました。"
   }
 }

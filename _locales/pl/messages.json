@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Odmówić {count,number} prośbie?} few {Odmówić {count,number} prośbom?} many {Odmówić {count,number} prośbom?} other {Odmówić {count,number} prośby?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} osoba zostanie dodana do połączenia.} few {{count,number} osoby zostaną dodane do połączenia.} many {{count,number} osób zostanie dodanych do połączenia.} other {{count,number} osoby zostanie dodane do połączenia.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} osoba nie zostanie dodana do połączenia.} few {{count,number} osoby nie zostaną dodane do połączenia.} many {{count,number} osób nie zostanie dodanych do połączenia.} other {{count,number} osoby nie zostanie dołączone do połączenia.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} prośba o dołączenie} few {{count,number} prośby o dołączenie} many {{count,number} próśb o dołączenie} other {{count,number} próśb o dołączenie}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Chciał(a)by dołączyć…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} prośba} few {+{count,number} prośby} many {+{count,number} próśb} other {+{count,number} prośby}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} osoba dodana do połączenia} few {{count,number} osoby dodane do połączenia} many {{count,number} osób dodanych do połączenia} other {{count,number} osoby dodane do połączenia}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} podniesiona ręka} few {{count,number} podniesione ręce} many {{count,number} podniesionych rąk} other {{count,number} podniesionych rąk}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Usuń tę osobę z połączenia"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Usunąć z połączenia użytkownika {name}?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Usuń"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Zablokuj połączenie dla użytkownika"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} osoba} few {{count,number} osoby} many {{count,number} osób} other {{count,number} osoby}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Zaktualizowaliśmy również Kreator naklejek, tak aby poprawnie obsługiwał najnowsze emoji. Żegnajcie, emotki w starym standardzie Unicode!"
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Naprawiliśmy błąd, który uniemożliwiał pojawienie się przycisku minimalizowania połączenia w trakcie ponownego łączenia. Od teraz nie będziesz już rozłączony(-a) z poprzednimi czatami, nawet jeśli sam internet postanowi się rozłączyć."
   }
 }

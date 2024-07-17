@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Respingi solicitarea lui {count,number}?} few {Respingi solicitările {count,number}?} other {Respingi solicitările {count,number}?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} persoană va fi adăugată la apel.} few {{count,number} persoane vor fi adăugate la apel.} other {{count,number} de persoane vor fi adăugate la apel.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} persoană nu va fi adăugată la apel.} few {{count,number} persoane nu vor fi adăugate la apel.} other {{count,number} de persoane nu vor fi adăugate la apel.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} solicitare de participare la apel} few {{count,number} solicitări de participare la apel} other {{count,number} de solicitări de participare la apel}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Ar dori să se alăture..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} solicitare} few {+{count,number} solicitări} other {+{count,number} de solicitări}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} persoană adăugată la apel} few {{count,number} persoane adăugate la apel} other {{count,number} de persoane adăugate la apel}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} a ridicat mâna} few {{count,number} au ridicat mâinile} other {{count,number} au ridicat mâinile}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Scoate această persoană din apel"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Elimini pe {name} din apel?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Elimină"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Blochează din apel"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} persoană} few {{count,number} persoane} other {{count,number} persoane}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Am actualizat și Creatorul de autocolante, pentru a oferi asistență celor mai recente Emoji, astfel încât autocolantele de azi să nu mai fie blocate de standardul Unicode de ieri."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Am remediat o eroare care împiedica să apară butonul pentru minimizarea apelului, când apelul se reconecta. Acum nu trebuie să te simți deconectat/ă de la conversațiile precedente, chiar dacă uneori așa se întâmplă pe internet."
   }
 }

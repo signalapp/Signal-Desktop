@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {{count,number} അഭ്യർത്ഥിക്കണ നിരസിക്കണോ?} other {{count,number} അഭ്യർത്ഥനകൾ നിരസിക്കണോ?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} വ്യക്തിയെ കോളിലേക്ക് ചേർക്കും.} other {{count,number} പേരെ കോളിലേക്ക് ചേർക്കും.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} വ്യക്തിയെ കോളിലേക്ക് ചേർക്കില്ല.} other {{count,number} വ്യക്തികളെ കോളിലേക്ക് ചേർക്കില്ല.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {കോളിൽ ചേരാൻ {count,number} ആൾ അഭ്യർത്ഥിക്കുന്നു} other {കോളിൽ ചേരാൻ {count,number} പേർ അഭ്യർത്ഥിക്കുന്നു}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "ചേരാൻ ആഗ്രഹിക്കുന്നു..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} അഭ്യർത്ഥന} other {+{count,number} അഭ്യർത്ഥനകൾ}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} വ്യക്തിയെ കോളിൽ ചേർത്തു} other {{count,number} വ്യക്തികളെ കോളിൽ ചേർത്തു}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} ഉയർത്തിയ കൈ} other {{count,number} ഉയർത്തിയ കൈകൾ}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "കോളിൽ നിന്ന് ഈ വ്യക്തിയെ നീക്കം ചെയ്യുക"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "കോളിൽ നിന്ന് {name} എന്നയാളെ നീക്കം ചെയ്യണോ?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "നീക്കം ചെയ്യുക"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "കോളിൽ നിന്ന് ബ്ലോക്ക് ചെയ്യുക"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} ആൾ} other {{count,number} പേര്‍}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "ഏറ്റവും പുതിയ ഇമോജിയെ പിന്തുണയ്‌ക്കുന്നതിനായി ഞങ്ങൾ സ്റ്റിക്കർ ക്രിയേറ്ററും അപ്‌ഡേറ്റ് ചെയ്‌തു, അതിനാൽ ഇന്നത്തെ സ്റ്റിക്കറുകൾ ഇന്നലത്തെ യൂണികോഡ് സ്റ്റാൻഡേർഡിൽ ഒതുങ്ങില്ല."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "കോൾ വീണ്ടും കണക്‌റ്റുചെയ്യുമ്പോൾ ഒരു കോൾ ദൃശ്യമാകുന്നത് മിനിമൈസ് ചെയ്യുന്നതിന് ബട്ടണിനെ തടയുന്ന ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചു. ഇൻ്റർനെറ്റ് വിച്ഛേദിക്കപ്പെട്ടതായി അനുഭവപ്പെടുന്നുണ്ടെങ്കിലും മുമ്പത്തെ ചാറ്റുകളിൽ നിന്ന് വിച്ഛേദിക്കപ്പെട്ടതായി നിങ്ങൾക്ക് ഇപ്പോൾ തോന്നേണ്ടതില്ല."
   }
 }

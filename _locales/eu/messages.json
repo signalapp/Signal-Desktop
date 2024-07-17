@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Eskaera {count,number} ukatu?} other {{count,number} eskaera ukatu?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {Pertsona {count,number} gehituko da deian.} other {{count,number} pertsona gehituko dira deian.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {Pertsona {count,number} ez da deian gehituko.} other {{count,number} pertsona ez dira deian gehituko.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {Deian sartzeko {count,number} eskaera} other {Deian sartzeko {count,number} eskaera}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Sartu nahi du…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {Eskaera +{count,number}} other {+{count,number} eskaera}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {Pertsona {count,number} gehitu da deian} other {{count,number} pertsona gehitu dira deian}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {Jasotako {count,number} esku} other {Jasotako {count,number} esku}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Kendu pertsona hau deitik"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "{name} deitik kendu?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Kendu"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Deitik blokeatu"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {Pertsona {count,number}} other {{count,number} pertsona}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Halaber, Eranskailuen sortzailea eguneratu dugu, emoji-karaktere berrienak erabili ahal izateko."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Deira berriro konektatu bitartean deia minimizatzeko botoia agertzea eragozten zuen akats bat konpondu dugu."
   }
 }

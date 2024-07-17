@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {{count,number} درخواست رد شود؟} other {{count,number} درخواست رد شود؟}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} نفر به این تماس اضافه خواهد شد.} other {{count,number} نفر به تماس اضافه خواهند شد.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} نفر به این تماس اضافه نخواهد شد.} other {{count,number} نفر به این تماس اضافه نخواهند شد.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {‏{count,number} درخواست برای پیوستن به تماس} other {‏{count,number} درخواست برای پیوستن به تماس}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "می‌خواهد بپیوندد..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {و {count,number} درخواست دیگر} other {و {count,number} درخواست دیگر}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {‏{count,number} نفر به تماس اضافه شد} other {‏{count,number} نفر به تماس اضافه شدند}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {‏{count,number} نفر دستش را بالا برده است} other {‏{count,number} نفر دستشان را بالا برده‌اند}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "این شخص از تماس حذف شود"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "{name} از تماس حذف شود؟"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "حذف"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "مسدود کردن امکان تماس"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} نفر} other {{count,number} نفر}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "همچنین برای پشتیبانی از جدیدترین کاراکترهای ایموجی، «استیکرساز» را به‌روزرسانی کردیم."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "اشکالی را رفع کردیم که اجازه نمی‌داد وقتی تماس در حال اتصال مجدد است، دکمه کوچک‌سازی تماس ظاهر شود."
   }
 }

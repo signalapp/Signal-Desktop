@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, other {{count,number}نىڭ تەلىپىنى رەت قىلامسىز؟}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, other {{count,number} كىشى بۇ بۇ چاقىرىققا قېتىلىدۇ.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, other {{count,number} كىشى بۇ چاقىرىققا ئېلىنمايدۇ.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, other {{count,number} چاقىرىققا قوشۇلۇش تەلىپى}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "قېتىلىشنى خالايمەن..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, other {+{count,number} تەلەپ قىلىۋاتىدۇ}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, other {{count,number} كىشى چاقىرىققا قېتىلدى}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, other {{count,number} قول كۆتۈردى}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "بۇ كىشىنى چاقىرىقتىن چىقىرىۋېتىش"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "{name} نى بۇ چاقىرىقتىن چىقىرىۋېتەمسىز؟"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "ئۆچۈرۈش"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "چاقىرىقتىن چەكلەش"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, other {{count,number} كىشى}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "بىز يەنە ئەڭ يېڭى Emoji شەكىللىرىنى نى قوللاش ئۈچۈن Sticker Creator نى مۇكەمۇكەممەللەشتۈرۈدۇق."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "بىز تېلېفون قايتا ئۇلىنىۋاتقاندا تېلېفوننىڭ كۆرۈنۈشنىڭ كىچىكلەپ كېتىلىشىنىڭ ئالدىنى ئالىدىغان كەمتۈكلىكنى تۈزىدۇق. ھازىر تور ئۈزۈلۈپ قالغاندەك ھېس قىلسىڭىزمۇ ئىلگىرىكى پاراڭلاردىن ئۈزۈلۈپ قالغاندەك ھېس قىلمايسىز."
   }
 }

@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Želite zavrniti {count,number} zahtevo?} two {Želite zavrniti {count,number} zahtevi?} few {Želite zavrniti {count,number} zahteve?} other {Želite zavrniti {count,number} zahtev?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {Klicu bo dodana {count,number} oseba.} two {Klicu bosta dodani {count,number} osebi.} few {Klicu bodo dodane {count,number} osebe.} other {Klicu bo dodanih {count,number} oseb.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} oseba ne bo dodana v klic.} two {{count,number} osebi ne bosta dodani v klic.} few {{count,number} osebe ne bodo dodane v klic.} other {{count,number} oseb ne bo dodanih v klic.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} zahteva za pridružitev klicu} two {{count,number} zahtevi za pridružitev klicu} few {{count,number} zahteve za pridružitev klicu} other {{count,number} zahtev za pridružitev klicu}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Bi se rad_a pridružil_a ..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} zahteva} two {+{count,number} zahtevi} few {+{count,number} zahteve} other {+{count,number} zahtev}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {Klicu je bila dodana {count,number} oseba.} two {Klicu sta bili dodani {count,number} osebi.} few {Klicu so bile dodane {count,number} osebe.} other {Klicu je bilo dodanih {count,number} oseb.}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} dvignjena roka} two {{count,number} dvignjeni roki} few {{count,number} dvignjene roke} other {{count,number} dvignjenih rok}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Odstrani te osebe iz klica"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Želite odstraniti uporabnika_co {name} iz klica?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Odstrani"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Blokiraj iz klica"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} oseba} two {{count,number} osebi} few {{count,number} osebe} other {{count,number} ljudi}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Ustvarjalnik nalepk smo posodobili tako, da podpira najnovejše emojije, zato današnje nalepke niso več vezane na včerajšnji Unicode standard."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Odpravili smo napako, ki je preprečevala, da bi se gumb za minimizacijo klica prikazal, ko se je klic ponovno povezoval. Zdaj se vam ni treba počutiti nepovezanega/-o s prejšnjimi klepeti, tudi če je internet nepovezan."
   }
 }

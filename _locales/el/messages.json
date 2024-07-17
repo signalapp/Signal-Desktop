@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Απόρριψη {count,number} αιτήματος;} other {Απόρριψη {count,number} αιτημάτων;}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} άτομο θα προστεθεί στην κλήση.} other {{count,number} άτομα θα προστεθούν στην κλήση.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} άτομο δεν θα προστεθεί στην κλήση.} other {{count,number} άτομα δεν θα προστεθούν στην κλήση.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} έκανε αίτηση συμμετοχής στην κλήση} other {{count,number} έκαναν αίτηση συμμετοχής στην κλήση}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Θα ήθελε να συμμετάσχει…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} αίτημα} other {+{count,number} αιτήματα}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} άτομο προστέθηκε στην κλήση} other {{count,number} άτομα προστέθηκαν στην κλήση}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} σήκωσε το χέρι του} other {{count,number} σήκωσαν το χέρι τους}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Αφαίρεση αυτού του ατόμου από την κλήση"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Αφαίρεση του χρήστη {name} από την κλήση;"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Αφαίρεση"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Αποκλεισμός από την κλήση"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} άτομο} other {{count,number} άτομα}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Ενημερώσαμε επίσης το πρόγραμμα δημιουργίας αυτοκόλλητων για την υποστήριξη των τελευταίων χαρακτήρων emoji."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Διορθώσαμε ένα σφάλμα που εμπόδιζε την εμφάνιση του κουμπιού ελαχιστοποίησης μιας κλήσης ενώ γινόταν επανασύνδεση της κλήσης."
   }
 }

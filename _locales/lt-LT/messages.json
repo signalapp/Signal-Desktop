@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Atmesti {count,number} prašymą?} few {Atmesti {count,number} prašymus?} many {Atmesti {count,number} prašymo?} other {Atmesti {count,number} prašymų?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} asmuo bus pridėtas prie skambučio.} few {{count,number} asmenys bus pridėti prie skambučio.} many {{count,number} asmens bus pridėta prie skambučio.} other {{count,number} asmenų bus pridėta prie skambučio.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} asmuo nebus pridėtas prie skambučio.} few {{count,number} asmenys nebus pridėti prie skambučio.} many {{count,number} asmens nebus pridėta prie skambučio.} other {{count,number} asmenų nebus pridėta prie skambučio.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} prašymas prisijungti prie skambučio} few {{count,number} prašymai prisijungti prie skambučio} many {{count,number} prašymo prisijungti prie skambučio} other {{count,number} prašymų prisijungti prie skambučio}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Nori prisijungti..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} prašymas} few {+{count,number} prašymai} many {+{count,number} prašymo} other {+{count,number} prašymų}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} asmuo pridėtas prie skambučio} few {{count,number} asmenys pridėti prie skambučio} many {{count,number} asmenų pridėta prie skambučio} other {{count,number} asmenų pridėta prie skambučio}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} pakėlė ranką} few {{count,number} pakėlė rankas} many {{count,number} pakėlė rankas} other {{count,number} pakėlė rankas}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Pašalinti šį asmenį iš skambučio"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Pašalinti {name} iš skambučio?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Šalinti"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Blokuoti nuo skambučio"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} žmogus} few {{count,number} žmonės} many {{count,number} žmonių} other {{count,number} žmogus}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Be to, atnaujinome lipdukų kūrimo įrankį, kad palaikytume naujausius jaustukus."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Ištaisėme klaidą, dėl kurios nebuvo parodomas skambučio suskleidimo mygtukas, kol tas skambutis buvo jungiamas iš naujo."
   }
 }

@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, other {ปฏิเสธคำขอ {count,number} รายการใช่หรือไม่}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, other {ผู้ใช้ {count,number} คนจะถูกเพิ่มให้เข้าร่วมการโทรนี้}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, other {ผู้ใช้ {count,number} คนจะไม่ถูกเพิ่มให้เข้าร่วมการโทรนี้}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, other {{count,number} คนขอเข้าร่วมการโทร}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "ต้องการเข้าร่วม..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, other {+{count,number} คำขอ}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, other {เพิ่มผู้เข้าร่วม {count,number} คนในการโทรนี้แล้ว}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, other {{count,number} คนกำลังยกมือ}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "ลบผู้ใช้คนนี้ออกจากการโทร"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "ลบ {name} ออกจากการโทรใช่หรือไม่"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "ลบ"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "บล็อกจากการโทร"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, other {{count,number} คน}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "นอกจากนั้น เรายังอัปเดตผู้สร้างสติกเกอร์ (Sticker Creator) เพื่อรองรับเหล่าอีโมจิเซตใหม่ล่าสุดอีกด้วย"
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "เราแก้ไขบั๊กที่ทำให้ปุ่มย่อหน้าต่างการโทรหายไปในระหว่างที่ระบบกำลังเชื่อมต่อสายนั้นใหม่"
   }
 }

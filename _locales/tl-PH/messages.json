@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Gusto mo bang tanggihan ang {count,number} request?} other {Gusto mo bang tanggihan ang {count,number} requests?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} tao ang isasama sa tawag.} other {{count,number} tao ang isasama sa tawag.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} tao ang hindi isasama sa tawag.} other {{count,number} tao ang hindi isasama sa tawag.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {May {count,number} request na sumali sa call} other {May {count,number} requests na sumali sa call}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Gustong sumali…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
     "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} tao ang nadagdag sa call} other {{count,number} tao ang nadagdag sa call}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} ang nagtaas ng kamay} other {{count,number} ang nagtaas ng kamay}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Tanggalin ang taong ito sa call"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Gusto mo bang tanggalin si {name} mula sa tawag?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Tanggalin"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "I-block mula sa tawag"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Inupdate rin namin ang Sticker Creator para suportahan ang latest Emoji characters."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "May inayos kaming bug na pinipigilang lumabas ang button para sa pag-minimize ng call habang nagre-reconnect ang call na iyon."
   }
 }

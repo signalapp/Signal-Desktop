@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Hylätäänkö {count,number} pyyntö?} other {Hylätäänkö {count,number} pyyntöä?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} henkilö lisätään puheluun.} other {{count,number} henkilöä lisätään puheluun.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} henkilöä ei lisätä puheluun.} other {{count,number} henkilöä ei lisätä puheluun.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} pyyntö liittyä puheluun} other {{count,number} pyyntöä liittyä puheluun}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Haluaa liittyä..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} pyyntö} other {+{count,number} pyyntöä}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} henkilö lisätty puheluun} other {{count,number} henkilöä lisätty puheluun}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} kädennosto} other {{count,number} kädennostoa}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Poista tämä henkilö puhelusta"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Poistetaanko {name} puhelusta?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Poista"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Estä puhelusta"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} henkilöä} other {{count,number} henkilöä}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Päivitimme myös tarranluojan tukemaan uusimpia emoji-merkkejä."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Korjasimme virheen, joka esti puhelun pienentävän painikkeen näkymisen puhelun yhdistämisen aikana."
   }
 }

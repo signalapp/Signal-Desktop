@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {{count,number} ವಿನಂತಿಯನ್ನು ನಿರಾಕರಿಸಬೇಕೆ?} other {{count,number} ವಿನಂತಿಗಳನ್ನು ನಿರಾಕರಿಸಬೇಕೆ?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} ವ್ಯಕ್ತಿಯನ್ನು ಕರೆಗೆ ಸೇರಿಸಲಾಗುತ್ತದೆ.} other {{count,number} ವ್ಯಕ್ತಿಯನ್ನು ಕರೆಗೆ ಸೇರಿಸಲಾಗುವುದಿಲ್ಲ.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} ವ್ಯಕ್ತಿಯನ್ನು ಕರೆಗೆ ಸೇರಿಸಲಾಗುವುದಿಲ್ಲ.} other {{count,number} ವ್ಯಕ್ತಿಗಳನ್ನು ಕರೆಗೆ ಸೇರಿಸಲಾಗುವುದಿಲ್ಲ.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {ಕರೆಗೆ ಸೇರಲು {count,number} ವಿನಂತಿ} other {ಕರೆಗೆ ಸೇರಲು {count,number} ವಿನಂತಿಗಳು}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "...ಸೇರಲು ಬಯಸುತ್ತಾರೆ"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} ವಿನಂತಿ} other {+{count,number} ವಿನಂತಿಗಳು}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} ವ್ಯಕ್ತಿಯನ್ನು ಕರೆಗೆ ಸೇರಿಸಲಾಗಿದೆ} other {{count,number} ಜನರನ್ನು ಕರೆಗೆ ಸೇರಿಸಲಾಗಿದೆ}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} ಕೈ ಎತ್ತಿದರು} other {{count,number} ಕೈಗಳನ್ನು ಎತ್ತಿದರು}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "ಈ ವ್ಯಕ್ತಿಯನ್ನು ಕರೆಯಿಂದ ತೆಗೆದುಹಾಕಿ"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "{name} ಅವರನ್ನು ಕರೆಯಿಂದ ತೆಗೆದುಹಾಕಬೇಕೆ?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "ತೆಗೆದುಹಾಕಿ"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "ಕರೆಯಿಂದ ನಿರ್ಬಂಧಿಸಿ"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} person} other {{count,number} ಜನರು}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "ಇತ್ತೀಚಿನ ಎಮೋಜಿಯನ್ನು ಬೆಂಬಲಿಸಲು ನಾವು ಸ್ಟಿಕ್ಕರ್ ಕ್ರಿಯೇಟರ್ ಅನ್ನು ಸಹ ಅಪ್‌ಡೇಟ್ ಮಾಡಿದ್ದೇವೆ, ಆದ್ದರಿಂದ ಇಂದಿನ ಸ್ಟಿಕ್ಕರ್‌ಗಳು ನಿನ್ನೆಯ ಯುನಿಕೋಡ್ ಮಾನದಂಡದೊಂದಿಗೆ ಉಳಿದುಕೊಂಡಿರುವುದಿಲ್ಲ."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "ಕರೆಯನ್ನು ರೀಕನೆಕ್ಟ್ ಮಾಡುವಾಗ ಆ ಕರೆ ಕಾಣಿಸಿಕೊಳ್ಳುವಿಕೆಯನ್ನು ಮಿನಿಮೈಜ್ ಮಾಡಲು ಇರುವ ಬಟನ್ ನನ್ನು ತಡೆಯುವ ದೋಷವನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ. ಡಿಸ್‌ಕನೆಕ್ಟ್ ಆಗಿದೆ ಎಂದು ಇಂಟರ್‌ನೆಟ್ ಭಾವಿಸಿದರೂ ಈಗ ನೀವು ಹಿಂದಿನ ಚಾಟ್‌ಗಳಿಂದ ಡಿಸ್‌ಕನೆಕ್ಟ್ ಆಗಿದ್ದೇವೆ ಎಂದು ಭಾವಿಸುವ ಅಗತ್ಯವಿಲ್ಲ."
   }
 }

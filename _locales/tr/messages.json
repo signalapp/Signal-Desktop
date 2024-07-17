@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {{count,number} istek reddedilsin mi?} other {{count,number} istek reddedilsin mi?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {Aramaya {count,number} kişi eklenecek.} other {Aramaya {count,number} kişi eklenecek.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} kişi aramaya eklenmeyecek.} other {{count,number} kişi aramaya eklenmeyecek.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} aramaya katılma isteği} other {{count,number} aramaya katılma isteği}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Katılmak istiyor..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} istek} other {+{count,number} istek}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} kişi aramaya eklendi} other {{count,number} kişi aramaya eklendi}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} kişi el kaldırdı} other {{count,number} kişi el kaldırdı}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Bu kişiyi aramadan çıkar"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "{name} aramadan çıkarılsın mı?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Kaldır"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Aramasını engelle"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} kişi} other {{count,number} kişi}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Ayrıca en yeni Emoji karakterleri desteklemek için Çıkartma Oluşturucuyu da güncelledik."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Arama yeniden bağlanırken, aramayı simge durumuna küçültme düğmesinin görünmesini engelleyen bir hatayı düzelttik. Artık internet bağlantısı kopuyor da olsa, önceki sohbetlerden kopuk hissetmene gerek yok."
   }
 }

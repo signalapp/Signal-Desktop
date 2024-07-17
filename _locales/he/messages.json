@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {לדחות בקשה {count,number}?} two {לדחות {count,number} בקשות?} many {לדחות {count,number} בקשות?} other {לדחות {count,number} בקשות?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} אחד יתווסף לשיחה.} two {{count,number} אנשים יתווספו לשיחה.} many {{count,number} אנשים יתווספו לשיחה.} other {{count,number} אנשים יתווספו לשיחה.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} אחד לא יתווסף לשיחה.} two {{count,number} אנשים לא יתווספו לשיחה.} many {{count,number} אנשים לא יתווספו לשיחה.} other {{count,number} אנשים לא יתווספו לשיחה.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {בקשה {count,number} להצטרף לשיחה} two {{count,number} בקשות להצטרף לשיחה זו} many {{count,number} בקשות להצטרף לשיחה} other {{count,number} בקשות להצטרף לשיחה}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "רוצה להצטרף…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+בקשה {count,number}} two {+{count,number} בקשות} many {+{count,number} בקשות} other {+{count,number} בקשות}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {אדם {count,number} נוסף לשיחה} two {{count,number} אנשים נוספו לשיחה} many {{count,number} אנשים נוספו לשיחה} other {{count,number} אנשים נוספו לשיחה}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {יד מורמת {count,number}} two {{count,number} ידיים מורמות} many {{count,number} ידיים מורמות} other {{count,number} ידיים מורמות}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "להסיר את אדם זה מהשיחה"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "להסיר את {name} מהשיחה?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "הסרה"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "חסימה מהשיחה"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {איש {count,number}} two {{count,number} אנשים} many {{count,number} אנשים} other {{count,number} אנשים}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "עדכנו גם את יוצר הסטיקרים כדי לתמוך באימוג׳ים העדכניים ביותר."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "תיקנו באג שלא אפשר לכפתור מזעור השיחה להופיע בזמן שהשיחה מתחברת מחדש."
   }
 }

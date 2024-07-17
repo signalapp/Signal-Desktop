@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Отклонить {count,number} запрос?} few {Отклонить {count,number} запроса?} many {Отклонить {count,number} запросов?} other {Отклонить {count,number} запроса?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} человек будет добавлен к звонку.} few {{count,number} человека будут добавлены к звонку.} many {{count,number} человек будут добавлены к звонку.} other {{count,number} человека будут добавлены к звонку.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} человек не будет добавлен к звонку.} few {{count,number} человека не будут добавлены к звонку.} many {{count,number} человек не будут добавлены к звонку.} other {{count,number} человека не будут добавлены к звонку.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} запрос на присоединение к звонку} few {{count,number} запроса на присоединение к звонку} many {{count,number} запросов на присоединение к звонку} other {{count,number} запроса на присоединение к звонку}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Хотел(-а) бы присоединиться..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} запрос} few {+{count,number} запроса} many {+{count,number} запросов} other {+{count,number} запроса}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} человек добавлен к звонку} few {{count,number} человека добавлены к звонку} many {{count,number} человек добавлены к звонку} other {{count,number} человека добавлены к звонку}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} человек поднял руку} few {{count,number} человека подняли руку} many {{count,number} человек подняли руку} other {{count,number} человека поднял руку}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Удалить этого человека из звонка"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Удалить {name} из звонка?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Удалить"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Заблокировать от звонка"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} человека} few {{count,number} человек} many {{count,number} людей} other {{count,number} людей}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Кроме того, обновлённый Редактор стикеров теперь поддерживает новейшие эмодзи, поэтому сегодняшние стикеры больше не привязаны к вчерашнему стандарту Unicode."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Исправлена ошибка, из-за которой кнопка сворачивания звонка не появлялась при повторном подключении. Теперь вы не будете чувствовать себя оторванными от предыдущих чатов, даже если интернет вроде бы отключился."
   }
 }

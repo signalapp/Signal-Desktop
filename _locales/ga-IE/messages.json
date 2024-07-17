@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Diúltaigh do {count,number} iarratas?} two {Diúltaigh do {count,number} iarratas?} few {Diúltaigh do {count,number} iarratas?} many {Diúltaigh do {count,number} n-iarratas?} other {Diúltaigh do {count,number} iarratas?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {Cuirfear {count,number} duine leis an nglao.} two {Cuirfear {count,number} dhuine leis an nglao.} few {Cuirfear {count,number} dhuine leis an nglao.} many {Cuirfear {count,number} nduine leis an nglao.} other {Cuirfear {count,number} duine leis an nglao.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {Ní chuirfear {count,number} duine leis an nglao.} two {Ní chuirfear {count,number} dhuine leis an nglao.} few {Ní chuirfear {count,number} dhuine leis an nglao.} many {Ní chuirfear {count,number} nduine leis an nglao.} other {Ní chuirfear {count,number} duine leis an nglao.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} iarratas ar dhul isteach sa ghlao} two {{count,number} iarratas ar dhul isteach sa ghlao} few {{count,number} iarratas ar dhul isteach sa ghlao} many {{count,number} n-iarratas ar dhul isteach sa ghlao} other {{count,number} iarratas ar dhul isteach sa ghlao}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Ag iarraidh dul isteach ann..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} iarratas} two {+{count,number} iarratas} few {+{count,number} iarratas} many {+{count,number} n-iarratas} other {+{count,number} iarratas}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} duine curtha leis an nglao} two {{count,number} dhuine curtha leis an nglao} few {{count,number} dhuine curtha leis an nglao} many {{count,number} nduine curtha leis an nglao} other {{count,number} duine curtha leis an nglao}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {D'ardaigh {count,number} duine amháin a lámh} two {D'ardaigh {count,number} dhuine a lámh} few {D'ardaigh {count,number} dhuine a lámh} many {D'ardaigh {count,number} nduine a lámh} other {D'ardaigh {count,number} duine a lámh}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Bain an duine seo den ghlao"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Bain {name} den ghlao?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Bain"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Cuir bac ón ghlao"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} duine} two {{count,number} dhuine} few {{count,number} dhuine} many {{count,number} nduine} other {{count,number} duine}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Rinneamar nuashonrú freisin ar Chruthaitheoir Greamán le tacú leis na carachtair emoji is déanaí, ionas nach mbeidh greamáin an lae inniu teanntaithe ag caighdeán Unicode an lae inné."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Réitíomar fabht a chuir cosc ar an gcnaipe taispeáint glao a íoslaghdú le linn don nglao sin a athnascadh. Anois ní gá duit a bhrath go bhfuil tú dínasctha ó chomhráite roimhe seo fiú más rud é go sílfeá go raibh an t-idirlíon dínasctha."
   }
 }

@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Rifiuti {count,number} richiesta?} other {Rifiuti {count,number} richieste?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} persona verrà aggiunta alla chiamata.} other {{count,number} persone verranno aggiunte alla chiamata.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} persona non verrà aggiunta alla chiamata.} other {{count,number} persone non verranno aggiunte alla chiamata.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} richiesta di partecipare alla chiamata} other {{count,number} richieste di partecipare alla chiamata}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "vorrebbe unirsi…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} richiesta} other {+{count,number} richieste}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} persona aggiunta alla chiamata} other {{count,number} persone aggiunte alla chiamata}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} ha alzato la mano} other {{count,number} hanno alzato la mano}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Rimuovi questa persona dalla chiamata"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Rimuovi {name} dalla chiamata?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Rimuovi"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Blocca dalla chiamata"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} persona} other {{count,number} persone}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Abbiamo anche aggiornato lo strumento per creare adesivi per supportare le ultime emoji uscite, così potrai usarle per i tuoi magnifici sticker."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Abbiamo risolto un bug che impediva al tasto per rimpicciolire la chiamata di apparire su schermo quando la chiamata era in fase di riconnessione. D'ora in poi ogni tanto potrai anche avere una connessione instabile… ma sicuramente non questo bug!"
   }
 }

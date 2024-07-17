@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Rexeitar {count,number} solicitude?} other {Rexeitar {count,number} solicitudes?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {Engadirase {count,number} persoa á chamada.} other {Engadiranse {count,number} persoas á chamada.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {Non se engadirá {count,number} persoa á chamada.} other {Non se engadirán {count,number} persoa á chamada.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} solicitude para unirse á chamada} other {{count,number} solicitudes para unirse á chamada}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Quere unirse…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} solicitude} other {+{count,number} solicitudes}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {Engadiuse {count,number} persoa á chamada} other {Engadíronse {count,number} persoas á chamada}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} alzou a man} other {{count,number} alzaron a man}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Expulsar esta persoa da chamada"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Eliminar a {name} da chamada?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Eliminar"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Bloquear da chamada"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number}persoa} other {{count,number} persoas}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Tamén actualizamos o Creador de stickers para que admita as últimas emoticonas."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Corriximos un erro que impedía que o botón para minimizar unha chamada aparecese mentres a chamada se reconectaba."
   }
 }

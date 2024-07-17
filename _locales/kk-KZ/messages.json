@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {{count,number} өтінішті қабылдамау керек пе?} other {{count,number} өтінішті қабылдамау керек пе?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {Қоңырауға {count,number} адам қосылады.} other {Қоңырауға {count,number} адам қосылады.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {Қоңырауға {count,number} адам қосылмайды.} other {Қоңырауға {count,number} адам қосылмайды.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {Қоңырауға қосылу туралы {count,number} өтініш} other {Қоңырауға қосылу туралы {count,number} өтініш}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Қосылғысы келеді..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} өтініш} other {+{count,number} өтініш}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {Қоңырауға {count,number} адам қосылды} other {Қоңырауға {count,number} адам қосылды}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} адам қол көтерді} other {{count,number} адам қол көтерді}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Бұл адамды қоңыраудан өшіріп тастау"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "{name} қоңыраудан шығарылсын ба?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Өшіру"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Қоңыраудан блоктау"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} адам} other {{count,number} адам}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Соңғы эмодзилерге қолдау көрсету үшін Sticker Creator функциясын да жаңарттық, осылайша бүгінгі стикерлер енді кешегі Юникод стандартында тұрып қалмайды."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Қоңырау қайта қосылып жатқанда қоңыраудың пайда болуын барынша азайтуға кедергі келтірген ақауды түзеттік. Интернет ажырап тұрса да, алдыңғы чаттардан ажырамайтын боласыз."
   }
 }

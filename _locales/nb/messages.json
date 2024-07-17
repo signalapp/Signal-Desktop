@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Vil du avvise {count,number} forespørsel?} other {Vil du avvise {count,number} forespørsler?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} person legges til i samtalen.} other {{count,number} personer legges til i samtalen.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} person legges ikke til i samtalen.} other {{count,number} personer legges ikke til i samtalen.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} person ber om å bli med i samtalen} other {{count,number} personer ber om å bli med i samtalen}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Ønsker å bli med …"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} forespørsel} other {+{count,number} forespørsler}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} person ble lagt til i samtalen} other {{count,number} personer ble lagt til i samtalen}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} har rukket opp hånden} other {{count,number} har rukket opp hånden}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Fjern personen fra samtalen"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Vil du fjerne {name} fra samtalen?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Fjern"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Blokkér fra samtalen"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} person} other {{count,number} personer}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "I tillegg har vi oppdatert verktøyet for å lage klistremerker, slik at du også kan bruke alle de nyeste emojiene."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Vi har fikset en feil som førte til at «Minimer»-knappen forsvant i samtalevinduer når appen forsøkte å koble til en samtale på nytt."
   }
 }

@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, zero {Vai noraidīt {count,number} pieprasījumus?} one {Vai noraidīt {count,number} pieprasījumu?} other {Vai noraidīt {count,number} pieprasījumus?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, zero {{count,number} personas tiks pievienotas zvanam.} one {{count,number} persona tiks pievienota zvanam.} other {{count,number} personas tiks pievienotas zvanam.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, zero {{count,number} personas netiks pievienotas zvanam.} one {{count,number} persona netiks pievienota zvanam.} other {{count,number} personas netiks pievienotas zvanam.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, zero {{count,number} pieprasījumu pievienoties zvanam} one {{count,number} pieprasījums pievienoties zvanam} other {{count,number} pieprasījumi pievienoties zvanam}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "vēlas pievienoties…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, zero {+{count,number} pieprasījumu} one {+{count,number} pieprasījums} other {+{count,number} pieprasījumi}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, zero {{count,number} personas pievienotas zvanam} one {{count,number} persona pievienota zvanam} other {{count,number} personas pievienotas zvanam}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, zero {{count,number} paceltu roku} one {{count,number} pacelta roka} other {{count,number} paceltas rokas}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Noņemt šo personu no zvana"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "{name} — vai noņemt no šī zvana?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Noņemt"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Bloķēt piekļuvi zvanam"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, zero {{count,number} personu} one {{count,number} persona} other {{count,number} personas}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Mēs arī atjauninājām uzlīmju izveidotāju, iekļaujot atbalstu jaunākajām emocijzīmēm. Uzlīmes tagad vairs neierobežo novecojušais Unicode standarts."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Mēs izlabojām kļūdu, kuras dēļ zvana savienojuma atkārtotas izveides laikā nebija redzama loga samazināšanas poga. Tagad nezaudēsiet saikni ar iepriekšējām sarunām pat tad, kad interneta savienojums būs neomā."
   }
 }

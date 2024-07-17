@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Weier {count,number} versoek?} other {Weier {count,number} versoeke?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} persoon sal by die oproep gevoeg word.} other {{count,number} persone sal by die oproep gevoeg word.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} persoon sal nie by die oproep gevoeg word nie.} other {{count,number} persone sal nie by die oproep gevoeg word nie.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} versoek om by hierdie oproep aan te sluit} other {{count,number} versoeke om by hierdie oproep aan te sluit}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Wil graag aansluit…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} versoek} other {+{count,number} versoeke}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} persoon by die oproep gevoeg} other {{count,number} persone by die oproep gevoeg}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} opgesteekte hand} other {{count,number} opgesteekte hande}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Verwyder hierdie persoon uit die oproep"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Verwyder {name} uit die oproep?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Verwyder"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Blokkeer toegang tot oproep"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} mens} other {{count,number} mense}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Ons het ook die Plakkerskepper opgedateer om die jongste Emoji-karakters te ondersteun."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Ons het 'n fout reggemaak wat verhoed het dat die knoppie verskyn wat 'n oproep minimaliseer terwyl daardie oproep herkonnekteer word."
   }
 }

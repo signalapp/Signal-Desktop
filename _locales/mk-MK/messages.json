@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Сакате да одобрите {count,number} барање?} other {Сакате да се одобрат {count,number} барања?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} личност ќе биде додадена во повикот.} other {{count,number} лица ќе бидат додадени во повикот.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} личност нема да биде додадена во повикот.} other {{count,number} лица нема да бидат додадени во повикот.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} барање за приклучување на повикот} other {{count,number} барања за приклучување на повикот}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Сака да се придружи…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} барање} other {+{count,number} барања}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} личност е додадена на повикот} other {{count,number} лица се додадени на повикот}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} крената рака} other {{count,number} кренати раце}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Отстранете ја оваа личност од повикот"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Сакате да се отстрани {name} од повикот?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Отстрани"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Блокирај од повикот"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} личност} other {{count,number} луѓе}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Исто така, ажуриран е креаторот на налепници за да се поддржуваат најновите емотикони."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Решивме грешка која спречуваше да се појавува копчето за минимизирање на прозорецот при повик додека тој повик се поврзуваше одново."
   }
 }

@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {{count,number}টি অনুরোধ প্রত্যাখ্যান করবেন?} other {{count,number}টি অনুরোধ প্রত্যাখ্যান করবেন?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} জন লোক কলে যোগ হবেন।} other {{count,number} জন লোক কলে যোগ হবেন।}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} জন লোক কলে যোগ হবেন না।} other {{count,number} জন লোক কলে যোগ হবেন না।}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {কলে যোগ দেওয়ার জন্য {count,number}টি অনুরোধ} other {কলে যোগ দেওয়ার জন্য {count,number}টি অনুরোধ}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "যোগ দিতে আগ্রহী..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number}টি অনুরোধ} other {+{count,number}টি অনুরোধ}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} জন ব্যক্তিকে কলে যোগ করা হয়েছে} other {{count,number} জন ব্যক্তিকে কলে যোগ করা হয়েছে}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} জন হাত তুলেছেন} other {{count,number} জন হাত তুলেছেন}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "এই ব্যক্তিকে কল থেকে বাদ দিন"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "{name}-কে কল থেকে সরাতে চান?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "মুছে ফেলুন"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "কল থেকে ব্লক করুন"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} মানুষ} other {{count,number} মানুষ}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "সর্বশেষ ইমোজির ক্যারেক্টারগুলো সমর্থন করার জন্য আমরা স্টিকার ক্রিয়েটরও আপডেট করেছি।"
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "আমরা একটি বাগ সংশোধন করেছি যা একটি কল পুনরায় সংযোগ করার সময় ভেসে উঠতে থাকা কলটিকে মিনিমাইজ করতে বাটনটিকে বাধা দেয়।"
   }
 }

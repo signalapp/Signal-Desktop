@@ -483,7 +483,7 @@
     "messageformat": "Зберегти"
   },
   "icu:debugLogLinkCopied": {
-    "messageformat": "Посилання скопійовано до буферу обміну"
+    "messageformat": "Посилання скопійовано в буфер обміну"
   },
   "icu:reportIssue": {
     "messageformat": "Звернутися в службу підтримки"
@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Відхилити {count,number} запит?} few {Відхилити {count,number} запити?} many {Відхилити {count,number} запитів?} other {Відхилити {count,number} запита?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {До виклику буде додано {count,number} людину.} few {До виклику буде додано {count,number} людини.} many {До виклику буде додано {count,number} людей.} other {До виклику буде додано {count,number} людини.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {До виклику не буде додано {count,number} людину.} few {До виклику не буде додано {count,number} людини.} many {До виклику не буде додано {count,number} людей.} other {До виклику не буде додано {count,number} людини.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} запит на приєднання до виклику} few {{count,number} запити на приєднання до виклику} many {{count,number} запитів на приєднання до виклику} other {{count,number} запиту на приєднання до виклику}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "Хоче приєднатися…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} запит} few {+{count,number} запити} many {+{count,number} запитів} other {+{count,number} запиту}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {До виклику додано {count,number} людину} few {До виклику додано {count,number} людини} many {До виклику додано {count,number} людей} other {До виклику додано {count,number} людини}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} піднята рука} few {{count,number} підняті руки} many {{count,number} піднятих рук} other {{count,number} піднятої руки}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "Вилучити з виклику"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "Вилучити користувача {name} з виклику?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Вилучити"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Заблокувати участь у виклику"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} учасник} few {{count,number} учасники} many {{count,number} учасників} other {{count,number} учасника}}"
@@ -4197,13 +4197,13 @@
     "messageformat": "Очікування"
   },
   "icu:MessageDetailsHeader--Sent": {
-    "messageformat": "Надіслано до"
+    "messageformat": "Кому надіслано:"
   },
   "icu:MessageDetailsHeader--Delivered": {
-    "messageformat": "Доставлено"
+    "messageformat": "Кому доставлено:"
   },
   "icu:MessageDetailsHeader--Read": {
-    "messageformat": "Прочитано"
+    "messageformat": "Хто прочитав:"
   },
   "icu:MessageDetailsHeader--Viewed": {
     "messageformat": "Переглянули"
@@ -4332,7 +4332,7 @@
     "messageformat": "Змінити фото"
   },
   "icu:ProfileEditor--info--general": {
-    "messageformat": "Ваш профіль і зміни в ньому бачитимуть ваші співрозмовники, контакти та групи."
+    "messageformat": "Ваш профіль і зміни в ньому бачать ваші співрозмовники, контакти й групи."
   },
   "icu:ProfileEditor--info--pnp": {
     "messageformat": "Ім'я користувача, QR-код і посилання не відображаються у вашому профілі. Діліться ними тільки з людьми, яким довіряєте."
@@ -5070,7 +5070,7 @@
     "messageformat": "Зникне через {countdown}"
   },
   "icu:StoryDetailsModal__copy-timestamp": {
-    "messageformat": "Копіювати позначку часу"
+    "messageformat": "Скопіювати часову позначку"
   },
   "icu:StoryDetailsModal__download-attachment": {
     "messageformat": "Завантажити вкладення"
@@ -5103,7 +5103,7 @@
     "messageformat": "Видалити для всіх"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
-    "messageformat": "Копіювати позначку часу"
+    "messageformat": "Скопіювати часову позначку"
   },
   "icu:StoryListItem__label": {
     "messageformat": "Історія"
@@ -5546,6 +5546,6 @@
     "messageformat": "Також ми оновили конструктор стікерів останньою колекцією емоджі, щоб ви могли йти в ногу з цифровими трендами."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Втрата з'єднання, але не часу: ми виправили помилку, через яку кнопка згортання виклику зникала під час втрати з'єднання. Тепер у такій ситуації ви зможете згорнути виклик і заглянути в інший чат."
   }
 }

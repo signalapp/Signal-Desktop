@@ -1317,22 +1317,22 @@
     "messageformat": "{count, plural, one {Elutasítasz {count,number} kérést?} other {Elutasítasz {count,number} kérést?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} person will be added to the call.} other {{count,number} people will be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} személy hozzáadásra kerül a híváshoz.} other {{count,number} személy hozzáadásra kerül a híváshoz.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} person will not be added to the call.} other {{count,number} people will not be added to the call.}}"
+    "messageformat": "{count, plural, one {{count,number} személy nem kerül hozzáadásra a híváshoz.} other {{count,number} személy nem kerül hozzáadásra a híváshoz.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
     "messageformat": "{count, plural, one {{count,number} csatlakozni szeretne a híváshoz} other {{count,number} csatlakozni szeretne a híváshoz}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Would like to join..."
+    "messageformat": "szeretne csatlakozni..."
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} request} other {+{count,number} requests}}"
+    "messageformat": "{count, plural, one {+{count,number} kérés} other {+{count,number} kérés}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} person added to the call} other {{count,number} people added to the call}}"
+    "messageformat": "{count, plural, one {{count,number} személy hozzáadva a híváshoz} other {{count,number} személy hozzáadva a híváshoz}}"
   },
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} felemelte a kezét} other {{count,number} felemelte a kezét}}"
@@ -2829,13 +2829,13 @@
     "messageformat": "E személy eltávolítása a hívásból"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
-    "messageformat": "Remove {name} from the call?"
+    "messageformat": "{name} eltávolítása a hívásból?"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove": {
-    "messageformat": "Remove"
+    "messageformat": "Eltávolítás"
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogButton--block": {
-    "messageformat": "Block from call"
+    "messageformat": "Letiltás a hívásból"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
     "messageformat": "{count, plural, one {{count,number} személy} other {{count,number} személy}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Frissítettük a Matricakészítőt is, hogy támogassa a legújabb hangulatjel karaktereket."
   },
   "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We fixed a bug that prevented the button to minimize a call from appearing while that call was reconnecting. Now you don't need to feel disconnected from previous chats even if the internet is feeling disconnected."
+    "messageformat": "Kijavítottunk egy hibát, amely megakadályozta, hogy a hívást minimalizáló gomb megjelenjen a hívás újracsatlakozása közben."
   }
 }
