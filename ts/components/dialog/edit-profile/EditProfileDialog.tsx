@@ -194,17 +194,17 @@ export const EditProfileDialog = () => {
   const backButton =
     mode === 'edit' || mode === 'qr'
       ? [
-          {
-            iconType: 'chevron',
-            iconRotation: 90,
-            onClick: () => {
-              if (loading) {
-                return;
-              }
-              setMode('default');
-            },
+        {
+          iconType: 'chevron',
+          iconRotation: 90,
+          onClick: () => {
+            if (loading) {
+              return;
+            }
+            setMode('default');
           },
-        ]
+        },
+      ]
       : undefined;
 
   const onClickOK = async () => {
@@ -214,16 +214,12 @@ export const EditProfileDialog = () => {
 
     try {
       setLoading(true);
-      await ProfileManager.updateOurProfileDisplayName(profileName);
-      setUpdateProfileName(profileName);
+      const validName = await ProfileManager.updateOurProfileDisplayName(profileName);
+      setUpdateProfileName(validName);
       setMode('default');
     } catch (err) {
-      // Note error substring is taken from libsession-util
-      if (err.message && err.message.includes('exceeds maximum length')) {
-        setProfileNameError(window.i18n('displayNameTooLong'));
-      } else {
-        setProfileNameError(window.i18n('unknownError'));
-      }
+      window.log.error('Profile update error', err);
+      setProfileNameError(window.i18n('unknownError'));
     } finally {
       setLoading(false);
     }

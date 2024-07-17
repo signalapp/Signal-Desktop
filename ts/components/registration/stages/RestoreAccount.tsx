@@ -177,8 +177,6 @@ export const RestoreAccount = () => {
     }
 
     try {
-      // validate display name using libsession
-      // TODO [libsession validation] once you have it working in CreateAccount.tsx you will need to do it here
       const validName = await ProfileManager.updateOurProfileDisplayName(displayName, true);
 
       await signInWithNewDisplayName({
@@ -187,11 +185,7 @@ export const RestoreAccount = () => {
         dispatch,
       });
     } catch (err) {
-      let errorString = err.message || String(err);
-      // Note error substring is taken from libsession-util
-      if (err.message && err.message.includes('exceeds maximum length')) {
-        errorString = window.i18n('displayNameTooLong');
-      }
+      const errorString = err.message || String(err);
       window.log.error(
         `[onboarding] restore account: Failed with new display name! Error: ${errorString}`
       );
