@@ -86,6 +86,16 @@ export function stubWindow<K extends keyof Window>(fn: K, value: WindowValue<K>)
   };
 }
 
+/**
+ * Resolves "SVGElement is undefined error" in motion components by making JSDOM treat SVG elements as regular DOM elements
+ * @link https://github.com/jsdom/jsdom/issues/2734#issuecomment-569416871
+ * */
+export function stubSVGElement() {
+  if (!globalAny.SVGElement) {
+    globalAny.SVGElement = globalAny.Element;
+  }
+}
+
 export const enableLogRedirect = false;
 
 export const stubWindowLog = () => {

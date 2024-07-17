@@ -1,13 +1,22 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { render, RenderOptions } from '@testing-library/react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, MotionGlobalConfig } from 'framer-motion';
 import { ReactElement, ReactNode } from 'react';
 import { SessionTheme } from '../../themes/SessionTheme';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const Providers = ({ children }: { children: ReactNode }) => {
+  MotionGlobalConfig.skipAnimations = false;
+
   return (
     <SessionTheme>
-      <AnimatePresence>{children}</AnimatePresence>
+      <AnimatePresence>
+        <ErrorBoundary
+          fallback={<>{`Failed to render a component!\n\t${JSON.stringify(children)}`}</>}
+        >
+          {children}
+        </ErrorBoundary>
+      </AnimatePresence>
     </SessionTheme>
   );
 };
