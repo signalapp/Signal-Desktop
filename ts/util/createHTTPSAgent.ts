@@ -213,8 +213,10 @@ async function defaultConnect({
 }: ConnectOptionsType): Promise<net.Socket> {
   const socket = tls.connect(port, address, {
     ...tlsOptions,
-    signal: abortSignal,
   });
+  abortSignal?.addEventListener('abort', () =>
+    socket.destroy(new Error('Aborted'))
+  );
 
   const { promise: onHandshake, resolve, reject } = explodePromise<void>();
 

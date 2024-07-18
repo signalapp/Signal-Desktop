@@ -369,7 +369,7 @@ export class WebSocketResourceWithShadowing implements IWebSocketResource {
 
   private stats: AggregatedStats;
 
-  private statsTimer: NodeJS.Timer;
+  private statsTimer: NodeJS.Timeout;
 
   private shadowingWithReporting: boolean;
 
