@@ -241,7 +241,7 @@ export class ConversationModel extends window.Backbone
     string,
     {
       senderId: string;
-      timer: NodeJS.Timer;
+      timer: NodeJS.Timeout;
       timestamp: number;
     }
   >;
@@ -270,9 +270,9 @@ export class ConversationModel extends window.Backbone
 
   throttledUpdateVerified?: () => void;
 
-  typingRefreshTimer?: NodeJS.Timer | null;
+  typingRefreshTimer?: NodeJS.Timeout | null;
 
-  typingPauseTimer?: NodeJS.Timer | null;
+  typingPauseTimer?: NodeJS.Timeout | null;
 
   intlCollator = new Intl.Collator(undefined, { sensitivity: 'base' });
 
@@ -286,7 +286,7 @@ export class ConversationModel extends window.Backbone
 
   private lastIsTyping?: boolean;
 
-  private muteTimer?: NodeJS.Timer;
+  private muteTimer?: NodeJS.Timeout;
 
   private isInReduxBatch = false;
 

@@ -248,7 +248,7 @@
     "@types/lru-cache": "5.1.0",
     "@types/memoizee": "0.4.2",
     "@types/mocha": "9.0.0",
-    "@types/node": "18.15.11",
+    "@types/node": "20.14.10",
     "@types/node-fetch": "2.6.2",
     "@types/normalize-path": "3.0.0",
     "@types/pify": "3.0.2",
