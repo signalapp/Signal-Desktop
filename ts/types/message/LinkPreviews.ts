@@ -17,3 +17,28 @@ type GenericLinkPreviewType<Image> = {
 export type LinkPreviewType = GenericLinkPreviewType<AttachmentType>;
 export type LinkPreviewWithHydratedData =
   GenericLinkPreviewType<AttachmentWithHydratedData>;
+
+export function isSameLinkPreview(
+  prev: LinkPreviewType | undefined | null,
+  next: LinkPreviewType | undefined | null
+): boolean {
+  // Both has to be absent or present
+  if (prev == null || next == null) {
+    return prev == null && next == null;
+  }
+
+  if (prev.url !== next.url) {
+    return false;
+  }
+  if (prev.title !== next.title) {
+    return false;
+  }
+  if (prev.description !== next.description) {
+    return false;
+  }
+  if (prev.image?.plaintextHash !== next.image?.plaintextHash) {
+    return false;
+  }
+
+  return true;
+}
