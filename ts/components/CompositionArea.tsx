@@ -51,6 +51,7 @@ import type {
 } from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import { isSameLinkPreview } from '../types/message/LinkPreviews';
 
 import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileSharingActions';
 import { MediaQualitySelector } from './MediaQualitySelector';
@@ -366,6 +367,9 @@ export const CompositionArea = memo(function CompositionArea({
     (draftEditMessage != null &&
       dropNull(draftEditMessage.quote?.messageId) !==
         dropNull(quotedMessageId)) ||
+    // Link preview of edited message changed
+    (draftEditMessage != null &&
+      !isSameLinkPreview(linkPreviewResult, draftEditMessage?.preview)) ||
     // Not edit message, but has attachments
     (draftEditMessage == null && draftAttachments.length !== 0);
 
