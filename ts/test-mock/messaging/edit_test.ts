@@ -19,6 +19,7 @@ import { IMAGE_GIF } from '../../types/MIME';
 import { typeIntoInput } from '../helpers';
 import type { MessageAttributesType } from '../../model-types';
 import { sleep } from '../../util/sleep';
+import { createMessage } from './support/messages';
 
 export const debug = createDebug('mock:test:edit');
 
@@ -41,14 +42,6 @@ function wrap({
   return {
     dataMessage,
     editMessage,
-  };
-}
-
-function createMessage(body: string): Proto.IDataMessage {
-  return {
-    body,
-    groupV2: undefined,
-    timestamp: Long.fromNumber(Date.now()),
   };
 }
 
