@@ -334,6 +334,10 @@ export class ChallengeHandler {
     );
   }
 
+  public areAnyRegistered(): boolean {
+    return this.registeredConversations.size > 0;
+  }
+
   public isRegistered(conversationId: string): boolean {
     return this.registeredConversations.has(conversationId);
   }
