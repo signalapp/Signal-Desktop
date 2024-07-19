@@ -1298,6 +1298,10 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
+    if (isGroupV1(this.attributes)) {
+      return;
+    }
+
     // Coalesce multiple sendTypingMessage calls into one.
     //
     // `lastIsTyping` is set to the last `isTyping` value passed to the
@@ -1305,6 +1309,18 @@ export class ConversationModel extends window.Backbone
     // pick it and reset it back to `undefined` so that later jobs will
     // in effect be ignored.
     this.lastIsTyping = isTyping;
+
+    // If captchas are active, then we should drop typing messages because
+    // they're less important and could overwhelm the queue.
+    if (
+      window.Signal.challengeHandler?.areAnyRegistered() &&
+      this.isSealedSenderDisabled()
+    ) {
+      log.info(
+        `sendTypingMessage(${this.idForLogging()}): Challenge is registered and can't send sealed, ignoring`
+      );
+      return;
+    }
 
     await this.queueJob('sendTypingMessage', async () => {
       const groupMembers = this.getRecipients();
@@ -4599,6 +4615,19 @@ export class ConversationModel extends window.Backbone
     );
 
     return message;
+  }
+
+  isSealedSenderDisabled(): boolean {
+    const members = this.getMembers();
+    if (
+      members.some(
+        member => member.get('sealedSender') === SEALED_SENDER.DISABLED
+      )
+    ) {
+      return true;
+    }
+
+    return false;
   }
 
   isSearchable(): boolean {
