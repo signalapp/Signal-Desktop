@@ -1,0 +1,45 @@
+FROM ubuntu:jammy-20230624@sha256:b060fffe8e1561c9c3e6dea6db487b900100fc26830b9ea2ec966c151ab4c020
+
+# Allows package builders like FPM (used for creating the .deb package
+# on linux) to make their build timestamps determistic. Otherwise, a fresh
+# UNIX timestamp will be generated at the time of the build, and is non-deterministic.
+#
+# Read https://reproducible-builds.org/specs/source-date-epoch/ for more info
+ENV SOURCE_DATE_EPOCH=1
+
+# Due to some issues with NVM reading .nvmrc, we define the version
+# as an environment variable and use that instead. 
+ARG NODE_VERSION
+
+# ---
+# This portion of the code is identical to the Signal Android's
+# reproducible build system. https://github.com/signalapp/Signal-Android/blob/main/reproducible-builds/Dockerfile
+
+# APT source files
+COPY docker/ docker/
+COPY docker/apt.conf docker/sources.list /etc/apt/
+
+# Temporarily disables APT's certificate signature checking
+# to download the certificates. See 
+RUN apt update -oAcquire::https::Verify-Peer=false
+RUN apt install -oAcquire::https::Verify-Peer=false -y ca-certificates
+
+RUN apt update
+RUN apt install -y git curl g++ gcc make python3 tar
+# ---
+
+# Install nvm
+ENV NVM_DIR=/usr/local/nvm
+ENV NVM_VERSION=0.39.7
+RUN mkdir $NVM_DIR
+
+RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh" | bash \
+    && . $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias $NODE_VERSION \
+    && nvm use $NODE_VERSION
+
+ENV NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+RUN git config --global --add safe.directory /project
