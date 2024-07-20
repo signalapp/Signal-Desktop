@@ -21,6 +21,7 @@ import { createName, getRelativePath } from './util/attachmentPath';
 import { appendPaddingStream, logPadSize } from './util/logPadding';
 import { prependStream } from './util/prependStream';
 import { appendMacStream } from './util/appendMacStream';
+import { finalStream } from './util/finalStream';
 import { getIvAndDecipher } from './util/getIvAndDecipher';
 import { getMacAndUpdateHmac } from './util/getMacAndUpdateHmac';
 import { trimPadding } from './util/trimPadding';
@@ -378,6 +379,65 @@ export async function decryptAttachmentV2ToSink(
         }),
         trimPadding(options.size),
         peekAndUpdateHash(plaintextHash),
+        finalStream(() => {
+          const ourMac = hmac.digest();
+          const ourDigest = digest.digest();
+
+          strictAssert(
+            ourMac.byteLength === ATTACHMENT_MAC_LENGTH,
+            `${logId}: Failed to generate ourMac!`
+          );
+          strictAssert(
+            theirMac != null && theirMac.byteLength === ATTACHMENT_MAC_LENGTH,
+            `${logId}: Failed to find theirMac!`
+          );
+          strictAssert(
+            ourDigest.byteLength === DIGEST_LENGTH,
+            `${logId}: Failed to generate ourDigest!`
+          );
+
+          if (!constantTimeEqual(ourMac, theirMac)) {
+            throw new Error(`${logId}: Bad MAC`);
+          }
+
+          const { type } = options;
+          switch (type) {
+            case 'local':
+            case 'backupThumbnail':
+              log.info(
+                `${logId}: skipping digest check since this is a ${type} attachment`
+              );
+              break;
+            case 'standard':
+              if (!constantTimeEqual(ourDigest, options.theirDigest)) {
+                throw new Error(`${logId}: Bad digest`);
+              }
+              break;
+            default:
+              throw missingCaseError(type);
+          }
+
+          if (!outerEncryption) {
+            return;
+          }
+
+          strictAssert(outerHmac, 'outerHmac must exist');
+
+          const ourOuterMac = outerHmac.digest();
+          strictAssert(
+            ourOuterMac.byteLength === ATTACHMENT_MAC_LENGTH,
+            `${logId}: Failed to generate ourOuterMac!`
+          );
+          strictAssert(
+            theirOuterMac != null &&
+              theirOuterMac.byteLength === ATTACHMENT_MAC_LENGTH,
+            `${logId}: Failed to find theirOuterMac!`
+          );
+
+          if (!constantTimeEqual(ourOuterMac, theirOuterMac)) {
+            throw new Error(`${logId}: Bad outer encryption MAC`);
+          }
+        }),
         sink,
       ].filter(isNotNil)
     );
@@ -397,71 +457,16 @@ export async function decryptAttachmentV2ToSink(
     await readFd?.close();
   }
 
-  const ourMac = hmac.digest();
-  const ourDigest = digest.digest();
   const ourPlaintextHash = plaintextHash.digest('hex');
-
-  strictAssert(
-    ourMac.byteLength === ATTACHMENT_MAC_LENGTH,
-    `${logId}: Failed to generate ourMac!`
-  );
-  strictAssert(
-    theirMac != null && theirMac.byteLength === ATTACHMENT_MAC_LENGTH,
-    `${logId}: Failed to find theirMac!`
-  );
-  strictAssert(
-    ourDigest.byteLength === DIGEST_LENGTH,
-    `${logId}: Failed to generate ourDigest!`
-  );
   strictAssert(
     ourPlaintextHash.length === HEX_DIGEST_LENGTH,
     `${logId}: Failed to generate file hash!`
   );
 
-  if (!constantTimeEqual(ourMac, theirMac)) {
-    throw new Error(`${logId}: Bad MAC`);
-  }
-
-  const { type } = options;
-  switch (type) {
-    case 'local':
-    case 'backupThumbnail':
-      log.info(
-        `${logId}: skipping digest check since this is a ${type} attachment`
-      );
-      break;
-    case 'standard':
-      if (!constantTimeEqual(ourDigest, options.theirDigest)) {
-        throw new Error(`${logId}: Bad digest`);
-      }
-      break;
-    default:
-      throw missingCaseError(type);
-  }
-
   strictAssert(
     iv != null && iv.byteLength === IV_LENGTH,
     `${logId}: failed to find their iv`
   );
-
-  if (outerEncryption) {
-    strictAssert(outerHmac, 'outerHmac must exist');
-
-    const ourOuterMac = outerHmac.digest();
-    strictAssert(
-      ourOuterMac.byteLength === ATTACHMENT_MAC_LENGTH,
-      `${logId}: Failed to generate ourOuterMac!`
-    );
-    strictAssert(
-      theirOuterMac != null &&
-        theirOuterMac.byteLength === ATTACHMENT_MAC_LENGTH,
-      `${logId}: Failed to find theirOuterMac!`
-    );
-
-    if (!constantTimeEqual(ourOuterMac, theirOuterMac)) {
-      throw new Error(`${logId}: Bad outer encryption MAC`);
-    }
-  }
 
   return {
     iv,
