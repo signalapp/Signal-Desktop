@@ -351,7 +351,7 @@ export async function handleAttachmentRequest(req: Request): Promise<Response> {
         plaintext
       );
     } catch (error) {
-      plaintext.emit('error', error);
+      plaintext.destroy(error);
 
       // These errors happen when canceling fetch from `attachment://` urls,
       // ignore them to avoid noise in the logs.
@@ -469,7 +469,7 @@ function handleRangeRequest({
       try {
         await pipeline(plaintext, transform);
       } catch (error) {
-        transform.emit('error', error);
+        transform.destroy(error);
 
         // These errors happen when canceling fetch from `attachment://` urls,
         // ignore them to avoid noise in the logs.
