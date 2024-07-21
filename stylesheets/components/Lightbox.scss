@@ -259,13 +259,6 @@
     transition: opacity 150ms cubic-bezier(0.17, 0.17, 0, 1);
   }
 
-  &__container--zoom {
-    .Lightbox__header,
-    .Lightbox__footer {
-      opacity: 0;
-    }
-  }
-
   &__controls {
     display: flex;
     gap: 32px;
