@@ -289,9 +289,9 @@ export async function sendConfigMessageAndDeleteEverything() {
       await deleteDbLocally();
     } catch (e) {
       window?.log?.error(e);
-    } finally {
-      window.restart();
     }
+  } finally {
+    window.restart();
   }
 }
 
