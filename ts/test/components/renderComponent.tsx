@@ -1,6 +1,6 @@
 import { AnimatePresence, MotionGlobalConfig } from 'framer-motion';
 import { isArray, isEqual, unset } from 'lodash';
-import { ReactElement, ReactNode } from 'react';
+import { ElementType, ReactElement, ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import TestRenderer from 'react-test-renderer';
 import { SessionTheme } from '../../themes/SessionTheme';
@@ -39,6 +39,13 @@ function findByDataTestId(
   return renderResult.root.findByProps({ 'data-testid': dataTestId });
 }
 
+function findAllByElementType(
+  renderResult: TestRenderer.ReactTestRenderer,
+  elementType: ElementType
+): Array<TestRenderer.ReactTestInstance> {
+  return renderResult.root.findAllByType(elementType);
+}
+
 function areResultsEqual(
   renderResult: TestRenderer.ReactTestRenderer,
   renderResult2: TestRenderer.ReactTestRenderer,
@@ -55,4 +62,10 @@ function areResultsEqual(
   return isEqual(renderResult.toJSON(), renderResult2.toJSON());
 }
 
-export { areResultsEqual, findByDataTestId, getComponentTree, renderComponent };
+export {
+  areResultsEqual,
+  findAllByElementType,
+  findByDataTestId,
+  getComponentTree,
+  renderComponent,
+};

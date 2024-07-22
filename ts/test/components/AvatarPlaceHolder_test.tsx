@@ -8,6 +8,7 @@ import { MemberAvatarPlaceHolder } from '../../components/icon/MemberAvatarPlace
 import { TestUtils } from '../test-utils';
 import { areResultsEqual, findByDataTestId, renderComponent } from './renderComponent';
 
+// TODO[epic=SES-2418] migrate to Storybook
 describe('AvatarPlaceHolder', () => {
   const pubkey = TestUtils.generateFakePubKeyStr();
   const displayName = 'Hello World';
