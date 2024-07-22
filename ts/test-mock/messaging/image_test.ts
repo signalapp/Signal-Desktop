@@ -2,8 +2,6 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import createDebug from 'debug';
-
 import type { Proto } from '@signalapp/mock-server';
 import { assert } from 'chai';
 import type { App } from '../playwright';
@@ -11,8 +9,6 @@ import * as durations from '../../util/durations';
 import { Bootstrap } from '../bootstrap';
 import { createMessage } from './support/messages';
 import { dropFile } from './support/file-upload';
-
-export const debug = createDebug('mock:test:image-attachment');
 
 const pause = process.env.PAUSE;
 
