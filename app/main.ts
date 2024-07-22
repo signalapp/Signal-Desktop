@@ -1683,6 +1683,32 @@ async function initializeSQL(
 ): Promise<{ ok: true; error: undefined } | { ok: false; error: Error }> {
   sqlInitTimeStart = Date.now();
 
+  let key: string;
+  try {
+    key = getSQLKey();
+  } catch (error) {
+    try {
+      // Initialize with *some* key to setup paths
+      await sql.initialize({
+        appVersion: app.getVersion(),
+        configDir: userDataPath,
+        key: 'abcd',
+        logger: getLogger(),
+      });
+    } catch {
+      // Do nothing, we fail right below anyway.
+    }
+
+    if (error instanceof Error) {
+      return { ok: false, error };
+    }
+
+    return {
+      ok: false,
+      error: new Error(`initializeSQL: Caught a non-error '${error}'`),
+    };
+  }
+
   try {
     // This should be the first awaited call in this function, otherwise
     // `sql.sqlCall` will throw an uninitialized error instead of waiting for
@@ -1690,7 +1716,7 @@ async function initializeSQL(
     await sql.initialize({
       appVersion: app.getVersion(),
       configDir: userDataPath,
-      key: getSQLKey(),
+      key,
       logger: getLogger(),
     });
   } catch (error: unknown) {
