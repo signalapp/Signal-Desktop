@@ -1,4 +1,4 @@
-import { createRoot } from 'react-dom/client';
+import { createRoot, Root } from 'react-dom/client';
 import { SessionQRCode, SessionQRCodeProps } from '../components/SessionQRCode';
 import { convertIconToImageURL } from '../hooks/useIconToImageURL';
 import { UserUtils } from '../session/utils';
@@ -38,9 +38,13 @@ export function prepareQRCodeForLightBox(fileName: string, url: string, onClose?
 export async function renderQRCode(props: SessionQRCodeProps, filename: string): Promise<string> {
   let url = '';
 
+  let root: HTMLElement | null = null;
+  let divElement: HTMLDivElement | null = null;
+  let reactRoot: Root | null = null;
+
   try {
-    const root = document.querySelector('#root');
-    const divElement = document.createElement('div');
+    root = document.querySelector('#root');
+    divElement = document.createElement('div');
     divElement.style.display = 'none';
     root?.appendChild(divElement);
 
@@ -51,7 +55,7 @@ export async function renderQRCode(props: SessionQRCodeProps, filename: string):
       logoImage = dataUrl;
     }
 
-    const reactRoot = createRoot(divElement!);
+    reactRoot = createRoot(divElement!);
     reactRoot.render(
       <SessionQRCode
         id={props.id}
@@ -71,11 +75,15 @@ export async function renderQRCode(props: SessionQRCodeProps, filename: string):
     } else {
       throw Error('QR Code canvas not found');
     }
-
-    reactRoot?.unmount();
-    root?.removeChild(divElement);
   } catch (err) {
     window.log.error(`[saveBWQRCode] failed for ${filename}`, err);
+  } finally {
+    if (reactRoot) {
+      reactRoot?.unmount();
+    }
+    if (divElement) {
+      root?.removeChild(divElement);
+    }
   }
 
   return url;
