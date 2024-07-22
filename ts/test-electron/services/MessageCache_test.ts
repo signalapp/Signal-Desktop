@@ -12,6 +12,12 @@ import { MessageCache } from '../../services/MessageCache';
 import { generateAci } from '../../types/ServiceId';
 
 describe('MessageCache', () => {
+  beforeEach(async () => {
+    const ourAci = generateAci();
+    await window.textsecure.storage.put('uuid_id', `${ourAci}.1`);
+    await window.ConversationController.load();
+  });
+
   describe('filterBySentAt', () => {
     it('returns an empty iterable if no messages match', () => {
       const mc = new MessageCache();

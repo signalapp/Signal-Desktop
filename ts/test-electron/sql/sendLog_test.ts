@@ -29,6 +29,7 @@ const {
 describe('sql/sendLog', () => {
   beforeEach(async () => {
     await removeAllSentProtos();
+    await window.ConversationController.load();
   });
 
   it('roundtrips with insertSentProto/getAllSentProtos', async () => {

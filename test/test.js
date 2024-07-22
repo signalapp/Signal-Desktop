@@ -30,6 +30,7 @@ window.textsecure.storage.protocol = window.getSignalProtocolStore();
       runner.on('pass', test => window.testUtilities.onTestEvent({
         type: 'pass',
         title: test.titlePath(),
+        duration: test.duration,
       }));
       runner.on('fail', (test, error) => window.testUtilities.onTestEvent({
         type: 'fail',
