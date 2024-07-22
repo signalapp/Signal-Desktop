@@ -3,8 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import chai, { assert } from 'chai';
-import chaiAsPromised from 'chai-as-promised';
+import { assert } from 'chai';
 import { clone } from 'lodash';
 import {
   Direction,
@@ -36,8 +35,6 @@ import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { generateAci, generatePni } from '../types/ServiceId';
 import type { IdentityKeyType, KeyPairType } from '../textsecure/Types.d';
-
-chai.use(chaiAsPromised);
 
 const {
   RecordStructure,

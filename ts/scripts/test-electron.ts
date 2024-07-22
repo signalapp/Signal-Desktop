@@ -4,14 +4,21 @@
 import { spawn } from 'node:child_process';
 import { join } from 'node:path';
 import { pipeline } from 'node:stream/promises';
+import { cpus, tmpdir } from 'node:os';
+import { mkdtemp, rm } from 'node:fs/promises';
 import z from 'zod';
 import split2 from 'split2';
 import logSymbols from 'log-symbols';
 
 import { explodePromise } from '../util/explodePromise';
 import { missingCaseError } from '../util/missingCaseError';
+import { SECOND } from '../util/durations';
 
 const ROOT_DIR = join(__dirname, '..', '..');
+
+const WORKER_COUNT = process.env.WORKER_COUNT
+  ? parseInt(process.env.WORKER_COUNT, 10)
+  : Math.min(8, cpus().length);
 
 const ELECTRON = join(
   ROOT_DIR,
@@ -23,45 +30,71 @@ const ELECTRON = join(
 const MAX_RETRIES = 3;
 const RETRIABLE_SIGNALS = ['SIGBUS'];
 
-const failSchema = z.object({
+const failureSchema = z.object({
   type: z.literal('fail'),
   title: z.string().array(),
   error: z.string(),
 });
 
+type Failure = z.infer<typeof failureSchema>;
+
 const eventSchema = z
   .object({
     type: z.literal('pass'),
     title: z.string().array(),
+    duration: z.number(),
   })
-  .or(failSchema)
+  .or(failureSchema)
   .or(
     z.object({
       type: z.literal('end'),
     })
   );
 
-async function launchElectron(attempt: number): Promise<void> {
+async function launchElectron(
+  worker: number,
+  attempt: number
+): Promise<{ pass: number; failures: Array<Failure> }> {
   if (attempt > MAX_RETRIES) {
     console.error(`Failed after ${MAX_RETRIES} retries, exiting.`);
     process.exit(1);
   }
 
-  console.log(`Launching electron for tests, attempt #${attempt}...`);
+  if (attempt !== 1) {
+    console.log(
+      `Launching electron ${worker} for tests, attempt #${attempt}...`
+    );
+  }
 
-  const proc = spawn(ELECTRON, [ROOT_DIR, ...process.argv.slice(2)], {
-    cwd: ROOT_DIR,
-    env: {
-      ...process.env,
-      // Setting NODE_ENV to test triggers main.ts to load
-      // 'test/index.html' instead of 'background.html', which loads the tests
-      // via `test.js`
-      NODE_ENV: 'test',
-      TEST_QUIT_ON_COMPLETE: 'on',
-    },
-    // Since we run `.cmd` file on Windows - use shell
-    shell: process.platform === 'win32',
-  });
+  const storagePath = await mkdtemp(join(tmpdir(), 'signal-test-'));
+
+  const proc = spawn(
+    ELECTRON,
+    [
+      'ci.js',
+      '--worker',
+      worker.toString(),
+      '--worker-count',
+      WORKER_COUNT.toString(),
+      ...process.argv.slice(2),
+    ],
+    {
+      cwd: ROOT_DIR,
+      env: {
+        ...process.env,
+        // Setting NODE_ENV to test triggers main.ts to load
+        // 'test/index.html' instead of 'background.html', which loads the tests
+        // via `test.js`
+        NODE_ENV: 'test',
+        TEST_QUIT_ON_COMPLETE: 'on',
+        SIGNAL_CI_CONFIG: JSON.stringify({
+          storagePath,
+        }),
+      },
+      // Since we run `.cmd` file on Windows - use shell
+      shell: process.platform === 'win32',
+    }
+  );
 
   const { resolve, reject, promise: exitPromise } = explodePromise<void>();
 
@@ -76,38 +109,8 @@ async function launchElectron(attempt: number): Promise<void> {
   });
 
   let pass = 0;
-  const failures = new Array<z.infer<typeof failSchema>>();
+  const failures = new Array<Failure>();
   let done = false;
-  let stack = new Array<string>();
-
-  function enter(path: ReadonlyArray<string>): void {
-    // Find the first different fragment
-    let i: number;
-    for (i = 0; i < path.length - 1; i += 1) {
-      if (stack[i] !== path[i]) {
-        break;
-      }
-    }
-
-    // Separate sections
-    if (i !== stack.length) {
-      console.log('');
-
-      // Remove different fragments
-      stack = stack.slice(0, i);
-    }
-
-    for (; i < path.length - 1; i += 1) {
-      const fragment = path[i];
-
-      console.log(indent(fragment));
-      stack.push(fragment);
-    }
-  }
-
-  function indent(value: string): string {
-    return `${'  '.repeat(stack.length)}${value}`;
-  }
 
   try {
     await Promise.all([
@@ -137,18 +140,20 @@ async function launchElectron(attempt: number): Promise<void> {
             const event = eventSchema.parse(JSON.parse(match[1]));
             if (event.type === 'pass') {
               pass += 1;
-              enter(event.title);
 
-              console.log(
-                indent(`${logSymbols.success} ${event.title.at(-1)}`)
-              );
+              process.stdout.write(logSymbols.success);
+              if (event.duration > SECOND) {
+                console.error('');
+                console.error(
+                  `  ${logSymbols.warning} ${event.title.join(' ')} ` +
+                    `took ${event.duration}ms`
+                );
+              }
             } else if (event.type === 'fail') {
               failures.push(event);
-              enter(event.title);
 
-              console.error(
-                indent(`${logSymbols.error} ${event.title.at(-1)}`)
-              );
+              console.error('');
+              console.error(`  ${logSymbols.error} ${event.title.join(' ')}`);
               console.error('');
               console.error(event.error);
             } else if (event.type === 'end') {
@@ -161,13 +166,36 @@ async function launchElectron(attempt: number): Promise<void> {
     ]);
   } catch (error) {
     if (exitSignal && RETRIABLE_SIGNALS.includes(exitSignal)) {
-      return launchElectron(attempt + 1);
+      return launchElectron(worker, attempt + 1);
     }
     throw error;
+  } finally {
+    try {
+      await rm(storagePath, { recursive: true });
+    } catch {
+      // Ignore
+    }
   }
 
   if (!done) {
     throw new Error('Tests terminated early!');
+  }
+
+  return { pass, failures };
+}
+
+async function main() {
+  const promises = [];
+  for (let i = 0; i < WORKER_COUNT; i += 1) {
+    promises.push(launchElectron(i, 1));
+  }
+  const results = await Promise.all(promises);
+
+  let pass = 0;
+  let failures = new Array<Failure>();
+  for (const result of results) {
+    pass += result.pass;
+    failures = failures.concat(result.failures);
   }
 
   if (failures.length) {
@@ -181,6 +209,7 @@ async function launchElectron(attempt: number): Promise<void> {
     }
   }
 
+  console.log('');
   console.log(
     `Passed ${pass} | Failed ${failures.length} | ` +
       `Total ${pass + failures.length}`
@@ -189,10 +218,6 @@ async function launchElectron(attempt: number): Promise<void> {
   if (failures.length !== 0) {
     process.exit(1);
   }
-}
-
-async function main() {
-  await launchElectron(1);
 }
 
 main().catch(error => {

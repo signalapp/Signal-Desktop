@@ -117,7 +117,9 @@ describe('both/state/ducks/conversations', () => {
   let sinonSandbox: sinon.SinonSandbox;
   let createGroupStub: sinon.SinonStub;
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    await window.ConversationController.load();
+
     sinonSandbox = sinon.createSandbox();
 
     sinonSandbox.stub(window.Whisper.events, 'trigger');
