@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import { shell } from 'electron';
 import { isEmpty, pick } from 'lodash';
 import { ReactNode } from 'react';
 import { Flex } from '../basic/Flex';
@@ -130,12 +131,21 @@ export const SessionSettingsItemWrapper = (props: {
   );
 };
 
-export const SessionSettingsTitleWithLink = (props: { title: string; onClick: () => void }) => {
-  const { onClick, title } = props;
+export const SessionSettingsTitleWithLink = (props: { title: string; link: string }) => {
+  const { title, link } = props;
   return (
-    <StyledSettingItemClickable onClick={onClick}>
+    <StyledSettingItemClickable
+      onClick={() => {
+        void shell.openExternal(link);
+      }}
+    >
       <SettingsTitleAndDescription title={title} />
-      <SessionIconButton iconSize={'medium'} iconType="externalLink" isSelected={true} />
+      <SessionIconButton
+        title={link}
+        iconSize={'medium'}
+        iconType="externalLink"
+        isSelected={true}
+      />
     </StyledSettingItemClickable>
   );
 };
