@@ -106,8 +106,6 @@ export async function updateOurProfileDisplayName(newName: string, onboarding?: 
         null
       );
       return userInfoName;
-    } catch (err) {
-      throw err;
     } finally {
       await UserConfigWrapperActions.free();
     }
