@@ -54,9 +54,9 @@ const getHexGeneratedPubKey = createSelector(
   (state: OnboardingState): string => state.hexGeneratedPubKey
 );
 
-const getPrivateKeyBytes = createSelector(
+const getPrivateKeyBytesHex = createSelector(
   getRegistration,
-  (state: OnboardingState): Uint8Array | undefined => state.privateKeyBytes
+  (state: OnboardingState): string | undefined => state.privateKeyBytesHex
 );
 
 const getDisplayName = createSelector(
@@ -103,8 +103,8 @@ export const useOnboardHexGeneratedPubKey = () => {
   return useSelector(getHexGeneratedPubKey);
 };
 
-export const useOnboardPrivateKeyBytes = () => {
-  return useSelector(getPrivateKeyBytes);
+export const useOnboardPrivateKeyBytesHex = () => {
+  return useSelector(getPrivateKeyBytesHex);
 };
 
 export const useDisplayName = () => {

@@ -197,7 +197,7 @@ export const RestoreAccount = () => {
   return (
     <BackButtonWithinContainer
       margin={'2px 0 0 -36px'}
-      shouldQuit={step !== AccountRestoration.RecoveryPassword}
+      shouldQuitOnClick={step !== AccountRestoration.RecoveryPassword}
       quitMessage={window.i18n('onboardingBackLoadAccount')}
       callback={() => {
         dispatch(setRecoveryPassword(''));

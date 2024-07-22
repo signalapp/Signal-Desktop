@@ -28,13 +28,13 @@ export const BackButtonWithinContainer = ({
   children,
   margin,
   callback,
-  shouldQuit,
+  shouldQuitOnClick,
   quitMessage,
 }: {
   children: ReactNode;
   margin?: string;
   callback?: () => void;
-  shouldQuit?: boolean;
+  shouldQuitOnClick?: boolean;
   quitMessage?: string;
 }) => {
   return (
@@ -46,7 +46,11 @@ export const BackButtonWithinContainer = ({
       alignItems="flex-start"
     >
       <div style={{ margin }}>
-        <BackButton callback={callback} shouldQuit={shouldQuit} quitMessage={quitMessage} />
+        <BackButton
+          callback={callback}
+          shouldQuitOnClick={shouldQuitOnClick}
+          quitMessage={quitMessage}
+        />
       </div>
       {children}
     </StyledBackButtonContainer>
@@ -55,11 +59,11 @@ export const BackButtonWithinContainer = ({
 
 export const BackButton = ({
   callback,
-  shouldQuit,
+  shouldQuitOnClick,
   quitMessage,
 }: {
   callback?: () => void;
-  shouldQuit?: boolean;
+  shouldQuitOnClick?: boolean;
   quitMessage?: string;
 }) => {
   const step = useOnboardStep();
@@ -76,7 +80,7 @@ export const BackButton = ({
       iconRotation={90}
       padding={'0'}
       onClick={() => {
-        if (shouldQuit && quitMessage) {
+        if (shouldQuitOnClick && quitMessage) {
           dispatch(
             updateQuitModal({
               title: window.i18n('warning'),

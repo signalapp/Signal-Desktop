@@ -3,8 +3,9 @@ import { useDispatch } from 'react-redux';
 import useMount from 'react-use/lib/useMount';
 import { SettingsKey } from '../../../data/settings-key';
 import { mnDecode } from '../../../session/crypto/mnemonic';
+import { ProfileManager } from '../../../session/profile_manager/ProfileManager';
 import { StringUtils } from '../../../session/utils';
-import { fromHex } from '../../../session/utils/String';
+import { fromHex, toHex } from '../../../session/utils/String';
 import LIBSESSION_CONSTANTS from '../../../session/utils/libsession/libsession_constants';
 import { trigger } from '../../../shims/events';
 import {
@@ -13,13 +14,13 @@ import {
   setDisplayName,
   setDisplayNameError,
   setHexGeneratedPubKey,
-  setPrivateKeyBytes,
+  setPrivateKeyBytesHex,
   setRecoveryPassword,
 } from '../../../state/onboarding/ducks/registration';
 import {
   useDisplayName,
   useDisplayNameError,
-  useOnboardPrivateKeyBytes,
+  useOnboardPrivateKeyBytesHex,
   useRecoveryPassword,
 } from '../../../state/onboarding/selectors/registration';
 import {
@@ -35,7 +36,6 @@ import { resetRegistration } from '../RegistrationStages';
 import { ContinueButton, OnboardDescription, OnboardHeading } from '../components';
 import { BackButtonWithinContainer } from '../components/BackButton';
 import { displayNameIsValid, sanitizeDisplayNameOrToast } from '../utils';
-import { ProfileManager } from '../../../session/profile_manager/ProfileManager';
 
 export type AccountDetails = {
   recoveryPassword: string;
@@ -59,7 +59,7 @@ async function signUp(signUpDetails: AccountDetails) {
 }
 
 export const CreateAccount = () => {
-  const privateKeyBytes = useOnboardPrivateKeyBytes();
+  const privateKeyBytesHex = useOnboardPrivateKeyBytesHex();
   const recoveryPassword = useRecoveryPassword();
   const displayName = useDisplayName();
   const displayNameError = useDisplayNameError();
@@ -82,7 +82,7 @@ export const CreateAccount = () => {
       const newHexPubKey = StringUtils.decode(keyPair.pubKey, 'hex');
 
       dispatch(setRecoveryPassword(mnemonic));
-      dispatch(setPrivateKeyBytes(keyPair.ed25519KeyPair.privateKey));
+      dispatch(setPrivateKeyBytesHex(toHex(keyPair.ed25519KeyPair.privateKey)));
       dispatch(setHexGeneratedPubKey(newHexPubKey)); // our 'frontend' account ID
     }
   };
@@ -97,7 +97,7 @@ export const CreateAccount = () => {
     }
 
     try {
-      if (!privateKeyBytes) {
+      if (!privateKeyBytesHex) {
         throw new Error('Private key not found');
       }
 
@@ -122,7 +122,7 @@ export const CreateAccount = () => {
   return (
     <BackButtonWithinContainer
       margin={'2px 0 0 -36px'}
-      shouldQuit={true}
+      shouldQuitOnClick={true}
       quitMessage={window.i18n('onboardingBackAccountCreation')}
       callback={() => {
         dispatch(setDisplayName(''));
