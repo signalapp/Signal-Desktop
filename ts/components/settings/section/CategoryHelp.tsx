@@ -1,4 +1,4 @@
-import { ipcRenderer, shell } from 'electron';
+import { ipcRenderer } from 'electron';
 
 import { SessionButtonShape, SessionButtonType } from '../../basic/SessionButton';
 
@@ -19,19 +19,19 @@ export const SettingsCategoryHelp = () => {
       />
       <SessionSettingsTitleWithLink
         title={window.i18n('surveyTitle')}
-        onClick={() => void shell.openExternal('https://getsession.org/survey')}
+        link={'https://getsession.org/survey'}
       />
       <SessionSettingsTitleWithLink
         title={window.i18n('helpUsTranslateSession')}
-        onClick={() => void shell.openExternal('https://crowdin.com/project/session-desktop/')}
+        link={'https://getsession.org/translate'}
       />
       <SessionSettingsTitleWithLink
         title={window.i18n('faq')}
-        onClick={() => void shell.openExternal('https://getsession.org/faq')}
+        link={'https://getsession.org/faq'}
       />
       <SessionSettingsTitleWithLink
         title={window.i18n('support')}
-        onClick={() => void shell.openExternal('https://sessionapp.zendesk.com/hc/en-us')}
+        link={'https://sessionapp.zendesk.com/hc/en-us'}
       />
     </>
   );
