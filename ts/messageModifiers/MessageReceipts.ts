@@ -18,8 +18,8 @@ import {
   UNDELIVERED_SEND_STATUSES,
   sendStateReducer,
 } from '../messages/MessageSendState';
+import { DataReader, DataWriter } from '../sql/Client';
 import type { DeleteSentProtoRecipientOptionsType } from '../sql/Interface';
-import dataInterface from '../sql/Client';
 import * as log from '../logging/log';
 import { getSourceServiceId } from '../messages/helpers';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
@@ -31,7 +31,7 @@ import {
 } from '../types/Receipt';
 import { drop } from '../util/drop';
 
-const { deleteSentProtoRecipient, removeSyncTaskById } = dataInterface;
+const { deleteSentProtoRecipient, removeSyncTaskById } = DataWriter;
 
 export const messageReceiptTypeSchema = z.enum(['Delivery', 'Read', 'View']);
 
@@ -99,11 +99,11 @@ const processReceiptBatcher = createWaitBatcher({
 
       const messagesMatchingTimestamp =
         // eslint-disable-next-line no-await-in-loop
-        await window.Signal.Data.getMessagesBySentAt(sentAt);
+        await DataReader.getMessagesBySentAt(sentAt);
 
       if (messagesMatchingTimestamp.length === 0) {
         // eslint-disable-next-line no-await-in-loop
-        const reaction = await window.Signal.Data.getReactionByTimestamp(
+        const reaction = await DataReader.getReactionByTimestamp(
           window.ConversationController.getOurConversationIdOrThrow(),
           sentAt
         );

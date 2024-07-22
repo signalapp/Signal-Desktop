@@ -10,7 +10,8 @@ import type {
   WrappedWorkerResponse,
   WrappedWorkerLogEntry,
 } from './main';
-import db from './Server';
+import type { WritableDB } from './Interface';
+import { initialize, DataReader, DataWriter } from './Server';
 import { SqliteErrorKind, parseSqliteError } from './errors';
 
 if (!parentPort) {
@@ -27,8 +28,8 @@ function respond(seq: number, error: Error | undefined, response?: any) {
     errorKind = parseSqliteError(error);
     errorString = Errors.toLogFormat(error);
 
-    if (errorKind === SqliteErrorKind.Corrupted) {
-      db.runCorruptionChecks();
+    if (errorKind === SqliteErrorKind.Corrupted && db != null) {
+      DataWriter.runCorruptionChecks(db);
     }
   }
 
@@ -75,11 +76,18 @@ const logger: LoggerType = {
   },
 };
 
-port.on('message', async ({ seq, request }: WrappedWorkerRequest) => {
+let db: WritableDB | undefined;
+let isPrimary = false;
+let isRemoved = false;
+
+port.on('message', ({ seq, request }: WrappedWorkerRequest) => {
   try {
     if (request.type === 'init') {
-      await db.initialize({
+      isPrimary = request.isPrimary;
+      isRemoved = false;
+      db = initialize({
         ...request.options,
+        isPrimary,
         logger,
       });
 
@@ -87,8 +95,24 @@ port.on('message', async ({ seq, request }: WrappedWorkerRequest) => {
       return;
     }
 
+    // 'close' is sent on shutdown, but we already removed the database.
+    if (isRemoved && request.type === 'close') {
+      respond(seq, undefined, undefined);
+      process.exit(0);
+      return;
+    }
+
+    if (!db) {
+      throw new Error('Not initialized');
+    }
+
     if (request.type === 'close') {
-      await db.close();
+      if (isPrimary) {
+        DataWriter.close(db);
+      } else {
+        DataReader.close(db);
+      }
+      db = undefined;
 
       respond(seq, undefined, undefined);
       process.exit(0);
@@ -96,21 +120,30 @@ port.on('message', async ({ seq, request }: WrappedWorkerRequest) => {
     }
 
     if (request.type === 'removeDB') {
-      await db.removeDB();
+      if (isPrimary) {
+        DataWriter.removeDB(db);
+      } else {
+        DataReader.close(db);
+      }
+
+      isRemoved = true;
+      db = undefined;
 
       respond(seq, undefined, undefined);
       return;
     }
 
-    if (request.type === 'sqlCall') {
+    if (request.type === 'sqlCall:read' || request.type === 'sqlCall:write') {
+      const DataInterface =
+        request.type === 'sqlCall:read' ? DataReader : DataWriter;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const method = (db as any)[request.method];
+      const method = (DataInterface as any)[request.method];
       if (typeof method !== 'function') {
         throw new Error(`Invalid sql method: ${method}`);
       }
 
       const start = performance.now();
-      const result = await method.apply(db, request.args);
+      const result = method(db, ...request.args);
       const end = performance.now();
 
       respond(seq, undefined, { result, duration: end - start });

@@ -6,7 +6,7 @@ import { AsyncQueue } from '../util/AsyncQueue';
 import { concat, wrapPromise } from '../util/asyncIterables';
 import type { JobQueueStore, StoredJob } from './types';
 import { formatJobForInsert } from './formatJobForInsert';
-import databaseInterface from '../sql/Client';
+import { DataReader, DataWriter } from '../sql/Client';
 import * as log from '../logging/log';
 
 type Database = {
@@ -107,6 +107,8 @@ export class JobQueueDatabaseStore implements JobQueueStore {
   }
 }
 
-export const jobQueueDatabaseStore = new JobQueueDatabaseStore(
-  databaseInterface
-);
+export const jobQueueDatabaseStore = new JobQueueDatabaseStore({
+  getJobsInQueue: DataReader.getJobsInQueue,
+  insertJob: DataWriter.insertJob,
+  deleteJob: DataWriter.deleteJob,
+});

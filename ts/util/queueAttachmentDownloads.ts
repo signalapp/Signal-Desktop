@@ -10,7 +10,7 @@ import {
   savePackMetadata,
   getStickerPackStatus,
 } from '../types/Stickers';
-import dataInterface from '../sql/Client';
+import { DataWriter } from '../sql/Client';
 
 import type { AttachmentType, ThumbnailType } from '../types/Attachment';
 import type { EmbeddedContactType } from '../types/EmbeddedContact';
@@ -239,7 +239,7 @@ export async function queueAttachmentDownloads(
       // Save the packId/packKey for future download/install
       void savePackMetadata(packId, packKey, { messageId });
     } else {
-      await dataInterface.addStickerPackReference(messageId, packId);
+      await DataWriter.addStickerPackReference(messageId, packId);
     }
 
     if (!data) {

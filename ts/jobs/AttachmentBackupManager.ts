@@ -7,7 +7,7 @@ import { PassThrough } from 'node:stream';
 
 import * as durations from '../util/durations';
 import * as log from '../logging/log';
-import dataInterface from '../sql/Client';
+import { DataWriter } from '../sql/Client';
 
 import * as Errors from '../types/errors';
 import { redactGenericText } from '../util/privacy';
@@ -81,10 +81,10 @@ const THUMBNAIL_RETRY_CONFIG = {
 export class AttachmentBackupManager extends JobManager<CoreAttachmentBackupJobType> {
   private static _instance: AttachmentBackupManager | undefined;
   static defaultParams: JobManagerParamsType<CoreAttachmentBackupJobType> = {
-    markAllJobsInactive: dataInterface.markAllAttachmentBackupJobsInactive,
-    saveJob: dataInterface.saveAttachmentBackupJob,
-    removeJob: dataInterface.removeAttachmentBackupJob,
-    getNextJobs: dataInterface.getNextAttachmentBackupJobs,
+    markAllJobsInactive: DataWriter.markAllAttachmentBackupJobsInactive,
+    saveJob: DataWriter.saveAttachmentBackupJob,
+    removeJob: DataWriter.removeAttachmentBackupJob,
+    getNextJobs: DataWriter.getNextAttachmentBackupJobs,
     runJob: runAttachmentBackupJob,
     shouldHoldOffOnStartingQueuedJobs: () => {
       const reduxState = window.reduxStore?.getState();
@@ -604,7 +604,7 @@ async function copyToBackupTier({
 
   // Update our local understanding of what's in the backup cdn
   const sizeOnBackupCdn = getAesCbcCiphertextLength(ciphertextLength);
-  await window.Signal.Data.saveBackupCdnObjectMetadata([
+  await DataWriter.saveBackupCdnObjectMetadata([
     { mediaId, cdnNumber: response.cdn, sizeOnBackupCdn },
   ]);
 

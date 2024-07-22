@@ -8,14 +8,6 @@
 mocha.setup('bdd');
 mocha.setup({ timeout: 10000 });
 
-function deleteIndexedDB() {
-  return new Promise((resolve, reject) => {
-    const idbReq = indexedDB.deleteDatabase('test');
-    idbReq.onsuccess = resolve;
-    idbReq.error = reject;
-  });
-}
-
 window.Events = {
   getThemeSetting: () => 'light',
 };
@@ -23,8 +15,6 @@ window.Events = {
 /* Delete the database before running any tests */
 before(async () => {
   await window.testUtilities.initialize();
-  await deleteIndexedDB();
-  await window.Signal.Data.removeAll();
   await window.storage.fetch();
 });
 

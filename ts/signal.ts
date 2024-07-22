@@ -6,7 +6,6 @@
 import * as Crypto from './Crypto';
 import * as Curve from './Curve';
 import { start as conversationControllerStart } from './ConversationController';
-import Data from './sql/Client';
 import * as Groups from './groups';
 import OS from './util/os/osMain';
 import * as RemoteConfig from './RemoteConfig';
@@ -455,7 +454,6 @@ export const setup = (options: {
     Curve,
     // Note: used in test/index.html, and not type-checked!
     conversationControllerStart,
-    Data,
     Groups,
     Migrations,
     OS,

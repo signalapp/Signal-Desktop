@@ -12,7 +12,7 @@ import type {
 import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import type { ServiceIdString } from '../types/ServiceId';
 import * as log from '../logging/log';
-import dataInterface from '../sql/Client';
+import { DataReader, DataWriter } from '../sql/Client';
 import { MY_STORY_ID, StorySendMode } from '../types/Stories';
 import { getStoriesBlocked } from './stories';
 import { ReadStatus } from '../messages/MessageReadStatus';
@@ -54,9 +54,7 @@ export async function sendStoryMessage(
 
   const distributionLists = (
     await Promise.all(
-      listIds.map(listId =>
-        dataInterface.getStoryDistributionWithMembers(listId)
-      )
+      listIds.map(listId => DataReader.getStoryDistributionWithMembers(listId))
     )
   ).filter(isNotNil);
 
@@ -242,7 +240,7 @@ export async function sendStoryMessage(
   for (const group of groupsToUpdate) {
     group.set('storySendMode', StorySendMode.Always);
   }
-  void window.Signal.Data.updateConversations(
+  void DataWriter.updateConversations(
     groupsToUpdate.map(group => group.attributes)
   );
   for (const group of groupsToUpdate) {
@@ -322,7 +320,7 @@ export async function sendStoryMessage(
       log.info(
         `stories.sendStoryMessage: saving message ${messageAttributes.timestamp}`
       );
-      return dataInterface.saveMessage(message.attributes, {
+      return DataWriter.saveMessage(message.attributes, {
         forceSave: true,
         ourAci: window.textsecure.storage.user.getCheckedAci(),
       });
@@ -377,7 +375,7 @@ export async function sendStoryMessage(
           log.info(
             `stories.sendStoryMessage: saving message ${messageAttributes.timestamp}`
           );
-          await dataInterface.saveMessage(message.attributes, {
+          await DataWriter.saveMessage(message.attributes, {
             forceSave: true,
             jobToInsert,
             ourAci: window.textsecure.storage.user.getCheckedAci(),

@@ -3,6 +3,7 @@
 
 import type { AciString } from '../types/ServiceId';
 import type { MessageModel } from '../models/messages';
+import { DataReader } from '../sql/Client';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import { getMessageIdForLogging } from '../util/idForLogging';
@@ -66,9 +67,7 @@ export async function onSync(
   const logId = `ViewOnceOpenSyncs.onSync(timestamp=${sync.timestamp})`;
 
   try {
-    const messages = await window.Signal.Data.getMessagesBySentAt(
-      sync.timestamp
-    );
+    const messages = await DataReader.getMessagesBySentAt(sync.timestamp);
 
     const found = messages.find(item => {
       const itemSourceAci = item.sourceServiceId;

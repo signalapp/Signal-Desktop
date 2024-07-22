@@ -59,7 +59,7 @@ import type {
   StoryDistributionWithMembersType,
   StickerPackInfoType,
 } from '../sql/Interface';
-import dataInterface from '../sql/Client';
+import { DataReader, DataWriter } from '../sql/Client';
 import { MY_STORY_ID, StorySendMode } from '../types/Stories';
 import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboardingStoryIfExists';
 import { downloadOnboardingStory } from '../util/downloadOnboardingStory';
@@ -1682,7 +1682,7 @@ export async function mergeStoryDistributionListRecord(
   }
 
   const localStoryDistributionList =
-    await dataInterface.getStoryDistributionWithMembers(listId);
+    await DataReader.getStoryDistributionWithMembers(listId);
 
   const remoteListMembers: Array<ServiceIdString> = (
     storyDistributionListRecord.recipientServiceIds || []
@@ -1714,7 +1714,7 @@ export async function mergeStoryDistributionListRecord(
   };
 
   if (!localStoryDistributionList) {
-    await dataInterface.createNewStoryDistribution(storyDistribution);
+    await DataWriter.createNewStoryDistribution(storyDistribution);
 
     const shouldSave = false;
     window.reduxActions.storyDistributionLists.createDistributionList(
@@ -1766,7 +1766,7 @@ export async function mergeStoryDistributionListRecord(
     );
 
   details.push('updated');
-  await dataInterface.modifyStoryDistributionWithMembers(storyDistribution, {
+  await DataWriter.modifyStoryDistributionWithMembers(storyDistribution, {
     toAdd,
     toRemove,
   });
@@ -1804,7 +1804,7 @@ export async function mergeStickerPackRecord(
   const details: Array<string> = [];
   const id = Bytes.toHex(stickerPackRecord.packId);
 
-  const localStickerPack = await dataInterface.getStickerPackInfo(id);
+  const localStickerPack = await DataReader.getStickerPackInfo(id);
 
   if (stickerPackRecord.$unknownFields) {
     details.push('adding unknown fields');
@@ -1897,7 +1897,7 @@ export async function mergeStickerPackRecord(
     }
   }
 
-  await dataInterface.updateStickerPackInfo(stickerPack);
+  await DataWriter.updateStickerPackInfo(stickerPack);
 
   return {
     details: [...details, ...conflictDetails],

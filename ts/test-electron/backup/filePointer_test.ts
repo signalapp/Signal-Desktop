@@ -5,6 +5,7 @@ import Long from 'long';
 import { join } from 'path';
 import * as sinon from 'sinon';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
+import { DataWriter } from '../../sql/Client';
 import { Backups } from '../../protobuf';
 import {
   getFilePointerForAttachment,
@@ -552,7 +553,7 @@ describe('getBackupJobForAttachmentAndFilePointer', async () => {
     await window.storage.put('masterKey', Bytes.toBase64(getRandomBytes(32)));
   });
   afterEach(async () => {
-    await window.Signal.Data.removeAll();
+    await DataWriter.removeAll();
   });
   const attachment = composeAttachment();
 

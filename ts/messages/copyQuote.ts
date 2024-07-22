@@ -4,6 +4,7 @@
 import { omit } from 'lodash';
 
 import * as log from '../logging/log';
+import { DataReader, DataWriter } from '../sql/Client';
 import type { QuotedMessageType } from '../model-types';
 import type { MessageModel } from '../models/messages';
 import { SignalService } from '../protobuf';
@@ -50,7 +51,7 @@ export const copyFromQuotedMessage = async (
     queryMessage = matchingMessage;
   } else {
     log.info('copyFromQuotedMessage: db lookup needed', id);
-    const messages = await window.Signal.Data.getMessagesBySentAt(id);
+    const messages = await DataReader.getMessagesBySentAt(id);
     const found = messages.find(item =>
       isQuoteAMatch(item, conversationId, result)
     );
@@ -142,7 +143,7 @@ export const copyQuoteContentFromOriginal = async (
           originalMessage.attributes
         );
       originalMessage.set(upgradedMessage);
-      await window.Signal.Data.saveMessage(upgradedMessage, {
+      await DataWriter.saveMessage(upgradedMessage, {
         ourAci: window.textsecure.storage.user.getCheckedAci(),
       });
     }

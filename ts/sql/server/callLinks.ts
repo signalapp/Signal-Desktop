@@ -1,7 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Database } from '@signalapp/better-sqlite3';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
 import type { CallLinkStateType, CallLinkType } from '../../types/CallLink';
 import {
@@ -13,12 +12,12 @@ import {
   callLinkFromRecord,
   toAdminKeyBytes,
 } from '../../util/callLinks';
-import { getReadonlyInstance, getWritableInstance, prepare } from '../Server';
+import type { ReadableDB, WritableDB } from '../Interface';
+import { prepare } from '../Server';
 import { sql } from '../util';
 import { strictAssert } from '../../util/assert';
 
-export async function callLinkExists(roomId: string): Promise<boolean> {
-  const db = getReadonlyInstance();
+export function callLinkExists(db: ReadableDB, roomId: string): boolean {
   const [query, params] = sql`
     SELECT 1
     FROM callLinks
@@ -27,10 +26,10 @@ export async function callLinkExists(roomId: string): Promise<boolean> {
   return db.prepare(query).pluck(true).get(params) === 1;
 }
 
-export async function getCallLinkByRoomId(
+export function getCallLinkByRoomId(
+  db: ReadableDB,
   roomId: string
-): Promise<CallLinkType | undefined> {
-  const db = getReadonlyInstance();
+): CallLinkType | undefined {
   const row = prepare(db, 'SELECT * FROM callLinks WHERE roomId = $roomId').get(
     {
       roomId,
@@ -44,8 +43,7 @@ export async function getCallLinkByRoomId(
   return callLinkFromRecord(callLinkRecordSchema.parse(row));
 }
 
-export async function getAllCallLinks(): Promise<ReadonlyArray<CallLinkType>> {
-  const db = getReadonlyInstance();
+export function getAllCallLinks(db: ReadableDB): ReadonlyArray<CallLinkType> {
   const [query] = sql`
     SELECT * FROM callLinks;
   `;
@@ -55,7 +53,7 @@ export async function getAllCallLinks(): Promise<ReadonlyArray<CallLinkType>> {
     .map(item => callLinkFromRecord(callLinkRecordSchema.parse(item)));
 }
 
-function _insertCallLink(db: Database, callLink: CallLinkType): void {
+function _insertCallLink(db: WritableDB, callLink: CallLinkType): void {
   const { roomId, rootKey } = callLink;
   assertRoomIdMatchesRootKey(roomId, rootKey);
 
@@ -84,17 +82,16 @@ function _insertCallLink(db: Database, callLink: CallLinkType): void {
   ).run(data);
 }
 
-export async function insertCallLink(callLink: CallLinkType): Promise<void> {
-  const db = await getWritableInstance();
+export function insertCallLink(db: WritableDB, callLink: CallLinkType): void {
   _insertCallLink(db, callLink);
 }
 
-export async function updateCallLinkState(
+export function updateCallLinkState(
+  db: WritableDB,
   roomId: string,
   callLinkState: CallLinkStateType
-): Promise<CallLinkType> {
+): CallLinkType {
   const { name, restrictions, expiration, revoked } = callLinkState;
-  const db = await getWritableInstance();
   const restrictionsValue = callLinkRestrictionsSchema.parse(restrictions);
   const [query, params] = sql`
     UPDATE callLinks
@@ -111,11 +108,11 @@ export async function updateCallLinkState(
   return callLinkFromRecord(callLinkRecordSchema.parse(row));
 }
 
-export async function updateCallLinkAdminKeyByRoomId(
+export function updateCallLinkAdminKeyByRoomId(
+  db: WritableDB,
   roomId: string,
   adminKey: string
-): Promise<void> {
-  const db = await getWritableInstance();
+): void {
   const adminKeyBytes = toAdminKeyBytes(adminKey);
   prepare(
     db,

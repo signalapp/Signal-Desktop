@@ -7,11 +7,8 @@ import { debounce, omit, reject } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer';
 import { filterAndSortConversations } from '../../util/filterAndSortConversations';
-import type {
-  ClientSearchResultMessageType,
-  ClientInterface,
-} from '../../sql/Interface';
-import dataInterface from '../../sql/Client';
+import type { ClientSearchResultMessageType } from '../../sql/Interface';
+import { DataReader } from '../../sql/Client';
 import { makeLookup } from '../../util/makeLookup';
 import { isNotNil } from '../../util/isNotNil';
 import type { ServiceIdString } from '../../types/ServiceId';
@@ -44,7 +41,7 @@ import * as log from '../../logging/log';
 import { searchConversationTitles } from '../../util/searchConversationTitles';
 import { isDirectConversation } from '../../util/whatTypeOfConversation';
 
-const { searchMessages: dataSearchMessages }: ClientInterface = dataInterface;
+const { searchMessages: dataSearchMessages } = DataReader;
 
 // State
 

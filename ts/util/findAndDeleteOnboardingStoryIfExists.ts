@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as log from '../logging/log';
+import { DataWriter } from '../sql/Client';
 import { calculateExpirationTimestamp } from './expirationTimer';
 import { DAY } from './durations';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
@@ -44,7 +45,7 @@ export async function findAndDeleteOnboardingStoryIfExists(): Promise<void> {
 
   log.info('findAndDeleteOnboardingStoryIfExists: removing onboarding stories');
 
-  await window.Signal.Data.removeMessages(existingOnboardingStoryMessageIds, {
+  await DataWriter.removeMessages(existingOnboardingStoryMessageIds, {
     singleProtoJobQueue,
   });
 

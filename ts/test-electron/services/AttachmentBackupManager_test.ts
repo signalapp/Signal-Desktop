@@ -19,7 +19,7 @@ import type {
   StandardAttachmentBackupJobType,
   ThumbnailAttachmentBackupJobType,
 } from '../../types/AttachmentBackup';
-import dataInterface from '../../sql/Client';
+import { DataWriter } from '../../sql/Client';
 import { getRandomBytes } from '../../Crypto';
 import { APPLICATION_OCTET_STREAM, VIDEO_MP4 } from '../../types/MIME';
 import { createName, getRelativePath } from '../../util/attachmentPath';
@@ -98,7 +98,7 @@ describe('AttachmentBackupManager/JobManager', () => {
   }
 
   beforeEach(async () => {
-    await dataInterface.removeAll();
+    await DataWriter.removeAll();
     await window.storage.put('masterKey', Bytes.toBase64(getRandomBytes(32)));
 
     sandbox = sinon.createSandbox();
@@ -214,7 +214,7 @@ describe('AttachmentBackupManager/JobManager', () => {
   }
 
   async function getAllSavedJobs(): Promise<Array<AttachmentBackupJobType>> {
-    return dataInterface.getNextAttachmentBackupJobs({
+    return DataWriter.getNextAttachmentBackupJobs({
       limit: 1000,
       timestamp: Infinity,
     });

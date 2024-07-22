@@ -3,6 +3,7 @@
 
 import type { MessageAttributesType } from '../model-types.d';
 import { getAuthorId } from '../messages/helpers';
+import { DataReader } from '../sql/Client';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { deleteForEveryone } from '../util/deleteForEveryone';
@@ -72,7 +73,7 @@ export async function onDelete(del: DeleteAttributesType): Promise<void> {
       targetConversation.queueJob('Deletes.onDelete', async () => {
         log.info(`${logId}: Handling DOE`);
 
-        const messages = await window.Signal.Data.getMessagesBySentAt(
+        const messages = await DataReader.getMessagesBySentAt(
           del.targetSentTimestamp
         );
 

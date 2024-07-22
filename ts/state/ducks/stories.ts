@@ -25,7 +25,7 @@ import { isAciString } from '../../util/isAciString';
 import * as log from '../../logging/log';
 import { TARGETED_CONVERSATION_CHANGED } from './conversations';
 import { SIGNAL_ACI } from '../../types/SignalConversation';
-import dataInterface from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SendStatus } from '../../messages/MessageSendState';
 import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
@@ -285,7 +285,7 @@ function deleteGroupStoryReply(
   messageId: string
 ): ThunkAction<void, RootStateType, unknown, StoryReplyDeletedActionType> {
   return async dispatch => {
-    await window.Signal.Data.removeMessage(messageId, { singleProtoJobQueue });
+    await DataWriter.removeMessage(messageId, { singleProtoJobQueue });
     dispatch({
       type: STORY_REPLY_DELETED,
       payload: messageId,
@@ -337,7 +337,7 @@ function loadStoryReplies(
 ): ThunkAction<void, RootStateType, unknown, LoadStoryRepliesActionType> {
   return async (dispatch, getState) => {
     const conversation = getConversationSelector(getState())(conversationId);
-    const replies = await dataInterface.getOlderMessagesByConversation({
+    const replies = await DataReader.getOlderMessagesByConversation({
       conversationId,
       limit: 9000,
       storyId: messageId,
@@ -421,7 +421,7 @@ function markStoryRead(
 
     message.set(markViewed(message.attributes, storyReadDate));
     drop(
-      dataInterface.saveMessage(message.attributes, {
+      DataWriter.saveMessage(message.attributes, {
         ourAci: window.textsecure.storage.user.getCheckedAci(),
       })
     );
@@ -459,7 +459,7 @@ function markStoryRead(
       );
     }
 
-    await dataInterface.addNewStoryRead({
+    await DataWriter.addNewStoryRead({
       authorId,
       conversationId: message.attributes.conversationId,
       storyId: messageId,
@@ -1409,7 +1409,7 @@ function removeAllContactStories(
 
     log.info(`${logId}: removing ${messages.length} stories`);
 
-    await dataInterface.removeMessages(messageIds, { singleProtoJobQueue });
+    await DataWriter.removeMessages(messageIds, { singleProtoJobQueue });
 
     dispatch({
       type: 'NOOP',

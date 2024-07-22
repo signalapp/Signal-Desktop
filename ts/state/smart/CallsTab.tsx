@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { DataReader } from '../../sql/Client';
 import { useItemsActions } from '../ducks/items';
 import {
   getNavTabsCollapsed,
@@ -184,7 +185,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
       if (callHistoryFilter == null) {
         return 0;
       }
-      const count = await window.Signal.Data.getCallHistoryGroupsCount(
+      const count = await DataReader.getCallHistoryGroupsCount(
         callHistoryFilter
       );
       return count;
@@ -206,7 +207,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
       if (callHistoryFilter == null) {
         return [];
       }
-      const results = await window.Signal.Data.getCallHistoryGroups(
+      const results = await DataReader.getCallHistoryGroups(
         callHistoryFilter,
         pagination
       );

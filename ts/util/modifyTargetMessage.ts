@@ -9,6 +9,7 @@ import type { SendStateByConversationId } from '../messages/MessageSendState';
 
 import * as Edits from '../messageModifiers/Edits';
 import * as log from '../logging/log';
+import { DataWriter } from '../sql/Client';
 import * as Deletes from '../messageModifiers/Deletes';
 import * as DeletesForMe from '../messageModifiers/DeletesForMe';
 import * as MessageReceipts from '../messageModifiers/MessageReceipts';
@@ -313,7 +314,7 @@ export async function modifyTargetMessage(
   // We save here before handling any edits because handleEditMessage does its own saves
   if (changed && !isFirstRun) {
     log.info(`${logId}: Changes in second run; saving.`);
-    await window.Signal.Data.saveMessage(message.attributes, {
+    await DataWriter.saveMessage(message.attributes, {
       ourAci,
     });
   }

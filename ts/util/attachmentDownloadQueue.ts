@@ -3,6 +3,7 @@
 
 import type { MessageModel } from '../models/messages';
 import * as log from '../logging/log';
+import { DataWriter } from '../sql/Client';
 import { isMoreRecentThan } from './timestamp';
 import { isNotNil } from './isNotNil';
 
@@ -100,7 +101,7 @@ export async function flushAttachmentDownloadQueue(): Promise<void> {
     .map(messageId => window.MessageCache.accessAttributes(messageId))
     .filter(isNotNil);
 
-  await window.Signal.Data.saveMessages(messagesToSave, {
+  await DataWriter.saveMessages(messagesToSave, {
     ourAci: window.storage.user.getCheckedAci(),
   });
 

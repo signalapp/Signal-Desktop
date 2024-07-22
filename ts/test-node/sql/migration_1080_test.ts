@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { Database } from '@signalapp/better-sqlite3';
-import SQL from '@signalapp/better-sqlite3';
 import { v4 as generateGuid } from 'uuid';
 
-import { getMostRecentAddressableNondisappearingMessagesSync } from '../../sql/Server';
-import { insertData, updateToVersion } from './helpers';
+import type { WritableDB } from '../../sql/Interface';
+import { getMostRecentAddressableNondisappearingMessages } from '../../sql/Server';
+import { createDB, insertData, updateToVersion } from './helpers';
 
 import type { MessageAttributesType } from '../../model-types';
 import { DurationInSeconds } from '../../util/durations/duration-in-seconds';
@@ -28,9 +27,9 @@ function generateMessage(json: MessageAttributesType) {
 }
 
 describe('SQL/updateToSchemaVersion1080', () => {
-  let db: Database;
+  let db: WritableDB;
   beforeEach(() => {
-    db = new SQL(':memory:');
+    db = createDB();
     updateToVersion(db, 1080);
   });
 
@@ -111,7 +110,7 @@ describe('SQL/updateToSchemaVersion1080', () => {
         }),
       ]);
 
-      const messages = getMostRecentAddressableNondisappearingMessagesSync(
+      const messages = getMostRecentAddressableNondisappearingMessages(
         db,
         conversationId
       );

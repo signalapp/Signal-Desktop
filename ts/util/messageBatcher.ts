@@ -4,6 +4,7 @@
 import type { MessageAttributesType } from '../model-types.d';
 import { createBatcher } from './batcher';
 import { createWaitBatcher } from './waitBatcher';
+import { DataWriter } from '../sql/Client';
 import * as log from '../logging/log';
 
 const updateMessageBatcher = createBatcher<MessageAttributesType>({
@@ -18,7 +19,7 @@ const updateMessageBatcher = createBatcher<MessageAttributesType>({
       message => window.MessageCache.accessAttributes(message.id) ?? message
     );
 
-    await window.Signal.Data.saveMessages(messagesToSave, {
+    await DataWriter.saveMessages(messagesToSave, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
   },
@@ -30,7 +31,7 @@ export function queueUpdateMessage(messageAttr: MessageAttributesType): void {
   if (shouldBatch) {
     updateMessageBatcher.add(messageAttr);
   } else {
-    void window.Signal.Data.saveMessage(messageAttr, {
+    void DataWriter.saveMessage(messageAttr, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
   }
@@ -52,7 +53,7 @@ export const saveNewMessageBatcher = createWaitBatcher<MessageAttributesType>({
       message => window.MessageCache.accessAttributes(message.id) ?? message
     );
 
-    await window.Signal.Data.saveMessages(messagesToSave, {
+    await DataWriter.saveMessages(messagesToSave, {
       forceSave: true,
       ourAci: window.textsecure.storage.user.getCheckedAci(),
     });

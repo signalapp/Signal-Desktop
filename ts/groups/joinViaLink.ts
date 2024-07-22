@@ -7,6 +7,7 @@ import type { ConversationAttributesType } from '../model-types.d';
 import type { ConversationModel } from '../models/conversations';
 import type { PreJoinConversationType } from '../state/ducks/conversations';
 
+import { DataWriter } from '../sql/Client';
 import * as Bytes from '../Bytes';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
@@ -160,7 +161,7 @@ export async function joinViaLink(value: string): Promise<void> {
     const active_at = existingConversation.get('active_at') || Date.now();
     // eslint-disable-next-line camelcase
     existingConversation.set({ active_at, timestamp });
-    window.Signal.Data.updateConversation(existingConversation.attributes);
+    await DataWriter.updateConversation(existingConversation.attributes);
 
     // We're waiting for the left pane to re-sort before we navigate to that conversation
     await sleep(200);
@@ -320,7 +321,7 @@ export async function joinViaLink(value: string): Promise<void> {
                 temporaryMemberCount: memberCount,
                 timestamp,
               });
-              window.Signal.Data.updateConversation(
+              await DataWriter.updateConversation(
                 targetConversation.attributes
               );
             }
@@ -343,9 +344,7 @@ export async function joinViaLink(value: string): Promise<void> {
                 // We want to keep this conversation around, since the join succeeded
                 isTemporary: undefined,
               });
-              window.Signal.Data.updateConversation(
-                tempConversation.attributes
-              );
+              await DataWriter.updateConversation(tempConversation.attributes);
             }
 
             window.reduxActions.conversations.showConversation({
@@ -357,7 +356,7 @@ export async function joinViaLink(value: string): Promise<void> {
               window.ConversationController.dangerouslyRemoveById(
                 tempConversation.id
               );
-              await window.Signal.Data.removeConversation(tempConversation.id);
+              await DataWriter.removeConversation(tempConversation.id);
             }
 
             throw error;

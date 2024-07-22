@@ -13,7 +13,7 @@ import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import * as Edits from '../messageModifiers/Edits';
 import * as log from '../logging/log';
 import { ReadStatus } from '../messages/MessageReadStatus';
-import dataInterface from '../sql/Client';
+import { DataWriter } from '../sql/Client';
 import { drop } from './drop';
 import { getAttachmentSignature, isVoiceMessage } from '../types/Attachment';
 import { isAciString } from './isAciString';
@@ -344,7 +344,7 @@ export async function handleEditMessage(
 
   // Save both the main message and the edited message for fast lookups
   drop(
-    dataInterface.saveEditedMessage(
+    DataWriter.saveEditedMessage(
       mainMessageModel.attributes,
       window.textsecure.storage.user.getCheckedAci(),
       {

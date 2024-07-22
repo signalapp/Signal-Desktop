@@ -2,19 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { Database } from '@signalapp/better-sqlite3';
-import SQL from '@signalapp/better-sqlite3';
 import { v4 as generateGuid } from 'uuid';
 import { sql } from '../../sql/util';
-import { updateToVersion } from './helpers';
-import type { MessageType } from '../../sql/Interface';
+import { createDB, updateToVersion } from './helpers';
+import type { WritableDB, MessageType } from '../../sql/Interface';
 import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent';
 
 describe('SQL/updateToSchemaVersion1030', () => {
-  let db: Database;
+  let db: WritableDB;
 
   beforeEach(() => {
-    db = new SQL(':memory:');
+    db = createDB();
     updateToVersion(db, 1020);
   });
 

@@ -3,6 +3,7 @@
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import type { VerificationTransport } from '../../types/VerificationTransport';
+import { DataWriter } from '../../sql/Client';
 import { App } from '../../components/App';
 import OS from '../../util/os/osMain';
 import { getConversation } from '../../util/getConversation';
@@ -101,7 +102,7 @@ async function uploadProfile({
   us.set('profileName', firstName);
   us.set('profileFamilyName', lastName);
   us.captureChange('standaloneProfile');
-  await window.Signal.Data.updateConversation(us.attributes);
+  await DataWriter.updateConversation(us.attributes);
 
   await writeProfile(getConversation(us), {
     keepAvatar: true,

@@ -14,7 +14,7 @@ import type {
 } from './model-types.d';
 import type { ConversationModel } from './models/conversations';
 
-import dataInterface from './sql/Client';
+import { DataReader, DataWriter } from './sql/Client';
 import * as log from './logging/log';
 import * as Errors from './types/errors';
 import { getAuthorId } from './messages/helpers';
@@ -127,11 +127,15 @@ const {
   getAllConversations,
   getAllGroupsInvolvingServiceId,
   getMessagesBySentAt,
+} = DataReader;
+
+const {
   migrateConversationMessages,
   removeConversation,
   saveConversation,
   updateConversation,
-} = dataInterface;
+  updateConversations,
+} = DataWriter;
 
 // We have to run this in background.js, after all backbone models and collections on
 //   Whisper.* have been created. Once those are in typescript we can use more reasonable
@@ -443,12 +447,12 @@ export class ConversationController {
       conversation.set({
         profileAvatar: { hash: SIGNAL_AVATAR_PATH, path: SIGNAL_AVATAR_PATH },
       });
-      updateConversation(conversation.attributes);
+      await updateConversation(conversation.attributes);
     }
 
     if (!conversation.get('profileName')) {
       conversation.set({ profileName: 'Signal' });
-      updateConversation(conversation.attributes);
+      await updateConversation(conversation.attributes);
     }
 
     this._signalConversationId = conversation.id;
@@ -934,7 +938,7 @@ export class ConversationController {
             );
 
             existing.set({ e164: undefined });
-            updateConversation(existing.attributes);
+            drop(updateConversation(existing.attributes));
 
             byE164[e164] = conversation;
 
@@ -1144,7 +1148,7 @@ export class ConversationController {
         group.set({
           members: currentAdded,
         });
-        updateConversation(group.attributes);
+        drop(updateConversation(group.attributes));
       });
     }
 
@@ -1337,7 +1341,7 @@ export class ConversationController {
       );
       convo.set('isPinned', true);
 
-      window.Signal.Data.updateConversation(convo.attributes);
+      drop(updateConversation(convo.attributes));
     }
   }
 
@@ -1353,7 +1357,7 @@ export class ConversationController {
         `updating ${sharedWith.length} conversations`
     );
 
-    await window.Signal.Data.updateConversations(
+    await updateConversations(
       sharedWith.map(c => {
         c.unset('shareMyPhoneNumber');
         return c.attributes;
@@ -1440,7 +1444,7 @@ export class ConversationController {
 
             const isChanged = maybeDeriveGroupV2Id(conversation);
             if (isChanged) {
-              updateConversation(conversation.attributes);
+              await updateConversation(conversation.attributes);
             }
 
             // In case a too-large draft was saved to the database
@@ -1449,7 +1453,7 @@ export class ConversationController {
               conversation.set({
                 draft: draft.slice(0, MAX_MESSAGE_BODY_LENGTH),
               });
-              updateConversation(conversation.attributes);
+              await updateConversation(conversation.attributes);
             }
 
             // Clean up the conversations that have service id as their e164.
@@ -1457,7 +1461,7 @@ export class ConversationController {
             const serviceId = conversation.getServiceId();
             if (e164 && isServiceIdString(e164) && serviceId) {
               conversation.set({ e164: undefined });
-              updateConversation(conversation.attributes);
+              await updateConversation(conversation.attributes);
 
               log.info(
                 `Cleaning up conversation(${serviceId}) with invalid e164`

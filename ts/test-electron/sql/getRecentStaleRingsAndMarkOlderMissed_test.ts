@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
 import { times } from 'lodash';
-import dataInterface from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client';
 
 import { CallMode } from '../../types/Calling';
 import { generateAci } from '../../types/ServiceId';
@@ -17,12 +17,9 @@ import {
 } from '../../types/CallDisposition';
 import type { MaybeStaleCallHistory } from '../../sql/Server';
 
-const {
-  removeAll,
-  getRecentStaleRingsAndMarkOlderMissed,
-  saveCallHistory,
-  getAllCallHistory,
-} = dataInterface;
+const { getAllCallHistory } = DataReader;
+const { getRecentStaleRingsAndMarkOlderMissed, removeAll, saveCallHistory } =
+  DataWriter;
 
 describe('sql/getRecentStaleRingsAndMarkOlderMissed', () => {
   beforeEach(async () => {

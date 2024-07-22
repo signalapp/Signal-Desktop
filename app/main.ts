@@ -396,14 +396,14 @@ async function getLocaleOverrideSetting(): Promise<string | null> {
 
 const zoomFactorService = new ZoomFactorService({
   async getZoomFactorSetting() {
-    const item = await sql.sqlCall('getItemById', 'zoomFactor');
+    const item = await sql.sqlRead('getItemById', 'zoomFactor');
     if (typeof item?.value !== 'number') {
       return null;
     }
     return item.value;
   },
   async setZoomFactorSetting(zoomFactor) {
-    await sql.sqlCall('createOrUpdateItem', {
+    await sql.sqlWrite('createOrUpdateItem', {
       id: 'zoomFactor',
       value: zoomFactor,
     });
@@ -1433,8 +1433,8 @@ async function showSettingsWindow() {
 
 async function getIsLinked() {
   try {
-    const number = await sql.sqlCall('getItemById', 'number_id');
-    const password = await sql.sqlCall('getItemById', 'password');
+    const number = await sql.sqlRead('getItemById', 'number_id');
+    const password = await sql.sqlRead('getItemById', 'password');
     return Boolean(number && password);
   } catch (e) {
     return false;
@@ -1686,7 +1686,7 @@ async function initializeSQL(
 
   try {
     // This should be the first awaited call in this function, otherwise
-    // `sql.sqlCall` will throw an uninitialized error instead of waiting for
+    // `sql.sqlRead` will throw an uninitialized error instead of waiting for
     // init to finish.
     await sql.initialize({
       appVersion: app.getVersion(),
@@ -2154,10 +2154,10 @@ app.on('ready', async () => {
 
   try {
     const IDB_KEY = 'indexeddb-delete-needed';
-    const item = await sql.sqlCall('getItemById', IDB_KEY);
+    const item = await sql.sqlRead('getItemById', IDB_KEY);
     if (item && item.value) {
-      await sql.sqlCall('removeIndexedDBFiles');
-      await sql.sqlCall('removeItemById', IDB_KEY);
+      await sql.sqlWrite('removeIndexedDBFiles');
+      await sql.sqlWrite('removeItemById', IDB_KEY);
     }
   } catch (err) {
     getLogger().error(

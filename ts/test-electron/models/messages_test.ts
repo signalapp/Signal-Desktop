@@ -13,6 +13,7 @@ import type { MessageModel } from '../../models/messages';
 import type { RawBodyRange } from '../../types/BodyRange';
 import type { StorageAccessType } from '../../types/Storage.d';
 import type { WebAPIType } from '../../textsecure/WebAPI';
+import { DataWriter } from '../../sql/Client';
 import MessageSender from '../../textsecure/SendMessage';
 import enMessages from '../../../_locales/en/messages.json';
 import { SendStatus } from '../../messages/MessageSendState';
@@ -78,7 +79,7 @@ describe('Message', () => {
   });
 
   after(async () => {
-    await window.Signal.Data.removeAll();
+    await DataWriter.removeAll();
     await window.storage.fetch();
 
     await Promise.all(

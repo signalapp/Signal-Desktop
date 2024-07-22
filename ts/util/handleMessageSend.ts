@@ -4,7 +4,7 @@
 import { z } from 'zod';
 import { isBoolean, isNumber } from 'lodash';
 import type { CallbackResultType } from '../textsecure/Types.d';
-import dataInterface from '../sql/Client';
+import { DataWriter } from '../sql/Client';
 import * as log from '../logging/log';
 import {
   OutgoingMessageError,
@@ -14,8 +14,9 @@ import {
 } from '../textsecure/Errors';
 import { SEALED_SENDER } from '../types/SealedSender';
 import type { ServiceIdString } from '../types/ServiceId';
+import { drop } from './drop';
 
-const { insertSentProto, updateConversation } = dataInterface;
+const { insertSentProto, updateConversation } = DataWriter;
 
 export const sendTypesEnum = z.enum([
   // Core user interactions, default urgent
@@ -121,7 +122,7 @@ function processError(error: unknown): void {
           `handleMessageSend: Got 401/403 for ${conversation.idForLogging()}, setting sealedSender = DISABLED`
         );
         conversation.set('sealedSender', SEALED_SENDER.DISABLED);
-        updateConversation(conversation.attributes);
+        drop(updateConversation(conversation.attributes));
       }
     }
     if (error.code === 404) {
@@ -195,7 +196,7 @@ async function handleMessageSendResult(
         conversation.set({
           sealedSender: SEALED_SENDER.DISABLED,
         });
-        window.Signal.Data.updateConversation(conversation.attributes);
+        await DataWriter.updateConversation(conversation.attributes);
       }
     })
   );
@@ -223,7 +224,7 @@ async function handleMessageSendResult(
             sealedSender: SEALED_SENDER.UNRESTRICTED,
           });
         }
-        window.Signal.Data.updateConversation(conversation.attributes);
+        await DataWriter.updateConversation(conversation.attributes);
       }
     })
   );

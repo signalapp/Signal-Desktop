@@ -33,7 +33,6 @@ import type { Receipt } from './types/Receipt';
 import type { ConversationController } from './ConversationController';
 import type { ReduxActions } from './state/types';
 import type { createApp } from './state/roots/createApp';
-import type Data from './sql/Client';
 import type { MessageModel } from './models/messages';
 import type { ConversationModel } from './models/conversations';
 import type { BatcherType } from './util/batcher';
@@ -138,7 +137,6 @@ export type SignalCoreType = {
   AboutWindowProps?: AboutWindowPropsType;
   Crypto: typeof Crypto;
   Curve: typeof Curve;
-  Data: typeof Data;
   DebugLogWindowProps?: DebugLogWindowPropsType;
   Groups: typeof Groups;
   PermissionsWindowProps?: PermissionsWindowPropsType;

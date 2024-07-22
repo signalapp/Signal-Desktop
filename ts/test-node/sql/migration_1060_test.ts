@@ -2,17 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { Database } from '@signalapp/better-sqlite3';
-import SQL from '@signalapp/better-sqlite3';
 import { v4 as generateGuid } from 'uuid';
 
 import {
-  getAllSyncTasksSync,
-  getMostRecentAddressableMessagesSync,
-  removeSyncTaskByIdSync,
-  saveSyncTasksSync,
+  getAllSyncTasks,
+  getMostRecentAddressableMessages,
+  removeSyncTaskById,
+  saveSyncTasks,
 } from '../../sql/Server';
-import { insertData, updateToVersion } from './helpers';
+import type { WritableDB } from '../../sql/Interface';
+import { insertData, updateToVersion, createDB } from './helpers';
 import { MAX_SYNC_TASK_ATTEMPTS } from '../../util/syncTasks.types';
 import { WEEK } from '../../util/durations';
 
@@ -34,9 +33,9 @@ function generateMessage(json: MessageAttributesType) {
 }
 
 describe('SQL/updateToSchemaVersion1060', () => {
-  let db: Database;
+  let db: WritableDB;
   beforeEach(() => {
-    db = new SQL(':memory:');
+    db = createDB();
     updateToVersion(db, 1060);
   });
 
@@ -117,10 +116,7 @@ describe('SQL/updateToSchemaVersion1060', () => {
           }),
         ]);
 
-        const messages = getMostRecentAddressableMessagesSync(
-          db,
-          conversationId
-        );
+        const messages = getMostRecentAddressableMessages(db, conversationId);
 
         assert.lengthOf(messages, 3);
         assert.deepEqual(messages, [
@@ -151,7 +147,7 @@ describe('SQL/updateToSchemaVersion1060', () => {
         ]);
       });
 
-      it('ensures that index is used for getMostRecentAddressableMessagesSync, with storyId', () => {
+      it('ensures that index is used for getMostRecentAddressableMessages, with storyId', () => {
         const { detail } = db
           .prepare(
             `
@@ -219,14 +215,14 @@ describe('SQL/updateToSchemaVersion1060', () => {
         },
       ];
 
-      saveSyncTasksSync(db, expected);
+      saveSyncTasks(db, expected);
 
-      const actual = getAllSyncTasksSync(db);
+      const actual = getAllSyncTasks(db);
       assert.deepEqual(expected, actual, 'before delete');
 
-      removeSyncTaskByIdSync(db, expected[1].id);
+      removeSyncTaskById(db, expected[1].id);
 
-      const actualAfterDelete = getAllSyncTasksSync(db);
+      const actualAfterDelete = getAllSyncTasks(db);
       assert.deepEqual(
         [
           { ...expected[0], attempts: 2 },
@@ -291,9 +287,9 @@ describe('SQL/updateToSchemaVersion1060', () => {
         },
       ];
 
-      saveSyncTasksSync(db, expected);
+      saveSyncTasks(db, expected);
 
-      const actual = getAllSyncTasksSync(db);
+      const actual = getAllSyncTasks(db);
 
       assert.lengthOf(actual, 3);
       assert.deepEqual([expected[1], expected[2], expected[3]], actual);

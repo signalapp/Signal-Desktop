@@ -4,13 +4,13 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
-import dataInterface from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client';
 import { generateAci } from '../../types/ServiceId';
 
 import type { MessageAttributesType } from '../../model-types.d';
 
-const { removeAll, _getAllMessages, saveMessages, getAllStories } =
-  dataInterface;
+const { _getAllMessages, getAllStories } = DataReader;
+const { removeAll, saveMessages } = DataWriter;
 
 describe('sql/stories', () => {
   beforeEach(async () => {

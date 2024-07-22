@@ -5,7 +5,7 @@ import { debounce, isNumber, chunk } from 'lodash';
 import pMap from 'p-map';
 import Long from 'long';
 
-import dataInterface from '../sql/Client';
+import { DataReader, DataWriter } from '../sql/Client';
 import * as Bytes from '../Bytes';
 import {
   getRandomBytes,
@@ -71,13 +71,14 @@ import { redactExtendedStorageID, redactStorageID } from '../util/privacy';
 
 type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
 
+const { getItemById } = DataReader;
+
 const {
   eraseStorageServiceState,
   flushUpdateConversationBatcher,
-  getItemById,
   updateConversation,
   updateConversations,
-} = dataInterface;
+} = DataWriter;
 
 const uploadBucket: Array<number> = [];
 
@@ -319,7 +320,7 @@ async function generateManifest(
           storageVersion: version,
           storageID,
         });
-        updateConversation(conversation.attributes);
+        drop(updateConversation(conversation.attributes));
       });
     }
   }
@@ -360,7 +361,7 @@ async function generateManifest(
       );
       deleteKeys.add(droppedID);
 
-      drop(dataInterface.deleteStoryDistribution(storyDistributionList.id));
+      drop(DataWriter.deleteStoryDistribution(storyDistributionList.id));
       continue;
     }
 
@@ -374,7 +375,7 @@ async function generateManifest(
 
     if (isNewItem) {
       postUploadUpdateFunctions.push(() => {
-        void dataInterface.modifyStoryDistribution({
+        void DataWriter.modifyStoryDistribution({
           ...storyDistributionList,
           storageID,
           storageVersion: version,
@@ -407,7 +408,7 @@ async function generateManifest(
 
     if (isNewItem) {
       postUploadUpdateFunctions.push(() => {
-        void dataInterface.addUninstalledStickerPack({
+        void DataWriter.addUninstalledStickerPack({
           ...stickerPack,
           storageID,
           storageVersion: version,
@@ -449,7 +450,7 @@ async function generateManifest(
 
     if (isNewItem) {
       postUploadUpdateFunctions.push(() => {
-        void dataInterface.createOrUpdateStickerPack({
+        void DataWriter.createOrUpdateStickerPack({
           ...stickerPack,
           storageID,
           storageVersion: version,
@@ -1088,9 +1089,9 @@ async function getNonConversationRecords(): Promise<NonConversationRecordsResult
     uninstalledStickerPacks,
     installedStickerPacks,
   ] = await Promise.all([
-    dataInterface.getAllStoryDistributionsWithMembers(),
-    dataInterface.getUninstalledStickerPacks(),
-    dataInterface.getInstalledStickerPacks(),
+    DataReader.getAllStoryDistributionsWithMembers(),
+    DataReader.getUninstalledStickerPacks(),
+    DataReader.getInstalledStickerPacks(),
   ]);
 
   return {
@@ -1256,7 +1257,7 @@ async function processManifest(
       }
       conversation.unset('storageID');
       conversation.unset('storageVersion');
-      updateConversation(conversation.attributes);
+      drop(updateConversation(conversation.attributes));
     }
   });
 
@@ -1279,7 +1280,7 @@ async function processManifest(
         `storageService.process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
-      void dataInterface.addUninstalledStickerPack({
+      void DataWriter.addUninstalledStickerPack({
         ...stickerPack,
         storageID: undefined,
         storageVersion: undefined,
@@ -1297,7 +1298,7 @@ async function processManifest(
         `storageService.process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
-      void dataInterface.createOrUpdateStickerPack({
+      void DataWriter.createOrUpdateStickerPack({
         ...stickerPack,
         storageID: undefined,
         storageVersion: undefined,
@@ -1315,7 +1316,7 @@ async function processManifest(
         `storageService.process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
-      void dataInterface.modifyStoryDistribution({
+      void DataWriter.modifyStoryDistribution({
         ...storyDistributionList,
         storageID: undefined,
         storageVersion: undefined,
@@ -1339,7 +1340,7 @@ async function processManifest(
         storageNeedsSync: true,
       };
 
-      await dataInterface.createNewStoryDistribution(storyDistribution);
+      await DataWriter.createNewStoryDistribution(storyDistribution);
 
       const shouldSave = false;
       window.reduxActions.storyDistributionLists.createDistributionList(

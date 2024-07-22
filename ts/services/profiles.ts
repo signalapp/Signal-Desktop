@@ -11,6 +11,7 @@ import type {
   GetProfileUnauthOptionsType,
 } from '../textsecure/WebAPI';
 import type { ServiceIdString } from '../types/ServiceId';
+import { DataWriter } from '../sql/Client';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import * as Bytes from '../Bytes';
@@ -594,7 +595,7 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
     });
   }
 
-  window.Signal.Data.updateConversation(c.attributes);
+  await DataWriter.updateConversation(c.attributes);
 }
 
 export type UpdateIdentityKeyOptionsType = Readonly<{

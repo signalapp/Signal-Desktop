@@ -4,7 +4,7 @@
 import pMap from 'p-map';
 
 import * as log from '../logging/log';
-import Data from '../sql/Client';
+import { DataReader, DataWriter } from '../sql/Client';
 import type { ConversationAttributesType } from '../model-types.d';
 import { encryptLegacyAttachment } from './encryptLegacyAttachment';
 import { AttachmentDisposition } from './getLocalAttachmentUrl';
@@ -17,7 +17,7 @@ const CONCURRENCY = 32;
 type CleanupType = Array<() => Promise<void>>;
 
 export async function encryptConversationAttachments(): Promise<void> {
-  const all = await Data.getAllConversations();
+  const all = await DataReader.getAllConversations();
   log.info(`encryptConversationAttachments: checking ${all.length}`);
 
   const updated = (
@@ -37,7 +37,9 @@ export async function encryptConversationAttachments(): Promise<void> {
 
   if (updated.length !== 0) {
     log.info(`encryptConversationAttachments: updating ${updated.length}`);
-    await Data.updateConversations(updated.map(({ attributes }) => attributes));
+    await DataWriter.updateConversations(
+      updated.map(({ attributes }) => attributes)
+    );
 
     const cleanup = updated.map(entry => entry.cleanup).flat();
 

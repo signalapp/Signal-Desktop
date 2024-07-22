@@ -1,6 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { DataReader } from '../../../sql/Client';
 import * as Bytes from '../../../Bytes';
 import { getBackupKey } from '../crypto';
 import type { AttachmentType } from '../../../types/Attachment';
@@ -63,9 +64,7 @@ export type GetBackupCdnInfoType = (
 export const getBackupCdnInfo: GetBackupCdnInfoType = async (
   mediaId: string
 ) => {
-  const savedInfo = await window.Signal.Data.getBackupCdnObjectMetadata(
-    mediaId
-  );
+  const savedInfo = await DataReader.getBackupCdnObjectMetadata(mediaId);
   if (!savedInfo) {
     return { isInBackupTier: false };
   }

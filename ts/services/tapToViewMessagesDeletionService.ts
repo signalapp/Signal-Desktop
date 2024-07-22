@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { debounce } from 'lodash';
+import { DataReader } from '../sql/Client';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { DAY } from '../util/durations';
 import * as Errors from '../types/errors';
@@ -11,8 +12,7 @@ async function eraseTapToViewMessages() {
     window.SignalContext.log.info(
       'eraseTapToViewMessages: Loading messages...'
     );
-    const messages =
-      await window.Signal.Data.getTapToViewMessagesNeedingErase();
+    const messages = await DataReader.getTapToViewMessagesNeedingErase();
     await Promise.all(
       messages.map(async fromDB => {
         const message = window.MessageCache.__DEPRECATED$register(
@@ -54,7 +54,7 @@ class TapToViewMessagesDeletionService {
 
   private async checkTapToViewMessages() {
     const receivedAt =
-      await window.Signal.Data.getNextTapToViewMessageTimestampToAgeOut();
+      await DataReader.getNextTapToViewMessageTimestampToAgeOut();
     if (!receivedAt) {
       return;
     }

@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
-import dataInterface from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client';
 
 import { CallMode } from '../../types/Calling';
 import { generateAci } from '../../types/ServiceId';
@@ -28,14 +28,9 @@ import {
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
 } from '../../test-both/helpers/fakeCallLink';
 
-const {
-  removeAll,
-  getCallHistoryGroups,
-  getCallHistoryGroupsCount,
-  insertCallLink,
-  saveCallHistory,
-  saveConversation,
-} = dataInterface;
+const { getCallHistoryGroups, getCallHistoryGroupsCount } = DataReader;
+const { removeAll, insertCallLink, saveCallHistory, saveConversation } =
+  DataWriter;
 
 function toGroup(calls: Array<CallHistoryDetails>): CallHistoryGroup {
   const firstCall = calls.at(0);

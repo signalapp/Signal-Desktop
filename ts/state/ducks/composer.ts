@@ -18,6 +18,7 @@ import {
   isVideoAttachment,
   isImageAttachment,
 } from '../../types/Attachment';
+import { DataReader, DataWriter } from '../../sql/Client';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { DraftBodyRanges } from '../../types/BodyRange';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
@@ -336,7 +337,7 @@ function scrollToQuotedMessage({
   ShowToastActionType | ScrollToMessageActionType
 > {
   return async (dispatch, getState) => {
-    const messages = await window.Signal.Data.getMessagesBySentAt(sentAt);
+    const messages = await DataReader.getMessagesBySentAt(sentAt);
     const message = messages.find(item =>
       Boolean(
         item.conversationId === conversationId &&
@@ -765,7 +766,7 @@ export function setQuoteByMessageId(
         timestamp,
       });
 
-      window.Signal.Data.updateConversation(conversation.attributes);
+      await DataWriter.updateConversation(conversation.attributes);
     }
 
     if (message) {
@@ -866,7 +867,7 @@ function addAttachment(
         });
       }
 
-      window.Signal.Data.updateConversation(conversation.attributes);
+      await DataWriter.updateConversation(conversation.attributes);
     }
   };
 }
@@ -904,7 +905,7 @@ function addPendingAttachment(
     if (conversation) {
       conversation.attributes.draftAttachments = nextAttachments;
       conversation.attributes.draftChanged = true;
-      window.Signal.Data.updateConversation(conversation.attributes);
+      drop(DataWriter.updateConversation(conversation.attributes));
     }
   };
 }
@@ -1201,7 +1202,7 @@ function removeAttachment(
     if (conversation) {
       conversation.attributes.draftAttachments = nextAttachments;
       conversation.attributes.draftChanged = true;
-      window.Signal.Data.updateConversation(conversation.attributes);
+      await DataWriter.updateConversation(conversation.attributes);
     }
 
     replaceAttachments(conversationId, nextAttachments)(
@@ -1312,7 +1313,7 @@ function saveDraft(
       draftChanged: true,
       draftBodyRanges: [],
     });
-    window.Signal.Data.updateConversation(conversation.attributes);
+    drop(DataWriter.updateConversation(conversation.attributes));
     return;
   }
 
@@ -1336,7 +1337,7 @@ function saveDraft(
       draftChanged: true,
       timestamp,
     });
-    window.Signal.Data.updateConversation(conversation.attributes);
+    drop(DataWriter.updateConversation(conversation.attributes));
   }
 }
 

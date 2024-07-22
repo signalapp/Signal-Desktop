@@ -14,7 +14,7 @@ import {
   AttachmentPermanentlyUndownloadableError,
   downloadAttachment as downloadAttachmentUtil,
 } from '../util/downloadAttachment';
-import dataInterface from '../sql/Client';
+import { DataWriter } from '../sql/Client';
 import { getValue } from '../RemoteConfig';
 
 import { isInCall as isInCallSelector } from '../state/selectors/calling';
@@ -103,10 +103,10 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
   override logPrefix = 'AttachmentDownloadManager';
 
   static defaultParams: AttachmentDownloadManagerParamsType = {
-    markAllJobsInactive: dataInterface.resetAttachmentDownloadActive,
-    saveJob: dataInterface.saveAttachmentDownloadJob,
-    removeJob: dataInterface.removeAttachmentDownloadJob,
-    getNextJobs: dataInterface.getNextAttachmentDownloadJobs,
+    markAllJobsInactive: DataWriter.resetAttachmentDownloadActive,
+    saveJob: DataWriter.saveAttachmentDownloadJob,
+    removeJob: DataWriter.removeAttachmentDownloadJob,
+    getNextJobs: DataWriter.getNextAttachmentDownloadJobs,
     runDownloadAttachmentJob,
     shouldHoldOffOnStartingQueuedJobs: () => {
       const reduxState = window.reduxStore?.getState();
@@ -321,7 +321,7 @@ async function runDownloadAttachmentJob({
   } finally {
     // This will fail if the message has been deleted before the download finished, which
     // is good
-    await dataInterface.saveMessage(message.attributes, {
+    await DataWriter.saveMessage(message.attributes, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
   }

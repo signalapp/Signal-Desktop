@@ -5,6 +5,7 @@ import type { AciString } from '../types/ServiceId';
 import type { MessageAttributesType } from '../model-types.d';
 import type { MessageModel } from '../models/messages';
 import type { ReactionSource } from '../reactions/ReactionSource';
+import { DataReader } from '../sql/Client';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import { getAuthor } from '../messages/helpers';
@@ -66,9 +67,7 @@ async function findMessageForReaction({
   reactionSenderConversationId: string;
   logId: string;
 }): Promise<MessageAttributesType | undefined> {
-  const messages = await window.Signal.Data.getMessagesBySentAt(
-    targetTimestamp
-  );
+  const messages = await DataReader.getMessagesBySentAt(targetTimestamp);
 
   const matchingMessages = messages.filter(message =>
     isMessageAMatchForReaction({

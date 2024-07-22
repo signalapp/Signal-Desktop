@@ -5,6 +5,7 @@ import PQueue from 'p-queue';
 import { batch } from 'react-redux';
 
 import type { MessageAttributesType } from '../model-types.d';
+import { DataReader } from '../sql/Client';
 import { deletePackReference } from '../types/Stickers';
 import { isStory } from '../messages/helpers';
 import { isDirectConversation } from './whatTypeOfConversation';
@@ -93,10 +94,7 @@ async function cleanupStoryReplies(
     parentConversation && !isDirectConversation(parentConversation.attributes)
   );
 
-  const replies = await window.Signal.Data.getRecentStoryReplies(
-    storyId,
-    pagination
-  );
+  const replies = await DataReader.getRecentStoryReplies(storyId, pagination);
 
   const logId = `cleanupStoryReplies(${storyId}/isGroup=${isGroupConversation})`;
   const lastMessage = replies[replies.length - 1];

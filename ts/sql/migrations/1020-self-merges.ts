@@ -1,17 +1,16 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Database } from '@signalapp/better-sqlite3';
-
 import type { LoggerType } from '../../types/Logging';
 import { sql } from '../util';
+import type { WritableDB } from '../Interface';
 import { getOurUuid } from './41-uuid-keys';
 
 export const version = 1020;
 
 export function updateToSchemaVersion1020(
   currentVersion: number,
-  db: Database,
+  db: WritableDB,
   logger: LoggerType
 ): void {
   if (currentVersion >= 1020) {

@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
+import { DataWriter } from '../../sql/Client';
 import { IMAGE_PNG } from '../../types/MIME';
 import {
   AttachmentPermanentlyUndownloadableError,
@@ -259,7 +260,7 @@ describe('getCdnNumberForBackupTier', () => {
   });
 
   afterEach(async () => {
-    await window.Signal.Data.clearAllBackupCdnObjectMetadata();
+    await DataWriter.clearAllBackupCdnObjectMetadata();
     sandbox.restore();
   });
 
@@ -282,7 +283,7 @@ describe('getCdnNumberForBackupTier', () => {
     assert.equal(result, 3);
   });
   it('uses cdn number in DB if none on attachment', async () => {
-    await window.Signal.Data.saveBackupCdnObjectMetadata([
+    await DataWriter.saveBackupCdnObjectMetadata([
       {
         mediaId: getMediaIdFromMediaName('mediaName').string,
         cdnNumber: 42,

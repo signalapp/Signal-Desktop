@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as log from '../logging/log';
+import { DataWriter } from '../sql/Client';
 import { deleteAllLogs } from '../util/deleteAllLogs';
 import * as Errors from '../types/errors';
 
@@ -11,19 +12,19 @@ export async function deleteAllData(): Promise<void> {
 
     log.info('deleteAllData: deleted all logs');
 
-    await window.Signal.Data.removeAll();
+    await DataWriter.removeAll();
 
     log.info('deleteAllData: emptied database');
 
-    await window.Signal.Data.close();
+    await DataWriter.close();
 
     log.info('deleteAllData: closed database');
 
-    await window.Signal.Data.removeDB();
+    await DataWriter.removeDB();
 
     log.info('deleteAllData: removed database');
 
-    await window.Signal.Data.removeOtherData();
+    await DataWriter.removeOtherData();
 
     log.info('deleteAllData: removed all other data');
   } catch (error) {

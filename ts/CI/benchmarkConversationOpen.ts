@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SendStatus } from '../messages/MessageSendState';
+import { DataWriter } from '../sql/Client';
 import { BodyRange } from '../types/BodyRange';
 import { strictAssert } from '../util/assert';
 import { MINUTE } from '../util/durations';
@@ -86,13 +87,13 @@ export async function populateConversationWithMessages({
     timestamp += 1;
   }
 
-  await window.Signal.Data.saveMessages(messages, {
+  await DataWriter.saveMessages(messages, {
     forceSave: true,
     ourAci,
   });
 
   conversation.set('active_at', Date.now());
-  await window.Signal.Data.updateConversation(conversation.attributes);
+  await DataWriter.updateConversation(conversation.attributes);
   log.info(`${logId}: populating conversation complete`);
 }
 

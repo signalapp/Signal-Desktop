@@ -16,9 +16,9 @@ import { notificationService } from '../services/notifications';
 import { queueUpdateMessage } from '../util/messageBatcher';
 import { strictAssert } from '../util/assert';
 import { isAciString } from '../util/isAciString';
-import dataInterface from '../sql/Client';
+import { DataReader, DataWriter } from '../sql/Client';
 
-const { removeSyncTaskById } = dataInterface;
+const { removeSyncTaskById } = DataWriter;
 
 export const readSyncTaskSchema = z.object({
   type: z.literal('ReadSync').readonly(),
@@ -51,7 +51,7 @@ async function maybeItIsAReactionReadSync(
   const { readSync } = sync;
   const logId = `ReadSyncs.onSync(timestamp=${readSync.timestamp})`;
 
-  const readReaction = await window.Signal.Data.markReactionAsRead(
+  const readReaction = await DataWriter.markReactionAsRead(
     readSync.senderAci,
     Number(readSync.timestamp)
   );
@@ -129,9 +129,7 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
   const logId = `ReadSyncs.onSync(timestamp=${readSync.timestamp})`;
 
   try {
-    const messages = await window.Signal.Data.getMessagesBySentAt(
-      readSync.timestamp
-    );
+    const messages = await DataReader.getMessagesBySentAt(readSync.timestamp);
 
     const found = messages.find(item => {
       const sender = window.ConversationController.lookupOrCreate({

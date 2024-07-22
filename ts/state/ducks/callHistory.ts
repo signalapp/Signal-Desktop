@@ -13,6 +13,7 @@ import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import type { ToastActionType } from './toast';
 import { showToast } from './toast';
+import { DataReader, DataWriter } from '../../sql/Client';
 import { ToastType } from '../../types/Toast';
 import type { CallHistoryDetails } from '../../types/CallDisposition';
 import * as log from '../../logging/log';
@@ -77,7 +78,7 @@ function updateCallHistoryUnreadCount(): ThunkAction<
 > {
   return async dispatch => {
     try {
-      const unreadCount = await window.Signal.Data.getCallHistoryUnreadCount();
+      const unreadCount = await DataReader.getCallHistoryUnreadCount();
       dispatch({ type: CALL_HISTORY_UPDATE_UNREAD, payload: unreadCount });
     } catch (error) {
       log.error(
@@ -94,7 +95,7 @@ function markCallHistoryRead(
 ): ThunkAction<void, RootStateType, unknown, CallHistoryUpdateUnread> {
   return async dispatch => {
     try {
-      await window.Signal.Data.markCallHistoryRead(callId);
+      await DataWriter.markCallHistoryRead(callId);
       drop(window.ConversationController.get(conversationId)?.updateUnread());
     } catch (error) {
       log.error(

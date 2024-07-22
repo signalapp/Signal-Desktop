@@ -4,6 +4,7 @@
 import { isNumber, pick } from 'lodash';
 
 import type { ConversationAttributesType } from '../model-types.d';
+import { DataWriter } from '../sql/Client';
 import { hasErrors } from '../state/selectors/message';
 import { readSyncJobQueue } from '../jobs/readSyncJobQueue';
 import { notificationService } from '../services/notifications';
@@ -40,17 +41,17 @@ export async function markConversationRead(
 
   const [unreadMessages, unreadEditedMessages, unreadReactions] =
     await Promise.all([
-      window.Signal.Data.getUnreadByConversationAndMarkRead({
+      DataWriter.getUnreadByConversationAndMarkRead({
         conversationId,
         newestUnreadAt,
         readAt: options.readAt,
         includeStoryReplies: !isGroup(conversationAttrs),
       }),
-      window.Signal.Data.getUnreadEditedMessagesAndMarkRead({
+      DataWriter.getUnreadEditedMessagesAndMarkRead({
         conversationId,
         newestUnreadAt,
       }),
-      window.Signal.Data.getUnreadReactionsAndMarkRead({
+      DataWriter.getUnreadReactionsAndMarkRead({
         conversationId,
         newestUnreadAt,
       }),

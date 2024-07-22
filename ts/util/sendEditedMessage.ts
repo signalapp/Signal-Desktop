@@ -10,6 +10,7 @@ import type {
   QuotedMessageType,
 } from '../model-types.d';
 import * as log from '../logging/log';
+import { DataReader, DataWriter } from '../sql/Client';
 import type { AttachmentType } from '../types/Attachment';
 import { ErrorWithToast } from '../types/ErrorWithToast';
 import { SendStatus } from '../messages/MessageSendState';
@@ -129,9 +130,7 @@ export async function sendEditedMessage(
     if (quoteSentAt === existingQuote?.id) {
       quote = existingQuote;
     } else {
-      const messages = await window.Signal.Data.getMessagesBySentAt(
-        quoteSentAt
-      );
+      const messages = await DataReader.getMessagesBySentAt(quoteSentAt);
       const matchingMessage = find(messages, item =>
         isQuoteAMatch(item, conversationId, {
           id: quoteSentAt,
@@ -224,7 +223,7 @@ export async function sendEditedMessage(
           log.info(
             `${idLog}: saving message ${targetMessageId} and job ${jobToInsert.id}`
           );
-          await window.Signal.Data.saveMessage(targetMessage.attributes, {
+          await DataWriter.saveMessage(targetMessage.attributes, {
             jobToInsert,
             ourAci: window.textsecure.storage.user.getCheckedAci(),
           });
@@ -249,5 +248,5 @@ export async function sendEditedMessage(
     duration => `${idLog}: batchDispatch took ${duration}ms`
   );
 
-  window.Signal.Data.updateConversation(conversation.attributes);
+  await DataWriter.updateConversation(conversation.attributes);
 }

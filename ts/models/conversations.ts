@@ -15,6 +15,7 @@ import type {
   QuotedMessageType,
   SenderKeyInfoType,
 } from '../model-types.d';
+import { DataReader, DataWriter } from '../sql/Client';
 import { getConversation } from '../util/getConversation';
 import { drop } from '../util/drop';
 import { isShallowEqual } from '../util/isShallowEqual';
@@ -195,7 +196,6 @@ const {
   writeNewAttachmentData,
 } = window.Signal.Migrations;
 const {
-  addStickerPackReference,
   getConversationRangeCenteredOnMessage,
   getOlderMessagesByConversation,
   getMessageMetricsForConversation,
@@ -203,7 +203,8 @@ const {
   getMostRecentAddressableMessages,
   getMostRecentAddressableNondisappearingMessages,
   getNewerMessagesByConversation,
-} = window.Signal.Data;
+} = DataReader;
+const { addStickerPackReference } = DataWriter;
 
 const FIVE_MINUTES = MINUTE * 5;
 const FETCH_TIMEOUT = SECOND * 30;
@@ -471,7 +472,7 @@ export class ConversationModel extends window.Backbone
       getSenderKeyInfo: () => this.get('senderKeyInfo'),
       saveSenderKeyInfo: async (senderKeyInfo: SenderKeyInfoType) => {
         this.set({ senderKeyInfo });
-        window.Signal.Data.updateConversation(this.attributes);
+        await DataWriter.updateConversation(this.attributes);
       },
     };
   }
@@ -828,7 +829,7 @@ export class ConversationModel extends window.Backbone
     });
 
     if (shouldSave) {
-      window.Signal.Data.updateConversation(this.attributes);
+      drop(DataWriter.updateConversation(this.attributes));
     }
 
     const e164 = this.get('e164');
@@ -882,7 +883,7 @@ export class ConversationModel extends window.Backbone
     });
 
     if (shouldSave) {
-      window.Signal.Data.updateConversation(this.attributes);
+      drop(DataWriter.updateConversation(this.attributes));
     }
 
     if (
@@ -1015,7 +1016,7 @@ export class ConversationModel extends window.Backbone
     drop(this.queueJob('removeContact', () => this.maybeSetContactRemoved()));
 
     if (shouldSave) {
-      await window.Signal.Data.updateConversation(this.attributes);
+      await DataWriter.updateConversation(this.attributes);
     }
   }
 
@@ -1048,7 +1049,7 @@ export class ConversationModel extends window.Backbone
     await this.maybeClearContactRemoved();
 
     if (shouldSave) {
-      await window.Signal.Data.updateConversation(this.attributes);
+      await DataWriter.updateConversation(this.attributes);
     }
   }
 
@@ -1239,7 +1240,7 @@ export class ConversationModel extends window.Backbone
 
     this.set({ masterKey, secretParams, publicParams, groupVersion: 2 });
 
-    window.Signal.Data.updateConversation(this.attributes);
+    drop(DataWriter.updateConversation(this.attributes));
   }
 
   getGroupV2Info(
@@ -1429,7 +1430,7 @@ export class ConversationModel extends window.Backbone
         removalStage: 'messageRequest',
       });
       await this.maybeClearContactRemoved();
-      window.Signal.Data.updateConversation(this.attributes);
+      await DataWriter.updateConversation(this.attributes);
     }
 
     void this.addSingleMessage(message);
@@ -1831,7 +1832,7 @@ export class ConversationModel extends window.Backbone
         const upgradedMessage = await upgradeMessageSchema(attributes);
         message.set(upgradedMessage);
         // eslint-disable-next-line no-await-in-loop
-        await window.Signal.Data.saveMessage(upgradedMessage, { ourAci });
+        await DataWriter.saveMessage(upgradedMessage, { ourAci });
         upgraded += 1;
       }
     }
@@ -1900,7 +1901,7 @@ export class ConversationModel extends window.Backbone
       void this.addChangeNumberNotification(oldValue, e164);
     }
 
-    window.Signal.Data.updateConversation(this.attributes);
+    drop(DataWriter.updateConversation(this.attributes));
     this.trigger('idUpdated', this, 'e164', oldValue);
     this.captureChange('updateE164');
   }
@@ -1917,7 +1918,7 @@ export class ConversationModel extends window.Backbone
         ? normalizeServiceId(serviceId, 'Conversation.updateServiceId')
         : undefined
     );
-    window.Signal.Data.updateConversation(this.attributes);
+    drop(DataWriter.updateConversation(this.attributes));
     this.trigger('idUpdated', this, 'serviceId', oldValue);
 
     // We should delete the old sessions and identity information in all situations except
@@ -1950,7 +1951,7 @@ export class ConversationModel extends window.Backbone
     this.set({
       previousIdentityKey: identityKey,
     });
-    window.Signal.Data.updateConversation(this.attributes);
+    drop(DataWriter.updateConversation(this.attributes));
   }
 
   updatePni(pni: PniString | undefined, pniSignatureVerified: boolean): void {
@@ -2025,7 +2026,7 @@ export class ConversationModel extends window.Backbone
       );
     }
 
-    window.Signal.Data.updateConversation(this.attributes);
+    drop(DataWriter.updateConversation(this.attributes));
     this.trigger('idUpdated', this, 'pni', oldValue);
     this.captureChange('updatePni');
   }
@@ -2034,7 +2035,7 @@ export class ConversationModel extends window.Backbone
     const oldValue = this.get('groupId');
     if (groupId && groupId !== oldValue) {
       this.set('groupId', groupId);
-      window.Signal.Data.updateConversation(this.attributes);
+      drop(DataWriter.updateConversation(this.attributes));
       this.trigger('idUpdated', this, 'groupId', oldValue);
     }
   }
@@ -2048,14 +2049,14 @@ export class ConversationModel extends window.Backbone
     }
 
     this.set('reportingToken', newValue);
-    await window.Signal.Data.updateConversation(this.attributes);
+    await DataWriter.updateConversation(this.attributes);
   }
 
   incrementMessageCount(): void {
     this.set({
       messageCount: (this.get('messageCount') || 0) + 1,
     });
-    window.Signal.Data.updateConversation(this.attributes);
+    drop(DataWriter.updateConversation(this.attributes));
   }
 
   incrementSentMessageCount({ dry = false }: { dry?: boolean } = {}):
@@ -2073,7 +2074,7 @@ export class ConversationModel extends window.Backbone
       return update;
     }
     this.set(update);
-    window.Signal.Data.updateConversation(this.attributes);
+    drop(DataWriter.updateConversation(this.attributes));
 
     return undefined;
   }
@@ -2093,7 +2094,7 @@ export class ConversationModel extends window.Backbone
       const first = messages ? messages[0] : undefined;
 
       // eslint-disable-next-line no-await-in-loop
-      messages = await window.Signal.Data.getOlderMessagesByConversation({
+      messages = await DataReader.getOlderMessagesByConversation({
         conversationId: this.get('id'),
         includeStoryReplies: !isGroup(this.attributes),
         limit: 100,
@@ -2143,7 +2144,7 @@ export class ConversationModel extends window.Backbone
           );
           const shouldSave = await registered.queueAttachmentDownloads();
           if (shouldSave) {
-            await window.Signal.Data.saveMessage(registered.attributes, {
+            await DataWriter.saveMessage(registered.attributes, {
               ourAci,
             });
           }
@@ -2178,7 +2179,7 @@ export class ConversationModel extends window.Backbone
       messageRequestResponseEvent: event,
     };
 
-    const id = await window.Signal.Data.saveMessage(message, {
+    const id = await DataWriter.saveMessage(message, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
       forceSave: true,
     });
@@ -2358,7 +2359,7 @@ export class ConversationModel extends window.Backbone
       }
     } finally {
       if (shouldSave) {
-        window.Signal.Data.updateConversation(this.attributes);
+        await DataWriter.updateConversation(this.attributes);
       }
     }
   }
@@ -2439,7 +2440,7 @@ export class ConversationModel extends window.Backbone
       messageRequestResponseType: messageRequestEnum.ACCEPT,
       active_at: this.get('active_at') || Date.now(),
     });
-    window.Signal.Data.updateConversation(this.attributes);
+    await DataWriter.updateConversation(this.attributes);
   }
 
   async cancelJoinRequest(): Promise<void> {
@@ -2631,7 +2632,7 @@ export class ConversationModel extends window.Backbone
       if (oldVerified !== verified) {
         this.set({ verified });
         this.captureChange(`updateVerified from=${oldVerified} to=${verified}`);
-        window.Signal.Data.updateConversation(this.attributes);
+        await DataWriter.updateConversation(this.attributes);
       }
 
       return;
@@ -2694,7 +2695,7 @@ export class ConversationModel extends window.Backbone
 
     this.set({ verified });
 
-    window.Signal.Data.updateConversation(this.attributes);
+    await DataWriter.updateConversation(this.attributes);
 
     if (beginningVerified !== verified) {
       this.captureChange(
@@ -2938,7 +2939,7 @@ export class ConversationModel extends window.Backbone
       // this type does not fully implement the interface it is expected to
     } as unknown as MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message, {
+    const id = await DataWriter.saveMessage(message, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
     const model = window.MessageCache.__DEPRECATED$register(
@@ -2990,7 +2991,7 @@ export class ConversationModel extends window.Backbone
       // this type does not fully implement the interface it is expected to
     } as unknown as MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message, {
+    const id = await DataWriter.saveMessage(message, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
     const model = window.MessageCache.__DEPRECATED$register(
@@ -3044,7 +3045,7 @@ export class ConversationModel extends window.Backbone
         schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
       };
 
-      await window.Signal.Data.saveMessage(message, {
+      await DataWriter.saveMessage(message, {
         ourAci: window.textsecure.storage.user.getCheckedAci(),
         forceSave: true,
       });
@@ -3108,7 +3109,7 @@ export class ConversationModel extends window.Backbone
       schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
     };
 
-    const id = await window.Signal.Data.saveMessage(message, {
+    const id = await DataWriter.saveMessage(message, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
       forceSave: true,
     });
@@ -3161,7 +3162,7 @@ export class ConversationModel extends window.Backbone
       schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
     };
 
-    const id = await window.Signal.Data.saveMessage(message, {
+    const id = await DataWriter.saveMessage(message, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
       forceSave: true,
     });
@@ -3212,7 +3213,7 @@ export class ConversationModel extends window.Backbone
       verifiedChanged: verifiedChangeId,
     };
 
-    await window.Signal.Data.saveMessage(message, {
+    await DataWriter.saveMessage(message, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
       forceSave: true,
     });
@@ -3255,7 +3256,7 @@ export class ConversationModel extends window.Backbone
       // TODO: DESKTOP-722
     } as unknown as MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message, {
+    const id = await DataWriter.saveMessage(message, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
     const model = window.MessageCache.__DEPRECATED$register(
@@ -3300,7 +3301,7 @@ export class ConversationModel extends window.Backbone
       ...extra,
     };
 
-    const id = await window.Signal.Data.saveMessage(
+    const id = await DataWriter.saveMessage(
       // TODO: DESKTOP-722
       message as MessageAttributesType,
       {
@@ -3395,7 +3396,7 @@ export class ConversationModel extends window.Backbone
 
     const message = window.MessageCache.__DEPRECATED$getById(notificationId);
     if (message) {
-      await window.Signal.Data.removeMessage(message.id, {
+      await DataWriter.removeMessage(message.id, {
         singleProtoJobQueue,
       });
     }
@@ -3422,7 +3423,7 @@ export class ConversationModel extends window.Backbone
       'contact-removed-notification'
     );
     this.set('pendingRemovedContactNotification', notificationId);
-    await window.Signal.Data.updateConversation(this.attributes);
+    await DataWriter.updateConversation(this.attributes);
   }
 
   async maybeClearContactRemoved(): Promise<boolean> {
@@ -3438,7 +3439,7 @@ export class ConversationModel extends window.Backbone
 
     const message = window.MessageCache.__DEPRECATED$getById(notificationId);
     if (message) {
-      await window.Signal.Data.removeMessage(message.id, {
+      await DataWriter.removeMessage(message.id, {
         singleProtoJobQueue,
       });
     }
@@ -4015,7 +4016,7 @@ export class ConversationModel extends window.Backbone
         log.info(
           `enqueueMessageForSend: saving message ${message.id} and job ${jobToInsert.id}`
         );
-        await window.Signal.Data.saveMessage(message.attributes, {
+        await DataWriter.saveMessage(message.attributes, {
           jobToInsert,
           forceSave: true,
           ourAci: window.textsecure.storage.user.getCheckedAci(),
@@ -4063,7 +4064,7 @@ export class ConversationModel extends window.Backbone
       );
     }
 
-    window.Signal.Data.updateConversation(this.attributes);
+    await DataWriter.updateConversation(this.attributes);
 
     return attributes;
   }
@@ -4127,7 +4128,7 @@ export class ConversationModel extends window.Backbone
       });
     }
 
-    window.Signal.Data.updateConversation(this.attributes);
+    await DataWriter.updateConversation(this.attributes);
     this.captureChange('clearUsername');
   }
 
@@ -4152,7 +4153,7 @@ export class ConversationModel extends window.Backbone
     this.captureChange('updateUsername');
 
     if (shouldSave) {
-      await window.Signal.Data.updateConversation(this.attributes);
+      await DataWriter.updateConversation(this.attributes);
     }
   }
 
@@ -4169,7 +4170,7 @@ export class ConversationModel extends window.Backbone
 
     const conversationId = this.id;
 
-    const stats = await window.Signal.Data.getConversationMessageStats({
+    const stats = await DataReader.getConversationMessageStats({
       conversationId,
       includeStoryReplies: !isGroup(this.attributes),
     });
@@ -4256,14 +4257,14 @@ export class ConversationModel extends window.Backbone
         : false,
     });
 
-    window.Signal.Data.updateConversation(this.attributes);
+    await DataWriter.updateConversation(this.attributes);
   }
 
   setArchived(isArchived: boolean): void {
     const before = this.get('isArchived');
 
     this.set({ isArchived });
-    window.Signal.Data.updateConversation(this.attributes);
+    drop(DataWriter.updateConversation(this.attributes));
 
     const after = this.get('isArchived');
 
@@ -4279,7 +4280,7 @@ export class ConversationModel extends window.Backbone
     const previousMarkedUnread = this.get('markedUnread');
 
     this.set({ markedUnread });
-    window.Signal.Data.updateConversation(this.attributes);
+    drop(DataWriter.updateConversation(this.attributes));
 
     if (Boolean(previousMarkedUnread) !== Boolean(markedUnread)) {
       this.captureChange('markedUnread');
@@ -4562,7 +4563,7 @@ export class ConversationModel extends window.Backbone
     // the pending flags.
     await this.maybeRemoveUniversalTimer();
 
-    window.Signal.Data.updateConversation(this.attributes);
+    await DataWriter.updateConversation(this.attributes);
 
     // When we add a disappearing messages notification to the conversation, we want it
     //   to be above the message that initiated that change, hence the subtraction.
@@ -4596,7 +4597,7 @@ export class ConversationModel extends window.Backbone
       type: 'timer-notification' as const,
     };
 
-    await window.Signal.Data.saveMessage(attributes, {
+    await DataWriter.saveMessage(attributes, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
       forceSave: true,
     });
@@ -4655,11 +4656,8 @@ export class ConversationModel extends window.Backbone
       includeStoryReplies: !isGroup(this.attributes),
     };
     const [unreadCount, unreadMentionsCount] = await Promise.all([
-      window.Signal.Data.getTotalUnreadForConversation(this.id, options),
-      window.Signal.Data.getTotalUnreadMentionsOfMeForConversation(
-        this.id,
-        options
-      ),
+      DataReader.getTotalUnreadForConversation(this.id, options),
+      DataReader.getTotalUnreadMentionsOfMeForConversation(this.id, options),
     ]);
 
     const prevUnreadCount = this.get('unreadCount');
@@ -4672,7 +4670,7 @@ export class ConversationModel extends window.Backbone
         unreadCount,
         unreadMentionsCount,
       });
-      window.Signal.Data.updateConversation(this.attributes);
+      await DataWriter.updateConversation(this.attributes);
     }
   }
 
@@ -4870,7 +4868,7 @@ export class ConversationModel extends window.Backbone
 
     // We will update the conversation during storage service sync
     if (!viaStorageServiceSync) {
-      window.Signal.Data.updateConversation(this.attributes);
+      await DataWriter.updateConversation(this.attributes);
     }
 
     return true;
@@ -4971,7 +4969,7 @@ export class ConversationModel extends window.Backbone
 
     this.set({ lastProfile: { profileKey, profileKeyVersion } });
 
-    await window.Signal.Data.updateConversation(this.attributes);
+    await DataWriter.updateConversation(this.attributes);
   }
 
   async removeLastProfile(
@@ -4997,7 +4995,7 @@ export class ConversationModel extends window.Backbone
       profileAvatar: undefined,
     });
 
-    await window.Signal.Data.updateConversation(this.attributes);
+    await DataWriter.updateConversation(this.attributes);
   }
 
   hasMember(serviceId: ServiceIdString): boolean {
@@ -5044,7 +5042,7 @@ export class ConversationModel extends window.Backbone
       active_at: null,
       pendingUniversalTimer: undefined,
     });
-    window.Signal.Data.updateConversation(this.attributes);
+    await DataWriter.updateConversation(this.attributes);
 
     const ourConversation =
       window.ConversationController.getOurConversationOrThrow();
@@ -5114,7 +5112,7 @@ export class ConversationModel extends window.Backbone
     }
 
     log.info(`${logId}: Starting delete`);
-    await window.Signal.Data.removeMessagesInConversation(this.id, {
+    await DataWriter.removeMessagesInConversation(this.id, {
       fromSync: source !== 'local-delete-sync',
       logId: this.idForLogging(),
       singleProtoJobQueue,
@@ -5227,7 +5225,7 @@ export class ConversationModel extends window.Backbone
     );
     this.set({ hideStory });
     this.captureChange('hideStory');
-    window.Signal.Data.updateConversation(this.attributes);
+    drop(DataWriter.updateConversation(this.attributes));
   }
 
   setMuteExpiration(
@@ -5247,7 +5245,7 @@ export class ConversationModel extends window.Backbone
 
     if (!viaStorageServiceSync) {
       this.captureChange('mutedUntilTimestamp');
-      window.Signal.Data.updateConversation(this.attributes);
+      drop(DataWriter.updateConversation(this.attributes));
     }
   }
 
@@ -5572,7 +5570,7 @@ export class ConversationModel extends window.Backbone
     if (this.get('isArchived')) {
       this.set({ isArchived: false });
     }
-    window.Signal.Data.updateConversation(this.attributes);
+    drop(DataWriter.updateConversation(this.attributes));
   }
 
   unpin(): void {
@@ -5591,7 +5589,7 @@ export class ConversationModel extends window.Backbone
     this.writePinnedConversations([...pinnedConversationIds]);
 
     this.set('isPinned', false);
-    window.Signal.Data.updateConversation(this.attributes);
+    drop(DataWriter.updateConversation(this.attributes));
   }
 
   writePinnedConversations(pinnedConversationIds: Array<string>): void {
@@ -5612,7 +5610,7 @@ export class ConversationModel extends window.Backbone
     }
 
     this.set({ dontNotifyForMentionsIfMuted: newValue });
-    window.Signal.Data.updateConversation(this.attributes);
+    drop(DataWriter.updateConversation(this.attributes));
     this.captureChange('dontNotifyForMentionsIfMuted');
   }
 
@@ -5620,7 +5618,7 @@ export class ConversationModel extends window.Backbone
     groupNameCollisions: ReadonlyDeep<GroupNameCollisionsWithIdsByTitle>
   ): void {
     this.set('acknowledgedGroupNameCollisions', groupNameCollisions);
-    window.Signal.Data.updateConversation(this.attributes);
+    drop(DataWriter.updateConversation(this.attributes));
   }
 
   onOpenStart(): void {

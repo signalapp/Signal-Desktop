@@ -5,6 +5,7 @@ import * as sinon from 'sinon';
 import casual from 'casual';
 import { v4 as generateUuid } from 'uuid';
 
+import { DataWriter } from '../../../sql/Client';
 import type {
   DispatchableViewStoryType,
   StoryDataType,
@@ -937,7 +938,7 @@ describe('both/state/ducks/stories', () => {
           },
         ],
       };
-      await window.Signal.Data.saveMessage(messageAttributes, {
+      await DataWriter.saveMessage(messageAttributes, {
         forceSave: true,
         ourAci: generateAci(),
       });
@@ -1003,7 +1004,7 @@ describe('both/state/ducks/stories', () => {
         preview: [preview],
       };
 
-      await window.Signal.Data.saveMessage(messageAttributes, {
+      await DataWriter.saveMessage(messageAttributes, {
         forceSave: true,
         ourAci: generateAci(),
       });

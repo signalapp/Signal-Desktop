@@ -7,7 +7,7 @@ import { SendStatus } from '../../messages/MessageSendState';
 import type { ConversationModel } from '../../models/conversations';
 import { GiftBadgeStates } from '../../components/conversation/Message';
 
-import Data from '../../sql/Client';
+import { DataWriter } from '../../sql/Client';
 import { getRandomBytes } from '../../Crypto';
 import * as Bytes from '../../Bytes';
 import { generateAci } from '../../types/ServiceId';
@@ -39,8 +39,8 @@ describe('backup/bubble messages', () => {
   let gv1: ConversationModel;
 
   beforeEach(async () => {
-    await Data._removeAllMessages();
-    await Data._removeAllConversations();
+    await DataWriter._removeAllMessages();
+    await DataWriter._removeAllConversations();
     window.storage.reset();
 
     await setupBasics();

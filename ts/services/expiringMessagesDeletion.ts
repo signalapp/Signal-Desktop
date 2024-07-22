@@ -4,6 +4,7 @@
 import { batch } from 'react-redux';
 import { debounce } from 'lodash';
 
+import { DataReader, DataWriter } from '../sql/Client';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { sleep } from '../util/sleep';
 import { SECOND } from '../util/durations';
@@ -27,7 +28,7 @@ class ExpiringMessagesDeletionService {
       window.SignalContext.log.info(
         'destroyExpiredMessages: Loading messages...'
       );
-      const messages = await window.Signal.Data.getExpiredMessages();
+      const messages = await DataReader.getExpiredMessages();
       window.SignalContext.log.info(
         `destroyExpiredMessages: found ${messages.length} messages to expire`
       );
@@ -45,7 +46,7 @@ class ExpiringMessagesDeletionService {
         inMemoryMessages.push(message);
       });
 
-      await window.Signal.Data.removeMessages(messageIds, {
+      await DataWriter.removeMessages(messageIds, {
         singleProtoJobQueue: this.singleProtoJobQueue,
       });
 
@@ -82,7 +83,7 @@ class ExpiringMessagesDeletionService {
       'checkExpiringMessages: checking for expiring messages'
     );
 
-    const soonestExpiry = await window.Signal.Data.getSoonestMessageExpiry();
+    const soonestExpiry = await DataReader.getSoonestMessageExpiry();
     if (!soonestExpiry) {
       window.SignalContext.log.info(
         'checkExpiringMessages: found no messages to expire'

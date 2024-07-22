@@ -4,23 +4,26 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
-import dataInterface from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client';
 import { generateAci } from '../../types/ServiceId';
 import { generateStoryDistributionId } from '../../types/StoryDistributionId';
 
 import type { StoryDistributionWithMembersType } from '../../sql/Interface';
 
 const {
-  _deleteAllStoryDistributions,
   _getAllStoryDistributionMembers,
   _getAllStoryDistributions,
+  getAllStoryDistributionsWithMembers,
+} = DataReader;
+
+const {
+  _deleteAllStoryDistributions,
   createNewStoryDistribution,
   deleteStoryDistribution,
-  getAllStoryDistributionsWithMembers,
   modifyStoryDistribution,
   modifyStoryDistributionMembers,
   modifyStoryDistributionWithMembers,
-} = dataInterface;
+} = DataWriter;
 
 describe('sql/storyDistribution', () => {
   beforeEach(async () => {

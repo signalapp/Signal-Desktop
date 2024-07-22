@@ -2,23 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { Database } from '@signalapp/better-sqlite3';
-import SQL from '@signalapp/better-sqlite3';
 
-import data, { setupTests, teardownTests } from '../../sql/Server';
-import { insertData, getTableData } from './helpers';
+import type { WritableDB } from '../../sql/Interface';
+import { migrateConversationMessages, setupTests } from '../../sql/Server';
+import { createDB, insertData, getTableData } from './helpers';
 
 describe('SQL/migrateConversationMessages', () => {
-  let db: Database;
+  let db: WritableDB;
 
   beforeEach(() => {
-    db = new SQL(':memory:');
+    db = createDB();
     setupTests(db);
   });
 
   afterEach(() => {
     db.close();
-    teardownTests();
   });
 
   function compactify(
@@ -33,7 +31,7 @@ describe('SQL/migrateConversationMessages', () => {
     };
   }
 
-  it('should leave irrelevant messages intact', async () => {
+  it('should leave irrelevant messages intact', () => {
     insertData(db, 'messages', [
       {
         id: 'irrelevant',
@@ -44,7 +42,7 @@ describe('SQL/migrateConversationMessages', () => {
       },
     ]);
 
-    await data.migrateConversationMessages('obsolete', 'current');
+    migrateConversationMessages(db, 'obsolete', 'current');
 
     assert.deepStrictEqual(getTableData(db, 'messages').map(compactify), [
       {
@@ -57,7 +55,7 @@ describe('SQL/migrateConversationMessages', () => {
     ]);
   });
 
-  it('should update conversationId and send state', async () => {
+  it('should update conversationId and send state', () => {
     insertData(db, 'messages', [
       {
         id: 'no-send-state',
@@ -82,7 +80,7 @@ describe('SQL/migrateConversationMessages', () => {
       },
     ]);
 
-    await data.migrateConversationMessages('obsolete', 'current');
+    migrateConversationMessages(db, 'obsolete', 'current');
 
     assert.deepStrictEqual(getTableData(db, 'messages').map(compactify), [
       {

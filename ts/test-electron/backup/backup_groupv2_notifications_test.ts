@@ -3,7 +3,7 @@
 
 import { v4 as generateGuid } from 'uuid';
 
-import Data from '../../sql/Client';
+import { DataWriter } from '../../sql/Client';
 import { SignalService as Proto } from '../../protobuf';
 
 import { generateAci, generatePni } from '../../types/ServiceId';
@@ -73,8 +73,8 @@ function createMessage(
 
 describe('backup/groupv2/notifications', () => {
   beforeEach(async () => {
-    await Data._removeAllMessages();
-    await Data._removeAllConversations();
+    await DataWriter._removeAllMessages();
+    await DataWriter._removeAllConversations();
     window.storage.reset();
 
     await setupBasics();

@@ -17,6 +17,7 @@ import * as Errors from '../../types/errors';
 
 import { strictAssert } from '../../util/assert';
 import { drop } from '../../util/drop';
+import { DataReader } from '../../sql/Client';
 import type {
   NotificationClickData,
   WindowsNotificationData,
@@ -193,7 +194,7 @@ ipc.on('additional-log-data-request', async event => {
 
   let statistics;
   try {
-    statistics = await window.Signal.Data.getStatisticsForLogging();
+    statistics = await DataReader.getStatisticsForLogging();
   } catch (error) {
     statistics = {};
   }

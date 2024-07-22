@@ -1,23 +1,23 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Database } from '@signalapp/better-sqlite3';
 import type {
   GroupSendCombinedEndorsementRecord,
   GroupSendEndorsementsData,
   GroupSendMemberEndorsementRecord,
 } from '../../types/GroupSendEndorsements';
 import { groupSendEndorsementExpirationSchema } from '../../types/GroupSendEndorsements';
-import { getReadonlyInstance, getWritableInstance, prepare } from '../Server';
+import { prepare } from '../Server';
+import type { ReadableDB, WritableDB } from '../Interface';
 import { sql } from '../util';
 
 /**
  * We don't need to store more than one endorsement per group or per member.
  */
-export async function replaceAllEndorsementsForGroup(
+export function replaceAllEndorsementsForGroup(
+  db: WritableDB,
   data: GroupSendEndorsementsData
-): Promise<void> {
-  const db = await getWritableInstance();
+): void {
   db.transaction(() => {
     const { combinedEndorsement, memberEndorsements } = data;
     _replaceCombinedEndorsement(db, combinedEndorsement);
@@ -26,7 +26,7 @@ export async function replaceAllEndorsementsForGroup(
 }
 
 function _replaceCombinedEndorsement(
-  db: Database,
+  db: WritableDB,
   combinedEndorsement: GroupSendCombinedEndorsementRecord
 ): void {
   const { groupId, expiration, endorsement } = combinedEndorsement;
@@ -39,7 +39,7 @@ function _replaceCombinedEndorsement(
 }
 
 function _replaceMemberEndorsements(
-  db: Database,
+  db: WritableDB,
   memberEndorsements: ReadonlyArray<GroupSendMemberEndorsementRecord>
 ) {
   for (const memberEndorsement of memberEndorsements) {
@@ -53,10 +53,10 @@ function _replaceMemberEndorsements(
   }
 }
 
-export async function deleteAllEndorsementsForGroup(
+export function deleteAllEndorsementsForGroup(
+  db: WritableDB,
   groupId: string
-): Promise<void> {
-  const db = await getWritableInstance();
+): void {
   db.transaction(() => {
     const [deleteCombined, deleteCombinedParams] = sql`
       DELETE FROM groupSendCombinedEndorsement
@@ -71,10 +71,10 @@ export async function deleteAllEndorsementsForGroup(
   })();
 }
 
-export async function getGroupSendCombinedEndorsementExpiration(
+export function getGroupSendCombinedEndorsementExpiration(
+  db: ReadableDB,
   groupId: string
-): Promise<number | null> {
-  const db = getReadonlyInstance();
+): number | null {
   const [selectGroup, selectGroupParams] = sql`
     SELECT expiration FROM groupSendCombinedEndorsement
     WHERE groupId = ${groupId};

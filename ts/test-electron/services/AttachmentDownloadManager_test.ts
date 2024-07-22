@@ -15,7 +15,7 @@ import {
   type NewAttachmentDownloadJobType,
 } from '../../jobs/AttachmentDownloadManager';
 import type { AttachmentDownloadJobType } from '../../types/AttachmentDownload';
-import dataInterface from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client';
 import { MINUTE } from '../../util/durations';
 import { type AciString } from '../../types/ServiceId';
 import { type AttachmentType, AttachmentVariant } from '../../types/Attachment';
@@ -60,7 +60,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
   let isInCall: sinon.SinonStub;
 
   beforeEach(async () => {
-    await dataInterface.removeAll();
+    await DataWriter.removeAll();
 
     sandbox = sinon.createSandbox();
     clock = sandbox.useFakeTimers();
@@ -99,7 +99,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
     urgency: AttachmentDownloadUrgency
   ) {
     // Save message first to satisfy foreign key constraint
-    await dataInterface.saveMessage(
+    await DataWriter.saveMessage(
       {
         id: job.messageId,
         type: 'incoming',
@@ -162,13 +162,13 @@ describe('AttachmentDownloadManager/JobManager', () => {
     // first. In cases like maybeStartJobs where we prevent re-entrancy, without this,
     // prior (unfinished) invocations can prevent subsequent calls after the clock is
     // ticked forward and make tests unreliable
-    await dataInterface.getAllItems();
+    await DataReader.getAllItems();
     const now = Date.now();
     while (Date.now() < now + ms) {
       // eslint-disable-next-line no-await-in-loop
       await clock.tickAsync(downloadManager?.tickInterval ?? 1000);
       // eslint-disable-next-line no-await-in-loop
-      await dataInterface.getAllItems();
+      await DataReader.getAllItems();
     }
   }
 
@@ -187,7 +187,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
   it('runs 3 jobs at a time in descending receivedAt order', async () => {
     const jobs = await addJobs(5);
     // Confirm they are saved to DB
-    const allJobs = await dataInterface.getNextAttachmentDownloadJobs({
+    const allJobs = await DataWriter.getNextAttachmentDownloadJobs({
       limit: 100,
     });
 
@@ -298,8 +298,8 @@ describe('AttachmentDownloadManager/JobManager', () => {
     assert.strictEqual(runJob.callCount, 2);
     assertRunJobCalledWith([jobs[1], jobs[0]]);
 
-    const retriedJob = await dataInterface.getAttachmentDownloadJob(jobs[1]);
-    const finishedJob = await dataInterface.getAttachmentDownloadJob(jobs[0]);
+    const retriedJob = await DataReader.getAttachmentDownloadJob(jobs[1]);
+    const finishedJob = await DataReader.getAttachmentDownloadJob(jobs[0]);
 
     assert.isUndefined(finishedJob);
     assert.strictEqual(retriedJob?.attempts, 1);
@@ -332,7 +332,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
     ]);
 
     // Ensure it's been removed after completed
-    assert.isUndefined(await dataInterface.getAttachmentDownloadJob(jobs[1]));
+    assert.isUndefined(await DataReader.getAttachmentDownloadJob(jobs[1]));
   });
 
   it('will reset attempts if addJob is called again', async () => {
@@ -382,7 +382,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
     assert.strictEqual(runJob.callCount, 8);
 
     // Ensure it's been removed
-    assert.isUndefined(await dataInterface.getAttachmentDownloadJob(jobs[0]));
+    assert.isUndefined(await DataReader.getAttachmentDownloadJob(jobs[0]));
   });
 });
 

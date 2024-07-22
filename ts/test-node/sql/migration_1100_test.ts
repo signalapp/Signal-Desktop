@@ -2,11 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { Database } from '@signalapp/better-sqlite3';
-import SQL from '@signalapp/better-sqlite3';
 import { findLast } from 'lodash';
-import { insertData, updateToVersion } from './helpers';
-import { markAllCallHistoryReadSync } from '../../sql/Server';
+import type { WritableDB } from '../../sql/Interface';
+import { markAllCallHistoryRead } from '../../sql/Server';
 import { SeenStatus } from '../../MessageSeenStatus';
 import { CallMode } from '../../types/Calling';
 import {
@@ -15,11 +13,12 @@ import {
   DirectCallStatus,
 } from '../../types/CallDisposition';
 import { strictAssert } from '../../util/assert';
+import { createDB, insertData, updateToVersion } from './helpers';
 
 describe('SQL/updateToSchemaVersion1100', () => {
-  let db: Database;
+  let db: WritableDB;
   beforeEach(() => {
-    db = new SQL(':memory:');
+    db = createDB();
     updateToVersion(db, 1100);
   });
 
@@ -73,7 +72,7 @@ describe('SQL/updateToSchemaVersion1100', () => {
       };
 
       const start = performance.now();
-      markAllCallHistoryReadSync(db, target, true);
+      markAllCallHistoryRead(db, target, true);
       const end = performance.now();
       assert.isBelow(end - start, 50);
     });

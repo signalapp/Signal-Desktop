@@ -9,7 +9,7 @@ import { Writable } from 'stream';
 import { isNumber } from 'lodash';
 
 import { Backups, SignalService } from '../../protobuf';
-import Data from '../../sql/Client';
+import { DataWriter } from '../../sql/Client';
 import type { StoryDistributionWithMembersType } from '../../sql/Interface';
 import * as log from '../../logging/log';
 import { GiftBadgeStates } from '../../components/conversation/Message';
@@ -112,14 +112,14 @@ async function processConversationOpBatch(
       `updates=${updates.length}`
   );
 
-  await Data.saveConversations(saves);
-  await Data.updateConversations(updates);
+  await DataWriter.saveConversations(saves);
+  await DataWriter.updateConversations(updates);
 }
 async function processMessagesBatch(
   ourAci: AciString,
   batch: ReadonlyArray<MessageAttributesType>
 ): Promise<void> {
-  const ids = await Data.saveMessages(batch, {
+  const ids = await DataWriter.saveMessages(batch, {
     forceSave: true,
     ourAci,
   });
@@ -138,7 +138,7 @@ async function processMessagesBatch(
 
     if (editHistory?.length) {
       drop(
-        Data.saveEditedMessages(
+        DataWriter.saveEditedMessages(
           attributes,
           ourAci,
           editHistory.slice(0, -1).map(({ timestamp }) => ({
@@ -966,7 +966,7 @@ export class BackupImportStream extends Writable {
       };
     }
 
-    await Data.createNewStoryDistribution(result);
+    await DataWriter.createNewStoryDistribution(result);
   }
 
   private async fromChat(chat: Backups.IChat): Promise<void> {

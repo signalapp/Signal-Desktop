@@ -4,6 +4,7 @@
 import noop from 'lodash/noop';
 import { v4 as generateUuid } from 'uuid';
 
+import { DataWriter } from '../sql/Client';
 import type { ReactionAttributesType } from '../messageModifiers/Reactions';
 import { ReactionSource } from './ReactionSource';
 import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
@@ -63,9 +64,7 @@ export async function enqueueReactionForSend({
     log.info('Enabling profile sharing for reaction send');
     if (!messageConversation.get('profileSharing')) {
       messageConversation.set('profileSharing', true);
-      await window.Signal.Data.updateConversation(
-        messageConversation.attributes
-      );
+      await DataWriter.updateConversation(messageConversation.attributes);
     }
     await messageConversation.restoreContact();
   }

@@ -15,7 +15,7 @@ import type { MIMEType } from '../../types/MIME';
 import type { MediaItemType } from '../../types/MediaItem';
 import type { StateType as RootStateType } from '../reducer';
 
-import dataInterface from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client';
 import {
   CONVERSATION_UNLOADED,
   MESSAGE_CHANGED,
@@ -84,13 +84,13 @@ function loadMediaItems(
 
     const ourAci = window.textsecure.storage.user.getCheckedAci();
 
-    const rawMedia = await dataInterface.getMessagesWithVisualMediaAttachments(
+    const rawMedia = await DataReader.getMessagesWithVisualMediaAttachments(
       conversationId,
       {
         limit: DEFAULT_MEDIA_FETCH_COUNT,
       }
     );
-    const rawDocuments = await dataInterface.getMessagesWithFileAttachments(
+    const rawDocuments = await DataReader.getMessagesWithFileAttachments(
       conversationId,
       {
         limit: DEFAULT_DOCUMENTS_FETCH_COUNT,
@@ -111,7 +111,7 @@ function loadMediaItems(
           const upgradedMsgAttributes = await upgradeMessageSchema(message);
           model.set(upgradedMsgAttributes);
 
-          await dataInterface.saveMessage(upgradedMsgAttributes, { ourAci });
+          await DataWriter.saveMessage(upgradedMsgAttributes, { ourAci });
         }
       })
     );

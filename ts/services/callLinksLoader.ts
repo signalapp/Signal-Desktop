@@ -1,14 +1,14 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import dataInterface from '../sql/Client';
+import { DataReader } from '../sql/Client';
 import type { CallLinkType } from '../types/CallLink';
 import { strictAssert } from '../util/assert';
 
 let callLinksData: ReadonlyArray<CallLinkType>;
 
 export async function loadCallLinks(): Promise<void> {
-  callLinksData = await dataInterface.getAllCallLinks();
+  callLinksData = await DataReader.getAllCallLinks();
 }
 
 export function getCallLinksForRedux(): ReadonlyArray<CallLinkType> {

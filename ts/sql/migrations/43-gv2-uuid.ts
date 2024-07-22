@@ -1,7 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Database } from '@signalapp/better-sqlite3';
 import { omit } from 'lodash';
 
 import type { LoggerType } from '../../types/Logging';
@@ -16,6 +15,7 @@ import {
   objectToJSON,
 } from '../util';
 import type { EmptyQuery, Query } from '../util';
+import type { WritableDB } from '../Interface';
 
 type MessageType = Readonly<{
   id: string;
@@ -35,7 +35,7 @@ type ConversationType = Readonly<{
 
 export default function updateToSchemaVersion43(
   currentVersion: number,
-  db: Database,
+  db: WritableDB,
   logger: LoggerType
 ): void {
   if (currentVersion >= 43) {

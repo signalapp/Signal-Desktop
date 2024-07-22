@@ -17,6 +17,7 @@ import type { PhoneNumber } from 'google-libphonenumber';
 
 import { clipboard } from 'electron';
 import type { ReadonlyDeep } from 'type-fest';
+import { DataReader, DataWriter } from '../../sql/Client';
 import type { AttachmentType } from '../../types/Attachment';
 import type { StateType as RootStateType } from '../reducer';
 import * as groups from '../../groups';
@@ -1480,7 +1481,7 @@ async function getAvatarsAndUpdateConversation(
   conversation.attributes.avatars = nextAvatars.map(avatarData =>
     omit(avatarData, ['buffer'])
   );
-  window.Signal.Data.updateConversation(conversation.attributes);
+  await DataWriter.updateConversation(conversation.attributes);
 
   return nextAvatars;
 }
@@ -1750,21 +1751,20 @@ function deleteMessages({
     let nearbyMessageId: string | null = null;
 
     if (nearbyMessageId == null && lastSelectedMessage != null) {
-      const foundMessageId =
-        await window.Signal.Data.getNearbyMessageFromDeletedSet({
-          conversationId,
-          lastSelectedMessage,
-          deletedMessageIds: messageIds,
-          includeStoryReplies: false,
-          storyId: undefined,
-        });
+      const foundMessageId = await DataReader.getNearbyMessageFromDeletedSet({
+        conversationId,
+        lastSelectedMessage,
+        deletedMessageIds: messageIds,
+        includeStoryReplies: false,
+        storyId: undefined,
+      });
 
       if (foundMessageId != null) {
         nearbyMessageId = foundMessageId;
       }
     }
 
-    await window.Signal.Data.removeMessages(messageIds, {
+    await DataWriter.removeMessages(messageIds, {
       singleProtoJobQueue,
     });
 
@@ -2189,7 +2189,7 @@ function removeCustomColorOnConversations(
     });
 
     if (conversationsToUpdate.length) {
-      await window.Signal.Data.updateConversations(conversationsToUpdate);
+      await DataWriter.updateConversations(conversationsToUpdate);
     }
 
     dispatch({
@@ -2209,7 +2209,7 @@ function resetAllChatColors(): ThunkAction<
 > {
   return async dispatch => {
     // Calling this with no args unsets all the colors in the db
-    await window.Signal.Data.updateAllConversationColors();
+    await DataWriter.updateAllConversationColors();
 
     window.getConversations().forEach(conversation => {
       conversation.set({
@@ -2245,7 +2245,7 @@ function kickOffAttachmentDownload(
 
     if (didUpdateValues) {
       drop(
-        window.Signal.Data.saveMessage(message.attributes, {
+        DataWriter.saveMessage(message.attributes, {
           ourAci: window.textsecure.storage.user.getCheckedAci(),
         })
       );
@@ -2402,7 +2402,7 @@ export function setVoiceNotePlaybackRate({
       conversationModel.set({
         voiceNotePlaybackRate: rate === 1 ? undefined : rate,
       });
-      window.Signal.Data.updateConversation(conversationModel.attributes);
+      await DataWriter.updateConversation(conversationModel.attributes);
     }
 
     const conversation = conversationModel?.format();
@@ -2456,7 +2456,7 @@ function colorSelected({
         });
       }
 
-      window.Signal.Data.updateConversation(conversation.attributes);
+      await DataWriter.updateConversation(conversation.attributes);
     }
 
     dispatch({
@@ -2779,20 +2779,17 @@ function toggleSelectMessage(
         message => message
       );
 
-      const betweenIds = await window.Signal.Data.getMessagesBetween(
-        conversationId,
-        {
-          after: {
-            sent_at: after.sent_at,
-            received_at: after.received_at,
-          },
-          before: {
-            sent_at: before.sent_at,
-            received_at: before.received_at,
-          },
-          includeStoryReplies: !isGroup(conversation.attributes),
-        }
-      );
+      const betweenIds = await DataReader.getMessagesBetween(conversationId, {
+        after: {
+          sent_at: after.sent_at,
+          received_at: after.received_at,
+        },
+        before: {
+          sent_at: before.sent_at,
+          received_at: before.received_at,
+        },
+        includeStoryReplies: !isGroup(conversation.attributes),
+      });
 
       toggledMessageIds = [messageId, ...betweenIds];
     } else {
@@ -3434,7 +3431,7 @@ function reportSpam(
             addReportSpamJob({
               conversation,
               getMessageServerGuidsForSpam:
-                window.Signal.Data.getMessageServerGuidsForSpam,
+                DataReader.getMessageServerGuidsForSpam,
               jobQueue: reportSpamJobQueue,
             }),
           ]);
@@ -3484,7 +3481,7 @@ function blockAndReportSpam(
               addReportSpamJob({
                 conversation: conversationForSpam,
                 getMessageServerGuidsForSpam:
-                  window.Signal.Data.getMessageServerGuidsForSpam,
+                  DataReader.getMessageServerGuidsForSpam,
                 jobQueue: reportSpamJobQueue,
               }),
           ]);
@@ -3654,12 +3651,9 @@ function loadRecentMediaItems(
 ): ThunkAction<void, RootStateType, unknown, SetRecentMediaItemsActionType> {
   return async dispatch => {
     const messages: Array<MessageAttributesType> =
-      await window.Signal.Data.getMessagesWithVisualMediaAttachments(
-        conversationId,
-        {
-          limit,
-        }
-      );
+      await DataReader.getMessagesWithVisualMediaAttachments(conversationId, {
+        limit,
+      });
 
     // Cache these messages in memory to ensure Lightbox can find them
     messages.forEach(message => {
@@ -3839,7 +3833,7 @@ export function scrollToOldestUnreadMention(
     }
 
     const oldestUnreadMention =
-      await window.Signal.Data.getOldestUnreadMentionOfMeForConversation(
+      await DataReader.getOldestUnreadMentionOfMeForConversation(
         conversationId,
         {
           includeStoryReplies: !isGroup(conversation),
@@ -4151,7 +4145,7 @@ function toggleGroupsForStorySend(
         conversation.set({
           storySendMode: newStorySendMode,
         });
-        window.Signal.Data.updateConversation(conversation.attributes);
+        await DataWriter.updateConversation(conversation.attributes);
         conversation.captureChange('storySendMode');
       })
     );
@@ -4413,7 +4407,7 @@ function onConversationClosed(
         });
       }
 
-      window.Signal.Data.updateConversation(conversation.attributes);
+      await DataWriter.updateConversation(conversation.attributes);
 
       drop(conversation.updateLastMessage());
     }
@@ -4784,7 +4778,7 @@ function updateNicknameAndNote(
       nicknameFamilyName: nickname?.familyName,
       note,
     });
-    window.Signal.Data.updateConversation(conversationModel.attributes);
+    await DataWriter.updateConversation(conversationModel.attributes);
     const conversation = conversationModel.format();
     dispatch(conversationChanged(conversationId, conversation));
     conversationModel.captureChange('nicknameAndNote');

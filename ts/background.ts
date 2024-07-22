@@ -209,6 +209,7 @@ import { isEnabled } from './RemoteConfig';
 import { AttachmentBackupManager } from './jobs/AttachmentBackupManager';
 import { getConversationIdForLogging } from './util/idForLogging';
 import { encryptConversationAttachments } from './util/encryptConversationAttachments';
+import { DataReader, DataWriter } from './sql/Client';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -256,7 +257,7 @@ export async function startApp(): Promise<void> {
   let initialBadgesState: BadgesStateType = { byId: {} };
   async function loadInitialBadgesState(): Promise<void> {
     initialBadgesState = {
-      byId: makeLookup(await window.Signal.Data.getAllBadges(), 'id'),
+      byId: makeLookup(await DataReader.getAllBadges(), 'id'),
     };
   }
 
@@ -436,7 +437,7 @@ export async function startApp(): Promise<void> {
     window.i18n
   );
 
-  const version = await window.Signal.Data.getItemById('version');
+  const version = await DataReader.getItemById('version');
   if (!version) {
     const isIndexedDBPresent = await indexedDb.doesDatabaseExist();
     if (isIndexedDBPresent) {
@@ -472,8 +473,8 @@ export async function startApp(): Promise<void> {
 
         await Promise.all([
           indexedDb.removeDatabase(),
-          window.Signal.Data.removeAll(),
-          window.Signal.Data.removeIndexedDBFiles(),
+          DataWriter.removeAll(),
+          DataWriter.removeIndexedDBFiles(),
         ]);
         log.info('Done with SQL deletion and IndexedDB file deletion.');
       } catch (error) {
@@ -485,7 +486,7 @@ export async function startApp(): Promise<void> {
 
       // Set a flag to delete IndexedDB on next startup if it wasn't deleted just now.
       // We need to use direct data calls, since window.storage isn't ready yet.
-      await window.Signal.Data.createOrUpdateItem({
+      await DataWriter.createOrUpdateItem({
         id: 'indexeddb-delete-needed',
         value: true,
       });
@@ -826,7 +827,7 @@ export async function startApp(): Promise<void> {
         log.info('background/shutdown: closing the database');
 
         // Shut down the data interface cleanly
-        await window.Signal.Data.shutdown();
+        await DataWriter.shutdown();
       },
     });
 
@@ -926,12 +927,12 @@ export async function startApp(): Promise<void> {
           key: legacyChallengeKey,
         });
 
-        await window.Signal.Data.clearAllErrorStickerPackAttempts();
+        await DataWriter.clearAllErrorStickerPackAttempts();
       }
 
       if (window.isBeforeVersion(lastVersion, 'v5.51.0-beta.2')) {
         await window.storage.put('groupCredentials', []);
-        await window.Signal.Data.removeAllProfileKeyCredentials();
+        await DataWriter.removeAllProfileKeyCredentials();
       }
 
       if (window.isBeforeVersion(lastVersion, 'v6.38.0-beta.1')) {
@@ -963,9 +964,9 @@ export async function startApp(): Promise<void> {
 
     if (newVersion || window.storage.get('needOrphanedAttachmentCheck')) {
       await window.storage.remove('needOrphanedAttachmentCheck');
-      await window.Signal.Data.cleanupOrphanedAttachments();
+      await DataWriter.cleanupOrphanedAttachments();
 
-      drop(window.Signal.Data.ensureFilePermissions());
+      drop(DataWriter.ensureFilePermissions());
     }
 
     if (
@@ -1004,9 +1005,8 @@ export async function startApp(): Promise<void> {
           const batchWithIndex = await migrateMessageData({
             numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
             upgradeMessageSchema,
-            getMessagesNeedingUpgrade:
-              window.Signal.Data.getMessagesNeedingUpgrade,
-            saveMessages: window.Signal.Data.saveMessages,
+            getMessagesNeedingUpgrade: DataReader.getMessagesNeedingUpgrade,
+            saveMessages: DataWriter.saveMessages,
           });
           log.info('idleDetector/idle: Upgraded messages:', batchWithIndex);
           isMigrationWithIndexComplete = batchWithIndex.done;
@@ -1056,9 +1056,7 @@ export async function startApp(): Promise<void> {
       }
 
       try {
-        await window.Signal.Data.deleteSentProtosOlderThan(
-          now - sentProtoMaxAge
-        );
+        await DataWriter.deleteSentProtosOlderThan(now - sentProtoMaxAge);
       } catch (error) {
         log.error(
           'background/onready/setInterval: Error deleting sent protos: ',
@@ -1412,7 +1410,7 @@ export async function startApp(): Promise<void> {
 
     log.info('Expiration start timestamp cleanup: starting...');
     const messagesUnexpectedlyMissingExpirationStartTimestamp =
-      await window.Signal.Data.getMessagesUnexpectedlyMissingExpirationStartTimestamp();
+      await DataReader.getMessagesUnexpectedlyMissingExpirationStartTimestamp();
     log.info(
       `Expiration start timestamp cleanup: Found ${messagesUnexpectedlyMissingExpirationStartTimestamp.length} messages for cleanup`
     );
@@ -1446,7 +1444,7 @@ export async function startApp(): Promise<void> {
           };
         });
 
-      await window.Signal.Data.saveMessages(newMessageAttributes, {
+      await DataWriter.saveMessages(newMessageAttributes, {
         ourAci: window.textsecure.storage.user.getCheckedAci(),
       });
     }
@@ -1454,10 +1452,10 @@ export async function startApp(): Promise<void> {
 
     {
       log.info('Startup/syncTasks: Fetching tasks');
-      const syncTasks = await window.Signal.Data.getAllSyncTasks();
+      const syncTasks = await DataWriter.getAllSyncTasks();
 
       log.info(`Startup/syncTasks: Queueing ${syncTasks.length} sync tasks`);
-      await queueSyncTasks(syncTasks, window.Signal.Data.removeSyncTaskById);
+      await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
 
       log.info('`Startup/syncTasks: Done');
     }
@@ -2402,7 +2400,7 @@ export async function startApp(): Promise<void> {
             `for ${sender.idForLogging()}`
         );
         sender.set({ shareMyPhoneNumber: true });
-        window.Signal.Data.updateConversation(sender.attributes);
+        drop(DataWriter.updateConversation(sender.attributes));
       }
 
       if (!message.get('unidentifiedDeliveryReceived')) {
@@ -2585,7 +2583,7 @@ export async function startApp(): Promise<void> {
     const conversation = window.ConversationController.get(id)!;
 
     conversation.enableProfileSharing();
-    window.Signal.Data.updateConversation(conversation.attributes);
+    await DataWriter.updateConversation(conversation.attributes);
 
     // Then we update our own profileKey if it's different from what we have
     const ourId = window.ConversationController.getOurConversationId();
@@ -3037,14 +3035,14 @@ export async function startApp(): Promise<void> {
         window.ConversationController.getOurConversation();
       if (ourConversation) {
         ourConversation.unset('username');
-        window.Signal.Data.updateConversation(ourConversation.attributes);
+        await DataWriter.updateConversation(ourConversation.attributes);
       }
 
       // Then make sure outstanding conversation saves are flushed
-      await window.Signal.Data.flushUpdateConversationBatcher();
+      await DataWriter.flushUpdateConversationBatcher();
 
       // Then make sure that all previously-outstanding database saves are flushed
-      await window.Signal.Data.getItemById('manifestVersion');
+      await DataReader.getItemById('manifestVersion');
 
       // Finally, conversations in the database, and delete all config tables
       await window.textsecure.storage.protocol.removeAllConfiguration();
@@ -3319,13 +3317,13 @@ export async function startApp(): Promise<void> {
 
     log.info(`${logId}: Saving ${syncTasks.length} sync tasks`);
 
-    await window.Signal.Data.saveSyncTasks(syncTasks);
+    await DataWriter.saveSyncTasks(syncTasks);
 
     confirm();
 
     log.info(`${logId}: Queuing ${syncTasks.length} sync tasks`);
 
-    await queueSyncTasks(syncTasks, window.Signal.Data.removeSyncTaskById);
+    await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
 
     log.info(`${logId}: Done`);
   }
@@ -3391,13 +3389,13 @@ export async function startApp(): Promise<void> {
 
     log.info(`${logId}: Saving ${syncTasks.length} sync tasks`);
 
-    await window.Signal.Data.saveSyncTasks(syncTasks);
+    await DataWriter.saveSyncTasks(syncTasks);
 
     confirm();
 
     log.info(`${logId}: Queuing ${syncTasks.length} sync tasks`);
 
-    await queueSyncTasks(syncTasks, window.Signal.Data.removeSyncTaskById);
+    await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
 
     log.info(`${logId}: Done`);
   }
@@ -3463,13 +3461,13 @@ export async function startApp(): Promise<void> {
 
     log.info(`${logId}: Saving ${syncTasks.length} sync tasks`);
 
-    await window.Signal.Data.saveSyncTasks(syncTasks);
+    await DataWriter.saveSyncTasks(syncTasks);
 
     confirm();
 
     log.info(`${logId}: Queuing ${syncTasks.length} sync tasks`);
 
-    await queueSyncTasks(syncTasks, window.Signal.Data.removeSyncTaskById);
+    await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
 
     log.info(`${logId}: Done`);
   }
@@ -3544,13 +3542,13 @@ export async function startApp(): Promise<void> {
 
     log.info(`${logId}: Saving ${syncTasks.length} sync tasks`);
 
-    await window.Signal.Data.saveSyncTasks(syncTasks);
+    await DataWriter.saveSyncTasks(syncTasks);
 
     confirm();
 
     log.info(`${logId}: Queuing ${syncTasks.length} sync tasks`);
 
-    await queueSyncTasks(syncTasks, window.Signal.Data.removeSyncTaskById);
+    await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
 
     log.info(`${logId}: Done`);
   }
@@ -3579,13 +3577,13 @@ export async function startApp(): Promise<void> {
       sentAt: timestamp,
       type: item.type,
     }));
-    await window.Signal.Data.saveSyncTasks(syncTasks);
+    await DataWriter.saveSyncTasks(syncTasks);
 
     confirm();
 
     log.info(`${logId}: Queuing ${syncTasks.length} sync tasks`);
 
-    await queueSyncTasks(syncTasks, window.Signal.Data.removeSyncTaskById);
+    await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
 
     log.info(`${logId}: Done`);
   }

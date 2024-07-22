@@ -39,7 +39,7 @@ import {
 } from './conversations';
 import { showStickerPackPreview } from './globalModals';
 import { useBoundActions } from '../../hooks/useBoundActions';
-import dataInterface from '../../sql/Client';
+import { DataReader } from '../../sql/Client';
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type LightboxStateType =
@@ -349,7 +349,7 @@ function showLightbox(opts: {
     }
 
     const { older, newer } =
-      await dataInterface.getConversationRangeCenteredOnMessage({
+      await DataReader.getConversationRangeCenteredOnMessage({
         conversationId: message.get('conversationId'),
         messageId,
         receivedAt,
@@ -436,8 +436,8 @@ function showLightboxForAdjacentMessage(
 
     const [adjacent] =
       direction === AdjacentMessageDirection.Previous
-        ? await dataInterface.getOlderMessagesByConversation(options)
-        : await dataInterface.getNewerMessagesByConversation(options);
+        ? await DataReader.getOlderMessagesByConversation(options)
+        : await DataReader.getNewerMessagesByConversation(options);
 
     if (!adjacent) {
       log.warn(

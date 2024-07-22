@@ -23,7 +23,6 @@ import { start as startConversationController } from '../../ConversationControll
 import { initMessageCleanup } from '../../services/messageStateCleanup';
 import { Environment, getEnvironment } from '../../environment';
 import { isProduction } from '../../util/version';
-import { ipcInvoke } from '../../sql/channels';
 import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen';
 
 window.addEventListener('contextmenu', e => {
@@ -89,8 +88,6 @@ if (!isProduction(window.SignalContext.getVersion())) {
     },
     setRtcStatsInterval: (intervalMillis: number) =>
       window.Signal.Services.calling.setAllRtcStatsInterval(intervalMillis),
-    sqlCall: (name: string, ...args: ReadonlyArray<unknown>) =>
-      ipcInvoke(name, args),
     ...(window.SignalContext.config.ciMode === 'benchmark'
       ? {
           benchmarkConversationOpen,

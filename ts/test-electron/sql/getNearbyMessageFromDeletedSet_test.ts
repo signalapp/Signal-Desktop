@@ -4,17 +4,13 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
-import dataInterface from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client';
 import { generateAci } from '../../types/ServiceId';
 
 import type { MessageAttributesType } from '../../model-types';
 
-const {
-  saveMessages,
-  _getAllMessages,
-  _removeAllMessages,
-  getNearbyMessageFromDeletedSet,
-} = dataInterface;
+const { _getAllMessages, getNearbyMessageFromDeletedSet } = DataReader;
+const { saveMessages, _removeAllMessages } = DataWriter;
 
 describe('sql/getNearbyMessageFromDeletedSet', () => {
   beforeEach(async () => {

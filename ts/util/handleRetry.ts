@@ -8,7 +8,7 @@ import {
 import { isNumber } from 'lodash';
 
 import * as Bytes from '../Bytes';
-import dataInterface from '../sql/Client';
+import { DataReader, DataWriter } from '../sql/Client';
 import { isProduction } from './version';
 import { strictAssert } from './assert';
 import { isGroupV2 } from './whatTypeOfConversation';
@@ -112,7 +112,7 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     return;
   }
 
-  const sentProto = await window.Signal.Data.getSentProtoByRecipient({
+  const sentProto = await DataWriter.getSentProtoByRecipient({
     now: Date.now(),
     recipientServiceId: requesterAci,
     timestamp: sentAt,
@@ -387,7 +387,7 @@ async function getRetryConversation({
   }
 
   const [messageId] = messageIds;
-  const message = await window.Signal.Data.getMessageById(messageId);
+  const message = await DataReader.getMessageById(messageId);
   if (!message) {
     log.warn(
       `getRetryConversation/${logId}: Unable to find message ${messageId}`
@@ -424,7 +424,7 @@ async function checkDistributionListAndAddSKDM({
     listsById.set(list.id, list);
   });
 
-  const messages = await dataInterface.getMessagesBySentAt(timestamp);
+  const messages = await DataReader.getMessagesBySentAt(timestamp);
   const isInAnyDistributionList = messages.some(message => {
     const listId = message.storyDistributionListId;
     if (!listId) {
@@ -457,10 +457,9 @@ async function checkDistributionListAndAddSKDM({
     distributionList,
     `checkDistributionListAndAddSKDM/${logId}: Should have a distribution list by this point`
   );
-  const distributionDetails =
-    await window.Signal.Data.getStoryDistributionWithMembers(
-      distributionList.id
-    );
+  const distributionDetails = await DataReader.getStoryDistributionWithMembers(
+    distributionList.id
+  );
   const distributionId = distributionDetails?.senderKeyInfo?.distributionId;
   if (!distributionId) {
     log.warn(

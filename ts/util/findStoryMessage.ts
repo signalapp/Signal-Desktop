@@ -5,6 +5,7 @@ import type { MessageAttributesType } from '../model-types.d';
 import type { MessageModel } from '../models/messages';
 import type { SignalService as Proto } from '../protobuf';
 import type { AciString } from '../types/ServiceId';
+import { DataReader } from '../sql/Client';
 import * as log from '../logging/log';
 import { normalizeAci } from './normalizeAci';
 import { filter } from './iterables';
@@ -50,7 +51,7 @@ export async function findStoryMessages(
   }
 
   log.info('findStoryMessages: db lookup needed', sentAt);
-  const messages = await window.Signal.Data.getMessagesBySentAt(sentAt);
+  const messages = await DataReader.getMessagesBySentAt(sentAt);
   const found = messages.filter(item =>
     isStoryAMatch(item, conversationId, ourConversationId, authorAci, sentAt)
   );

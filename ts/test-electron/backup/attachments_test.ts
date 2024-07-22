@@ -10,7 +10,7 @@ import { assert } from 'chai';
 
 import type { ConversationModel } from '../../models/conversations';
 import * as Bytes from '../../Bytes';
-import Data from '../../sql/Client';
+import { DataWriter } from '../../sql/Client';
 import { type AciString, generateAci } from '../../types/ServiceId';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SeenStatus } from '../../MessageSeenStatus';
@@ -39,8 +39,8 @@ describe('backup/attachments', () => {
   let contactA: ConversationModel;
 
   beforeEach(async () => {
-    await Data._removeAllMessages();
-    await Data._removeAllConversations();
+    await DataWriter._removeAllMessages();
+    await DataWriter._removeAllConversations();
     window.storage.reset();
 
     await setupBasics();

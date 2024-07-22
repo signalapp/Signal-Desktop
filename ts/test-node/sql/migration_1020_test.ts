@@ -2,15 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { Database } from '@signalapp/better-sqlite3';
-import SQL from '@signalapp/better-sqlite3';
 import { v4 as generateGuid } from 'uuid';
 
 import { normalizeAci } from '../../util/normalizeAci';
-import { insertData, getTableData, updateToVersion } from './helpers';
+import type { WritableDB } from '../../sql/Interface';
+import { createDB, insertData, getTableData, updateToVersion } from './helpers';
 
 describe('SQL/updateToSchemaVersion1020', () => {
-  let db: Database;
+  let db: WritableDB;
 
   const OUR_ACI = normalizeAci(
     generateGuid(),
@@ -22,7 +21,7 @@ describe('SQL/updateToSchemaVersion1020', () => {
   );
 
   beforeEach(() => {
-    db = new SQL(':memory:');
+    db = createDB();
     updateToVersion(db, 1010);
   });
 

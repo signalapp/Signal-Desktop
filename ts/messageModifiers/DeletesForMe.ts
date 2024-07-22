@@ -18,9 +18,9 @@ import {
   getConversationFromTarget,
   getMessageQueryFromTarget,
 } from '../util/deleteForMe';
-import dataInterface from '../sql/Client';
+import { DataWriter } from '../sql/Client';
 
-const { removeSyncTaskById } = dataInterface;
+const { removeSyncTaskById } = DataWriter;
 
 export type DeleteForMeAttributesType = {
   conversation: ConversationToDelete;

@@ -9,7 +9,7 @@ import type {
   StickerType as StickerDBType,
   StickerPackType as StickerPackDBType,
 } from '../../sql/Interface';
-import dataInterface from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client';
 import type { RecentStickerType } from '../../types/Stickers';
 import {
   downloadStickerPack as externalDownloadStickerPack,
@@ -25,7 +25,8 @@ import type { NoopActionType } from './noop';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
-const { getRecentStickers, updateStickerLastUsed } = dataInterface;
+const { getRecentStickers } = DataReader;
+const { updateStickerLastUsed } = DataWriter;
 
 // State
 
@@ -241,7 +242,7 @@ async function doInstallStickerPack(
   } = options;
 
   const timestamp = Date.now();
-  await dataInterface.installStickerPack(packId, timestamp);
+  await DataWriter.installStickerPack(packId, timestamp);
 
   if (!fromSync && !fromStorageService && !fromBackup) {
     // Kick this off, but don't wait for it
@@ -283,7 +284,7 @@ async function doUninstallStickerPack(
   const { fromSync = false, fromStorageService = false } = options;
 
   const timestamp = Date.now();
-  await dataInterface.uninstallStickerPack(packId, timestamp);
+  await DataWriter.uninstallStickerPack(packId, timestamp);
 
   // If there are no more references, it should be removed
   await maybeDeletePack(packId);

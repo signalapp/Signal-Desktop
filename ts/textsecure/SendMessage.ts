@@ -15,6 +15,7 @@ import {
   SenderKeyDistributionMessage,
 } from '@signalapp/libsignal-client';
 
+import { DataWriter } from '../sql/Client';
 import type { ConversationModel } from '../models/conversations';
 import { GLOBAL_ZONE } from '../SignalProtocolStore';
 import { assertDev, strictAssert } from '../util/assert';
@@ -2091,7 +2092,7 @@ export default class MessageSender {
       }
 
       if (initialSavePromise === undefined) {
-        initialSavePromise = window.Signal.Data.insertSentProto(
+        initialSavePromise = DataWriter.insertSentProto(
           {
             contentHint,
             proto,
@@ -2107,7 +2108,7 @@ export default class MessageSender {
         await initialSavePromise;
       } else {
         const id = await initialSavePromise;
-        await window.Signal.Data.insertProtoRecipients({
+        await DataWriter.insertProtoRecipients({
           id,
           recipientServiceId,
           deviceIds,

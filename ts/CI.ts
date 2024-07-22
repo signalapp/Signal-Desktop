@@ -7,7 +7,7 @@ import type { IPCResponse as ChallengeResponseType } from './challenge';
 import type { MessageAttributesType } from './model-types.d';
 import * as log from './logging/log';
 import { explodePromise } from './util/explodePromise';
-import { ipcInvoke } from './sql/channels';
+import { AccessType, ipcInvoke } from './sql/channels';
 import { backupsService } from './services/backups';
 import { SECOND } from './util/durations';
 import { isSignalRoute } from './util/signalRoutes';
@@ -128,6 +128,7 @@ export function getCI({ deviceName, backupData }: GetCIOptionsType): CIType {
 
   async function getMessagesBySentAt(sentAt: number) {
     const messages = await ipcInvoke<ReadonlyArray<MessageAttributesType>>(
+      AccessType.Read,
       'getMessagesBySentAt',
       [sentAt]
     );

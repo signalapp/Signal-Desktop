@@ -4,17 +4,14 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
-import dataInterface from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client';
 import { generateAci } from '../../types/ServiceId';
 
 import type { StoryReadType } from '../../sql/Interface';
 
-const {
-  _getAllStoryReads,
-  _deleteAllStoryReads,
-  addNewStoryRead,
-  getLastStoryReadsForAuthor,
-} = dataInterface;
+const { _getAllStoryReads, getLastStoryReadsForAuthor } = DataReader;
+
+const { _deleteAllStoryReads, addNewStoryRead } = DataWriter;
 
 describe('sql/storyReads', () => {
   beforeEach(async () => {

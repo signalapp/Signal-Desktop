@@ -5,7 +5,7 @@ import * as z from 'zod';
 import type { LoggerType } from '../types/Logging';
 import { applyNewAvatar } from '../groups';
 import { isGroupV2 } from '../util/whatTypeOfConversation';
-import Data from '../sql/Client';
+import { DataWriter } from '../sql/Client';
 
 import type { JOB_STATUS } from './JobQueue';
 import { JobQueue } from './JobQueue';
@@ -46,7 +46,7 @@ export class GroupAvatarJobQueue extends JobQueue<GroupAvatarJobData> {
     const patch = await applyNewAvatar(newAvatarUrl, attributes, logId);
 
     convo.set(patch);
-    await Data.updateConversation(convo.attributes);
+    await DataWriter.updateConversation(convo.attributes);
 
     return undefined;
   }

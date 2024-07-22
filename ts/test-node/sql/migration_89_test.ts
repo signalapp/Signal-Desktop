@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { Database } from '@signalapp/better-sqlite3';
-import SQL from '@signalapp/better-sqlite3';
 import { v4 as generateGuid } from 'uuid';
 
 import { jsonToObject, sql } from '../../sql/util';
@@ -22,14 +20,14 @@ import type {
 } from '../../sql/migrations/89-call-history';
 import { getCallIdFromEra } from '../../util/callDisposition';
 import { isValidUuid } from '../../util/isValidUuid';
-import { updateToVersion } from './helpers';
-import type { MessageType } from '../../sql/Interface';
+import { createDB, updateToVersion } from './helpers';
+import type { WritableDB, MessageType } from '../../sql/Interface';
 
 describe('SQL/updateToSchemaVersion89', () => {
-  let db: Database;
+  let db: WritableDB;
 
   beforeEach(() => {
-    db = new SQL(':memory:');
+    db = createDB();
     updateToVersion(db, 88);
   });
 

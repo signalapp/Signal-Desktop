@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as log from '../logging/log';
+import { DataWriter } from '../sql/Client';
 import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
 import { isNotNil } from './isNotNil';
 import { DurationInSeconds } from './durations';
@@ -44,7 +45,7 @@ export async function markOnboardingStoryAsRead(): Promise<boolean> {
     `markOnboardingStoryAsRead: marked ${messageAttributes.length} viewed`
   );
 
-  await window.Signal.Data.saveMessages(messageAttributes, {
+  await DataWriter.saveMessages(messageAttributes, {
     ourAci: window.textsecure.storage.user.getCheckedAci(),
   });
 

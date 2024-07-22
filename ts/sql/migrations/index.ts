@@ -15,6 +15,7 @@ import {
   jsonToObject,
 } from '../util';
 import type { Query, EmptyQuery } from '../util';
+import type { WritableDB } from '../Interface';
 
 import updateToSchemaVersion41 from './41-uuid-keys';
 import updateToSchemaVersion42 from './42-stale-reactions';
@@ -2075,7 +2076,7 @@ export function enableFTS5SecureDelete(db: Database, logger: LoggerType): void {
   }
 }
 
-export function updateSchema(db: Database, logger: LoggerType): void {
+export function updateSchema(db: WritableDB, logger: LoggerType): void {
   const sqliteVersion = getSQLiteVersion(db);
   const sqlcipherVersion = getSQLCipherVersion(db);
   const startingVersion = getUserVersion(db);

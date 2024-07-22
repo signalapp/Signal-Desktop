@@ -68,11 +68,11 @@ async function cleanupOrphanedAttachments({
 }: CleanupOrphanedAttachmentsOptionsType): Promise<void> {
   await deleteAllBadges({
     userDataPath,
-    pathsToKeep: await sql.sqlCall('getAllBadgeImageFileLocalPaths'),
+    pathsToKeep: await sql.sqlRead('getAllBadgeImageFileLocalPaths'),
   });
 
   const allStickers = await getAllStickers(userDataPath);
-  const orphanedStickers = await sql.sqlCall(
+  const orphanedStickers = await sql.sqlWrite(
     'removeKnownStickers',
     allStickers
   );
@@ -82,7 +82,7 @@ async function cleanupOrphanedAttachments({
   });
 
   const allDraftAttachments = await getAllDraftAttachments(userDataPath);
-  const orphanedDraftAttachments = await sql.sqlCall(
+  const orphanedDraftAttachments = await sql.sqlWrite(
     'removeKnownDraftAttachments',
     allDraftAttachments
   );
@@ -100,7 +100,7 @@ async function cleanupOrphanedAttachments({
   );
 
   {
-    const attachments: ReadonlyArray<string> = await sql.sqlCall(
+    const attachments: ReadonlyArray<string> = await sql.sqlRead(
       'getKnownConversationAttachments'
     );
 
@@ -142,7 +142,7 @@ function deleteOrphanedAttachments({
         let attachments: ReadonlyArray<string>;
 
         // eslint-disable-next-line no-await-in-loop
-        ({ attachments, cursor } = await sql.sqlCall(
+        ({ attachments, cursor } = await sql.sqlRead(
           'getKnownMessageAttachments',
           cursor
         ));
@@ -166,7 +166,7 @@ function deleteOrphanedAttachments({
       } while (cursor !== undefined && !cursor.done);
     } finally {
       if (cursor !== undefined) {
-        await sql.sqlCall('finishGetKnownMessageAttachments', cursor);
+        await sql.sqlRead('finishGetKnownMessageAttachments', cursor);
       }
     }
 

@@ -4,6 +4,7 @@
 import type { MessageAttributesType } from '../model-types.d';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
+import { DataReader } from '../sql/Client';
 import { drop } from '../util/drop';
 import { getAuthorId } from '../messages/helpers';
 import { handleEditMessage } from '../util/handleEditMessage';
@@ -117,7 +118,7 @@ export async function onEdit(edit: EditAttributesType): Promise<void> {
       targetConversation.queueJob('Edits.onEdit', async () => {
         log.info(`${logId}: Handling edit`);
 
-        const messages = await window.Signal.Data.getMessagesBySentAt(
+        const messages = await DataReader.getMessagesBySentAt(
           edit.targetSentTimestamp
         );
 
