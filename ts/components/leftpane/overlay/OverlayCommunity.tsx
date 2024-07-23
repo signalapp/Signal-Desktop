@@ -14,7 +14,6 @@ import { resetLeftOverlayMode } from '../../../state/ducks/section';
 import { SessionButton } from '../../basic/SessionButton';
 import { SessionSpinner } from '../../loading';
 
-import { VALIDATION } from '../../../session/constants';
 import {
   markConversationInitialLoadingInProgress,
   openConversationWithMessages,
@@ -23,6 +22,7 @@ import { getLeftOverlayMode } from '../../../state/selectors/section';
 import { Spacer2XL } from '../../basic/Text';
 import { SessionInput } from '../../inputs';
 import { StyledLeftPaneOverlay } from './OverlayMessage';
+import LIBSESSION_CONSTANTS from '../../../session/utils/libsession/libsession_constants';
 
 async function joinOpenGroup(
   serverUrl: string,
@@ -105,7 +105,8 @@ export const OverlayCommunity = () => {
         onValueChanged={setGroupUrl}
         onEnterPressed={onTryJoinRoom}
         error={groupUrlError}
-        maxLength={VALIDATION.MAX_COMMUNITY_NAME_LENGTH}
+        // - 1 for null terminator
+        maxLength={LIBSESSION_CONSTANTS.COMMUNITY_FULL_URL_MAX_LENGTH - 1}
         textSize="md"
         centerText={true}
         monospaced={true}
