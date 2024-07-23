@@ -20,8 +20,6 @@ export type ConfigKeyType =
   | 'desktop.calling.raiseHand'
   | 'desktop.clientExpiration'
   | 'desktop.backup.credentialFetch'
-  | 'desktop.deleteSync.send'
-  | 'desktop.deleteSync.receive'
   | 'desktop.internalUser'
   | 'desktop.mediaQuality.levels'
   | 'desktop.messageCleanup'
