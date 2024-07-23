@@ -404,9 +404,7 @@ export async function decryptAttachmentV2ToSink(
           switch (type) {
             case 'local':
             case 'backupThumbnail':
-              log.info(
-                `${logId}: skipping digest check since this is a ${type} attachment`
-              );
+              // Skip digest check
               break;
             case 'standard':
               if (!constantTimeEqual(ourDigest, options.theirDigest)) {
