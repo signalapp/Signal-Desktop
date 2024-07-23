@@ -23,11 +23,8 @@ import { DataWriter } from '../../sql/Client';
 import { getRandomBytes } from '../../Crypto';
 import { APPLICATION_OCTET_STREAM, VIDEO_MP4 } from '../../types/MIME';
 import { createName, getRelativePath } from '../../util/attachmentPath';
-import {
-  encryptAttachmentV2,
-  generateKeys,
-  safeUnlinkSync,
-} from '../../AttachmentCrypto';
+import { encryptAttachmentV2, generateKeys } from '../../AttachmentCrypto';
+import { SECOND } from '../../util/durations';
 
 const TRANSIT_CDN = 2;
 const TRANSIT_CDN_FOR_NEW_UPLOAD = 42;
@@ -37,7 +34,8 @@ const RELATIVE_ATTACHMENT_PATH = getRelativePath(createName());
 const LOCAL_ENCRYPTION_KEYS = Bytes.toBase64(generateKeys());
 const ATTACHMENT_SIZE = 3577986;
 
-describe('AttachmentBackupManager/JobManager', () => {
+describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(this: Mocha.Suite) {
+  this.timeout(10 * SECOND);
   let backupManager: AttachmentBackupManager | undefined;
   let runJob: sinon.SinonSpy;
   let backupMediaBatch: sinon.SinonStub;
@@ -97,8 +95,24 @@ describe('AttachmentBackupManager/JobManager', () => {
     };
   }
 
+  before(async () => {
+    const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
+    const absolutePath = getAbsoluteAttachmentPath(RELATIVE_ATTACHMENT_PATH);
+    await ensureFile(absolutePath);
+    await DataWriter.ensureFilePermissions();
+    await encryptAttachmentV2({
+      plaintext: {
+        absolutePath: join(__dirname, '../../../fixtures/ghost-kitty.mp4'),
+      },
+      keys: Bytes.fromBase64(LOCAL_ENCRYPTION_KEYS),
+      sink: createWriteStream(absolutePath),
+      getAbsoluteAttachmentPath,
+    });
+  });
+
   beforeEach(async () => {
     await DataWriter.removeAll();
+
     await window.storage.put('masterKey', Bytes.toBase64(getRandomBytes(32)));
 
     sandbox = sinon.createSandbox();
@@ -140,27 +154,11 @@ describe('AttachmentBackupManager/JobManager', () => {
       shouldHoldOffOnStartingQueuedJobs: isInCall,
       runJob,
     });
-
-    const absolutePath = getAbsoluteAttachmentPath(RELATIVE_ATTACHMENT_PATH);
-    await ensureFile(absolutePath);
-    await encryptAttachmentV2({
-      plaintext: {
-        absolutePath: join(__dirname, '../../../fixtures/ghost-kitty.mp4'),
-      },
-      keys: Bytes.fromBase64(LOCAL_ENCRYPTION_KEYS),
-      sink: createWriteStream(absolutePath),
-      getAbsoluteAttachmentPath,
-    });
   });
 
   afterEach(async () => {
     sandbox.restore();
-    delete window.textsecure.server;
-    safeUnlinkSync(
-      window.Signal.Migrations.getAbsoluteAttachmentPath(
-        RELATIVE_ATTACHMENT_PATH
-      )
-    );
+
     await backupManager?.stop();
   });
 
@@ -318,12 +316,11 @@ describe('AttachmentBackupManager/JobManager', () => {
   });
 
   it('without transitCdnInfo, will permanently remove job if file not found at path', async () => {
-    const [job] = await addJobs(1, { transitCdnInfo: undefined });
-    safeUnlinkSync(
-      window.Signal.Migrations.getAbsoluteAttachmentPath(
-        RELATIVE_ATTACHMENT_PATH
-      )
-    );
+    const [job] = await addJobs(1, {
+      transitCdnInfo: undefined,
+      path: 'nothing/here',
+    });
+
     await backupManager?.start();
     await waitForJobToBeCompleted(job);
 
