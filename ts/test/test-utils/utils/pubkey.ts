@@ -45,19 +45,25 @@ export function generateFakePubKeys(amount: number): Array<PubKey> {
 
 export function generateFakeSnode(): Snode {
   return {
-    ip: `136.243.${Math.random() * 255}.${Math.random() * 255}`,
+    ip: `${ipv4Section()}.${ipv4Section()}.${ipv4Section()}.${ipv4Section()}`,
     port: 22116,
     pubkey_x25519: generateFakePubKeyStr(),
     pubkey_ed25519: generateFakePubKeyStr(),
+    storage_server_version: [2, 8, 0],
   };
+}
+
+function ipv4Section() {
+  return Math.floor(Math.random() * 255);
 }
 
 export function generateFakeSnodeWithEdKey(ed25519Pubkey: string): Snode {
   return {
-    ip: `136.243.${Math.random() * 255}.${Math.random() * 255}`,
+    ip: `${ipv4Section()}.${ipv4Section()}.${ipv4Section()}.${ipv4Section()}`,
     port: 22116,
     pubkey_x25519: generateFakePubKeyStr(),
     pubkey_ed25519: ed25519Pubkey,
+    storage_server_version: [2, 8, 0],
   };
 }
 

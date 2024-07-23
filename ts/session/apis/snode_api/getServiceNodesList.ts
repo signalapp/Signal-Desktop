@@ -18,6 +18,7 @@ function buildSnodeListRequests(): Array<GetServiceNodesSubRequest> {
           storage_port: true,
           pubkey_x25519: true,
           pubkey_ed25519: true,
+          storage_server_version: true,
         },
       },
     },
@@ -49,14 +50,15 @@ async function getSnodePoolFromSnode(targetNode: Snode): Promise<Array<Snode>> {
     }
 
     // Filter 0.0.0.0 nodes which haven't submitted uptime proofs
-    const snodes = json.result.service_node_states
+    const snodes: Array<Snode> = json.result.service_node_states
       .filter((snode: any) => snode.public_ip !== '0.0.0.0')
       .map((snode: any) => ({
         ip: snode.public_ip,
         port: snode.storage_port,
         pubkey_x25519: snode.pubkey_x25519,
         pubkey_ed25519: snode.pubkey_ed25519,
-      })) as Array<Snode>;
+        storage_server_version: snode.storage_server_version,
+      }));
     GetNetworkTime.handleTimestampOffsetFromNetwork('get_service_nodes', json.t);
 
     // we the return list by the snode is already made of uniq snodes
