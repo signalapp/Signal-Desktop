@@ -25,6 +25,7 @@ import { drop } from '../util/drop';
 import type { RendererConfigType } from '../types/RendererConfig';
 import { App } from './playwright';
 import { CONTACT_COUNT } from './benchmarks/fixtures';
+import { SignalDesktopUI } from './signal-desktop-ui';
 
 export { App };
 
@@ -345,6 +346,14 @@ export class Bootstrap {
     debug('synced with %j', this.desktop.debugId);
 
     return app;
+  }
+
+  public async signalDesktopUI(): Promise<SignalDesktopUI> {
+    assert(
+      this.lastApp !== undefined,
+      'Bootstrap has to be initialized first, see: bootstrap.init()'
+    );
+    return new SignalDesktopUI(this.lastApp);
   }
 
   public async linkAndClose(): Promise<void> {
