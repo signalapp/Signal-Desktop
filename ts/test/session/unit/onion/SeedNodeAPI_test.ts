@@ -35,6 +35,7 @@ const fakeSnodePoolFromSeedNode: Array<SnodeFromSeed> = fakeSnodePool.map(m => {
     storage_port: m.port,
     pubkey_x25519: m.pubkey_x25519,
     pubkey_ed25519: m.pubkey_ed25519,
+    storage_server_version: m.storage_server_version,
   };
 });
 

@@ -1,10 +1,11 @@
 /* eslint-disable import/no-mutable-exports */
 /* eslint-disable no-await-in-loop */
-import _, { compact } from 'lodash';
+import _, { compact, isFinite, isNumber, sample } from 'lodash';
 import pRetry from 'p-retry';
 // eslint-disable-next-line import/no-named-default
 import { default as insecureNodeFetch } from 'node-fetch';
 
+import semver from 'semver';
 import { Data, Snode } from '../../data/data';
 import * as SnodePool from '../apis/snode_api/snodePool';
 import { UserUtils } from '../utils';
@@ -15,10 +16,15 @@ import { ERROR_CODE_NO_CONNECT } from '../apis/snode_api/SNodeAPI';
 import { OnionPaths } from '.';
 import { APPLICATION_JSON } from '../../types/MIME';
 import { ed25519Str } from '../utils/String';
+import { DURATION } from '../constants';
 
 const desiredGuardCount = 3;
 const minimumGuardCount = 2;
 const ONION_REQUEST_HOPS = 3;
+
+export function getOnionPathMinTimeout() {
+  return DURATION.SECONDS;
+}
 
 export let onionPaths: Array<Array<Snode>> = [];
 
@@ -498,16 +504,27 @@ async function buildNewOnionPathsWorker() {
 
       for (let i = 0; i < maxPath; i += 1) {
         const path = [guards[i]];
-        for (let j = 0; j < nodesNeededPerPaths; j += 1) {
-          const randomWinner = _.sample(otherNodes);
-          if (!randomWinner) {
-            throw new Error('randomWinner unset during path building task');
+
+        do {
+          // selection of the last snode (edge snode) needs at least v2.8.0
+          if (path.length === nodesNeededPerPaths) {
+            const randomEdgeSnode = getRandomEdgeSnode(otherNodes);
+            otherNodes = otherNodes.filter(n => {
+              return n.pubkey_ed25519 !== randomEdgeSnode?.pubkey_ed25519;
+            });
+            path.push(randomEdgeSnode);
+          } else {
+            const snode = sample(otherNodes);
+            if (!snode) {
+              throw new Error('no more snode found for path building');
+            }
+            otherNodes = otherNodes.filter(n => {
+              return n.pubkey_ed25519 !== snode?.pubkey_ed25519;
+            });
+
+            path.push(snode);
           }
-          otherNodes = otherNodes.filter(n => {
-            return n.pubkey_ed25519 !== randomWinner?.pubkey_ed25519;
-          });
-          path.push(randomWinner);
-        }
+        } while (path.length <= nodesNeededPerPaths);
         onionPaths.push(path);
       }
 
@@ -516,7 +533,7 @@ async function buildNewOnionPathsWorker() {
     {
       retries: 3, // 4 total
       factor: 1,
-      minTimeout: 1000,
+      minTimeout: OnionPaths.getOnionPathMinTimeout(),
       onFailedAttempt: e => {
         window?.log?.warn(
           `buildNewOnionPathsWorker attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... Error: ${e.message}`
@@ -524,4 +541,34 @@ async function buildNewOnionPathsWorker() {
       },
     }
   );
+}
+
+export function getRandomEdgeSnode(snodes: Array<Snode>) {
+  const allSnodesWithv280 = snodes.filter(snode => {
+    const snodeStorageVersion = snode.storage_server_version;
+
+    if (
+      !snodeStorageVersion ||
+      !Array.isArray(snodeStorageVersion) ||
+      snodeStorageVersion.length !== 3 ||
+      snodeStorageVersion.some(m => !isNumber(m) || !isFinite(m))
+    ) {
+      return false;
+    }
+    const storageVersionAsString = `${snodeStorageVersion[0]}.${snodeStorageVersion[1]}.${snodeStorageVersion[2]}`;
+    const verifiedStorageVersion = semver.valid(storageVersionAsString);
+    if (!verifiedStorageVersion) {
+      return false;
+    }
+    if (semver.lt(verifiedStorageVersion, '2.8.0')) {
+      return false;
+    }
+    return true;
+  });
+
+  const randomEdgeSnode = sample(allSnodesWithv280);
+  if (!randomEdgeSnode) {
+    throw new Error('did not find a single snode which can be the edge');
+  }
+  return randomEdgeSnode;
 }
