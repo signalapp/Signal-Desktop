@@ -205,7 +205,6 @@ import { queueSyncTasks } from './util/syncTasks';
 import type { ViewSyncTaskType } from './messageModifiers/ViewSyncs';
 import type { ReceiptSyncTaskType } from './messageModifiers/MessageReceipts';
 import type { ReadSyncTaskType } from './messageModifiers/ReadSyncs';
-import { isEnabled } from './RemoteConfig';
 import { AttachmentBackupManager } from './jobs/AttachmentBackupManager';
 import { getConversationIdForLogging } from './util/idForLogging';
 import { encryptConversationAttachments } from './util/encryptConversationAttachments';
@@ -3558,11 +3557,6 @@ export async function startApp(): Promise<void> {
   async function onDeleteForMeSync(ev: DeleteForMeSyncEvent) {
     const { confirm, timestamp, envelopeId, deleteForMeSync } = ev;
     const logId = `onDeleteForMeSync(${timestamp})`;
-
-    if (!isEnabled('desktop.deleteSync.receive')) {
-      confirm();
-      return;
-    }
 
     // The user clearly knows about this feature; they did it on another device!
     drop(window.storage.put('localDeleteWarningShown', true));

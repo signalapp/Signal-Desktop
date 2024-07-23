@@ -5,20 +5,16 @@ import { createSelector } from 'reselect';
 
 import { getUserACI } from './user';
 import { getConversationSelector } from './conversations';
-import { getRemoteConfig, isRemoteConfigFlagEnabled } from './items';
 
 import type { AciString } from '../../types/ServiceId';
-import type { ConfigMapType } from '../../RemoteConfig';
 import type { GetConversationByIdType } from './conversations';
 
 export const getDeleteSyncSendEnabled = createSelector(
   getUserACI,
   getConversationSelector,
-  getRemoteConfig,
   (
     aci: AciString | undefined,
-    conversationSelector: GetConversationByIdType,
-    remoteConfig: ConfigMapType
+    conversationSelector: GetConversationByIdType
   ): boolean => {
     if (!aci) {
       return false;
@@ -33,6 +29,6 @@ export const getDeleteSyncSendEnabled = createSelector(
       return false;
     }
 
-    return isRemoteConfigFlagEnabled(remoteConfig, 'desktop.deleteSync.send');
+    return true;
   }
 );
