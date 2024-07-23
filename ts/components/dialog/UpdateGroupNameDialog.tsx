@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import { Component } from 'react';
 import styled from 'styled-components';
 import { ConversationModel } from '../../models/conversation';
-import { Constants } from '../../session';
 import { getConversationController } from '../../session/conversations';
 import { initiateClosedGroupUpdate } from '../../session/group/closed-group';
 import { initiateOpenGroupUpdate } from '../../session/group/open-group';
@@ -16,6 +15,7 @@ import { SessionWrapperModal } from '../SessionWrapperModal';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SpacerMD } from '../basic/Text';
+import LIBSESSION_CONSTANTS from '../../session/utils/libsession/libsession_constants';
 
 const StyledErrorMessage = styled(motion.p)`
   text-align: center;
@@ -71,7 +71,7 @@ export class UpdateGroupNameDialog extends Component<Props, State> {
       return;
     }
 
-    if (trimmedGroupName.length > Constants.VALIDATION.MAX_GROUP_NAME_LENGTH) {
+    if (trimmedGroupName.length > LIBSESSION_CONSTANTS.BASE_GROUP_MAX_NAME_LENGTH) {
       this.onShowError(window.i18n('invalidGroupNameTooLong'));
 
       return;
@@ -139,7 +139,7 @@ export class UpdateGroupNameDialog extends Component<Props, State> {
             required={true}
             aria-required={true}
             autoFocus={true}
-            maxLength={Constants.VALIDATION.MAX_GROUP_NAME_LENGTH}
+            maxLength={LIBSESSION_CONSTANTS.BASE_GROUP_MAX_NAME_LENGTH}
             data-testid="group-name-input"
           />
         ) : null}

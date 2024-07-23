@@ -26,6 +26,7 @@ import { Flex } from '../../basic/Flex';
 import { SpacerLG, SpacerMD } from '../../basic/Text';
 import { SessionInput } from '../../inputs';
 import { StyledLeftPaneOverlay } from './OverlayMessage';
+import LIBSESSION_CONSTANTS from '../../../session/utils/libsession/libsession_constants';
 
 const StyledMemberListNoContacts = styled.div`
   text-align: center;
@@ -99,7 +100,7 @@ async function createClosedGroupWithErrorHandling(
     onError(window.i18n('invalidGroupNameTooShort'));
     return false;
   }
-  if (groupName.length > VALIDATION.MAX_GROUP_NAME_LENGTH) {
+  if (groupName.length > LIBSESSION_CONSTANTS.BASE_GROUP_MAX_NAME_LENGTH) {
     onError(window.i18n('invalidGroupNameTooLong'));
     return false;
   }
@@ -191,7 +192,7 @@ export const OverlayClosedGroup = () => {
           onValueChanged={setGroupName}
           onEnterPressed={onEnterPressed}
           error={groupNameError}
-          maxLength={VALIDATION.MAX_GROUP_NAME_LENGTH}
+          maxLength={LIBSESSION_CONSTANTS.BASE_GROUP_MAX_NAME_LENGTH}
           textSize="md"
           centerText={true}
           monospaced={true}
