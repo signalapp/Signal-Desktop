@@ -185,9 +185,8 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
       if (callHistoryFilter == null) {
         return 0;
       }
-      const count = await DataReader.getCallHistoryGroupsCount(
-        callHistoryFilter
-      );
+      const count =
+        await DataReader.getCallHistoryGroupsCount(callHistoryFilter);
       return count;
     },
     [allCallLinks, allConversations, regionCode]

@@ -799,18 +799,18 @@ export const getMessagePropsSelector = createSelector(
   getSelectedMessageIds,
   getDefaultConversationColor,
   (
-      conversationSelector,
-      ourConversationId,
-      ourAci,
-      ourPni,
-      ourNumber,
-      regionCode,
-      accountSelector,
-      cachedConversationMemberColorsSelector,
-      targetedMessage,
-      selectedMessageIds,
-      defaultConversationColor
-    ) =>
+    conversationSelector,
+    ourConversationId,
+    ourAci,
+    ourPni,
+    ourNumber,
+    regionCode,
+    accountSelector,
+    cachedConversationMemberColorsSelector,
+    targetedMessage,
+    selectedMessageIds,
+    defaultConversationColor
+  ) =>
     (message: MessageWithUIFieldsType) => {
       const contactNameColors = cachedConversationMemberColorsSelector(
         message.conversationId

@@ -2,8 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Note: Add language-specific fallbacks in @localized-fonts mixin
-$inter: Inter, 'Source Sans Pro', 'Source Han Sans', -apple-system, system-ui,
-  'Segoe UI', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$inter:
+  Inter,
+  'Source Sans Pro',
+  'Source Han Sans',
+  -apple-system,
+  system-ui,
+  'Segoe UI',
+  'Noto Sans',
+  'Helvetica Neue',
+  Helvetica,
+  Arial,
+  sans-serif;
 
 // Note: This font-family is checked for in matchMonospace, to support paste scenarios
 $monospace: 'SF Mono', SFMono-Regular, ui-monospace, 'DejaVu Sans Mono', Menlo,

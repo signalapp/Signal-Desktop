@@ -23,7 +23,7 @@ export type SmartContactRendererType<T extends string | JSX.Element> = (
 
 type StringRendererType<
   T extends string | JSX.Element,
-  ParamsByKeyType extends SelectParamsByKeyType<T> = SelectParamsByKeyType<T>
+  ParamsByKeyType extends SelectParamsByKeyType<T> = SelectParamsByKeyType<T>,
 > = <Key extends keyof ParamsByKeyType>(
   id: Key,
   i18n: LocalizerType,

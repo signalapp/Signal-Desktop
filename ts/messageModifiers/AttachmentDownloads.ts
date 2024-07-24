@@ -29,9 +29,8 @@ export async function addAttachmentToMessage(
 
     try {
       if (attachment.path) {
-        const loaded = await window.Signal.Migrations.loadAttachmentData(
-          attachment
-        );
+        const loaded =
+          await window.Signal.Migrations.loadAttachmentData(attachment);
         attachmentData = loaded.data;
       }
 

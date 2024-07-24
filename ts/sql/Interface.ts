@@ -246,7 +246,7 @@ export const StickerPackStatuses = [
   'error',
 ] as const;
 
-export type StickerPackStatusType = typeof StickerPackStatuses[number];
+export type StickerPackStatusType = (typeof StickerPackStatuses)[number];
 
 export type StorageServiceFieldsType = Readonly<{
   storageID?: string;

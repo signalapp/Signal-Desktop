@@ -97,9 +97,8 @@ async function downloadBadgeImageFile(url: string): Promise<string> {
   }
 
   const imageFileData = await server.getBadgeImageFile(url);
-  const localPath = await window.Signal.Migrations.writeNewBadgeImageFileData(
-    imageFileData
-  );
+  const localPath =
+    await window.Signal.Migrations.writeNewBadgeImageFileData(imageFileData);
 
   await DataWriter.badgeImageFileDownloaded(url, localPath);
 

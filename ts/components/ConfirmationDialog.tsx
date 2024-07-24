@@ -129,7 +129,7 @@ export const ConfirmationDialog = React.memo(function ConfirmationDialogInner({
         <Button
           key={
             typeof action.text === 'string'
-              ? action.id ?? action.text
+              ? (action.id ?? action.text)
               : action.id
           }
           disabled={action.disabled || isSpinning}

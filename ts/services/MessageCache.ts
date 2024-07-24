@@ -153,9 +153,8 @@ export class MessageCache {
 
     let messageAttributesFromDatabase: MessageAttributesType | undefined;
     try {
-      messageAttributesFromDatabase = await DataReader.getMessageById(
-        messageId
-      );
+      messageAttributesFromDatabase =
+        await DataReader.getMessageById(messageId);
     } catch (err: unknown) {
       log.error(
         `MessageCache.resolveAttributes(${messageId}): db error ${Errors.toLogFormat(

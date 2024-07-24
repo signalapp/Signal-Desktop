@@ -385,10 +385,9 @@ export class BackupExportStream extends Readable {
 
     try {
       while (!cursor?.done) {
-        // eslint-disable-next-line no-await-in-loop
-        const { messages, cursor: newCursor } = await DataReader.pageMessages(
-          cursor
-        );
+        const { messages, cursor: newCursor } =
+          // eslint-disable-next-line no-await-in-loop
+          await DataReader.pageMessages(cursor);
 
         // eslint-disable-next-line no-await-in-loop
         const items = await pMap(

@@ -73,7 +73,13 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
     ) {
       scrollToMessage(selectedConversationId, targetedMessageId);
     }
-  }, [onConversationOpened, selectedConversationId, scrollToMessage, targetedMessageId, targetedMessageSource]);
+  }, [
+    onConversationOpened,
+    selectedConversationId,
+    scrollToMessage,
+    targetedMessageId,
+    targetedMessageSource,
+  ]);
 
   const prevConversationId = usePrevious(
     selectedConversationId,

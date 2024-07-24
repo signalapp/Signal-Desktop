@@ -92,7 +92,7 @@ const createActiveDirectCallProp = (
       hasRemoteVideo: boolean;
       presenting: boolean;
       title: string;
-    }
+    },
   ],
 });
 

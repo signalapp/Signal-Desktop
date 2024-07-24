@@ -4,7 +4,9 @@
 .module-Button {
   @mixin focus-box-shadow($inner-color, $outer-color) {
     &:focus {
-      box-shadow: 0 0 0 1px $inner-color, 0 0 0 4px $outer-color;
+      box-shadow:
+        0 0 0 1px $inner-color,
+        0 0 0 4px $outer-color;
     }
   }
 

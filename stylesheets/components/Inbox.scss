@@ -61,7 +61,9 @@
   }
 
   .Inbox__logo__part--animated {
-    transition: opacity 250ms, transform 250ms;
+    transition:
+      opacity 250ms,
+      transform 250ms;
   }
 
   @for $i from 1 through 16 {

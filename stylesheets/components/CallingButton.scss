@@ -147,7 +147,9 @@
     max-width: 64px;
     margin-inline: 10px;
 
-    transition: margin-inline-start 0.3s ease-out, opacity 0.3s ease-out;
+    transition:
+      margin-inline-start 0.3s ease-out,
+      opacity 0.3s ease-out;
     @media (prefers-reduced-motion) {
       transition: none;
     }

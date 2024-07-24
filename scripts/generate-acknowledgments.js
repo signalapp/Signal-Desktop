@@ -193,7 +193,7 @@ async function main() {
   ].join('\n');
 
   const prettierConfig = await prettier.resolveConfig(destinationPath);
-  const output = prettier.format(unformattedOutput, {
+  const output = await prettier.format(unformattedOutput, {
     ...prettierConfig,
     filepath: destinationPath,
   });

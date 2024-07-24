@@ -687,9 +687,8 @@ function handleMessageJSON(
 async function getNewerMessagesByConversation(
   options: AdjacentMessagesByConversationOptionsType
 ): Promise<Array<MessageType>> {
-  const messages = await readableChannel.getNewerMessagesByConversation(
-    options
-  );
+  const messages =
+    await readableChannel.getNewerMessagesByConversation(options);
 
   return handleMessageJSON(messages);
 }
@@ -709,9 +708,8 @@ async function getRecentStoryReplies(
 async function getOlderMessagesByConversation(
   options: AdjacentMessagesByConversationOptionsType
 ): Promise<Array<MessageType>> {
-  const messages = await readableChannel.getOlderMessagesByConversation(
-    options
-  );
+  const messages =
+    await readableChannel.getOlderMessagesByConversation(options);
 
   return handleMessageJSON(messages);
 }
@@ -719,9 +717,8 @@ async function getOlderMessagesByConversation(
 async function getConversationRangeCenteredOnMessage(
   options: AdjacentMessagesByConversationOptionsType
 ): Promise<GetConversationRangeCenteredOnMessageResultType<MessageType>> {
-  const result = await readableChannel.getConversationRangeCenteredOnMessage(
-    options
-  );
+  const result =
+    await readableChannel.getConversationRangeCenteredOnMessage(options);
 
   return {
     ...result,

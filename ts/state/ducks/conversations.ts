@@ -209,7 +209,9 @@ export type DBConversationType = ReadonlyDeep<{
 }>;
 
 export const InteractionModes = ['mouse', 'keyboard'] as const;
-export type InteractionModeType = ReadonlyDeep<typeof InteractionModes[number]>;
+export type InteractionModeType = ReadonlyDeep<
+  (typeof InteractionModes)[number]
+>;
 
 export type MessageTimestamps = ReadonlyDeep<
   Pick<MessageAttributesType, 'sent_at' | 'received_at'>
@@ -227,7 +229,7 @@ export type MessageWithUIFieldsType = MessageAttributesType & {
 
 export const ConversationTypes = ['direct', 'group'] as const;
 export type ConversationTypeType = ReadonlyDeep<
-  typeof ConversationTypes[number]
+  (typeof ConversationTypes)[number]
 >;
 
 export type LastMessageType = ReadonlyDeep<

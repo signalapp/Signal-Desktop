@@ -1837,7 +1837,7 @@ export async function mergeStickerPackRecord(
       position:
         'position' in stickerPackRecord
           ? stickerPackRecord.position
-          : localStickerPack?.position ?? undefined,
+          : (localStickerPack?.position ?? undefined),
       storageID,
       storageVersion,
       storageUnknownFields,

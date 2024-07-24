@@ -3386,9 +3386,8 @@ export class CallingClass {
   // https://bugs.chromium.org/p/chromium/issues/detail?id=1287628
   private async enumerateMediaDevices(): Promise<void> {
     try {
-      const microphoneStatus = await window.IPC.getMediaAccessStatus(
-        'microphone'
-      );
+      const microphoneStatus =
+        await window.IPC.getMediaAccessStatus('microphone');
       if (microphoneStatus !== 'granted') {
         return;
       }

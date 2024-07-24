@@ -97,7 +97,9 @@
 
   @include keyboard-mode {
     &:focus {
-      box-shadow: 0 0 0 1px $color-gray-80, 0 0 0 3px $color-ultramarine !important;
+      box-shadow:
+        0 0 0 1px $color-gray-80,
+        0 0 0 3px $color-ultramarine !important;
     }
   }
 }

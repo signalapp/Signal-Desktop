@@ -3333,14 +3333,14 @@
   {
     "rule": "React-useRef",
     "path": "ts/state/smart/InstallScreen.tsx",
-    "line": "  const chooseBackupFilePromiseWrapperRef = useRef(",
+    "line": "  const chooseDeviceNamePromiseWrapperRef = useRef(explodePromise<string>());",
     "reasonCategory": "testCode",
     "updated": "2023-11-16T23:39:21.322Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/state/smart/InstallScreen.tsx",
-    "line": "  const chooseDeviceNamePromiseWrapperRef = useRef(explodePromise<string>());",
+    "line": "    useRef(explodePromise<File | undefined>());",
     "reasonCategory": "usageTrusted",
     "updated": "2021-12-06T23:07:28.947Z",
     "reasonDetail": "Doesn't touch the DOM."

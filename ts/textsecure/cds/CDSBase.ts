@@ -28,7 +28,7 @@ export type CachedAuthType = Readonly<{
 }>;
 
 export abstract class CDSBase<
-  Options extends CDSBaseOptionsType = CDSBaseOptionsType
+  Options extends CDSBaseOptionsType = CDSBaseOptionsType,
 > {
   protected readonly logger: LoggerType;
   protected proxyAgent?: ProxyAgent;

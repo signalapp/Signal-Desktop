@@ -320,7 +320,7 @@ export function MediaEditor({
     const objectShortcuts: Array<
       [
         (ev: KeyboardEvent) => boolean,
-        (obj: fabric.Object, ev: KeyboardEvent) => unknown
+        (obj: fabric.Object, ev: KeyboardEvent) => unknown,
       ]
     > = [
       [
@@ -1353,9 +1353,8 @@ export function MediaEditor({
                   let data: Uint8Array;
                   let blurHash: string;
                   try {
-                    const renderFabricCanvas = await cloneFabricCanvas(
-                      fabricCanvas
-                    );
+                    const renderFabricCanvas =
+                      await cloneFabricCanvas(fabricCanvas);
 
                     renderFabricCanvas.remove(
                       ...renderFabricCanvas

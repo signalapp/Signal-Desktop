@@ -87,7 +87,7 @@ async function main(): Promise<void> {
     join(__dirname, '..', '..', 'build')
   );
 
-  const output = prettier.format(JSON.stringify(resources, null, 2), {
+  const output = await prettier.format(JSON.stringify(resources, null, 2), {
     ...prettierConfig,
     filepath: resourcesPath,
   });

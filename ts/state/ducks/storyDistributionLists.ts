@@ -112,9 +112,8 @@ function allowsRepliesChanged(
   allowsReplies: boolean
 ): ThunkAction<void, RootStateType, null, AllowRepliesChangedActionType> {
   return async dispatch => {
-    const storyDistribution = await DataReader.getStoryDistributionWithMembers(
-      listId
-    );
+    const storyDistribution =
+      await DataReader.getStoryDistributionWithMembers(listId);
 
     if (!storyDistribution) {
       log.warn(
@@ -208,9 +207,8 @@ function deleteDistributionList(
   return async (dispatch, getState) => {
     const deletedAtTimestamp = Date.now();
 
-    const storyDistribution = await DataReader.getStoryDistributionWithMembers(
-      listId
-    );
+    const storyDistribution =
+      await DataReader.getStoryDistributionWithMembers(listId);
 
     if (!storyDistribution) {
       log.warn('No story distribution found for id', listId);
@@ -268,9 +266,8 @@ function hideMyStoriesFrom(
   memberServiceIds: Array<ServiceIdString>
 ): ThunkAction<void, RootStateType, null, HideMyStoriesFromActionType> {
   return async dispatch => {
-    const myStories = await DataReader.getStoryDistributionWithMembers(
-      MY_STORY_ID
-    );
+    const myStories =
+      await DataReader.getStoryDistributionWithMembers(MY_STORY_ID);
 
     if (!myStories) {
       log.error(
@@ -317,9 +314,8 @@ function removeMembersFromDistributionList(
       return;
     }
 
-    const storyDistribution = await DataReader.getStoryDistributionWithMembers(
-      listId
-    );
+    const storyDistribution =
+      await DataReader.getStoryDistributionWithMembers(listId);
 
     if (!storyDistribution) {
       log.warn(
@@ -388,9 +384,8 @@ function setMyStoriesToAllSignalConnections(): ThunkAction<
   ResetMyStoriesActionType
 > {
   return async dispatch => {
-    const myStories = await DataReader.getStoryDistributionWithMembers(
-      MY_STORY_ID
-    );
+    const myStories =
+      await DataReader.getStoryDistributionWithMembers(MY_STORY_ID);
 
     if (!myStories) {
       log.error(
@@ -428,9 +423,8 @@ function updateStoryViewers(
   memberServiceIds: Array<ServiceIdString>
 ): ThunkAction<void, RootStateType, null, ViewersChangedActionType> {
   return async dispatch => {
-    const storyDistribution = await DataReader.getStoryDistributionWithMembers(
-      listId
-    );
+    const storyDistribution =
+      await DataReader.getStoryDistributionWithMembers(listId);
 
     if (!storyDistribution) {
       log.warn(

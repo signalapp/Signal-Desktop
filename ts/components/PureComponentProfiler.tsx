@@ -6,7 +6,7 @@ import React from 'react';
 
 export abstract class PureComponentProfiler<
   Props extends Record<string, unknown>,
-  State extends Record<string, unknown>
+  State extends Record<string, unknown>,
 > extends React.Component<Props, State> {
   public override shouldComponentUpdate(
     nextProps: Props,

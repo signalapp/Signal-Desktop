@@ -32,7 +32,7 @@ export const jobManagerJobSchema = z.object({
 
 export type JobManagerParamsType<
   CoreJobType,
-  JobType = CoreJobType & JobManagerJobType
+  JobType = CoreJobType & JobManagerJobType,
 > = {
   markAllJobsInactive: () => Promise<void>;
   getNextJobs: (options: {

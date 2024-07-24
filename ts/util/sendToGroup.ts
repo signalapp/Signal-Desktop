@@ -129,9 +129,8 @@ export async function sendToGroup({
   // First, do the attachment upload and prepare the proto we'll be sending
   const protoAttributes =
     window.textsecure.messaging.getAttrsFromGroupOptions(groupSendOptions);
-  const contentMessage = await window.textsecure.messaging.getContentMessage(
-    protoAttributes
-  );
+  const contentMessage =
+    await window.textsecure.messaging.getContentMessage(protoAttributes);
 
   // Attachment upload might take too long to succeed - we don't want to proceed
   // with the send if the caller aborted this call.

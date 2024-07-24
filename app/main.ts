@@ -2348,12 +2348,15 @@ async function requestShutdown() {
     //   exits the app before we've set everything up in preload() (so the browser isn't
     //   yet listening for these events), or if there are a whole lot of stacked-up tasks.
     // Note: two minutes is also our timeout for SQL tasks in data.js in the browser.
-    timeout = setTimeout(() => {
-      getLogger().error(
-        'requestShutdown: Response never received; forcing shutdown.'
-      );
-      resolveFn();
-    }, 2 * 60 * 1000);
+    timeout = setTimeout(
+      () => {
+        getLogger().error(
+          'requestShutdown: Response never received; forcing shutdown.'
+        );
+        resolveFn();
+      },
+      2 * 60 * 1000
+    );
   });
 
   try {

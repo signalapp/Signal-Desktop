@@ -106,7 +106,7 @@ async function main() {
       delete typedValue.description;
     }
     delete json.smartling;
-    const output = prettier.format(JSON.stringify(json, null, 2), {
+    const output = await prettier.format(JSON.stringify(json, null, 2), {
       ...prettierConfig,
       filepath: targetFile,
     });

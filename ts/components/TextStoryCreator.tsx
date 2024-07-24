@@ -93,7 +93,8 @@ const BackgroundStyle = {
   },
 };
 
-type BackgroundStyleType = typeof BackgroundStyle[keyof typeof BackgroundStyle];
+type BackgroundStyleType =
+  (typeof BackgroundStyle)[keyof typeof BackgroundStyle];
 
 function getBackground(
   bgStyle: BackgroundStyleType

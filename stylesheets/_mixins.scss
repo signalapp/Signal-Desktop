@@ -12,8 +12,17 @@
   }
   /* Farsi (Persian) */
   &:lang(fa) {
-    font-family: 'Vazirmatn', -apple-system, system-ui, BlinkMacSystemFont,
-      'Segoe UI', Tahoma, 'Noto Sans Arabic', Helvetica, Arial, sans-serif;
+    font-family:
+      'Vazirmatn',
+      -apple-system,
+      system-ui,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Tahoma,
+      'Noto Sans Arabic',
+      Helvetica,
+      Arial,
+      sans-serif;
   }
   /* Urdu */
   &:lang(ur) {
@@ -316,7 +325,9 @@ $rtl-icon-map: (
 // Other
 
 @mixin popper-shadow() {
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3), 0px 0px 8px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0px 8px 20px rgba(0, 0, 0, 0.3),
+    0px 0px 8px rgba(0, 0, 0, 0.05);
 
   @media (forced-colors: active) {
     border: 1px solid WindowText;

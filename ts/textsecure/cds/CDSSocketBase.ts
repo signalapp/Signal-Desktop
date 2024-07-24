@@ -39,7 +39,7 @@ const E164_BYTE_SIZE = 8;
 const TRIPLE_BYTE_SIZE = UUID_BYTE_SIZE * 2 + E164_BYTE_SIZE;
 
 export abstract class CDSSocketBase<
-  Options extends CDSSocketBaseOptionsType = CDSSocketBaseOptionsType
+  Options extends CDSSocketBaseOptionsType = CDSSocketBaseOptionsType,
 > extends EventEmitter {
   protected state = CDSSocketState.Open;
 

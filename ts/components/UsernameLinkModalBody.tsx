@@ -269,7 +269,7 @@ function createCanvasAndContext({
   height,
 }: CreateCanvasAndContextOptionsType): [
   OffscreenCanvas,
-  OffscreenCanvasRenderingContext2D
+  OffscreenCanvasRenderingContext2D,
 ] {
   const canvas = new OffscreenCanvas(
     PRINT_PIXEL_RATIO * width,

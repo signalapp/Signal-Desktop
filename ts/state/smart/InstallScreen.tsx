@@ -104,9 +104,8 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
   const hasExpired = useSelector(hasExpiredSelector);
 
   const chooseDeviceNamePromiseWrapperRef = useRef(explodePromise<string>());
-  const chooseBackupFilePromiseWrapperRef = useRef(
-    explodePromise<File | undefined>()
-  );
+  const chooseBackupFilePromiseWrapperRef =
+    useRef(explodePromise<File | undefined>());
 
   const [state, setState] = useState<StateType>(INITIAL_STATE);
   const [retryCounter, setRetryCounter] = useState(0);
@@ -223,8 +222,8 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
         ({ deviceName, backupData: backupFileData } = window.SignalCI);
       } else {
         deviceName = await chooseDeviceNamePromiseWrapperRef.current.promise;
-        const backupFile = await chooseBackupFilePromiseWrapperRef.current
-          .promise;
+        const backupFile =
+          await chooseBackupFilePromiseWrapperRef.current.promise;
 
         backupFileData = backupFile ? await fileToBytes(backupFile) : undefined;
       }

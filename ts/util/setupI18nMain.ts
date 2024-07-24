@@ -64,7 +64,7 @@ export function createCachedIntl(
 }
 
 function normalizeSubstitutions<
-  Substitutions extends Record<string, string | number | Date> | undefined
+  Substitutions extends Record<string, string | number | Date> | undefined,
 >(
   substitutions?: Substitutions,
   options?: LocalizerOptions
@@ -122,7 +122,7 @@ export function setupI18n(
   });
 
   const localizer: LocalizerType = (<
-    Key extends keyof ICUStringMessageParamsByKeyType
+    Key extends keyof ICUStringMessageParamsByKeyType,
   >(
     key: Key,
     substitutions: ICUStringMessageParamsByKeyType[Key],

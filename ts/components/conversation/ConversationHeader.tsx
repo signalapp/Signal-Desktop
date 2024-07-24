@@ -456,7 +456,7 @@ function HeaderContent({
         sharedGroupNames={sharedGroupNames}
         size={AvatarSize.THIRTY_TWO}
         // user may have stories, but we don't show that on Note to Self conversation
-        storyRing={conversation.isMe ? undefined : hasStories ?? undefined}
+        storyRing={conversation.isMe ? undefined : (hasStories ?? undefined)}
         theme={theme}
         title={conversation.title}
         unblurredAvatarUrl={conversation.unblurredAvatarUrl ?? undefined}

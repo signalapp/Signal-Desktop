@@ -24,7 +24,7 @@ import * as log from '../logging/log';
  */
 export function useIntersectionObserver(): [
   (el?: Element | null) => void,
-  IntersectionObserverEntry | null
+  IntersectionObserverEntry | null,
 ] {
   const [intersectionObserverEntry, setIntersectionObserverEntry] =
     useState<IntersectionObserverEntry | null>(null);

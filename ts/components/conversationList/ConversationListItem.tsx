@@ -34,7 +34,7 @@ export const MessageStatuses = [
   'partial-sent',
 ] as const;
 
-export type MessageStatusType = typeof MessageStatuses[number];
+export type MessageStatusType = (typeof MessageStatuses)[number];
 
 export type PropsData = Pick<
   ConversationType,

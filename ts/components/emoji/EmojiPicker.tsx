@@ -76,7 +76,7 @@ const categories = [
   'flag',
 ] as const;
 
-type Category = typeof categories[number];
+type Category = (typeof categories)[number];
 
 export const EmojiPicker = React.memo(
   React.forwardRef<HTMLDivElement, Props>(

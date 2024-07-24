@@ -140,7 +140,9 @@
     transition: opacity ease 200ms;
 
     // The same box-shadow in popper-shadow mixin, just halved
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 30%), 0px 0px 4px rgba(0, 0, 0, 5%);
+    box-shadow:
+      0px 4px 10px rgba(0, 0, 0, 30%),
+      0px 0px 4px rgba(0, 0, 0, 5%);
 
     @include light-theme() {
       background: $color-white;

@@ -1137,9 +1137,8 @@ export class ConversationController {
       log.warn(
         `${logId}: Ensure that all V1 groups have new conversationId instead of old`
       );
-      const groups = await this.getAllGroupsInvolvingServiceId(
-        obsoleteServiceId
-      );
+      const groups =
+        await this.getAllGroupsInvolvingServiceId(obsoleteServiceId);
       groups.forEach(group => {
         const members = group.get('members');
         const withoutObsolete = without(members, obsoleteId);
