@@ -266,9 +266,8 @@ function hideMyStoriesFrom(
   memberServiceIds: Array<ServiceIdString>
 ): ThunkAction<void, RootStateType, null, HideMyStoriesFromActionType> {
   return async dispatch => {
-    const myStories = await dataInterface.getStoryDistributionWithMembers(
-      MY_STORY_ID
-    );
+    const myStories =
+      await dataInterface.getStoryDistributionWithMembers(MY_STORY_ID);
 
     if (!myStories) {
       log.error(
@@ -385,9 +384,8 @@ function setMyStoriesToAllSignalConnections(): ThunkAction<
   ResetMyStoriesActionType
 > {
   return async dispatch => {
-    const myStories = await dataInterface.getStoryDistributionWithMembers(
-      MY_STORY_ID
-    );
+    const myStories =
+      await dataInterface.getStoryDistributionWithMembers(MY_STORY_ID);
 
     if (!myStories) {
       log.error(

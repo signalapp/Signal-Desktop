@@ -40,7 +40,7 @@ const SignalRouteHostnames = [
  * Type to help maintain {@link SignalRouteHostnames}, real hostnames should go there.
  */
 type AllHostnamePatterns =
-  | typeof SignalRouteHostnames[number]
+  | (typeof SignalRouteHostnames)[number]
   | 'verify'
   | 'linkdevice'
   | 'addstickers'
@@ -66,7 +66,7 @@ type PatternInput = {
 type URLMatcher = (input: URL) => URLPatternResult | null;
 
 function _pattern(
-  protocol: typeof SignalRouteProtocols[number],
+  protocol: (typeof SignalRouteProtocols)[number],
   hostname: AllHostnamePatterns,
   pathname: PatternString,
   init: PatternInput
@@ -585,7 +585,7 @@ strictAssert(
  * ```
  */
 export type ParsedSignalRoute = NonNullable<
-  ReturnType<typeof _allSignalRoutes[number]['fromUrl']>
+  ReturnType<(typeof _allSignalRoutes)[number]['fromUrl']>
 >;
 
 /** @internal */

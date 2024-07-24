@@ -5163,10 +5163,8 @@ async function getBackupCdnObjectMetadata(
   mediaId: string
 ): Promise<BackupCdnMediaObjectType | undefined> {
   const db = getReadonlyInstance();
-  const [
-    query,
-    params,
-  ] = sql`SELECT * from backup_cdn_object_metadata WHERE mediaId = ${mediaId}`;
+  const [query, params] =
+    sql`SELECT * from backup_cdn_object_metadata WHERE mediaId = ${mediaId}`;
 
   return db.prepare(query).get(params);
 }

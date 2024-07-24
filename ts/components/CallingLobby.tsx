@@ -174,8 +174,8 @@ export function CallingLobby({
   const videoButtonType = hasLocalVideo
     ? CallingButtonType.VIDEO_ON
     : availableCameras.length === 0
-    ? CallingButtonType.VIDEO_DISABLED
-    : CallingButtonType.VIDEO_OFF;
+      ? CallingButtonType.VIDEO_DISABLED
+      : CallingButtonType.VIDEO_OFF;
 
   const audioButtonType = hasLocalAudio
     ? CallingButtonType.AUDIO_ON

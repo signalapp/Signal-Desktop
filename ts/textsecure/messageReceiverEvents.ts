@@ -113,7 +113,10 @@ export class EnvelopeQueuedEvent extends Event {
 export type ConfirmCallback = () => void;
 
 export class ConfirmableEvent extends Event {
-  constructor(type: string, public readonly confirm: ConfirmCallback) {
+  constructor(
+    type: string,
+    public readonly confirm: ConfirmCallback
+  ) {
     super(type);
   }
 }
@@ -205,7 +208,10 @@ export type SentEventData = Readonly<{
 }>;
 
 export class SentEvent extends ConfirmableEvent {
-  constructor(public readonly data: SentEventData, confirm: ConfirmCallback) {
+  constructor(
+    public readonly data: SentEventData,
+    confirm: ConfirmCallback
+  ) {
     super('sent', confirm);
   }
 }

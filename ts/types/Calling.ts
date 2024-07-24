@@ -82,7 +82,7 @@ export type ActiveDirectCallType = ActiveCallBaseType & {
       //   GroupCallRemoteParticipantType below (which is based on
       //   ConversationType).
       serviceId?: ServiceIdString;
-    }
+    },
   ];
 };
 

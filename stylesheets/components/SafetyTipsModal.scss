@@ -204,12 +204,16 @@ $SafetyTipsModal__paddingBlock: 24px;
   &:focus {
     @include keyboard-mode {
       &::before {
-        box-shadow: 0 0 0 2px $color-white, 0 0 0 4px $color-accent-blue;
+        box-shadow:
+          0 0 0 2px $color-white,
+          0 0 0 4px $color-accent-blue;
       }
     }
     @include dark-keyboard-mode {
       &::before {
-        box-shadow: 0 0 0 2px $color-gray-80, 0 0 0 4px $color-accent-blue;
+        box-shadow:
+          0 0 0 2px $color-gray-80,
+          0 0 0 4px $color-accent-blue;
       }
     }
   }

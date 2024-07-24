@@ -243,7 +243,10 @@ export type WebSocketResourceOptions = {
 };
 
 export class CloseEvent extends Event {
-  constructor(public readonly code: number, public readonly reason: string) {
+  constructor(
+    public readonly code: number,
+    public readonly reason: string
+  ) {
     super('close');
   }
 }

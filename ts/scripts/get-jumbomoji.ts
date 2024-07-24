@@ -81,7 +81,7 @@ async function main(): Promise<void> {
   );
 
   {
-    const output = prettier.format(JSON.stringify(jumbomoji, null, 2), {
+    const output = await prettier.format(JSON.stringify(jumbomoji, null, 2), {
       ...prettierConfig,
       filepath: manifestPath,
     });
@@ -89,7 +89,7 @@ async function main(): Promise<void> {
   }
 
   {
-    const output = prettier.format(JSON.stringify(resources, null, 2), {
+    const output = await prettier.format(JSON.stringify(resources, null, 2), {
       ...prettierConfig,
       filepath: resourcesPath,
     });

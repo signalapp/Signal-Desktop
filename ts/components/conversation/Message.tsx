@@ -162,10 +162,10 @@ export const MessageStatuses = [
   'sent',
   'viewed',
 ] as const;
-export type MessageStatusType = typeof MessageStatuses[number];
+export type MessageStatusType = (typeof MessageStatuses)[number];
 
 export const Directions = ['incoming', 'outgoing'] as const;
-export type DirectionType = typeof Directions[number];
+export type DirectionType = (typeof Directions)[number];
 
 export type AudioAttachmentProps = {
   renderingContext: string;

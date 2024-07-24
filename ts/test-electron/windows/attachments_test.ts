@@ -107,9 +107,8 @@ describe('Attachments', () => {
         'Attachments_createWriterForNew'
       );
 
-      const outputPath = await Attachments.createWriterForNew(tempDirectory)(
-        input
-      );
+      const outputPath =
+        await Attachments.createWriterForNew(tempDirectory)(input);
       const output = await fse.readFile(path.join(tempDirectory, outputPath));
 
       assert.lengthOf(outputPath, PATH_LENGTH);

@@ -3133,9 +3133,8 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    const hadSession = await window.textsecure.storage.protocol.hasSessionWith(
-      originalPni
-    );
+    const hadSession =
+      await window.textsecure.storage.protocol.hasSessionWith(originalPni);
 
     if (!hadSession) {
       log.info(`${logId}: not adding, no PNI session`);
@@ -3947,9 +3946,8 @@ export class ConversationModel extends window.Backbone
     if (!sendHQImages) {
       attachmentsToSend = await Promise.all(
         attachmentsToSend.map(async attachment => {
-          const downscaledAttachment = await downscaleOutgoingAttachment(
-            attachment
-          );
+          const downscaledAttachment =
+            await downscaleOutgoingAttachment(attachment);
           if (downscaledAttachment !== attachment && attachment.path) {
             drop(deleteAttachmentData(attachment.path));
           }

@@ -723,7 +723,7 @@ export function decryptProfile(data: Uint8Array, key: Uint8Array): Uint8Array {
 export function encryptProfileItemWithPadding(
   item: Uint8Array,
   profileKey: Uint8Array,
-  paddedLengths: typeof PaddedLengths[keyof typeof PaddedLengths]
+  paddedLengths: (typeof PaddedLengths)[keyof typeof PaddedLengths]
 ): Uint8Array {
   const paddedLength = paddedLengths.find(
     (length: number) => item.byteLength <= length

@@ -271,9 +271,8 @@ const deleteSentProtoBatcher = createWaitBatcher({
     log.info(
       `MessageReceipts: Batching ${items.length} sent proto recipients deletes`
     );
-    const { successfulPhoneNumberShares } = await deleteSentProtoRecipient(
-      items
-    );
+    const { successfulPhoneNumberShares } =
+      await deleteSentProtoRecipient(items);
 
     for (const serviceId of successfulPhoneNumberShares) {
       const convo = window.ConversationController.get(serviceId);

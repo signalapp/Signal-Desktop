@@ -66,9 +66,8 @@ async function findMessageForReaction({
   reactionSenderConversationId: string;
   logId: string;
 }): Promise<MessageAttributesType | undefined> {
-  const messages = await window.Signal.Data.getMessagesBySentAt(
-    targetTimestamp
-  );
+  const messages =
+    await window.Signal.Data.getMessagesBySentAt(targetTimestamp);
 
   const matchingMessages = messages.filter(message =>
     isMessageAMatchForReaction({

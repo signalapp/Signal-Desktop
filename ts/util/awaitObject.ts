@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 export async function awaitObject<
-  Result extends { [key: string]: unknown }
+  Result extends { [key: string]: unknown },
 >(settings: {
   [key in keyof Result]: Promise<Result[key]>;
 }): Promise<Result> {

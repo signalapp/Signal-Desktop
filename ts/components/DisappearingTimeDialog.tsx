@@ -23,7 +23,7 @@ export type PropsType = Readonly<{
 
 const UNITS = ['seconds', 'minutes', 'hours', 'days', 'weeks'] as const;
 
-export type Unit = typeof UNITS[number];
+export type Unit = (typeof UNITS)[number];
 
 const UNIT_TO_SEC = new Map<Unit, number>([
   ['seconds', 1],

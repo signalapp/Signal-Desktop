@@ -2510,7 +2510,7 @@ export function initialize({
     }
 
     async function _withNewCredentials<
-      Result extends { uuid: AciString; deviceId?: number }
+      Result extends { uuid: AciString; deviceId?: number },
     >(
       { username: newUsername, password: newPassword }: WebAPICredentials,
       callback: () => Promise<Result>

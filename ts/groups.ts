@@ -2377,9 +2377,8 @@ export async function initiateMigrationToGroupV2(
 
       const { avatar: currentAvatar } = conversation.attributes;
       if (currentAvatar?.path) {
-        const avatarData = await window.Signal.Migrations.readAttachmentData(
-          currentAvatar
-        );
+        const avatarData =
+          await window.Signal.Migrations.readAttachmentData(currentAvatar);
         const { hash, key } = await uploadAvatar({
           logId,
           publicParams,

@@ -235,7 +235,10 @@ describe('cleanDataForIpc', () => {
     class Person {
       public toBeDiscarded = Symbol('to be discarded');
 
-      constructor(public firstName: string, public lastName: string) {}
+      constructor(
+        public firstName: string,
+        public lastName: string
+      ) {}
 
       get name() {
         return this.getName();

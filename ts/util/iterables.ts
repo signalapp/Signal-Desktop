@@ -313,7 +313,10 @@ class TakeIterable<T> implements Iterable<T> {
 }
 
 class TakeIterator<T> implements Iterator<T> {
-  constructor(private readonly iterator: Iterator<T>, private amount: number) {}
+  constructor(
+    private readonly iterator: Iterator<T>,
+    private amount: number
+  ) {}
 
   next(): IteratorResult<T> {
     const nextIteration = this.iterator.next();

@@ -70,7 +70,7 @@ function getUpdaterName<Key extends keyof EphemeralSettings>(
 
 export function createSetting<
   Name extends keyof SettingsValuesType,
-  Value extends SettingsValuesType[Name]
+  Value extends SettingsValuesType[Name],
 >(name: Name, overrideOptions: SettingOptionsType = {}): SettingType<Value> {
   const options = {
     getter: true,
@@ -96,12 +96,12 @@ export function createSetting<
 
 type UnwrapReturn<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Callback extends (...args: Array<any>) => unknown
+  Callback extends (...args: Array<any>) => unknown,
 > = UnwrapPromise<ReturnType<Callback>>;
 
 export function createCallback<
   Name extends keyof IPCEventsCallbacksType,
-  Callback extends IPCEventsCallbacksType[Name]
+  Callback extends IPCEventsCallbacksType[Name],
 >(
   name: Name
 ): (...args: Parameters<Callback>) => Promise<UnwrapReturn<Callback>> {

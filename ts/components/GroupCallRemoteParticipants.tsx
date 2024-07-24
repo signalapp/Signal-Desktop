@@ -637,7 +637,7 @@ function stableParticipantComparator(
 }
 
 type ParticipantsInPageType<
-  T extends { videoAspectRatio: number } = ParticipantTileType
+  T extends { videoAspectRatio: number } = ParticipantTileType,
 > = {
   rows: Array<Array<T>>;
   numParticipants: number;

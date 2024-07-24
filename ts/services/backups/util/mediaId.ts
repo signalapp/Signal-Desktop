@@ -63,9 +63,8 @@ export type GetBackupCdnInfoType = (
 export const getBackupCdnInfo: GetBackupCdnInfoType = async (
   mediaId: string
 ) => {
-  const savedInfo = await window.Signal.Data.getBackupCdnObjectMetadata(
-    mediaId
-  );
+  const savedInfo =
+    await window.Signal.Data.getBackupCdnObjectMetadata(mediaId);
   if (!savedInfo) {
     return { isInBackupTier: false };
   }

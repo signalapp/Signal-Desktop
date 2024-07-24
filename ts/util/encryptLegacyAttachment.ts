@@ -26,7 +26,7 @@ export type EncryptLegacyAttachmentOptionsType = Readonly<{
 }>;
 
 export async function encryptLegacyAttachment<
-  T extends Partial<AddressableAttachmentType>
+  T extends Partial<AddressableAttachmentType>,
 >(attachment: T, options: EncryptLegacyAttachmentOptionsType): Promise<T> {
   // Not downloaded
   if (!attachment.path) {

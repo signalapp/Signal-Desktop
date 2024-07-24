@@ -129,9 +129,8 @@ export async function sendEditedMessage(
     if (quoteSentAt === existingQuote?.id) {
       quote = existingQuote;
     } else {
-      const messages = await window.Signal.Data.getMessagesBySentAt(
-        quoteSentAt
-      );
+      const messages =
+        await window.Signal.Data.getMessagesBySentAt(quoteSentAt);
       const matchingMessage = find(messages, item =>
         isQuoteAMatch(item, conversationId, {
           id: quoteSentAt,

@@ -95,9 +95,8 @@ export async function getSendOptions(
 
   const { e164, serviceId } = conversationAttrs;
 
-  const senderCertificate = await getSenderCertificateForDirectConversation(
-    conversationAttrs
-  );
+  const senderCertificate =
+    await getSenderCertificateForDirectConversation(conversationAttrs);
 
   // If we've never fetched user's profile, we default to what we have
   if (sealedSender === SEALED_SENDER.UNKNOWN || story) {

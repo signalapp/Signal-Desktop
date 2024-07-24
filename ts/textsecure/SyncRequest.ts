@@ -25,7 +25,10 @@ class SyncRequestInner extends EventTarget {
 
   timeoutMillis: number;
 
-  constructor(private receiver: MessageReceiver, timeoutMillis?: number) {
+  constructor(
+    private receiver: MessageReceiver,
+    timeoutMillis?: number
+  ) {
     super();
 
     if (!(receiver instanceof MessageReceiver)) {

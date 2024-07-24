@@ -2053,9 +2053,12 @@ export const storageServiceUploadJob = debounce(() => {
     return;
   }
 
-  void storageJobQueue(async () => {
-    await upload();
-  }, `upload v${window.storage.get('manifestVersion')}`);
+  void storageJobQueue(
+    async () => {
+      await upload();
+    },
+    `upload v${window.storage.get('manifestVersion')}`
+  );
 }, 500);
 
 export const runStorageServiceSyncJob = debounce(() => {
@@ -2065,24 +2068,30 @@ export const runStorageServiceSyncJob = debounce(() => {
   }
 
   ourProfileKeyService.blockGetWithPromise(
-    storageJobQueue(async () => {
-      await sync();
+    storageJobQueue(
+      async () => {
+        await sync();
 
-      // Notify listeners about sync completion
-      window.Whisper.events.trigger('storageService:syncComplete');
-    }, `sync v${window.storage.get('manifestVersion')}`)
+        // Notify listeners about sync completion
+        window.Whisper.events.trigger('storageService:syncComplete');
+      },
+      `sync v${window.storage.get('manifestVersion')}`
+    )
   );
 }, 500);
 
 export const addPendingDelete = (item: ExtendedStorageID): void => {
-  void storageJobQueue(async () => {
-    const storedPendingDeletes = window.storage.get(
-      'storage-service-pending-deletes',
-      []
-    );
-    await window.storage.put('storage-service-pending-deletes', [
-      ...storedPendingDeletes,
-      item,
-    ]);
-  }, `addPendingDelete(${redactExtendedStorageID(item)})`);
+  void storageJobQueue(
+    async () => {
+      const storedPendingDeletes = window.storage.get(
+        'storage-service-pending-deletes',
+        []
+      );
+      await window.storage.put('storage-service-pending-deletes', [
+        ...storedPendingDeletes,
+        item,
+      ]);
+    },
+    `addPendingDelete(${redactExtendedStorageID(item)})`
+  );
 };

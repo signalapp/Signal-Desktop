@@ -156,7 +156,7 @@ export const ContactNameColors = [
   '110',
 ];
 
-export type ContactNameColorType = typeof ContactNameColors[number];
+export type ContactNameColorType = (typeof ContactNameColors)[number];
 
 export type CustomColorType = {
   start: { hue: number; saturation: number };
@@ -164,10 +164,10 @@ export type CustomColorType = {
   deg?: number;
 };
 
-export type AvatarColorType = typeof AvatarColors[number];
+export type AvatarColorType = (typeof AvatarColors)[number];
 
 export type ConversationColorType =
-  | typeof ConversationColors[number]
+  | (typeof ConversationColors)[number]
   | 'custom';
 
 export type CustomColorDataType = {

@@ -49,9 +49,9 @@ export type ContactAvatarType =
       hash?: string;
     };
 
-type GroupAvatarIconType = typeof GroupAvatarIcons[number];
+type GroupAvatarIconType = (typeof GroupAvatarIcons)[number];
 
-type PersonalAvatarIconType = typeof PersonalAvatarIcons[number];
+type PersonalAvatarIconType = (typeof PersonalAvatarIcons)[number];
 
 export type AvatarIconType = GroupAvatarIconType | PersonalAvatarIconType;
 

@@ -70,7 +70,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
   safetyNumber:
     'safetyNumber' in overrideProps
-      ? overrideProps.safetyNumber ?? null
+      ? (overrideProps.safetyNumber ?? null)
       : {
           numberBlocks: generateNumberBlocks(),
           qrData: generateQRData(),

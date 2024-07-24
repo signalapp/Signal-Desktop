@@ -39,11 +39,14 @@ export type CDSSocketManagerBaseOptionsType = Readonly<{
 
 export abstract class CDSSocketManagerBase<
   Socket extends CDSSocketBase,
-  Options extends CDSSocketManagerBaseOptionsType
+  Options extends CDSSocketManagerBaseOptionsType,
 > extends CDSBase<Options> {
   private retryAfter?: number;
 
-  constructor(private readonly libsignalNet: Net.Net, options: Options) {
+  constructor(
+    private readonly libsignalNet: Net.Net,
+    options: Options
+  ) {
     super(options);
   }
 

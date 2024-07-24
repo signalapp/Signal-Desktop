@@ -179,8 +179,8 @@ export class MainSQL {
 
   public async sqlCall<Method extends keyof typeof DB>(
     method: Method,
-    ...args: Parameters<typeof DB[Method]>
-  ): Promise<ReturnType<typeof DB[Method]>> {
+    ...args: Parameters<(typeof DB)[Method]>
+  ): Promise<ReturnType<(typeof DB)[Method]>> {
     if (this.onReady) {
       await this.onReady;
     }
@@ -190,7 +190,7 @@ export class MainSQL {
     }
 
     type SqlCallResult = Readonly<{
-      result: ReturnType<typeof DB[Method]>;
+      result: ReturnType<(typeof DB)[Method]>;
       duration: number;
     }>;
 

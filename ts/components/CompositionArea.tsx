@@ -506,7 +506,12 @@ export const CompositionArea = memo(function CompositionArea({
     ) {
       inputApiRef.current.reset();
     }
-  }, [messageCompositionId, sendCounter, previousMessageCompositionId, previousSendCounter]);
+  }, [
+    messageCompositionId,
+    sendCounter,
+    previousMessageCompositionId,
+    previousSendCounter,
+  ]);
 
   const insertEmoji = useCallback(
     (e: EmojiPickDataType) => {

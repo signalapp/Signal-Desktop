@@ -46,7 +46,7 @@ export type QueryFragmentValue = QueryFragment | QueryTemplateParam;
 
 export type QueryFragment = [
   { fragment: string },
-  ReadonlyArray<QueryTemplateParam>
+  ReadonlyArray<QueryTemplateParam>,
 ];
 
 /**

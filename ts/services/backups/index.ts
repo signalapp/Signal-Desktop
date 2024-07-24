@@ -220,9 +220,8 @@ export class BackupsService {
   ): Promise<
     { isInBackupTier: true; cdnNumber: number } | { isInBackupTier: false }
   > {
-    const storedInfo = await window.Signal.Data.getBackupCdnObjectMetadata(
-      mediaId
-    );
+    const storedInfo =
+      await window.Signal.Data.getBackupCdnObjectMetadata(mediaId);
     if (!storedInfo) {
       return { isInBackupTier: false };
     }
