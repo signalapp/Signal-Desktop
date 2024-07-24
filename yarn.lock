@@ -4928,9 +4928,9 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-"libsession_util_nodejs@https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.19/libsession_util_nodejs-v0.3.19.tar.gz":
-  version "0.3.19"
-  resolved "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.19/libsession_util_nodejs-v0.3.19.tar.gz#221c1fc34fcc18601aea4ce1b733ebfa55af66ea"
+"libsession_util_nodejs@https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.20/libsession_util_nodejs-v0.3.20.tar.gz":
+  version "0.3.20"
+  resolved "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.3.20/libsession_util_nodejs-v0.3.20.tar.gz#f3ae2259c54bf414d5003ea4a9e0a38b3c974065"
   dependencies:
     cmake-js "^7.2.1"
     node-addon-api "^6.1.0"
@@ -5535,9 +5535,9 @@ node-addon-api@^6.1.0:
   integrity sha512-+eawOlIgy680F0kBzPUNFhMZGtJ1YmqM6l4+Crf4IkImjYrO/mqPwRMh352g23uIaQKFItcQ64I7KMaJxHgAVA==
 
 node-api-headers@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/node-api-headers/-/node-api-headers-1.1.0.tgz#3f9dd7bb10b29e1c3e3db675979605a308b2373c"
-  integrity sha512-ucQW+SbYCUPfprvmzBsnjT034IGRB2XK8rRc78BgjNKhTdFKgAwAmgW704bKIBmcYW48it0Gkjpkd39Azrwquw==
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/node-api-headers/-/node-api-headers-1.2.0.tgz#b717cd420aec79031f8dc83a50eb0a8bdf24c70d"
+  integrity sha512-L9AiEkBfgupC0D/LsudLPOhzy/EdObsp+FHyL1zSK0kKv5FDA9rJMoRz8xd+ojxzlqfg0tTZm2h8ot2nS7bgRA==
 
 node-fetch@^2.6.7:
   version "2.7.0"
