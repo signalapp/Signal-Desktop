@@ -2,7 +2,6 @@ import useKey from 'react-use/lib/useKey';
 
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { VALIDATION } from '../../session/constants';
 import { getConversationController } from '../../session/conversations';
 import { ToastUtils, UserUtils } from '../../session/utils';
@@ -17,6 +16,7 @@ import { getPrivateContactsPubkeys } from '../../state/selectors/conversations';
 import { MemberListItem } from '../MemberListItem';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { ConversationTypeEnum } from '../../models/types';
 
 type Props = {
   conversationId: string;

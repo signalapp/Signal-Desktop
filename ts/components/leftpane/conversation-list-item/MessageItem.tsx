@@ -10,7 +10,6 @@ import {
   useIsTyping,
   useLastMessage,
 } from '../../../hooks/useParamSelector';
-import { LastMessageStatusType } from '../../../state/ducks/conversations';
 import { isSearching } from '../../../state/selectors/search';
 import { getIsMessageRequestOverlayShown } from '../../../state/selectors/section';
 import { assertUnreachable } from '../../../types/sqlSharedTypes';
@@ -18,6 +17,7 @@ import { TypingAnimation } from '../../conversation/TypingAnimation';
 import { MessageBody } from '../../conversation/message/message-content/MessageBody';
 import { SessionIcon } from '../../icon';
 import { InteractionItem } from './InteractionItem';
+import { LastMessageStatusType } from '../../../state/ducks/types';
 
 export const MessageItem = () => {
   const conversationId = useConvoIdFromContext();

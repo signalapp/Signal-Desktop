@@ -8,7 +8,6 @@ import {
 } from 'libsession_util_nodejs';
 import { compact, isArray, isEmpty, isNil, isString, map, pick } from 'lodash';
 import {
-  CONVERSATION_PRIORITIES,
   ConversationAttributes,
 } from '../../models/conversationAttributes';
 import { fromHexToArray } from '../../session/utils/String';
@@ -36,6 +35,7 @@ import {
   getLoggedInUserConvoDuringMigration,
   hasDebugEnvVariable,
 } from './utils';
+import { CONVERSATION_PRIORITIES } from '../../models/types';
 
 // eslint:disable: quotemark one-variable-per-declaration no-unused-expression
 

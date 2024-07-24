@@ -3,12 +3,12 @@ import { compact, isEmpty, remove, sortBy } from 'lodash';
 
 import { StateType } from '../reducer';
 
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { UserUtils } from '../../session/utils';
 import { MessageResultProps } from '../../types/message';
 import { ConversationLookupType } from '../ducks/conversations';
 import { SearchStateType } from '../ducks/search';
 import { getConversationLookup } from './conversations';
+import { ConversationTypeEnum } from '../../models/types';
 
 export const getSearch = (state: StateType): SearchStateType => state.search;
 

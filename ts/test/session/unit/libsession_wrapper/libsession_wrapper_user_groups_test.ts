@@ -5,9 +5,7 @@ import { describe } from 'mocha';
 import Sinon from 'sinon';
 import { ConversationModel } from '../../../../models/conversation';
 import {
-  CONVERSATION_PRIORITIES,
   ConversationAttributes,
-  ConversationTypeEnum,
 } from '../../../../models/conversationAttributes';
 import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
 import { getConversationController } from '../../../../session/conversations';
@@ -15,6 +13,7 @@ import { UserUtils } from '../../../../session/utils';
 import { SessionUtilUserGroups } from '../../../../session/utils/libsession/libsession_utils_user_groups';
 import { TestUtils } from '../../../test-utils';
 import { generateFakeECKeyPair, stubWindowLog } from '../../../test-utils/utils';
+import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../../../../models/types';
 
 describe('libsession_user_groups', () => {
   stubWindowLog();

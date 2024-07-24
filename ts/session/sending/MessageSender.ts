@@ -6,7 +6,6 @@ import _, { isEmpty, isNil, isNumber, isString, sample, toNumber } from 'lodash'
 import pRetry from 'p-retry';
 import { Data } from '../../data/data';
 import { SignalService } from '../../protobuf';
-import { OpenGroupRequestCommonType } from '../apis/open_group_api/opengroupV2/ApiUtil';
 import { OpenGroupMessageV2 } from '../apis/open_group_api/opengroupV2/OpenGroupMessageV2';
 import {
   sendMessageOnionV4BlindedRequest,
@@ -37,6 +36,7 @@ import { RawMessage } from '../types/RawMessage';
 import { UserUtils } from '../utils';
 import { ed25519Str, fromUInt8ArrayToBase64 } from '../utils/String';
 import { EmptySwarmError } from '../utils/errors';
+import { OpenGroupRequestCommonType } from '../../data/types';
 
 // ================ SNODE STORE ================
 

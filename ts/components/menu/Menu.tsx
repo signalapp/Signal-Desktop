@@ -20,8 +20,6 @@ import {
   useWeAreAdmin,
 } from '../../hooks/useParamSelector';
 import {
-  ConversationInteractionStatus,
-  ConversationInteractionType,
   approveConvoAndSendResponse,
   blockConvoById,
   clearNickNameByConvoId,
@@ -55,6 +53,7 @@ import { getIsMessageSection } from '../../state/selectors/section';
 import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { SessionButtonColor } from '../basic/SessionButton';
+import { ConversationInteractionType, ConversationInteractionStatus } from '../../interactions/types';
 
 /** Menu items standardized */
 

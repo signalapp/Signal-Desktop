@@ -2,8 +2,8 @@
 
 import AbortController from 'abort-controller';
 import { PubKey } from '../../../types';
-import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 import { batchFirstSubIsSuccess, sogsBatchSend } from './sogsV3BatchPoll';
+import { OpenGroupRequestCommonType } from '../../../../data/types';
 
 /**
  * Add those pubkeys as admins.

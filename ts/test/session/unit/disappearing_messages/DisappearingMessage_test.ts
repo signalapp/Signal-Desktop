@@ -4,7 +4,6 @@ import Sinon from 'sinon';
 import { Conversation, ConversationModel } from '../../../../models/conversation';
 import {
   ConversationAttributes,
-  ConversationTypeEnum,
 } from '../../../../models/conversationAttributes';
 import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
 import { DisappearingMessages } from '../../../../session/disappearing_messages';
@@ -23,6 +22,7 @@ import {
   generateFakeOutgoingPrivateMessage,
   generateVisibleMessage,
 } from '../../../test-utils/utils';
+import { ConversationTypeEnum } from '../../../../models/types';
 
 chai.use(chaiAsPromised as any);
 

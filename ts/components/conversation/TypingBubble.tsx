@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { TypingAnimation } from './TypingAnimation';
+import { ConversationTypeEnum } from '../../models/types';
 
 interface TypingBubbleProps {
   conversationType: ConversationTypeEnum;

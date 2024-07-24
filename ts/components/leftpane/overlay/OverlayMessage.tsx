@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
-import { ConversationTypeEnum } from '../../../models/conversationAttributes';
 import { getConversationController } from '../../../session/conversations';
 import { PubKey } from '../../../session/types';
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
@@ -20,6 +19,7 @@ import { Flex } from '../../basic/Flex';
 import { SpacerLG, SpacerMD } from '../../basic/Text';
 import { HelpDeskButton } from '../../buttons';
 import { SessionInput } from '../../inputs';
+import { ConversationTypeEnum } from '../../../models/types';
 
 const StyledDescriptionContainer = styled(motion.div)`
   margin: 0 auto;

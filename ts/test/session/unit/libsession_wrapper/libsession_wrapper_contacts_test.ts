@@ -3,9 +3,7 @@ import { expect } from 'chai';
 import Sinon from 'sinon';
 import { ConversationModel } from '../../../../models/conversation';
 import {
-  CONVERSATION_PRIORITIES,
   ConversationAttributes,
-  ConversationTypeEnum,
 } from '../../../../models/conversationAttributes';
 import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
 import { getConversationController } from '../../../../session/conversations';
@@ -13,6 +11,7 @@ import { UserUtils } from '../../../../session/utils';
 import { SessionUtilContact } from '../../../../session/utils/libsession/libsession_utils_contacts';
 import { TestUtils } from '../../../test-utils';
 import { stubWindowLog } from '../../../test-utils/utils/stubbing';
+import { ConversationTypeEnum, CONVERSATION_PRIORITIES } from '../../../../models/types';
 
 describe('libsession_contacts', () => {
   stubWindowLog();

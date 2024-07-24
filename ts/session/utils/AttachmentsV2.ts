@@ -1,7 +1,6 @@
 import { isFinite } from 'lodash';
 import { Attachment } from '../../types/Attachment';
 
-import { OpenGroupRequestCommonType } from '../apis/open_group_api/opengroupV2/ApiUtil';
 import { uploadFileToRoomSogs3 } from '../apis/open_group_api/sogsv3/sogsV3SendFile';
 import { addAttachmentPadding } from '../crypto/BufferPadding';
 import {
@@ -12,6 +11,7 @@ import {
   QuotedAttachment,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
 import { RawPreview, RawQuote } from './Attachments';
+import { OpenGroupRequestCommonType } from '../../data/types';
 
 interface UploadParamsV2 {
   attachment: Attachment;

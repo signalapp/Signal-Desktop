@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { getMessageQueue } from '..';
 import { Data } from '../../data/data';
 import { ConversationModel } from '../../models/conversation';
-import { ConversationAttributes, ConversationTypeEnum } from '../../models/conversationAttributes';
+import { ConversationAttributes } from '../../models/conversationAttributes';
 import { MessageModel } from '../../models/message';
 import { MessageAttributesOptionals } from '../../models/messageType';
 import { SignalService } from '../../protobuf';
@@ -28,6 +28,7 @@ import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMe
 import { PubKey } from '../types';
 import { UserUtils } from '../utils';
 import { fromHexToArray, toHex } from '../utils/String';
+import { ConversationTypeEnum } from '../../models/types';
 
 export type GroupInfo = {
   id: string;

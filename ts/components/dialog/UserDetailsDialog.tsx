@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { getConversationController } from '../../session/conversations';
 import { openConversationWithMessages } from '../../state/ducks/conversations';
 import { updateUserDetailsModal, UserDetailsModalState } from '../../state/ducks/modalDialog';
@@ -13,6 +12,7 @@ import { SpacerLG } from '../basic/Text';
 import { CopyToClipboardButton } from '../buttons/CopyToClipboardButton';
 import { SessionInput } from '../inputs';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import { ConversationTypeEnum } from '../../models/types';
 
 const StyledInputContainer = styled(Flex)`
   textarea {

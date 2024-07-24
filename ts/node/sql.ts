@@ -50,7 +50,6 @@ import {
 import { LocaleMessagesType } from './locale'; // checked - only node
 import { StorageItem } from './storage_item'; // checked - only node
 
-import { OpenGroupV2Room } from '../data/opengroups';
 import {
   CONFIG_DUMP_TABLE,
   MsgDuplicateSearchOpenGroup,
@@ -80,6 +79,7 @@ import {
   initDbInstanceWith,
   isInstanceInitialized,
 } from './sqlInstance';
+import { OpenGroupV2Room } from '../data/types';
 
 // eslint:disable: function-name non-literal-fs-path
 

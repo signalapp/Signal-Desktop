@@ -1,5 +1,4 @@
 import { isEmpty } from 'lodash';
-import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../../models/conversationAttributes';
 import { setLastProfileUpdateTimestamp } from '../../util/storage';
 import { UserConfigWrapperActions } from '../../webworker/workers/browser/libsession_worker_interface';
 import { getConversationController } from '../conversations';
@@ -7,6 +6,7 @@ import { SyncUtils, UserUtils } from '../utils';
 import { fromHexToArray, sanitizeSessionUsername, toHex } from '../utils/String';
 import { AvatarDownload } from '../utils/job_runners/jobs/AvatarDownloadJob';
 import { generateFakeECKeyPair } from '../../test/test-utils/utils';
+import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../../models/types';
 
 export type Profile = {
   displayName: string | undefined;

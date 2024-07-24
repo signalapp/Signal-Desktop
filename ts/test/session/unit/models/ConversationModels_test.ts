@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
-  CONVERSATION_PRIORITIES,
   ConversationAttributes,
   fillConvoAttributesWithDefaults,
 } from '../../../../models/conversationAttributes';
+import { CONVERSATION_PRIORITIES } from '../../../../models/types';
 
 describe('fillConvoAttributesWithDefaults', () => {
   describe('members', () => {

@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { useLastMessage } from '../../hooks/useParamSelector';
 import { MessageInteraction } from '../../interactions';
 import {
-  ConversationInteractionStatus,
   updateConversationInteractionState,
 } from '../../interactions/conversationInteractions';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
@@ -17,6 +16,7 @@ import { SessionRadioGroup, SessionRadioItems } from '../basic/SessionRadioGroup
 import { SpacerLG } from '../basic/Text';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
 import { SessionSpinner } from '../loading';
+import { ConversationInteractionStatus } from '../../interactions/types';
 
 const StyledSubText = styled(SessionHtmlRenderer)<{ textLength: number }>`
   font-size: var(--font-size-md);

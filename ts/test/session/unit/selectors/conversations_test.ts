@@ -1,14 +1,11 @@
 import { assert } from 'chai';
-import {
-  CONVERSATION_PRIORITIES,
-  ConversationTypeEnum,
-} from '../../../../models/conversationAttributes';
 
 import { ConversationLookupType } from '../../../../state/ducks/conversations';
 import {
   _getConversationComparator,
   _getSortedConversations,
 } from '../../../../state/selectors/conversations';
+import { ConversationTypeEnum, CONVERSATION_PRIORITIES } from '../../../../models/types';
 
 describe('state/selectors/conversations', () => {
   describe('#getSortedConversationsList', () => {

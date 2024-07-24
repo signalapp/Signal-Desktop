@@ -7,7 +7,6 @@ import { configurationMessageReceived, trigger } from '../shims/events';
 import { SessionButtonColor } from '../components/basic/SessionButton';
 import { Data } from '../data/data';
 import { SettingsKey } from '../data/settings-key';
-import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { deleteAllLogs } from '../node/logs';
 import { SessionKeyPair } from '../receiver/keypairs';
 import { clearInbox } from '../session/apis/open_group_api/sogsv3/sogsV3ClearInbox';
@@ -22,6 +21,7 @@ import { updateConfirmModal, updateDeleteAccountModal } from '../state/ducks/mod
 import { actions as userActions } from '../state/ducks/user';
 import { Registration } from './registration';
 import { Storage, saveRecoveryPhrase, setLocalPubKey, setSignInByLinking } from './storage';
+import { ConversationTypeEnum } from '../models/types';
 
 /**
  * Might throw

@@ -1,11 +1,11 @@
 import AbortController from 'abort-controller';
-import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 import {
   batchFirstSubIsSuccess,
   batchGlobalIsSuccess,
   OpenGroupBatchRow,
   sogsBatchSend,
 } from './sogsV3BatchPoll';
+import { OpenGroupRequestCommonType } from '../../../../data/types';
 
 /**
  * Deletes messages on open group server using onion v4 logic and batch send

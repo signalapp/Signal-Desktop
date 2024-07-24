@@ -7,7 +7,6 @@ import { MessageModel } from '../models/message';
 import { getConversationController } from '../session/conversations';
 import { Quote } from './types';
 
-import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { MessageDirection } from '../models/messageType';
 import { SignalService } from '../protobuf';
 import { DisappearingMessages } from '../session/disappearing_messages';
@@ -23,6 +22,7 @@ import { showMessageRequestBannerOutsideRedux } from '../state/ducks/userConfig'
 import { getHideMessageRequestBannerOutsideRedux } from '../state/selectors/userConfig';
 import { GoogleChrome } from '../util';
 import { LinkPreviews } from '../util/linkPreviews';
+import { ConversationTypeEnum } from '../models/types';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;

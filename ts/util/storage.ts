@@ -1,9 +1,9 @@
 import { isBoolean } from 'lodash';
-import { Data } from '../data/data';
 import { SessionKeyPair } from '../receiver/keypairs';
 import { DEFAULT_RECENT_REACTS } from '../session/constants';
 import { deleteSettingsBoolValue, updateSettingsBoolValue } from '../state/ducks/settings';
 import { ReleasedFeatures } from './releaseFeature';
+import { Data } from '../data/data';
 
 let ready = false;
 
