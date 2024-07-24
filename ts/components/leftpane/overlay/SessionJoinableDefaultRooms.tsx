@@ -153,6 +153,11 @@ export const SessionJoinableRooms = (props: {
     return null;
   }
 
+  // There is a spinner in the overlay, so we don't need to show it when joining
+  if (props.alreadyJoining) {
+    return null;
+  }
+
   return (
     <Flex
       container={true}

@@ -54,11 +54,6 @@ const getHexGeneratedPubKey = createSelector(
   (state: OnboardingState): string => state.hexGeneratedPubKey
 );
 
-const getPrivateKeyBytesHex = createSelector(
-  getRegistration,
-  (state: OnboardingState): string | undefined => state.privateKeyBytesHex
-);
-
 const getDisplayName = createSelector(
   getRegistration,
   (state: OnboardingState): string => state.displayName
@@ -101,10 +96,6 @@ export const useRecoveryPasswordError = () => {
 
 export const useOnboardHexGeneratedPubKey = () => {
   return useSelector(getHexGeneratedPubKey);
-};
-
-export const useOnboardPrivateKeyBytesHex = () => {
-  return useSelector(getPrivateKeyBytesHex);
 };
 
 export const useDisplayName = () => {

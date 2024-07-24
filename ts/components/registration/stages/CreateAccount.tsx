@@ -5,7 +5,7 @@ import { SettingsKey } from '../../../data/settings-key';
 import { mnDecode } from '../../../session/crypto/mnemonic';
 import { ProfileManager } from '../../../session/profile_manager/ProfileManager';
 import { StringUtils } from '../../../session/utils';
-import { fromHex, toHex } from '../../../session/utils/String';
+import { fromHex } from '../../../session/utils/String';
 import LIBSESSION_CONSTANTS from '../../../session/utils/libsession/libsession_constants';
 import { trigger } from '../../../shims/events';
 import {
@@ -14,13 +14,11 @@ import {
   setDisplayName,
   setDisplayNameError,
   setHexGeneratedPubKey,
-  setPrivateKeyBytesHex,
   setRecoveryPassword,
 } from '../../../state/onboarding/ducks/registration';
 import {
   useDisplayName,
   useDisplayNameError,
-  useOnboardPrivateKeyBytesHex,
   useRecoveryPassword,
 } from '../../../state/onboarding/selectors/registration';
 import {
@@ -59,7 +57,6 @@ async function signUp(signUpDetails: AccountDetails) {
 }
 
 export const CreateAccount = () => {
-  const privateKeyBytesHex = useOnboardPrivateKeyBytesHex();
   const recoveryPassword = useRecoveryPassword();
   const displayName = useDisplayName();
   const displayNameError = useDisplayNameError();
@@ -82,7 +79,6 @@ export const CreateAccount = () => {
       const newHexPubKey = StringUtils.decode(keyPair.pubKey, 'hex');
 
       dispatch(setRecoveryPassword(mnemonic));
-      dispatch(setPrivateKeyBytesHex(toHex(keyPair.ed25519KeyPair.privateKey)));
       dispatch(setHexGeneratedPubKey(newHexPubKey)); // our 'frontend' account ID
     }
   };
@@ -97,10 +93,6 @@ export const CreateAccount = () => {
     }
 
     try {
-      if (!privateKeyBytesHex) {
-        throw new Error('Private key not found');
-      }
-
       const validName = await ProfileManager.updateOurProfileDisplayName(displayName, true);
 
       await signUp({

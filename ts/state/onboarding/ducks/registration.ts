@@ -41,7 +41,6 @@ export type OnboardingState = {
   progress: number;
   recoveryPassword: string;
   recoveryPasswordError: string | undefined;
-  privateKeyBytesHex: string | undefined;
   hexGeneratedPubKey: string;
   displayName: string;
   displayNameError: string | undefined;
@@ -55,7 +54,6 @@ const initialState: OnboardingState = {
   progress: 0,
   recoveryPassword: '',
   recoveryPasswordError: undefined,
-  privateKeyBytesHex: undefined,
   hexGeneratedPubKey: '',
   displayName: '',
   displayNameError: undefined,
@@ -92,9 +90,6 @@ export const registrationSlice = createSlice({
     setHexGeneratedPubKey(state, action: PayloadAction<string>) {
       return { ...state, hexGeneratedPubKey: action.payload };
     },
-    setPrivateKeyBytesHex(state, action: PayloadAction<string>) {
-      return { ...state, privateKeyBytesHex: action.payload };
-    },
     setDisplayName(state, action: PayloadAction<string>) {
       return { ...state, displayName: action.payload };
     },
@@ -114,7 +109,6 @@ export const {
   setRecoveryPassword,
   setRecoveryPasswordError,
   setHexGeneratedPubKey,
-  setPrivateKeyBytesHex,
   setDisplayName,
   setDisplayNameError,
 } = registrationSlice.actions;
