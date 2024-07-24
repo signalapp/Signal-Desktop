@@ -73,3 +73,24 @@ export function FromContactWithLongNamesBeforeAndAfter(): JSX.Element {
     />
   );
 }
+
+export function WithNickname(): JSX.Element {
+  return (
+    <ProfileChangeNotification
+      i18n={i18n}
+      changedContact={getDefaultConversation({
+        id: 'some-guid',
+        type: 'direct',
+        title: 'Mr. Fire 🔥',
+        nicknameFamilyName: 'test',
+        nicknameGivenName: 'test',
+      })}
+      change={{
+        type: 'name',
+        oldName: 'Mr. Fire 🔥 Old',
+        newName: 'Mr. Fire 🔥 New',
+      }}
+      onOpenEditNicknameAndNoteModal={action('onOpenEditNicknameAndNoteModal')}
+    />
+  );
+}

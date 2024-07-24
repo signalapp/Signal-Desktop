@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
-
+import type { ReactNode } from 'react';
+import React, { useCallback } from 'react';
 import { isBeta } from '../util/version';
 import { DialogType } from '../types/Dialogs';
 import type { LocalizerType } from '../types/Util';
@@ -11,6 +11,19 @@ import { I18n } from './I18n';
 import { LeftPaneDialog } from './LeftPaneDialog';
 import type { WidthBreakpoint } from './_util';
 import { formatFileSize } from '../util/formatFileSize';
+
+function contactSupportLink(parts: ReactNode): JSX.Element {
+  return (
+    <a
+      key="signal-support"
+      href="https://support.signal.org/hc/en-us/requests/new?desktop"
+      rel="noreferrer"
+      target="_blank"
+    >
+      {parts}
+    </a>
+  );
+}
 
 export type PropsType = {
   containerWidthBreakpoint: WidthBreakpoint;
@@ -37,6 +50,22 @@ export function DialogUpdate({
   version,
   currentVersion,
 }: PropsType): JSX.Element | null {
+  const retryUpdateButton = useCallback(
+    (parts: ReactNode): JSX.Element => {
+      return (
+        <button
+          className="LeftPaneDialog__retry"
+          key="signal-retry"
+          onClick={startUpdate}
+          type="button"
+        >
+          {parts}
+        </button>
+      );
+    },
+    [startUpdate]
+  );
+
   if (dialogType === DialogType.Cannot_Update) {
     const url = isBeta(currentVersion)
       ? BETA_DOWNLOAD_URL
@@ -50,16 +79,7 @@ export function DialogUpdate({
         <span>
           <I18n
             components={{
-              retry: (
-                <button
-                  className="LeftPaneDialog__retry"
-                  key="signal-retry"
-                  onClick={startUpdate}
-                  type="button"
-                >
-                  {i18n('icu:autoUpdateRetry')}
-                </button>
-              ),
+              retryUpdateButton,
               url: (
                 <a
                   key="signal-download"
@@ -70,19 +90,10 @@ export function DialogUpdate({
                   {url}
                 </a>
               ),
-              support: (
-                <a
-                  key="signal-support"
-                  href="https://support.signal.org/hc/en-us/requests/new?desktop"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  {i18n('icu:autoUpdateContactSupport')}
-                </a>
-              ),
+              contactSupportLink,
             }}
             i18n={i18n}
-            id="icu:cannotUpdateDetail"
+            id="icu:cannotUpdateDetail-v2"
           />
         </span>
       </LeftPaneDialog>
@@ -112,19 +123,10 @@ export function DialogUpdate({
                   {url}
                 </a>
               ),
-              support: (
-                <a
-                  key="signal-support"
-                  href="https://support.signal.org/hc/en-us/requests/new?desktop"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  {i18n('icu:autoUpdateContactSupport')}
-                </a>
-              ),
+              contactSupportLink,
             }}
             i18n={i18n}
-            id="icu:cannotUpdateRequireManualDetail"
+            id="icu:cannotUpdateRequireManualDetail-v2"
           />
         </span>
       </LeftPaneDialog>
