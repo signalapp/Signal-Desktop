@@ -17,6 +17,7 @@ import { ConversationTypeEnum } from '../../models/types';
 const StyledInputContainer = styled(Flex)`
   textarea {
     overflow: hidden;
+    padding-top: var(--margins-xs);
   }
 `;
 
@@ -59,7 +60,12 @@ export const UserDetailsDialog = (props: UserDetailsModalState) => {
   }
 
   return (
-    <SessionWrapperModal title={props.userName} onClose={closeDialog} showExitIcon={true}>
+    <SessionWrapperModal
+      title={props.userName}
+      onClose={closeDialog}
+      showExitIcon={true}
+      additionalClassName="user-details-dialog"
+    >
       <div className="avatar-center">
         <div className="avatar-center-inner">
           <Avatar

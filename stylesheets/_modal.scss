@@ -142,3 +142,14 @@
     }
   }
 }
+
+.user-details-dialog {
+  .session-confirm-wrapper {
+    .session-modal__header {
+      max-width: 400px;
+    }
+    .session-modal__body {
+      width: 400px;
+    }
+  }
+}

@@ -2,12 +2,20 @@ import classNames from 'classnames';
 import { ReactNode, useRef } from 'react';
 import useKey from 'react-use/lib/useKey';
 
+import styled from 'styled-components';
 import { SessionIconButton } from './icon';
 
 import { SessionFocusTrap } from './SessionFocusTrap';
 import { Flex } from './basic/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
 import { SpacerXL } from './basic/Text';
+
+const StyledTitle = styled.div`
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0 var(--margins-sm);
+`;
 
 export type SessionWrapperModalType = {
   title?: string;
@@ -115,7 +123,7 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
                       })
                     : null}
                 </Flex>
-                <div className="session-modal__header__title">{title}</div>
+                <StyledTitle className="session-modal__header__title">{title}</StyledTitle>
                 <Flex
                   container={true}
                   flexDirection={headerReverse ? 'row-reverse' : 'row'}
