@@ -104,6 +104,7 @@ export const OverlayCommunity = () => {
         value={groupUrl}
         onValueChanged={setGroupUrl}
         onEnterPressed={onTryJoinRoom}
+        editable={!loading}
         error={groupUrlError}
         // - 1 for null terminator
         maxLength={LIBSESSION_CONSTANTS.COMMUNITY_FULL_URL_MAX_LENGTH - 1}
