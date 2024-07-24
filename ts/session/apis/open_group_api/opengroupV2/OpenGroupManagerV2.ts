@@ -12,11 +12,7 @@ import {
   getAllValidOpenGroupV2ConversationRoomInfos,
   getOpenGroupV2ConversationId,
 } from '../utils/OpenGroupUtils';
-import {
-  ourSogsDomainName,
-  ourSogsLegacyIp,
-  ourSogsUrl,
-} from './ApiUtil';
+import { ourSogsDomainName, ourSogsLegacyIp, ourSogsUrl } from './ApiUtil';
 import { OpenGroupServerPoller } from './OpenGroupServerPoller';
 
 import { SessionUtilUserGroups } from '../../../utils/libsession/libsession_utils_user_groups';

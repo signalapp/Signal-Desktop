@@ -4,9 +4,7 @@ import { omit, toNumber } from 'lodash';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
 import { QuotedAttachmentType } from '../../components/conversation/message/message-content/quote/Quote';
 import { Data } from '../../data/data';
-import {
-  ConversationNotificationSettingType,
-} from '../../models/conversationAttributes';
+import { ConversationNotificationSettingType } from '../../models/conversationAttributes';
 import {
   MessageModelType,
   PropsForDataExtractionNotification,
@@ -21,8 +19,12 @@ import {
 import { ReactionList } from '../../types/Reaction';
 import { resetRightOverlayMode } from './section';
 import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../../models/types';
-import { LastMessageStatusType, LastMessageType, PropsForCallNotification, PropsForInteractionNotification } from './types';
-
+import {
+  LastMessageStatusType,
+  LastMessageType,
+  PropsForCallNotification,
+  PropsForInteractionNotification,
+} from './types';
 
 export type MessageModelPropsWithoutConvoProps = {
   propsForMessage: PropsForMessageWithoutConvoProps;

@@ -140,8 +140,6 @@ export const fillConvoAttributesWithDefaults = (
   });
 };
 
-
-
 export const READ_MESSAGE_STATE = {
   unread: 1,
   read: 0,

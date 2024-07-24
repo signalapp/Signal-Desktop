@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash';
-import { OpenGroupData  } from '../../../../data/opengroups';
+import { OpenGroupData } from '../../../../data/opengroups';
 import { getOpenGroupManager } from '../opengroupV2/OpenGroupManagerV2';
 import { SessionUtilUserGroups } from '../../../utils/libsession/libsession_utils_user_groups';
 import { getConversationController } from '../../../conversations';

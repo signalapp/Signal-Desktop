@@ -7,9 +7,7 @@ import {
   UserGroupsWrapperNode,
 } from 'libsession_util_nodejs';
 import { compact, isArray, isEmpty, isNil, isString, map, pick } from 'lodash';
-import {
-  ConversationAttributes,
-} from '../../models/conversationAttributes';
+import { ConversationAttributes } from '../../models/conversationAttributes';
 import { fromHexToArray } from '../../session/utils/String';
 import { CONFIG_DUMP_TABLE } from '../../types/sqlSharedTypes';
 import {

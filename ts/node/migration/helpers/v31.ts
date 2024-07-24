@@ -11,9 +11,7 @@ import {
 import { isEmpty, isEqual, isFinite, isNumber } from 'lodash';
 import { from_hex } from 'libsodium-wrappers-sumo';
 import { MESSAGES_TABLE, toSqliteBoolean } from '../../database_utility';
-import {
-  ConversationAttributes,
-} from '../../../models/conversationAttributes';
+import { ConversationAttributes } from '../../../models/conversationAttributes';
 import { maybeArrayJSONtoArray } from '../../../types/sqlSharedTypes';
 import { checkTargetMigration, hasDebugEnvVariable } from '../utils';
 import { sqlNode } from '../../sql';

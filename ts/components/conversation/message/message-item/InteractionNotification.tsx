@@ -4,7 +4,10 @@ import { useIsPrivate, useIsPublic } from '../../../../hooks/useParamSelector';
 import { assertUnreachable } from '../../../../types/sqlSharedTypes';
 import { Flex } from '../../../basic/Flex';
 import { ReadableMessage } from './ReadableMessage';
-import { ConversationInteractionStatus, ConversationInteractionType } from '../../../../interactions/types';
+import {
+  ConversationInteractionStatus,
+  ConversationInteractionType,
+} from '../../../../interactions/types';
 import { PropsForInteractionNotification } from '../../../../state/ducks/types';
 
 const StyledFailText = styled.div`

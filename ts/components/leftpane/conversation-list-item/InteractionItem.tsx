@@ -6,7 +6,10 @@ import { useIsPrivate, useIsPublic } from '../../../hooks/useParamSelector';
 import { getConversationController } from '../../../session/conversations';
 import { assertUnreachable } from '../../../types/sqlSharedTypes';
 import { MessageBody } from '../../conversation/message/message-content/MessageBody';
-import { ConversationInteractionType, ConversationInteractionStatus } from '../../../interactions/types';
+import {
+  ConversationInteractionType,
+  ConversationInteractionStatus,
+} from '../../../interactions/types';
 import { LastMessageType } from '../../../state/ducks/types';
 
 const StyledInteractionItemText = styled.div<{ isError: boolean }>`

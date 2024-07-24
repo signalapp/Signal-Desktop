@@ -6,7 +6,7 @@ import pRetry from 'p-retry';
 import { default as insecureNodeFetch } from 'node-fetch';
 
 import semver from 'semver';
-import { Data} from '../../data/data';
+import { Data } from '../../data/data';
 import * as SnodePool from '../apis/snode_api/snodePool';
 import { UserUtils } from '../utils';
 import { allowOnlyOneAtATime } from '../utils/Promise';

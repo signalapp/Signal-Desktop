@@ -5,7 +5,6 @@ import { getConversationController } from '../conversations';
 import { SyncUtils, UserUtils } from '../utils';
 import { fromHexToArray, sanitizeSessionUsername, toHex } from '../utils/String';
 import { AvatarDownload } from '../utils/job_runners/jobs/AvatarDownloadJob';
-import { generateFakeECKeyPair } from '../../test/test-utils/utils';
 import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../../models/types';
 
 export type Profile = {
@@ -101,8 +100,8 @@ export async function updateOurProfileDisplayName(newName: string, onboarding?: 
 
   if (onboarding) {
     try {
-      const tempKeyPair = generateFakeECKeyPair();
-      await UserConfigWrapperActions.init(tempKeyPair.privateKeyData, null);
+      // const tempKeyPair = generateFakeECKeyPair();
+      await UserConfigWrapperActions.init(new Uint8Array(), null);
       const userInfoName = await UserConfigWrapperActions.setUserInfo(
         cleanName,
         CONVERSATION_PRIORITIES.default,

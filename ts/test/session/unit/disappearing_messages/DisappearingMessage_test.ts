@@ -2,9 +2,7 @@ import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import Sinon from 'sinon';
 import { Conversation, ConversationModel } from '../../../../models/conversation';
-import {
-  ConversationAttributes,
-} from '../../../../models/conversationAttributes';
+import { ConversationAttributes } from '../../../../models/conversationAttributes';
 import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
 import { DisappearingMessages } from '../../../../session/disappearing_messages';
 import {

@@ -1,4 +1,7 @@
-import { ConversationInteractionStatus, ConversationInteractionType } from '../../interactions/types';
+import {
+  ConversationInteractionStatus,
+  ConversationInteractionType,
+} from '../../interactions/types';
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
 
@@ -15,7 +18,6 @@ export type LastMessageType = {
   interactionType: ConversationInteractionType | null;
   interactionStatus: ConversationInteractionStatus | null;
 };
-
 
 export type InteractionNotificationType = {
   interactionType: ConversationInteractionType;

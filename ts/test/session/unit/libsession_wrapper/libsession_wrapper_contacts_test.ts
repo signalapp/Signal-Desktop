@@ -2,9 +2,7 @@ import { expect } from 'chai';
 
 import Sinon from 'sinon';
 import { ConversationModel } from '../../../../models/conversation';
-import {
-  ConversationAttributes,
-} from '../../../../models/conversationAttributes';
+import { ConversationAttributes } from '../../../../models/conversationAttributes';
 import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
 import { getConversationController } from '../../../../session/conversations';
 import { UserUtils } from '../../../../session/utils';

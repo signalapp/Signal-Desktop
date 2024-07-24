@@ -1,6 +1,6 @@
 import { compact } from 'lodash';
 
-import { OpenGroupData} from '../../../../data/opengroups';
+import { OpenGroupData } from '../../../../data/opengroups';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { UserUtils } from '../../../utils';
 import { fromHexToArray } from '../../../utils/String';

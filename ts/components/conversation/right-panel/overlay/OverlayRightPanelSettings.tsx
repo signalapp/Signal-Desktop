@@ -45,7 +45,10 @@ import { PanelButtonGroup, PanelIconButton } from '../../../buttons';
 import { MediaItemType } from '../../../lightbox/LightboxGallery';
 import { MediaGallery } from '../../media-gallery/MediaGallery';
 import { Header, StyledScrollContainer } from './components';
-import { ConversationInteractionStatus, ConversationInteractionType } from '../../../../interactions/types';
+import {
+  ConversationInteractionStatus,
+  ConversationInteractionType,
+} from '../../../../interactions/types';
 
 async function getMediaGalleryProps(conversationId: string): Promise<{
   documents: Array<MediaItemType>;
