@@ -19,6 +19,13 @@ const MIN_TRACE_DURATION = 40;
 
 const WORKER_COUNT = 4;
 
+const PAGING_QUERIES = new Set<keyof ServerReadableDirectInterface>([
+  'pageMessages',
+  'finishPageMessages',
+  'getKnownMessageAttachments',
+  'finishGetKnownMessageAttachments',
+]);
+
 export type InitializeOptions = Readonly<{
   appVersion: string;
   configDir: string;
@@ -216,7 +223,7 @@ export class MainSQL {
 
     // pageMessages runs over several queries and needs to have access to
     // the same temporary table.
-    const isPaging = method === 'pageMessages';
+    const isPaging = PAGING_QUERIES.has(method);
 
     const entry = isPaging ? this.pool.at(-1) : this.getWorker();
     strictAssert(entry != null, 'Must have a pool entry');
