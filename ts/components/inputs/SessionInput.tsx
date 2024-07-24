@@ -31,6 +31,7 @@ const StyledSessionInput = styled(Flex)<{
     &.error {
       color: var(--danger-color);
       font-weight: 700;
+      user-select: text;
     }
   }
 
