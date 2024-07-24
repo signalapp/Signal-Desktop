@@ -13,7 +13,6 @@ import {
   GroupCallEndReason,
   type Reaction as CallReaction,
 } from '@signalapp/ringrtc';
-import { v4 as generateUuid } from 'uuid';
 import { getOwn } from '../../util/getOwn';
 import * as Errors from '../../types/errors';
 import { getIntl, getPlatform } from '../selectors/user';
@@ -55,6 +54,7 @@ import {
   getRoomIdFromRootKey,
   isCallLinksCreateEnabled,
   toAdminKeyBytes,
+  toCallHistoryFromUnusedCallLink,
 } from '../../util/callLinks';
 import { sendCallLinkUpdateSync } from '../../util/sendCallLinkUpdateSync';
 import { sleep } from '../../util/sleep';
@@ -88,15 +88,10 @@ import { ButtonVariant } from '../../components/Button';
 import { getConversationIdForLogging } from '../../util/idForLogging';
 import { DataReader, DataWriter } from '../../sql/Client';
 import { isAciString } from '../../util/isAciString';
-import type { CallHistoryDetails } from '../../types/CallDisposition';
-import {
-  AdhocCallStatus,
-  CallDirection,
-  CallType,
-} from '../../types/CallDisposition';
 import type { CallHistoryAdd } from './callHistory';
 import { addCallHistory } from './callHistory';
 import { saveDraftRecordingIfNeeded } from './composer';
+import type { CallHistoryDetails } from '../../types/CallDisposition';
 
 // State
 
@@ -1396,7 +1391,12 @@ function groupCallStateChange(
 // From sync messages, to notify us that another device joined or changed a call link.
 function handleCallLinkUpdate(
   payload: HandleCallLinkUpdateType
-): ThunkAction<void, RootStateType, unknown, HandleCallLinkUpdateActionType> {
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  HandleCallLinkUpdateActionType | CallHistoryAdd
+> {
   return async dispatch => {
     const { rootKey, adminKey } = payload;
     const callLinkRootKey = CallLinkRootKey.parse(rootKey);
@@ -1432,6 +1432,8 @@ function handleCallLinkUpdate(
       adminKey,
     };
 
+    let callHistory: CallHistoryDetails | null = null;
+
     if (existingCallLink) {
       if (adminKey && adminKey !== existingCallLink.adminKey) {
         await DataWriter.updateCallLinkAdminKeyByRoomId(roomId, adminKey);
@@ -1444,6 +1446,10 @@ function handleCallLinkUpdate(
       }
     } else {
       await DataWriter.insertCallLink(callLink);
+      if (adminKey != null) {
+        callHistory = toCallHistoryFromUnusedCallLink(callLink);
+        await DataWriter.saveCallHistory(callHistory);
+      }
       log.info(`${logId}: Saved new call link`);
     }
 
@@ -1451,6 +1457,10 @@ function handleCallLinkUpdate(
       type: HANDLE_CALL_LINK_UPDATE,
       payload: { callLink },
     });
+
+    if (callHistory != null) {
+      dispatch(addCallHistory(callHistory));
+    }
   };
 }
 
@@ -1974,16 +1984,7 @@ function createCallLink(
     strictAssert(isCallLinksCreateEnabled(), 'Call links creation is disabled');
 
     const callLink = await calling.createCallLink();
-    const callHistory: CallHistoryDetails = {
-      callId: generateUuid(),
-      peerId: callLink.roomId,
-      ringerId: null,
-      mode: CallMode.Adhoc,
-      type: CallType.Adhoc,
-      direction: CallDirection.Incoming,
-      timestamp: Date.now(),
-      status: AdhocCallStatus.Pending,
-    };
+    const callHistory = toCallHistoryFromUnusedCallLink(callLink);
     await Promise.all([
       DataWriter.insertCallLink(callLink),
       DataWriter.saveCallHistory(callHistory),

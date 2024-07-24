@@ -7,6 +7,7 @@ import {
 } from '@signalapp/ringrtc';
 import { Aci } from '@signalapp/libsignal-client';
 import { z } from 'zod';
+import { v4 as generateUuid } from 'uuid';
 import * as RemoteConfig from '../RemoteConfig';
 import type { CallLinkAuthCredentialPresentation } from './zkgroup';
 import {
@@ -31,6 +32,13 @@ import {
 import type { LocalizerType } from '../types/Util';
 import { isTestOrMockEnvironment } from '../environment';
 import { getColorForCallLink } from './getColorForCallLink';
+import {
+  AdhocCallStatus,
+  CallDirection,
+  CallType,
+  type CallHistoryDetails,
+} from '../types/CallDisposition';
+import { CallMode } from '../types/Calling';
 
 export const CALL_LINK_DEFAULT_STATE = {
   name: '',
@@ -202,5 +210,20 @@ export function callLinkFromRecord(record: CallLinkRecord): CallLinkType {
     restrictions: toCallLinkRestrictions(record.restrictions),
     revoked: record.revoked === 1,
     expiration: record.expiration,
+  };
+}
+
+export function toCallHistoryFromUnusedCallLink(
+  callLink: CallLinkType
+): CallHistoryDetails {
+  return {
+    callId: generateUuid(),
+    peerId: callLink.roomId,
+    ringerId: null,
+    mode: CallMode.Adhoc,
+    type: CallType.Adhoc,
+    direction: CallDirection.Incoming,
+    timestamp: Date.now(),
+    status: AdhocCallStatus.Pending,
   };
 }

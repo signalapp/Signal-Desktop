@@ -158,6 +158,7 @@ import type {
 } from '../types/CallLink';
 import { CallLinkRestrictions } from '../types/CallLink';
 import { getConversationIdForLogging } from '../util/idForLogging';
+import { sendCallLinkUpdateSync } from '../util/sendCallLinkUpdateSync';
 
 const { wasGroupCallRingPreviouslyCanceled } = DataReader;
 const {
@@ -671,12 +672,16 @@ export class CallingClass {
     log.info(`${logId}: success`);
     const state = callLinkStateFromRingRTC(result.value);
 
-    return {
+    const callLink: CallLinkType = {
       roomId: roomIdHex,
       rootKey: rootKey.toString(),
       adminKey: adminKey.toString('base64'),
       ...state,
     };
+
+    drop(sendCallLinkUpdateSync(callLink));
+
+    return callLink;
   }
 
   async updateCallLinkName(
@@ -710,6 +715,8 @@ export class CallingClass {
       log.error(`${logId}: ${message}`);
       throw new Error(message);
     }
+
+    drop(sendCallLinkUpdateSync(callLink));
 
     log.info(`${logId}: success`);
     return callLinkStateFromRingRTC(result.value);
@@ -753,6 +760,8 @@ export class CallingClass {
       log.error(`${logId}: ${message}`);
       throw new Error(message);
     }
+
+    drop(sendCallLinkUpdateSync(callLink));
 
     log.info(`${logId}: success`);
     return callLinkStateFromRingRTC(result.value);
