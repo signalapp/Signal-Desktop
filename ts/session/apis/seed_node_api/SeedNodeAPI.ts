@@ -35,6 +35,7 @@ export async function fetchSnodePoolFromSeedNodeWithRetries(
       port: snode.storage_port,
       pubkey_x25519: snode.pubkey_x25519,
       pubkey_ed25519: snode.pubkey_ed25519,
+      storage_server_version: snode.storage_server_version,
     }));
     window?.log?.info(
       'SeedNodeAPI::fetchSnodePoolFromSeedNodeWithRetries - Refreshed random snode pool with',
@@ -140,6 +141,7 @@ export interface SnodeFromSeed {
   storage_port: number;
   pubkey_x25519: string;
   pubkey_ed25519: string;
+  storage_server_version: Array<number>;
 }
 
 const getSnodeListFromSeednodeOneAtAtime = async (seedNodes: Array<string>) =>
@@ -241,6 +243,7 @@ async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
         storage_port: true,
         pubkey_x25519: true,
         pubkey_ed25519: true,
+        storage_server_version: true,
       },
     },
   };

@@ -79,6 +79,7 @@ type FetchSnodeListParams = {
     storage_port: true;
     pubkey_x25519: true;
     pubkey_ed25519: true;
+    storage_server_version: true;
   };
 };
 
