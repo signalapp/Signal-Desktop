@@ -145,25 +145,6 @@
     // We want the right link color in dark mode. This is a no-op in light mode.
     color: $color-ultramarine;
   }
-
-  &__android-plus {
-    background: $color-gray-25;
-    border-radius: 100%;
-    display: inline-block;
-    padding: 5px;
-    vertical-align: middle;
-
-    &::before {
-      @include color-svg(
-        '../images/icons/v3/plus/plus-compact.svg',
-        $color-white
-      );
-      content: '';
-      display: block;
-      height: 12px;
-      width: 12px;
-    }
-  }
 }
 
 @keyframes module-InstallScreenQrCodeNotScannedStep__slide-in {
