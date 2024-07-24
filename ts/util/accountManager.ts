@@ -276,7 +276,6 @@ export async function sendConfigMessageAndDeleteEverything() {
     await forceSyncConfigurationNowIfNeeded(true);
     window?.log?.info('Last configuration message sent!');
     await deleteDbLocally();
-    window.restart();
   } catch (error) {
     // if an error happened, it's not related to the delete everything on network logic as this is handled above.
     // this could be a last sync configuration message not being sent.
@@ -302,21 +301,31 @@ export async function deleteEverythingAndNetworkData() {
 
     // clear all sogs inboxes (includes message requests)
     const allRoomInfos = await getAllValidOpenGroupV2ConversationRoomInfos();
-    if (allRoomInfos && allRoomInfos.size > 0) {
+    const allRoomInfosArray = Array.from(allRoomInfos?.values() || []);
+
+    if (allRoomInfosArray.length) {
       // clear each inbox per sogs
-      // eslint-disable-next-line no-restricted-syntax
-      for (const roomInfo of allRoomInfos.values()) {
+
+      const clearInboxPromises = allRoomInfosArray.map(async roomInfo => {
         try {
-          // eslint-disable-next-line no-await-in-loop
           const success = await clearInbox(roomInfo);
           if (!success) {
             throw Error(`Failed to clear inbox for ${roomInfo.conversationId}`);
           }
+          return { status: 'fulfilled' };
         } catch (error) {
-          window.log.info('DeleteAccount =>', error);
-          continue;
+          return { status: 'rejected', reason: error };
         }
-      }
+      });
+
+      const results = await Promise.allSettled(clearInboxPromises);
+      results.forEach((result, index) => {
+        if (result.status === 'rejected') {
+          window.log.error(result.reason);
+        } else {
+          window.log.info('Inbox cleared for room', allRoomInfosArray[index]);
+        }
+      });
     }
 
     // send deletion message to the network
