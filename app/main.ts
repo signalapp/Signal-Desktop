@@ -122,6 +122,9 @@ import type { ParsedSignalRoute } from '../ts/util/signalRoutes';
 import { parseSignalRoute } from '../ts/util/signalRoutes';
 import * as dns from '../ts/util/dns';
 import { ZoomFactorService } from '../ts/services/ZoomFactorService';
+import { SafeStorageBackendChangeError } from '../ts/types/SafeStorageBackendChangeError';
+import { LINUX_PASSWORD_STORE_FLAGS } from '../ts/util/linuxPasswordStoreFlags';
+import { getOwn } from '../ts/util/getOwn';
 
 const animationSettings = systemPreferences.getAnimationSettings();
 
@@ -1600,7 +1603,7 @@ const runSQLCorruptionHandler = async () => {
       `Restarting the application immediately. Error: ${error.message}`
   );
 
-  await onDatabaseError(Errors.toLogFormat(error));
+  await onDatabaseError(error);
 };
 
 const runSQLReadonlyHandler = async () => {
@@ -1627,12 +1630,35 @@ function generateSQLKey(): string {
 
 function getSQLKey(): string {
   let update = false;
+  const isLinux = OS.isLinux();
   const legacyKeyValue = userConfig.get('key');
   const modernKeyValue = userConfig.get('encryptedKey');
+  const previousBackend = isLinux
+    ? userConfig.get('safeStorageBackend')
+    : undefined;
 
+  const safeStorageBackend: string | undefined = isLinux
+    ? safeStorage.getSelectedStorageBackend()
+    : undefined;
   const isEncryptionAvailable =
     safeStorage.isEncryptionAvailable() &&
-    (!OS.isLinux() || safeStorage.getSelectedStorageBackend() !== 'basic_text');
+    (!isLinux || safeStorageBackend !== 'basic_text');
+
+  // On Linux the backend can change based on desktop environment and command line flags.
+  // If the backend changes we won't be able to decrypt the key.
+  if (
+    isLinux &&
+    typeof previousBackend === 'string' &&
+    previousBackend !== safeStorageBackend
+  ) {
+    console.error(
+      `Detected change in safeStorage backend, can't decrypt DB key (previous: ${previousBackend}, current: ${safeStorageBackend})`
+    );
+    throw new SafeStorageBackendChangeError({
+      currentBackend: String(safeStorageBackend),
+      previousBackend,
+    });
+  }
 
   let key: string;
   if (typeof modernKeyValue === 'string') {
@@ -1647,6 +1673,13 @@ function getSQLKey(): string {
     if (legacyKeyValue != null) {
       getLogger().info('getSQLKey: removing legacy key');
       userConfig.set('key', undefined);
+    }
+
+    if (isLinux && previousBackend == null) {
+      getLogger().info(
+        `getSQLKey: saving safeStorageBackend: ${safeStorageBackend}`
+      );
+      userConfig.set('safeStorageBackend', safeStorageBackend);
     }
   } else if (typeof legacyKeyValue === 'string') {
     key = legacyKeyValue;
@@ -1671,6 +1704,13 @@ function getSQLKey(): string {
     const encrypted = safeStorage.encryptString(key).toString('hex');
     userConfig.set('encryptedKey', encrypted);
     userConfig.set('key', undefined);
+
+    if (isLinux && safeStorageBackend) {
+      getLogger().info(
+        `getSQLKey: saving safeStorageBackend: ${safeStorageBackend}`
+      );
+      userConfig.set('safeStorageBackend', safeStorageBackend);
+    }
   } else {
     getLogger().info('getSQLKey: updating plaintext key in the config');
     userConfig.set('key', key);
@@ -1740,7 +1780,7 @@ async function initializeSQL(
   return { ok: true, error: undefined };
 }
 
-const onDatabaseError = async (error: string) => {
+const onDatabaseError = async (error: Error) => {
   // Prevent window from re-opening
   ready = false;
 
@@ -1758,11 +1798,27 @@ const onDatabaseError = async (error: string) => {
   const copyErrorAndQuitButtonIndex = 0;
   const SIGNAL_SUPPORT_LINK = 'https://support.signal.org/error';
 
-  if (error.includes(DBVersionFromFutureError.name)) {
+  if (error instanceof DBVersionFromFutureError) {
     // If the DB version is too new, the user likely opened an older version of Signal,
     // and they would almost never want to delete their data as a result, so we don't show
     // that option
     messageDetail = i18n('icu:databaseError__startOldVersion');
+  } else if (error instanceof SafeStorageBackendChangeError) {
+    const { currentBackend, previousBackend } = error;
+    const previousBackendFlag = getOwn(
+      LINUX_PASSWORD_STORE_FLAGS,
+      previousBackend
+    );
+    messageDetail = previousBackendFlag
+      ? i18n('icu:databaseError__safeStorageBackendChangeWithPreviousFlag', {
+          currentBackend,
+          previousBackend,
+          previousBackendFlag,
+        })
+      : i18n('icu:databaseError__safeStorageBackendChange', {
+          currentBackend,
+          previousBackend,
+        });
   } else {
     // Otherwise, this is some other kind of DB error, let's give them the option to
     // delete.
@@ -1787,7 +1843,9 @@ const onDatabaseError = async (error: string) => {
   });
 
   if (buttonIndex === copyErrorAndQuitButtonIndex) {
-    clipboard.writeText(`Database startup error:\n\n${redactAll(error)}`);
+    clipboard.writeText(
+      `Database startup error:\n\n${redactAll(Errors.toLogFormat(error))}`
+    );
   } else if (
     typeof deleteAllDataButtonIndex === 'number' &&
     buttonIndex === deleteAllDataButtonIndex
@@ -1826,10 +1884,6 @@ const onDatabaseError = async (error: string) => {
 let sqlInitPromise:
   | Promise<{ ok: true; error: undefined } | { ok: false; error: Error }>
   | undefined;
-
-ipc.on('database-error', (_event: Electron.Event, error: string) => {
-  drop(onDatabaseError(error));
-});
 
 ipc.on('database-readonly', (_event: Electron.Event, error: string) => {
   // Just let global_errors.ts handle it
@@ -2171,7 +2225,7 @@ app.on('ready', async () => {
   if (sqlError) {
     getLogger().error('sql.initialize was unsuccessful; returning early');
 
-    await onDatabaseError(Errors.toLogFormat(sqlError));
+    await onDatabaseError(sqlError);
 
     return;
   }
