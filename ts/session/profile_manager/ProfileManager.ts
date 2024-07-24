@@ -100,8 +100,10 @@ export async function updateOurProfileDisplayName(newName: string, onboarding?: 
 
   if (onboarding) {
     try {
-      // const tempKeyPair = generateFakeECKeyPair();
-      await UserConfigWrapperActions.init(new Uint8Array(), null);
+      // create a temp user config wrapper to test the display name with libsession
+      const privKey = new Uint8Array(64);
+      crypto.getRandomValues(privKey);
+      await UserConfigWrapperActions.init(privKey, null);
       const userInfoName = await UserConfigWrapperActions.setUserInfo(
         cleanName,
         CONVERSATION_PRIORITIES.default,
