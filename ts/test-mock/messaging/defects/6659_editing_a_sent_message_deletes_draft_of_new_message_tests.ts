@@ -8,6 +8,7 @@ import type { App } from '../../playwright';
 import * as durations from '../../../util/durations';
 import { Bootstrap } from '../../bootstrap';
 import type { SignalDesktopUI } from '../../signal-desktop-ui';
+import { sleep } from '../../../util/sleep';
 
 const pause = process.env.PAUSE;
 
@@ -61,15 +62,23 @@ describe('[6659] Editing a sent message does not delete draft of new message', f
   
     See: `ts/components/conversation/MessageContextMenu.tsx`
 
-    @todo: test is flaky.
-
   */
   it('disallows editing sent messages when there is a draft present', async () => {
     await ui.openFirstConversation();
     await ui.typeMessage('Draft message');
 
+    // [!] Allow time for the menu to re-render
+    await sleep(100);
+
     assert.isFalse(
       await ui.isShowingEditMessageMenuItem(sentMessage.timestamp)
     );
+
+    await ui.clearMessage();
+
+    // [!] Allow time for the menu to re-render
+    await sleep(100);
+
+    assert.isTrue(await ui.isShowingEditMessageMenuItem(sentMessage.timestamp));
   });
 });
