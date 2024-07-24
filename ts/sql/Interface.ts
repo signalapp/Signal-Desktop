@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Database } from '@signalapp/better-sqlite3';
+import type { ReadonlyDeep } from 'type-fest';
 import type {
   ConversationAttributesType,
   MessageAttributesType,
@@ -730,7 +731,7 @@ type WritableInterface = {
   deleteAllEndorsementsForGroup: (groupId: string) => void;
 
   saveMessage: (
-    data: MessageType,
+    data: ReadonlyDeep<MessageType>,
     options: {
       jobToInsert?: StoredJob;
       forceSave?: boolean;
@@ -738,7 +739,7 @@ type WritableInterface = {
     }
   ) => string;
   saveMessages: (
-    arrayOfMessages: ReadonlyArray<MessageType>,
+    arrayOfMessages: ReadonlyArray<ReadonlyDeep<MessageType>>,
     options: { forceSave?: boolean; ourAci: AciString }
   ) => Array<string>;
 
@@ -795,14 +796,14 @@ type WritableInterface = {
   ): CallLinkType;
   migrateConversationMessages: (obsoleteId: string, currentId: string) => void;
   saveEditedMessage: (
-    mainMessage: MessageType,
+    mainMessage: ReadonlyDeep<MessageType>,
     ourAci: AciString,
-    opts: EditedMessageType
+    opts: ReadonlyDeep<EditedMessageType>
   ) => void;
   saveEditedMessages: (
-    mainMessage: MessageType,
+    mainMessage: ReadonlyDeep<MessageType>,
     ourAci: AciString,
-    history: ReadonlyArray<EditedMessageType>
+    history: ReadonlyArray<ReadonlyDeep<EditedMessageType>>
   ) => void;
 
   removeSyncTaskById: (id: string) => void;
@@ -1047,13 +1048,13 @@ export type ClientOnlyReadableInterface = ClientInterfaceWrap<{
   getRecentStoryReplies(
     storyId: string,
     options?: GetRecentStoryRepliesOptionsType
-  ): Array<MessageAttributesType>;
+  ): Array<MessageType>;
   getOlderMessagesByConversation: (
     options: AdjacentMessagesByConversationOptionsType
-  ) => Array<MessageAttributesType>;
+  ) => Array<MessageType>;
   getNewerMessagesByConversation: (
     options: AdjacentMessagesByConversationOptionsType
-  ) => Array<MessageAttributesType>;
+  ) => Array<MessageType>;
   getConversationRangeCenteredOnMessage: (
     options: AdjacentMessagesByConversationOptionsType
   ) => GetConversationRangeCenteredOnMessageResultType<MessageType>;

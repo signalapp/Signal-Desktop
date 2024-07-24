@@ -22,7 +22,7 @@ import { DataReader, DataWriter } from '../../sql/Client';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { DraftBodyRanges } from '../../types/BodyRange';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
-import type { MessageAttributesType } from '../../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../../model-types.d';
 import type { NoopActionType } from './noop';
 import type { ShowToastActionType } from './toast';
 import type { StateType as RootStateType } from '../reducer';
@@ -104,14 +104,17 @@ type ComposerStateByConversationType = {
   linkPreviewLoading: boolean;
   linkPreviewResult?: LinkPreviewType;
   messageCompositionId: string;
-  quotedMessage?: Pick<MessageAttributesType, 'conversationId' | 'quote'>;
+  quotedMessage?: Pick<
+    ReadonlyMessageAttributesType,
+    'conversationId' | 'quote'
+  >;
   sendCounter: number;
   shouldSendHighQualityAttachments?: boolean;
 };
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type QuotedMessageType = Pick<
-  MessageAttributesType,
+  ReadonlyMessageAttributesType,
   'conversationId' | 'quote'
 >;
 

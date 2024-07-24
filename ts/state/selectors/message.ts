@@ -11,7 +11,7 @@ import type { ReadonlyDeep } from 'type-fest';
 import type { StateType } from '../reducer';
 import type {
   LastMessageStatus,
-  MessageAttributesType,
+  ReadonlyMessageAttributesType,
   MessageReactionType,
   QuotedAttachmentType,
   ShallowChallengeError,
@@ -201,7 +201,7 @@ export function hasErrors(
 }
 
 export function getSource(
-  message: Pick<MessageAttributesType, 'type' | 'source'>,
+  message: Pick<ReadonlyMessageAttributesType, 'type' | 'source'>,
   ourNumber: string | undefined
 ): string | undefined {
   if (isIncoming(message)) {
@@ -233,7 +233,7 @@ export function getSourceDevice(
 }
 
 export function getSourceServiceId(
-  message: Pick<MessageAttributesType, 'type' | 'sourceServiceId'>,
+  message: Pick<ReadonlyMessageAttributesType, 'type' | 'sourceServiceId'>,
   ourAci: AciString | undefined
 ): ServiceIdString | undefined {
   if (isIncoming(message)) {
@@ -1523,13 +1523,13 @@ function getPropsForProfileChange(
 // Message Request Response Event
 
 export function isMessageRequestResponse(
-  message: MessageAttributesType
+  message: ReadonlyMessageAttributesType
 ): boolean {
   return message.type === 'message-request-response-event';
 }
 
 function getPropsForMessageRequestResponse(
-  message: MessageAttributesType
+  message: ReadonlyMessageAttributesType
 ): MessageRequestResponseNotificationData {
   const { messageRequestResponseEvent } = message;
   if (!messageRequestResponseEvent) {
@@ -1805,7 +1805,7 @@ export function getPropsForEmbeddedContact(
   message: MessageWithUIFieldsType,
   regionCode: string | undefined,
   accountSelector: (identifier?: string) => ServiceIdString | undefined
-): EmbeddedContactType | undefined {
+): ReadonlyDeep<EmbeddedContactType> | undefined {
   const contacts = message.contact;
   if (!contacts || !contacts.length) {
     return undefined;
@@ -2091,7 +2091,7 @@ export function getLastChallengeError(
 
 const getTargetedMessageForDetails = (
   state: StateType
-): MessageAttributesType | undefined =>
+): ReadonlyMessageAttributesType | undefined =>
   state.conversations.targetedMessageForDetails;
 
 const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';

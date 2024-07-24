@@ -11,6 +11,7 @@ import type { Database, Statement } from '@signalapp/better-sqlite3';
 import SQL from '@signalapp/better-sqlite3';
 import { v4 as generateUuid } from 'uuid';
 import { z } from 'zod';
+import type { ReadonlyDeep } from 'type-fest';
 
 import type { Dictionary } from 'lodash';
 import {
@@ -2119,7 +2120,7 @@ export function getAllSyncTasks(db: WritableDB): Array<SyncTaskType> {
 
 export function saveMessage(
   db: WritableDB,
-  data: MessageType,
+  data: ReadonlyDeep<MessageType>,
   options: {
     alreadyInTransaction?: boolean;
     forceSave?: boolean;
@@ -2337,7 +2338,7 @@ export function saveMessage(
 
 function saveMessages(
   db: WritableDB,
-  arrayOfMessages: ReadonlyArray<MessageType>,
+  arrayOfMessages: ReadonlyArray<ReadonlyDeep<MessageType>>,
   options: { forceSave?: boolean; ourAci: AciString }
 ): Array<string> {
   return db.transaction(() => {
@@ -6964,9 +6965,9 @@ function removeAllProfileKeyCredentials(db: WritableDB): void {
 
 function saveEditedMessages(
   db: WritableDB,
-  mainMessage: MessageType,
+  mainMessage: ReadonlyDeep<MessageType>,
   ourAci: AciString,
-  history: ReadonlyArray<EditedMessageType>
+  history: ReadonlyArray<ReadonlyDeep<EditedMessageType>>
 ): void {
   db.transaction(() => {
     saveMessage(db, mainMessage, {
@@ -6996,9 +6997,9 @@ function saveEditedMessages(
 
 function saveEditedMessage(
   db: WritableDB,
-  mainMessage: MessageType,
+  mainMessage: ReadonlyDeep<MessageType>,
   ourAci: AciString,
-  editedMessage: EditedMessageType
+  editedMessage: ReadonlyDeep<EditedMessageType>
 ): void {
   return saveEditedMessages(db, mainMessage, ourAci, [editedMessage]);
 }

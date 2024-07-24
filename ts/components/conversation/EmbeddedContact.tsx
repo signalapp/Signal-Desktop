@@ -3,6 +3,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
+import type { ReadonlyDeep } from 'type-fest';
 
 import type { EmbeddedContactType } from '../../types/EmbeddedContact';
 
@@ -14,7 +15,7 @@ import {
 } from './contactUtil';
 
 export type Props = {
-  contact: EmbeddedContactType;
+  contact: ReadonlyDeep<EmbeddedContactType>;
   i18n: LocalizerType;
   isIncoming: boolean;
   withContentAbove: boolean;

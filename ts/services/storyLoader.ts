@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { pick } from 'lodash';
-import type { MessageAttributesType } from '../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import type { StoryDataType } from '../state/ducks/stories';
 import * as durations from '../util/durations';
 import * as log from '../logging/log';
@@ -28,10 +28,11 @@ export async function loadStories(): Promise<void> {
 }
 
 export function getStoryDataFromMessageAttributes(
-  message: MessageAttributesType & {
-    hasReplies?: boolean;
-    hasRepliesFromSelf?: boolean;
-  }
+  message: ReadonlyMessageAttributesType &
+    Readonly<{
+      hasReplies?: boolean;
+      hasRepliesFromSelf?: boolean;
+    }>
 ): StoryDataType | undefined {
   const { attachments, deletedForEveryone } = message;
   const unresolvedAttachment = attachments ? attachments[0] : undefined;

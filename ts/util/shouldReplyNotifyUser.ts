@@ -2,15 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationModel } from '../models/conversations';
-import type { MessageAttributesType } from '../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import * as log from '../logging/log';
 import { DataReader } from '../sql/Client';
 import { isGroup } from './whatTypeOfConversation';
 import { isMessageUnread } from './isMessageUnread';
 
 export async function shouldReplyNotifyUser(
-  messageAttributes: Readonly<
-    Pick<MessageAttributesType, 'readStatus' | 'storyId'>
+  messageAttributes: Pick<
+    ReadonlyMessageAttributesType,
+    'readStatus' | 'storyId'
   >,
   conversation: ConversationModel
 ): Promise<boolean> {

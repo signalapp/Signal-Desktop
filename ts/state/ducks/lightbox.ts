@@ -18,7 +18,7 @@ import type { StateType as RootStateType } from '../reducer';
 
 import * as log from '../../logging/log';
 import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
-import type { MessageAttributesType } from '../../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../../model-types.d';
 import { isGIF } from '../../types/Attachment';
 import {
   isImageTypeSupported,
@@ -245,7 +245,7 @@ function showLightboxForViewOnceMedia(
 }
 
 function filterValidAttachments(
-  attributes: MessageAttributesType
+  attributes: ReadonlyMessageAttributesType
 ): Array<AttachmentType> {
   return (attributes.attachments ?? []).filter(
     item => item.thumbnail && !item.pending && !item.error

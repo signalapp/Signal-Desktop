@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { orderBy } from 'lodash';
-import type { MessageAttributesType } from '../model-types';
+import type { ReadonlyMessageAttributesType } from '../model-types';
 import {
   isVoiceMessage,
   type AttachmentType,
@@ -23,7 +23,7 @@ export type MessageForwardDraft = Readonly<{
 
 export type ForwardMessageData = Readonly<{
   // only null for new messages
-  originalMessage: MessageAttributesType | null;
+  originalMessage: ReadonlyMessageAttributesType | null;
   draft: MessageForwardDraft;
 }>;
 
@@ -72,7 +72,7 @@ export function sortByMessageOrder<T>(
   items: ReadonlyArray<T>,
   getMesssage: (
     item: T
-  ) => Pick<MessageAttributesType, 'sent_at' | 'received_at'> | null
+  ) => Pick<ReadonlyMessageAttributesType, 'sent_at' | 'received_at'> | null
 ): Array<T> {
   return orderBy(
     items,

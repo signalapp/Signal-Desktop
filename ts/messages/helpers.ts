@@ -1,11 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReadonlyDeep } from 'type-fest';
+
 import * as log from '../logging/log';
 import type { ConversationModel } from '../models/conversations';
 import type {
   CustomError,
-  MessageAttributesType,
+  ReadonlyMessageAttributesType,
   QuotedAttachmentType,
   QuotedMessageType,
 } from '../model-types.d';
@@ -16,33 +18,36 @@ import type { LocalizerType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
 
 export function isIncoming(
-  message: Pick<MessageAttributesType, 'type'>
+  message: Pick<ReadonlyMessageAttributesType, 'type'>
 ): boolean {
   return message.type === 'incoming';
 }
 
 export function isOutgoing(
-  message: Pick<MessageAttributesType, 'type'>
+  message: Pick<ReadonlyMessageAttributesType, 'type'>
 ): boolean {
   return message.type === 'outgoing';
 }
 
-export function isStory(message: Pick<MessageAttributesType, 'type'>): boolean {
+export function isStory(
+  message: Pick<ReadonlyMessageAttributesType, 'type'>
+): boolean {
   return message.type === 'story';
 }
 
-export type MessageAttributesWithPaymentEvent = MessageAttributesType & {
-  payment: AnyPaymentEvent;
-};
+export type MessageAttributesWithPaymentEvent = ReadonlyMessageAttributesType &
+  ReadonlyDeep<{
+    payment: AnyPaymentEvent;
+  }>;
 
 export function messageHasPaymentEvent(
-  message: MessageAttributesType
+  message: ReadonlyMessageAttributesType
 ): message is MessageAttributesWithPaymentEvent {
   return message.payment != null;
 }
 
 export function getPaymentEventNotificationText(
-  payment: AnyPaymentEvent,
+  payment: ReadonlyDeep<AnyPaymentEvent>,
   senderTitle: string,
   conversationTitle: string | null,
   senderIsMe: boolean,
@@ -61,7 +66,7 @@ export function getPaymentEventNotificationText(
 }
 
 export function getPaymentEventDescription(
-  payment: AnyPaymentEvent,
+  payment: ReadonlyDeep<AnyPaymentEvent>,
   senderTitle: string,
   conversationTitle: string | null,
   senderIsMe: boolean,
@@ -110,10 +115,10 @@ export function getPaymentEventDescription(
 }
 
 export function isQuoteAMatch(
-  message: MessageAttributesType | null | undefined,
+  message: ReadonlyMessageAttributesType | null | undefined,
   conversationId: string,
-  quote: Pick<QuotedMessageType, 'id' | 'authorAci' | 'author'>
-): message is MessageAttributesType {
+  quote: ReadonlyDeep<Pick<QuotedMessageType, 'id' | 'authorAci' | 'author'>>
+): message is ReadonlyMessageAttributesType {
   if (!message) {
     return false;
   }
@@ -142,7 +147,7 @@ export const shouldTryToCopyFromQuotedMessage = ({
   quoteAttachment,
 }: {
   referencedMessageNotFound: boolean;
-  quoteAttachment: QuotedAttachmentType | undefined;
+  quoteAttachment: ReadonlyDeep<QuotedAttachmentType> | undefined;
 }): boolean => {
   // If we've tried and can't find the message, try again.
   if (referencedMessageNotFound === true) {
@@ -163,7 +168,10 @@ export const shouldTryToCopyFromQuotedMessage = ({
 };
 
 export function getAuthorId(
-  message: Pick<MessageAttributesType, 'type' | 'source' | 'sourceServiceId'>
+  message: Pick<
+    ReadonlyMessageAttributesType,
+    'type' | 'source' | 'sourceServiceId'
+  >
 ): string | undefined {
   const source = getSource(message);
   const sourceServiceId = getSourceServiceId(message);
@@ -181,14 +189,14 @@ export function getAuthorId(
 }
 
 export function getAuthor(
-  message: MessageAttributesType
+  message: ReadonlyMessageAttributesType
 ): ConversationModel | undefined {
   const id = getAuthorId(message);
   return window.ConversationController.get(id);
 }
 
 export function getSource(
-  message: Pick<MessageAttributesType, 'type' | 'source'>
+  message: Pick<ReadonlyMessageAttributesType, 'type' | 'source'>
 ): string | undefined {
   if (isIncoming(message) || isStory(message)) {
     return message.source;
@@ -201,7 +209,7 @@ export function getSource(
 }
 
 export function getSourceDevice(
-  message: Pick<MessageAttributesType, 'type' | 'sourceDevice'>
+  message: Pick<ReadonlyMessageAttributesType, 'type' | 'sourceDevice'>
 ): string | number | undefined {
   const { sourceDevice } = message;
 
@@ -218,7 +226,7 @@ export function getSourceDevice(
 }
 
 export function getSourceServiceId(
-  message: Pick<MessageAttributesType, 'type' | 'sourceServiceId'>
+  message: Pick<ReadonlyMessageAttributesType, 'type' | 'sourceServiceId'>
 ): ServiceIdString | undefined {
   if (isIncoming(message) || isStory(message)) {
     return message.sourceServiceId;

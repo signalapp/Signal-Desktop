@@ -3,6 +3,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
+import type { ReadonlyDeep } from 'type-fest';
 
 import { Avatar, AvatarBlur } from '../Avatar';
 import { Spinner } from '../Spinner';
@@ -18,7 +19,7 @@ export function renderAvatar({
   size,
   direction,
 }: {
-  contact: EmbeddedContactType;
+  contact: ReadonlyDeep<EmbeddedContactType>;
   i18n: LocalizerType;
   size: 28 | 52 | 80;
   direction?: 'outgoing' | 'incoming';
@@ -65,7 +66,7 @@ export function renderName({
   isIncoming,
   module,
 }: {
-  contact: EmbeddedContactType;
+  contact: ReadonlyDeep<EmbeddedContactType>;
   isIncoming: boolean;
   module: string;
 }): JSX.Element {
@@ -86,7 +87,7 @@ export function renderContactShorthand({
   isIncoming,
   module,
 }: {
-  contact: EmbeddedContactType;
+  contact: ReadonlyDeep<EmbeddedContactType>;
   isIncoming: boolean;
   module: string;
 }): JSX.Element {

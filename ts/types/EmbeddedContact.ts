@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { omit } from 'lodash';
+import type { ReadonlyDeep } from 'type-fest';
 
 import { SignalService as Proto } from '../protobuf';
-import type { MessageAttributesType } from '../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../model-types.d';
 
 import { isNotNil } from '../util/isNotNil';
 import {
@@ -147,13 +148,13 @@ export function numberToAddressType(
 }
 
 export function embeddedContactSelector(
-  contact: EmbeddedContactType,
+  contact: ReadonlyDeep<EmbeddedContactType>,
   options: {
     regionCode?: string;
     firstNumber?: string;
     serviceId?: ServiceIdString;
   }
-): EmbeddedContactType {
+): ReadonlyDeep<EmbeddedContactType> {
   const { firstNumber, serviceId, regionCode } = options;
 
   let { avatar } = contact;
@@ -189,7 +190,9 @@ export function embeddedContactSelector(
   };
 }
 
-export function getName(contact: EmbeddedContactType): string | undefined {
+export function getName(
+  contact: ReadonlyDeep<EmbeddedContactType>
+): string | undefined {
   const { name, organization } = contact;
   const displayName = (name && name.displayName) || undefined;
   const givenName = (name && name.givenName) || undefined;
@@ -206,7 +209,7 @@ export function parseAndWriteAvatar(
   return async (
     contact: EmbeddedContactType,
     context: {
-      message: MessageAttributesType;
+      message: ReadonlyMessageAttributesType;
       getRegionCode: () => string | undefined;
       logger: LoggerType;
       writeNewAttachmentData: (
@@ -280,7 +283,7 @@ function parseContact(
   return result;
 }
 
-function idForLogging(message: MessageAttributesType): string {
+function idForLogging(message: ReadonlyMessageAttributesType): string {
   return `${message.source}.${message.sourceDevice} ${message.sent_at}`;
 }
 

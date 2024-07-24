@@ -3,6 +3,8 @@
 
 // The idea with this file is to make it webpackable for the style guide
 
+import type { ReadonlyDeep } from 'type-fest';
+
 import * as Crypto from './Crypto';
 import * as Curve from './Curve';
 import { start as conversationControllerStart } from './ConversationController';
@@ -84,13 +86,13 @@ type MigrationsModuleType = {
     attachment: Partial<AttachmentType>
   ) => Promise<AttachmentWithHydratedData>;
   loadContactData: (
-    contact: Array<EmbeddedContactType> | undefined
+    contact: ReadonlyArray<ReadonlyDeep<EmbeddedContactType>> | undefined
   ) => Promise<Array<EmbeddedContactWithHydratedAvatar> | undefined>;
   loadMessage: (
     message: MessageAttributesType
   ) => Promise<MessageAttributesType>;
   loadPreviewData: (
-    preview: Array<LinkPreviewType> | undefined
+    preview: ReadonlyArray<ReadonlyDeep<LinkPreviewType>> | undefined
   ) => Promise<Array<LinkPreviewWithHydratedData>>;
   loadQuoteData: (
     quote: QuotedMessageType | null | undefined

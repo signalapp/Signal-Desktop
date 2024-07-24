@@ -6,7 +6,7 @@ import type { ReadonlyDeep } from 'type-fest';
 import type { ExplodePromiseResultType } from '../../util/explodePromise';
 import type {
   GroupV2PendingMemberType,
-  MessageAttributesType,
+  ReadonlyMessageAttributesType,
 } from '../../model-types.d';
 import type {
   MessageChangedActionType,
@@ -52,7 +52,7 @@ import { linkCallRoute } from '../../util/signalRoutes';
 // State
 
 export type EditHistoryMessagesType = ReadonlyDeep<
-  Array<MessageAttributesType>
+  Array<ReadonlyMessageAttributesType>
 >;
 export type EditNicknameAndNoteModalPropsType = ReadonlyDeep<{
   conversationId: string;
@@ -882,7 +882,7 @@ function showShortcutGuideModal(): ShowShortcutGuideModalActionType {
 }
 
 function copyOverMessageAttributesIntoEditHistory(
-  messageAttributes: ReadonlyDeep<MessageAttributesType>
+  messageAttributes: ReadonlyDeep<ReadonlyMessageAttributesType>
 ): EditHistoryMessagesType | undefined {
   if (!messageAttributes.editHistory) {
     return;
@@ -934,7 +934,7 @@ function closeEditHistoryModal(): CloseEditHistoryModalActionType {
 
 function copyOverMessageAttributesIntoForwardMessages(
   messageDrafts: ReadonlyArray<MessageForwardDraft>,
-  attributes: ReadonlyDeep<MessageAttributesType>
+  attributes: ReadonlyDeep<ReadonlyMessageAttributesType>
 ): ReadonlyArray<MessageForwardDraft> {
   return messageDrafts.map(messageDraft => {
     if (messageDraft.originalMessageId !== attributes.id) {

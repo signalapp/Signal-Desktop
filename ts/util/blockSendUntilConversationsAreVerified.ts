@@ -4,7 +4,10 @@
 import type { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog';
 import * as log from '../logging/log';
 import { explodePromise } from './explodePromise';
-import type { RecipientsByConversation } from '../state/ducks/stories';
+import type {
+  RecipientsByConversation,
+  RecipientEntry,
+} from '../state/ducks/stories';
 import { isNotNil } from './isNotNil';
 import type { ServiceIdString } from '../types/ServiceId';
 import { waitForAll } from './waitForAll';
@@ -105,7 +108,7 @@ export function filterServiceIds(
   byConversation: RecipientsByConversation,
   predicate: (serviceId: ServiceIdString) => boolean
 ): RecipientsByConversation {
-  const filteredByConversation: RecipientsByConversation = {};
+  const filteredByConversation: Record<string, RecipientEntry> = {};
   Object.entries(byConversation).forEach(
     ([conversationId, conversationData]) => {
       const conversationFiltered = conversationData.serviceIds

@@ -3,7 +3,7 @@
 
 import React, { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import type { MessageAttributesType } from '../../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../../model-types.d';
 import { EditHistoryMessagesModal } from '../../components/EditHistoryMessagesModal';
 import { getIntl, getPlatform } from '../selectors/user';
 import { getMessagePropsSelector } from '../selectors/message';
@@ -31,7 +31,9 @@ export const SmartEditHistoryMessagesModal = memo(
 
     const editHistoryMessages = useMemo(() => {
       return messagesAttributes.map(messageAttributes => ({
-        ...messagePropsSelector(messageAttributes as MessageAttributesType),
+        ...messagePropsSelector(
+          messageAttributes as ReadonlyMessageAttributesType
+        ),
         // Make sure the messages don't get an "edited" badge
         isEditedMessage: false,
         // Do not show the same reactions in the message history UI

@@ -3,6 +3,7 @@
 
 import type { ConversationAttributesType } from '../model-types';
 import type { RecipientsByConversation } from '../state/ducks/stories';
+import type { ServiceIdString } from '../types/ServiceId';
 
 import { getConversationMembers } from './getConversationMembers';
 import { isNotNil } from './isNotNil';
@@ -10,7 +11,12 @@ import { isNotNil } from './isNotNil';
 export function getRecipientsByConversation(
   conversations: Array<ConversationAttributesType>
 ): RecipientsByConversation {
-  const recipientsByConversation: RecipientsByConversation = {};
+  const recipientsByConversation: Record<
+    string,
+    {
+      serviceIds: Array<ServiceIdString>;
+    }
+  > = {};
 
   conversations.forEach(attributes => {
     recipientsByConversation[attributes.id] = {

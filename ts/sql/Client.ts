@@ -4,6 +4,7 @@
 import { ipcRenderer as ipc } from 'electron';
 
 import { groupBy, isTypedArray, last, map, omit } from 'lodash';
+import type { ReadonlyDeep } from 'type-fest';
 
 import { deleteExternalFiles } from '../types/Conversation';
 import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion';
@@ -222,7 +223,9 @@ function _cleanData(
   return cleaned;
 }
 
-export function _cleanMessageData(data: MessageType): MessageType {
+export function _cleanMessageData(
+  data: ReadonlyDeep<MessageType>
+): ReadonlyDeep<MessageType> {
   const result = { ...data };
   // Ensure that all messages have the received_at set properly
   if (!data.received_at) {
@@ -586,7 +589,7 @@ async function searchMessages({
 // Message
 
 async function saveMessage(
-  data: MessageType,
+  data: ReadonlyDeep<MessageType>,
   options: {
     jobToInsert?: Readonly<StoredJob>;
     forceSave?: boolean;
@@ -607,7 +610,7 @@ async function saveMessage(
 }
 
 async function saveMessages(
-  arrayOfMessages: ReadonlyArray<MessageType>,
+  arrayOfMessages: ReadonlyArray<ReadonlyDeep<MessageType>>,
   options: { forceSave?: boolean; ourAci: AciString }
 ): Promise<Array<string>> {
   const result = await writableChannel.saveMessages(

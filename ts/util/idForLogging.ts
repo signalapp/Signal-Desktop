@@ -3,7 +3,7 @@
 
 import type {
   ConversationAttributesType,
-  MessageAttributesType,
+  ReadonlyMessageAttributesType,
 } from '../model-types.d';
 import {
   getSource,
@@ -16,7 +16,7 @@ import type { ConversationType } from '../state/ducks/conversations';
 
 export function getMessageIdForLogging(
   message: Pick<
-    MessageAttributesType,
+    ReadonlyMessageAttributesType,
     'type' | 'sourceServiceId' | 'sourceDevice' | 'sent_at'
   >
 ): string {
