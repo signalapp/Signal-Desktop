@@ -1483,8 +1483,8 @@
     "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link New Device",
-    "description": "The menu option shown in Signal iOS to add a new linked device"
+    "messageformat": "Link a New Device",
+    "description": "The menu option shown in Signal mobile clients to add a new linked device"
   },
   "icu:Install__learn-more": {
     "messageformat": "Learn more",
@@ -1507,7 +1507,7 @@
     "description": "Part of the 2nd instruction on the device link screen"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {plusButton} (Android) or {linkNewDevice} (iPhone)",
+    "messageformat": "Tap {linkNewDevice}",
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed-load": {

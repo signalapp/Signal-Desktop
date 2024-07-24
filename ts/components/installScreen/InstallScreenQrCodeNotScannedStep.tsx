@@ -102,12 +102,6 @@ export function InstallScreenQrCodeNotScannedStep({
                 i18n={i18n}
                 id="icu:Install__instructions__3"
                 components={{
-                  plusButton: (
-                    <div
-                      className="module-InstallScreenQrCodeNotScannedStep__android-plus"
-                      aria-label="+"
-                    />
-                  ),
                   linkNewDevice: <strong>{i18n('icu:linkNewDevice')}</strong>,
                 }}
               />
