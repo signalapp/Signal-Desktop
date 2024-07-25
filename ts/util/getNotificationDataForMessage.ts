@@ -1,8 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReadonlyDeep } from 'type-fest';
+
 import type { RawBodyRange } from '../types/BodyRange';
-import type { MessageAttributesType } from '../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import type { ICUStringMessageParamsByKeyType } from '../types/Util';
 import * as Attachment from '../types/Attachment';
 import * as EmbeddedContact from '../types/EmbeddedContact';
@@ -64,9 +66,9 @@ function getNameForNumber(e164: string): string {
 }
 
 export function getNotificationDataForMessage(
-  attributes: MessageAttributesType
+  attributes: ReadonlyMessageAttributesType
 ): {
-  bodyRanges?: ReadonlyArray<RawBodyRange>;
+  bodyRanges?: ReadonlyArray<ReadonlyDeep<RawBodyRange>>;
   emoji?: string;
   text: string;
 } {

@@ -2,10 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber, sortBy } from 'lodash';
+import type { ReadonlyDeep } from 'type-fest';
 
 import { strictAssert } from './assert';
 
-import type { EditHistoryType, MessageAttributesType } from '../model-types';
+import type {
+  EditHistoryType,
+  MessageAttributesType,
+  ReadonlyMessageAttributesType,
+} from '../model-types';
 import type { LoggerType } from '../types/Logging';
 
 // The tricky bit for this function is if we are on our second+ attempt to send a given
@@ -14,7 +19,7 @@ export function getTargetOfThisEditTimestamp({
   message,
   targetTimestamp,
 }: {
-  message: MessageAttributesType;
+  message: ReadonlyMessageAttributesType;
   targetTimestamp: number;
 }): number {
   const { timestamp: originalTimestamp, editHistory } = message;
@@ -27,7 +32,7 @@ export function getTargetOfThisEditTimestamp({
   });
   const mostRecent = sortBy(
     sentItems,
-    (item: EditHistoryType) => item.timestamp
+    (item: ReadonlyDeep<EditHistoryType>) => item.timestamp
   );
 
   const { length } = mostRecent;

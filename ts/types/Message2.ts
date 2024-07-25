@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isFunction, isObject } from 'lodash';
+import type { ReadonlyDeep } from 'type-fest';
 
 import * as Contact from './EmbeddedContact';
 import type {
@@ -43,6 +44,7 @@ import {
   AttachmentDisposition,
 } from '../util/getLocalAttachmentUrl';
 import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment';
+import { deepClone } from '../util/deepClone';
 
 export { hasExpiration } from './Message';
 
@@ -831,14 +833,14 @@ export const loadQuoteData = (
 export const loadContactData = (
   loadAttachmentData: LoadAttachmentType
 ): ((
-  contact: Array<EmbeddedContactType> | undefined
+  contact: ReadonlyArray<ReadonlyDeep<EmbeddedContactType>> | undefined
 ) => Promise<Array<EmbeddedContactWithHydratedAvatar> | undefined>) => {
   if (!isFunction(loadAttachmentData)) {
     throw new TypeError('loadContactData: loadAttachmentData is required');
   }
 
   return async (
-    contact: Array<EmbeddedContactType> | undefined
+    contact: ReadonlyArray<ReadonlyDeep<EmbeddedContactType>> | undefined
   ): Promise<Array<EmbeddedContactWithHydratedAvatar> | undefined> => {
     if (!contact) {
       return undefined;
@@ -847,27 +849,23 @@ export const loadContactData = (
     return Promise.all(
       contact.map(
         async (
-          item: EmbeddedContactType
+          item: ReadonlyDeep<EmbeddedContactType>
         ): Promise<EmbeddedContactWithHydratedAvatar> => {
-          if (
-            !item ||
-            !item.avatar ||
-            !item.avatar.avatar ||
-            !item.avatar.avatar.path
-          ) {
+          const copy = deepClone(item);
+          if (!copy?.avatar?.avatar?.path) {
             return {
-              ...item,
+              ...copy,
               avatar: undefined,
             };
           }
 
           return {
-            ...item,
+            ...copy,
             avatar: {
-              ...item.avatar,
+              ...copy.avatar,
               avatar: {
-                ...item.avatar.avatar,
-                ...(await loadAttachmentData(item.avatar.avatar)),
+                ...copy.avatar.avatar,
+                ...(await loadAttachmentData(copy.avatar.avatar)),
               },
             },
           };
@@ -880,13 +878,15 @@ export const loadContactData = (
 export const loadPreviewData = (
   loadAttachmentData: LoadAttachmentType
 ): ((
-  preview: Array<LinkPreviewType> | undefined
+  preview: ReadonlyArray<ReadonlyDeep<LinkPreviewType>> | undefined
 ) => Promise<Array<LinkPreviewWithHydratedData>>) => {
   if (!isFunction(loadAttachmentData)) {
     throw new TypeError('loadPreviewData: loadAttachmentData is required');
   }
 
-  return async (preview: Array<LinkPreviewType> | undefined) => {
+  return async (
+    preview: ReadonlyArray<ReadonlyDeep<LinkPreviewType>> | undefined
+  ) => {
     if (!preview || !preview.length) {
       return [];
     }
@@ -894,17 +894,19 @@ export const loadPreviewData = (
     return Promise.all(
       preview.map(
         async (item: LinkPreviewType): Promise<LinkPreviewWithHydratedData> => {
-          if (!item.image) {
+          const copy = deepClone(item);
+
+          if (!copy.image) {
             return {
-              ...item,
+              ...copy,
               // Pacify typescript
               image: undefined,
             };
           }
 
           return {
-            ...item,
-            image: await loadAttachmentData(item.image),
+            ...copy,
+            image: await loadAttachmentData(copy.image),
           };
         }
       )

@@ -35,10 +35,7 @@ import { copyCdnFields } from '../../util/attachments';
 import { LONG_MESSAGE } from '../../types/MIME';
 import { LONG_ATTACHMENT_LIMIT } from '../../types/Message';
 import type { RawBodyRange } from '../../types/BodyRange';
-import type {
-  EmbeddedContactWithHydratedAvatar,
-  EmbeddedContactWithUploadedAvatar,
-} from '../../types/EmbeddedContact';
+import type { EmbeddedContactWithUploadedAvatar } from '../../types/EmbeddedContact';
 import type { StoryContextType } from '../../types/Util';
 import type { LoggerType } from '../../types/Logging';
 import type {
@@ -1057,8 +1054,7 @@ async function uploadMessageContacts(
   strictAssert(oldContact, `${logId}: Contacts are gone after upload`);
 
   const newContact = oldContact.map((contact, index) => {
-    const loaded: EmbeddedContactWithHydratedAvatar | undefined =
-      contacts.at(index);
+    const loaded = contacts.at(index);
     if (!contact.avatar) {
       strictAssert(
         loaded?.avatar === undefined,

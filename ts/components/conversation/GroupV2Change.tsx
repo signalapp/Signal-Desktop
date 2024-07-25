@@ -4,6 +4,7 @@
 import type { ReactElement, ReactNode } from 'react';
 import React, { useState } from 'react';
 import { get } from 'lodash';
+import type { ReadonlyDeep } from 'type-fest';
 
 import * as log from '../../logging/log';
 import { I18n } from '../I18n';
@@ -27,7 +28,7 @@ import { renderChange } from '../../groupChange';
 import { Modal } from '../Modal';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 
-export type PropsDataType = {
+export type PropsDataType = ReadonlyDeep<{
   areWeAdmin: boolean;
   change: GroupV2ChangeType;
   conversationId: string;
@@ -39,7 +40,7 @@ export type PropsDataType = {
   groupName?: string;
   ourAci: AciString | undefined;
   ourPni: PniString | undefined;
-};
+}>;
 
 export type PropsActionsType = {
   blockGroupLinkRequests: (

@@ -8,7 +8,7 @@ import type { ReadonlyDeep } from 'type-fest';
 import * as Errors from '../../types/errors';
 import type { AttachmentType } from '../../types/Attachment';
 import type { DraftBodyRanges } from '../../types/BodyRange';
-import type { MessageAttributesType } from '../../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../../model-types.d';
 import type {
   MessageChangedActionType,
   MessageDeletedActionType,
@@ -79,7 +79,7 @@ export type StoryDataType = ReadonlyDeep<
     messageId: string;
     startedDownload?: boolean;
   } & Pick<
-    MessageAttributesType,
+    ReadonlyMessageAttributesType,
     | 'bodyRanges'
     | 'canReplyToStory'
     | 'conversationId'
@@ -124,31 +124,33 @@ export type AddStoryData = ReadonlyDeep<
   | undefined
 >;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
-export type RecipientsByConversation = Record<
-  string, // conversationId
-  {
-    serviceIds: Array<ServiceIdString>;
+export type RecipientEntry = ReadonlyDeep<{
+  serviceIds: Array<ServiceIdString>;
 
-    byDistributionId?: Record<
-      StoryDistributionIdString,
-      {
-        serviceIds: Array<ServiceIdString>;
-      }
-    >;
-  }
+  byDistributionId?: Record<
+    StoryDistributionIdString,
+    {
+      serviceIds: Array<ServiceIdString>;
+    }
+  >;
+}>;
+
+export type RecipientsByConversation = ReadonlyDeep<
+  Record<
+    string, // conversationId
+    RecipientEntry
+  >
 >;
 
 // State
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
-export type StoriesStateType = Readonly<{
+export type StoriesStateType = ReadonlyDeep<{
   addStoryData: AddStoryData;
   hasAllStoriesUnmuted: boolean;
   lastOpenedAtTimestamp: number | undefined;
   replyState?: Readonly<{
     messageId: string;
-    replies: Array<MessageAttributesType>;
+    replies: Array<ReadonlyMessageAttributesType>;
   }>;
   selectedStoryData?: SelectedStoryDataType;
   sendStoryModalData?: RecipientsByConversation;
@@ -188,14 +190,13 @@ type ListMembersVerified = ReadonlyDeep<{
   };
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
-type LoadStoryRepliesActionType = {
+type LoadStoryRepliesActionType = ReadonlyDeep<{
   type: typeof LOAD_STORY_REPLIES;
   payload: {
     messageId: string;
-    replies: Array<MessageAttributesType>;
+    replies: Array<ReadonlyMessageAttributesType>;
   };
-};
+}>;
 
 type MarkStoryReadActionType = ReadonlyDeep<{
   type: typeof MARK_STORY_READ;

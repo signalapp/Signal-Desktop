@@ -3,13 +3,13 @@
 
 import type {
   ConversationAttributesType,
-  MessageAttributesType,
+  ReadonlyMessageAttributesType,
 } from '../model-types.d';
 import { isIncoming, isOutgoing } from '../state/selectors/message';
 import { getTitle } from './getTitle';
 
 function getIncomingContact(
-  messageAttributes: MessageAttributesType
+  messageAttributes: ReadonlyMessageAttributesType
 ): ConversationAttributesType | undefined {
   if (!isIncoming(messageAttributes)) {
     return undefined;
@@ -24,7 +24,7 @@ function getIncomingContact(
 }
 
 export function getMessageAuthorText(
-  messageAttributes?: MessageAttributesType
+  messageAttributes?: ReadonlyMessageAttributesType
 ): string | undefined {
   if (!messageAttributes) {
     return undefined;

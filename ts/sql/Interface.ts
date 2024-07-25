@@ -1,6 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReadonlyDeep } from 'type-fest';
 import type {
   ConversationAttributesType,
   MessageAttributesType,
@@ -553,7 +554,7 @@ export type DataInterface = {
   getMessageCount: (conversationId?: string) => Promise<number>;
   getStoryCount: (conversationId: string) => Promise<number>;
   saveMessage: (
-    data: MessageType,
+    data: ReadonlyDeep<MessageType>,
     options: {
       jobToInsert?: StoredJob;
       forceSave?: boolean;
@@ -561,7 +562,7 @@ export type DataInterface = {
     }
   ) => Promise<string>;
   saveMessages: (
-    arrayOfMessages: ReadonlyArray<MessageType>,
+    arrayOfMessages: ReadonlyArray<ReadonlyDeep<MessageType>>,
     options: { forceSave?: boolean; ourAci: AciString }
   ) => Promise<Array<string>>;
   pageMessages: (
@@ -729,14 +730,14 @@ export type DataInterface = {
     options: GetNearbyMessageFromDeletedSetOptionsType
   ) => Promise<string | null>;
   saveEditedMessage: (
-    mainMessage: MessageType,
+    mainMessage: ReadonlyDeep<MessageType>,
     ourAci: AciString,
-    opts: EditedMessageType
+    opts: ReadonlyDeep<EditedMessageType>
   ) => Promise<void>;
   saveEditedMessages: (
-    mainMessage: MessageType,
+    mainMessage: ReadonlyDeep<MessageType>,
     ourAci: AciString,
-    history: ReadonlyArray<EditedMessageType>
+    history: ReadonlyArray<ReadonlyDeep<EditedMessageType>>
   ) => Promise<void>;
   getMostRecentAddressableMessages: (
     conversationId: string,

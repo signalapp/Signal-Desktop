@@ -16,6 +16,7 @@ import getDirection from 'direction';
 import { drop, groupBy, noop, orderBy, take, unescape } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow';
+import type { ReadonlyDeep } from 'type-fest';
 
 import type {
   ConversationType,
@@ -229,7 +230,7 @@ export type PropsData = {
   timestamp: number;
   receivedAtMS?: number;
   status?: MessageStatusType;
-  contact?: EmbeddedContactType;
+  contact?: ReadonlyDeep<EmbeddedContactType>;
   author: Pick<
     ConversationType,
     | 'acceptedMessageRequest'

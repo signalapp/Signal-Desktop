@@ -13,6 +13,7 @@ import pProps from 'p-props';
 import pTimeout from 'p-timeout';
 import { v4 as generateUuid } from 'uuid';
 import { z } from 'zod';
+import type { ReadonlyDeep } from 'type-fest';
 
 import type { Dictionary } from 'lodash';
 import {
@@ -2263,7 +2264,7 @@ export function getAllSyncTasksSync(db: Database): Array<SyncTaskType> {
 
 export function saveMessageSync(
   db: Database,
-  data: MessageType,
+  data: ReadonlyDeep<MessageType>,
   options: {
     alreadyInTransaction?: boolean;
     forceSave?: boolean;
@@ -2482,7 +2483,7 @@ export function saveMessageSync(
 }
 
 async function saveMessage(
-  data: MessageType,
+  data: ReadonlyDeep<MessageType>,
   options: {
     jobToInsert?: StoredJob;
     forceSave?: boolean;
@@ -2495,7 +2496,7 @@ async function saveMessage(
 }
 
 async function saveMessages(
-  arrayOfMessages: ReadonlyArray<MessageType>,
+  arrayOfMessages: ReadonlyArray<ReadonlyDeep<MessageType>>,
   options: { forceSave?: boolean; ourAci: AciString }
 ): Promise<Array<string>> {
   const db = await getWritableInstance();
@@ -7368,9 +7369,9 @@ async function removeAllProfileKeyCredentials(): Promise<void> {
 }
 
 async function saveEditedMessagesSync(
-  mainMessage: MessageType,
+  mainMessage: ReadonlyDeep<MessageType>,
   ourAci: AciString,
-  history: ReadonlyArray<EditedMessageType>
+  history: ReadonlyArray<ReadonlyDeep<EditedMessageType>>
 ): Promise<void> {
   const db = await getWritableInstance();
 
@@ -7403,17 +7404,17 @@ async function saveEditedMessagesSync(
 }
 
 async function saveEditedMessage(
-  mainMessage: MessageType,
+  mainMessage: ReadonlyDeep<MessageType>,
   ourAci: AciString,
-  editedMessage: EditedMessageType
+  editedMessage: ReadonlyDeep<EditedMessageType>
 ): Promise<void> {
   return saveEditedMessagesSync(mainMessage, ourAci, [editedMessage]);
 }
 
 async function saveEditedMessages(
-  mainMessage: MessageType,
+  mainMessage: ReadonlyDeep<MessageType>,
   ourAci: AciString,
-  editedMessages: ReadonlyArray<EditedMessageType>
+  editedMessages: ReadonlyArray<ReadonlyDeep<EditedMessageType>>
 ): Promise<void> {
   return saveEditedMessagesSync(mainMessage, ourAci, editedMessages);
 }

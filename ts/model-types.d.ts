@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as Backbone from 'backbone';
+import type { ReadonlyDeep } from 'type-fest';
 
 import type { GroupV2ChangeType } from './groups';
 import type { DraftBodyRanges, RawBodyRange } from './types/BodyRange';
@@ -290,6 +291,8 @@ export type MessageAttributesType = {
   deletedForEveryoneSendStatus?: Record<string, boolean>;
   deletedForEveryoneFailed?: boolean;
 };
+
+export type ReadonlyMessageAttributesType = ReadonlyDeep<MessageAttributesType>;
 
 export type ConversationAttributesTypeType = 'private' | 'group';
 

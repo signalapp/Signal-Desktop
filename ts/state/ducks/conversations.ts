@@ -63,6 +63,7 @@ import type {
   DraftEditMessageType,
   LastMessageStatus,
   MessageAttributesType,
+  ReadonlyMessageAttributesType,
 } from '../../model-types.d';
 import type {
   DraftBodyRanges,
@@ -213,18 +214,20 @@ export type InteractionModeType = ReadonlyDeep<
 >;
 
 export type MessageTimestamps = ReadonlyDeep<
-  Pick<MessageAttributesType, 'sent_at' | 'received_at'>
+  Pick<ReadonlyMessageAttributesType, 'sent_at' | 'received_at'>
 >;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
-export type MessageType = MessageAttributesType & {
-  interactionType?: InteractionModeType;
-};
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
-export type MessageWithUIFieldsType = MessageAttributesType & {
-  displayLimit?: number;
-  isSpoilerExpanded?: Record<number, boolean>;
-};
+export type MessageType = ReadonlyDeep<
+  ReadonlyMessageAttributesType & {
+    interactionType?: InteractionModeType;
+  }
+>;
+export type MessageWithUIFieldsType = ReadonlyDeep<
+  ReadonlyMessageAttributesType & {
+    displayLimit?: number;
+    isSpoilerExpanded?: Record<number, boolean>;
+  }
+>;
 
 export const ConversationTypes = ['direct', 'group'] as const;
 export type ConversationTypeType = ReadonlyDeep<
@@ -419,10 +422,9 @@ type MessageMetricsType = ReadonlyDeep<{
   totalUnseen: number;
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
-export type MessageLookupType = {
+export type MessageLookupType = ReadonlyDeep<{
   [key: string]: MessageWithUIFieldsType;
-};
+}>;
 export type ConversationMessageType = ReadonlyDeep<{
   isNearBottom?: boolean;
   messageChangeCounter: number;
@@ -509,8 +511,7 @@ type ComposerStateType = ReadonlyDeep<
       ))
 >;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep -- FIXME
-export type ConversationsStateType = Readonly<{
+export type ConversationsStateType = ReadonlyDeep<{
   preJoinConversation?: PreJoinConversationType;
   invitedServiceIdsForNewlyCreatedGroup?: ReadonlyArray<ServiceIdString>;
   conversationLookup: ConversationLookupType;
@@ -529,7 +530,7 @@ export type ConversationsStateType = Readonly<{
     stack: ReadonlyArray<PanelRenderType>;
     watermark: number;
   };
-  targetedMessageForDetails?: MessageAttributesType;
+  targetedMessageForDetails?: ReadonlyMessageAttributesType;
 
   lastSelectedMessage: MessageTimestamps | undefined;
   selectedMessageIds: ReadonlyArray<string> | undefined;
@@ -770,15 +771,14 @@ type ConversationStoppedByMissingVerificationActionType = ReadonlyDeep<{
     untrustedServiceIds: ReadonlyArray<ServiceIdString>;
   };
 }>;
-// eslint-disable-next-line local-rules/type-alias-readonlydeep -- FIXME
-export type MessageChangedActionType = {
+export type MessageChangedActionType = ReadonlyDeep<{
   type: typeof MESSAGE_CHANGED;
   payload: {
     id: string;
     conversationId: string;
-    data: MessageAttributesType;
+    data: ReadonlyMessageAttributesType;
   };
-};
+}>;
 export type MessageDeletedActionType = ReadonlyDeep<{
   type: typeof MESSAGE_DELETED;
   payload: {
@@ -801,15 +801,14 @@ export type ShowSpoilerActionType = ReadonlyDeep<{
   };
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep -- FIXME
-export type MessagesAddedActionType = Readonly<{
+export type MessagesAddedActionType = ReadonlyDeep<{
   type: 'MESSAGES_ADDED';
   payload: {
     conversationId: string;
     isActive: boolean;
     isJustSent: boolean;
     isNewMessage: boolean;
-    messages: ReadonlyArray<MessageAttributesType>;
+    messages: ReadonlyArray<ReadonlyMessageAttributesType>;
   };
 }>;
 
@@ -832,19 +831,18 @@ export type RepairOldestMessageActionType = ReadonlyDeep<{
     conversationId: string;
   };
 }>;
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
-export type MessagesResetActionType = {
+export type MessagesResetActionType = ReadonlyDeep<{
   type: 'MESSAGES_RESET';
   payload: {
     conversationId: string;
-    messages: ReadonlyArray<MessageAttributesType>;
+    messages: ReadonlyArray<ReadonlyMessageAttributesType>;
     metrics: MessageMetricsType;
     scrollToMessageId?: string;
     // The set of provided messages should be trusted, even if it conflicts with metrics,
     //   because we weren't looking for a specific time window of messages with our query.
     unboundedFetch: boolean;
   };
-};
+}>;
 export type SetMessageLoadingStateActionType = ReadonlyDeep<{
   type: 'SET_MESSAGE_LOADING_STATE';
   payload: {
@@ -956,8 +954,7 @@ export type ToggleConversationInChooseMembersActionType = ReadonlyDeep<{
   };
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep -- FIXME
-type PushPanelActionType = Readonly<{
+type PushPanelActionType = ReadonlyDeep<{
   type: typeof PUSH_PANEL;
   payload: PanelRenderType;
 }>;
@@ -982,7 +979,7 @@ type ReplaceAvatarsActionType = ReadonlyDeep<{
   };
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep -- FIXME
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type ConversationActionType =
   | CancelVerificationDataByConversationActionType
   | ClearCancelledVerificationActionType
@@ -2868,7 +2865,7 @@ function conversationStoppedByMissingVerification(payload: {
 export function messageChanged(
   id: string,
   conversationId: string,
-  data: MessageAttributesType
+  data: ReadonlyMessageAttributesType
 ): MessageChangedActionType {
   return {
     type: MESSAGE_CHANGED,
@@ -2938,7 +2935,7 @@ function messagesAdded({
   isActive: boolean;
   isJustSent: boolean;
   isNewMessage: boolean;
-  messages: ReadonlyArray<MessageAttributesType>;
+  messages: ReadonlyArray<ReadonlyMessageAttributesType>;
 }): ThunkAction<void, RootStateType, unknown, MessagesAddedActionType> {
   return (dispatch, getState) => {
     const state = getState();
@@ -2993,14 +2990,13 @@ function reviewConversationNameCollision(): ReviewConversationNameCollisionActio
   };
 }
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
-export type MessageResetOptionsType = {
+export type MessageResetOptionsType = ReadonlyDeep<{
   conversationId: string;
-  messages: ReadonlyArray<MessageAttributesType>;
+  messages: ReadonlyArray<ReadonlyMessageAttributesType>;
   metrics: MessageMetricsType;
   scrollToMessageId?: string;
   unboundedFetch?: boolean;
-};
+}>;
 
 function messagesReset({
   conversationId,
@@ -4722,7 +4718,7 @@ function maybeUpdateSelectedMessageForDetails(
     targetedMessageForDetails,
   }: {
     messageId: string;
-    targetedMessageForDetails: MessageAttributesType | undefined;
+    targetedMessageForDetails: ReadonlyMessageAttributesType | undefined;
   },
   state: ConversationsStateType
 ): ConversationsStateType {

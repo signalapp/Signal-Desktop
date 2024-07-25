@@ -1,6 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReadonlyDeep } from 'type-fest';
 import type {
   LocalizerType,
   ICUStringMessageParamsByKeyType,
@@ -56,7 +57,7 @@ export type RenderChangeResultType<T extends string | JSX.Element> =
   >;
 
 export function renderChange<T extends string | JSX.Element>(
-  change: GroupV2ChangeType,
+  change: ReadonlyDeep<GroupV2ChangeType>,
   options: RenderOptionsType<T>
 ): RenderChangeResultType<T> {
   const { details, from } = change;
@@ -79,7 +80,7 @@ export function renderChange<T extends string | JSX.Element>(
 }
 
 function renderChangeDetail<T extends string | JSX.Element>(
-  detail: GroupV2ChangeDetailType,
+  detail: ReadonlyDeep<GroupV2ChangeDetailType>,
   options: RenderOptionsType<T>
 ): string | T | ReadonlyArray<string | T> {
   const {
