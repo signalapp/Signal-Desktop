@@ -329,6 +329,7 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
         }
 
         if (error.code === 404) {
+          c.set('profileLastFetchedAt', Date.now());
           await c.removeLastProfile(lastProfile);
         }
 
@@ -344,6 +345,7 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
         if (error instanceof HTTPError && error.code === 404) {
           log.info(`getProfile: failed to find a profile for ${idForLogging}`);
 
+          c.set('profileLastFetchedAt', Date.now());
           await c.removeLastProfile(lastProfile);
           if (!isVersioned) {
             log.info(`getProfile: marking ${idForLogging} as unregistered`);
