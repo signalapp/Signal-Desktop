@@ -776,10 +776,6 @@ Signal Desktop makes use of the following open source projects.
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
 
-## @storybook/preview-api
-
-    License: MIT
-
 ## @types/fabric
 
     MIT License
