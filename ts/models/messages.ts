@@ -2126,10 +2126,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return;
     }
 
-    conversation.trigger('newmessage', this);
+    conversation.trigger('newmessage', this.attributes);
 
     if (await shouldReplyNotifyUser(this.attributes, conversation)) {
-      await conversation.notify(this);
+      await conversation.notify(this.attributes);
     }
 
     // Increment the sent message count if this is an outgoing message
@@ -2306,16 +2306,18 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           timestamp: reaction.timestamp,
         });
 
-        const messageToAdd = window.MessageCache.__DEPRECATED$register(
+        window.MessageCache.__DEPRECATED$register(
           generatedMessage.id,
           generatedMessage,
           'generatedMessage'
         );
         if (isDirectConversation(targetConversation.attributes)) {
-          await targetConversation.addSingleMessage(messageToAdd);
+          await targetConversation.addSingleMessage(
+            generatedMessage.attributes
+          );
           if (!targetConversation.get('active_at')) {
             targetConversation.set({
-              active_at: messageToAdd.get('timestamp'),
+              active_at: generatedMessage.attributes.timestamp,
             });
             await DataWriter.updateConversation(targetConversation.attributes);
           }
@@ -2328,11 +2330,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           );
           if (
             await shouldReplyNotifyUser(
-              messageToAdd.attributes,
+              generatedMessage.attributes,
               targetConversation
             )
           ) {
-            drop(targetConversation.notify(messageToAdd));
+            drop(targetConversation.notify(generatedMessage.attributes));
           }
         }
       }
@@ -2403,7 +2405,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           this.set({ reactions });
 
           if (isOutgoing(this.attributes) && isFromSomeoneElse) {
-            void conversation.notify(this, reaction);
+            void conversation.notify(this.attributes, reaction);
           }
         }
       }
@@ -2465,13 +2467,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           forceSave: true,
         });
 
-        void conversation.addSingleMessage(
-          window.MessageCache.__DEPRECATED$register(
-            generatedMessage.id,
-            generatedMessage,
-            'generatedMessage2'
-          )
+        window.MessageCache.__DEPRECATED$register(
+          generatedMessage.id,
+          generatedMessage,
+          'generatedMessage2'
         );
+
+        void conversation.addSingleMessage(generatedMessage.attributes);
 
         jobData = {
           type: conversationQueueJobEnum.enum.NormalMessage,

@@ -239,7 +239,7 @@ export async function sendEditedMessage(
     SEND_REPORT_THRESHOLD_MS,
     async () => {
       conversation.beforeMessageSend({
-        message: targetMessage,
+        message: targetMessage.attributes,
         dontClearDraft: false,
         dontAddMessage: true,
         now: timestamp,

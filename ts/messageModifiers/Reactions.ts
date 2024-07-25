@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AciString } from '../types/ServiceId';
-import type { MessageAttributesType } from '../model-types.d';
+import type {
+  MessageAttributesType,
+  ReadonlyMessageAttributesType,
+} from '../model-types.d';
 import type { MessageModel } from '../models/messages';
 import type { ReactionSource } from '../reactions/ReactionSource';
 import { DataReader } from '../sql/Client';
@@ -41,11 +44,11 @@ function remove(reaction: ReactionAttributesType): void {
 }
 
 export function findReactionsForMessage(
-  message: MessageModel
+  message: ReadonlyMessageAttributesType
 ): Array<ReactionAttributesType> {
   const matchingReactions = Array.from(reactions.values()).filter(reaction => {
     return isMessageAMatchForReaction({
-      message: message.attributes,
+      message,
       targetTimestamp: reaction.targetTimestamp,
       targetAuthorAci: reaction.targetAuthorAci,
       reactionSenderConversationId: reaction.fromId,
@@ -99,7 +102,7 @@ function isMessageAMatchForReaction({
   targetAuthorAci,
   reactionSenderConversationId,
 }: {
-  message: MessageAttributesType;
+  message: ReadonlyMessageAttributesType;
   targetTimestamp: number;
   targetAuthorAci: string;
   reactionSenderConversationId: string;

@@ -341,13 +341,12 @@ export async function sendReaction(
           forceSave: true,
         });
 
-        void conversation.addSingleMessage(
-          window.MessageCache.__DEPRECATED$register(
-            reactionMessage.id,
-            reactionMessage,
-            'sendReaction'
-          )
+        window.MessageCache.__DEPRECATED$register(
+          reactionMessage.id,
+          reactionMessage,
+          'sendReaction'
         );
+        void conversation.addSingleMessage(reactionMessage.attributes);
       }
     }
 
