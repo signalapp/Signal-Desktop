@@ -17,7 +17,6 @@ describe('Onboarding', () => {
   beforeEach(() => {
     TestUtils.stubWindowLog();
     TestUtils.stubWindowWhisper();
-    TestUtils.stubStorage();
     TestUtils.stubI18n();
     TestUtils.stubData('createOrUpdateItem').resolves();
     TestUtils.stubData('removeItemById').resolves();

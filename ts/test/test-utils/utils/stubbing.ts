@@ -143,25 +143,3 @@ export const stubI18n = () => {
   const locale = load({ appLocale: 'en', logger: window.log });
   stubWindow('i18n', setupi18n('en', locale.messages));
 };
-
-export const stubStorage = () => {
-  return {
-    get: (key: string, defaultValue?: any) => {
-      if (enableLogRedirect) {
-        console.info(`Storage.get ${key} returns ${defaultValue || key}`);
-      }
-
-      return defaultValue || key;
-    },
-    put: (key: string, value: any) => {
-      if (enableLogRedirect) {
-        console.info(`Storage.put ${key} with ${value}`);
-      }
-    },
-    remove: (key: string) => {
-      if (enableLogRedirect) {
-        console.info(`Storage.remove ${key}`);
-      }
-    },
-  };
-};
