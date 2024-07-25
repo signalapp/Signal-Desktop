@@ -32,7 +32,7 @@ const BACKUP_CDN = 3;
 
 const RELATIVE_ATTACHMENT_PATH = getRelativePath(createName());
 const LOCAL_ENCRYPTION_KEYS = Bytes.toBase64(generateKeys());
-const ATTACHMENT_SIZE = 3577986;
+const ATTACHMENT_SIZE = 188610;
 
 describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(this: Mocha.Suite) {
   this.timeout(10 * SECOND);
@@ -102,7 +102,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
     await DataWriter.ensureFilePermissions();
     await encryptAttachmentV2({
       plaintext: {
-        absolutePath: join(__dirname, '../../../fixtures/ghost-kitty.mp4'),
+        absolutePath: join(__dirname, '../../../fixtures/cat-gif.mp4'),
       },
       keys: Bytes.fromBase64(LOCAL_ENCRYPTION_KEYS),
       sink: createWriteStream(absolutePath),
@@ -158,7 +158,6 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
 
   afterEach(async () => {
     sandbox.restore();
-
     await backupManager?.stop();
   });
 
