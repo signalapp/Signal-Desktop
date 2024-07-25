@@ -45,7 +45,8 @@ export function generateFakePubKeys(amount: number): Array<PubKey> {
 
 export function generateFakeSnode(): Snode {
   return {
-    ip: `${ipv4Section()}.${ipv4Section()}.${ipv4Section()}.${ipv4Section()}`,
+    // NOTE: make sure this is random, but not a valid ip (otherwise we will try to hit that ip during testing!)
+    ip: `${ipv4Section()}.${ipv4Section()}.${ipv4Section()}.${ipv4Section()}.${ipv4Section()}.${ipv4Section()}`,
     port: 22116,
     pubkey_x25519: generateFakePubKeyStr(),
     pubkey_ed25519: generateFakePubKeyStr(),
@@ -59,7 +60,8 @@ function ipv4Section() {
 
 export function generateFakeSnodeWithEdKey(ed25519Pubkey: string): Snode {
   return {
-    ip: `${ipv4Section()}.${ipv4Section()}.${ipv4Section()}.${ipv4Section()}`,
+    // NOTE: make sure this is random, but not a valid ip (otherwise we will try to hit that ip during testing!)
+    ip: `${ipv4Section()}.${ipv4Section()}.${ipv4Section()}.${ipv4Section()}.${ipv4Section()}.${ipv4Section()}`,
     port: 22116,
     pubkey_x25519: generateFakePubKeyStr(),
     pubkey_ed25519: ed25519Pubkey,
