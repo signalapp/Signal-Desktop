@@ -81,10 +81,16 @@
     "messageformat": "Η έκδοση της βάσης δεδομένων σου δεν ταιριάζει με αυτή την έκδοση του Signal. Βεβαιώσου ότι ανοίγεις την πιο πρόσφατη έκδοση του Signal στον υπολογιστή σου."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Προέκυψε σφάλμα βάσης δεδομένων. Μπορείς να αντιγράψεις το σφάλμα και να επικοινωνήσεις με την υποστήριξη Signal για να επιλυθεί το πρόβλημα. Εάν πρέπει να χρησιμοποιήσεις το Signal αμέσως, μπορείς να προσπαθήσεις να ανακτήσεις τα δεδομένα σου.\n\nΕπικοινώνησε με την υποστήριξη: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Επαναφορά δεδομένων"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Αρχείο"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "Το Signal δεν μπόρεσε να αναβαθμιστεί. {retry} ή επισκέψου το {url} για να το εγκαταστήσεις χειροκίνητα. Μετά, {support} σχετικά με αυτό το πρόβλημα."
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Το Signal δεν μπόρεσε να ενημερωθεί. Πήγαινε στο {url} για να το εγκαταστήσεις χειροκίνητα. Έπειτα,{support} γι' αυτό το πρόβλημα."
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Το Signal Desktop μάλλον βρίσκεται σε καραντίνα του macOS, και δεν θα μπορέσει να αναβαθμιστεί αυτόματα. Παρακαλώ προσπάθησε να μετακινήσεις το {app} στο {folder} με το Finder."
@@ -1101,7 +1113,7 @@
     "messageformat": "Συνδεμένες συσκευές"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Σύνδεση νέας συσκεύης"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "Μάθε περισσότερα"
@@ -1119,7 +1131,7 @@
     "messageformat": "Ρυθμίσεις"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Πάτα το {plusButton} (Android) ή το {linkNewDevice} (iPhone)"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Δεν ήταν δυνατή η φόρτωση του κωδικού QR. Έλεγξε τη σύνδεσή σου στο διαδίκτυο και προσπάθησε ξανά. <retry>Επανάληψη</retry>"
@@ -1404,13 +1416,13 @@
     "messageformat": "Έχεις αποκλείσει τον/την {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Ο/Η {name} έχει αποκλειστεί"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Ο/Η {name} έχει αποκλειστεί"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Δεν θα λαμβάνεις τον ήχο ή την εικόνα του/της και δεν θα λαμβάνει τα δικά σου."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Αδυναμία λήψης ήχου και εικόνας από τον/την {name}"
@@ -5542,10 +5554,10 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "Διορθώσαμε ένα σφάλμα που εμπόδιζε την εμφάνιση του κουμπιού ελαχιστοποίησης μιας κλήσης ενώ γινόταν επανασύνδεση της κλήσης."
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Διορθώσαμε ένα σφάλμα που μερικές φορές εμπόδιζε το Signal να εκκινήσει το πρόγραμμα προβολής αυτοκόλλητων αν προσπαθούσες να ανοίξεις έναν σύνδεσμο πακέτου αυτοκόλλητων ενώ η εφαρμογή ήταν κλειστή."
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

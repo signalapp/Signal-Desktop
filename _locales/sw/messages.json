@@ -81,10 +81,16 @@
     "messageformat": "Toleo hili la kanzidata halilingani na toleo la Signal. Hakikisha unafungua toleo jipya zaidi la Signal kwenye kompyuta yako."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Hitilafu ya kanzidata imetokea. Unaweza kunakili hitilafu kisha uwasiliane na msaada wa Signal ili usaidiwe kurekebisha tatizo. Ikiwa utahitaji kutumia Signal muda huo huo, unaweza kujaribu kurejesha data yako.\n\nWasiliana na watoa huduma kwa kutembelea: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Rejesha data"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Faili"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "Signal haingeweza kusasishwa. {retry} au tembelea {url} ili kusanikisha mwenyewe. Kisha, {support} kuhusu tatizo hili"
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal haingeweza kusasishwa. Tembelea {url} kusanikisha mwenyewe. Kisha, {support} kuhusu tatizo hili"
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Huenda Signal Desktop ipo katika karantini ya macOS, na haitaweza kusasisha kiotomatiki. Tafadhali jaribu kuhamishia {app} kwenye {folder} kwa kutumia Kitafutaji."
@@ -1101,7 +1113,7 @@
     "messageformat": "Vifaa Vilivyounganishwa"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Unganisha Kifaa Kipya"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "Jifunze zaidi"
@@ -1119,7 +1131,7 @@
     "messageformat": "Mipangilio"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Bonyeza {plusButton} (Android) au {linkNewDevice} (iPhone)"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Msimbo wa QR umeshindwa kupakia. Angalia mtandao wako na ujaribu tena. <retry>Jaribu Upya</retry>"
@@ -1404,13 +1416,13 @@
     "messageformat": "Umemzuia {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} amezuiliwa"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} amezuiliwa"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Hutapokea sauti au video yake na hatapokea yako."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Huwezi kupokea sauti na video kutoka kwa {name}"
@@ -5542,10 +5554,10 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "Tumerekebisha hitilafu ambayo ilikuwa inazuia kitufe cha kushusha upau wa simu kisionekane wakati simu inaunganisha upya. Sasa huna haja ya kujihisi hujaunganishwa na magumzo yaliyopita hata kama muunganisho wa mtandao hauko vizuri."
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Tulitaka kufanya mambo yawe mepesi kwenye vibofya vibandiko, hivyo tukarekebisha hitilafu ambayo wakati mwingine ilizuia Signal isiwashe kipengele cha kitazama vibandiko kama ukijaribu kufungua kiungo cha pakiti ya vibandiko wakati programu imefungwa."
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

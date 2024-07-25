@@ -81,10 +81,16 @@
     "messageformat": "Версія вашої бази даних не відповідає цій версії Signal. Переконайтеся, що відкриваєте на комп'ютері останню версію Signal."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Сталася помилка бази даних. Ви можете скопіювати помилку та зв'язатися зі службою підтримки Signal, щоб допомогти нам вирішити цю проблему. Якщо вам потрібно використати Signal просто зараз, спробуйте відновити дані.\n\nЗвернутися до служби підтримки можна тут: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Відновити дані"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Файл"
@@ -597,7 +603,7 @@
     "messageformat": "Від'єднано"
   },
   "icu:connecting": {
-    "messageformat": "Підключення…"
+    "messageformat": "Триває з'єднання…"
   },
   "icu:connect": {
     "messageformat": "Натисніть для повторного підключення."
@@ -798,7 +804,7 @@
     "messageformat": "Щоб здійснювати виклики, необхідно надати Signal Desktop доступ до вашого мікрофона."
   },
   "icu:videoCallingPermissionNeeded": {
-    "messageformat": "Щоб здійснювати відео дзвінки, ви повинні дозволити Signal Desktop отримати доступ до вашої камери."
+    "messageformat": "Щоб здійснювати відеовиклики, необхідно надати Signal Desktop доступ до вашої камери."
   },
   "icu:allowAccess": {
     "messageformat": "Надати доступ"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "Не вдалось оновити Signal. {retry} чи перейдіть на {url} для встановлення оновлення вручну. А потім {support} про цю проблему"
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Не вдалось оновити Signal. Перейдіть до {url} для встановлення вручну. А потім {support} про цю проблему"
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Швидше за все, Signal Desktop знаходиться в карантині macOS і не зможе автоматично оновлюватись. Будь ласка, спробуйте перемістити {app} в {folder} за допомогою Finder."
@@ -933,7 +945,7 @@
     "messageformat": "Контакт Signal"
   },
   "icu:AboutContactModal__system-contact": {
-    "messageformat": "{name} є в контактах вашого пристрою"
+    "messageformat": "{name} є в контактах пристрою"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Примітка"
@@ -1098,10 +1110,10 @@
     "messageformat": "Скинути"
   },
   "icu:linkedDevices": {
-    "messageformat": "Під’єднані пристрої"
+    "messageformat": "Зв'язані пристрої"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Зв'язати новий пристрій"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "Дізнатися більше"
@@ -1119,7 +1131,7 @@
     "messageformat": "Налаштування"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Торкніться {plusButton} (Android) / {linkNewDevice} (iPhone)"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Не вдалося завантажити QR-код. Перевірте з'єднання з інтернетом і спробуйте ще раз. <retry>Повторити</retry>"
@@ -1143,7 +1155,7 @@
     "messageformat": "Потрібна допомога?"
   },
   "icu:Install__choose-device-name__description": {
-    "messageformat": "Ви побачите цю назву в списку «Зв'язаних пристроїв» на телефоні"
+    "messageformat": "Ви побачите цю назву у «Зв'язаних пристроях» на телефоні"
   },
   "icu:Install__choose-device-name__placeholder": {
     "messageformat": "Мій комп'ютер"
@@ -1158,7 +1170,7 @@
     "messageformat": "Обрати назву пристрою"
   },
   "icu:finishLinkingPhone": {
-    "messageformat": "Завершити прив'язку пристрою"
+    "messageformat": "Завершити зв'язування з телефоном"
   },
   "icu:initialSync": {
     "messageformat": "Синхронізування контактів та груп"
@@ -1296,7 +1308,7 @@
     "messageformat": "Група завелика для дзвінків її учасникам."
   },
   "icu:CallingButton__ring-off": {
-    "messageformat": "Вимкнути повідомлення"
+    "messageformat": "Вимкнути дзвінок"
   },
   "icu:CallingButton--ring-on": {
     "messageformat": "Увімкнути дзвінок"
@@ -1404,13 +1416,13 @@
     "messageformat": "Ви заблокували користувача {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Користувача {name} заблоковано"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Користувача {name} заблоковано"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Ви не зможете чути й бачити цього користувача, а користувач не зможе чути й бачити вас."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Неможливо отримати аудіо та відео від {name}"
@@ -1431,7 +1443,7 @@
     "messageformat": "Коли захочете зупинити демонстрацію, натисніть тут. Ви повернетеся до виклику."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
-    "messageformat": "Повторне з'єднання…"
+    "messageformat": "Відновлення з'єднання…"
   },
   "icu:calling__presenting--reconnecting--notification-body": {
     "messageformat": "З'єднання було втрачено. Триває відновлення."
@@ -1440,7 +1452,7 @@
     "messageformat": "Signal обмінюється {window}."
   },
   "icu:calling__presenting--reconnecting": {
-    "messageformat": "Повторне з'єднання…"
+    "messageformat": "Триває відновлення з'єднання…"
   },
   "icu:calling__presenting--stop": {
     "messageformat": "Припинити обмін"
@@ -1527,7 +1539,7 @@
     "messageformat": "Видалити всі дані й повідомлення з цієї версії Signal Desktop? Ви завжди зможете повторно зв'язати цей ПК, але можливості відновити повідомлення не буде. Ваш акаунт Signal і дані на телефоні й інших зв'язаних пристроях не буде видалено."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Відключається і видаляє всі дані"
+    "messageformat": "Триває від'єднання й видалення всіх даних"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "З попереднього встановлення Signal Desktop на комп'ютері залишились застарілі дані. Якщо ви продовжите, їх буде видалено та ви почнете з самого початку."
@@ -2673,25 +2685,25 @@
     "messageformat": "Вихідний відеовиклик"
   },
   "icu:incomingGroupCall__ringing-you": {
-    "messageformat": "{ringer} телефонує вам"
+    "messageformat": "Вам дзвонить {ringer}"
   },
   "icu:incomingGroupCall__ringing-1-other": {
-    "messageformat": "{ringer} телефонує вам та {otherMember}"
+    "messageformat": "Вам і користувачу {otherMember} дзвонить {ringer}"
   },
   "icu:incomingGroupCall__ringing-2-others": {
-    "messageformat": "{ringer} дзвонить вам і користувачам {first} і {second}"
+    "messageformat": "Вам і користувачам {first} і {second} дзвонить {ringer}"
   },
   "icu:incomingGroupCall__ringing-3-others": {
-    "messageformat": "{ringer} дзвонить вам, користувачам {first} і {second} і ще 1 користувачу"
+    "messageformat": "Вам, користувачам {first} і {second} і ще 1 користувачу дзвонить {ringer}"
   },
   "icu:incomingGroupCall__ringing-many": {
     "messageformat": "{remaining, plural, one {Вам, користувачам {first}, {second} і ще {remaining,number} користувачу дзвонить {ringer}} few {Вам, користувачам {first}, {second} і ще {remaining,number} користувачам дзвонить {ringer}} many {Вам, користувачам {first}, {second} і ще {remaining,number} користувачам дзвонить {ringer}} other {Вам, користувачам {first}, {second} і ще {remaining,number} користувача дзвонить {ringer}}}"
   },
   "icu:outgoingCallRinging": {
-    "messageformat": "Чекаємо на відповідь…"
+    "messageformat": "Лунає дзвінок…"
   },
   "icu:makeOutgoingCall": {
-    "messageformat": "Почати дзвінок"
+    "messageformat": "Почати виклик"
   },
   "icu:makeOutgoingVideoCall": {
     "messageformat": "Почати відеовиклик"
@@ -2703,7 +2715,7 @@
     "messageformat": "{title} отримає запит з повідомленням від вас. Ви зможете подзвонити коли ваше повідомлення запиту приймуть."
   },
   "icu:callReconnecting": {
-    "messageformat": "Повторне з’єднання…"
+    "messageformat": "Триває відновлення з'єднання…"
   },
   "icu:CallControls__InfoDisplay--participants": {
     "messageformat": "{count, plural, one {{count,number} учасник} few {{count,number} учасники} many {{count,number} учасників} other {{count,number} учасника}}"
@@ -2772,13 +2784,13 @@
     "messageformat": "{people, plural, one {У виклику {people,number}} few {У виклику {people,number}} many {У виклику {people,number}} other {У виклику {people,number}}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "Груповий дзвінок завершено"
+    "messageformat": "Груповий виклик завершено"
   },
   "icu:calling__call-notification__started-by-someone": {
     "messageformat": "Розпочато груповий дзвінок"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "Ви розпочали груповий дзвінок"
+    "messageformat": "Ви почали груповий виклик"
   },
   "icu:calling__call-notification__started": {
     "messageformat": "Користувач {name} почав груповий виклик"
@@ -2934,7 +2946,7 @@
     "messageformat": "Ви не можете відправляти повідомлення в цю групу."
   },
   "icu:GroupV2--cannot-start-group-call": {
-    "messageformat": "Лише адміністратори цієї групи можуть почати дзвінок."
+    "messageformat": "Починати виклики можуть тільки адміністратори цієї групи."
   },
   "icu:GroupV2--join--invalid-link--title": {
     "messageformat": "Хибне посилання"
@@ -3525,7 +3537,7 @@
     "messageformat": "Натисніть фото свого профілю в лівому верхньому кутку, щоб відкрити Настройки"
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
-    "messageformat": "Натисніть на «Підтримати Signal» і активуйте передплату"
+    "messageformat": "Натисніть на «Підтримати Signal» і оформте підписку"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Розкрити"
@@ -4941,7 +4953,7 @@
     "messageformat": "Усі, крім…"
   },
   "icu:StoriesSettings__mine__only--label": {
-    "messageformat": "Ділитися тільки з…"
+    "messageformat": "Обрані глядачі"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
     "messageformat": "Виберіть, хто зможе переглядати вашу історію. Зміни не вплинуть на вже надіслані історії. <learnMoreLink>Докладніше.</learnMoreLink>"
@@ -4983,7 +4995,7 @@
     "messageformat": "Групова історія"
   },
   "icu:SendStoryModal__only-share-with": {
-    "messageformat": "Ділитися тільки з"
+    "messageformat": "Обрані глядачі"
   },
   "icu:SendStoryModal__excluded": {
     "messageformat": "{count, plural, one {Вилучено {count,number}} few {Вилучено {count,number}} many {Вилучено {count,number}} other {Вилучено {count,number}}}"
@@ -5022,7 +5034,7 @@
     "messageformat": "Вилучити історію? Історію буде вилучено з вашого переліку. Ви й надалі зможете переглядати історії цієї групи."
   },
   "icu:SendStoryModal__announcements-only": {
-    "messageformat": "Лише адміністратори можуть надсилати історії в цю групу."
+    "messageformat": "Надсилати історії в цій групі можуть тільки адміністратори."
   },
   "icu:Stories__settings-toggle--title": {
     "messageformat": "Публікування й перегляд історій"
@@ -5356,7 +5368,7 @@
     "messageformat": "Змінено"
   },
   "icu:EditHistoryMessagesModal__title": {
-    "messageformat": "Правки"
+    "messageformat": "Попередній текст"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Зміну не вдалося надіслати. Перевірте підключення до мережі і спробуйте знову"
@@ -5425,7 +5437,7 @@
     "messageformat": "Пропущений"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "Груповий дзвінок"
+    "messageformat": "Груповий виклик"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "Посилання на виклик"
@@ -5455,10 +5467,10 @@
     "messageformat": "Щоб приєднатися до іншого виклику, потрібно спочатку вийти з поточного"
   },
   "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Вихідний аудіовиклик} other {Вхідний аудіовиклик}}} Video {{direction, select, Outgoing {Вихідний відеовиклик} other {Вхідний відеовиклик}}} Group {{direction, select, Outgoing {Вихідний груповий дзвінок} other {Вхідний груповий дзвінок}}} other {{direction, select, Outgoing {Вихідний виклик} other {Вхідний виклик}}}}"
+    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Вихідний аудіовиклик} other {Вхідний аудіовиклик}}} Video {{direction, select, Outgoing {Вихідний відеовиклик} other {Вхідний відеовиклик}}} Group {{direction, select, Outgoing {Вихідний груповий виклик} other {Вхідний груповий виклик}}} other {{direction, select, Outgoing {Вихідний виклик} other {Вхідний виклик}}}}"
   },
   "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Пропущений аудіовиклик} Video {Пропущений відеовиклик} Group {Пропущений груповий дзвінок} other {Пропущений виклик}}"
+    "messageformat": "{type, select, Audio {Пропущений аудіовиклик} Video {Пропущений відеовиклик} Group {Пропущений груповий виклик} other {Пропущений виклик}}"
   },
   "icu:CallHistory__Description--Unanswered": {
     "messageformat": "{type, select, Audio {Аудіовиклик без відповіді} Video {Відеовиклик без відповіді} Group {Груповий виклик без відповіді} other {Виклик без відповіді}}"
@@ -5527,7 +5539,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
-    "messageformat": "Поліпшення, виправлення помилок і покращення роботи застосунку. Спілкуйтеся через повідомлення, дзвінки і відеовиклики без обмежень.",
+    "messageformat": "Поліпшення, виправлення помилок і покращення роботи застосунку. Продовжуйте спілкуватися в чатах і під час аудіо- та відеовикликів, як і завжди.",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--4": {
@@ -5542,10 +5554,10 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "Втрата з'єднання, але не часу: ми виправили помилку, через яку кнопка згортання виклику зникала під час втрати з'єднання. Тепер у такій ситуації ви зможете згорнути виклик і заглянути в інший чат."
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Закритий застосунок не стане на заваді відкритим стікерам. Ми виправили помилку, через яку Signal іноді не показував стікери в наборі, якщо ви відкривали його за посиланням, коли застосунок було закрито."
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }
