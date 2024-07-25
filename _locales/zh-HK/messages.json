@@ -81,10 +81,10 @@
     "messageformat": "你的資料庫版本與此 Signal 的版本不匹配。請確定你在電腦上開啟了最新版本的 Signal。"
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "發生資料庫錯誤。你可以複製錯誤並聯絡 Signal 支援來幫助解決問題。如果你需要立即使用 Signal，可以嘗試恢復你的資料。\n\n要聯絡支援團隊，請前往：{link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "恢復資料"
   },
   "icu:mainMenuFile": {
     "messageformat": "檔案 (&F)"
@@ -1404,13 +1404,13 @@
     "messageformat": "你已經封鎖了 {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} 已被封鎖"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} 已被封鎖"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "您與他們將不會收到對方的音訊或影片。"
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "無法接收 {name} 的音訊和影片"
@@ -5546,6 +5546,6 @@
     "messageformat": "我們修復了一個錯誤，該錯誤導致在通話重新連線時，最小化通話的按鈕無法顯示。"
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "我們希望貼圖點擊器的操作更順暢也更快速，因此我們修復了一個錯誤，如果你在應用程式關閉時嘗試打開貼圖包連結，該錯誤有時會阻止 Signal 啟動貼圖檢視器。"
   }
 }

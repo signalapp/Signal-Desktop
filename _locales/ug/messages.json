@@ -81,10 +81,10 @@
     "messageformat": "سىزنىڭ ساندانىڭىزنىڭ نەشرى Signalنىڭ بۇ نەشرىگە ماس كەلمەيدۇ. كومپيۇتېرىڭىزدا Signalنىڭ ئەڭ يېڭى نەشىرىنى ئېچىۋاتقانلىقىڭىزنى جەزملەشتۈرۈڭ."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "ئۇچۇر ئامبىرىدا بىرتال خاتالىق كۆرۈلدى. خاتالىقنى كۆچۈرىۋېلىپ ئۇنى ئوڭشاش ئۈچۈن سىگنال ياردەم مەركىزى بىلەن ئالاقىلىشىڭ. سىگنالنى دەرھال ئىشلەتمەكچى بولسىڭىز، سانلىق مەلۇماتلىرىڭىزنى ئەسلىگە كەلتۈرۈشنى سىناپ بېقىڭ.\n\nياردەم تەلەپ قىلىش ئۇلانمىسى: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "سانلىق مەلۇماتنى ئەسلىگە كەلتۈرۈش"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ھۆججەت"
@@ -1404,13 +1404,13 @@
     "messageformat": "{name} نى چەكلىدىڭىز"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} چەكلەندى"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} چەكلەندى"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "سىز ئۇلارنىڭ ئۈن ۋە سىنلىرىنى تاپشۇرۇۋالمايسىز، ئۇلارمۇ سىزنىڭكىنى تاپشۇرۇۋالمايدۇ."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} دىن ئۈن ۋە سىن تاپشۇرۇۋالالمايدۇ"
@@ -5546,6 +5546,6 @@
     "messageformat": "بىز تېلېفون قايتا ئۇلىنىۋاتقاندا تېلېفوننىڭ كۆرۈنۈشنىڭ كىچىكلەپ كېتىلىشىنىڭ ئالدىنى ئالىدىغان كەمتۈكلىكنى تۈزىدۇق. ھازىر تور ئۈزۈلۈپ قالغاندەك ھېس قىلسىڭىزمۇ ئىلگىرىكى پاراڭلاردىن ئۈزۈلۈپ قالغاندەك ھېس قىلمايسىز."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "بىز چاپلاق چېكىشنىڭ سىلىق ھەم تېز بولۇشىنى ئۈمىد قىلىپ ئەپ تاقالغاندا چاپلاق بولىقى ئۇلانمىسىنى ئاچماقچى بولسىڭىز سىگنالنىڭ چاپلاق كۆرگۈچنى قوزغىتىشتىن توسىدىغان كەمتۈكلۈكنى تۈزىدۇق."
   }
 }

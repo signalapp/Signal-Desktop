@@ -81,10 +81,10 @@
     "messageformat": "Версията на вашата база данни не съответства на тази версия на Signal. Уверете се, че отваряте най-новата версия на Signal на компютъра си."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Възникна грешка с базата данни. Можете да копирате грешката и да се свържете с поддръжката на Signal, за да ви помогнат с отстраняването на проблема. Ако се налага да използвате Signal веднага, можете да се опитате да възстановите данните си.\n\nСвържете се с поддръжката, като посетите: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Възстановяване на данни"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Файл"
@@ -1404,13 +1404,13 @@
     "messageformat": "Блокирахте {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Потребителят {name} е блокиран"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Потребителят {name} е блокиран"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Няма да получавате аудио или видео от тях и те няма да получават от вас."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Не може да приемате аудио и видео от {name}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Коригирахме грешка, която не позволяваше на бутона за минимизиране на разговор да се показва, докато разговорът се свързва повторно."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Коригирахме грешка, която понякога пречеше на Signal да отвори четеца за стикери, ако се опитвате да отворите линк за пакет стикери, докато приложението е затворено."
   }
 }

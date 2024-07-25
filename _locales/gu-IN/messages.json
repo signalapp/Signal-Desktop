@@ -81,10 +81,10 @@
     "messageformat": "તમારા ડેટાબેઝનું વર્ઝન Signalના આ વર્ઝન સાથે મેચ થતું નથી. ખાતરી કરો કે તમે તમારા કમ્પ્યૂટર પર Signalનું લેટેસ્ટ વર્ઝન ખોલી રહ્યાં છો."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "ડેટાબેઝ એરર આવી. તમે એરરને કૉપિ કરી અને સમસ્યાને ઉકેલવામાં મદદ માટે Signal સપોર્ટનો સંપર્ક કરી શકો છો. જો તમારે અત્યારે જ Signalનો ઉપયોગ કરવાની જરૂર હોય, તો તમે તમારા ડેટાને રિકવર કરવાનો પ્રયાસ કરી શકો છો.\n\nઆ લિંક પર જઈને સપોર્ટનો સંપર્ક કરો: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "ડેટા રિકવર કરો"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ફાઇલ"
@@ -1404,13 +1404,13 @@
     "messageformat": "તમે {name}ને બ્લૉક કર્યા છે"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name}ને બ્લૉક કરેલ છે"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name}ને બ્લૉક કરેલ છે"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "તમને તેમનો ઓડિયો અથવા વિડિયો નહીં મળે અને તેઓ તમારો ઓડિયો પ્રાપ્ત કરશે નહીં."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} તરફથી ઓડિયો અને વિડિયો પ્રાપ્ત કરી શકતા નથી"
@@ -5546,6 +5546,6 @@
     "messageformat": "અમે એ બગને ઠીક કર્યો છે જે કૉલ ફરીથી કનેક્ટ થઈ રહ્યો હોય તે દરમિયાન તે કૉલને દેખાવાથી મિનિમાઇઝ કરવા માટેના બટનને અટકાવતો હતો."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "અમે એક એવા બગને ઠીક કર્યો જે તમે ઍપ બંધ હોય ત્યારે સ્ટીકર પેક લિંક ખોલવાનો પ્રયાસ કર્યો હોય ત્યારે કેટલીકવાર Signalને સ્ટીકર વ્યૂઅરને લોંચ કરવાથી અટકાવતો હતો."
   }
 }

@@ -81,10 +81,10 @@
     "messageformat": "Ваша версия базы данных не соответствует этой версии Signal. Убедитесь, что на вашем компьютере установлена самая последняя версия Signal."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Произошла ошибка базы данных. Вы можете создать копию ошибки и обратиться в службу поддержки Signal для решения проблемы. Если вы хотите использовать Signal прямо сейчас, вы можете попытаться восстановить свои данные.\n\nСвязаться с поддержкой можно по адресу: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Восстановить данные"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Файл"
@@ -1404,13 +1404,13 @@
     "messageformat": "Вы заблокировали {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} заблокирован(-а)"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} заблокирован(-а)"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Вы не будете получать аудио и видео этого участника, и он не будет получать ваши."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Невозможно получать аудио и видео от {name}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Исправлена ошибка, из-за которой кнопка сворачивания звонка не появлялась при повторном подключении. Теперь вы не будете чувствовать себя оторванными от предыдущих чатов, даже если интернет вроде бы отключился."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Мы хотели, чтобы кликеры по стикерам кликали по стикерам максимально быстро, поэтому исправили ошибку, из-за которой Signal иногда не мог запустить просмотр стикеров, если вы пытались открыть ссылку на набор стикеров, когда приложения было закрыто."
   }
 }

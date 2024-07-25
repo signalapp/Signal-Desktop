@@ -81,10 +81,10 @@
     "messageformat": "เวอร์ชันฐานข้อมูลของคุณไม่ตรงกับ Signal เวอร์ชันนี้ ตรวจสอบให้แน่ใจว่า Signal ที่คุณเปิดอยู่บนคอมพิวเตอร์เป็นเวอร์ชันล่าสุด"
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "เกิดข้อผิดพลาดด้านฐานข้อมูล คุณสามารถคัดลอกข้อมูลความผิดพลาดนี้แล้วติดต่อฝ่ายสนับสนุนของ Signal ให้ช่วยแก้ไขปัญหาดังกล่าว ในกรณีที่คุณต้องการใช้ Signal ทันที คุณสามารถพยายามกู้คืนข้อมูลของคุณได้\n\nติดต่อฝ่ายสนับสนุนโดยไปที่: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "กู้คืนข้อมูล"
   },
   "icu:mainMenuFile": {
     "messageformat": "แ&ฟ้ม"
@@ -1404,13 +1404,13 @@
     "messageformat": "คุณบล็อก {name} แล้ว"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} ถูกบล็อกอยู่"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} ถูกบล็อกอยู่"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "คุณจะไม่ได้รับเสียงหรือวิดีโอของพวกเขา และพวกเขาจะไม่ได้รับเสียงและวิดีโอของคุณ"
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "ไม่สามารถเสียงและวิดีโอจาก {name}"
@@ -5546,6 +5546,6 @@
     "messageformat": "เราแก้ไขบั๊กที่ทำให้ปุ่มย่อหน้าต่างการโทรหายไปในระหว่างที่ระบบกำลังเชื่อมต่อสายนั้นใหม่"
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "เราแก้ไขบั๊กที่อาจเคยทำให้ Signal ไม่สามารถเปิดหน้าสติกเกอร์ในกรณีที่คุณพยายามเปิดลิงก์ของชุดสติกเกอร์ขณะที่แอปปิดอยู่"
   }
 }

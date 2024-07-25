@@ -81,10 +81,10 @@
     "messageformat": "आपल्या डेटाबेसची आवृत्ती या Signal च्या आवृत्ती बरोबर जुळत नाही. आपण आपल्या संगणकावर Signal ची नवीनतम आवृत्ती उघडत असल्याची खात्री करा."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "डेटाबेस त्रुटी उद्भवली. आपण त्रुटी कॉपी करू आणि समस्येचे निराकरण करण्यासाठी Signal सपोर्टशी मदतीसाठी संपर्क करू शकता. आपणाला जर लगेचच Signal वापरण्याची गरज असल्यास, आपण डेटा पुनर्प्राप्त करण्याचा प्रयत्न करू शकता.\n\n{link} :ला भेट देऊन सपोर्टशी संपर्क साधा"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "डेटा पुनर्प्राप्त करा"
   },
   "icu:mainMenuFile": {
     "messageformat": "फाईल"
@@ -1404,13 +1404,13 @@
     "messageformat": "आपण {name} ला ब्लॉक केले"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} अवरोधित केलेले आहे"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} अवरोधित केलेले आहे"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "आपल्याला त्यांचे ऑडिओ किंवा व्हिडिओ प्राप्त होणार नाहीत आणि त्यांना तुमचे प्राप्त होणार नाहीत."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} कडून ऑडिओ आणि व्हिडिओ प्राप्त करू शकत नाही"
@@ -5546,6 +5546,6 @@
     "messageformat": "आम्ही त्या दोषाचे निराकरण केले आहे जो त्या कॉलला पुन्हा कनेक्ट केले जात असताना दिसण्यापासून छोटे करण्यास प्रतिबंधित करणाऱ्या बटणाला रोखत होते. आता इंटरनेट डिस्कनेक्ट झाल्यासारखे वाटत असले तरीही आपणाला मागील चॅट्स पासून डिस्कनेक्ट झाल्यासारखे वाटण्याची गरज नाही."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "स्टिकर क्लिकर्ससाठी गोष्टी अधिक चपळ आणि जलद व्हाव्यात अशी आमची इच्छा होती, म्हणून आम्ही आपण ॲप बंद असताना स्टिकर पॅक लिंक उघडण्याचा प्रयत्न केल्यास सिग्नलला स्टिकर दर्शक लॉन्च करण्यापासून प्रतिबंधित करते अशा दोषाचे निराकरण केले आहे."
   }
 }

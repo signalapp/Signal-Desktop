@@ -15,7 +15,7 @@
     "messageformat": "Buscar"
   },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
-    "messageformat": "{contact} was added to {group}"
+    "messageformat": "{contact} engadiuse ao grupo {group}"
   },
   "icu:AddUserToAnotherGroupModal__toast--adding-user-to-group": {
     "messageformat": "Engadindo {contact}…"
@@ -81,10 +81,10 @@
     "messageformat": "A versión da túa base de datos non coincide con esta versión de Signal. Asegúrate de abrir a última versión de Signal no teu ordenador."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Ocorreu un erro na base de datos. Podes copiar o erro e contactar co Centro de axuda de Signal para solucionar o problema. Se tes que empregar Signal canto antes, podes tentar recuperar os teus datos.\n\nPara contactar co Centro de axuda visita: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Recuperar datos"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Ficheiro"
@@ -1404,13 +1404,13 @@
     "messageformat": "Bloqueaches a {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} está bloqueado"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} está bloqueado"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Non recibirás as súas mensaxes de son ou vídeos nin eles os teus."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Non se pode recibir o audio e vídeo de {name}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Corriximos un erro que impedía que o botón para minimizar unha chamada aparecese mentres a chamada se reconectaba."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Arranxamos un erro que ás veces impedía que Signal puidese iniciar o visor de stickers se tentabas abrir un enlace dun paquete de sticker mentres a aplicación estaba pechada."
   }
 }

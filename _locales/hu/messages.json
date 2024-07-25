@@ -81,10 +81,10 @@
     "messageformat": "Az adatbázisod verziója nem egyezik a Signal ezen verziójával. Győződj meg róla, hogy a Signal legújabb verzióját nyitod meg a számítógépeden."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Adatbázishiba történt. Kimásolhatod a hibát, és kapcsolatba léphetsz a Signal ügyfélszolgálatával a probléma megoldásához. Ha azonnal használnod kell a Signalt, megpróbálhatod helyreállítani az adataid.\n\nLépj kapcsolatba az ügyfélszolgálattal a következő címen: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Adatok helyreállítása"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fájl"
@@ -1404,13 +1404,13 @@
     "messageformat": "Letiltottad {name} nevű felhasználót"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} letiltva"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} letiltva"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Nem fogod hallani és látni őket, illetve ők sem téged."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} hang és kép adása nem megjeleníthető"
@@ -5546,6 +5546,6 @@
     "messageformat": "Kijavítottunk egy hibát, amely megakadályozta, hogy a hívást minimalizáló gomb megjelenjen a hívás újracsatlakozása közben."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Kijavítottunk egy hibát, ami néha megakadályozta, hogy a Signal elindítsa a matricanézegetőt, amikor megpróbáltad megnyitni a matricacsomag hivatkozását, miközben az alkalmazás be volt zárva."
   }
 }

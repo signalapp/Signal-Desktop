@@ -81,10 +81,10 @@
     "messageformat": "Versi pangkalan data anda tidak sepadan dengan versi Signal ini. Pastikan anda membuka versi terbaru Signal pada komputer anda."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Ralat pangkalan data telah berlaku. Anda boleh menyalin ralat dan menghubungi sokongan Signal untuk membantu menyelesaikan isu tersebut. Jika anda perlu menggunakan Signal dengan segera, anda boleh cuba memulihkan data anda.\n\nHubungi sokongan dengan melayari: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Pulihkan data"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fail"
@@ -1404,13 +1404,13 @@
     "messageformat": "Anda telah menyekat {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} telah disekat"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} telah disekat"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Anda tidak akan menerima audio atau video mereka dan mereka tidak akan menerima audio atau video anda."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Tidak dapat menerima audio dan video daripada {name}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Kami membetulkan pepijat yang menghalang butang untuk meminimumkan panggilan daripada muncul semasa panggilan itu disambungkan semula."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Kami membetulkan pepijat yang kadangkala menghalang Signal daripada melancarkan pemapar pelekat jika anda cuba membuka pautan pek pelekat semasa aplikasi ditutup."
   }
 }

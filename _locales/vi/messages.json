@@ -81,10 +81,10 @@
     "messageformat": "Phiên bản cơ sở dữ liệu của bạn không khớp với phiên bản Signal này. Đảm bảo bạn đang sử dụng phiên bản Signal mới nhất trên máy tính của mình."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Đã xảy ra lỗi cơ sở dữ liệu. Bạn có thể sao chép lỗi và liên hệ bộ phận hỗ trợ của Signal để được hỗ trợ khắc phục vấn đề. Nếu cần sử dụng Signal ngay, bạn có thể thử khôi phục dữ liệu của mình.\n\nLiên hệ với bộ phận hỗ trợ bằng cách truy cập: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Khôi phục dữ liệu"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Tập tin"
@@ -1404,13 +1404,13 @@
     "messageformat": "Bạn đã chặn {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} đã bị chặn"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} đã bị chặn"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Bạn sẽ không nhận được âm thanh hoặc video của họ và họ sẽ không nhận được của bạn."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Không thể nhận được âm thanh và video từ {name}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Chúng tôi đã sửa lỗi nút bấm thu nhỏ cuộc gọi không hiển thị khi cuộc gọi đó đang được kết nối lại."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Chúng tôi đã sửa lỗi đôi khi ngăn không cho Signal mở trình xem nhãn dán trong trường hợp bạn mở một đường dẫn đến gói nhãn dán khi ứng dụng đã đóng."
   }
 }

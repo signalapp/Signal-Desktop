@@ -81,10 +81,10 @@
     "messageformat": "データベースのバージョンと、開いたSignalのバージョンが一致しません。 ご利用のコンピューターで、最新バージョンのSignalを開いているかをお確かめください。"
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "データベースエラーが発生しました。エラーをコピーしてSignalサポートへ連絡すると、問題の解決に役立てることができます。すぐにSignalを使用する必要がある場合は、データの復旧を試みることができます。\n\nサポートへのお問い合わせは{link}までお願いします。"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "データを復旧する"
   },
   "icu:mainMenuFile": {
     "messageformat": "ファイル (&F)"
@@ -1404,13 +1404,13 @@
     "messageformat": "{name} はブロックしています"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} はブロックされました"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} はブロックされました"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "音声や映像の送受信を行いません。"
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} からの音声と映像を受信できません"
@@ -5546,6 +5546,6 @@
     "messageformat": "再接続中に、通話を最小化するボタンが表示されないバグを修正しました。"
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "アプリが閉じている状態でステッカーパックのリンクを開こうとすると、Signal がステッカービューアーを起動できないことがある不具合を修正しました。"
   }
 }

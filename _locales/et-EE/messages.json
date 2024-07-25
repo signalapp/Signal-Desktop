@@ -81,10 +81,10 @@
     "messageformat": "Sinu andmebaasi versioon ei klapi selle Signali versiooniga. Veendu, et avasid oma arvutis uusima Signali versiooni."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Tekkis andmebaasi viga. Saad vea kopeerida ja Signali toega ühendust võtta, et probleem lahendada. Kui sul on vaja kohe Signalit kasutada, saad proovida andmeid taastada.\n\nToega saad ühendust võtta aadressil {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Taasta andmed"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fail"
@@ -1404,13 +1404,13 @@
     "messageformat": "Sa blokeerisid kasutaja {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} on blokeeritud"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} on blokeeritud"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Sina ei saa nende heli või videot ja nemad ei saa sinu oma."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Kasutajalt {name} heli ja video saamine ei õnnestu"
@@ -5546,6 +5546,6 @@
     "messageformat": "Parandasime vea, mis ei lasknud kõne taasühendamise ajal kuvada kõne minimeerimise nuppu."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Parandasime vea, mille tõttu Signal ei saanud mõnikord kleebiste kuvajat avada, kui proovisid avada kleebiste komplekti ajal, mil rakendus oli suletud."
   }
 }

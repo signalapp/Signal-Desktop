@@ -81,10 +81,10 @@
     "messageformat": "Die Version in deiner Datenbank stimmt nicht mit dieser Version von Signal überein. Überprüfe, ob du die neueste Version von Signal auf deinem Computer geöffnet hast."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Ein Datenbank-Fehler ist aufgetreten. Du kannst den Fehler kopieren und den Signal-Support kontaktieren, um dabei zu helfen, dieses Problem zu beheben. Wenn du Signal sofort verwenden möchtest, kannst du versuchen, deine Daten wiederherzustellen.\n\nKontaktiere den Support unter: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Daten wiederherstellen"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Datei"
@@ -1404,13 +1404,13 @@
     "messageformat": "Du hast {name} blockiert"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} ist blockiert"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} ist blockiert"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Weder du noch dieser Teilnehmer werden gegenseitig Audio- oder Videodaten empfangen."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Audio- und Videodaten von {name} können nicht empfangen werden"
@@ -1878,7 +1878,7 @@
     "messageformat": "{name} ist der Gruppe beigetreten."
   },
   "icu:multipleJoinedTheGroup": {
-    "messageformat": "{names} ist der Gruppe beigetreten."
+    "messageformat": "{names} sind der Gruppe beigetreten."
   },
   "icu:ConversationList__aria-label": {
     "messageformat": "{unreadCount, plural, one {Chat mit {title}, {unreadCount,number} neue Nachricht, letzte Nachricht: {lastMessage}.} other {Chat mit {title}, {unreadCount,number} neue Nachrichten, letzte Nachricht: {lastMessage}.}}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Wir haben einen Fehler behoben, aufgrund dessen die Schaltfläche zum Minimieren eines Anrufs beim Wiederherstellen der Verbindung nicht angezeigt wurde. Jetzt brauchst du nicht mehr das Gefühl zu haben, von früheren Chats getrennt zu sein, selbst wenn das Internet getrennt ist."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Wir wollten es für Sticker-Klicker einfacher und schneller machen. Also haben wir einen Fehler behoben, der Signal manchmal daran hinderte, den Sticker-Viewer zu starten, wenn du bei geschlossener App versucht hast, den Link zu einem Sticker-Set zu öffnen."
   }
 }

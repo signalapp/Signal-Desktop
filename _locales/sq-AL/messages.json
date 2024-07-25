@@ -81,10 +81,10 @@
     "messageformat": "Versioni i bazës së të dhënave nuk përputhet me këtë version të Signal. Sigurohu që po hap versionin më të ri të Signal në kompjuterin tënd."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Gabim në bazën e të dhënave. Mund ta kopjosh gabimin dhe të kontaktosh ndihmën nga Signal që të të ndihmojë ta rregullosh problemin. Nëse të duhet ta përdorësh Signal menjëherë, mund të provosh të rikthesh të dhënat e tua.\n\nKontakto ekipin e ndihmës në: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Rikthe të dhënat"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Kartelë"
@@ -1404,13 +1404,13 @@
     "messageformat": "Ke bllokuar {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} është bllokuar"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} është bllokuar"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "S’do ta merrni audion ose videon e tyre dhe as ata tuajat."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "S\\’mund të merret audio dhe video prej {name}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Defekti që pengonte shfaqjen e butonit për të minimizuar një telefonatë gjatë rilidhjes së saj u rregullua. Tani nuk ke nevojë të ndihesh i shkëputur nga bisedat e mëparshme edhe nëse interneti duket sikur shkëputet."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Ne donim që gjërat të ishin më të shkëlqyeshme dhe më të shpejta për klikuesit e ngjitëseve, ndaj rregulluam një defekt që ndonjëherë e pengonte Signal të hapte shikuesin e ngjitëseve nëse përpiqeshe të hapje një lidhje të paketës së ngjitëseve ndërsa aplikacioni ishte i mbyllur."
   }
 }

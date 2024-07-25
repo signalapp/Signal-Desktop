@@ -81,10 +81,10 @@
     "messageformat": "შენი მონაცემთა ბაზის ვერსია Signal-ის ამ ვერსიას არ ემთხვევა. დარწმუნდი, რომ შენს კომპიუტერში Signal-ის უახლეს ვერსიას ხსნი."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "მონაცემთა ბაზის ხარვეზს გადავაწყდით. შეგიძლია შეცდომა დააკოპირო და Signal-ის მხარდაჭერის გუნდს დაუკავშირდე, რათა პრობლემის მოგვარებაში დაგეხმაროთ. თუ Signal-ის გამოყენება ახლავე გჭირდება, შეგიძლია შენი მონაცემების აღდგენა სცადო.\n\nდაუკავშირდი მხარდაჭერის გუნდს აქ: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "მონაცემების აღდგენა"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ფაილი"
@@ -1404,13 +1404,13 @@
     "messageformat": "შენ დაბლოკე {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} დაბლოკილია"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} დაბლოკილია"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "მათ აუდიოს ან ვიდეოს არ მიიღებ და არც ისინი მიიღებენ შენსას."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "აუდიოსა და ვიდეოს მიღება {name}-სგან შეუძლებელია"
@@ -5546,6 +5546,6 @@
     "messageformat": "ჩვენ გამოვასწორეთ შეცდომა, რომელიც ზარის თავიდან დაკავშირებისას ზარის ფანჯრის დაპატარავების ღილაკს ფარავდა. ახლა წინა ჩატებისგან გამოთიშული აღარ იქნები, მაშინაც კი, თუ ინტერნეტი გათიშულია."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "ჩვენ გამოვასწორეთ ხარვეზი, რომელიც ზოგჯერ ხელს უშლიდა Signal-ს სტიკერების დამთვალიერებლის გახსნას, როცა სტიკერების ნაკრების ბმულზე გადასვლას დახურული აპისას ცდილობდი."
   }
 }

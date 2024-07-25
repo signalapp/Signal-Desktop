@@ -81,10 +81,10 @@
     "messageformat": "നിങ്ങളുടെ ഡാറ്റാബേസിന്റെ പതിപ്പ് നിങ്ങളുടെ Signal പതിപ്പുമായി പൊരുത്തപ്പെടുന്നില്ല. നിങ്ങളുടെ കമ്പ്യൂട്ടറിൽ Signal-ന്റെ ഏറ്റവും പുതിയ പതിപ്പാണ് തുറക്കുന്നതെന്ന് ഉറപ്പാക്കുക."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "ഡാറ്റാബേസ് പിശകുണ്ടായി. പിശക് പകർത്തിയതിന് ശേഷം Signal പിന്തുണയുമായി ബന്ധപ്പെട്ട് നിങ്ങൾക്ക് പ്രശ്‌നം പരിഹരിക്കാം. നിങ്ങൾക്ക് ഉടൻ തന്നെ Signal ഉപയോഗിക്കണമെങ്കിൽ, നിങ്ങളുടെ ഡാറ്റ വീണ്ടെടുക്കാൻ ശ്രമിക്കാവുന്നതാണ്.\n\nഈ ലിങ്ക് സന്ദർശിച്ച് പിന്തുണയുമായി ബന്ധപ്പെടുക: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "ഡാറ്റ വീണ്ടെടുക്കുക"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ഫയൽ"
@@ -1404,13 +1404,13 @@
     "messageformat": "നിങ്ങൾ {name} എന്നയാളെ ബ്ലോക്ക് ചെയ്തു"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} എന്നയാളെ ബ്ലോക്ക് ചെയ്തിരിക്കുന്നു"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} എന്നയാളെ ബ്ലോക്ക് ചെയ്തിരിക്കുന്നു"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "നിങ്ങൾക്ക് അവരുടെയോ, അവർക്ക് നിങ്ങളുടെയോ, ഓഡിയോ, വീഡിയോ എന്നിവ ലഭിക്കില്ല."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} നിന്ന് ഓഡിയോയും വീഡിയോയും സ്വീകരിക്കാൻ കഴിയുന്നില്ല "
@@ -5546,6 +5546,6 @@
     "messageformat": "കോൾ വീണ്ടും കണക്‌റ്റുചെയ്യുമ്പോൾ ഒരു കോൾ ദൃശ്യമാകുന്നത് മിനിമൈസ് ചെയ്യുന്നതിന് ബട്ടണിനെ തടയുന്ന ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചു. ഇൻ്റർനെറ്റ് വിച്ഛേദിക്കപ്പെട്ടതായി അനുഭവപ്പെടുന്നുണ്ടെങ്കിലും മുമ്പത്തെ ചാറ്റുകളിൽ നിന്ന് വിച്ഛേദിക്കപ്പെട്ടതായി നിങ്ങൾക്ക് ഇപ്പോൾ തോന്നേണ്ടതില്ല."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "സ്റ്റിക്കർ ക്ലിക്കറുകൾക്ക് കാര്യങ്ങൾ കൂടുതൽ ഫലപ്രദവും വേഗത്തിലും ആയിരിക്കണമെന്ന് ഞങ്ങൾ ആഗ്രഹിച്ചു, അതിനാൽ ആപ്പ് അടച്ചിരിക്കുമ്പോൾ നിങ്ങൾ ഒരു സ്റ്റിക്കർ പായ്ക്ക് ലിങ്ക് തുറക്കാൻ ശ്രമിച്ചാൽ, ചിലപ്പോൾ സ്റ്റിക്കർ വ്യൂവർ ലോഞ്ച് ചെയ്യുന്നതിൽ നിന്ന് Signal-നെ തടയുന്ന ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചു."
   }
 }

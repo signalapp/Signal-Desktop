@@ -81,10 +81,10 @@
     "messageformat": "Маалыматтар базасынын версиясы Signal'дын версиясына туура келбейт. Компьютериңизде Signal'дын эң акыркы версиясын ачыңыз."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Маалыматтар базасында ката кетти. Катаны көчүрүп, маселени чечүү үчүн Signal'дын кардарларды тейлөөчү кызматына кайрылыңыз. Signal азыр керек болуп жатса, маалыматтарыңызды калыбына келтирип көрүңүз.\n\nКардарларды тейлеген кызматка өтүңүз: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Маалыматтарды калыбына келтирүү"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Файл"
@@ -1404,13 +1404,13 @@
     "messageformat": "Бул байланышты бөгөттөдүңүз: {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} бөгөттөлгөн"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} бөгөттөлгөн"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Бири-бириңердин аудио жана видео билдирүүлөрүңөрдү албай каласыңар."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Бул адамдын ({name}) аудио жана видео билдирүүлөрүн ала албайсыз"
@@ -5546,6 +5546,6 @@
     "messageformat": "Чалууга кайра туташып жатканда чалуунун кичирейишине жол бербей жаткан мүчүлүштүк оңдолду. Интернет жоголуп кетсе да, буга чейинки маектерге туташкан бойдон кала бересиз."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Signal'га стикерлерге көз чаптыруучу функцияны иштеткенге тоскоол болгон катаны оңдоп койдук. Эми стикерлерди тез ачып, тез көрөсүз."
   }
 }

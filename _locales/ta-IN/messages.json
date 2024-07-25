@@ -81,10 +81,10 @@
     "messageformat": "உங்கள் தரவுத்தளத்தின் பதிப்பு Signal இன் இந்தப் பதிப்போடு பொருந்தவில்லை. உங்கள் கணினியில் Signal இன் புதிய பதிப்பைத் திறக்கிறீர்கள் என்பதை உறுதிப்படுத்தவும்."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "ஒரு தரவுத்தளப் பிழை ஏற்பட்டது. நீங்கள் பிழையை நகலெடுத்து, சிக்கலைச் சரிசெய்ய சிக்னல் ஆதரவைத் தொடர்புகொள்ளலாம். நீங்கள் உடனடியாக சிக்னலைப் பயன்படுத்த வேண்டும் என்றால், உங்கள் தரவை மீட்டெடுக்க முயற்சி செய்ய முயற்சிக்கலாம்.\n\nபின்வரும் இணைப்பைப் பார்வையிடுவதன் மூலம் ஆதரவைத் தொடர்புகொள்ளவும்: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "தரவை மீட்டெடு"
   },
   "icu:mainMenuFile": {
     "messageformat": "&கோப்பு"
@@ -1404,13 +1404,13 @@
     "messageformat": "{name} ஐத் தடைசெய்துள்ளீர்கள்"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} தடுக்கப்பட்டார்"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} தடுக்கப்பட்டார்"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "நீங்கள் அவற்றைப் பெற மாட்டீர்கள் ஆடியோ அல்லது வீடியோ அவர்கள் உங்களுடையதைப் பெற மாட்டார்கள்."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name}இலிருந்து ஆடியோ மற்றும் வீடியோவைப் பெற முடியவில்லை"
@@ -5546,6 +5546,6 @@
     "messageformat": "அந்த அழைப்பை மீண்டும் இணைக்கும் போது, அழைப்புத்திரை தோன்றுவதைக் சிறிதாக்கும் பொத்தானைத் தடுக்கும் ஒரு பிழையைச் சரிசெய்துள்ளோம்."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "செயலி மூடப்பட்டிருக்கும் போது ஸ்டிக்கர் பேக் இணைப்பைத் திறக்க முயற்சி செய்யும்போது, சில சமயங்களில் சிக்னல் ஸ்டிக்கர் வியூவரைத் தொடங்குவதைத் தடுக்கும் பிழையை நாங்கள் சரிசெய்துள்ளோம்."
   }
 }

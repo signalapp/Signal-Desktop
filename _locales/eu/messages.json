@@ -81,10 +81,10 @@
     "messageformat": "Zure datu-basearen bertsioa ez dator bat Signal-en bertsio honekin. Ziurtatu Signal-en bertsio berriena erabiltzen ari zarela ordenagailuan."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Datu-baseko errore bat gertatu da. Errorea kopiatu, eta Signal-en laguntza-zerbitzuarekin harremanetan jar zaitezke, arazoa konpontzen lagun diezazuten. Signal oraintxe bertan erabili behar baduzu, datuak berreskuratzen saia zaitezke.\n\nJarri harremanetan laguntza-zerbitzuarekin hemen: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Berreskuratu datuak"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fitxategia"
@@ -1404,13 +1404,13 @@
     "messageformat": "{name} blokeatu duzu"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} blokeatuta dago"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} blokeatuta dago"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Ez duzu bere audio edo bideorik jasoko eta ez dute zurerik jasoko."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Ezin da {name} erabiltzailearen audio eta bideorik jaso."
@@ -5546,6 +5546,6 @@
     "messageformat": "Deira berriro konektatu bitartean deia minimizatzeko botoia agertzea eragozten zuen akats bat konpondu dugu."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Aplikazioa itxita zegoen bitartean eranskailu-pakete bat irekitzen saiatzean batzuetan Signal-ek eranskailuen ikuspegia abiaraztea eragozten zuen akats bat konpondu dugu."
   }
 }

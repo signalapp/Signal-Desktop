@@ -81,10 +81,10 @@
     "messageformat": "Tavo duomenų bazės versija neatitinka šios „Signal“ versijos. Įsitikink, kad savo kompiuteryje bandai atidaryti naujausią „Signal“ versiją."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Aptikta duomenų bazės klaida. Klaidą galite nukopijuoti ir kreiptis pagalbos į „Signal“ klientų aptarnavimo komandą. Jei pasinaudoti „Signal“ jums reikia skubiai, galite bandyti duomenis atkurti.\n\nSusisiekite su klientų aptarnavimo komanda apsilankydami čia: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Atkurti duomenis"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Failas"
@@ -1404,13 +1404,13 @@
     "messageformat": "Tu užblokavai naudotoją {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Naudotojas {name} užblokuotas"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Naudotojas {name} užblokuotas"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Jūs nematysite ir negirdėsite naudotojo, o jis nematys ir negirdės jūsų."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Negalima gauti garso ir vaizdo iš {name}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Ištaisėme klaidą, dėl kurios nebuvo parodomas skambučio suskleidimo mygtukas, kol tas skambutis buvo jungiamas iš naujo."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Ištaisėme klaidą, dėl kurios „Signal“ kartais neleisdavo paleisti lipdukų paketo peržiūros priemonės, jei lipdukų paketo nuorodą bandydavote paleisti, kai programa uždaryta."
   }
 }

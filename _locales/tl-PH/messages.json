@@ -81,10 +81,10 @@
     "messageformat": "Hindi magka-match ang version ng database mo at ang version na ito ng Signal. Siguraduhing buksan ang pinakabagong version ng Signal sa computer mo."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Nagkaroon ng database error. Pwede mong kopyahin ang error at kontakin ang Signal support para matulungan kang ayusin ang isyung ito. Kung kailangan mong magamit agad ang Signal, maaari mong subukang i-recover ang iyong data.\n\nKontakin ang support sa pamamagitan ng pagpunta sa: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "I-recover ang data"
   },
   "icu:mainMenuFile": {
     "messageformat": "&File"
@@ -1404,13 +1404,13 @@
     "messageformat": "Binlock mo si {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Naka-block si {name}"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Naka-block si {name}"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Hindi ninyo matatanggap ang audio o video ng isa't-isa."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Hindi ma-receive ang audio at video galing kay {name}"
@@ -5546,6 +5546,6 @@
     "messageformat": "May inayos kaming bug na pinipigilang lumabas ang button para sa pag-minimize ng call habang nagre-reconnect ang call na iyon."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "May inayos kaming bug na pumipigil sa Signal na i-launch ang sticker viewer kapag sinubukan mong magbukas ng sticker pack link habang nakasara ang app."
   }
 }

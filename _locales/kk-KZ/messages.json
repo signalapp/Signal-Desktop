@@ -81,10 +81,10 @@
     "messageformat": "Дерекқордың нұсқасы Signal-дың бұл нұсқасына сәйкес келмейді. Компьютеріңізде Signal-дың соңғы нұсқасын ашып отырғаныңзға көз жеткізіңіз."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Дерекқорда қате шықты. Ақауды түзету үшін қатені көшіріп, Signal қолдау көрсету қызметіне хабарласа аласыз. Егер Signal-ды дереу қолдану керек болса, деректерді жойып, оны өшіріп, қайта қосыңыз. \n\nҚолдау көрсету орталығына хабарласыңыз: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Деректерді қалпына келтіру"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Файл"
@@ -1404,10 +1404,10 @@
     "messageformat": "{name} деген кісіні блоктадыңыз"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} блокталды"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} блокталды"
   },
   "icu:calling__block-info": {
     "messageformat": "You won’t receive their audio or video and they won’t receive yours."
@@ -5546,6 +5546,6 @@
     "messageformat": "Қоңырау қайта қосылып жатқанда қоңыраудың пайда болуын барынша азайтуға кедергі келтірген ақауды түзеттік. Интернет ажырап тұрса да, алдыңғы чаттардан ажырамайтын боласыз."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Қолданба жабық тұрып, стикерлер жинағы сілтемесін ашқыңыз келгенде, ақау шығып, Signal стикерлерді көрсету құралын аша алмай қалатын. Стикерді пайдаланатын адамдар үшін ыңғайлы әрі жылдам болуы үшін, бұл ақауды түзеттік."
   }
 }

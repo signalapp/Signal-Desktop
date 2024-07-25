@@ -81,10 +81,10 @@
     "messageformat": "Versi basis data Anda tidak cocok dengan versi Signal ini. Pastikan Anda membuka Signal versi terbaru di komputer Anda."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Terjadi kesalahan pada basis data. Anda dapat menyalin kode kesalahan dan menghubungi dukungan Signal untuk meminta bantuan terkait masalah ini. Jika ingin langsung menggunakan Signal, Anda dapat mencoba memulihkan data Anda.\n\nHubungi dukungan dengan membuka: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Pulihkan data"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Berkas"
@@ -1404,13 +1404,13 @@
     "messageformat": "Anda telah memblokir {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} diblokir"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} diblokir"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Anda tidak akan menerima audio atau video dari mereka, dan mereka tidak akan menerima audio atau video yang Anda kirimkan."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Tidak dapat menerima audio dan video dari {name}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Kami memperbaiki bug penyebab tombol perkecil layar panggilan tidak muncul saat panggilan sedang dihubungkan ulang."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Kami memperbaiki bug yang terkadang membuat Signal tidak bisa membuka penampil stiker jika Anda mencoba membuka tautan paket stiker saat aplikasi tertutup."
   }
 }

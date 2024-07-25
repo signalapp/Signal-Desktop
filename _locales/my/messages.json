@@ -81,10 +81,10 @@
     "messageformat": "သင်၏ ဒေတာဘေ့စ်ဗားရှင်းသည် ဤ Signal ဗားရှင်းနှင့် မကိုက်ညီပါ။ သင့်ကွန်ပျူတာတွင် Signal နောက်ဆုံးထွက်ဗားရှင်းကို ဖွင့်ထားခြင်းဖြစ်ကြောင်း သေချာအောင်လုပ်ပါ။"
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "ဒေတာဘေ့စ် ချို့ယွင်းချက်တစ်ခု ဖြစ်နေပါသည်။ ချို့ယွင်းချက်ကို ကူးယူပြီးနောက် ဤပြဿနာကို ဖြေရှင်းရန်အတွက် အကူအညီရယူရန် Signal ပံ့ပိုးရေးသို့ ဆက်သွယ်နိုင်ပါသည်။ Signal ကိုချက်ချင်းအသုံးပြုရန်လိုအပ်ပါက၊ သင်သည်သင်၏ဒေတာကိုပြန်လည်ရယူရန်ကြိုးစားနိုင်သည်။\n\nဤလင့်ခ်ကို ဝင်ရောက်ခြင်းဖြင့် ပံ့ပိုးရေးသို့ ဆက်သွယ်ပါ- {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "ဒေတာပြန်ယူပါ"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ဖိုင်"
@@ -1404,13 +1404,13 @@
     "messageformat": "သင်သည် {name} ကို ဘလော့ခ်ထားပါသည်"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} ကို ဘလော့ခ်ထားသည်"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} ကို ဘလော့ခ်ထားသည်"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "သင်ရော ၎င်းတို့ပါသည် အော်ဒီယို သို့မဟုတ် ဗီဒီယိုများကို အပြန်အလှန် လက်ခံရရှိလိမ့်မည် မဟုတ်ပါ။"
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} မှ အသံနှင့် ဗီဒီယို မရရှိနိုင်ပါ"
@@ -5546,6 +5546,6 @@
     "messageformat": "ခေါ်ဆိုမှု ပြန်လည်ချိတ်ဆက်နေချိန်တွင် ထိုခေါ်ဆိုမှုကို ချုံ့သည့် ခလုတ်ကို တားဆီးထားသည့် ချွတ်ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ပြင်ဆင်ထားပါသည်။"
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "အက်ပ်ကိုပိတ်နေစဉ် စတစ်ကာတွဲလင့်ခ်တစ်ခုကို ဖွင့်ရန်ကြိုးစားပါက တစ်ခါတစ်ရံတွင် Signal ကို စတစ်ကာ ဖွင့်မရစေရန် တားဆီးထားသည့် ချွတ်ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ပြင်ဆင်ထားပါသည်။"
   }
 }

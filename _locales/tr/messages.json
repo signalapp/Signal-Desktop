@@ -81,10 +81,10 @@
     "messageformat": "Veri tabanının sürümü Signal'in bu sürümüyle eşleşmiyor. Bilgisayarında Signal'in en son sürümünü açtığından emin ol."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Bir veri tabanı hatası oluştu. Hatayı kopyalayıp sorunun giderilmesine yardımcı olmak için Signal destekle iletişime geçebilirsin. Signal'i hemen kullanman gerekiyorsa verilerini kurtarmaya çalışabilirsin.\n\nŞu adresi ziyaret ederek destekle iletişime geçebilirsin: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Verileri kurtar"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Dosya"
@@ -1404,13 +1404,13 @@
     "messageformat": "{name} kişisini engelledin"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} engellendi"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} engellendi"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Birbirinizin sesini veya görüntüsünü alamayacaksınız."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} kişisinden ses ve görüntü alınamıyor"
@@ -5546,6 +5546,6 @@
     "messageformat": "Arama yeniden bağlanırken, aramayı simge durumuna küçültme düğmesinin görünmesini engelleyen bir hatayı düzelttik. Artık internet bağlantısı kopuyor da olsa, önceki sohbetlerden kopuk hissetmene gerek yok."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Uygulama kapalıyken bir çıkartma paketi bağlantısını açmaya çalıştığında Signal'in bazen çıkartma görüntüleyiciyi başlatmasını engelleyen bir hatayı düzelttik."
   }
 }

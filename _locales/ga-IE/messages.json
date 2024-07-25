@@ -81,10 +81,10 @@
     "messageformat": "Ní hionann an leagan bunachair shonraí atá agat agus an leagan seo de Signal. Cinntigh go bhfuil an leagan is nuaí de Signal á oscailt agat ar do ríomhaire."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Tharla earráid leis an mbunachar sonraí. Is féidir leat an earráid a chóipeáil agus teagmháil a dhéanamh le foireann tacaíochta Signal le cuidiú leis an bhfadhb a réiteach. Más gá duit Signal a úsáid díreach anois, is féidir leat iarracht a dhéanamh do shonraí a aisghabháil.\n\nNasc leis an bhfoireann tacaíochta: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Aisghabh sonraí"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Comhad"
@@ -1404,13 +1404,13 @@
     "messageformat": "Chuir tú bac ar {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Bac curtha ar {name}"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Bac curtha ar {name}"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Ní bhfaighidh an duine sin d'fhuaim ná d'fhíseán agus a mhalairt de chás."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Can't receive audio and video from {name}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Réitíomar fabht a chuir cosc ar an gcnaipe taispeáint glao a íoslaghdú le linn don nglao sin a athnascadh. Anois ní gá duit a bhrath go bhfuil tú dínasctha ó chomhráite roimhe seo fiú más rud é go sílfeá go raibh an t-idirlíon dínasctha."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Réitíomar fabht a chuir bac ar Signal uaireanta an t-amharcóir greamán a lainseáil má rinne tú iarracht nasc le beart greamán a oscailt nuair a bhí an aip dúnta."
   }
 }

@@ -81,10 +81,10 @@
     "messageformat": "הגרסה של מסד הנתונים שלך לא תואמת לגרסה זו של Signal. יש לוודא שפתחת את הגרסה החדשה ביותר של Signal במחשב שלך."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "אירעה שגיאת מסד נתונים. אפשר להעתיק את תוכן השגיאה וליצור קשר עם התמיכה של Signal כדי לעזור לפתור את הבעיה. אם יש לך צורך מידי להשתמש ב–Signal, יש לך אפשרות לנסות לשחזר את הנתונים שלך.\n\nאפשר ליצור קשר עם התמיכה כאן: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "שחזור נתונים"
   },
   "icu:mainMenuFile": {
     "messageformat": "&קובץ"
@@ -1404,13 +1404,13 @@
     "messageformat": "חסמת את {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "חסמת את {name}"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "חסמת את {name}"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "לא תקבל שמע או וידאו והצד השני לא יקבל את שלך."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "לא ניתן לקבל שמע ווידאו מאת {name}"
@@ -5546,6 +5546,6 @@
     "messageformat": "תיקנו באג שלא אפשר לכפתור מזעור השיחה להופיע בזמן שהשיחה מתחברת מחדש."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "תיקנו באג שלפעמים גרם לכך ש–Signal לא פותחת את מציג הסטיקרים אם ניסית לפתוח לינק לחבילת סטיקרים בזמן שהאפליקציה סגורה."
   }
 }

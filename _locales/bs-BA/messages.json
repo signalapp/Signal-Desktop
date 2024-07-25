@@ -81,10 +81,10 @@
     "messageformat": "Verzija vaše baze podataka ne odgovara ovoj verziji Signala. Provjerite otvarate li najnoviju verziju Signala na svom računaru."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Došlo je do greške u bazi podataka. Možete kopirati grešku i kontaktirati podršku za Signal kako biste riješili problem. Ako trebate odmah koristiti Signal, možete pokušati vratiti svoje podatke.\n\nKontaktirajte podršku tako što ćete posjetiti: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Vrati podatke"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Datoteka"
@@ -1404,10 +1404,10 @@
     "messageformat": "Blokirali ste korisnika {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} je blokiran/a"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} je blokiran/a"
   },
   "icu:calling__block-info": {
     "messageformat": "You won’t receive their audio or video and they won’t receive yours."
@@ -5546,6 +5546,6 @@
     "messageformat": "Ispravili smo grešku koja je sprečavala da dugme minimizira pojavljivanje poziva dok se taj poziv ponovo povezuje."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Ispravili smo bug koji je ponekad sprječavao Signal da pokrene preglednik naljepnica ako ste pokušali otvoriti poveznicu na paket naljepnica dok je aplikacija bila zatvorena."
   }
 }

@@ -81,10 +81,10 @@
     "messageformat": "កំណែនៃមូលដ្ឋានទិន្នន័យរបស់អ្នកមិនត្រូវគ្នានឹងកំណែរបស់ Signal នេះទេ។ ត្រូវប្រាកដថាអ្នកកំពុងបើកកំណែថ្មីបំផុតនៃ Signal នៅលើកុំព្យូទ័ររបស់អ្នក។"
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "បញ្ហាមូលដ្ឋានទិន្នន័យបានកើតឡើង។ អ្នកអាចចម្លងបញ្ហានេះ ហើយទាក់ទងផ្នែកជំនួយរបស់ Signal ឱ្យជួយដោះស្រាយ។ ប្រសិនបើអ្នកត្រូវការប្រើ Signal ភ្លាមៗ អ្នកអាចព្យាយាមស្តារទិន្នន័យរបស់អ្នក។\n\nទាក់ទងផ្នែកជំនួយដោយចូលទៅកាន់៖ {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "ស្តារទិន្នន័យ"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ឯកសារ"
@@ -1404,13 +1404,13 @@
     "messageformat": "អ្នកបានទប់ស្កាត់ {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} ត្រូវបានទប់ស្កាត់"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} ត្រូវបានទប់ស្កាត់"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "អ្នកនឹងមិនទទួលបានសំឡេង ឬវីដេអូរបស់ពួកគេទេ ហើយពួកគេក៏មិនទទួលបានរបស់អ្នកដែរ។"
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "មិនអាចទទួលសំឡេងនិងវីដេអូពី {name}"
@@ -5546,6 +5546,6 @@
     "messageformat": "ចំពោះបញ្ហាដែលធ្វើឱ្យប៊ូតុងបង្រួមការហៅ មិនឃើញបង្ហាញឡើង ពេលដែលការហៅនោះកំពុងភ្ជាប់ឡើងវិញនោះ យើងបានដោះស្រាយហើយ។ ឥឡូវនេះ អ្នកលែងមានអារម្មណ៍ថាត្រូវបានផ្តាច់ចេញពីការជជែកមុនៗហើយ ទោះបីជាមានអារម្មណ៍ថាដាច់អ៊ីនធឺណិតក៏ដោយ។"
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "យើងចង់ឱ្យអ្វីៗកាន់តែរលូន និងលឿនជាងមុនសម្រាប់អ្នកចុចស្ទីកគ័រ ដូច្នេះយើងបានដោះស្រាយបញ្ហាមួយដែលជួនកាលធ្វើឱ្យ Signal មិនអាចបើកដំណើរការមុខងារមើលស្ទីកគ័របាន ប្រសិនបើអ្នកព្យាយាមបើកតំណកញ្ចប់ស្ទីកគ័រពេលដែលកម្មវិធីបិទទៅហើយ។"
   }
 }

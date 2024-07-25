@@ -81,10 +81,10 @@
     "messageformat": "Verzija vaše baze podataka ne odgovara ovoj verziji Signala. Provjerite jeste li pokrenuli najnoviju verziju Signala na svom računalu."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Došlo je do pogreške u bazi podataka. Kopirajte informacije o pogreški i kontaktirajte korisničku podršku Signala kako bi vam pomogli riješiti problem. Ako vam je odmah potreban pristup Signalu, možete pokušati oporaviti svoje podatke.\n\nKontaktirajte korisničku podršku putem ove poveznice: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Oporavi podatke"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Datoteka"
@@ -1404,13 +1404,13 @@
     "messageformat": "Blokirali ste korisnika {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Korisnik {name} je blokiran"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Korisnik {name} je blokiran"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Nećete ga moći čuti ni vidjeti, a ni on vas."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Ne možete primiti audio i video od {name}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Ispravili smo programsku pogrešku zbog koje bi gumb za minimiziranje nestao prilikom ponovnog povezivanja poziva."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Ispravili smo pogrešku koja je ponekad Signalu sprječavala pokretanje preglednika naljepnica kada biste pokušali otvoriti poveznicu na paket naljepnica dok je aplikacija bila zatvorena."
   }
 }

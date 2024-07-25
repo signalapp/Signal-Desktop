@@ -81,10 +81,10 @@
     "messageformat": "Versiunea bazei de date nu se potrivește cu această versiune de Signal. Asigură-te că deschizi cea mai nouă versiune de Signal pe computer."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "A apărut o eroare la baza de date. Poți copia eroarea și contacta serviciul de asistență Signal, pentru a ajuta la remedierea problemei. Dacă trebuie să utilizezi Signal imediat, poți încerca să îți recuperezi datele.\n\nContactează serviciul de asistență vizitând: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Recuperează datele"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fișier"
@@ -1404,13 +1404,13 @@
     "messageformat": "Ai blocat pe {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} este blocat"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} este blocat"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Nu-i vei auzi sau vedea pe interlocutorii tăi iar ei nu te vor auzi sau vedea pe tine."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Nu pot primi semnal voce și semnal video de la {name}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Am remediat o eroare care împiedica să apară butonul pentru minimizarea apelului, când apelul se reconecta. Acum nu trebuie să te simți deconectat/ă de la conversațiile precedente, chiar dacă uneori așa se întâmplă pe internet."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Am vrut ca lucrurile să fie mai simple și mai rapide pentru cei care dau clic pe stickere, așa că, am remediat o eroare care uneori împiedica Signal să lanseze vizualizatorul de stickere dacă încercai să deschizi un link pentru un pachet de stickere în timp ce aplicația era închisă."
   }
 }

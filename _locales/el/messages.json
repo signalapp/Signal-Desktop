@@ -81,10 +81,10 @@
     "messageformat": "Η έκδοση της βάσης δεδομένων σου δεν ταιριάζει με αυτή την έκδοση του Signal. Βεβαιώσου ότι ανοίγεις την πιο πρόσφατη έκδοση του Signal στον υπολογιστή σου."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Προέκυψε σφάλμα βάσης δεδομένων. Μπορείς να αντιγράψεις το σφάλμα και να επικοινωνήσεις με την υποστήριξη Signal για να επιλυθεί το πρόβλημα. Εάν πρέπει να χρησιμοποιήσεις το Signal αμέσως, μπορείς να προσπαθήσεις να ανακτήσεις τα δεδομένα σου.\n\nΕπικοινώνησε με την υποστήριξη: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Επαναφορά δεδομένων"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Αρχείο"
@@ -1404,13 +1404,13 @@
     "messageformat": "Έχεις αποκλείσει τον/την {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Ο/Η {name} έχει αποκλειστεί"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Ο/Η {name} έχει αποκλειστεί"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Δεν θα λαμβάνεις τον ήχο ή την εικόνα του/της και δεν θα λαμβάνει τα δικά σου."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Αδυναμία λήψης ήχου και εικόνας από τον/την {name}"
@@ -5546,6 +5546,6 @@
     "messageformat": "Διορθώσαμε ένα σφάλμα που εμπόδιζε την εμφάνιση του κουμπιού ελαχιστοποίησης μιας κλήσης ενώ γινόταν επανασύνδεση της κλήσης."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Διορθώσαμε ένα σφάλμα που μερικές φορές εμπόδιζε το Signal να εκκινήσει το πρόγραμμα προβολής αυτοκόλλητων αν προσπαθούσες να ανοίξεις έναν σύνδεσμο πακέτου αυτοκόλλητων ενώ η εφαρμογή ήταν κλειστή."
   }
 }

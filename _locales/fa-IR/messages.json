@@ -81,10 +81,10 @@
     "messageformat": "نسخه پایگاه داده شما با این نسخه سیگنال مطابقت ندارد. مطمئن شوید که جدیدترین نسخه سیگنال را در رایانه‌تان باز می‌کنید."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "خطای پایگاه داده رخ داد. می‌توانید خطا را کپی کنید و برای کمک به رفع مشکل با پشتیبانی سیگنال تماس بگیرید. اگر بلافاصله نیاز به استفاده از سیگنال دارید، می‌توانید سعی کنید داده‌هایتان را بازیابی کنید.\n\nتماس با پشتیبانی با مراجعه به: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "بازیابی داده‌ها"
   },
   "icu:mainMenuFile": {
     "messageformat": "&فایل"
@@ -1404,13 +1404,13 @@
     "messageformat": "شما {name} را مسدود کرده‌اید"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} مسدود شده است"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} مسدود شده است"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "شما صدا و تصویر آ‌ن‌ها را دریافت نمی‌کنید و آن‌ها هم صدا و تصویر شما را دریافت نخواهند کرد."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "دریافت صدا و تصویر از {name} ممکن نیست"
@@ -5546,6 +5546,6 @@
     "messageformat": "اشکالی را رفع کردیم که اجازه نمی‌داد وقتی تماس در حال اتصال مجدد است، دکمه کوچک‌سازی تماس ظاهر شود."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "اشکالی را برطرف کردیم که وقتی حین بسته بودن برنامه سعی در باز کردن بسته استیکر داشتید، مانع راه‌اندازی نمایشگر استیکر در سیگنال می‌شد."
   }
 }

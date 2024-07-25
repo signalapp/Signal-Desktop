@@ -81,10 +81,10 @@
     "messageformat": "Məlumat bazanızın versiyası Signal-ın bu versiyasına uyğun gəlmir. Kompüterinizdə Signal-ın ən son versiyasını açdığınızdan əmin olun."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Məlumat bazası ilə əlaqəli xəta baş verdi. Xətanın surətini köçürüb, problemin həlli üçün Signal dəstək xidməti ilə əlaqə saxlaya bilərsiniz. Signal-dan dərhal indi istifadə etməlisinizsə verilənlərinizin bərpasına cəhd edə bilərsiniz.\n\n{link} keçidinə daxil olaraq dəstək xidməti ilə əlaqə saxlayın."
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Verilənləri bərpa et"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fayl"
@@ -1404,13 +1404,13 @@
     "messageformat": "{name} adlı istifadəçini blokladınız"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} bloklandı"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} bloklandı"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Onların göndərdiyi səs və ya görüntünü almayacaqsınız və onlar da sizin göndərdiklərinizi almayacaq."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} əlaqəsindən səs və ya görüntü alına bilmir"
@@ -5546,6 +5546,6 @@
     "messageformat": "Zəngin yenidən qoşulması zamanı həmin zəng görünüşünü piktoqram şəklində kiçiltmə düyməsinin qarşısını alan xətanı aradan qaldırdıq. Artıq internet bağlantınız kəsilsə belə əvvəlki çatlarla bağlantını kəsməli olmayacaqsınız."
   },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Stikerlərə klikləyən hər kəs üçün işləri daha da asanlaşdırmaq məqsədilə tətbiq bağlı ikən stiker paketi keçidini açmağa cəhd etdiyiniz zaman, bəzi hallarda Signal-ın stikerə baxışı aktivləşdirməsinə mane olması ilə bağlı səhvi aradan qaldırdıq."
   }
 }
