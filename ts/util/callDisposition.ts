@@ -566,7 +566,9 @@ export function transitionCallHistory(
     strictAssert(callHistory.callId === callId, 'callId must be same');
     strictAssert(callHistory.peerId === peerId, 'peerId must be same');
     strictAssert(
-      ringerId == null || callHistory.ringerId === ringerId,
+      ringerId == null ||
+        callHistory.ringerId == null ||
+        callHistory.ringerId === ringerId,
       'ringerId must be same if it exists'
     );
     strictAssert(callHistory.direction === direction, 'direction must be same');

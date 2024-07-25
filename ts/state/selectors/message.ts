@@ -1448,10 +1448,10 @@ export function getPropsForCallHistory(
   const isSelectMode = selectedMessageIds != null;
 
   let callCreator: ConversationType | null = null;
-  if (callHistory.ringerId) {
-    callCreator = conversationSelector(callHistory.ringerId);
-  } else if (callHistory.direction === CallDirection.Outgoing) {
+  if (callHistory.direction === CallDirection.Outgoing) {
     callCreator = conversationSelector(ourConversationId);
+  } else if (callHistory.ringerId) {
+    callCreator = conversationSelector(callHistory.ringerId);
   }
 
   if (callHistory.mode === CallMode.Direct) {
