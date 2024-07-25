@@ -1,5 +1,4 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import Sinon from 'sinon';
 import { AvatarSize } from '../../components/avatar/Avatar';
@@ -19,7 +18,6 @@ describe('AvatarPlaceHolder', () => {
 
   afterEach(() => {
     Sinon.restore();
-    cleanup();
   });
 
   it('should render an svg', async () => {
@@ -55,11 +53,12 @@ describe('AvatarPlaceHolder', () => {
 
     expect(areResultsEqual(result, result2, true)).to.equal(true);
     result.unmount();
+    result2.unmount();
   });
   it('should render the background using a color from our theme', async () => {
     const testPubkey = TestUtils.generateFakePubKeyStr();
     const result = renderComponent(
-      // NOTE we test the pubkey to color generation and ordering with appium. Since we can't access the value of a css variable in the test
+      // NOTE we need to test the pubkey to color generation and ordering with appium. Since we can't access the value of a css variable in with the current unit test setup
       <AvatarPlaceHolder
         diameter={AvatarSize.XL}
         name={displayName}

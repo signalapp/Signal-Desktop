@@ -1,5 +1,4 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import Sinon from 'sinon';
 import { SessionInput } from '../../components/inputs';
@@ -15,7 +14,6 @@ describe('SessionInput', () => {
 
   afterEach(() => {
     Sinon.restore();
-    cleanup();
   });
 
   it('should render an input', async () => {
