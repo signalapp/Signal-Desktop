@@ -105,7 +105,7 @@ export function convertFilePointerToAttachment(
       cdnNumber: transitCdnNumber ?? undefined,
       key: key?.length ? Bytes.toBase64(key) : undefined,
       digest: digest?.length ? Bytes.toBase64(digest) : undefined,
-      size: size ?? 0,
+      size: size?.toNumber() ?? 0,
       backupLocator: mediaName
         ? {
             mediaName,
@@ -401,7 +401,7 @@ function getBackupLocator(attachment: AttachmentDownloadableFromBackupTier) {
     cdnNumber: attachment.backupLocator.cdnNumber,
     digest: Bytes.fromBase64(attachment.digest),
     key: Bytes.fromBase64(attachment.key),
-    size: attachment.size,
+    size: Long.fromNumber(attachment.size),
     transitCdnKey: attachment.cdnKey,
     transitCdnNumber: attachment.cdnNumber,
   });

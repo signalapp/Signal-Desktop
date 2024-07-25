@@ -353,6 +353,7 @@ export class BackupExportStream extends Readable {
             wallpaperPreset: attributes.wallpaperPreset,
             color: attributes.conversationColor,
             customColorId: attributes.customColorId,
+            dimWallpaperInDarkMode: attributes.dimWallpaperInDarkMode,
           }),
         },
       });
@@ -546,7 +547,7 @@ export class BackupExportStream extends Readable {
             storage.get('phoneNumberDiscoverability')
           ) === PhoneNumberDiscoverability.NotDiscoverable,
         preferContactAvatars: storage.get('preferContactAvatars'),
-        universalExpireTimer: storage.get('universalExpireTimer'),
+        universalExpireTimerSeconds: storage.get('universalExpireTimer'),
         preferredReactionEmoji,
         displayBadgesOnProfile: storage.get('displayBadgesOnProfile'),
         keepMutedChatsArchived: storage.get('keepMutedChatsArchived'),
@@ -1166,7 +1167,10 @@ export class BackupExportStream extends Readable {
 
     if (isExpirationTimerUpdate(message)) {
       const expiresInSeconds = message.expirationTimerUpdate?.expireTimer;
-      const expiresInMs = (expiresInSeconds ?? 0) * 1000;
+      const expiresInMs =
+        expiresInSeconds == null
+          ? 0
+          : DurationInSeconds.toMillis(expiresInSeconds);
 
       const conversation = window.ConversationController.get(
         message.conversationId
@@ -1176,7 +1180,7 @@ export class BackupExportStream extends Readable {
         const groupChatUpdate = new Backups.GroupChangeChatUpdate();
 
         const timerUpdate = new Backups.GroupExpirationTimerUpdate();
-        timerUpdate.expiresInMs = expiresInMs;
+        timerUpdate.expiresInMs = Long.fromNumber(expiresInMs);
 
         const sourceServiceId = message.expirationTimerUpdate?.sourceServiceId;
         if (sourceServiceId && Aci.parseFromServiceIdString(sourceServiceId)) {
@@ -1204,7 +1208,7 @@ export class BackupExportStream extends Readable {
       }
 
       const expirationTimerChange = new Backups.ExpirationTimerChatUpdate();
-      expirationTimerChange.expiresInMs = expiresInMs;
+      expirationTimerChange.expiresInMs = Long.fromNumber(expiresInMs);
 
       updateMessage.expirationTimerChange = expirationTimerChange;
 
@@ -2301,6 +2305,10 @@ export class BackupExportStream extends Readable {
       wallpaperPreset: window.storage.get('defaultWallpaperPreset'),
       color: defaultColor?.color,
       customColorId: defaultColor?.customColorData?.id,
+      dimWallpaperInDarkMode: window.storage.get(
+        'defaultDimWallpaperInDarkMode',
+        false
+      ),
     });
   }
 
@@ -2309,8 +2317,11 @@ export class BackupExportStream extends Readable {
     wallpaperPreset,
     color,
     customColorId,
+    dimWallpaperInDarkMode,
   }: LocalChatStyle): Backups.IChatStyle {
-    const result: Backups.IChatStyle = {};
+    const result: Backups.IChatStyle = {
+      dimWallpaperInDarkMode,
+    };
 
     if (Bytes.isNotEmpty(wallpaperPhotoPointer)) {
       result.wallpaperPhoto = Backups.FilePointer.decode(wallpaperPhotoPointer);

@@ -336,6 +336,7 @@ export type ConversationAttributesType = {
   // Set at backup import time, exported as is.
   wallpaperPhotoPointerBase64?: string;
   wallpaperPreset?: number;
+  dimWallpaperInDarkMode?: boolean;
 
   discoveredUnregisteredAt?: number;
   firstUnregisteredAt?: number;

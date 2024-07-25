@@ -66,7 +66,7 @@ message AccountData {
     bool linkPreviews = 4;
     bool notDiscoverableByPhoneNumber = 5;
     bool preferContactAvatars = 6;
-    uint32 universalExpireTimer = 7; // 0 means no universal expire timer.
+    uint32 universalExpireTimerSeconds = 7; // 0 means no universal expire timer.
     repeated string preferredReactionEmoji = 8;
     bool displayBadgesOnProfile = 9;
     bool keepMutedChatsArchived = 10;
@@ -305,15 +305,6 @@ message DistributionList {
   repeated uint64 memberRecipientIds = 4; // generated recipient id
 }
 
-message Identity {
-  bytes serviceId = 1;
-  bytes identityKey = 2;
-  uint64 timestamp = 3;
-  bool firstUse = 4;
-  bool verified = 5;
-  bool nonblockingApproval = 6;
-}
-
 message ChatItem {
   message IncomingMessageDetails {
     uint64 dateReceived = 1;
@@ -518,12 +509,6 @@ message ContactAttachment {
   optional string organization = 7;
 }
 
-message DocumentMessage {
-  Text text = 1;
-  FilePointer document = 2;
-  repeated Reaction reactions = 3;
-}
-
 message StickerMessage {
   Sticker sticker = 1;
   repeated Reaction reactions = 2;
@@ -570,7 +555,7 @@ message MessageAttachment {
   bool wasDownloaded = 3;
   // Cross-client identifier for this attachment among all attachments on the
   // owning message. See: SignalService.AttachmentPointer.clientUuid.
-  optional bytes clientUuid = 4; 
+  optional bytes clientUuid = 4;
 }
 
 message FilePointer {
@@ -583,7 +568,7 @@ message FilePointer {
     optional uint32 cdnNumber = 2;
     bytes key = 3;
     bytes digest = 4;
-    uint32 size = 5;
+    uint64 size = 5;
     // Fallback in case backup tier upload failed.
     optional string transitCdnKey = 6;
     optional uint32 transitCdnNumber = 7;
@@ -759,7 +744,7 @@ message SimpleChatUpdate {
     IDENTITY_VERIFIED = 3;
     IDENTITY_DEFAULT = 4; // marking as unverified
     CHANGE_NUMBER = 5;
-    BOOST_REQUEST = 6;
+    RELEASE_CHANNEL_DONATION_REQUEST = 6;
     END_SESSION = 7;
     CHAT_SESSION_REFRESH = 8;
     BAD_DECRYPT = 9;
@@ -774,7 +759,7 @@ message SimpleChatUpdate {
 // For 1:1 chat updates only.
 // For group thread updates use GroupExpirationTimerUpdate.
 message ExpirationTimerChatUpdate {
-  uint32 expiresInMs = 1; // 0 means the expiration timer was disabled
+  uint64 expiresInMs = 1; // 0 means the expiration timer was disabled
 }
 
 message ProfileChangeChatUpdate {
@@ -1040,7 +1025,7 @@ message GroupV2MigrationDroppedMembersUpdate {
 
 // For 1:1 timer updates, use ExpirationTimerChatUpdate.
 message GroupExpirationTimerUpdate {
-  uint32 expiresInMs = 1; // 0 means the expiration timer was disabled
+  uint64 expiresInMs = 1; // 0 means the expiration timer was disabled
   optional bytes updaterAci = 2;
 }
 
@@ -1052,7 +1037,7 @@ message StickerPack {
 message ChatStyle {
   message Gradient {
     uint32 angle = 1; // degrees
-    repeated uint32 colors = 2;
+    repeated fixed32 colors = 2;
     repeated float positions = 3; // percent from 0 to 1
   }
 
@@ -1060,7 +1045,7 @@ message ChatStyle {
     uint32 id = 1;
 
     oneof color {
-      uint32 solid = 2;
+      fixed32 solid = 2;
       Gradient gradient = 3;
     }
   }
@@ -1133,4 +1118,6 @@ message ChatStyle {
     // See AccountSettings.customChatColors
     uint32 customColorId = 5;
   }
+
+  bool dimWallpaperInDarkMode = 7;
 }
