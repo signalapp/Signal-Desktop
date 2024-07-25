@@ -40,11 +40,16 @@ const StyledNoResults = styled.div`
 `;
 
 const StyledGroupMemberListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
   padding: 0;
   width: 100%;
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
+  flex-grow: 1;
+  flex-shrink: 1;
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
 
