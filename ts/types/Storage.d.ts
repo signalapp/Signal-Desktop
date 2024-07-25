@@ -68,6 +68,7 @@ export type StorageAccessType = {
   // Not used UI, stored as is when imported from backup.
   defaultWallpaperPhotoPointer: Uint8Array;
   defaultWallpaperPreset: number;
+  defaultDimWallpaperInDarkMode: boolean;
 
   customColors: CustomColorsItemType;
   device_name: string;

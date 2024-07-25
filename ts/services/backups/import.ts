@@ -548,10 +548,10 @@ export class BackupImportStream extends Writable {
       'preferContactAvatars',
       accountSettings?.preferContactAvatars === true
     );
-    if (accountSettings?.universalExpireTimer) {
+    if (accountSettings?.universalExpireTimerSeconds) {
       await storage.put(
         'universalExpireTimer',
-        accountSettings.universalExpireTimer
+        accountSettings.universalExpireTimerSeconds
       );
     }
     await storage.put(
@@ -646,6 +646,12 @@ export class BackupImportStream extends Writable {
       await window.storage.put(
         'defaultWallpaperPreset',
         defaultChatStyle.wallpaperPreset
+      );
+    }
+    if (defaultChatStyle.dimWallpaperInDarkMode != null) {
+      await window.storage.put(
+        'defaultDimWallpaperInDarkMode',
+        defaultChatStyle.dimWallpaperInDarkMode
       );
     }
 
@@ -1011,6 +1017,9 @@ export class BackupImportStream extends Writable {
     if (chatStyle.customColorData != null) {
       conversation.customColor = chatStyle.customColorData.value;
       conversation.customColorId = chatStyle.customColorData.id;
+    }
+    if (chatStyle.dimWallpaperInDarkMode != null) {
+      conversation.dimWallpaperInDarkMode = chatStyle.dimWallpaperInDarkMode;
     }
 
     this.updateConversation(conversation);
@@ -1731,10 +1740,9 @@ export class BackupImportStream extends Writable {
       const { expiresInMs } = updateMessage.expirationTimerChange;
 
       const sourceServiceId = author?.serviceId ?? aboutMe.aci;
-      const expireTimer =
-        isNumber(expiresInMs) && expiresInMs
-          ? DurationInSeconds.fromMillis(expiresInMs)
-          : DurationInSeconds.fromSeconds(0);
+      const expireTimer = DurationInSeconds.fromMillis(
+        expiresInMs?.toNumber() ?? 0
+      );
 
       return {
         message: {
@@ -2359,10 +2367,9 @@ export class BackupImportStream extends Writable {
           );
         }
         const sourceServiceId = fromAciObject(Aci.fromUuidBytes(updaterAci));
-        const expireTimer =
-          isNumber(expiresInMs) && expiresInMs
-            ? DurationInSeconds.fromMillis(expiresInMs)
-            : undefined;
+        const expireTimer = expiresInMs
+          ? DurationInSeconds.fromMillis(expiresInMs.toNumber())
+          : undefined;
         additionalMessages.push({
           type: 'timer-notification',
           sourceServiceId,
@@ -2483,9 +2490,10 @@ export class BackupImportStream extends Writable {
         return {
           type: 'delivery-issue',
         };
-      case Type.BOOST_REQUEST:
+      case Type.RELEASE_CHANNEL_DONATION_REQUEST:
         log.warn('backups: dropping boost request from release notes');
         return undefined;
+      // TODO(indutny): REPORTED_SPAM
       case Type.PAYMENTS_ACTIVATED:
         return {
           payment: {
@@ -2596,11 +2604,13 @@ export class BackupImportStream extends Writable {
         wallpaperPreset: undefined,
         color: 'ultramarine',
         customColorData: undefined,
+        dimWallpaperInDarkMode: undefined,
       };
     }
 
     let wallpaperPhotoPointer: Uint8Array | undefined;
     let wallpaperPreset: number | undefined;
+    const dimWallpaperInDarkMode = dropNull(chatStyle.dimWallpaperInDarkMode);
 
     if (chatStyle.wallpaperPhoto) {
       wallpaperPhotoPointer = Backups.FilePointer.encode(
@@ -2700,7 +2710,13 @@ export class BackupImportStream extends Writable {
       customColorData = entry;
     }
 
-    return { wallpaperPhotoPointer, wallpaperPreset, color, customColorData };
+    return {
+      wallpaperPhotoPointer,
+      wallpaperPreset,
+      color,
+      customColorData,
+      dimWallpaperInDarkMode,
+    };
   }
 }
 

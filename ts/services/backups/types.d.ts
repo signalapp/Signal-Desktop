@@ -14,4 +14,5 @@ export type LocalChatStyle = Readonly<{
   wallpaperPreset: number | undefined;
   color: ConversationColorType | undefined;
   customColorId: string | undefined;
+  dimWallpaperInDarkMode: boolean | undefined;
 }>;
