@@ -81,10 +81,16 @@
     "messageformat": "De versie van je database komt niet overeen met deze versie van Signal. Zorg ervoor dat je de nieuwste versie van Signal op je computer opent."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Er is een databasefout opgetreden. Je kunt de foutmelding kopiëren en contact opnemen met Signal Support om het probleem op te lossen. Als je Signal meteen wilt gebruiken, kun je proberen je gegevens te herstellen.\n\nGa naar {link} voor contact met support."
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Gegevens herstellen"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Bestand"
@@ -420,7 +426,7 @@
     "messageformat": "Het veiligheidsnummer dat je wilt verifiëren is veranderd. Controleer je nieuwe veiligheidsnummer met {name1}. Dit kan betekenen dat iemand je communicatie probeert te onderscheppen, of gewoon dat {name2} Signal opnieuw heeft geïnstalleerd."
   },
   "icu:safetyNumberChangeDialog__message": {
-    "messageformat": "De volgende personen hebben Signal mogelijk opnieuw geïnstalleerd of kunnen van toestel zijn veranderd. Tik op een ontvanger om het nieuwe veiligheidsnummer te bevestigen. Dit is optioneel"
+    "messageformat": "De volgende personen hebben Signal mogelijk opnieuw geïnstalleerd of kunnen van toestel zijn veranderd. Tik op een ontvanger om het nieuwe veiligheidsnummer te bevestigen. Dit is optioneel."
   },
   "icu:safetyNumberChangeDialog__pending-messages": {
     "messageformat": "Berichten in afwachting verzenden"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "Signal kon niet worden bijgewerkt. {retry} of bezoek {url} om Signal handmatig te installeren. Neem vervolgens {support} over dit probleem zodat we het in de toekomst kunnen voorkomen."
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal kan niet worden bijgewerkt. Bezoek {url} om handmatig een nieuwere versie te installeren. Neem vervolgens over dit probleem {support}."
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop bevindt zich waarschijnlijk in een MacOS quarantaine, waardoor het niet automatisch kan bijwerken. Probeer de directory {app} met Finder naar {folder} te verplaatsen."
@@ -1011,7 +1023,7 @@
     "messageformat": "Verlaten"
   },
   "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
-    "messageformat": "Voordat je de groep verlaat, moet je ten minste één beheerder aanwijzen voor deze groep."
+    "messageformat": "Voordat je de groep verlaat moet je ten minste één beheerder aanwijzen voor deze groep."
   },
   "icu:sessionEnded": {
     "messageformat": "Beveiligde sessie opnieuw ingesteld"
@@ -1101,7 +1113,7 @@
     "messageformat": "Gekoppelde apparaten"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Nieuw apparaat koppelen"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "Meer informatie"
@@ -1119,7 +1131,7 @@
     "messageformat": "Instellingen"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tik op {plusButton} (Android) of {linkNewDevice} (iPhone)"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "De QR-code kon niet worden geladen. Controleer je internetverbinding en probeer het opnieuw. <retry>Opnieuw proberen</retry>"
@@ -1404,13 +1416,13 @@
     "messageformat": "Je hebt {name} geblokkeerd"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} is geblokkeerd"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} is geblokkeerd"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Je kunt hen niet zien of horen en zij kunnen jou niet zien of horen."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Kan geen audio en video van {name} ontvangen"
@@ -1836,7 +1848,7 @@
     "messageformat": "Probeer Signal opnieuw bij te werken"
   },
   "icu:autoUpdateContactSupport": {
-    "messageformat": "contact opnemen met ondersteuning"
+    "messageformat": "contact op met ondersteuning"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Klik hier om Signal opnieuw te starten"
@@ -2430,7 +2442,7 @@
     "messageformat": "Chat gemarkeerd als ongelezen"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Je moet eerst Signal in gebruik nemen op je telefoon en op je desktop voor je de stickermaker kunt gebruiken"
+    "messageformat": "Je moet eerst Signal in gebruik nemen op je telefoon en op je desktop voordat je de stickermaker kunt gebruiken"
   },
   "icu:Reactions--remove": {
     "messageformat": "Reactie verwijderen"
@@ -3114,13 +3126,13 @@
     "messageformat": "Beheerdersgoedkeuring van nieuwe leden is ingeschakeld voor de groepslink."
   },
   "icu:GroupV2--member-add--invited--you": {
-    "messageformat": "Je hebt uitgenodigd persoon {inviteeName} aan de groep toegevoegd."
+    "messageformat": "Je hebt uitgenodigd persoon {inviteeName} toegevoegd."
   },
   "icu:GroupV2--member-add--invited--other": {
-    "messageformat": "{memberName} heeft uitgenodigd persoon {inviteeName} aan de groep toegevoegd."
+    "messageformat": "{memberName} heeft uitgenodigd persoon {inviteeName} toegevoegd."
   },
   "icu:GroupV2--member-add--invited--unknown": {
-    "messageformat": "Een lid van de groep heeft uitgenodigd persoon {inviteeName} aan de groep toegevoegd."
+    "messageformat": "Een lid van de groep heeft uitgenodigd persoon {inviteeName} toegevoegd."
   },
   "icu:GroupV2--member-add--from-invite--other": {
     "messageformat": "{inviteeName} heeft de groepsuitnodiging van {inviterName} geaccepteerd."
@@ -3429,7 +3441,7 @@
     "messageformat": "De leden of instellingen van deze groep zijn gewijzigd."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Upgrade deze groep om nieuwe functies zoals @vermeldingen en beheerders te activeren. Leden die hun naam of foto niet in deze groep hebben gedeeld, worden uitgenodigd om lid te worden. <learnMoreLink>Meer informatie.</learnMoreLink>"
+    "messageformat": "Werk deze groep bij om nieuwe functies zoals @vermeldingen en beheerders te activeren. Leden die hun naam of profielfoto niet in deze groep hebben gedeeld, worden uitgenodigd om lid te worden. <learnMoreLink>Meer informatie.</learnMoreLink>"
   },
   "icu:GroupV1--Migration--was-upgraded": {
     "messageformat": "Deze groep is omgezet in een nieuwe-stijl groep."
@@ -3651,7 +3663,7 @@
     "messageformat": "Groep deblokkeren"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
-    "messageformat": "Voor je de groep verlaat moet je ten minste één beheerder aanwijzen voor deze groep."
+    "messageformat": "Voordat je de groep verlaat moet je ten minste één beheerder aanwijzen voor deze groep."
   },
   "icu:ConversationDetailsActions--leave-group-modal-title": {
     "messageformat": "Wil je de groep echt verlaten?"
@@ -4932,7 +4944,7 @@
     "messageformat": "Verhaalnaam (vereist)"
   },
   "icu:StoriesSettings__hide-story": {
-    "messageformat": "Verberg dit verhaal van"
+    "messageformat": "Verberg dit verhaal voor"
   },
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "Alle Signal-contacten"
@@ -5214,7 +5226,7 @@
     "messageformat": "Verhaal"
   },
   "icu:Quote__story-reaction": {
-    "messageformat": "Reageerde op het verhaal van {name}"
+    "messageformat": "Reageerde op een verhaal van {name}"
   },
   "icu:Quote__story-reaction--you": {
     "messageformat": "Reageerde op je verhaal"
@@ -5542,10 +5554,10 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "We hebben een bug opgelost waardoor de knop waarmee je een oproep minimaliseert niet verscheen als een oproep opnieuw werd verbonden. Zo blijf je verbonden met eerdere chats, zelfs als het internet dat niet is."
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "We wilden stickergebruik gemakkelijker maken. Daarom hebben we een bug gefixt waardoor je soms het stickerpakket niet te zien kreeg als je probeerde een link naar een stickerpakket te openen terwijl de app gesloten was."
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

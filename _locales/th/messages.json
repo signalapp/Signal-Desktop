@@ -81,10 +81,16 @@
     "messageformat": "เวอร์ชันฐานข้อมูลของคุณไม่ตรงกับ Signal เวอร์ชันนี้ ตรวจสอบให้แน่ใจว่า Signal ที่คุณเปิดอยู่บนคอมพิวเตอร์เป็นเวอร์ชันล่าสุด"
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "เกิดข้อผิดพลาดด้านฐานข้อมูล คุณสามารถคัดลอกข้อมูลความผิดพลาดนี้แล้วติดต่อฝ่ายสนับสนุนของ Signal ให้ช่วยแก้ไขปัญหาดังกล่าว ในกรณีที่คุณต้องการใช้ Signal ทันที คุณสามารถพยายามกู้คืนข้อมูลของคุณได้\n\nติดต่อฝ่ายสนับสนุนโดยไปที่: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "กู้คืนข้อมูล"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "แ&ฟ้ม"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "ไม่สามารถปรับรุ่น Signal ได้ กรุณา {retry} หรือไปที่ {url} เพื่อติดตั้งด้วยตัวเอง จากนั้น {support} ปัญหานี้"
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "ไม่สามารถปรับรุ่น Signal ได้ ไปที่ {url} เพื่อติดตั้งด้วยตัวเอง จากนั้น {support} ปัญหานี้"
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "ดูเหมือนว่า Signal Desktop จะถูก macOS กักบริเวณและไม่สามารถปรับปรุงตัวเองได้อัตโนมัติ ลองย้าย  {app} ไปที่  {folder} ด้วย Finder"
@@ -1101,7 +1113,7 @@
     "messageformat": "อุปกรณ์ที่เชื่อมโยง"
   },
   "icu:linkNewDevice": {
-    "messageformat": "เชื่อมโยงอุปกรณ์ใหม่"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "เรียนรู้เพิ่มเติม"
@@ -1119,7 +1131,7 @@
     "messageformat": "การตั้งค่า"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "แตะ {plusButton} (Android) หรือ {linkNewDevice} (iPhone)"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "ไม่สามารถโหลดคิวอาร์โค้ดได้ ตรวจสอบอินเทอร์เน็ตแล้วลองอีกครั้ง <retry>ลองอีกครั้ง</retry>"
@@ -1404,13 +1416,13 @@
     "messageformat": "คุณบล็อก {name} แล้ว"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} ถูกบล็อกอยู่"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} ถูกบล็อกอยู่"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "คุณจะไม่ได้รับเสียงหรือวิดีโอของพวกเขา และพวกเขาจะไม่ได้รับเสียงและวิดีโอของคุณ"
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "ไม่สามารถเสียงและวิดีโอจาก {name}"
@@ -5542,10 +5554,10 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "เราแก้ไขบั๊กที่ทำให้ปุ่มย่อหน้าต่างการโทรหายไปในระหว่างที่ระบบกำลังเชื่อมต่อสายนั้นใหม่"
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "เราแก้ไขบั๊กที่อาจเคยทำให้ Signal ไม่สามารถเปิดหน้าสติกเกอร์ในกรณีที่คุณพยายามเปิดลิงก์ของชุดสติกเกอร์ขณะที่แอปปิดอยู่"
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

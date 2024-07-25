@@ -81,10 +81,16 @@
     "messageformat": "Məlumat bazanızın versiyası Signal-ın bu versiyasına uyğun gəlmir. Kompüterinizdə Signal-ın ən son versiyasını açdığınızdan əmin olun."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Məlumat bazası ilə əlaqəli xəta baş verdi. Xətanın surətini köçürüb, problemin həlli üçün Signal dəstək xidməti ilə əlaqə saxlaya bilərsiniz. Signal-dan dərhal indi istifadə etməlisinizsə verilənlərinizin bərpasına cəhd edə bilərsiniz.\n\n{link} keçidinə daxil olaraq dəstək xidməti ilə əlaqə saxlayın."
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Verilənləri bərpa et"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fayl"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "Signal yenilənə bilmədi. {retry} və ya əllə quraşdırmaq üçün {url} ünvanını ziyarət edin. Daha sonra bu problem barədə {support}"
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal yenilənə bilmədi. Əllə quraşdırmaq üçün {url} ünvanını ziyarət edin. Daha sonra bu problem barədə {support}"
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Masaüstü, böyük ehtimalla macOS karantinindədir və avtomatik yenilənə bilməyəcək. Zəhmət olmasa Finder ilə {app} tətbiqini {folder} qovluğuna köçürün."
@@ -1101,7 +1113,7 @@
     "messageformat": "Əlaqə yaradılmış cihazlar"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Yeni cihazla əlaqə yarat"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "Daha ətraflı"
@@ -1119,7 +1131,7 @@
     "messageformat": "Tənzimləmələr"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Android üçün {plusButton}, iPhone üçün {linkNewDevice} düyməsinə toxunun"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR kodunu yükləmək mümkün olmadı. İnternet bağlantınızı yoxlayıb, yenidən cəhd edin. <retry>Yenidən cəhd et</retry>"
@@ -1404,13 +1416,13 @@
     "messageformat": "{name} adlı istifadəçini blokladınız"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} bloklandı"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} bloklandı"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Onların göndərdiyi səs və ya görüntünü almayacaqsınız və onlar da sizin göndərdiklərinizi almayacaq."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} əlaqəsindən səs və ya görüntü alına bilmir"
@@ -5542,10 +5554,10 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "Zəngin yenidən qoşulması zamanı həmin zəng görünüşünü piktoqram şəklində kiçiltmə düyməsinin qarşısını alan xətanı aradan qaldırdıq. Artıq internet bağlantınız kəsilsə belə əvvəlki çatlarla bağlantını kəsməli olmayacaqsınız."
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Stikerlərə klikləyən hər kəs üçün işləri daha da asanlaşdırmaq məqsədilə tətbiq bağlı ikən stiker paketi keçidini açmağa cəhd etdiyiniz zaman, bəzi hallarda Signal-ın stikerə baxışı aktivləşdirməsinə mane olması ilə bağlı səhvi aradan qaldırdıq."
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

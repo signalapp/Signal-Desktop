@@ -81,10 +81,16 @@
     "messageformat": "កំណែនៃមូលដ្ឋានទិន្នន័យរបស់អ្នកមិនត្រូវគ្នានឹងកំណែរបស់ Signal នេះទេ។ ត្រូវប្រាកដថាអ្នកកំពុងបើកកំណែថ្មីបំផុតនៃ Signal នៅលើកុំព្យូទ័ររបស់អ្នក។"
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "បញ្ហាមូលដ្ឋានទិន្នន័យបានកើតឡើង។ អ្នកអាចចម្លងបញ្ហានេះ ហើយទាក់ទងផ្នែកជំនួយរបស់ Signal ឱ្យជួយដោះស្រាយ។ ប្រសិនបើអ្នកត្រូវការប្រើ Signal ភ្លាមៗ អ្នកអាចព្យាយាមស្តារទិន្នន័យរបស់អ្នក។\n\nទាក់ទងផ្នែកជំនួយដោយចូលទៅកាន់៖ {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "ស្តារទិន្នន័យ"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&ឯកសារ"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "Signal មិនអាចដំឡើងកំណែបានទេ។ {retry} ឬចូលទៅកាន់ {url} ដើម្បីដំឡើងវាដោយផ្ទាល់។ បន្ទាប់មក {support} អំពីបញ្ហានេះ"
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal មិនអាចដំឡើងកំណែបានទេ។ ចូលទៅកាន់ {url}ដើម្បីដំឡើងវាដោយផ្ទាល់។ បន្ទាប់មក {support} អំពីបញ្ហានេះ"
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop ហាក់ដូចជាត្រូវបានដាក់ដាច់គេនៅ macOS និងមិនអាចធ្វើបច្ចុប្បន្នភាពដោយស្វ័យប្រវត្តិបានទេ។​ សូមសាកល្បងផ្លាស់ប្តូរ {app} ទៅ {folder} ជាមួយ Finder។"
@@ -1101,7 +1113,7 @@
     "messageformat": "ឧបករណ៍បានតភ្ជាប់"
   },
   "icu:linkNewDevice": {
-    "messageformat": "តភ្ជាប់ឧបករណ៍ថ្មី"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "សិក្សាបន្ថែម"
@@ -1119,7 +1131,7 @@
     "messageformat": "ការកំណត់"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "ចុច {plusButton} (Android) ឬ {linkNewDevice} (iPhone)"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "កូដ QR មិនអាចផ្ទុកបានទេ។ សូមមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។ <retry>ព្យាយាមម្តងទៀត</retry>"
@@ -1404,13 +1416,13 @@
     "messageformat": "អ្នកបានទប់ស្កាត់ {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} ត្រូវបានទប់ស្កាត់"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} ត្រូវបានទប់ស្កាត់"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "អ្នកនឹងមិនទទួលបានសំឡេង ឬវីដេអូរបស់ពួកគេទេ ហើយពួកគេក៏មិនទទួលបានរបស់អ្នកដែរ។"
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "មិនអាចទទួលសំឡេងនិងវីដេអូពី {name}"
@@ -5542,10 +5554,10 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "ចំពោះបញ្ហាដែលធ្វើឱ្យប៊ូតុងបង្រួមការហៅ មិនឃើញបង្ហាញឡើង ពេលដែលការហៅនោះកំពុងភ្ជាប់ឡើងវិញនោះ យើងបានដោះស្រាយហើយ។ ឥឡូវនេះ អ្នកលែងមានអារម្មណ៍ថាត្រូវបានផ្តាច់ចេញពីការជជែកមុនៗហើយ ទោះបីជាមានអារម្មណ៍ថាដាច់អ៊ីនធឺណិតក៏ដោយ។"
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "យើងចង់ឱ្យអ្វីៗកាន់តែរលូន និងលឿនជាងមុនសម្រាប់អ្នកចុចស្ទីកគ័រ ដូច្នេះយើងបានដោះស្រាយបញ្ហាមួយដែលជួនកាលធ្វើឱ្យ Signal មិនអាចបើកដំណើរការមុខងារមើលស្ទីកគ័របាន ប្រសិនបើអ្នកព្យាយាមបើកតំណកញ្ចប់ស្ទីកគ័រពេលដែលកម្មវិធីបិទទៅហើយ។"
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

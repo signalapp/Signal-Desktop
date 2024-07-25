@@ -81,10 +81,16 @@
     "messageformat": "Ní hionann an leagan bunachair shonraí atá agat agus an leagan seo de Signal. Cinntigh go bhfuil an leagan is nuaí de Signal á oscailt agat ar do ríomhaire."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Tharla earráid leis an mbunachar sonraí. Is féidir leat an earráid a chóipeáil agus teagmháil a dhéanamh le foireann tacaíochta Signal le cuidiú leis an bhfadhb a réiteach. Más gá duit Signal a úsáid díreach anois, is féidir leat iarracht a dhéanamh do shonraí a aisghabháil.\n\nNasc leis an bhfoireann tacaíochta: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Aisghabh sonraí"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Comhad"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "Níorbh fhéidir le Signal nuashonrú. {retry} nó téigh chuig {url} lena shuiteáil de láimh. Ina dhiaidh sin, {support} faoin fhadhb sin"
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Níorbh fhéidir le Signal nuashonrú. Téigh chuig {url} lena shuiteáil de láimh. Ina dhiaidh sin, {support} faoin fhadhb sin"
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Is cosúil go bhfuil Deasc Signal i gcoraintín macOS, agus ní bheidh sé in ann uath-nuashonrú a dhéanamh. Triail {app} a bhogadh chuig {folder} le hAimsitheoir."
@@ -1101,7 +1113,7 @@
     "messageformat": "Gléasanna Nasctha"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Nasc Gléas Nua"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "Foghlaim tuilleadh"
@@ -1119,7 +1131,7 @@
     "messageformat": "Socruithe"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tapáil {plusButton} (Android) nó {linkNewDevice} (iPhone)"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Níorbh fhéidir an cód QR a lódáil. Seiceáil d'Idirlíon agus triail arís. <retry>Triail arís</retry>"
@@ -1404,13 +1416,13 @@
     "messageformat": "Chuir tú bac ar {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Bac curtha ar {name}"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "Bac curtha ar {name}"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Ní bhfaighidh an duine sin d'fhuaim ná d'fhíseán agus a mhalairt de chás."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Can't receive audio and video from {name}"
@@ -5542,10 +5554,10 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "Réitíomar fabht a chuir cosc ar an gcnaipe taispeáint glao a íoslaghdú le linn don nglao sin a athnascadh. Anois ní gá duit a bhrath go bhfuil tú dínasctha ó chomhráite roimhe seo fiú más rud é go sílfeá go raibh an t-idirlíon dínasctha."
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Réitíomar fabht a chuir bac ar Signal uaireanta an t-amharcóir greamán a lainseáil má rinne tú iarracht nasc le beart greamán a oscailt nuair a bhí an aip dúnta."
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

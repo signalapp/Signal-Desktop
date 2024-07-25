@@ -81,10 +81,16 @@
     "messageformat": "你嘅資料庫版本同呢個 Signal 版本唔相符。請確定你喺電腦用緊嘅係最新版本嘅 Signal。"
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "資料庫發生錯誤。你可以複製錯誤，然後聯絡 Signal 支援團隊幫手解決問題。如果你需要即刻用 Signal，可以試吓恢復資料。\n\n要聯絡支援團隊，請去呢度：{link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "恢復資料"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&File"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "更新唔到 Signal。你可以{retry}，或者前往 {url} 手動安裝，然後{support}呢個問題"
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "更新唔到 Signal。你可以前往 {url} 手動安裝，然後{support}呢個問題"
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal 桌面版似乎喺 macOS 隔離區，而且冇辦法自動更新。請你嘗試用 Finder 將 {app} 移去 {folder}。"
@@ -1101,7 +1113,7 @@
     "messageformat": "連結咗嘅裝置"
   },
   "icu:linkNewDevice": {
-    "messageformat": "連結新裝置"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "了解多啲"
@@ -1119,7 +1131,7 @@
     "messageformat": "設定"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "㩒一吓 {plusButton} (Android) 或者 {linkNewDevice} (iPhone)"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "載入唔到 QR code。請檢查你嘅互聯網，然後再試一次。<retry>再試一次</retry>"
@@ -1404,13 +1416,13 @@
     "messageformat": "你已經封鎖咗 {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "已經封鎖咗 {name}"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "已經封鎖咗 {name}"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "你唔會收到對方嘅語音或者畫面，對方亦都唔會收到你嘅。"
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "收唔到 {name} 嘅聲同畫"
@@ -5542,10 +5554,10 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "我哋修復咗一個錯誤，以後通話重新連線時，將通話最小化嗰個制就唔會再唔見咗喇。"
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "我哋修復咗一個錯誤，以後當你嘗試喺 Signal APP 閂咗嘅時候打開貼圖包連結，就唔會再開唔到貼圖檢視器喇。"
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

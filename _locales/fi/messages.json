@@ -81,10 +81,16 @@
     "messageformat": "Tietokantasi versio ei vastaa tätä Signal-versiota. Varmista, että avaat Signalin uusimman version tietokoneellasi."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Tapahtui tietokantavirhe. Voit kopioida virheen tiedot ja ottaa yhteyttä Signal-tukeen ongelman korjaamiseksi. Jos sinun on käytettävä Signalia heti, voit yrittää tietojen palauttamista.\n\nOta yhteyttä tukeen osoitteessa: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Palauta tiedot"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Tiedosto"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "Päivitys ei onnistunut. {retry} tai asenna päivitys käsin osoitteesta {url}. Sitten {support} ongelmasta."
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Päivitys ei onnistunut. Asenna päivitys käsin osoitteesta {url}. Sitten {support} ongelmasta."
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop on todennäköisesti macOS-karanteenissa, eikä sitä voi päivittää automaattisesti. Yritä siirtää  {app} -sovellus  {folder} -kansioon Finderin avulla."
@@ -1101,7 +1113,7 @@
     "messageformat": "Yhdistetyt laitteet"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Yhdistä uusi laite"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "Lue lisää"
@@ -1119,7 +1131,7 @@
     "messageformat": "Asetukset"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Napauta {plusButton} (Android) tai {linkNewDevice} (iPhone)"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR-koodin lataaminen epäonnistui. Tarkista internetyhteys ja yritä uudelleen. <retry>Yritä uudelleen</retry>"
@@ -1404,13 +1416,13 @@
     "messageformat": "Olet estänyt käyttäjän {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} on estetty"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} on estetty"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Et voi enää käydä ääni- tai videoviestinvaihtoa tämän käyttäjän kanssa."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Ääni- ja videoviestin vastaanottaminen käyttäjältä {name} epäonnistui"
@@ -5542,10 +5554,10 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "Korjasimme virheen, joka esti puhelun pienentävän painikkeen näkymisen puhelun yhdistämisen aikana."
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Korjasimme virheen, joka esti Signalia joskus käynnistämästä tarrankatseluohjelmaa, jos yritit avata tarrapakkauksen linkkiä sovelluksen ollessa suljettuna."
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

@@ -81,10 +81,16 @@
     "messageformat": "Versioni i bazës së të dhënave nuk përputhet me këtë version të Signal. Sigurohu që po hap versionin më të ri të Signal në kompjuterin tënd."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Gabim në bazën e të dhënave. Mund ta kopjosh gabimin dhe të kontaktosh ndihmën nga Signal që të të ndihmojë ta rregullosh problemin. Nëse të duhet ta përdorësh Signal menjëherë, mund të provosh të rikthesh të dhënat e tua.\n\nKontakto ekipin e ndihmës në: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Rikthe të dhënat"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Kartelë"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "Signal-i s’u përditësua dot. {retry}, ose vizitoni {url} që ta instaloni dorazi. Mandej, {support} rreth këtij problemi"
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal-i s’u përditësua dot. Vizitoni {url}, që ta instaloni dorazi. Mandej, {support} rreth këtij problemi"
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal-i për Desktop gjendet në një si punë karantine nga macOS-i, dhe s’do të jetë në gjendje të vetëpërditësohet. Ju lutemi, provoni të kaloni {app} te {folder} me Finder-in."
@@ -1101,7 +1113,7 @@
     "messageformat": "Pajisje të Lidhura"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Lidhini Pajisje të Re"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "Mësoni më tepër"
@@ -1119,7 +1131,7 @@
     "messageformat": "Parametrat"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Prekni {plusButton} (Android) ose {linkNewDevice} (iPhone)"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Kodi QR nuk mundi të ngarkohej. Kontrollo internetin dhe provo sërish. <retry>Riprovo</retry>"
@@ -1404,13 +1416,13 @@
     "messageformat": "Ke bllokuar {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} është bllokuar"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} është bllokuar"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "S’do ta merrni audion ose videon e tyre dhe as ata tuajat."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "S\\’mund të merret audio dhe video prej {name}"
@@ -5542,10 +5554,10 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "Defekti që pengonte shfaqjen e butonit për të minimizuar një telefonatë gjatë rilidhjes së saj u rregullua. Tani nuk ke nevojë të ndihesh i shkëputur nga bisedat e mëparshme edhe nëse interneti duket sikur shkëputet."
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Ne donim që gjërat të ishin më të shkëlqyeshme dhe më të shpejta për klikuesit e ngjitëseve, ndaj rregulluam një defekt që ndonjëherë e pengonte Signal të hapte shikuesin e ngjitëseve nëse përpiqeshe të hapje një lidhje të paketës së ngjitëseve ndërsa aplikacioni ishte i mbyllur."
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

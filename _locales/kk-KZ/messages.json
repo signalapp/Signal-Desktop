@@ -81,10 +81,16 @@
     "messageformat": "Дерекқордың нұсқасы Signal-дың бұл нұсқасына сәйкес келмейді. Компьютеріңізде Signal-дың соңғы нұсқасын ашып отырғаныңзға көз жеткізіңіз."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Дерекқорда қате шықты. Ақауды түзету үшін қатені көшіріп, Signal қолдау көрсету қызметіне хабарласа аласыз. Егер Signal-ды дереу қолдану керек болса, деректерді жойып, оны өшіріп, қайта қосыңыз. \n\nҚолдау көрсету орталығына хабарласыңыз: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Деректерді қалпына келтіру"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Файл"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "Signal жаңартылмады. {retry} немесе {url} бетіне кіріп, оны қолмен орнатыңыз. Содан кейін осы мәселе туралы {support}"
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal-ды жаңарту мүмкін болмады. {url} бетіне кіріп, оны қолмен орнатыңыз. Содан кейін осы мәселе туралы {support}"
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal-дың компьютерлік нұсқасы macOS карантинінде сияқты, сондықтан автоматты түрде жаңартылмайды. Finder арқылы {app} қолданбасын {folder} қалтасына ауыстырып көріңіз."
@@ -1101,7 +1113,7 @@
     "messageformat": "Байланыстырылған құрылғылар"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Жаңа құрылғыны байланыстыру"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "Толық ақпарат"
@@ -1119,7 +1131,7 @@
     "messageformat": "Параметрлер"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "{plusButton} түймесін (Android) немесе {linkNewDevice} түймесін (iPhone) басыңыз"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR коды жүктелмеді. Интернетті тексеріп, қайталап көріңіз. <retry>Қайталап көру</retry>"
@@ -1404,10 +1416,10 @@
     "messageformat": "{name} деген кісіні блоктадыңыз"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} блокталды"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} блокталды"
   },
   "icu:calling__block-info": {
     "messageformat": "You won’t receive their audio or video and they won’t receive yours."
@@ -5542,10 +5554,10 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "Қоңырау қайта қосылып жатқанда қоңыраудың пайда болуын барынша азайтуға кедергі келтірген ақауды түзеттік. Интернет ажырап тұрса да, алдыңғы чаттардан ажырамайтын боласыз."
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Қолданба жабық тұрып, стикерлер жинағы сілтемесін ашқыңыз келгенде, ақау шығып, Signal стикерлерді көрсету құралын аша алмай қалатын. Стикерді пайдаланатын адамдар үшін ыңғайлы әрі жылдам болуы үшін, бұл ақауды түзеттік."
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

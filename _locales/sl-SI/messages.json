@@ -81,10 +81,16 @@
     "messageformat": "Različica vaše zbirke podatkov se ne ujema s to različico Signala. Prepričajte se, da v računalniku odpirate najnovejšo različico Signala."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Prišlo je do napake v zbirki podatkov. Napako lahko kopirate in se obrnete na podporo za Signal, da vam pomaga odpraviti težavo. Če morate Signal uporabiti takoj, lahko poskusite obnoviti podatke.\n\nObrnite se na podporo tako, da obiščete: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Obnovitev podatkov"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Datoteka"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "Signal se ni mogel posodobiti. {retry} ali obiščite {url} za ročno namestitev. Nato, {support} o tem problemu"
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal se ni uspel posodobiti. Za ročno namestitev obiščite {url}. Nato {support} o tem problemu."
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Aplikacija Signal Desktop je najverjetneje v karanteni sistema macOS in se zato ne more samo-nadgraditi. Poskusite premakniti datoteko  {app} v {folder} z orodjem Finder."
@@ -1101,7 +1113,7 @@
     "messageformat": "Povezane naprave"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Poveži novo napravo"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "Preberite več"
@@ -1119,7 +1131,7 @@
     "messageformat": "Nastavitve"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tapnite {plusButton} (Android) ali {linkNewDevice} (iPhone)"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Kode QR ni bilo mogoče naložiti. Preverite svojo internetno povezavo in poskusite znova. <retry>Poskusi znova</retry>"
@@ -1404,13 +1416,13 @@
     "messageformat": "Blokirali ste uporabnika_co {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} je blokiran_a"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} je blokiran_a"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Ne boste prejemali njihovega zvoka ali videa, oni pa ne vašega."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Ne morete prejemati zvoka in videa od uporabnika_ce {name}"
@@ -5542,10 +5554,10 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "Odpravili smo napako, ki je preprečevala, da bi se gumb za minimizacijo klica prikazal, ko se je klic ponovno povezoval. Zdaj se vam ni treba počutiti nepovezanega/-o s prejšnjimi klepeti, tudi če je internet nepovezan."
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Želeli smo, da bi bile stvari za tiste, ki klikajo na nalepke, brezhibne in hitrejše, zato smo odpravili napako, zaradi katere Signal včasih ni mogel zagnati pregledovalnika nalepk, če ste poskušali odpreti povezavo do paketa nalepk, ko je bila aplikacija zaprta."
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

@@ -81,10 +81,16 @@
     "messageformat": "మీ డేటాబేస్ యొక్క వెర్షన్ Signal యొక్క ఈ వెర్షన్‌తో సరిపోలడం లేదు. మీరు మీ కంప్యూటరులో Signal యొక్క తాజా వెర్షన్‌ను తెరుస్తున్నారని నిర్ధారించుకోండి."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "డేటాబేస్ లోపం ఏర్పడింది. మీరు లోపం కాపీ చేసి, సమస్యను పరిష్కరించడంలో సహాయపడటానికి Signal మద్దతును సంప్రదించవచ్చు. ఒకవేళ మీరు Signal ను ఇప్పుడే ఉపయోగించాల్సిన అవసరం ఉంటే, మీరు మీ డేటాను రికవర్ చేయడానికి ప్రయత్నించవచ్చు.\n\nదీనిని సందర్శించడం ద్వారా మద్దతును సంప్రదించండి: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "డేటాను రికవర్ చేయండి"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&పంక్తి"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "Signalని అప్‌డేట్ చేయలేం. దీనిని మాన్యువల్‌గా ఇన్‌స్టాల్ చేయడానికి {retry} లేదా {url}ని సందర్శించండి. తరువాత, ఈ సమస్య గురించి {support}"
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal ని అప్‌డేట్ చేయలేం. దీనిని మాన్యువల్‌గా ఇన్‌స్టాల్ చేయడానికి {url}ని సందర్శించండి. తరువాత, ఈ సమస్య గురించి {support}ని సంప్రదించండి."
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop macOS నిర్బంధంలో ఉండవచ్చు మరియు స్వయంచాలకంగా నవీకరించబడదు. ఫైండర్‌తో {app} నుండి {folder} వరకు తరలించడానికి ప్రయత్నించండి."
@@ -1101,7 +1113,7 @@
     "messageformat": "పరికరాలు అనుసంధానించు"
   },
   "icu:linkNewDevice": {
-    "messageformat": "కొత్త పరికరాన్ని అనుసంధానించు"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "ఇంకా నేర్చుకో"
@@ -1119,7 +1131,7 @@
     "messageformat": "అమరికలు"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "{plusButton} (Android) లేదా {linkNewDevice} (iPhone)ని తట్టండి"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR కోడ్ లోడ్ కాలేకపోయింది. మీ ఇంటర్నెట్‌ను తనిఖీ చేయండి మరియు మళ్ళీ ప్రయత్నించండి. <retry>మళ్ళీ ప్రయత్నించండి</retry>"
@@ -1404,13 +1416,13 @@
     "messageformat": "మీరు {name}ను బ్లాక్ చేశారు"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} బ్లాక్ చేయబడ్డారు"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} బ్లాక్ చేయబడ్డారు"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "మీరు వారి ఆడియో లేదా వీడియోను స్వీకరించరు మరియు వారు మీది స్వీకరించరు."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} నుండి ఆడియో మరియు వీడియోను స్వీకరించలేరు"
@@ -5542,10 +5554,10 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "కాల్ మళ్లీ కనెక్ట్ అవుతున్నప్పుడు కాల్ కనిపించకుండా మినిమైజ్ చేసే బటన్‌ను నిరోధించే బగ్‌ను మేము పరిష్కరించాము. ఒకవేళ ఇంటర్నెట్ డిస్‌కనెక్ట్ అయినట్లు భావించినప్పటికీ మునుపటి చాట్‌ల నుండి డిస్‌కనెక్ట్ అయినట్లు ఇప్పుడు మీరు భావించాల్సిన అవసరం లేదు."
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "యాప్ మూసివేయబడినప్పుడు ఒకవేళ మీరు స్టిక్కర్ ప్యాక్ లింక్‌ను తెరవడానికి ప్రయత్నించినట్లయితే స్టిక్కర్ వ్యూయర్‌ను ప్రారంభించకుండా కొన్నిసార్లు సిగ్నల్‌ను నిరోధించే బగ్‌ను మేము పరిష్కరించాము."
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

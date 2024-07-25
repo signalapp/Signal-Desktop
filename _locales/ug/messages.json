@@ -81,10 +81,16 @@
     "messageformat": "سىزنىڭ ساندانىڭىزنىڭ نەشرى Signalنىڭ بۇ نەشرىگە ماس كەلمەيدۇ. كومپيۇتېرىڭىزدا Signalنىڭ ئەڭ يېڭى نەشىرىنى ئېچىۋاتقانلىقىڭىزنى جەزملەشتۈرۈڭ."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "ئۇچۇر ئامبىرىدا بىرتال خاتالىق كۆرۈلدى. خاتالىقنى كۆچۈرىۋېلىپ ئۇنى ئوڭشاش ئۈچۈن سىگنال ياردەم مەركىزى بىلەن ئالاقىلىشىڭ. سىگنالنى دەرھال ئىشلەتمەكچى بولسىڭىز، سانلىق مەلۇماتلىرىڭىزنى ئەسلىگە كەلتۈرۈشنى سىناپ بېقىڭ.\n\nياردەم تەلەپ قىلىش ئۇلانمىسى: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "سانلىق مەلۇماتنى ئەسلىگە كەلتۈرۈش"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&ھۆججەت"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "Signal يېڭىلانمىدى. {retry} ياكى «{url}» نى زىيارەت قىلىپ ئۇنى قولدا قاچىلاڭ. ئاندىن {support} بىلەن بۇ مەسىلە ھەققىدە ئالاقىلىشىڭ"
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal يېڭىلانمىدى. «{url}» نى زىيارەت قىلىپ ئۇنى قولدا قاچىلاڭ. ئاندىن {support} بىلەن بۇ مەسىلە ھەققىدە ئالاقىلىشىڭ"
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal ئۈستەليۈزى نەشرى macOS نىڭ ئايرىۋېتىلگەن رايونىدا بولۇشى مۇمكىن، ئاپتوماتىك يېڭىلىغىلى بولمايدۇ. «{app}» نى Finder دا «{folder}» گە يۆتكەڭ."
@@ -1101,7 +1113,7 @@
     "messageformat": "باغلانغان ئۈسكۈنىلەر"
   },
   "icu:linkNewDevice": {
-    "messageformat": "يېڭى ئۈسكۈنىگە باغلان"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "كۆپرەك ئۆگىنىش"
@@ -1119,7 +1131,7 @@
     "messageformat": "تەڭشەكلەر"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "«{plusButton}» نى (Android) ياكى «{linkNewDevice}» (iPhone) نى چېكىڭ"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR كودىنى يۈكلىيەلمىدى. تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ. <retry>قايتا سىناش</retry>"
@@ -1404,13 +1416,13 @@
     "messageformat": "{name} نى چەكلىدىڭىز"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} چەكلەندى"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} چەكلەندى"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "سىز ئۇلارنىڭ ئۈن ۋە سىنلىرىنى تاپشۇرۇۋالمايسىز، ئۇلارمۇ سىزنىڭكىنى تاپشۇرۇۋالمايدۇ."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} دىن ئۈن ۋە سىن تاپشۇرۇۋالالمايدۇ"
@@ -5542,10 +5554,10 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "بىز تېلېفون قايتا ئۇلىنىۋاتقاندا تېلېفوننىڭ كۆرۈنۈشنىڭ كىچىكلەپ كېتىلىشىنىڭ ئالدىنى ئالىدىغان كەمتۈكلىكنى تۈزىدۇق. ھازىر تور ئۈزۈلۈپ قالغاندەك ھېس قىلسىڭىزمۇ ئىلگىرىكى پاراڭلاردىن ئۈزۈلۈپ قالغاندەك ھېس قىلمايسىز."
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "بىز چاپلاق چېكىشنىڭ سىلىق ھەم تېز بولۇشىنى ئۈمىد قىلىپ ئەپ تاقالغاندا چاپلاق بولىقى ئۇلانمىسىنى ئاچماقچى بولسىڭىز سىگنالنىڭ چاپلاق كۆرگۈچنى قوزغىتىشتىن توسىدىغان كەمتۈكلۈكنى تۈزىدۇق."
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

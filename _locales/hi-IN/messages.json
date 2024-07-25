@@ -81,10 +81,16 @@
     "messageformat": "आपके डेटाबेस का वर्ज़न सिग्नल के इस वर्ज़न से मेल नहीं खाता है। सुनिश्चित करें कि आप अपने कंप्यूटर पर सिग्नल का सबसे नया वर्ज़न खोल रहे हैं।"
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "कोई डेटाबेस त्रुटि हुई है। आप त्रुटि को कॉपी कर सकते हैं और समस्या को ठीक करने में मदद के लिए Signal समर्थन्ट से संपर्क कर सकते हैं। यदि आपको बिल्कुल अभी सिग्नल का उपयोग करने की जरूरत है, तो आप अपना डेटा पुनर्प्राप्त करने का प्रयास कर सकते हैं।\n\nयहां जाकर सपोर्ट से संपर्क करें: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "डेटा पुनर्प्राप्त करें"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&File"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "Signal अपडेट नहीं हो सका। {retry} या उसे मैनुअल तरीके से इंस्टॉल करने के लिए {url} पर विज़िट करें। फिर इस समस्या के बारे में {support}"
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal अपडेट नहीं हो सका। उसे मैनुअल तरीके से इंस्टॉल करने के लिए {url} पर विज़िट करें। फिर इस समस्या के बारे में {support}"
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop संभव रूप से macOS क्वारंटाइन में है, और ऑटो-अपडेट होने के योग्य नहीं है। कृपया फाइंडर के साथ  को {app}से {folder} में मूव करने का प्रयास करें।"
@@ -1101,7 +1113,7 @@
     "messageformat": "लिंक की गईं डिवाइसें"
   },
   "icu:linkNewDevice": {
-    "messageformat": "नया डिवाइस लिंक करें"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "अधिक जानें"
@@ -1119,7 +1131,7 @@
     "messageformat": "सेटिंग्स"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "{plusButton} (ऐंड्रॉयड) या {linkNewDevice} (iPhone) पर टैप करें"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR कोड लोड नहीं हो सका। अपना इंटरनेट जाँचें और फिर से कोशिश करें। दोबारा कोशिश करें"
@@ -1404,13 +1416,13 @@
     "messageformat": "आपने {name} को ब्लॉक कर दिया है"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} ब्लॉक किया गया है"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} ब्लॉक किया गया है"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "आपको उनके ऑडियो या वीडियो प्राप्त नहीं होंगे और उन्हें आपके नहीं।"
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} से ऑडियो और वीडियो नहीं प्राप्त की जा सकती"
@@ -5542,10 +5554,10 @@
     "messageformat": "छोटे-छोटे ट्वीक, बग फ़िक्स, और प्रदर्शन में सुधार। Signal इस्तेमाल करने के लिए धन्यवाद।",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "हमने एक बग को ठीक कर दिया है जो कॉल को पुनः कनेक्ट करते समय कॉल को छोटा करने वाले बटन को प्रदर्शित होने से रोकता था। अब आपको पिछली चैट से डिस्कनेक्ट महसूस करने की आवश्यकता नहीं है, भले ही इंटरनेट डिस्कनेक्ट महसूस हो रहा हो।"
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "हम चाहते थे कि स्टिकर क्लिकर्स के लिए चीज़ें आसान और तेज़ हों, इसलिए हमने एक बग ठीक किया, जो कभी-कभी सिग्नल को स्टिकर व्यूअर लॉन्च करने से रोकता था, जब आप ऐप बंद होने के दौरान स्टिकर पैक लिंक खोलने की कोशिश करते थे।"
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

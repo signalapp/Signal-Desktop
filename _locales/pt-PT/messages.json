@@ -81,10 +81,16 @@
     "messageformat": "A versão da sua base de dados não corresponde a esta versão do Signal. Certifique-se de que está a abrir a versão mais recente do Signal no computador."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Ocorreu um erro na base de dados. Pode copiar o erro e entrar em contacto com o suporte do Signal para ajudar a corrigir o problema. Se precisar de usar o Signal imediatamente, pode tentar recuperrar os seus dados.\n\nEntre em contacto com o suporte visitando: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Recuperar dados"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Ficheiro"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "O Signal não conseguiu atualizar. {retry} ou visite {url} para o instalar manualmente. Depois, {support} acerca deste problema"
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal não foi atualizado. Visite {url} para instalá-lo manualmente. De seguida, {support} acerca deste problema"
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Provavelmente o Signal Desktop encontra-se na quarentena do macOS e como tal não será possível atualizar automaticamente. Por favor, tente mover {app} para {folder} com o Finder."
@@ -1101,7 +1113,7 @@
     "messageformat": "Dispositivos associados"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Associar um novo dispositivo"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "Saber mais"
@@ -1119,7 +1131,7 @@
     "messageformat": "Definições"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Toque em {plusButton} (Android) ou em {linkNewDevice} (iPhone)"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Não foi possível carregar o código QR. Verifique a sua internet e tente novamente. <retry>Tentar novamente</retry>"
@@ -1404,13 +1416,13 @@
     "messageformat": "Bloqueou {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "O utilizador {name} está bloqueado"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "O utilizador {name} está bloqueado"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Não irá receber os áudios e vídeos deles e eles não receberão os seus."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Não pode receber áudio e vídeo de {name}"
@@ -5542,10 +5554,10 @@
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "Corrigimos um erro que impedia que o botão para minimizar uma chamada aparecesse enquanto essa chamada estava a ser restabelecida."
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Corrigimos um erro que impedia o Signal de inicializar o visualizador de autocolantes caso tentasse abrir um link de pacote de autocolantes sem ter a app aberta."
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

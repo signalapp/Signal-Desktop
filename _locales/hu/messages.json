@@ -81,10 +81,16 @@
     "messageformat": "Az adatbázisod verziója nem egyezik a Signal ezen verziójával. Győződj meg róla, hogy a Signal legújabb verzióját nyitod meg a számítógépeden."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Adatbázishiba történt. Kimásolhatod a hibát, és kapcsolatba léphetsz a Signal ügyfélszolgálatával a probléma megoldásához. Ha azonnal használnod kell a Signalt, megpróbálhatod helyreállítani az adataid.\n\nLépj kapcsolatba az ügyfélszolgálattal a következő címen: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Adatok helyreállítása"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fájl"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "A Signal Desktop frissítése nem sikerült. {retry} vagy látogass el a {url} címre és telepítsd az új verziót kézzel, majd lépj kapcsolatba velünk a tapasztalt problémával kapcsolatban: {support}."
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "A Signal frissítése nem sikerült. Telepítsd az új verziót manuálisan a {url} weboldalról, majd lépj kapcsolatba velünk, és oszd meg tapasztalataidat: {support}"
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "A Signal Desktop valószínűleg macOS karanténban fut, és emiatt nem fog tudni automatikusan frissíteni. Próbáld meg áthelyezni a  {app} fájlt a {folder} mappába a Finder segítségével!"
@@ -1101,7 +1113,7 @@
     "messageformat": "Párosított eszközök"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Új eszköz párosítása"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "Tudj meg többet!"
@@ -1119,7 +1131,7 @@
     "messageformat": "Beállítások"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Kattints a {plusButton} (Android) vagy {linkNewDevice} (iPhone) gombra"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Nem sikerült betölteni a QR-kódot. Ellenőrizd a hálózati kapcsolatot, és próbáld újra. <retry>Újra</retry>"
@@ -1404,13 +1416,13 @@
     "messageformat": "Letiltottad {name} nevű felhasználót"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} letiltva"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} letiltva"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Nem fogod hallani és látni őket, illetve ők sem téged."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "{name} hang és kép adása nem megjeleníthető"
@@ -5542,10 +5554,10 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "Kijavítottunk egy hibát, amely megakadályozta, hogy a hívást minimalizáló gomb megjelenjen a hívás újracsatlakozása közben."
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Kijavítottunk egy hibát, ami néha megakadályozta, hogy a Signal elindítsa a matricanézegetőt, amikor megpróbáltad megnyitni a matricacsomag hivatkozását, miközben az alkalmazás be volt zárva."
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

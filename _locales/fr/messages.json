@@ -81,10 +81,16 @@
     "messageformat": "La version de votre base de données ne peut pas supporter cette version de Signal. Assurez-vous d’ouvrir la dernière version de Signal sur votre ordinateur."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Une erreur de base de données s’est produite. Pour nous aider à résoudre le problème, vous pouvez copier l’erreur via le bouton ci-dessous et la transmettre à l’assistance Signal. Si vous devez utiliser Signal immédiatement, vous pouvez aussi tenter de récupérer vos données.\n\nPour contacter l’équipe d’assistance, rendez-vous sur {link}."
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Récupérer les données"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fichier"
@@ -822,10 +828,16 @@
     "messageformat": "Sourdine"
   },
   "icu:cannotUpdateDetail": {
-    "messageformat": "Signal n’a pas pu être mise à jour. {retry} ou visitez {url} pour l’installer manuellement. Puis, {support} au sujet de ce problème"
+    "messageformat": "Impossible de mettre à jour Signal. {retry} ou visitez {url} pour installer la mise à jour manuellement. Nous vous invitons ensuite à signaler le problème à l’{support}."
+  },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Signal n’a pas pu être mise à jour. Visitez {url} pour l’installer manuellement. Puis, {support} au sujet de ce problème"
+    "messageformat": "Impossible de mettre à jour Signal. Visitez {url} pour installer la mise à jour manuellement. Nous vous invitons ensuite à signaler le problème à l’{support}."
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop pour ordinateur a probablement été mise en quarantaine par macOS et ne pourra pas se mettre automatiquement à jour. Avec Finder, essayez de déplacer  {app} dans  {folder}."
@@ -963,7 +975,7 @@
     "messageformat": "Renvoyer"
   },
   "icu:retryDeleteForEveryone": {
-    "messageformat": "Réessayer Supprimer pour tout le monde"
+    "messageformat": "Réessayer de supprimer pour tout le monde"
   },
   "icu:forwardMessage": {
     "messageformat": "Transférer le message"
@@ -1101,7 +1113,7 @@
     "messageformat": "Appareils associés"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Associer un nouvel appareil"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "En savoir plus"
@@ -1119,7 +1131,7 @@
     "messageformat": "Paramètres"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Touchez {plusButton} (Android) ou {linkNewDevice} (iPhone)"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Impossible de charger le code QR. Veuillez vérifier votre connexion Internet et réessayer. <retry>Réessayer</retry>"
@@ -1197,7 +1209,7 @@
     "messageformat": "Rappeler"
   },
   "icu:calling__join": {
-    "messageformat": "Me joindre à l’appel"
+    "messageformat": "Rejoindre l’appel"
   },
   "icu:calling__return": {
     "messageformat": "Revenir à l’appel"
@@ -1368,7 +1380,7 @@
     "messageformat": "{first}, {second} et {third} font partie de cet appel"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
-    "messageformat": "{others, plural, one {{first}, {second} et {others,number} autre personne font partie de cet appel} other {{first}, {second} et {others,number} autres personnes font partie de cet appel}}"
+    "messageformat": "{others, plural, one {{first}, {second} et {others,number} autre personne participent à l’appel} other {{first}, {second} et {others,number} autres personnes participent à l’appel}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal sonnera chez {person}"
@@ -1404,13 +1416,13 @@
     "messageformat": "Vous avez bloqué {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} est bloqué"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} est bloqué"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Vous ne recevez ni l’audio, ni la vidéo de cet utilisateur et il ne reçoit pas les vôtres."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Impossible de recevoir l’audio et la vidéo de {name}"
@@ -1821,7 +1833,7 @@
     "messageformat": "Modifier le groupe"
   },
   "icu:updateGroupAttributes__error-message": {
-    "messageformat": "Échec de mise à jour du groupe. Vérifiez votre connexion et réessayez."
+    "messageformat": "Échec de la mise à jour du groupe. Vérifiez votre connexion et réessayez."
   },
   "icu:unlinkedWarning": {
     "messageformat": "Cliquez pour relier Signal Desktop pour ordinateur à votre appareil mobile et continuer à communiquer."
@@ -1833,7 +1845,7 @@
     "messageformat": "Une mise à jour est disponible"
   },
   "icu:autoUpdateRetry": {
-    "messageformat": "Retenter la mise à jour"
+    "messageformat": "Réessayer"
   },
   "icu:autoUpdateContactSupport": {
     "messageformat": "contactez l’assistance"
@@ -1845,7 +1857,7 @@
     "messageformat": "Cliquez pour télécharger la mise à jour"
   },
   "icu:downloadFullNewVersionMessage": {
-    "messageformat": "Signal n’a pas pu être mise à jour. Cliquez pour réessayer."
+    "messageformat": "Impossible de mettre à jour Signal. Cliquez pour réessayer."
   },
   "icu:autoUpdateRestartButtonLabel": {
     "messageformat": "Redémarrer Signal"
@@ -1875,10 +1887,10 @@
     "messageformat": "Vous vous êtes joint au groupe."
   },
   "icu:joinedTheGroup": {
-    "messageformat": "{name} se sont joints au groupe."
+    "messageformat": "{name} a rejoint le groupe."
   },
   "icu:multipleJoinedTheGroup": {
-    "messageformat": "{names} se sont joints au groupe."
+    "messageformat": "{names} ont rejoint le groupe."
   },
   "icu:ConversationList__aria-label": {
     "messageformat": "{unreadCount, plural, one {Conversation avec {title}, {unreadCount,number} nouveau message, dernier message : {lastMessage}.} other {Conversation avec {title}, {unreadCount,number} nouveaux messages, dernier message : {lastMessage}.}}"
@@ -2742,7 +2754,7 @@
     "messageformat": "Vous et {otherName} avez levé la main."
   },
   "icu:CallControls__RaiseHandsToast--you-and-more": {
-    "messageformat": "{overflowCount, plural, one {Vous et {otherName} avez levé la main, ainsi qu’{overflowCount,number} autre personne.} other {Vous et {otherName} avez levé la main, ainsi que {overflowCount,number} autres personnes.}}"
+    "messageformat": "{overflowCount, plural, one {Vous, {otherName} et {overflowCount,number} personne avez levé la main.} other {Vous, {otherName} et {overflowCount,number} personnes avez levé la main.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
     "messageformat": "{name} a levé la main."
@@ -2751,7 +2763,7 @@
     "messageformat": "{name} et {otherName} ont levé la main."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{overflowCount, plural, one {{name}, {otherName} et {overflowCount,number} autre personne ont levé la main.} other {{name}, {otherName} et {overflowCount,number} autres personnes ont levé la main.}}"
+    "messageformat": "{overflowCount, plural, one {{name}, {otherName} et {overflowCount,number} personne ont levé la main.} other {{name}, {otherName} et {overflowCount,number} personnes ont levé la main.}}"
   },
   "icu:CallControls__RaiseHands--open-queue": {
     "messageformat": "Ouvrir la file d'attente"
@@ -3159,7 +3171,7 @@
     "messageformat": "Vous vous êtes joint au groupe grâce au lien du groupe."
   },
   "icu:GroupV2--member-add-from-link--other": {
-    "messageformat": "{memberName} s’est joint au groupe grâce au lien du groupe."
+    "messageformat": "{memberName} a rejoint le groupe via le lien du groupe."
   },
   "icu:GroupV2--member-add-from-admin-approval--you--other": {
     "messageformat": "{adminName} a approuvé votre demande de vous joindre au groupe."
@@ -3855,7 +3867,7 @@
     "messageformat": "Supprimer de cet appareil"
   },
   "icu:DeleteMessagesModal--deleteForEveryone": {
-    "messageformat": "Supprimer pour tous"
+    "messageformat": "Supprimer pour tout le monde"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Supprimer de tous les appareils"
@@ -3864,7 +3876,7 @@
     "messageformat": "Supprimer"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
-    "messageformat": "{count, plural, one {Vous ne pouvez sélectionner qu’un maximum de {count,number} message à supprimer pour tous.} other {Vous ne pouvez sélectionner qu’un maximum de {count,number} messages à supprimer pour tous.}}"
+    "messageformat": "{count, plural, one {Vous ne pouvez sélectionner que {count,number} message à supprimer pour tout le monde.} other {Vous ne pouvez sélectionner qu’un maximum de {count,number} messages à supprimer pour tout le monde.}}"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Vous pouvez transférer jusqu’à 30 messages à la fois"
@@ -4251,7 +4263,7 @@
     "messageformat": "Partagez votre nom d'utilisatuer"
   },
   "icu:ProfileEditor__username-link__tooltip__body": {
-    "messageformat": "Proposez de converser avec d'autres personnes en leur partageant votre code QR ou un lien unique."
+    "messageformat": "Invitez vos amis à discuter avec vous via un lien ou un code QR uniques."
   },
   "icu:ProfileEditor--username--title": {
     "messageformat": "Choisissez votre nom d’utilisateur"
@@ -4569,10 +4581,10 @@
     "messageformat": "Redémarrer"
   },
   "icu:DialogUpdate--version-available": {
-    "messageformat": "Une mise à jour vers la version {version} est proposée"
+    "messageformat": "Une mise à jour vers la version {version} est disponible"
   },
   "icu:DialogUpdate__downloading": {
-    "messageformat": "Téléchargement de la mise à jour en cours…"
+    "messageformat": "Téléchargement de la mise à jour…"
   },
   "icu:DialogUpdate__downloaded": {
     "messageformat": "Mise à jour téléchargée"
@@ -4593,7 +4605,7 @@
     "messageformat": "Redémarrez Signal pour installer la nouvelle version."
   },
   "icu:InstallScreenUpdateDialog--cannot-update__body": {
-    "messageformat": "La mise à jour de Signal Desktop a échoué mais une nouvelle version est disponible. Rendez-vous sur {downloadUrl} et installez la nouvelle version manuellement. Contactez ensuite l’assistance ou envoyez un rapport concernant le problème que vous avez rencontré."
+    "messageformat": "La mise à jour de Signal Desktop a échoué, mais une nouvelle version est disponible. Rendez-vous sur {downloadUrl} et installez la nouvelle version manuellement. Contactez ensuite l’assistance ou envoyez un rapport pour signaler le problème."
   },
   "icu:NSIS__retry-dialog--first-line": {
     "messageformat": "Signal ne peut pas être fermé.",
@@ -5232,7 +5244,7 @@
     "messageformat": "Vous avez réagi par {emoji} à une story"
   },
   "icu:Quote__story-unavailable": {
-    "messageformat": "N’est plus proposée"
+    "messageformat": "Cette story n’est plus disponible"
   },
   "icu:ContextMenu--button": {
     "messageformat": "Menu contextuel"
@@ -5542,10 +5554,10 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "On dit adieu à un autre bug : quand on tentait de se reconnecter à un appel, le bouton permettant de réduire la fenêtre d’appel ne s’affichait pas. Le problème est réglé. Désormais, vous ne perdez plus de vue vos conversations, même en cas de perte de connexion."
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Bonne nouvelle pour les fans de stickers : lorsque l’appli était fermée, la visionneuse de stickers ne s’affichait pas toujours quand vous vouliez ouvrir un pack de stickers. Mais tout ça, c’est du passé !"
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }

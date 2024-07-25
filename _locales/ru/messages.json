@@ -81,10 +81,16 @@
     "messageformat": "Ваша версия базы данных не соответствует этой версии Signal. Убедитесь, что на вашем компьютере установлена самая последняя версия Signal."
   },
   "icu:databaseError__recover__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can attempt to recover your data.\n\nContact support by visiting: {link}"
+    "messageformat": "Произошла ошибка базы данных. Вы можете создать копию ошибки и обратиться в службу поддержки Signal для решения проблемы. Если вы хотите использовать Signal прямо сейчас, вы можете попытаться восстановить свои данные.\n\nСвязаться с поддержкой можно по адресу: {link}"
   },
   "icu:databaseError__recover__button": {
-    "messageformat": "Recover data"
+    "messageformat": "Восстановить данные"
+  },
+  "icu:databaseError__safeStorageBackendChange": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+  },
+  "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
+    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Файл"
@@ -824,8 +830,14 @@
   "icu:cannotUpdateDetail": {
     "messageformat": "Signal не удалось обновиться. {retry} или посетите {url}, чтобы установить обновление вручную. Затем {support} об этой проблеме"
   },
+  "icu:cannotUpdateDetail-v2": {
+    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+  },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal не удалось обновиться. Посетите {url}, чтобы установить обновление вручную. Затем {support} об этой проблеме"
+  },
+  "icu:cannotUpdateRequireManualDetail-v2": {
+    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Скорее всего, Signal Desktop находится в карантине macOS и не сможет обновляться автоматически. Пожалуйста, попробуйте переместить {app} в {folder} при помощи Finder."
@@ -1101,7 +1113,7 @@
     "messageformat": "Привязанные устройства"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Привязать новое устройство"
+    "messageformat": "Link a New Device"
   },
   "icu:Install__learn-more": {
     "messageformat": "Узнать больше"
@@ -1119,7 +1131,7 @@
     "messageformat": "Настройки"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Нажмите {plusButton} (Android) или {linkNewDevice} (iPhone)"
+    "messageformat": "Tap {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Не удалось загрузить QR-код. Проверьте подключение к интернету и попробуйте снова. <retry>Повторить попытку</retry>"
@@ -1404,13 +1416,13 @@
     "messageformat": "Вы заблокировали {name}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} заблокирован(-а)"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} is blocked"
+    "messageformat": "{name} заблокирован(-а)"
   },
   "icu:calling__block-info": {
-    "messageformat": "You won’t receive their audio or video and they won’t receive yours."
+    "messageformat": "Вы не будете получать аудио и видео этого участника, и он не будет получать ваши."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Невозможно получать аудио и видео от {name}"
@@ -5542,10 +5554,10 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.16--0": {
-    "messageformat": "Исправлена ошибка, из-за которой кнопка сворачивания звонка не появлялась при повторном подключении. Теперь вы не будете чувствовать себя оторванными от предыдущих чатов, даже если интернет вроде бы отключился."
-  },
   "icu:WhatsNew__v7.17--0": {
-    "messageformat": "We wanted things to be slicker and quicker for sticker clickers, so we fixed a bug that sometimes prevented Signal from launching the sticker viewer if you tried to open a sticker pack link while the app was closed."
+    "messageformat": "Мы хотели, чтобы кликеры по стикерам кликали по стикерам максимально быстро, поэтому исправили ошибку, из-за которой Signal иногда не мог запустить просмотр стикеров, если вы пытались открыть ссылку на набор стикеров, когда приложения было закрыто."
+  },
+  "icu:WhatsNew__v7.18--0": {
+    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
   }
 }
