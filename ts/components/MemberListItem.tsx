@@ -53,7 +53,7 @@ const StyledInfo = styled.div`
   min-width: 0;
 `;
 
-const StyledName = styled.span<{ maxNameWidth?: string }>`
+const StyledName = styled.span<{ maxWidth?: string }>`
   font-weight: bold;
   margin-inline-start: var(--margins-md);
   margin-inline-end: var(--margins-md);
@@ -61,7 +61,7 @@ const StyledName = styled.span<{ maxNameWidth?: string }>`
   overflow: hidden;
   text-overflow: ellipsis;
 
-  ${props => props.maxNameWidth && `max-width: ${props.maxNameWidth};`}
+  ${props => props.maxWidth && `max-width: ${props.maxWidth};`}
 `;
 
 const StyledCheckContainer = styled.div`
@@ -118,7 +118,7 @@ export const MemberListItem = (props: {
     >
       <StyledInfo>
         <AvatarItem memberPubkey={pubkey} isAdmin={isAdmin || false} />
-        <StyledName maxNameWidth={maxNameWidth}>{memberName}</StyledName>
+        <StyledName maxWidth={maxNameWidth}>{memberName}</StyledName>
       </StyledInfo>
 
       {!inMentions && (
