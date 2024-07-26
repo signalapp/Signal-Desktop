@@ -307,15 +307,11 @@ export async function deleteEverythingAndNetworkData() {
       // clear each inbox per sogs
 
       const clearInboxPromises = allRoomInfosArray.map(async roomInfo => {
-        try {
-          const success = await clearInbox(roomInfo);
-          if (!success) {
-            throw Error(`Failed to clear inbox for ${roomInfo.conversationId}`);
-          }
-          return { status: 'fulfilled' };
-        } catch (error) {
-          return { status: 'rejected', reason: error };
+        const success = await clearInbox(roomInfo);
+        if (!success) {
+          throw Error(`Failed to clear inbox for ${roomInfo.conversationId}`);
         }
+        return true;
       });
 
       const results = await Promise.allSettled(clearInboxPromises);

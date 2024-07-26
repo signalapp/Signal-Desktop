@@ -14,36 +14,6 @@ export type OpenGroupV2RoomWithImageID = {
   imageID?: string;
 };
 
-// export type OpenGroupV2Room = {
-//   serverUrl: string;
-
-//   /** this is actually shared for all this server's room */
-//   serverPublicKey: string;
-//   roomId: string;
-
-//   /** a user displayed name */
-//   roomName?: string;
-
-//   /** the fileId of the group room's image */
-//   imageID?: string;
-
-//   /** the linked ConversationModel.id */
-//   conversationId?: string;
-//   maxMessageFetchedSeqNo?: number;
-//   lastInboxIdFetched?: number;
-//   lastOutboxIdFetched?: number;
-
-//   /**
-//    * This value is set with the current timestamp whenever we get new messages.
-//    */
-//   lastFetchTimestamp?: number;
-
-//   /**
-//    * This is shared across all rooms in a server.
-//    */
-//   capabilities?: Array<string>;
-// };
-
 export const OpenGroupData = {
   getAllV2OpenGroupRoomsMap,
   opengroupRoomsLoad,

@@ -39,7 +39,6 @@ export const LightboxGallery = (props: Props) => {
   // just run once, when the component is mounted. It's to show the lightbox on the specified index at start.
   useMount(() => {
     setCurrentIndex(selectedIndex);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   });
 
   const selectedMedia = media[currentIndex];
