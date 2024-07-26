@@ -43,6 +43,8 @@ const StyledSessionMemberItem = styled.button<{
   &:not(button:last-child) {
     border-bottom: 1px solid var(--border-color);
   }
+
+  ${props => props.inMentions && 'max-width: 300px;'}
 `;
 
 const StyledInfo = styled.div`
