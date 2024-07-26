@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
 import styled from 'styled-components';
+import { THEME_GLOBALS } from '../../../themes/globals';
 
 const OnboardContainerInner = styled(motion.div)`
   width: 100%;
@@ -28,7 +29,9 @@ export const OnboardContainer = (props: OnboardContainerProps) => {
       initial={'initial'}
       animate={'animate'}
       exit={'exit'}
-      transition={{ duration: 1 }}
+      transition={{
+        duration: THEME_GLOBALS['--duration-onboarding-container'],
+      }}
     >
       {children}
     </OnboardContainerInner>

@@ -80,16 +80,6 @@ $session-compose-margin: 20px;
     height: 100%;
   }
 
-  &__header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: var(--main-view-header-height);
-    padding-inline-end: 7px;
-    transition: var(--default-duration);
-  }
-
   &__title {
     padding-inline-end: var(--margins-sm);
     padding-inline-start: var(--margins-sm);
@@ -115,20 +105,6 @@ $session-compose-margin: 20px;
       margin-top: 10px;
       margin-inline-start: 13px;
       align-self: flex-start;
-    }
-
-    .session-id-editable {
-      width: 90%;
-
-      textarea::-webkit-inner-spin-button {
-        margin: 0px 20px;
-        width: -webkit-fill-available;
-        flex-shrink: 0;
-      }
-    }
-
-    .session-id-editable-disabled {
-      border: none;
     }
 
     .session-button {

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { ReactNode } from 'react';
+import { ReactNode, RefObject } from 'react';
 import styled from 'styled-components';
 
 export enum SessionButtonType {
@@ -48,8 +48,9 @@ const StyledButton = styled.button<{
   background-repeat: no-repeat;
   overflow: hidden;
   height: ${props => (props.buttonType === SessionButtonType.Ghost ? undefined : '34px')};
+  min-height: ${props => (props.buttonType === SessionButtonType.Ghost ? undefined : '34px')};
   padding: ${props =>
-    props.buttonType === SessionButtonType.Ghost ? '16px 24px 24px' : '0px 18px'};
+    props.buttonType === SessionButtonType.Ghost ? '18px 24px 22px' : '0px 18px'};
   background-color: ${props =>
     props.buttonType === SessionButtonType.Solid && props.color
       ? `var(--${props.color}-color)`
@@ -111,8 +112,9 @@ const StyledButton = styled.button<{
   }
 `;
 
-type Props = {
+export type SessionButtonProps = {
   text?: string;
+  ariaLabel?: string;
   disabled?: boolean;
   buttonType?: SessionButtonType;
   buttonShape?: SessionButtonShape;
@@ -120,18 +122,23 @@ type Props = {
   onClick?: any;
   children?: ReactNode;
   margin?: string;
+  reference?: RefObject<HTMLButtonElement>;
+  className?: string;
   dataTestId?: string;
 };
 
-export const SessionButton = (props: Props) => {
+export const SessionButton = (props: SessionButtonProps) => {
   const {
     buttonType = SessionButtonType.Outline,
     buttonShape = buttonType === SessionButtonType.Ghost
       ? SessionButtonShape.None
       : SessionButtonShape.Round,
+    reference,
+    className,
     dataTestId,
     buttonColor,
     text,
+    ariaLabel,
     disabled = false,
     onClick = null,
     margin,
@@ -147,6 +154,7 @@ export const SessionButton = (props: Props) => {
 
   return (
     <StyledButton
+      aria-label={ariaLabel}
       color={buttonColor}
       buttonShape={buttonShape}
       buttonType={buttonType}
@@ -155,10 +163,12 @@ export const SessionButton = (props: Props) => {
         buttonShape,
         buttonType,
         buttonColor ?? '',
-        disabled && 'disabled'
+        disabled && 'disabled',
+        className
       )}
       role="button"
       onClick={onClickFn}
+      ref={reference}
       data-testid={dataTestId}
       style={{ margin }}
     >

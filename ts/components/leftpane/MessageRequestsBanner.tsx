@@ -38,10 +38,6 @@ const StyledMessageRequestBannerHeader = styled.span`
   text-overflow: ellipsis;
 `;
 
-const StyledCircleIcon = styled.div`
-  padding-left: var(--margins-xs);
-`;
-
 const StyledUnreadCounter = styled.div`
   font-weight: bold;
   border-radius: var(--margins-sm);
@@ -62,25 +58,26 @@ const StyledGridContainer = styled.div`
   display: flex;
   width: 36px;
   height: 36px;
+  justify-content: center;
   align-items: center;
   border-radius: 50%;
-  justify-content: center;
   background-color: var(--text-secondary-color);
 `;
 
-export const CirclularIcon = (props: { iconType: SessionIconType; iconSize: SessionIconSize }) => {
+export const CirclularIcon = (props: {
+  iconType: SessionIconType;
+  iconSize: SessionIconSize | number;
+}) => {
   const { iconSize, iconType } = props;
 
   return (
-    <StyledCircleIcon>
-      <StyledGridContainer>
-        <SessionIcon
-          iconType={iconType}
-          iconSize={iconSize}
-          iconColor="var(--background-primary-color)"
-        />
-      </StyledGridContainer>
-    </StyledCircleIcon>
+    <StyledGridContainer>
+      <SessionIcon
+        iconType={iconType}
+        iconSize={iconSize}
+        iconColor="var(--background-primary-color)"
+      />
+    </StyledGridContainer>
   );
 };
 
@@ -122,7 +119,7 @@ export const MessageRequestsBanner = (props: { handleOnClick: () => any }) => {
         }}
         data-testid="message-request-banner"
       >
-        <CirclularIcon iconType="messageRequest" iconSize="medium" />
+        <CirclularIcon iconType="messageRequest" iconSize={22} />
         <StyledMessageRequestBannerHeader>
           {window.i18n('messageRequests')}
         </StyledMessageRequestBannerHeader>

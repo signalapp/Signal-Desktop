@@ -4,14 +4,14 @@ import styled from 'styled-components';
 import { clearOurAvatar, uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { ToastUtils } from '../../session/utils';
 import { editProfileModal, updateEditProfilePictureModel } from '../../state/ducks/modalDialog';
+import type { EditProfilePictureModalProps } from '../../types/ReduxTypes';
 import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SpacerLG } from '../basic/Text';
 import { SessionIconButton } from '../icon';
 import { SessionSpinner } from '../loading';
-import { ProfileAvatar } from './EditProfileDialog';
-import type { EditProfilePictureModalProps } from '../../types/ReduxTypes';
+import { ProfileAvatar } from './edit-profile/components';
 
 const StyledAvatarContainer = styled.div`
   cursor: pointer;
@@ -111,6 +111,7 @@ export const EditProfilePictureModal = (props: EditProfilePictureModalProps) => 
       title={window.i18n('setDisplayPicture')}
       onClose={closeDialog}
       showHeader={true}
+      headerReverse={true}
       showExitIcon={true}
     >
       <div

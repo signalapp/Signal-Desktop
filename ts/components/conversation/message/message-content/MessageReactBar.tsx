@@ -50,7 +50,7 @@ const ReactButton = styled.span`
   cursor: pointer;
   font-size: 24px;
 
-  :hover {
+  &:hover {
     background-color: var(--chat-buttons-background-hover-color);
   }
 `;

@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { sogsV3AddAdmin } from '../../session/apis/open_group_api/sogsv3/sogsV3AddRemoveMods';
 import { getConversationController } from '../../session/conversations';
 import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
 import { updateAddModeratorsModal } from '../../state/ducks/modalDialog';
-import { isDarkTheme } from '../../state/selectors/theme';
+import { useIsDarkTheme } from '../../state/selectors/theme';
 import { SessionHeaderSearchInput } from '../SessionHeaderSearchInput';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { Flex } from '../basic/Flex';
@@ -21,7 +21,7 @@ export const AddModeratorsDialog = (props: Props) => {
   const { conversationId } = props;
 
   const dispatch = useDispatch();
-  const darkMode = useSelector(isDarkTheme);
+  const isDarkTheme = useIsDarkTheme();
   const convo = getConversationController().get(conversationId);
 
   const [inputBoxValue, setInputBoxValue] = useState('');
@@ -85,7 +85,7 @@ export const AddModeratorsDialog = (props: Props) => {
         <p>Add Moderator:</p>
         <SessionHeaderSearchInput
           type="text"
-          darkMode={darkMode}
+          isDarkTheme={isDarkTheme}
           placeholder={i18n('accountIdEnter')}
           dir="auto"
           onChange={onPubkeyBoxChanges}

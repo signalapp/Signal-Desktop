@@ -3,9 +3,11 @@ import { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { ONBOARDING_TIMES } from '../../../session/constants';
 import { InvalidWordsError, NotEnoughWordsError } from '../../../session/crypto/mnemonic';
+import { ProfileManager } from '../../../session/profile_manager/ProfileManager';
 import { PromiseUtils } from '../../../session/utils';
 import { TaskTimedOutError } from '../../../session/utils/Promise';
 import { NotFoundError } from '../../../session/utils/errors';
+import LIBSESSION_CONSTANTS from '../../../session/utils/libsession/libsession_constants';
 import { trigger } from '../../../shims/events';
 import {
   AccountRestoration,
@@ -32,13 +34,12 @@ import {
 } from '../../../util/accountManager';
 import { setSignInByLinking, setSignWithRecoveryPhrase } from '../../../util/storage';
 import { Flex } from '../../basic/Flex';
-import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG, SpacerSM } from '../../basic/Text';
 import { SessionIcon } from '../../icon';
 import { SessionInput } from '../../inputs';
 import { SessionProgressBar } from '../../loading';
 import { resetRegistration } from '../RegistrationStages';
-import { OnboardDescription, OnboardHeading } from '../components';
+import { ContinueButton, OnboardDescription, OnboardHeading } from '../components';
 import { BackButtonWithinContainer } from '../components/BackButton';
 import { useRecoveryProgressEffect } from '../hooks';
 import { displayNameIsValid, sanitizeDisplayNameOrToast } from '../utils';
@@ -176,135 +177,137 @@ export const RestoreAccount = () => {
     }
 
     try {
+      const validName = await ProfileManager.updateOurProfileDisplayName(displayName, true);
+
       await signInWithNewDisplayName({
-        displayName,
+        displayName: validName,
         recoveryPassword,
         dispatch,
       });
-    } catch (e) {
+    } catch (err) {
+      const errorString = err.message || String(err);
       window.log.error(
-        `[onboarding] restore account: Failed with new display name! Error: ${e.message || e}`
+        `[onboarding] restore account: Failed with new display name! Error: ${errorString}`
       );
       dispatch(setAccountRestorationStep(AccountRestoration.DisplayName));
-      dispatch(setDisplayNameError(e.message || String(e)));
+      dispatch(setDisplayNameError(errorString));
     }
   };
 
   return (
-    <>
-      {step === AccountRestoration.RecoveryPassword || step === AccountRestoration.DisplayName ? (
-        <BackButtonWithinContainer
-          margin={'2px 0 0 -36px'}
-          callback={() => {
-            dispatch(setRecoveryPassword(''));
-            dispatch(setDisplayName(''));
-            dispatch(setProgress(0));
-            dispatch(setRecoveryPasswordError(undefined));
-            dispatch(setDisplayNameError(undefined));
-          }}
-        >
-          <Flex
-            container={true}
-            width="100%"
-            flexDirection="column"
-            justifyContent="flex-start"
-            alignItems="flex-start"
-            margin={'0 0 0 8px'}
-          >
-            {step === AccountRestoration.RecoveryPassword ? (
-              <>
-                <Flex container={true} width={'100%'} alignItems="center">
-                  <OnboardHeading>{window.i18n('sessionRecoveryPassword')}</OnboardHeading>
-                  <SessionIcon
-                    iconType="recoveryPasswordOutline"
-                    iconSize="huge"
-                    iconColor="var(--text-primary-color)"
-                    style={{ margin: '-4px 0 0 8px' }}
-                  />
-                </Flex>
-                <SpacerSM />
-                <OnboardDescription>{window.i18n('onboardingRecoveryPassword')}</OnboardDescription>
-                <SpacerLG />
-                <SessionInput
-                  autoFocus={true}
-                  disabledOnBlur={true}
-                  type="password"
-                  placeholder={window.i18n('recoveryPasswordEnter')}
-                  value={recoveryPassword}
-                  onValueChanged={(seed: string) => {
-                    dispatch(setRecoveryPassword(seed));
-                    dispatch(
-                      setRecoveryPasswordError(
-                        !seed ? window.i18n('recoveryPasswordEnter') : undefined
-                      )
-                    );
-                  }}
-                  onEnterPressed={recoverAndFetchDisplayName}
-                  error={recoveryPasswordError}
-                  enableShowHide={true}
-                  inputDataTestId="recovery-phrase-input"
-                />
-                <SpacerLG />
-                <SessionButton
-                  buttonColor={SessionButtonColor.White}
-                  onClick={recoverAndFetchDisplayName}
-                  text={window.i18n('continue')}
-                  disabled={!(!!recoveryPassword && !recoveryPasswordError)}
-                  dataTestId="continue-button"
-                />
-              </>
-            ) : (
-              <Flex container={true} width="100%" flexDirection="column" alignItems="flex-start">
-                <OnboardHeading>{window.i18n('displayNameNew')}</OnboardHeading>
-                <SpacerSM />
-                <OnboardDescription>{window.i18n('displayNameErrorNew')}</OnboardDescription>
-                <SpacerLG />
-                <SessionInput
-                  autoFocus={true}
-                  disabledOnBlur={true}
-                  type="text"
-                  placeholder={window.i18n('enterDisplayName')}
-                  value={displayName}
-                  onValueChanged={(name: string) => {
-                    const sanitizedName = sanitizeDisplayNameOrToast(
-                      name,
-                      setDisplayNameError,
-                      dispatch
-                    );
-                    dispatch(setDisplayName(sanitizedName));
-                  }}
-                  onEnterPressed={recoverAndEnterDisplayName}
-                  error={displayNameError}
-                  inputDataTestId="display-name-input"
-                />
-                <SpacerLG />
-                <SessionButton
-                  buttonColor={SessionButtonColor.White}
-                  onClick={recoverAndEnterDisplayName}
-                  text={window.i18n('continue')}
-                  disabled={
-                    isEmpty(recoveryPassword) ||
-                    !isEmpty(recoveryPasswordError) ||
-                    isEmpty(displayName) ||
-                    !isEmpty(displayNameError)
-                  }
-                  dataTestId="continue-button"
-                />
-              </Flex>
-            )}
+    <BackButtonWithinContainer
+      margin={'2px 0 0 -36px'}
+      shouldQuitOnClick={step !== AccountRestoration.RecoveryPassword}
+      quitMessage={window.i18n('onboardingBackLoadAccount')}
+      callback={() => {
+        dispatch(setRecoveryPassword(''));
+        dispatch(setDisplayName(''));
+        dispatch(setProgress(0));
+        dispatch(setRecoveryPasswordError(undefined));
+        dispatch(setDisplayNameError(undefined));
+      }}
+    >
+      <Flex
+        container={true}
+        width="100%"
+        flexDirection="column"
+        justifyContent="flex-start"
+        alignItems="flex-start"
+        margin={
+          step === AccountRestoration.RecoveryPassword || step === AccountRestoration.DisplayName
+            ? '0 0 0 8px'
+            : '0px'
+        }
+      >
+        {step === AccountRestoration.RecoveryPassword ? (
+          <>
+            <Flex container={true} width={'100%'} alignItems="center">
+              <OnboardHeading>{window.i18n('sessionRecoveryPassword')}</OnboardHeading>
+              <SessionIcon
+                iconType="recoveryPasswordOutline"
+                iconSize="huge"
+                iconColor="var(--text-primary-color)"
+                style={{ margin: '-4px 0 0 8px' }}
+              />
+            </Flex>
+            <SpacerSM />
+            <OnboardDescription>{window.i18n('onboardingRecoveryPassword')}</OnboardDescription>
+            <SpacerLG />
+            <SessionInput
+              ariaLabel="Recovery password input"
+              autoFocus={true}
+              disableOnBlurEvent={true}
+              type="password"
+              placeholder={window.i18n('recoveryPasswordEnter')}
+              value={recoveryPassword}
+              onValueChanged={(seed: string) => {
+                dispatch(setRecoveryPassword(seed));
+                dispatch(
+                  setRecoveryPasswordError(!seed ? window.i18n('recoveryPasswordEnter') : undefined)
+                );
+              }}
+              onEnterPressed={recoverAndFetchDisplayName}
+              error={recoveryPasswordError}
+              maxLength={LIBSESSION_CONSTANTS.CONTACT_MAX_NAME_LENGTH}
+              enableShowHideButton={true}
+              showHideButtonAriaLabels={{
+                hide: 'Hide recovery password toggle',
+                show: 'Reveal recovery password toggle',
+              }}
+              showHideButtonDataTestIds={{
+                hide: 'hide-recovery-phrase-toggle',
+                show: 'reveal-recovery-phrase-toggle',
+              }}
+              inputDataTestId="recovery-phrase-input"
+            />
+            <SpacerLG />
+            <ContinueButton
+              onClick={recoverAndFetchDisplayName}
+              disabled={!(!!recoveryPassword && !recoveryPasswordError)}
+            />
+          </>
+        ) : step === AccountRestoration.DisplayName ? (
+          <Flex container={true} width="100%" flexDirection="column" alignItems="flex-start">
+            <OnboardHeading>{window.i18n('displayNameNew')}</OnboardHeading>
+            <SpacerSM />
+            <OnboardDescription>{window.i18n('displayNameErrorNew')}</OnboardDescription>
+            <SpacerLG />
+            <SessionInput
+              ariaLabel={window.i18n('enterDisplayName')}
+              autoFocus={true}
+              disableOnBlurEvent={true}
+              type="text"
+              placeholder={window.i18n('enterDisplayName')}
+              value={displayName}
+              onValueChanged={(name: string) => {
+                const sanitizedName = sanitizeDisplayNameOrToast(
+                  name,
+                  setDisplayNameError,
+                  dispatch
+                );
+                dispatch(setDisplayName(sanitizedName));
+              }}
+              onEnterPressed={recoverAndEnterDisplayName}
+              error={displayNameError}
+              inputDataTestId="display-name-input"
+            />
+            <SpacerLG />
+            <ContinueButton
+              onClick={recoverAndEnterDisplayName}
+              disabled={
+                isEmpty(recoveryPassword) ||
+                !isEmpty(recoveryPasswordError) ||
+                isEmpty(displayName) ||
+                !isEmpty(displayNameError)
+              }
+            />
           </Flex>
-        </BackButtonWithinContainer>
-      ) : (
-        <Flex
-          container={true}
-          width="100%"
-          flexDirection="column"
-          justifyContent="flex-start"
-          alignItems="flex-start"
-        >
+        ) : (
           <SessionProgressBar
             initialValue={
-              step !== AccountRestoration.Finished && step !== AccountRestoration.Complete ? 0 : 100
+              step !== AccountRestoration.Finished && step !== AccountRestoration.Complete
+                ? progress
+                : 100
             }
             progress={progress}
             margin={'0'}
@@ -312,8 +315,8 @@ export const RestoreAccount = () => {
             subtitle={window.i18n('loadAccountProgressMessage')}
             showPercentage={true}
           />
-        </Flex>
-      )}
-    </>
+        )}
+      </Flex>
+    </BackButtonWithinContainer>
   );
 };

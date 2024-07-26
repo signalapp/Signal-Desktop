@@ -1,34 +1,19 @@
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { ThemeStateType } from '../../themes/constants/colors';
 
-export const APPLY_THEME = 'APPLY_THEME';
+// TODO Move primary color into this slice
+export const initialThemeState: ThemeStateType = 'classic-dark' as ThemeStateType;
 
-export const applyTheme = (theme: ThemeStateType) => {
-  return {
-    type: APPLY_THEME,
-    payload: theme,
-  };
-};
+const themeSlice = createSlice({
+  name: 'theme',
+  initialState: initialThemeState,
+  reducers: {
+    updateTheme(_, action: PayloadAction<ThemeStateType>) {
+      return action.payload;
+    },
+  },
+});
 
-export const initialThemeState: ThemeStateType = 'classic-dark';
-
-export const reducer = (
-  state: any = initialThemeState,
-  {
-    type,
-    payload,
-  }: {
-    type: string;
-    payload: ThemeStateType;
-  }
-): ThemeStateType => {
-  switch (type) {
-    case APPLY_THEME:
-      return payload;
-    default:
-      return state;
-  }
-};
-
-export const actions = {
-  applyTheme,
-};
+export const { actions, reducer } = themeSlice;
+export const { updateTheme } = actions;
+export const defaultThemeReducer = reducer;

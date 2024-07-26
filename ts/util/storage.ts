@@ -1,9 +1,9 @@
 import { isBoolean } from 'lodash';
-import { Data } from '../data/data';
 import { SessionKeyPair } from '../receiver/keypairs';
 import { DEFAULT_RECENT_REACTS } from '../session/constants';
 import { deleteSettingsBoolValue, updateSettingsBoolValue } from '../state/ducks/settings';
 import { ReleasedFeatures } from './releaseFeature';
+import { Data } from '../data/data';
 
 let ready = false;
 
@@ -93,6 +93,14 @@ function reset() {
   items = Object.create(null);
 }
 
+function getBoolOrFalse(settingsKey: string): boolean {
+  const got = Storage.get(settingsKey, false);
+  if (isBoolean(got)) {
+    return got;
+  }
+  return false;
+}
+
 export async function setLocalPubKey(pubkey: string) {
   await put('number_id', `${pubkey}.1`);
 }
@@ -159,12 +167,8 @@ export async function saveRecentReations(reactions: Array<string>) {
   return Storage.put('recent_reactions', reactions.join(' '));
 }
 
-function getBoolOrFalse(settingsKey: string): boolean {
-  const got = Storage.get(settingsKey, false);
-  if (isBoolean(got)) {
-    return got;
-  }
-  return false;
+export function getPasswordHash() {
+  return Storage.get('passHash') as string;
 }
 
 export const Storage = { fetch, put, get, getBoolOrFalse, remove, onready, reset };

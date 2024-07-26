@@ -26,7 +26,8 @@ window.getEnvironment = () => config.environment;
 
 require('./ts/util/logging');
 
-window.getOSRelease = () => `${os.type()} ${os.release} ${os.platform()}`;
+window.getOSRelease = () =>
+  `${os.type()} ${os.release()}, Node.js ${config.node_version} ${os.platform()} ${os.arch()}`;
 window.getCommitHash = () => config.commitHash;
 
 window.closeDebugLog = () => ipcRenderer.send('close-debug-log');

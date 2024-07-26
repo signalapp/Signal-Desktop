@@ -1,7 +1,6 @@
 import AbortController from 'abort-controller';
 import { OpenGroupReactionResponse } from '../../../../types/Reaction';
 import { Reactions } from '../../../../util/reactions';
-import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import {
   batchFirstSubIsSuccess,
@@ -16,6 +15,7 @@ import {
   updateMutationCache,
 } from './sogsV3MutationCache';
 import { hasReactionSupport } from './sogsV3SendReaction';
+import { OpenGroupRequestCommonType } from '../../../../data/types';
 
 /**
  * Clears a reaction on open group server using onion v4 logic and batch send

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import { AbortController } from 'abort-controller';
-import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
+import { SuggestionDataItem } from 'react-mentions';
 
 import autoBind from 'auto-bind';
 import { Component, RefObject, createRef } from 'react';
@@ -56,13 +56,8 @@ import {
   StartRecordingButton,
   ToggleEmojiButton,
 } from './CompositionButtons';
-import { renderEmojiQuickResultRow, searchEmojiForQuery } from './EmojiQuickResult';
-import {
-  cleanMentions,
-  mentionsRegex,
-  renderUserMentionRow,
-  styleForCompositionBoxSuggestions,
-} from './UserMentions';
+import { CompositionTextArea } from './CompositionTextArea';
+import { cleanMentions, mentionsRegex } from './UserMentions';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -121,30 +116,6 @@ interface State {
   stagedLinkPreview?: StagedLinkPreviewData;
   showCaptionEditor?: AttachmentType;
 }
-
-const sendMessageStyle = (dir?: HTMLDirection) => {
-  return {
-    control: {
-      wordBreak: 'break-all',
-    },
-    input: {
-      overflow: 'auto',
-      maxHeight: '50vh',
-      wordBreak: 'break-word',
-      padding: '0px',
-      margin: '0px',
-    },
-    highlighter: {
-      boxSizing: 'border-box',
-      overflow: 'hidden',
-      maxHeight: '50vh',
-    },
-    flexGrow: 1,
-    minHeight: '24px',
-    width: '100%',
-    ...styleForCompositionBoxSuggestions(dir),
-  };
-};
 
 const getDefaultState = (newConvoId?: string) => {
   return {
@@ -272,11 +243,10 @@ const StyledSendMessageInput = styled.div<{ dir?: HTMLDirection }>`
 class CompositionBoxInner extends Component<Props, State> {
   private readonly textarea: RefObject<any>;
   private readonly fileInput: RefObject<HTMLInputElement>;
+  private container: RefObject<HTMLDivElement>;
   private readonly emojiPanel: RefObject<HTMLDivElement>;
   private readonly emojiPanelButton: any;
   private linkPreviewAbortController?: AbortController;
-  private container: HTMLDivElement | null;
-  private lastBumpTypingMessageLength: number = 0;
 
   constructor(props: Props) {
     super(props);
@@ -284,8 +254,8 @@ class CompositionBoxInner extends Component<Props, State> {
 
     this.textarea = createRef();
     this.fileInput = createRef();
+    this.container = createRef();
 
-    this.container = null;
     // Emojis
     this.emojiPanel = createRef();
     this.emojiPanelButton = createRef();
@@ -295,24 +265,23 @@ class CompositionBoxInner extends Component<Props, State> {
 
   public componentDidMount() {
     setTimeout(this.focusCompositionBox, 500);
-
-    const div = this.container;
-    div?.addEventListener('paste', this.handlePaste);
+    if (this.container.current) {
+      this.container.current.addEventListener('paste', this.handlePaste);
+    }
   }
 
   public componentWillUnmount() {
     this.linkPreviewAbortController?.abort();
     this.linkPreviewAbortController = undefined;
-
-    const div = this.container;
-    div?.removeEventListener('paste', this.handlePaste);
+    if (this.container.current) {
+      this.container.current.removeEventListener('paste', this.handlePaste);
+    }
   }
 
   public componentDidUpdate(prevProps: Props, _prevState: State) {
     // reset the state on new conversation key
     if (prevProps.selectedConversationKey !== this.props.selectedConversationKey) {
       this.setState(getDefaultState(this.props.selectedConversationKey), this.focusCompositionBox);
-      this.lastBumpTypingMessageLength = 0;
     } else if (this.props.stagedAttachments?.length !== prevProps.stagedAttachments?.length) {
       // if number of staged attachment changed, focus the composition box for a more natural UI
       this.focusCompositionBox();
@@ -445,12 +414,20 @@ class CompositionBoxInner extends Component<Props, State> {
           role="main"
           dir={this.props.htmlDirection}
           onClick={this.focusCompositionBox} // used to focus on the textarea when clicking in its container
-          ref={el => {
-            this.container = el;
-          }}
+          ref={this.container}
           data-testid="message-input"
         >
-          {this.renderTextArea()}
+          <CompositionTextArea
+            draft={this.state.draft}
+            setDraft={newDraft => {
+              this.setState({ draft: newDraft });
+            }}
+            container={this.container}
+            textAreaRef={this.textarea}
+            fetchUsersForGroup={this.fetchUsersForGroup}
+            typingEnabled={this.props.typingEnabled}
+            onKeyDown={this.onKeyDown}
+          />
         </StyledSendMessageInput>
         {typingEnabled && (
           <ToggleEmojiButton ref={this.emojiPanelButton} onClick={this.toggleEmojiPanel} />
@@ -470,78 +447,6 @@ class CompositionBoxInner extends Component<Props, State> {
     );
   }
   /* eslint-enable @typescript-eslint/no-misused-promises */
-
-  private renderTextArea() {
-    const { i18n } = window;
-    const { draft } = this.state;
-    const { htmlDirection } = this.props;
-
-    if (!this.props.selectedConversation) {
-      return null;
-    }
-
-    const makeMessagePlaceHolderText = () => {
-      if (isKickedFromGroup) {
-        return i18n('youGotKickedFromGroup');
-      }
-      if (left) {
-        return i18n('youLeftTheGroup');
-      }
-      if (isBlocked) {
-        return i18n('unblockToSend');
-      }
-      return i18n('sendMessage');
-    };
-
-    const { isKickedFromGroup, left, isBlocked } = this.props.selectedConversation;
-    const messagePlaceHolder = makeMessagePlaceHolderText();
-    const { typingEnabled } = this.props;
-    const neverMatchingRegex = /($a)/;
-
-    const style = sendMessageStyle(htmlDirection);
-
-    return (
-      <MentionsInput
-        value={draft}
-        onChange={this.onChange}
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onKeyDown={this.onKeyDown}
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onKeyUp={this.onKeyUp}
-        placeholder={messagePlaceHolder}
-        spellCheck={true}
-        dir={htmlDirection}
-        inputRef={this.textarea}
-        disabled={!typingEnabled}
-        rows={1}
-        data-testid="message-input-text-area"
-        style={style}
-        suggestionsPortalHost={this.container as any}
-        forceSuggestionsAboveCursor={true} // force mentions to be rendered on top of the cursor, this is working with a fork of react-mentions for now
-      >
-        <Mention
-          appendSpaceOnAdd={true}
-          // this will be cleaned on cleanMentions()
-          markup="@ￒ__id__ￗ__display__ￒ" // ￒ = \uFFD2 is one of the forbidden char for a display name (check displayNameRegex)
-          trigger="@"
-          // this is only for the composition box visible content. The real stuff on the backend box is the @markup
-          displayTransform={(_id, display) =>
-            htmlDirection === 'rtl' ? `${display}@` : `@${display}`
-          }
-          data={this.fetchUsersForGroup}
-          renderSuggestion={renderUserMentionRow}
-        />
-        <Mention
-          trigger=":"
-          markup="__id__"
-          appendSpaceOnAdd={true}
-          regex={neverMatchingRegex}
-          data={searchEmojiForQuery}
-          renderSuggestion={renderEmojiQuickResultRow}
-        />
-      </MentionsInput>
-    );
-  }
 
   private fetchUsersForOpenGroup(
     query: string,
@@ -885,25 +790,6 @@ class CompositionBoxInner extends Component<Props, State> {
     });
   }
 
-  private async onKeyUp() {
-    if (!this.props.selectedConversationKey) {
-      throw new Error('selectedConversationKey is needed');
-    }
-    const { draft } = this.state;
-    // Called whenever the user changes the message composition field. But only
-    //   fires if there's content in the message field after the change.
-    // Also, check for a message length change before firing it up, to avoid
-    // catching ESC, tab, or whatever which is not typing
-    if (draft && draft.length && draft.length !== this.lastBumpTypingMessageLength) {
-      const conversationModel = getConversationController().get(this.props.selectedConversationKey);
-      if (!conversationModel) {
-        return;
-      }
-      conversationModel.throttledBumpTyping();
-      this.lastBumpTypingMessageLength = draft.length;
-    }
-  }
-
   private async onSendMessage() {
     if (!this.props.selectedConversationKey) {
       throw new Error('selectedConversationKey is needed');
@@ -1083,15 +969,6 @@ class CompositionBoxInner extends Component<Props, State> {
 
   private onExitVoiceNoteView() {
     this.setState({ showRecordingView: false });
-  }
-
-  private onChange(event: any) {
-    if (!this.props.selectedConversationKey) {
-      throw new Error('selectedConversationKey is needed');
-    }
-    const draft = event.target.value ?? '';
-    this.setState({ draft });
-    updateDraftForConversation({ conversationKey: this.props.selectedConversationKey, draft });
   }
 
   private onEmojiClick(emoji: FixedBaseEmoji) {

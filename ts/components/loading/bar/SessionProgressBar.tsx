@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import { THEME_GLOBALS } from '../../../themes/globals';
 import { Flex } from '../../basic/Flex';
 import { SpacerMD, SpacerXL } from '../../basic/Text';
 
@@ -71,12 +72,19 @@ export function SessionProgressBar(props: Props) {
         {showPercentage ? <StyledText>{Math.floor(progress)}%</StyledText> : null}
       </Flex>
       {subtitle || showPercentage ? <SpacerXL /> : null}
-      <ProgressContainer color={backgroundColor} style={{ width }} data-testid="loading-animation">
+      <ProgressContainer
+        aria-label="Loading animation"
+        color={backgroundColor}
+        style={{ width }}
+        data-testid="loading-animation"
+      >
         <Progress
           color={color}
           initial={{ width: `${initialValue}%` }}
           animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.5 }}
+          transition={{
+            duration: THEME_GLOBALS['--duration-progress-bar'],
+          }}
         />
       </ProgressContainer>
     </Flex>

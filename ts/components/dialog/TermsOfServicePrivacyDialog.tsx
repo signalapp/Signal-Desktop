@@ -1,16 +1,10 @@
 import { shell } from 'electron';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
 import { updateTermsOfServicePrivacyModal } from '../../state/onboarding/ducks/modals';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SpacerSM } from '../basic/Text';
-
-// NOTE we want to bypass the padding on the modal body so the buttons take up the full space
-const ConfirmButtonContainer = styled(Flex)`
-  margin: 0px calc(var(--margins-lg) * -1) calc(var(--margins-lg) * -1) calc(var(--margins-lg) * -1);
-`;
 
 export type TermsOfServicePrivacyDialogProps = {
   show: boolean;
@@ -36,29 +30,30 @@ export function TermsOfServicePrivacyDialog(props: TermsOfServicePrivacyDialogPr
       showExitIcon={true}
       showHeader={true}
       headerReverse={true}
+      additionalClassName={'no-body-padding'}
     >
-      <div className="session-modal__centered">
-        <span>{window.i18n('urlOpenBrowser')}</span>
-        <SpacerSM />
-        <ConfirmButtonContainer container={true} justifyContent="center" alignItems="center">
-          <SessionButton
-            text={window.i18n('termsOfService')}
-            buttonType={SessionButtonType.Ghost}
-            onClick={() => {
-              void shell.openExternal('https://getsession.org/terms-of-service');
-            }}
-            dataTestId="terms-of-service-button"
-          />
-          <SessionButton
-            text={window.i18n('privacyPolicy')}
-            buttonType={SessionButtonType.Ghost}
-            onClick={() => {
-              void shell.openExternal('https://getsession.org/privacy-policy');
-            }}
-            dataTestId="privacy-policy-button"
-          />
-        </ConfirmButtonContainer>
-      </div>
+      <span>{window.i18n('urlOpenBrowser')}</span>
+      <SpacerSM />
+      <Flex container={true} width={'100%'} justifyContent="center" alignItems="center">
+        <SessionButton
+          ariaLabel={'Terms of service button'}
+          text={window.i18n('termsOfService')}
+          buttonType={SessionButtonType.Ghost}
+          onClick={() => {
+            void shell.openExternal('https://getsession.org/terms-of-service');
+          }}
+          dataTestId="terms-of-service-button"
+        />
+        <SessionButton
+          ariaLabel={'Privacy policy button'}
+          text={window.i18n('privacyPolicy')}
+          buttonType={SessionButtonType.Ghost}
+          onClick={() => {
+            void shell.openExternal('https://getsession.org/privacy-policy');
+          }}
+          dataTestId="privacy-policy-button"
+        />
+      </Flex>
     </SessionWrapperModal>
   );
 }

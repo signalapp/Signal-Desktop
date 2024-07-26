@@ -3,7 +3,7 @@ import { toNumber } from 'lodash';
 import pRetry from 'p-retry';
 
 import { OnionPaths } from '.';
-import { Snode } from '../../data/data';
+import { Snode } from '../../data/types';
 import { fileServerPubKey, fileServerURL } from '../apis/file_server_api/FileServerApi';
 import { OpenGroupPollingUtils } from '../apis/open_group_api/opengroupV2/OpenGroupPollingUtils';
 import { invalidAuthRequiresBlinding } from '../apis/open_group_api/opengroupV2/OpenGroupServerPoller';

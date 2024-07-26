@@ -15,6 +15,7 @@ const hasSyncedInitialConfigurationItem = 'hasSyncedInitialConfigurationItem';
 const lastAvatarUploadTimestamp = 'lastAvatarUploadTimestamp';
 const hasLinkPreviewPopupBeenDisplayed = 'hasLinkPreviewPopupBeenDisplayed';
 const hasFollowSystemThemeEnabled = 'hasFollowSystemThemeEnabled';
+const hideRecoveryPassword = 'hideRecoveryPassword';
 
 // user config tracking timestamps (to discard incoming messages which would make a change we reverted in the last config message we merged)
 const latestUserProfileEnvelopeTimestamp = 'latestUserProfileEnvelopeTimestamp';
@@ -42,6 +43,7 @@ export const SettingsKey = {
   latestUserGroupEnvelopeTimestamp,
   latestUserContactsEnvelopeTimestamp,
   hasFollowSystemThemeEnabled,
+  hideRecoveryPassword,
 } as const;
 
 export const KNOWN_BLINDED_KEYS_ITEM = 'KNOWN_BLINDED_KEYS_ITEM';

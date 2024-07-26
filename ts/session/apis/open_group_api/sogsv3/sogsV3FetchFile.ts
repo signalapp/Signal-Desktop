@@ -1,10 +1,6 @@
 import AbortController, { AbortSignal } from 'abort-controller';
 import { isFinite, isUndefined, toNumber } from 'lodash';
-import {
-  OpenGroupData,
-  OpenGroupV2Room,
-  OpenGroupV2RoomWithImageID,
-} from '../../../../data/opengroups';
+import { OpenGroupData, OpenGroupV2RoomWithImageID } from '../../../../data/opengroups';
 import { MIME } from '../../../../types';
 import { processNewAttachment } from '../../../../types/MessageAttachment';
 import { roomHasBlindEnabled } from '../../../../types/sqlSharedTypes';
@@ -14,6 +10,7 @@ import { OnionSending } from '../../../onions/onionSend';
 import { allowOnlyOneAtATime } from '../../../utils/Promise';
 import { OpenGroupPollingUtils } from '../opengroupV2/OpenGroupPollingUtils';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
+import { OpenGroupV2Room } from '../../../../data/types';
 
 export async function fetchBinaryFromSogsWithOnionV4(sendOptions: {
   serverUrl: string;

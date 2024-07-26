@@ -1,19 +1,27 @@
 import { isEmpty } from 'lodash';
 import { getConversationController } from '../session/conversations';
 import { getSodiumRenderer } from '../session/crypto';
-import { fromArrayBufferToBase64, fromHex, toHex } from '../session/utils/String';
+import { ed25519Str, fromArrayBufferToBase64, fromHex, toHex } from '../session/utils/String';
 import { configurationMessageReceived, trigger } from '../shims/events';
 
+import { SessionButtonColor } from '../components/basic/SessionButton';
+import { Data } from '../data/data';
 import { SettingsKey } from '../data/settings-key';
-import { ConversationTypeEnum } from '../models/conversationAttributes';
+import { deleteAllLogs } from '../node/logs';
 import { SessionKeyPair } from '../receiver/keypairs';
+import { clearInbox } from '../session/apis/open_group_api/sogsv3/sogsV3ClearInbox';
+import { getAllValidOpenGroupV2ConversationRoomInfos } from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { getSwarmPollingInstance } from '../session/apis/snode_api';
+import { SnodeAPI } from '../session/apis/snode_api/SNodeAPI';
 import { mnDecode, mnEncode } from '../session/crypto/mnemonic';
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
+import { forceSyncConfigurationNowIfNeeded } from '../session/utils/sync/syncUtils';
+import { updateConfirmModal, updateDeleteAccountModal } from '../state/ducks/modalDialog';
 import { actions as userActions } from '../state/ducks/user';
 import { Registration } from './registration';
 import { Storage, saveRecoveryPhrase, setLocalPubKey, setSignInByLinking } from './storage';
+import { ConversationTypeEnum } from '../models/types';
 
 /**
  * Might throw
@@ -59,7 +67,7 @@ const generateKeypair = async (
  * This registers a user account. It can also be used if an account restore fails and the user instead registers a new display name
  * @param mnemonic The mnemonic generated on first app loading and to use for this brand new user
  * @param mnemonicLanguage only 'english' is supported
- * @param displayName the display name to register, character limit is MAX_NAME_LENGTH_BYTES
+ * @param displayName the display name to register
  * @param registerCallback when restoring an account, registration completion is handled elsewhere so we need to pass the pubkey back up to the caller
  */
 export async function registerSingleDevice(
@@ -158,10 +166,11 @@ async function createAccount(identityKeyPair: SessionKeyPair) {
     Storage.remove('number_id'),
     Storage.remove('device_name'),
     Storage.remove('userAgent'),
-    Storage.remove(SettingsKey.settingsReadReceipt),
-    Storage.remove(SettingsKey.settingsTypingIndicator),
     Storage.remove('regionCode'),
     Storage.remove('local_attachment_encrypted_key'),
+    Storage.remove(SettingsKey.settingsReadReceipt),
+    Storage.remove(SettingsKey.settingsTypingIndicator),
+    Storage.remove(SettingsKey.hideRecoveryPassword),
   ]);
 
   // update our own identity key, which may have changed
@@ -180,6 +189,9 @@ async function createAccount(identityKeyPair: SessionKeyPair) {
   // opengroups pruning in ON by default on new accounts, but you can change that from the settings
   await Storage.put(SettingsKey.settingsOpengroupPruning, true);
   await window.setOpengroupPruning(true);
+
+  // turn off hide recovery password by default
+  await Storage.put(SettingsKey.hideRecoveryPassword, false);
 
   await setLocalPubKey(pubKeyString);
 }
@@ -231,4 +243,159 @@ export async function registrationDone(ourPubkey: string, displayName: string) {
   window?.log?.info('[onboarding] dispatching registration event');
   // this will make the poller start fetching messages
   trigger('registration_done');
+}
+
+export const deleteDbLocally = async () => {
+  window?.log?.info('last message sent successfully. Deleting everything');
+  await window.persistStore?.purge();
+  window?.log?.info('store purged');
+
+  await deleteAllLogs();
+  window?.log?.info('deleteAllLogs: done');
+
+  await Data.removeAll();
+  window?.log?.info('Data.removeAll: done');
+
+  await Data.close();
+  window?.log?.info('Data.close: done');
+  await Data.removeDB();
+  window?.log?.info('Data.removeDB: done');
+
+  await Data.removeOtherData();
+  window?.log?.info('Data.removeOtherData: done');
+
+  window.localStorage.setItem('restart-reason', 'delete-account');
+};
+
+export async function sendConfigMessageAndDeleteEverything() {
+  try {
+    // DELETE LOCAL DATA ONLY, NOTHING ON NETWORK
+    window?.log?.info('DeleteAccount => Sending a last SyncConfiguration');
+
+    // be sure to wait for the message being effectively sent. Otherwise we won't be able to encrypt it for our devices !
+    await forceSyncConfigurationNowIfNeeded(true);
+    window?.log?.info('Last configuration message sent!');
+    await deleteDbLocally();
+  } catch (error) {
+    // if an error happened, it's not related to the delete everything on network logic as this is handled above.
+    // this could be a last sync configuration message not being sent.
+    // in all case, we delete everything, and restart
+    window?.log?.error(
+      'Something went wrong deleting all data:',
+      error && error.stack ? error.stack : error
+    );
+    try {
+      await deleteDbLocally();
+    } catch (e) {
+      window?.log?.error(e);
+    }
+  } finally {
+    window.restart();
+  }
+}
+
+export async function deleteEverythingAndNetworkData() {
+  try {
+    // DELETE EVERYTHING ON NETWORK, AND THEN STUFF LOCALLY STORED
+    // a bit of duplicate code below, but it's easier to follow every case like that (helped with returns)
+
+    // clear all sogs inboxes (includes message requests)
+    const allRoomInfos = await getAllValidOpenGroupV2ConversationRoomInfos();
+    const allRoomInfosArray = Array.from(allRoomInfos?.values() || []);
+
+    if (allRoomInfosArray.length) {
+      // clear each inbox per sogs
+
+      const clearInboxPromises = allRoomInfosArray.map(async roomInfo => {
+        const success = await clearInbox(roomInfo);
+        if (!success) {
+          throw Error(`Failed to clear inbox for ${roomInfo.conversationId}`);
+        }
+        return true;
+      });
+
+      const results = await Promise.allSettled(clearInboxPromises);
+      results.forEach((result, index) => {
+        if (result.status === 'rejected') {
+          window.log.error(result.reason);
+        } else {
+          window.log.info('Inbox cleared for room', allRoomInfosArray[index]);
+        }
+      });
+    }
+
+    // send deletion message to the network
+    const potentiallyMaliciousSnodes = await SnodeAPI.forceNetworkDeletion();
+    if (potentiallyMaliciousSnodes === null) {
+      window?.log?.warn('DeleteAccount => forceNetworkDeletion failed');
+
+      // close this dialog
+      window?.inboxStore?.dispatch(updateDeleteAccountModal(null));
+      window?.inboxStore?.dispatch(
+        updateConfirmModal({
+          title: window.i18n('dialogClearAllDataDeletionFailedTitle'),
+          message: window.i18n('dialogClearAllDataDeletionFailedDesc'),
+          okTheme: SessionButtonColor.Danger,
+          okText: window.i18n('deviceOnly'),
+          onClickOk: async () => {
+            await deleteDbLocally();
+            window.restart();
+          },
+          onClickClose: () => {
+            window.inboxStore?.dispatch(updateConfirmModal(null));
+          },
+        })
+      );
+      return;
+    }
+
+    if (potentiallyMaliciousSnodes.length > 0) {
+      const snodeStr = potentiallyMaliciousSnodes.map(ed25519Str);
+      window?.log?.warn(
+        'DeleteAccount => forceNetworkDeletion Got some potentially malicious snodes',
+        snodeStr
+      );
+      // close this dialog
+      window?.inboxStore?.dispatch(updateDeleteAccountModal(null));
+      // open a new confirm dialog to ask user what to do
+      window?.inboxStore?.dispatch(
+        updateConfirmModal({
+          title: window.i18n('dialogClearAllDataDeletionFailedTitle'),
+          message: window.i18n('dialogClearAllDataDeletionFailedMultiple', [
+            potentiallyMaliciousSnodes.join(', '),
+          ]),
+          messageSub: window.i18n('dialogClearAllDataDeletionFailedTitleQuestion'),
+          okTheme: SessionButtonColor.Danger,
+          okText: window.i18n('deviceOnly'),
+          onClickOk: async () => {
+            await deleteDbLocally();
+            window.restart();
+          },
+          onClickClose: () => {
+            window.inboxStore?.dispatch(updateConfirmModal(null));
+          },
+        })
+      );
+      return;
+    }
+
+    // We removed everything on the network successfully (no malicious node!). Now delete the stuff we got locally
+    // without sending a last configuration message (otherwise this one will still be on the network)
+    await deleteDbLocally();
+    window.restart();
+  } catch (error) {
+    // if an error happened, it's not related to the delete everything on network logic as this is handled above.
+    // this could be a last sync configuration message not being sent.
+    // in all case, we delete everything, and restart
+    window?.log?.error(
+      'Something went wrong deleting all data:',
+      error && error.stack ? error.stack : error
+    );
+    try {
+      await deleteDbLocally();
+    } catch (e) {
+      window?.log?.error(e);
+    }
+    window.restart();
+  }
 }

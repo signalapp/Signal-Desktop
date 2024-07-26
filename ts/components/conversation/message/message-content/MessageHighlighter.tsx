@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { MouseEvent, ReactNode } from 'react';
 import styled from 'styled-components';
+import { THEME_GLOBALS } from '../../../../themes/globals';
 
 const StyledMessageHighlighter = styled(motion.div)``;
 
@@ -20,7 +21,11 @@ export function MessageHighlighter(props: {
       onClick={onClick}
       animate={{
         opacity: highlight ? [1, 0.2, 1, 0.2, 1] : undefined,
-        transition: { duration: 1, ease: 'linear', repeat: 0 },
+        transition: {
+          duration: THEME_GLOBALS['--duration-message-highlight-seconds'],
+          ease: 'linear',
+          repeat: 0,
+        },
       }}
     >
       {children}

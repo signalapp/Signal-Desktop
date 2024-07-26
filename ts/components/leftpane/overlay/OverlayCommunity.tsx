@@ -10,37 +10,45 @@ import {
   JoinSogsRoomUICallbackArgs,
 } from '../../../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
 import { openGroupV2CompleteURLRegex } from '../../../session/apis/open_group_api/utils/OpenGroupUtils';
-import { ToastUtils } from '../../../session/utils';
 import { resetLeftOverlayMode } from '../../../state/ducks/section';
 import { SessionButton } from '../../basic/SessionButton';
-import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../loading';
-import { OverlayHeader } from './OverlayHeader';
 
 import {
   markConversationInitialLoadingInProgress,
   openConversationWithMessages,
 } from '../../../state/ducks/conversations';
 import { getLeftOverlayMode } from '../../../state/selectors/section';
+import { Spacer2XL } from '../../basic/Text';
+import { SessionInput } from '../../inputs';
+import { StyledLeftPaneOverlay } from './OverlayMessage';
+import LIBSESSION_CONSTANTS from '../../../session/utils/libsession/libsession_constants';
 
 async function joinOpenGroup(
   serverUrl: string,
+  errorHandler: (error: string) => void,
   uiCallback?: (args: JoinSogsRoomUICallbackArgs) => void
 ) {
   // guess if this is an open
   if (serverUrl.match(openGroupV2CompleteURLRegex)) {
-    const groupCreated = await joinOpenGroupV2WithUIEvents(serverUrl, true, false, uiCallback);
+    const groupCreated = await joinOpenGroupV2WithUIEvents(
+      serverUrl,
+      false,
+      false,
+      uiCallback,
+      errorHandler
+    );
     return groupCreated;
   }
-  ToastUtils.pushToastError('invalidOpenGroupUrl', window.i18n('invalidOpenGroupUrl'));
-  window.log.warn('Invalid opengroupv2 url');
-  return false;
+  throw new Error(window.i18n('invalidOpenGroupUrl'));
 }
 
 export const OverlayCommunity = () => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+
   const [groupUrl, setGroupUrl] = useState('');
+  const [groupUrlError, setGroupUrlError] = useState<string | undefined>(undefined);
+  const [loading, setLoading] = useState(false);
 
   const overlayModeIsCommunity = useSelector(getLeftOverlayMode) === 'open-group';
 
@@ -53,8 +61,10 @@ export const OverlayCommunity = () => {
       if (loading) {
         return;
       }
-      await joinOpenGroup(completeUrl || groupUrl, joinSogsUICallback);
+      setGroupUrlError(undefined);
+      await joinOpenGroup(completeUrl || groupUrl, setGroupUrlError, joinSogsUICallback);
     } catch (e) {
+      setGroupUrlError(e.message);
       window.log.warn(e);
     } finally {
       setLoading(false);
@@ -79,28 +89,35 @@ export const OverlayCommunity = () => {
 
   useKey('Escape', closeOverlay);
 
-  const title = window.i18n('joinOpenGroup');
-  const buttonText = window.i18n('join');
-  const subtitle = window.i18n('openGroupURL');
-  const placeholder = window.i18n('enterAnOpenGroupURL');
-
   return (
-    <div className="module-left-pane-overlay">
-      <OverlayHeader title={title} subtitle={subtitle} />
-      <div className="create-group-name-input">
-        <SessionIdEditable
-          editable={true}
-          placeholder={placeholder}
-          value={groupUrl}
-          isGroup={true}
-          maxLength={300}
-          onChange={setGroupUrl}
-          onPressEnter={onTryJoinRoom}
-        />
-      </div>
-      <SessionButton text={buttonText} disabled={!groupUrl} onClick={onTryJoinRoom} />
+    <StyledLeftPaneOverlay
+      container={true}
+      flexDirection={'column'}
+      flexGrow={1}
+      alignItems={'center'}
+      padding={'var(--margins-md)'}
+    >
+      <SessionInput
+        autoFocus={true}
+        type="text"
+        placeholder={window.i18n('enterAnOpenGroupURL')}
+        value={groupUrl}
+        onValueChanged={setGroupUrl}
+        onEnterPressed={onTryJoinRoom}
+        editable={!loading}
+        error={groupUrlError}
+        // - 1 for null terminator
+        maxLength={LIBSESSION_CONSTANTS.COMMUNITY_FULL_URL_MAX_LENGTH - 1}
+        textSize="md"
+        centerText={true}
+        monospaced={true}
+        isTextArea={true}
+      />
+      <Spacer2XL />
+      <SessionButton text={window.i18n('join')} disabled={!groupUrl} onClick={onTryJoinRoom} />
+      {!loading ? <Spacer2XL /> : null}
       <SessionSpinner loading={loading} />
       <SessionJoinableRooms onJoinClick={onTryJoinRoom} alreadyJoining={loading} />
-    </div>
+    </StyledLeftPaneOverlay>
   );
 };

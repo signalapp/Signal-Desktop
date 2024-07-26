@@ -30,7 +30,13 @@ export type SubtitleStringsType = keyof Pick<
   'notifications' | 'members' | 'disappearingMessages'
 >;
 
-export const ConversationHeaderTitle = () => {
+type ConversationHeaderTitleProps = {
+  showSubtitle?: boolean;
+};
+
+export const ConversationHeaderTitle = (props: ConversationHeaderTitleProps) => {
+  const { showSubtitle = true } = props;
+
   const dispatch = useDispatch();
   const convoId = useSelectedConversationKey();
   const convoName = useSelectedNicknameOrProfileNameOrShortenedPubkey();
@@ -163,7 +169,7 @@ export const ConversationHeaderTitle = () => {
               {convoName}
             </span>
           )}
-          {subtitleArray.indexOf(visibleSubtitle) > -1 && (
+          {showSubtitle && subtitleArray.indexOf(visibleSubtitle) > -1 && (
             <ConversationHeaderSubtitle
               currentSubtitle={visibleSubtitle}
               setCurrentSubtitle={setVisibleSubtitle}

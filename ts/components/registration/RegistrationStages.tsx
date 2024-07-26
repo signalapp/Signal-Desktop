@@ -52,7 +52,7 @@ export const RegistrationStages = () => {
           </div>
           <Flex container={true} alignItems="center">
             <SessionIconButton
-              aria-label="external link to Session FAQ web page"
+              ariaLabel="FAQ Link"
               iconType="question"
               iconSize={'medium'}
               iconPadding="4px"
@@ -66,7 +66,7 @@ export const RegistrationStages = () => {
             />
             <SpacerSM />
             <SessionIconButton
-              aria-label="external link to Session website"
+              ariaLabel="Session website link"
               iconType="link"
               iconSize="medium"
               iconColor="var(--text-primary-color)"

@@ -108,7 +108,7 @@ const MentionAtSymbol = styled.span`
   border-radius: 8px;
   cursor: pointer;
 
-  :hover {
+  &:hover {
     filter: grayscale(0.7);
   }
 `;

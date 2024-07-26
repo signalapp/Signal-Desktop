@@ -1,5 +1,5 @@
 import { ChangeEvent, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { useFocusMount } from '../../hooks/useFocusMount';
 import { useConversationPropsById } from '../../hooks/useParamSelector';
@@ -12,7 +12,7 @@ import { getConversationController } from '../../session/conversations/Conversat
 import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
 import { BanType, updateBanOrUnbanUserModal } from '../../state/ducks/modalDialog';
-import { isDarkTheme } from '../../state/selectors/theme';
+import { useIsDarkTheme } from '../../state/selectors/theme';
 import { SessionHeaderSearchInput } from '../SessionHeaderSearchInput';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { Flex } from '../basic/Flex';
@@ -68,7 +68,7 @@ export const BanOrUnBanUserDialog = (props: {
   const { i18n } = window;
   const isBan = banType === 'ban';
   const dispatch = useDispatch();
-  const darkMode = useSelector(isDarkTheme);
+  const isDarkTheme = useIsDarkTheme();
   const convo = getConversationController().get(conversationId);
   const inputRef = useRef(null);
 
@@ -133,7 +133,7 @@ export const BanOrUnBanUserDialog = (props: {
         <SessionHeaderSearchInput
           ref={inputRef}
           type="text"
-          darkMode={darkMode}
+          isDarkTheme={isDarkTheme}
           placeholder={i18n('accountIdEnter')}
           dir="auto"
           onChange={onPubkeyBoxChanges}

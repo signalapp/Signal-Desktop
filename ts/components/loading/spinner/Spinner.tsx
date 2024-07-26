@@ -23,7 +23,7 @@ const SpinnerArc = styled.svg`
   height: 56px;
   width: 56px;
 
-  animation: spinner-arc-animation 3000ms linear infinite;
+  animation: spinner-arc-animation var(--duration-spinner) linear infinite;
   animation-play-state: inherit;
 
   @keyframes spinner-arc-animation {
@@ -45,12 +45,6 @@ const SpinnerContainer = styled.div`
   position: relative;
   height: 56px;
   width: 56px;
-
-  /* :hover {
-    animation-play-state: running;
-  }
-  animation-play-state: paused;
-  */
   animation-play-state: running;
 `;
 

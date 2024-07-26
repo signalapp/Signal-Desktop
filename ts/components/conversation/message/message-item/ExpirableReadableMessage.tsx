@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useInterval, useMount } from 'react-use';
+import useInterval from 'react-use/lib/useInterval';
+import useMount from 'react-use/lib/useMount';
 import styled from 'styled-components';
 import { useIsDetailMessageView } from '../../../../contexts/isDetailViewContext';
 import { Data } from '../../../../data/data';

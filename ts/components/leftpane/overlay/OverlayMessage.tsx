@@ -2,25 +2,43 @@ import { useState } from 'react';
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 
+import { motion } from 'framer-motion';
+import { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
-import { ConversationTypeEnum } from '../../../models/conversationAttributes';
 import { getConversationController } from '../../../session/conversations';
 import { PubKey } from '../../../session/types';
-import { ToastUtils, UserUtils } from '../../../session/utils';
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import { resetLeftOverlayMode } from '../../../state/ducks/section';
 import { SessionButton } from '../../basic/SessionButton';
-import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../loading';
-import { OverlayHeader } from './OverlayHeader';
 
 import { ONSResolve } from '../../../session/apis/snode_api/onsResolve';
+import { NotFoundError, SnodeResponseError } from '../../../session/utils/errors';
+import { THEME_GLOBALS } from '../../../themes/globals';
 import { Flex } from '../../basic/Flex';
-import { SpacerMD } from '../../basic/Text';
-import { YourSessionIDPill, YourSessionIDSelectable } from '../../basic/YourSessionIDPill';
-import { SessionIconButton } from '../../icon';
+import { SpacerLG, SpacerMD } from '../../basic/Text';
+import { HelpDeskButton } from '../../buttons';
+import { SessionInput } from '../../inputs';
+import { ConversationTypeEnum } from '../../../models/types';
 
-const SessionIDDescription = styled.div`
+const StyledDescriptionContainer = styled(motion.div)`
+  margin: 0 auto;
+  text-align: center;
+  padding: 0 var(--margins-md);
+
+  .session-icon-button {
+    border: 1px solid var(--text-secondary-color);
+    border-radius: 9999px;
+    margin-inline-start: var(--margins-xs);
+    transition-duration: var(--default-duration);
+
+    &:hover {
+      border-color: var(--text-primary-color);
+    }
+  }
+`;
+
+const SessionIDDescription = styled.span`
   color: var(--text-secondary-color);
   font-family: var(--font-default);
   font-style: normal;
@@ -29,14 +47,15 @@ const SessionIDDescription = styled.div`
   text-align: center;
 `;
 
-function copyOurSessionID() {
-  const ourSessionId = UserUtils.getOurPubKeyStrFromCache();
-  if (!ourSessionId) {
-    return;
+export const StyledLeftPaneOverlay = styled(Flex)`
+  background: var(--background-primary-color);
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .session-button {
+    width: 100%;
   }
-  window.clipboard.writeText(ourSessionId);
-  ToastUtils.pushCopiedToClipBoard();
-}
+`;
 
 export const OverlayMessage = () => {
   const dispatch = useDispatch();
@@ -47,12 +66,8 @@ export const OverlayMessage = () => {
 
   useKey('Escape', closeOverlay);
   const [pubkeyOrOns, setPubkeyOrOns] = useState('');
+  const [pubkeyOrOnsError, setPubkeyOrOnsError] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(false);
-
-  const title = window.i18n('newMessage');
-  const buttonText = window.i18n('next');
-  const subtitle = window.i18n('accountIdEnter');
-  const placeholder = window.i18n('accountIdEnterYourFriends');
 
   const disableNextButton = !pubkeyOrOns || loading;
 
@@ -79,76 +94,107 @@ export const OverlayMessage = () => {
   }
 
   async function handleMessageButtonClick() {
+    setPubkeyOrOnsError(undefined);
+
     if ((!pubkeyOrOns && !pubkeyOrOns.length) || !pubkeyOrOns.trim().length) {
-      ToastUtils.pushToastError('invalidPubKey', window.i18n('onsErrorNotRecognised')); // or ons name
+      setPubkeyOrOnsError(window.i18n('accountIdErrorInvalid'));
       return;
     }
-    const pubkeyorOnsTrimmed = pubkeyOrOns.trim();
 
-    if (!PubKey.validateWithErrorNoBlinding(pubkeyorOnsTrimmed)) {
+    const pubkeyorOnsTrimmed = pubkeyOrOns.trim();
+    const validationError = PubKey.validateWithErrorNoBlinding(pubkeyorOnsTrimmed);
+
+    if (!validationError) {
       await openConvoOnceResolved(pubkeyorOnsTrimmed);
+      return;
+    }
+
+    const isPubkey = PubKey.validate(pubkeyorOnsTrimmed);
+    const isGroupPubkey = PubKey.isClosedGroupV3(pubkeyorOnsTrimmed);
+    if ((isPubkey && validationError) || isGroupPubkey) {
+      setPubkeyOrOnsError(validationError);
       return;
     }
 
     // this might be an ONS, validate the regex first
     const mightBeOnsName = new RegExp(ONSResolve.onsNameRegex, 'g').test(pubkeyorOnsTrimmed);
     if (!mightBeOnsName) {
-      ToastUtils.pushToastError('invalidPubKey', window.i18n('onsErrorNotRecognised'));
+      setPubkeyOrOnsError(window.i18n('onsErrorNotRecognized'));
       return;
     }
+
     setLoading(true);
     try {
       const resolvedSessionID = await ONSResolve.getSessionIDForOnsName(pubkeyorOnsTrimmed);
-      if (PubKey.validateWithErrorNoBlinding(resolvedSessionID)) {
-        throw new Error('Got a resolved ONS but the returned entry is not a valid SessionID');
+      const idValidationError = PubKey.validateWithErrorNoBlinding(resolvedSessionID);
+
+      if (idValidationError) {
+        setPubkeyOrOnsError(window.i18n('onsErrorNotRecognized'));
+        return;
       }
-      // this is a pubkey
+
       await openConvoOnceResolved(resolvedSessionID);
     } catch (e) {
-      window?.log?.warn('failed to resolve ons name', pubkeyorOnsTrimmed, e);
-      ToastUtils.pushToastError('invalidPubKey', window.i18n('failedResolveOns'));
+      setPubkeyOrOnsError(
+        e instanceof SnodeResponseError
+          ? window.i18n('onsErrorUnableToSearch')
+          : e instanceof NotFoundError
+            ? window.i18n('onsErrorNotRecognized')
+            : window.i18n('failedResolveOns')
+      );
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="module-left-pane-overlay">
-      <OverlayHeader title={title} subtitle={subtitle} />
-
-      <SessionIdEditable
-        editable={!loading}
-        placeholder={placeholder}
-        onChange={setPubkeyOrOns}
-        dataTestId="new-session-conversation"
-        onPressEnter={handleMessageButtonClick}
+    <StyledLeftPaneOverlay
+      container={true}
+      flexDirection={'column'}
+      flexGrow={1}
+      alignItems={'center'}
+      padding={'var(--margins-md)'}
+    >
+      <SessionInput
+        ariaLabel="New conversation input"
+        autoFocus={true}
+        type="text"
+        placeholder={window.i18n('accountIdOrOnsEnter')}
+        value={pubkeyOrOns}
+        onValueChanged={setPubkeyOrOns}
+        onEnterPressed={handleMessageButtonClick}
+        error={pubkeyOrOnsError}
+        centerText={true}
+        isTextArea={true}
+        inputDataTestId="new-session-conversation"
       />
-
+      <SpacerMD />
       <SessionSpinner loading={loading} />
 
-      <SessionIDDescription>{window.i18n('messageNewDescription')}</SessionIDDescription>
+      {!pubkeyOrOnsError && !loading ? (
+        <>
+          <StyledDescriptionContainer
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: THEME_GLOBALS['--default-duration-seconds'] }}
+          >
+            <SessionIDDescription>{window.i18n('messageNewDescription')}</SessionIDDescription>
+            <HelpDeskButton style={{ display: 'inline-flex' }} />
+          </StyledDescriptionContainer>
+          <SpacerLG />
+        </>
+      ) : null}
 
-      <Flex container={true} width="100%">
-        <SpacerMD />
-        <YourSessionIDPill />
-        <SpacerMD />
-      </Flex>
-      <Flex
-        container={true}
-        justifyContent="space-between"
-        alignItems="center"
-        width="100%"
-        padding="0 var(--margins-sm)" // YourSessionIDSelectable already has a left margin of 15px
-      >
-        <YourSessionIDSelectable />
-        <SessionIconButton iconSize="small" iconType="copy" onClick={copyOurSessionID} />
-      </Flex>
-      <SessionButton
-        text={buttonText}
-        disabled={disableNextButton}
-        onClick={handleMessageButtonClick}
-        dataTestId="next-new-conversation-button"
-      />
-    </div>
+      {!isEmpty(pubkeyOrOns) ? (
+        <SessionButton
+          ariaLabel={window.i18n('continue')}
+          text={window.i18n('continue')}
+          disabled={disableNextButton}
+          onClick={handleMessageButtonClick}
+          dataTestId="next-new-conversation-button"
+        />
+      ) : null}
+    </StyledLeftPaneOverlay>
   );
 };

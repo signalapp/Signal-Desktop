@@ -209,6 +209,7 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
         };
       });
 
+      // TODO use GenericWrapperActions.makeDump() once it has been merged
       if (window.sessionFeatureFlags.debug.debugLibsessionDumps) {
         for (let index = 0; index < LibSessionUtil.requiredUserVariants.length; index++) {
           const variant = LibSessionUtil.requiredUserVariants[index];

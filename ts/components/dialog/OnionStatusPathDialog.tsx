@@ -7,8 +7,7 @@ import styled from 'styled-components';
 
 import { isEmpty, isTypedArray } from 'lodash';
 import { CityResponse, Reader } from 'maxmind';
-import { useMount } from 'react-use';
-import { Snode } from '../../data/data';
+import useMount from 'react-use/lib/useMount';
 import { onionPathModal } from '../../state/ducks/modalDialog';
 import {
   useFirstOnionPath,
@@ -18,6 +17,8 @@ import {
 } from '../../state/selectors/onions';
 import { Flex } from '../basic/Flex';
 
+import { Snode } from '../../data/types';
+import { THEME_GLOBALS } from '../../themes/globals';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionIcon, SessionIconButton } from '../icon';
 import { SessionSpinner } from '../loading';
@@ -218,6 +219,8 @@ export const ActionPanelOnionStatusLight = (props: {
   const firstPathLength = useFirstOnionPathLength();
   const isOnline = useIsOnline();
 
+  const glowDuration = Number(THEME_GLOBALS['--duration-onion-status-glow']); // 10 seconds
+
   // Set icon color based on result
   const errorColor = 'var(--button-path-error-color)';
   const defaultColor = 'var(--button-path-default-color)';
@@ -237,7 +240,7 @@ export const ActionPanelOnionStatusLight = (props: {
       iconType="circle"
       iconColor={iconColor}
       onClick={handleClick}
-      glowDuration={10}
+      glowDuration={glowDuration}
       glowStartDelay={0}
       noScale={true}
       isSelected={isSelected}

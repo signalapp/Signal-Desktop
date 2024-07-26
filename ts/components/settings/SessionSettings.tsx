@@ -10,15 +10,16 @@ import { SessionIconButton } from '../icon';
 
 import { SessionNotificationGroupSettings } from './SessionNotificationGroupSettings';
 
-import { Data } from '../../data/data';
 import { sessionPassword } from '../../state/ducks/modalDialog';
 import { SectionType, showLeftPaneSection } from '../../state/ducks/section';
 import type { PasswordAction, SessionSettingCategory } from '../../types/ReduxTypes';
+import { getPasswordHash } from '../../util/storage';
 import { SettingsCategoryAppearance } from './section/CategoryAppearance';
 import { CategoryConversations } from './section/CategoryConversations';
 import { SettingsCategoryHelp } from './section/CategoryHelp';
 import { SettingsCategoryPermissions } from './section/CategoryPermissions';
 import { SettingsCategoryPrivacy } from './section/CategoryPrivacy';
+import { SettingsCategoryRecoveryPassword } from './section/CategoryRecoveryPassword';
 
 export function displayPasswordModal(
   passwordAction: PasswordAction,
@@ -115,11 +116,12 @@ const SettingInCategory = (props: {
       return <SettingsCategoryHelp />;
     case 'permissions':
       return <SettingsCategoryPermissions />;
+    case 'recoveryPassword':
+      return <SettingsCategoryRecoveryPassword />;
 
-    // these three down there have no options, they are just a button
+    // these are just buttons and don't have screens
     case 'clearData':
     case 'messageRequests':
-    case 'recoveryPassword':
     default:
       return null;
   }
@@ -146,16 +148,8 @@ export const SessionSettingsView = (props: SettingsViewProps) => {
 
   const [hasPassword, setHasPassword] = useState(true);
   useMount(() => {
-    let isMounted = true;
-    // eslint-disable-next-line more/no-then
-    void Data.getPasswordHash().then(hash => {
-      if (isMounted) {
-        setHasPassword(!!hash);
-      }
-    });
-    return () => {
-      isMounted = false;
-    };
+    const hash = getPasswordHash();
+    setHasPassword(!!hash);
   });
 
   function onPasswordUpdated(action: string) {

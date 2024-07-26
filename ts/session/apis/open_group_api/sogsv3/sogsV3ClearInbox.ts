@@ -1,6 +1,5 @@
 import AbortController from 'abort-controller';
 import { getConversationController } from '../../../conversations';
-import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import {
   batchFirstSubIsSuccess,
@@ -8,6 +7,7 @@ import {
   OpenGroupBatchRow,
   sogsBatchSend,
 } from './sogsV3BatchPoll';
+import { OpenGroupRequestCommonType } from '../../../../data/types';
 
 type OpenGroupClearInboxResponse = {
   deleted: number;

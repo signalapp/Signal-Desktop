@@ -7,19 +7,18 @@ import { ToastUtils } from '../../session/utils';
 import { BlockedNumberController } from '../../util';
 import { MemberListItem } from '../MemberListItem';
 import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
-import { SpacerLG } from '../basic/Text';
+import { SpacerLG, SpacerSM } from '../basic/Text';
 import { SessionIconButton } from '../icon';
-import { SettingsTitleAndDescription } from './SessionSettingListItem';
+import { SessionSettingsItemWrapper, SettingsTitleAndDescription } from './SessionSettingListItem';
 
 const BlockedEntriesContainer = styled.div`
-  flex-shrink: 1;
-  overflow: auto;
-  min-height: 40px;
-  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
 `;
 
 const BlockedEntriesRoundedContainer = styled.div`
-  overflow: hidden;
   background: var(--background-secondary-color);
   border: 1px solid var(--border-color);
   border-radius: 16px;
@@ -27,36 +26,22 @@ const BlockedEntriesRoundedContainer = styled.div`
   margin: 0 var(--margins-lg);
 `;
 
-const BlockedContactsSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 80px;
-
-  background: var(--settings-tab-background-color);
-  color: var(--settings-tab-text-color);
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
-
-  margin-bottom: var(--margins-lg);
-`;
-
 const BlockedContactListTitle = styled.div`
   display: flex;
   justify-content: space-between;
-  min-height: 45px;
   align-items: center;
 `;
 
 const BlockedContactListTitleButtons = styled.div`
   display: flex;
   align-items: center;
+  min-height: 34px; // height of the unblock button
 `;
 
-export const StyledBlockedSettingItem = styled.div<{ clickable: boolean }>`
+export const StyledBlockedSettingItem = styled.div<{ clickable: boolean; expanded: boolean }>`
   font-size: var(--font-size-md);
-  padding: var(--margins-lg);
-
   cursor: ${props => (props.clickable ? 'pointer' : 'unset')};
+  ${props => props.expanded && 'padding-bottom: var(--margins-lg);'}
 `;
 
 const BlockedEntries = (props: {
@@ -72,12 +57,13 @@ const BlockedEntries = (props: {
         {blockedNumbers.map(blockedEntry => {
           return (
             <MemberListItem
+              key={`blocked-list-item-${blockedEntry}`}
               pubkey={blockedEntry}
               isSelected={selectedIds.includes(blockedEntry)}
-              key={blockedEntry}
               onSelect={addToSelected}
               onUnselect={removeFromSelected}
               disableBg={true}
+              maxNameWidth={'33vw'}
             />
           );
         })}
@@ -121,8 +107,11 @@ export const BlockedContactsList = () => {
   }
 
   return (
-    <BlockedContactsSection>
-      <StyledBlockedSettingItem clickable={!noBlockedNumbers}>
+    <SessionSettingsItemWrapper inline={false}>
+      <StyledBlockedSettingItem
+        clickable={!noBlockedNumbers}
+        expanded={!noBlockedNumbers && expanded}
+      >
         <BlockedContactListTitle onClick={toggleUnblockList}>
           <SettingsTitleAndDescription title={window.i18n('blockedSettingsTitle')} />
           {noBlockedNumbers ? (
@@ -157,9 +146,9 @@ export const BlockedContactsList = () => {
             addToSelected={addToSelected}
             removeFromSelected={removeFromSelected}
           />
-          <SpacerLG />
+          <SpacerSM />
         </>
       ) : null}
-    </BlockedContactsSection>
+    </SessionSettingsItemWrapper>
   );
 };

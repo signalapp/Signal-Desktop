@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getLeftPaneConversationIdsCount } from '../state/selectors/conversations';
-import { getTheme } from '../state/selectors/theme';
+import { useIsDarkTheme } from '../state/selectors/theme';
 import { isSignWithRecoveryPhrase } from '../util/storage';
 import { Flex } from './basic/Flex';
 import { Spacer2XL, SpacerXS } from './basic/Text';
@@ -22,7 +22,7 @@ const StyledSessionFullLogo = styled(Flex)`
   img:nth-child(2) {
     margin-top: 10px;
     width: 250px;
-    transition: 0s;
+    transition: var(--duration-session-logo-text);
     filter: var(--session-logo-text-current-filter);
     -webkit-user-drag: none;
   }
@@ -67,7 +67,7 @@ const StyledNoConversations = styled(StyledP)`
 `;
 
 export const EmptyMessageView = () => {
-  const theme = useSelector(getTheme);
+  const isDarkTheme = useIsDarkTheme();
   const conversationCount = useSelector(getLeftPaneConversationIdsCount);
   const isSignInWithRecoveryPhrase = isSignWithRecoveryPhrase();
 
@@ -89,7 +89,7 @@ export const EmptyMessageView = () => {
           <Spacer2XL />
           <StyledHeading>{window.i18n('onboardingAccountCreated')}</StyledHeading>
           <StyledSessionWelcome
-            color={theme.includes('dark') ? 'var(--primary-color)' : 'var(--text-primary-color)'}
+            color={isDarkTheme ? 'var(--primary-color)' : 'var(--text-primary-color)'}
           >
             {window.i18n('onboardingBubbleWelcomeToSession')}
           </StyledSessionWelcome>
@@ -110,7 +110,9 @@ export const EmptyMessageView = () => {
       {!conversationCount ? (
         <>
           <StyledHR />
-          <StyledNoConversations>{window.i18n('conversationsNone')}</StyledNoConversations>
+          <StyledNoConversations data-testid="empty-conversation">
+            {window.i18n('conversationsNone')}
+          </StyledNoConversations>
           <SpacerXS />
           <StyledP style={{ width: '360px' }}>{window.i18n('onboardingHitThePlusButton')}</StyledP>
         </>

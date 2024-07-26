@@ -12,7 +12,7 @@ export const StyledRightPanelContainer = styled.div`
   width: var(--right-panel-width);
   right: 0vw;
 
-  transition: transform var(--right-panel-duration) linear;
+  transition: transform var(--duration-right-panel) linear;
   transform: translateX(100%);
   z-index: 3;
 

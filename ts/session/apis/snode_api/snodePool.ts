@@ -1,14 +1,15 @@
 import _, { shuffle } from 'lodash';
 import pRetry from 'p-retry';
 
-import { Data, Snode } from '../../../data/data';
+import { Data } from '../../../data/data';
+import { Snode } from '../../../data/types';
 
-import { OnionPaths } from '../../onions';
 import { Onions, SnodePool } from '.';
-import { SeedNodeAPI } from '../seed_node_api';
-import { requestSnodesForPubkeyFromNetwork } from './getSwarmFor';
-import { ServiceNodesList } from './getServiceNodesList';
+import { OnionPaths } from '../../onions';
 import { ed25519Str } from '../../utils/String';
+import { SeedNodeAPI } from '../seed_node_api';
+import { ServiceNodesList } from './getServiceNodesList';
+import { requestSnodesForPubkeyFromNetwork } from './getSwarmFor';
 
 /**
  * If we get less than this snode in a swarm, we fetch new snodes for this pubkey

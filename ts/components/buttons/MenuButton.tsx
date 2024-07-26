@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { clearSearch } from '../../state/ducks/search';
 import { resetLeftOverlayMode, setLeftOverlayMode } from '../../state/ducks/section';
 import { getLeftOverlayMode } from '../../state/selectors/section';
 import { SessionIcon } from '../icon';
@@ -21,7 +22,7 @@ const StyledMenuButton = styled.button`
 
   transition: var(--default-duration);
 
-  :hover {
+  &:hover {
     background: var(--menu-button-background-hover-color);
     border-color: var(--menu-button-border-hover-color);
     svg path {
@@ -40,8 +41,10 @@ export const MenuButton = () => {
 
   const isToggled = Boolean(leftOverlayMode);
 
-  const onClickFn = () =>
+  const onClickFn = () => {
+    dispatch(clearSearch());
     dispatch(isToggled ? resetLeftOverlayMode() : setLeftOverlayMode('choose-action'));
+  };
 
   return (
     <StyledMenuButton data-testid="new-conversation-button" onClick={onClickFn}>

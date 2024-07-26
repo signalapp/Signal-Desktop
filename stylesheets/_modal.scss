@@ -27,12 +27,6 @@
 }
 
 .session-modal {
-  .contact-selection-list {
-    width: 100%;
-    min-width: 300px;
-    max-width: 350px;
-  }
-
   &__input-group {
     min-width: 300px;
 
@@ -47,8 +41,7 @@
 }
 
 .add-moderators-dialog,
-.remove-moderators-dialog,
-.invite-friends-dialog {
+.remove-moderators-dialog {
   .content {
     max-width: 100% !important;
   }
@@ -75,28 +68,6 @@
 
   .hidden {
     display: none;
-  }
-}
-
-.add-moderators-dialog,
-.remove-moderators-dialog,
-.edit-profile-dialog {
-  .error-message {
-    text-align: center;
-    color: var(--danger-color);
-    display: block;
-    user-select: none;
-  }
-
-  .error-faded {
-    opacity: 0;
-    margin-top: -5px;
-    transition: all 100ms linear;
-  }
-
-  .error-shown {
-    opacity: 1;
-    transition: all 250ms linear;
   }
 }
 
@@ -132,7 +103,7 @@
 
 .loki-dialog {
   & ~ .index.inbox {
-    transition: filter 0.1s;
+    transition: filter var(--duration-modal-to-inbox);
   }
 
   input {
@@ -146,91 +117,32 @@
   }
 }
 
-.edit-profile-dialog {
-  .session-modal__header__title {
-    font-size: var(--font-size-lg);
-  }
-
-  .session-modal {
-    width: $session-modal-size-md;
-
-    &__header {
-      height: 68.45px;
+.reaction-list-modal {
+  .session-confirm-wrapper {
+    .session-modal__body {
+      width: 376px;
     }
   }
+}
 
-  .avatar-center-inner {
-    position: relative;
-
-    .qr-view-button {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      right: -3px;
-      height: 30px;
-      width: 30px;
-      border-radius: 50%;
-      background-color: var(--white-color);
-      transition: var(--default-duration);
-
-      &:hover {
-        filter: brightness(90%);
-      }
-
-      .session-icon-button {
-        opacity: 1;
-      }
-    }
-  }
-
-  .session-id-section {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    .session-button {
-      width: 148px;
-    }
-  }
-
-  .profile-name {
-    display: flex;
-    justify-content: center;
-    margin-top: var(--margins-lg);
-
-    input {
-      height: 38px;
-      border-radius: 5px;
-      text-align: center;
-      font-size: $session-font-md;
-    }
-
-    &-uneditable {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      p {
-        font-size: $session-font-md;
-        padding: 0px var(--margins-sm);
-      }
-
-      .session-icon-button {
-        padding: 0px;
+.no-body-padding {
+  .session-confirm-wrapper {
+    .session-modal__body {
+      padding: 0;
+      .session-modal__centered {
+        margin: 0;
       }
     }
   }
 }
 
-.reaction-list-modal {
+.user-details-dialog {
   .session-confirm-wrapper {
+    .session-modal__header {
+      max-width: 400px;
+    }
     .session-modal__body {
-      width: 376px;
-      padding: 0;
-      .session-modal__centered {
-        margin: 0;
-      }
+      width: 400px;
     }
   }
 }

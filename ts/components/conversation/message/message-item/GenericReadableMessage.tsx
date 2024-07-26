@@ -33,9 +33,7 @@ type Props = {
 };
 
 const highlightedMessageAnimation = keyframes`
-  1% {
-      background-color: var(--primary-color);
-  }
+  1% { background-color: var(--primary-color); }
 `;
 
 const StyledReadableMessage = styled.div<{
@@ -50,7 +48,7 @@ const StyledReadableMessage = styled.div<{
   padding: ${props => (props.isDetailView ? '0' : 'var(--margins-xs) var(--margins-lg) 0')};
 
   &.message-highlighted {
-    animation: ${highlightedMessageAnimation} 1s ease-in-out;
+    animation: ${highlightedMessageAnimation} var(--duration-message-highlight) ease-in-out;
   }
 
   ${StyledMessageReactionsContainer} {

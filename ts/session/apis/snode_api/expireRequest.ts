@@ -11,7 +11,7 @@ import {
   uniqBy,
 } from 'lodash';
 import pRetry from 'p-retry';
-import { Snode } from '../../../data/data';
+import { Snode } from '../../../data/types';
 import { getSodiumRenderer } from '../../crypto';
 import { StringUtils, UserUtils } from '../../utils';
 import { fromBase64ToArray, fromHexToArray } from '../../utils/String';

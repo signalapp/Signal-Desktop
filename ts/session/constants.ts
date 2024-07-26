@@ -71,15 +71,11 @@ export const CONVERSATION = {
 export const MAX_ATTACHMENT_FILESIZE_BYTES = 10 * 1000 * 1000;
 
 export const VALIDATION = {
-  MAX_GROUP_NAME_LENGTH: 30,
   CLOSED_GROUP_SIZE_LIMIT: 100,
 };
 
 export const DEFAULT_RECENT_REACTS = ['😂', '🥰', '😢', '😡', '😮', '😈'];
 export const REACT_LIMIT = 6;
-
-/** character limit for a display name based on libsession MAX_NAME_LENGTH */
-export const MAX_NAME_LENGTH_BYTES = 100;
 
 export const FEATURE_RELEASE_TIMESTAMPS = {
   DISAPPEARING_MESSAGES_V2: 1710284400000, // 13/03/2024 10:00 Melbourne time

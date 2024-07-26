@@ -2,7 +2,8 @@
 /* eslint-disable more/no-then */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { compact, concat, flatten, isEmpty, last, sample, uniqBy } from 'lodash';
-import { Data, Snode } from '../../../data/data';
+import { Data } from '../../../data/data';
+import { Snode } from '../../../data/types';
 import { SignalService } from '../../../protobuf';
 import * as Receiver from '../../../receiver/receiver';
 import { PubKey } from '../../types';
@@ -400,8 +401,8 @@ export class SwarmPolling {
             hash: m.hash,
           }));
 
-          await GenericWrapperActions.init('UserConfig', privateKeyEd25519, null);
-          await GenericWrapperActions.merge('UserConfig', incomingConfigMessages);
+          await UserConfigWrapperActions.init(privateKeyEd25519, null);
+          await UserConfigWrapperActions.merge(incomingConfigMessages);
 
           const userInfo = await UserConfigWrapperActions.getUserInfo();
           if (!userInfo) {
@@ -411,7 +412,7 @@ export class SwarmPolling {
         } catch (e) {
           window.log.warn('LibSessionUtil.initializeLibSessionUtilWrappers failed with', e.message);
         } finally {
-          await GenericWrapperActions.free('UserConfig');
+          await UserConfigWrapperActions.free();
         }
 
         return '';
@@ -659,7 +660,7 @@ export class SwarmPolling {
 
     // Note: always print something so we know if the polling is hanging
     window.log.info(
-      `WIP: [onboarding] about to pollOnceForOurDisplayName of ${ed25519Str(pubkey.key)} from snode: ${ed25519Str(toPollFrom.pubkey_ed25519)} namespaces: ${[SnodeNamespaces.UserProfile]} `
+      `[onboarding] about to pollOnceForOurDisplayName of ${ed25519Str(pubkey.key)} from snode: ${ed25519Str(toPollFrom.pubkey_ed25519)} namespaces: ${[SnodeNamespaces.UserProfile]} `
     );
 
     const resultsFromUserProfile = await SnodeAPIRetrieve.retrieveNextMessages(
@@ -673,7 +674,7 @@ export class SwarmPolling {
 
     // Note: always print something so we know if the polling is hanging
     window.log.info(
-      `WIP: [onboarding] pollOnceForOurDisplayName of ${ed25519Str(pubkey.key)} from snode: ${ed25519Str(toPollFrom.pubkey_ed25519)} namespaces: ${[SnodeNamespaces.UserProfile]} returned: ${resultsFromUserProfile?.length}`
+      `[onboarding] pollOnceForOurDisplayName of ${ed25519Str(pubkey.key)} from snode: ${ed25519Str(toPollFrom.pubkey_ed25519)} namespaces: ${[SnodeNamespaces.UserProfile]} returned: ${resultsFromUserProfile?.length}`
     );
 
     // check if we just fetched the details from the config namespaces.

@@ -163,4 +163,6 @@ export const oceanDark: ThemeColorVariables = {
 
   '--file-dropzone-background-color': 'var(--message-link-preview-background-color)',
   '--file-dropzone-border-color': 'var(--primary-color)',
+
+  '--session-recording-pulse-color': hexColorToRGB(THEMES.OCEAN_DARK.DANGER),
 };

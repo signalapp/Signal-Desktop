@@ -8,11 +8,13 @@ import {
   DeleteAccountModalState,
   EditProfileModalState,
   EditProfilePictureModalState,
+  EnterPasswordModalState,
+  HideRecoveryPasswordModalState,
   InviteContactModalState,
+  LightBoxOptions,
   ModalState,
   OnionPathModalState,
   ReactModalsState,
-  RecoveryPhraseModalState,
   RemoveModeratorsModalState,
   SessionPasswordModalState,
   UpdateGroupMembersModalState,
@@ -80,9 +82,9 @@ export const getOnionPathDialog = createSelector(
   (state: ModalState): OnionPathModalState => state.onionPathModal
 );
 
-export const getRecoveryPhraseDialog = createSelector(
+export const getEnterPasswordModalState = createSelector(
   getModal,
-  (state: ModalState): RecoveryPhraseModalState => state.recoveryPhraseModal
+  (state: ModalState): EnterPasswordModalState => state.enterPasswordModal
 );
 
 export const getSessionPasswordDialog = createSelector(
@@ -108,4 +110,14 @@ export const getReactClearAllDialog = createSelector(
 export const getEditProfilePictureModalState = createSelector(
   getModal,
   (state: ModalState): EditProfilePictureModalState => state.editProfilePictureModalState
+);
+
+export const getHideRecoveryPasswordModalState = createSelector(
+  getModal,
+  (state: ModalState): HideRecoveryPasswordModalState => state.hideRecoveryPasswordModalState
+);
+
+export const getLightBoxOptions = createSelector(
+  getModal,
+  (state: ModalState): LightBoxOptions => state.lightBoxOptions
 );

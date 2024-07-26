@@ -1,9 +1,9 @@
 import { isEmpty } from 'lodash';
-import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
-import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
+import { OpenGroupData } from '../../../../data/opengroups';
 import { getOpenGroupManager } from '../opengroupV2/OpenGroupManagerV2';
 import { SessionUtilUserGroups } from '../../../utils/libsession/libsession_utils_user_groups';
 import { getConversationController } from '../../../conversations';
+import { OpenGroupV2Room, OpenGroupRequestCommonType } from '../../../../data/types';
 
 // eslint-disable-next-line prefer-regex-literals
 const protocolRegex = new RegExp('https?://');

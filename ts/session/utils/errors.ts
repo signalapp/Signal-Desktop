@@ -66,3 +66,11 @@ export class HTTPError extends Error {
     }
   }
 }
+
+export class SnodeResponseError extends Error {
+  constructor(message = 'sessionRpc could not talk to node') {
+    super(message);
+    // restore prototype chain
+    Object.setPrototypeOf(this, SnodeResponseError.prototype);
+  }
+}

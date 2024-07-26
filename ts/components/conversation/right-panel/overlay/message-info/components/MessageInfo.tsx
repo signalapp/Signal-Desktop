@@ -20,8 +20,10 @@ import {
 } from '../../../../../../state/selectors';
 
 import { isDevProd } from '../../../../../../shared/env_vars';
+import { useSelectedConversationKey } from '../../../../../../state/selectors/selectedConversation';
 import { Flex } from '../../../../../basic/Flex';
 import { SpacerSM } from '../../../../../basic/Text';
+import { CopyToClipboardIcon } from '../../../../../buttons';
 
 export const MessageInfoLabel = styled.label<{ color?: string }>`
   font-size: var(--font-size-lg);
@@ -49,11 +51,22 @@ type LabelWithInfoProps = {
   onClick?: () => void;
 };
 
+const isDev = isDevProd();
+
 export const LabelWithInfo = (props: LabelWithInfoProps) => {
   return (
     <LabelWithInfoContainer title={props.title || undefined} onClick={props.onClick}>
       <MessageInfoLabel color={props.labelColor}>{props.label}</MessageInfoLabel>
-      <MessageInfoData color={props.dataColor}>{props.info}</MessageInfoData>
+      <Flex container={true} justifyContent="flex-start" alignItems="flex-start">
+        <MessageInfoData color={props.dataColor}>{props.info}</MessageInfoData>
+        {isDev ? (
+          <CopyToClipboardIcon
+            iconSize={'medium'}
+            copyContent={props.info}
+            margin={'0 0 0 var(--margins-xs)'}
+          />
+        ) : null}
+      </Flex>
     </LabelWithInfoContainer>
   );
 };
@@ -66,6 +79,7 @@ const showDebugLog = () => {
 };
 
 const DebugMessageInfo = ({ messageId }: { messageId: string }) => {
+  const convoId = useSelectedConversationKey();
   const messageHash = useMessageHash(messageId);
   const serverId = useMessageServerId(messageId);
   const expirationType = useMessageExpirationType(messageId);
@@ -78,6 +92,9 @@ const DebugMessageInfo = ({ messageId }: { messageId: string }) => {
 
   return (
     <>
+      {convoId ? (
+        <LabelWithInfo label={`${window.i18n('conversationId')}:`} info={convoId} />
+      ) : null}
       {messageHash ? (
         <LabelWithInfo label={`${window.i18n('messageHash')}:`} info={messageHash} />
       ) : null}

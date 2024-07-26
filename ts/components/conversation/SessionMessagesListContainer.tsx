@@ -65,8 +65,9 @@ const StyledMessagesContainer = styled.div`
   }
 `;
 
-const StyledTypingBubble = styled(TypingBubble)`
-  margin: var(--margins-xs) var(--margins-lg) 0;
+// NOTE Must always match the padding of the StyledReadableMessage
+const StyledTypingBubbleContainer = styled.div`
+  padding: var(--margins-xs) var(--margins-lg) 0;
 `;
 
 class SessionMessagesListContainerInner extends Component<Props> {
@@ -118,11 +119,13 @@ class SessionMessagesListContainerInner extends Component<Props> {
         ref={this.props.messageContainerRef}
         data-testid="messages-container"
       >
-        <StyledTypingBubble
-          conversationType={conversation.type}
-          isTyping={!!conversation.isTyping}
-          key="typing-bubble"
-        />
+        <StyledTypingBubbleContainer>
+          <TypingBubble
+            conversationType={conversation.type}
+            isTyping={!!conversation.isTyping}
+            key="typing-bubble"
+          />
+        </StyledTypingBubbleContainer>
         <ConversationMessageRequestButtons />
 
         <ScrollToLoadedMessageContext.Provider value={this.scrollToLoadedMessage}>

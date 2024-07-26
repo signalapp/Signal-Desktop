@@ -13,8 +13,6 @@ import {
 } from '../../../../hooks/useParamSelector';
 import { useIsRightPanelShowing } from '../../../../hooks/useUI';
 import {
-  ConversationInteractionStatus,
-  ConversationInteractionType,
   showAddModeratorsByConvoId,
   showInviteContactByConvoId,
   showLeaveGroupByConvoId,
@@ -47,6 +45,10 @@ import { PanelButtonGroup, PanelIconButton } from '../../../buttons';
 import { MediaItemType } from '../../../lightbox/LightboxGallery';
 import { MediaGallery } from '../../media-gallery/MediaGallery';
 import { Header, StyledScrollContainer } from './components';
+import {
+  ConversationInteractionStatus,
+  ConversationInteractionType,
+} from '../../../../interactions/types';
 
 async function getMediaGalleryProps(conversationId: string): Promise<{
   documents: Array<MediaItemType>;
@@ -282,7 +284,7 @@ export const OverlayRightPanelSettings = () => {
         <PanelButtonGroup style={{ margin: '0 var(--margins-lg)' }}>
           {showUpdateGroupNameButton && (
             <PanelIconButton
-              iconType={'group'}
+              iconType={'groupMembers'}
               text={isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
               onClick={() => {
                 void showUpdateGroupNameByConvoId(selectedConvoKey);
@@ -315,7 +317,7 @@ export const OverlayRightPanelSettings = () => {
 
           {showUpdateGroupMembersButton && (
             <PanelIconButton
-              iconType={'group'}
+              iconType={'groupMembers'}
               text={window.i18n('groupMembers')}
               onClick={() => {
                 void showUpdateGroupMembersByConvoId(selectedConvoKey);

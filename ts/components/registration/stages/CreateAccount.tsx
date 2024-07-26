@@ -1,10 +1,12 @@
 import { isEmpty } from 'lodash';
 import { useDispatch } from 'react-redux';
-import { useMount } from 'react-use';
+import useMount from 'react-use/lib/useMount';
 import { SettingsKey } from '../../../data/settings-key';
 import { mnDecode } from '../../../session/crypto/mnemonic';
+import { ProfileManager } from '../../../session/profile_manager/ProfileManager';
 import { StringUtils } from '../../../session/utils';
 import { fromHex } from '../../../session/utils/String';
+import LIBSESSION_CONSTANTS from '../../../session/utils/libsession/libsession_constants';
 import { trigger } from '../../../shims/events';
 import {
   AccountCreation,
@@ -26,11 +28,10 @@ import {
 } from '../../../util/accountManager';
 import { Storage, setSignWithRecoveryPhrase } from '../../../util/storage';
 import { Flex } from '../../basic/Flex';
-import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG, SpacerSM } from '../../basic/Text';
 import { SessionInput } from '../../inputs';
 import { resetRegistration } from '../RegistrationStages';
-import { OnboardDescription, OnboardHeading } from '../components';
+import { ContinueButton, OnboardDescription, OnboardHeading } from '../components';
 import { BackButtonWithinContainer } from '../components/BackButton';
 import { displayNameIsValid, sanitizeDisplayNameOrToast } from '../utils';
 
@@ -92,24 +93,29 @@ export const CreateAccount = () => {
     }
 
     try {
+      const validName = await ProfileManager.updateOurProfileDisplayName(displayName, true);
+
       await signUp({
-        displayName,
+        displayName: validName,
         recoveryPassword,
       });
 
       dispatch(setAccountCreationStep(AccountCreation.Done));
-    } catch (e) {
+    } catch (err) {
+      const errorString = err.message || String(err);
       window.log.error(
-        `[onboarding] create account: signUpWithDetails failed! Error: ${e.message || e}`
+        `[onboarding] create account: signUpWithDetails failed! Error: ${errorString}`
       );
       dispatch(setAccountCreationStep(AccountCreation.DisplayName));
-      dispatch(setDisplayNameError(e.message || String(e)));
+      dispatch(setDisplayNameError(errorString));
     }
   };
 
   return (
     <BackButtonWithinContainer
       margin={'2px 0 0 -36px'}
+      shouldQuitOnClick={true}
+      quitMessage={window.i18n('onboardingBackAccountCreation')}
       callback={() => {
         dispatch(setDisplayName(''));
         dispatch(setRecoveryPassword(''));
@@ -128,8 +134,9 @@ export const CreateAccount = () => {
         <OnboardDescription>{window.i18n('displayNameDescription')}</OnboardDescription>
         <SpacerLG />
         <SessionInput
+          ariaLabel={window.i18n('enterDisplayName')}
           autoFocus={true}
-          disabledOnBlur={true}
+          disableOnBlurEvent={true}
           type="text"
           placeholder={window.i18n('enterDisplayName')}
           value={displayName}
@@ -139,15 +146,13 @@ export const CreateAccount = () => {
           }}
           onEnterPressed={signUpWithDetails}
           error={displayNameError}
+          maxLength={LIBSESSION_CONSTANTS.CONTACT_MAX_NAME_LENGTH}
           inputDataTestId="display-name-input"
         />
         <SpacerLG />
-        <SessionButton
-          buttonColor={SessionButtonColor.White}
+        <ContinueButton
           onClick={signUpWithDetails}
-          text={window.i18n('continue')}
           disabled={isEmpty(displayName) || !isEmpty(displayNameError)}
-          dataTestId="continue-button"
         />
       </Flex>
     </BackButtonWithinContainer>

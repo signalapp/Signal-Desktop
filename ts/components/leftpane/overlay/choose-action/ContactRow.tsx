@@ -53,7 +53,7 @@ const StyledRowContainer = styled.button`
     border-top: 1px var(--border-color) solid;
   }
 
-  :hover {
+  &:hover {
     background-color: var(--conversation-tab-background-hover-color);
   }
 `;

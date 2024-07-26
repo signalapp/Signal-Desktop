@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { clearSearch, search, updateSearchTerm } from '../state/ducks/search';
 import { getConversationsCount } from '../state/selectors/conversations';
 import { getLeftOverlayMode } from '../state/selectors/section';
-import { cleanSearchTerm } from '../util/cleanSearchTerm';
 import { SessionIconButton } from './icon';
 
 const StyledSearchInput = styled.div`
@@ -62,15 +61,6 @@ function updateSearch(dispatch: Dispatch<any>, searchTerm: string) {
 
   // this updates our current state and text field.
   dispatch(updateSearchTerm(searchTerm));
-
-  if (searchTerm.length < 2) {
-    return;
-  }
-  // this effectively trigger a search
-  const cleanedTerm = cleanSearchTerm(searchTerm);
-  if (!cleanedTerm) {
-    return;
-  }
 
   debouncedSearch(dispatch, searchTerm);
 }

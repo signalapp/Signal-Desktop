@@ -1,18 +1,29 @@
-import { AnyAction, Dispatch } from '@reduxjs/toolkit';
+import { Dispatch } from '@reduxjs/toolkit';
 import { sanitizeSessionUsername } from '../../../session/utils/String';
 
 export function sanitizeDisplayNameOrToast(
   displayName: string,
-  setDisplayNameError: (error: string | undefined) => AnyAction,
-  dispatch: Dispatch
+  // can be a useState or redux function
+  onDisplayNameError: (error: string | undefined) => any,
+  dispatch?: Dispatch
 ) {
   try {
     const sanitizedName = sanitizeSessionUsername(displayName);
     const trimName = sanitizedName.trim();
-    dispatch(setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined));
-    return sanitizedName;
+    const errorString = !trimName ? window.i18n('displayNameEmpty') : undefined;
+    if (dispatch) {
+      dispatch(onDisplayNameError(errorString));
+    } else {
+      onDisplayNameError(errorString); // this is is either calling dispatch in the caller or just `setDisplayNameError`
+    }
+
+    return trimName;
   } catch (e) {
-    dispatch(setDisplayNameError(window.i18n('displayNameErrorDescriptionShorter')));
+    if (dispatch) {
+      dispatch(onDisplayNameError(window.i18n('displayNameErrorDescriptionShorter')));
+    } else {
+      onDisplayNameError(window.i18n('displayNameErrorDescriptionShorter'));
+    }
     return displayName;
   }
 }

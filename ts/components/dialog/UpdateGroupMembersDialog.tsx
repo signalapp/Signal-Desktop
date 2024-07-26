@@ -53,11 +53,11 @@ const ClassicMemberList = (props: {
 
         return (
           <MemberListItem
+            key={`classic-member-list-${member}`}
             pubkey={member}
             isSelected={isSelected}
             onSelect={onSelect}
             onUnselect={onUnselect}
-            key={member}
             isAdmin={isAdmin}
             disableBg={true}
           />
@@ -84,11 +84,11 @@ const ZombiesList = ({ convoId }: { convoId: string }) => {
     const isSelected = weAreAdmin || false; // && !member.checkmarked;
     return (
       <MemberListItem
+        key={`zombie-list-${zombie}`}
         isSelected={isSelected}
         onSelect={onZombieClicked}
         onUnselect={onZombieClicked}
         isZombie={true}
-        key={zombie}
         pubkey={zombie}
       />
     );
@@ -233,7 +233,7 @@ export const UpdateGroupMembersDialog = (props: Props) => {
 
   return (
     <SessionWrapperModal title={titleText} onClose={closeDialog}>
-      <StyledClassicMemberList className="group-member-list__selection">
+      <StyledClassicMemberList className="contact-selection-list">
         <ClassicMemberList
           convoId={conversationId}
           onSelect={onAdd}

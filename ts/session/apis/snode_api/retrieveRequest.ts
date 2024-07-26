@@ -1,5 +1,5 @@
 import { isArray, omit } from 'lodash';
-import { Snode } from '../../../data/data';
+import { Snode } from '../../../data/types';
 import { updateIsOnline } from '../../../state/ducks/onion';
 import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';
@@ -8,6 +8,7 @@ import { SnodeNamespace, SnodeNamespaces } from './namespaces';
 import { DURATION, TTL_DEFAULT } from '../../constants';
 import { UserUtils } from '../../utils';
 import { sleepFor } from '../../utils/Promise';
+import { SnodeResponseError } from '../../utils/errors';
 import {
   RetrieveLegacyClosedGroupSubRequestType,
   RetrieveSubRequestType,
@@ -136,7 +137,7 @@ async function retrieveNextMessages(
       window?.log?.warn(
         `_retrieveNextMessages - sessionRpc could not talk to ${targetNode.ip}:${targetNode.port}`
       );
-      throw new Error(
+      throw new SnodeResponseError(
         `_retrieveNextMessages - sessionRpc could not talk to ${targetNode.ip}:${targetNode.port}`
       );
     }
