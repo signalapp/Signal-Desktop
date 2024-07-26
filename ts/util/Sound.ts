@@ -125,7 +125,7 @@ export class Sound {
     }
 
     if (soundStyle === SoundType.Ringtone) {
-      return 'sounds/ringtone_minimal.ogg';
+      return 'sounds/ringtone_lively.ogg';
     }
 
     if (soundStyle === SoundType.VoiceNoteEnd) {
