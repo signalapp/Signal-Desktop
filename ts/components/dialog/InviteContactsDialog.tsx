@@ -165,7 +165,7 @@ const InviteContactsDialogInner = (props: Props) => {
         {hasContacts ? (
           validContactsForInvite.map((member: string) => (
             <MemberListItem
-              key={member}
+              key={`contacts-list-${member}`}
               pubkey={member}
               isSelected={selectedContacts.includes(member)}
               onSelect={addTo}

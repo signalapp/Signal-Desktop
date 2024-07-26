@@ -405,7 +405,10 @@ input {
 .contact-selection-list {
   display: flex;
   flex-direction: column;
-  width: 20vw;
+  width: 400px;
+  max-height: 240px;
+  overflow-y: auto;
+  margin: var(--margins-sm);
 }
 
 .session-confirm-wrapper {

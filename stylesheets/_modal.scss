@@ -27,12 +27,6 @@
 }
 
 .session-modal {
-  .contact-selection-list {
-    width: 100%;
-    min-width: 300px;
-    max-width: 350px;
-  }
-
   &__input-group {
     min-width: 300px;
 
@@ -47,8 +41,7 @@
 }
 
 .add-moderators-dialog,
-.remove-moderators-dialog,
-.invite-friends-dialog {
+.remove-moderators-dialog {
   .content {
     max-width: 100% !important;
   }

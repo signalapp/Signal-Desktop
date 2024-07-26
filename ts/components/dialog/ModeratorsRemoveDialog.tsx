@@ -85,7 +85,7 @@ export const RemoveModeratorsDialog = (props: Props) => {
           <div className="contact-selection-list">
             {existingMods.map(modId => (
               <MemberListItem
-                key={modId}
+                key={`mod-list-${modId}`}
                 pubkey={modId}
                 isSelected={modsToRemove.some(m => m === modId)}
                 onSelect={(selectedMember: string) => {
