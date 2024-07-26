@@ -5,7 +5,6 @@ import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 
 import { isEmpty } from 'lodash';
-import { AutoSizer, List, ListRowProps } from 'react-virtualized';
 import { SessionButton } from '../../basic/SessionButton';
 import { SessionSpinner } from '../../loading';
 
@@ -42,14 +41,11 @@ const StyledNoResults = styled.div`
 const StyledGroupMemberListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: start;
-  padding: 0;
+  flex: 1;
   width: 100%;
-  height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  flex-grow: 1;
-  flex-shrink: 1;
+
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
 
@@ -61,34 +57,6 @@ const StyledGroupMemberListContainer = styled.div`
 const NoContacts = () => {
   return (
     <StyledMemberListNoContacts>{window.i18n('noContactsForGroup')}</StyledMemberListNoContacts>
-  );
-};
-
-const MemberRow = (
-  { index, key }: ListRowProps,
-  contactsToRender: Array<string>,
-  selectedMemberIds: Array<string>,
-  addToSelected: (memberId: string) => void,
-  removeFromSelected: (memberId: string) => void
-): JSX.Element | null => {
-  // assume conversations that have been marked unapproved should be filtered out by selector.
-  if (!contactsToRender) {
-    throw new Error('MemberRow: Tried to render without contacts');
-  }
-
-  const memberPubkey = contactsToRender[index];
-  if (!memberPubkey) {
-    throw new Error('MemberRow: contact selector returned element containing falsy value.');
-  }
-
-  return (
-    <MemberListItem
-      key={key}
-      pubkey={memberPubkey}
-      isSelected={selectedMemberIds.includes(memberPubkey)}
-      onSelect={addToSelected}
-      onUnselect={removeFromSelected}
-    />
   );
 };
 
@@ -173,7 +141,7 @@ export const OverlayClosedGroup = () => {
 
   const noContactsForClosedGroup = isEmpty(searchTerm) && contactsToRender.length === 0;
 
-  const disableCreateButton = !selectedMemberIds.length && !groupName.length;
+  const disableCreateButton = loading || (!selectedMemberIds.length && !groupName.length);
 
   return (
     <StyledLeftPaneOverlay
@@ -203,6 +171,7 @@ export const OverlayClosedGroup = () => {
           monospaced={true}
           isTextArea={true}
           inputDataTestId="new-closed-group-name"
+          editable={!loading}
         />
         <SpacerMD />
         <SessionSpinner loading={loading} />
@@ -210,32 +179,22 @@ export const OverlayClosedGroup = () => {
       </Flex>
 
       <SessionSearchInput />
-      <StyledGroupMemberListContainer key={`member-list-0`}>
+      <StyledGroupMemberListContainer>
         {noContactsForClosedGroup ? (
           <NoContacts />
         ) : searchTerm && !contactsToRender.length ? (
           <StyledNoResults>{window.i18n('noSearchResults', [searchTerm])}</StyledNoResults>
         ) : (
-          <AutoSizer>
-            {({ height, width }) => (
-              <List
-                height={height}
-                width={width}
-                autoHeight={true}
-                rowCount={contactsToRender.length}
-                rowHeight={50}
-                rowRenderer={props =>
-                  MemberRow(
-                    props,
-                    contactsToRender,
-                    selectedMemberIds,
-                    addToSelected,
-                    removeFromSelected
-                  )
-                }
-              />
-            )}
-          </AutoSizer>
+          contactsToRender.map((pubkey: string) => (
+            <MemberListItem
+              key={`member-list-${pubkey}`}
+              pubkey={pubkey}
+              isSelected={selectedMemberIds.includes(pubkey)}
+              onSelect={addToSelected}
+              onUnselect={removeFromSelected}
+              disabled={loading}
+            />
+          ))
         )}
       </StyledGroupMemberListContainer>
 

@@ -452,10 +452,6 @@ export const getLeftPaneConversationIdsCount = createSelector(
 
 const getDirectContacts = createSelector(getSortedConversations, _getPrivateFriendsConversations);
 
-export const getPrivateContactsPubkeys = createSelector(getDirectContacts, state =>
-  state.map(m => m.id)
-);
-
 export const getDirectContactsCount = createSelector(
   getDirectContacts,
   (contacts: Array<ReduxConversationType>) => contacts.length
@@ -490,6 +486,10 @@ export const getDirectContactsByName = createSelector(
 
     return [...extractedContactsWithDisplayName, ...extractedContactsNoDisplayName];
   }
+);
+
+export const getPrivateContactsPubkeys = createSelector(getDirectContactsByName, state =>
+  state.map(m => m.id)
 );
 
 export const getGlobalUnreadMessageCount = createSelector(
