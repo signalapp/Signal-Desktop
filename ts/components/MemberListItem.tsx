@@ -53,13 +53,14 @@ const StyledInfo = styled.div`
   min-width: 0;
 `;
 
-const StyledName = styled.span`
+const StyledName = styled.span<{ maxNameWidth?: string }>`
   font-weight: bold;
   margin-inline-start: var(--margins-md);
   margin-inline-end: var(--margins-md);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  ${props => props.maxNameWidth && `max-width: ${props.maxNameWidth};`}
 `;
 
 const StyledCheckContainer = styled.div`
@@ -74,6 +75,7 @@ export const MemberListItem = (props: {
   isZombie?: boolean;
   inMentions?: boolean; // set to true if we are rendering members but in the Mentions picker
   disableBg?: boolean;
+  maxNameWidth?: string;
   isAdmin?: boolean; // if true,  we add a small crown on top of their avatar
   onSelect?: (pubkey: string) => void;
   onUnselect?: (pubkey: string) => void;
@@ -89,6 +91,7 @@ export const MemberListItem = (props: {
     onUnselect,
     inMentions,
     disableBg,
+    maxNameWidth,
     disabled,
     dataTestId,
   } = props;
@@ -117,7 +120,7 @@ export const MemberListItem = (props: {
     >
       <StyledInfo>
         <AvatarItem memberPubkey={pubkey} isAdmin={isAdmin || false} />
-        <StyledName>{memberName}</StyledName>
+        <StyledName maxNameWidth={maxNameWidth}>{memberName}</StyledName>
       </StyledInfo>
 
       {!inMentions && (
