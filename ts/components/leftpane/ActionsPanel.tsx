@@ -1,7 +1,5 @@
-import { ipcRenderer } from 'electron';
 import React, { useEffect, useState } from 'react';
-
-import { debounce, isEmpty, isString } from 'lodash';
+import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import useInterval from 'react-use/lib/useInterval';
 import useTimeoutFn from 'react-use/lib/useTimeoutFn';
@@ -37,7 +35,7 @@ import { SessionIconButton } from '../icon/SessionIconButton';
 import { LeftPaneSectionContainer } from './LeftPaneSectionContainer';
 
 import { SettingsKey } from '../../data/settings-key';
-import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_api/FileServerApi';
+import { useFetchLatestReleaseFromFileServer } from '../../hooks/useFetchLatestReleaseFromFileServer';
 import {
   forceRefreshRandomSnodePool,
   getFreshSwarmFor,
@@ -144,11 +142,6 @@ const Section = (props: { type: SectionType }) => {
 
 const cleanUpMediasInterval = DURATION.MINUTES * 60;
 
-// every 1 minute we fetch from the fileserver to check for a new release
-// * if there is none, no request to github are made.
-// * if there is a version on the fileserver more recent than our current, we fetch github to get the UpdateInfos and trigger an update as usual (asking user via dialog)
-const fetchReleaseFromFileServerInterval = 1000 * 60; // try to fetch the latest release from the fileserver every minute
-
 const setupTheme = async () => {
   const shouldFollowSystemTheme = window.getSettingValue(SettingsKey.hasFollowSystemThemeEnabled);
   const theme = window.Events.getThemeSetting();
@@ -232,22 +225,6 @@ const doAppStartUp = async () => {
   }, 20000);
 };
 
-async function fetchReleaseFromFSAndUpdateMain() {
-  try {
-    window.log.info('[updater] about to fetchReleaseFromFSAndUpdateMain');
-
-    const latest = await getLatestReleaseFromFileServer();
-    window.log.info('[updater] fetched latest release from fileserver: ', latest);
-
-    if (isString(latest) && !isEmpty(latest)) {
-      ipcRenderer.send('set-release-from-file-server', latest);
-      window.readyForUpdates();
-    }
-  } catch (e) {
-    window.log.warn(e);
-  }
-}
-
 /**
  * ActionsPanel is the far left banner (not the left pane).
  * The panel with buttons to switch between the message/contact/settings/theme views
@@ -272,12 +249,7 @@ export const ActionsPanel = () => {
 
   useInterval(cleanUpOldDecryptedMedias, startCleanUpMedia ? cleanUpMediasInterval : null);
 
-  useInterval(() => {
-    if (!ourPrimaryConversation) {
-      return;
-    }
-    void fetchReleaseFromFSAndUpdateMain();
-  }, fetchReleaseFromFileServerInterval);
+  useFetchLatestReleaseFromFileServer();
 
   useInterval(() => {
     if (!ourPrimaryConversation) {
