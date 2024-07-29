@@ -897,6 +897,10 @@ export async function startApp(): Promise<void> {
         );
       }
 
+      if (window.isBeforeVersion(lastVersion, 'v1.32.0-beta.4')) {
+        drop(DataWriter.ensureFilePermissions());
+      }
+
       if (
         window.isBeforeVersion(lastVersion, 'v1.36.0-beta.1') &&
         window.isAfterVersion(lastVersion, 'v1.35.0-beta.1')
@@ -964,8 +968,6 @@ export async function startApp(): Promise<void> {
     if (newVersion || window.storage.get('needOrphanedAttachmentCheck')) {
       await window.storage.remove('needOrphanedAttachmentCheck');
       await DataWriter.cleanupOrphanedAttachments();
-
-      drop(DataWriter.ensureFilePermissions());
     }
 
     if (
