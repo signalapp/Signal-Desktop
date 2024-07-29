@@ -53,15 +53,13 @@ const StyledInfo = styled.div`
   min-width: 0;
 `;
 
-const StyledName = styled.span<{ maxWidth?: string }>`
+const StyledName = styled.span`
   font-weight: bold;
   margin-inline-start: var(--margins-md);
   margin-inline-end: var(--margins-md);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
-  ${props => props.maxWidth && `max-width: ${props.maxWidth};`}
 `;
 
 const StyledCheckContainer = styled.div`

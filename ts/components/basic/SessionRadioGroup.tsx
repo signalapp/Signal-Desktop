@@ -57,6 +57,7 @@ export const SessionRadioGroup = (props: Props) => {
             }}
             beforeMargins={'0 var(--margins-sm) 0 0 '}
             radioPosition={radioPosition}
+            style={{ textAlign: 'start' }}
           />
         );
       })}
