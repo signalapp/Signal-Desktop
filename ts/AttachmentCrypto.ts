@@ -442,7 +442,10 @@ export async function decryptAttachmentV2ToSink(
   } catch (error) {
     // These errors happen when canceling fetch from `attachment://` urls,
     // ignore them to avoid noise in the logs.
-    if (error.name === 'AbortError') {
+    if (
+      error.name === 'AbortError' ||
+      error.code === 'ERR_STREAM_PREMATURE_CLOSE'
+    ) {
       throw error;
     }
 
