@@ -424,14 +424,14 @@ export function ConversationDetails({
         {!conversation.isMe && (
           <>
             <ConversationDetailsCallButton
-              disabled={hasActiveCall}
+              hasActiveCall={hasActiveCall}
               i18n={i18n}
               onClick={() => onOutgoingVideoCallInConversation(conversation.id)}
               type="video"
             />
             {!isGroup && (
               <ConversationDetailsCallButton
-                disabled={hasActiveCall}
+                hasActiveCall={hasActiveCall}
                 i18n={i18n}
                 onClick={() =>
                   onOutgoingAudioCallInConversation(conversation.id)
@@ -733,19 +733,18 @@ export function ConversationDetails({
 }
 
 function ConversationDetailsCallButton({
-  disabled,
+  hasActiveCall,
   i18n,
   onClick,
   type,
 }: Readonly<{
-  disabled: boolean;
+  hasActiveCall: boolean;
   i18n: LocalizerType;
   onClick: () => unknown;
   type: 'audio' | 'video';
 }>) {
   const button = (
     <Button
-      disabled={disabled}
       icon={ButtonIconType[type]}
       onClick={onClick}
       variant={ButtonVariant.Details}
@@ -754,7 +753,7 @@ function ConversationDetailsCallButton({
     </Button>
   );
 
-  if (disabled) {
+  if (hasActiveCall) {
     return (
       <Tooltip content={i18n('icu:calling__in-another-call-tooltip')}>
         {button}

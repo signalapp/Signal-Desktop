@@ -32,6 +32,11 @@ export const getCallLinkAddNameModalRoomId = createSelector(
   ({ callLinkAddNameModalRoomId }) => callLinkAddNameModalRoomId
 );
 
+export const getConfirmLeaveCallModalState = createSelector(
+  getGlobalModalsState,
+  ({ confirmLeaveCallModalState }) => confirmLeaveCallModalState
+);
+
 export const getContactModalState = createSelector(
   getGlobalModalsState,
   ({ contactModalState }) => contactModalState

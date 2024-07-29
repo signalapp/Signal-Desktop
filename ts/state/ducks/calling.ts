@@ -82,8 +82,11 @@ import {
   isGroupOrAdhocCallMode,
   isGroupOrAdhocCallState,
 } from '../../util/isGroupOrAdhocCall';
-import type { ShowErrorModalActionType } from './globalModals';
-import { SHOW_ERROR_MODAL } from './globalModals';
+import type {
+  ShowErrorModalActionType,
+  ToggleConfirmLeaveCallModalActionType,
+} from './globalModals';
+import { SHOW_ERROR_MODAL, toggleConfirmLeaveCallModal } from './globalModals';
 import { ButtonVariant } from '../../components/Button';
 import { getConversationIdForLogging } from '../../util/idForLogging';
 import { DataReader, DataWriter } from '../../sql/Client';
@@ -92,6 +95,7 @@ import type { CallHistoryAdd } from './callHistory';
 import { addCallHistory } from './callHistory';
 import { saveDraftRecordingIfNeeded } from './composer';
 import type { CallHistoryDetails } from '../../types/CallDisposition';
+import type { StartCallData } from '../../components/ConfirmLeaveCallModal';
 
 // State
 
@@ -1464,48 +1468,6 @@ function handleCallLinkUpdate(
   };
 }
 
-/**
- * When starting a lobby and there's an active call, if we're already in call then
- * focus it (toggle pip), otherwise show an error.
- * @returns {boolean} `true` if there was an active call and we handled it.
- */
-function handleActiveCallOnStartLobby({
-  conversationId,
-  state,
-  dispatch,
-}: {
-  conversationId: string;
-  state: RootStateType;
-  dispatch: ThunkDispatch<
-    RootStateType,
-    unknown,
-    ShowErrorModalActionType | TogglePipActionType
-  >;
-}): boolean {
-  const { activeCallState } = state.calling;
-  if (!activeCallState) {
-    return false;
-  }
-
-  if (activeCallState.conversationId === conversationId) {
-    dispatch({
-      type: TOGGLE_PIP,
-    });
-  } else {
-    const i18n = getIntl(state);
-    dispatch({
-      type: SHOW_ERROR_MODAL,
-      payload: {
-        title: i18n('icu:calling__cant-join'),
-        description: i18n('icu:calling__dialog-already-in-call'),
-        buttonVariant: ButtonVariant.Primary,
-      },
-    });
-  }
-
-  return true;
-}
-
 function hangUpActiveCall(
   reason: string
 ): ThunkAction<void, RootStateType, unknown, HangUpActionType> {
@@ -2046,9 +2008,9 @@ function updateCallLinkRestrictions(
   };
 }
 
-function startCallLinkLobbyByRoomId(
-  roomId: string
-): StartCallLinkLobbyThunkActionType {
+function startCallLinkLobbyByRoomId({
+  roomId,
+}: StartCallLinkLobbyByRoomIdType): StartCallLinkLobbyThunkActionType {
   return async (dispatch, getState) => {
     const state = getState();
     const callLink = getOwn(state.calling.callLinks, roomId);
@@ -2082,6 +2044,7 @@ const _startCallLinkLobby = async ({
     unknown,
     | StartCallLinkLobbyActionType
     | ShowErrorModalActionType
+    | ToggleConfirmLeaveCallModalActionType
     | TogglePipActionType
   >;
   getState: () => RootStateType;
@@ -2090,9 +2053,20 @@ const _startCallLinkLobby = async ({
   const roomId = getRoomIdFromRootKey(callLinkRootKey);
   const state = getState();
 
-  if (
-    handleActiveCallOnStartLobby({ conversationId: roomId, state, dispatch })
-  ) {
+  const { activeCallState } = state.calling;
+  if (activeCallState && activeCallState.conversationId === roomId) {
+    dispatch({
+      type: TOGGLE_PIP,
+    });
+    return;
+  }
+  if (activeCallState) {
+    dispatch(
+      toggleConfirmLeaveCallModal({
+        type: 'adhoc-rootKey',
+        rootKey,
+      })
+    );
     return;
   }
 
@@ -2181,6 +2155,34 @@ const _startCallLinkLobby = async ({
   });
 };
 
+function leaveCurrentCallAndStartCallingLobby(
+  data: StartCallData
+): ThunkAction<void, RootStateType, unknown, HangUpActionType> {
+  return async (dispatch, getState) => {
+    hangUpActiveCall(
+      'Leave call button pressed in ConfirmLeaveCurrentCallModal'
+    )(dispatch, getState, undefined);
+
+    const { type } = data;
+    if (type === 'conversation') {
+      const { conversationId, isVideoCall } = data;
+      startCallingLobby({ conversationId, isVideoCall })(
+        dispatch,
+        getState,
+        undefined
+      );
+    } else if (type === 'adhoc-roomId') {
+      const { roomId } = data;
+      startCallLinkLobbyByRoomId({ roomId })(dispatch, getState, undefined);
+    } else if (type === 'adhoc-rootKey') {
+      const { rootKey } = data;
+      startCallLinkLobby({ rootKey })(dispatch, getState, undefined);
+    } else {
+      throw missingCaseError(type);
+    }
+  };
+}
+
 function startCallingLobby({
   conversationId,
   isVideoCall,
@@ -2188,7 +2190,9 @@ function startCallingLobby({
   void,
   RootStateType,
   unknown,
-  StartCallingLobbyActionType | TogglePipActionType
+  | StartCallingLobbyActionType
+  | ToggleConfirmLeaveCallModalActionType
+  | TogglePipActionType
 > {
   return async (dispatch, getState) => {
     const state = getState();
@@ -2201,10 +2205,16 @@ function startCallingLobby({
       "startCallingLobby: can't start lobby without a conversation"
     );
 
-    strictAssert(
-      !state.calling.activeCallState,
-      "startCallingLobby: can't start lobby if a call is active"
-    );
+    if (state.calling.activeCallState) {
+      dispatch(
+        toggleConfirmLeaveCallModal({
+          type: 'conversation',
+          conversationId,
+          isVideoCall,
+        })
+      );
+      return;
+    }
 
     // The group call device count is considered 0 for a direct call.
     const groupCall = getGroupCall(
@@ -2374,6 +2384,7 @@ export const actions = {
   hangUpActiveCall,
   handleCallLinkUpdate,
   joinedAdhocCall,
+  leaveCurrentCallAndStartCallingLobby,
   onOutgoingVideoCallInConversation,
   onOutgoingAudioCallInConversation,
   openSystemPreferencesAction,

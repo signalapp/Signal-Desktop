@@ -7242,12 +7242,12 @@
     "description": "On the Calls Tab, when trying to join a different call when you're already in another one, this is the title of the confirmation dialog to leave the other call."
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before joining a new call.",
-    "description": "On the Calls Tab, when trying to join a different call when you're already in another one, this is the body of the confirmation dialog to leave the other call."
+    "messageformat": "You must leave the current call before starting or joining a new call.",
+    "description": "When trying to join a different call when you're already in another one, this is the body of the confirmation dialog to leave the other call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Leave call",
-    "description": "On the Calls Tab, when trying to join a different call when you're already in another one, this is the button to confirm leaving the other call."
+    "description": "When trying to join a different call when you're already in another one, this is the button to confirm leaving the other call."
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "No recent conversations.",

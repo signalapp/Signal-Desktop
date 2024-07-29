@@ -23,6 +23,7 @@ import type { UnreadStats } from '../util/countUnreadStats';
 import type { WidthBreakpoint } from './_util';
 import type { CallLinkType } from '../types/CallLink';
 import type { CallStateType } from '../state/selectors/calling';
+import type { StartCallData } from './ConfirmLeaveCallModal';
 
 enum CallsTabSidebarView {
   CallsListView,
@@ -72,7 +73,8 @@ type CallsTabProps = Readonly<{
   }) => JSX.Element;
   regionCode: string | undefined;
   savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
-  startCallLinkLobbyByRoomId: (roomId: string) => void;
+  startCallLinkLobbyByRoomId: (options: { roomId: string }) => void;
+  toggleConfirmLeaveCallModal: (options: StartCallData | null) => void;
   togglePip: () => void;
 }>;
 
@@ -119,6 +121,7 @@ export function CallsTab({
   regionCode,
   savePreferredLeftPaneWidth,
   startCallLinkLobbyByRoomId,
+  toggleConfirmLeaveCallModal,
   togglePip,
 }: CallsTabProps): JSX.Element {
   const [sidebarView, setSidebarView] = useState(
@@ -282,6 +285,7 @@ export function CallsTab({
               }
               peekNotConnectedGroupCall={peekNotConnectedGroupCall}
               startCallLinkLobbyByRoomId={startCallLinkLobbyByRoomId}
+              toggleConfirmLeaveCallModal={toggleConfirmLeaveCallModal}
               togglePip={togglePip}
             />
           )}
