@@ -65,7 +65,7 @@ import type {
   PeekNotConnectedGroupCallType,
 } from '../state/ducks/calling';
 import { DAY, MINUTE, SECOND } from '../util/durations';
-import { ConfirmationDialog } from './ConfirmationDialog';
+import type { StartCallData } from './ConfirmLeaveCallModal';
 
 function Timestamp({
   i18n,
@@ -148,7 +148,8 @@ type CallsListProps = Readonly<{
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
   onChangeCallsTabSelectedView: (selectedView: CallsTabSelectedView) => void;
   peekNotConnectedGroupCall: (options: PeekNotConnectedGroupCallType) => void;
-  startCallLinkLobbyByRoomId: (roomId: string) => void;
+  startCallLinkLobbyByRoomId: (options: { roomId: string }) => void;
+  toggleConfirmLeaveCallModal: (options: StartCallData | null) => void;
   togglePip: () => void;
 }>;
 
@@ -179,7 +180,6 @@ export function CallsList({
   getCall,
   getCallLink,
   getConversation,
-  hangUpActiveCall,
   i18n,
   selectedCallHistoryGroup,
   onCreateCallLink,
@@ -188,6 +188,7 @@ export function CallsList({
   onChangeCallsTabSelectedView,
   peekNotConnectedGroupCall,
   startCallLinkLobbyByRoomId,
+  toggleConfirmLeaveCallModal,
   togglePip,
 }: CallsListProps): JSX.Element {
   const infiniteLoaderRef = useRef<InfiniteLoader>(null);
@@ -195,8 +196,6 @@ export function CallsList({
   const [queryInput, setQueryInput] = useState('');
   const [statusInput, setStatusInput] = useState(CallHistoryFilterStatus.All);
   const [searchState, setSearchState] = useState(defaultInitState);
-  const [isLeaveCallDialogVisible, setIsLeaveCallDialogVisible] =
-    useState(false);
 
   const prevOptionsRef = useRef<CallHistoryFilterOptions | null>(null);
 
@@ -330,7 +329,7 @@ export function CallsList({
         return true;
       }
 
-      // Direct is not supported currently
+      // We can't tell from CallHistory alone whether a 1:1 call is active
       return false;
     },
     [getCallByPeerId]
@@ -358,12 +357,14 @@ export function CallsList({
         return peerId === activeCallConversationId;
       }
 
-      // Not supported currently
+      // For direct conversations, we know the call is active if it's the active call!
       if (mode === CallMode.Direct) {
-        return false;
+        return Boolean(
+          conversation && conversation?.id === activeCallConversationId
+        );
       }
 
-      // Group
+      // For group and adhoc calls, a call has to have members in it (see getIsCallActive)
       return Boolean(
         isActive &&
           conversation &&
@@ -773,6 +774,43 @@ export function CallsList({
         strictAssert(false, 'Cannot format call');
       }
 
+      const inCallAndNotThisOne = !isInCall && activeCall;
+      const callButton = (
+        <CallsNewCallButton
+          callType={item.type}
+          isActive={isActiveVisible}
+          isInCall={isInCall}
+          isEnabled={!inCallAndNotThisOne}
+          onClick={() => {
+            if (isInCall) {
+              togglePip();
+            } else if (activeCall) {
+              if (isAdhoc) {
+                toggleConfirmLeaveCallModal({
+                  type: 'adhoc-roomId',
+                  roomId: item.peerId,
+                });
+              } else {
+                toggleConfirmLeaveCallModal({
+                  type: 'conversation',
+                  conversationId: conversation.id,
+                  isVideoCall: item.type !== CallType.Audio,
+                });
+              }
+            } else if (isAdhoc) {
+              startCallLinkLobbyByRoomId({ roomId: item.peerId });
+            } else if (conversation) {
+              if (item.type === CallType.Audio) {
+                onOutgoingAudioCallInConversation(conversation.id);
+              } else {
+                onOutgoingVideoCallInConversation(conversation.id);
+              }
+            }
+          }}
+          i18n={i18n}
+        />
+      );
+
       return (
         <div
           key={key}
@@ -801,34 +839,7 @@ export function CallsList({
                 className="CallsList__ItemAvatar"
               />
             }
-            trailing={
-              isCallButtonVisible ? (
-                <CallsNewCallButton
-                  callType={item.type}
-                  isActive={isActiveVisible}
-                  isInCall={isInCall}
-                  isEnabled={isInCall || !activeCall}
-                  onClick={() => {
-                    if (isInCall) {
-                      togglePip();
-                    } else if (activeCall) {
-                      if (isActiveVisible) {
-                        setIsLeaveCallDialogVisible(true);
-                      }
-                    } else if (isAdhoc) {
-                      startCallLinkLobbyByRoomId(item.peerId);
-                    } else if (conversation) {
-                      if (item.type === CallType.Audio) {
-                        onOutgoingAudioCallInConversation(conversation.id);
-                      } else {
-                        onOutgoingVideoCallInConversation(conversation.id);
-                      }
-                    }
-                  }}
-                  i18n={i18n}
-                />
-              ) : undefined
-            }
+            trailing={isCallButtonVisible ? callButton : undefined}
             title={
               <span
                 className="CallsList__ItemTitle"
@@ -887,6 +898,7 @@ export function CallsList({
       onOutgoingAudioCallInConversation,
       onOutgoingVideoCallInConversation,
       startCallLinkLobbyByRoomId,
+      toggleConfirmLeaveCallModal,
       togglePip,
       i18n,
     ]
@@ -913,31 +925,6 @@ export function CallsList({
 
   return (
     <>
-      {isLeaveCallDialogVisible && (
-        <ConfirmationDialog
-          dialogName="GroupCallRemoteParticipant.blockInfo"
-          cancelText={i18n('icu:cancel')}
-          i18n={i18n}
-          onClose={() => {
-            setIsLeaveCallDialogVisible(false);
-          }}
-          title={i18n('icu:CallsList__LeaveCallDialogTitle')}
-          actions={[
-            {
-              text: i18n('icu:CallsList__LeaveCallDialogButton--leave'),
-              style: 'affirmative',
-              action: () => {
-                hangUpActiveCall(
-                  'Calls Tab leave active call to join different call'
-                );
-              },
-            },
-          ]}
-        >
-          {i18n('icu:CallsList__LeaveCallDialogBody')}
-        </ConfirmationDialog>
-      )}
-
       <NavSidebarSearchHeader>
         <SearchInput
           i18n={i18n}

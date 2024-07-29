@@ -172,7 +172,8 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
     markCallHistoryRead,
     markCallsTabViewed,
   } = useCallHistoryActions();
-  const { toggleCallLinkEditModal } = useGlobalModalActions();
+  const { toggleCallLinkEditModal, toggleConfirmLeaveCallModal } =
+    useGlobalModalActions();
 
   const getCallHistoryGroupsCount = useCallback(
     async (options: CallHistoryFilterOptions) => {
@@ -257,6 +258,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
       regionCode={regionCode}
       savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
       startCallLinkLobbyByRoomId={startCallLinkLobbyByRoomId}
+      toggleConfirmLeaveCallModal={toggleConfirmLeaveCallModal}
       togglePip={togglePip}
     />
   );

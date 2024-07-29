@@ -21,6 +21,7 @@ import { SizeObserver } from '../hooks/useSizeObserver';
 import { CallType } from '../types/CallDisposition';
 import type { CallsTabSelectedView } from './CallsTab';
 import { Tooltip, TooltipPlacement } from './Tooltip';
+import { offsetDistanceModifier } from '../util/popperUtil';
 
 type CallsNewCallProps = Readonly<{
   hasActiveCall: boolean;
@@ -53,17 +54,18 @@ export function CallsNewCallButton({
 }): JSX.Element {
   let innerContent: React.ReactNode | string;
   let tooltipContent = '';
-  if (callType === CallType.Audio) {
-    innerContent = (
-      <span className="CallsNewCall__ItemIcon CallsNewCall__ItemIcon--Phone" />
-    );
-  } else if (isActive) {
+  if (!isEnabled) {
+    tooltipContent = i18n('icu:ContactModal--already-in-call');
+  }
+  // Note: isActive is only set for groups and adhoc calls
+  if (isActive) {
     innerContent = isInCall
       ? i18n('icu:CallsNewCallButton--return')
       : i18n('icu:joinOngoingCall');
-    if (!isEnabled) {
-      tooltipContent = i18n('icu:CallsNewCallButtonTooltip--in-another-call');
-    }
+  } else if (callType === CallType.Audio) {
+    innerContent = (
+      <span className="CallsNewCall__ItemIcon CallsNewCall__ItemIcon--Phone" />
+    );
   } else {
     innerContent = (
       <span className="CallsNewCall__ItemIcon CallsNewCall__ItemIcon--Video" />
@@ -97,6 +99,7 @@ export function CallsNewCallButton({
       className="CallsNewCall__ItemActionButtonTooltip"
       content={tooltipContent}
       direction={TooltipPlacement.Top}
+      popperModifiers={[offsetDistanceModifier(15)]}
     >
       {buttonContent}
     </Tooltip>
