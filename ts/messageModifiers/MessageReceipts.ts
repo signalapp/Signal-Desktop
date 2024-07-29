@@ -4,8 +4,10 @@
 import { z } from 'zod';
 import { groupBy } from 'lodash';
 
-import type { MessageModel } from '../models/messages';
-import type { MessageAttributesType } from '../model-types.d';
+import type {
+  MessageAttributesType,
+  ReadonlyMessageAttributesType,
+} from '../model-types.d';
 import type { SendStateByConversationId } from '../messages/MessageSendState';
 import { isOutgoing, isStory } from '../state/selectors/message';
 import { getOwn } from '../util/getOwn';
@@ -376,7 +378,7 @@ const wasDeliveredWithSealedSender = (
 
 const shouldDropReceipt = (
   receipt: MessageReceiptAttributesType,
-  message: MessageAttributesType
+  message: ReadonlyMessageAttributesType
 ): boolean => {
   const { type } = receipt.receiptSync;
   switch (type) {
@@ -395,25 +397,25 @@ const shouldDropReceipt = (
 };
 
 export async function forMessage(
-  message: MessageModel
+  message: ReadonlyMessageAttributesType
 ): Promise<Array<MessageReceiptAttributesType>> {
-  if (!isOutgoing(message.attributes) && !isStory(message.attributes)) {
+  if (!isOutgoing(message) && !isStory(message)) {
     return [];
   }
 
   const logId = `MessageReceipts.forMessage(${getMessageIdForLogging(
-    message.attributes
+    message
   )})`;
 
   const ourAci = window.textsecure.storage.user.getCheckedAci();
-  const sourceServiceId = getSourceServiceId(message.attributes);
+  const sourceServiceId = getSourceServiceId(message);
   if (ourAci !== sourceServiceId) {
     return [];
   }
 
   const receiptValues = Array.from(cachedReceipts.values());
 
-  const sentAt = getMessageSentTimestamp(message.attributes, { log });
+  const sentAt = getMessageSentTimestamp(message, { log });
   const result = receiptValues.filter(
     item => item.receiptSync.messageSentAt === sentAt
   );
@@ -427,7 +429,7 @@ export async function forMessage(
   }
 
   return result.filter(receipt => {
-    if (shouldDropReceipt(receipt, message.attributes)) {
+    if (shouldDropReceipt(receipt, message)) {
       log.info(
         `${logId}: Dropping an early receipt ${receipt.receiptSync.type} for message ${sentAt}`
       );

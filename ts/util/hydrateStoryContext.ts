@@ -19,7 +19,7 @@ export async function hydrateStoryContext(
     shouldSave?: boolean;
     isStoryErased?: boolean;
   } = {}
-): Promise<void> {
+): Promise<Partial<MessageAttributesType> | undefined> {
   let messageAttributes: MessageAttributesType;
   try {
     messageAttributes = await window.MessageCache.resolveAttributes(
@@ -27,12 +27,12 @@ export async function hydrateStoryContext(
       messageId
     );
   } catch {
-    return;
+    return undefined;
   }
 
   const { storyId } = messageAttributes;
   if (!storyId) {
-    return;
+    return undefined;
   }
 
   const { storyReplyContext: context } = messageAttributes;
@@ -42,7 +42,7 @@ export async function hydrateStoryContext(
     context &&
     (context.attachment?.url || !context.messageId)
   ) {
-    return;
+    return undefined;
   }
 
   let storyMessage: MessageAttributesType | undefined;
@@ -88,7 +88,7 @@ export async function hydrateStoryContext(
       });
     }
 
-    return;
+    return newMessageAttributes;
   }
 
   const attachments = getAttachmentsForMessage({ ...storyMessage });
@@ -119,4 +119,5 @@ export async function hydrateStoryContext(
       skipSaveToDatabase: true,
     });
   }
+  return newMessageAttributes;
 }

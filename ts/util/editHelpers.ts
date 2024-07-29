@@ -50,17 +50,20 @@ export function getTargetOfThisEditTimestamp({
   return originalTimestamp;
 }
 
-export function getPropForTimestamp<T extends keyof EditHistoryType>({
+export function getPropForTimestamp<
+  Attrs extends ReadonlyMessageAttributesType,
+  T extends keyof EditHistoryType,
+>({
   log,
   message,
   prop,
   targetTimestamp,
 }: {
   log: LoggerType;
-  message: MessageAttributesType;
+  message: Attrs;
   prop: T;
   targetTimestamp: number;
-}): EditHistoryType[T] {
+}): Attrs[T] {
   const logId = `getPropForTimestamp(${targetTimestamp}})`;
 
   const { editHistory } = message;
@@ -74,7 +77,7 @@ export function getPropForTimestamp<T extends keyof EditHistoryType>({
     return message[prop];
   }
 
-  return targetEdit[prop];
+  return targetEdit[prop] as Attrs[T];
 }
 
 export function getChangesForPropAtTimestamp<T extends keyof EditHistoryType>({

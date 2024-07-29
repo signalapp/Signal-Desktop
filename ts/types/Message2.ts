@@ -46,8 +46,6 @@ import {
 import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment';
 import { deepClone } from '../util/deepClone';
 
-export { hasExpiration } from './Message';
-
 export const GROUP = 'group';
 export const PRIVATE = 'private';
 
@@ -1039,3 +1037,16 @@ async function deletePreviews(
     })
   );
 }
+
+export const isUserMessage = (message: MessageAttributesType): boolean =>
+  message.type === 'incoming' || message.type === 'outgoing';
+
+export const hasExpiration = (message: MessageAttributesType): boolean => {
+  if (!isUserMessage(message)) {
+    return false;
+  }
+
+  const { expireTimer } = message;
+
+  return typeof expireTimer === 'number' && expireTimer > 0;
+};

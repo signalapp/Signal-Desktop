@@ -3,7 +3,7 @@
 
 import { z } from 'zod';
 
-import type { MessageModel } from '../models/messages';
+import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import { StartupQueue } from '../util/StartupQueue';
@@ -88,18 +88,16 @@ async function maybeItIsAReactionReadSync(
 }
 
 export async function forMessage(
-  message: MessageModel
+  message: ReadonlyMessageAttributesType
 ): Promise<ReadSyncAttributesType | null> {
-  const logId = `ReadSyncs.forMessage(${getMessageIdForLogging(
-    message.attributes
-  )})`;
+  const logId = `ReadSyncs.forMessage(${getMessageIdForLogging(message)})`;
 
   const sender = window.ConversationController.lookupOrCreate({
-    e164: message.get('source'),
-    serviceId: message.get('sourceServiceId'),
+    e164: message.source,
+    serviceId: message.sourceServiceId,
     reason: logId,
   });
-  const messageTimestamp = getMessageSentTimestamp(message.attributes, {
+  const messageTimestamp = getMessageSentTimestamp(message, {
     log,
   });
   const readSyncValues = Array.from(readSyncs.values());
@@ -169,7 +167,9 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
         // onReadMessage may result in messages older than this one being
         //   marked read. We want those messages to have the same expire timer
         //   start time as this one, so we pass the readAt value through.
-        drop(conversation.onReadMessage(message, readAt, newestSentAt));
+        drop(
+          conversation.onReadMessage(message.attributes, readAt, newestSentAt)
+        );
       };
 
       // only available during initialization

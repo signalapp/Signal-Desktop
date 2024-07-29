@@ -2025,13 +2025,12 @@ export async function createGroupV2(
     forceSave: true,
     ourAci,
   });
-  let model = new window.Whisper.Message(createdTheGroupMessage);
-  model = window.MessageCache.__DEPRECATED$register(
-    model.id,
-    model,
+  window.MessageCache.__DEPRECATED$register(
+    createdTheGroupMessage.id,
+    new window.Whisper.Message(createdTheGroupMessage),
     'createGroupV2'
   );
-  conversation.trigger('newmessage', model);
+  conversation.trigger('newmessage', createdTheGroupMessage);
 
   if (expireTimer) {
     await conversation.updateExpirationTimer(expireTimer, {
@@ -3435,13 +3434,12 @@ async function appendChangeMessages(
       continue;
     }
 
-    let model = new window.Whisper.Message(changeMessage);
-    model = window.MessageCache.__DEPRECATED$register(
-      model.id,
-      model,
+    window.MessageCache.__DEPRECATED$register(
+      changeMessage.id,
+      new window.Whisper.Message(changeMessage),
       'appendChangeMessages'
     );
-    conversation.trigger('newmessage', model);
+    conversation.trigger('newmessage', changeMessage);
     newMessages += 1;
   }
 

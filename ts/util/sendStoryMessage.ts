@@ -307,20 +307,17 @@ export async function sendStoryMessage(
   // * Save the message model
   // * Add the message to the conversation
   await Promise.all(
-    distributionListMessages.map(messageAttributes => {
-      const model = new window.Whisper.Message(messageAttributes);
-      const message = window.MessageCache.__DEPRECATED$register(
-        model.id,
-        model,
+    distributionListMessages.map(message => {
+      window.MessageCache.__DEPRECATED$register(
+        message.id,
+        new window.Whisper.Message(message),
         'sendStoryMessage'
       );
 
-      void ourConversation.addSingleMessage(model, { isJustSent: true });
+      void ourConversation.addSingleMessage(message, { isJustSent: true });
 
-      log.info(
-        `stories.sendStoryMessage: saving message ${messageAttributes.timestamp}`
-      );
-      return DataWriter.saveMessage(message.attributes, {
+      log.info(`stories.sendStoryMessage: saving message ${message.timestamp}`);
+      return DataWriter.saveMessage(message, {
         forceSave: true,
         ourAci: window.textsecure.storage.user.getCheckedAci(),
       });
@@ -362,20 +359,21 @@ export async function sendStoryMessage(
           timestamp: messageAttributes.timestamp,
         },
         async jobToInsert => {
-          const model = new window.Whisper.Message(messageAttributes);
-          const message = window.MessageCache.__DEPRECATED$register(
-            model.id,
-            model,
+          window.MessageCache.__DEPRECATED$register(
+            messageAttributes.id,
+            new window.Whisper.Message(messageAttributes),
             'sendStoryMessage'
           );
-
-          const conversation = message.getConversation();
-          void conversation?.addSingleMessage(model, { isJustSent: true });
+          const conversation =
+            window.ConversationController.get(conversationId);
+          void conversation?.addSingleMessage(messageAttributes, {
+            isJustSent: true,
+          });
 
           log.info(
             `stories.sendStoryMessage: saving message ${messageAttributes.timestamp}`
           );
-          await DataWriter.saveMessage(message.attributes, {
+          await DataWriter.saveMessage(messageAttributes, {
             forceSave: true,
             jobToInsert,
             ourAci: window.textsecure.storage.user.getCheckedAci(),

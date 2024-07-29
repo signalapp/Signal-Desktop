@@ -3,7 +3,7 @@
 
 import { z } from 'zod';
 
-import type { MessageModel } from '../models/messages';
+import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import { GiftBadgeStates } from '../components/conversation/Message';
@@ -44,18 +44,16 @@ async function remove(sync: ViewSyncAttributesType): Promise<void> {
 }
 
 export async function forMessage(
-  message: MessageModel
+  message: ReadonlyMessageAttributesType
 ): Promise<Array<ViewSyncAttributesType>> {
-  const logId = `ViewSyncs.forMessage(${getMessageIdForLogging(
-    message.attributes
-  )})`;
+  const logId = `ViewSyncs.forMessage(${getMessageIdForLogging(message)})`;
 
   const sender = window.ConversationController.lookupOrCreate({
-    e164: message.get('source'),
-    serviceId: message.get('sourceServiceId'),
+    e164: message.source,
+    serviceId: message.sourceServiceId,
     reason: logId,
   });
-  const messageTimestamp = getMessageSentTimestamp(message.attributes, {
+  const messageTimestamp = getMessageSentTimestamp(message, {
     log,
   });
 

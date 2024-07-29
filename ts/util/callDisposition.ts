@@ -1153,19 +1153,16 @@ async function saveCallHistory({
     callId: callHistory.callId,
   };
 
-  const id = await DataWriter.saveMessage(message, {
+  message.id = await DataWriter.saveMessage(message, {
     ourAci: window.textsecure.storage.user.getCheckedAci(),
     // We don't want to force save if we're updating an existing message
     forceSave: prevMessage == null,
   });
-  log.info('saveCallHistory: Saved call history message:', id);
+  log.info('saveCallHistory: Saved call history message:', message.id);
 
-  const model = window.MessageCache.__DEPRECATED$register(
-    id,
-    new window.Whisper.Message({
-      ...message,
-      id,
-    }),
+  window.MessageCache.__DEPRECATED$register(
+    message.id,
+    message,
     'callDisposition'
   );
 
@@ -1175,7 +1172,7 @@ async function saveCallHistory({
     } else {
       conversation.incrementMessageCount();
     }
-    conversation.trigger('newmessage', model);
+    conversation.trigger('newmessage', message);
   }
 
   await conversation.updateLastMessage().catch(error => {
