@@ -503,7 +503,7 @@ label {
 }
 
 .session-settings {
-  width: 100%;
+  width: var(--main-panel-content-width);
   height: 100%;
   display: flex;
   flex-direction: column;

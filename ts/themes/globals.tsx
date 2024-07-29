@@ -3,7 +3,7 @@ import { hexColorToRGB } from '../util/hexColorToRGB';
 import { COLORS } from './constants/colors';
 
 // These variables are independent of the current theme
-export type ThemeGlobals = {
+type ThemeGlobals = {
   /* Fonts */
   '--font-default': string;
   '--font-accent': string;
@@ -92,6 +92,15 @@ export type ThemeGlobals = {
   '--right-panel-height': string;
   '--right-panel-attachment-width': string;
   '--right-panel-attachment-height': string;
+
+  /* Left Panel */
+  '--left-panel-width': string;
+
+  /* Actions panel (the 80px of the 380px of the left pane) */
+  '--actions-panel-width': string;
+
+  /* Main panel */
+  '--main-panel-content-width': string;
 };
 
 // These are only set once in the global style (at root).
@@ -166,6 +175,10 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--right-panel-attachment-width': 'calc(var(--right-panel-width) - 2 * var(--margins-2xl) - 7px)',
   '--right-panel-attachment-height':
     'calc(var(--right-panel-height) - 2 * var(--margins-2xl) -7px)',
+
+  '--left-panel-width': '380px',
+  '--actions-panel-width': '80px',
+  '--main-panel-content-width': 'calc(100vw - var(--left-panel-width))',
 };
 
 // These should only be needed for the global style (at root).

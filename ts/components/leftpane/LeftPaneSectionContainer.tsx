@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const LeftPaneSectionContainer = styled.div`
-  width: 80px;
+  width: var(--actions-panel-width);
   display: flex;
   flex-direction: column;
   align-items: center;

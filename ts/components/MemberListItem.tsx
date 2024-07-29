@@ -76,7 +76,6 @@ export const MemberListItem = (props: {
   isZombie?: boolean;
   inMentions?: boolean; // set to true if we are rendering members but in the Mentions picker
   disableBg?: boolean;
-  maxNameWidth?: string;
   isAdmin?: boolean; // if true,  we add a small crown on top of their avatar
   onSelect?: (pubkey: string) => void;
   onUnselect?: (pubkey: string) => void;
@@ -91,7 +90,6 @@ export const MemberListItem = (props: {
     onUnselect,
     inMentions,
     disableBg,
-    maxNameWidth,
     dataTestId,
   } = props;
 
@@ -118,7 +116,7 @@ export const MemberListItem = (props: {
     >
       <StyledInfo>
         <AvatarItem memberPubkey={pubkey} isAdmin={isAdmin || false} />
-        <StyledName maxWidth={maxNameWidth}>{memberName}</StyledName>
+        <StyledName>{memberName}</StyledName>
       </StyledInfo>
 
       {!inMentions && (
