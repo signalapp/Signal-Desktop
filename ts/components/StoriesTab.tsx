@@ -174,10 +174,11 @@ export function StoriesTab({
                 }}
                 portalToRoot
               >
-                {({ openMenu, onKeyDown }) => {
+                {({ onClick, onKeyDown, ref }) => {
                   return (
                     <NavSidebarActionButton
-                      onClick={openMenu}
+                      ref={ref}
+                      onClick={onClick}
                       onKeyDown={onKeyDown}
                       icon={<span className="StoriesTab__MoreActionsIcon" />}
                       label={i18n('icu:StoriesTab__MoreActionsLabel')}

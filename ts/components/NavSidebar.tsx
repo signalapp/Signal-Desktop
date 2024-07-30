@@ -16,19 +16,23 @@ import {
 import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util';
 import type { UnreadStats } from '../util/countUnreadStats';
 
-export function NavSidebarActionButton({
-  icon,
-  label,
-  onClick,
-  onKeyDown,
-}: {
+type NavSidebarActionButtonProps = {
   icon: ReactNode;
   label: ReactNode;
   onClick: MouseEventHandler<HTMLButtonElement>;
   onKeyDown?: KeyboardEventHandler<HTMLButtonElement>;
-}): JSX.Element {
+};
+
+export const NavSidebarActionButton = React.forwardRef<
+  HTMLButtonElement,
+  NavSidebarActionButtonProps
+>(function NavSidebarActionButtonInner(
+  { icon, label, onClick, onKeyDown },
+  ref
+): JSX.Element {
   return (
     <button
+      ref={ref}
       type="button"
       className="NavSidebar__ActionButton"
       onClick={onClick}
@@ -38,7 +42,7 @@ export function NavSidebarActionButton({
       <span className="NavSidebar__ActionButtonLabel">{label}</span>
     </button>
   );
-}
+});
 
 export type NavSidebarProps = Readonly<{
   actions?: ReactNode;

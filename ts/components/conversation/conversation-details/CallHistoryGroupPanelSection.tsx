@@ -13,6 +13,7 @@ import {
 import type { LocalizerType } from '../../../types/I18N';
 import { formatDate, formatTime } from '../../../util/timestamp';
 import { PanelSection } from './PanelSection';
+import { getDirectCallNotificationText } from '../../../util/callingNotification';
 
 function describeCallHistory(
   i18n: LocalizerType,
@@ -24,19 +25,27 @@ function describeCallHistory(
     return i18n('icu:CallHistory__Description--Adhoc');
   }
 
-  if (status === DirectCallStatus.Missed || status === GroupCallStatus.Missed) {
-    if (direction === CallDirection.Incoming) {
-      return i18n('icu:CallHistory__Description--Missed', { type });
-    }
-    return i18n('icu:CallHistory__Description--Unanswered', { type });
-  }
   if (
-    status === DirectCallStatus.Declined ||
-    status === GroupCallStatus.Declined
+    (type === CallType.Audio || type === CallType.Video) &&
+    (status === DirectCallStatus.Accepted ||
+      status === DirectCallStatus.Declined ||
+      status === DirectCallStatus.Deleted ||
+      status === DirectCallStatus.Missed ||
+      status === DirectCallStatus.Pending)
   ) {
-    return i18n('icu:CallHistory__Description--Declined', { type });
+    return getDirectCallNotificationText(direction, type, status, i18n);
   }
-  return i18n('icu:CallHistory__Description--Default', { type, direction });
+
+  if (status === GroupCallStatus.Missed) {
+    if (direction === CallDirection.Incoming) {
+      return i18n('icu:CallHistory__DescriptionVideoCall--Missed');
+    }
+    return i18n('icu:CallHistory__DescriptionVideoCall--Unanswered');
+  }
+  if (status === GroupCallStatus.Declined) {
+    return i18n('icu:CallHistory__DescriptionVideoCall--Declined');
+  }
+  return i18n('icu:CallHistory__DescriptionVideoCall--Default', { direction });
 }
 
 export type CallHistoryPanelSectionProps = Readonly<{

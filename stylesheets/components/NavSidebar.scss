@@ -195,6 +195,15 @@
     }
   }
 
+  &:active {
+    @include light-theme {
+      background: $color-gray-20;
+    }
+    @include dark-theme {
+      background: $color-gray-62;
+    }
+  }
+
   &:focus {
     outline: none;
     @include keyboard-mode {

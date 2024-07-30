@@ -244,10 +244,11 @@ export function CallsTab({
                     }}
                     portalToRoot
                   >
-                    {({ openMenu, onKeyDown }) => {
+                    {({ onClick, onKeyDown, ref }) => {
                       return (
                         <NavSidebarActionButton
-                          onClick={openMenu}
+                          ref={ref}
+                          onClick={onClick}
                           onKeyDown={onKeyDown}
                           icon={<span className="CallsTab__MoreActionsIcon" />}
                           label={i18n('icu:CallsTab__MoreActionsLabel')}

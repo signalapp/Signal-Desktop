@@ -649,9 +649,9 @@ function ReplyOrReactionMessage({
 
   return reply.author.isMe && !reply.deletedForEveryone ? (
     <ContextMenu i18n={i18n} key={reply.id} menuOptions={menuOptions}>
-      {({ openMenu, menuNode }) => (
+      {({ onClick, menuNode }) => (
         <>
-          {renderContent(openMenu)}
+          {renderContent(onClick)}
           {menuNode}
         </>
       )}

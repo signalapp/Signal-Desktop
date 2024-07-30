@@ -758,14 +758,18 @@ export function CallsList({
         item.direction === CallDirection.Incoming &&
         (item.status === DirectCallStatus.Missed ||
           item.status === GroupCallStatus.Missed);
+      const wasDeclined =
+        item.direction === CallDirection.Incoming &&
+        (item.status === DirectCallStatus.Declined ||
+          item.status === GroupCallStatus.Declined);
 
       let statusText;
       if (wasMissed) {
         statusText = i18n('icu:CallsList__ItemCallInfo--Missed');
+      } else if (wasDeclined) {
+        statusText = i18n('icu:CallsList__ItemCallInfo--Declined');
       } else if (isAdhoc) {
         statusText = i18n('icu:CallsList__ItemCallInfo--CallLink');
-      } else if (item.type === CallType.Group) {
-        statusText = i18n('icu:CallsList__ItemCallInfo--GroupCall');
       } else if (item.direction === CallDirection.Outgoing) {
         statusText = i18n('icu:CallsList__ItemCallInfo--Outgoing');
       } else if (item.direction === CallDirection.Incoming) {
@@ -819,6 +823,7 @@ export function CallsList({
           className={classNames('CallsList__Item', {
             'CallsList__Item--selected': isSelected,
             'CallsList__Item--missed': wasMissed,
+            'CallsList__Item--declined': wasDeclined,
           })}
         >
           <ListTile

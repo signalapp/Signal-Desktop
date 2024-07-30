@@ -469,7 +469,7 @@
   },
   "icu:ContactListItem__menu__audio-call": {
     "messageformat": "Voice call",
-    "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
+    "description": "Shown in a context menu for a contact, allows the user to start the voice call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
     "messageformat": "Video call",
@@ -1598,19 +1598,19 @@
     "description": "Header for calling options on the settings screen"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call Back",
+    "messageformat": "Call back",
     "description": "Button to call someone back"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call Again",
+    "messageformat": "Call again",
     "description": "Button to call someone again"
   },
   "icu:calling__join": {
-    "messageformat": "Join Call",
+    "messageformat": "Join call",
     "description": "Button label in the call lobby for joining a call"
   },
   "icu:calling__return": {
-    "messageformat": "Return to Call",
+    "messageformat": "Return to call",
     "description": "Button label in the call lobby for returning to a call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
@@ -3496,11 +3496,11 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "You declined a voice call",
+    "messageformat": "Declined voice call",
     "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "You declined a video call",
+    "messageformat": "Declined video call",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "icu:acceptedIncomingAudioCall": {
@@ -3544,11 +3544,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call...",
+    "messageformat": "Incoming voice call",
     "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call...",
+    "messageformat": "Incoming video call",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "icu:outgoingAudioCall": {
@@ -3608,8 +3608,8 @@
     "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Audio call",
-    "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
+    "messageformat": "Voice call",
+    "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that a voice call will be placed when clicking the Start button."
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Call link",
@@ -3692,19 +3692,19 @@
     "description": "Title for participants list toggle"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The group call has ended",
+    "messageformat": "The video call has ended",
     "description": "Notification message when a group call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A group call was started",
+    "messageformat": "A video call was started",
     "description": "Notification message when a group call has started, but we don't know who started it"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a group call",
+    "messageformat": "You started a video call",
     "description": "Notification message when a group call has started by you"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a group call",
+    "messageformat": "{name} started a video call",
     "description": "Notification message when a group call has started"
   },
   "icu:calling__in-another-call-tooltip": {
@@ -4765,7 +4765,7 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "You are already in a call",
-    "description": "Tooltip text for video or audio call button in Contact Details modal"
+    "description": "Tooltip text for video or voice call button in Contact Details modal"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Chat color",
@@ -7225,9 +7225,13 @@
     "messageformat": "Missed",
     "description": "Calls Tab > Calls List > Call Item > Call Status > When call was missed"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When an incoming call was declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Group call",
-    "description": "Calls Tab > Calls List > Call Item > Call Status > When group call is in its default state"
+    "description": "(Deleted 2024/07/26) Calls Tab > Calls List > Call Item > Call Status > When group call is in its default state"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "Call link",
@@ -7267,23 +7271,39 @@
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{direction, select, Outgoing {Outgoing} other {Incoming}} {type, select, Audio {voice} Video {video} Group {group} other {}} call",
-    "description": "Call History > Short description of call > When call was not missed or declined (generally accepted)"
+    "description": "(Deleted 2024/07/30) Call History > Short description of call > When call was not missed or declined (generally accepted)"
   },
   "icu:CallHistory__Description--Missed": {
     "messageformat": "Missed {type, select, Audio {voice} Video {video} Group {group} other {}} call",
-    "description": "Call History > Short description of call > When incoming call was missed"
+    "description": "(Deleted 2024/07/30) Call History > Short description of call > When incoming call was missed"
   },
   "icu:CallHistory__Description--Unanswered": {
     "messageformat": "Unanswered {type, select, Audio {voice} Video {video} Group {group} other {}} call",
-    "description": "Call History > Short description of call > When outgoing call was unanswered"
+    "description": "(Deleted 2024/07/30) Call History > Short description of call > When outgoing call was unanswered"
   },
   "icu:CallHistory__Description--Declined": {
     "messageformat": "Declined {type, select, Audio {voice} Video {video} Group {group} other {}} call",
-    "description": "Call History > Short description of call > When call was declined"
+    "description": "(Deleted 2024/07/30) Call History > Short description of call > When call was declined"
   },
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Call link",
     "description": "Call History > Short description of call > When you joined a call link call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing} other {Incoming}} video call",
+    "description": "Call History > Short description of call > When group or direct video call was not missed or declined (generally accepted)"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call",
+    "description": "Call History > Short description of call > When incoming group or direct video call was missed"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call",
+    "description": "Call History > Short description of call > When outgoing group or direct video call was unanswered"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call",
+    "description": "Call History > Short description of call > When group or direct video call was declined"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Join",
