@@ -655,7 +655,8 @@ export class CallingClass {
       credentialPresentation,
       rootKey,
       adminKey,
-      serializedPublicParams
+      serializedPublicParams,
+      CallLinkRestrictions.AdminApproval
     );
 
     if (!result.success) {
