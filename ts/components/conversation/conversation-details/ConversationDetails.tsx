@@ -539,12 +539,12 @@ export function ConversationDetails({
                     },
                   ]}
                 >
-                  {({ openMenu }) => {
+                  {({ onClick }) => {
                     return (
                       <button
                         type="button"
                         className="ConversationDetails--nickname-actions"
-                        onClick={openMenu}
+                        onClick={onClick}
                       >
                         <span className="ConversationDetails--nickname-actions-label">
                           {i18n('icu:ConversationDetails--nickname-actions')}
