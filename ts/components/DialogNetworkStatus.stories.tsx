@@ -20,6 +20,7 @@ const defaultProps = {
   hasNetworkDialog: true,
   i18n,
   isOnline: true,
+  isOutage: false,
   socketStatus: SocketStatus.CONNECTING,
   manualReconnect: action('manual-reconnect'),
   withinConnectingGracePeriod: false,
@@ -54,6 +55,7 @@ KnobsPlayground.args = {
   containerWidthBreakpoint: WidthBreakpoint.Wide,
   hasNetworkDialog: true,
   isOnline: true,
+  isOutage: false,
   socketStatus: SocketStatus.CONNECTING,
 };
 
@@ -105,6 +107,19 @@ export function OfflineWide(): JSX.Element {
   );
 }
 
+export function OutageWide(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
+      <DialogNetworkStatus
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Wide}
+        isOnline={false}
+        isOutage
+      />
+    </FakeLeftPaneContainer>
+  );
+}
+
 export function ConnectingNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
@@ -148,6 +163,19 @@ export function OfflineNarrow(): JSX.Element {
         {...defaultProps}
         containerWidthBreakpoint={WidthBreakpoint.Narrow}
         isOnline={false}
+      />
+    </FakeLeftPaneContainer>
+  );
+}
+
+export function OutageNarrow(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
+      <DialogNetworkStatus
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Narrow}
+        isOnline={false}
+        isOutage
       />
     </FakeLeftPaneContainer>
   );

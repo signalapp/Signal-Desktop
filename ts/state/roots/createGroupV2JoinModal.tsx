@@ -9,12 +9,12 @@ import { Provider } from 'react-redux';
 import type { Store } from 'redux';
 
 import { ModalHost } from '../../components/ModalHost';
-import type { PropsType } from '../smart/GroupV2JoinDialog';
+import type { SmartGroupV2JoinDialogProps } from '../smart/GroupV2JoinDialog';
 import { SmartGroupV2JoinDialog } from '../smart/GroupV2JoinDialog';
 
 export const createGroupV2JoinModal = (
   store: Store,
-  props: PropsType
+  props: SmartGroupV2JoinDialogProps
 ): React.ReactElement => {
   const { onClose } = props;
 

@@ -3,6 +3,7 @@
 
 export enum ToastType {
   AddingUserToGroup = 'AddingUserToGroup',
+  AddedUsersToCall = 'AddedUsersToCall',
   AlreadyGroupMember = 'AlreadyGroupMember',
   AlreadyRequestedToJoin = 'AlreadyRequestedToJoin',
   Blocked = 'Blocked',
@@ -44,6 +45,7 @@ export enum ToastType {
   OriginalMessageNotFound = 'OriginalMessageNotFound',
   PinnedConversationsFull = 'PinnedConversationsFull',
   ReactionFailed = 'ReactionFailed',
+  ReportedSpam = 'ReportedSpam',
   ReportedSpamAndBlocked = 'ReportedSpamAndBlocked',
   StickerPackInstallFailed = 'StickerPackInstallFailed',
   StoryMuted = 'StoryMuted',
@@ -55,6 +57,7 @@ export enum ToastType {
   TapToViewExpiredOutgoing = 'TapToViewExpiredOutgoing',
   TooManyMessagesToDeleteForEveryone = 'TooManyMessagesToDeleteForEveryone',
   TooManyMessagesToForward = 'TooManyMessagesToForward',
+  TransportError = 'TransportError',
   UnableToLoadAttachment = 'UnableToLoadAttachment',
   UnsupportedMultiAttachment = 'UnsupportedMultiAttachment',
   UnsupportedOS = 'UnsupportedOS',
@@ -67,6 +70,10 @@ export enum ToastType {
 
 export type AnyToast =
   | { toastType: ToastType.AddingUserToGroup; parameters: { contact: string } }
+  | {
+      toastType: ToastType.AddedUsersToCall;
+      parameters: { count: number };
+    }
   | { toastType: ToastType.AlreadyGroupMember }
   | { toastType: ToastType.AlreadyRequestedToJoin }
   | { toastType: ToastType.Blocked }
@@ -120,6 +127,7 @@ export type AnyToast =
   | { toastType: ToastType.OriginalMessageNotFound }
   | { toastType: ToastType.PinnedConversationsFull }
   | { toastType: ToastType.ReactionFailed }
+  | { toastType: ToastType.ReportedSpam }
   | { toastType: ToastType.ReportedSpamAndBlocked }
   | { toastType: ToastType.StickerPackInstallFailed }
   | { toastType: ToastType.StoryMuted }
@@ -134,6 +142,7 @@ export type AnyToast =
       parameters: { count: number };
     }
   | { toastType: ToastType.TooManyMessagesToForward }
+  | { toastType: ToastType.TransportError }
   | { toastType: ToastType.UnableToLoadAttachment }
   | { toastType: ToastType.UnsupportedMultiAttachment }
   | { toastType: ToastType.UnsupportedOS }

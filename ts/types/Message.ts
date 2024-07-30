@@ -6,16 +6,16 @@ import type { AttachmentType } from './Attachment';
 import type { EmbeddedContactType } from './EmbeddedContact';
 import type { IndexableBoolean, IndexablePresence } from './IndexedDB';
 
+export const LONG_ATTACHMENT_LIMIT = 2048;
+
 export function getMentionsRegex(): RegExp {
   return /\uFFFC/g;
 }
 
 export type Message = (
-  | UserMessage
   | VerifiedChangeMessage
   | ProfileChangeNotificationMessage
 ) & { deletedForEveryone?: boolean };
-export type UserMessage = IncomingMessage | OutgoingMessage;
 
 export type IncomingMessage = Readonly<
   {
@@ -107,16 +107,3 @@ export type MessageSchemaVersion6 = Partial<
     contact: Array<EmbeddedContactType>;
   }>
 >;
-
-export const isUserMessage = (message: Message): message is UserMessage =>
-  message.type === 'incoming' || message.type === 'outgoing';
-
-export const hasExpiration = (message: Message): boolean => {
-  if (!isUserMessage(message)) {
-    return false;
-  }
-
-  const { expireTimer } = message;
-
-  return typeof expireTimer === 'number' && expireTimer > 0;
-};

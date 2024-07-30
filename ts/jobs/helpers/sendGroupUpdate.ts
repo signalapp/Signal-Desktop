@@ -11,7 +11,6 @@ import {
 import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend';
 import * as Bytes from '../../Bytes';
 import { strictAssert } from '../../util/assert';
-import { isNotNil } from '../../util/isNotNil';
 import { ourProfileKeyService } from '../../services/ourProfileKey';
 
 import type { ConversationModel } from '../../models/conversations';
@@ -22,6 +21,7 @@ import type {
 } from '../conversationJobQueue';
 import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds';
 import { sendToGroup } from '../../util/sendToGroup';
+import { getValidRecipients } from './getValidRecipients';
 
 // Note: because we don't have a recipient map, if some sends fail, we will resend this
 //   message to folks that got it on the first go-round. This is okay, because receivers
@@ -55,28 +55,7 @@ export async function sendGroupUpdate(
 
   const { groupChangeBase64, recipients: jobRecipients, revision } = data;
 
-  const recipients = jobRecipients
-    .map(id => {
-      const recipient = window.ConversationController.get(id);
-      if (!recipient) {
-        return undefined;
-      }
-      if (recipient.isUnregistered()) {
-        log.warn(
-          `${logId}: dropping unregistered recipient ${recipient.idForLogging()}`
-        );
-        return undefined;
-      }
-      if (recipient.isBlocked()) {
-        log.warn(
-          `${logId}: dropping blocked recipient ${recipient.idForLogging()}`
-        );
-        return undefined;
-      }
-
-      return recipient.getSendTarget();
-    })
-    .filter(isNotNil);
+  const recipients = getValidRecipients(jobRecipients, { log, logId });
 
   const untrustedServiceIds = getUntrustedConversationServiceIds(recipients);
   if (untrustedServiceIds.length) {

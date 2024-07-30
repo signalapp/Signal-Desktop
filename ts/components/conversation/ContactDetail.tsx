@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import type { ReadonlyDeep } from 'type-fest';
 
 import type {
   EmbeddedContactType,
@@ -21,7 +22,7 @@ import {
 import type { LocalizerType } from '../../types/Util';
 
 export type Props = {
-  contact: EmbeddedContactType;
+  contact: ReadonlyDeep<EmbeddedContactType>;
   hasSignalAccount: boolean;
   i18n: LocalizerType;
   onSendMessage: () => void;

@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageAttributesType } from '../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import type { LoggerType } from '../types/Logging';
 import { assertDev } from './assert';
 
@@ -16,7 +16,7 @@ export function getMessageSentTimestamp(
     sent_at: sentAt,
     timestamp,
   }: Pick<
-    MessageAttributesType,
+    ReadonlyMessageAttributesType,
     'editMessageTimestamp' | 'sent_at' | 'timestamp'
   >,
   { includeEdits = true, log }: GetMessageSentTimestampOptionsType

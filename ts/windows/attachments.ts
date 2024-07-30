@@ -7,12 +7,10 @@ import { join, normalize, basename } from 'path';
 import fse from 'fs-extra';
 import getGuid from 'uuid/v4';
 
-import { getRandomBytes } from '../Crypto';
-import * as Bytes from '../Bytes';
-
 import { isPathInside } from '../util/isPathInside';
 import { writeWindowsZoneIdentifier } from '../util/windowsZoneIdentifier';
 import OS from '../util/os/osMain';
+import { getRelativePath, createName } from '../util/attachmentPath';
 
 export * from '../../app/attachments';
 
@@ -32,7 +30,7 @@ try {
   window.SignalContext.log?.info('x-attr dependency did not load successfully');
 }
 
-export const createReader = (
+export const createPlaintextReader = (
   root: string
 ): ((relativePath: string) => Promise<Uint8Array>) => {
   if (!isString(root)) {
@@ -52,18 +50,6 @@ export const createReader = (
     return fse.readFile(normalized);
   };
 };
-
-export const getRelativePath = (name: string): string => {
-  if (!isString(name)) {
-    throw new TypeError("'name' must be a string");
-  }
-
-  const prefix = name.slice(0, 2);
-  return join(prefix, name);
-};
-
-export const createName = (suffix = ''): string =>
-  `${Bytes.toHex(getRandomBytes(32))}${suffix}`;
 
 export const copyIntoAttachmentsDirectory = (
   root: string
@@ -128,7 +114,7 @@ export const createWriterForNew = (
   };
 };
 
-export const createWriterForExisting = (
+const createWriterForExisting = (
   root: string
 ): ((options: { data?: Uint8Array; path?: string }) => Promise<string>) => {
   if (!isString(root)) {

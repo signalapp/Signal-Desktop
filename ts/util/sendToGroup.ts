@@ -23,6 +23,7 @@ import {
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import * as Errors from '../types/errors';
+import { DataWriter } from '../sql/Client';
 import { getValue } from '../RemoteConfig';
 import type { ServiceIdString } from '../types/ServiceId';
 import { ServiceIdKind } from '../types/ServiceId';
@@ -128,9 +129,8 @@ export async function sendToGroup({
   // First, do the attachment upload and prepare the proto we'll be sending
   const protoAttributes =
     window.textsecure.messaging.getAttrsFromGroupOptions(groupSendOptions);
-  const contentMessage = await window.textsecure.messaging.getContentMessage(
-    protoAttributes
-  );
+  const contentMessage =
+    await window.textsecure.messaging.getContentMessage(protoAttributes);
 
   // Attachment upload might take too long to succeed - we don't want to proceed
   // with the send if the caller aborted this call.
@@ -558,7 +558,7 @@ export async function sendToGroupViaSenderKey(options: {
     }
 
     if (shouldSaveProto(sendType)) {
-      sendLogId = await window.Signal.Data.insertSentProto(
+      sendLogId = await DataWriter.insertSentProto(
         {
           contentHint,
           proto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
@@ -612,7 +612,7 @@ export async function sendToGroupViaSenderKey(options: {
           `sendToGroupViaSenderKey/${logId}: Disabling sealed sender for ${brokenAccount.idForLogging()}`
         );
         brokenAccount.set({ sealedSender: SEALED_SENDER.DISABLED });
-        window.Signal.Data.updateConversation(brokenAccount.attributes);
+        await DataWriter.updateConversation(brokenAccount.attributes);
 
         // Now that we've eliminate this problematic account, we can try the send again.
         return sendToGroupViaSenderKey({
@@ -682,7 +682,7 @@ export async function sendToGroupViaSenderKey(options: {
       return;
     }
 
-    await window.Signal.Data.insertProtoRecipients({
+    await DataWriter.insertProtoRecipients({
       id: sendLogId,
       recipientServiceId,
       deviceIds,
@@ -923,7 +923,7 @@ async function markServiceIdUnregistered(serviceId: ServiceIdString) {
   );
 
   conversation.setUnregistered();
-  window.Signal.Data.updateConversation(conversation.attributes);
+  await DataWriter.updateConversation(conversation.attributes);
 
   await window.textsecure.storage.protocol.archiveAllSessions(serviceId);
 }
@@ -1278,10 +1278,11 @@ function getAccessKey(
     return accessKey || undefined;
   }
 
-  if (
-    sealedSender === SEALED_SENDER.UNKNOWN ||
-    sealedSender === SEALED_SENDER.UNRESTRICTED
-  ) {
+  if (sealedSender === SEALED_SENDER.UNKNOWN) {
+    return accessKey || ZERO_ACCESS_KEY;
+  }
+
+  if (sealedSender === SEALED_SENDER.UNRESTRICTED) {
     return ZERO_ACCESS_KEY;
   }
 
@@ -1345,7 +1346,7 @@ async function fetchKeysForServiceId(
       emptyConversation.set({
         sealedSender: SEALED_SENDER.DISABLED,
       });
-      window.Signal.Data.updateConversation(emptyConversation.attributes);
+      await DataWriter.updateConversation(emptyConversation.attributes);
     }
   } catch (error: unknown) {
     if (error instanceof UnregisteredUserError) {

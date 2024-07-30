@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import React, { useCallback, useEffect } from 'react';
+import React, { memo, useCallback, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { DataReader } from '../../sql/Client';
 import { useItemsActions } from '../ducks/items';
 import {
   getNavTabsCollapsed,
@@ -15,7 +15,7 @@ import {
   getAllConversations,
   getConversationSelector,
 } from '../selectors/conversations';
-import { filterAndSortConversationsByRecent } from '../../util/filterAndSortConversations';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations';
 import type {
   CallHistoryFilter,
   CallHistoryFilterOptions,
@@ -26,48 +26,92 @@ import type { ConversationType } from '../ducks/conversations';
 import { SmartConversationDetails } from './ConversationDetails';
 import { SmartToastManager } from './ToastManager';
 import { useCallingActions } from '../ducks/calling';
-import { getActiveCallState } from '../selectors/calling';
+import {
+  getActiveCallState,
+  getAdhocCallSelector,
+  getAllCallLinks,
+  getCallSelector,
+  getCallLinkSelector,
+} from '../selectors/calling';
 import { useCallHistoryActions } from '../ducks/callHistory';
 import { getCallHistoryEdition } from '../selectors/callHistory';
 import { getHasPendingUpdate } from '../selectors/updates';
 import { getHasAnyFailedStorySends } from '../selectors/stories';
 import { getOtherTabsUnreadStats } from '../selectors/nav';
+import { SmartCallLinkDetails } from './CallLinkDetails';
+import type { CallLinkType } from '../../types/CallLink';
+import { filterCallLinks } from '../../util/filterCallLinks';
+import { useGlobalModalActions } from '../ducks/globalModals';
+import { isCallLinksCreateEnabled } from '../../util/callLinks';
 
-function getCallHistoryFilter(
-  allConversations: Array<ConversationType>,
-  regionCode: string | undefined,
-  options: CallHistoryFilterOptions
-): CallHistoryFilter | null {
+function getCallHistoryFilter({
+  allCallLinks,
+  allConversations,
+  regionCode,
+  options,
+}: {
+  allConversations: Array<ConversationType>;
+  allCallLinks: Array<CallLinkType>;
+  regionCode: string | undefined;
+  options: CallHistoryFilterOptions;
+}): CallHistoryFilter | null {
+  const { status } = options;
   const query = options.query.normalize().trim();
 
-  if (query !== '') {
-    const currentConversations = allConversations.filter(conversation => {
-      return conversation.removalStage == null;
-    });
-
-    const filteredConversations = filterAndSortConversationsByRecent(
-      currentConversations,
-      query,
-      regionCode
-    );
-
-    // If there are no matching conversations, then no calls will match.
-    if (filteredConversations.length === 0) {
-      return null;
-    }
-
+  if (query === '') {
     return {
-      status: options.status,
-      conversationIds: filteredConversations.map(conversation => {
-        return conversation.id;
-      }),
+      status,
+      callLinkRoomIds: null,
+      conversationIds: null,
     };
   }
 
+  let callLinkRoomIds = null;
+  let conversationIds = null;
+
+  const currentConversations = allConversations.filter(conversation => {
+    return conversation.removalStage == null;
+  });
+
+  const filteredConversations = filterAndSortConversations(
+    currentConversations,
+    query,
+    regionCode
+  );
+
+  if (filteredConversations.length > 0) {
+    conversationIds = filteredConversations.map(conversation => {
+      return conversation.id;
+    });
+  }
+
+  const filteredCallLinks = filterCallLinks(allCallLinks, query);
+  if (filteredCallLinks.length > 0) {
+    callLinkRoomIds = filteredCallLinks.map(callLink => {
+      return callLink.roomId;
+    });
+  }
+
+  // If the search query resulted in no matching call links or conversations, then
+  // no calls will match.
+  if (callLinkRoomIds == null && conversationIds == null) {
+    return null;
+  }
+
   return {
-    status: options.status,
-    conversationIds: null,
+    status,
+    callLinkRoomIds,
+    conversationIds,
   };
+}
+
+function renderCallLinkDetails(
+  roomId: string,
+  callHistoryGroup: CallHistoryGroup
+): JSX.Element {
+  return (
+    <SmartCallLinkDetails roomId={roomId} callHistoryGroup={callHistoryGroup} />
+  );
 }
 
 function renderConversationDetails(
@@ -88,16 +132,20 @@ function renderToastManager(props: {
   return <SmartToastManager disableMegaphone {...props} />;
 }
 
-export function SmartCallsTab(): JSX.Element {
+export const SmartCallsTab = memo(function SmartCallsTab() {
   const i18n = useSelector(getIntl);
   const navTabsCollapsed = useSelector(getNavTabsCollapsed);
   const preferredLeftPaneWidth = useSelector(getPreferredLeftPaneWidth);
   const { savePreferredLeftPaneWidth, toggleNavTabsCollapse } =
     useItemsActions();
 
+  const allCallLinks = useSelector(getAllCallLinks);
   const allConversations = useSelector(getAllConversations);
   const regionCode = useSelector(getRegionCode);
   const getConversation = useSelector(getConversationSelector);
+  const getAdhocCall = useSelector(getAdhocCallSelector);
+  const getCall = useSelector(getCallSelector);
+  const getCallLink = useSelector(getCallLinkSelector);
 
   const activeCall = useSelector(getActiveCallState);
   const callHistoryEdition = useSelector(getCallHistoryEdition);
@@ -106,32 +154,43 @@ export function SmartCallsTab(): JSX.Element {
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
 
+  const canCreateCallLinks = useMemo(() => {
+    return isCallLinksCreateEnabled();
+  }, []);
+
   const {
+    createCallLink,
+    hangUpActiveCall,
     onOutgoingAudioCallInConversation,
     onOutgoingVideoCallInConversation,
+    peekNotConnectedGroupCall,
+    startCallLinkLobbyByRoomId,
+    togglePip,
   } = useCallingActions();
   const {
     clearAllCallHistory: clearCallHistory,
     markCallHistoryRead,
     markCallsTabViewed,
   } = useCallHistoryActions();
+  const { toggleCallLinkEditModal, toggleConfirmLeaveCallModal } =
+    useGlobalModalActions();
 
   const getCallHistoryGroupsCount = useCallback(
     async (options: CallHistoryFilterOptions) => {
-      const callHistoryFilter = getCallHistoryFilter(
+      const callHistoryFilter = getCallHistoryFilter({
+        allCallLinks,
         allConversations,
         regionCode,
-        options
-      );
+        options,
+      });
       if (callHistoryFilter == null) {
         return 0;
       }
-      const count = await window.Signal.Data.getCallHistoryGroupsCount(
-        callHistoryFilter
-      );
+      const count =
+        await DataReader.getCallHistoryGroupsCount(callHistoryFilter);
       return count;
     },
-    [allConversations, regionCode]
+    [allCallLinks, allConversations, regionCode]
   );
 
   const getCallHistoryGroups = useCallback(
@@ -139,22 +198,29 @@ export function SmartCallsTab(): JSX.Element {
       options: CallHistoryFilterOptions,
       pagination: CallHistoryPagination
     ) => {
-      const callHistoryFilter = getCallHistoryFilter(
+      const callHistoryFilter = getCallHistoryFilter({
+        allCallLinks,
         allConversations,
         regionCode,
-        options
-      );
+        options,
+      });
       if (callHistoryFilter == null) {
         return [];
       }
-      const results = await window.Signal.Data.getCallHistoryGroups(
+      const results = await DataReader.getCallHistoryGroups(
         callHistoryFilter,
         pagination
       );
       return results;
     },
-    [allConversations, regionCode]
+    [allCallLinks, allConversations, regionCode]
   );
+
+  const handleCreateCallLink = useCallback(() => {
+    createCallLink(roomId => {
+      toggleCallLinkEditModal(roomId);
+    });
+  }, [createCallLink, toggleCallLinkEditModal]);
 
   useEffect(() => {
     markCallsTabViewed();
@@ -168,7 +234,12 @@ export function SmartCallsTab(): JSX.Element {
       getConversation={getConversation}
       getCallHistoryGroupsCount={getCallHistoryGroupsCount}
       getCallHistoryGroups={getCallHistoryGroups}
+      getAdhocCall={getAdhocCall}
+      getCall={getCall}
+      getCallLink={getCallLink}
       callHistoryEdition={callHistoryEdition}
+      canCreateCallLinks={canCreateCallLinks}
+      hangUpActiveCall={hangUpActiveCall}
       hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}
       i18n={i18n}
@@ -176,13 +247,19 @@ export function SmartCallsTab(): JSX.Element {
       onClearCallHistory={clearCallHistory}
       onMarkCallHistoryRead={markCallHistoryRead}
       onToggleNavTabsCollapse={toggleNavTabsCollapse}
+      onCreateCallLink={handleCreateCallLink}
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
+      peekNotConnectedGroupCall={peekNotConnectedGroupCall}
       preferredLeftPaneWidth={preferredLeftPaneWidth}
+      renderCallLinkDetails={renderCallLinkDetails}
       renderConversationDetails={renderConversationDetails}
       renderToastManager={renderToastManager}
       regionCode={regionCode}
       savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
+      startCallLinkLobbyByRoomId={startCallLinkLobbyByRoomId}
+      toggleConfirmLeaveCallModal={toggleConfirmLeaveCallModal}
+      togglePip={togglePip}
     />
   );
-}
+});

@@ -3,11 +3,13 @@
 
 import type { ReactNode } from 'react';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { isEqual, noop, sortBy } from 'lodash';
+import { isEqual, noop } from 'lodash';
 import classNames from 'classnames';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type {
   ActiveCallStateType,
+  BatchUserActionPayloadType,
+  PendingUserActionPayloadType,
   SendGroupCallRaiseHandType,
   SendGroupCallReactionType,
   SetLocalAudioType,
@@ -87,16 +89,23 @@ import {
 } from './CallReactionBurst';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
 import { assertDev } from '../util/assert';
+import { emojiToData } from './emoji/lib';
+import { CallingPendingParticipants } from './CallingPendingParticipants';
+import type { CallingImageDataCache } from './CallManager';
 
 export type PropsType = {
   activeCall: ActiveCallType;
+  approveUser: (payload: PendingUserActionPayloadType) => void;
+  batchUserAction: (payload: BatchUserActionPayloadType) => void;
+  denyUser: (payload: PendingUserActionPayloadType) => void;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   getPresentingSources: () => void;
   groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   hangUpActiveCall: (reason: string) => void;
   i18n: LocalizerType;
+  imageDataCache: React.RefObject<CallingImageDataCache>;
+  isCallLinkAdmin: boolean;
   isGroupCallRaiseHandEnabled: boolean;
-  isGroupCallReactionsEnabled: boolean;
   me: ConversationType;
   openSystemPreferencesAction: () => unknown;
   renderReactionPicker: (
@@ -178,14 +187,18 @@ function CallDuration({
 
 export function CallScreen({
   activeCall,
+  approveUser,
+  batchUserAction,
   changeCallView,
+  denyUser,
   getGroupCallVideoFrameSource,
   getPresentingSources,
   groupMembers,
   hangUpActiveCall,
   i18n,
+  imageDataCache,
+  isCallLinkAdmin,
   isGroupCallRaiseHandEnabled,
-  isGroupCallReactionsEnabled,
   me,
   openSystemPreferencesAction,
   renderEmojiPicker,
@@ -397,6 +410,11 @@ export function CallScreen({
       throw missingCaseError(activeCall);
   }
 
+  const pendingParticipants =
+    activeCall.callMode === CallMode.Adhoc && isCallLinkAdmin
+      ? activeCall.pendingParticipants
+      : [];
+
   let lonelyInCallNode: ReactNode;
   let localPreviewNode: ReactNode;
 
@@ -414,7 +432,7 @@ export function CallScreen({
         {isSendingVideo ? (
           <video ref={localVideoRef} autoPlay />
         ) : (
-          <CallBackgroundBlur avatarPath={me.avatarPath}>
+          <CallBackgroundBlur avatarUrl={me.avatarUrl}>
             <div className="module-calling__spacer module-calling__camera-is-off-spacer" />
             <div className="module-calling__camera-is-off">
               {i18n('icu:calling__your-video-is-off')}
@@ -435,10 +453,10 @@ export function CallScreen({
         autoPlay
       />
     ) : (
-      <CallBackgroundBlur avatarPath={me.avatarPath}>
+      <CallBackgroundBlur avatarUrl={me.avatarUrl}>
         <Avatar
           acceptedMessageRequest
-          avatarPath={me.avatarPath}
+          avatarUrl={me.avatarUrl}
           badge={undefined}
           color={me.color || AvatarColors[0]}
           noteToSelf={false}
@@ -473,6 +491,7 @@ export function CallScreen({
 
   const controlsFadedOut = !showControls && !isAudioOnly && isConnected;
   const controlsFadeClass = classNames({
+    'module-ongoing-call__controls': true,
     'module-ongoing-call__controls--fadeIn':
       (showControls || isAudioOnly) && !isConnected,
     'module-ongoing-call__controls--fadeOut': controlsFadedOut,
@@ -540,24 +559,34 @@ export function CallScreen({
   }
 
   const renderRaisedHandsToast = React.useCallback(
-    (hands: Array<number>) => {
-      // Sort "You" to the front.
-      const names = sortBy(hands, demuxId =>
-        demuxId === localDemuxId ? 0 : 1
-      ).map(demuxId =>
-        demuxId === localDemuxId
-          ? i18n('icu:you')
-          : conversationsByDemuxId.get(demuxId)?.title
-      );
+    (demuxIds: Array<number>) => {
+      const names: Array<string> = [];
+      let isYourHandRaised = false;
+      for (const demuxId of demuxIds) {
+        if (demuxId === localDemuxId) {
+          isYourHandRaised = true;
+          continue;
+        }
+
+        const handConversation = conversationsByDemuxId.get(demuxId);
+        if (!handConversation) {
+          continue;
+        }
+
+        names.push(handConversation.title);
+      }
+
+      const count = names.length;
+      const name = names[0] ?? '';
+      const otherName = names[1] ?? '';
 
       let message: string;
       let buttonOverride: JSX.Element | undefined;
-      const count = names.length;
       switch (count) {
         case 0:
           return undefined;
         case 1:
-          if (names[0] === i18n('icu:you')) {
+          if (isYourHandRaised) {
             message = i18n('icu:CallControls__RaiseHandsToast--you');
             buttonOverride = (
               <button
@@ -570,22 +599,37 @@ export function CallScreen({
             );
           } else {
             message = i18n('icu:CallControls__RaiseHandsToast--one', {
-              name: names[0] ?? '',
+              name,
             });
           }
           break;
         case 2:
-          message = i18n('icu:CallControls__RaiseHandsToast--two', {
-            name: names[0] ?? '',
-            otherName: names[1] ?? '',
-          });
+          if (isYourHandRaised) {
+            message = i18n('icu:CallControls__RaiseHandsToast--you-and-one', {
+              otherName,
+            });
+          } else {
+            message = i18n('icu:CallControls__RaiseHandsToast--two', {
+              name,
+              otherName,
+            });
+          }
           break;
-        default:
-          message = i18n('icu:CallControls__RaiseHandsToast--more', {
-            name: names[0] ?? '',
-            otherName: names[1] ?? '',
-            overflowCount: names.length - 2,
-          });
+        default: {
+          const overflowCount = count - 2;
+          if (isYourHandRaised) {
+            message = i18n('icu:CallControls__RaiseHandsToast--you-and-more', {
+              otherName,
+              overflowCount,
+            });
+          } else {
+            message = i18n('icu:CallControls__RaiseHandsToast--more', {
+              name: names[0] ?? '',
+              otherName,
+              overflowCount,
+            });
+          }
+        }
       }
       return (
         <div className="CallingRaisedHandsToast__Content">
@@ -676,6 +720,7 @@ export function CallScreen({
         <GroupCallRemoteParticipants
           callViewMode={activeCall.viewMode}
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+          imageDataCache={imageDataCache}
           i18n={i18n}
           remoteParticipants={activeCall.remoteParticipants}
           setGroupCallVideoRequest={setGroupCallVideoRequest}
@@ -812,6 +857,15 @@ export function CallScreen({
         renderRaisedHandsToast={renderRaisedHandsToast}
         i18n={i18n}
       />
+      {pendingParticipants.length ? (
+        <CallingPendingParticipants
+          i18n={i18n}
+          participants={pendingParticipants}
+          approveUser={approveUser}
+          batchUserAction={batchUserAction}
+          denyUser={denyUser}
+        />
+      ) : null}
       {/* We render the local preview first and set the footer flex direction to row-reverse
       to ensure the preview is visible at low viewport widths. */}
       <div className="module-ongoing-call__footer">
@@ -850,20 +904,19 @@ export function CallScreen({
               className="CallControls__ReactionPickerContainer"
               ref={reactionPickerContainerRef}
             >
-              {isGroupCallReactionsEnabled &&
-                renderReactionPicker({
-                  ref: reactionPickerRef,
-                  onClose: () => setShowReactionPicker(false),
-                  onPick: emoji => {
-                    setShowReactionPicker(false);
-                    sendGroupCallReaction({
-                      callMode: activeCall.callMode,
-                      conversationId: conversation.id,
-                      value: emoji,
-                    });
-                  },
-                  renderEmojiPicker,
-                })}
+              {renderReactionPicker({
+                ref: reactionPickerRef,
+                onClose: () => setShowReactionPicker(false),
+                onPick: emoji => {
+                  setShowReactionPicker(false);
+                  sendGroupCallReaction({
+                    callMode: activeCall.callMode,
+                    conversationId: conversation.id,
+                    value: emoji,
+                  });
+                },
+                renderEmojiPicker,
+              })}
             </div>
           )}
 
@@ -884,14 +937,6 @@ export function CallScreen({
               onClick={toggleAudio}
               tooltipDirection={TooltipPlacement.Top}
             />
-            <CallingButton
-              buttonType={presentingButtonType}
-              i18n={i18n}
-              onMouseEnter={onControlsMouseEnter}
-              onMouseLeave={onControlsMouseLeave}
-              onClick={togglePresenting}
-              tooltipDirection={TooltipPlacement.Top}
-            />
             {isGroupCallRaiseHandEnabled && raiseHandButtonType && (
               <CallingButton
                 buttonType={raiseHandButtonType}
@@ -902,7 +947,15 @@ export function CallScreen({
                 tooltipDirection={TooltipPlacement.Top}
               />
             )}
-            {isGroupCallReactionsEnabled && reactButtonType && (
+            <CallingButton
+              buttonType={presentingButtonType}
+              i18n={i18n}
+              onMouseEnter={onControlsMouseEnter}
+              onMouseLeave={onControlsMouseLeave}
+              onClick={togglePresenting}
+              tooltipDirection={TooltipPlacement.Top}
+            />
+            {reactButtonType && (
               <div
                 className={classNames('CallControls__ReactButtonContainer', {
                   'CallControls__ReactButtonContainer--menu-shown':
@@ -1048,7 +1101,13 @@ function useReactionsToast(props: UseReactionsToastType): void {
   const reactionsShown = useRef<
     Map<
       string,
-      { value: string; isBursted: boolean; expireAt: number; demuxId: number }
+      {
+        value: string;
+        originalValue: string;
+        isBursted: boolean;
+        expireAt: number;
+        demuxId: number;
+      }
     >
   >(new Map());
   const burstsShown = useRef<Map<string, number>>(new Map());
@@ -1094,8 +1153,13 @@ function useReactionsToast(props: UseReactionsToastType): void {
         recentBurstTime &&
         recentBurstTime + REACTIONS_BURST_TRAILING_WINDOW > time
       );
+      // Normalize skin tone emoji to calculate burst threshold, but save original
+      // value to show in the burst animation
+      const emojiData = emojiToData(value);
+      const normalizedValue = emojiData?.unified ?? value;
       reactionsShown.current.set(key, {
-        value,
+        value: normalizedValue,
+        originalValue: value,
         isBursted,
         expireAt: timestamp + REACTIONS_BURST_WINDOW,
         demuxId,
@@ -1158,6 +1222,7 @@ function useReactionsToast(props: UseReactionsToastType): void {
       }
 
       burstsShown.current.set(value, time);
+      const values: Array<string> = [];
       reactionKeys.forEach(key => {
         const reactionShown = reactionsShown.current.get(key);
         if (!reactionShown) {
@@ -1165,8 +1230,9 @@ function useReactionsToast(props: UseReactionsToastType): void {
         }
 
         reactionShown.isBursted = true;
+        values.push(reactionShown.originalValue);
       });
-      showBurst({ value });
+      showBurst({ values });
 
       if (burstsShown.current.size >= REACTIONS_BURST_MAX_IN_SHORT_WINDOW) {
         break;

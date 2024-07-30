@@ -57,6 +57,7 @@ export function Base(): JSX.Element {
         'open_mouth',
         'zipper_mouth_face',
       ]}
+      wasInvokedFromKeyboard={false}
     />
   );
 }
@@ -70,6 +71,7 @@ export function NoRecents(): JSX.Element {
       onClose={action('onClose')}
       skinTone={0}
       recentEmojis={[]}
+      wasInvokedFromKeyboard={false}
     />
   );
 }
@@ -84,6 +86,7 @@ export function WithSettingsButton(): JSX.Element {
       onClose={action('onClose')}
       skinTone={0}
       recentEmojis={[]}
+      wasInvokedFromKeyboard={false}
     />
   );
 }

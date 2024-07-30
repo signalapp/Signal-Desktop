@@ -4,6 +4,7 @@
 import { assert } from 'chai';
 import { v4 as uuid } from 'uuid';
 import type { MessageAttributesType } from '../../model-types.d';
+import { DataReader, DataWriter } from '../../sql/Client';
 import { MessageModel } from '../../models/messages';
 import { strictAssert } from '../../util/assert';
 
@@ -11,6 +12,12 @@ import { MessageCache } from '../../services/MessageCache';
 import { generateAci } from '../../types/ServiceId';
 
 describe('MessageCache', () => {
+  beforeEach(async () => {
+    const ourAci = generateAci();
+    await window.textsecure.storage.put('uuid_id', `${ourAci}.1`);
+    await window.ConversationController.load();
+  });
+
   describe('filterBySentAt', () => {
     it('returns an empty iterable if no messages match', () => {
       const mc = new MessageCache();
@@ -358,7 +365,7 @@ describe('MessageCache', () => {
         timestamp: Date.now(),
         type: 'incoming',
       };
-      await window.Signal.Data.saveMessage(messageAttributes, {
+      await DataWriter.saveMessage(messageAttributes, {
         forceSave: true,
         ourAci,
       });
@@ -379,7 +386,7 @@ describe('MessageCache', () => {
         skipSaveToDatabase: false,
       });
 
-      const messageFromDatabase = await window.Signal.Data.getMessageById(id);
+      const messageFromDatabase = await DataReader.getMessageById(id);
 
       assert.deepEqual(newAttributes, messageFromDatabase);
     });

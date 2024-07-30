@@ -50,6 +50,7 @@ export type ReviewPropsType = Readonly<
 export type PropsType = {
   conversationId: string;
   acceptConversation: (conversationId: string) => unknown;
+  reportSpam: (conversationId: string) => unknown;
   blockAndReportSpam: (conversationId: string) => unknown;
   blockConversation: (conversationId: string) => unknown;
   deleteConversation: (conversationId: string) => unknown;
@@ -75,6 +76,7 @@ enum ConfirmationStateType {
 export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
   const {
     acceptConversation,
+    reportSpam,
     blockAndReportSpam,
     blockConversation,
     conversationId,
@@ -111,19 +113,23 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
       case ConfirmationStateType.ConfirmingBlock:
         return (
           <MessageRequestActionsConfirmation
-            acceptConversation={acceptConversation}
-            blockAndReportSpam={blockAndReportSpam}
-            blockConversation={blockConversation}
+            addedByName={affectedConversation}
             conversationId={affectedConversation.id}
-            conversationType="direct"
-            deleteConversation={deleteConversation}
+            conversationType={affectedConversation.type}
+            conversationName={affectedConversation}
             i18n={i18n}
-            title={affectedConversation.title}
+            isBlocked={affectedConversation.isBlocked ?? false}
+            isReported={affectedConversation.isReported ?? false}
             state={
               type === ConfirmationStateType.ConfirmingDelete
                 ? MessageRequestState.deleting
                 : MessageRequestState.blocking
             }
+            acceptConversation={acceptConversation}
+            reportSpam={reportSpam}
+            blockAndReportSpam={blockAndReportSpam}
+            blockConversation={blockConversation}
+            deleteConversation={deleteConversation}
             onChangeState={messageRequestState => {
               switch (messageRequestState) {
                 case MessageRequestState.blocking:
@@ -138,10 +144,12 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                     affectedConversation,
                   });
                   break;
+                case MessageRequestState.reportingAndMaybeBlocking:
+                case MessageRequestState.acceptedOptions:
                 case MessageRequestState.unblocking:
                   assertDev(
                     false,
-                    'Got unexpected MessageRequestState.unblocking state. Clearing confiration state'
+                    `Got unexpected MessageRequestState.${MessageRequestState[messageRequestState]} state. Clearing confiration state`
                   );
                   setConfirmationState(undefined);
                   break;

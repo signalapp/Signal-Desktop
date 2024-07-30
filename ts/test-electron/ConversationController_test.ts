@@ -4,6 +4,7 @@
 import { assert } from 'chai';
 
 import { strictAssert } from '../util/assert';
+import { DataWriter } from '../sql/Client';
 
 import type { ConversationModel } from '../models/conversations';
 import type { AciString, PniString, ServiceIdString } from '../types/ServiceId';
@@ -32,7 +33,7 @@ describe('ConversationController', () => {
     ) => Promise<void>;
 
     beforeEach(async () => {
-      await window.Signal.Data._removeAllConversations();
+      await DataWriter._removeAllConversations();
 
       window.ConversationController.reset();
       await window.ConversationController.load();

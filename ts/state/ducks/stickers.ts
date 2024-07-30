@@ -9,7 +9,7 @@ import type {
   StickerType as StickerDBType,
   StickerPackType as StickerPackDBType,
 } from '../../sql/Interface';
-import dataInterface from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client';
 import type { RecentStickerType } from '../../types/Stickers';
 import {
   downloadStickerPack as externalDownloadStickerPack,
@@ -22,8 +22,11 @@ import { ERASE_STORAGE_SERVICE } from './user';
 import type { EraseStorageServiceStateAction } from './user';
 
 import type { NoopActionType } from './noop';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import { useBoundActions } from '../../hooks/useBoundActions';
 
-const { getRecentStickers, updateStickerLastUsed } = dataInterface;
+const { getRecentStickers } = DataReader;
+const { updateStickerLastUsed } = DataWriter;
 
 // State
 
@@ -154,6 +157,10 @@ export const actions = {
   useSticker,
 };
 
+export const useStickersActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
+
 function removeStickerPack(id: string): StickerPackRemovedAction {
   return {
     type: 'stickers/REMOVE_STICKER_PACK',
@@ -208,7 +215,11 @@ function downloadStickerPack(
 function installStickerPack(
   packId: string,
   packKey: string,
-  options: { fromSync?: boolean; fromStorageService?: boolean } = {}
+  options: {
+    fromSync?: boolean;
+    fromStorageService?: boolean;
+    fromBackup?: boolean;
+  } = {}
 ): InstallStickerPackAction {
   return {
     type: 'stickers/INSTALL_STICKER_PACK',
@@ -218,19 +229,27 @@ function installStickerPack(
 async function doInstallStickerPack(
   packId: string,
   packKey: string,
-  options: { fromSync?: boolean; fromStorageService?: boolean } = {}
+  options: {
+    fromSync?: boolean;
+    fromStorageService?: boolean;
+    fromBackup?: boolean;
+  } = {}
 ): Promise<InstallStickerPackPayloadType> {
-  const { fromSync = false, fromStorageService = false } = options;
+  const {
+    fromSync = false,
+    fromStorageService = false,
+    fromBackup = false,
+  } = options;
 
   const timestamp = Date.now();
-  await dataInterface.installStickerPack(packId, timestamp);
+  await DataWriter.installStickerPack(packId, timestamp);
 
-  if (!fromSync && !fromStorageService) {
+  if (!fromSync && !fromStorageService && !fromBackup) {
     // Kick this off, but don't wait for it
     void sendStickerPackSync(packId, packKey, true);
   }
 
-  if (!fromStorageService) {
+  if (!fromStorageService && !fromBackup) {
     storageServiceUploadJob();
   }
 
@@ -265,7 +284,7 @@ async function doUninstallStickerPack(
   const { fromSync = false, fromStorageService = false } = options;
 
   const timestamp = Date.now();
-  await dataInterface.uninstallStickerPack(packId, timestamp);
+  await DataWriter.uninstallStickerPack(packId, timestamp);
 
   // If there are no more references, it should be removed
   await maybeDeletePack(packId);

@@ -6,12 +6,9 @@ import { debounce, omit, reject } from 'lodash';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer';
-import { filterAndSortConversationsByRecent } from '../../util/filterAndSortConversations';
-import type {
-  ClientSearchResultMessageType,
-  ClientInterface,
-} from '../../sql/Interface';
-import dataInterface from '../../sql/Client';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations';
+import type { ClientSearchResultMessageType } from '../../sql/Interface';
+import { DataReader } from '../../sql/Client';
 import { makeLookup } from '../../util/makeLookup';
 import { isNotNil } from '../../util/isNotNil';
 import type { ServiceIdString } from '../../types/ServiceId';
@@ -44,7 +41,7 @@ import * as log from '../../logging/log';
 import { searchConversationTitles } from '../../util/searchConversationTitles';
 import { isDirectConversation } from '../../util/whatTypeOfConversation';
 
-const { searchMessages: dataSearchMessages }: ClientInterface = dataInterface;
+const { searchMessages: dataSearchMessages } = DataReader;
 
 // State
 
@@ -361,12 +358,11 @@ async function queryConversationsAndContacts(
     }
   );
 
-  const searchResults: Array<ConversationType> =
-    filterAndSortConversationsByRecent(
-      visibleConversations,
-      normalizedQuery,
-      regionCode
-    );
+  const searchResults: Array<ConversationType> = filterAndSortConversations(
+    visibleConversations,
+    normalizedQuery,
+    regionCode
+  );
 
   // Split into two groups - active conversations and items just from address book
   let conversationIds: Array<string> = [];

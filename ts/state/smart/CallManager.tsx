@@ -1,23 +1,28 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
-import { connect } from 'react-redux';
 import { memoize } from 'lodash';
-import { mapDispatchToProps } from '../actions';
+import React, { memo } from 'react';
+import { useSelector } from 'react-redux';
 import type {
   DirectIncomingCall,
   GroupIncomingCall,
 } from '../../components/CallManager';
 import { CallManager } from '../../components/CallManager';
+import { isConversationTooBigToRing as getIsConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
+import * as log from '../../logging/log';
 import { calling as callingService } from '../../services/calling';
-import { getIntl, getTheme } from '../selectors/user';
-import { getMe, getConversationSelector } from '../selectors/conversations';
-import { getActiveCall } from '../ducks/calling';
-import type { ConversationType } from '../ducks/conversations';
-import { getCallLinkSelector, getIncomingCall } from '../selectors/calling';
-import { isGroupCallRaiseHandEnabled } from '../../util/isGroupCallRaiseHandEnabled';
-import { isGroupCallReactionsEnabled } from '../../util/isGroupCallReactionsEnabled';
+import {
+  FALLBACK_NOTIFICATION_TITLE,
+  NotificationSetting,
+  NotificationType,
+  notificationService,
+} from '../../services/notifications';
+import {
+  bounceAppIconStart,
+  bounceAppIconStop,
+} from '../../shims/bounceAppIcon';
+import type { CallLinkType } from '../../types/CallLink';
 import type {
   ActiveCallBaseType,
   ActiveCallType,
@@ -27,39 +32,33 @@ import type {
   ConversationsByDemuxIdType,
   GroupCallRemoteParticipantType,
 } from '../../types/Calling';
-import type { AciString } from '../../types/ServiceId';
 import { CallMode, CallState } from '../../types/Calling';
-import type { CallLinkType } from '../../types/CallLink';
-import type { StateType } from '../reducer';
-import { missingCaseError } from '../../util/missingCaseError';
-import { SmartCallingDeviceSelection } from './CallingDeviceSelection';
-import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog';
-import { SmartSafetyNumberViewer } from './SafetyNumberViewer';
-import { callingTones } from '../../util/callingTones';
-import {
-  bounceAppIconStart,
-  bounceAppIconStop,
-} from '../../shims/bounceAppIcon';
-import {
-  FALLBACK_NOTIFICATION_TITLE,
-  NotificationSetting,
-  NotificationType,
-  notificationService,
-} from '../../services/notifications';
-import * as log from '../../logging/log';
-import { getPreferredBadgeSelector } from '../selectors/badges';
-import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
+import type { AciString } from '../../types/ServiceId';
 import { strictAssert } from '../../util/assert';
+import { callLinkToConversation } from '../../util/callLinks';
+import { callingTones } from '../../util/callingTones';
+import { isGroupCallRaiseHandEnabled } from '../../util/isGroupCallRaiseHandEnabled';
+import { missingCaseError } from '../../util/missingCaseError';
+import { useAudioPlayerActions } from '../ducks/audioPlayer';
+import { getActiveCall, useCallingActions } from '../ducks/calling';
+import type { ConversationType } from '../ducks/conversations';
+import type { StateType } from '../reducer';
+import { getHasInitialLoadCompleted } from '../selectors/app';
+import {
+  getAvailableCameras,
+  getCallLinkSelector,
+  getIncomingCall,
+} from '../selectors/calling';
+import { getConversationSelector, getMe } from '../selectors/conversations';
+import { getIntl } from '../selectors/user';
+import { SmartCallingDeviceSelection } from './CallingDeviceSelection';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { renderReactionPicker } from './renderReactionPicker';
-import { callLinkToConversation } from '../../util/callLinks';
+import { isSharingPhoneNumberWithEverybody as getIsSharingPhoneNumberWithEverybody } from '../../util/phoneNumberSharingMode';
+import { useGlobalModalActions } from '../ducks/globalModals';
 
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
-}
-
-function renderSafetyNumberViewer(props: SafetyNumberProps): JSX.Element {
-  return <SmartSafetyNumberViewer {...props} />;
 }
 
 const getGroupCallVideoFrameSource =
@@ -210,10 +209,10 @@ const mapStateToActiveCallProp = (
       } satisfies ActiveDirectCallType;
     case CallMode.Group:
     case CallMode.Adhoc: {
-      const conversationsWithSafetyNumberChanges: Array<ConversationType> = [];
       const groupMembers: Array<ConversationType> = [];
       const remoteParticipants: Array<GroupCallRemoteParticipantType> = [];
       const peekedParticipants: Array<ConversationType> = [];
+      const pendingParticipants: Array<ConversationType> = [];
       const conversationsByDemuxId: ConversationsByDemuxIdType = new Map();
       const { localDemuxId } = call;
       const raisedHands: Set<number> = new Set(call.raisedHands ?? []);
@@ -227,6 +226,7 @@ const mapStateToActiveCallProp = (
           deviceCount: 0,
           maxDevices: Infinity,
           acis: [],
+          pendingAcis: [],
         },
       } = call;
 
@@ -284,22 +284,6 @@ const mapStateToActiveCallProp = (
         }
       });
 
-      for (
-        let i = 0;
-        i < activeCallState.safetyNumberChangedAcis.length;
-        i += 1
-      ) {
-        const aci = activeCallState.safetyNumberChangedAcis[i];
-
-        const remoteConversation = conversationSelectorByAci(aci);
-        if (!remoteConversation) {
-          log.error('Remote participant has no corresponding conversation');
-          continue;
-        }
-
-        conversationsWithSafetyNumberChanges.push(remoteConversation);
-      }
-
       for (let i = 0; i < peekInfo.acis.length; i += 1) {
         const peekedParticipantAci = peekInfo.acis[i];
 
@@ -313,19 +297,33 @@ const mapStateToActiveCallProp = (
         peekedParticipants.push(peekedConversation);
       }
 
+      for (let i = 0; i < peekInfo.pendingAcis.length; i += 1) {
+        const aci = peekInfo.pendingAcis[i];
+
+        // In call links, pending users may be unknown until they share profile keys.
+        // conversationSelectorByAci should create conversations for new contacts.
+        const pendingConversation = conversationSelectorByAci(aci);
+        if (!pendingConversation) {
+          log.error('Pending participant has no corresponding conversation');
+          continue;
+        }
+
+        pendingParticipants.push(pendingConversation);
+      }
+
       return {
         ...baseResult,
         callMode: call.callMode,
         connectionState: call.connectionState,
-        conversationsWithSafetyNumberChanges,
         conversationsByDemuxId,
         deviceCount: peekInfo.deviceCount,
         groupMembers,
-        isConversationTooBigToRing: isConversationTooBigToRing(conversation),
+        isConversationTooBigToRing: getIsConversationTooBigToRing(conversation),
         joinState: call.joinState,
         localDemuxId,
         maxDevices: peekInfo.maxDevices,
         peekedParticipants,
+        pendingParticipants,
         raisedHands,
         remoteParticipants,
         remoteAudioLevels: call.remoteAudioLevels || new Map<number, number>(),
@@ -414,36 +412,112 @@ const mapStateToIncomingCallProp = (
   }
 };
 
-const mapStateToProps = (state: StateType) => {
-  const incomingCall = mapStateToIncomingCallProp(state);
+export const SmartCallManager = memo(function SmartCallManager() {
+  const i18n = useSelector(getIntl);
+  const activeCall = useSelector(mapStateToActiveCallProp);
+  const callLink = useSelector(mapStateToCallLinkProp);
+  const incomingCall = useSelector(mapStateToIncomingCallProp);
+  const availableCameras = useSelector(getAvailableCameras);
+  const hasInitialLoadCompleted = useSelector(getHasInitialLoadCompleted);
+  const me = useSelector(getMe);
+  const isConversationTooBigToRing = incomingCall
+    ? getIsConversationTooBigToRing(incomingCall.conversation)
+    : false;
 
-  return {
-    activeCall: mapStateToActiveCallProp(state),
-    callLink: mapStateToCallLinkProp(state),
-    bounceAppIconStart,
-    bounceAppIconStop,
-    availableCameras: state.calling.availableCameras,
-    getGroupCallVideoFrameSource,
-    getPreferredBadge: getPreferredBadgeSelector(state),
-    i18n: getIntl(state),
-    isGroupCallRaiseHandEnabled: isGroupCallRaiseHandEnabled(),
-    isGroupCallReactionsEnabled: isGroupCallReactionsEnabled(),
-    incomingCall,
-    me: getMe(state),
-    notifyForCall,
-    playRingtone,
-    stopRingtone,
-    renderEmojiPicker,
-    renderReactionPicker,
-    renderDeviceSelection,
-    renderSafetyNumberViewer,
-    theme: getTheme(state),
-    isConversationTooBigToRing: incomingCall
-      ? isConversationTooBigToRing(incomingCall.conversation)
-      : false,
-  };
-};
+  const {
+    approveUser,
+    batchUserAction,
+    denyUser,
+    changeCallView,
+    closeNeedPermissionScreen,
+    getPresentingSources,
+    cancelCall,
+    startCall,
+    toggleParticipants,
+    acceptCall,
+    declineCall,
+    openSystemPreferencesAction,
+    removeClient,
+    blockClient,
+    sendGroupCallRaiseHand,
+    sendGroupCallReaction,
+    setGroupCallVideoRequest,
+    setIsCallActive,
+    setLocalAudio,
+    setLocalVideo,
+    setLocalPreview,
+    setOutgoingRing,
+    setPresenting,
+    setRendererCanvas,
+    switchToPresentationView,
+    switchFromPresentationView,
+    hangUpActiveCall,
+    togglePip,
+    toggleScreenRecordingPermissionsDialog,
+    toggleSettings,
+  } = useCallingActions();
+  const { pauseVoiceNotePlayer } = useAudioPlayerActions();
+  const { showContactModal, showShareCallLinkViaSignal } =
+    useGlobalModalActions();
 
-const smart = connect(mapStateToProps, mapDispatchToProps);
-
-export const SmartCallManager = smart(CallManager);
+  return (
+    <CallManager
+      acceptCall={acceptCall}
+      activeCall={activeCall}
+      approveUser={approveUser}
+      availableCameras={availableCameras}
+      batchUserAction={batchUserAction}
+      blockClient={blockClient}
+      bounceAppIconStart={bounceAppIconStart}
+      bounceAppIconStop={bounceAppIconStop}
+      callLink={callLink}
+      cancelCall={cancelCall}
+      changeCallView={changeCallView}
+      closeNeedPermissionScreen={closeNeedPermissionScreen}
+      declineCall={declineCall}
+      denyUser={denyUser}
+      getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+      getIsSharingPhoneNumberWithEverybody={
+        getIsSharingPhoneNumberWithEverybody
+      }
+      getPresentingSources={getPresentingSources}
+      hangUpActiveCall={hangUpActiveCall}
+      hasInitialLoadCompleted={hasInitialLoadCompleted}
+      i18n={i18n}
+      incomingCall={incomingCall}
+      isConversationTooBigToRing={isConversationTooBigToRing}
+      isGroupCallRaiseHandEnabled={isGroupCallRaiseHandEnabled()}
+      me={me}
+      notifyForCall={notifyForCall}
+      openSystemPreferencesAction={openSystemPreferencesAction}
+      pauseVoiceNotePlayer={pauseVoiceNotePlayer}
+      playRingtone={playRingtone}
+      removeClient={removeClient}
+      renderDeviceSelection={renderDeviceSelection}
+      renderEmojiPicker={renderEmojiPicker}
+      renderReactionPicker={renderReactionPicker}
+      sendGroupCallRaiseHand={sendGroupCallRaiseHand}
+      sendGroupCallReaction={sendGroupCallReaction}
+      setGroupCallVideoRequest={setGroupCallVideoRequest}
+      setIsCallActive={setIsCallActive}
+      setLocalAudio={setLocalAudio}
+      setLocalPreview={setLocalPreview}
+      setLocalVideo={setLocalVideo}
+      setOutgoingRing={setOutgoingRing}
+      setPresenting={setPresenting}
+      setRendererCanvas={setRendererCanvas}
+      showContactModal={showContactModal}
+      showShareCallLinkViaSignal={showShareCallLinkViaSignal}
+      startCall={startCall}
+      stopRingtone={stopRingtone}
+      switchFromPresentationView={switchFromPresentationView}
+      switchToPresentationView={switchToPresentationView}
+      toggleParticipants={toggleParticipants}
+      togglePip={togglePip}
+      toggleScreenRecordingPermissionsDialog={
+        toggleScreenRecordingPermissionsDialog
+      }
+      toggleSettings={toggleSettings}
+    />
+  );
+});

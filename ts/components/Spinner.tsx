@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 
 export const SpinnerSvgSizes = ['small', 'normal'] as const;
-export type SpinnerSvgSize = typeof SpinnerSvgSizes[number];
+export type SpinnerSvgSize = (typeof SpinnerSvgSizes)[number];
 
 export const SpinnerDirections = [
   'outgoing',
@@ -17,7 +17,7 @@ export const SpinnerDirections = [
   'on-progress-dialog',
   'on-avatar',
 ] as const;
-export type SpinnerDirection = typeof SpinnerDirections[number];
+export type SpinnerDirection = (typeof SpinnerDirections)[number];
 
 export type Props = {
   ariaLabel?: string;

@@ -8,7 +8,7 @@ import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { SystemMessage } from './SystemMessage';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { LocalizerType } from '../../types/Util';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 
 import { DeliveryIssueDialog } from './DeliveryIssueDialog';
 import { UserText } from '../UserText';
@@ -45,7 +45,7 @@ export function DeliveryIssueNotification(
     <>
       <SystemMessage
         contents={
-          <Intl
+          <I18n
             id="icu:DeliveryIssue--notification"
             components={{
               sender: <UserText text={sender.firstName || sender.title} />,

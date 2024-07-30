@@ -5,6 +5,7 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { v4 as generateUuid } from 'uuid';
 import { times } from 'lodash';
+import type { ReadonlyDeep } from 'type-fest';
 
 import { reducer as rootReducer } from '../../../state/reducer';
 import { noopAction } from '../../../state/ducks/noop';
@@ -60,7 +61,7 @@ import {
   VIEWERS_CHANGED,
 } from '../../../state/ducks/storyDistributionLists';
 import { MY_STORY_ID } from '../../../types/Stories';
-import type { MessageAttributesType } from '../../../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../../../model-types.d';
 
 const {
   clearGroupCreationError,
@@ -92,8 +93,8 @@ const {
 function messageChanged(
   messageId: string,
   conversationId: string,
-  data: MessageAttributesType
-): MessageChangedActionType {
+  data: ReadonlyMessageAttributesType
+): ReadonlyDeep<MessageChangedActionType> {
   return {
     type: 'MESSAGE_CHANGED',
     payload: {
@@ -117,7 +118,9 @@ describe('both/state/ducks/conversations', () => {
   let sinonSandbox: sinon.SinonSandbox;
   let createGroupStub: sinon.SinonStub;
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    await window.ConversationController.load();
+
     sinonSandbox = sinon.createSandbox();
 
     sinonSandbox.stub(window.Whisper.events, 'trigger');

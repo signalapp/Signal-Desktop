@@ -11,6 +11,8 @@ import { missingCaseError } from '../../util/missingCaseError';
 import type { SizeClassType } from '../emoji/lib';
 import { emojiToImage } from '../emoji/lib';
 
+const JUMBO_SIZES = new Set<SizeClassType>(['large', 'extra-large', 'max']);
+
 // Some of this logic taken from emoji-js/replacement
 // the DOM structure for this getImageTag should match the other emoji implementations:
 // ts/components/emoji/Emoji.tsx
@@ -32,10 +34,16 @@ function getImageTag({
     return match;
   }
 
+  let srcSet: string | undefined;
+  if (sizeClass != null && JUMBO_SIZES.has(sizeClass)) {
+    srcSet = `emoji://jumbo?emoji=${encodeURIComponent(match)} 2x, ${img}`;
+  }
+
   return (
     <img
       key={key}
       src={img}
+      srcSet={srcSet}
       aria-label={match}
       className={classNames(
         'emoji',

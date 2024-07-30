@@ -85,6 +85,8 @@ textarea {
 }
 
 ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+
   @include light-theme {
     background: $color-gray-25;
     border: 2px solid $color-white;
@@ -290,7 +292,7 @@ $loading-height: 16px;
   justify-content: center;
   user-select: none;
 
-  .container {
+  .dot-container {
     display: flex;
     gap: 7px;
     margin-block: 6px 22px;
@@ -628,6 +630,10 @@ $loading-height: 16px;
     .body {
       float: inline-start;
     }
+  }
+
+  .StandaloneRegistration__error {
+    color: $color-accent-red;
   }
 }
 

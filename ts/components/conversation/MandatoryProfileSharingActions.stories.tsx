@@ -8,8 +8,16 @@ import type { Props } from './MandatoryProfileSharingActions';
 import { MandatoryProfileSharingActions } from './MandatoryProfileSharingActions';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
+import {
+  getDefaultConversation,
+  getDefaultGroup,
+} from '../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
+
+type Args = {
+  conversationType: 'direct' | 'group';
+};
 
 export default {
   title: 'Components/Conversation/MandatoryProfileSharingActions',
@@ -20,34 +28,43 @@ export default {
         options: ['direct', 'group'],
       },
     },
-    firstName: { control: { type: 'text' } },
-    title: { control: { type: 'text' } },
   },
   args: {
-    conversationId: '123',
-    i18n,
     conversationType: 'direct',
-    firstName: 'Cayce',
-    title: 'Cayce Bollard',
-    acceptConversation: action('acceptConversation'),
-    blockAndReportSpam: action('blockAndReportSpam'),
-    blockConversation: action('blockConversation'),
-    deleteConversation: action('deleteConversation'),
   },
-} satisfies Meta<Props>;
+} satisfies Meta<Args>;
 
-export function Direct(args: Props): JSX.Element {
+function Example(args: Args) {
+  const conversation =
+    args.conversationType === 'group'
+      ? getDefaultGroup()
+      : getDefaultConversation();
+  const addedBy =
+    args.conversationType === 'group' ? getDefaultConversation() : conversation;
   return (
     <div style={{ width: '480px' }}>
-      <MandatoryProfileSharingActions {...args} />
+      <MandatoryProfileSharingActions
+        addedByName={addedBy}
+        conversationType={conversation.type}
+        conversationId={conversation.id}
+        conversationName={conversation}
+        i18n={i18n}
+        isBlocked={conversation.isBlocked ?? false}
+        isReported={conversation.isReported ?? false}
+        acceptConversation={action('acceptConversation')}
+        blockAndReportSpam={action('blockAndReportSpam')}
+        blockConversation={action('blockConversation')}
+        deleteConversation={action('deleteConversation')}
+        reportSpam={action('reportSpam')}
+      />
     </div>
   );
 }
 
+export function Direct(args: Props): JSX.Element {
+  return <Example {...args} conversationType="direct" />;
+}
+
 export function Group(args: Props): JSX.Element {
-  return (
-    <div style={{ width: '480px' }}>
-      <MandatoryProfileSharingActions {...args} conversationType="group" />
-    </div>
-  );
+  return <Example {...args} conversationType="group" />;
 }

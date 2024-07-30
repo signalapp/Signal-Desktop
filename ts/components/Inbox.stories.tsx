@@ -19,9 +19,14 @@ export default {
   args: {
     i18n,
     hasInitialLoadCompleted: false,
+    isAlpha: false,
     isCustomizingPreferredReactions: false,
   },
-} satisfies Meta<PropsType>;
+  argTypes: {
+    daysAgo: { control: { type: 'number' } },
+    isAlpha: { control: { type: 'boolean' } },
+  },
+} satisfies Meta<PropsType & { daysAgo?: number }>;
 
 // eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType & { daysAgo?: number }> = ({
@@ -32,7 +37,7 @@ const Template: StoryFn<PropsType & { daysAgo?: number }> = ({
   const [dayOffset, setDayOffset] = useState(0);
 
   useEffect(() => {
-    if (daysAgo === undefined) {
+    if (!daysAgo) {
       setDayOffset(0);
       return noop;
     }
@@ -64,3 +69,8 @@ const Template: StoryFn<PropsType & { daysAgo?: number }> = ({
 };
 
 export const Default = Template.bind({});
+
+export const FourDaysAgo = Template.bind({});
+FourDaysAgo.args = {
+  daysAgo: 4,
+};

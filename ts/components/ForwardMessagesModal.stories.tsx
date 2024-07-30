@@ -7,7 +7,10 @@ import type { Meta } from '@storybook/react';
 import enMessages from '../../_locales/en/messages.json';
 import type { AttachmentType } from '../types/Attachment';
 import type { PropsType } from './ForwardMessagesModal';
-import { ForwardMessagesModal } from './ForwardMessagesModal';
+import {
+  ForwardMessagesModal,
+  ForwardMessagesModalType,
+} from './ForwardMessagesModal';
 import { IMAGE_JPEG, VIDEO_MP4, stringToMIMEType } from '../types/MIME';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
@@ -23,7 +26,7 @@ const createAttachment = (
   contentType: stringToMIMEType(props.contentType ?? ''),
   fileName: props.fileName ?? '',
   screenshotPath: props.pending === false ? props.screenshotPath : undefined,
-  url: props.pending === false ? props.url ?? '' : '',
+  url: props.pending === false ? (props.url ?? '') : '',
   size: 3433,
 });
 
@@ -49,6 +52,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   doForwardMessages: action('doForwardMessages'),
   getPreferredBadge: () => undefined,
   i18n,
+  isInFullScreenCall: false,
   linkPreviewForSource: () => undefined,
   onClose: action('onClose'),
   onChange: action('onChange'),
@@ -58,6 +62,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
       {...props}
       getPreferredBadge={() => undefined}
       i18n={i18n}
+      isActive
       isFormattingEnabled
       onPickEmoji={action('onPickEmoji')}
       onSetSkinTone={action('onSetSkinTone')}
@@ -67,6 +72,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     />
   ),
   showToast: action('showToast'),
+  type: ForwardMessagesModalType.Forward,
   theme: React.useContext(StorybookThemeContext),
   regionCode: 'US',
 });

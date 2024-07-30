@@ -163,6 +163,14 @@ export const redactCallLinkRootKeys = (text: string): string => {
   return text.replace(CALL_LINK_ROOT_KEY_PATTERN, `${REDACTION_PLACEHOLDER}$1`);
 };
 
+export const redactCdnKey = (cdnKey: string): string => {
+  return `${REDACTION_PLACEHOLDER}${cdnKey.slice(-3)}`;
+};
+
+export const redactGenericText = (text: string): string => {
+  return `${REDACTION_PLACEHOLDER}${text.slice(-3)}`;
+};
+
 const createRedactSensitivePaths = (
   paths: ReadonlyArray<string>
 ): RedactFunction => {

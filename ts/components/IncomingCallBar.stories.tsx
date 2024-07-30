@@ -25,7 +25,7 @@ const commonProps = {
   },
   conversation: getDefaultConversation({
     id: '3051234567',
-    avatarPath: undefined,
+    avatarUrl: undefined,
     name: 'Rick Sanchez',
     phoneNumber: '3051234567',
     profileName: 'Rick Sanchez',
@@ -38,7 +38,7 @@ const commonProps = {
 
 const directConversation = getDefaultConversation({
   id: '3051234567',
-  avatarPath: undefined,
+  avatarUrl: undefined,
   name: 'Rick Sanchez',
   phoneNumber: '3051234567',
   profileName: 'Rick Sanchez',
@@ -46,7 +46,7 @@ const directConversation = getDefaultConversation({
 });
 
 const groupConversation = getDefaultConversation({
-  avatarPath: undefined,
+  avatarUrl: undefined,
   name: 'Tahoe Trip',
   title: 'Tahoe Trip',
   type: 'group',

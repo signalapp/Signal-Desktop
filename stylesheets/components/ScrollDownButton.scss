@@ -14,7 +14,8 @@
   align-items: center;
   justify-content: center;
 
-  box-shadow: 0px 0px 2px $color-black-alpha-20,
+  box-shadow:
+    0px 0px 2px $color-black-alpha-20,
     0px 2px 6px $color-black-alpha-12;
 
   @include light-theme {

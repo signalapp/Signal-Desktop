@@ -3,9 +3,9 @@
 
 import { getThemeType } from '../util/getThemeType';
 
-export function themeChanged(): void {
+export async function themeChanged(): Promise<void> {
   if (window.reduxActions && window.reduxActions.user) {
-    const theme = getThemeType();
+    const theme = await getThemeType();
     window.reduxActions.user.userChanged({ theme });
   }
 }

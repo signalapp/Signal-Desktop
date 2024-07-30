@@ -40,7 +40,7 @@ async function main() {
 
         // Find uses in either:
         // - `i18n('key')`
-        // - `<Intl id="key"/>`
+        // - `<I18n id="key"/>`
 
         try {
           const result = await execa(

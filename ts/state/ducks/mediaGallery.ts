@@ -15,7 +15,7 @@ import type { MIMEType } from '../../types/MIME';
 import type { MediaItemType } from '../../types/MediaItem';
 import type { StateType as RootStateType } from '../reducer';
 
-import dataInterface from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client';
 import {
   CONVERSATION_UNLOADED,
   MESSAGE_CHANGED,
@@ -25,6 +25,7 @@ import {
 import { VERSION_NEEDED_FOR_DISPLAY } from '../../types/Message2';
 import { isDownloading, hasFailed } from '../../types/Attachment';
 import { isNotNil } from '../../util/isNotNil';
+import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
@@ -74,8 +75,7 @@ function loadMediaItems(
   conversationId: string
 ): ThunkAction<void, RootStateType, unknown, LoadMediaItemslActionType> {
   return async dispatch => {
-    const { getAbsoluteAttachmentPath, upgradeMessageSchema } =
-      window.Signal.Migrations;
+    const { upgradeMessageSchema } = window.Signal.Migrations;
 
     // We fetch more documents than media as they don’t require to be loaded
     // into memory right away. Revisit this once we have infinite scrolling:
@@ -84,13 +84,13 @@ function loadMediaItems(
 
     const ourAci = window.textsecure.storage.user.getCheckedAci();
 
-    const rawMedia = await dataInterface.getMessagesWithVisualMediaAttachments(
+    const rawMedia = await DataReader.getMessagesWithVisualMediaAttachments(
       conversationId,
       {
         limit: DEFAULT_MEDIA_FETCH_COUNT,
       }
     );
-    const rawDocuments = await dataInterface.getMessagesWithFileAttachments(
+    const rawDocuments = await DataReader.getMessagesWithFileAttachments(
       conversationId,
       {
         limit: DEFAULT_DOCUMENTS_FETCH_COUNT,
@@ -111,7 +111,7 @@ function loadMediaItems(
           const upgradedMsgAttributes = await upgradeMessageSchema(message);
           model.set(upgradedMsgAttributes);
 
-          await dataInterface.saveMessage(upgradedMsgAttributes, { ourAci });
+          await DataWriter.saveMessage(upgradedMsgAttributes, { ourAci });
         }
       })
     );
@@ -133,9 +133,9 @@ function loadMediaItems(
             const { thumbnail } = attachment;
             const result = {
               path: attachment.path,
-              objectURL: getAbsoluteAttachmentPath(attachment.path),
+              objectURL: getLocalAttachmentUrl(attachment),
               thumbnailObjectUrl: thumbnail?.path
-                ? getAbsoluteAttachmentPath(thumbnail.path)
+                ? getLocalAttachmentUrl(thumbnail)
                 : undefined,
               contentType: attachment.contentType,
               index,

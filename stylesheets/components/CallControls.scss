@@ -97,7 +97,9 @@
 
   @include keyboard-mode {
     &:focus {
-      box-shadow: 0 0 0 1px $color-gray-80, 0 0 0 3px $color-ultramarine !important;
+      box-shadow:
+        0 0 0 1px $color-gray-80,
+        0 0 0 3px $color-ultramarine !important;
     }
   }
 }
@@ -110,14 +112,8 @@
   margin-block: -5px;
 }
 
-.CallControls__ReactButtonContainer--menu-shown .module-tooltip {
-  opacity: 0;
-}
-
 .CallControls__OuterSpacer {
-  // Defined in _modules but duplicated here for ease of refactor
-  $local-preview-width: 108px;
-  flex-basis: calc($local-preview-width + 16px);
+  flex-basis: calc($calling-local-preview-width + 16px);
 }
 
 .CallControls__ReactionPickerContainer {

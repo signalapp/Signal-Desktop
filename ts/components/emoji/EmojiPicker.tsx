@@ -21,10 +21,11 @@ import {
 import FocusTrap from 'focus-trap-react';
 
 import { Emoji } from './Emoji';
-import { dataByCategory, search } from './lib';
+import { dataByCategory } from './lib';
 import type { LocalizerType } from '../../types/Util';
 import { isSingleGrapheme } from '../../util/grapheme';
 import { missingCaseError } from '../../util/missingCaseError';
+import { useEmojiSearch } from '../../hooks/useEmojiSearch';
 
 export type EmojiPickDataType = {
   skinTone?: number;
@@ -33,15 +34,27 @@ export type EmojiPickDataType = {
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
-  readonly onPickEmoji: (o: EmojiPickDataType) => unknown;
-  readonly skinTone?: number;
-  readonly onSetSkinTone?: (tone: number) => unknown;
   readonly recentEmojis?: ReadonlyArray<string>;
+  readonly skinTone?: number;
   readonly onClickSettings?: () => unknown;
   readonly onClose?: () => unknown;
+  readonly onPickEmoji: (o: EmojiPickDataType) => unknown;
+  readonly onSetSkinTone?: (tone: number) => unknown;
+  readonly wasInvokedFromKeyboard: boolean;
 };
 
 export type Props = OwnProps & Pick<React.HTMLProps<HTMLDivElement>, 'style'>;
+
+function isEventFromMouse(
+  event:
+    | React.MouseEvent<HTMLButtonElement>
+    | React.KeyboardEvent<HTMLButtonElement>
+): boolean {
+  return (
+    ('clientX' in event && event.clientX !== 0) ||
+    ('clientY' in event && event.clientY !== 0)
+  );
+}
 
 function focusOnRender(el: HTMLElement | null) {
   if (el) {
@@ -63,7 +76,7 @@ const categories = [
   'flag',
 ] as const;
 
-type Category = typeof categories[number];
+type Category = (typeof categories)[number];
 
 export const EmojiPicker = React.memo(
   React.forwardRef<HTMLDivElement, Props>(
@@ -77,10 +90,15 @@ export const EmojiPicker = React.memo(
         style,
         onClickSettings,
         onClose,
+        wasInvokedFromKeyboard,
       }: Props,
       ref
     ) => {
       const isRTL = i18n.getLocaleDirection() === 'rtl';
+
+      const [isUsingKeyboard, setIsUsingKeyboard] = React.useState(
+        wasInvokedFromKeyboard
+      );
 
       const [firstRecent] = React.useState(recentEmojis);
       const [selectedCategory, setSelectedCategory] = React.useState<Category>(
@@ -91,12 +109,17 @@ export const EmojiPicker = React.memo(
       const [scrollToRow, setScrollToRow] = React.useState(0);
       const [selectedTone, setSelectedTone] = React.useState(skinTone);
 
+      const search = useEmojiSearch(i18n.getLocale());
+
       const handleToggleSearch = React.useCallback(
         (
           e:
             | React.MouseEvent<HTMLButtonElement>
             | React.KeyboardEvent<HTMLButtonElement>
         ) => {
+          if (isEventFromMouse(e)) {
+            setIsUsingKeyboard(false);
+          }
           e.stopPropagation();
           e.preventDefault();
 
@@ -129,6 +152,9 @@ export const EmojiPicker = React.memo(
             | React.MouseEvent<HTMLButtonElement>
             | React.KeyboardEvent<HTMLButtonElement>
         ) => {
+          if (isEventFromMouse(e)) {
+            setIsUsingKeyboard(false);
+          }
           e.preventDefault();
           e.stopPropagation();
 
@@ -151,24 +177,42 @@ export const EmojiPicker = React.memo(
           const { shortName } = e.currentTarget.dataset;
           if ('key' in e) {
             if (e.key === 'Enter') {
-              if (shortName) {
+              if (shortName && isUsingKeyboard) {
                 onPickEmoji({ skinTone: selectedTone, shortName });
+                e.stopPropagation();
+                e.preventDefault();
+              } else if (onClose) {
+                onClose();
                 e.stopPropagation();
                 e.preventDefault();
               }
             }
           } else if (shortName) {
+            if (isEventFromMouse(e)) {
+              setIsUsingKeyboard(false);
+            }
             e.stopPropagation();
             e.preventDefault();
             onPickEmoji({ skinTone: selectedTone, shortName });
           }
         },
-        [onPickEmoji, selectedTone]
+        [
+          onClose,
+          onPickEmoji,
+          isUsingKeyboard,
+          selectedTone,
+          setIsUsingKeyboard,
+        ]
       );
 
       // Handle key presses, particularly Escape
       React.useEffect(() => {
         const handler = (event: KeyboardEvent) => {
+          if (event.key === 'Tab') {
+            // We do NOT prevent default here to allow Tab to be used normally
+            setIsUsingKeyboard(true);
+            return;
+          }
           if (event.key === 'Escape') {
             if (searchMode) {
               event.preventDefault();
@@ -190,7 +234,6 @@ export const EmojiPicker = React.memo(
                 'ArrowRight',
                 'Enter',
                 'Shift',
-                'Tab',
                 ' ', // Space
               ].includes(event.key)
             ) {
@@ -215,16 +258,13 @@ export const EmojiPicker = React.memo(
         return () => {
           document.removeEventListener('keydown', handler);
         };
-      }, [onClose, searchMode, setSearchMode]);
+      }, [onClose, setIsUsingKeyboard, searchMode, setSearchMode]);
 
       const [, ...renderableCategories] = categories;
 
       const emojiGrid = React.useMemo(() => {
         if (searchText) {
-          return chunk(
-            search(searchText).map(e => e.short_name),
-            COL_COUNT
-          );
+          return chunk(search(searchText), COL_COUNT);
         }
 
         const chunks = flatMap(renderableCategories, cat =>
@@ -235,7 +275,7 @@ export const EmojiPicker = React.memo(
         );
 
         return [...chunk(firstRecent, COL_COUNT), ...chunks];
-      }, [firstRecent, renderableCategories, searchText]);
+      }, [firstRecent, renderableCategories, searchText, search]);
 
       const rowCount = emojiGrid.length;
 

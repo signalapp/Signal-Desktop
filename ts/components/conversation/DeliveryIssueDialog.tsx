@@ -6,7 +6,7 @@ import * as React from 'react';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import type { ConversationType } from '../../state/ducks/conversations';
 import { Modal } from '../Modal';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import { Emojify } from './Emojify';
 
 import { useRestoreFocus } from '../../hooks/useRestoreFocus';
@@ -76,13 +76,13 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
         </div>
         <div className="module-delivery-issue-dialog__description">
           {inGroup ? (
-            <Intl
+            <I18n
               id="icu:DeliveryIssue--summary--group"
               components={{ sender: senderTitle }}
               i18n={i18n}
             />
           ) : (
-            <Intl
+            <I18n
               id="icu:DeliveryIssue--summary"
               components={{ sender: senderTitle }}
               i18n={i18n}

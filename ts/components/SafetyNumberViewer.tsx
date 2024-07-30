@@ -6,7 +6,7 @@ import React from 'react';
 import { Button, ButtonVariant } from './Button';
 import { QrCode } from './QrCode';
 import type { ConversationType } from '../state/ducks/conversations';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { Emojify } from './conversation/Emojify';
 import type { LocalizerType } from '../types/Util';
 import type { SafetyNumberType } from '../types/safetyNumber';
@@ -17,9 +17,9 @@ export type PropsType = {
   generateSafetyNumber: (contact: ConversationType) => void;
   i18n: LocalizerType;
   onClose: () => void;
-  safetyNumber?: SafetyNumberType;
+  safetyNumber: SafetyNumberType | null;
   toggleVerified: (contact: ConversationType) => void;
-  verificationDisabled: boolean;
+  verificationDisabled: boolean | null;
 };
 
 export function SafetyNumberViewer({
@@ -95,20 +95,20 @@ export function SafetyNumberViewer({
       {safetyNumberCard}
 
       <div className="module-SafetyNumberViewer__help">
-        <Intl
+        <I18n
           i18n={i18n}
           id="icu:SafetyNumberViewer__hint"
           components={{ name: boldName }}
         />
         <br />
         <a href={SAFETY_NUMBER_URL} rel="noreferrer" target="_blank">
-          <Intl i18n={i18n} id="icu:SafetyNumberViewer__learn_more" />
+          <I18n i18n={i18n} id="icu:SafetyNumberViewer__learn_more" />
         </a>
       </div>
 
       <div className="module-SafetyNumberViewer__button">
         <Button
-          disabled={verificationDisabled}
+          disabled={verificationDisabled ?? false}
           onClick={() => {
             toggleVerified(contact);
           }}

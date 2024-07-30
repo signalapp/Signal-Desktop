@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useContext } from 'react';
+import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
@@ -13,7 +13,6 @@ import {
 } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
 import { AddUserToAnotherGroupModal } from './AddUserToAnotherGroupModal';
-import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -36,7 +35,6 @@ const Template: StoryFn<Props> = args => {
       toggleAddUserToAnotherGroupModal={action(
         'toggleAddUserToAnotherGroupModal'
       )}
-      theme={useContext(StorybookThemeContext)}
     />
   );
 };

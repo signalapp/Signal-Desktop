@@ -220,6 +220,19 @@ message GroupChange {
   uint32 changeEpoch     = 3; // Allows clients to decide whether their change logic can successfully apply this diff
 }
 
+// External credentials
+
+message ExternalGroupCredential {
+  string token = 1;
+}
+
+// API responses
+
+message GroupResponse {
+  Group group = 1;
+  bytes groupSendEndorsementResponse = 2;
+}
+
 message GroupChanges {
   message GroupChangeState {
     GroupChange groupChange = 1;
@@ -227,6 +240,12 @@ message GroupChanges {
   }
 
   repeated GroupChangeState groupChanges = 1;
+  bytes groupSendEndorsementResponse = 2;
+}
+
+message GroupChangeResponse {
+  GroupChange groupChange = 1;
+  bytes groupSendEndorsementResponse = 2;
 }
 
 message GroupAttributeBlob {
@@ -236,10 +255,6 @@ message GroupAttributeBlob {
     uint32 disappearingMessagesDuration = 3;
     string descriptionText              = 4;
   }
-}
-
-message GroupExternalCredential {
-  string token = 1;
 }
 
 message GroupInviteLink {

@@ -5,7 +5,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import moment from 'moment';
-import formatFileSize from 'filesize';
+import { formatFileSize } from '../../../util/formatFileSize';
 
 export type Props = {
   // Required
@@ -43,9 +43,7 @@ export function DocumentListItem({
             {fileName}
           </span>
           <span className="module-document-list-item__file-size">
-            {typeof fileSize === 'number'
-              ? formatFileSize(fileSize, { round: 0 })
-              : ''}
+            {typeof fileSize === 'number' ? formatFileSize(fileSize) : ''}
           </span>
         </div>
         <div className="module-document-list-item__date">

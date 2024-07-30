@@ -8,6 +8,7 @@ import { ReceiptType } from '@signalapp/mock-server';
 
 import { Bootstrap, debug, RUN_COUNT, DISCARD_COUNT } from './fixtures';
 import { stats } from '../../util/benchmark/stats';
+import { typeIntoInput } from '../helpers';
 
 const CONVERSATION_SIZE = 500; // messages
 
@@ -88,7 +89,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     const input = await app.waitForEnabledComposer();
 
     debug('entering message text');
-    await input.type(`my message ${runId}`);
+    await typeIntoInput(input, `my message ${runId}`);
     await input.press('Enter');
 
     debug('waiting for message on server side');

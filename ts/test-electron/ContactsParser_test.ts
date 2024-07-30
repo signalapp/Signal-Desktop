@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { createReadStream, readFileSync, unlinkSync, writeFileSync } from 'fs';
+import { createReadStream, unlinkSync, writeFileSync } from 'fs';
 import { v4 as generateGuid } from 'uuid';
 import { join } from 'path';
 import { pipeline } from 'stream/promises';
@@ -12,6 +12,7 @@ import protobuf from '../protobuf/wrap';
 import * as log from '../logging/log';
 import * as Bytes from '../Bytes';
 import * as Errors from '../types/errors';
+import { APPLICATION_OCTET_STREAM } from '../types/MIME';
 import { SignalService as Proto } from '../protobuf';
 import {
   ParseContactsTransform,
@@ -20,6 +21,7 @@ import {
 import type { ContactDetailsWithAvatar } from '../textsecure/ContactsParser';
 import { createTempDir, deleteTempDir } from '../updater/common';
 import { strictAssert } from '../util/assert';
+import { generateKeys, encryptAttachmentV2ToDisk } from '../AttachmentCrypto';
 
 const { Writer } = protobuf;
 
@@ -35,23 +37,33 @@ describe('ContactsParser', () => {
 
   describe('parseContactsV2', () => {
     it('parses an array buffer of contacts', async () => {
-      let absolutePath: string | undefined;
+      let path: string | undefined;
 
       try {
-        const bytes = getTestBuffer();
-        const fileName = generateGuid();
-        absolutePath = join(tempDir, fileName);
-        writeFileSync(absolutePath, bytes);
+        const data = getTestBuffer();
+        const keys = generateKeys();
 
-        const contacts = await parseContactsV2({ absolutePath });
+        ({ path } = await encryptAttachmentV2ToDisk({
+          plaintext: { data },
+          keys,
+          getAbsoluteAttachmentPath:
+            window.Signal.Migrations.getAbsoluteAttachmentPath,
+        }));
+
+        const contacts = await parseContactsV2({
+          version: 2,
+          localKey: Buffer.from(keys).toString('base64'),
+          path,
+          size: data.byteLength,
+          contentType: APPLICATION_OCTET_STREAM,
+        });
+
         assert.strictEqual(contacts.length, 3);
 
-        contacts.forEach(contact => {
-          verifyContact(contact);
-        });
+        await Promise.all(contacts.map(contact => verifyContact(contact)));
       } finally {
-        if (absolutePath) {
-          unlinkSync(absolutePath);
+        if (path) {
+          await window.Signal.Migrations.deleteAttachmentData(path);
         }
       }
     });
@@ -70,9 +82,7 @@ describe('ContactsParser', () => {
         });
         assert.strictEqual(contacts.length, 3);
 
-        contacts.forEach(contact => {
-          verifyContact(contact);
-        });
+        await Promise.all(contacts.map(contact => verifyContact(contact)));
       } finally {
         if (absolutePath) {
           unlinkSync(absolutePath);
@@ -98,10 +108,12 @@ describe('ContactsParser', () => {
         });
         assert.strictEqual(contacts.length, 4);
 
-        contacts.forEach((contact, index) => {
-          const avatarIsMissing = index === 0;
-          verifyContact(contact, avatarIsMissing);
-        });
+        await Promise.all(
+          contacts.map((contact, index) => {
+            const avatarIsMissing = index === 0;
+            return verifyContact(contact, avatarIsMissing);
+          })
+        );
       } finally {
         if (absolutePath) {
           unlinkSync(absolutePath);
@@ -130,9 +142,7 @@ describe('ContactsParser', () => {
         });
         assert.strictEqual(contacts.length, 3);
 
-        contacts.forEach(contact => {
-          verifyContact(contact);
-        });
+        await Promise.all(contacts.map(contact => verifyContact(contact)));
       } finally {
         if (absolutePath) {
           unlinkSync(absolutePath);
@@ -220,10 +230,10 @@ function generatePrefixedContact(
   return prefixedContact;
 }
 
-function verifyContact(
+async function verifyContact(
   contact: ContactDetailsWithAvatar,
   avatarIsMissing?: boolean
-) {
+): Promise<void> {
   assert.strictEqual(contact.name, 'Zero Cool');
   assert.strictEqual(contact.number, '+10000000000');
   assert.strictEqual(contact.aci, '7198e1bd-1293-452a-a098-f982ff201902');
@@ -232,13 +242,12 @@ function verifyContact(
     return;
   }
 
-  const path = contact.avatar?.path;
-  strictAssert(path, 'Avatar needs path');
+  strictAssert(contact.avatar?.path, 'Avatar needs path');
 
-  const absoluteAttachmentPath =
-    window.Signal.Migrations.getAbsoluteAttachmentPath(path);
-  const avatarBytes = readFileSync(absoluteAttachmentPath);
-  unlinkSync(absoluteAttachmentPath);
+  const avatarBytes = await window.Signal.Migrations.readAttachmentData(
+    contact.avatar
+  );
+  await window.Signal.Migrations.deleteAttachmentData(contact.avatar.path);
 
   for (let j = 0; j < 255; j += 1) {
     assert.strictEqual(avatarBytes[j], j);

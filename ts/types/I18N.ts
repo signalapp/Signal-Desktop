@@ -19,6 +19,7 @@ type SmartlingConfigType = {
 export type LocaleMessageType = {
   messageformat?: string;
   description?: string;
+  ignoreUnused?: boolean;
 };
 
 export type LocaleMessagesType = {

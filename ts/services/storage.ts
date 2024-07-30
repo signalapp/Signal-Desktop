@@ -5,7 +5,7 @@ import { debounce, isNumber, chunk } from 'lodash';
 import pMap from 'p-map';
 import Long from 'long';
 
-import dataInterface from '../sql/Client';
+import { DataReader, DataWriter } from '../sql/Client';
 import * as Bytes from '../Bytes';
 import {
   getRandomBytes,
@@ -40,7 +40,7 @@ import * as durations from '../util/durations';
 import { BackOff } from '../util/BackOff';
 import { storageJobQueue } from '../util/JobQueue';
 import { sleep } from '../util/sleep';
-import { isMoreRecentThan } from '../util/timestamp';
+import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
 import { map, filter } from '../util/iterables';
 import { ourProfileKeyService } from './ourProfileKey';
 import {
@@ -71,13 +71,14 @@ import { redactExtendedStorageID, redactStorageID } from '../util/privacy';
 
 type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
 
+const { getItemById } = DataReader;
+
 const {
   eraseStorageServiceState,
   flushUpdateConversationBatcher,
-  getItemById,
   updateConversation,
   updateConversations,
-} = dataInterface;
+} = DataWriter;
 
 const uploadBucket: Array<number> = [];
 
@@ -319,7 +320,7 @@ async function generateManifest(
           storageVersion: version,
           storageID,
         });
-        updateConversation(conversation.attributes);
+        drop(updateConversation(conversation.attributes));
       });
     }
   }
@@ -335,11 +336,34 @@ async function generateManifest(
       `adding storyDistributionLists=${storyDistributionLists.length}`
   );
 
-  storyDistributionLists.forEach(storyDistributionList => {
+  for (const storyDistributionList of storyDistributionLists) {
     const storageRecord = new Proto.StorageRecord();
     storageRecord.storyDistributionList = toStoryDistributionListRecord(
       storyDistributionList
     );
+
+    if (
+      storyDistributionList.deletedAtTimestamp != null &&
+      isOlderThan(storyDistributionList.deletedAtTimestamp, durations.MONTH)
+    ) {
+      const droppedID = storyDistributionList.storageID;
+      const droppedVersion = storyDistributionList.storageVersion;
+      if (!droppedID) {
+        continue;
+      }
+
+      const recordID = redactStorageID(droppedID, droppedVersion);
+
+      log.warn(
+        `storageService.generateManifest(${version}): ` +
+          `dropping storyDistributionList=${recordID} ` +
+          `due to expired deleted timestamp=${storyDistributionList.deletedAtTimestamp}`
+      );
+      deleteKeys.add(droppedID);
+
+      drop(DataWriter.deleteStoryDistribution(storyDistributionList.id));
+      continue;
+    }
 
     const { isNewItem, storageID } = processStorageRecord({
       currentStorageID: storyDistributionList.storageID,
@@ -351,7 +375,7 @@ async function generateManifest(
 
     if (isNewItem) {
       postUploadUpdateFunctions.push(() => {
-        void dataInterface.modifyStoryDistribution({
+        void DataWriter.modifyStoryDistribution({
           ...storyDistributionList,
           storageID,
           storageVersion: version,
@@ -359,7 +383,7 @@ async function generateManifest(
         });
       });
     }
-  });
+  }
 
   log.info(
     `storageService.upload(${version}): ` +
@@ -384,7 +408,7 @@ async function generateManifest(
 
     if (isNewItem) {
       postUploadUpdateFunctions.push(() => {
-        void dataInterface.addUninstalledStickerPack({
+        void DataWriter.addUninstalledStickerPack({
           ...stickerPack,
           storageID,
           storageVersion: version,
@@ -426,7 +450,7 @@ async function generateManifest(
 
     if (isNewItem) {
       postUploadUpdateFunctions.push(() => {
-        void dataInterface.createOrUpdateStickerPack({
+        void DataWriter.createOrUpdateStickerPack({
           ...stickerPack,
           storageID,
           storageVersion: version,
@@ -586,6 +610,17 @@ async function generateManifest(
         pendingDeletes.add(storageID);
       }
     });
+
+    // Save pending deletes until we have a confirmed upload
+    await window.storage.put(
+      'storage-service-pending-deletes',
+      // Note: `deleteKeys` already includes the prev value of
+      // 'storage-service-pending-deletes'
+      Array.from(deleteKeys, storageID => ({
+        storageID,
+        storageVersion: version,
+      }))
+    );
 
     if (deleteKeys.size !== pendingDeletes.size) {
       const localDeletes = Array.from(deleteKeys).map(key =>
@@ -1054,9 +1089,9 @@ async function getNonConversationRecords(): Promise<NonConversationRecordsResult
     uninstalledStickerPacks,
     installedStickerPacks,
   ] = await Promise.all([
-    dataInterface.getAllStoryDistributionsWithMembers(),
-    dataInterface.getUninstalledStickerPacks(),
-    dataInterface.getInstalledStickerPacks(),
+    DataReader.getAllStoryDistributionsWithMembers(),
+    DataReader.getUninstalledStickerPacks(),
+    DataReader.getInstalledStickerPacks(),
   ]);
 
   return {
@@ -1222,7 +1257,7 @@ async function processManifest(
       }
       conversation.unset('storageID');
       conversation.unset('storageVersion');
-      updateConversation(conversation.attributes);
+      drop(updateConversation(conversation.attributes));
     }
   });
 
@@ -1245,7 +1280,7 @@ async function processManifest(
         `storageService.process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
-      void dataInterface.addUninstalledStickerPack({
+      void DataWriter.addUninstalledStickerPack({
         ...stickerPack,
         storageID: undefined,
         storageVersion: undefined,
@@ -1263,7 +1298,7 @@ async function processManifest(
         `storageService.process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
-      void dataInterface.createOrUpdateStickerPack({
+      void DataWriter.createOrUpdateStickerPack({
         ...stickerPack,
         storageID: undefined,
         storageVersion: undefined,
@@ -1281,7 +1316,7 @@ async function processManifest(
         `storageService.process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
-      void dataInterface.modifyStoryDistribution({
+      void DataWriter.modifyStoryDistribution({
         ...storyDistributionList,
         storageID: undefined,
         storageVersion: undefined,
@@ -1305,7 +1340,7 @@ async function processManifest(
         storageNeedsSync: true,
       };
 
-      await dataInterface.createNewStoryDistribution(storyDistribution);
+      await DataWriter.createNewStoryDistribution(storyDistribution);
 
       const shouldSave = false;
       window.reduxActions.storyDistributionLists.createDistributionList(
@@ -1601,7 +1636,13 @@ async function processRemoteRecords(
     );
 
     // Intentionally not awaiting
-    needProfileFetch.map(convo => drop(convo.getProfiles()));
+    needProfileFetch.map(convo =>
+      drop(
+        convo.getProfiles().catch(() => {
+          /* nothing to do here; logging already happened */
+        })
+      )
+    );
 
     // Collect full map of previously and currently unknown records
     const unknownRecords: Map<string, UnknownRecord> = new Map();
@@ -2013,9 +2054,12 @@ export const storageServiceUploadJob = debounce(() => {
     return;
   }
 
-  void storageJobQueue(async () => {
-    await upload();
-  }, `upload v${window.storage.get('manifestVersion')}`);
+  void storageJobQueue(
+    async () => {
+      await upload();
+    },
+    `upload v${window.storage.get('manifestVersion')}`
+  );
 }, 500);
 
 export const runStorageServiceSyncJob = debounce(() => {
@@ -2025,24 +2069,30 @@ export const runStorageServiceSyncJob = debounce(() => {
   }
 
   ourProfileKeyService.blockGetWithPromise(
-    storageJobQueue(async () => {
-      await sync();
+    storageJobQueue(
+      async () => {
+        await sync();
 
-      // Notify listeners about sync completion
-      window.Whisper.events.trigger('storageService:syncComplete');
-    }, `sync v${window.storage.get('manifestVersion')}`)
+        // Notify listeners about sync completion
+        window.Whisper.events.trigger('storageService:syncComplete');
+      },
+      `sync v${window.storage.get('manifestVersion')}`
+    )
   );
 }, 500);
 
 export const addPendingDelete = (item: ExtendedStorageID): void => {
-  void storageJobQueue(async () => {
-    const storedPendingDeletes = window.storage.get(
-      'storage-service-pending-deletes',
-      []
-    );
-    await window.storage.put('storage-service-pending-deletes', [
-      ...storedPendingDeletes,
-      item,
-    ]);
-  }, `addPendingDelete(${redactExtendedStorageID(item)})`);
+  void storageJobQueue(
+    async () => {
+      const storedPendingDeletes = window.storage.get(
+        'storage-service-pending-deletes',
+        []
+      );
+      await window.storage.put('storage-service-pending-deletes', [
+        ...storedPendingDeletes,
+        item,
+      ]);
+    },
+    `addPendingDelete(${redactExtendedStorageID(item)})`
+  );
 };

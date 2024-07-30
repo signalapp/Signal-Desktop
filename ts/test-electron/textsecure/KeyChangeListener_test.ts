@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 
+import { DataWriter } from '../../sql/Client';
 import { getRandomBytes } from '../../Crypto';
 import { Address } from '../../types/Address';
 import { generateAci } from '../../types/ServiceId';
@@ -11,6 +12,7 @@ import { SignalProtocolStore } from '../../SignalProtocolStore';
 import type { ConversationModel } from '../../models/conversations';
 import * as KeyChangeListener from '../../textsecure/KeyChangeListener';
 import * as Bytes from '../../Bytes';
+import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
 
 describe('KeyChangeListener', () => {
   let oldNumberId: string | undefined;
@@ -36,7 +38,7 @@ describe('KeyChangeListener', () => {
   });
 
   after(async () => {
-    await window.Signal.Data.removeAll();
+    await DataWriter.removeAll();
 
     const { storage } = window.textsecure;
     await storage.fetch();
@@ -67,10 +69,11 @@ describe('KeyChangeListener', () => {
   });
 
   afterEach(async () => {
-    await window.Signal.Data.removeAllMessagesInConversation(convo.id, {
+    await DataWriter.removeMessagesInConversation(convo.id, {
       logId: ourServiceIdWithKeyChange,
+      singleProtoJobQueue,
     });
-    await window.Signal.Data.removeConversation(convo.id);
+    await DataWriter.removeConversation(convo.id);
 
     await store.removeIdentityKey(ourServiceIdWithKeyChange);
   });
@@ -104,10 +107,11 @@ describe('KeyChangeListener', () => {
     });
 
     afterEach(async () => {
-      await window.Signal.Data.removeAllMessagesInConversation(groupConvo.id, {
+      await DataWriter.removeMessagesInConversation(groupConvo.id, {
         logId: ourServiceIdWithKeyChange,
+        singleProtoJobQueue,
       });
-      await window.Signal.Data.removeConversation(groupConvo.id);
+      await DataWriter.removeConversation(groupConvo.id);
     });
 
     it('generates a key change notice in the group conversation with this contact', async () => {

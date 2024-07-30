@@ -1,16 +1,29 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
-import formatFileSize from 'filesize';
-
+import type { ReactNode } from 'react';
+import React, { useCallback } from 'react';
 import { isBeta } from '../util/version';
 import { DialogType } from '../types/Dialogs';
 import type { LocalizerType } from '../types/Util';
 import { PRODUCTION_DOWNLOAD_URL, BETA_DOWNLOAD_URL } from '../types/support';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { LeftPaneDialog } from './LeftPaneDialog';
 import type { WidthBreakpoint } from './_util';
+import { formatFileSize } from '../util/formatFileSize';
+
+function contactSupportLink(parts: ReactNode): JSX.Element {
+  return (
+    <a
+      key="signal-support"
+      href="https://support.signal.org/hc/en-us/requests/new?desktop"
+      rel="noreferrer"
+      target="_blank"
+    >
+      {parts}
+    </a>
+  );
+}
 
 export type PropsType = {
   containerWidthBreakpoint: WidthBreakpoint;
@@ -37,6 +50,22 @@ export function DialogUpdate({
   version,
   currentVersion,
 }: PropsType): JSX.Element | null {
+  const retryUpdateButton = useCallback(
+    (parts: ReactNode): JSX.Element => {
+      return (
+        <button
+          className="LeftPaneDialog__retry"
+          key="signal-retry"
+          onClick={startUpdate}
+          type="button"
+        >
+          {parts}
+        </button>
+      );
+    },
+    [startUpdate]
+  );
+
   if (dialogType === DialogType.Cannot_Update) {
     const url = isBeta(currentVersion)
       ? BETA_DOWNLOAD_URL
@@ -48,18 +77,9 @@ export function DialogUpdate({
         title={i18n('icu:cannotUpdate')}
       >
         <span>
-          <Intl
+          <I18n
             components={{
-              retry: (
-                <button
-                  className="LeftPaneDialog__retry"
-                  key="signal-retry"
-                  onClick={startUpdate}
-                  type="button"
-                >
-                  {i18n('icu:autoUpdateRetry')}
-                </button>
-              ),
+              retryUpdateButton,
               url: (
                 <a
                   key="signal-download"
@@ -70,19 +90,10 @@ export function DialogUpdate({
                   {url}
                 </a>
               ),
-              support: (
-                <a
-                  key="signal-support"
-                  href="https://support.signal.org/hc/en-us/requests/new?desktop"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  {i18n('icu:autoUpdateContactSupport')}
-                </a>
-              ),
+              contactSupportLink,
             }}
             i18n={i18n}
-            id="icu:cannotUpdateDetail"
+            id="icu:cannotUpdateDetail-v2"
           />
         </span>
       </LeftPaneDialog>
@@ -100,7 +111,7 @@ export function DialogUpdate({
         title={i18n('icu:cannotUpdate')}
       >
         <span>
-          <Intl
+          <I18n
             components={{
               url: (
                 <a
@@ -112,19 +123,10 @@ export function DialogUpdate({
                   {url}
                 </a>
               ),
-              support: (
-                <a
-                  key="signal-support"
-                  href="https://support.signal.org/hc/en-us/requests/new?desktop"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  {i18n('icu:autoUpdateContactSupport')}
-                </a>
-              ),
+              contactSupportLink,
             }}
             i18n={i18n}
-            id="icu:cannotUpdateRequireManualDetail"
+            id="icu:cannotUpdateRequireManualDetail-v2"
           />
         </span>
       </LeftPaneDialog>
@@ -142,7 +144,7 @@ export function DialogUpdate({
         type="warning"
       >
         <span>
-          <Intl
+          <I18n
             components={{
               app: <strong key="app">Signal.app</strong>,
               folder: <strong key="folder">/Applications</strong>,
@@ -195,7 +197,7 @@ export function DialogUpdate({
     (dialogType === DialogType.DownloadReady ||
       dialogType === DialogType.FullDownloadReady)
   ) {
-    title += ` (${formatFileSize(downloadSize, { round: 0 })})`;
+    title += ` (${formatFileSize(downloadSize)})`;
   }
 
   let clickLabel = i18n('icu:autoUpdateNewVersionMessage');

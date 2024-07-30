@@ -62,7 +62,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
       return undefined;
     }
 
-    await waitForOnline(window.navigator, window);
+    await waitForOnline();
 
     const { server } = this;
     strictAssert(server !== undefined, 'ReportSpamJobQueue not initialized');

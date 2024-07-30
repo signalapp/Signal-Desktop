@@ -3,8 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import chai, { assert } from 'chai';
-import chaiAsPromised from 'chai-as-promised';
+import { assert } from 'chai';
 import { clone } from 'lodash';
 import {
   Direction,
@@ -17,6 +16,7 @@ import {
 } from '@signalapp/libsignal-client';
 import { v4 as generateUuid } from 'uuid';
 
+import { DataReader, DataWriter } from '../sql/Client';
 import { signal } from '../protobuf/compiled';
 import { sessionStructureToBytes } from '../util/sessionTranslation';
 import * as durations from '../util/durations';
@@ -36,8 +36,6 @@ import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { generateAci, generatePni } from '../types/ServiceId';
 import type { IdentityKeyType, KeyPairType } from '../textsecure/Types.d';
-
-chai.use(chaiAsPromised);
 
 const {
   RecordStructure,
@@ -295,21 +293,21 @@ describe('SignalProtocolStore', () => {
         await store.saveIdentity(identifier, testKey.pubKey);
       });
       it('marks the key firstUse', async () => {
-        const identity = await window.Signal.Data.getIdentityKeyById(theirAci);
+        const identity = await DataReader.getIdentityKeyById(theirAci);
         if (!identity) {
           throw new Error('Missing identity!');
         }
         assert(identity.firstUse);
       });
       it('sets the timestamp', async () => {
-        const identity = await window.Signal.Data.getIdentityKeyById(theirAci);
+        const identity = await DataReader.getIdentityKeyById(theirAci);
         if (!identity) {
           throw new Error('Missing identity!');
         }
         assert(identity.timestamp);
       });
       it('sets the verified status to DEFAULT', async () => {
-        const identity = await window.Signal.Data.getIdentityKeyById(theirAci);
+        const identity = await DataReader.getIdentityKeyById(theirAci);
         if (!identity) {
           throw new Error('Missing identity!');
         }
@@ -321,7 +319,7 @@ describe('SignalProtocolStore', () => {
       const oldTimestamp = Date.now();
 
       before(async () => {
-        await window.Signal.Data.createOrUpdateIdentityKey({
+        await DataWriter.createOrUpdateIdentityKey({
           id: theirAci,
           publicKey: testKey.pubKey,
           firstUse: true,
@@ -334,14 +332,14 @@ describe('SignalProtocolStore', () => {
         await store.saveIdentity(identifier, newIdentity);
       });
       it('marks the key not firstUse', async () => {
-        const identity = await window.Signal.Data.getIdentityKeyById(theirAci);
+        const identity = await DataReader.getIdentityKeyById(theirAci);
         if (!identity) {
           throw new Error('Missing identity!');
         }
         assert(!identity.firstUse);
       });
       it('updates the timestamp', async () => {
-        const identity = await window.Signal.Data.getIdentityKeyById(theirAci);
+        const identity = await DataReader.getIdentityKeyById(theirAci);
         if (!identity) {
           throw new Error('Missing identity!');
         }
@@ -350,7 +348,7 @@ describe('SignalProtocolStore', () => {
 
       describe('The previous verified status was DEFAULT', () => {
         before(async () => {
-          await window.Signal.Data.createOrUpdateIdentityKey({
+          await DataWriter.createOrUpdateIdentityKey({
             id: theirAci,
             publicKey: testKey.pubKey,
             firstUse: true,
@@ -363,9 +361,7 @@ describe('SignalProtocolStore', () => {
           await store.saveIdentity(identifier, newIdentity);
         });
         it('sets the new key to default', async () => {
-          const identity = await window.Signal.Data.getIdentityKeyById(
-            theirAci
-          );
+          const identity = await DataReader.getIdentityKeyById(theirAci);
           if (!identity) {
             throw new Error('Missing identity!');
           }
@@ -374,7 +370,7 @@ describe('SignalProtocolStore', () => {
       });
       describe('The previous verified status was VERIFIED', () => {
         before(async () => {
-          await window.Signal.Data.createOrUpdateIdentityKey({
+          await DataWriter.createOrUpdateIdentityKey({
             id: theirAci,
             publicKey: testKey.pubKey,
             firstUse: true,
@@ -387,9 +383,7 @@ describe('SignalProtocolStore', () => {
           await store.saveIdentity(identifier, newIdentity);
         });
         it('sets the new key to unverified', async () => {
-          const identity = await window.Signal.Data.getIdentityKeyById(
-            theirAci
-          );
+          const identity = await DataReader.getIdentityKeyById(theirAci);
           if (!identity) {
             throw new Error('Missing identity!');
           }
@@ -401,7 +395,7 @@ describe('SignalProtocolStore', () => {
       });
       describe('The previous verified status was UNVERIFIED', () => {
         before(async () => {
-          await window.Signal.Data.createOrUpdateIdentityKey({
+          await DataWriter.createOrUpdateIdentityKey({
             id: theirAci,
             publicKey: testKey.pubKey,
             firstUse: true,
@@ -414,9 +408,7 @@ describe('SignalProtocolStore', () => {
           await store.saveIdentity(identifier, newIdentity);
         });
         it('sets the new key to unverified', async () => {
-          const identity = await window.Signal.Data.getIdentityKeyById(
-            theirAci
-          );
+          const identity = await DataReader.getIdentityKeyById(theirAci);
           if (!identity) {
             throw new Error('Missing identity!');
           }
@@ -430,7 +422,7 @@ describe('SignalProtocolStore', () => {
     describe('When the key has not changed', () => {
       const oldTimestamp = Date.now();
       before(async () => {
-        await window.Signal.Data.createOrUpdateIdentityKey({
+        await DataWriter.createOrUpdateIdentityKey({
           id: theirAci,
           publicKey: testKey.pubKey,
           timestamp: oldTimestamp,
@@ -442,22 +434,18 @@ describe('SignalProtocolStore', () => {
       });
       describe('If it is marked firstUse', () => {
         before(async () => {
-          const identity = await window.Signal.Data.getIdentityKeyById(
-            theirAci
-          );
+          const identity = await DataReader.getIdentityKeyById(theirAci);
           if (!identity) {
             throw new Error('Missing identity!');
           }
           identity.firstUse = true;
-          await window.Signal.Data.createOrUpdateIdentityKey(identity);
+          await DataWriter.createOrUpdateIdentityKey(identity);
           await store.hydrateCaches();
         });
         it('nothing changes', async () => {
           await store.saveIdentity(identifier, testKey.pubKey, true);
 
-          const identity = await window.Signal.Data.getIdentityKeyById(
-            theirAci
-          );
+          const identity = await DataReader.getIdentityKeyById(theirAci);
           if (!identity) {
             throw new Error('Missing identity!');
           }
@@ -467,36 +455,30 @@ describe('SignalProtocolStore', () => {
       });
       describe('If it is not marked firstUse', () => {
         before(async () => {
-          const identity = await window.Signal.Data.getIdentityKeyById(
-            theirAci
-          );
+          const identity = await DataReader.getIdentityKeyById(theirAci);
           if (!identity) {
             throw new Error('Missing identity!');
           }
           identity.firstUse = false;
-          await window.Signal.Data.createOrUpdateIdentityKey(identity);
+          await DataWriter.createOrUpdateIdentityKey(identity);
           await store.hydrateCaches();
         });
         describe('If nonblocking approval is required', () => {
           let now: number;
           before(async () => {
             now = Date.now();
-            const identity = await window.Signal.Data.getIdentityKeyById(
-              theirAci
-            );
+            const identity = await DataReader.getIdentityKeyById(theirAci);
             if (!identity) {
               throw new Error('Missing identity!');
             }
             identity.timestamp = now;
-            await window.Signal.Data.createOrUpdateIdentityKey(identity);
+            await DataWriter.createOrUpdateIdentityKey(identity);
             await store.hydrateCaches();
           });
           it('sets non-blocking approval', async () => {
             await store.saveIdentity(identifier, testKey.pubKey, true);
 
-            const identity = await window.Signal.Data.getIdentityKeyById(
-              theirAci
-            );
+            const identity = await DataReader.getIdentityKeyById(theirAci);
             if (!identity) {
               throw new Error('Missing identity!');
             }
@@ -532,35 +514,35 @@ describe('SignalProtocolStore', () => {
       });
 
       it('publicKey is saved', async () => {
-        const identity = await window.Signal.Data.getIdentityKeyById(theirAci);
+        const identity = await DataReader.getIdentityKeyById(theirAci);
         if (!identity) {
           throw new Error('Missing identity!');
         }
         assert.isTrue(constantTimeEqual(identity.publicKey, testKey.pubKey));
       });
       it('firstUse is saved', async () => {
-        const identity = await window.Signal.Data.getIdentityKeyById(theirAci);
+        const identity = await DataReader.getIdentityKeyById(theirAci);
         if (!identity) {
           throw new Error('Missing identity!');
         }
         assert.strictEqual(identity.firstUse, true);
       });
       it('timestamp is saved', async () => {
-        const identity = await window.Signal.Data.getIdentityKeyById(theirAci);
+        const identity = await DataReader.getIdentityKeyById(theirAci);
         if (!identity) {
           throw new Error('Missing identity!');
         }
         assert.strictEqual(identity.timestamp, now);
       });
       it('verified is saved', async () => {
-        const identity = await window.Signal.Data.getIdentityKeyById(theirAci);
+        const identity = await DataReader.getIdentityKeyById(theirAci);
         if (!identity) {
           throw new Error('Missing identity!');
         }
         assert.strictEqual(identity.verified, store.VerifiedStatus.VERIFIED);
       });
       it('nonblockingApproval is saved', async () => {
-        const identity = await window.Signal.Data.getIdentityKeyById(theirAci);
+        const identity = await DataReader.getIdentityKeyById(theirAci);
         if (!identity) {
           throw new Error('Missing identity!');
         }
@@ -607,7 +589,7 @@ describe('SignalProtocolStore', () => {
   describe('setApproval', () => {
     it('sets nonblockingApproval', async () => {
       await store.setApproval(theirAci, true);
-      const identity = await window.Signal.Data.getIdentityKeyById(theirAci);
+      const identity = await DataReader.getIdentityKeyById(theirAci);
       if (!identity) {
         throw new Error('Missing identity!');
       }
@@ -617,7 +599,7 @@ describe('SignalProtocolStore', () => {
   });
   describe('setVerified', () => {
     async function saveRecordDefault() {
-      await window.Signal.Data.createOrUpdateIdentityKey({
+      await DataWriter.createOrUpdateIdentityKey({
         id: theirAci,
         publicKey: testKey.pubKey,
         firstUse: true,
@@ -632,7 +614,7 @@ describe('SignalProtocolStore', () => {
       it('updates the verified status', async () => {
         await store.setVerified(theirAci, store.VerifiedStatus.VERIFIED);
 
-        const identity = await window.Signal.Data.getIdentityKeyById(theirAci);
+        const identity = await DataReader.getIdentityKeyById(theirAci);
         if (!identity) {
           throw new Error('Missing identity!');
         }
@@ -646,7 +628,7 @@ describe('SignalProtocolStore', () => {
       it('updates the verified status', async () => {
         await store.setVerified(theirAci, store.VerifiedStatus.VERIFIED);
 
-        const identity = await window.Signal.Data.getIdentityKeyById(theirAci);
+        const identity = await DataReader.getIdentityKeyById(theirAci);
         if (!identity) {
           throw new Error('Missing identity!');
         }
@@ -667,7 +649,7 @@ describe('SignalProtocolStore', () => {
         keychangeTriggered += 1;
       });
 
-      await window.Signal.Data.createOrUpdateIdentityKey({
+      await DataWriter.createOrUpdateIdentityKey({
         id: theirAci,
         publicKey: testKey.pubKey,
         timestamp: Date.now() - 10 * 1000 * 60,
@@ -693,7 +675,7 @@ describe('SignalProtocolStore', () => {
       assert.isFalse(needsNotification);
       assert.strictEqual(keychangeTriggered, 0);
 
-      const identity = await window.Signal.Data.getIdentityKeyById(newAci);
+      const identity = await DataReader.getIdentityKeyById(newAci);
       if (!identity) {
         throw new Error('Missing identity!');
       }
@@ -712,7 +694,7 @@ describe('SignalProtocolStore', () => {
       assert.isTrue(needsNotification);
       assert.strictEqual(keychangeTriggered, 0);
 
-      const identity = await window.Signal.Data.getIdentityKeyById(newAci);
+      const identity = await DataReader.getIdentityKeyById(newAci);
       if (!identity) {
         throw new Error('Missing identity!');
       }
@@ -729,7 +711,7 @@ describe('SignalProtocolStore', () => {
       assert.isFalse(needsNotification);
       assert.strictEqual(keychangeTriggered, 1);
 
-      const identity = await window.Signal.Data.getIdentityKeyById(theirAci);
+      const identity = await DataReader.getIdentityKeyById(theirAci);
       if (!identity) {
         throw new Error('Missing identity!');
       }
@@ -746,7 +728,7 @@ describe('SignalProtocolStore', () => {
       assert.isTrue(needsNotification);
       assert.strictEqual(keychangeTriggered, 0);
 
-      const identity = await window.Signal.Data.getIdentityKeyById(theirAci);
+      const identity = await DataReader.getIdentityKeyById(theirAci);
       if (!identity) {
         throw new Error('Missing identity!');
       }
@@ -757,7 +739,7 @@ describe('SignalProtocolStore', () => {
 
   describe('isUntrusted', () => {
     it('returns false if identity key old enough', async () => {
-      await window.Signal.Data.createOrUpdateIdentityKey({
+      await DataWriter.createOrUpdateIdentityKey({
         id: theirAci,
         publicKey: testKey.pubKey,
         timestamp: Date.now() - 10 * 1000 * 60,
@@ -772,7 +754,7 @@ describe('SignalProtocolStore', () => {
     });
 
     it('returns false if new but nonblockingApproval is true', async () => {
-      await window.Signal.Data.createOrUpdateIdentityKey({
+      await DataWriter.createOrUpdateIdentityKey({
         id: theirAci,
         publicKey: testKey.pubKey,
         timestamp: Date.now(),
@@ -787,7 +769,7 @@ describe('SignalProtocolStore', () => {
     });
 
     it('returns false if new but firstUse is true', async () => {
-      await window.Signal.Data.createOrUpdateIdentityKey({
+      await DataWriter.createOrUpdateIdentityKey({
         id: theirAci,
         publicKey: testKey.pubKey,
         timestamp: Date.now(),
@@ -802,7 +784,7 @@ describe('SignalProtocolStore', () => {
     });
 
     it('returns true if new, and no flags are set', async () => {
-      await window.Signal.Data.createOrUpdateIdentityKey({
+      await DataWriter.createOrUpdateIdentityKey({
         id: theirAci,
         publicKey: testKey.pubKey,
         timestamp: Date.now(),

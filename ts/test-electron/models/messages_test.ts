@@ -13,12 +13,13 @@ import type { MessageModel } from '../../models/messages';
 import type { RawBodyRange } from '../../types/BodyRange';
 import type { StorageAccessType } from '../../types/Storage.d';
 import type { WebAPIType } from '../../textsecure/WebAPI';
+import { DataWriter } from '../../sql/Client';
 import MessageSender from '../../textsecure/SendMessage';
 import enMessages from '../../../_locales/en/messages.json';
 import { SendStatus } from '../../messages/MessageSendState';
 import { SignalService as Proto } from '../../protobuf';
 import { generateAci } from '../../types/ServiceId';
-import { getContact } from '../../messages/helpers';
+import { getAuthor } from '../../messages/helpers';
 import { setupI18n } from '../../util/setupI18n';
 import {
   APPLICATION_JSON,
@@ -78,7 +79,7 @@ describe('Message', () => {
   });
 
   after(async () => {
-    await window.Signal.Data.removeAll();
+    await DataWriter.removeAll();
     await window.storage.fetch();
 
     await Promise.all(
@@ -237,7 +238,7 @@ describe('Message', () => {
   describe('getContact', () => {
     it('gets outgoing contact', () => {
       const message = createMessage(attributes);
-      assert.exists(getContact(message.attributes));
+      assert.exists(getAuthor(message.attributes));
     });
 
     it('gets incoming contact', () => {
@@ -245,7 +246,7 @@ describe('Message', () => {
         type: 'incoming',
         source,
       });
-      assert.exists(getContact(message.attributes));
+      assert.exists(getAuthor(message.attributes));
     });
   });
 

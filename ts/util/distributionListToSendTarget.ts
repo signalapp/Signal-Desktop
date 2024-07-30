@@ -3,7 +3,7 @@
 
 import type { ServiceIdString } from '../types/ServiceId';
 import type { SenderKeyInfoType } from '../model-types.d';
-import dataInterface from '../sql/Client';
+import { DataWriter } from '../sql/Client';
 import type { StoryDistributionType } from '../sql/Interface';
 import type { SenderKeyTargetType } from './sendToGroup';
 import { isNotNil } from './isNotNil';
@@ -29,7 +29,7 @@ export function distributionListToSendTarget(
     getSenderKeyInfo: () => inMemorySenderKeyInfo,
     saveSenderKeyInfo: async (senderKeyInfo: SenderKeyInfoType) => {
       inMemorySenderKeyInfo = senderKeyInfo;
-      await dataInterface.modifyStoryDistribution({
+      await DataWriter.modifyStoryDistribution({
         ...distributionList,
         senderKeyInfo,
       });

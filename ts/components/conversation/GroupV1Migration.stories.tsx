@@ -33,9 +33,11 @@ export default {
     areWeInvited: false,
     conversationId: '123',
     droppedMembers: [contact1],
+    droppedMemberCount: 1,
     getPreferredBadge: () => undefined,
     i18n,
     invitedMembers: [contact2],
+    invitedMemberCount: 1,
     theme: ThemeType.light,
   },
 } satisfies Meta<PropsType>;
@@ -55,7 +57,9 @@ export function MultipleDroppedAndInvitedMembers(args: PropsType): JSX.Element {
     <GroupV1Migration
       {...args}
       invitedMembers={[contact1, contact2]}
+      invitedMemberCount={3}
       droppedMembers={[contact1, contact2]}
+      droppedMemberCount={3}
     />
   );
 }
@@ -65,7 +69,9 @@ export function JustInvitedMembers(args: PropsType): JSX.Element {
     <GroupV1Migration
       {...args}
       invitedMembers={[contact1, contact1, contact2, contact2]}
+      invitedMemberCount={4}
       droppedMembers={[]}
+      droppedMemberCount={0}
     />
   );
 }
@@ -75,11 +81,45 @@ export function JustDroppedMembers(args: PropsType): JSX.Element {
     <GroupV1Migration
       {...args}
       invitedMembers={[]}
+      invitedMemberCount={0}
       droppedMembers={[contact1, contact1, contact2, contact2]}
+      droppedMemberCount={4}
     />
   );
 }
 
 export function NoDroppedOrInvitedMembers(args: PropsType): JSX.Element {
-  return <GroupV1Migration {...args} invitedMembers={[]} droppedMembers={[]} />;
+  return (
+    <GroupV1Migration
+      {...args}
+      invitedMembers={[]}
+      invitedMemberCount={0}
+      droppedMembers={[]}
+      droppedMemberCount={0}
+    />
+  );
+}
+
+export function NoArraysCountIsZero(args: PropsType): JSX.Element {
+  return (
+    <GroupV1Migration
+      {...args}
+      invitedMembers={undefined}
+      invitedMemberCount={0}
+      droppedMembers={undefined}
+      droppedMemberCount={0}
+    />
+  );
+}
+
+export function NoArraysWithCount(args: PropsType): JSX.Element {
+  return (
+    <GroupV1Migration
+      {...args}
+      invitedMembers={undefined}
+      invitedMemberCount={4}
+      droppedMembers={undefined}
+      droppedMemberCount={2}
+    />
+  );
 }

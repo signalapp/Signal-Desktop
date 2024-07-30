@@ -82,7 +82,7 @@ export type ActiveDirectCallType = ActiveCallBaseType & {
       //   GroupCallRemoteParticipantType below (which is based on
       //   ConversationType).
       serviceId?: ServiceIdString;
-    }
+    },
   ];
 };
 
@@ -90,7 +90,6 @@ export type ActiveGroupCallType = ActiveCallBaseType & {
   callMode: CallMode.Group | CallMode.Adhoc;
   connectionState: GroupCallConnectionState;
   conversationsByDemuxId: ConversationsByDemuxIdType;
-  conversationsWithSafetyNumberChanges: Array<ConversationType>;
   joinState: GroupCallJoinState;
   localDemuxId: number | undefined;
   maxDevices: number;
@@ -98,6 +97,7 @@ export type ActiveGroupCallType = ActiveCallBaseType & {
   groupMembers: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   isConversationTooBigToRing: boolean;
   peekedParticipants: Array<ConversationType>;
+  pendingParticipants: Array<ConversationType>;
   raisedHands: Set<number>;
   remoteParticipants: Array<GroupCallRemoteParticipantType>;
   remoteAudioLevels: Map<number, number>;
@@ -205,3 +205,9 @@ export type ChangeIODevicePayloadType =
 export type CallingConversationType =
   | ConversationType
   | CallLinkConversationType;
+
+export enum ScreenShareStatus {
+  Connected = 'Connected',
+  Reconnecting = 'Reconnecting',
+  Disconnected = 'Disconnected',
+}

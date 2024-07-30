@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
-import dataInterface from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client';
 import { generateAci } from '../../types/ServiceId';
 
 import type { ReactionType } from '../../types/Reactions';
@@ -13,17 +13,16 @@ import { DurationInSeconds } from '../../util/durations';
 import type { MessageAttributesType } from '../../model-types.d';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 
+const { _getAllReactions, _getAllMessages, getTotalUnreadForConversation } =
+  DataReader;
 const {
   _removeAllMessages,
   _removeAllReactions,
-  _getAllReactions,
-  _getAllMessages,
   addReaction,
   saveMessages,
-  getTotalUnreadForConversation,
   getUnreadByConversationAndMarkRead,
   getUnreadReactionsAndMarkRead,
-} = dataInterface;
+} = DataWriter;
 
 const UNREAD_REACTION = { readStatus: ReactionReadStatus.Unread };
 

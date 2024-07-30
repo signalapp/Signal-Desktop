@@ -21,3 +21,68 @@ export const isShowingAnyModal = createSelector(
       return Boolean(value);
     })
 );
+
+export const getCallLinkEditModalRoomId = createSelector(
+  getGlobalModalsState,
+  ({ callLinkEditModalRoomId }) => callLinkEditModalRoomId
+);
+
+export const getCallLinkAddNameModalRoomId = createSelector(
+  getGlobalModalsState,
+  ({ callLinkAddNameModalRoomId }) => callLinkAddNameModalRoomId
+);
+
+export const getConfirmLeaveCallModalState = createSelector(
+  getGlobalModalsState,
+  ({ confirmLeaveCallModalState }) => confirmLeaveCallModalState
+);
+
+export const getContactModalState = createSelector(
+  getGlobalModalsState,
+  ({ contactModalState }) => contactModalState
+);
+
+export const getIsStoriesSettingsVisible = createSelector(
+  getGlobalModalsState,
+  ({ isStoriesSettingsVisible }) => isStoriesSettingsVisible
+);
+
+export const getSafetyNumberChangedBlockingData = createSelector(
+  getGlobalModalsState,
+  ({ safetyNumberChangedBlockingData }) => safetyNumberChangedBlockingData
+);
+
+export const getDeleteMessagesProps = createSelector(
+  getGlobalModalsState,
+  ({ deleteMessagesProps }) => deleteMessagesProps
+);
+
+export const getEditHistoryMessages = createSelector(
+  getGlobalModalsState,
+  ({ editHistoryMessages }) => editHistoryMessages
+);
+
+export const getForwardMessagesProps = createSelector(
+  getGlobalModalsState,
+  ({ forwardMessagesProps }) => forwardMessagesProps
+);
+
+export const getProfileEditorHasError = createSelector(
+  getGlobalModalsState,
+  ({ profileEditorHasError }) => profileEditorHasError
+);
+
+export const getProfileEditorInitialEditState = createSelector(
+  getGlobalModalsState,
+  ({ profileEditorInitialEditState }) => profileEditorInitialEditState
+);
+
+export const getEditNicknameAndNoteModalProps = createSelector(
+  getGlobalModalsState,
+  ({ editNicknameAndNoteModalProps }) => editNicknameAndNoteModalProps
+);
+
+export const getNotePreviewModalProps = createSelector(
+  getGlobalModalsState,
+  ({ notePreviewModalProps }) => notePreviewModalProps
+);

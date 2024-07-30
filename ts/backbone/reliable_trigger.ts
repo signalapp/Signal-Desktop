@@ -136,7 +136,7 @@ const triggerEvents = function (
 function trigger<
   T extends Backbone.Events & {
     _events: undefined | Record<string, ReadonlyArray<InternalBackboneEvent>>;
-  }
+  },
 >(this: T, name: string, ...args: Array<unknown>): T {
   if (!this._events) return this;
   if (!eventsApi(this, name, args)) return this;

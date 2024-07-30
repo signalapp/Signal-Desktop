@@ -21,13 +21,18 @@ ts/util/lint/exceptions.json
 storybook-static
 build/locale-display-names.json
 build/country-display-names.json
+build/compact-locales/**/*.json
+release/**
 
 # Third-party files
 node_modules/**
+danger/node_modules/**
+sticker-creator/node_modules/**
 components/**
 js/curve/**
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
+js/calling-tools/**
 
 # Assets
 /images/

@@ -1,8 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReadonlyDeep } from 'type-fest';
+
 import type { EmbeddedContactType } from './EmbeddedContact';
-import type { MessageAttributesType } from '../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import type { ServiceIdString } from './ServiceId';
 
 export enum PanelType {
@@ -19,7 +21,7 @@ export enum PanelType {
   StickerManager = 'StickerManager',
 }
 
-export type PanelRequestType =
+export type PanelRequestType = ReadonlyDeep<
   | { type: PanelType.AllMedia }
   | { type: PanelType.ChatColorEditor }
   | {
@@ -39,9 +41,10 @@ export type PanelRequestType =
   | { type: PanelType.GroupV1Members }
   | { type: PanelType.MessageDetails; args: { messageId: string } }
   | { type: PanelType.NotificationSettings }
-  | { type: PanelType.StickerManager };
+  | { type: PanelType.StickerManager }
+>;
 
-export type PanelRenderType =
+export type PanelRenderType = ReadonlyDeep<
   | { type: PanelType.AllMedia }
   | { type: PanelType.ChatColorEditor }
   | {
@@ -59,6 +62,10 @@ export type PanelRenderType =
   | { type: PanelType.GroupLinkManagement }
   | { type: PanelType.GroupPermissions }
   | { type: PanelType.GroupV1Members }
-  | { type: PanelType.MessageDetails; args: { message: MessageAttributesType } }
+  | {
+      type: PanelType.MessageDetails;
+      args: { message: ReadonlyMessageAttributesType };
+    }
   | { type: PanelType.NotificationSettings }
-  | { type: PanelType.StickerManager };
+  | { type: PanelType.StickerManager }
+>;

@@ -32,13 +32,17 @@ import {
   useToggleReactionPicker,
 } from '../../hooks/useKeyboardShortcuts';
 import { PanelType } from '../../types/Panels';
-import type { DeleteMessagesPropsType } from '../../state/ducks/globalModals';
+import type {
+  DeleteMessagesPropsType,
+  ForwardMessagesPayload,
+} from '../../state/ducks/globalModals';
 import { useScrollerLock } from '../../hooks/useScrollLock';
 import {
   type ContextMenuTriggerType,
   MessageContextMenu,
   useHandleMessageContextMenu,
 } from './MessageContextMenu';
+import { ForwardMessagesModalType } from '../ForwardMessagesModal';
 
 export type PropsData = {
   canDownload: boolean;
@@ -55,7 +59,7 @@ export type PropsData = {
 export type PropsActions = {
   pushPanelForConversation: PushPanelForConversationActionType;
   toggleDeleteMessagesModal: (props: DeleteMessagesPropsType) => void;
-  toggleForwardMessagesModal: (messageIds: Array<string>) => void;
+  toggleForwardMessagesModal: (payload: ForwardMessagesPayload) => void;
   reactToMessage: (
     id: string,
     { emoji, remove }: { emoji: string; remove: boolean }
@@ -96,7 +100,6 @@ export function TimelineMessage(props: Props): JSX.Element {
     canReply,
     canRetry,
     canRetryDeleteForEveryone,
-    contact,
     containerElementRef,
     containerWidthBreakpoint,
     conversationId,
@@ -229,7 +232,7 @@ export function TimelineMessage(props: Props): JSX.Element {
 
   const handleContextMenu = useHandleMessageContextMenu(menuTriggerRef);
   const canForward =
-    !isTapToView && !deletedForEveryone && !giftBadge && !contact && !payment;
+    !isTapToView && !deletedForEveryone && !giftBadge && !payment;
 
   const shouldShowAdditional =
     doesMessageBodyOverflow(text || '') || !isWindowWidthNotNarrow;
@@ -372,7 +375,13 @@ export function TimelineMessage(props: Props): JSX.Element {
         onCopy={canCopy ? () => copyMessageText(id) : undefined}
         onSelect={() => toggleSelectMessage(conversationId, id, false, true)}
         onForward={
-          canForward ? () => toggleForwardMessagesModal([id]) : undefined
+          canForward
+            ? () =>
+                toggleForwardMessagesModal({
+                  type: ForwardMessagesModalType.Forward,
+                  messageIds: [id],
+                })
+            : undefined
         }
         onDeleteMessage={() => {
           toggleDeleteMessagesModal({

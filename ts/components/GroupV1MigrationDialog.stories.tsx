@@ -36,13 +36,14 @@ const contact3: ConversationType = getDefaultConversation({
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   areWeInvited: Boolean(overrideProps.areWeInvited),
-  conversationId: '123',
-  droppedMembers: overrideProps.droppedMembers || [contact3, contact1],
+  droppedMembers: overrideProps.droppedMembers,
+  droppedMemberCount: overrideProps.droppedMemberCount || 0,
   getPreferredBadge: () => undefined,
   hasMigrated: Boolean(overrideProps.hasMigrated),
   i18n,
-  invitedMembers: overrideProps.invitedMembers || [contact2],
-  migrate: action('migrate'),
+  invitedMembers: overrideProps.invitedMembers,
+  invitedMemberCount: overrideProps.invitedMemberCount || 0,
+  onMigrate: action('onMigrate'),
   onClose: action('onClose'),
   theme: ThemeType.light,
 });
@@ -76,23 +77,41 @@ export function MigratedYouAreInvited(): JSX.Element {
   );
 }
 
-export function NotYetMigratedMultipleDroppedAndInvitedMembers(): JSX.Element {
+export function MigratedMultipleDroppedAndInvitedMember(): JSX.Element {
   return (
     <GroupV1MigrationDialog
       {...createProps({
-        droppedMembers: [contact3, contact1, contact2],
-        invitedMembers: [contact2, contact3, contact1],
+        hasMigrated: true,
+        droppedMembers: [contact1],
+        droppedMemberCount: 1,
+        invitedMembers: [contact2],
+        invitedMemberCount: 1,
       })}
     />
   );
 }
 
-export function NotYetMigratedNoMembers(): JSX.Element {
+export function MigratedMultipleDroppedAndInvitedMembers(): JSX.Element {
   return (
     <GroupV1MigrationDialog
       {...createProps({
-        droppedMembers: [],
-        invitedMembers: [],
+        hasMigrated: true,
+        droppedMembers: [contact3, contact1, contact2],
+        droppedMemberCount: 3,
+        invitedMembers: [contact2, contact3, contact1],
+        invitedMemberCount: 3,
+      })}
+    />
+  );
+}
+
+export function MigratedNoMembers(): JSX.Element {
+  return (
+    <GroupV1MigrationDialog
+      {...createProps({
+        hasMigrated: true,
+        droppedMemberCount: 0,
+        invitedMemberCount: 0,
       })}
     />
   );
@@ -102,7 +121,65 @@ export function NotYetMigratedJustDroppedMember(): JSX.Element {
   return (
     <GroupV1MigrationDialog
       {...createProps({
-        invitedMembers: [],
+        droppedMembers: [contact1],
+        droppedMemberCount: 1,
+      })}
+    />
+  );
+}
+
+export function NotYetMigratedJustDroppedMembers(): JSX.Element {
+  return (
+    <GroupV1MigrationDialog
+      {...createProps({
+        droppedMembers: [contact1, contact2],
+        droppedMemberCount: 2,
+      })}
+    />
+  );
+}
+
+export function NotYetMigratedDropped1(): JSX.Element {
+  return (
+    <GroupV1MigrationDialog
+      {...createProps({
+        droppedMemberCount: 1,
+        invitedMemberCount: 0,
+      })}
+    />
+  );
+}
+
+export function NotYetMigratedDropped2(): JSX.Element {
+  return (
+    <GroupV1MigrationDialog
+      {...createProps({
+        droppedMemberCount: 2,
+        invitedMemberCount: 0,
+      })}
+    />
+  );
+}
+
+export function MigratedJustCountIs1(): JSX.Element {
+  return (
+    <GroupV1MigrationDialog
+      {...createProps({
+        hasMigrated: true,
+        droppedMemberCount: 1,
+        invitedMemberCount: 1,
+      })}
+    />
+  );
+}
+
+export function MigratedJustCountIs2(): JSX.Element {
+  return (
+    <GroupV1MigrationDialog
+      {...createProps({
+        hasMigrated: true,
+        droppedMemberCount: 2,
+        invitedMemberCount: 2,
       })}
     />
   );

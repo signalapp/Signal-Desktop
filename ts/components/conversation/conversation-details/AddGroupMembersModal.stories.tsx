@@ -63,7 +63,6 @@ const createProps = (
           selectedConversationIds
         )}
         regionCode="US"
-        getPreferredBadge={() => undefined}
         ourE164={undefined}
         ourUsername={undefined}
         theme={ThemeType.light}

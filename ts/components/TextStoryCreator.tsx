@@ -4,7 +4,7 @@
 import FocusTrap from 'focus-trap-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { get, has, noop } from 'lodash';
+import { noop } from 'lodash';
 import { usePopper } from 'react-popper';
 
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
@@ -78,36 +78,41 @@ const BackgroundStyle = {
   BG5: { color: 4283667331 },
   BG6: {
     angle: 180,
-    startColor: 4279871994,
-    endColor: 4294951785,
+    colors: [0xff19a9fa, 0xff7097d7, 0xffd1998d, 0xffffc369],
+    positions: [0, 0.33, 0.66, 1],
   },
   BG7: {
     angle: 180,
-    startColor: 4282660824,
-    endColor: 4294938254,
+    colors: [0xff4437d8, 0xff6b70de, 0xffb774e0, 0xffff8e8e],
+    positions: [0, 0.33, 0.66, 1],
   },
   BG8: {
     angle: 180,
-    startColor: 4278206532,
-    endColor: 4287871076,
+    colors: [0xff004044, 0xff2c5f45, 0xff648e52, 0xff93b864],
+    positions: [0, 0.33, 0.66, 1],
   },
 };
 
-type BackgroundStyleType = typeof BackgroundStyle[keyof typeof BackgroundStyle];
+type BackgroundStyleType =
+  (typeof BackgroundStyle)[keyof typeof BackgroundStyle];
 
 function getBackground(
   bgStyle: BackgroundStyleType
 ): Pick<TextAttachmentType, 'color' | 'gradient'> {
-  if (has(bgStyle, 'color')) {
-    return { color: get(bgStyle, 'color') };
+  if ('color' in bgStyle) {
+    return { color: bgStyle.color };
   }
 
-  const angle = get(bgStyle, 'angle');
-  const startColor = get(bgStyle, 'startColor');
-  const endColor = get(bgStyle, 'endColor');
+  const { angle, colors, positions } = bgStyle;
 
   return {
-    gradient: { angle, startColor, endColor },
+    gradient: {
+      angle,
+      startColor: colors.at(0),
+      endColor: colors.at(-1),
+      colors,
+      positions,
+    },
   };
 }
 

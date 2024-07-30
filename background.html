@@ -1,7 +1,7 @@
 <!-- Copyright 2014 Signal Messenger, LLC -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -16,12 +16,12 @@
       http-equiv="Content-Security-Policy"
       content="default-src 'none';
             child-src 'self';
-            connect-src 'self' https: wss:;
+            connect-src 'self' https: wss: attachment:;
             font-src 'self';
             form-action 'self';
             frame-src 'none';
-            img-src 'self' blob: data:;
-            media-src 'self' blob:;
+            img-src 'self' blob: data: emoji: attachment:;
+            media-src 'self' blob: attachment:;
             object-src 'none';
             script-src 'self' 'sha256-Qu05oqDmBO5fZacm7tr/oerJcqsW0G/XqP4PRCziovc=' 'sha256-eLeGwSfPmXJ+EUiLfIeXABvLiUqDbiKgNLpHITaabgQ=';
             style-src 'self' 'unsafe-inline';"
@@ -96,7 +96,7 @@
         <div class="module-title-bar-drag-area"></div>
 
         <div class="module-splash-screen__logo module-img--150"></div>
-        <div class="container">
+        <div class="dot-container">
           <span class="dot"></span>
           <span class="dot"></span>
           <span class="dot"></span>

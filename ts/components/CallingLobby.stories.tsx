@@ -20,6 +20,7 @@ import {
 } from '../test-both/helpers/getDefaultConversation';
 import { CallingToastProvider } from './CallingToast';
 import { CallMode } from '../types/Calling';
+import { getDefaultCallLinkConversation } from '../test-both/helpers/fakeCallLink';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -33,15 +34,24 @@ const camera = {
   },
 };
 
+const getConversation = (callMode: CallMode) => {
+  if (callMode === CallMode.Group) {
+    return getDefaultConversation({
+      title: 'Tahoe Trip',
+      type: 'group',
+    });
+  }
+
+  if (callMode === CallMode.Adhoc) {
+    return getDefaultCallLinkConversation();
+  }
+
+  return getDefaultConversation();
+};
+
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
   const callMode = overrideProps.callMode ?? CallMode.Direct;
-  const conversation =
-    callMode === CallMode.Group
-      ? getDefaultConversation({
-          title: 'Tahoe Trip',
-          type: 'group',
-        })
-      : getDefaultConversation();
+  const conversation = getConversation(callMode);
 
   return {
     availableCameras: overrideProps.availableCameras || [camera],
@@ -55,9 +65,13 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     hasLocalAudio: overrideProps.hasLocalAudio ?? true,
     hasLocalVideo: overrideProps.hasLocalVideo ?? false,
     i18n,
-    isAdhocJoinRequestPending: false,
+    isAdhocAdminApprovalRequired:
+      overrideProps.isAdhocAdminApprovalRequired ?? false,
+    isAdhocJoinRequestPending: overrideProps.isAdhocJoinRequestPending ?? false,
     isConversationTooBigToRing: false,
     isCallFull: overrideProps.isCallFull ?? false,
+    getIsSharingPhoneNumberWithEverybody:
+      overrideProps.getIsSharingPhoneNumberWithEverybody ?? (() => false),
     me:
       overrideProps.me ||
       getDefaultConversation({
@@ -75,6 +89,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     setOutgoingRing: action('set-outgoing-ring'),
     showParticipantsList: overrideProps.showParticipantsList ?? false,
     toggleParticipants: action('toggle-participants'),
+    togglePip: action('toggle-pip'),
     toggleSettings: action('toggle-settings'),
   };
 };
@@ -114,7 +129,7 @@ export function NoCameraLocalAvatar(): JSX.Element {
   const props = createProps({
     availableCameras: [],
     me: getDefaultConversation({
-      avatarPath: '/fixtures/kitten-4-112-112.jpg',
+      avatarUrl: '/fixtures/kitten-4-112-112.jpg',
       color: AvatarColors[0],
       id: generateUuid(),
       serviceId: generateAci(),
@@ -202,6 +217,32 @@ export function GroupCallWith0PeekedParticipantsBigGroup(): JSX.Element {
   const props = createProps({
     callMode: CallMode.Group,
     groupMembers: times(100, () => getDefaultConversation()),
+  });
+  return <CallingLobby {...props} />;
+}
+
+export function CallLink(): JSX.Element {
+  const props = createProps({
+    callMode: CallMode.Adhoc,
+  });
+  return <CallingLobby {...props} />;
+}
+
+// Due to storybook font loading, if you directly load this story then
+// the button width is not calculated correctly
+export function CallLinkAdminApproval(): JSX.Element {
+  const props = createProps({
+    callMode: CallMode.Adhoc,
+    isAdhocAdminApprovalRequired: true,
+  });
+  return <CallingLobby {...props} />;
+}
+
+export function CallLinkJoinRequestPending(): JSX.Element {
+  const props = createProps({
+    callMode: CallMode.Adhoc,
+    isAdhocAdminApprovalRequired: true,
+    isAdhocJoinRequestPending: true,
   });
   return <CallingLobby {...props} />;
 }

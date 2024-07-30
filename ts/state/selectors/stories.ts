@@ -126,7 +126,7 @@ function getAvatarData(
 ): Pick<
   ConversationType,
   | 'acceptedMessageRequest'
-  | 'avatarPath'
+  | 'avatarUrl'
   | 'badges'
   | 'color'
   | 'isMe'
@@ -138,7 +138,7 @@ function getAvatarData(
 > {
   return pick(conversation, [
     'acceptedMessageRequest',
-    'avatarPath',
+    'avatarUrl',
     'badges',
     'color',
     'isMe',
@@ -166,7 +166,7 @@ export function getStoryView(
     conversationSelector(story.sourceServiceId || story.source),
     [
       'acceptedMessageRequest',
-      'avatarPath',
+      'avatarUrl',
       'badges',
       'color',
       'firstName',
@@ -253,7 +253,7 @@ export function getConversationStory(
 
   const conversation = pick(conversationSelector(story.conversationId), [
     'acceptedMessageRequest',
-    'avatarPath',
+    'avatarUrl',
     'color',
     'hideStory',
     'id',

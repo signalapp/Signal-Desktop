@@ -26,6 +26,7 @@ const renderEmojiPicker: ReactionPickerProps['renderEmojiPicker'] = ({
     onClose={onClose}
     onPickEmoji={onPickEmoji}
     onSetSkinTone={onSetSkinTone}
+    wasInvokedFromKeyboard={false}
   />
 );
 

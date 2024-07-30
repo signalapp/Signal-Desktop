@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import fs from 'fs/promises';
+import { createHash } from 'crypto';
 import path from 'path';
 import ts from 'typescript';
 import prettier from 'prettier';
@@ -49,11 +50,27 @@ const messageKeys = Object.keys(globalMessages).sort((a, b) => {
   return a.localeCompare(b);
 }) as Array<keyof typeof globalMessages>;
 
-function generateType(
-  name: string,
-  stringType: ts.TypeNode,
-  componentType: ts.TypeNode
-): ts.Statement {
+function filterDefaultParams(params: Map<string, ICUMessageParamType>) {
+  const filteredParams = new Map<string, ICUMessageParamType>();
+
+  for (const [key, value] of params) {
+    if (key === 'emojify') {
+      continue;
+    }
+
+    filteredParams.set(key, value);
+  }
+
+  return filteredParams;
+}
+
+const ComponentOrStringNode =
+  ts.factory.createTypeReferenceNode('ComponentOrString');
+const ComponentNode = ts.factory.createTypeReferenceNode('Component');
+const StringToken = ts.factory.createToken(ts.SyntaxKind.StringKeyword);
+const NeverToken = ts.factory.createToken(ts.SyntaxKind.NeverKeyword);
+
+function generateType(name: string, supportsComponents: boolean): ts.Statement {
   const props = new Array<ts.TypeElement>();
   for (const key of messageKeys) {
     if (key === 'smartling') {
@@ -69,7 +86,21 @@ function generateType(
 
     const { messageformat } = message;
 
-    const params = getICUMessageParams(messageformat);
+    const rawParams = getICUMessageParams(messageformat);
+    const params = filterDefaultParams(rawParams);
+
+    if (!supportsComponents) {
+      const needsComponents = Array.from(rawParams.values()).some(value => {
+        return value.type === 'jsx';
+      });
+
+      if (needsComponents) {
+        continue;
+      }
+    }
+
+    const stringType = supportsComponents ? ComponentOrStringNode : StringToken;
+    const componentType = supportsComponents ? ComponentNode : NeverToken;
 
     let paramType: ts.TypeNode;
     if (params.size === 0) {
@@ -192,21 +223,9 @@ statements.push(
   )
 );
 
-statements.push(
-  generateType(
-    'ICUJSXMessageParamsByKeyType',
-    ts.factory.createTypeReferenceNode('ComponentOrString'),
-    ts.factory.createTypeReferenceNode('Component')
-  )
-);
+statements.push(generateType('ICUJSXMessageParamsByKeyType', true));
 
-statements.push(
-  generateType(
-    'ICUStringMessageParamsByKeyType',
-    ts.factory.createToken(ts.SyntaxKind.StringKeyword),
-    ts.factory.createToken(ts.SyntaxKind.NeverKeyword)
-  )
-);
+statements.push(generateType('ICUStringMessageParamsByKeyType', false));
 
 const root = ts.factory.createSourceFile(
   statements,
@@ -236,11 +255,26 @@ async function main() {
     'build',
     'ICUMessageParams.d.ts'
   );
+
+  let oldHash: string | undefined;
+  try {
+    oldHash = createHash('sha512')
+      .update(await fs.readFile(destinationPath))
+      .digest('hex');
+  } catch {
+    // Ignore errors
+  }
+
   const prettierConfig = await prettier.resolveConfig(destinationPath);
-  const output = prettier.format(unformattedOutput, {
+  const output = await prettier.format(unformattedOutput, {
     ...prettierConfig,
     filepath: destinationPath,
   });
+
+  const newHash = createHash('sha512').update(output).digest('hex');
+  if (oldHash === newHash) {
+    console.log('ICUMessageParams.d.ts is unchanged');
+  }
 
   await fs.writeFile(destinationPath, output);
 }

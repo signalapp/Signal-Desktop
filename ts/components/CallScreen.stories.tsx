@@ -33,6 +33,7 @@ import {
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import enMessages from '../../_locales/en/messages.json';
 import { CallingToastProvider, useCallingToasts } from './CallingToast';
+import type { CallingImageDataCache } from './CallManager';
 
 const MAX_PARTICIPANTS = 75;
 const LOCAL_DEMUX_ID = 1;
@@ -41,7 +42,7 @@ const i18n = setupI18n('en', enMessages);
 
 const conversation = getDefaultConversation({
   id: '3051234567',
-  avatarPath: undefined,
+  avatarUrl: undefined,
   color: AvatarColors[0],
   title: 'Rick Sanchez',
   name: 'Rick Sanchez',
@@ -67,6 +68,7 @@ type GroupCallOverrideProps = OverridePropsBase & {
   callMode: CallMode.Group;
   connectionState?: GroupCallConnectionState;
   peekedParticipants?: Array<ConversationType>;
+  pendingParticipants?: Array<ConversationType>;
   raisedHands?: Set<number>;
   remoteParticipants?: Array<GroupCallRemoteParticipantType>;
   remoteAudioLevel?: number;
@@ -90,7 +92,7 @@ const createActiveDirectCallProp = (
       hasRemoteVideo: boolean;
       presenting: boolean;
       title: string;
-    }
+    },
   ],
 });
 
@@ -124,7 +126,6 @@ const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
   callMode: CallMode.Group as CallMode.Group,
   connectionState:
     overrideProps.connectionState || GroupCallConnectionState.Connected,
-  conversationsWithSafetyNumberChanges: [],
   conversationsByDemuxId: getConversationsByDemuxId(overrideProps),
   joinState: GroupCallJoinState.Joined,
   localDemuxId: LOCAL_DEMUX_ID,
@@ -136,6 +137,7 @@ const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
   isConversationTooBigToRing: false,
   peekedParticipants:
     overrideProps.peekedParticipants || overrideProps.remoteParticipants || [],
+  pendingParticipants: overrideProps.pendingParticipants || [],
   raisedHands:
     overrideProps.raisedHands ||
     getRaisedHands(overrideProps) ||
@@ -182,13 +184,17 @@ const createProps = (
   }
 ): PropsType => ({
   activeCall: createActiveCallProp(overrideProps),
+  approveUser: action('approve-user'),
+  batchUserAction: action('batch-user-action'),
   changeCallView: action('change-call-view'),
+  denyUser: action('deny-user'),
   getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,
   getPresentingSources: action('get-presenting-sources'),
   hangUpActiveCall: action('hang-up'),
   i18n,
+  imageDataCache: React.createRef<CallingImageDataCache>(),
+  isCallLinkAdmin: true,
   isGroupCallRaiseHandEnabled: true,
-  isGroupCallReactionsEnabled: true,
   me: getDefaultConversation({
     color: AvatarColors[1],
     id: '6146087e-f7ef-457e-9a8d-47df1fdd6b25',
@@ -231,6 +237,7 @@ export default {
   title: 'Components/CallScreen',
   argTypes: {},
   args: {},
+  excludeStories: ['allRemoteParticipants'],
 } satisfies Meta<PropsType>;
 
 export function Default(): JSX.Element {
@@ -374,7 +381,7 @@ export function GroupCallYourHandRaised(): JSX.Element {
 const PARTICIPANT_EMOJIS = ['❤️', '🤔', '✨', '😂', '🦄'] as const;
 
 // We generate these upfront so that the list is stable when you move the slider.
-const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => {
+export const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => {
   const mediaKeysReceived = (index + 1) % 20 !== 0;
 
   return {
@@ -654,9 +661,9 @@ export function GroupCallReactions(): JSX.Element {
     })
   );
 
-  const activeCall = useReactionsEmitter(
-    props.activeCall as ActiveGroupCallType
-  );
+  const activeCall = useReactionsEmitter({
+    activeCall: props.activeCall as ActiveGroupCallType,
+  });
 
   return <CallScreen {...props} activeCall={activeCall} />;
 }
@@ -671,10 +678,29 @@ export function GroupCallReactionsSpam(): JSX.Element {
     })
   );
 
-  const activeCall = useReactionsEmitter(
-    props.activeCall as ActiveGroupCallType,
-    250
+  const activeCall = useReactionsEmitter({
+    activeCall: props.activeCall as ActiveGroupCallType,
+    frequency: 250,
+  });
+
+  return <CallScreen {...props} activeCall={activeCall} />;
+}
+
+export function GroupCallReactionsSkinTones(): JSX.Element {
+  const remoteParticipants = allRemoteParticipants.slice(0, 3);
+  const [props] = React.useState(
+    createProps({
+      callMode: CallMode.Group,
+      remoteParticipants,
+      viewMode: CallViewMode.Overflow,
+    })
   );
+
+  const activeCall = useReactionsEmitter({
+    activeCall: props.activeCall as ActiveGroupCallType,
+    frequency: 500,
+    emojis: ['👍', '👍🏻', '👍🏼', '👍🏽', '👍🏾', '👍🏿', '❤️', '😂', '😮', '😢'],
+  });
 
   return <CallScreen {...props} activeCall={activeCall} />;
 }
@@ -702,11 +728,17 @@ export function GroupCallReactionsManyInOrder(): JSX.Element {
   return <CallScreen {...props} />;
 }
 
-function useReactionsEmitter(
-  activeCall: ActiveGroupCallType,
+function useReactionsEmitter({
+  activeCall,
   frequency = 2000,
-  removeAfter = 5000
-) {
+  removeAfter = 5000,
+  emojis = DEFAULT_PREFERRED_REACTION_EMOJI,
+}: {
+  activeCall: ActiveGroupCallType;
+  frequency?: number;
+  removeAfter?: number;
+  emojis?: Array<string>;
+}) {
   const [call, setCall] = React.useState(activeCall);
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -726,7 +758,7 @@ function useReactionsEmitter(
           {
             timestamp: timeNow,
             demuxId,
-            value: sample(DEFAULT_PREFERRED_REACTION_EMOJI) as string,
+            value: sample(emojis) as string,
           },
         ];
 
@@ -737,7 +769,7 @@ function useReactionsEmitter(
       });
     }, frequency);
     return () => clearInterval(interval);
-  }, [frequency, removeAfter, call]);
+  }, [emojis, frequency, removeAfter, call]);
   return call;
 }
 

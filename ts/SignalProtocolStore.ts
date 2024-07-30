@@ -18,10 +18,13 @@ import {
   SignedPreKeyRecord,
 } from '@signalapp/libsignal-client';
 
+import { DataReader, DataWriter } from './sql/Client';
+import type { ItemType } from './sql/Interface';
 import * as Bytes from './Bytes';
 import { constantTimeEqual, sha256 } from './Crypto';
 import { assertDev, strictAssert } from './util/assert';
 import { isNotNil } from './util/isNotNil';
+import { drop } from './util/drop';
 import { Zone } from './util/Zone';
 import { isMoreRecentThan } from './util/timestamp';
 import {
@@ -134,6 +137,11 @@ type MapFields =
 
 export type SessionTransactionOptions = Readonly<{
   zone?: Zone;
+}>;
+
+export type SaveIdentityOptions = Readonly<{
+  zone?: Zone;
+  noOverwrite?: boolean;
 }>;
 
 export type VerifyAlternateIdentityOptionsType = Readonly<{
@@ -289,7 +297,9 @@ export class SignalProtocolStore extends EventEmitter {
     await Promise.all([
       (async () => {
         this.ourIdentityKeys.clear();
-        const map = await window.Signal.Data.getItemById('identityKeyMap');
+        const map = (await DataReader.getItemById(
+          'identityKeyMap'
+        )) as unknown as ItemType<'identityKeyMap'>;
         if (!map) {
           return;
         }
@@ -308,7 +318,9 @@ export class SignalProtocolStore extends EventEmitter {
       })(),
       (async () => {
         this.ourRegistrationIds.clear();
-        const map = await window.Signal.Data.getItemById('registrationIdMap');
+        const map = (await DataReader.getItemById(
+          'registrationIdMap'
+        )) as unknown as ItemType<'registrationIdMap'>;
         if (!map) {
           return;
         }
@@ -324,32 +336,32 @@ export class SignalProtocolStore extends EventEmitter {
       _fillCaches<string, IdentityKeyType, PublicKey>(
         this,
         'identityKeys',
-        window.Signal.Data.getAllIdentityKeys()
+        DataReader.getAllIdentityKeys()
       ),
       _fillCaches<string, KyberPreKeyType, KyberPreKeyRecord>(
         this,
         'kyberPreKeys',
-        window.Signal.Data.getAllKyberPreKeys()
+        DataReader.getAllKyberPreKeys()
       ),
       _fillCaches<string, SessionType, SessionRecord>(
         this,
         'sessions',
-        window.Signal.Data.getAllSessions()
+        DataReader.getAllSessions()
       ),
       _fillCaches<string, PreKeyType, PreKeyRecord>(
         this,
         'preKeys',
-        window.Signal.Data.getAllPreKeys()
+        DataReader.getAllPreKeys()
       ),
       _fillCaches<string, SenderKeyType, SenderKeyRecord>(
         this,
         'senderKeys',
-        window.Signal.Data.getAllSenderKeys()
+        DataReader.getAllSenderKeys()
       ),
       _fillCaches<string, SignedPreKeyType, SignedPreKeyRecord>(
         this,
         'signedPreKeys',
-        window.Signal.Data.getAllSignedPreKeys()
+        DataReader.getAllSignedPreKeys()
       ),
     ]);
   }
@@ -465,7 +477,7 @@ export class SignalProtocolStore extends EventEmitter {
       },
     };
 
-    await window.Signal.Data.createOrUpdateKyberPreKey(confirmedItem.fromDB);
+    await DataWriter.createOrUpdateKyberPreKey(confirmedItem.fromDB);
     kyberPreKeyCache.set(id, confirmedItem);
   }
 
@@ -500,7 +512,7 @@ export class SignalProtocolStore extends EventEmitter {
       toSave.push(kyberPreKey);
     });
 
-    await window.Signal.Data.bulkAddKyberPreKeys(toSave);
+    await DataWriter.bulkAddKyberPreKeys(toSave);
     toSave.forEach(kyberPreKey => {
       kyberPreKeyCache.set(kyberPreKey.id, {
         hydrated: false,
@@ -541,7 +553,7 @@ export class SignalProtocolStore extends EventEmitter {
     const ids = keyIds.map(keyId => this._getKeyId(ourServiceId, keyId));
 
     log.info('removeKyberPreKeys: Removing kyber prekeys:', formatKeys(keyIds));
-    const changes = await window.Signal.Data.removeKyberPreKeyById(ids);
+    const changes = await DataWriter.removeKyberPreKeyById(ids);
     log.info(`removeKyberPreKeys: Removed ${changes} kyber prekeys`);
     ids.forEach(id => {
       kyberPreKeyCache.delete(id);
@@ -559,7 +571,7 @@ export class SignalProtocolStore extends EventEmitter {
     if (this.kyberPreKeys) {
       this.kyberPreKeys.clear();
     }
-    const changes = await window.Signal.Data.removeAllKyberPreKeys();
+    const changes = await DataWriter.removeAllKyberPreKeys();
     log.info(`clearKyberPreKeyStore: Removed ${changes} kyber prekeys`);
   }
 
@@ -641,7 +653,7 @@ export class SignalProtocolStore extends EventEmitter {
     });
 
     log.info(`storePreKeys: Saving ${toSave.length} prekeys`);
-    await window.Signal.Data.bulkAddPreKeys(toSave);
+    await DataWriter.bulkAddPreKeys(toSave);
     toSave.forEach(preKey => {
       preKeyCache.set(preKey.id, {
         hydrated: false,
@@ -663,7 +675,7 @@ export class SignalProtocolStore extends EventEmitter {
 
     log.info('removePreKeys: Removing prekeys:', formatKeys(keyIds));
 
-    const changes = await window.Signal.Data.removePreKeyById(ids);
+    const changes = await DataWriter.removePreKeyById(ids);
     log.info(`removePreKeys: Removed ${changes} prekeys`);
     ids.forEach(id => {
       preKeyCache.delete(id);
@@ -678,7 +690,7 @@ export class SignalProtocolStore extends EventEmitter {
     if (this.preKeys) {
       this.preKeys.clear();
     }
-    const changes = await window.Signal.Data.removeAllPreKeys();
+    const changes = await DataWriter.removeAllPreKeys();
     log.info(`clearPreKeyStore: Removed ${changes} prekeys`);
   }
 
@@ -764,7 +776,7 @@ export class SignalProtocolStore extends EventEmitter {
       },
     };
 
-    await window.Signal.Data.createOrUpdateSignedPreKey(confirmedItem.fromDB);
+    await DataWriter.createOrUpdateSignedPreKey(confirmedItem.fromDB);
     signedPreKeyCache.set(id, confirmedItem);
   }
 
@@ -791,7 +803,7 @@ export class SignalProtocolStore extends EventEmitter {
       confirmed: Boolean(confirmed),
     };
 
-    await window.Signal.Data.createOrUpdateSignedPreKey(fromDB);
+    await DataWriter.createOrUpdateSignedPreKey(fromDB);
     this.signedPreKeys.set(id, {
       hydrated: false,
       fromDB,
@@ -813,7 +825,7 @@ export class SignalProtocolStore extends EventEmitter {
       'removeSignedPreKeys: Removing signed prekeys:',
       formatKeys(keyIds)
     );
-    await window.Signal.Data.removeSignedPreKeyById(ids);
+    await DataWriter.removeSignedPreKeyById(ids);
     ids.forEach(id => {
       signedPreKeyCache.delete(id);
     });
@@ -823,7 +835,7 @@ export class SignalProtocolStore extends EventEmitter {
     if (this.signedPreKeys) {
       this.signedPreKeys.clear();
     }
-    const changes = await window.Signal.Data.removeAllSignedPreKeys();
+    const changes = await DataWriter.removeAllSignedPreKeys();
     log.info(`clearSignedPreKeysStore: Removed ${changes} signed prekeys`);
   }
 
@@ -987,7 +999,7 @@ export class SignalProtocolStore extends EventEmitter {
     try {
       const id = this.getSenderKeyId(qualifiedAddress, distributionId);
 
-      await window.Signal.Data.removeSenderKeyById(id);
+      await DataWriter.removeSenderKeyById(id);
 
       this.senderKeys.delete(id);
     } catch (error) {
@@ -1006,7 +1018,7 @@ export class SignalProtocolStore extends EventEmitter {
       if (this.pendingSenderKeys) {
         this.pendingSenderKeys.clear();
       }
-      await window.Signal.Data.removeAllSenderKeys();
+      await DataWriter.removeAllSenderKeys();
     });
   }
 
@@ -1186,7 +1198,7 @@ export class SignalProtocolStore extends EventEmitter {
 
     // Commit both sender keys, sessions and unprocessed in the same database transaction
     //   to unroll both on error.
-    await window.Signal.Data.commitDecryptResult({
+    await DataWriter.commitDecryptResult({
       senderKeys: Array.from(pendingSenderKeys.values()).map(
         ({ fromDB }) => fromDB
       ),
@@ -1588,7 +1600,7 @@ export class SignalProtocolStore extends EventEmitter {
       const id = qualifiedAddress.toString();
       log.info('removeSession: deleting session for', id);
       try {
-        await window.Signal.Data.removeSessionById(id);
+        await DataWriter.removeSessionById(id);
         this.sessions.delete(id);
         this.pendingSessions.delete(id);
       } catch (e) {
@@ -1635,7 +1647,7 @@ export class SignalProtocolStore extends EventEmitter {
           }
         }
 
-        await window.Signal.Data.removeSessionsByConversation(id);
+        await DataWriter.removeSessionsByConversation(id);
       }
     );
   }
@@ -1660,7 +1672,7 @@ export class SignalProtocolStore extends EventEmitter {
         }
       }
 
-      await window.Signal.Data.removeSessionsByServiceId(serviceId);
+      await DataWriter.removeSessionsByServiceId(serviceId);
     });
   }
 
@@ -1767,7 +1779,7 @@ export class SignalProtocolStore extends EventEmitter {
         this.sessions.clear();
       }
       this.pendingSessions.clear();
-      const changes = await window.Signal.Data.removeAllSessions();
+      const changes = await DataWriter.removeAllSessions();
       log.info(`clearSessionStore: Removed ${changes} sessions`);
     });
   }
@@ -1888,9 +1900,7 @@ export class SignalProtocolStore extends EventEmitter {
     await this._saveIdentityKey(newRecord);
 
     this.identityKeys.delete(record.fromDB.id);
-    const changes = await window.Signal.Data.removeIdentityKeyById(
-      record.fromDB.id
-    );
+    const changes = await DataWriter.removeIdentityKeyById(record.fromDB.id);
 
     log.info(
       `getOrMigrateIdentityRecord: Removed ${changes} old identity keys for ${record.fromDB.id}`
@@ -2037,7 +2047,7 @@ export class SignalProtocolStore extends EventEmitter {
 
     const { id } = data;
 
-    await window.Signal.Data.createOrUpdateIdentityKey(data);
+    await DataWriter.createOrUpdateIdentityKey(data);
     this.identityKeys.set(id, {
       hydrated: false,
       fromDB: data,
@@ -2049,7 +2059,7 @@ export class SignalProtocolStore extends EventEmitter {
     encodedAddress: Address,
     publicKey: Uint8Array,
     nonblockingApproval = false,
-    { zone = GLOBAL_ZONE }: SessionTransactionOptions = {}
+    { zone = GLOBAL_ZONE, noOverwrite = false }: SaveIdentityOptions = {}
   ): Promise<boolean> {
     if (!this.identityKeys) {
       throw new Error('saveIdentity: this.identityKeys not yet cached!');
@@ -2097,6 +2107,10 @@ export class SignalProtocolStore extends EventEmitter {
             'saveIdentity'
           );
 
+          return false;
+        }
+
+        if (noOverwrite) {
           return false;
         }
 
@@ -2336,7 +2350,7 @@ export class SignalProtocolStore extends EventEmitter {
 
         // We only want to clear previousIdentityKey on a match, or on successfully emit.
         conversation.set({ previousIdentityKey: undefined });
-        window.Signal.Data.updateConversation(conversation.attributes);
+        drop(DataWriter.updateConversation(conversation.attributes));
       } catch (error) {
         log.error(
           'saveIdentity: error triggering keychange:',
@@ -2453,20 +2467,20 @@ export class SignalProtocolStore extends EventEmitter {
 
     const id = serviceId;
     this.identityKeys.delete(id);
-    await window.Signal.Data.removeIdentityKeyById(serviceId);
+    await DataWriter.removeIdentityKeyById(serviceId);
     await this.removeSessionsByServiceId(serviceId);
   }
 
   // Not yet processed messages - for resiliency
   getUnprocessedCount(): Promise<number> {
     return this.withZone(GLOBAL_ZONE, 'getUnprocessedCount', async () => {
-      return window.Signal.Data.getUnprocessedCount();
+      return DataReader.getUnprocessedCount();
     });
   }
 
   getAllUnprocessedIds(): Promise<Array<string>> {
     return this.withZone(GLOBAL_ZONE, 'getAllUnprocessedIds', () => {
-      return window.Signal.Data.getAllUnprocessedIds();
+      return DataWriter.getAllUnprocessedIds();
     });
   }
 
@@ -2477,14 +2491,14 @@ export class SignalProtocolStore extends EventEmitter {
       GLOBAL_ZONE,
       'getAllUnprocessedByIdsAndIncrementAttempts',
       async () => {
-        return window.Signal.Data.getUnprocessedByIdsAndIncrementAttempts(ids);
+        return DataWriter.getUnprocessedByIdsAndIncrementAttempts(ids);
       }
     );
   }
 
   getUnprocessedById(id: string): Promise<UnprocessedType | undefined> {
     return this.withZone(GLOBAL_ZONE, 'getUnprocessedById', async () => {
-      return window.Signal.Data.getUnprocessedById(id);
+      return DataReader.getUnprocessedById(id);
     });
   }
 
@@ -2522,7 +2536,7 @@ export class SignalProtocolStore extends EventEmitter {
     data: UnprocessedUpdateType
   ): Promise<void> {
     return this.withZone(GLOBAL_ZONE, 'updateUnprocessedWithData', async () => {
-      await window.Signal.Data.updateUnprocessedWithData(id, data);
+      await DataWriter.updateUnprocessedWithData(id, data);
     });
   }
 
@@ -2533,14 +2547,14 @@ export class SignalProtocolStore extends EventEmitter {
       GLOBAL_ZONE,
       'updateUnprocessedsWithData',
       async () => {
-        await window.Signal.Data.updateUnprocessedsWithData(items);
+        await DataWriter.updateUnprocessedsWithData(items);
       }
     );
   }
 
   removeUnprocessed(idOrArray: string | Array<string>): Promise<void> {
     return this.withZone(GLOBAL_ZONE, 'removeUnprocessed', async () => {
-      await window.Signal.Data.removeUnprocessed(idOrArray);
+      await DataWriter.removeUnprocessed(idOrArray);
     });
   }
 
@@ -2548,7 +2562,7 @@ export class SignalProtocolStore extends EventEmitter {
   removeAllUnprocessed(): Promise<void> {
     log.info('removeAllUnprocessed');
     return this.withZone(GLOBAL_ZONE, 'removeAllUnprocessed', async () => {
-      await window.Signal.Data.removeAllUnprocessed();
+      await DataWriter.removeAllUnprocessed();
     });
   }
 
@@ -2594,9 +2608,9 @@ export class SignalProtocolStore extends EventEmitter {
         'registrationIdMap',
         omit(storage.get('registrationIdMap') || {}, oldPni)
       ),
-      window.Signal.Data.removePreKeysByServiceId(oldPni),
-      window.Signal.Data.removeSignedPreKeysByServiceId(oldPni),
-      window.Signal.Data.removeKyberPreKeysByServiceId(oldPni),
+      DataWriter.removePreKeysByServiceId(oldPni),
+      DataWriter.removeSignedPreKeysByServiceId(oldPni),
+      DataWriter.removeKyberPreKeysByServiceId(oldPni),
     ]);
   }
 
@@ -2686,7 +2700,7 @@ export class SignalProtocolStore extends EventEmitter {
   }
 
   async removeAllData(): Promise<void> {
-    await window.Signal.Data.removeAll();
+    await DataWriter.removeAll();
     await this.hydrateCaches();
 
     window.storage.reset();
@@ -2699,7 +2713,16 @@ export class SignalProtocolStore extends EventEmitter {
   }
 
   async removeAllConfiguration(): Promise<void> {
-    await window.Signal.Data.removeAllConfiguration();
+    // Conversations. These properties are not present in redux.
+    window.getConversations().forEach(conversation => {
+      conversation.unset('storageID');
+      conversation.unset('needsStorageServiceSync');
+      conversation.unset('storageUnknownFields');
+      conversation.unset('senderKeyInfo');
+    });
+
+    await DataWriter.removeAllConfiguration();
+
     await this.hydrateCaches();
 
     window.storage.reset();

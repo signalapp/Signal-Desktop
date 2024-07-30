@@ -13,10 +13,6 @@ export function getStoryReplyText(
     return i18n('icu:Quote__story-unavailable');
   }
 
-  if (attachment.caption) {
-    return attachment.caption;
-  }
-
   const attachments = [attachment];
 
   if (isImage(attachments)) {

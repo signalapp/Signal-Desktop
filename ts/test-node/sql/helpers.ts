@@ -2,12 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { noop } from 'lodash';
-import type { Database } from '@signalapp/better-sqlite3';
+import SQL from '@signalapp/better-sqlite3';
 
+import type { ReadableDB, WritableDB } from '../../sql/Interface';
 import { SCHEMA_VERSIONS } from '../../sql/migrations';
 import { consoleLogger } from '../../util/consoleLogger';
 
-export function updateToVersion(db: Database, version: number): void {
+export function createDB(): WritableDB {
+  return new SQL(':memory:') as WritableDB;
+}
+
+export function updateToVersion(db: WritableDB, version: number): void {
   const startVersion = db.pragma('user_version', { simple: true });
 
   const silentLogger = {
@@ -32,7 +37,11 @@ type TableRows = ReadonlyArray<
   Record<string, string | number | null | Record<string, unknown>>
 >;
 
-export function insertData(db: Database, table: string, rows: TableRows): void {
+export function insertData(
+  db: WritableDB,
+  table: string,
+  rows: TableRows
+): void {
   for (const row of rows) {
     db.prepare(
       `
@@ -52,7 +61,7 @@ export function insertData(db: Database, table: string, rows: TableRows): void {
   }
 }
 
-export function getTableData(db: Database, table: string): TableRows {
+export function getTableData(db: ReadableDB, table: string): TableRows {
   return db
     .prepare(`SELECT * FROM ${table}`)
     .all()

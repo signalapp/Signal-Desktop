@@ -57,6 +57,8 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
   const isRTL = i18n.getLocaleDirection() === 'rtl';
 
   const [open, setOpen] = React.useState(false);
+  const [wasInvokedFromKeyboard, setWasInvokedFromKeyboard] =
+    React.useState(false);
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
   const popperRef = React.useRef<HTMLDivElement | null>(null);
   const refMerger = useRefMerger();
@@ -69,25 +71,30 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
   }, [open, onOpen]);
 
   const handleClickButton = React.useCallback(() => {
+    setWasInvokedFromKeyboard(false);
     if (open) {
       setOpen(false);
     } else {
       setOpen(true);
     }
-  }, [open, setOpen]);
+  }, [open, setOpen, setWasInvokedFromKeyboard]);
 
   const handleClose = React.useCallback(() => {
     setOpen(false);
+    setWasInvokedFromKeyboard(false);
     if (onClose) {
       onClose();
     }
-  }, [setOpen, onClose]);
+  }, [setOpen, setWasInvokedFromKeyboard, onClose]);
 
   const api = React.useMemo(
     () => ({
-      close: () => setOpen(false),
+      close: () => {
+        setOpen(false);
+        setWasInvokedFromKeyboard(false);
+      },
     }),
-    [setOpen]
+    [setOpen, setWasInvokedFromKeyboard]
   );
 
   if (emojiButtonApi) {
@@ -132,6 +139,7 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
         event.stopPropagation();
         event.preventDefault();
 
+        setWasInvokedFromKeyboard(true);
         setOpen(!open);
       }
     };
@@ -180,6 +188,7 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
                 onClose={handleClose}
                 skinTone={skinTone}
                 onSetSkinTone={onSetSkinTone}
+                wasInvokedFromKeyboard={wasInvokedFromKeyboard}
                 recentEmojis={recentEmojis}
               />
             )}

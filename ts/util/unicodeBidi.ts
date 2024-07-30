@@ -1,6 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { isTestOrMockEnvironment } from '../environment';
+
 /**
  * Left-to-Right Isolate
  * Sets direction to LTR and isolates the embedded content from the surrounding text
@@ -107,7 +109,8 @@ export const ANY_UNICODE_DIR_CONTROL_CHAR_REGEX = new RegExp(
     POP_DIRECTIONAL_FORMATTING,
     LTR_OVERRIDE,
     RTL_OVERRIDE,
-  ].join('|')
+  ].join('|'),
+  'g'
 );
 
 export function hasAnyUnicodeDirControlChars(input: string): boolean {
@@ -208,9 +211,13 @@ export function _bidiIsolate(text: string): string {
  * ```
  */
 export function bidiIsolate(text: string): string {
-  if (window.SignalContext.isTestOrMockEnvironment()) {
+  if (isTestOrMockEnvironment()) {
     // Turn this off in tests to make it easier to compare strings
     return text;
   }
   return _bidiIsolate(text);
+}
+
+export function bidiStrip(text: string): string {
+  return text.replace(ANY_UNICODE_DIR_CONTROL_CHAR_REGEX, '');
 }

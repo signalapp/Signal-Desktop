@@ -17,14 +17,20 @@ import { useReducedMotion } from '../hooks/useReducedMotion';
 type PropsType = {
   appView: AppViewType;
   openInbox: () => void;
+  getCaptchaToken: () => Promise<string>;
   registerSingleDevice: (
     number: string,
     code: string,
     sessionId: string
   ) => Promise<void>;
+  uploadProfile: (opts: {
+    firstName: string;
+    lastName: string;
+  }) => Promise<void>;
   renderCallManager: () => JSX.Element;
   renderGlobalModalContainer: () => JSX.Element;
   hasSelectedStoryData: boolean;
+  readyForUpdates: () => void;
   renderStoryViewer: (closeView: () => unknown) => JSX.Element;
   renderLightbox: () => JSX.Element | null;
   requestVerification: (
@@ -44,11 +50,13 @@ type PropsType = {
 
 export function App({
   appView,
+  getCaptchaToken,
   hasSelectedStoryData,
   isFullScreen,
   isMaximized,
   openInbox,
   osClassName,
+  readyForUpdates,
   registerSingleDevice,
   renderCallManager,
   renderGlobalModalContainer,
@@ -57,6 +65,7 @@ export function App({
   renderStoryViewer,
   requestVerification,
   theme,
+  uploadProfile,
   viewStory,
 }: PropsType): JSX.Element {
   let contents;
@@ -71,8 +80,11 @@ export function App({
     contents = (
       <StandaloneRegistration
         onComplete={onComplete}
+        getCaptchaToken={getCaptchaToken}
+        readyForUpdates={readyForUpdates}
         requestVerification={requestVerification}
         registerSingleDevice={registerSingleDevice}
+        uploadProfile={uploadProfile}
       />
     );
   } else if (appView === AppViewType.Inbox) {

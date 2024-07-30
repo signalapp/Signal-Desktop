@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import FocusTrap from 'focus-trap-react';
+import type { UIEvent } from 'react';
 import React, {
   useCallback,
   useEffect,
@@ -29,7 +30,7 @@ import { AnimatedEmojiGalore } from './AnimatedEmojiGalore';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { SendStatus } from '../messages/MessageSendState';
 import { Spinner } from './Spinner';
@@ -57,6 +58,7 @@ import { strictAssert } from '../util/assert';
 import { MessageBody } from './conversation/MessageBody';
 import { RenderLocation } from './conversation/MessageTextRenderer';
 import { arrow } from '../util/keyboard';
+import { useElementId } from '../hooks/useUniqueId';
 
 function renderStrong(parts: Array<JSX.Element | string>) {
   return <strong>{parts}</strong>;
@@ -72,7 +74,7 @@ export type PropsType = {
   group?: Pick<
     ConversationType,
     | 'acceptedMessageRequest'
-    | 'avatarPath'
+    | 'avatarUrl'
     | 'color'
     | 'id'
     | 'name'
@@ -188,6 +190,8 @@ export function StoryViewer({
     StoryViewType | undefined
   >();
 
+  const [viewerId, viewerSelector] = useElementId('StoryViewer');
+
   const {
     attachment,
     bodyRanges,
@@ -200,7 +204,7 @@ export function StoryViewer({
   } = story;
   const {
     acceptedMessageRequest,
-    avatarPath,
+    avatarUrl,
     color,
     isMe,
     firstName,
@@ -355,6 +359,24 @@ export function StoryViewer({
   }, [story.messageId, storyDuration]);
 
   const [pauseStory, setPauseStory] = useState(false);
+  const [pressing, setPressing] = useState(false);
+  const [longPress, setLongPress] = useState(false);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout | undefined;
+    if (pressing) {
+      timer = setTimeout(() => {
+        setLongPress(true);
+      }, 200);
+    } else {
+      setLongPress(false);
+    }
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [pressing]);
 
   useEffect(() => {
     if (!isWindowActive) {
@@ -373,7 +395,8 @@ export function StoryViewer({
     hasExpandedCaption ||
     isShowingContextMenu ||
     pauseStory ||
-    Boolean(reactionEmoji);
+    Boolean(reactionEmoji) ||
+    pressing;
 
   useEffect(() => {
     if (shouldPauseViewing) {
@@ -593,9 +616,49 @@ export function StoryViewer({
     retryMessageSend(messageId);
   }
 
+  function isDescendentEvent(event: UIEvent) {
+    // Can occur when the user clicks on the overlay of an open modal
+    return event.currentTarget.contains(event.target as Node);
+  }
+
+  // .StoryViewer has events to pause the story, but certain elements it
+  // contains should not trigger that behavior.
+  const stopPauseBubblingProps = {
+    onMouseDown: (event: UIEvent) => event.stopPropagation(),
+    onKeyDown: (event: UIEvent) => event.stopPropagation(),
+  };
+
   return (
-    <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
-      <div className="StoryViewer">
+    <FocusTrap
+      focusTrapOptions={{
+        clickOutsideDeactivates: true,
+        initialFocus: viewerSelector,
+      }}
+    >
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+      <div
+        className="StoryViewer"
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+        tabIndex={0}
+        id={viewerId}
+        onMouseDown={event => {
+          if (isDescendentEvent(event)) {
+            setPressing(true);
+          }
+        }}
+        onDragStart={() => setPressing(false)}
+        onMouseUp={() => setPressing(false)}
+        onKeyDown={event => {
+          if (isDescendentEvent(event) && event.code === 'Space') {
+            setPressing(true);
+          }
+        }}
+        onKeyUp={event => {
+          if (event.code === 'Space') {
+            setPressing(false);
+          }
+        }}
+      >
         {alertElement}
         <div
           className="StoryViewer__overlay"
@@ -720,7 +783,7 @@ export function StoryViewer({
               <div className="StoryViewer__meta__playback-bar__container">
                 <Avatar
                   acceptedMessageRequest={acceptedMessageRequest}
-                  avatarPath={avatarPath}
+                  avatarUrl={avatarUrl}
                   badge={undefined}
                   color={getAvatarColor(color)}
                   conversationType="direct"
@@ -734,7 +797,7 @@ export function StoryViewer({
                 {group && (
                   <Avatar
                     acceptedMessageRequest={group.acceptedMessageRequest}
-                    avatarPath={group.avatarPath}
+                    avatarUrl={group.avatarUrl}
                     badge={undefined}
                     className="StoryViewer__meta--group-avatar"
                     color={getAvatarColor(group.color)}
@@ -773,15 +836,20 @@ export function StoryViewer({
                   )}
                 </div>
               </div>
-              <div className="StoryViewer__meta__playback-controls">
+              <div
+                className="StoryViewer__meta__playback-controls"
+                {...stopPauseBubblingProps}
+              >
                 <button
                   aria-label={
-                    pauseStory
+                    pauseStory || longPress
                       ? i18n('icu:StoryViewer__play')
                       : i18n('icu:StoryViewer__pause')
                   }
                   className={
-                    pauseStory ? 'StoryViewer__play' : 'StoryViewer__pause'
+                    pauseStory || longPress
+                      ? 'StoryViewer__play'
+                      : 'StoryViewer__pause'
                   }
                   onClick={() => setPauseStory(!pauseStory)}
                   type="button"
@@ -808,7 +876,7 @@ export function StoryViewer({
                 )}
               </div>
             </div>
-            <div className="StoryViewer__progress">
+            <div className="StoryViewer__progress" {...stopPauseBubblingProps}>
               {Array.from(Array(numStories), (_, index) => (
                 <div className="StoryViewer__progress--container" key={index}>
                   {currentIndex === index ? (
@@ -831,7 +899,7 @@ export function StoryViewer({
                 </div>
               ))}
             </div>
-            <div className="StoryViewer__actions">
+            <div className="StoryViewer__actions" {...stopPauseBubblingProps}>
               {sendStatus === ResolvedSendStatus.Failed &&
                 !wasManuallyRetried && (
                   <button
@@ -878,7 +946,7 @@ export function StoryViewer({
                           <>{i18n('icu:StoryViewer__views-off')}</>
                         )}
                         {isSent && hasViewReceiptSetting && (
-                          <Intl
+                          <I18n
                             i18n={i18n}
                             id="icu:MyStories__views--strong"
                             components={{
@@ -889,7 +957,7 @@ export function StoryViewer({
                         )}
                         {(isSent || viewCount > 0) && replyCount > 0 && ' '}
                         {replyCount > 0 && (
-                          <Intl
+                          <I18n
                             i18n={i18n}
                             id="icu:MyStories__replies"
                             components={{ replyCount, strong: renderStrong }}

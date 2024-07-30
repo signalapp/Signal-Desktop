@@ -95,10 +95,8 @@ export default function updateToSchemaVersion91(
 
     // Grab PNI-specific count
 
-    const [
-      beforeQuery,
-      beforeParams,
-    ] = sql`SELECT count(*) from preKeys WHERE ourServiceId = ${pni}`;
+    const [beforeQuery, beforeParams] =
+      sql`SELECT count(*) from preKeys WHERE ourServiceId = ${pni}`;
     const beforeKeys = db.prepare(beforeQuery).pluck(true).get(beforeParams);
     logger.info(`updateToSchemaVersion91: Found ${beforeKeys} preKeys for PNI`);
 

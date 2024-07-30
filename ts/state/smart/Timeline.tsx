@@ -1,46 +1,48 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isEmpty, pick } from 'lodash';
-import React from 'react';
-import { connect } from 'react-redux';
-
+import { isEmpty } from 'lodash';
+import React, { memo, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import type { ReadonlyDeep } from 'type-fest';
-import { mapDispatchToProps } from '../actions';
 import type { WarningType as TimelineWarningType } from '../../components/conversation/Timeline';
 import { Timeline } from '../../components/conversation/Timeline';
-import type { StateType } from '../reducer';
-import type { ConversationType } from '../ducks/conversations';
-
-import { getIntl, getTheme } from '../selectors/user';
-import {
-  getMessages,
-  getConversationByServiceIdSelector,
-  getConversationMessagesSelector,
-  getConversationSelector,
-  getInvitedContactsForNewlyCreatedGroup,
-  getSafeConversationWithSameTitle,
-  getTargetedMessage,
-} from '../selectors/conversations';
-import { selectAudioPlayerActive } from '../selectors/audioPlayer';
-
-import { SmartTimelineItem, type SmartTimelineItemProps } from './TimelineItem';
-import { SmartCollidingAvatars } from './CollidingAvatars';
-import type { PropsType as SmartCollidingAvatarsPropsType } from './CollidingAvatars';
-import { SmartContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
-import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from './ContactSpoofingReviewDialog';
-import { SmartTypingBubble } from './TypingBubble';
-import { SmartHeroRow } from './HeroRow';
-
-import { missingCaseError } from '../../util/missingCaseError';
+import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
 import {
   dehydrateCollisionsWithConversations,
   getCollisionsFromMemberships,
 } from '../../util/groupMemberNameCollisions';
-import { ContactSpoofingType } from '../../util/contactSpoofing';
+import { missingCaseError } from '../../util/missingCaseError';
+import { useCallingActions } from '../ducks/calling';
+import {
+  useConversationsActions,
+  type ConversationType,
+} from '../ducks/conversations';
+import type { StateType } from '../reducer';
+import { selectAudioPlayerActive } from '../selectors/audioPlayer';
 import { getPreferredBadgeSelector } from '../selectors/badges';
+import {
+  getConversationByServiceIdSelector,
+  getConversationMessagesSelector,
+  getConversationSelector,
+  getHasContactSpoofingReview,
+  getInvitedContactsForNewlyCreatedGroup,
+  getMessages,
+  getSafeConversationWithSameTitle,
+  getSelectedConversationId,
+  getTargetedMessage,
+} from '../selectors/conversations';
+import { getIntl, getTheme } from '../selectors/user';
+import type { PropsType as SmartCollidingAvatarsPropsType } from './CollidingAvatars';
+import { SmartCollidingAvatars } from './CollidingAvatars';
+import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from './ContactSpoofingReviewDialog';
+import { SmartContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
+import { SmartHeroRow } from './HeroRow';
 import { SmartMiniPlayer } from './MiniPlayer';
+import { SmartTimelineItem, type SmartTimelineItemProps } from './TimelineItem';
+import { SmartTypingBubble } from './TypingBubble';
+import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager';
 
 type ExternalProps = {
   id: string;
@@ -50,6 +52,8 @@ function renderItem({
   containerElementRef,
   containerWidthBreakpoint,
   conversationId,
+  isBlocked,
+  isGroup,
   isOldestTimelineItem,
   messageId,
   nextMessageId,
@@ -61,6 +65,8 @@ function renderItem({
       containerElementRef={containerElementRef}
       containerWidthBreakpoint={containerWidthBreakpoint}
       conversationId={conversationId}
+      isBlocked={isBlocked}
+      isGroup={isGroup}
       isOldestTimelineItem={isOldestTimelineItem}
       messageId={messageId}
       previousMessageId={previousMessageId}
@@ -142,59 +148,150 @@ const getWarning = (
   }
 };
 
-const mapStateToProps = (state: StateType, props: ExternalProps) => {
-  const { id } = props;
+export const SmartTimeline = memo(function SmartTimeline({
+  id,
+}: ExternalProps) {
+  const activeAudioPlayer = useSelector(selectAudioPlayerActive);
+  const conversationMessagesSelector = useSelector(
+    getConversationMessagesSelector
+  );
+  const conversationSelector = useSelector(getConversationSelector);
+  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
+  const hasContactSpoofingReview = useSelector(getHasContactSpoofingReview);
+  const i18n = useSelector(getIntl);
+  const invitedContactsForNewlyCreatedGroup = useSelector(
+    getInvitedContactsForNewlyCreatedGroup
+  );
+  const messages = useSelector(getMessages);
+  const selectedConversationId = useSelector(getSelectedConversationId);
+  const targetedMessage = useSelector(getTargetedMessage);
+  const theme = useSelector(getTheme);
 
-  const conversation = getConversationSelector(state)(id);
+  const conversation = conversationSelector(id);
+  const conversationMessages = conversationMessagesSelector(id);
 
-  const conversationMessages = getConversationMessagesSelector(state)(id);
-  const targetedMessage = getTargetedMessage(state);
+  const warning = useSelector(
+    useCallback(
+      (state: StateType) => {
+        return getWarning(conversation, state);
+      },
+      [conversation]
+    )
+  );
 
-  const getTimestampForMessage = (messageId: string): undefined | number =>
-    getMessages(state)[messageId]?.timestamp;
+  const {
+    acknowledgeGroupMemberNameCollisions,
+    clearInvitedServiceIdsForNewlyCreatedGroup,
+    clearTargetedMessage,
+    closeContactSpoofingReview,
+    discardMessages,
+    loadNewerMessages,
+    loadNewestMessages,
+    loadOlderMessages,
+    markMessageRead,
+    reviewConversationNameCollision,
+    scrollToOldestUnreadMention,
+    setIsNearBottom,
+    targetMessage,
+  } = useConversationsActions();
+  const { peekGroupCallForTheFirstTime, peekGroupCallIfItHasMembers } =
+    useCallingActions();
 
-  const shouldShowMiniPlayer = Boolean(selectAudioPlayerActive(state));
+  const getTimestampForMessage = useCallback(
+    (messageId: string): undefined | number => {
+      return messages[messageId]?.timestamp;
+    },
+    [messages]
+  );
 
-  return {
-    id,
-    ...pick(conversation, [
-      'unreadCount',
-      'unreadMentionsCount',
-      'isGroupV1AndDisabled',
-      'typingContactIdTimestamps',
-    ]),
-    isConversationSelected: state.conversations.selectedConversationId === id,
-    isIncomingMessageRequest: Boolean(
-      !conversation.acceptedMessageRequest &&
-        conversation.removalStage !== 'justNotification'
-    ),
-    isSomeoneTyping: Boolean(
-      Object.keys(conversation.typingContactIdTimestamps ?? {}).length > 0
-    ),
-    ...conversationMessages,
+  const shouldShowMiniPlayer = activeAudioPlayer != null;
+  const {
+    acceptedMessageRequest,
+    isBlocked = false,
+    isGroupV1AndDisabled,
+    removalStage,
+    typingContactIdTimestamps = {},
+    unreadCount,
+    unreadMentionsCount,
+    type: conversationType,
+  } = conversation ?? {};
+  const {
+    haveNewest,
+    haveOldest,
+    isNearBottom,
+    items,
+    messageChangeCounter,
+    messageLoadingState,
+    oldestUnseenIndex,
+    scrollToIndex,
+    scrollToIndexCounter,
+    totalUnseen,
+  } = conversationMessages;
 
-    invitedContactsForNewlyCreatedGroup:
-      getInvitedContactsForNewlyCreatedGroup(state),
-    targetedMessageId: targetedMessage ? targetedMessage.id : undefined,
-    shouldShowMiniPlayer,
+  const isConversationSelected = selectedConversationId === id;
+  const isIncomingMessageRequest =
+    !acceptedMessageRequest && removalStage !== 'justNotification';
+  const isSomeoneTyping = Object.keys(typingContactIdTimestamps).length > 0;
+  const targetedMessageId = targetedMessage?.id;
 
-    warning: getWarning(conversation, state),
-    hasContactSpoofingReview: state.conversations.hasContactSpoofingReview,
-
-    getTimestampForMessage,
-    getPreferredBadge: getPreferredBadgeSelector(state),
-    i18n: getIntl(state),
-    theme: getTheme(state),
-
-    renderCollidingAvatars,
-    renderContactSpoofingReviewDialog,
-    renderHeroRow,
-    renderItem,
-    renderMiniPlayer,
-    renderTypingBubble,
-  };
-};
-
-const smart = connect(mapStateToProps, mapDispatchToProps);
-
-export const SmartTimeline = smart(Timeline);
+  return (
+    <Timeline
+      acknowledgeGroupMemberNameCollisions={
+        acknowledgeGroupMemberNameCollisions
+      }
+      clearInvitedServiceIdsForNewlyCreatedGroup={
+        clearInvitedServiceIdsForNewlyCreatedGroup
+      }
+      clearTargetedMessage={clearTargetedMessage}
+      closeContactSpoofingReview={closeContactSpoofingReview}
+      conversationType={conversationType}
+      discardMessages={discardMessages}
+      getPreferredBadge={getPreferredBadge}
+      getTimestampForMessage={getTimestampForMessage}
+      hasContactSpoofingReview={hasContactSpoofingReview}
+      haveNewest={haveNewest}
+      haveOldest={haveOldest}
+      i18n={i18n}
+      id={id}
+      invitedContactsForNewlyCreatedGroup={invitedContactsForNewlyCreatedGroup}
+      isBlocked={isBlocked}
+      isConversationSelected={isConversationSelected}
+      isGroupV1AndDisabled={isGroupV1AndDisabled}
+      isIncomingMessageRequest={isIncomingMessageRequest}
+      isNearBottom={isNearBottom}
+      isSomeoneTyping={isSomeoneTyping}
+      items={items}
+      loadNewerMessages={loadNewerMessages}
+      loadNewestMessages={loadNewestMessages}
+      loadOlderMessages={loadOlderMessages}
+      markMessageRead={markMessageRead}
+      messageChangeCounter={messageChangeCounter}
+      messageLoadingState={messageLoadingState}
+      updateVisibleMessages={
+        AttachmentDownloadManager.updateVisibleTimelineMessages
+      }
+      oldestUnseenIndex={oldestUnseenIndex}
+      peekGroupCallForTheFirstTime={peekGroupCallForTheFirstTime}
+      peekGroupCallIfItHasMembers={peekGroupCallIfItHasMembers}
+      renderCollidingAvatars={renderCollidingAvatars}
+      renderContactSpoofingReviewDialog={renderContactSpoofingReviewDialog}
+      renderHeroRow={renderHeroRow}
+      renderItem={renderItem}
+      renderMiniPlayer={renderMiniPlayer}
+      renderTypingBubble={renderTypingBubble}
+      reviewConversationNameCollision={reviewConversationNameCollision}
+      scrollToIndex={scrollToIndex}
+      scrollToIndexCounter={scrollToIndexCounter}
+      scrollToOldestUnreadMention={scrollToOldestUnreadMention}
+      setIsNearBottom={setIsNearBottom}
+      shouldShowMiniPlayer={shouldShowMiniPlayer}
+      targetedMessageId={targetedMessageId}
+      targetMessage={targetMessage}
+      theme={theme}
+      totalUnseen={totalUnseen}
+      unreadCount={unreadCount}
+      unreadMentionsCount={unreadMentionsCount}
+      warning={warning}
+    />
+  );
+});

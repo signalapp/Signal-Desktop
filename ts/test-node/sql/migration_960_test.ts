@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { Database } from '@signalapp/better-sqlite3';
-import SQL from '@signalapp/better-sqlite3';
 import { v4 as generateGuid } from 'uuid';
 
-import { updateToVersion, insertData, getTableData } from './helpers';
+import type { WritableDB } from '../../sql/Interface';
+import { createDB, updateToVersion, insertData, getTableData } from './helpers';
 
 const CONVO_ID = generateGuid();
 const OUR_ACI = generateGuid();
@@ -14,10 +13,10 @@ const OUR_UNPREFIXED_PNI = generateGuid();
 const OUR_PREFIXED_PNI = `PNI:${OUR_UNPREFIXED_PNI}`;
 
 describe('SQL/updateToSchemaVersion960', () => {
-  let db: Database;
+  let db: WritableDB;
 
   beforeEach(() => {
-    db = new SQL(':memory:');
+    db = createDB();
     updateToVersion(db, 950);
 
     insertData(db, 'items', [

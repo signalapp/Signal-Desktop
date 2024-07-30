@@ -20,6 +20,10 @@ import type { PropsDataType as DeliveryIssueProps } from './DeliveryIssueNotific
 import { DeliveryIssueNotification } from './DeliveryIssueNotification';
 import type { PropsData as ChangeNumberNotificationProps } from './ChangeNumberNotification';
 import { ChangeNumberNotification } from './ChangeNumberNotification';
+import type { PropsData as JoinedSignalNotificationProps } from './JoinedSignalNotification';
+import { JoinedSignalNotification } from './JoinedSignalNotification';
+import type { PropsData as TitleTransitionNotificationProps } from './TitleTransitionNotification';
+import { TitleTransitionNotification } from './TitleTransitionNotification';
 import type { CallingNotificationType } from '../../util/callingNotification';
 import { InlineNotificationWrapper } from './InlineNotificationWrapper';
 import type { PropsData as UnsupportedMessageProps } from './UnsupportedMessage';
@@ -54,6 +58,11 @@ import type { PropsDataType as PhoneNumberDiscoveryNotificationPropsType } from 
 import { PhoneNumberDiscoveryNotification } from './PhoneNumberDiscoveryNotification';
 import { SystemMessage } from './SystemMessage';
 import { TimelineMessage } from './TimelineMessage';
+import {
+  MessageRequestResponseNotification,
+  type MessageRequestResponseNotificationData,
+} from './MessageRequestResponseNotification';
+import type { MessageRequestState } from './MessageRequestActionsConfirmation';
 
 type CallHistoryType = {
   type: 'callHistory';
@@ -90,6 +99,14 @@ type ContactRemovedNotificationType = {
 type ChangeNumberNotificationType = {
   type: 'changeNumberNotification';
   data: ChangeNumberNotificationProps;
+};
+type JoinedSignalNotificationType = {
+  type: 'joinedSignalNotification';
+  data: JoinedSignalNotificationProps;
+};
+type TitleTransitionNotificationType = {
+  type: 'titleTransitionNotification';
+  data: TitleTransitionNotificationProps;
 };
 type SafetyNumberNotificationType = {
   type: 'safetyNumberNotification';
@@ -131,6 +148,10 @@ type PaymentEventType = {
   type: 'paymentEvent';
   data: Omit<PaymentEventNotificationPropsType, 'i18n'>;
 };
+type MessageRequestResponseNotificationType = {
+  type: 'messageRequestResponse';
+  data: MessageRequestResponseNotificationData;
+};
 
 export type TimelineItemType = (
   | CallHistoryType
@@ -141,6 +162,7 @@ export type TimelineItemType = (
   | GroupNotificationType
   | GroupV1MigrationType
   | GroupV2ChangeType
+  | JoinedSignalNotificationType
   | MessageType
   | PhoneNumberDiscoveryNotificationType
   | ProfileChangeNotificationType
@@ -148,10 +170,12 @@ export type TimelineItemType = (
   | SafetyNumberNotificationType
   | TimerNotificationType
   | UniversalTimerNotificationType
+  | TitleTransitionNotificationType
   | ContactRemovedNotificationType
   | UnsupportedMessageType
   | VerificationNotificationType
   | PaymentEventType
+  | MessageRequestResponseNotificationType
 ) & { timestamp: number };
 
 type PropsLocalType = {
@@ -159,10 +183,14 @@ type PropsLocalType = {
   conversationId: string;
   item?: TimelineItemType;
   id: string;
+  isBlocked: boolean;
+  isGroup: boolean;
   isNextItemCallingNotification: boolean;
   isTargeted: boolean;
   targetMessage: (messageId: string, conversationId: string) => unknown;
   shouldRenderDateHeader: boolean;
+  onOpenEditNicknameAndNoteModal: (contactId: string) => void;
+  onOpenMessageRequestActionsConfirmation(state: MessageRequestState): void;
   platform: string;
   renderContact: SmartContactRendererType<JSX.Element>;
   renderUniversalTimerNotification: () => JSX.Element;
@@ -196,9 +224,13 @@ export const TimelineItem = memo(function TimelineItem({
   getPreferredBadge,
   i18n,
   id,
+  isBlocked,
+  isGroup,
   isNextItemCallingNotification,
   isTargeted,
   item,
+  onOpenEditNicknameAndNoteModal,
+  onOpenMessageRequestActionsConfirmation,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
   platform,
@@ -296,6 +328,22 @@ export const TimelineItem = memo(function TimelineItem({
           i18n={i18n}
         />
       );
+    } else if (item.type === 'joinedSignalNotification') {
+      notification = (
+        <JoinedSignalNotification
+          {...reducedProps}
+          {...item.data}
+          i18n={i18n}
+        />
+      );
+    } else if (item.type === 'titleTransitionNotification') {
+      notification = (
+        <TitleTransitionNotification
+          {...reducedProps}
+          {...item.data}
+          i18n={i18n}
+        />
+      );
     } else if (item.type === 'safetyNumberNotification') {
       notification = (
         <SafetyNumberNotification
@@ -354,6 +402,7 @@ export const TimelineItem = memo(function TimelineItem({
           {...reducedProps}
           {...item.data}
           i18n={i18n}
+          onOpenEditNicknameAndNoteModal={onOpenEditNicknameAndNoteModal}
         />
       );
     } else if (item.type === 'paymentEvent') {
@@ -362,6 +411,18 @@ export const TimelineItem = memo(function TimelineItem({
           {...reducedProps}
           {...item.data}
           i18n={i18n}
+        />
+      );
+    } else if (item.type === 'messageRequestResponse') {
+      notification = (
+        <MessageRequestResponseNotification
+          {...item.data}
+          i18n={i18n}
+          isGroup={isGroup}
+          isBlocked={isBlocked}
+          onOpenMessageRequestActionsConfirmation={
+            onOpenMessageRequestActionsConfirmation
+          }
         />
       );
     } else {

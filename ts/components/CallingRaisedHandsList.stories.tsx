@@ -35,7 +35,7 @@ const i18n = setupI18n('en', enMessages);
 
 const conversation = getDefaultConversationWithServiceId({
   id: '3051234567',
-  avatarPath: undefined,
+  avatarUrl: undefined,
   color: AvatarColors[0],
   title: 'Rick Sanchez',
   name: 'Rick Sanchez',

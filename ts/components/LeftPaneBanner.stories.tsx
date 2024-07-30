@@ -10,8 +10,8 @@ export default {
   title: 'Components/LeftPaneBanner',
   component: LeftPaneBanner,
   argTypes: {
-    actionText: { control: { type: 'string' } },
-    children: { control: { type: 'string' } },
+    actionText: { control: { type: 'text' } },
+    children: { control: { type: 'text' } },
   },
   args: {
     actionText: 'Fix now',

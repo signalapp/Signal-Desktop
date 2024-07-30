@@ -24,7 +24,7 @@ import { missingCaseError } from '../util/missingCaseError';
 
 export type PropsType = {
   avatarColor?: AvatarColorType;
-  avatarPath?: string;
+  avatarUrl?: string;
   avatarValue?: Uint8Array;
   conversationId?: string;
   conversationTitle?: string;
@@ -46,7 +46,7 @@ enum EditMode {
 
 export function AvatarEditor({
   avatarColor,
-  avatarPath,
+  avatarUrl,
   avatarValue,
   conversationId,
   conversationTitle,
@@ -152,7 +152,7 @@ export function AvatarEditor({
   }, []);
 
   const hasChanges =
-    initialAvatar !== avatarPreview || Boolean(pendingClear && avatarPath);
+    initialAvatar !== avatarPreview || Boolean(pendingClear && avatarUrl);
 
   let content: JSX.Element | undefined;
 
@@ -162,7 +162,7 @@ export function AvatarEditor({
         <div className="AvatarEditor__preview">
           <AvatarPreview
             avatarColor={avatarColor}
-            avatarPath={pendingClear ? undefined : avatarPath}
+            avatarUrl={pendingClear ? undefined : avatarUrl}
             avatarValue={avatarPreview}
             conversationTitle={conversationTitle}
             i18n={i18n}

@@ -4,8 +4,7 @@
 import type { Meta, ReactRenderer, StoryFn } from '@storybook/react';
 import type { PlayFunction } from '@storybook/csf';
 import React from 'react';
-import { expect, jest } from '@storybook/jest';
-import { within, userEvent } from '@storybook/testing-library';
+import { expect, fn, within, userEvent } from '@storybook/test';
 
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './MyStoryButton';
@@ -26,8 +25,8 @@ export default {
     i18n,
     me: getDefaultConversation(),
     myStories: [getFakeMyStory()],
-    onAddStory: jest.fn(action('onAddStory')),
-    onClick: jest.fn(action('onClick')),
+    onAddStory: fn(action('onAddStory')),
+    onClick: fn(action('onClick')),
     queueStoryDownload: action('queueStoryDownload'),
     showToast: action('showToast'),
   },

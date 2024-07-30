@@ -3,7 +3,7 @@
 
 import * as path from 'path';
 import { tmpdir } from 'os';
-import { chmodSync, mkdirSync, unlinkSync, writeFileSync } from 'fs';
+import { chmodSync, rmSync, writeFileSync, mkdtempSync } from 'fs';
 import { pathExists, readJsonSync } from 'fs-extra';
 
 import { v4 as generateGuid } from 'uuid';
@@ -13,15 +13,19 @@ import type { ConfigType } from '../../../app/base_config';
 import { start } from '../../../app/base_config';
 
 describe('base_config', () => {
+  let targetDir: string;
   let targetPath: string;
 
   beforeEach(() => {
-    targetPath = path.join(tmpdir(), `${generateGuid()}.json`);
+    targetDir = mkdtempSync(path.join(tmpdir(), 'base_config'));
+    targetPath = path.join(targetDir, `${generateGuid()}.json`);
   });
 
   afterEach(() => {
     try {
-      unlinkSync(targetPath);
+      chmodSync(targetDir, 0o755);
+      chmodSync(targetPath, 0o755);
+      rmSync(targetDir, { recursive: true });
     } catch (err) {
       assert.strictEqual(err.code, 'ENOENT');
     }
@@ -89,7 +93,7 @@ describe('base_config', () => {
         }
 
         writeFileSync(targetPath, JSON.stringify({ foo: 123 }));
-        chmodSync(targetPath, 0);
+        chmodSync(targetDir, 0);
         const { _getCachedValue } = start({
           name: 'test',
           targetPath,
@@ -163,7 +167,7 @@ describe('base_config', () => {
           throwOnFilesystemErrors: true,
         });
         config.set('foo', 123);
-        chmodSync(targetPath, 0);
+        rmSync(targetDir, { recursive: true });
 
         assert.throws(() => config.set('foo', 456));
         assert.strictEqual(config.get('foo'), 123);
@@ -181,7 +185,7 @@ describe('base_config', () => {
           throwOnFilesystemErrors: false,
         });
         config.set('foo', 123);
-        chmodSync(targetPath, 0);
+        rmSync(targetDir, { recursive: true });
 
         config.set('bar', 456);
 
@@ -234,16 +238,13 @@ describe('base_config', () => {
 
         // We put the config file in a directory, then remove all permissions from that
         //   directory. This should prevent removal.
-        const directory = path.join(tmpdir(), generateGuid());
-        const configFile = path.join(directory, 'test_config.json');
-        mkdirSync(directory, { recursive: true });
-        writeFileSync(configFile, JSON.stringify({ foo: 123 }));
+        writeFileSync(targetPath, JSON.stringify({ foo: 123 }));
         const config = start({
           name: 'test',
-          targetPath: configFile,
+          targetPath,
           throwOnFilesystemErrors: true,
         });
-        chmodSync(directory, 0);
+        chmodSync(targetDir, 0);
 
         assert.throws(() => config.remove());
 
@@ -258,16 +259,13 @@ describe('base_config', () => {
         }
 
         // See above.
-        const directory = path.join(tmpdir(), generateGuid());
-        const configFile = path.join(directory, 'test_config.json');
-        mkdirSync(directory, { recursive: true });
-        writeFileSync(configFile, JSON.stringify({ foo: 123 }));
+        writeFileSync(targetPath, JSON.stringify({ foo: 123 }));
         const config = start({
           name: 'test',
-          targetPath: configFile,
+          targetPath,
           throwOnFilesystemErrors: false,
         });
-        chmodSync(directory, 0);
+        chmodSync(targetDir, 0);
 
         config.remove();
 

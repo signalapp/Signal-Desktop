@@ -41,7 +41,7 @@ function Wrapper(overrideProps: Partial<Props>) {
       i18n={i18n}
       canEdit={false}
       startEditing={action('startEditing')}
-      memberships={new Array(0)}
+      membersCount={0}
       isGroup
       isMe={false}
       theme={theme}

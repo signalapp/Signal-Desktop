@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AvatarColorType } from './Colors';
+import type { AddressableAttachmentType } from './Attachment';
 import { strictAssert } from '../util/assert';
 
 export const PersonalAvatarIcons = [
@@ -34,15 +35,23 @@ export const GroupAvatarIcons = [
   'surfboard',
 ] as const;
 
-export type ContactAvatarType = {
-  path: string;
-  url?: string;
-  hash?: string;
-};
+export type ContactAvatarType =
+  | ({
+      // Downloaded avatar
+      path: string;
+      url?: string;
+      hash?: string;
+    } & Partial<AddressableAttachmentType>)
+  | {
+      // Not-yet downloaded avatar
+      path?: undefined;
+      url: string;
+      hash?: string;
+    };
 
-type GroupAvatarIconType = typeof GroupAvatarIcons[number];
+type GroupAvatarIconType = (typeof GroupAvatarIcons)[number];
 
-type PersonalAvatarIconType = typeof PersonalAvatarIcons[number];
+type PersonalAvatarIconType = (typeof PersonalAvatarIcons)[number];
 
 export type AvatarIconType = GroupAvatarIconType | PersonalAvatarIconType;
 
@@ -51,8 +60,13 @@ export type AvatarDataType = {
   buffer?: Uint8Array;
   color?: AvatarColorType;
   icon?: AvatarIconType;
-  imagePath?: string;
   text?: string;
+  imagePath?: string;
+
+  // LocalAttachmentV2Type compatibility (except for `path` being `imagePath`)
+  version?: 2;
+  localKey?: string;
+  size?: number;
 };
 
 export type DeleteAvatarFromDiskActionType = (

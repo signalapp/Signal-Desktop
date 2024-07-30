@@ -8,7 +8,7 @@ import { v4 as uuid } from 'uuid';
 import { Emojify } from './conversation/Emojify';
 
 export type PropsType = {
-  value: string;
+  values: Array<string>;
   onAnimationEnd?: () => unknown;
 };
 
@@ -25,31 +25,36 @@ type AnimationConfig = {
   velocity: number;
 };
 
-export function CallReactionBurstEmoji({ value }: PropsType): JSX.Element {
+// values is an array of emojis, which is useful when bursting multi skin tone set of
+// emojis to get the correct representation
+export function CallReactionBurstEmoji({ values }: PropsType): JSX.Element {
   const [toY, setToY] = React.useState<number>(0);
   const fromY = -50;
 
-  const generateEmojiProps = React.useCallback(() => {
-    return {
-      key: uuid(),
-      value,
-      springConfig: {
-        mass: random(10, 20),
-        tension: random(45, 60),
-        friction: random(20, 60),
-        clamp: true,
-        precision: 0,
-        velocity: -0.01,
-      },
-      fromX: random(0, 20),
-      toX: random(-30, 300),
-      fromY,
-      toY,
-      toScale: random(1, 2.5, true),
-      fromRotate: random(-45, 45),
-      toRotate: random(-45, 45),
-    };
-  }, [fromY, toY, value]);
+  const generateEmojiProps = React.useCallback(
+    (index: number) => {
+      return {
+        key: uuid(),
+        value: values[index % values.length],
+        springConfig: {
+          mass: random(10, 20),
+          tension: random(45, 60),
+          friction: random(20, 60),
+          clamp: true,
+          precision: 0,
+          velocity: -0.01,
+        },
+        fromX: random(0, 20),
+        toX: random(-30, 300),
+        fromY,
+        toY,
+        toScale: random(1, 2.5, true),
+        fromRotate: random(-45, 45),
+        toRotate: random(-45, 45),
+      };
+    },
+    [fromY, toY, values]
+  );
 
   // Calculate target Y position before first render. Emojis need to animate Y upwards
   // by the value of the container's top, plus the emoji's maximum height.
@@ -59,12 +64,12 @@ export function CallReactionBurstEmoji({ value }: PropsType): JSX.Element {
       const { top } = containerRef.current.getBoundingClientRect();
       const calculatedToY = -top;
       setToY(calculatedToY);
-      setEmojis([{ ...generateEmojiProps(), toY: calculatedToY }]);
+      setEmojis([{ ...generateEmojiProps(0), toY: calculatedToY }]);
     }
   }, [generateEmojiProps]);
 
   const [emojis, setEmojis] = React.useState<Array<AnimatedEmojiProps>>([
-    generateEmojiProps(),
+    generateEmojiProps(0),
   ]);
 
   React.useEffect(() => {
@@ -74,14 +79,14 @@ export function CallReactionBurstEmoji({ value }: PropsType): JSX.Element {
         if (emojiCount + 1 >= NUM_EMOJIS) {
           clearInterval(timer);
         }
-        return [...curEmojis, generateEmojiProps()];
+        return [...curEmojis, generateEmojiProps(emojiCount)];
       });
     }, DELAY_BETWEEN_EMOJIS);
 
     return () => {
       clearInterval(timer);
     };
-  }, [fromY, toY, value, generateEmojiProps]);
+  }, [fromY, toY, values, generateEmojiProps]);
 
   return (
     <div className="CallReactionBurstEmoji" ref={containerRef}>

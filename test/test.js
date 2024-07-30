@@ -8,14 +8,6 @@
 mocha.setup('bdd');
 mocha.setup({ timeout: 10000 });
 
-function deleteIndexedDB() {
-  return new Promise((resolve, reject) => {
-    const idbReq = indexedDB.deleteDatabase('test');
-    idbReq.onsuccess = resolve;
-    idbReq.error = reject;
-  });
-}
-
 window.Events = {
   getThemeSetting: () => 'light',
 };
@@ -23,8 +15,6 @@ window.Events = {
 /* Delete the database before running any tests */
 before(async () => {
   await window.testUtilities.initialize();
-  await deleteIndexedDB();
-  await window.Signal.Data.removeAll();
   await window.storage.fetch();
 });
 
@@ -33,28 +23,28 @@ delete window.testUtilities.prepareTests;
 window.textsecure.storage.protocol = window.getSignalProtocolStore();
 
 !(function () {
-  const passed = [];
-  const failed = [];
-
   class Reporter extends Mocha.reporters.HTML {
     constructor(runner, options) {
       super(runner, options);
 
-      runner.on('pass', test => passed.push(test.fullTitle()));
-      runner.on('fail', (test, error) => {
-        failed.push({
-          testName: test.fullTitle(),
-          error: error?.stack || String(error),
-        });
-      });
+      runner.on('pass', test => window.testUtilities.onTestEvent({
+        type: 'pass',
+        title: test.titlePath(),
+        duration: test.duration,
+      }));
+      runner.on('fail', (test, error) => window.testUtilities.onTestEvent({
+        type: 'fail',
+        title: test.titlePath(),
+        error: error?.stack || String(error),
+      }));
 
-      runner.on('end', () =>
-        window.testUtilities.onComplete({ passed, failed })
-      );
+      runner.on('end', () => window.testUtilities.onTestEvent({ type: 'end' }));
     }
   }
 
   mocha.reporter(Reporter);
+
+  mocha.setup(window.testUtilities.setup);
 
   mocha.run();
 })();

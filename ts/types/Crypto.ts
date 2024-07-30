@@ -13,3 +13,9 @@ export enum CipherType {
 }
 
 export const UUID_BYTE_SIZE = 16;
+
+export const IV_LENGTH = 16;
+
+export const KEY_LENGTH = 32;
+
+export const MAC_LENGTH = 32;

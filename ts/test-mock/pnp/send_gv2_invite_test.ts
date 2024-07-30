@@ -175,10 +175,7 @@ describe('pnp/send gv2 invite', function (this: Mocha.Suite) {
       await detailsHeader.locator('button >> "My group"').click();
 
       const modal = window.locator('.module-Modal:has-text("Edit group")');
-
-      // Group title should be immediately focused.
-      await modal.type(' (v2)');
-
+      await modal.locator('input').fill('My group (v2)');
       await modal.locator('button >> "Save"').click();
     }
 

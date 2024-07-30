@@ -30,10 +30,7 @@ import { deconstructLookup } from '../../util/deconstructLookup';
 import type { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
 import { assertDev } from '../../util/assert';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
-import {
-  filterAndSortConversationsAlphabetically,
-  filterAndSortConversationsByRecent,
-} from '../../util/filterAndSortConversations';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations';
 import type { ContactNameColorType } from '../../types/Colors';
 import { ContactNameColors } from '../../types/Colors';
 import type { AvatarDataType } from '../../types/Avatar';
@@ -208,6 +205,12 @@ export const getTargetedMessage = createSelector(
     };
   }
 );
+export const getTargetedMessageSource = createSelector(
+  getConversations,
+  (state: ConversationsStateType): string | undefined => {
+    return state.targetedMessageSource;
+  }
+);
 export const getSelectedMessageIds = createSelector(
   getConversations,
   (state: ConversationsStateType): ReadonlyArray<string> | undefined => {
@@ -300,8 +303,9 @@ const collator = new Intl.Collator();
 //   phone numbers and contacts from scratch here again.
 export const _getConversationComparator = () => {
   return (left: ConversationType, right: ConversationType): number => {
-    const leftTimestamp = left.timestamp;
-    const rightTimestamp = right.timestamp;
+    // These two fields can be sorted with each other; they are timestamps
+    const leftTimestamp = left.lastMessageReceivedAtMs || left.timestamp;
+    const rightTimestamp = right.lastMessageReceivedAtMs || right.timestamp;
     if (leftTimestamp && !rightTimestamp) {
       return -1;
     }
@@ -310,6 +314,19 @@ export const _getConversationComparator = () => {
     }
     if (leftTimestamp && rightTimestamp && leftTimestamp !== rightTimestamp) {
       return rightTimestamp - leftTimestamp;
+    }
+
+    // This field looks like a timestamp, but is actually a counter
+    const leftCounter = left.lastMessageReceivedAt;
+    const rightCounter = right.lastMessageReceivedAt;
+    if (leftCounter && !rightCounter) {
+      return -1;
+    }
+    if (rightCounter && !leftCounter) {
+      return 1;
+    }
+    if (leftCounter && rightCounter && leftCounter !== rightCounter) {
+      return rightCounter - leftCounter;
     }
 
     if (
@@ -513,6 +530,13 @@ export const getComposerUUIDFetchState = createSelector(
   }
 );
 
+export const getHasContactSpoofingReview = createSelector(
+  getConversations,
+  (state: ConversationsStateType): boolean => {
+    return state.hasContactSpoofingReview;
+  }
+);
+
 function isTrusted(conversation: ConversationType): boolean {
   if (conversation.type === 'group') {
     return true;
@@ -711,11 +735,7 @@ export const getFilteredComposeContacts = createSelector(
     contacts: ReadonlyArray<ConversationType>,
     regionCode: string | undefined
   ): Array<ConversationType> => {
-    return filterAndSortConversationsAlphabetically(
-      contacts,
-      searchTerm,
-      regionCode
-    );
+    return filterAndSortConversations(contacts, searchTerm, regionCode);
   }
 );
 
@@ -737,18 +757,16 @@ export const getFilteredComposeGroups = createSelector(
       }>;
     }
   > => {
-    return filterAndSortConversationsAlphabetically(
-      groups,
-      searchTerm,
-      regionCode
-    ).map(group => ({
-      ...group,
-      // we don't disable groups when composing, already filtered
-      disabledReason: undefined,
-      // should always be populated for a group
-      membersCount: group.membersCount ?? 0,
-      memberships: group.memberships ?? [],
-    }));
+    return filterAndSortConversations(groups, searchTerm, regionCode).map(
+      group => ({
+        ...group,
+        // we don't disable groups when composing, already filtered
+        disabledReason: undefined,
+        // should always be populated for a group
+        membersCount: group.membersCount ?? 0,
+        memberships: group.memberships ?? [],
+      })
+    );
   }
 );
 
@@ -756,7 +774,7 @@ export const getFilteredCandidateContactsForNewGroup = createSelector(
   getCandidateContactsForNewGroup,
   getNormalizedComposerConversationSearchTerm,
   getRegionCode,
-  filterAndSortConversationsByRecent
+  filterAndSortConversations
 );
 
 const getGroupCreationComposerState = createSelector(
@@ -844,43 +862,66 @@ export const getCachedSelectorForConversation = createSelector(
   }
 );
 
-export type GetConversationByIdType = (id?: string) => ConversationType;
-export const getConversationSelector = createSelector(
-  getCachedSelectorForConversation,
+export type GetConversationByAnyIdSelectorType = (
+  id?: string
+) => ConversationType | undefined;
+export const getConversationByAnyIdSelector = createSelector(
   getConversationLookup,
   getConversationsByServiceId,
   getConversationsByE164,
   getConversationsByGroupId,
   (
-    selector: CachedConversationSelectorType,
     byId: ConversationLookupType,
     byServiceId: ConversationLookupType,
     byE164: ConversationLookupType,
     byGroupId: ConversationLookupType
+  ): GetConversationByAnyIdSelectorType => {
+    return (id?: string) => {
+      if (!id) {
+        return undefined;
+      }
+
+      const onGroupId = getOwn(byGroupId, id);
+      if (onGroupId) {
+        return onGroupId;
+      }
+      const onServiceId = getOwn(
+        byServiceId,
+        normalizeServiceId(id, 'getConversationSelector')
+      );
+      if (onServiceId) {
+        return onServiceId;
+      }
+      const onE164 = getOwn(byE164, id);
+      if (onE164) {
+        return onE164;
+      }
+      const onId = getOwn(byId, id);
+      if (onId) {
+        return onId;
+      }
+
+      return undefined;
+    };
+  }
+);
+
+export type GetConversationByIdType = (id?: string) => ConversationType;
+export const getConversationSelector = createSelector(
+  getCachedSelectorForConversation,
+  getConversationByAnyIdSelector,
+  (
+    selector: CachedConversationSelectorType,
+    getById: GetConversationByAnyIdSelectorType
   ): GetConversationByIdType => {
     return (id?: string) => {
       if (!id) {
         return selector(undefined);
       }
 
-      const onServiceId = getOwn(
-        byServiceId,
-        normalizeServiceId(id, 'getConversationSelector')
-      );
-      if (onServiceId) {
-        return selector(onServiceId);
-      }
-      const onE164 = getOwn(byE164, id);
-      if (onE164) {
-        return selector(onE164);
-      }
-      const onGroupId = getOwn(byGroupId, id);
-      if (onGroupId) {
-        return selector(onGroupId);
-      }
-      const onId = getOwn(byId, id);
-      if (onId) {
-        return selector(onId);
+      const byId = getById(id);
+      if (byId) {
+        return selector(byId);
       }
 
       log.warn(`getConversationSelector: No conversation found for id ${id}`);
@@ -986,10 +1027,10 @@ export function _conversationMessagesSelector(
   conversation: ConversationMessageType
 ): TimelinePropsType {
   const {
-    isNearBottom,
+    isNearBottom = null,
     messageChangeCounter,
     messageIds,
-    messageLoadingState,
+    messageLoadingState = null,
     metrics,
     scrollToMessageCounter,
     scrollToMessageId,
@@ -1009,10 +1050,10 @@ export function _conversationMessagesSelector(
 
   const oldestUnseenIndex = oldestUnseen
     ? messageIds.findIndex(id => id === oldestUnseen.id)
-    : undefined;
+    : null;
   const scrollToIndex = scrollToMessageId
     ? messageIds.findIndex(id => id === scrollToMessageId)
-    : undefined;
+    : null;
   const { totalUnseen } = metrics;
 
   return {
@@ -1025,9 +1066,9 @@ export function _conversationMessagesSelector(
     oldestUnseenIndex:
       isNumber(oldestUnseenIndex) && oldestUnseenIndex >= 0
         ? oldestUnseenIndex
-        : undefined,
+        : null,
     scrollToIndex:
-      isNumber(scrollToIndex) && scrollToIndex >= 0 ? scrollToIndex : undefined,
+      isNumber(scrollToIndex) && scrollToIndex >= 0 ? scrollToIndex : null,
     scrollToIndexCounter: scrollToMessageCounter,
     totalUnseen,
   };
@@ -1065,6 +1106,9 @@ export const getConversationMessagesSelector = createSelector(
           scrollToIndexCounter: 0,
           totalUnseen: 0,
           items: [],
+          isNearBottom: null,
+          oldestUnseenIndex: null,
+          scrollToIndex: null,
         };
       }
 

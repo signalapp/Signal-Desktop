@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction } from 'redux-thunk';
+import { v4 as generateUuid } from 'uuid';
 
 import type { ReadonlyDeep } from 'type-fest';
 import * as log from '../../logging/log';
@@ -23,7 +24,7 @@ import {
 
 // State
 
-export type AudioPlayerStateType = ReadonlyDeep<{
+export type AudioRecorderStateType = ReadonlyDeep<{
   recordingState: RecordingState;
   errorDialogAudioRecorderType?: ErrorDialogAudioRecorderType;
 }>;
@@ -64,6 +65,10 @@ type AudioPlayerActionType = ReadonlyDeep<
   | NowRecordingAction
   | StartRecordingAction
 >;
+
+export function getIsRecording(audioRecorder: AudioRecorderStateType): boolean {
+  return audioRecorder.recordingState === RecordingState.Recording;
+}
 
 // Action Creators
 
@@ -168,6 +173,7 @@ export function completeRecording(
 
       const voiceNoteAttachment: InMemoryAttachmentDraftType = {
         pending: false,
+        clientUuid: generateUuid(),
         contentType: stringToMIMEType(blob.type),
         data,
         size: data.byteLength,
@@ -211,16 +217,16 @@ function errorRecording(
 
 // Reducer
 
-export function getEmptyState(): AudioPlayerStateType {
+export function getEmptyState(): AudioRecorderStateType {
   return {
     recordingState: RecordingState.Idle,
   };
 }
 
 export function reducer(
-  state: Readonly<AudioPlayerStateType> = getEmptyState(),
+  state: Readonly<AudioRecorderStateType> = getEmptyState(),
   action: Readonly<AudioPlayerActionType>
-): AudioPlayerStateType {
+): AudioRecorderStateType {
   if (action.type === START_RECORDING) {
     return {
       ...state,

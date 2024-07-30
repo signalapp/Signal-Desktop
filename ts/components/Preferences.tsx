@@ -66,6 +66,7 @@ import { Modal } from './Modal';
 import { SearchInput } from './SearchInput';
 import { removeDiacritics } from '../util/removeDiacritics';
 import { assertDev } from '../util/assert';
+import { I18n } from './I18n';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -363,6 +364,8 @@ export function Preferences({
   >(localeOverride);
   const [languageSearchInput, setLanguageSearchInput] = useState('');
   const [toast, setToast] = useState<AnyToast | undefined>();
+  const [confirmPnpNotDiscoverable, setConfirmPnpNoDiscoverable] =
+    useState(false);
 
   function closeLanguageDialog() {
     setLanguageDialog(null);
@@ -863,9 +866,12 @@ export function Preferences({
           />
           <Checkbox
             checked={hasAutoConvertEmoji}
-            description={i18n(
-              'icu:Preferences__auto-convert-emoji--description'
-            )}
+            description={
+              <I18n
+                i18n={i18n}
+                id="icu:Preferences__auto-convert-emoji--description"
+              />
+            }
             label={i18n('icu:Preferences__auto-convert-emoji--title')}
             moduleClassName="Preferences__checkbox"
             name="autoConvertEmoji"
@@ -1484,7 +1490,13 @@ export function Preferences({
           title={i18n('icu:Preferences__pnp__discoverability--title')}
         >
           <SettingsRadio
-            onChange={onWhoCanFindMeChange}
+            onChange={value => {
+              if (value === PhoneNumberDiscoverability.NotDiscoverable) {
+                setConfirmPnpNoDiscoverable(true);
+              } else {
+                onWhoCanFindMeChange(value);
+              }
+            }}
             options={[
               {
                 text: i18n('icu:Preferences__pnp__discoverability__everyone'),
@@ -1515,6 +1527,43 @@ export function Preferences({
             </div>
           </div>
         </SettingsRow>
+        {confirmPnpNotDiscoverable && (
+          <ConfirmationDialog
+            i18n={i18n}
+            title={i18n(
+              'icu:Preferences__pnp__discoverability__nobody__confirmModal__title'
+            )}
+            dialogName="Preference.turnPnpDiscoveryOff"
+            onClose={() => {
+              setConfirmPnpNoDiscoverable(false);
+            }}
+            actions={[
+              {
+                action: () =>
+                  onWhoCanFindMeChange(
+                    PhoneNumberDiscoverability.NotDiscoverable
+                  ),
+                style: 'affirmative',
+                text: i18n('icu:ok'),
+              },
+            ]}
+          >
+            {i18n(
+              'icu:Preferences__pnp__discoverability__nobody__confirmModal__description',
+              {
+                // This is a rare instance where we want to interpolate the exact
+                // text of the string into quotes in the translation as an
+                // explanation.
+                settingTitle: i18n(
+                  'icu:Preferences__pnp__discoverability--title'
+                ),
+                nobodyLabel: i18n(
+                  'icu:Preferences__pnp__discoverability__nobody'
+                ),
+              }
+            )}
+          </ConfirmationDialog>
+        )}
       </>
     );
   }
@@ -1607,6 +1656,7 @@ export function Preferences({
         openFileInFolder={shouldNeverBeCalled}
         toast={toast}
         containerWidthBreakpoint={WidthBreakpoint.Narrow}
+        isInFullScreenCall={false}
       />
     </>
   );

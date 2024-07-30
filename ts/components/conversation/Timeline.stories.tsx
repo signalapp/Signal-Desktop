@@ -67,6 +67,7 @@ function mockMessageTimelineItem(
       isMessageRequestAccepted: true,
       isSelected: false,
       isSelectMode: false,
+      isSMS: false,
       isSpoilerExpanded: {},
       previews: [],
       readStatus: ReadStatus.Read,
@@ -314,7 +315,7 @@ const actions = () => ({
   toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
 
   toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
-
+  onOpenEditNicknameAndNoteModal: action('onOpenEditNicknameAndNoteModal'),
   onOutgoingAudioCallInConversation: action(
     'onOutgoingAudioCallInConversation'
   ),
@@ -335,6 +336,10 @@ const actions = () => ({
   viewStory: action('viewStory'),
 
   onReplyToMessage: action('onReplyToMessage'),
+
+  onOpenMessageRequestActionsConfirmation: action(
+    'onOpenMessageRequestActionsConfirmation'
+  ),
 });
 
 const renderItem = ({
@@ -350,6 +355,8 @@ const renderItem = ({
     getPreferredBadge={() => undefined}
     id=""
     isTargeted={false}
+    isBlocked={false}
+    isGroup={false}
     i18n={i18n}
     interactionMode="keyboard"
     isNextItemCallingNotification={false}
@@ -392,7 +399,7 @@ const renderHeroRow = () => {
       <ConversationHero
         about={getAbout()}
         acceptedMessageRequest
-        avatarPath={getAvatarPath()}
+        avatarUrl={getAvatarPath()}
         badge={undefined}
         conversationType="direct"
         id={getDefaultConversation().id}
@@ -442,11 +449,14 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   getTimestampForMessage: Date.now,
   haveNewest: overrideProps.haveNewest ?? false,
   haveOldest: overrideProps.haveOldest ?? false,
+  isBlocked: false,
   isConversationSelected: true,
   isIncomingMessageRequest: overrideProps.isIncomingMessageRequest ?? false,
   items: overrideProps.items ?? Object.keys(items),
   messageChangeCounter: 0,
-  scrollToIndex: overrideProps.scrollToIndex,
+  messageLoadingState: null,
+  isNearBottom: null,
+  scrollToIndex: overrideProps.scrollToIndex ?? null,
   scrollToIndexCounter: 0,
   shouldShowMiniPlayer: Boolean(overrideProps.shouldShowMiniPlayer),
   totalUnseen: overrideProps.totalUnseen ?? 0,
@@ -455,6 +465,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     overrideProps.invitedContactsForNewlyCreatedGroup || [],
   warning: overrideProps.warning,
   hasContactSpoofingReview: false,
+  conversationType: 'direct',
 
   id: uuid(),
   renderItem,

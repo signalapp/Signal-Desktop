@@ -5,11 +5,10 @@ import { ipcRenderer } from 'electron';
 import type { MenuItemConstructorOptions } from 'electron';
 
 import type { MenuOptionsType } from '../types/menu';
-import type { IPCEventsValuesType } from '../util/createIPCEvents';
 import type { LocalizerType } from '../types/Util';
 import type { LoggerType } from '../types/Logging';
 import type { NativeThemeType } from '../context/createNativeThemeListener';
-import type { SettingType } from '../util/preload';
+import type { SettingType, SettingsValuesType } from '../util/preload';
 import type { RendererConfigType } from '../types/RendererConfig';
 
 import { Bytes } from '../context/Bytes';
@@ -23,6 +22,7 @@ import { initialize as initializeLogging } from '../logging/set_up_renderer_logg
 import { MinimalSignalContext } from './minimalContext';
 import type { LocaleDirection } from '../../app/locale';
 import type { HourCyclePreference } from '../types/I18N';
+import type { LocaleEmojiListType } from '../types/emoji';
 
 strictAssert(Boolean(window.SignalContext), 'context must be defined');
 
@@ -49,6 +49,9 @@ export type MinimalSignalContextType = {
   getResolvedMessagesLocale: () => string;
   getPreferredSystemLocales: () => Array<string>;
   getLocaleOverride: () => string | null;
+  getLocalizedEmojiList: (
+    locale: string
+  ) => Promise<LocaleEmojiListType | undefined>;
   getMainWindowStats: () => Promise<MainWindowStatsType>;
   getMenuOptions: () => Promise<MenuOptionsType>;
   getNodeVersion: () => string;
@@ -58,7 +61,7 @@ export type MinimalSignalContextType = {
   nativeThemeListener: NativeThemeType;
   restartApp: () => void;
   Settings: {
-    themeSetting: SettingType<IPCEventsValuesType['themeSetting']>;
+    themeSetting: SettingType<SettingsValuesType['themeSetting']>;
     waitForChange: () => Promise<void>;
   };
   OS: {

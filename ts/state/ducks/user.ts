@@ -3,7 +3,6 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 import { trigger } from '../../shims/events';
-
 import type { LocaleMessagesType } from '../../types/I18N';
 import type { LocalizerType } from '../../types/Util';
 import type { MenuOptionsType } from '../../types/menu';
@@ -11,6 +10,8 @@ import type { NoopActionType } from './noop';
 import type { AciString, PniString } from '../../types/ServiceId';
 import OS from '../../util/os/osMain';
 import { ThemeType } from '../../types/Util';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import { useBoundActions } from '../../hooks/useBoundActions';
 
 // State
 
@@ -72,6 +73,10 @@ export const actions = {
   userChanged,
   manualReconnect,
 };
+
+export const useUserActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 function eraseStorageServiceState(): EraseStorageServiceStateAction {
   return {

@@ -19,9 +19,8 @@ import { missingCaseError } from '../../../../util/missingCaseError';
 import type { LookupConversationWithoutServiceIdActionsType } from '../../../../util/lookupConversationWithoutServiceId';
 import { parseAndFormatPhoneNumber } from '../../../../util/libphonenumberInstance';
 import type { ParsedE164Type } from '../../../../util/libphonenumberInstance';
-import { filterAndSortConversationsByRecent } from '../../../../util/filterAndSortConversations';
+import { filterAndSortConversations } from '../../../../util/filterAndSortConversations';
 import type { ConversationType } from '../../../../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../../../../state/selectors/badges';
 import type {
   UUIDFetchStateKeyType,
   UUIDFetchStateType,
@@ -50,7 +49,6 @@ export type StatePropsType = {
   regionCode: string | undefined;
   candidateContacts: ReadonlyArray<ConversationType>;
   conversationIdsAlreadyInGroup: Set<string>;
-  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   theme: ThemeType;
   maxGroupSize: number;
@@ -142,13 +140,13 @@ export function ChooseGroupMembersModal({
   const canContinue = Boolean(selectedContacts.length);
 
   const [filteredContacts, setFilteredContacts] = useState(
-    filterAndSortConversationsByRecent(candidateContacts, '', regionCode)
+    filterAndSortConversations(candidateContacts, '', regionCode)
   );
   const normalizedSearchTerm = searchTerm.trim();
   useEffect(() => {
     const timeout = setTimeout(() => {
       setFilteredContacts(
-        filterAndSortConversationsByRecent(
+        filterAndSortConversations(
           candidateContacts,
           normalizedSearchTerm,
           regionCode
@@ -414,7 +412,7 @@ export function ChooseGroupMembersModal({
               <ContactPill
                 key={contact.id}
                 acceptedMessageRequest={contact.acceptedMessageRequest}
-                avatarPath={contact.avatarPath}
+                avatarUrl={contact.avatarUrl}
                 color={contact.color}
                 firstName={contact.systemGivenName ?? contact.firstName}
                 i18n={i18n}

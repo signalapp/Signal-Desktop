@@ -21,30 +21,39 @@ export default {
   args: {},
 } satisfies Meta<Props>;
 
-const useProps = (overrideProps: Partial<Props> = {}): Props => ({
-  i18n,
-  disabled: overrideProps.disabled ?? false,
-  draftText: overrideProps.draftText || undefined,
-  draftBodyRanges: overrideProps.draftBodyRanges || [],
-  clearQuotedMessage: action('clearQuotedMessage'),
-  getPreferredBadge: () => undefined,
-  getQuotedMessage: action('getQuotedMessage'),
-  isFormattingEnabled:
-    overrideProps.isFormattingEnabled === false
-      ? overrideProps.isFormattingEnabled
-      : true,
-  large: overrideProps.large ?? false,
-  onCloseLinkPreview: action('onCloseLinkPreview'),
-  onEditorStateChange: action('onEditorStateChange'),
-  onPickEmoji: action('onPickEmoji'),
-  onSubmit: action('onSubmit'),
-  onTextTooLong: action('onTextTooLong'),
-  platform: 'darwin',
-  sendCounter: 0,
-  sortedGroupMembers: overrideProps.sortedGroupMembers ?? [],
-  skinTone: overrideProps.skinTone ?? undefined,
-  theme: React.useContext(StorybookThemeContext),
-});
+const useProps = (overrideProps: Partial<Props> = {}): Props => {
+  const conversation = getDefaultConversation();
+  return {
+    i18n,
+    conversationId: conversation.id,
+    disabled: overrideProps.disabled ?? false,
+    draftText: overrideProps.draftText ?? null,
+    draftEditMessage: overrideProps.draftEditMessage ?? null,
+    draftBodyRanges: overrideProps.draftBodyRanges || [],
+    clearQuotedMessage: action('clearQuotedMessage'),
+    getPreferredBadge: () => undefined,
+    getQuotedMessage: action('getQuotedMessage'),
+    isActive: true,
+    isFormattingEnabled:
+      overrideProps.isFormattingEnabled === false
+        ? overrideProps.isFormattingEnabled
+        : true,
+    large: overrideProps.large ?? false,
+    onCloseLinkPreview: action('onCloseLinkPreview'),
+    onEditorStateChange: action('onEditorStateChange'),
+    onPickEmoji: action('onPickEmoji'),
+    onSubmit: action('onSubmit'),
+    onTextTooLong: action('onTextTooLong'),
+    platform: 'darwin',
+    sendCounter: 0,
+    sortedGroupMembers: overrideProps.sortedGroupMembers ?? [],
+    skinTone: overrideProps.skinTone ?? null,
+    theme: React.useContext(StorybookThemeContext),
+    inputApi: null,
+    shouldHidePopovers: null,
+    linkPreviewResult: null,
+  };
+};
 
 export function Default(): JSX.Element {
   const props = useProps();

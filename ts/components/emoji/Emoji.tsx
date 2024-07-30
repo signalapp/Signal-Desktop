@@ -8,7 +8,7 @@ import { emojiToImage, getImagePath } from './lib';
 
 export const EmojiSizes = [16, 18, 20, 24, 28, 32, 48, 64, 66] as const;
 
-export type EmojiSizeType = typeof EmojiSizes[number];
+export type EmojiSizeType = (typeof EmojiSizes)[number];
 
 export type OwnProps = {
   emoji?: string;

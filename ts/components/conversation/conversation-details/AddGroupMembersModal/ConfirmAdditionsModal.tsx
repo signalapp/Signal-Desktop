@@ -11,7 +11,7 @@ import { Button, ButtonVariant } from '../../../Button';
 import { Spinner } from '../../../Spinner';
 import type { ConversationType } from '../../../../state/ducks/conversations';
 import { RequestState } from '../util';
-import { Intl } from '../../../Intl';
+import { I18n } from '../../../I18n';
 import { ContactName } from '../../ContactName';
 import { UserText } from '../../../UserText';
 
@@ -45,7 +45,7 @@ export function ConfirmAdditionsModal({
   let headerText: ReactNode;
   if (selectedContacts.length === 1) {
     headerText = (
-      <Intl
+      <I18n
         i18n={i18n}
         id="icu:AddGroupMembersModal--confirm-title--one"
         components={{
@@ -56,7 +56,7 @@ export function ConfirmAdditionsModal({
     );
   } else {
     headerText = (
-      <Intl
+      <I18n
         i18n={i18n}
         id="icu:AddGroupMembersModal--confirm-title--many"
         components={{

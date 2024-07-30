@@ -5,6 +5,7 @@ import { isNumber, throttle, groupBy } from 'lodash';
 import { render } from 'react-dom';
 import { batch as batchDispatch } from 'react-redux';
 import PQueue from 'p-queue';
+import pMap from 'p-map';
 import { v4 as generateUuid } from 'uuid';
 
 import * as Registration from './util/registration';
@@ -38,9 +39,13 @@ import { isWindowDragElement } from './util/isWindowDragElement';
 import { assertDev, strictAssert } from './util/assert';
 import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
+import { isBackupEnabled } from './util/isBackupEnabled';
 import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage';
 import { IdleDetector } from './IdleDetector';
-import { expiringMessagesDeletionService } from './services/expiringMessagesDeletion';
+import {
+  initialize as initializeExpiringMessageService,
+  update as updateExpiringMessagesService,
+} from './services/expiringMessagesDeletion';
 import { tapToViewMessagesDeletionService } from './services/tapToViewMessagesDeletionService';
 import { getStoriesForRedux, loadStories } from './services/storyLoader';
 import {
@@ -52,11 +57,12 @@ import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
 import * as KeyboardLayout from './services/keyboardLayout';
 import * as StorageService from './services/storage';
 import { usernameIntegrity } from './services/usernameIntegrity';
+import { updateIdentityKey } from './services/profiles';
 import { RoutineProfileRefresher } from './routineProfileRefresh';
-import { isOlderThan, toDayMillis } from './util/timestamp';
+import { isOlderThan } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import type { ConversationModel } from './models/conversations';
-import { getContact, isIncoming } from './messages/helpers';
+import { getAuthor, isIncoming } from './messages/helpers';
 import { migrateMessageData } from './messages/migrateMessageData';
 import { createBatcher } from './util/batcher';
 import {
@@ -83,6 +89,7 @@ import type {
   FetchLatestEvent,
   InvalidPlaintextEvent,
   KeysEvent,
+  DeleteForMeSyncEvent,
   MessageEvent,
   MessageEventData,
   MessageRequestResponseEvent,
@@ -108,25 +115,19 @@ import type { BadgesStateType } from './state/ducks/badges';
 import { areAnyCallsActiveOrRinging } from './state/selectors/calling';
 import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader';
 import * as Deletes from './messageModifiers/Deletes';
-import type { EditAttributesType } from './messageModifiers/Edits';
 import * as Edits from './messageModifiers/Edits';
-import type { ReactionAttributesType } from './messageModifiers/Reactions';
 import * as MessageReceipts from './messageModifiers/MessageReceipts';
 import * as MessageRequests from './messageModifiers/MessageRequests';
 import * as Reactions from './messageModifiers/Reactions';
-import * as ReadSyncs from './messageModifiers/ReadSyncs';
-import * as ViewSyncs from './messageModifiers/ViewSyncs';
 import * as ViewOnceOpenSyncs from './messageModifiers/ViewOnceOpenSyncs';
 import type { DeleteAttributesType } from './messageModifiers/Deletes';
-import type { MessageReceiptAttributesType } from './messageModifiers/MessageReceipts';
+import type { EditAttributesType } from './messageModifiers/Edits';
 import type { MessageRequestAttributesType } from './messageModifiers/MessageRequests';
-import type { ReadSyncAttributesType } from './messageModifiers/ReadSyncs';
-import type { ViewSyncAttributesType } from './messageModifiers/ViewSyncs';
+import type { ReactionAttributesType } from './messageModifiers/Reactions';
 import type { ViewOnceOpenSyncAttributesType } from './messageModifiers/ViewOnceOpenSyncs';
 import { ReadStatus } from './messages/MessageReadStatus';
 import type { SendStateByConversationId } from './messages/MessageSendState';
 import { SendStatus } from './messages/MessageSendState';
-import * as AttachmentDownloads from './messageModifiers/AttachmentDownloads';
 import * as Stickers from './types/Stickers';
 import * as Errors from './types/errors';
 import { SignalService as Proto } from './protobuf';
@@ -186,10 +187,28 @@ import {
   loadCallsHistory,
 } from './services/callHistoryLoader';
 import {
+  getCallLinksForRedux,
+  loadCallLinks,
+} from './services/callLinksLoader';
+import { backupsService } from './services/backups';
+import {
   getCallIdFromEra,
   updateLocalGroupCallHistoryTimestamp,
 } from './util/callDisposition';
 import { deriveStorageServiceKey } from './Crypto';
+import { getThemeType } from './util/getThemeType';
+import { AttachmentDownloadManager } from './jobs/AttachmentDownloadManager';
+import { onCallLinkUpdateSync } from './util/onCallLinkUpdateSync';
+import { CallMode } from './types/Calling';
+import type { SyncTaskType } from './util/syncTasks';
+import { queueSyncTasks } from './util/syncTasks';
+import type { ViewSyncTaskType } from './messageModifiers/ViewSyncs';
+import type { ReceiptSyncTaskType } from './messageModifiers/MessageReceipts';
+import type { ReadSyncTaskType } from './messageModifiers/ReadSyncs';
+import { AttachmentBackupManager } from './jobs/AttachmentBackupManager';
+import { getConversationIdForLogging } from './util/idForLogging';
+import { encryptConversationAttachments } from './util/encryptConversationAttachments';
+import { DataReader, DataWriter } from './sql/Client';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -237,7 +256,7 @@ export async function startApp(): Promise<void> {
   let initialBadgesState: BadgesStateType = { byId: {} };
   async function loadInitialBadgesState(): Promise<void> {
     initialBadgesState = {
-      byId: makeLookup(await window.Signal.Data.getAllBadges(), 'id'),
+      byId: makeLookup(await DataReader.getAllBadges(), 'id'),
     };
   }
 
@@ -247,7 +266,241 @@ export async function startApp(): Promise<void> {
   let challengeHandler: ChallengeHandler | undefined;
   let routineProfileRefresher: RoutineProfileRefresher | undefined;
 
-  window.storage.onready(() => {
+  ourProfileKeyService.initialize(window.storage);
+
+  window.SignalContext.activeWindowService.registerForChange(isActive => {
+    if (!isActive) {
+      window.reduxActions?.stories.setHasAllStoriesUnmuted(false);
+    }
+  });
+
+  let resolveOnAppView: (() => void) | undefined;
+  const onAppView = new Promise<void>(resolve => {
+    resolveOnAppView = resolve;
+  });
+
+  const reconnectBackOff = new BackOff(FIBONACCI_TIMEOUTS);
+
+  const eventHandlerQueue = new PQueue({
+    concurrency: 1,
+  });
+
+  // Note: this queue is meant to allow for stop/start of tasks, not limit parallelism.
+  const profileKeyResponseQueue = new PQueue();
+  profileKeyResponseQueue.pause();
+
+  const lightSessionResetQueue = new PQueue({ concurrency: 1 });
+  window.Signal.Services.lightSessionResetQueue = lightSessionResetQueue;
+  lightSessionResetQueue.pause();
+
+  const onDecryptionErrorQueue = new PQueue({ concurrency: 1 });
+  onDecryptionErrorQueue.pause();
+
+  const onRetryRequestQueue = new PQueue({ concurrency: 1 });
+  onRetryRequestQueue.pause();
+
+  window.Whisper.deliveryReceiptQueue = new PQueue({
+    concurrency: 1,
+    timeout: durations.MINUTE * 30,
+  });
+  window.Whisper.deliveryReceiptQueue.pause();
+  window.Whisper.deliveryReceiptBatcher = createBatcher<Receipt>({
+    name: 'Whisper.deliveryReceiptBatcher',
+    wait: 500,
+    maxSize: 100,
+    processBatch: async deliveryReceipts => {
+      const groups = groupBy(deliveryReceipts, 'conversationId');
+      await Promise.all(
+        Object.keys(groups).map(async conversationId => {
+          await conversationJobQueue.add({
+            type: conversationQueueJobEnum.enum.Receipts,
+            conversationId,
+            receiptsType: ReceiptType.Delivery,
+            receipts: groups[conversationId],
+          });
+        })
+      );
+    },
+  });
+
+  if (window.platform === 'darwin') {
+    window.addEventListener('dblclick', (event: Event) => {
+      const target = event.target as HTMLElement;
+      if (isWindowDragElement(target)) {
+        window.IPC.titleBarDoubleClick();
+      }
+    });
+  }
+
+  // Globally disable drag and drop
+  document.body.addEventListener(
+    'dragover',
+    e => {
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    false
+  );
+  document.body.addEventListener(
+    'drop',
+    e => {
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    false
+  );
+
+  // Intercept clipboard copies to add our custom text/signal data
+  document.addEventListener(
+    'copy',
+    createEventHandler({ deleteSelection: false })
+  );
+  document.addEventListener(
+    'cut',
+    createEventHandler({ deleteSelection: true })
+  );
+
+  startInteractionMode();
+
+  // We add this to window here because the default Node context is erased at the end
+  //   of preload.js processing
+  window.setImmediate = window.nodeSetImmediate;
+
+  const { Message } = window.Signal.Types;
+  const { upgradeMessageSchema } = window.Signal.Migrations;
+
+  log.info('background page reloaded');
+  log.info('environment:', window.getEnvironment());
+
+  let newVersion = false;
+  let lastVersion: string | undefined;
+
+  window.document.title = window.getTitle();
+
+  document.documentElement.setAttribute(
+    'lang',
+    window.SignalContext.getResolvedMessagesLocale().split(/[-_]/)[0]
+  );
+
+  document.documentElement.setAttribute(
+    'dir',
+    window.SignalContext.getResolvedMessagesLocaleDirection()
+  );
+
+  KeyChangeListener.init(window.textsecure.storage.protocol);
+  window.textsecure.storage.protocol.on(
+    'lowKeys',
+    throttle(
+      (ourServiceId: ServiceIdString) => {
+        const serviceIdKind =
+          window.textsecure.storage.user.getOurServiceIdKind(ourServiceId);
+        drop(window.getAccountManager().maybeUpdateKeys(serviceIdKind));
+      },
+      durations.MINUTE,
+      { trailing: true, leading: false }
+    )
+  );
+
+  window.textsecure.storage.protocol.on('removeAllData', () => {
+    window.reduxActions.stories.removeAllStories();
+  });
+
+  window.getSocketStatus = () => {
+    if (server === undefined) {
+      return SocketStatus.CLOSED;
+    }
+    return server.getSocketStatus();
+  };
+  let accountManager: AccountManager;
+  window.getAccountManager = () => {
+    if (accountManager) {
+      return accountManager;
+    }
+    if (!server) {
+      throw new Error('getAccountManager: server is not available!');
+    }
+
+    accountManager = new window.textsecure.AccountManager(server);
+    accountManager.addEventListener('registration', () => {
+      window.Whisper.events.trigger('userChanged', false);
+
+      drop(Registration.markDone());
+      log.info('dispatching registration event');
+      window.Whisper.events.trigger('registration_done');
+    });
+    return accountManager;
+  };
+
+  const cancelInitializationMessage = setAppLoadingScreenMessage(
+    undefined,
+    window.i18n
+  );
+
+  const version = await DataReader.getItemById('version');
+  if (!version) {
+    const isIndexedDBPresent = await indexedDb.doesDatabaseExist();
+    if (isIndexedDBPresent) {
+      log.info('Found IndexedDB database.');
+      try {
+        log.info('Confirming deletion of old data with user...');
+
+        try {
+          await new Promise<void>((resolve, reject) => {
+            showConfirmationDialog({
+              dialogName: 'deleteOldIndexedDBData',
+              noMouseClose: true,
+              onTopOfEverything: true,
+              cancelText: window.i18n('icu:quit'),
+              confirmStyle: 'negative',
+              title: window.i18n('icu:deleteOldIndexedDBData'),
+              okText: window.i18n('icu:deleteOldData'),
+              reject: () => reject(),
+              resolve: () => resolve(),
+            });
+          });
+        } catch (error) {
+          log.info(
+            'User chose not to delete old data. Shutting down.',
+            Errors.toLogFormat(error)
+          );
+          window.IPC.shutdown();
+          return;
+        }
+
+        log.info('Deleting all previously-migrated data in SQL...');
+        log.info('Deleting IndexedDB file...');
+
+        await Promise.all([
+          indexedDb.removeDatabase(),
+          DataWriter.removeAll(),
+          DataWriter.removeIndexedDBFiles(),
+        ]);
+        log.info('Done with SQL deletion and IndexedDB file deletion.');
+      } catch (error) {
+        log.error(
+          'Failed to remove IndexedDB file or remove SQL data:',
+          Errors.toLogFormat(error)
+        );
+      }
+
+      // Set a flag to delete IndexedDB on next startup if it wasn't deleted just now.
+      // We need to use direct data calls, since window.storage isn't ready yet.
+      await DataWriter.createOrUpdateItem({
+        id: 'indexeddb-delete-needed',
+        value: true,
+      });
+    }
+  }
+
+  // We need this 'first' check because we don't want to start the app up any other time
+  //   than the first time. And window.storage.fetch() will cause onready() to fire.
+  let first = true;
+  window.storage.onready(async () => {
+    if (!first) {
+      return;
+    }
+    first = false;
+
     server = window.WebAPI.connect({
       ...window.textsecure.storage.user.getWebAPICredentials(),
       hasStoriesDisabled: window.storage.get('hasStoriesDisabled', false),
@@ -423,7 +676,7 @@ export async function startApp(): Promise<void> {
     );
     messageReceiver.addEventListener(
       'profileKeyUpdate',
-      queuedEventListener(onProfileKeyUpdate)
+      queuedEventListener(onProfileKey)
     );
     messageReceiver.addEventListener(
       'fetchLatest',
@@ -439,14 +692,18 @@ export async function startApp(): Promise<void> {
       queuedEventListener(onCallEventSync, false)
     );
     messageReceiver.addEventListener(
+      'callLinkUpdateSync',
+      queuedEventListener(onCallLinkUpdateSync, false)
+    );
+    messageReceiver.addEventListener(
       'callLogEventSync',
       queuedEventListener(onCallLogEventSync, false)
     );
-  });
+    messageReceiver.addEventListener(
+      'deleteForMeSync',
+      queuedEventListener(onDeleteForMeSync, false)
+    );
 
-  ourProfileKeyService.initialize(window.storage);
-
-  window.storage.onready(() => {
     if (!window.storage.get('defaultConversationColor')) {
       drop(
         window.storage.put(
@@ -455,277 +712,14 @@ export async function startApp(): Promise<void> {
         )
       );
     }
-  });
-
-  window.SignalContext.activeWindowService.registerForChange(isActive => {
-    if (!isActive) {
-      window.reduxActions?.stories.setHasAllStoriesUnmuted(false);
-    }
-  });
-
-  let resolveOnAppView: (() => void) | undefined;
-  const onAppView = new Promise<void>(resolve => {
-    resolveOnAppView = resolve;
-  });
-
-  const reconnectBackOff = new BackOff(FIBONACCI_TIMEOUTS);
-
-  window.storage.onready(() => {
-    strictAssert(server, 'WebAPI not ready');
 
     senderCertificateService.initialize({
       server,
-      navigator,
-      onlineEventTarget: window,
+      events: window.Whisper.events,
       storage: window.storage,
     });
 
     areWeASubscriberService.update(window.storage, server);
-  });
-
-  const eventHandlerQueue = new PQueue({
-    concurrency: 1,
-  });
-
-  // Note: this queue is meant to allow for stop/start of tasks, not limit parallelism.
-  const profileKeyResponseQueue = new PQueue();
-  profileKeyResponseQueue.pause();
-
-  const lightSessionResetQueue = new PQueue({ concurrency: 1 });
-  window.Signal.Services.lightSessionResetQueue = lightSessionResetQueue;
-  lightSessionResetQueue.pause();
-
-  const onDecryptionErrorQueue = new PQueue({ concurrency: 1 });
-  onDecryptionErrorQueue.pause();
-
-  const onRetryRequestQueue = new PQueue({ concurrency: 1 });
-  onRetryRequestQueue.pause();
-
-  window.Whisper.deliveryReceiptQueue = new PQueue({
-    concurrency: 1,
-    timeout: durations.MINUTE * 30,
-  });
-  window.Whisper.deliveryReceiptQueue.pause();
-  window.Whisper.deliveryReceiptBatcher = createBatcher<Receipt>({
-    name: 'Whisper.deliveryReceiptBatcher',
-    wait: 500,
-    maxSize: 100,
-    processBatch: async deliveryReceipts => {
-      const groups = groupBy(deliveryReceipts, 'conversationId');
-      await Promise.all(
-        Object.keys(groups).map(async conversationId => {
-          await conversationJobQueue.add({
-            type: conversationQueueJobEnum.enum.Receipts,
-            conversationId,
-            receiptsType: ReceiptType.Delivery,
-            receipts: groups[conversationId],
-          });
-        })
-      );
-    },
-  });
-
-  if (window.platform === 'darwin') {
-    window.addEventListener('dblclick', (event: Event) => {
-      const target = event.target as HTMLElement;
-      if (isWindowDragElement(target)) {
-        window.IPC.titleBarDoubleClick();
-      }
-    });
-  }
-
-  // Globally disable drag and drop
-  document.body.addEventListener(
-    'dragover',
-    e => {
-      e.preventDefault();
-      e.stopPropagation();
-    },
-    false
-  );
-  document.body.addEventListener(
-    'drop',
-    e => {
-      e.preventDefault();
-      e.stopPropagation();
-    },
-    false
-  );
-
-  // Intercept clipboard copies to add our custom text/signal data
-  document.addEventListener(
-    'copy',
-    createEventHandler({ deleteSelection: false })
-  );
-  document.addEventListener(
-    'cut',
-    createEventHandler({ deleteSelection: true })
-  );
-
-  startInteractionMode();
-
-  // We add this to window here because the default Node context is erased at the end
-  //   of preload.js processing
-  window.setImmediate = window.nodeSetImmediate;
-
-  const { Message } = window.Signal.Types;
-  const { upgradeMessageSchema } = window.Signal.Migrations;
-
-  log.info('background page reloaded');
-  log.info('environment:', window.getEnvironment());
-
-  let newVersion = false;
-  let lastVersion: string | undefined;
-
-  window.document.title = window.getTitle();
-
-  document.documentElement.setAttribute(
-    'lang',
-    window.SignalContext.getResolvedMessagesLocale().split(/[-_]/)[0]
-  );
-
-  document.documentElement.setAttribute(
-    'dir',
-    window.SignalContext.getResolvedMessagesLocaleDirection()
-  );
-
-  KeyChangeListener.init(window.textsecure.storage.protocol);
-  window.textsecure.storage.protocol.on(
-    'lowKeys',
-    throttle(
-      (ourServiceId: ServiceIdString) => {
-        const serviceIdKind =
-          window.textsecure.storage.user.getOurServiceIdKind(ourServiceId);
-        drop(window.getAccountManager().maybeUpdateKeys(serviceIdKind));
-      },
-      durations.MINUTE,
-      { trailing: true, leading: false }
-    )
-  );
-
-  window.textsecure.storage.protocol.on('removeAllData', () => {
-    window.reduxActions.stories.removeAllStories();
-  });
-
-  window.getSocketStatus = () => {
-    if (server === undefined) {
-      return SocketStatus.CLOSED;
-    }
-    return server.getSocketStatus();
-  };
-  let accountManager: AccountManager;
-  window.getAccountManager = () => {
-    if (accountManager) {
-      return accountManager;
-    }
-    if (!server) {
-      throw new Error('getAccountManager: server is not available!');
-    }
-
-    accountManager = new window.textsecure.AccountManager(server);
-    accountManager.addEventListener('registration', () => {
-      window.Whisper.events.trigger('userChanged', false);
-
-      drop(Registration.markDone());
-      log.info('dispatching registration event');
-      window.Whisper.events.trigger('registration_done');
-    });
-    return accountManager;
-  };
-
-  const cancelInitializationMessage = setAppLoadingScreenMessage(
-    undefined,
-    window.i18n
-  );
-
-  const version = await window.Signal.Data.getItemById('version');
-  if (!version) {
-    const isIndexedDBPresent = await indexedDb.doesDatabaseExist();
-    if (isIndexedDBPresent) {
-      log.info('Found IndexedDB database.');
-      try {
-        log.info('Confirming deletion of old data with user...');
-
-        try {
-          await new Promise<void>((resolve, reject) => {
-            showConfirmationDialog({
-              dialogName: 'deleteOldIndexedDBData',
-              noMouseClose: true,
-              onTopOfEverything: true,
-              cancelText: window.i18n('icu:quit'),
-              confirmStyle: 'negative',
-              title: window.i18n('icu:deleteOldIndexedDBData'),
-              okText: window.i18n('icu:deleteOldData'),
-              reject: () => reject(),
-              resolve: () => resolve(),
-            });
-          });
-        } catch (error) {
-          log.info(
-            'User chose not to delete old data. Shutting down.',
-            Errors.toLogFormat(error)
-          );
-          window.IPC.shutdown();
-          return;
-        }
-
-        log.info('Deleting all previously-migrated data in SQL...');
-        log.info('Deleting IndexedDB file...');
-
-        await Promise.all([
-          indexedDb.removeDatabase(),
-          window.Signal.Data.removeAll(),
-          window.Signal.Data.removeIndexedDBFiles(),
-        ]);
-        log.info('Done with SQL deletion and IndexedDB file deletion.');
-      } catch (error) {
-        log.error(
-          'Failed to remove IndexedDB file or remove SQL data:',
-          Errors.toLogFormat(error)
-        );
-      }
-
-      // Set a flag to delete IndexedDB on next startup if it wasn't deleted just now.
-      // We need to use direct data calls, since window.storage isn't ready yet.
-      await window.Signal.Data.createOrUpdateItem({
-        id: 'indexeddb-delete-needed',
-        value: true,
-      });
-    }
-  }
-
-  log.info('Storage fetch');
-  drop(window.storage.fetch());
-
-  function mapOldThemeToNew(
-    theme: Readonly<
-      'system' | 'light' | 'dark' | 'android' | 'ios' | 'android-dark'
-    >
-  ): 'system' | 'light' | 'dark' {
-    switch (theme) {
-      case 'dark':
-      case 'light':
-      case 'system':
-        return theme;
-      case 'android-dark':
-        return 'dark';
-      case 'android':
-      case 'ios':
-      default:
-        return 'light';
-    }
-  }
-
-  // We need this 'first' check because we don't want to start the app up any other time
-  //   than the first time. And window.storage.fetch() will cause onready() to fire.
-  let first = true;
-  window.storage.onready(async () => {
-    if (!first) {
-      return;
-    }
-    first = false;
-
-    strictAssert(server !== undefined, 'WebAPI not ready');
 
     void cleanupSessionResets();
 
@@ -741,8 +735,9 @@ export async function startApp(): Promise<void> {
           'background/shutdown: shutdown requested'
         );
 
+        server?.cancelInflightRequests('shutdown');
+
         // Stop background processing
-        void AttachmentDownloads.stop();
         idleDetector.stop();
 
         // Stop processing incoming messages
@@ -819,10 +814,19 @@ export async function startApp(): Promise<void> {
           window.waitForAllWaitBatchers(),
         ]);
 
+        log.info(
+          'background/shutdown: waiting for all attachment downloads to finish'
+        );
+
+        // Since we canceled the inflight requests earlier in shutdown, these should
+        // resolve quickly
+        await AttachmentDownloadManager.stop();
+        await AttachmentBackupManager.stop();
+
         log.info('background/shutdown: closing the database');
 
         // Shut down the data interface cleanly
-        await window.Signal.Data.shutdown();
+        await DataWriter.shutdown();
       },
     });
 
@@ -842,27 +846,6 @@ export async function startApp(): Promise<void> {
     });
     window.addEventListener('blur', () =>
       window.document.body.classList.remove('window-focused')
-    );
-
-    // How long since we were last running?
-    const lastHeartbeat = toDayMillis(window.storage.get('lastHeartbeat', 0));
-    const previousLastStartup = window.storage.get('lastStartup');
-    await window.storage.put('lastStartup', Date.now());
-
-    const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
-    if (lastHeartbeat > 0 && isOlderThan(lastHeartbeat, THIRTY_DAYS)) {
-      log.warn(
-        `This instance has not been used for 30 days. Last heartbeat: ${lastHeartbeat}. Last startup: ${previousLastStartup}.`
-      );
-      await unlinkAndDisconnect();
-    }
-
-    // Start heartbeat timer
-    await window.storage.put('lastHeartbeat', toDayMillis(Date.now()));
-    const TWELVE_HOURS = 12 * 60 * 60 * 1000;
-    setInterval(
-      () => window.storage.put('lastHeartbeat', toDayMillis(Date.now())),
-      TWELVE_HOURS
     );
 
     const currentVersion = window.getVersion();
@@ -898,17 +881,6 @@ export async function startApp(): Promise<void> {
         });
       }
 
-      if (window.isBeforeVersion(lastVersion, '6.22.0-alpha')) {
-        const formattingWarningShown = window.storage.get(
-          'formattingWarningShown',
-          false
-        );
-        log.info(
-          `Clearing formattingWarningShown. Previous value was ${formattingWarningShown}`
-        );
-        await window.storage.put('formattingWarningShown', false);
-      }
-
       if (window.isBeforeVersion(lastVersion, 'v1.29.2-beta.1')) {
         // Stickers flags
         await Promise.all([
@@ -925,14 +897,8 @@ export async function startApp(): Promise<void> {
         );
       }
 
-      const themeSetting = window.Events.getThemeSetting();
-      const newThemeSetting = mapOldThemeToNew(themeSetting);
-      if (window.isBeforeVersion(lastVersion, 'v1.25.0')) {
-        if (newThemeSetting === window.systemTheme) {
-          void window.Events.setThemeSetting('system');
-        } else {
-          void window.Events.setThemeSetting(newThemeSetting);
-        }
+      if (window.isBeforeVersion(lastVersion, 'v1.32.0-beta.4')) {
+        drop(DataWriter.ensureFilePermissions());
       }
 
       if (
@@ -964,12 +930,12 @@ export async function startApp(): Promise<void> {
           key: legacyChallengeKey,
         });
 
-        await window.Signal.Data.clearAllErrorStickerPackAttempts();
+        await DataWriter.clearAllErrorStickerPackAttempts();
       }
 
       if (window.isBeforeVersion(lastVersion, 'v5.51.0-beta.2')) {
         await window.storage.put('groupCredentials', []);
-        await window.Signal.Data.removeAllProfileKeyCredentials();
+        await DataWriter.removeAllProfileKeyCredentials();
       }
 
       if (window.isBeforeVersion(lastVersion, 'v6.38.0-beta.1')) {
@@ -982,6 +948,16 @@ export async function startApp(): Promise<void> {
         window.SignalContext.restartApp();
         return;
       }
+
+      if (window.isBeforeVersion(lastVersion, 'v7.3.0-beta.1')) {
+        await window.storage.remove('lastHeartbeat');
+        await window.storage.remove('lastStartup');
+      }
+
+      if (window.isBeforeVersion(lastVersion, 'v7.8.0-beta.1')) {
+        await window.storage.remove('sendEditWarningShown');
+        await window.storage.remove('formattingWarningShown');
+      }
     }
 
     setAppLoadingScreenMessage(
@@ -989,10 +965,18 @@ export async function startApp(): Promise<void> {
       window.i18n
     );
 
-    if (newVersion) {
-      await window.Signal.Data.cleanupOrphanedAttachments();
+    if (newVersion || window.storage.get('needOrphanedAttachmentCheck')) {
+      await window.storage.remove('needOrphanedAttachmentCheck');
+      await DataWriter.cleanupOrphanedAttachments();
+    }
 
-      drop(window.Signal.Data.ensureFilePermissions());
+    if (
+      newVersion &&
+      lastVersion &&
+      window.isBeforeVersion(lastVersion, 'v7.18.0-beta.1')
+    ) {
+      await encryptConversationAttachments();
+      await Stickers.encryptLegacyStickers();
     }
 
     setAppLoadingScreenMessage(window.i18n('icu:loading'), window.i18n);
@@ -1022,9 +1006,8 @@ export async function startApp(): Promise<void> {
           const batchWithIndex = await migrateMessageData({
             numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
             upgradeMessageSchema,
-            getMessagesNeedingUpgrade:
-              window.Signal.Data.getMessagesNeedingUpgrade,
-            saveMessages: window.Signal.Data.saveMessages,
+            getMessagesNeedingUpgrade: DataReader.getMessagesNeedingUpgrade,
+            saveMessages: DataWriter.saveMessages,
           });
           log.info('idleDetector/idle: Upgraded messages:', batchWithIndex);
           isMigrationWithIndexComplete = batchWithIndex.done;
@@ -1074,9 +1057,7 @@ export async function startApp(): Promise<void> {
       }
 
       try {
-        await window.Signal.Data.deleteSentProtosOlderThan(
-          now - sentProtoMaxAge
-        );
+        await DataWriter.deleteSentProtosOlderThan(now - sentProtoMaxAge);
       } catch (error) {
         log.error(
           'background/onready/setInterval: Error deleting sent protos: ',
@@ -1133,6 +1114,8 @@ export async function startApp(): Promise<void> {
       platform: 'unknown',
     };
 
+    let theme: ThemeType = window.systemTheme;
+
     try {
       // This needs to load before we prime the data because we expect
       // ConversationController to be loaded and ready to use by then.
@@ -1146,12 +1129,16 @@ export async function startApp(): Promise<void> {
         loadStories(),
         loadDistributionLists(),
         loadCallsHistory(),
+        loadCallLinks(),
         window.textsecure.storage.protocol.hydrateCaches(),
         (async () => {
           mainWindowStats = await window.SignalContext.getMainWindowStats();
         })(),
         (async () => {
           menuOptions = await window.SignalContext.getMenuOptions();
+        })(),
+        (async () => {
+          theme = await getThemeType();
         })(),
       ]);
       await window.ConversationController.checkForConflicts();
@@ -1161,7 +1148,7 @@ export async function startApp(): Promise<void> {
         Errors.toLogFormat(error)
       );
     } finally {
-      setupAppState({ mainWindowStats, menuOptions });
+      setupAppState({ mainWindowStats, menuOptions, theme });
       drop(start());
       window.Signal.Services.initializeNetworkObserver(
         window.reduxActions.network
@@ -1180,17 +1167,30 @@ export async function startApp(): Promise<void> {
       window.reduxActions.expiration.hydrateExpirationStatus(
         window.getBuildExpiration()
       );
+
+      // Process crash reports if any. Note that the modal won't be visible
+      // until the app will finish loading.
+      window.reduxActions.crashReports.setCrashReportCount(
+        await window.IPC.crashReports.getCount()
+      );
     }
   });
+  // end of window.storage.onready() callback
+
+  log.info('Storage fetch');
+  drop(window.storage.fetch());
 
   function setupAppState({
     mainWindowStats,
     menuOptions,
+    theme,
   }: {
     mainWindowStats: MainWindowStatsType;
     menuOptions: MenuOptionsType;
+    theme: ThemeType;
   }) {
     initializeRedux({
+      callLinks: getCallLinksForRedux(),
       callsHistory: getCallsHistoryForRedux(),
       callsHistoryUnreadCount: getCallsHistoryUnreadCountForRedux(),
       initialBadgesState,
@@ -1198,6 +1198,7 @@ export async function startApp(): Promise<void> {
       menuOptions,
       stories: getStoriesForRedux(),
       storyDistributionLists: getDistributionListsForRedux(),
+      theme,
     });
 
     // Here we set up a full redux store with initial state for our LeftPane Root
@@ -1359,7 +1360,7 @@ export async function startApp(): Promise<void> {
   });
 
   window.Whisper.events.on('unlinkAndDisconnect', () => {
-    void unlinkAndDisconnect();
+    drop(unlinkAndDisconnect());
   });
 
   window.Whisper.events.on('httpResponse499', () => {
@@ -1368,8 +1369,8 @@ export async function startApp(): Promise<void> {
     }
 
     log.warn('background: remote expiration detected, disabling reconnects');
+    drop(server?.onRemoteExpiration());
     remotelyExpired = true;
-    onOffline();
   });
 
   async function runStorageService() {
@@ -1410,7 +1411,7 @@ export async function startApp(): Promise<void> {
 
     log.info('Expiration start timestamp cleanup: starting...');
     const messagesUnexpectedlyMissingExpirationStartTimestamp =
-      await window.Signal.Data.getMessagesUnexpectedlyMissingExpirationStartTimestamp();
+      await DataReader.getMessagesUnexpectedlyMissingExpirationStartTimestamp();
     log.info(
       `Expiration start timestamp cleanup: Found ${messagesUnexpectedlyMissingExpirationStartTimestamp.length} messages for cleanup`
     );
@@ -1444,19 +1445,35 @@ export async function startApp(): Promise<void> {
           };
         });
 
-      await window.Signal.Data.saveMessages(newMessageAttributes, {
+      await DataWriter.saveMessages(newMessageAttributes, {
         ourAci: window.textsecure.storage.user.getCheckedAci(),
       });
     }
     log.info('Expiration start timestamp cleanup: complete');
 
+    {
+      log.info('Startup/syncTasks: Fetching tasks');
+      const syncTasks = await DataWriter.getAllSyncTasks();
+
+      log.info(`Startup/syncTasks: Queueing ${syncTasks.length} sync tasks`);
+      await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
+
+      log.info('`Startup/syncTasks: Done');
+    }
+
     log.info('listening for registration events');
-    window.Whisper.events.on('registration_done', async () => {
+    window.Whisper.events.on('registration_done', () => {
       log.info('handling registration event');
 
       strictAssert(server !== undefined, 'WebAPI not ready');
-      await server.authenticate(
-        window.textsecure.storage.user.getWebAPICredentials()
+
+      // Once this resolves it will trigger `online` event and cause
+      // `connect()`, but with `firstRun` set to `false`. Thus it is important
+      // not to await it and let execution fall through.
+      drop(
+        server.authenticate(
+          window.textsecure.storage.user.getWebAPICredentials()
+        )
       );
 
       // Cancel throttled calls to refreshRemoteConfig since our auth changed.
@@ -1464,6 +1481,9 @@ export async function startApp(): Promise<void> {
       drop(window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server));
 
       drop(connect(true));
+
+      // Connect messageReceiver back to websocket
+      afterStart();
 
       // Run storage service after linking
       drop(runStorageService());
@@ -1482,10 +1502,12 @@ export async function startApp(): Promise<void> {
       window.Whisper.events.trigger('timetravel');
     });
 
-    void expiringMessagesDeletionService.update();
+    initializeExpiringMessageService(singleProtoJobQueue);
+
+    void updateExpiringMessagesService();
     void tapToViewMessagesDeletionService.update();
     window.Whisper.events.on('timetravel', () => {
-      void expiringMessagesDeletionService.update();
+      void updateExpiringMessagesService();
       void tapToViewMessagesDeletionService.update();
     });
 
@@ -1495,7 +1517,7 @@ export async function startApp(): Promise<void> {
     );
 
     if (isCoreDataValid && Registration.everDone()) {
-      void connect();
+      drop(connect());
       window.reduxActions.app.openInbox();
     } else {
       window.IPC.readyForUpdates();
@@ -1546,6 +1568,73 @@ export async function startApp(): Promise<void> {
       resolveOnAppView();
       resolveOnAppView = undefined;
     }
+
+    afterStart();
+  }
+
+  function afterStart() {
+    strictAssert(messageReceiver, 'messageReceiver must be initialized');
+    strictAssert(server, 'server must be initialized');
+
+    log.info('afterStart(): emitting app-ready-for-processing');
+    window.Whisper.events.trigger('app-ready-for-processing');
+
+    const onOnline = () => {
+      log.info('background: online');
+
+      if (!remotelyExpired) {
+        drop(connect());
+      }
+    };
+    window.Whisper.events.on('online', onOnline);
+
+    const onOffline = () => {
+      const { hasInitialLoadCompleted, appView } =
+        window.reduxStore.getState().app;
+
+      const hasAppEverBeenRegistered = Registration.everDone();
+
+      log.info('background: offline', {
+        connectCount,
+        hasInitialLoadCompleted,
+        appView,
+        hasAppEverBeenRegistered,
+      });
+
+      drop(challengeHandler?.onOffline());
+      drop(AttachmentDownloadManager.stop());
+      drop(AttachmentBackupManager.stop());
+      drop(messageReceiver?.drain());
+
+      if (hasAppEverBeenRegistered) {
+        if (
+          window.reduxStore.getState().app.appView === AppViewType.Installer
+        ) {
+          log.info(
+            'background: offline, but app has been registered before; opening inbox'
+          );
+          window.reduxActions.app.openInbox();
+        }
+
+        if (!hasInitialLoadCompleted) {
+          log.info(
+            'background: offline; initial load not completed; triggering onEmpty'
+          );
+          drop(onEmpty()); // this ensures that the inbox loading progress bar is dismissed
+        }
+      }
+    };
+    window.Whisper.events.on('offline', onOffline);
+
+    // Because these events may have already fired, we manually call their handlers.
+    // isOnline() will return undefined if neither of these events have been emitted.
+    if (server.isOnline() === true) {
+      onOnline();
+    } else if (server.isOnline() === false) {
+      onOffline();
+    }
+
+    server.registerRequestHandler(messageReceiver);
   }
 
   window.getSyncRequest = (timeoutMillis?: number) => {
@@ -1559,50 +1648,47 @@ export async function startApp(): Promise<void> {
     return syncRequest;
   };
 
-  let disconnectTimer: Timers.Timeout | undefined;
-  let reconnectTimer: Timers.Timeout | undefined;
-  function onOffline() {
-    log.info('offline');
+  function onNavigatorOffline() {
+    log.info('background: navigator offline');
 
-    window.removeEventListener('offline', onOffline);
-    window.addEventListener('online', onOnline);
-
-    // We've received logs from Linux where we get an 'offline' event, then 30ms later
-    //   we get an online event. This waits a bit after getting an 'offline' event
-    //   before disconnecting the socket manually.
-    disconnectTimer = Timers.setTimeout(disconnect, 1000);
-
-    if (challengeHandler) {
-      void challengeHandler.onOffline();
-    }
+    drop(server?.onNavigatorOffline());
   }
 
-  function onOnline() {
-    if (remotelyExpired) {
-      return;
+  function onNavigatorOnline() {
+    log.info('background: navigator online');
+    drop(server?.onNavigatorOnline());
+  }
+
+  window.addEventListener('online', onNavigatorOnline);
+  window.addEventListener('offline', onNavigatorOffline);
+
+  window.Whisper.events.on('socketStatusChange', () => {
+    if (window.getSocketStatus() === SocketStatus.OPEN) {
+      pauseQueuesAndNotificationsOnSocketConnect();
     }
+  });
 
-    log.info('online');
+  // 1. When the socket is connected, to avoid a flood of operations before we catch up,
+  //    we pause some queues.
+  function pauseQueuesAndNotificationsOnSocketConnect() {
+    log.info('pauseQueuesAndNotificationsOnSocketConnect: pausing');
+    profileKeyResponseQueue.pause();
+    lightSessionResetQueue.pause();
+    onDecryptionErrorQueue.pause();
+    onRetryRequestQueue.pause();
+    window.Whisper.deliveryReceiptQueue.pause();
+    notificationService.disable();
+  }
 
-    window.removeEventListener('online', onOnline);
-    window.addEventListener('offline', onOffline);
-
-    if (disconnectTimer && isSocketOnline()) {
-      log.warn('Already online. Had a blip in online/offline status.');
-      Timers.clearTimeout(disconnectTimer);
-      disconnectTimer = undefined;
-
-      if (challengeHandler) {
-        drop(challengeHandler.onOnline());
-      }
-      return;
-    }
-    if (disconnectTimer) {
-      Timers.clearTimeout(disconnectTimer);
-      disconnectTimer = undefined;
-    }
-
-    void connect();
+  // 2. After the socket finishes processing any queued messages, restart these queues
+  function restartQueuesAndNotificationsOnEmpty() {
+    log.info('restartQueuesAndNotificationsOnEmpty: restarting');
+    profileKeyResponseQueue.start();
+    lightSessionResetQueue.start();
+    onDecryptionErrorQueue.start();
+    onRetryRequestQueue.start();
+    window.Whisper.deliveryReceiptQueue.start();
+    notificationService.enable();
   }
 
   function isSocketOnline() {
@@ -1613,34 +1699,20 @@ export async function startApp(): Promise<void> {
     );
   }
 
-  async function disconnect() {
-    log.info('disconnect');
-
-    // Clear timer, since we're only called when the timer is expired
-    disconnectTimer = undefined;
-
-    void AttachmentDownloads.stop();
-    if (server !== undefined) {
-      strictAssert(
-        messageReceiver !== undefined,
-        'WebAPI should be initialized together with MessageReceiver'
-      );
-      await server.onOffline();
-      await messageReceiver.drain();
-    }
-  }
-
   let connectCount = 0;
   let connecting = false;
   let remotelyExpired = false;
   async function connect(firstRun?: boolean) {
     if (connecting) {
-      log.warn('connect already running', { connectCount });
+      log.warn('background: connect already running', {
+        connectCount,
+        firstRun,
+      });
       return;
     }
 
     if (remotelyExpired) {
-      log.warn('remotely expired, not reconnecting');
+      log.warn('background: remotely expired, not reconnecting');
       return;
     }
 
@@ -1652,39 +1724,12 @@ export async function startApp(): Promise<void> {
       // Reset the flag and update it below if needed
       setIsInitialSync(false);
 
-      log.info('connect', { firstRun, connectCount });
-
-      if (reconnectTimer) {
-        Timers.clearTimeout(reconnectTimer);
-        reconnectTimer = undefined;
-      }
-
-      // Bootstrap our online/offline detection, only the first time we connect
-      if (connectCount === 0 && navigator.onLine) {
-        window.addEventListener('offline', onOffline);
-      }
-      if (connectCount === 0 && !navigator.onLine) {
-        log.warn(
-          'Starting up offline; will connect when we have network access'
-        );
-        window.addEventListener('online', onOnline);
-        void onEmpty(); // this ensures that the loading screen is dismissed
-
-        // Switch to inbox view even if contact sync is still running
-        if (
-          window.reduxStore.getState().app.appView === AppViewType.Installer
-        ) {
-          log.info('firstRun: offline, opening inbox');
-          window.reduxActions.app.openInbox();
-        } else {
-          log.info('firstRun: offline, not opening inbox');
-        }
-        return;
-      }
-
       if (!Registration.everDone()) {
+        log.info('background: registration not done, not connecting');
         return;
       }
+
+      log.info('background: connect', { firstRun, connectCount });
 
       // Update our profile key in the conversation if we just got linked.
       const profileKey = await ourProfileKeyService.get();
@@ -1692,6 +1737,11 @@ export async function startApp(): Promise<void> {
         const me = window.ConversationController.getOurConversation();
         strictAssert(me !== undefined, "Didn't find newly created ourselves");
         await me.setProfileKey(Bytes.toBase64(profileKey));
+      }
+
+      if (isBackupEnabled()) {
+        backupsService.start();
+        drop(AttachmentBackupManager.start());
       }
 
       if (connectCount === 0) {
@@ -1726,37 +1776,14 @@ export async function startApp(): Promise<void> {
 
       connectCount += 1;
 
-      // To avoid a flood of operations before we catch up, we pause some queues.
-      profileKeyResponseQueue.pause();
-      lightSessionResetQueue.pause();
-      onDecryptionErrorQueue.pause();
-      onRetryRequestQueue.pause();
-      window.Whisper.deliveryReceiptQueue.pause();
-      notificationService.disable();
-
       void window.Signal.Services.initializeGroupCredentialFetcher();
 
-      strictAssert(server !== undefined, 'WebAPI not initialized');
-      strictAssert(
-        messageReceiver !== undefined,
-        'MessageReceiver not initialized'
-      );
-      messageReceiver.reset();
-      server.registerRequestHandler(messageReceiver);
-
-      // If coming here after `offline` event - connect again.
-      if (!remotelyExpired) {
-        await server.onOnline();
-      }
-
-      void AttachmentDownloads.start({
-        logger: log,
-      });
+      drop(AttachmentDownloadManager.start());
 
       if (connectCount === 1) {
         Stickers.downloadQueuedPacks();
         if (!newVersion) {
-          void runStorageService();
+          drop(runStorageService());
         }
       }
 
@@ -1812,7 +1839,9 @@ export async function startApp(): Promise<void> {
         try {
           // Note: we always have to register our capabilities all at once, so we do this
           //   after connect on every startup
-          await server.registerCapabilities({});
+          await server.registerCapabilities({
+            deleteSync: true,
+          });
         } catch (error) {
           log.error(
             'Error: Unable to register our capabilities.',
@@ -1845,18 +1874,6 @@ export async function startApp(): Promise<void> {
                 'Not running'
             );
           }
-        }
-
-        const hasThemeSetting = Boolean(window.storage.get('theme-setting'));
-        if (
-          !hasThemeSetting &&
-          window.textsecure.storage.get('userAgent') === 'OWI'
-        ) {
-          await window.storage.put(
-            'theme-setting',
-            await window.Events.getThemeSetting()
-          );
-          themeChanged();
         }
 
         const waitForEvent = createTaskWithTimeout(
@@ -2032,12 +2049,7 @@ export async function startApp(): Promise<void> {
     // Start listeners here, after we get through our queue.
     UpdateKeysListener.init(window.Whisper.events, newVersion);
 
-    profileKeyResponseQueue.start();
-    lightSessionResetQueue.start();
-    onDecryptionErrorQueue.start();
-    onRetryRequestQueue.start();
-    window.Whisper.deliveryReceiptQueue.start();
-    notificationService.enable();
+    restartQueuesAndNotificationsOnEmpty();
 
     await onAppView;
 
@@ -2054,11 +2066,6 @@ export async function startApp(): Promise<void> {
     setBatchingStrategy(false);
     StartupQueue.flush();
     await flushAttachmentDownloadQueue();
-
-    // Process crash reports if any
-    window.reduxActions.crashReports.setCrashReportCount(
-      await window.IPC.crashReports.getCount()
-    );
 
     // Kick off a profile refresh if necessary, but don't wait for it, as failure is
     //   tolerable.
@@ -2099,7 +2106,8 @@ export async function startApp(): Promise<void> {
     }
 
     log.info('manualConnect: calling connect()');
-    void connect();
+    enqueueReconnectToWebSocket();
+    drop(connect());
   }
 
   async function onConfiguration(ev: ConfigurationEvent): Promise<void> {
@@ -2377,7 +2385,7 @@ export async function startApp(): Promise<void> {
     const message = initIncomingMessage(data, messageDescriptor);
 
     if (isIncoming(message.attributes)) {
-      const sender = getContact(message.attributes);
+      const sender = getAuthor(message.attributes);
       strictAssert(sender, 'MessageModel has no sender');
 
       const serviceIdKind = window.textsecure.storage.user.getOurServiceIdKind(
@@ -2393,7 +2401,7 @@ export async function startApp(): Promise<void> {
             `for ${sender.idForLogging()}`
         );
         sender.set({ shareMyPhoneNumber: true });
-        window.Signal.Data.updateConversation(sender.attributes);
+        drop(DataWriter.updateConversation(sender.attributes));
       }
 
       if (!message.get('unidentifiedDeliveryReceived')) {
@@ -2443,7 +2451,7 @@ export async function startApp(): Promise<void> {
         fromId: fromConversation.id,
         remove: reaction.remove,
         source: ReactionSource.FromSomeoneElse,
-        storyReactionMessage: message,
+        generatedMessageForStoryReaction: message,
         targetAuthorAci,
         targetTimestamp: reaction.targetTimestamp,
         receivedAtDate: data.receivedAtDate,
@@ -2524,29 +2532,39 @@ export async function startApp(): Promise<void> {
     drop(message.handleDataMessage(data.message, event.confirm));
   }
 
-  async function onProfileKeyUpdate({
+  async function onProfileKey({
     data,
+    reason,
     confirm,
   }: ProfileKeyUpdateEvent): Promise<void> {
+    const logId = `onProfileKey/${reason}`;
     const { conversation } = window.ConversationController.maybeMergeContacts({
       aci: data.sourceAci,
       e164: data.source,
-      reason: 'onProfileKeyUpdate',
+      reason: logId,
     });
+    const idForLogging = getConversationIdForLogging(conversation.attributes);
 
     if (!data.profileKey) {
-      log.error('onProfileKeyUpdate: missing profileKey', data.profileKey);
+      log.error(
+        `${logId}: missing profileKey for ${idForLogging}`,
+        data.profileKey
+      );
       confirm();
       return;
     }
 
     log.info(
-      'onProfileKeyUpdate: updating profileKey for',
+      `${logId}: updating profileKey for ${idForLogging}`,
       data.sourceAci,
       data.source
     );
 
-    await conversation.setProfileKey(data.profileKey);
+    const hasChanged = await conversation.setProfileKey(data.profileKey);
+
+    if (hasChanged) {
+      drop(conversation.getProfiles());
+    }
 
     confirm();
   }
@@ -2566,7 +2584,7 @@ export async function startApp(): Promise<void> {
     const conversation = window.ConversationController.get(id)!;
 
     conversation.enableProfileSharing();
-    window.Signal.Data.updateConversation(conversation.attributes);
+    await DataWriter.updateConversation(conversation.attributes);
 
     // Then we update our own profileKey if it's different from what we have
     const ourId = window.ConversationController.getOurConversationId();
@@ -2584,46 +2602,74 @@ export async function startApp(): Promise<void> {
     return confirm();
   }
 
-  function createSentMessage(
+  async function createSentMessage(
     data: SentEventData,
     descriptor: MessageDescriptor
   ) {
     const now = Date.now();
     const timestamp = data.timestamp || now;
+    const logId = `createSentMessage(${timestamp})`;
 
     const ourId = window.ConversationController.getOurConversationIdOrThrow();
 
     const { unidentifiedStatus = [] } = data;
 
-    const sendStateByConversationId: SendStateByConversationId =
-      unidentifiedStatus.reduce(
-        (
-          result: SendStateByConversationId,
-          { destinationServiceId, destination, isAllowedToReplyToStory }
-        ) => {
-          const conversation = window.ConversationController.get(
-            destinationServiceId || destination
-          );
-          if (!conversation || conversation.id === ourId) {
-            return result;
-          }
+    const sendStateByConversationId: SendStateByConversationId = {
+      [ourId]: {
+        status: SendStatus.Sent,
+        updatedAt: timestamp,
+      },
+    };
 
-          return {
-            ...result,
-            [conversation.id]: {
-              isAllowedToReplyToStory,
-              status: SendStatus.Sent,
-              updatedAt: timestamp,
-            },
-          };
-        },
-        {
-          [ourId]: {
-            status: SendStatus.Sent,
-            updatedAt: timestamp,
-          },
-        }
+    for (const {
+      destinationServiceId,
+      destination,
+      isAllowedToReplyToStory,
+    } of unidentifiedStatus) {
+      const conversation = window.ConversationController.get(
+        destinationServiceId || destination
       );
+      if (!conversation || conversation.id === ourId) {
+        continue;
+      }
+
+      sendStateByConversationId[conversation.id] = {
+        isAllowedToReplyToStory,
+        status: SendStatus.Sent,
+        updatedAt: timestamp,
+      };
+    }
+
+    await pMap(
+      unidentifiedStatus,
+      async ({ destinationServiceId, destinationPniIdentityKey }) => {
+        if (!Bytes.isNotEmpty(destinationPniIdentityKey)) {
+          return;
+        }
+
+        if (!isPniString(destinationServiceId)) {
+          log.warn(
+            `${logId}: received an destinationPniIdentityKey for ` +
+              `an invalid PNI: ${destinationServiceId}`
+          );
+          return;
+        }
+
+        const changed = await updateIdentityKey(
+          destinationPniIdentityKey,
+          destinationServiceId,
+          {
+            noOverwrite: true,
+          }
+        );
+        if (changed) {
+          log.info(
+            `${logId}: Updated identity key for ${destinationServiceId}`
+          );
+        }
+      },
+      { concurrency: 10 }
+    );
 
     let unidentifiedDeliveries: Array<string> = [];
     if (unidentifiedStatus.length) {
@@ -2732,7 +2778,10 @@ export async function startApp(): Promise<void> {
     strictAssert(source && sourceServiceId, 'Missing user number and uuid');
 
     // Make sure destination conversation is created before we hit getMessageDescriptor
-    if (data.destinationServiceId !== sourceServiceId) {
+    if (
+      data.destinationServiceId &&
+      data.destinationServiceId !== sourceServiceId
+    ) {
       const { mergePromises } =
         window.ConversationController.maybeMergeContacts({
           e164: data.destination,
@@ -2765,7 +2814,7 @@ export async function startApp(): Promise<void> {
       });
     }
 
-    const message = createSentMessage(data, messageDescriptor);
+    const message = await createSentMessage(data, messageDescriptor);
 
     if (data.message.reaction) {
       strictAssert(
@@ -2797,7 +2846,7 @@ export async function startApp(): Promise<void> {
         fromId: window.ConversationController.getOurConversationIdOrThrow(),
         remove: reaction.remove,
         source: ReactionSource.FromSync,
-        storyReactionMessage: message,
+        generatedMessageForStoryReaction: message,
         targetAuthorAci,
         targetTimestamp: reaction.targetTimestamp,
         receivedAtDate: data.receivedAtDate,
@@ -2920,6 +2969,7 @@ export async function startApp(): Promise<void> {
           conversationId
         );
         window.reduxActions.calling.peekNotConnectedGroupCall({
+          callMode: CallMode.Group,
           conversationId,
         });
         if (callId != null) {
@@ -2981,16 +3031,19 @@ export async function startApp(): Promise<void> {
     try {
       log.info('unlinkAndDisconnect: removing configuration');
 
-      // First, make changes to conversations in memory
-      window.getConversations().forEach(conversation => {
-        conversation.unset('senderKeyInfo');
-      });
+      // We use username for integrity check
+      const ourConversation =
+        window.ConversationController.getOurConversation();
+      if (ourConversation) {
+        ourConversation.unset('username');
+        await DataWriter.updateConversation(ourConversation.attributes);
+      }
 
       // Then make sure outstanding conversation saves are flushed
-      await window.Signal.Data.flushUpdateConversationBatcher();
+      await DataWriter.flushUpdateConversationBatcher();
 
       // Then make sure that all previously-outstanding database saves are flushed
-      await window.Signal.Data.getItemById('manifestVersion');
+      await DataReader.getItemById('manifestVersion');
 
       // Finally, conversations in the database, and delete all config tables
       await window.textsecure.storage.protocol.removeAllConfiguration();
@@ -3176,200 +3229,359 @@ export async function startApp(): Promise<void> {
     drop(MessageRequests.onResponse(attributes));
   }
 
-  function onReadReceipt(event: Readonly<ReadEvent>): void {
-    onReadOrViewReceipt({
+  async function onReadReceipt(event: Readonly<ReadEvent>): Promise<void> {
+    return onReadOrViewReceipt({
       logTitle: 'read receipt',
       event,
-      type: MessageReceipts.MessageReceiptType.Read,
+      type: MessageReceipts.messageReceiptTypeSchema.enum.Read,
     });
   }
 
-  function onViewReceipt(event: Readonly<ViewEvent>): void {
-    onReadOrViewReceipt({
+  async function onViewReceipt(event: Readonly<ViewEvent>): Promise<void> {
+    return onReadOrViewReceipt({
       logTitle: 'view receipt',
       event,
-      type: MessageReceipts.MessageReceiptType.View,
+      type: MessageReceipts.messageReceiptTypeSchema.enum.View,
     });
   }
 
-  function onReadOrViewReceipt({
+  async function onReadOrViewReceipt({
     event,
     logTitle,
     type,
   }: Readonly<{
     event: ReadEvent | ViewEvent;
     logTitle: string;
-    type:
-      | MessageReceipts.MessageReceiptType.Read
-      | MessageReceipts.MessageReceiptType.View;
-  }>): void {
-    const {
-      envelopeTimestamp,
-      timestamp,
-      source,
-      sourceServiceId,
-      sourceDevice,
-      wasSentEncrypted,
-    } = event.receipt;
-    const sourceConversation = window.ConversationController.lookupOrCreate({
-      serviceId: sourceServiceId,
-      e164: source,
-      reason: `onReadOrViewReceipt(${envelopeTimestamp})`,
-    });
-    strictAssert(sourceConversation, 'Failed to create conversation');
-    log.info(
-      logTitle,
-      `${sourceServiceId || source}.${sourceDevice}`,
-      envelopeTimestamp,
-      'for sent message',
-      timestamp
-    );
+    type: 'Read' | 'View';
+  }>): Promise<void> {
+    const { receipts, envelopeId, envelopeTimestamp, confirm } = event;
+    const logId = `onReadOrViewReceipt(type=${type}, envelope=${envelopeTimestamp}, envelopeId=${envelopeId})`;
 
-    strictAssert(
-      isServiceIdString(sourceServiceId),
-      'onReadOrViewReceipt: Missing sourceServiceId'
-    );
-    strictAssert(sourceDevice, 'onReadOrViewReceipt: Missing sourceDevice');
+    const syncTasks = receipts
+      .map((receipt): SyncTaskType | undefined => {
+        const {
+          timestamp,
+          source,
+          sourceServiceId,
+          sourceDevice,
+          wasSentEncrypted,
+        } = receipt;
+        const sourceConversation = window.ConversationController.lookupOrCreate(
+          {
+            serviceId: sourceServiceId,
+            e164: source,
+            reason: `onReadOrViewReceipt(${envelopeTimestamp})`,
+          }
+        );
 
-    const attributes: MessageReceiptAttributesType = {
-      envelopeId: event.receipt.envelopeId,
-      removeFromMessageReceiverCache: event.confirm,
-      messageSentAt: timestamp,
-      receiptTimestamp: envelopeTimestamp,
-      sourceConversationId: sourceConversation.id,
-      sourceServiceId,
-      sourceDevice,
-      type,
-      wasSentEncrypted,
-    };
-    drop(MessageReceipts.onReceipt(attributes));
+        log.info(
+          logTitle,
+          `${sourceServiceId || source}.${sourceDevice}`,
+          envelopeTimestamp,
+          'for sent message',
+          timestamp
+        );
+
+        if (!sourceConversation) {
+          log.error(`${logId}: Failed to create conversation`);
+          return undefined;
+        }
+        if (!isServiceIdString(sourceServiceId)) {
+          log.error(`${logId}: Missing sourceServiceId`);
+          return undefined;
+        }
+        if (!sourceDevice) {
+          log.error(`${logId}: Missing sourceDevice`);
+          return undefined;
+        }
+
+        const data: ReceiptSyncTaskType = {
+          messageSentAt: timestamp,
+          receiptTimestamp: envelopeTimestamp,
+          sourceConversationId: sourceConversation.id,
+          sourceServiceId,
+          sourceDevice,
+          type,
+          wasSentEncrypted,
+        };
+        return {
+          id: generateUuid(),
+          attempts: 1,
+          createdAt: Date.now(),
+          data,
+          envelopeId,
+          sentAt: envelopeTimestamp,
+          type,
+        };
+      })
+      .filter(isNotNil);
+
+    log.info(`${logId}: Saving ${syncTasks.length} sync tasks`);
+
+    await DataWriter.saveSyncTasks(syncTasks);
+
+    confirm();
+
+    log.info(`${logId}: Queuing ${syncTasks.length} sync tasks`);
+
+    await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
+
+    log.info(`${logId}: Done`);
   }
 
   async function onReadSync(ev: ReadSyncEvent): Promise<void> {
-    const { envelopeTimestamp, sender, senderAci, timestamp } = ev.read;
-    const readAt = envelopeTimestamp;
-    const { conversation: senderConversation } =
-      window.ConversationController.maybeMergeContacts({
-        aci: senderAci,
-        e164: sender,
-        reason: 'onReadSync',
-      });
-    const senderId = senderConversation?.id;
+    const { reads, envelopeTimestamp, envelopeId, confirm } = ev;
+    const logId = `onReadSync(envelope=${envelopeTimestamp}, envelopeId=${envelopeId})`;
 
-    log.info(
-      'read sync',
-      sender,
-      senderAci,
-      envelopeTimestamp,
-      senderId,
-      'for message',
-      timestamp
-    );
+    const syncTasks = reads
+      .map((read): SyncTaskType | undefined => {
+        const { sender, senderAci, timestamp } = read;
+        const readAt = envelopeTimestamp;
+        const { conversation: senderConversation } =
+          window.ConversationController.maybeMergeContacts({
+            aci: senderAci,
+            e164: sender,
+            reason: 'onReadSync',
+          });
+        const senderId = senderConversation?.id;
 
-    strictAssert(senderId, 'onReadSync missing senderId');
-    strictAssert(senderAci, 'onReadSync missing senderAci');
-    strictAssert(timestamp, 'onReadSync missing timestamp');
+        log.info(
+          'read sync',
+          sender,
+          senderAci,
+          envelopeTimestamp,
+          senderId,
+          'for message',
+          timestamp
+        );
 
-    const attributes: ReadSyncAttributesType = {
-      envelopeId: ev.read.envelopeId,
-      removeFromMessageReceiverCache: ev.confirm,
-      senderId,
-      sender,
-      senderAci,
-      timestamp,
-      readAt,
-    };
+        if (!senderId) {
+          log.error(`${logId}: missing senderId`);
+          return undefined;
+        }
+        if (!senderAci) {
+          log.error(`${logId}: missing senderAci`);
+          return undefined;
+        }
+        if (!timestamp) {
+          log.error(`${logId}: missing timestamp`);
+          return undefined;
+        }
 
-    await ReadSyncs.onSync(attributes);
+        const data: ReadSyncTaskType = {
+          type: 'ReadSync',
+          senderId,
+          sender,
+          senderAci,
+          timestamp,
+          readAt,
+        };
+        return {
+          id: generateUuid(),
+          attempts: 1,
+          createdAt: Date.now(),
+          data,
+          envelopeId,
+          sentAt: envelopeTimestamp,
+          type: 'ReadSync',
+        };
+      })
+      .filter(isNotNil);
+
+    log.info(`${logId}: Saving ${syncTasks.length} sync tasks`);
+
+    await DataWriter.saveSyncTasks(syncTasks);
+
+    confirm();
+
+    log.info(`${logId}: Queuing ${syncTasks.length} sync tasks`);
+
+    await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
+
+    log.info(`${logId}: Done`);
   }
 
   async function onViewSync(ev: ViewSyncEvent): Promise<void> {
-    const { envelopeTimestamp, senderE164, senderAci, timestamp } = ev.view;
-    const { conversation: senderConversation } =
-      window.ConversationController.maybeMergeContacts({
-        e164: senderE164,
-        aci: senderAci,
-        reason: 'onViewSync',
-      });
-    const senderId = senderConversation?.id;
+    const { envelopeTimestamp, envelopeId, views, confirm } = ev;
+    const logId = `onViewSync=(envelope=${envelopeTimestamp}, envelopeId=${envelopeId})`;
 
-    log.info(
-      'view sync',
-      senderE164,
-      senderAci,
-      envelopeTimestamp,
-      senderId,
-      'for message',
-      timestamp
-    );
+    const syncTasks = views
+      .map((view): SyncTaskType | undefined => {
+        const { senderAci, senderE164, timestamp } = view;
 
-    strictAssert(senderId, 'onViewSync missing senderId');
-    strictAssert(senderAci, 'onViewSync missing senderAci');
-    strictAssert(timestamp, 'onViewSync missing timestamp');
+        const { conversation: senderConversation } =
+          window.ConversationController.maybeMergeContacts({
+            e164: senderE164,
+            aci: senderAci,
+            reason: 'onViewSync',
+          });
+        const senderId = senderConversation?.id;
 
-    const attributes: ViewSyncAttributesType = {
-      envelopeId: ev.view.envelopeId,
-      removeFromMessageReceiverCache: ev.confirm,
-      senderId,
-      senderE164,
-      senderAci,
-      timestamp,
-      viewedAt: envelopeTimestamp,
-    };
+        log.info(
+          'view sync',
+          senderE164,
+          senderAci,
+          envelopeTimestamp,
+          senderId,
+          'for message',
+          timestamp
+        );
 
-    await ViewSyncs.onSync(attributes);
+        if (!senderId) {
+          log.error(`${logId}: missing senderId`);
+          return undefined;
+        }
+        if (!senderAci) {
+          log.error(`${logId}: missing senderAci`);
+          return undefined;
+        }
+        if (!timestamp) {
+          log.error(`${logId}: missing timestamp`);
+          return undefined;
+        }
+
+        const data: ViewSyncTaskType = {
+          type: 'ViewSync',
+          senderId,
+          senderE164,
+          senderAci,
+          timestamp,
+          viewedAt: envelopeTimestamp,
+        };
+        return {
+          id: generateUuid(),
+          attempts: 1,
+          createdAt: Date.now(),
+          data,
+          envelopeId,
+          sentAt: envelopeTimestamp,
+          type: 'ViewSync',
+        };
+      })
+      .filter(isNotNil);
+
+    log.info(`${logId}: Saving ${syncTasks.length} sync tasks`);
+
+    await DataWriter.saveSyncTasks(syncTasks);
+
+    confirm();
+
+    log.info(`${logId}: Queuing ${syncTasks.length} sync tasks`);
+
+    await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
+
+    log.info(`${logId}: Done`);
   }
 
-  function onDeliveryReceipt(ev: DeliveryEvent): void {
-    const { deliveryReceipt } = ev;
-    const {
-      envelopeTimestamp,
-      sourceServiceId,
-      source,
-      sourceDevice,
-      timestamp,
-      wasSentEncrypted,
-    } = deliveryReceipt;
+  async function onDeliveryReceipt(ev: DeliveryEvent): Promise<void> {
+    const { deliveryReceipts, envelopeId, envelopeTimestamp, confirm } = ev;
+    const logId = `onDeliveryReceipt(envelope=${envelopeTimestamp}, envelopeId=${envelopeId})`;
 
-    const sourceConversation = window.ConversationController.lookupOrCreate({
-      serviceId: sourceServiceId,
-      e164: source,
-      reason: `onDeliveryReceipt(${envelopeTimestamp})`,
-    });
+    strictAssert(envelopeTimestamp, `${logId}: missing envelopeTimestamp`);
+    strictAssert(envelopeTimestamp, `${logId}: missing envelopeId`);
 
-    log.info(
-      'delivery receipt from',
-      `${sourceServiceId || source}.${sourceDevice}`,
-      envelopeTimestamp,
-      'for sent message',
-      timestamp,
-      `wasSentEncrypted=${wasSentEncrypted}`
-    );
+    const syncTasks = deliveryReceipts
+      .map((deliveryReceipt): SyncTaskType | undefined => {
+        const {
+          sourceServiceId,
+          source,
+          sourceDevice,
+          timestamp,
+          wasSentEncrypted,
+        } = deliveryReceipt;
 
-    strictAssert(
-      envelopeTimestamp,
-      'onDeliveryReceipt: missing envelopeTimestamp'
-    );
-    strictAssert(
-      isServiceIdString(sourceServiceId),
-      'onDeliveryReceipt: missing valid sourceServiceId'
-    );
-    strictAssert(sourceDevice, 'onDeliveryReceipt: missing sourceDevice');
-    strictAssert(sourceConversation, 'onDeliveryReceipt: missing conversation');
+        const sourceConversation = window.ConversationController.lookupOrCreate(
+          {
+            serviceId: sourceServiceId,
+            e164: source,
+            reason: `onDeliveryReceipt(${envelopeTimestamp})`,
+          }
+        );
 
-    const attributes: MessageReceiptAttributesType = {
-      envelopeId: ev.deliveryReceipt.envelopeId,
-      removeFromMessageReceiverCache: ev.confirm,
-      messageSentAt: timestamp,
-      receiptTimestamp: envelopeTimestamp,
-      sourceConversationId: sourceConversation.id,
-      sourceServiceId,
-      sourceDevice,
-      type: MessageReceipts.MessageReceiptType.Delivery,
-      wasSentEncrypted,
-    };
+        log.info(
+          'delivery receipt from',
+          `${sourceServiceId || source}.${sourceDevice}`,
+          envelopeTimestamp,
+          'for sent message',
+          timestamp,
+          `wasSentEncrypted=${wasSentEncrypted}`
+        );
 
-    drop(MessageReceipts.onReceipt(attributes));
+        if (!isServiceIdString(sourceServiceId)) {
+          log.error(`${logId}: missing valid sourceServiceId`);
+          return undefined;
+        }
+        if (!sourceDevice) {
+          log.error(`${logId}: missing sourceDevice`);
+          return undefined;
+        }
+        if (!sourceConversation) {
+          log.error(`${logId}: missing conversation`);
+          return undefined;
+        }
+
+        const data: ReceiptSyncTaskType = {
+          messageSentAt: timestamp,
+          receiptTimestamp: envelopeTimestamp,
+          sourceConversationId: sourceConversation.id,
+          sourceServiceId,
+          sourceDevice,
+          type: MessageReceipts.messageReceiptTypeSchema.enum.Delivery,
+          wasSentEncrypted,
+        };
+        return {
+          id: generateUuid(),
+          attempts: 1,
+          createdAt: Date.now(),
+          data,
+          envelopeId,
+          sentAt: envelopeTimestamp,
+          type: 'Delivery',
+        };
+      })
+      .filter(isNotNil);
+
+    log.info(`${logId}: Saving ${syncTasks.length} sync tasks`);
+
+    await DataWriter.saveSyncTasks(syncTasks);
+
+    confirm();
+
+    log.info(`${logId}: Queuing ${syncTasks.length} sync tasks`);
+
+    await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
+
+    log.info(`${logId}: Done`);
+  }
+
+  async function onDeleteForMeSync(ev: DeleteForMeSyncEvent) {
+    const { confirm, timestamp, envelopeId, deleteForMeSync } = ev;
+    const logId = `onDeleteForMeSync(${timestamp})`;
+
+    // The user clearly knows about this feature; they did it on another device!
+    drop(window.storage.put('localDeleteWarningShown', true));
+
+    log.info(`${logId}: Saving ${deleteForMeSync.length} sync tasks`);
+
+    const now = Date.now();
+    const syncTasks = deleteForMeSync.map(item => ({
+      id: generateUuid(),
+      attempts: 1,
+      createdAt: now,
+      data: item,
+      envelopeId,
+      sentAt: timestamp,
+      type: item.type,
+    }));
+    await DataWriter.saveSyncTasks(syncTasks);
+
+    confirm();
+
+    log.info(`${logId}: Queuing ${syncTasks.length} sync tasks`);
+
+    await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
+
+    log.info(`${logId}: Done`);
   }
 }
 

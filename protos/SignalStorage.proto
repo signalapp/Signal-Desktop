@@ -77,6 +77,11 @@ message ContactRecord {
     UNVERIFIED = 2;
   }
 
+  message Name {
+    optional string given = 1;
+    optional string family = 2;
+  }
+
   optional string aci = 1;
   optional string serviceE164 = 2;
   optional string pni = 15;
@@ -98,6 +103,8 @@ message ContactRecord {
   optional string systemNickname = 19;
   optional bool hidden = 20;
   optional bool pniSignatureVerified = 21;
+  optional Name nickname = 22;
+  optional string note = 23;
 }
 
 message GroupV1Record {
@@ -174,7 +181,7 @@ message AccountRecord {
   optional bool readReceipts = 6;
   optional bool sealedSenderIndicators = 7;
   optional bool typingIndicators = 8;
-  optional bool proxiedLinkPreviews = 9;
+  reserved 9; // proxiedLinkPreviews
   optional bool noteToSelfMarkedUnread = 10;
   optional bool linkPreviews = 11;
   optional PhoneNumberSharingMode phoneNumberSharingMode = 12;
@@ -188,6 +195,7 @@ message AccountRecord {
   optional bytes subscriberId = 21;
   optional string subscriberCurrencyCode = 22;
   optional bool displayBadgesOnProfile = 23;
+  optional bool donorSubscriptionManuallyCancelled = 24;
   optional bool keepMutedChatsArchived = 25;
   optional bool hasSetMyStoriesPrivacy = 26;
   optional bool hasViewedOnboardingStory = 27;
@@ -195,10 +203,13 @@ message AccountRecord {
   optional bool storiesDisabled = 29;
   optional OptionalBool storyViewReceiptsEnabled = 30;
   reserved 31; // hasReadOnboardingStory
-  reserved 32; // hasSeenGroupStoryEducationSheet
+  optional bool hasSeenGroupStoryEducationSheet = 32;
   optional string username = 33;
   optional bool hasCompletedUsernameOnboarding = 34;
   optional UsernameLink usernameLink = 35;
+  optional bytes backupsSubscriberId = 36;
+  optional string backupsSubscriberCurrencyCode = 37;
+  optional bool backupsSubscriptionManuallyCancelled = 38;
 }
 
 message StoryDistributionListRecord {

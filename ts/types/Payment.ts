@@ -9,18 +9,23 @@ export enum PaymentEventKind {
   // Cancellation = 5, -- disabled
 }
 
-export type PaymentNotificationEvent = {
+export type PaymentNotificationEvent = Readonly<{
   kind: PaymentEventKind.Notification;
   note: string | null;
-};
 
-export type PaymentActivationRequestEvent = {
+  // Backup related data
+  transactionDetailsBase64?: string;
+  amountMob?: string;
+  feeMob?: string;
+}>;
+
+export type PaymentActivationRequestEvent = Readonly<{
   kind: PaymentEventKind.ActivationRequest;
-};
+}>;
 
-export type PaymentActivatedEvent = {
+export type PaymentActivatedEvent = Readonly<{
   kind: PaymentEventKind.Activation;
-};
+}>;
 
 export type AnyPaymentEvent =
   | PaymentNotificationEvent

@@ -4,22 +4,22 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
-import dataInterface from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client';
 import { generateAci } from '../../types/ServiceId';
 
 import type { MessageAttributesType } from '../../model-types.d';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 
 const {
-  removeAll,
   _getAllMessages,
-  saveMessages,
   getMessageMetricsForConversation,
   getNewerMessagesByConversation,
   getOlderMessagesByConversation,
   getTotalUnreadMentionsOfMeForConversation,
   getOldestUnreadMentionOfMeForConversation,
-} = dataInterface;
+} = DataReader;
+
+const { removeAll, saveMessages } = DataWriter;
 
 describe('sql/timelineFetches', () => {
   beforeEach(async () => {

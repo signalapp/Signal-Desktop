@@ -4,7 +4,11 @@
 import { createSelector } from 'reselect';
 import type { CallHistoryState } from '../ducks/callHistory';
 import type { StateType } from '../reducer';
-import type { CallHistoryDetails } from '../../types/CallDisposition';
+import {
+  AdhocCallStatus,
+  CallType,
+  type CallHistoryDetails,
+} from '../../types/CallDisposition';
 import { getOwn } from '../../util/getOwn';
 
 const getCallHistory = (state: StateType): CallHistoryState =>
@@ -34,5 +38,30 @@ export const getCallHistoryUnreadCount = createSelector(
   getCallHistory,
   callHistory => {
     return callHistory.unreadCount;
+  }
+);
+
+export const getCallHistoryLatestCall = createSelector(
+  getCallHistory,
+  callHistory => {
+    let latestCall = null;
+
+    for (const callId of Object.keys(callHistory.callHistoryByCallId)) {
+      const call = callHistory.callHistoryByCallId[callId];
+
+      // Skip unused call links
+      if (
+        call.type === CallType.Adhoc &&
+        call.status === AdhocCallStatus.Pending
+      ) {
+        continue;
+      }
+
+      if (latestCall == null || call.timestamp > latestCall.timestamp) {
+        latestCall = call;
+      }
+    }
+
+    return latestCall;
   }
 );

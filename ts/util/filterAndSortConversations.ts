@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type Fuse from 'fuse.js';
-
 import type { ConversationType } from '../state/ducks/conversations';
 import { parseAndFormatPhoneNumber } from './libphonenumberInstance';
 import { WEEK } from './durations';
 import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse';
 import { countConversationUnreadStats, hasUnread } from './countUnreadStats';
 import { getE164 } from './getE164';
+import { removeDiacritics } from './removeDiacritics';
+import { isAciString } from './isAciString';
 
 // Fuse.js scores have order of 0.01
 const ACTIVE_AT_SCORE_FACTOR = (1 / WEEK) * 0.01;
@@ -67,6 +68,12 @@ COMMANDS.set('serviceIdEndsWith', (conversations, query) => {
   return conversations.filter(convo => convo.serviceId?.endsWith(query));
 });
 
+COMMANDS.set('aciEndsWith', (conversations, query) => {
+  return conversations.filter(
+    convo => isAciString(convo.serviceId) && convo.serviceId.endsWith(query)
+  );
+});
+
 COMMANDS.set('pniEndsWith', (conversations, query) => {
   return conversations.filter(convo => convo.pni?.endsWith(query));
 });
@@ -83,9 +90,11 @@ COMMANDS.set('groupIdEndsWith', (conversations, query) => {
   return conversations.filter(convo => convo.groupId?.endsWith(query));
 });
 
-COMMANDS.set('unread', conversations => {
+COMMANDS.set('unread', (conversations, query) => {
   const includeMuted =
-    window.storage.get('badge-count-muted-conversations') || false;
+    /^(?:m|muted)$/i.test(query) ||
+    window.storage.get('badge-count-muted-conversations') ||
+    false;
   return conversations.filter(conversation => {
     return hasUnread(
       countConversationUnreadStats(conversation, { includeMuted })
@@ -117,7 +126,7 @@ function searchConversations(
   });
 
   // Escape the search term
-  let extendedSearchTerm = searchTerm;
+  let extendedSearchTerm = removeDiacritics(searchTerm);
 
   // OR phoneNumber
   if (phoneNumber) {
@@ -129,7 +138,27 @@ function searchConversations(
   return index.search(extendedSearchTerm);
 }
 
-export function filterAndSortConversationsByRecent(
+function startsWithLetter(title: string) {
+  // Uses \p, the unicode character class escape, to check if a the first character is a
+  // letter
+  return /^\p{Letter}/u.test(title);
+}
+
+function sortAlphabetically(a: ConversationType, b: ConversationType) {
+  // Sort alphabetically with conversations starting with a letter first (and phone
+  // numbers last)
+  const aStartsWithLetter = startsWithLetter(a.title);
+  const bStartsWithLetter = startsWithLetter(b.title);
+  if (aStartsWithLetter && !bStartsWithLetter) {
+    return -1;
+  }
+  if (!aStartsWithLetter && bStartsWithLetter) {
+    return 1;
+  }
+  return a.title.localeCompare(b.title);
+}
+
+export function filterAndSortConversations(
   conversations: ReadonlyArray<ConversationType>,
   searchTerm: string,
   regionCode: string | undefined
@@ -156,53 +185,22 @@ export function filterAndSortConversationsByRecent(
           (b.score ?? 0) +
           (bLeft ? LEFT_GROUP_PENALTY : 0);
 
-        return aScore - bScore;
+        const activeScore = aScore - bScore;
+        if (activeScore !== 0) {
+          return activeScore;
+        }
+        return sortAlphabetically(a.item, b.item);
       })
       .map(result => result.item);
   }
 
   return conversations.concat().sort((a, b) => {
-    if (a.activeAt && b.activeAt) {
-      return a.activeAt > b.activeAt ? -1 : 1;
+    const aScore = a.activeAt ?? 0;
+    const bScore = b.activeAt ?? 0;
+    const score = bScore - aScore;
+    if (score !== 0) {
+      return score;
     }
-
-    return a.activeAt && !b.activeAt ? -1 : 1;
+    return sortAlphabetically(a, b);
   });
-}
-
-function startsWithLetter(title: string) {
-  // Uses \p, the unicode character class escape, to check if a the first character is a
-  // letter
-  return /^\p{Letter}/u.test(title);
-}
-
-function sortAlphabetically(a: ConversationType, b: ConversationType) {
-  // Sort alphabetically with conversations starting with a letter first (and phone
-  // numbers last)
-  const aStartsWithLetter = startsWithLetter(a.title);
-  const bStartsWithLetter = startsWithLetter(b.title);
-  if (aStartsWithLetter && !bStartsWithLetter) {
-    return -1;
-  }
-  if (!aStartsWithLetter && bStartsWithLetter) {
-    return 1;
-  }
-  return a.title.localeCompare(b.title);
-}
-
-export function filterAndSortConversationsAlphabetically(
-  conversations: ReadonlyArray<ConversationType>,
-  searchTerm: string,
-  regionCode: string | undefined
-): Array<ConversationType> {
-  if (searchTerm.length) {
-    const withoutUnknown = conversations.filter(item => item.titleNoDefault);
-
-    return searchConversations(withoutUnknown, searchTerm, regionCode)
-      .slice()
-      .map(result => result.item)
-      .sort(sortAlphabetically);
-  }
-
-  return conversations.concat().sort(sortAlphabetically);
 }

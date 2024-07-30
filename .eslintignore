@@ -20,6 +20,7 @@ build/ICUMessageParams.d.ts
 # Third-party files
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
+js/calling-tools/**
 
 # TypeScript generated files
 app/**/*.js

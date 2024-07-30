@@ -7,6 +7,7 @@
 import { z } from 'zod';
 import Long from 'long';
 import PQueue from 'p-queue';
+import pMap from 'p-map';
 import type { PlaintextContent } from '@signalapp/libsignal-client';
 import {
   Pni,
@@ -14,6 +15,7 @@ import {
   SenderKeyDistributionMessage,
 } from '@signalapp/libsignal-client';
 
+import { DataWriter } from '../sql/Client';
 import type { ConversationModel } from '../models/conversations';
 import { GLOBAL_ZONE } from '../SignalProtocolStore';
 import { assertDev, strictAssert } from '../util/assert';
@@ -26,7 +28,11 @@ import type {
   UploadedAttachmentType,
 } from '../types/Attachment';
 import type { AciString, ServiceIdString } from '../types/ServiceId';
-import { ServiceIdKind, serviceIdSchema } from '../types/ServiceId';
+import {
+  ServiceIdKind,
+  serviceIdSchema,
+  isPniString,
+} from '../types/ServiceId';
 import type {
   ChallengeType,
   GetGroupLogOptionsType,
@@ -63,7 +69,7 @@ import type {
   LinkPreviewImage,
   LinkPreviewMetadata,
 } from '../linkPreviews/linkPreviewFetch';
-import { concat, isEmpty, map } from '../util/iterables';
+import { concat, isEmpty } from '../util/iterables';
 import type { SendTypesType } from '../util/handleMessageSend';
 import { shouldSaveProto, sendTypesEnum } from '../util/handleMessageSend';
 import type { DurationInSeconds } from '../util/durations';
@@ -77,6 +83,25 @@ import {
 } from '../types/EmbeddedContact';
 import { missingCaseError } from '../util/missingCaseError';
 import { drop } from '../util/drop';
+import type {
+  ConversationToDelete,
+  DeleteForMeSyncEventData,
+  DeleteMessageSyncTarget,
+  MessageToDelete,
+} from './messageReceiverEvents';
+import { getConversationFromTarget } from '../util/deleteForMe';
+import type { CallDetails, CallHistoryDetails } from '../types/CallDisposition';
+import {
+  AdhocCallStatus,
+  DirectCallStatus,
+  GroupCallStatus,
+} from '../types/CallDisposition';
+import {
+  getBytesForPeerId,
+  getProtoForCallHistory,
+} from '../util/callDisposition';
+import { CallMode } from '../types/Calling';
+import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types';
 
 export type SendMetadataType = {
   [serviceId: ServiceIdString]: {
@@ -674,7 +699,13 @@ export default class MessageSender {
     }
 
     if (attachmentAttrs.gradient) {
-      textAttachment.gradient = attachmentAttrs.gradient;
+      const { colors, positions, ...rest } = attachmentAttrs.gradient;
+
+      textAttachment.gradient = {
+        ...rest,
+        colors: colors?.slice(),
+        positions: positions?.slice(),
+      };
       textAttachment.background = 'gradient';
     } else {
       textAttachment.color = attachmentAttrs.color;
@@ -1267,8 +1298,9 @@ export default class MessageSender {
     // Though this field has 'unidentified' in the name, it should have entries for each
     //   number we sent to.
     if (!isEmpty(conversationIdsSentTo)) {
-      sentMessage.unidentifiedStatus = [
-        ...map(conversationIdsSentTo, conversationId => {
+      sentMessage.unidentifiedStatus = await pMap(
+        conversationIdsSentTo,
+        async conversationId => {
           const status =
             new Proto.SyncMessage.Sent.UnidentifiedDeliveryStatus();
           const conv = window.ConversationController.get(conversationId);
@@ -1281,12 +1313,22 @@ export default class MessageSender {
             if (serviceId) {
               status.destinationServiceId = serviceId;
             }
+            if (isPniString(serviceId)) {
+              const pniIdentityKey =
+                await window.textsecure.storage.protocol.loadIdentityKey(
+                  serviceId
+                );
+              if (pniIdentityKey) {
+                status.destinationPniIdentityKey = pniIdentityKey;
+              }
+            }
           }
           status.unidentified =
             conversationIdsWithSealedSender.has(conversationId);
           return status;
-        }),
-      ];
+        },
+        { concurrency: 10 }
+      );
     }
 
     const syncMessage = MessageSender.createSyncMessage();
@@ -1450,6 +1492,173 @@ export default class MessageSender {
       ),
       type: 'keySyncRequest',
       urgent: true,
+    };
+  }
+
+  static getDeleteForMeSyncMessage(
+    data: DeleteForMeSyncEventData
+  ): SingleProtoJobData {
+    const myAci = window.textsecure.storage.user.getCheckedAci();
+
+    const deleteForMe = new Proto.SyncMessage.DeleteForMe();
+    const messageDeletes: Map<
+      string,
+      Array<DeleteMessageSyncTarget>
+    > = new Map();
+
+    data.forEach(item => {
+      if (item.type === 'delete-message') {
+        const conversation = getConversationFromTarget(item.conversation);
+        if (!conversation) {
+          throw new Error(
+            'getDeleteForMeSyncMessage: Failed to find conversation for delete-message'
+          );
+        }
+        const existing = messageDeletes.get(conversation.id);
+        if (existing) {
+          existing.push(item);
+        } else {
+          messageDeletes.set(conversation.id, [item]);
+        }
+      } else if (item.type === 'delete-conversation') {
+        const mostRecentMessages =
+          item.mostRecentMessages.map(toAddressableMessage);
+        const mostRecentNonExpiringMessages =
+          item.mostRecentNonExpiringMessages?.map(toAddressableMessage);
+        const conversation = toConversationIdentifier(item.conversation);
+
+        deleteForMe.conversationDeletes = deleteForMe.conversationDeletes || [];
+        deleteForMe.conversationDeletes.push({
+          conversation,
+          isFullDelete: true,
+          mostRecentMessages,
+          mostRecentNonExpiringMessages,
+        });
+      } else if (item.type === 'delete-local-conversation') {
+        const conversation = toConversationIdentifier(item.conversation);
+
+        deleteForMe.localOnlyConversationDeletes =
+          deleteForMe.localOnlyConversationDeletes || [];
+        deleteForMe.localOnlyConversationDeletes.push({
+          conversation,
+        });
+      } else if (item.type === 'delete-single-attachment') {
+        throw new Error(
+          "getDeleteForMeSyncMessage: Desktop currently does not support sending 'delete-single-attachment' messages"
+        );
+      } else {
+        throw missingCaseError(item);
+      }
+    });
+
+    if (messageDeletes.size > 0) {
+      for (const [conversationId, items] of messageDeletes.entries()) {
+        const first = items[0];
+        if (!first) {
+          throw new Error('Failed to fetch first from items');
+        }
+        const messages = items.map(item => toAddressableMessage(item.message));
+        const conversation = toConversationIdentifier(first.conversation);
+
+        if (items.length > MAX_MESSAGE_COUNT) {
+          log.warn(
+            `getDeleteForMeSyncMessage: Sending ${items.length} message deletes for conversationId ${conversationId}`
+          );
+        }
+
+        deleteForMe.messageDeletes = deleteForMe.messageDeletes || [];
+        deleteForMe.messageDeletes.push({
+          messages,
+          conversation,
+        });
+      }
+    }
+
+    const syncMessage = this.createSyncMessage();
+    syncMessage.deleteForMe = deleteForMe;
+    const contentMessage = new Proto.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
+    return {
+      contentHint: ContentHint.RESENDABLE,
+      serviceId: myAci,
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'deleteForMeSync',
+      urgent: false,
+    };
+  }
+
+  static getClearCallHistoryMessage(
+    latestCall: CallHistoryDetails
+  ): SingleProtoJobData {
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const callLogEvent = new Proto.SyncMessage.CallLogEvent({
+      type: Proto.SyncMessage.CallLogEvent.Type.CLEAR,
+      timestamp: Long.fromNumber(latestCall.timestamp),
+      peerId: getBytesForPeerId(latestCall),
+      callId: Long.fromString(latestCall.callId),
+    });
+
+    const syncMessage = MessageSender.createSyncMessage();
+    syncMessage.callLogEvent = callLogEvent;
+
+    const contentMessage = new Proto.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
+    return {
+      contentHint: ContentHint.RESENDABLE,
+      serviceId: ourAci,
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'callLogEventSync',
+      urgent: false,
+    };
+  }
+
+  static getDeleteCallEvent(callDetails: CallDetails): SingleProtoJobData {
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    const { mode } = callDetails;
+    let status;
+    if (mode === CallMode.Adhoc) {
+      status = AdhocCallStatus.Deleted;
+    } else if (mode === CallMode.Direct) {
+      status = DirectCallStatus.Deleted;
+    } else if (mode === CallMode.Group) {
+      status = GroupCallStatus.Deleted;
+    } else {
+      throw missingCaseError(mode);
+    }
+    const callEvent = getProtoForCallHistory({
+      ...callDetails,
+      status,
+    });
+
+    const syncMessage = MessageSender.createSyncMessage();
+    syncMessage.callEvent = callEvent;
+
+    const contentMessage = new Proto.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
+    return {
+      contentHint: ContentHint.RESENDABLE,
+      serviceId: ourAci,
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'callLogEventSync',
+      urgent: false,
     };
   }
 
@@ -1700,11 +1909,11 @@ export default class MessageSender {
   async sendCallingMessage(
     serviceId: ServiceIdString,
     callingMessage: Readonly<Proto.ICallingMessage>,
+    timestamp: number,
     urgent: boolean,
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const recipients = [serviceId];
-    const finalTimestamp = Date.now();
 
     const contentMessage = new Proto.Content();
     contentMessage.callingMessage = callingMessage;
@@ -1714,13 +1923,13 @@ export default class MessageSender {
     addPniSignatureMessageToProto({
       conversation,
       proto: contentMessage,
-      reason: `sendCallingMessage(${finalTimestamp})`,
+      reason: `sendCallingMessage(${timestamp})`,
     });
 
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendMessageProtoAndWait({
-      timestamp: finalTimestamp,
+      timestamp,
       recipients,
       proto: contentMessage,
       contentHint: ContentHint.DEFAULT,
@@ -1883,7 +2092,7 @@ export default class MessageSender {
       }
 
       if (initialSavePromise === undefined) {
-        initialSavePromise = window.Signal.Data.insertSentProto(
+        initialSavePromise = DataWriter.insertSentProto(
           {
             contentHint,
             proto,
@@ -1899,7 +2108,7 @@ export default class MessageSender {
         await initialSavePromise;
       } else {
         const id = await initialSavePromise;
-        await window.Signal.Data.insertProtoRecipients({
+        await DataWriter.insertProtoRecipients({
           id,
           recipientServiceId,
           deviceIds,
@@ -2131,7 +2340,7 @@ export default class MessageSender {
   async createGroup(
     group: Readonly<Proto.IGroup>,
     options: Readonly<GroupCredentialsType>
-  ): Promise<void> {
+  ): Promise<Proto.IGroupResponse> {
     return this.server.createGroup(group, options);
   }
 
@@ -2144,7 +2353,7 @@ export default class MessageSender {
 
   async getGroup(
     options: Readonly<GroupCredentialsType>
-  ): Promise<Proto.Group> {
+  ): Promise<Proto.IGroupResponse> {
     return this.server.getGroup(options);
   }
 
@@ -2170,7 +2379,7 @@ export default class MessageSender {
     changes: Readonly<Proto.GroupChange.IActions>,
     options: Readonly<GroupCredentialsType>,
     inviteLinkBase64?: string
-  ): Promise<Proto.IGroupChange> {
+  ): Promise<Proto.IGroupChangeResponse> {
     return this.server.modifyGroup(changes, options, inviteLinkBase64);
   }
 
@@ -2221,8 +2430,8 @@ export default class MessageSender {
 
   async getGroupMembershipToken(
     options: Readonly<GroupCredentialsType>
-  ): Promise<Proto.GroupExternalCredential> {
-    return this.server.getGroupExternalCredential(options);
+  ): Promise<Proto.IExternalGroupCredential> {
+    return this.server.getExternalGroupCredential(options);
   }
 
   public async sendChallengeResponse(
@@ -2230,4 +2439,42 @@ export default class MessageSender {
   ): Promise<void> {
     return this.server.sendChallengeResponse(challengeResponse);
   }
+}
+
+// Helpers
+
+function toAddressableMessage(message: MessageToDelete) {
+  const targetMessage = new Proto.SyncMessage.DeleteForMe.AddressableMessage();
+  targetMessage.sentTimestamp = Long.fromNumber(message.sentAt);
+
+  if (message.type === 'aci') {
+    targetMessage.authorServiceId = message.authorAci;
+  } else if (message.type === 'e164') {
+    targetMessage.authorE164 = message.authorE164;
+  } else if (message.type === 'pni') {
+    targetMessage.authorServiceId = message.authorPni;
+  } else {
+    throw missingCaseError(message);
+  }
+
+  return targetMessage;
+}
+
+function toConversationIdentifier(conversation: ConversationToDelete) {
+  const targetConversation =
+    new Proto.SyncMessage.DeleteForMe.ConversationIdentifier();
+
+  if (conversation.type === 'aci') {
+    targetConversation.threadServiceId = conversation.aci;
+  } else if (conversation.type === 'pni') {
+    targetConversation.threadServiceId = conversation.pni;
+  } else if (conversation.type === 'group') {
+    targetConversation.threadGroupId = Bytes.fromBase64(conversation.groupId);
+  } else if (conversation.type === 'e164') {
+    targetConversation.threadE164 = conversation.e164;
+  } else {
+    throw missingCaseError(conversation);
+  }
+
+  return targetConversation;
 }

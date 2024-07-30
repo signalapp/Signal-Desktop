@@ -12,7 +12,7 @@ const TOOLTIP_CLASS_NAME = `${BASE_CLASS_NAME}__tooltip`;
 
 export type PropsType = {
   type?: 'warning' | 'error';
-  icon?: 'update' | 'relink' | 'network' | 'warning' | ReactChild;
+  icon?: 'update' | 'relink' | 'network' | 'warning' | 'error' | ReactChild;
   title?: string;
   subtitle?: string;
   children?: ReactNode;

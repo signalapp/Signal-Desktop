@@ -11,9 +11,9 @@ describe('shouldBlurAvatar', () => {
       shouldBlurAvatar({
         isMe: true,
         acceptedMessageRequest: false,
-        avatarPath: '/path/to/avatar.jpg',
+        avatarUrl: '/path/to/avatar.jpg',
         sharedGroupNames: [],
-        unblurredAvatarPath: undefined,
+        unblurredAvatarUrl: undefined,
       })
     );
   });
@@ -22,10 +22,10 @@ describe('shouldBlurAvatar', () => {
     assert.isFalse(
       shouldBlurAvatar({
         acceptedMessageRequest: true,
-        avatarPath: '/path/to/avatar.jpg',
+        avatarUrl: '/path/to/avatar.jpg',
         isMe: false,
         sharedGroupNames: [],
-        unblurredAvatarPath: undefined,
+        unblurredAvatarUrl: undefined,
       })
     );
   });
@@ -35,9 +35,9 @@ describe('shouldBlurAvatar', () => {
       shouldBlurAvatar({
         sharedGroupNames: ['Tahoe Trip'],
         acceptedMessageRequest: false,
-        avatarPath: '/path/to/avatar.jpg',
+        avatarUrl: '/path/to/avatar.jpg',
         isMe: false,
-        unblurredAvatarPath: undefined,
+        unblurredAvatarUrl: undefined,
       })
     );
   });
@@ -48,22 +48,22 @@ describe('shouldBlurAvatar', () => {
         acceptedMessageRequest: false,
         isMe: false,
         sharedGroupNames: [],
-        unblurredAvatarPath: undefined,
+        unblurredAvatarUrl: undefined,
       })
     );
     assert.isFalse(
       shouldBlurAvatar({
-        avatarPath: undefined,
+        avatarUrl: undefined,
         acceptedMessageRequest: false,
         isMe: false,
         sharedGroupNames: [],
-        unblurredAvatarPath: undefined,
+        unblurredAvatarUrl: undefined,
       })
     );
     assert.isFalse(
       shouldBlurAvatar({
-        avatarPath: undefined,
-        unblurredAvatarPath: '/some/other/path',
+        avatarUrl: undefined,
+        unblurredAvatarUrl: '/some/other/path',
         acceptedMessageRequest: false,
         isMe: false,
         sharedGroupNames: [],
@@ -74,8 +74,8 @@ describe('shouldBlurAvatar', () => {
   it('returns false if the avatar was unblurred', () => {
     assert.isFalse(
       shouldBlurAvatar({
-        avatarPath: '/path/to/avatar.jpg',
-        unblurredAvatarPath: '/path/to/avatar.jpg',
+        avatarUrl: '/path/to/avatar.jpg',
+        unblurredAvatarUrl: '/path/to/avatar.jpg',
         acceptedMessageRequest: false,
         isMe: false,
         sharedGroupNames: [],
@@ -86,8 +86,8 @@ describe('shouldBlurAvatar', () => {
   it('returns true if the stars align (i.e., not everything above)', () => {
     assert.isTrue(
       shouldBlurAvatar({
-        avatarPath: '/path/to/avatar.jpg',
-        unblurredAvatarPath: '/different/path.jpg',
+        avatarUrl: '/path/to/avatar.jpg',
+        unblurredAvatarUrl: '/different/path.jpg',
         acceptedMessageRequest: false,
         isMe: false,
         sharedGroupNames: [],

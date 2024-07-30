@@ -18,7 +18,7 @@ const i18n = setupI18n('en', enMessages);
 
 const contactWithAllData = getDefaultConversation({
   id: 'abc',
-  avatarPath: undefined,
+  avatarUrl: undefined,
   profileName: '-*Smartest Dude*-',
   title: 'Rick Sanchez',
   name: 'Rick Sanchez',
@@ -27,7 +27,7 @@ const contactWithAllData = getDefaultConversation({
 
 const contactWithJustProfileVerified = getDefaultConversation({
   id: 'def',
-  avatarPath: undefined,
+  avatarUrl: undefined,
   title: '-*Smartest Dude*-',
   profileName: '-*Smartest Dude*-',
   name: undefined,
@@ -37,7 +37,7 @@ const contactWithJustProfileVerified = getDefaultConversation({
 
 const contactWithJustNumberVerified = getDefaultConversation({
   id: 'xyz',
-  avatarPath: undefined,
+  avatarUrl: undefined,
   profileName: undefined,
   name: undefined,
   title: '(305) 123-4567',
@@ -47,7 +47,7 @@ const contactWithJustNumberVerified = getDefaultConversation({
 
 const contactWithNothing = getDefaultConversation({
   id: 'some-guid',
-  avatarPath: undefined,
+  avatarUrl: undefined,
   profileName: undefined,
   name: undefined,
   phoneNumber: undefined,

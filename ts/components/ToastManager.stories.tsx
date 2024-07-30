@@ -21,6 +21,8 @@ function getToast(toastType: ToastType): AnyToast {
   switch (toastType) {
     case ToastType.AddingUserToGroup:
       return { toastType, parameters: { contact: 'Sam Mirete' } };
+    case ToastType.AddedUsersToCall:
+      return { toastType, parameters: { count: 6 } };
     case ToastType.AlreadyGroupMember:
       return { toastType: ToastType.AlreadyGroupMember };
     case ToastType.AlreadyRequestedToJoin:
@@ -121,6 +123,8 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.PinnedConversationsFull };
     case ToastType.ReactionFailed:
       return { toastType: ToastType.ReactionFailed };
+    case ToastType.ReportedSpam:
+      return { toastType: ToastType.ReportedSpam };
     case ToastType.ReportedSpamAndBlocked:
       return { toastType: ToastType.ReportedSpamAndBlocked };
     case ToastType.StickerPackInstallFailed:
@@ -139,6 +143,8 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.TapToViewExpiredIncoming };
     case ToastType.TapToViewExpiredOutgoing:
       return { toastType: ToastType.TapToViewExpiredOutgoing };
+    case ToastType.TransportError:
+      return { toastType: ToastType.TransportError };
     case ToastType.TooManyMessagesToDeleteForEveryone:
       return {
         toastType: ToastType.TooManyMessagesToDeleteForEveryone,
@@ -201,11 +207,11 @@ export default {
   component: ToastManager,
   argTypes: {
     toastType: {
-      options: ToastType,
+      options: [...Object.values(ToastType)],
       control: { type: 'select' },
     },
     megaphoneType: {
-      options: MegaphoneType,
+      options: [...Object.values(MegaphoneType)],
       control: { type: 'select' },
     },
   },
@@ -218,6 +224,7 @@ export default {
     toastType: ToastType.AddingUserToGroup,
     megaphoneType: MegaphoneType.UsernameOnboarding,
     OS: 'macOS',
+    isInFullScreenCall: false,
   },
 } satisfies Meta<Args>;
 

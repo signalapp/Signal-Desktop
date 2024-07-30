@@ -53,7 +53,9 @@
     background: $color-gray-02;
     border-radius: 100%;
     bottom: 4px;
-    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow:
+      0px 4px 16px rgba(0, 0, 0, 0.12),
+      0px 2px 4px rgba(0, 0, 0, 0.2);
     display: flex;
     height: 28px;
     justify-content: center;
@@ -75,7 +77,9 @@
     align-items: center;
     background-color: $color-white;
     border-radius: 100%;
-    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow:
+      0px 4px 16px rgba(0, 0, 0, 0.12),
+      0px 2px 4px rgba(0, 0, 0, 0.2);
     display: flex;
     height: 24px;
     justify-content: center;

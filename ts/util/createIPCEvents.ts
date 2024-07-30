@@ -14,15 +14,12 @@ import type {
 import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors';
 import * as Errors from '../types/errors';
 import * as Stickers from '../types/Stickers';
-import type { SystemTraySetting } from '../types/SystemTraySetting';
-import { parseSystemTraySetting } from '../types/SystemTraySetting';
 
 import type { ConversationType } from '../state/ducks/conversations';
-import type { AuthorizeArtCreatorDataType } from '../state/ducks/globalModals';
 import { calling } from '../services/calling';
 import { resolveUsernameByLinkBase64 } from '../services/username';
 import { writeProfile } from '../services/writeProfile';
-import { isInCall as getIsInCall } from '../state/selectors/calling';
+import { isInCall } from '../state/selectors/calling';
 import { getConversationsWithCustomColorSelector } from '../state/selectors/conversations';
 import { getCustomColors } from '../state/selectors/items';
 import { themeChanged } from '../shims/themeChanged';
@@ -45,9 +42,15 @@ import { fromWebSafeBase64 } from './webSafeBase64';
 import { getConversation } from './getConversation';
 import { instance, PhoneNumberFormat } from './libphonenumberInstance';
 import { showConfirmationDialog } from './showConfirmationDialog';
+import type {
+  EphemeralSettings,
+  SettingsValuesType,
+  ThemeType,
+} from './preload';
+import type { SystemTraySetting } from '../types/SystemTraySetting';
+import { drop } from './drop';
 
 type SentMediaQualityType = 'standard' | 'high';
-type ThemeType = 'light' | 'dark' | 'system';
 type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 
 export type IPCEventsValuesType = {
@@ -64,17 +67,13 @@ export type IPCEventsValuesType = {
   hideMenuBar: boolean | undefined;
   incomingCallNotification: boolean;
   lastSyncTime: number | undefined;
-  localeOverride: string | null;
   notificationDrawAttention: boolean;
   notificationSetting: NotificationSettingType;
   preferredAudioInputDevice: AudioDevice | undefined;
   preferredAudioOutputDevice: AudioDevice | undefined;
   preferredVideoInputDevice: string | undefined;
   sentMediaQualitySetting: SentMediaQualityType;
-  spellCheck: boolean;
-  systemTraySetting: SystemTraySetting;
   textFormatting: boolean;
-  themeSetting: ThemeType;
   universalExpireTimer: DurationInSeconds;
   zoomFactor: ZoomFactorType;
   storyViewReceiptsEnabled: boolean;
@@ -96,7 +95,6 @@ export type IPCEventsValuesType = {
 };
 
 export type IPCEventsCallbacksType = {
-  openArtCreator(): Promise<void>;
   getAvailableIODevices(): Promise<{
     availableCameras: Array<
       Pick<MediaDeviceInfo, 'deviceId' | 'groupId' | 'kind' | 'label'>
@@ -106,7 +104,6 @@ export type IPCEventsCallbacksType = {
   }>;
   addCustomColor: (customColor: CustomColorType) => void;
   addDarkOverlay: () => void;
-  authorizeArtCreator: (data: AuthorizeArtCreatorDataType) => void;
   deleteAllData: () => Promise<void>;
   deleteAllMyStories: () => Promise<void>;
   editCustomColor: (colorId: string, customColor: CustomColorType) => void;
@@ -131,7 +128,8 @@ export type IPCEventsCallbacksType = {
   showGroupViaLink: (value: string) => Promise<void>;
   showReleaseNotes: () => void;
   showStickerPack: (packId: string, key: string) => void;
-  maybeRequestCloseConfirmation: () => Promise<boolean>;
+  requestCloseConfirmation: () => Promise<boolean>;
+  getIsInCall: () => boolean;
   shutdown: () => Promise<void>;
   unknownSignalLink: () => void;
   getCustomColors: () => Record<string, CustomColorType>;
@@ -141,20 +139,28 @@ export type IPCEventsCallbacksType = {
     customColor?: { id: string; value: CustomColorType }
   ) => void;
   getDefaultConversationColor: () => DefaultConversationColorType;
+  uploadStickerPack: (
+    manifest: Uint8Array,
+    stickers: ReadonlyArray<Uint8Array>
+  ) => Promise<string>;
 };
 
 type ValuesWithGetters = Omit<
-  IPCEventsValuesType,
+  SettingsValuesType,
   // Async
   | 'zoomFactor'
+  | 'localeOverride'
+  | 'spellCheck'
+  | 'themeSetting'
   // Optional
   | 'mediaPermissions'
   | 'mediaCameraPermissions'
   | 'autoLaunch'
+  | 'systemTraySetting'
 >;
 
 type ValuesWithSetters = Omit<
-  IPCEventsValuesType,
+  SettingsValuesType,
   | 'blockedCount'
   | 'defaultConversationColor'
   | 'linkPreviewSetting'
@@ -166,19 +172,37 @@ type ValuesWithSetters = Omit<
   // Optional
   | 'mediaPermissions'
   | 'mediaCameraPermissions'
+
+  // Only set in the Settings window
+  | 'localeOverride'
+  | 'spellCheck'
+  | 'systemTraySetting'
 >;
 
-export type IPCEventGetterType<Key extends keyof IPCEventsValuesType> =
+export type IPCEventsUpdatersType = {
+  [Key in keyof EphemeralSettings as IPCEventUpdaterType<Key>]?: (
+    value: EphemeralSettings[Key]
+  ) => void;
+};
+
+export type IPCEventGetterType<Key extends keyof SettingsValuesType> =
   `get${Capitalize<Key>}`;
 
-export type IPCEventSetterType<Key extends keyof IPCEventsValuesType> =
+export type IPCEventSetterType<Key extends keyof SettingsValuesType> =
   `set${Capitalize<Key>}`;
+
+export type IPCEventUpdaterType<Key extends keyof SettingsValuesType> =
+  `update${Capitalize<Key>}`;
 
 export type IPCEventsGettersType = {
   [Key in keyof ValuesWithGetters as IPCEventGetterType<Key>]: () => ValuesWithGetters[Key];
 } & {
   // Async
   getZoomFactor: () => Promise<ZoomFactorType>;
+  getLocaleOverride: () => Promise<string | null>;
+  getSpellCheck: () => Promise<boolean>;
+  getSystemTraySetting: () => Promise<SystemTraySetting>;
+  getThemeSetting: () => Promise<ThemeType>;
   // Events
   onZoomFactorChange: (callback: (zoomFactor: ZoomFactorType) => void) => void;
   // Optional
@@ -198,6 +222,7 @@ export type IPCEventsSettersType = {
 
 export type IPCEventsType = IPCEventsGettersType &
   IPCEventsSettersType &
+  IPCEventsUpdatersType &
   IPCEventsCallbacksType;
 
 export function createIPCEvents(
@@ -216,15 +241,6 @@ export function createIPCEvents(
   };
 
   return {
-    openArtCreator: async () => {
-      const auth = await window.textsecure.server?.getArtAuth();
-      if (!auth) {
-        return;
-      }
-
-      window.openArtCreator(auth);
-    },
-
     getDeviceName: () => window.textsecure.storage.user.getDeviceName(),
     getPhoneNumber: () => {
       try {
@@ -393,11 +409,14 @@ export function createIPCEvents(
       window.storage.get('sent-media-quality', 'standard'),
     setSentMediaQualitySetting: value =>
       window.storage.put('sent-media-quality', value),
-    getThemeSetting: () => window.storage.get('theme-setting', 'system'),
-    setThemeSetting: value => {
-      const promise = window.storage.put('theme-setting', value);
-      themeChanged();
-      return promise;
+    getThemeSetting: async () => {
+      return getEphemeralSetting('themeSetting') ?? null;
+    },
+    setThemeSetting: async value => {
+      drop(setEphemeralSetting('themeSetting', value));
+    },
+    updateThemeSetting: _theme => {
+      drop(themeChanged());
     },
     getHideMenuBar: () => window.storage.get('hide-menu-bar'),
     setHideMenuBar: value => {
@@ -406,19 +425,9 @@ export function createIPCEvents(
       window.IPC.setMenuBarVisibility(!value);
       return promise;
     },
-    getSystemTraySetting: () =>
-      parseSystemTraySetting(window.storage.get('system-tray-setting')),
-    setSystemTraySetting: value => {
-      const promise = window.storage.put('system-tray-setting', value);
-      window.IPC.updateSystemTraySetting(value);
-      return promise;
-    },
-
-    getLocaleOverride: () => {
-      return window.storage.get('localeOverride') ?? null;
-    },
-    setLocaleOverride: async (locale: string | null) => {
-      await window.storage.put('localeOverride', locale);
+    getSystemTraySetting: () => getEphemeralSetting('systemTraySetting'),
+    getLocaleOverride: async () => {
+      return getEphemeralSetting('localeOverride') ?? null;
     },
     getNotificationSetting: () =>
       window.storage.get('notification-setting', 'message'),
@@ -456,8 +465,9 @@ export function createIPCEvents(
     setIncomingCallNotification: value =>
       window.storage.put('incoming-call-notification', value),
 
-    getSpellCheck: () => window.storage.get('spell-check', true),
-    setSpellCheck: value => window.storage.put('spell-check', value),
+    getSpellCheck: () => {
+      return getEphemeralSetting('spellCheck');
+    },
     getTextFormatting: () => window.storage.get('textFormatting', true),
     setTextFormatting: value => window.storage.put('textFormatting', value),
 
@@ -512,14 +522,6 @@ export function createIPCEvents(
         newOverlay.remove();
       });
       document.body.prepend(newOverlay);
-    },
-    authorizeArtCreator: (data: AuthorizeArtCreatorDataType) => {
-      // We can get these events even if the user has never linked this instance.
-      if (!Registration.everDone()) {
-        log.warn('authorizeArtCreator: Not registered, returning early');
-        return;
-      }
-      window.reduxActions.globalModals.showAuthorizeArtCreator(data);
     },
     removeDarkOverlay: () => {
       const elems = document.querySelectorAll('.dark-overlay');
@@ -631,12 +633,7 @@ export function createIPCEvents(
       showUnknownSgnlLinkModal();
     },
 
-    maybeRequestCloseConfirmation: async (): Promise<boolean> => {
-      const isInCall = getIsInCall(window.reduxStore.getState());
-      if (!isInCall) {
-        return true;
-      }
-
+    requestCloseConfirmation: async (): Promise<boolean> => {
       try {
         await new Promise<void>((resolve, reject) => {
           showConfirmationDialog({
@@ -654,18 +651,20 @@ export function createIPCEvents(
             resolve: () => resolve(),
           });
         });
-        log.info('Close confirmed by user.');
-        if (isInCall) {
-          window.reduxActions.calling.hangUpActiveCall(
-            'User confirmed in-call close.'
-          );
-        }
+        log.info('requestCloseConfirmation: Close confirmed by user.');
+        window.reduxActions.calling.hangUpActiveCall(
+          'User confirmed in-call close.'
+        );
 
         return true;
       } catch {
-        log.info('Close cancelled by user.');
+        log.info('requestCloseConfirmation: Close cancelled by user.');
         return false;
       }
+    },
+
+    getIsInCall: (): boolean => {
+      return isInCall(window.reduxStore.getState());
     },
 
     unknownSignalLink: () => {
@@ -700,6 +699,16 @@ export function createIPCEvents(
       }
     },
 
+    uploadStickerPack: (
+      manifest: Uint8Array,
+      stickers: ReadonlyArray<Uint8Array>
+    ): Promise<string> => {
+      strictAssert(window.textsecure.server, 'WebAPI must be available');
+      return window.textsecure.server.putStickers(manifest, stickers, () =>
+        ipcRenderer.send('art-creator:onUploadProgress')
+      );
+    },
+
     ...overrideEvents,
   };
 }
@@ -708,4 +717,17 @@ function showUnknownSgnlLinkModal(): void {
   window.reduxActions.globalModals.showErrorModal({
     description: window.i18n('icu:unknown-sgnl-link'),
   });
+}
+
+function getEphemeralSetting<Name extends keyof EphemeralSettings>(
+  name: Name
+): Promise<EphemeralSettings[Name]> {
+  return ipcRenderer.invoke(`settings:get:${name}`);
+}
+
+function setEphemeralSetting<Name extends keyof EphemeralSettings>(
+  name: Name,
+  value: EphemeralSettings[Name]
+): Promise<void> {
+  return ipcRenderer.invoke(`settings:set:${name}`, value);
 }

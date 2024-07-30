@@ -113,7 +113,6 @@ describe('Contact', () => {
     const regionCode = '1';
     const firstNumber = '+1202555000';
     const serviceId = undefined;
-    const getAbsoluteAttachmentPath = (path: string) => `absolute:${path}`;
 
     it('eliminates avatar if it has had an attachment download error', () => {
       const contact = {
@@ -147,7 +146,6 @@ describe('Contact', () => {
         regionCode,
         firstNumber,
         serviceId,
-        getAbsoluteAttachmentPath,
       });
       assert.deepEqual(actual, expected);
     });
@@ -192,12 +190,11 @@ describe('Contact', () => {
         regionCode,
         firstNumber,
         serviceId,
-        getAbsoluteAttachmentPath,
       });
       assert.deepEqual(actual, expected);
     });
 
-    it('calculates absolute path', () => {
+    it('calculates local url', () => {
       const fullAci = generateAci();
 
       const contact = {
@@ -225,7 +222,7 @@ describe('Contact', () => {
         avatar: {
           isProfile: true,
           avatar: fakeAttachment({
-            path: 'absolute:somewhere',
+            path: 'attachment://v1/somewhere?size=10304&contentType=image%2Fgif',
             contentType: IMAGE_GIF,
           }),
         },
@@ -237,7 +234,6 @@ describe('Contact', () => {
         regionCode,
         firstNumber,
         serviceId: fullAci,
-        getAbsoluteAttachmentPath,
       });
       assert.deepEqual(actual, expected);
     });

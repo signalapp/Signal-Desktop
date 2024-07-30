@@ -46,7 +46,7 @@ type Handler = Readonly<{
 }>;
 
 export type ChallengeData = Readonly<{
-  type: 'recaptcha';
+  type: 'captcha';
   token: string;
   captcha: string;
 }>;
@@ -259,8 +259,12 @@ export class ChallengeHandler {
       log.info(`${logId}: tracking ${conversationId} with no waitTime`);
     }
 
-    if (data && !data.options?.includes('recaptcha')) {
-      log.error(`${logId}: unexpected options ${JSON.stringify(data.options)}`);
+    if (data && !data.options?.includes('captcha')) {
+      const dataString = JSON.stringify(data.options);
+      log.error(
+        `${logId}: unexpected options ${dataString}. ${conversationId} is waiting.`
+      );
+      return;
     }
 
     if (!challenge.token) {
@@ -330,6 +334,10 @@ export class ChallengeHandler {
     );
   }
 
+  public areAnyRegistered(): boolean {
+    return this.registeredConversations.size > 0;
+  }
+
   public isRegistered(conversationId: string): boolean {
     return this.registeredConversations.has(conversationId);
   }
@@ -384,7 +392,7 @@ export class ChallengeHandler {
 
     try {
       await this.sendChallengeResponse({
-        type: 'recaptcha',
+        type: 'captcha',
         token: lastToken,
         captcha,
       });
@@ -393,7 +401,11 @@ export class ChallengeHandler {
         `challenge(${reason}): challenge failure, error:`,
         Errors.toLogFormat(error)
       );
-      this.options.setChallengeStatus('required');
+      if (error.code === 413 || error.code === 429) {
+        this.options.setChallengeStatus('idle');
+      } else {
+        this.options.setChallengeStatus('required');
+      }
       this.solving -= 1;
       return;
     }
@@ -425,7 +437,8 @@ export class ChallengeHandler {
 
       log.info(`challenge: retry after ${retryAfter}ms`);
       this.options.onChallengeFailed(retryAfter);
-      return;
+
+      throw error;
     }
 
     this.options.onChallengeSolved();

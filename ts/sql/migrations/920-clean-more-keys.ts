@@ -94,10 +94,8 @@ export function cleanKeys(
   }
 
   // Grab PNI-specific count
-  const [
-    beforeQuery,
-    beforeParams,
-  ] = sql`SELECT count(*) from ${tableName} WHERE ${idField} = ${pni}`;
+  const [beforeQuery, beforeParams] =
+    sql`SELECT count(*) from ${tableName} WHERE ${idField} = ${pni}`;
   const beforeKeys = db.prepare(beforeQuery).pluck(true).get(beforeParams);
   logger.info(`${logId}: Found ${beforeKeys} keys for PNI`);
 

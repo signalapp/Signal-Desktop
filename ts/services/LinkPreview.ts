@@ -16,6 +16,7 @@ import * as Errors from '../types/errors';
 import type { StickerPackType as StickerPackDBType } from '../sql/Interface';
 import type { MIMEType } from '../types/MIME';
 import * as Bytes from '../Bytes';
+import { sha256 } from '../Crypto';
 import * as LinkPreview from '../types/LinkPreview';
 import * as Stickers from '../types/Stickers';
 import * as VisualAttachment from '../types/VisualAttachment';
@@ -68,10 +69,6 @@ function _maybeGrabLinkPreview(
   // Do nothing if we're offline
   const { messaging } = window.textsecure;
   if (!messaging) {
-    return;
-  }
-  // If we're behind a user-configured proxy, we don't support link previews
-  if (window.isBehindProxy()) {
     return;
   }
 
@@ -351,6 +348,7 @@ async function getPreview(
           type: fullSizeImage.contentType,
         }),
         fileName: title,
+        highQuality: true,
       });
 
       const data = await fileToBytes(withBlob.file);
@@ -367,6 +365,7 @@ async function getPreview(
         data,
         size: data.byteLength,
         ...dimensions,
+        plaintextHash: Bytes.toHex(sha256(data)),
         contentType: stringToMIMEType(withBlob.file.type),
         blurHash,
       };
@@ -452,8 +451,8 @@ async function getStickerPackPreview(
     const sticker = pack.stickers[coverStickerId];
     const data =
       pack.status === 'ephemeral'
-        ? await window.Signal.Migrations.readTempData(sticker.path)
-        : await window.Signal.Migrations.readStickerData(sticker.path);
+        ? await window.Signal.Migrations.readTempData(sticker)
+        : await window.Signal.Migrations.readStickerData(sticker);
 
     if (abortSignal.aborted) {
       return null;
@@ -584,8 +583,8 @@ async function getCallLinkPreview(
   }
 
   const callLinkRootKey = CallLinkRootKey.parse(parsedUrl.args.key);
-  const callLinkState = await calling.readCallLink({ callLinkRootKey });
-  if (!callLinkState) {
+  const callLinkState = await calling.readCallLink(callLinkRootKey);
+  if (callLinkState == null || callLinkState.revoked) {
     return null;
   }
 

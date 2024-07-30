@@ -5,6 +5,7 @@ import * as log from '../logging/log';
 import { isNotNil } from './isNotNil';
 import { updateIdentityKey } from '../services/profiles';
 import type { ServiceIdString } from '../types/ServiceId';
+import * as Bytes from '../Bytes';
 
 export async function verifyStoryListMembers(
   serviceIds: Array<ServiceIdString>
@@ -49,7 +50,8 @@ export async function verifyStoryListMembers(
       verifiedServiceIds.delete(serviceId);
 
       if (identityKey) {
-        await updateIdentityKey(identityKey, serviceId);
+        const identityKeyBytes = Bytes.fromBase64(identityKey);
+        await updateIdentityKey(identityKeyBytes, serviceId);
       } else {
         await window.ConversationController.get(serviceId)?.getProfiles();
       }

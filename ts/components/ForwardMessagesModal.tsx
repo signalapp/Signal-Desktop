@@ -1,6 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ComponentType } from 'react';
 import React, {
   useCallback,
   useEffect,
@@ -22,7 +23,7 @@ import type { LocalizerType, ThemeType } from '../types/Util';
 import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea';
 import { SearchInput } from './SearchInput';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
-import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
+import { filterAndSortConversations } from '../util/filterAndSortConversations';
 import {
   shouldNeverBeCalled,
   asyncShouldNeverBeCalled,
@@ -41,6 +42,13 @@ import {
   isDraftForwardable,
   type MessageForwardDraft,
 } from '../types/ForwardDraft';
+import { missingCaseError } from '../util/missingCaseError';
+import { Theme } from '../util/theme';
+
+export enum ForwardMessagesModalType {
+  Forward,
+  ShareCallLink,
+}
 
 export type DataPropsType = {
   candidateConversations: ReadonlyArray<ConversationType>;
@@ -51,6 +59,7 @@ export type DataPropsType = {
   drafts: ReadonlyArray<MessageForwardDraft>;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
+  isInFullScreenCall: boolean;
 
   linkPreviewForSource: (
     source: LinkPreviewSourceType
@@ -61,9 +70,8 @@ export type DataPropsType = {
     caretLocation?: number
   ) => unknown;
   regionCode: string | undefined;
-  RenderCompositionTextArea: (
-    props: SmartCompositionTextAreaProps
-  ) => JSX.Element;
+  RenderCompositionTextArea: ComponentType<SmartCompositionTextAreaProps>;
+  type: ForwardMessagesModalType;
   showToast: ShowToastAction;
   theme: ThemeType;
 };
@@ -77,12 +85,14 @@ export type PropsType = DataPropsType & ActionPropsType;
 const MAX_FORWARD = 5;
 
 export function ForwardMessagesModal({
+  type,
   drafts,
   candidateConversations,
   doForwardMessages,
   linkPreviewForSource,
   getPreferredBadge,
   i18n,
+  isInFullScreenCall,
   onClose,
   onChange,
   removeLinkPreview,
@@ -97,7 +107,7 @@ export function ForwardMessagesModal({
   >([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredConversations, setFilteredConversations] = useState(
-    filterAndSortConversationsByRecent(candidateConversations, '', regionCode)
+    filterAndSortConversations(candidateConversations, '', regionCode)
   );
   const [isEditingMessage, setIsEditingMessage] = useState(false);
   const [cannotMessage, setCannotMessage] = useState(false);
@@ -170,7 +180,7 @@ export function ForwardMessagesModal({
   useEffect(() => {
     const timeout = setTimeout(() => {
       setFilteredConversations(
-        filterAndSortConversationsByRecent(
+        filterAndSortConversations(
           candidateConversations,
           normalizedSearchTerm,
           regionCode
@@ -293,6 +303,17 @@ export function ForwardMessagesModal({
     </div>
   );
 
+  let title: string;
+  if (type === ForwardMessagesModalType.Forward) {
+    title = i18n('icu:ForwardMessageModal__title');
+  } else if (type === ForwardMessagesModalType.ShareCallLink) {
+    title = i18n('icu:ForwardMessageModal__ShareCallLink');
+  } else {
+    throw missingCaseError(type);
+  }
+
+  const modalTheme = isInFullScreenCall ? Theme.Dark : undefined;
+
   return (
     <>
       {cannotMessage && (
@@ -312,8 +333,9 @@ export function ForwardMessagesModal({
         onClose={onClose}
         onBackButtonClick={isEditingMessage ? handleBackOrClose : undefined}
         moduleClassName="module-ForwardMessageModal"
-        title={i18n('icu:ForwardMessageModal__title')}
-        useFocusTrap={false}
+        title={title}
+        theme={modalTheme}
+        useFocusTrap={isInFullScreenCall}
         padded={false}
         modalFooter={footer}
         noMouseClose
@@ -413,9 +435,7 @@ type ForwardMessageEditorProps = Readonly<{
   draft: MessageForwardDraft;
   linkPreview: LinkPreviewType | null | void;
   removeLinkPreview(): void;
-  RenderCompositionTextArea: (
-    props: SmartCompositionTextAreaProps
-  ) => JSX.Element;
+  RenderCompositionTextArea: ComponentType<SmartCompositionTextAreaProps>;
   onChange: (
     messageText: string,
     bodyRanges: HydratedBodyRangesType,
@@ -470,8 +490,9 @@ function ForwardMessageEditor({
       ) : null}
 
       <RenderCompositionTextArea
-        bodyRanges={draft.bodyRanges}
+        bodyRanges={draft.bodyRanges ?? null}
         draftText={draft.messageBody ?? ''}
+        isActive
         onChange={onChange}
         onSubmit={onSubmit}
         theme={theme}

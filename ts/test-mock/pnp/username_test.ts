@@ -12,7 +12,7 @@ import { uuidToBytes } from '../../util/uuidToBytes';
 import { MY_STORY_ID } from '../../types/Stories';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
-import { bufferToUuid } from '../helpers';
+import { bufferToUuid, typeIntoInput } from '../helpers';
 import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes';
 
 export const debug = createDebug('mock:test:username');
@@ -93,7 +93,15 @@ describe('pnp/username', function (this: Mocha.Suite) {
         .locator(
           `[data-testid="${usernameContact.device.aci}"] >> "${USERNAME}"`
         )
-        .waitFor();
+        .click();
+
+      debug('Send message to username');
+      {
+        const compositionInput = await app.waitForEnabledComposer();
+
+        await typeIntoInput(compositionInput, 'Hello username');
+        await compositionInput.press('Enter');
+      }
 
       let state = await phone.expectStorageState('consistency check');
 
@@ -141,6 +149,31 @@ describe('pnp/username', function (this: Mocha.Suite) {
         assert.strictEqual(removed[0].contact?.aci, usernameContact.device.aci);
         assert.strictEqual(removed[0].contact?.username, USERNAME);
       }
+
+      if (type === 'system') {
+        // No notifications
+        const notifications = window.locator('.SystemMessage');
+        assert.strictEqual(
+          await notifications.count(),
+          0,
+          'notification count'
+        );
+      } else {
+        // One notification - the username transition
+        const notifications = window.locator('.SystemMessage');
+        await notifications.waitFor();
+        assert.strictEqual(
+          await notifications.count(),
+          1,
+          'notification count'
+        );
+
+        const first = await notifications.first();
+        assert.strictEqual(
+          await first.innerText(),
+          `You started this chat with ${USERNAME}`
+        );
+      }
     });
   }
 
@@ -158,7 +191,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
     debug('entering new username');
     const usernameField = profileEditor.locator('.Input__input');
-    await usernameField.type(NICKNAME);
+    await typeIntoInput(usernameField, NICKNAME);
 
     debug('waiting for generated discriminator');
     const discriminator = profileEditor.locator(
@@ -275,16 +308,18 @@ describe('pnp/username', function (this: Mocha.Suite) {
     await window.getByRole('button', { name: 'New chat' }).click();
 
     const searchInput = window.locator('.module-SearchInput__container input');
-    await searchInput.type(CARL_USERNAME);
+    await typeIntoInput(searchInput, CARL_USERNAME);
 
     debug('starting lookup');
-    await window.locator(`div.ListTile >> "${CARL_USERNAME}"`).click();
+    await window
+      .locator(`div.ListTile >> "${CARL_USERNAME}"`)
+      .click({ timeout: 2000 });
 
     debug('sending a message');
     {
       const compositionInput = await app.waitForEnabledComposer();
 
-      await compositionInput.type('Hello Carl');
+      await typeIntoInput(compositionInput, 'Hello Carl');
       await compositionInput.press('Enter');
 
       const { body, source } = await carl.waitForMessage();
@@ -312,7 +347,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
         encryptedUsername: Buffer.concat([
           entropy,
           uuidToBytes(serverId),
-        ]).toString('base64'),
+        ]).toString('base64url'),
       })
       .toString();
 
@@ -341,7 +376,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
     {
       const compositionInput = await app.waitForEnabledComposer();
 
-      await compositionInput.type('Hello Carl');
+      await typeIntoInput(compositionInput, 'Hello Carl');
       await compositionInput.press('Enter');
 
       const { body, source } = await carl.waitForMessage();

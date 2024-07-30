@@ -22,7 +22,9 @@
 
     width: 2px;
     border-radius: 2px;
-    transition: height 250ms, background 250ms;
+    transition:
+      height 250ms,
+      background 250ms;
 
     &:not(:first-of-type) {
       margin-inline-start: 2px;

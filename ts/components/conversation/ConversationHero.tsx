@@ -15,6 +15,8 @@ import { StoryViewModeType } from '../../types/Stories';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
+import { Button, ButtonVariant } from '../Button';
+import { SafetyTipsModal } from '../SafetyTipsModal';
 
 export type Props = {
   about?: string;
@@ -29,7 +31,7 @@ export type Props = {
   phoneNumber?: string;
   sharedGroupNames?: ReadonlyArray<string>;
   unblurAvatar: (conversationId: string) => void;
-  unblurredAvatarPath?: string;
+  unblurredAvatarUrl?: string;
   updateSharedGroups: (conversationId: string) => unknown;
   theme: ThemeType;
   viewUserStories: ViewUserStoriesActionCreatorType;
@@ -42,6 +44,7 @@ const renderMembershipRow = ({
   i18n,
   isMe,
   onClickMessageRequestWarning,
+  onToggleSafetyTips,
   phoneNumber,
   sharedGroupNames,
 }: Pick<
@@ -54,6 +57,7 @@ const renderMembershipRow = ({
 > &
   Required<Pick<Props, 'sharedGroupNames'>> & {
     onClickMessageRequestWarning: () => void;
+    onToggleSafetyTips: (showSafetyTips: boolean) => void;
   }) => {
   if (conversationType !== 'direct') {
     return null;
@@ -67,6 +71,20 @@ const renderMembershipRow = ({
     );
   }
 
+  const safetyTipsButton = (
+    <div>
+      <Button
+        className="module-conversation-hero__safety-tips-button"
+        variant={ButtonVariant.SecondaryAffirmative}
+        onClick={() => {
+          onToggleSafetyTips(true);
+        }}
+      >
+        {i18n('icu:MessageRequestWarning__safety-tips')}
+      </Button>
+    </div>
+  );
+
   if (sharedGroupNames.length > 0) {
     return (
       <div className="module-conversation-hero__membership">
@@ -76,6 +94,7 @@ const renderMembershipRow = ({
           nameClassName="module-conversation-hero__membership__name"
           sharedGroupNames={sharedGroupNames}
         />
+        {safetyTipsButton}
       </div>
     );
   }
@@ -86,6 +105,7 @@ const renderMembershipRow = ({
     return (
       <div className="module-conversation-hero__membership">
         {i18n('icu:no-groups-in-common')}
+        {safetyTipsButton}
       </div>
     );
   }
@@ -107,6 +127,7 @@ const renderMembershipRow = ({
           {i18n('icu:MessageRequestWarning__learn-more')}
         </button>
       </div>
+      {safetyTipsButton}
     </div>
   );
 };
@@ -115,7 +136,7 @@ export function ConversationHero({
   i18n,
   about,
   acceptedMessageRequest,
-  avatarPath,
+  avatarUrl,
   badge,
   color,
   conversationType,
@@ -131,11 +152,12 @@ export function ConversationHero({
   theme,
   title,
   unblurAvatar,
-  unblurredAvatarPath,
+  unblurredAvatarUrl,
   updateSharedGroups,
   viewUserStories,
   toggleAboutContactModal,
 }: Props): JSX.Element {
+  const [isShowingSafetyTips, setIsShowingSafetyTips] = useState(false);
   const [isShowingMessageRequestWarning, setIsShowingMessageRequestWarning] =
     useState(false);
   const closeMessageRequestWarning = () => {
@@ -152,10 +174,10 @@ export function ConversationHero({
   if (
     shouldBlurAvatar({
       acceptedMessageRequest,
-      avatarPath,
+      avatarUrl,
       isMe,
       sharedGroupNames,
-      unblurredAvatarPath,
+      unblurredAvatarUrl,
     })
   ) {
     avatarBlur = AvatarBlur.BlurPictureWithClickToView;
@@ -199,7 +221,7 @@ export function ConversationHero({
       <div className="module-conversation-hero">
         <Avatar
           acceptedMessageRequest={acceptedMessageRequest}
-          avatarPath={avatarPath}
+          avatarUrl={avatarUrl}
           badge={badge}
           blur={avatarBlur}
           className="module-conversation-hero__avatar"
@@ -248,6 +270,9 @@ export function ConversationHero({
             onClickMessageRequestWarning() {
               setIsShowingMessageRequestWarning(true);
             },
+            onToggleSafetyTips(showSafetyTips: boolean) {
+              setIsShowingSafetyTips(showSafetyTips);
+            },
             phoneNumber,
             sharedGroupNames,
           })}
@@ -276,6 +301,15 @@ export function ConversationHero({
         >
           {i18n('icu:MessageRequestWarning__dialog__details')}
         </ConfirmationDialog>
+      )}
+
+      {isShowingSafetyTips && (
+        <SafetyTipsModal
+          i18n={i18n}
+          onClose={() => {
+            setIsShowingSafetyTips(false);
+          }}
+        />
       )}
     </>
   );

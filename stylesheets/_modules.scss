@@ -408,7 +408,9 @@ $message-padding-horizontal: 12px;
   background: transparent;
   border: 1px solid $color-gray-20;
   animation: module-message__select-checkbox--fadeIn 0.2s ease-out;
-  transition: background 0.1s ease-out, border-color 0.1s ease-out;
+  transition:
+    background 0.1s ease-out,
+    border-color 0.1s ease-out;
 
   &::before {
     content: '';
@@ -953,7 +955,7 @@ $message-padding-horizontal: 12px;
   padding-inline: $message-padding-horizontal;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
 
   @include light-theme {
     background-color: $color-gray-02;
@@ -992,6 +994,7 @@ $message-padding-horizontal: 12px;
 .module-message__link-preview__description {
   @include font-body-2;
 
+  margin-top: 4px;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 5;
@@ -1106,6 +1109,9 @@ $message-padding-horizontal: 12px;
   a {
     text-decoration: underline;
     outline: none;
+    // Allow links to be broken anywhere so they don't force extra line breaks
+    // when surrounded by text.
+    word-break: break-all;
 
     @include light-theme {
       color: $color-white-alpha-90;
@@ -1184,6 +1190,8 @@ $message-padding-horizontal: 12px;
   &--inline {
     float: inline-end;
     margin-top: -14px;
+    position: relative;
+    z-index: $z-index-base;
   }
 }
 
@@ -1197,6 +1205,29 @@ $message-padding-horizontal: 12px;
 
   @include dark-theme {
     color: $color-gray-25;
+  }
+}
+
+.module-message__metadata__sms {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  margin-inline-start: 6px;
+  // High margin to leave space for the increase when we go to two checks
+  margin-bottom: 2px;
+
+  @include color-svg(
+    '../images/icons/v2/lock-unlock-outline-12.svg',
+    $color-white
+  );
+}
+
+.module-message__metadata__sms--incoming {
+  @include light-theme {
+    background-color: $color-gray-60;
+  }
+  @include dark-theme {
+    background-color: $color-gray-25;
   }
 }
 
@@ -3714,7 +3745,6 @@ button.module-image__border-overlay:focus {
   }
 }
 .module-ongoing-call {
-  $local-preview-width: 108px;
   $local-preview-height: 80px;
 
   &__remote-video-enabled {
@@ -3996,8 +4026,12 @@ button.module-image__border-overlay:focus {
     line-height: 0;
     overflow: hidden;
     border-radius: 10px;
-    transition: top 200ms linear, inset-inline-start 200ms linear,
-      transform 200ms linear, width 200ms linear, height 200ms linear;
+    transition:
+      top 200ms linear,
+      inset-inline-start 200ms linear,
+      transform 200ms linear,
+      width 200ms linear,
+      height 200ms linear;
 
     @media (prefers-reduced-motion) {
       transition: none;
@@ -4211,7 +4245,7 @@ button.module-image__border-overlay:focus {
       margin-inline: 0 16px;
       overflow: hidden;
       position: relative;
-      width: $local-preview-width;
+      width: $calling-local-preview-width;
 
       &--active {
         box-shadow: 0px 4px 14px 0px $color-black-alpha-40;
@@ -4231,6 +4265,10 @@ button.module-image__border-overlay:focus {
     }
   }
 
+  &__controls {
+    z-index: $z-index-above-above-base;
+  }
+
   &__controls--fadeIn {
     @include module-ongoing-call__controls--fade-in;
   }
@@ -4244,7 +4282,6 @@ button.module-image__border-overlay:focus {
   position: absolute;
   top: calc(32px + var(--title-bar-drag-area-height));
   inset-inline-end: 0;
-  z-index: $z-index-above-above-base;
   display: flex;
 
   &__button {
@@ -4264,7 +4301,9 @@ button.module-image__border-overlay:focus {
   backface-visibility: hidden;
   background-color: $color-gray-95;
   border-radius: 4px;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.05), 0px 8px 20px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0px 0px 8px rgba(0, 0, 0, 0.05),
+    0px 8px 20px rgba(0, 0, 0, 0.3);
   cursor: grab;
   height: 158px;
   position: fixed;
@@ -4362,29 +4401,37 @@ button.module-image__border-overlay:focus {
   flex-direction: column;
   width: 320px;
   height: 440px;
+  max-height: calc(100vh - $CallControls__height - 22px);
+  padding-block: 5px 0;
+  padding-inline: 5px;
+  margin-block-end: 85px;
+  margin-block-start: 20px;
+  margin-inline: auto;
   background-color: $color-gray-80;
   border-radius: 10px;
   color: $color-white;
   filter: drop-shadow(0px 4px 3px $color-black-alpha-20);
-  margin-inline-end: 340px;
-  margin-block-end: 85px;
-  margin-block-start: 20px;
   outline: 1px solid $color-gray-62;
   overflow: hidden;
-  padding-block: 5px 0;
-  padding-inline: 5px;
 
   &__overlay {
     position: absolute;
     top: 0;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
     width: 100vw;
     height: 100vh;
-    justify-content: flex-end;
+    padding-inline-start: 15px;
+    align-items: flex-end;
     inset-inline-start: 0;
     z-index: $z-index-calling;
+
+    &::after {
+      content: '';
+      display: flex;
+      flex-shrink: 1;
+      flex-basis: 480px;
+    }
   }
 
   &__title {
@@ -4392,6 +4439,7 @@ button.module-image__border-overlay:focus {
   }
 
   &__contact-icon {
+    margin-inline-start: 0.3em;
     background-color: $color-gray-25;
   }
 
@@ -4414,16 +4462,22 @@ button.module-image__border-overlay:focus {
 
   &__contact {
     @include font-body-1;
+    @include button-reset;
     display: flex;
     align-items: center;
+    width: 100%;
     margin-block: 2px;
     padding-block: 8px;
     padding-inline-start: 10px;
     padding-inline-end: 2px;
     list-style-type: none;
     border-radius: 6px;
+    cursor: auto;
     &:hover {
       background-color: $color-gray-62;
+    }
+    &[disabled] {
+      cursor: auto;
     }
   }
 
@@ -4506,6 +4560,17 @@ button.module-image__border-overlay:focus {
       $color-white
     );
   }
+
+  &__remove {
+    @include color-svg(
+      '../images/icons/v3/minus/minus-circle-compact.svg',
+      $color-white
+    );
+  }
+}
+
+button.module-calling-participants-list__contact {
+  cursor: pointer;
 }
 
 .module-call-need-permission-screen {
@@ -4555,8 +4620,11 @@ button.module-image__border-overlay:focus {
     padding-inline: 0;
   }
 
+  // Center chat list icons in narrow mode by reserving scrollbar space, preventing
+  // scrollbar from pushing content
   &--width-narrow {
-    padding-inline: 10px;
+    padding-inline: 10px 1px;
+    scrollbar-gutter: stable;
   }
 
   &__item {
@@ -4668,10 +4736,6 @@ button.module-image__border-overlay:focus {
       padding-inline: 14px;
       user-select: none;
       width: 100%;
-
-      .module-conversation-list--width-narrow & {
-        padding-inline: 14px 0;
-      }
 
       #{$unread-indicator} {
         $size: 18px;
@@ -4817,10 +4881,6 @@ button.module-image__border-overlay:focus {
         align-items: stretch;
         overflow: hidden;
 
-        .module-conversation-list--width-narrow & {
-          margin-inline-start: 0;
-        }
-
         &--disabled {
           opacity: 0.5;
         }
@@ -4946,6 +5006,22 @@ button.module-image__border-overlay:focus {
 
             &--always-full-size {
               height: 36px; // two lines
+            }
+
+            &__blocked {
+              display: flex;
+              align-items: center;
+              &::before {
+                content: '';
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                margin-inline-end: 4px;
+                @include color-svg(
+                  '../images/icons/v3/block/block.svg',
+                  currentColor
+                );
+              }
             }
 
             &__message-request {
@@ -7531,22 +7607,35 @@ button.module-image__border-overlay:focus {
 
 .module-message__action {
   @include button-reset();
-  margin-top: 5px;
-  padding: 10px;
+  border-radius: 30px;
+  margin-top: 14px;
+  margin-bottom: 4px;
+  padding: 8px;
   text-align: center;
   width: 100%;
+
   @include font-body-1-bold();
-  border-top: 1px solid;
 }
 .module-message__action--outgoing {
-  border-top-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba($color-white, 0.22);
+  &:hover {
+    background-color: rgba($color-white, 0.36);
+  }
 }
 .module-message__action--incoming {
   @include light-theme {
-    border-top-color: rgba(0, 0, 0, 0.25);
+    color: $color-link;
+    background-color: $color-white-alpha-70;
+    &:hover {
+      background-color: $color-white;
+    }
   }
   @include dark-theme {
-    border-top-color: rgba(255, 255, 255, 0.25);
+    color: $color-white;
+    background-color: rgba($color-white, 0.07);
+    &:hover {
+      background-color: rgba($color-white, 0.17);
+    }
   }
 }
 
@@ -7554,19 +7643,7 @@ button.module-image__border-overlay:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
   margin-inline-end: 12px;
-  background: #e5e5fe;
-  @include rounded-corners();
-  &::before {
-    content: '';
-    display: block;
-    width: 36px;
-    height: 36px;
-    @include color-svg(
-      '../images/icons/v3/video/video-display-bold.svg',
-      #5151f6
-    );
-  }
+  margin-top: 4px;
+  margin-bottom: 4px;
 }

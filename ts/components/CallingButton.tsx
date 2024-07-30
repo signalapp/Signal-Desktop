@@ -111,34 +111,42 @@ export function CallingButton({
     tooltipContent = i18n('icu:CallingButton--more-options');
   }
 
+  const buttonContent = (
+    <button
+      aria-label={tooltipContent}
+      className={classNames(
+        'CallingButton__icon',
+        `CallingButton__icon--${classNameSuffix}`
+      )}
+      disabled={disabled}
+      id={uniqueButtonId}
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      type="button"
+    >
+      <div />
+    </button>
+  );
+
   return (
     <div className="CallingButton">
-      <Tooltip
-        className="CallingButton__tooltip"
-        wrapperClassName={classNames(
-          'CallingButton__button-container',
-          !isVisible && 'CallingButton__button-container--hidden'
-        )}
-        content={tooltipContent}
-        direction={tooltipDirection}
-        theme={Theme.Dark}
-      >
-        <button
-          aria-label={tooltipContent}
-          className={classNames(
-            'CallingButton__icon',
-            `CallingButton__icon--${classNameSuffix}`
+      {tooltipContent === '' ? (
+        <div className="CallingButton__button-container">{buttonContent}</div>
+      ) : (
+        <Tooltip
+          className="CallingButton__tooltip"
+          wrapperClassName={classNames(
+            'CallingButton__button-container',
+            !isVisible && 'CallingButton__button-container--hidden'
           )}
-          disabled={disabled}
-          id={uniqueButtonId}
-          onClick={onClick}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          type="button"
+          content={tooltipContent}
+          direction={tooltipDirection}
+          theme={Theme.Dark}
         >
-          <div />
-        </button>
-      </Tooltip>
+          {buttonContent}
+        </Tooltip>
+      )}
     </div>
   );
 }

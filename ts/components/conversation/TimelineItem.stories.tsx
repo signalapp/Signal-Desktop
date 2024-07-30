@@ -33,6 +33,7 @@ const renderEmojiPicker: TimelineItemProps['renderEmojiPicker'] = ({
     ref={ref}
     onClose={onClose}
     onPickEmoji={onPickEmoji}
+    wasInvokedFromKeyboard={false}
   />
 );
 
@@ -59,6 +60,8 @@ const getDefaultProps = () => ({
   id: 'asdf',
   isNextItemCallingNotification: false,
   isTargeted: false,
+  isBlocked: false,
+  isGroup: false,
   interactionMode: 'keyboard' as const,
   theme: ThemeType.light,
   platform: 'darwin',
@@ -79,6 +82,7 @@ const getDefaultProps = () => ({
   showConversation: action('showConversation'),
   openGiftBadge: action('openGiftBadge'),
   saveAttachment: action('saveAttachment'),
+  onOpenEditNicknameAndNoteModal: action('onOpenEditNicknameAndNoteModal'),
   onOutgoingAudioCallInConversation: action(
     'onOutgoingAudioCallInConversation'
   ),
@@ -118,6 +122,9 @@ const getDefaultProps = () => ({
   viewStory: action('viewStory'),
 
   onReplyToMessage: action('onReplyToMessage'),
+  onOpenMessageRequestActionsConfirmation: action(
+    'onOpenMessageRequestActionsConfirmation'
+  ),
 });
 
 export default {
@@ -191,6 +198,12 @@ export function Notification(): JSX.Element {
       data: {
         sender: getDefaultConversation(),
         timestamp: Date.now(),
+      },
+    },
+    {
+      type: 'titleTransitionNotification',
+      data: {
+        oldTitle: 'alice.01',
       },
     },
     {

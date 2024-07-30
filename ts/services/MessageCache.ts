@@ -6,6 +6,7 @@ import { throttle } from 'lodash';
 import LRU from 'lru-cache';
 import type { MessageAttributesType } from '../model-types.d';
 import type { MessageModel } from '../models/messages';
+import { DataReader, DataWriter } from '../sql/Client';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import { getEnvironment, Environment } from '../environment';
@@ -16,6 +17,7 @@ import { isNotNil } from '../util/isNotNil';
 import { map } from '../util/iterables';
 import { softAssert, strictAssert } from '../util/assert';
 import { isStory } from '../messages/helpers';
+import type { SendStateByConversationId } from '../messages/MessageSendState';
 import { getStoryDataFromMessageAttributes } from './storyLoader';
 
 const MAX_THROTTLED_REDUX_UPDATERS = 200;
@@ -95,13 +97,42 @@ export class MessageCache {
     conversationId: string;
     obsoleteId: string;
   }): void {
+    const updateSendState = (
+      sendState?: SendStateByConversationId
+    ): SendStateByConversationId | undefined => {
+      if (!sendState?.[obsoleteId]) {
+        return sendState;
+      }
+      const { [obsoleteId]: obsoleteSendState, ...rest } = sendState;
+      return {
+        [conversationId]: obsoleteSendState,
+        ...rest,
+      };
+    };
+
     for (const [messageId, messageAttributes] of this.state.messages) {
       if (messageAttributes.conversationId !== obsoleteId) {
         continue;
       }
+
+      const editHistory = messageAttributes.editHistory?.map(history => {
+        return {
+          ...history,
+          sendStateByConversationId: updateSendState(
+            history.sendStateByConversationId
+          ),
+        };
+      });
+
       this.setAttributes({
         messageId,
-        messageAttributes: { conversationId },
+        messageAttributes: {
+          conversationId,
+          sendStateByConversationId: updateSendState(
+            messageAttributes.sendStateByConversationId
+          ),
+          editHistory,
+        },
         skipSaveToDatabase: true,
       });
     }
@@ -122,9 +153,8 @@ export class MessageCache {
 
     let messageAttributesFromDatabase: MessageAttributesType | undefined;
     try {
-      messageAttributesFromDatabase = await window.Signal.Data.getMessageById(
-        messageId
-      );
+      messageAttributesFromDatabase =
+        await DataReader.getMessageById(messageId);
     } catch (err: unknown) {
       log.error(
         `MessageCache.resolveAttributes(${messageId}): db error ${Errors.toLogFormat(
@@ -230,7 +260,7 @@ export class MessageCache {
       return;
     }
 
-    return window.Signal.Data.saveMessage(nextMessageAttributes, {
+    return DataWriter.saveMessage(nextMessageAttributes, {
       ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
   }

@@ -1,9 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { assert } from 'chai';
 import createDebug from 'debug';
 import Long from 'long';
+import { StorageState } from '@signalapp/mock-server';
 
 import type { App } from '../playwright';
 import * as durations from '../../util/durations';
@@ -33,30 +33,44 @@ describe('sendSync', function (this: Mocha.Suite) {
     await bootstrap.teardown();
   });
 
-  it('creates conversation for sendSync to PNI', async () => {
-    const { desktop, phone, server } = bootstrap;
+  it('processes a synd sync in a group', async () => {
+    const { contacts, desktop, phone } = bootstrap;
 
-    debug('Creating stranger');
-    const STRANGER_NAME = 'Mysterious Stranger';
-    const stranger = await server.createPrimaryDevice({
-      profileName: STRANGER_NAME,
+    const window = await app.getWindow();
+
+    const members = contacts.slice(4);
+
+    const group = await phone.createGroup({
+      title: 'Mock Group',
+      members: [phone, ...members],
     });
 
-    const timestamp = Date.now();
-    const messageText = 'hey there, just reaching out';
-    const destinationServiceId = stranger.device.pni;
-    const destination = stranger.device.number;
+    await phone.setStorageState(
+      StorageState.getEmpty()
+        .addGroup(group, { whitelisted: true })
+        .pinGroup(group)
+    );
+
+    debug('Send a group sync sent message from phone');
+    const messageBody = 'Hi everybody!';
+    const timestamp = bootstrap.getTimestamp();
     const originalDataMessage = {
-      body: messageText,
+      body: messageBody,
       timestamp: Long.fromNumber(timestamp),
+      groupV2: {
+        masterKey: group.masterKey,
+        revision: group.revision,
+      },
     };
     const content = {
       syncMessage: {
         sent: {
-          destinationServiceId,
-          destination,
           timestamp: Long.fromNumber(timestamp),
           message: originalDataMessage,
+          unidentifiedStatus: members.map(member => ({
+            destinationServiceId: member.device.aci,
+            destination: member.device.number,
+          })),
         },
       },
     };
@@ -65,30 +79,15 @@ describe('sendSync', function (this: Mocha.Suite) {
     };
     await phone.sendRaw(desktop, content, sendOptions);
 
-    const page = await app.getWindow();
-    const leftPane = page.locator('#LeftPane');
-
-    debug('checking left pane for conversation');
-    const strangerName = await leftPane
-      .locator(
-        '.module-conversation-list__item--contact-or-conversation .module-contact-name'
-      )
-      .first()
-      .innerText();
-
-    assert.equal(
-      strangerName.slice(-4),
-      destination?.slice(-4),
-      'no profile, just phone number'
-    );
-
     debug('opening conversation');
+    const leftPane = window.locator('#LeftPane');
+
     await leftPane
       .locator('.module-conversation-list__item--contact-or-conversation')
       .first()
       .click();
 
     debug('checking for latest message');
-    await page.locator(`.module-message__text >> "${messageText}"`).waitFor();
+    await window.locator(`.module-message__text >> "${messageBody}"`).waitFor();
   });
 });

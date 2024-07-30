@@ -1,40 +1,105 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentType } from '../types/Attachment';
-import { downloadAttachmentV2 as doDownloadAttachment } from '../textsecure/downloadAttachment';
+import {
+  type AttachmentType,
+  mightBeOnBackupTier,
+  AttachmentVariant,
+} from '../types/Attachment';
+import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment';
+import { MediaTier } from '../types/AttachmentDownload';
+import * as log from '../logging/log';
+import { redactGenericText } from './privacy';
+import { HTTPError } from '../textsecure/Errors';
+import { toLogFormat } from '../types/errors';
+import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto';
 
-export async function downloadAttachment(
-  attachmentData: AttachmentType
-): Promise<AttachmentType | null> {
-  let migratedAttachment: AttachmentType;
+export class AttachmentPermanentlyUndownloadableError extends Error {}
+
+export async function downloadAttachment({
+  attachment,
+  variant = AttachmentVariant.Default,
+  dependencies = { downloadAttachmentFromServer: doDownloadAttachment },
+}: {
+  attachment: AttachmentType;
+  variant?: AttachmentVariant;
+  dependencies?: { downloadAttachmentFromServer: typeof doDownloadAttachment };
+}): Promise<ReencryptedAttachmentV2> {
+  const redactedDigest = redactGenericText(attachment.digest ?? '');
+  const variantForLogging =
+    variant !== AttachmentVariant.Default ? `[${variant}]` : '';
+  const dataId = `${redactedDigest}${variantForLogging}`;
+  const logId = `downloadAttachmentUtil(${dataId})`;
 
   const { server } = window.textsecure;
   if (!server) {
     throw new Error('window.textsecure.server is not available!');
   }
 
-  const { id: legacyId } = attachmentData;
+  let migratedAttachment: AttachmentType;
+
+  const { id: legacyId } = attachment;
   if (legacyId === undefined) {
-    migratedAttachment = attachmentData;
+    migratedAttachment = attachment;
   } else {
     migratedAttachment = {
-      ...attachmentData,
+      ...attachment,
       cdnId: String(legacyId),
     };
   }
 
-  let downloaded;
-  try {
-    downloaded = await doDownloadAttachment(server, migratedAttachment);
-  } catch (error) {
-    // Attachments on the server expire after 30 days, then start returning 404 or 403
-    if (error && (error.code === 404 || error.code === 403)) {
-      return null;
+  if (mightBeOnBackupTier(migratedAttachment)) {
+    try {
+      return await dependencies.downloadAttachmentFromServer(
+        server,
+        migratedAttachment,
+        {
+          variant,
+          mediaTier: MediaTier.BACKUP,
+          logPrefix: dataId,
+        }
+      );
+    } catch (error) {
+      if (error instanceof HTTPError && error.code === 404) {
+        // This is an expected occurrence if restoring from a backup before the
+        // attachment has been moved to the backup tier
+        log.warn(`${logId}: attachment not found on backup CDN`);
+      } else {
+        // We also just log this error instead of throwing, since we want to still try to
+        // find it on the attachment tier.
+        log.error(
+          `${logId}: error when downloading from backup CDN; will try transit tier`,
+          toLogFormat(error)
+        );
+      }
     }
-
-    throw error;
   }
 
-  return downloaded;
+  try {
+    return await dependencies.downloadAttachmentFromServer(
+      server,
+      migratedAttachment,
+      {
+        variant,
+        mediaTier: MediaTier.STANDARD,
+        logPrefix: dataId,
+      }
+    );
+  } catch (error) {
+    if (mightBeOnBackupTier(migratedAttachment)) {
+      // We don't want to throw the AttachmentPermanentlyUndownloadableError because we
+      // may just need to wait for this attachment to end up on the backup tier
+      throw error;
+    }
+    // Attachments on the transit tier expire after 30 days, then start returning 404 or
+    // 403
+    if (
+      error instanceof HTTPError &&
+      (error.code === 404 || error.code === 403)
+    ) {
+      throw new AttachmentPermanentlyUndownloadableError();
+    } else {
+      throw error;
+    }
+  }
 }

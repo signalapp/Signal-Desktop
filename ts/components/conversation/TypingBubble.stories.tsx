@@ -27,7 +27,7 @@ const CONTACTS = times(10, index => {
   return getDefaultConversation({
     id: `contact-${index}`,
     acceptedMessageRequest: false,
-    avatarPath: '',
+    avatarUrl: '',
     badges: [],
     color: AvatarColors[index],
     name: `${letter} ${letter}`,

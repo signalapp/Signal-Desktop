@@ -3,15 +3,31 @@
 
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
 
-export function waitForOnline(
-  navigator: Readonly<{ onLine: boolean }>,
-  onlineEventTarget: EventTarget,
-  options: Readonly<{ timeout?: number }> = {}
-): Promise<void> {
-  const { timeout } = options;
+export type WaitForOnlineOptionsType = Readonly<{
+  server?: Readonly<{ isOnline: () => boolean | undefined }>;
+  events?: {
+    on: (event: 'online', fn: () => void) => void;
+    off: (event: 'online', fn: () => void) => void;
+  };
+  timeout?: number;
+}>;
 
+export function waitForOnline({
+  server: maybeServer,
+  events = window.Whisper.events,
+  timeout,
+}: WaitForOnlineOptionsType = {}): Promise<void> {
   return new Promise((resolve, reject) => {
-    if (navigator.onLine) {
+    let server = maybeServer;
+    if (server === undefined) {
+      ({ server } = window.textsecure);
+      if (!server) {
+        reject(new Error('waitForOnline: no textsecure server'));
+        return;
+      }
+    }
+
+    if (server.isOnline()) {
       resolve();
       return;
     }
@@ -24,11 +40,11 @@ export function waitForOnline(
     };
 
     const cleanup = () => {
-      onlineEventTarget.removeEventListener('online', listener);
+      events.off('online', listener);
       clearTimeoutIfNecessary(timeoutId);
     };
 
-    onlineEventTarget.addEventListener('online', listener);
+    events.on('online', listener);
 
     if (timeout !== undefined) {
       timeoutId = setTimeout(() => {

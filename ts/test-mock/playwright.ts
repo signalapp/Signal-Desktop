@@ -168,6 +168,18 @@ export class App extends EventEmitter {
     );
   }
 
+  public async exportBackupToDisk(path: string): Promise<Uint8Array> {
+    const window = await this.getWindow();
+    return window.evaluate(
+      `window.SignalCI.exportBackupToDisk(${JSON.stringify(path)})`
+    );
+  }
+
+  public async unlink(): Promise<void> {
+    const window = await this.getWindow();
+    return window.evaluate('window.SignalCI.unlink()');
+  }
+
   // EventEmitter types
 
   public override on(type: 'close', callback: () => void): this;

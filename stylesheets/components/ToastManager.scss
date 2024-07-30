@@ -43,3 +43,7 @@
   // Roughly size of composer + a bit of padding
   bottom: 40px;
 }
+
+.ToastManager--full-screen-call {
+  bottom: calc($CallControls__height + 32px);
+}

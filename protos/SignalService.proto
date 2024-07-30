@@ -417,9 +417,11 @@ message TextAttachment {
   }
 
   message Gradient {
-    optional uint32 startColor = 1;
-    optional uint32 endColor = 2;
+    optional uint32 startColor = 1; // deprecated: this field will be removed in a future release.
+    optional uint32 endColor = 2; // deprecated: this field will be removed in a future release.
     optional uint32 angle = 3; // degrees
+    repeated uint32 colors = 4;
+    repeated float positions = 5; // percent from 0 to 1
   }
 
   optional string text = 1;
@@ -450,9 +452,11 @@ message Verified {
 message SyncMessage {
   message Sent {
     message UnidentifiedDeliveryStatus {
-      optional string destination     = 1;
+      optional string destination = 1;
       optional string destinationServiceId = 3;
-      optional bool   unidentified    = 2;
+      optional bool unidentified = 2;
+      reserved /* destinationPni */ 4;
+      optional bytes destinationPniIdentityKey = 5; // Only set for PNI destinations
     }
 
     message StoryMessageRecipient {
@@ -548,6 +552,8 @@ message SyncMessage {
       DELETE           = 2;
       BLOCK            = 3;
       BLOCK_AND_DELETE = 4;
+      SPAM             = 5;
+      BLOCK_AND_SPAM   = 6;
     }
 
     optional string threadE164 = 1;
@@ -596,9 +602,15 @@ message SyncMessage {
       ACCEPTED     = 1;
       NOT_ACCEPTED = 2;
       DELETE       = 3;
+      OBSERVED     = 4;
     }
 
+    /* Data identifying a conversation. The service ID for 1:1, the group ID for
+     * group, or the room ID for an ad-hoc call. See also
+     * `CallLogEvent/peerId`. */
     optional bytes     peerId    = 1;
+    /* An identifier for a call. Generated directly for 1:1, or derived from
+     * the era ID for group and ad-hoc calls. See also `CallLogEvent/callId`. */
     optional uint64    callId    = 2;
     optional uint64    timestamp = 3;
     optional Type      type      = 4;
@@ -607,17 +619,82 @@ message SyncMessage {
   }
 
   message CallLinkUpdate {
-    optional bytes rootKey = 1;
+    enum Type {
+      UPDATE = 0;
+      DELETE = 1;
+    }
+
+    optional bytes rootKey      = 1;
     optional bytes adminPasskey = 2;
+    optional Type  type         = 3; // defaults to UPDATE
   }
 
   message CallLogEvent {
     enum Type {
       CLEAR = 0;
+      MARKED_AS_READ = 1;
+      MARKED_AS_READ_IN_CONVERSATION = 2;
     }
 
     optional Type   type      = 1;
     optional uint64 timestamp = 2;
+    /* Data identifying a conversation. The service ID for 1:1, the group ID for
+     * group, or the room ID for an ad-hoc call. See also
+     * `CallEvent/peerId`. */
+     optional bytes peerId = 3;
+     /* An identifier for a call. Generated directly for 1:1, or derived from
+      * the era ID for group and ad-hoc calls. See also `CallEvent/callId`. */
+     optional uint64 callId = 4;
+  }
+
+  message DeleteForMe {
+    message ConversationIdentifier {
+      oneof identifier {
+        string threadServiceId = 1;
+        bytes threadGroupId = 2;
+        string threadE164 = 3;
+      }
+    }
+
+    message AddressableMessage {
+      oneof author {
+        string authorServiceId = 1;
+        string authorE164 = 2;
+      }
+      optional uint64 sentTimestamp = 3;
+    }
+
+    message MessageDeletes {
+      optional ConversationIdentifier conversation = 1;
+      repeated AddressableMessage messages = 2;
+    }
+
+    message AttachmentDelete {
+      optional ConversationIdentifier conversation = 1;
+      optional AddressableMessage targetMessage = 2;
+      // The `clientUuid` from `AttachmentPointer`.
+      optional bytes clientUuid = 3;
+      // SHA256 hash of the (encrypted, padded, etc.) attachment blob on the CDN.
+      optional bytes fallbackDigest = 4;
+      // SHA256 hash of the plaintext content of the attachment.
+      optional bytes fallbackPlaintextHash = 5;
+    }
+
+    message ConversationDelete {
+      optional ConversationIdentifier conversation = 1;
+      repeated AddressableMessage mostRecentMessages = 2;
+      optional bool isFullDelete = 3;
+      repeated AddressableMessage mostRecentNonExpiringMessages = 4;
+    }
+
+    message LocalOnlyConversationDelete {
+      optional ConversationIdentifier conversation = 1;
+    }
+
+    repeated MessageDeletes messageDeletes = 1;
+    repeated ConversationDelete conversationDeletes = 2;
+    repeated LocalOnlyConversationDelete localOnlyConversationDeletes = 3;
+    repeated AttachmentDelete attachmentDeletes = 4;
   }
 
   optional Sent                   sent                   = 1;
@@ -641,35 +718,43 @@ message SyncMessage {
   optional CallEvent              callEvent              = 19;
   optional CallLinkUpdate         callLinkUpdate         = 20;
   optional CallLogEvent           callLogEvent           = 21;
+  optional DeleteForMe            deleteForMe            = 22;
 }
 
 message AttachmentPointer {
   enum Flags {
     VOICE_MESSAGE = 1;
-    BORDERLESS    = 2;
+    BORDERLESS = 2;
     // Our parser does not handle reserved in enums: DESKTOP-1569
-    // reserved        4;
-    GIF           = 8;
+    // reserved 4;
+    GIF = 8;
   }
 
   oneof attachment_identifier {
-    fixed64        cdnId           = 1;
-    string         cdnKey          = 15;
+    fixed64 cdnId = 1;
+    string cdnKey = 15;
   }
-  optional string  contentType     = 2;
-  optional bytes   key             = 3;
-  optional uint32  size            = 4;
-  optional bytes   thumbnail       = 5;
-  optional bytes   digest          = 6;
-  optional string  fileName        = 7;
-  optional uint32  flags           = 8;
-  optional uint32  width           = 9;
-  optional uint32  height          = 10;
-  optional string  caption         = 11;
-  optional string  blurHash        = 12;
-  optional uint64  uploadTimestamp = 13;
-  optional uint32  cdnNumber       = 14;
-  // Next ID: 16
+  // Cross-client identifier for this attachment among all attachments on the
+  // owning message.
+  optional bytes clientUuid = 20;
+  optional string contentType = 2;
+  optional bytes key = 3;
+  optional uint32 size = 4;
+  optional bytes thumbnail = 5;
+  optional bytes digest = 6;
+  reserved /* incrementalMac with implicit chunk sizing */ 16;
+  reserved /* incrementalMac for all attachment types */ 18;
+  optional bytes incrementalMac = 19;
+  optional uint32 chunkSize = 17;
+  optional string fileName = 7;
+  optional uint32 flags = 8;
+  optional uint32 width = 9;
+  optional uint32 height = 10;
+  optional string caption = 11;
+  optional string blurHash = 12;
+  optional uint64 uploadTimestamp = 13;
+  optional uint32 cdnNumber = 14;
+  // Next ID: 21
 }
 
 message GroupContextV2 {

@@ -14,7 +14,7 @@ import type {
   GroupCallRemoteParticipantType,
   GroupCallVideoRequest,
 } from '../types/Calling';
-import { CallMode } from '../types/Calling';
+import { CallMode, GroupCallJoinState } from '../types/Calling';
 import { AvatarColors } from '../types/Colors';
 import type { SetRendererCanvasType } from '../state/ducks/calling';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
@@ -25,6 +25,7 @@ import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteP
 import { isReconnecting } from '../util/callingIsReconnecting';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
 import { assertDev } from '../util/assert';
+import type { CallingImageDataCache } from './CallManager';
 
 // This value should be kept in sync with the hard-coded CSS height. It should also be
 //   less than `MAX_FRAME_HEIGHT`.
@@ -39,8 +40,9 @@ function NoVideo({
 }): JSX.Element {
   const {
     acceptedMessageRequest,
-    avatarPath,
+    avatarUrl,
     color,
+    type: conversationType,
     isMe,
     phoneNumber,
     profileName,
@@ -50,15 +52,15 @@ function NoVideo({
 
   return (
     <div className="module-calling-pip__video--remote">
-      <CallBackgroundBlur avatarPath={avatarPath}>
+      <CallBackgroundBlur avatarUrl={avatarUrl}>
         <div className="module-calling-pip__video--avatar">
           <Avatar
             acceptedMessageRequest={acceptedMessageRequest}
-            avatarPath={avatarPath}
+            avatarUrl={avatarUrl}
             badge={undefined}
             color={color || AvatarColors[0]}
             noteToSelf={false}
-            conversationType="direct"
+            conversationType={conversationType}
             i18n={i18n}
             isMe={isMe}
             phoneNumber={phoneNumber}
@@ -77,6 +79,7 @@ export type PropsType = {
   activeCall: ActiveCallType;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
+  imageDataCache: React.RefObject<CallingImageDataCache>;
   setGroupCallVideoRequest: (
     _: Array<GroupCallVideoRequest>,
     speakerHeight: number
@@ -87,6 +90,7 @@ export type PropsType = {
 export function CallingPipRemoteVideo({
   activeCall,
   getGroupCallVideoFrameSource,
+  imageDataCache,
   i18n,
   setGroupCallVideoRequest,
   setRendererCanvas,
@@ -100,6 +104,10 @@ export function CallingPipRemoteVideo({
   const activeGroupCallSpeaker: undefined | GroupCallRemoteParticipantType =
     useMemo(() => {
       if (!isGroupOrAdhocActiveCall(activeCall)) {
+        return undefined;
+      }
+
+      if (activeCall.joinState !== GroupCallJoinState.Joined) {
         return undefined;
       }
 
@@ -176,6 +184,7 @@ export function CallingPipRemoteVideo({
           <GroupCallRemoteParticipant
             getFrameBuffer={getGroupCallFrameBuffer}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+            imageDataCache={imageDataCache}
             i18n={i18n}
             isInPip
             remoteParticipant={activeGroupCallSpeaker}

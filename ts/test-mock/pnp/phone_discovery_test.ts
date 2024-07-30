@@ -12,6 +12,7 @@ import { MY_STORY_ID } from '../../types/Stories';
 import { toUntaggedPni } from '../../types/ServiceId';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
+import { expectSystemMessages, typeIntoInput } from '../helpers';
 
 export const debug = createDebug('mock:test:merge');
 
@@ -98,7 +99,7 @@ describe('pnp/phone discovery', function (this: Mocha.Suite) {
     {
       const compositionInput = await app.waitForEnabledComposer();
 
-      await compositionInput.type('Hello PNI');
+      await typeIntoInput(compositionInput, 'Hello PNI');
       await compositionInput.press('Enter');
     }
 
@@ -143,12 +144,7 @@ describe('pnp/phone discovery', function (this: Mocha.Suite) {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 1, 'message count');
 
-      // One notification - the PhoneNumberDiscovery
-      const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 1, 'notification count');
-
-      const first = await notifications.first();
-      assert.match(await first.innerText(), /.* belongs to ACI Contact/);
+      await expectSystemMessages(window, [/.* belongs to ACI Contact/]);
     }
   });
 });

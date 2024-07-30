@@ -7,6 +7,7 @@ import { assert } from 'chai';
 
 import { getOSFunctions } from '../../util/os/shared';
 import * as Settings from '../../types/Settings';
+import { SystemTraySetting } from '../../types/SystemTraySetting';
 
 describe('Settings', () => {
   let sandbox: Sinon.SinonSandbox;
@@ -128,26 +129,59 @@ describe('Settings', () => {
     it('returns false on macOS', () => {
       sandbox.stub(process, 'platform').value('darwin');
       const OS = getOSFunctions(os.release());
-      assert.isFalse(Settings.isSystemTraySupported(OS, '1.2.3'));
+      assert.isFalse(Settings.isSystemTraySupported(OS));
     });
 
     it('returns true on Windows 8', () => {
       sandbox.stub(process, 'platform').value('win32');
       sandbox.stub(os, 'release').returns('8.0.0');
       const OS = getOSFunctions(os.release());
-      assert.isTrue(Settings.isSystemTraySupported(OS, '1.2.3'));
+      assert.isTrue(Settings.isSystemTraySupported(OS));
     });
 
-    it('returns false on Linux production', () => {
+    it('returns true on Linux', () => {
       sandbox.stub(process, 'platform').value('linux');
       const OS = getOSFunctions(os.release());
-      assert.isFalse(Settings.isSystemTraySupported(OS, '1.2.3'));
+      assert.isTrue(Settings.isSystemTraySupported(OS));
+    });
+  });
+
+  describe('getDefaultSystemTraySetting', () => {
+    it('returns DoNotUseSystemTray is unsupported OS', () => {
+      sandbox.stub(process, 'platform').value('darwin');
+      const OS = getOSFunctions(os.release());
+      assert.strictEqual(
+        Settings.getDefaultSystemTraySetting(OS, '1.2.3'),
+        SystemTraySetting.DoNotUseSystemTray
+      );
     });
 
-    it('returns true on Linux beta', () => {
+    it('returns MinimizeToSystemTray on Windows 8', () => {
+      sandbox.stub(process, 'platform').value('win32');
+      sandbox.stub(os, 'release').returns('8.0.0');
+      const OS = getOSFunctions(os.release());
+      assert.strictEqual(
+        Settings.getDefaultSystemTraySetting(OS, '1.2.3'),
+        SystemTraySetting.MinimizeToSystemTray
+      );
+    });
+
+    it('returns MinimizeToSystemTray on Linux Beta', () => {
       sandbox.stub(process, 'platform').value('linux');
       const OS = getOSFunctions(os.release());
-      assert.isTrue(Settings.isSystemTraySupported(OS, '1.2.3-beta.4'));
+      assert.strictEqual(
+        Settings.getDefaultSystemTraySetting(OS, '1.2.3-beta.1'),
+        SystemTraySetting.MinimizeToSystemTray
+      );
+    });
+
+    it('returns DoNotUseSystemTray on Linux Prod', () => {
+      sandbox.stub(process, 'platform').value('linux');
+      const OS = getOSFunctions(os.release());
+      assert.strictEqual(
+        Settings.getDefaultSystemTraySetting(OS, '1.2.3'),
+        SystemTraySetting.DoNotUseSystemTray
+      );
     });
   });
 });

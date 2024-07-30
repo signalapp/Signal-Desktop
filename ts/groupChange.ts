@@ -1,6 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReadonlyDeep } from 'type-fest';
 import type {
   LocalizerType,
   ICUStringMessageParamsByKeyType,
@@ -23,7 +24,7 @@ export type SmartContactRendererType<T extends string | JSX.Element> = (
 
 type StringRendererType<
   T extends string | JSX.Element,
-  ParamsByKeyType extends SelectParamsByKeyType<T> = SelectParamsByKeyType<T>
+  ParamsByKeyType extends SelectParamsByKeyType<T> = SelectParamsByKeyType<T>,
 > = <Key extends keyof ParamsByKeyType>(
   id: Key,
   i18n: LocalizerType,
@@ -56,7 +57,7 @@ export type RenderChangeResultType<T extends string | JSX.Element> =
   >;
 
 export function renderChange<T extends string | JSX.Element>(
-  change: GroupV2ChangeType,
+  change: ReadonlyDeep<GroupV2ChangeType>,
   options: RenderOptionsType<T>
 ): RenderChangeResultType<T> {
   const { details, from } = change;
@@ -79,7 +80,7 @@ export function renderChange<T extends string | JSX.Element>(
 }
 
 function renderChangeDetail<T extends string | JSX.Element>(
-  detail: GroupV2ChangeDetailType,
+  detail: ReadonlyDeep<GroupV2ChangeDetailType>,
   options: RenderOptionsType<T>
 ): string | T | ReadonlyArray<string | T> {
   const {
@@ -243,11 +244,9 @@ function renderChangeDetail<T extends string | JSX.Element>(
         return i18n('icu:GroupV2--access-invite-link--enabled--you');
       }
       if (from) {
-        return i18n(
-          'icu:GroupV2--access-invite-link--enabled--other',
-
-          { adminName: renderContact(from) }
-        );
+        return i18n('icu:GroupV2--access-invite-link--enabled--other', {
+          adminName: renderContact(from),
+        });
       }
       return i18n('icu:GroupV2--access-invite-link--enabled--unknown');
     }
@@ -256,11 +255,9 @@ function renderChangeDetail<T extends string | JSX.Element>(
         return i18n('icu:GroupV2--access-invite-link--disabled--you');
       }
       if (from) {
-        return i18n(
-          'icu:GroupV2--access-invite-link--disabled--other',
-
-          { adminName: renderContact(from) }
-        );
+        return i18n('icu:GroupV2--access-invite-link--disabled--other', {
+          adminName: renderContact(from),
+        });
       }
       return i18n('icu:GroupV2--access-invite-link--disabled--unknown');
     }
@@ -300,11 +297,14 @@ function renderChangeDetail<T extends string | JSX.Element>(
     });
   }
   if (detail.type === 'member-add-from-invite') {
-    const { aci, inviter } = detail;
+    const { aci, inviter, pni } = detail;
     const weAreJoiner = isOurServiceId(aci);
     const weAreInviter = isOurServiceId(inviter);
 
-    if (!from || from !== aci) {
+    const fromPni = pni && from === pni;
+    const fromAci = from === aci;
+
+    if (!from || (!fromPni && !fromAci)) {
       if (weAreJoiner) {
         // They can't be the same, no fromYou check here
         if (from) {
@@ -350,13 +350,9 @@ function renderChangeDetail<T extends string | JSX.Element>(
         inviterName: renderContact(inviter),
       });
     }
-    return i18n(
-      'icu:GroupV2--member-add--from-invite--other-no-from',
-
-      {
-        inviteeName: renderContact(aci),
-      }
-    );
+    return i18n('icu:GroupV2--member-add--from-invite--other-no-from', {
+      inviteeName: renderContact(aci),
+    });
   }
   if (detail.type === 'member-add-from-link') {
     const { aci } = detail;
@@ -383,11 +379,9 @@ function renderChangeDetail<T extends string | JSX.Element>(
 
     if (weAreJoiner) {
       if (from) {
-        return i18n(
-          'icu:GroupV2--member-add-from-admin-approval--you--other',
-
-          { adminName: renderContact(from) }
-        );
+        return i18n('icu:GroupV2--member-add-from-admin-approval--you--other', {
+          adminName: renderContact(from),
+        });
       }
 
       // Note: this shouldn't happen, because we only capture 'add-from-admin-approval'
@@ -399,31 +393,23 @@ function renderChangeDetail<T extends string | JSX.Element>(
     }
 
     if (fromYou) {
-      return i18n(
-        'icu:GroupV2--member-add-from-admin-approval--other--you',
-
-        { joinerName: renderContact(aci) }
-      );
+      return i18n('icu:GroupV2--member-add-from-admin-approval--other--you', {
+        joinerName: renderContact(aci),
+      });
     }
     if (from) {
-      return i18n(
-        'icu:GroupV2--member-add-from-admin-approval--other--other',
-
-        {
-          adminName: renderContact(from),
-          joinerName: renderContact(aci),
-        }
-      );
+      return i18n('icu:GroupV2--member-add-from-admin-approval--other--other', {
+        adminName: renderContact(from),
+        joinerName: renderContact(aci),
+      });
     }
 
     // Note: this shouldn't happen, because we only capture 'add-from-admin-approval'
     //   status from group change events, which always have a sender.
     log.warn('member-add-from-admin-approval change type; we have no from');
-    return i18n(
-      'icu:GroupV2--member-add-from-admin-approval--other--unknown',
-
-      { joinerName: renderContact(aci) }
-    );
+    return i18n('icu:GroupV2--member-add-from-admin-approval--other--unknown', {
+      joinerName: renderContact(aci),
+    });
   }
   if (detail.type === 'member-remove') {
     const { aci } = detail;
@@ -468,11 +454,9 @@ function renderChangeDetail<T extends string | JSX.Element>(
     if (newPrivilege === RoleEnum.ADMINISTRATOR) {
       if (weAreMember) {
         if (from) {
-          return i18n(
-            'icu:GroupV2--member-privilege--promote--you--other',
-
-            { adminName: renderContact(from) }
-          );
+          return i18n('icu:GroupV2--member-privilege--promote--you--other', {
+            adminName: renderContact(from),
+          });
         }
 
         return i18n('icu:GroupV2--member-privilege--promote--you--unknown');
@@ -509,20 +493,14 @@ function renderChangeDetail<T extends string | JSX.Element>(
         });
       }
       if (from) {
-        return i18n(
-          'icu:GroupV2--member-privilege--demote--other--other',
-
-          {
-            adminName: renderContact(from),
-            memberName: renderContact(aci),
-          }
-        );
+        return i18n('icu:GroupV2--member-privilege--demote--other--other', {
+          adminName: renderContact(from),
+          memberName: renderContact(aci),
+        });
       }
-      return i18n(
-        'icu:GroupV2--member-privilege--demote--other--unknown',
-
-        { memberName: renderContact(aci) }
-      );
+      return i18n('icu:GroupV2--member-privilege--demote--other--unknown', {
+        memberName: renderContact(aci),
+      });
     }
     log.warn(
       `member-privilege change type, privilege ${newPrivilege} is unknown`
@@ -586,14 +564,12 @@ function renderChangeDetail<T extends string | JSX.Element>(
       if (fromYou) {
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from-you--one--you',
-
           { inviteeName: renderContact(serviceId) }
         );
       }
       if (from) {
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from-you--one--other',
-
           {
             adminName: renderContact(from),
             inviteeName: renderContact(serviceId),
@@ -602,7 +578,6 @@ function renderChangeDetail<T extends string | JSX.Element>(
       }
       return i18n(
         'icu:GroupV2--pending-remove--revoke-invite-from-you--one--unknown',
-
         { inviteeName: renderContact(serviceId) }
       );
     }
@@ -619,30 +594,24 @@ function renderChangeDetail<T extends string | JSX.Element>(
     }
     if (inviter && sentByInviter) {
       if (weAreInvited) {
-        return i18n(
-          'icu:GroupV2--pending-remove--revoke-own--to-you',
-
-          { inviterName: renderContact(inviter) }
-        );
+        return i18n('icu:GroupV2--pending-remove--revoke-own--to-you', {
+          inviterName: renderContact(inviter),
+        });
       }
-      return i18n(
-        'icu:GroupV2--pending-remove--revoke-own--unknown',
-
-        { inviterName: renderContact(inviter) }
-      );
+      return i18n('icu:GroupV2--pending-remove--revoke-own--unknown', {
+        inviterName: renderContact(inviter),
+      });
     }
     if (inviter) {
       if (fromYou) {
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from--one--you',
-
           { memberName: renderContact(inviter) }
         );
       }
       if (from) {
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from--one--other',
-
           {
             adminName: renderContact(from),
             memberName: renderContact(inviter),
@@ -651,7 +620,6 @@ function renderChangeDetail<T extends string | JSX.Element>(
       }
       return i18n(
         'icu:GroupV2--pending-remove--revoke-invite-from--one--unknown',
-
         { memberName: renderContact(inviter) }
       );
     }
@@ -673,14 +641,12 @@ function renderChangeDetail<T extends string | JSX.Element>(
       if (fromYou) {
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from-you--many--you',
-
           { count }
         );
       }
       if (from) {
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from-you--many--other',
-
           {
             adminName: renderContact(from),
             count,
@@ -689,7 +655,6 @@ function renderChangeDetail<T extends string | JSX.Element>(
       }
       return i18n(
         'icu:GroupV2--pending-remove--revoke-invite-from-you--many--unknown',
-
         { count }
       );
     }
@@ -697,7 +662,6 @@ function renderChangeDetail<T extends string | JSX.Element>(
       if (fromYou) {
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from--many--you',
-
           {
             count,
             memberName: renderContact(inviter),
@@ -707,7 +671,6 @@ function renderChangeDetail<T extends string | JSX.Element>(
       if (from) {
         return i18n(
           'icu:GroupV2--pending-remove--revoke-invite-from--many--other',
-
           {
             adminName: renderContact(from),
             count,
@@ -717,7 +680,6 @@ function renderChangeDetail<T extends string | JSX.Element>(
       }
       return i18n(
         'icu:GroupV2--pending-remove--revoke-invite-from--many--unknown',
-
         {
           count,
           memberName: renderContact(inviter),
@@ -730,20 +692,14 @@ function renderChangeDetail<T extends string | JSX.Element>(
       });
     }
     if (from) {
-      return i18n(
-        'icu:GroupV2--pending-remove--revoke--many--other',
-
-        {
-          memberName: renderContact(from),
-          count,
-        }
-      );
+      return i18n('icu:GroupV2--pending-remove--revoke--many--other', {
+        memberName: renderContact(from),
+        count,
+      });
     }
-    return i18n(
-      'icu:GroupV2--pending-remove--revoke--many--unknown',
-
-      { count }
-    );
+    return i18n('icu:GroupV2--pending-remove--revoke--many--unknown', {
+      count,
+    });
   }
   if (detail.type === 'admin-approval-add-one') {
     const { aci } = detail;
@@ -768,35 +724,25 @@ function renderChangeDetail<T extends string | JSX.Element>(
     }
 
     if (fromYou) {
-      return i18n(
-        'icu:GroupV2--admin-approval-remove-one--other--you',
-
-        { joinerName: renderContact(aci) }
-      );
+      return i18n('icu:GroupV2--admin-approval-remove-one--other--you', {
+        joinerName: renderContact(aci),
+      });
     }
-    if (from && from === aci) {
-      return i18n(
-        'icu:GroupV2--admin-approval-remove-one--other--own',
-
-        { joinerName: renderContact(aci) }
-      );
+    if (from && fromYou) {
+      return i18n('icu:GroupV2--admin-approval-remove-one--other--own', {
+        joinerName: renderContact(aci),
+      });
     }
     if (from) {
-      return i18n(
-        'icu:GroupV2--admin-approval-remove-one--other--other',
-
-        {
-          adminName: renderContact(from),
-          joinerName: renderContact(aci),
-        }
-      );
+      return i18n('icu:GroupV2--admin-approval-remove-one--other--other', {
+        adminName: renderContact(from),
+        joinerName: renderContact(aci),
+      });
     }
 
-    return i18n(
-      'icu:GroupV2--admin-approval-remove-one--other--unknown',
-
-      { joinerName: renderContact(aci) }
-    );
+    return i18n('icu:GroupV2--admin-approval-remove-one--other--unknown', {
+      joinerName: renderContact(aci),
+    });
   }
   if (detail.type === 'admin-approval-bounce') {
     const { aci, times, isApprovalPending } = detail;

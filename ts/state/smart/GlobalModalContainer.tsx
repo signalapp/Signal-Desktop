@@ -1,11 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-
-import type { GlobalModalsStateType } from '../ducks/globalModals';
-import type { StateType } from '../reducer';
 import type { ButtonVariant } from '../../components/Button';
 import { ErrorModal } from '../../components/ErrorModal';
 import { GlobalModalContainer } from '../../components/GlobalModalContainer';
@@ -25,9 +22,32 @@ import { getConversationsStoppingSend } from '../selectors/conversations';
 import { getIntl, getTheme } from '../selectors/user';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { SmartDeleteMessagesModal } from './DeleteMessagesModal';
+import { SmartMessageRequestActionsConfirmation } from './MessageRequestActionsConfirmation';
+import { getGlobalModalsState } from '../selectors/globalModals';
+import { SmartEditNicknameAndNoteModal } from './EditNicknameAndNoteModal';
+import { SmartNotePreviewModal } from './NotePreviewModal';
+import { SmartCallLinkEditModal } from './CallLinkEditModal';
+import { SmartCallLinkAddNameModal } from './CallLinkAddNameModal';
+import { SmartConfirmLeaveCallModal } from './ConfirmLeaveCallModal';
+
+function renderCallLinkAddNameModal(): JSX.Element {
+  return <SmartCallLinkAddNameModal />;
+}
+
+function renderCallLinkEditModal(): JSX.Element {
+  return <SmartCallLinkEditModal />;
+}
+
+function renderConfirmLeaveCallModal(): JSX.Element {
+  return <SmartConfirmLeaveCallModal />;
+}
 
 function renderEditHistoryMessagesModal(): JSX.Element {
   return <SmartEditHistoryMessagesModal />;
+}
+
+function renderEditNicknameAndNoteModal(): JSX.Element {
+  return <SmartEditNicknameAndNoteModal />;
 }
 
 function renderProfileEditor(): JSX.Element {
@@ -50,6 +70,14 @@ function renderForwardMessagesModal(): JSX.Element {
   return <SmartForwardMessagesModal />;
 }
 
+function renderMessageRequestActionsConfirmation(): JSX.Element {
+  return <SmartMessageRequestActionsConfirmation />;
+}
+
+function renderNotePreviewModal(): JSX.Element {
+  return <SmartNotePreviewModal />;
+}
+
 function renderStoriesSettings(): JSX.Element {
   return <SmartStoriesSettingsModal />;
 }
@@ -66,141 +94,151 @@ function renderAboutContactModal(): JSX.Element {
   return <SmartAboutContactModal />;
 }
 
-export function SmartGlobalModalContainer(): JSX.Element {
-  const conversationsStoppingSend = useSelector(getConversationsStoppingSend);
-  const i18n = useSelector(getIntl);
-  const theme = useSelector(getTheme);
+export const SmartGlobalModalContainer = memo(
+  function SmartGlobalModalContainer() {
+    const conversationsStoppingSend = useSelector(getConversationsStoppingSend);
+    const i18n = useSelector(getIntl);
+    const theme = useSelector(getTheme);
 
-  const hasSafetyNumberChangeModal = conversationsStoppingSend.length > 0;
+    const hasSafetyNumberChangeModal = conversationsStoppingSend.length > 0;
 
-  const {
-    aboutContactModalContactId,
-    addUserToAnotherGroupModalContactId,
-    authArtCreatorData,
-    contactModalState,
-    deleteMessagesProps,
-    editHistoryMessages,
-    errorModalProps,
-    formattingWarningData,
-    forwardMessagesProps,
-    isAuthorizingArtCreator,
-    isProfileEditorVisible,
-    isShortcutGuideModalVisible,
-    isSignalConnectionsVisible,
-    isStoriesSettingsVisible,
-    isWhatsNewVisible,
-    usernameOnboardingState,
-    safetyNumberChangedBlockingData,
-    safetyNumberModalContactId,
-    sendEditWarningData,
-    stickerPackPreviewId,
-    userNotFoundModalState,
-  } = useSelector<StateType, GlobalModalsStateType>(
-    state => state.globalModals
-  );
+    const {
+      aboutContactModalContactId,
+      addUserToAnotherGroupModalContactId,
+      callLinkAddNameModalRoomId,
+      callLinkEditModalRoomId,
+      confirmLeaveCallModalState,
+      contactModalState,
+      deleteMessagesProps,
+      editHistoryMessages,
+      editNicknameAndNoteModalProps,
+      errorModalProps,
+      forwardMessagesProps,
+      messageRequestActionsConfirmationProps,
+      notePreviewModalProps,
+      isProfileEditorVisible,
+      isShortcutGuideModalVisible,
+      isSignalConnectionsVisible,
+      isStoriesSettingsVisible,
+      isWhatsNewVisible,
+      usernameOnboardingState,
+      safetyNumberChangedBlockingData,
+      safetyNumberModalContactId,
+      stickerPackPreviewId,
+      userNotFoundModalState,
+    } = useSelector(getGlobalModalsState);
 
-  const {
-    cancelAuthorizeArtCreator,
-    closeErrorModal,
-    confirmAuthorizeArtCreator,
-    hideUserNotFoundModal,
-    hideWhatsNewModal,
-    showFormattingWarningModal,
-    showSendEditWarningModal,
-    toggleSignalConnectionsModal,
-  } = useGlobalModalActions();
+    const {
+      closeErrorModal,
+      hideUserNotFoundModal,
+      hideWhatsNewModal,
+      toggleSignalConnectionsModal,
+    } = useGlobalModalActions();
 
-  const renderAddUserToAnotherGroup = useCallback(() => {
+    const renderAddUserToAnotherGroup = useCallback(() => {
+      return (
+        <SmartAddUserToAnotherGroupModal
+          contactID={String(addUserToAnotherGroupModalContactId)}
+        />
+      );
+    }, [addUserToAnotherGroupModalContactId]);
+
+    const renderSafetyNumber = useCallback(
+      () => (
+        <SmartSafetyNumberModal
+          contactID={String(safetyNumberModalContactId)}
+        />
+      ),
+      [safetyNumberModalContactId]
+    );
+
+    const renderStickerPreviewModal = useCallback(
+      () =>
+        stickerPackPreviewId ? (
+          <SmartStickerPreviewModal packId={stickerPackPreviewId} />
+        ) : null,
+      [stickerPackPreviewId]
+    );
+
+    const renderErrorModal = useCallback(
+      ({
+        buttonVariant,
+        description,
+        title,
+      }: {
+        buttonVariant?: ButtonVariant;
+        description?: string;
+        title?: string;
+      }) => (
+        <ErrorModal
+          buttonVariant={buttonVariant}
+          description={description}
+          title={title}
+          i18n={i18n}
+          onClose={closeErrorModal}
+        />
+      ),
+      [closeErrorModal, i18n]
+    );
+
     return (
-      <SmartAddUserToAnotherGroupModal
-        contactID={String(addUserToAnotherGroupModalContactId)}
+      <GlobalModalContainer
+        addUserToAnotherGroupModalContactId={
+          addUserToAnotherGroupModalContactId
+        }
+        callLinkAddNameModalRoomId={callLinkAddNameModalRoomId}
+        callLinkEditModalRoomId={callLinkEditModalRoomId}
+        confirmLeaveCallModalState={confirmLeaveCallModalState}
+        contactModalState={contactModalState}
+        editHistoryMessages={editHistoryMessages}
+        editNicknameAndNoteModalProps={editNicknameAndNoteModalProps}
+        errorModalProps={errorModalProps}
+        deleteMessagesProps={deleteMessagesProps}
+        forwardMessagesProps={forwardMessagesProps}
+        messageRequestActionsConfirmationProps={
+          messageRequestActionsConfirmationProps
+        }
+        notePreviewModalProps={notePreviewModalProps}
+        hasSafetyNumberChangeModal={hasSafetyNumberChangeModal}
+        hideUserNotFoundModal={hideUserNotFoundModal}
+        hideWhatsNewModal={hideWhatsNewModal}
+        i18n={i18n}
+        isAboutContactModalVisible={aboutContactModalContactId != null}
+        isProfileEditorVisible={isProfileEditorVisible}
+        isShortcutGuideModalVisible={isShortcutGuideModalVisible}
+        isSignalConnectionsVisible={isSignalConnectionsVisible}
+        isStoriesSettingsVisible={isStoriesSettingsVisible}
+        isWhatsNewVisible={isWhatsNewVisible}
+        renderAboutContactModal={renderAboutContactModal}
+        renderAddUserToAnotherGroup={renderAddUserToAnotherGroup}
+        renderCallLinkAddNameModal={renderCallLinkAddNameModal}
+        renderCallLinkEditModal={renderCallLinkEditModal}
+        renderConfirmLeaveCallModal={renderConfirmLeaveCallModal}
+        renderContactModal={renderContactModal}
+        renderEditHistoryMessagesModal={renderEditHistoryMessagesModal}
+        renderEditNicknameAndNoteModal={renderEditNicknameAndNoteModal}
+        renderErrorModal={renderErrorModal}
+        renderDeleteMessagesModal={renderDeleteMessagesModal}
+        renderForwardMessagesModal={renderForwardMessagesModal}
+        renderMessageRequestActionsConfirmation={
+          renderMessageRequestActionsConfirmation
+        }
+        renderNotePreviewModal={renderNotePreviewModal}
+        renderProfileEditor={renderProfileEditor}
+        renderUsernameOnboarding={renderUsernameOnboarding}
+        renderSafetyNumber={renderSafetyNumber}
+        renderSendAnywayDialog={renderSendAnywayDialog}
+        renderShortcutGuideModal={renderShortcutGuideModal}
+        renderStickerPreviewModal={renderStickerPreviewModal}
+        renderStoriesSettings={renderStoriesSettings}
+        safetyNumberChangedBlockingData={safetyNumberChangedBlockingData}
+        safetyNumberModalContactId={safetyNumberModalContactId}
+        stickerPackPreviewId={stickerPackPreviewId}
+        theme={theme}
+        toggleSignalConnectionsModal={toggleSignalConnectionsModal}
+        userNotFoundModalState={userNotFoundModalState}
+        usernameOnboardingState={usernameOnboardingState}
       />
     );
-  }, [addUserToAnotherGroupModalContactId]);
-
-  const renderSafetyNumber = useCallback(
-    () => (
-      <SmartSafetyNumberModal contactID={String(safetyNumberModalContactId)} />
-    ),
-    [safetyNumberModalContactId]
-  );
-
-  const renderStickerPreviewModal = useCallback(
-    () =>
-      stickerPackPreviewId ? (
-        <SmartStickerPreviewModal packId={stickerPackPreviewId} />
-      ) : null,
-    [stickerPackPreviewId]
-  );
-
-  const renderErrorModal = useCallback(
-    ({
-      buttonVariant,
-      description,
-      title,
-    }: {
-      buttonVariant?: ButtonVariant;
-      description?: string;
-      title?: string;
-    }) => (
-      <ErrorModal
-        buttonVariant={buttonVariant}
-        description={description}
-        title={title}
-        i18n={i18n}
-        onClose={closeErrorModal}
-      />
-    ),
-    [closeErrorModal, i18n]
-  );
-
-  return (
-    <GlobalModalContainer
-      addUserToAnotherGroupModalContactId={addUserToAnotherGroupModalContactId}
-      contactModalState={contactModalState}
-      editHistoryMessages={editHistoryMessages}
-      errorModalProps={errorModalProps}
-      deleteMessagesProps={deleteMessagesProps}
-      formattingWarningData={formattingWarningData}
-      forwardMessagesProps={forwardMessagesProps}
-      hasSafetyNumberChangeModal={hasSafetyNumberChangeModal}
-      hideUserNotFoundModal={hideUserNotFoundModal}
-      hideWhatsNewModal={hideWhatsNewModal}
-      i18n={i18n}
-      isAboutContactModalVisible={aboutContactModalContactId != null}
-      isProfileEditorVisible={isProfileEditorVisible}
-      isShortcutGuideModalVisible={isShortcutGuideModalVisible}
-      isSignalConnectionsVisible={isSignalConnectionsVisible}
-      isStoriesSettingsVisible={isStoriesSettingsVisible}
-      isWhatsNewVisible={isWhatsNewVisible}
-      renderAboutContactModal={renderAboutContactModal}
-      renderAddUserToAnotherGroup={renderAddUserToAnotherGroup}
-      renderContactModal={renderContactModal}
-      renderEditHistoryMessagesModal={renderEditHistoryMessagesModal}
-      renderErrorModal={renderErrorModal}
-      renderDeleteMessagesModal={renderDeleteMessagesModal}
-      renderForwardMessagesModal={renderForwardMessagesModal}
-      renderProfileEditor={renderProfileEditor}
-      renderUsernameOnboarding={renderUsernameOnboarding}
-      renderSafetyNumber={renderSafetyNumber}
-      renderSendAnywayDialog={renderSendAnywayDialog}
-      renderShortcutGuideModal={renderShortcutGuideModal}
-      renderStickerPreviewModal={renderStickerPreviewModal}
-      renderStoriesSettings={renderStoriesSettings}
-      safetyNumberChangedBlockingData={safetyNumberChangedBlockingData}
-      safetyNumberModalContactId={safetyNumberModalContactId}
-      sendEditWarningData={sendEditWarningData}
-      showFormattingWarningModal={showFormattingWarningModal}
-      showSendEditWarningModal={showSendEditWarningModal}
-      stickerPackPreviewId={stickerPackPreviewId}
-      theme={theme}
-      toggleSignalConnectionsModal={toggleSignalConnectionsModal}
-      userNotFoundModalState={userNotFoundModalState}
-      usernameOnboardingState={usernameOnboardingState}
-      isAuthorizingArtCreator={isAuthorizingArtCreator}
-      authArtCreatorData={authArtCreatorData}
-      cancelAuthorizeArtCreator={cancelAuthorizeArtCreator}
-      confirmAuthorizeArtCreator={confirmAuthorizeArtCreator}
-    />
-  );
-}
+  }
+);

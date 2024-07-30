@@ -154,7 +154,6 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     i18n,
     isMacOS: false,
     preferredWidthFromStorage: 320,
-    regionCode: 'US',
     challengeStatus: 'idle',
     crashReportCount: 0,
 
@@ -204,6 +203,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         i18n={i18n}
         socketStatus={SocketStatus.CLOSED}
         isOnline={false}
+        isOutage={false}
         manualReconnect={action('manualReconnect')}
         {...overrideProps.dialogNetworkStatus}
         {...props}
@@ -267,6 +267,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         toast={undefined}
         megaphone={undefined}
         containerWidthBreakpoint={containerWidthBreakpoint}
+        isInFullScreenCall={false}
       />
     ),
     selectedConversationId: undefined,

@@ -1,11 +1,11 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageAttributesType } from '../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import * as EmbeddedContact from '../types/EmbeddedContact';
 
 export function getQuoteBodyText(
-  messageAttributes: MessageAttributesType,
+  messageAttributes: ReadonlyMessageAttributesType,
   id: number
 ): string | undefined {
   const storyReactionEmoji = messageAttributes.storyReaction?.emoji;

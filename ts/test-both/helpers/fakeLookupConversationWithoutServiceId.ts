@@ -38,7 +38,7 @@ export function makeFakeLookupConversationWithoutServiceId(
       result = getDefaultConversation({
         // We don't really know anything about the contact
         firstName: undefined,
-        avatarPath: undefined,
+        avatarUrl: undefined,
         name: undefined,
         profileName: undefined,
 

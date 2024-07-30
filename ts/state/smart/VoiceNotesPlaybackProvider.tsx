@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import type { VoiceNotesPlaybackProps } from '../../components/VoiceNotesPlaybackContext';
 import { VoiceNotesPlaybackProvider } from '../../components/VoiceNotesPlaybackContext';
@@ -31,144 +31,145 @@ const stateChangeConfirmUpSound = new Sound({
 /**
  * Synchronizes the audioPlayer redux state with globalMessageAudio
  */
-export function SmartVoiceNotesPlaybackProvider(
-  props: VoiceNotesPlaybackProps
-): JSX.Element | null {
-  const active = useSelector(selectAudioPlayerActive);
-  const conversations = useSelector(getConversations);
+export const SmartVoiceNotesPlaybackProvider = memo(
+  function SmartVoiceNotesPlaybackProvider(props: VoiceNotesPlaybackProps) {
+    const active = useSelector(selectAudioPlayerActive);
+    const conversations = useSelector(getConversations);
 
-  const previousStartPosition = usePrevious(undefined, active?.startPosition);
+    const previousStartPosition = usePrevious(undefined, active?.startPosition);
 
-  const content = active?.content;
-  let url: undefined | string;
-  let messageId: undefined | string;
-  let messageIdForLogging: undefined | string;
-  let playNextConsecutiveSound = false;
-  let playFinishConsecutiveSound = false;
+    const content = active?.content;
+    let url: undefined | string;
+    let messageId: undefined | string;
+    let messageIdForLogging: undefined | string;
+    let playNextConsecutiveSound = false;
+    let playFinishConsecutiveSound = false;
 
-  if (content && AudioPlayerContent.isVoiceNote(content)) {
-    ({ url, id: messageId } = content.current);
-    messageIdForLogging = content.current.messageIdForLogging;
-    playNextConsecutiveSound = content.isConsecutive;
-    playFinishConsecutiveSound =
-      content.isConsecutive && content.queue.length === 0;
-  }
-  if (content && AudioPlayerContent.isDraft(content)) {
-    url = content.url;
-  }
-
-  const {
-    messageAudioEnded,
-    currentTimeUpdated,
-    durationChanged,
-    unloadMessageAudio,
-  } = useAudioPlayerActions();
-
-  useEffect(() => {
-    // if we don't have a new audio source
-    // just control playback
-    if (!content || !url || url === globalMessageAudio.url) {
-      if (!active?.playing && globalMessageAudio.playing) {
-        globalMessageAudio.pause();
-      }
-
-      if (active?.playing && !globalMessageAudio.playing) {
-        globalMessageAudio.play();
-      }
-
-      if (active && active.playbackRate !== globalMessageAudio.playbackRate) {
-        globalMessageAudio.playbackRate = active.playbackRate;
-      }
-
-      if (
-        active &&
-        active.startPosition !== undefined &&
-        active.startPosition !== previousStartPosition &&
-        globalMessageAudio.duration !== undefined
-      ) {
-        globalMessageAudio.currentTime =
-          active.startPosition * globalMessageAudio.duration;
-      }
-
-      if (!active?.playing && globalMessageAudio.playing) {
-        globalMessageAudio.pause();
-      }
-
-      if (active?.playing && !globalMessageAudio.playing) {
-        globalMessageAudio.play();
-      }
-
-      if (active && active.playbackRate !== globalMessageAudio.playbackRate) {
-        globalMessageAudio.playbackRate = active.playbackRate;
-      }
-
-      // if user requested a new position
-      if (
-        active &&
-        active.startPosition !== undefined &&
-        active.startPosition !== previousStartPosition &&
-        active.duration
-      ) {
-        globalMessageAudio.currentTime = active.startPosition * active.duration;
-      }
-      return;
+    if (content && AudioPlayerContent.isVoiceNote(content)) {
+      ({ url, id: messageId } = content.current);
+      messageIdForLogging = content.current.messageIdForLogging;
+      playNextConsecutiveSound = content.isConsecutive;
+      playFinishConsecutiveSound =
+        content.isConsecutive && content.queue.length === 0;
+    }
+    if (content && AudioPlayerContent.isDraft(content)) {
+      url = content.url;
     }
 
-    // if we have a new audio source
-    loadAudio({
-      url,
-      playbackRate: active.playbackRate,
-      messageId,
-      messageIdForLogging,
-      startPosition: active.startPosition,
-      playFinishConsecutiveSound,
+    const {
+      messageAudioEnded,
+      currentTimeUpdated,
       durationChanged,
       unloadMessageAudio,
-      currentTimeUpdated,
-      messageAudioEnded,
-    });
+    } = useAudioPlayerActions();
 
-    if (playNextConsecutiveSound) {
-      drop(
-        (async () => {
-          await stateChangeConfirmDownSound.play();
-          globalMessageAudio.play();
-        })()
-      );
-    } else {
-      globalMessageAudio.play();
-    }
-
-    if (AudioPlayerContent.isVoiceNote(content)) {
-      if (!content.current.isPlayed) {
-        const message = conversations.messagesLookup[content.current.id];
-        if (message && message.seenStatus !== SeenStatus.Unseen) {
-          markViewed(content.current.id);
+    useEffect(() => {
+      // if we don't have a new audio source
+      // just control playback
+      if (!content || !url || url === globalMessageAudio.url) {
+        if (!active?.playing && globalMessageAudio.playing) {
+          globalMessageAudio.pause();
         }
-      } else {
-        log.info('SmartVoiceNotesPlaybackProvider: message already played', {
-          message: content.current.messageIdForLogging,
-        });
-      }
-    }
-  }, [
-    active,
-    content,
-    conversations.messagesLookup,
-    currentTimeUpdated,
-    durationChanged,
-    messageAudioEnded,
-    messageId,
-    messageIdForLogging,
-    playFinishConsecutiveSound,
-    playNextConsecutiveSound,
-    previousStartPosition,
-    unloadMessageAudio,
-    url,
-  ]);
 
-  return <VoiceNotesPlaybackProvider {...props} />;
-}
+        if (active?.playing && !globalMessageAudio.playing) {
+          globalMessageAudio.play();
+        }
+
+        if (active && active.playbackRate !== globalMessageAudio.playbackRate) {
+          globalMessageAudio.playbackRate = active.playbackRate;
+        }
+
+        if (
+          active &&
+          active.startPosition !== undefined &&
+          active.startPosition !== previousStartPosition &&
+          globalMessageAudio.duration !== undefined
+        ) {
+          globalMessageAudio.currentTime =
+            active.startPosition * globalMessageAudio.duration;
+        }
+
+        if (!active?.playing && globalMessageAudio.playing) {
+          globalMessageAudio.pause();
+        }
+
+        if (active?.playing && !globalMessageAudio.playing) {
+          globalMessageAudio.play();
+        }
+
+        if (active && active.playbackRate !== globalMessageAudio.playbackRate) {
+          globalMessageAudio.playbackRate = active.playbackRate;
+        }
+
+        // if user requested a new position
+        if (
+          active &&
+          active.startPosition !== undefined &&
+          active.startPosition !== previousStartPosition &&
+          active.duration
+        ) {
+          globalMessageAudio.currentTime =
+            active.startPosition * active.duration;
+        }
+        return;
+      }
+
+      // if we have a new audio source
+      loadAudio({
+        url,
+        playbackRate: active.playbackRate,
+        messageId,
+        messageIdForLogging,
+        startPosition: active.startPosition,
+        playFinishConsecutiveSound,
+        durationChanged,
+        unloadMessageAudio,
+        currentTimeUpdated,
+        messageAudioEnded,
+      });
+
+      if (playNextConsecutiveSound) {
+        drop(
+          (async () => {
+            await stateChangeConfirmDownSound.play();
+            globalMessageAudio.play();
+          })()
+        );
+      } else {
+        globalMessageAudio.play();
+      }
+
+      if (AudioPlayerContent.isVoiceNote(content)) {
+        if (!content.current.isPlayed) {
+          const message = conversations.messagesLookup[content.current.id];
+          if (message && message.seenStatus !== SeenStatus.Unseen) {
+            markViewed(content.current.id);
+          }
+        } else {
+          log.info('SmartVoiceNotesPlaybackProvider: message already played', {
+            message: content.current.messageIdForLogging,
+          });
+        }
+      }
+    }, [
+      active,
+      content,
+      conversations.messagesLookup,
+      currentTimeUpdated,
+      durationChanged,
+      messageAudioEnded,
+      messageId,
+      messageIdForLogging,
+      playFinishConsecutiveSound,
+      playNextConsecutiveSound,
+      previousStartPosition,
+      unloadMessageAudio,
+      url,
+    ]);
+
+    return <VoiceNotesPlaybackProvider {...props} />;
+  }
+);
 
 function loadAudio({
   url,

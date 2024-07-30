@@ -31,6 +31,12 @@ function _createPermissionHandler(
     // We default 'media' permission to false, but the user can override that for
     // the microphone and camera.
     if (permission === 'media') {
+      // Pacifying typescript because it is always there for 'media' permission
+      if (!('mediaTypes' in details)) {
+        callback(false);
+        return;
+      }
+
       if (
         details.mediaTypes?.includes('audio') ||
         details.mediaTypes?.includes('video')

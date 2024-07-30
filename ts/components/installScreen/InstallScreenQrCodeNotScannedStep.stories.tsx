@@ -10,7 +10,10 @@ import enMessages from '../../../_locales/en/messages.json';
 import type { Loadable } from '../../util/loadable';
 import { LoadingState } from '../../util/loadable';
 import type { PropsType } from './InstallScreenQrCodeNotScannedStep';
-import { InstallScreenQrCodeNotScannedStep } from './InstallScreenQrCodeNotScannedStep';
+import {
+  InstallScreenQrCodeNotScannedStep,
+  LoadError,
+} from './InstallScreenQrCodeNotScannedStep';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -34,8 +37,14 @@ export default {
   argTypes: {},
 } satisfies Meta<PropsType>;
 
-function Simulation({ finalResult }: { finalResult: Loadable<string> }) {
-  const [provisioningUrl, setProvisioningUrl] = useState<Loadable<string>>({
+function Simulation({
+  finalResult,
+}: {
+  finalResult: Loadable<string, LoadError>;
+}) {
+  const [provisioningUrl, setProvisioningUrl] = useState<
+    Loadable<string, LoadError>
+  >({
     loadingState: LoadingState.Loading,
   });
 
@@ -83,7 +92,7 @@ export function QrCodeFailedToLoad(): JSX.Element {
       i18n={i18n}
       provisioningUrl={{
         loadingState: LoadingState.LoadFailed,
-        error: new Error('uh oh'),
+        error: LoadError.Unknown,
       }}
       updates={DEFAULT_UPDATES}
       OS="macOS"
@@ -112,12 +121,34 @@ export function SimulatedLoading(): JSX.Element {
   return <Simulation finalResult={LOADED_URL} />;
 }
 
-export function SimulatedFailure(): JSX.Element {
+export function SimulatedUnknownError(): JSX.Element {
   return (
     <Simulation
       finalResult={{
         loadingState: LoadingState.LoadFailed,
-        error: new Error('uh oh'),
+        error: LoadError.Unknown,
+      }}
+    />
+  );
+}
+
+export function SimulatedNetworkIssue(): JSX.Element {
+  return (
+    <Simulation
+      finalResult={{
+        loadingState: LoadingState.LoadFailed,
+        error: LoadError.NetworkIssue,
+      }}
+    />
+  );
+}
+
+export function SimulatedTimeout(): JSX.Element {
+  return (
+    <Simulation
+      finalResult={{
+        loadingState: LoadingState.LoadFailed,
+        error: LoadError.Timeout,
       }}
     />
   );

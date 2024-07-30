@@ -5,18 +5,23 @@ import type { MenuItemConstructorOptions } from 'electron';
 import { ipcRenderer } from 'electron';
 
 import type { MenuOptionsType } from '../types/menu';
+import type { LocaleEmojiListType } from '../types/emoji';
+import { LocaleEmojiListSchema } from '../types/emoji';
 import type { MainWindowStatsType, MinimalSignalContextType } from './context';
 import { activeWindowService } from '../context/activeWindowService';
 import { config } from '../context/config';
 import { createNativeThemeListener } from '../context/createNativeThemeListener';
 import { createSetting } from '../util/preload';
-import { environment, isTestOrMockEnvironment } from '../context/environment';
+import { environment } from '../context/environment';
 import {
   localeDisplayNames,
   countryDisplayNames,
   localeMessages,
 } from '../context/localeMessages';
 import { waitForSettingsChange } from '../context/waitForSettingsChange';
+import { isTestOrMockEnvironment } from '../environment';
+
+const emojiListCache = new Map<string, LocaleEmojiListType>();
 
 export const MinimalSignalContext: MinimalSignalContextType = {
   activeWindowService,
@@ -40,6 +45,21 @@ export const MinimalSignalContext: MinimalSignalContextType = {
   async getMenuOptions(): Promise<MenuOptionsType> {
     return ipcRenderer.invoke('getMenuOptions');
   },
+  async getLocalizedEmojiList(locale: string) {
+    const cached = emojiListCache.get(locale);
+    if (cached) {
+      return cached;
+    }
+
+    const buf = await ipcRenderer.invoke(
+      'OptionalResourceService:getData',
+      `emoji-index-${locale}.json`
+    );
+    const json = JSON.parse(Buffer.from(buf).toString());
+    const result = LocaleEmojiListSchema.parse(json);
+    emojiListCache.set(locale, result);
+    return result;
+  },
   getI18nAvailableLocales: () => config.availableLocales,
   getI18nLocale: () => config.resolvedTranslationsLocale,
   getI18nLocaleMessages: () => localeMessages,
@@ -52,7 +72,7 @@ export const MinimalSignalContext: MinimalSignalContextType = {
   getHourCyclePreference: () => config.hourCyclePreference,
   getPreferredSystemLocales: () => config.preferredSystemLocales,
   getLocaleOverride: () => config.localeOverride,
-  isTestOrMockEnvironment: () => isTestOrMockEnvironment,
+  isTestOrMockEnvironment,
   nativeThemeListener: createNativeThemeListener(ipcRenderer, window),
   restartApp: () => ipcRenderer.send('restart'),
   OS: {

@@ -1,40 +1,46 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { connect } from 'react-redux';
-import { mapDispatchToProps } from '../actions';
+import React, { memo } from 'react';
+import { useSelector } from 'react-redux';
 import { StickerPreviewModal } from '../../components/stickers/StickerPreviewModal';
-import type { StateType } from '../reducer';
-
-import { getIntl, getStickersPath, getTempPath } from '../selectors/user';
+import { getIntl } from '../selectors/user';
 import {
   getBlessedPacks,
   getPacks,
   translatePackFromDB,
 } from '../selectors/stickers';
+import { useStickersActions } from '../ducks/stickers';
+import { useGlobalModalActions } from '../ducks/globalModals';
 
 export type ExternalProps = {
   packId: string;
 };
 
-const mapStateToProps = (state: StateType, props: ExternalProps) => {
-  const { packId } = props;
-  const stickersPath = getStickersPath(state);
-  const tempPath = getTempPath(state);
+export const SmartStickerPreviewModal = memo(function SmartStickerPreviewModal({
+  packId,
+}: ExternalProps) {
+  const i18n = useSelector(getIntl);
+  const packs = useSelector(getPacks);
+  const blessedPacks = useSelector(getBlessedPacks);
 
-  const packs = getPacks(state);
-  const blessedPacks = getBlessedPacks(state);
-  const pack = packs[packId];
+  const { downloadStickerPack, installStickerPack, uninstallStickerPack } =
+    useStickersActions();
+  const { closeStickerPackPreview } = useGlobalModalActions();
 
-  return {
-    ...props,
-    pack: pack
-      ? translatePackFromDB(pack, packs, blessedPacks, stickersPath, tempPath)
-      : undefined,
-    i18n: getIntl(state),
-  };
-};
+  const packDb = packs[packId];
+  const pack = packDb
+    ? translatePackFromDB(packDb, packs, blessedPacks)
+    : undefined;
 
-const smart = connect(mapStateToProps, mapDispatchToProps);
-
-export const SmartStickerPreviewModal = smart(StickerPreviewModal);
+  return (
+    <StickerPreviewModal
+      closeStickerPackPreview={closeStickerPackPreview}
+      downloadStickerPack={downloadStickerPack}
+      i18n={i18n}
+      installStickerPack={installStickerPack}
+      pack={pack}
+      uninstallStickerPack={uninstallStickerPack}
+    />
+  );
+});

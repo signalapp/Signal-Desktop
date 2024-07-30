@@ -3,6 +3,7 @@
 
 import type { ReactNode } from 'react';
 import React, { useEffect, useState, useMemo } from 'react';
+import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util';
 import * as log from '../logging/log';
 import { SECOND, DAY } from '../util/durations';
@@ -13,6 +14,7 @@ export type PropsType = {
   envelopeTimestamp: number | undefined;
   hasInitialLoadCompleted: boolean;
   i18n: LocalizerType;
+  isAlpha: boolean;
   isCustomizingPreferredReactions: boolean;
   navTabsCollapsed: boolean;
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => unknown;
@@ -23,11 +25,14 @@ export type PropsType = {
   renderStoriesTab: () => JSX.Element;
 };
 
+const PART_COUNT = 16;
+
 export function Inbox({
   firstEnvelopeTimestamp,
   envelopeTimestamp,
   hasInitialLoadCompleted,
   i18n,
+  isAlpha,
   isCustomizingPreferredReactions,
   navTabsCollapsed,
   onToggleNavTabsCollapse,
@@ -89,7 +94,7 @@ export function Inbox({
   }, [hasInitialLoadCompleted]);
 
   if (!internalHasInitialLoadCompleted) {
-    let loadingProgress = 0;
+    let loadingProgress = 100;
     if (
       firstEnvelopeTimestamp !== undefined &&
       envelopeTimestamp !== undefined
@@ -122,13 +127,40 @@ export function Inbox({
       }
     }
 
+    let logo: JSX.Element;
+    if (isAlpha) {
+      const parts = new Array<JSX.Element>();
+      parts.push(
+        <i key="base" className="Inbox__logo__part Inbox__logo__part--base" />
+      );
+      for (let i = 0; i < PART_COUNT; i += 1) {
+        const isVisible = i <= (loadingProgress * PART_COUNT) / 100;
+        parts.push(
+          <i
+            key={i}
+            className={classNames({
+              Inbox__logo__part: true,
+              'Inbox__logo__part--animated':
+                firstEnvelopeTimestamp !== undefined && loadingProgress !== 0,
+              'Inbox__logo__part--segment': true,
+              'Inbox__logo__part--visible': isVisible,
+            })}
+          />
+        );
+      }
+      logo = <div className="Inbox__logo">{parts}</div>;
+    } else {
+      logo = <div className="module-splash-screen__logo module-img--150" />;
+    }
+
     return (
       <div className="app-loading-screen">
         <div className="module-title-bar-drag-area" />
 
-        <div className="module-splash-screen__logo module-img--150" />
+        {logo}
+
         {envelopeTimestamp === undefined ? (
-          <div className="container">
+          <div className="dot-container">
             <span className="dot" />
             <span className="dot" />
             <span className="dot" />

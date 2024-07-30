@@ -4,6 +4,7 @@
 import semver from 'semver';
 
 import type { OSType } from '../util/os/shared';
+import { SystemTraySetting } from './SystemTraySetting';
 import { isProduction } from '../util/version';
 
 const MIN_WINDOWS_VERSION = '8.0.0';
@@ -29,19 +30,31 @@ export const isDrawAttentionSupported = (OS: OSType): boolean => !OS.isMacOS();
  * Returns `true` if you can minimize the app to the system tray. Users can override this
  * option with a command line flag, but that is not officially supported.
  */
-export const isSystemTraySupported = (
+export const isSystemTraySupported = (OS: OSType): boolean =>
+  OS.isWindows() || OS.isLinux();
+
+export const getDefaultSystemTraySetting = (
   OS: OSType,
   appVersion: string
-): boolean =>
-  // We eventually want to support Linux in production.
-  OS.isWindows() || (OS.isLinux() && !isProduction(appVersion));
+): SystemTraySetting => {
+  if (!isSystemTraySupported(OS)) {
+    return SystemTraySetting.DoNotUseSystemTray;
+  }
+
+  // System tray on linux may not be well supported, so we default to it being off in
+  // production
+  if (OS.isLinux() && isProduction(appVersion)) {
+    return SystemTraySetting.DoNotUseSystemTray;
+  }
+
+  return SystemTraySetting.MinimizeToSystemTray;
+};
 
 // On Windows minimize and start in system tray is default when app is selected
 // to launch at login, because we can provide `['--start-in-tray']` args.
 export const isMinimizeToAndStartInSystemTraySupported = (
-  OS: OSType,
-  appVersion: string
-): boolean => !OS.isWindows() && isSystemTraySupported(OS, appVersion);
+  OS: OSType
+): boolean => !OS.isWindows() && isSystemTraySupported(OS);
 
 export const isAutoDownloadUpdatesSupported = (OS: OSType): boolean =>
   OS.isWindows() || OS.isMacOS();

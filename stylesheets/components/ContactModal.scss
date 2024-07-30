@@ -29,6 +29,14 @@
     white-space: nowrap;
   }
 
+  &__name__contact-icon {
+    height: 22px;
+    width: 22px;
+    @include any-theme {
+      background-color: currentColor;
+    }
+  }
+
   &__name__chevron {
     flex-shrink: 0;
 
@@ -105,6 +113,19 @@
     align-items: center;
     margin-inline-end: 12px;
     width: 20px;
+  }
+
+  &__nickname__bubble-icon {
+    height: 20px;
+    width: 20px;
+
+    @include light-theme {
+      @include color-svg('../images/icons/v3/edit/edit.svg', $color-gray-75);
+    }
+
+    @include dark-theme {
+      @include color-svg('../images/icons/v3/edit/edit.svg', $color-gray-15);
+    }
   }
 
   &__send-message__bubble-icon {
@@ -287,5 +308,9 @@
     }
 
     margin-block: 8px 5px;
+  }
+
+  &__tooltip {
+    @include tooltip;
   }
 }

@@ -395,9 +395,8 @@ export async function resolveUsernameByLink({
 
   strictAssert(window.textsecure.server, 'WebAPI must be available');
   try {
-    const { usernameLinkEncryptedValue } = await server.resolveUsernameLink(
-      serverId
-    );
+    const { usernameLinkEncryptedValue } =
+      await server.resolveUsernameLink(serverId);
 
     return usernames.decryptUsernameLink({
       entropy: Buffer.from(entropy),

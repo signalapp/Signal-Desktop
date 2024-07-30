@@ -21,12 +21,15 @@
   &__title {
     @include font-title-1;
     font-weight: 400;
-    align-items: baseline;
-    display: flex;
-    justify-content: center;
     padding-bottom: 8px;
     padding-top: 12px;
     user-select: text;
+  }
+
+  &__title-contact-icon {
+    width: 22px;
+    height: 22px;
+    background-color: currentColor;
   }
 
   &__subtitle {
@@ -50,6 +53,8 @@
     &::after {
       $size: 24px;
 
+      display: inline-block;
+      vertical-align: middle;
       content: '';
       height: $size;
       inset-inline-start: $size + 13px;

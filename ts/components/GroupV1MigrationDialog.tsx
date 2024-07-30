@@ -10,61 +10,38 @@ import { sortByTitle } from '../util/sortByTitle';
 import { missingCaseError } from '../util/missingCaseError';
 
 export type DataPropsType = {
-  conversationId: string;
   readonly areWeInvited: boolean;
-  readonly droppedMembers: Array<ConversationType>;
+  readonly droppedMembers?: Array<ConversationType>;
+  readonly droppedMemberCount: number;
   readonly hasMigrated: boolean;
-  readonly invitedMembers: Array<ConversationType>;
+  readonly invitedMembers?: Array<ConversationType>;
+  readonly invitedMemberCount: number;
   readonly getPreferredBadge: PreferredBadgeSelectorType;
   readonly i18n: LocalizerType;
   readonly theme: ThemeType;
 };
 
-type ActionsPropsType =
-  | {
-      initiateMigrationToGroupV2: (conversationId: string) => unknown;
-      closeGV2MigrationDialog: () => unknown;
-    }
-  | {
-      readonly migrate: () => unknown;
-      readonly onClose: () => unknown;
-    };
+type ActionsPropsType = Readonly<{
+  onMigrate: () => unknown;
+  onClose: () => unknown;
+}>;
 
 export type PropsType = DataPropsType & ActionsPropsType;
 
 export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
-  React.memo(function GroupV1MigrationDialogInner(props: PropsType) {
-    const {
-      areWeInvited,
-      conversationId,
-      droppedMembers,
-      getPreferredBadge,
-      hasMigrated,
-      i18n,
-      invitedMembers,
-      theme,
-    } = props;
-
-    let migrateHandler;
-    if ('migrate' in props) {
-      migrateHandler = props.migrate;
-    } else if ('initiateMigrationToGroupV2' in props) {
-      migrateHandler = () => props.initiateMigrationToGroupV2(conversationId);
-    } else {
-      throw new Error(
-        'GroupV1MigrationDialog: No conversationId or migration function'
-      );
-    }
-
-    let closeHandler;
-    if ('onClose' in props) {
-      closeHandler = props.onClose;
-    } else if ('closeGV2MigrationDialog' in props) {
-      closeHandler = props.closeGV2MigrationDialog;
-    } else {
-      throw new Error('GroupV1MigrationDialog: No close function provided');
-    }
-
+  React.memo(function GroupV1MigrationDialogInner({
+    areWeInvited,
+    droppedMembers,
+    droppedMemberCount,
+    getPreferredBadge,
+    hasMigrated,
+    i18n,
+    invitedMembers,
+    invitedMemberCount,
+    theme,
+    onClose,
+    onMigrate,
+  }: PropsType) {
     const title = hasMigrated
       ? i18n('icu:GroupV1--Migration--info--title')
       : i18n('icu:GroupV1--Migration--migrate--title');
@@ -82,13 +59,13 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
         };
     if (hasMigrated) {
       primaryButtonText = i18n('icu:Confirmation--confirm');
-      onClickPrimaryButton = closeHandler;
+      onClickPrimaryButton = onClose;
     } else {
       primaryButtonText = i18n('icu:GroupV1--Migration--migrate');
-      onClickPrimaryButton = migrateHandler;
+      onClickPrimaryButton = onMigrate;
       secondaryButtonProps = {
         secondaryButtonText: i18n('icu:cancel'),
-        onClickSecondaryButton: closeHandler,
+        onClickSecondaryButton: onClose,
       };
     }
 
@@ -96,7 +73,7 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
       <GroupDialog
         i18n={i18n}
         onClickPrimaryButton={onClickPrimaryButton}
-        onClose={closeHandler}
+        onClose={onClose}
         primaryButtonText={primaryButtonText}
         title={title}
         {...secondaryButtonProps}
@@ -115,6 +92,7 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
               getPreferredBadge,
               i18n,
               members: invitedMembers,
+              count: invitedMemberCount,
               hasMigrated,
               kind: 'invited',
               theme,
@@ -123,6 +101,7 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
               getPreferredBadge,
               i18n,
               members: droppedMembers,
+              count: droppedMemberCount,
               hasMigrated,
               kind: 'dropped',
               theme,
@@ -137,19 +116,48 @@ function renderMembers({
   getPreferredBadge,
   i18n,
   members,
+  count,
   hasMigrated,
   kind,
   theme,
 }: Readonly<{
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
-  members: Array<ConversationType>;
+  members?: Array<ConversationType>;
+  count: number;
   hasMigrated: boolean;
   kind: 'invited' | 'dropped';
   theme: ThemeType;
 }>): React.ReactNode {
-  if (!members.length) {
+  if (count === 0) {
     return null;
+  }
+
+  if (!members) {
+    if (kind === 'invited') {
+      return (
+        <GroupDialog.Paragraph>
+          {i18n('icu:GroupV1--Migration--info--invited--count', { count })}
+        </GroupDialog.Paragraph>
+      );
+    }
+    if (hasMigrated) {
+      return (
+        <GroupDialog.Paragraph>
+          {i18n('icu:GroupV1--Migration--info--removed--after--count', {
+            count,
+          })}
+        </GroupDialog.Paragraph>
+      );
+    }
+
+    return (
+      <GroupDialog.Paragraph>
+        {i18n('icu:GroupV1--Migration--info--removed--before--count', {
+          count,
+        })}
+      </GroupDialog.Paragraph>
+    );
   }
 
   let text: string;
@@ -164,13 +172,13 @@ function renderMembers({
       if (hasMigrated) {
         text =
           members.length === 1
-            ? i18n('icu:GroupV1--Migration--info--removed--before--one')
-            : i18n('icu:GroupV1--Migration--info--removed--before--many');
+            ? i18n('icu:GroupV1--Migration--info--removed--after--one')
+            : i18n('icu:GroupV1--Migration--info--removed--after--many');
       } else {
         text =
           members.length === 1
-            ? i18n('icu:GroupV1--Migration--info--removed--after--one')
-            : i18n('icu:GroupV1--Migration--info--removed--after--many');
+            ? i18n('icu:GroupV1--Migration--info--removed--before--one')
+            : i18n('icu:GroupV1--Migration--info--removed--before--many');
       }
       break;
     default:

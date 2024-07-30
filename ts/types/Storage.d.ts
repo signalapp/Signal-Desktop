@@ -6,12 +6,10 @@ import type {
   CustomColorsItemType,
   DefaultConversationColorType,
 } from './Colors';
-import type { AudioDeviceModule } from '../calling/audioDeviceModule';
 import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
 import type { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import type { RetryItemType } from '../util/retryPlaceholders';
 import type { ConfigMapType as RemoteConfigType } from '../RemoteConfig';
-import type { SystemTraySetting } from './SystemTraySetting';
 import type { ExtendedStorageID, UnknownRecord } from './StorageService.d';
 
 import type { GroupCredentialType } from '../textsecure/WebAPI';
@@ -19,7 +17,7 @@ import type {
   SessionResetsType,
   StorageServiceCredentials,
 } from '../textsecure/Types.d';
-import type { ThemeSettingType } from './StorageUIKeys';
+import type { BackupCredentialType } from './backups';
 import type { ServiceIdString } from './ServiceId';
 
 import type { RegisteredChallengeType } from '../challenge';
@@ -57,37 +55,38 @@ export type StorageAccessType = {
   'call-system-notification': boolean;
   'hide-menu-bar': boolean;
   'incoming-call-notification': boolean;
-  localeOverride: string | null;
   'notification-draw-attention': boolean;
   'notification-setting': NotificationSettingType;
   'read-receipt-setting': boolean;
   'sent-media-quality': SentMediaQualitySettingType;
-  'spell-check': boolean;
-  'system-tray-setting': SystemTraySetting;
-  'theme-setting': ThemeSettingType;
   audioMessage: boolean;
   attachmentMigration_isComplete: boolean;
   attachmentMigration_lastProcessedIndex: number;
   blocked: ReadonlyArray<string>;
   defaultConversationColor: DefaultConversationColorType;
+
+  // Not used UI, stored as is when imported from backup.
+  defaultWallpaperPhotoPointer: Uint8Array;
+  defaultWallpaperPreset: number;
+  defaultDimWallpaperInDarkMode: boolean;
+
   customColors: CustomColorsItemType;
   device_name: string;
   existingOnboardingStoryMessageIds: ReadonlyArray<string> | undefined;
-  formattingWarningShown: boolean;
   hasRegisterSupportForUnauthenticatedDelivery: boolean;
   hasSetMyStoriesPrivacy: boolean;
   hasCompletedUsernameOnboarding: boolean;
   hasCompletedUsernameLinkOnboarding: boolean;
   hasCompletedSafetyNumberOnboarding: boolean;
+  hasSeenGroupStoryEducationSheet: boolean;
   hasViewedOnboardingStory: boolean;
   hasStoriesDisabled: boolean;
   storyViewReceiptsEnabled: boolean;
   identityKeyMap: IdentityKeyMap;
-  lastHeartbeat: number;
-  lastStartup: number;
   lastAttemptedToRefreshProfilesAt: number;
   lastResortKeyUpdateTime: number;
   lastResortKeyUpdateTimePNI: number;
+  localDeleteWarningShown: boolean;
   masterKey: string;
   masterKeyLastRequestTime: number;
   maxPreKeyId: number;
@@ -100,7 +99,6 @@ export type StorageAccessType = {
   regionCode: string;
   registrationIdMap: Record<ServiceIdString, number>;
   remoteBuildExpiration: number;
-  sendEditWarningShown: boolean;
   sessionResets: SessionResetsType;
   showStickerPickerHint: boolean;
   showStickersIntroduction: boolean;
@@ -142,6 +140,9 @@ export type StorageAccessType = {
   unidentifiedDeliveryIndicators: boolean;
   groupCredentials: ReadonlyArray<GroupCredentialType>;
   callLinkAuthCredentials: ReadonlyArray<GroupCredentialType>;
+  backupCredentials: ReadonlyArray<BackupCredentialType>;
+  backupCredentialsLastRequestTime: number;
+  setBackupSignatureKey: boolean;
   lastReceivedAtCounter: number;
   preferredReactionEmoji: ReadonlyArray<string>;
   skinTone: number;
@@ -160,6 +161,10 @@ export type StorageAccessType = {
   areWeASubscriber: boolean;
   subscriberId: Uint8Array;
   subscriberCurrencyCode: string;
+  donorSubscriptionManuallyCancelled: boolean;
+  backupsSubscriberId: Uint8Array;
+  backupsSubscriberCurrencyCode: string;
+  backupsSubscriptionManuallyCancelled: boolean;
   displayBadgesOnProfile: boolean;
   keepMutedChatsArchived: boolean;
   usernameLastIntegrityCheck: number;
@@ -170,14 +175,19 @@ export type StorageAccessType = {
     entropy: Uint8Array;
     serverId: Uint8Array;
   };
+  needOrphanedAttachmentCheck: boolean;
 
   // Deprecated
   'challenge:retry-message-ids': never;
   nextSignedKeyRotationTime: number;
-  previousAudioDeviceModule: AudioDeviceModule;
+  previousAudioDeviceModule: never;
   senderCertificateWithUuid: never;
   signaling_key: never;
   signedKeyRotationRejected: number;
+  lastHeartbeat: never;
+  lastStartup: never;
+  sendEditWarningShown: never;
+  formattingWarningShown: never;
 };
 
 export type StorageInterface = {

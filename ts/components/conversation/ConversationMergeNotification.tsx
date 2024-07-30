@@ -9,7 +9,7 @@ import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { SystemMessage } from './SystemMessage';
 import { Emojify } from './Emojify';
 import { Modal } from '../Modal';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 
 export type PropsDataType = {
   conversationTitle: string;
@@ -71,7 +71,7 @@ export function ConversationMergeNotification(props: PropsType): JSX.Element {
           <div className="module-conversation-merge-notification__dialog__image">
             <img src="images/merged-chat.svg" alt="" />
             <div className="module-conversation-merge-notification__dialog__text-1">
-              <Intl
+              <I18n
                 i18n={i18n}
                 id="icu:ConversationMerge--explainer-dialog--line-1"
                 components={{
@@ -81,7 +81,7 @@ export function ConversationMergeNotification(props: PropsType): JSX.Element {
               />
             </div>
             <div className="module-conversation-merge-notification__dialog__text-2">
-              <Intl
+              <I18n
                 i18n={i18n}
                 id="icu:ConversationMerge--explainer-dialog--line-2"
               />

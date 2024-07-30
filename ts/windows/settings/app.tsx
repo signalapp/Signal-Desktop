@@ -9,12 +9,18 @@ import { i18n } from '../sandboxedInit';
 import { Preferences } from '../../components/Preferences';
 import { startInteractionMode } from '../../services/InteractionMode';
 import { strictAssert } from '../../util/assert';
+import { parseEnvironment, setEnvironment } from '../../environment';
 
 const { SettingsWindowProps } = window.Signal;
 
 strictAssert(SettingsWindowProps, 'window values not provided');
 
 startInteractionMode();
+
+setEnvironment(
+  parseEnvironment(window.SignalContext.getEnvironment()),
+  window.SignalContext.isTestOrMockEnvironment()
+);
 
 SettingsWindowProps.onRender(
   ({

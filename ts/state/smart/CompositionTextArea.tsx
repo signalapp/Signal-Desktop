@@ -1,12 +1,11 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import React from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import type { CompositionTextAreaProps } from '../../components/CompositionTextArea';
 import { CompositionTextArea } from '../../components/CompositionTextArea';
 import { getIntl, getPlatform } from '../selectors/user';
-import { useActions as useEmojiActions } from '../ducks/emojis';
+import { useEmojisActions as useEmojiActions } from '../ducks/emojis';
 import { useItemsActions } from '../ducks/items';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { useComposerActions } from '../ducks/composer';
@@ -16,6 +15,7 @@ export type SmartCompositionTextAreaProps = Pick<
   CompositionTextAreaProps,
   | 'bodyRanges'
   | 'draftText'
+  | 'isActive'
   | 'placeholder'
   | 'onChange'
   | 'onScroll'
@@ -26,9 +26,9 @@ export type SmartCompositionTextAreaProps = Pick<
   | 'scrollerRef'
 >;
 
-export function SmartCompositionTextArea(
+export const SmartCompositionTextArea = memo(function SmartCompositionTextArea(
   props: SmartCompositionTextAreaProps
-): JSX.Element {
+) {
   const i18n = useSelector(getIntl);
   const platform = useSelector(getPlatform);
 
@@ -44,6 +44,7 @@ export function SmartCompositionTextArea(
       {...props}
       getPreferredBadge={getPreferredBadge}
       i18n={i18n}
+      isActive
       isFormattingEnabled={isFormattingEnabled}
       onPickEmoji={onPickEmoji}
       onSetSkinTone={onSetSkinTone}
@@ -51,4 +52,4 @@ export function SmartCompositionTextArea(
       platform={platform}
     />
   );
-}
+});

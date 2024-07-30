@@ -22,6 +22,7 @@ function Wrapper() {
     <InstallScreenChoosingDeviceNameStep
       i18n={i18n}
       deviceName={deviceName}
+      setBackupFile={action('setBackupFile')}
       setDeviceName={setDeviceName}
       onSubmit={action('onSubmit')}
     />

@@ -3,6 +3,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
+import type { ReadonlyDeep } from 'type-fest';
 
 import { Avatar, AvatarBlur } from '../Avatar';
 import { Spinner } from '../Spinner';
@@ -18,14 +19,14 @@ export function renderAvatar({
   size,
   direction,
 }: {
-  contact: EmbeddedContactType;
+  contact: ReadonlyDeep<EmbeddedContactType>;
   i18n: LocalizerType;
   size: 28 | 52 | 80;
   direction?: 'outgoing' | 'incoming';
 }): JSX.Element {
   const { avatar } = contact;
 
-  const avatarPath = avatar && avatar.avatar && avatar.avatar.path;
+  const avatarUrl = avatar && avatar.avatar && avatar.avatar.path;
   const pending = avatar && avatar.avatar && avatar.avatar.pending;
   const title = getName(contact) || '';
   const spinnerSvgSize = size < 50 ? 'small' : 'normal';
@@ -46,7 +47,7 @@ export function renderAvatar({
   return (
     <Avatar
       acceptedMessageRequest={false}
-      avatarPath={avatarPath}
+      avatarUrl={avatarUrl}
       badge={undefined}
       blur={AvatarBlur.NoBlur}
       color={AvatarColors[0]}
@@ -65,7 +66,7 @@ export function renderName({
   isIncoming,
   module,
 }: {
-  contact: EmbeddedContactType;
+  contact: ReadonlyDeep<EmbeddedContactType>;
   isIncoming: boolean;
   module: string;
 }): JSX.Element {
@@ -86,7 +87,7 @@ export function renderContactShorthand({
   isIncoming,
   module,
 }: {
-  contact: EmbeddedContactType;
+  contact: ReadonlyDeep<EmbeddedContactType>;
   isIncoming: boolean;
   module: string;
 }): JSX.Element {

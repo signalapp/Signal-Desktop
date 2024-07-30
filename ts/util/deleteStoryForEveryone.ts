@@ -10,6 +10,7 @@ import type { StoryMessageRecipientsType } from '../types/Stories';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import type { ServiceIdString } from '../types/ServiceId';
 import * as log from '../logging/log';
+import { DataWriter } from '../sql/Client';
 import { DAY } from './durations';
 import { StoryRecipientUpdateEvent } from '../textsecure/messageReceiverEvents';
 import {
@@ -190,7 +191,7 @@ export async function deleteStoryForEveryone(
     await conversationJobQueue.add(jobData, async jobToInsert => {
       log.info(`${logId}: Deleting message with job ${jobToInsert.id}`);
 
-      await window.Signal.Data.saveMessage(message.attributes, {
+      await DataWriter.saveMessage(message.attributes, {
         jobToInsert,
         ourAci: window.textsecure.storage.user.getCheckedAci(),
       });

@@ -18,7 +18,7 @@ import { CallReactionBurstEmoji } from './CallReactionBurstEmoji';
 const LIFETIME = 3000;
 
 export type CallReactionBurstType = {
-  value: string;
+  values: Array<string>;
 };
 
 type CallReactionBurstStateType = CallReactionBurstType & {
@@ -124,10 +124,10 @@ export function CallReactionBurstProvider({
     <CallReactionBurstContext.Provider value={contextValue}>
       {createPortal(
         <div className="CallReactionBursts">
-          {bursts.map(({ value, key }) => (
+          {bursts.map(({ values, key }) => (
             <CallReactionBurstEmoji
               key={key}
-              value={value}
+              values={values}
               onAnimationEnd={() => hideBurst(key)}
             />
           ))}

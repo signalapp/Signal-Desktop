@@ -397,9 +397,8 @@ function CustomColorBubble({
             event.stopPropagation();
             event.preventDefault();
 
-            const conversations = await getConversationsWithCustomColor(
-              colorId
-            );
+            const conversations =
+              await getConversationsWithCustomColor(colorId);
             if (!conversations.length) {
               onDelete();
             } else {

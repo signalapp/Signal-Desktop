@@ -16,7 +16,7 @@ export enum DisabledReason {
 
 export type GroupListItemConversationType = Pick<
   ConversationType,
-  'id' | 'title' | 'avatarPath'
+  'id' | 'title' | 'avatarUrl'
 > & {
   disabledReason: DisabledReason | undefined;
   membersCount: number;
@@ -56,7 +56,7 @@ export function GroupListItem({
       leading={
         <Avatar
           acceptedMessageRequest
-          avatarPath={group.avatarPath}
+          avatarUrl={group.avatarUrl}
           conversationType="group"
           i18n={i18n}
           isMe={false}

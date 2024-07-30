@@ -1,119 +1,207 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { unlinkSync } from 'fs';
+import { unlinkSync, createReadStream, createWriteStream } from 'fs';
 import { open } from 'fs/promises';
-import {
-  createDecipheriv,
-  createCipheriv,
-  createHash,
-  createHmac,
-  randomBytes,
-} from 'crypto';
-import type { Decipher, Hash, Hmac } from 'crypto';
-import type { TransformCallback } from 'stream';
-import { Transform } from 'stream';
+import { createCipheriv, createHash, createHmac, randomBytes } from 'crypto';
+import type { Hash } from 'crypto';
+import { PassThrough, Transform, type Writable, Readable } from 'stream';
 import { pipeline } from 'stream/promises';
 import { ensureFile } from 'fs-extra';
 import * as log from './logging/log';
-import { HashType, CipherType } from './types/Crypto';
-import { createName, getRelativePath } from './windows/attachments';
-import { constantTimeEqual, getAttachmentSizeBucket } from './Crypto';
-import { Environment } from './environment';
-import type { AttachmentType } from './types/Attachment';
-import type { ContextType } from './types/Message2';
+import {
+  HashType,
+  CipherType,
+  IV_LENGTH,
+  KEY_LENGTH,
+  MAC_LENGTH,
+} from './types/Crypto';
+import { constantTimeEqual } from './Crypto';
+import { createName, getRelativePath } from './util/attachmentPath';
+import { appendPaddingStream, logPadSize } from './util/logPadding';
+import { prependStream } from './util/prependStream';
+import { appendMacStream } from './util/appendMacStream';
+import { finalStream } from './util/finalStream';
+import { getIvAndDecipher } from './util/getIvAndDecipher';
+import { getMacAndUpdateHmac } from './util/getMacAndUpdateHmac';
+import { trimPadding } from './util/trimPadding';
 import { strictAssert } from './util/assert';
 import * as Errors from './types/errors';
+import { isNotNil } from './util/isNotNil';
+import { missingCaseError } from './util/missingCaseError';
+import { getEnvironment, Environment } from './environment';
+import { toBase64 } from './Bytes';
 
 // This file was split from ts/Crypto.ts because it pulls things in from node, and
 //   too many things pull in Crypto.ts, so it broke storybook.
 
-const IV_LENGTH = 16;
-const KEY_LENGTH = 32;
-const DIGEST_LENGTH = 32;
+const DIGEST_LENGTH = MAC_LENGTH;
 const HEX_DIGEST_LENGTH = DIGEST_LENGTH * 2;
-const ATTACHMENT_MAC_LENGTH = 32;
+const ATTACHMENT_MAC_LENGTH = MAC_LENGTH;
+
+export class ReencryptedDigestMismatchError extends Error {}
 
 /** @private */
-export const KEY_SET_LENGTH = KEY_LENGTH + ATTACHMENT_MAC_LENGTH;
+export const KEY_SET_LENGTH = KEY_LENGTH + MAC_LENGTH;
 
 export function _generateAttachmentIv(): Uint8Array {
   return randomBytes(IV_LENGTH);
 }
 
+export function generateAttachmentKeys(): Uint8Array {
+  return randomBytes(KEY_SET_LENGTH);
+}
+
 export type EncryptedAttachmentV2 = {
-  path: string;
   digest: Uint8Array;
+  iv: Uint8Array;
   plaintextHash: string;
+  ciphertextSize: number;
+};
+
+export type ReencryptedAttachmentV2 = {
+  path: string;
+  iv: string;
+  plaintextHash: string;
+  localKey: string;
+  version: 2;
 };
 
 export type DecryptedAttachmentV2 = {
   path: string;
+  iv: Uint8Array;
   plaintextHash: string;
 };
 
+export type PlaintextSourceType =
+  | { data: Uint8Array }
+  | { stream: Readable }
+  | { absolutePath: string };
+
+export type HardcodedIVForEncryptionType =
+  | {
+      reason: 'test';
+      iv: Uint8Array;
+    }
+  | {
+      reason: 'reencrypting-for-backup';
+      iv: Uint8Array;
+      digestToMatch: Uint8Array;
+    };
+
+type EncryptAttachmentV2PropsType = {
+  plaintext: PlaintextSourceType;
+  keys: Readonly<Uint8Array>;
+  dangerousIv?: HardcodedIVForEncryptionType;
+  dangerousTestOnlySkipPadding?: boolean;
+  getAbsoluteAttachmentPath: (relativePath: string) => string;
+};
+
+export async function encryptAttachmentV2ToDisk(
+  args: EncryptAttachmentV2PropsType
+): Promise<EncryptedAttachmentV2 & { path: string }> {
+  // Create random output file
+  const relativeTargetPath = getRelativePath(createName());
+  const absoluteTargetPath = args.getAbsoluteAttachmentPath(relativeTargetPath);
+
+  await ensureFile(absoluteTargetPath);
+
+  let encryptResult: EncryptedAttachmentV2;
+
+  try {
+    encryptResult = await encryptAttachmentV2({
+      ...args,
+      sink: createWriteStream(absoluteTargetPath),
+    });
+  } catch (error) {
+    safeUnlinkSync(absoluteTargetPath);
+    throw error;
+  }
+
+  return {
+    ...encryptResult,
+    path: relativeTargetPath,
+  };
+}
 export async function encryptAttachmentV2({
   keys,
-  plaintextAbsolutePath,
-  size,
-  dangerousTestOnlyIv,
-}: {
-  keys: Readonly<Uint8Array>;
-  plaintextAbsolutePath: string;
-  size: number;
-  dangerousTestOnlyIv?: Readonly<Uint8Array>;
+  plaintext,
+  dangerousIv,
+  dangerousTestOnlySkipPadding,
+  sink,
+}: EncryptAttachmentV2PropsType & {
+  sink?: Writable;
 }): Promise<EncryptedAttachmentV2> {
   const logId = 'encryptAttachmentV2';
 
-  // Create random output file
-  const relativeTargetPath = getRelativePath(createName());
-  const absoluteTargetPath =
-    window.Signal.Migrations.getAbsoluteAttachmentPath(relativeTargetPath);
-
   const { aesKey, macKey } = splitKeys(keys);
 
-  if (dangerousTestOnlyIv && window.getEnvironment() !== Environment.Test) {
-    throw new Error(`${logId}: Used dangerousTestOnlyIv outside tests!`);
+  if (dangerousIv) {
+    if (dangerousIv.reason === 'test') {
+      if (getEnvironment() !== Environment.Test) {
+        throw new Error(
+          `${logId}: Used dangerousIv with reason test outside tests!`
+        );
+      }
+    } else if (dangerousIv.reason === 'reencrypting-for-backup') {
+      strictAssert(
+        dangerousIv.digestToMatch.byteLength === DIGEST_LENGTH,
+        `${logId}: Must provide valid digest to match if providing iv for re-encryption`
+      );
+      log.info(
+        `${logId}: using hardcoded iv because we are re-encrypting for backup`
+      );
+    } else {
+      throw missingCaseError(dangerousIv);
+    }
   }
-  const iv = dangerousTestOnlyIv || _generateAttachmentIv();
 
+  if (dangerousTestOnlySkipPadding && getEnvironment() !== Environment.Test) {
+    throw new Error(
+      `${logId}: Used dangerousTestOnlySkipPadding outside tests!`
+    );
+  }
+
+  const iv = dangerousIv?.iv || _generateAttachmentIv();
   const plaintextHash = createHash(HashType.size256);
   const digest = createHash(HashType.size256);
 
-  let readFd;
-  let writeFd;
+  let ciphertextSize: number | undefined;
+  let mac: Uint8Array | undefined;
+
   try {
-    try {
-      readFd = await open(plaintextAbsolutePath, 'r');
-    } catch (cause) {
-      throw new Error(`${logId}: Read path doesn't exist`, { cause });
-    }
-    try {
-      await ensureFile(absoluteTargetPath);
-      writeFd = await open(absoluteTargetPath, 'w');
-    } catch (cause) {
-      throw new Error(`${logId}: Failed to create write path`, { cause });
+    let source: Readable;
+    if ('data' in plaintext) {
+      source = Readable.from([Buffer.from(plaintext.data)]);
+    } else if ('stream' in plaintext) {
+      source = plaintext.stream;
+    } else {
+      source = createReadStream(plaintext.absolutePath);
     }
 
     await pipeline(
-      readFd.createReadStream(),
-      peekAndUpdateHash(plaintextHash),
-      appendPadding(size),
-      createCipheriv(CipherType.AES256CBC, aesKey, iv),
-      prependIv(iv),
-      appendMac(macKey),
-      peekAndUpdateHash(digest),
-      writeFd.createWriteStream()
+      [
+        source,
+        peekAndUpdateHash(plaintextHash),
+        dangerousTestOnlySkipPadding ? undefined : appendPaddingStream(),
+        createCipheriv(CipherType.AES256CBC, aesKey, iv),
+        prependIv(iv),
+        appendMacStream(macKey, macValue => {
+          mac = macValue;
+        }),
+        peekAndUpdateHash(digest),
+        measureSize(size => {
+          ciphertextSize = size;
+        }),
+        sink ?? new PassThrough().resume(),
+      ].filter(isNotNil)
     );
   } catch (error) {
     log.error(
       `${logId}: Failed to encrypt attachment`,
       Errors.toLogFormat(error)
     );
-    safeUnlinkSync(absoluteTargetPath);
     throw error;
-  } finally {
-    await Promise.all([readFd?.close(), writeFd?.close()]);
   }
 
   const ourPlaintextHash = plaintextHash.digest('hex');
@@ -129,48 +217,75 @@ export async function encryptAttachmentV2({
     `${logId}: Failed to generate ourDigest!`
   );
 
+  strictAssert(ciphertextSize != null, 'Failed to measure ciphertext size!');
+  strictAssert(mac != null, 'Failed to compute mac!');
+
+  if (dangerousIv?.reason === 'reencrypting-for-backup') {
+    if (!constantTimeEqual(ourDigest, dangerousIv.digestToMatch)) {
+      throw new ReencryptedDigestMismatchError(
+        `${logId}: iv was hardcoded for backup re-encryption, but digest does not match`
+      );
+    }
+  }
+
   return {
-    path: relativeTargetPath,
     digest: ourDigest,
+    iv,
     plaintextHash: ourPlaintextHash,
+    ciphertextSize,
   };
 }
 
-export async function decryptAttachmentV2({
-  ciphertextPath,
-  id,
-  keys,
-  size,
-  theirDigest,
-}: {
-  ciphertextPath: string;
-  id: string;
-  keys: Readonly<Uint8Array>;
-  size: number;
-  theirDigest: Readonly<Uint8Array>;
-}): Promise<DecryptedAttachmentV2> {
-  const logId = `decryptAttachmentV2(${id})`;
+type DecryptAttachmentToSinkOptionsType = Readonly<
+  {
+    ciphertextPath: string;
+    idForLogging: string;
+    size: number;
+    outerEncryption?: {
+      aesKey: Readonly<Uint8Array>;
+      macKey: Readonly<Uint8Array>;
+    };
+  } & (
+    | {
+        type: 'standard';
+        theirDigest: Readonly<Uint8Array>;
+      }
+    | {
+        // No need to check integrity for locally reencrypted attachments, or for backup
+        // thumbnails (since we created it)
+        type: 'local' | 'backupThumbnail';
+        theirDigest?: undefined;
+      }
+  ) &
+    (
+      | {
+          aesKey: Readonly<Uint8Array>;
+          macKey: Readonly<Uint8Array>;
+        }
+      | {
+          // The format used by most stored attachments
+          keysBase64: string;
+        }
+    )
+>;
+
+export type DecryptAttachmentOptionsType = DecryptAttachmentToSinkOptionsType &
+  Readonly<{
+    getAbsoluteAttachmentPath: (relativePath: string) => string;
+  }>;
+
+export async function decryptAttachmentV2(
+  options: DecryptAttachmentOptionsType
+): Promise<DecryptedAttachmentV2> {
+  const logId = `decryptAttachmentV2(${options.idForLogging})`;
 
   // Create random output file
   const relativeTargetPath = getRelativePath(createName());
   const absoluteTargetPath =
-    window.Signal.Migrations.getAbsoluteAttachmentPath(relativeTargetPath);
+    options.getAbsoluteAttachmentPath(relativeTargetPath);
 
-  const { aesKey, macKey } = splitKeys(keys);
-
-  const digest = createHash(HashType.size256);
-  const hmac = createHmac(HashType.size256, macKey);
-  const plaintextHash = createHash(HashType.size256);
-  let theirMac = null as Uint8Array | null; // TypeScript shenanigans
-
-  let readFd;
   let writeFd;
   try {
-    try {
-      readFd = await open(ciphertextPath, 'r');
-    } catch (cause) {
-      throw new Error(`${logId}: Read path doesn't exist`, { cause });
-    }
     try {
       await ensureFile(absoluteTargetPath);
       writeFd = await open(absoluteTargetPath, 'w');
@@ -178,17 +293,231 @@ export async function decryptAttachmentV2({
       throw new Error(`${logId}: Failed to create write path`, { cause });
     }
 
-    await pipeline(
-      readFd.createReadStream(),
-      peekAndUpdateHash(digest),
-      getMacAndUpdateHmac(hmac, theirMacValue => {
-        theirMac = theirMacValue;
-      }),
-      getIvAndDecipher(aesKey),
-      trimPadding(size),
-      peekAndUpdateHash(plaintextHash),
+    const result = await decryptAttachmentV2ToSink(
+      options,
       writeFd.createWriteStream()
     );
+
+    return {
+      ...result,
+      path: relativeTargetPath,
+    };
+  } catch (error) {
+    log.error(
+      `${logId}: Failed to decrypt attachment to disk`,
+      Errors.toLogFormat(error)
+    );
+    safeUnlinkSync(absoluteTargetPath);
+    throw error;
+  } finally {
+    await writeFd?.close();
+  }
+}
+
+export async function decryptAttachmentV2ToSink(
+  options: DecryptAttachmentToSinkOptionsType,
+  sink: Writable
+): Promise<Omit<DecryptedAttachmentV2, 'path'>> {
+  const { idForLogging, ciphertextPath, outerEncryption } = options;
+
+  let aesKey: Uint8Array;
+  let macKey: Uint8Array;
+
+  if ('aesKey' in options) {
+    ({ aesKey, macKey } = options);
+  } else {
+    const { keysBase64 } = options;
+    const keys = Buffer.from(keysBase64, 'base64');
+
+    ({ aesKey, macKey } = splitKeys(keys));
+  }
+
+  const logId = `decryptAttachmentV2(${idForLogging})`;
+
+  const digest = createHash(HashType.size256);
+  const hmac = createHmac(HashType.size256, macKey);
+  const plaintextHash = createHash(HashType.size256);
+  let theirMac: Uint8Array | undefined;
+
+  // When downloading from backup there is an outer encryption layer; in that case we
+  // need to decrypt the outer layer and check its MAC
+  let theirOuterMac: Uint8Array | undefined;
+  const outerHmac = outerEncryption
+    ? createHmac(HashType.size256, outerEncryption.macKey)
+    : undefined;
+
+  const maybeOuterEncryptionGetIvAndDecipher = outerEncryption
+    ? getIvAndDecipher(outerEncryption.aesKey)
+    : undefined;
+
+  const maybeOuterEncryptionGetMacAndUpdateMac = outerHmac
+    ? getMacAndUpdateHmac(outerHmac, theirOuterMacValue => {
+        theirOuterMac = theirOuterMacValue;
+      })
+    : undefined;
+
+  let readFd;
+  let iv: Uint8Array | undefined;
+  try {
+    try {
+      readFd = await open(ciphertextPath, 'r');
+    } catch (cause) {
+      throw new Error(`${logId}: Read path doesn't exist`, { cause });
+    }
+
+    await pipeline(
+      [
+        readFd.createReadStream(),
+        maybeOuterEncryptionGetMacAndUpdateMac,
+        maybeOuterEncryptionGetIvAndDecipher,
+        peekAndUpdateHash(digest),
+        getMacAndUpdateHmac(hmac, theirMacValue => {
+          theirMac = theirMacValue;
+        }),
+        getIvAndDecipher(aesKey, theirIv => {
+          iv = theirIv;
+        }),
+        trimPadding(options.size),
+        peekAndUpdateHash(plaintextHash),
+        finalStream(() => {
+          const ourMac = hmac.digest();
+          const ourDigest = digest.digest();
+
+          strictAssert(
+            ourMac.byteLength === ATTACHMENT_MAC_LENGTH,
+            `${logId}: Failed to generate ourMac!`
+          );
+          strictAssert(
+            theirMac != null && theirMac.byteLength === ATTACHMENT_MAC_LENGTH,
+            `${logId}: Failed to find theirMac!`
+          );
+          strictAssert(
+            ourDigest.byteLength === DIGEST_LENGTH,
+            `${logId}: Failed to generate ourDigest!`
+          );
+
+          if (!constantTimeEqual(ourMac, theirMac)) {
+            throw new Error(`${logId}: Bad MAC`);
+          }
+
+          const { type } = options;
+          switch (type) {
+            case 'local':
+            case 'backupThumbnail':
+              // Skip digest check
+              break;
+            case 'standard':
+              if (!constantTimeEqual(ourDigest, options.theirDigest)) {
+                throw new Error(`${logId}: Bad digest`);
+              }
+              break;
+            default:
+              throw missingCaseError(type);
+          }
+
+          if (!outerEncryption) {
+            return;
+          }
+
+          strictAssert(outerHmac, 'outerHmac must exist');
+
+          const ourOuterMac = outerHmac.digest();
+          strictAssert(
+            ourOuterMac.byteLength === ATTACHMENT_MAC_LENGTH,
+            `${logId}: Failed to generate ourOuterMac!`
+          );
+          strictAssert(
+            theirOuterMac != null &&
+              theirOuterMac.byteLength === ATTACHMENT_MAC_LENGTH,
+            `${logId}: Failed to find theirOuterMac!`
+          );
+
+          if (!constantTimeEqual(ourOuterMac, theirOuterMac)) {
+            throw new Error(`${logId}: Bad outer encryption MAC`);
+          }
+        }),
+        sink,
+      ].filter(isNotNil)
+    );
+  } catch (error) {
+    // These errors happen when canceling fetch from `attachment://` urls,
+    // ignore them to avoid noise in the logs.
+    if (
+      error.name === 'AbortError' ||
+      error.code === 'ERR_STREAM_PREMATURE_CLOSE'
+    ) {
+      throw error;
+    }
+
+    log.error(
+      `${logId}: Failed to decrypt attachment`,
+      Errors.toLogFormat(error)
+    );
+    throw error;
+  } finally {
+    await readFd?.close();
+  }
+
+  const ourPlaintextHash = plaintextHash.digest('hex');
+  strictAssert(
+    ourPlaintextHash.length === HEX_DIGEST_LENGTH,
+    `${logId}: Failed to generate file hash!`
+  );
+
+  strictAssert(
+    iv != null && iv.byteLength === IV_LENGTH,
+    `${logId}: failed to find their iv`
+  );
+
+  return {
+    iv,
+    plaintextHash: ourPlaintextHash,
+  };
+}
+
+export async function decryptAndReencryptLocally(
+  options: DecryptAttachmentOptionsType
+): Promise<ReencryptedAttachmentV2> {
+  const { idForLogging } = options;
+
+  const logId = `reencryptAttachmentV2(${idForLogging})`;
+
+  // Create random output file
+  const relativeTargetPath = getRelativePath(createName());
+  const absoluteTargetPath =
+    options.getAbsoluteAttachmentPath(relativeTargetPath);
+
+  let writeFd;
+  try {
+    try {
+      await ensureFile(absoluteTargetPath);
+      writeFd = await open(absoluteTargetPath, 'w');
+    } catch (cause) {
+      throw new Error(`${logId}: Failed to create write path`, { cause });
+    }
+
+    const keys = generateKeys();
+
+    const passthrough = new PassThrough();
+    const [result] = await Promise.all([
+      decryptAttachmentV2ToSink(options, passthrough),
+      await encryptAttachmentV2({
+        keys,
+        plaintext: {
+          stream: passthrough,
+        },
+        sink: createWriteStream(absoluteTargetPath),
+        getAbsoluteAttachmentPath: options.getAbsoluteAttachmentPath,
+      }),
+    ]);
+
+    return {
+      ...result,
+      localKey: toBase64(keys),
+      iv: toBase64(result.iv),
+      path: relativeTargetPath,
+      version: 2,
+    };
   } catch (error) {
     log.error(
       `${logId}: Failed to decrypt attachment`,
@@ -197,48 +526,19 @@ export async function decryptAttachmentV2({
     safeUnlinkSync(absoluteTargetPath);
     throw error;
   } finally {
-    await Promise.all([readFd?.close(), writeFd?.close()]);
+    await writeFd?.close();
   }
-
-  const ourMac = hmac.digest();
-  const ourDigest = digest.digest();
-  const ourPlaintextHash = plaintextHash.digest('hex');
-
-  strictAssert(
-    ourMac.byteLength === ATTACHMENT_MAC_LENGTH,
-    `${logId}: Failed to generate ourMac!`
-  );
-  strictAssert(
-    theirMac != null && theirMac.byteLength === ATTACHMENT_MAC_LENGTH,
-    `${logId}: Failed to find theirMac!`
-  );
-  strictAssert(
-    ourDigest.byteLength === DIGEST_LENGTH,
-    `${logId}: Failed to generate ourDigest!`
-  );
-  strictAssert(
-    ourPlaintextHash.length === HEX_DIGEST_LENGTH,
-    `${logId}: Failed to generate file hash!`
-  );
-
-  if (!constantTimeEqual(ourMac, theirMac)) {
-    throw new Error(`${logId}: Bad MAC`);
-  }
-
-  if (!constantTimeEqual(ourDigest, theirDigest)) {
-    throw new Error(`${logId}: Bad digest`);
-  }
-
-  return {
-    path: relativeTargetPath,
-    plaintextHash: ourPlaintextHash,
-  };
 }
 
 /**
  * Splits the keys into aes and mac keys.
  */
-function splitKeys(keys: Uint8Array) {
+
+type AttachmentEncryptionKeysType = {
+  aesKey: Uint8Array;
+  macKey: Uint8Array;
+};
+export function splitKeys(keys: Uint8Array): AttachmentEncryptionKeysType {
   strictAssert(
     keys.byteLength === KEY_SET_LENGTH,
     `attachment keys must be ${KEY_SET_LENGTH} bytes, got ${keys.byteLength}`
@@ -246,6 +546,10 @@ function splitKeys(keys: Uint8Array) {
   const aesKey = keys.subarray(0, KEY_LENGTH);
   const macKey = keys.subarray(KEY_LENGTH, KEY_SET_LENGTH);
   return { aesKey, macKey };
+}
+
+export function generateKeys(): Uint8Array {
+  return randomBytes(KEY_SET_LENGTH);
 }
 
 /**
@@ -264,191 +568,33 @@ function peekAndUpdateHash(hash: Hash) {
   });
 }
 
-/**
- * Updates an hmac with the stream except for the last ATTACHMENT_MAC_LENGTH
- * bytes. The last ATTACHMENT_MAC_LENGTH bytes are passed to the callback.
- */
-function getMacAndUpdateHmac(
-  hmac: Hmac,
-  onTheirMac: (theirMac: Uint8Array) => void
-) {
-  // Because we don't have a view of the entire stream, we don't know when we're
-  // at the end. We need to omit the last ATTACHMENT_MAC_LENGTH bytes from
-  // `hmac.update` so we only push what we know is not the mac.
-  let maybeMacBytes = Buffer.alloc(0);
-
-  function updateWithKnownNonMacBytes() {
-    let knownNonMacBytes = null;
-    if (maybeMacBytes.byteLength > ATTACHMENT_MAC_LENGTH) {
-      knownNonMacBytes = maybeMacBytes.subarray(0, -ATTACHMENT_MAC_LENGTH);
-      maybeMacBytes = maybeMacBytes.subarray(-ATTACHMENT_MAC_LENGTH);
-      hmac.update(knownNonMacBytes);
-    }
-    return knownNonMacBytes;
-  }
-
-  return new Transform({
-    transform(chunk, _encoding, callback) {
-      try {
-        maybeMacBytes = Buffer.concat([maybeMacBytes, chunk]);
-        const knownNonMac = updateWithKnownNonMacBytes();
-        callback(null, knownNonMac);
-      } catch (error) {
-        callback(error);
-      }
-    },
-    flush(callback) {
-      try {
-        onTheirMac(maybeMacBytes);
-        callback(null, null);
-      } catch (error) {
-        callback(error);
-      }
-    },
+export function measureSize(onComplete: (size: number) => void): Transform {
+  let totalBytes = 0;
+  const passthrough = new PassThrough();
+  passthrough.on('data', chunk => {
+    totalBytes += chunk.length;
   });
+  passthrough.on('end', () => {
+    onComplete(totalBytes);
+  });
+  return passthrough;
 }
 
-/**
- * Gets the IV from the start of the stream and creates a decipher.
- * Then deciphers the rest of the stream.
- */
-function getIvAndDecipher(aesKey: Uint8Array) {
-  let maybeIvBytes: Buffer | null = Buffer.alloc(0);
-  let decipher: Decipher | null = null;
-  return new Transform({
-    transform(chunk, _encoding, callback) {
-      try {
-        // If we've already initialized the decipher, just pass the chunk through.
-        if (decipher != null) {
-          callback(null, decipher.update(chunk));
-          return;
-        }
+export function getAttachmentCiphertextLength(plaintextLength: number): number {
+  const paddedPlaintextSize = logPadSize(plaintextLength);
 
-        // Wait until we have enough bytes to get the iv to initialize the
-        // decipher.
-        maybeIvBytes = Buffer.concat([maybeIvBytes, chunk]);
-        if (maybeIvBytes.byteLength < IV_LENGTH) {
-          callback(null, null);
-          return;
-        }
-
-        // Once we have enough bytes, initialize the decipher and pass the
-        // remainder of the bytes through.
-        const iv = maybeIvBytes.subarray(0, IV_LENGTH);
-        const remainder = maybeIvBytes.subarray(IV_LENGTH);
-        maybeIvBytes = null; // free memory
-        decipher = createDecipheriv(CipherType.AES256CBC, aesKey, iv);
-        callback(null, decipher.update(remainder));
-      } catch (error) {
-        callback(error);
-      }
-    },
-    flush(callback) {
-      try {
-        strictAssert(decipher != null, 'decipher must be set');
-        callback(null, decipher.final());
-      } catch (error) {
-        callback(error);
-      }
-    },
-  });
-}
-
-/**
- * Truncates the stream to the target size.
- */
-function trimPadding(size: number) {
-  let total = 0;
-  return new Transform({
-    transform(chunk, _encoding, callback) {
-      const chunkSize = chunk.byteLength;
-      const sizeLeft = size - total;
-      if (sizeLeft >= chunkSize) {
-        total += chunkSize;
-        callback(null, chunk);
-      } else if (sizeLeft > 0) {
-        total += sizeLeft;
-        callback(null, chunk.subarray(0, sizeLeft));
-      } else {
-        callback(null, null);
-      }
-    },
-  });
-}
-
-export function getAttachmentDownloadSize(size: number): number {
   return (
-    // Multiply this by 1.05 to allow some variance
-    getAttachmentSizeBucket(size) * 1.05 + IV_LENGTH + ATTACHMENT_MAC_LENGTH
+    IV_LENGTH +
+    getAesCbcCiphertextLength(paddedPlaintextSize) +
+    ATTACHMENT_MAC_LENGTH
   );
 }
 
-const PADDING_CHUNK_SIZE = 64 * 1024;
-
-/**
- * Creates iterator that yields zero-filled padding chunks.
- */
-function* generatePadding(size: number) {
-  const targetLength = getAttachmentSizeBucket(size);
-  const paddingSize = targetLength - size;
-  const paddingChunks = Math.floor(paddingSize / PADDING_CHUNK_SIZE);
-  const paddingChunk = new Uint8Array(PADDING_CHUNK_SIZE); // zero-filled
-  const paddingRemainder = new Uint8Array(paddingSize % PADDING_CHUNK_SIZE);
-  for (let i = 0; i < paddingChunks; i += 1) {
-    yield paddingChunk;
-  }
-  if (paddingRemainder.byteLength > 0) {
-    yield paddingRemainder;
-  }
-}
-
-/**
- * Appends zero-padding to the stream to a target bucket size.
- */
-function appendPadding(fileSize: number) {
-  const iterator = generatePadding(fileSize);
-  let bytesWritten = 0;
-  let finalCallback: TransformCallback;
-
-  // Push as much padding as we can. If we reach the end
-  // of the padding, call the callback.
-  function pushPadding(transform: Transform) {
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const result = iterator.next();
-      if (result.done) {
-        break;
-      }
-      const keepGoing = transform.push(result.value);
-      if (!keepGoing) {
-        return;
-      }
-    }
-    finalCallback();
-  }
-
-  return new Transform({
-    read(size) {
-      // When in the process of pushing padding, we pause and wait for
-      // read to be called again.
-      if (finalCallback != null) {
-        pushPadding(this);
-      }
-      // Always call _read, even if we're done.
-      Transform.prototype._read.call(this, size);
-    },
-    transform(chunk, _encoding, callback) {
-      bytesWritten += chunk.byteLength;
-      // Once we reach the end of the file, start pushing padding.
-      if (bytesWritten >= fileSize) {
-        this.push(chunk);
-        finalCallback = callback;
-        pushPadding(this);
-        return;
-      }
-      callback(null, chunk);
-    },
-  });
+export function getAesCbcCiphertextLength(plaintextLength: number): number {
+  const AES_CBC_BLOCK_SIZE = 16;
+  return (
+    (1 + Math.floor(plaintextLength / AES_CBC_BLOCK_SIZE)) * AES_CBC_BLOCK_SIZE
+  );
 }
 
 /**
@@ -459,99 +605,7 @@ function prependIv(iv: Uint8Array) {
     iv.byteLength === IV_LENGTH,
     `prependIv: iv should be ${IV_LENGTH} bytes, got ${iv.byteLength} bytes`
   );
-  return new Transform({
-    construct(callback) {
-      this.push(iv);
-      callback();
-    },
-    transform(chunk, _encoding, callback) {
-      callback(null, chunk);
-    },
-  });
-}
-
-/**
- * Appends the mac to the end of the stream.
- */
-function appendMac(macKey: Uint8Array) {
-  strictAssert(
-    macKey.byteLength === KEY_LENGTH,
-    `macKey should be ${KEY_LENGTH} bytes, got ${macKey.byteLength} bytes`
-  );
-  const hmac = createHmac(HashType.size256, macKey);
-  return new Transform({
-    transform(chunk, _encoding, callback) {
-      try {
-        hmac.update(chunk);
-        callback(null, chunk);
-      } catch (error) {
-        callback(error);
-      }
-    },
-    flush(callback) {
-      try {
-        callback(null, hmac.digest());
-      } catch (error) {
-        callback(error);
-      }
-    },
-  });
-}
-
-/**
- * Called during message schema migration. New messages downloaded should have
- * plaintextHash added automatically during decryption / writing to file system.
- */
-export async function addPlaintextHashToAttachment(
-  attachment: AttachmentType,
-  { getAbsoluteAttachmentPath }: ContextType
-): Promise<AttachmentType> {
-  if (!attachment.path) {
-    return attachment;
-  }
-
-  const plaintextHash = await getPlaintextHashForAttachmentOnDisk(
-    getAbsoluteAttachmentPath(attachment.path)
-  );
-
-  if (!plaintextHash) {
-    log.error('addPlaintextHashToAttachment: Failed to generate hash');
-    return attachment;
-  }
-
-  return {
-    ...attachment,
-    plaintextHash,
-  };
-}
-
-export async function getPlaintextHashForAttachmentOnDisk(
-  absolutePath: string
-): Promise<string | undefined> {
-  let readFd;
-  try {
-    try {
-      readFd = await open(absolutePath, 'r');
-    } catch (error) {
-      log.error('addPlaintextHashToAttachment: Target path does not exist');
-      return undefined;
-    }
-    const hash = createHash(HashType.size256);
-    await pipeline(readFd.createReadStream(), hash);
-    const plaintextHash = hash.digest('hex');
-    if (!plaintextHash) {
-      log.error(
-        'addPlaintextHashToAttachment: no hash generated from file; is the file empty?'
-      );
-      return;
-    }
-    return plaintextHash;
-  } catch (error) {
-    log.error('addPlaintextHashToAttachment: error during file read', error);
-    return undefined;
-  } finally {
-    await readFd?.close();
-  }
+  return prependStream(iv);
 }
 
 export function getPlaintextHashForInMemoryAttachment(

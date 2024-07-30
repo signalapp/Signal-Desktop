@@ -2,16 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { Database } from '@signalapp/better-sqlite3';
-import SQL from '@signalapp/better-sqlite3';
 import { v4 as generateGuid } from 'uuid';
 import { range } from 'lodash';
 
-import { getTableData, insertData, updateToVersion } from './helpers';
+import { createDB, getTableData, insertData, updateToVersion } from './helpers';
 import type { ServiceIdString } from '../../types/ServiceId';
 import { normalizePni } from '../../types/ServiceId';
 import { normalizeAci } from '../../util/normalizeAci';
-import type { PreKeyType } from '../../sql/Interface';
+import type { WritableDB, PreKeyType } from '../../sql/Interface';
 
 type TestingPreKey = Omit<
   PreKeyType,
@@ -21,7 +19,7 @@ type TestingPreKey = Omit<
 };
 
 describe('SQL/updateToSchemaVersion91', () => {
-  let db: Database;
+  let db: WritableDB;
 
   const OUR_ACI = normalizeAci(generateGuid(), 'updateToSchemaVersion91 test');
   const OUR_PNI = normalizePni(
@@ -31,7 +29,7 @@ describe('SQL/updateToSchemaVersion91', () => {
   let idCount = 0;
 
   beforeEach(() => {
-    db = new SQL(':memory:');
+    db = createDB();
     updateToVersion(db, 90);
   });
 

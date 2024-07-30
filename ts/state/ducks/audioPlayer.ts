@@ -23,7 +23,7 @@ import type {
 } from './conversations';
 import * as log from '../../logging/log';
 import { isAudio } from '../../types/Attachment';
-import { getAttachmentUrlForPath } from '../selectors/message';
+import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
 import { assertDev } from '../../util/assert';
 
 // State
@@ -623,7 +623,7 @@ export function reducer(
       return state;
     }
 
-    const url = getAttachmentUrlForPath(attachment.path);
+    const url = getLocalAttachmentUrl(attachment);
 
     // if we got the url for the current message
     if (

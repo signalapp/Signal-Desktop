@@ -13,7 +13,7 @@ import { Avatar, AvatarSize } from '../Avatar';
 import { ContactName } from './ContactName';
 import { SharedGroupNames } from '../SharedGroupNames';
 import { UserText } from '../UserText';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 
 export type PropsType = Readonly<{
   children?: ReactNode;
@@ -58,7 +58,7 @@ export function ContactSpoofingReviewDialogPerson({
       <div className="module-ContactSpoofingReviewDialogPerson__info__property">
         <i className="module-ContactSpoofingReviewDialogPerson__info__property__icon module-ContactSpoofingReviewDialogPerson__info__property__icon--person" />
         <div>
-          <Intl
+          <I18n
             i18n={i18n}
             id="icu:ContactSpoofingReviewDialog__group__name-change-info"
             components={{

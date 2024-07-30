@@ -52,7 +52,7 @@ function renderAvatar(
   i18n: LocalizerType,
   {
     acceptedMessageRequest,
-    avatarPath,
+    avatarUrl,
     color,
     isMe,
     phoneNumber,
@@ -62,7 +62,7 @@ function renderAvatar(
   }: Pick<
     ConversationType,
     | 'acceptedMessageRequest'
-    | 'avatarPath'
+    | 'avatarUrl'
     | 'color'
     | 'isMe'
     | 'phoneNumber'
@@ -73,10 +73,10 @@ function renderAvatar(
 ): JSX.Element {
   return (
     <div className="module-ongoing-call__remote-video-disabled">
-      <CallBackgroundBlur avatarPath={avatarPath}>
+      <CallBackgroundBlur avatarUrl={avatarUrl}>
         <Avatar
           acceptedMessageRequest={acceptedMessageRequest}
-          avatarPath={avatarPath}
+          avatarUrl={avatarUrl}
           badge={undefined}
           color={color || AvatarColors[0]}
           noteToSelf={false}

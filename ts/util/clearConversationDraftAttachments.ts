@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AttachmentDraftType } from '../types/Attachment';
+import { DataWriter } from '../sql/Client';
 import { strictAssert } from './assert';
 import { deleteDraftAttachment } from './deleteDraftAttachment';
 
@@ -21,7 +22,7 @@ export async function clearConversationDraftAttachments(
 
   // We're fine doing this all at once; at most it should be 32 attachments
   await Promise.all([
-    window.Signal.Data.updateConversation(conversation.attributes),
+    DataWriter.updateConversation(conversation.attributes),
     Promise.all(
       draftAttachments.map(attachment => deleteDraftAttachment(attachment))
     ),

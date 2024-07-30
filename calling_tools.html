@@ -1,0 +1,75 @@
+<!-- Derived from Chromium WebRTC Internals Dashboard - see Acknowledgements for full license details -->
+<!doctype html>
+<html dir="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"
+      name="viewport"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none';
+            child-src 'self';
+            connect-src 'self' https: wss:;
+            font-src 'self';
+            form-action 'self';
+            frame-src 'none';
+            img-src 'self' blob: data:;
+            media-src 'self' blob:;
+            object-src 'none';
+            script-src 'self' 'sha256-Qu05oqDmBO5fZacm7tr/oerJcqsW0G/XqP4PRCziovc=' 'sha256-eLeGwSfPmXJ+EUiLfIeXABvLiUqDbiKgNLpHITaabgQ=';
+            style-src 'self' 'unsafe-inline';"
+    />
+    <link
+      href="stylesheets/webrtc_internals.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script
+      type="module"
+      src="bundles/calling-tools/webrtc_internals.js"
+    ></script>
+  </head>
+  <body>
+    <p id="content-root"></p>
+    <h3 id="placeholder-title"></h3>
+    <p id="placeholder-description"></p>
+    <template id="td2-template"
+      ><td></td>
+      <td></td
+    ></template>
+    <template id="summary-template"
+      ><td>
+        <details><summary></summary></details></td
+    ></template>
+    <template id="container-template"
+      ><div></div>
+      <div><canvas></canvas></div
+    ></template>
+    <template id="summary-span-template"
+      ><summary><span></span></summary
+    ></template>
+    <template id="checkbox-template"
+      ><input type="checkbox" checked
+    /></template>
+    <template id="trth-template"
+      ><tbody>
+        <tr>
+          <th colspan="2"></th>
+        </tr></tbody
+    ></template>
+    <template id="td-colspan-template"><td colspan="2"></td></template>
+    <template id="time-event-template"
+      ><tbody>
+        <tr>
+          <th>Time</th>
+          <th class="update-log-header-event">Event</th>
+        </tr>
+      </tbody></template
+    >
+  </body>
+</html>

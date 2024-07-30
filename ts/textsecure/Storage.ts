@@ -9,7 +9,7 @@ import { User } from './storage/User';
 import { Blocked } from './storage/Blocked';
 
 import { assertDev } from '../util/assert';
-import Data from '../sql/Client';
+import { DataReader, DataWriter } from '../sql/Client';
 import type { SignalProtocolStore } from '../SignalProtocolStore';
 import * as log from '../logging/log';
 
@@ -81,7 +81,7 @@ export class Storage implements StorageInterface {
     }
 
     this.items[key] = value;
-    await window.Signal.Data.createOrUpdateItem({ id: key, value });
+    await DataWriter.createOrUpdateItem({ id: key, value });
 
     window.reduxActions?.items.putItemExternal(key, value);
   }
@@ -92,7 +92,7 @@ export class Storage implements StorageInterface {
     }
 
     delete this.items[key];
-    await Data.removeItemById(key);
+    await DataWriter.removeItemById(key);
 
     window.reduxActions?.items.removeItemExternal(key);
   }
@@ -110,7 +110,7 @@ export class Storage implements StorageInterface {
   public async fetch(): Promise<void> {
     this.reset();
 
-    Object.assign(this.items, await Data.getAllItems());
+    Object.assign(this.items, await DataReader.getAllItems());
 
     this.ready = true;
     this.callListeners();
