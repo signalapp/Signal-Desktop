@@ -1,13 +1,16 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { v4 as generateUuid } from 'uuid';
 import { Modal } from './Modal';
 import type { LocalizerType } from '../types/I18N';
 import { Button, ButtonVariant } from './Button';
 import { Avatar, AvatarSize } from './Avatar';
 import { Input } from './Input';
-import type { CallLinkType } from '../types/CallLink';
+import {
+  CallLinkNameMaxByteLength,
+  type CallLinkType,
+} from '../types/CallLink';
 import { getColorForCallLink } from '../util/getColorForCallLink';
 
 export type CallLinkAddNameModalProps = Readonly<{
@@ -27,18 +30,25 @@ export function CallLinkAddNameModal({
   const [nameId] = useState(() => generateUuid());
   const [nameInput, setNameInput] = useState(callLink.name);
 
+  const parsedForm = useMemo(() => {
+    const name = nameInput.trim();
+    if (name === callLink.name) {
+      return null;
+    }
+    return { name };
+  }, [nameInput, callLink]);
+
   const handleNameInputChange = useCallback((nextNameInput: string) => {
     setNameInput(nextNameInput);
   }, []);
 
   const handleSubmit = useCallback(() => {
-    const nameValue = nameInput.trim();
-    if (nameValue === callLink.name) {
+    if (parsedForm == null) {
       return;
     }
-    onUpdateCallLinkName(nameValue);
+    onUpdateCallLinkName(parsedForm.name);
     onClose();
-  }, [nameInput, callLink, onUpdateCallLinkName, onClose]);
+  }, [parsedForm, onUpdateCallLinkName, onClose]);
 
   return (
     <Modal
@@ -47,7 +57,11 @@ export function CallLinkAddNameModal({
       hasXButton
       noEscapeClose
       noMouseClose
-      title={i18n('icu:CallLinkAddNameModal__Title')}
+      title={
+        callLink.name === ''
+          ? i18n('icu:CallLinkAddNameModal__Title')
+          : i18n('icu:CallLinkAddNameModal__Title--Edit')
+      }
       onClose={onClose}
       moduleClassName="CallLinkAddNameModal"
       modalFooter={
@@ -55,7 +69,12 @@ export function CallLinkAddNameModal({
           <Button onClick={onClose} variant={ButtonVariant.Secondary}>
             {i18n('icu:cancel')}
           </Button>
-          <Button type="submit" form={formId} variant={ButtonVariant.Primary}>
+          <Button
+            type="submit"
+            form={formId}
+            variant={ButtonVariant.Primary}
+            aria-disabled={parsedForm == null}
+          >
             {i18n('icu:save')}
           </Button>
         </>
@@ -93,6 +112,7 @@ export function CallLinkAddNameModal({
           autoFocus
           onChange={handleNameInputChange}
           moduleClassName="CallLinkAddNameModal__Input"
+          maxByteCount={CallLinkNameMaxByteLength}
         />
       </form>
     </Modal>

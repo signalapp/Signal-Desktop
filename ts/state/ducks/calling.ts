@@ -1407,18 +1407,15 @@ function handleCallLinkUpdate(
     const roomId = getRoomIdFromRootKey(callLinkRootKey);
     const logId = `handleCallLinkUpdate(${roomId})`;
 
-    const readResult = await calling.readCallLink({
-      callLinkRootKey,
-    });
+    const freshCallLinkState = await calling.readCallLink(callLinkRootKey);
 
     // Only give up when server confirms the call link is gone. If we fail to fetch
     // state due to unexpected errors, continue to save rootKey and adminKey.
-    if (readResult.errorStatusCode === 404) {
+    if (freshCallLinkState == null) {
       log.info(`${logId}: Call link not found, ignoring`);
       return;
     }
 
-    const { callLinkState: freshCallLinkState } = readResult;
     const existingCallLink = await DataReader.getCallLinkByRoomId(roomId);
     const existingCallLinkState = pick(existingCallLink, [
       'name',
@@ -2070,9 +2067,17 @@ const _startCallLinkLobby = async ({
     return;
   }
 
-  const readResult = await calling.readCallLink({ callLinkRootKey });
-  const { callLinkState } = readResult;
-  if (!callLinkState) {
+  let callLinkState: CallLinkStateType | null = null;
+  try {
+    callLinkState = await calling.readCallLink(callLinkRootKey);
+  } catch (error) {
+    log.error(
+      'startCallLinkLobby: Error fetching call link state',
+      Errors.toLogFormat(error)
+    );
+  }
+
+  if (callLinkState == null) {
     const i18n = getIntl(getState());
     dispatch({
       type: SHOW_ERROR_MODAL,
@@ -2086,6 +2091,7 @@ const _startCallLinkLobby = async ({
   }
   if (
     callLinkState.revoked ||
+    callLinkState.expiration == null ||
     callLinkState.expiration < new Date().getTime()
   ) {
     const i18n = getIntl(getState());

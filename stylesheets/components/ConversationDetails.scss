@@ -153,6 +153,14 @@
         }
       }
 
+      &--approveAllMembers {
+        &::after {
+          @include details-icon(
+            '../images/icons/v3/person/person-check-compact.svg'
+          );
+        }
+      }
+
       &--link {
         &::after {
           @include details-icon('../images/icons/v3/link/link.svg');

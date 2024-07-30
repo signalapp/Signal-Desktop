@@ -1,0 +1,7 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+// Overriding default style
+.CallLinkRestrictionsSelect.module-select select {
+  min-width: 0;
+}

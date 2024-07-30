@@ -7289,6 +7289,18 @@
     "messageformat": "Join",
     "description": "Call History > Call Link Details > Join Button"
   },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name",
+    "description": "Call History > Call Link Details > Add Call Name Button > Label"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name",
+    "description": "Call History > Call Link Details > Edit Call Name Button > Label"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members",
+    "description": "Call History > Call Link Details > Approve All Members > Label"
+  },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Copy link",
     "description": "Call History > Call Link Details > Copy Link Button"
@@ -7309,21 +7321,29 @@
     "messageformat": "Add call name",
     "description": "Call Link Edit Modal > Add Call Name Button > Label"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name",
+    "description": "Call Link Edit Modal > Edit Call Name Button > Label"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Approve all members",
     "description": "Call Link Edit Modal > Approve All Members Checkbox > Label"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Off",
     "description": "Call Link Edit Modal > Approve All Members Checkbox > Option > Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
+  "icu:CallLinkRestrictionsSelect__Option--On": {
     "messageformat": "On",
     "description": "Call Link Edit Modal > Approve All Members Checkbox > Option > On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Add call name",
     "description": "Call Link Add Name Modal > Title"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name",
+    "description": "Call Link Add Name Modal (When editing existing name) > Title"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Call name",

@@ -9,7 +9,10 @@ import { getIntl } from '../selectors/user';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { getCallLinkAddNameModalRoomId } from '../selectors/globalModals';
 import { strictAssert } from '../../util/assert';
-import { isCallLinksCreateEnabled } from '../../util/callLinks';
+import {
+  isCallLinkAdmin,
+  isCallLinksCreateEnabled,
+} from '../../util/callLinks';
 import { CallLinkAddNameModal } from '../../components/CallLinkAddNameModal';
 
 export const SmartCallLinkAddNameModal = memo(
@@ -47,6 +50,8 @@ export const SmartCallLinkAddNameModal = memo(
       );
       return null;
     }
+
+    strictAssert(isCallLinkAdmin(callLink), 'User is not an admin');
 
     return (
       <CallLinkAddNameModal

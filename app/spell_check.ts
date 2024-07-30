@@ -13,7 +13,7 @@ import { strictAssert } from '../ts/util/assert';
 import type { LoggerType } from '../ts/types/Logging';
 import { handleAttachmentRequest } from './attachment_channel';
 
-export const FAKE_DEFAULT_LOCALE = 'en-x-ignore'; // -x- is an extension space for attaching other metadata to the locale
+export const FAKE_DEFAULT_LOCALE = 'und'; // 'und' is the BCP 47 subtag for "undetermined"
 
 strictAssert(
   new Intl.Locale(FAKE_DEFAULT_LOCALE).toString() === FAKE_DEFAULT_LOCALE,

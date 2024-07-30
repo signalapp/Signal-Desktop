@@ -49,9 +49,9 @@ export async function onCallLinkUpdateSync(
       // TODO: DESKTOP-6951
       log.warn(`${logId}: Deleting call links is not supported`);
     }
+
+    confirm();
   } catch (err) {
     log.error(`${logId}: Failed to process`, Errors.toLogFormat(err));
   }
-
-  confirm();
 }
