@@ -67,12 +67,13 @@ import {
   hasNetworkDialog as getHasNetworkDialog,
 } from '../selectors/network';
 import {
+  getHasSearchQuery,
   getIsSearching,
+  getIsSearchingGlobally,
   getQuery,
   getSearchConversation,
   getSearchResults,
   getStartSearchCounter,
-  isSearching,
 } from '../selectors/search';
 import {
   isUpdateDownloaded as getIsUpdateDownloaded,
@@ -155,19 +156,21 @@ const getModeSpecificProps = (
         return {
           mode: LeftPaneMode.Archive,
           archivedConversations,
+          isSearchingGlobally: getIsSearchingGlobally(state),
           searchConversation,
           searchTerm,
           startSearchCounter: getStartSearchCounter(state),
           ...(searchConversation && searchTerm ? getSearchResults(state) : {}),
         };
       }
-      if (isSearching(state)) {
+      if (getHasSearchQuery(state)) {
         const primarySendsSms = Boolean(
           get(state.items, ['primarySendsSms'], false)
         );
 
         return {
           mode: LeftPaneMode.Search,
+          isSearchingGlobally: getIsSearchingGlobally(state),
           primarySendsSms,
           searchConversation: getSearchConversation(state),
           searchDisabled: state.network.challengeStatus !== 'idle',
@@ -178,6 +181,7 @@ const getModeSpecificProps = (
       return {
         mode: LeftPaneMode.Inbox,
         isAboutToSearch: getIsSearching(state),
+        isSearchingGlobally: getIsSearchingGlobally(state),
         searchConversation: getSearchConversation(state),
         searchDisabled: state.network.challengeStatus !== 'idle',
         searchTerm: getQuery(state),
@@ -263,7 +267,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const hasAppExpired = useSelector(hasExpired);
   const hasNetworkDialog = useSelector(getHasNetworkDialog);
-  const hasSearchQuery = useSelector(isSearching);
+  const hasSearchQuery = useSelector(getHasSearchQuery);
   const hasUnsupportedOS = useSelector(isOSUnsupported);
   const hasUpdateDialog = useSelector(isUpdateDialogVisible);
   const i18n = useSelector(getIntl);
@@ -309,6 +313,8 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   const {
     clearConversationSearch,
     clearSearch,
+    endConversationSearch,
+    endSearch,
     searchInConversation,
     startSearch,
     updateSearchTerm,
@@ -359,6 +365,8 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       composeSaveAvatarToDisk={composeSaveAvatarToDisk}
       crashReportCount={crashReportCount}
       createGroup={createGroup}
+      endConversationSearch={endConversationSearch}
+      endSearch={endSearch}
       getPreferredBadge={getPreferredBadge}
       hasExpiredDialog={hasExpiredDialog}
       hasFailedStorySends={hasFailedStorySends}

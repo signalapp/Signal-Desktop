@@ -62,6 +62,7 @@ const defaultConversations: Array<ConversationType> = [
 ];
 
 const defaultSearchProps = {
+  isSearchingGlobally: true,
   searchConversation: undefined,
   searchDisabled: false,
   searchTerm: 'hello',
@@ -145,6 +146,8 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     composeReplaceAvatar: action('composeReplaceAvatar'),
     composeSaveAvatarToDisk: action('composeSaveAvatarToDisk'),
     createGroup: action('createGroup'),
+    endConversationSearch: action('endConversationSearch'),
+    endSearch: action('endSearch'),
     getPreferredBadge: () => undefined,
     hasFailedStorySends: false,
     hasPendingUpdate: false,
@@ -609,6 +612,7 @@ export function ArchiveNoArchivedConversations(): JSX.Element {
         modeSpecificProps: {
           mode: LeftPaneMode.Archive,
           archivedConversations: [],
+          isSearchingGlobally: false,
           searchConversation: undefined,
           searchTerm: '',
           startSearchCounter: 0,
@@ -625,6 +629,7 @@ export function ArchiveArchivedConversations(): JSX.Element {
         modeSpecificProps: {
           mode: LeftPaneMode.Archive,
           archivedConversations: defaultConversations,
+          isSearchingGlobally: false,
           searchConversation: undefined,
           searchTerm: '',
           startSearchCounter: 0,
@@ -641,6 +646,7 @@ export function ArchiveSearchingAConversation(): JSX.Element {
         modeSpecificProps: {
           mode: LeftPaneMode.Archive,
           archivedConversations: defaultConversations,
+          isSearchingGlobally: false,
           searchConversation: undefined,
           searchTerm: '',
           startSearchCounter: 0,
