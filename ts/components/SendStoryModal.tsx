@@ -919,14 +919,14 @@ export function SendStoryModal({
               }}
               theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
             >
-              {({ openMenu, onKeyDown, ref, menuNode }) => (
+              {({ onClick, onKeyDown, ref, menuNode }) => (
                 <div>
                   <Button
                     ref={ref}
                     className="SendStoryModal__new-story__button"
                     variant={ButtonVariant.Secondary}
                     size={ButtonSize.Small}
-                    onClick={openMenu}
+                    onClick={onClick}
                     onKeyDown={onKeyDown}
                   >
                     {i18n('icu:SendStoryModal__new')}
