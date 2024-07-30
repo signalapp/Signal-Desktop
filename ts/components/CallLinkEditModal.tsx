@@ -6,16 +6,13 @@ import React, { useMemo, useState } from 'react';
 import { v4 as generateUuid } from 'uuid';
 import { Modal } from './Modal';
 import type { LocalizerType } from '../types/I18N';
-import {
-  CallLinkRestrictions,
-  toCallLinkRestrictions,
-  type CallLinkType,
-} from '../types/CallLink';
-import { Select } from './Select';
+import type { CallLinkRestrictions } from '../types/CallLink';
+import { type CallLinkType } from '../types/CallLink';
 import { linkCallRoute } from '../util/signalRoutes';
 import { Button, ButtonSize, ButtonVariant } from './Button';
 import { Avatar, AvatarSize } from './Avatar';
 import { getColorForCallLink } from '../util/getColorForCallLink';
+import { CallLinkRestrictionsSelect } from './CallLinkRestrictionsSelect';
 
 const CallLinkEditModalRowIconClasses = {
   Edit: 'CallLinkEditModal__RowIcon--Edit',
@@ -160,7 +157,11 @@ export function CallLinkEditModal({
       <RowButton onClick={onOpenCallLinkAddNameModal}>
         <Row>
           <RowIcon icon="Edit" />
-          <RowText>{i18n('icu:CallLinkEditModal__AddCallNameLabel')}</RowText>
+          <RowText>
+            {callLink.name === ''
+              ? i18n('icu:CallLinkEditModal__AddCallNameLabel')
+              : i18n('icu:CallLinkEditModal__EditCallNameLabel')}
+          </RowText>
         </Row>
       </RowButton>
 
@@ -171,27 +172,11 @@ export function CallLinkEditModal({
             {i18n('icu:CallLinkEditModal__InputLabel--ApproveAllMembers')}
           </label>
         </RowText>
-        <Select
+        <CallLinkRestrictionsSelect
+          i18n={i18n}
           id={restrictionsId}
-          value={String(callLink.restrictions)}
-          moduleClassName="CallLinkEditModal__RowSelect"
-          options={[
-            {
-              value: String(CallLinkRestrictions.None),
-              text: i18n(
-                'icu:CallLinkEditModal__ApproveAllMembers__Option--Off'
-              ),
-            },
-            {
-              value: String(CallLinkRestrictions.AdminApproval),
-              text: i18n(
-                'icu:CallLinkEditModal__ApproveAllMembers__Option--On'
-              ),
-            },
-          ]}
-          onChange={value => {
-            onUpdateCallLinkRestrictions(toCallLinkRestrictions(value));
-          }}
+          value={callLink.restrictions}
+          onChange={onUpdateCallLinkRestrictions}
         />
       </Row>
 

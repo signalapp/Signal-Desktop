@@ -1335,10 +1335,7 @@ describe('calling duck', () => {
       beforeEach(function (this: Mocha.Context) {
         this.callingServiceReadCallLink = this.sandbox
           .stub(callingService, 'readCallLink')
-          .resolves({
-            callLinkState: getCallLinkState(FAKE_CALL_LINK),
-            errorStatusCode: undefined,
-          });
+          .resolves(getCallLinkState(FAKE_CALL_LINK));
       });
 
       const doAction = async (
@@ -1423,10 +1420,7 @@ describe('calling duck', () => {
       beforeEach(function (this: Mocha.Context) {
         this.callingServiceReadCallLink = this.sandbox
           .stub(callingService, 'readCallLink')
-          .resolves({
-            callLinkState,
-            errorStatusCode: undefined,
-          });
+          .resolves(callLinkState);
         this.callingServiceStartCallLinkLobby = this.sandbox
           .stub(callingService, 'startCallLinkLobby')
           .resolves(callLobbyData);

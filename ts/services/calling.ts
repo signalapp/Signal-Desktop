@@ -6,7 +6,6 @@ import { ipcRenderer } from 'electron';
 import type {
   AudioDevice,
   CallId,
-  CallLinkState as RingRTCCallLinkState,
   DeviceId,
   GroupCallObserver,
   PeekInfo,
@@ -151,11 +150,7 @@ import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue';
-import type {
-  CallLinkType,
-  CallLinkStateType,
-  ReadCallLinkState,
-} from '../types/CallLink';
+import type { CallLinkType, CallLinkStateType } from '../types/CallLink';
 import { CallLinkRestrictions } from '../types/CallLink';
 import { getConversationIdForLogging } from '../util/idForLogging';
 import { sendCallLinkUpdateSync } from '../util/sendCallLinkUpdateSync';
@@ -767,20 +762,9 @@ export class CallingClass {
     return callLinkStateFromRingRTC(result.value);
   }
 
-  async readCallLink({
-    callLinkRootKey,
-  }: Readonly<{
-    callLinkRootKey: CallLinkRootKey;
-  }>): Promise<
-    | {
-        callLinkState: ReadCallLinkState;
-        errorStatusCode: undefined;
-      }
-    | {
-        callLinkState: undefined;
-        errorStatusCode: number;
-      }
-  > {
+  async readCallLink(
+    callLinkRootKey: CallLinkRootKey
+  ): Promise<CallLinkStateType | null> {
     if (!this._sfuUrl) {
       throw new Error('readCallLink() missing SFU URL; not handling call link');
     }
@@ -796,18 +780,15 @@ export class CallingClass {
       callLinkRootKey
     );
     if (!result.success) {
-      log.warn(`${logId}: failed`);
-      return {
-        callLinkState: undefined,
-        errorStatusCode: result.errorStatusCode,
-      };
+      log.warn(`${logId}: failed with status ${result.errorStatusCode}`);
+      if (result.errorStatusCode === 404) {
+        return null;
+      }
+      throw new Error(`Failed to read call link: ${result.errorStatusCode}`);
     }
 
     log.info(`${logId}: success`);
-    return {
-      callLinkState: this.formatCallLinkStateForRedux(result.value),
-      errorStatusCode: undefined,
-    };
+    return callLinkStateFromRingRTC(result.value);
   }
 
   async startCallLinkLobby({
@@ -1751,18 +1732,6 @@ export class CallingClass {
             (remoteDeviceState.videoMuted ? 1 : 4 / 3),
         };
       }),
-    };
-  }
-
-  public formatCallLinkStateForRedux(
-    callLinkState: RingRTCCallLinkState
-  ): ReadCallLinkState {
-    const { name, restrictions, expiration, revoked } = callLinkState;
-    return {
-      name,
-      restrictions,
-      expiration: expiration.getTime(),
-      revoked,
     };
   }
 

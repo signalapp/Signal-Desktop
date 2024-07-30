@@ -4,6 +4,7 @@ import type { ReadonlyDeep } from 'type-fest';
 import { z } from 'zod';
 import type { ConversationType } from '../state/ducks/conversations';
 import { safeParseInteger } from '../util/numbers';
+import { byteLength } from '../Bytes';
 
 export enum CallLinkUpdateSyncType {
   Update = 'Update',
@@ -14,6 +15,16 @@ export type CallLinkUpdateData = Readonly<{
   rootKey: Uint8Array;
   adminKey: Uint8Array | undefined;
 }>;
+
+/**
+ * Names
+ */
+
+export const CallLinkNameMaxByteLength = 120;
+
+export const callLinkNameSchema = z.string().refine(input => {
+  return byteLength(input) <= 120;
+});
 
 /**
  * Restrictions
@@ -56,13 +67,6 @@ export type CallLinkStateType = Pick<
   'name' | 'restrictions' | 'revoked' | 'expiration'
 >;
 
-export type ReadCallLinkState = Readonly<{
-  name: string;
-  restrictions: CallLinkRestrictions;
-  revoked: boolean;
-  expiration: number;
-}>;
-
 // Ephemeral conversation-like type to satisfy components
 export type CallLinkConversationType = ReadonlyDeep<
   Omit<ConversationType, 'type'> & {
@@ -89,7 +93,7 @@ export const callLinkRecordSchema = z.object({
   rootKey: z.instanceof(Uint8Array).nullable(),
   adminKey: z.instanceof(Uint8Array).nullable(),
   // state
-  name: z.string(),
+  name: callLinkNameSchema,
   restrictions: callLinkRestrictionsSchema,
   expiration: z.number().int().nullable(),
   revoked: z.union([z.literal(1), z.literal(0)]),

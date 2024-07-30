@@ -10,13 +10,15 @@ import {
   IconType,
 } from './conversation/conversation-details/ConversationDetailsIcon';
 import { PanelRow } from './conversation/conversation-details/PanelRow';
-import type { CallLinkType } from '../types/CallLink';
+import type { CallLinkRestrictions, CallLinkType } from '../types/CallLink';
 import { linkCallRoute } from '../util/signalRoutes';
 import { drop } from '../util/drop';
 import { Avatar, AvatarSize } from './Avatar';
 import { Button, ButtonSize, ButtonVariant } from './Button';
 import { copyCallLink } from '../util/copyLinksWithToast';
 import { getColorForCallLink } from '../util/getColorForCallLink';
+import { isCallLinkAdmin } from '../util/callLinks';
+import { CallLinkRestrictionsSelect } from './CallLinkRestrictionsSelect';
 
 function toUrlWithoutProtocol(url: URL): string {
   return `${url.hostname}${url.pathname}${url.search}${url.hash}`;
@@ -26,16 +28,20 @@ export type CallLinkDetailsProps = Readonly<{
   callHistoryGroup: CallHistoryGroup;
   callLink: CallLinkType;
   i18n: LocalizerType;
+  onOpenCallLinkAddNameModal: () => void;
   onStartCallLinkLobby: () => void;
   onShareCallLinkViaSignal: () => void;
+  onUpdateCallLinkRestrictions: (restrictions: CallLinkRestrictions) => void;
 }>;
 
 export function CallLinkDetails({
   callHistoryGroup,
   callLink,
   i18n,
+  onOpenCallLinkAddNameModal,
   onStartCallLinkLobby,
   onShareCallLinkViaSignal,
+  onUpdateCallLinkRestrictions,
 }: CallLinkDetailsProps): JSX.Element {
   const webUrl = linkCallRoute.toWebUrl({
     key: callLink.rootKey,
@@ -80,6 +86,40 @@ export function CallLinkDetails({
         callHistoryGroup={callHistoryGroup}
         i18n={i18n}
       />
+      {isCallLinkAdmin(callLink) && (
+        <PanelSection>
+          <PanelRow
+            icon={
+              <ConversationDetailsIcon
+                ariaLabel={i18n('icu:CallLinkDetails__AddCallNameLabel')}
+                icon={IconType.edit}
+              />
+            }
+            label={
+              callLink.name === ''
+                ? i18n('icu:CallLinkDetails__AddCallNameLabel')
+                : i18n('icu:CallLinkDetails__EditCallNameLabel')
+            }
+            onClick={onOpenCallLinkAddNameModal}
+          />
+          <PanelRow
+            icon={
+              <ConversationDetailsIcon
+                ariaLabel={i18n('icu:CallLinkDetails__ApproveAllMembersLabel')}
+                icon={IconType.approveAllMembers}
+              />
+            }
+            label={i18n('icu:CallLinkDetails__ApproveAllMembersLabel')}
+            right={
+              <CallLinkRestrictionsSelect
+                i18n={i18n}
+                value={callLink.restrictions}
+                onChange={onUpdateCallLinkRestrictions}
+              />
+            }
+          />
+        </PanelSection>
+      )}
       <PanelSection>
         <PanelRow
           icon={

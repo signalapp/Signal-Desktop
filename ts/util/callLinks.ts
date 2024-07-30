@@ -25,6 +25,7 @@ import type {
   CallLinkStateType,
 } from '../types/CallLink';
 import {
+  CallLinkNameMaxByteLength,
   callLinkRecordSchema,
   CallLinkRestrictions,
   toCallLinkRestrictions,
@@ -32,6 +33,7 @@ import {
 import type { LocalizerType } from '../types/Util';
 import { isTestOrMockEnvironment } from '../environment';
 import { getColorForCallLink } from './getColorForCallLink';
+import { unicodeSlice } from './unicodeSlice';
 import {
   AdhocCallStatus,
   CallDirection,
@@ -153,7 +155,7 @@ export function callLinkStateFromRingRTC(
   state: RingRTCCallLinkState
 ): CallLinkStateType {
   return {
-    name: state.name,
+    name: unicodeSlice(state.name, 0, CallLinkNameMaxByteLength),
     restrictions: toCallLinkRestrictions(state.restrictions),
     revoked: state.revoked,
     expiration: state.expiration.getTime(),
@@ -211,6 +213,10 @@ export function callLinkFromRecord(record: CallLinkRecord): CallLinkType {
     revoked: record.revoked === 1,
     expiration: record.expiration,
   };
+}
+
+export function isCallLinkAdmin(callLink: CallLinkType): boolean {
+  return callLink.adminKey != null;
 }
 
 export function toCallHistoryFromUnusedCallLink(
