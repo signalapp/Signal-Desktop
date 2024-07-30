@@ -2933,44 +2933,50 @@ function getAllStories(
     sourceServiceId?: ServiceIdString;
   }
 ): GetAllStoriesResultType {
+  const [storiesQuery, storiesParams] = sql`
+    SELECT json, id
+    FROM messages
+    WHERE
+      isStory = 1 AND
+      (${conversationId} IS NULL OR conversationId IS ${conversationId}) AND
+      (${sourceServiceId} IS NULL OR sourceServiceId IS ${sourceServiceId})
+    ORDER BY received_at ASC, sent_at ASC;
+  `;
   const rows: ReadonlyArray<{
+    id: string;
     json: string;
-    hasReplies: number;
-    hasRepliesFromSelf: number;
-  }> = db
-    .prepare<Query>(
-      `
-      SELECT
-        json,
-        (SELECT EXISTS(
-          SELECT 1
-          FROM messages as replies
-          WHERE replies.storyId IS messages.id
-        )) as hasReplies,
-        (SELECT EXISTS(
-          SELECT 1
-          FROM messages AS selfReplies
-          WHERE
-            selfReplies.storyId IS messages.id AND
-            selfReplies.type IS 'outgoing'
-        )) as hasRepliesFromSelf
-      FROM messages
-      WHERE
-        type IS 'story' AND
-        ($conversationId IS NULL OR conversationId IS $conversationId) AND
-        ($sourceServiceId IS NULL OR sourceServiceId IS $sourceServiceId)
-      ORDER BY received_at ASC, sent_at ASC;
-      `
+  }> = db.prepare(storiesQuery).all(storiesParams);
+
+  const [repliesQuery, repliesParams] = sql`
+    SELECT DISTINCT storyId
+    FROM messages
+    WHERE storyId IS NOT NULL
+  `;
+  const replies: ReadonlyArray<{
+    storyId: string;
+  }> = db.prepare(repliesQuery).all(repliesParams);
+
+  const [repliesFromSelfQuery, repliesFromSelfParams] = sql`
+    SELECT DISTINCT storyId
+    FROM messages
+    WHERE (
+      storyId IS NOT NULL AND
+      type IS 'outgoing'
     )
-    .all({
-      conversationId: conversationId || null,
-      sourceServiceId: sourceServiceId || null,
-    });
+  `;
+  const repliesFromSelf: ReadonlyArray<{
+    storyId: string;
+  }> = db.prepare(repliesFromSelfQuery).all(repliesFromSelfParams);
+
+  const repliesLookup = new Set(replies.map(row => row.storyId));
+  const repliesFromSelfLookup = new Set(
+    repliesFromSelf.map(row => row.storyId)
+  );
 
   return rows.map(row => ({
     ...jsonToObject(row.json),
-    hasReplies: row.hasReplies !== 0,
-    hasRepliesFromSelf: row.hasRepliesFromSelf !== 0,
+    hasReplies: Boolean(repliesLookup.has(row.id)),
+    hasRepliesFromSelf: Boolean(repliesFromSelfLookup.has(row.id)),
   }));
 }
 
