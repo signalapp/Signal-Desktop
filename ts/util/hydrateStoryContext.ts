@@ -2,12 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import omit from 'lodash/omit';
+import * as log from '../logging/log';
 import type { AttachmentType } from '../types/Attachment';
 import type { MessageAttributesType } from '../model-types.d';
 import { getAttachmentsForMessage } from '../state/selectors/message';
 import { isAciString } from './isAciString';
 import { isDirectConversation } from './whatTypeOfConversation';
 import { softAssert, strictAssert } from './assert';
+import { getMessageSentTimestamp } from './getMessageSentTimestamp';
+import { isOlderThan } from './timestamp';
+import { DAY } from './durations';
 
 export async function hydrateStoryContext(
   messageId: string,
@@ -36,11 +40,17 @@ export async function hydrateStoryContext(
   }
 
   const { storyReplyContext: context } = messageAttributes;
-  // We'll continue trying to get the attachment as long as the message still exists
+  const sentTimestamp = getMessageSentTimestamp(messageAttributes, {
+    includeEdits: false,
+    log,
+  });
+  const olderThanADay = isOlderThan(sentTimestamp, DAY);
+  const didNotFindMessage = context && !context.messageId;
+  const weHaveData = context && context.attachment?.url;
+
   if (
     !isStoryErased &&
-    context &&
-    (context.attachment?.url || !context.messageId)
+    ((!olderThanADay && weHaveData) || (olderThanADay && didNotFindMessage))
   ) {
     return undefined;
   }
