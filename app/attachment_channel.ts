@@ -4,10 +4,10 @@
 import { ipcMain, protocol } from 'electron';
 import { createReadStream } from 'node:fs';
 import { join, normalize } from 'node:path';
-import { Readable, Transform, PassThrough } from 'node:stream';
-import { pipeline } from 'node:stream/promises';
+import { Readable, PassThrough } from 'node:stream';
 import z from 'zod';
 import * as rimraf from 'rimraf';
+import { RangeFinder, DefaultStorage } from '@indutny/range-finder';
 import {
   getAllAttachments,
   getAvatarsPath,
@@ -29,6 +29,7 @@ import { sleep } from '../ts/util/sleep';
 import { isPathInside } from '../ts/util/isPathInside';
 import { missingCaseError } from '../ts/util/missingCaseError';
 import { safeParseInteger } from '../ts/util/numbers';
+import { SECOND } from '../ts/util/durations';
 import { drop } from '../ts/util/drop';
 import { strictAssert } from '../ts/util/assert';
 import { decryptAttachmentV2ToSink } from '../ts/AttachmentCrypto';
@@ -42,6 +43,81 @@ const ERASE_DRAFTS_KEY = 'erase-drafts';
 const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 
 const INTERACTIVITY_DELAY = 50;
+
+type RangeFinderContextType = Readonly<
+  | {
+      type: 'ciphertext';
+      path: string;
+      keysBase64: string;
+      size: number;
+    }
+  | {
+      type: 'plaintext';
+      path: string;
+    }
+>;
+
+async function safeDecryptToSink(
+  ...args: Parameters<typeof decryptAttachmentV2ToSink>
+): Promise<void> {
+  try {
+    await decryptAttachmentV2ToSink(...args);
+  } catch (error) {
+    // These errors happen when canceling fetch from `attachment://` urls,
+    // ignore them to avoid noise in the logs.
+    if (
+      error.name === 'AbortError' ||
+      error.code === 'ERR_STREAM_PREMATURE_CLOSE'
+    ) {
+      return;
+    }
+
+    console.error(
+      'handleAttachmentRequest: decryption error',
+      Errors.toLogFormat(error)
+    );
+  }
+}
+
+const storage = new DefaultStorage<RangeFinderContextType>(
+  ctx => {
+    if (ctx.type === 'plaintext') {
+      return createReadStream(ctx.path);
+    }
+
+    if (ctx.type === 'ciphertext') {
+      const options = {
+        ciphertextPath: ctx.path,
+        idForLogging: 'attachment_channel',
+        keysBase64: ctx.keysBase64,
+        type: 'local' as const,
+        size: ctx.size,
+      };
+
+      const plaintext = new PassThrough();
+      drop(safeDecryptToSink(options, plaintext));
+      return plaintext;
+    }
+
+    throw missingCaseError(ctx);
+  },
+  {
+    maxSize: 10,
+    ttl: SECOND,
+    cacheKey: ctx => {
+      if (ctx.type === 'ciphertext') {
+        return `${ctx.type}:${ctx.path}:${ctx.size}:${ctx.keysBase64}`;
+      }
+      if (ctx.type === 'plaintext') {
+        return `${ctx.type}:${ctx.path}`;
+      }
+      throw missingCaseError(ctx);
+    },
+  }
+);
+const rangeFinder = new RangeFinder<RangeFinderContextType>(storage, {
+  noActiveReuse: true,
+});
 
 const dispositionSchema = z.enum([
   'attachment',
@@ -310,81 +386,58 @@ export async function handleAttachmentRequest(req: Request): Promise<Response> {
     }
   }
 
+  let context: RangeFinderContextType;
+
   // Legacy plaintext attachments
   if (url.host === 'v1') {
+    context = {
+      type: 'plaintext',
+      path,
+    };
+  } else {
+    // Encrypted attachments
+
+    // Get AES+MAC key
+    const maybeKeysBase64 = url.searchParams.get('key');
+    if (maybeKeysBase64 == null) {
+      return new Response('Missing key', { status: 400 });
+    }
+
+    // Size is required for trimming padding
+    if (maybeSize == null) {
+      return new Response('Missing size', { status: 400 });
+    }
+
+    context = {
+      type: 'ciphertext',
+      path,
+      keysBase64: maybeKeysBase64,
+      size: maybeSize,
+    };
+  }
+
+  try {
     return handleRangeRequest({
       request: req,
       size: maybeSize,
-      plaintext: createReadStream(path),
+      context,
     });
+  } catch (error) {
+    console.error('handleAttachmentRequest: error', Errors.toLogFormat(error));
+    throw error;
   }
-
-  // Encrypted attachments
-
-  // Get AES+MAC key
-  const maybeKeysBase64 = url.searchParams.get('key');
-  if (maybeKeysBase64 == null) {
-    return new Response('Missing key', { status: 400 });
-  }
-
-  // Size is required for trimming padding
-  if (maybeSize == null) {
-    return new Response('Missing size', { status: 400 });
-  }
-
-  // Pacify typescript
-  const size = maybeSize;
-  const keysBase64 = maybeKeysBase64;
-
-  const plaintext = new PassThrough();
-
-  async function runSafe(): Promise<void> {
-    try {
-      await decryptAttachmentV2ToSink(
-        {
-          ciphertextPath: path,
-          idForLogging: 'attachment_channel',
-          keysBase64,
-          type: 'local',
-          size,
-        },
-        plaintext
-      );
-    } catch (error) {
-      plaintext.destroy(error);
-
-      // These errors happen when canceling fetch from `attachment://` urls,
-      // ignore them to avoid noise in the logs.
-      if (error.name === 'AbortError') {
-        return;
-      }
-
-      console.error(
-        'handleAttachmentRequest: decryption error',
-        Errors.toLogFormat(error)
-      );
-    }
-  }
-
-  drop(runSafe());
-
-  return handleRangeRequest({
-    request: req,
-    size: maybeSize,
-    plaintext,
-  });
 }
 
 type HandleRangeRequestOptionsType = Readonly<{
   request: Request;
   size: number | undefined;
-  plaintext: Readable;
+  context: RangeFinderContextType;
 }>;
 
 function handleRangeRequest({
   request,
   size,
-  plaintext,
+  context,
 }: HandleRangeRequestOptionsType): Response {
   const url = new URL(request.url);
 
@@ -401,6 +454,7 @@ function handleRangeRequest({
   }
 
   const create200Response = (): Response => {
+    const plaintext = rangeFinder.get(0, context);
     return new Response(Readable.toWeb(plaintext) as ReadableStream<Buffer>, {
       status: 200,
       headers,
@@ -412,7 +466,8 @@ function handleRangeRequest({
     return create200Response();
   }
 
-  const match = range.match(/^bytes=(\d+)-(\d+)?$/);
+  // Chromium only sends open-ended ranges: "start-"
+  const match = range.match(/^bytes=(\d+)-$/);
   if (match == null) {
     console.error(`attachment_channel: invalid range header: ${range}`);
     return create200Response();
@@ -424,68 +479,16 @@ function handleRangeRequest({
     return create200Response();
   }
 
-  let endParam: number | undefined;
-  if (match[2] != null) {
-    const intValue = safeParseInteger(match[2]);
-    if (intValue == null) {
-      console.error(`attachment_channel: invalid range header: ${range}`);
-      return create200Response();
-    }
-    endParam = intValue;
-  }
-
   const start = Math.min(startParam, size || Infinity);
-  let end: number;
-  if (endParam === undefined) {
-    end = size || Infinity;
-  } else {
-    // Supplied range is inclusive
-    end = Math.min(endParam + 1, size || Infinity);
+
+  headers['content-range'] = `bytes ${start}-/${size ?? '*'}`;
+
+  if (size !== undefined) {
+    headers['content-length'] = (size - start).toString();
   }
 
-  let offset = 0;
-  const transform = new Transform({
-    transform(data, _enc, callback) {
-      if (offset + data.byteLength >= start && offset <= end) {
-        this.push(data.subarray(Math.max(0, start - offset), end - offset));
-      }
-
-      offset += data.byteLength;
-      callback();
-    },
-  });
-
-  headers['content-range'] =
-    size === undefined
-      ? `bytes ${start}-${endParam === undefined ? '' : end - 1}/*`
-      : `bytes ${start}-${end - 1}/${size}`;
-
-  if (endParam !== undefined || size !== undefined) {
-    headers['content-length'] = (end - start).toString();
-  }
-
-  drop(
-    (async () => {
-      try {
-        await pipeline(plaintext, transform);
-      } catch (error) {
-        transform.destroy(error);
-
-        // These errors happen when canceling fetch from `attachment://` urls,
-        // ignore them to avoid noise in the logs.
-        if (error.name === 'AbortError') {
-          return;
-        }
-
-        console.error(
-          'handleAttachmentRequest: range transform error',
-          Errors.toLogFormat(error)
-        );
-      }
-    })()
-  );
-
-  return new Response(Readable.toWeb(transform) as ReadableStream<Buffer>, {
+  const stream = rangeFinder.get(start, context);
+  return new Response(Readable.toWeb(stream) as ReadableStream<Buffer>, {
     status: 206,
     headers,
   });
