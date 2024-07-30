@@ -8,11 +8,13 @@ import { Spinner } from '../../Spinner';
 import { bemGenerator } from './util';
 
 export enum IconType {
+  'approveAllMembers' = 'approveAllMembers',
   'block' = 'block',
   'edit' = 'edit',
   'unblock' = 'unblock',
   'color' = 'color',
   'down' = 'down',
+  'forward' = 'forward',
   'invites' = 'invites',
   'leave' = 'leave',
   'link' = 'link',

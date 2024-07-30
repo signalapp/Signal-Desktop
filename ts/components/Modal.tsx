@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 import { animated } from '@react-spring/web';
 
+import { v4 as uuid } from 'uuid';
 import type { LocalizerType } from '../types/Util';
 import { ModalHost } from './ModalHost';
 import type { Theme } from '../util/theme';
@@ -37,10 +38,12 @@ type PropsType = {
   title?: ReactNode;
   useFocusTrap?: boolean;
   padded?: boolean;
+  ['aria-describedby']?: string;
 };
 
 export type ModalPropsType = PropsType & {
   noTransform?: boolean;
+  noEscapeClose?: boolean;
   noMouseClose?: boolean;
   theme?: Theme;
 };
@@ -55,6 +58,7 @@ export function Modal({
   modalFooter,
   modalHeaderChildren,
   moduleClassName,
+  noEscapeClose,
   noMouseClose,
   onBackButtonClick,
   onClose = noop,
@@ -65,6 +69,7 @@ export function Modal({
   hasFooterDivider = false,
   noTransform = false,
   padded = true,
+  'aria-describedby': ariaDescribedBy,
 }: Readonly<ModalPropsType>): JSX.Element | null {
   const { close, isClosed, modalStyles, overlayStyles } = useAnimated(
     onClose,
@@ -111,6 +116,7 @@ export function Modal({
     <ModalHost
       modalName={modalName}
       moduleClassName={moduleClassName}
+      noEscapeClose={noEscapeClose}
       noMouseClose={noMouseClose}
       onClose={close}
       onEscape={onBackButtonClick}
@@ -132,6 +138,7 @@ export function Modal({
           padded={padded}
           hasHeaderDivider={hasHeaderDivider}
           hasFooterDivider={hasFooterDivider}
+          aria-describedby={ariaDescribedBy}
         >
           {children}
         </ModalPage>
@@ -166,6 +173,7 @@ export function ModalPage({
   i18n,
   modalFooter,
   modalHeaderChildren,
+  modalName,
   moduleClassName,
   onBackButtonClick,
   onClose,
@@ -173,6 +181,7 @@ export function ModalPage({
   padded = true,
   hasHeaderDivider = false,
   hasFooterDivider = false,
+  'aria-describedby': ariaDescribedBy,
 }: ModalPageProps): JSX.Element {
   const modalRef = useRef<HTMLDivElement | null>(null);
 
@@ -188,6 +197,8 @@ export function ModalPage({
   );
   const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
 
+  const [id] = useState(() => uuid());
+
   useScrollObserver(bodyRef, bodyInnerRef, scroll => {
     setScrolled(isScrolled(scroll));
     setScrolledToBottom(isScrolledToBottom(scroll));
@@ -198,7 +209,7 @@ export function ModalPage({
     <>
       {/* We don't want the click event to propagate to its container node. */}
       {/* eslint-disable-next-line max-len */}
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
       <div
         className={classNames(
           getClassName(''),
@@ -209,6 +220,11 @@ export function ModalPage({
           hasFooterDivider && getClassName('--footer-divider')
         )}
         ref={modalRef}
+        role="dialog"
+        tabIndex={-1}
+        aria-labelledby={title ? `${id}-title` : undefined}
+        aria-describedby={ariaDescribedBy}
+        data-testid={modalName}
         onClick={event => {
           event.stopPropagation();
         }}
@@ -234,6 +250,7 @@ export function ModalPage({
               )}
               {title && (
                 <h1
+                  id={`${id}-title`}
                   className={classNames(
                     getClassName('__title'),
                     hasXButton ? getClassName('__title--with-x-button') : null

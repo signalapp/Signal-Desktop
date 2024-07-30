@@ -29,7 +29,7 @@ export type OwnProps = {
 
 export type Props = OwnProps;
 
-function renderBody({ pack, i18n }: Props) {
+function renderBody({ pack, i18n }: Pick<Props, 'i18n' | 'pack'>) {
   if (!pack) {
     return null;
   }
@@ -73,10 +73,8 @@ function renderBody({ pack, i18n }: Props) {
   );
 }
 
-export const StickerPreviewModal = React.memo(function StickerPreviewModalInner(
-  props: Props
-) {
-  const {
+export const StickerPreviewModal = React.memo(
+  function StickerPreviewModalInner({
     closeStickerPackPreview,
     downloadStickerPack,
     i18n,
@@ -84,142 +82,143 @@ export const StickerPreviewModal = React.memo(function StickerPreviewModalInner(
     onClose,
     pack,
     uninstallStickerPack,
-  } = props;
-  const [confirmingUninstall, setConfirmingUninstall] = React.useState(false);
+  }: Props) {
+    const [confirmingUninstall, setConfirmingUninstall] = React.useState(false);
 
-  // Restore focus on teardown
-  const [focusRef] = useRestoreFocus();
+    // Restore focus on teardown
+    const [focusRef] = useRestoreFocus();
 
-  React.useEffect(() => {
-    if (pack && pack.status === 'known') {
-      downloadStickerPack(pack.id, pack.key);
-    }
-    if (
-      pack &&
-      pack.status === 'error' &&
-      (pack.attemptedStatus === 'downloaded' ||
-        pack.attemptedStatus === 'installed')
-    ) {
-      downloadStickerPack(pack.id, pack.key, {
-        finalStatus: pack.attemptedStatus,
-      });
-    }
-    // We only want to attempt downloads on initial load
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    React.useEffect(() => {
+      if (pack && pack.status === 'known') {
+        downloadStickerPack(pack.id, pack.key);
+      }
+      if (
+        pack &&
+        pack.status === 'error' &&
+        (pack.attemptedStatus === 'downloaded' ||
+          pack.attemptedStatus === 'installed')
+      ) {
+        downloadStickerPack(pack.id, pack.key, {
+          finalStatus: pack.attemptedStatus,
+        });
+      }
+      // We only want to attempt downloads on initial load
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-  React.useEffect(() => {
-    if (pack) {
-      return;
-    }
+    React.useEffect(() => {
+      if (pack) {
+        return;
+      }
 
-    // Pack fully uninstalled, don't keep the modal open
-    closeStickerPackPreview();
-  }, [pack, closeStickerPackPreview]);
-
-  const handleClose = React.useCallback(() => {
-    if (pack) {
+      // Pack fully uninstalled, don't keep the modal open
       closeStickerPackPreview();
-    }
-    onClose?.();
-  }, [closeStickerPackPreview, onClose, pack]);
+    }, [pack, closeStickerPackPreview]);
 
-  const isInstalled = Boolean(pack && pack.status === 'installed');
-  const handleToggleInstall = React.useCallback(() => {
-    if (!pack) {
-      return;
-    }
-    if (isInstalled) {
-      setConfirmingUninstall(true);
-    } else if (pack.status === 'ephemeral') {
-      downloadStickerPack(pack.id, pack.key, { finalStatus: 'installed' });
-      handleClose();
-    } else {
-      installStickerPack(pack.id, pack.key);
-      handleClose();
-    }
-  }, [
-    downloadStickerPack,
-    installStickerPack,
-    isInstalled,
-    handleClose,
-    pack,
-    setConfirmingUninstall,
-  ]);
+    const handleClose = React.useCallback(() => {
+      if (pack) {
+        closeStickerPackPreview();
+      }
+      onClose?.();
+    }, [closeStickerPackPreview, onClose, pack]);
 
-  const handleUninstall = React.useCallback(() => {
-    if (!pack) {
-      return;
-    }
-    uninstallStickerPack(pack.id, pack.key);
-    setConfirmingUninstall(false);
-    // closeStickerPackPreview is called by <ConfirmationDialog />'s onClose
-  }, [uninstallStickerPack, setConfirmingUninstall, pack]);
+    const isInstalled = Boolean(pack && pack.status === 'installed');
+    const handleToggleInstall = React.useCallback(() => {
+      if (!pack) {
+        return;
+      }
+      if (isInstalled) {
+        setConfirmingUninstall(true);
+      } else if (pack.status === 'ephemeral') {
+        downloadStickerPack(pack.id, pack.key, { finalStatus: 'installed' });
+        handleClose();
+      } else {
+        installStickerPack(pack.id, pack.key);
+        handleClose();
+      }
+    }, [
+      downloadStickerPack,
+      installStickerPack,
+      isInstalled,
+      handleClose,
+      pack,
+      setConfirmingUninstall,
+    ]);
 
-  const buttonLabel = isInstalled
-    ? i18n('icu:stickers--StickerManager--Uninstall')
-    : i18n('icu:stickers--StickerManager--Install');
+    const handleUninstall = React.useCallback(() => {
+      if (!pack) {
+        return;
+      }
+      uninstallStickerPack(pack.id, pack.key);
+      setConfirmingUninstall(false);
+      // closeStickerPackPreview is called by <ConfirmationDialog />'s onClose
+    }, [uninstallStickerPack, setConfirmingUninstall, pack]);
 
-  const modalFooter =
-    pack && pack.status !== 'error' ? (
-      <div className="module-sticker-manager__preview-modal__footer">
-        <div className="module-sticker-manager__preview-modal__footer--info">
-          <h3 className="module-sticker-manager__preview-modal__footer--title">
-            <UserText text={pack.title} />
-            {pack.isBlessed ? (
-              <span className="module-sticker-manager__preview-modal__footer--blessed-icon" />
-            ) : null}
-          </h3>
-          <h4 className="module-sticker-manager__preview-modal__footer--author">
-            {pack.author}
-          </h4>
+    const buttonLabel = isInstalled
+      ? i18n('icu:stickers--StickerManager--Uninstall')
+      : i18n('icu:stickers--StickerManager--Install');
+
+    const modalFooter =
+      pack && pack.status !== 'error' ? (
+        <div className="module-sticker-manager__preview-modal__footer">
+          <div className="module-sticker-manager__preview-modal__footer--info">
+            <h3 className="module-sticker-manager__preview-modal__footer--title">
+              <UserText text={pack.title} />
+              {pack.isBlessed ? (
+                <span className="module-sticker-manager__preview-modal__footer--blessed-icon" />
+              ) : null}
+            </h3>
+            <h4 className="module-sticker-manager__preview-modal__footer--author">
+              {pack.author}
+            </h4>
+          </div>
+          <div className="module-sticker-manager__preview-modal__footer--install">
+            {pack.status === 'pending' ? (
+              <Spinner svgSize="small" size="14px" />
+            ) : (
+              <Button
+                aria-label={buttonLabel}
+                ref={focusRef}
+                onClick={handleToggleInstall}
+                variant={ButtonVariant.Primary}
+              >
+                {buttonLabel}
+              </Button>
+            )}
+          </div>
         </div>
-        <div className="module-sticker-manager__preview-modal__footer--install">
-          {pack.status === 'pending' ? (
-            <Spinner svgSize="small" size="14px" />
-          ) : (
-            <Button
-              aria-label={buttonLabel}
-              ref={focusRef}
-              onClick={handleToggleInstall}
-              variant={ButtonVariant.Primary}
-            >
-              {buttonLabel}
-            </Button>
-          )}
-        </div>
-      </div>
-    ) : undefined;
+      ) : undefined;
 
-  return (
-    <>
-      {confirmingUninstall && (
-        <ConfirmationDialog
-          dialogName="StickerPreviewModal.confirmUninstall"
-          actions={[
-            {
-              style: 'negative',
-              text: i18n('icu:stickers--StickerManager--Uninstall'),
-              action: handleUninstall,
-            },
-          ]}
+    return (
+      <>
+        {confirmingUninstall && (
+          <ConfirmationDialog
+            dialogName="StickerPreviewModal.confirmUninstall"
+            actions={[
+              {
+                style: 'negative',
+                text: i18n('icu:stickers--StickerManager--Uninstall'),
+                action: handleUninstall,
+              },
+            ]}
+            i18n={i18n}
+            onClose={() => setConfirmingUninstall(false)}
+          >
+            {i18n('icu:stickers--StickerManager--UninstallWarning')}
+          </ConfirmationDialog>
+        )}
+        <Modal
+          hasXButton
           i18n={i18n}
-          onClose={() => setConfirmingUninstall(false)}
+          modalFooter={modalFooter}
+          modalName="StickerPreviewModal"
+          moduleClassName="module-sticker-manager__preview-modal__modal"
+          onClose={handleClose}
+          title={i18n('icu:stickers--StickerPreview--Title')}
         >
-          {i18n('icu:stickers--StickerManager--UninstallWarning')}
-        </ConfirmationDialog>
-      )}
-      <Modal
-        hasXButton
-        i18n={i18n}
-        modalFooter={modalFooter}
-        modalName="StickerPreviewModal"
-        moduleClassName="module-sticker-manager__preview-modal__modal"
-        onClose={handleClose}
-        title={i18n('icu:stickers--StickerPreview--Title')}
-      >
-        {renderBody(props)}
-      </Modal>
-    </>
-  );
-});
+          {renderBody({ pack, i18n })}
+        </Modal>
+      </>
+    );
+  }
+);

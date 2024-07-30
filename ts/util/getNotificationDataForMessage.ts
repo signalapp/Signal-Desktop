@@ -1,8 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReadonlyDeep } from 'type-fest';
+
 import type { RawBodyRange } from '../types/BodyRange';
-import type { MessageAttributesType } from '../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import type { ICUStringMessageParamsByKeyType } from '../types/Util';
 import * as Attachment from '../types/Attachment';
 import * as EmbeddedContact from '../types/EmbeddedContact';
@@ -25,7 +27,7 @@ import { getStringForConversationMerge } from './getStringForConversationMerge';
 import { getStringForProfileChange } from './getStringForProfileChange';
 import { getTitleNoDefault, getNumber } from './getTitle';
 import { findAndFormatContact } from './findAndFormatContact';
-import { isMe } from './whatTypeOfConversation';
+import { isGroup, isMe } from './whatTypeOfConversation';
 import { strictAssert } from './assert';
 import {
   getPropsForCallHistory,
@@ -45,12 +47,15 @@ import {
   isTapToView,
   isUnsupportedMessage,
   isConversationMerge,
+  isMessageRequestResponse,
 } from '../state/selectors/message';
 import {
-  getContact,
+  getAuthor,
   messageHasPaymentEvent,
   getPaymentEventNotificationText,
 } from '../messages/helpers';
+import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent';
+import { missingCaseError } from './missingCaseError';
 
 function getNameForNumber(e164: string): string {
   const conversation = window.ConversationController.get(e164);
@@ -61,9 +66,9 @@ function getNameForNumber(e164: string): string {
 }
 
 export function getNotificationDataForMessage(
-  attributes: MessageAttributesType
+  attributes: ReadonlyMessageAttributesType
 ): {
-  bodyRanges?: ReadonlyArray<RawBodyRange>;
+  bodyRanges?: ReadonlyArray<ReadonlyDeep<RawBodyRange>>;
   emoji?: string;
   text: string;
 } {
@@ -177,6 +182,58 @@ export function getNotificationDataForMessage(
     };
   }
 
+  if (isMessageRequestResponse(attributes)) {
+    const { messageRequestResponseEvent: event } = attributes;
+    strictAssert(
+      event,
+      'getNotificationData: isMessageRequestResponse true, but no messageRequestResponseEvent!'
+    );
+    const conversation = window.ConversationController.get(
+      attributes.conversationId
+    );
+    strictAssert(
+      conversation,
+      'getNotificationData/isConversationMerge/conversation'
+    );
+    const isGroupConversation = isGroup(conversation.attributes);
+    let text: string;
+    if (event === MessageRequestResponseEvent.ACCEPT) {
+      text = window.i18n(
+        'icu:MessageRequestResponseNotification__Message--Accepted'
+      );
+    } else if (event === MessageRequestResponseEvent.SPAM) {
+      text = window.i18n(
+        'icu:MessageRequestResponseNotification__Message--Reported'
+      );
+    } else if (event === MessageRequestResponseEvent.BLOCK) {
+      if (isGroupConversation) {
+        text = window.i18n(
+          'icu:MessageRequestResponseNotification__Message--Blocked--Group'
+        );
+      } else {
+        text = window.i18n(
+          'icu:MessageRequestResponseNotification__Message--Blocked'
+        );
+      }
+    } else if (event === MessageRequestResponseEvent.UNBLOCK) {
+      if (isGroupConversation) {
+        text = window.i18n(
+          'icu:MessageRequestResponseNotification__Message--Unblocked--Group'
+        );
+      } else {
+        text = window.i18n(
+          'icu:MessageRequestResponseNotification__Message--Unblocked'
+        );
+      }
+    } else {
+      throw missingCaseError(event);
+    }
+
+    return {
+      text,
+    };
+  }
+
   const { attachments = [] } = attributes;
 
   if (isTapToView(attributes)) {
@@ -205,7 +262,7 @@ export function getNotificationDataForMessage(
 
   if (isGroupUpdate(attributes)) {
     const { group_update: groupUpdate } = attributes;
-    const fromContact = getContact(attributes);
+    const fromContact = getAuthor(attributes);
     const messages = [];
     if (!groupUpdate) {
       throw new Error('getNotificationData: Missing group_update');
@@ -444,7 +501,7 @@ export function getNotificationDataForMessage(
       };
     }
 
-    const fromContact = getContact(attributes);
+    const fromContact = getAuthor(attributes);
     const sender = fromContact?.getTitle() ?? window.i18n('icu:unknownContact');
     return {
       emoji,

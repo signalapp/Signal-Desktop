@@ -92,6 +92,14 @@
     }
   }
 
+  &__safety-tips-button {
+    border-radius: 9999px;
+    padding-block: 6px;
+    padding-inline: 14px;
+    margin-top: 12px;
+    @include font-subtitle;
+  }
+
   &__membership {
     @include font-body-2;
     user-select: none;

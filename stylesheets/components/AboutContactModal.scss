@@ -97,12 +97,17 @@
     &--about {
       @include about-modal-icon('../images/icons/v3/edit/edit.svg');
     }
+
+    &--note {
+      @include about-modal-icon('../images/icons/v3/note/note.svg');
+    }
   }
 
-  &__signal-connection {
+  &__button {
     display: flex;
     flex-direction: row;
     align-items: center;
+    min-width: 0;
 
     @include button-reset();
     cursor: pointer;
@@ -112,6 +117,7 @@
       display: inline-block;
       height: 20px;
       width: 20px;
+      flex-shrink: 0;
 
       @include color-svg(
         '../images/icons/v3/chevron/chevron-right-bold.svg',
@@ -124,4 +130,18 @@
     @include button-reset();
     cursor: pointer;
   }
+}
+
+.AboutContactModal__TitleWithoutNickname {
+  color: $color-gray-45;
+}
+
+.AboutContactModal__OneLineEllipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.AboutContactModal__TitleWithoutNickname__Tooltip {
+  max-width: 300px;
 }

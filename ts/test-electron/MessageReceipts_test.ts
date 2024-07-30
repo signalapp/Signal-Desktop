@@ -6,11 +6,15 @@ import { assert } from 'chai';
 
 import { type AciString, generateAci } from '../types/ServiceId';
 import type { MessageAttributesType } from '../model-types';
+import { DataReader, DataWriter } from '../sql/Client';
 import { SendStatus } from '../messages/MessageSendState';
-import {
-  type MessageReceiptAttributesType,
+import type {
+  MessageReceiptAttributesType,
   MessageReceiptType,
+} from '../messageModifiers/MessageReceipts';
+import {
   onReceipt,
+  messageReceiptTypeSchema,
 } from '../messageModifiers/MessageReceipts';
 import { ReadStatus } from '../messages/MessageReadStatus';
 
@@ -31,14 +35,16 @@ describe('MessageReceipts', () => {
   ): MessageReceiptAttributesType {
     return {
       envelopeId: uuid(),
-      messageSentAt,
-      receiptTimestamp: 1,
-      removeFromMessageReceiverCache: () => null,
-      sourceConversationId,
-      sourceDevice: 1,
-      sourceServiceId: generateAci(),
-      type,
-      wasSentEncrypted: true,
+      syncTaskId: uuid(),
+      receiptSync: {
+        messageSentAt,
+        receiptTimestamp: 1,
+        sourceConversationId,
+        sourceDevice: 1,
+        sourceServiceId: generateAci(),
+        type,
+        wasSentEncrypted: true,
+      },
     };
   }
   it('processes all receipts in a batch', async () => {
@@ -72,19 +78,27 @@ describe('MessageReceipts', () => {
       },
     };
 
-    await window.Signal.Data.saveMessage(messageAttributes, {
+    await DataWriter.saveMessage(messageAttributes, {
       forceSave: true,
       ourAci,
     });
 
     await Promise.all([
-      onReceipt(generateReceipt('aaaa', sentAt, MessageReceiptType.Delivery)),
-      onReceipt(generateReceipt('bbbb', sentAt, MessageReceiptType.Delivery)),
-      onReceipt(generateReceipt('cccc', sentAt, MessageReceiptType.Read)),
-      onReceipt(generateReceipt('aaaa', sentAt, MessageReceiptType.Read)),
+      onReceipt(
+        generateReceipt('aaaa', sentAt, messageReceiptTypeSchema.enum.Delivery)
+      ),
+      onReceipt(
+        generateReceipt('bbbb', sentAt, messageReceiptTypeSchema.enum.Delivery)
+      ),
+      onReceipt(
+        generateReceipt('cccc', sentAt, messageReceiptTypeSchema.enum.Read)
+      ),
+      onReceipt(
+        generateReceipt('aaaa', sentAt, messageReceiptTypeSchema.enum.Read)
+      ),
     ]);
 
-    const messageFromDatabase = await window.Signal.Data.getMessageById(id);
+    const messageFromDatabase = await DataReader.getMessageById(id);
     const savedSendState = messageFromDatabase?.sendStateByConversationId;
 
     assert.equal(savedSendState?.aaaa.status, SendStatus.Read, 'aaaa');
@@ -129,19 +143,23 @@ describe('MessageReceipts', () => {
         {
           sendStateByConversationId: defaultSendState,
           timestamp: editedSentAt,
+          received_at: 2,
+          received_at_ms: Date.now(),
         },
         {
           sendStateByConversationId: defaultSendState,
           timestamp: sentAt,
+          received_at: 1,
+          received_at_ms: Date.now(),
         },
       ],
     };
 
-    await window.Signal.Data.saveMessage(messageAttributes, {
+    await DataWriter.saveMessage(messageAttributes, {
       forceSave: true,
       ourAci,
     });
-    await window.Signal.Data.saveEditedMessage(messageAttributes, ourAci, {
+    await DataWriter.saveEditedMessage(messageAttributes, ourAci, {
       conversationId: messageAttributes.conversationId,
       messageId: messageAttributes.id,
       readStatus: ReadStatus.Read,
@@ -150,23 +168,51 @@ describe('MessageReceipts', () => {
 
     await Promise.all([
       // send receipts for original message
-      onReceipt(generateReceipt('aaaa', sentAt, MessageReceiptType.Delivery)),
-      onReceipt(generateReceipt('bbbb', sentAt, MessageReceiptType.Delivery)),
-      onReceipt(generateReceipt('cccc', sentAt, MessageReceiptType.Read)),
-      onReceipt(generateReceipt('aaaa', sentAt, MessageReceiptType.Read)),
+      onReceipt(
+        generateReceipt('aaaa', sentAt, messageReceiptTypeSchema.enum.Delivery)
+      ),
+      onReceipt(
+        generateReceipt('bbbb', sentAt, messageReceiptTypeSchema.enum.Delivery)
+      ),
+      onReceipt(
+        generateReceipt('cccc', sentAt, messageReceiptTypeSchema.enum.Read)
+      ),
+      onReceipt(
+        generateReceipt('aaaa', sentAt, messageReceiptTypeSchema.enum.Read)
+      ),
 
       // and send receipts for edited message
       onReceipt(
-        generateReceipt('aaaa', editedSentAt, MessageReceiptType.Delivery)
+        generateReceipt(
+          'aaaa',
+          editedSentAt,
+          messageReceiptTypeSchema.enum.Delivery
+        )
       ),
       onReceipt(
-        generateReceipt('bbbb', editedSentAt, MessageReceiptType.Delivery)
+        generateReceipt(
+          'bbbb',
+          editedSentAt,
+          messageReceiptTypeSchema.enum.Delivery
+        )
       ),
-      onReceipt(generateReceipt('cccc', editedSentAt, MessageReceiptType.Read)),
-      onReceipt(generateReceipt('bbbb', editedSentAt, MessageReceiptType.Read)),
+      onReceipt(
+        generateReceipt(
+          'cccc',
+          editedSentAt,
+          messageReceiptTypeSchema.enum.Read
+        )
+      ),
+      onReceipt(
+        generateReceipt(
+          'bbbb',
+          editedSentAt,
+          messageReceiptTypeSchema.enum.Read
+        )
+      ),
     ]);
 
-    const messageFromDatabase = await window.Signal.Data.getMessageById(id);
+    const messageFromDatabase = await DataReader.getMessageById(id);
     const rootSendState = messageFromDatabase?.sendStateByConversationId;
 
     assert.deepEqual(

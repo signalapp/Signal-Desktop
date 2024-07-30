@@ -16,6 +16,7 @@ import {
   GroupCallStatus,
 } from '../../types/CallDisposition';
 import { getPeerIdFromConversation } from '../../util/callDisposition';
+import { HOUR } from '../../util/durations';
 
 describe('calling notification helpers', () => {
   const i18n = setupI18n('en', enMessages);
@@ -23,7 +24,7 @@ describe('calling notification helpers', () => {
   describe('getCallingNotificationText', () => {
     // Direct call behavior is not tested here.
 
-    it('says that the call has ended', () => {
+    it('says that the incoming call has ended', () => {
       const callCreator = getDefaultConversation();
       assert.strictEqual(
         getCallingNotificationText(
@@ -36,6 +37,122 @@ describe('calling notification helpers', () => {
               type: CallType.Group,
               direction: CallDirection.Incoming,
               timestamp: Date.now(),
+              status: GroupCallStatus.Joined,
+            },
+            callCreator,
+            activeConversationId: null,
+            groupCallEnded: true,
+            deviceCount: 1,
+            maxDevices: 23,
+            isSelectMode: false,
+            isTargeted: false,
+          },
+          i18n
+        ),
+        'The video call has ended'
+      );
+    });
+
+    it('says that the outgoing call has ended', () => {
+      const callCreator = getDefaultConversation();
+      assert.strictEqual(
+        getCallingNotificationText(
+          {
+            callHistory: {
+              callId: '123',
+              peerId: getPeerIdFromConversation(getDefaultGroup()),
+              ringerId: callCreator.serviceId ?? null,
+              mode: CallMode.Group,
+              type: CallType.Group,
+              direction: CallDirection.Outgoing,
+              timestamp: Date.now(),
+              status: GroupCallStatus.Joined,
+            },
+            callCreator,
+            activeConversationId: null,
+            groupCallEnded: true,
+            deviceCount: 1,
+            maxDevices: 23,
+            isSelectMode: false,
+            isTargeted: false,
+          },
+          i18n
+        ),
+        'The video call has ended'
+      );
+    });
+
+    it('says declined incoming calls', () => {
+      const callCreator = getDefaultConversation();
+      assert.strictEqual(
+        getCallingNotificationText(
+          {
+            callHistory: {
+              callId: '123',
+              peerId: getPeerIdFromConversation(getDefaultGroup()),
+              ringerId: callCreator.serviceId ?? null,
+              mode: CallMode.Group,
+              type: CallType.Group,
+              direction: CallDirection.Incoming,
+              timestamp: Date.now(),
+              status: GroupCallStatus.Declined,
+            },
+            callCreator,
+            activeConversationId: null,
+            groupCallEnded: true,
+            deviceCount: 1,
+            maxDevices: 23,
+            isSelectMode: false,
+            isTargeted: false,
+          },
+          i18n
+        ),
+        'Declined video call'
+      );
+    });
+
+    it('says older ended incoming calls', () => {
+      const callCreator = getDefaultConversation();
+      assert.strictEqual(
+        getCallingNotificationText(
+          {
+            callHistory: {
+              callId: '123',
+              peerId: getPeerIdFromConversation(getDefaultGroup()),
+              ringerId: callCreator.serviceId ?? null,
+              mode: CallMode.Group,
+              type: CallType.Group,
+              direction: CallDirection.Incoming,
+              timestamp: Date.now() - HOUR,
+              status: GroupCallStatus.Joined,
+            },
+            callCreator,
+            activeConversationId: null,
+            groupCallEnded: true,
+            deviceCount: 1,
+            maxDevices: 23,
+            isSelectMode: false,
+            isTargeted: false,
+          },
+          i18n
+        ),
+        'Incoming video call'
+      );
+    });
+
+    it('says older ended incoming missed calls', () => {
+      const callCreator = getDefaultConversation();
+      assert.strictEqual(
+        getCallingNotificationText(
+          {
+            callHistory: {
+              callId: '123',
+              peerId: getPeerIdFromConversation(getDefaultGroup()),
+              ringerId: callCreator.serviceId ?? null,
+              mode: CallMode.Group,
+              type: CallType.Group,
+              direction: CallDirection.Incoming,
+              timestamp: Date.now() - HOUR,
               status: GroupCallStatus.Missed,
             },
             callCreator,
@@ -48,7 +165,36 @@ describe('calling notification helpers', () => {
           },
           i18n
         ),
-        'The group call has ended'
+        'Missed video call'
+      );
+    });
+
+    it('says older ended outgoing calls', () => {
+      const callCreator = getDefaultConversation();
+      assert.strictEqual(
+        getCallingNotificationText(
+          {
+            callHistory: {
+              callId: '123',
+              peerId: getPeerIdFromConversation(getDefaultGroup()),
+              ringerId: callCreator.serviceId ?? null,
+              mode: CallMode.Group,
+              type: CallType.Group,
+              direction: CallDirection.Outgoing,
+              timestamp: Date.now() - HOUR,
+              status: GroupCallStatus.Joined,
+            },
+            callCreator,
+            activeConversationId: null,
+            groupCallEnded: true,
+            deviceCount: 1,
+            maxDevices: 23,
+            isSelectMode: false,
+            isTargeted: false,
+          },
+          i18n
+        ),
+        'Outgoing video call'
       );
     });
 
@@ -79,7 +225,7 @@ describe('calling notification helpers', () => {
           },
           i18n
         ),
-        'Luigi started a group call'
+        'Luigi started a video call'
       );
     });
 
@@ -111,7 +257,7 @@ describe('calling notification helpers', () => {
           },
           i18n
         ),
-        'Luigi Mario started a group call'
+        'Luigi Mario started a video call'
       );
     });
 
@@ -142,7 +288,7 @@ describe('calling notification helpers', () => {
           },
           i18n
         ),
-        'You started a group call'
+        'You started a video call'
       );
     });
 
@@ -170,7 +316,7 @@ describe('calling notification helpers', () => {
           },
           i18n
         ),
-        'A group call was started'
+        'A video call was started'
       );
     });
   });

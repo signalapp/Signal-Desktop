@@ -35,19 +35,19 @@ export default {
   title: 'Components/Conversation/Quote',
   argTypes: {
     isFromMe: {
-      control: { type: 'checkbox' },
+      control: { type: 'boolean' },
     },
     isGiftBadge: {
-      control: { type: 'checkbox' },
+      control: { type: 'boolean' },
     },
     isIncoming: {
-      control: { type: 'checkbox' },
+      control: { type: 'boolean' },
     },
     isViewOnce: {
-      control: { type: 'checkbox' },
+      control: { type: 'boolean' },
     },
     referencedMessageNotFound: {
-      control: { type: 'checkbox' },
+      control: { type: 'boolean' },
     },
   },
   args: {
@@ -105,6 +105,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   isMessageRequestAccepted: true,
   isSelected: false,
   isSelectMode: false,
+  isSMS: false,
   isSpoilerExpanded: {},
   toggleSelectMessage: action('toggleSelectMessage'),
   kickOffAttachmentDownload: action('default--kickOffAttachmentDownload'),
@@ -235,6 +236,7 @@ ImageOnly.args = {
       contentType: IMAGE_PNG,
       height: 100,
       width: 100,
+      size: 100,
       path: pngUrl,
       objectUrl: pngUrl,
     },
@@ -251,6 +253,7 @@ ImageAttachment.args = {
       contentType: IMAGE_PNG,
       height: 100,
       width: 100,
+      size: 100,
       path: pngUrl,
       objectUrl: pngUrl,
     },
@@ -287,6 +290,7 @@ VideoOnly.args = {
       contentType: IMAGE_PNG,
       height: 100,
       width: 100,
+      size: 100,
       path: pngUrl,
       objectUrl: pngUrl,
     },
@@ -304,6 +308,7 @@ VideoAttachment.args = {
       contentType: IMAGE_PNG,
       height: 100,
       width: 100,
+      size: 100,
       path: pngUrl,
       objectUrl: pngUrl,
     },
@@ -509,6 +514,7 @@ IsStoryReplyEmoji.args = {
       contentType: IMAGE_PNG,
       height: 100,
       width: 100,
+      size: 100,
       path: pngUrl,
       objectUrl: pngUrl,
     },

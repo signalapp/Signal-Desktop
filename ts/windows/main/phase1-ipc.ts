@@ -17,11 +17,14 @@ import * as Errors from '../../types/errors';
 
 import { strictAssert } from '../../util/assert';
 import { drop } from '../../util/drop';
+import { DataReader } from '../../sql/Client';
 import type {
   NotificationClickData,
   WindowsNotificationData,
 } from '../../services/notifications';
 import { isAdhocCallingEnabled } from '../../util/isAdhocCallingEnabled';
+import { AggregatedStats } from '../../textsecure/WebsocketResources';
+import { UNAUTHENTICATED_CHANNEL_NAME } from '../../textsecure/SocketManager';
 
 // It is important to call this as early as possible
 window.i18n = SignalContext.i18n;
@@ -54,8 +57,8 @@ window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
 window.getServerPublicParams = () => config.serverPublicParams;
 window.getGenericServerPublicParams = () => config.genericServerPublicParams;
+window.getBackupServerPublicParams = () => config.backupServerPublicParams;
 window.getSfuUrl = () => config.sfuUrl;
-window.isBehindProxy = () => Boolean(config.proxyUrl);
 
 let title = config.name;
 if (getEnvironment() !== Environment.Production) {
@@ -127,11 +130,6 @@ const IPC: IPCType = {
   titleBarDoubleClick: () => {
     ipc.send('title-bar-double-click');
   },
-  updateSystemTraySetting: (
-    systemTraySetting /* : Readonly<SystemTraySetting> */
-  ) => {
-    void ipc.invoke('update-system-tray-setting', systemTraySetting);
-  },
   updateTrayIcon: unreadCount => ipc.send('update-tray-icon', unreadCount),
 };
 
@@ -176,6 +174,16 @@ if (config.ciMode !== 'full' && config.environment !== 'test') {
   window.eval = global.eval = () => null;
 }
 
+type NetworkStatistics = {
+  signalConnectionCount?: string;
+  unauthorizedConnectionFailures?: string;
+  unauthorizedRequestsCompared?: string;
+  unauthorizedHealthcheckFailures?: string;
+  unauthorizedHealthcheckBadStatus?: string;
+  unauthorizedUnexpectedReconnects?: string;
+  unauthorizedIpVersionMismatches?: string;
+};
+
 ipc.on('additional-log-data-request', async event => {
   const ourConversation = window.ConversationController.getOurConversation();
   const ourCapabilities = ourConversation
@@ -186,9 +194,39 @@ ipc.on('additional-log-data-request', async event => {
 
   let statistics;
   try {
-    statistics = await window.Signal.Data.getStatisticsForLogging();
+    statistics = await DataReader.getStatisticsForLogging();
   } catch (error) {
     statistics = {};
+  }
+
+  let networkStatistics: NetworkStatistics = {
+    signalConnectionCount: formatCountForLogging(getSignalConnections().length),
+  };
+  const unauthorizedStats = AggregatedStats.loadOrCreateEmpty(
+    UNAUTHENTICATED_CHANNEL_NAME
+  );
+  if (unauthorizedStats.requestsCompared > 0) {
+    networkStatistics = {
+      ...networkStatistics,
+      unauthorizedConnectionFailures: formatCountForLogging(
+        unauthorizedStats.connectionFailures
+      ),
+      unauthorizedRequestsCompared: formatCountForLogging(
+        unauthorizedStats.requestsCompared
+      ),
+      unauthorizedHealthcheckFailures: formatCountForLogging(
+        unauthorizedStats.healthcheckFailures
+      ),
+      unauthorizedHealthcheckBadStatus: formatCountForLogging(
+        unauthorizedStats.healthcheckBadStatus
+      ),
+      unauthorizedUnexpectedReconnects: formatCountForLogging(
+        unauthorizedStats.unexpectedReconnects
+      ),
+      unauthorizedIpVersionMismatches: formatCountForLogging(
+        unauthorizedStats.ipVersionMismatches
+      ),
+    };
   }
 
   const ourAci = window.textsecure.storage.user.getAci();
@@ -203,13 +241,10 @@ ipc.on('additional-log-data-request', async event => {
     }),
     statistics: {
       ...statistics,
-      signalConnectionCount: formatCountForLogging(
-        getSignalConnections().length
-      ),
+      ...networkStatistics,
     },
     user: {
       deviceId: window.textsecure.storage.user.getDeviceId(),
-      e164: window.textsecure.storage.user.getNumber(),
       uuid: ourAci,
       pni: ourPni,
       conversationId: ourConversation && ourConversation.id,
@@ -305,24 +340,6 @@ ipc.on('show-group-via-link', (_event, info) => {
   drop(window.Events.showGroupViaLink?.(info.value));
 });
 
-ipc.on('open-art-creator', () => {
-  drop(window.Events.openArtCreator());
-});
-
-window.openArtCreator = ({
-  username,
-  password,
-}: {
-  username: string;
-  password: string;
-}) => {
-  return ipc.invoke('open-art-creator', { username, password });
-};
-
-ipc.on('authorize-art-creator', (_event, info) => {
-  window.Events.authorizeArtCreator?.(info);
-});
-
 ipc.on('start-call-lobby', (_event, { conversationId }) => {
   window.IPC.showWindow();
   window.reduxActions?.calling?.startCallingLobby({
@@ -404,15 +421,15 @@ ipc.on('get-ready-for-shutdown', async () => {
 });
 
 ipc.on('maybe-request-close-confirmation', async () => {
-  const { maybeRequestCloseConfirmation } = window.Events;
-  if (!maybeRequestCloseConfirmation) {
+  const { getIsInCall, requestCloseConfirmation } = window.Events;
+  if (!getIsInCall || !getIsInCall() || !requestCloseConfirmation) {
     ipc.send('received-close-confirmation', true);
     return;
   }
 
   log.info('Requesting close confirmation.');
   ipc.send('requested-close-confirmation');
-  const result = await maybeRequestCloseConfirmation();
+  const result = await requestCloseConfirmation();
   ipc.send('received-close-confirmation', result);
 });
 
@@ -422,3 +439,18 @@ ipc.on('show-release-notes', () => {
     showReleaseNotes();
   }
 });
+
+ipc.on(
+  'art-creator:uploadStickerPack',
+  async (
+    event,
+    {
+      manifest,
+      stickers,
+    }: { manifest: Uint8Array; stickers: ReadonlyArray<Uint8Array> }
+  ) => {
+    const packId = await window.Events?.uploadStickerPack(manifest, stickers);
+
+    event.sender.send('art-creator:uploadStickerPack:done', packId);
+  }
+);

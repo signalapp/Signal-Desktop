@@ -1,0 +1,27 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.EditNicknameAndNoteModal__width-container {
+  max-width: 360px;
+}
+
+.EditNicknameAndNoteModal__Description {
+  margin-block: 12px 24px;
+  @include font-body-2;
+  @include light-theme {
+    color: $color-gray-75;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
+.EditNicknameAndNoteModal__Avatar {
+  margin-block: 0 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.EditNicknameAndNoteModal__Label {
+  @include sr-only;
+}

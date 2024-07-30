@@ -13,7 +13,7 @@ import { PanelSection } from './PanelSection';
 import { Select } from '../../Select';
 import { SignalService as Proto } from '../../../protobuf';
 
-import { copyGroupLink } from '../../../util/copyGroupLink';
+import { copyGroupLink } from '../../../util/copyLinksWithToast';
 import { useDelayedRestoreFocus } from '../../../hooks/useRestoreFocus';
 import { useUniqueId } from '../../../hooks/useUniqueId';
 

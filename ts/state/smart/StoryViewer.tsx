@@ -1,13 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-
-import type { GetConversationByIdType } from '../selectors/conversations';
-import type { LocalizerType } from '../../types/Util';
-import type { StateType } from '../reducer';
-import type { SelectedStoryDataType } from '../ducks/stories';
 import { StoryViewer } from '../../components/StoryViewer';
 import { ToastType } from '../../types/Toast';
 import { useToastActions } from '../ducks/toast';
@@ -28,11 +23,11 @@ import {
   getHasAllStoriesUnmuted,
 } from '../selectors/stories';
 import { isInFullScreenCall } from '../selectors/calling';
-import { isSignalConversation } from '../../util/isSignalConversation';
+import { isSignalConversation as getIsSignalConversation } from '../../util/isSignalConversation';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { strictAssert } from '../../util/assert';
 import { asyncShouldNeverBeCalled } from '../../util/shouldNeverBeCalled';
-import { useActions as useEmojisActions } from '../ducks/emojis';
+import { useEmojisActions } from '../ducks/emojis';
 import { useConversationsActions } from '../ducks/conversations';
 import { useRecentEmojis } from '../selectors/emojis';
 import { useItemsActions } from '../ducks/items';
@@ -41,8 +36,19 @@ import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoriesActions } from '../ducks/stories';
 import { useIsWindowActive } from '../../hooks/useIsWindowActive';
 
-export function SmartStoryViewer(): JSX.Element | null {
-  const storiesActions = useStoriesActions();
+export const SmartStoryViewer = memo(function SmartStoryViewer() {
+  const {
+    reactToStory,
+    replyToStory,
+    deleteGroupStoryReply,
+    deleteGroupStoryReplyForEveryone,
+    deleteStoryForEveryone,
+    loadStoryReplies,
+    markStoryRead,
+    queueStoryDownload,
+    setHasAllStoriesUnmuted,
+    viewStory,
+  } = useStoriesActions();
   const { onUseEmoji } = useEmojisActions();
   const {
     retryMessageSend,
@@ -56,40 +62,24 @@ export function SmartStoryViewer(): JSX.Element | null {
 
   const isWindowActive = useIsWindowActive();
 
-  const i18n = useSelector<StateType, LocalizerType>(getIntl);
+  const i18n = useSelector(getIntl);
   const platform = useSelector(getPlatform);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const preferredReactionEmoji = useSelector<StateType, ReadonlyArray<string>>(
-    getPreferredReactionEmoji
-  );
-
-  const selectedStoryData = useSelector<
-    StateType,
-    SelectedStoryDataType | undefined
-  >(getSelectedStoryData);
-
-  const internalUser = useSelector<StateType, boolean>(isInternalUser);
+  const preferredReactionEmoji = useSelector(getPreferredReactionEmoji);
+  const selectedStoryData = useSelector(getSelectedStoryData);
+  const internalUser = useSelector(isInternalUser);
 
   strictAssert(selectedStoryData, 'StoryViewer: !selectedStoryData');
 
-  const conversationSelector = useSelector<StateType, GetConversationByIdType>(
-    getConversationSelector
-  );
+  const conversationSelector = useSelector(getConversationSelector);
 
   const getStoryById = useSelector(getStoryByIdSelector);
-
   const recentEmojis = useRecentEmojis();
-  const skinTone = useSelector<StateType, number>(getEmojiSkinTone);
+  const skinTone = useSelector(getEmojiSkinTone);
   const replyState = useSelector(getStoryReplies);
-  const hasAllStoriesUnmuted = useSelector<StateType, boolean>(
-    getHasAllStoriesUnmuted
-  );
-
+  const hasAllStoriesUnmuted = useSelector(getHasAllStoriesUnmuted);
   const hasActiveCall = useSelector(isInFullScreenCall);
-  const hasViewReceiptSetting = useSelector<StateType, boolean>(
-    getHasStoryViewReceiptSetting
-  );
-
+  const hasViewReceiptSetting = useSelector(getHasStoryViewReceiptSetting);
   const isFormattingEnabled = useSelector(getTextFormattingEnabled);
 
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
@@ -99,66 +89,87 @@ export function SmartStoryViewer(): JSX.Element | null {
     selectedStoryData.messageId
   );
 
+  const handleGoToConversation = useCallback(
+    (senderId: string) => {
+      showConversation({ conversationId: senderId });
+    },
+    [showConversation]
+  );
+
+  const handleReactToStory = useCallback(
+    async (emoji, story) => {
+      const { messageId } = story;
+      reactToStory(emoji, messageId);
+    },
+    [reactToStory]
+  );
+  const handleReplyToStory = useCallback(
+    (message, mentions, timestamp, story) => {
+      const conversationId = storyInfo?.conversationStory?.conversationId;
+      strictAssert(conversationId != null, 'conversationId is required');
+      replyToStory(conversationId, message, mentions, timestamp, story);
+    },
+    [storyInfo, replyToStory]
+  );
+  const handleTextTooLong = useCallback(() => {
+    showToast({ toastType: ToastType.MessageBodyTooLong });
+  }, [showToast]);
+
   if (!storyInfo) {
     return null;
   }
 
   const { conversationStory, distributionList, storyView } = storyInfo;
+  const { group, conversationId } = conversationStory;
+
+  const isSignalConversation = getIsSignalConversation({
+    id: conversationId,
+  });
 
   return (
     <StoryViewer
       currentIndex={selectedStoryData.currentIndex}
+      deleteGroupStoryReply={deleteGroupStoryReply}
+      deleteGroupStoryReplyForEveryone={deleteGroupStoryReplyForEveryone}
+      deleteStoryForEveryone={deleteStoryForEveryone}
       distributionList={distributionList}
       getPreferredBadge={getPreferredBadge}
-      group={conversationStory.group}
+      group={group}
       hasActiveCall={hasActiveCall}
       hasAllStoriesUnmuted={hasAllStoriesUnmuted}
       hasViewReceiptSetting={hasViewReceiptSetting}
       i18n={i18n}
-      platform={platform}
-      isInternalUser={internalUser}
       isFormattingEnabled={isFormattingEnabled}
-      isSignalConversation={isSignalConversation({
-        id: conversationStory.conversationId,
-      })}
+      isInternalUser={internalUser}
+      isSignalConversation={isSignalConversation}
       isWindowActive={isWindowActive}
+      loadStoryReplies={loadStoryReplies}
+      markStoryRead={markStoryRead}
       numStories={selectedStoryData.numStories}
+      onGoToConversation={handleGoToConversation}
       onHideStory={toggleHideStories}
-      onGoToConversation={senderId => {
-        showConversation({ conversationId: senderId });
-      }}
-      onReactToStory={async (emoji, story) => {
-        const { messageId } = story;
-        storiesActions.reactToStory(emoji, messageId);
-      }}
-      onReplyToStory={(message, mentions, timestamp, story) => {
-        storiesActions.replyToStory(
-          conversationStory.conversationId,
-          message,
-          mentions,
-          timestamp,
-          story
-        );
-      }}
-      onSetSkinTone={onSetSkinTone}
-      onTextTooLong={() => {
-        showToast({ toastType: ToastType.MessageBodyTooLong });
-      }}
-      onUseEmoji={onUseEmoji}
       onMediaPlaybackStart={pauseVoiceNotePlayer}
+      onReactToStory={handleReactToStory}
+      onReplyToStory={handleReplyToStory}
+      onSetSkinTone={onSetSkinTone}
+      onTextTooLong={handleTextTooLong}
+      onUseEmoji={onUseEmoji}
+      platform={platform}
       preferredReactionEmoji={preferredReactionEmoji}
+      queueStoryDownload={queueStoryDownload}
       recentEmojis={recentEmojis}
       renderEmojiPicker={renderEmojiPicker}
       replyState={replyState}
       retryMessageSend={retryMessageSend}
       saveAttachment={internalUser ? saveAttachment : asyncShouldNeverBeCalled}
+      setHasAllStoriesUnmuted={setHasAllStoriesUnmuted}
       showContactModal={showContactModal}
       showToast={showToast}
       skinTone={skinTone}
       story={storyView}
       storyViewMode={selectedStoryData.storyViewMode}
+      viewStory={viewStory}
       viewTarget={selectedStoryData.viewTarget}
-      {...storiesActions}
     />
   );
-}
+});

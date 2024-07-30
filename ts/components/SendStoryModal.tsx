@@ -5,7 +5,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { noop, sortBy } from 'lodash';
 
 import { SearchInput } from './SearchInput';
-import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
+import { filterAndSortConversations } from '../util/filterAndSortConversations';
 
 import type { ConversationType } from '../state/ducks/conversations';
 import type { ConversationWithStoriesType } from '../state/selectors/conversations';
@@ -175,11 +175,7 @@ export function SendStoryModal({
   const [searchTerm, setSearchTerm] = useState('');
 
   const [filteredConversations, setFilteredConversations] = useState(
-    filterAndSortConversationsByRecent(
-      groupConversations,
-      searchTerm,
-      undefined
-    )
+    filterAndSortConversations(groupConversations, searchTerm, undefined)
   );
 
   const normalizedSearchTerm = searchTerm.trim();
@@ -187,7 +183,7 @@ export function SendStoryModal({
   useEffect(() => {
     const timeout = setTimeout(() => {
       setFilteredConversations(
-        filterAndSortConversationsByRecent(
+        filterAndSortConversations(
           groupConversations,
           normalizedSearchTerm,
           undefined
@@ -562,7 +558,7 @@ export function SendStoryModal({
                   >
                     <Avatar
                       acceptedMessageRequest={group.acceptedMessageRequest}
-                      avatarPath={group.avatarPath}
+                      avatarUrl={group.avatarUrl}
                       badge={undefined}
                       color={group.color}
                       conversationType={group.type}
@@ -712,7 +708,7 @@ export function SendStoryModal({
                 {list.id === MY_STORY_ID ? (
                   <Avatar
                     acceptedMessageRequest={me.acceptedMessageRequest}
-                    avatarPath={me.avatarPath}
+                    avatarUrl={me.avatarUrl}
                     badge={undefined}
                     color={me.color}
                     conversationType={me.type}
@@ -827,7 +823,7 @@ export function SendStoryModal({
               >
                 <Avatar
                   acceptedMessageRequest={group.acceptedMessageRequest}
-                  avatarPath={group.avatarPath}
+                  avatarUrl={group.avatarUrl}
                   badge={undefined}
                   color={group.color}
                   conversationType={group.type}

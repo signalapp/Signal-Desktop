@@ -9,11 +9,13 @@ on:
       - main
       - '[0-9]+.[0-9]+.x'
   pull_request:
+  schedule:
+    - cron: '0 */12 * * *'
 
 jobs:
   linux:
     runs-on: ubuntu-latest-8-cores
-    if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
+    if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && (!github.event.schedule || github.ref == 'refs/heads/main') }}
     timeout-minutes: 30
 
     steps:
@@ -23,35 +25,35 @@ jobs:
       run: uname -a
 
     - name: Clone Desktop repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: '20.9.0'
+        node-version-file: '.nvmrc'
     - name: Install global dependencies
-      run: npm install -g yarn@1.22.10 npm@10.2.5
+      run: npm install -g npm@10.2.5
 
     - name: Install xvfb
       run: sudo apt-get install xvfb
 
     - name: Cache Desktop node_modules
       id: cache-desktop-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
+        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
 
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: yarn install --frozen-lockfile
+      run: npm ci
       env:
         NPM_CONFIG_LOGLEVEL: verbose
 
     - name: Build typescript
-      run: yarn generate
+      run: npm run generate
     - name: Bundle
-      run: yarn build:esbuild:prod
+      run: npm run build:esbuild:prod
 
     - name: Run startup benchmarks
       run: |
@@ -128,13 +130,13 @@ jobs:
 
     - name: Upload benchmark logs on failure
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: logs
         path: artifacts
 
     - name: Clone benchmark repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: 'signalapp/Signal-Desktop-Benchmarks-Private'
         path: 'benchmark-results'

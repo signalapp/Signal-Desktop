@@ -6,7 +6,7 @@ import React from 'react';
 
 import { ContactName } from './ContactName';
 import { SystemMessage } from './SystemMessage';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import type { LocalizerType } from '../../types/Util';
 import * as expirationTimer from '../../util/expirationTimer';
 import type { DurationInSeconds } from '../../util/durations';
@@ -54,13 +54,13 @@ export function TimerNotification(props: Props): JSX.Element {
   switch (type) {
     case 'fromOther':
       message = disabled ? (
-        <Intl
+        <I18n
           i18n={i18n}
           id="icu:disabledDisappearingMessages"
           components={{ name }}
         />
       ) : (
-        <Intl
+        <I18n
           i18n={i18n}
           id="icu:theyChangedTheTimer"
           components={{ name, time: timespan }}

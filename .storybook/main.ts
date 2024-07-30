@@ -8,7 +8,9 @@ const config: StorybookConfig = {
   typescript: {
     reactDocgen: false,
   },
+
   stories: ['../ts/components/**/*.stories.tsx'],
+
   addons: [
     '@storybook/addon-a11y',
     '@storybook/addon-actions',
@@ -17,15 +19,19 @@ const config: StorybookConfig = {
     '@storybook/addon-toolbars',
     '@storybook/addon-viewport',
     '@storybook/addon-jest',
-
     // This must be imported last.
     '@storybook/addon-interactions',
+    '@storybook/addon-webpack5-compiler-swc',
   ],
+
   framework: '@storybook/react-webpack5',
-  core: {},
-  features: {
-    storyStoreV7: true,
+
+  core: {
+    disableTelemetry: true,
   },
+
+  features: {},
+
   staticDirs: [
     { from: '../fonts', to: 'fonts' },
     { from: '../images', to: 'images' },
@@ -35,6 +41,7 @@ const config: StorybookConfig = {
       to: 'node_modules/emoji-datasource-apple/img',
     },
   ],
+
   webpackFinal(config) {
     config.cache = {
       type: 'filesystem',
@@ -97,6 +104,8 @@ const config: StorybookConfig = {
 
     return config;
   },
+
+  docs: {},
 };
 
 export default config;

@@ -27,7 +27,7 @@ export type PropsDataType = {
   ConversationType,
   | 'about'
   | 'acceptedMessageRequest'
-  | 'avatarPath'
+  | 'avatarUrl'
   | 'color'
   | 'groupId'
   | 'id'
@@ -37,7 +37,7 @@ export type PropsDataType = {
   | 'sharedGroupNames'
   | 'title'
   | 'type'
-  | 'unblurredAvatarPath'
+  | 'unblurredAvatarUrl'
   | 'serviceId'
 >;
 
@@ -56,7 +56,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
   function ContactCheckbox({
     about,
     acceptedMessageRequest,
-    avatarPath,
+    avatarUrl,
     badge,
     color,
     disabledReason,
@@ -71,7 +71,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
     theme,
     title,
     type,
-    unblurredAvatarPath,
+    unblurredAvatarUrl,
   }) {
     const disabled = Boolean(disabledReason);
 
@@ -104,7 +104,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
         leading={
           <Avatar
             acceptedMessageRequest={acceptedMessageRequest}
-            avatarPath={avatarPath}
+            avatarUrl={avatarUrl}
             color={color}
             conversationType={type}
             noteToSelf={Boolean(isMe)}
@@ -115,7 +115,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
             title={title}
             sharedGroupNames={sharedGroupNames}
             size={AvatarSize.THIRTY_TWO}
-            unblurredAvatarPath={unblurredAvatarPath}
+            unblurredAvatarUrl={unblurredAvatarUrl}
             // appease the type checker.
             {...(badge ? { badge, theme } : { badge: undefined })}
           />

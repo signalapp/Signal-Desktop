@@ -45,5 +45,5 @@ export function Person(args: PropsType): JSX.Element {
 }
 
 export function Photo(args: PropsType): JSX.Element {
-  return <AvatarLightbox {...args} avatarPath="/fixtures/kitten-1-64-64.jpg" />;
+  return <AvatarLightbox {...args} avatarUrl="/fixtures/kitten-1-64-64.jpg" />;
 }

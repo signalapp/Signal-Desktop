@@ -13,6 +13,14 @@ import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 import { DAY } from '../../util/durations';
 import { migrateDataToFileSystem } from '../../util/attachments/migrateDataToFilesystem';
 
+const FAKE_LOCAL_ATTACHMENT: Attachment.LocalAttachmentV2Type = {
+  version: 2,
+  size: 1,
+  plaintextHash: 'bogus',
+  path: 'fake',
+  localKey: 'absent',
+};
+
 describe('Attachment', () => {
   describe('getFileExtension', () => {
     it('should return file extension from content type', () => {
@@ -418,18 +426,15 @@ describe('Attachment', () => {
       };
 
       const expected = {
+        ...FAKE_LOCAL_ATTACHMENT,
         contentType: MIME.IMAGE_JPEG,
-        path: 'abc/abcdefgh123456789',
         fileName: 'foo.jpg',
-        plaintextHash:
-          '9dac71e94805b04964a99011d74da584301362712570e98354d535c3cd3fdfca',
-        size: 1111,
       };
 
       const expectedAttachmentData = Bytes.fromString('Above us only sky');
       const writeNewAttachmentData = async (attachmentData: Uint8Array) => {
         assert.deepEqual(attachmentData, expectedAttachmentData);
-        return 'abc/abcdefgh123456789';
+        return FAKE_LOCAL_ATTACHMENT;
       };
 
       const actual = await migrateDataToFileSystem(input, {
@@ -452,7 +457,7 @@ describe('Attachment', () => {
         size: 1111,
       };
 
-      const writeNewAttachmentData = async () => 'abc/abcdefgh123456789';
+      const writeNewAttachmentData = async () => FAKE_LOCAL_ATTACHMENT;
 
       const actual = await migrateDataToFileSystem(input, {
         writeNewAttachmentData,
@@ -470,7 +475,7 @@ describe('Attachment', () => {
         size: 1111,
       };
 
-      const writeNewAttachmentData = async () => 'abc/abcdefgh123456789';
+      const writeNewAttachmentData = async () => FAKE_LOCAL_ATTACHMENT;
 
       const actual = await migrateDataToFileSystem(input, {
         writeNewAttachmentData,

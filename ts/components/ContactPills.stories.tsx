@@ -38,7 +38,7 @@ const contactPillProps = (
 ): ContactPillPropsType => ({
   ...(overrideProps ??
     getDefaultConversation({
-      avatarPath: gifUrl,
+      avatarUrl: gifUrl,
       firstName: 'John',
       id: 'abc123',
       isMe: false,

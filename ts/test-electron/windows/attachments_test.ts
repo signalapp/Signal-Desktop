@@ -8,6 +8,7 @@ import os from 'os';
 import fse from 'fs-extra';
 import * as Attachments from '../../windows/attachments';
 import * as Bytes from '../../Bytes';
+import { createName, getRelativePath } from '../../util/attachmentPath';
 
 const PREFIX_LENGTH = 2;
 const NUM_SEPARATORS = 1;
@@ -25,44 +26,6 @@ describe('Attachments', () => {
 
   after(async () => {
     await fse.remove(tempRootDirectory);
-  });
-
-  describe('createReader', () => {
-    it('should read file from disk', async () => {
-      const tempDirectory = path.join(
-        tempRootDirectory,
-        'Attachments_createReader'
-      );
-
-      const relativePath = Attachments.getRelativePath(
-        Attachments.createName()
-      );
-      const fullPath = path.join(tempDirectory, relativePath);
-      const input = Bytes.fromString('test string');
-
-      const inputBuffer = Buffer.from(input);
-      await fse.ensureFile(fullPath);
-      await fse.writeFile(fullPath, inputBuffer);
-      const output = await Attachments.createReader(tempDirectory)(
-        relativePath
-      );
-
-      assert.deepEqual(input, output);
-    });
-
-    it('throws if relative path goes higher than root', async () => {
-      const tempDirectory = path.join(
-        tempRootDirectory,
-        'Attachments_createReader'
-      );
-
-      const relativePath = '../../parent';
-
-      await assert.isRejected(
-        Attachments.createReader(tempDirectory)(relativePath),
-        'Invalid relative path'
-      );
-    });
   });
 
   describe('copyIntoAttachmentsDirectory', () => {
@@ -136,55 +99,6 @@ describe('Attachments', () => {
     });
   });
 
-  describe('createWriterForExisting', () => {
-    it('should write file to disk on given path and return path', async () => {
-      const input = Bytes.fromString('test string');
-      const tempDirectory = path.join(
-        tempRootDirectory,
-        'Attachments_createWriterForExisting'
-      );
-
-      const relativePath = Attachments.getRelativePath(
-        Attachments.createName()
-      );
-      const attachment = {
-        path: relativePath,
-        data: input,
-      };
-      const outputPath = await Attachments.createWriterForExisting(
-        tempDirectory
-      )(attachment);
-      const output = await fse.readFile(path.join(tempDirectory, outputPath));
-
-      assert.equal(outputPath, relativePath);
-
-      const inputBuffer = Buffer.from(input);
-      assert.deepEqual(inputBuffer, output);
-    });
-
-    it('throws if relative path goes higher than root', async () => {
-      const input = Bytes.fromString('test string');
-      const tempDirectory = path.join(
-        tempRootDirectory,
-        'Attachments_createWriterForExisting'
-      );
-
-      const relativePath = '../../parent';
-      const attachment = {
-        path: relativePath,
-        data: input,
-      };
-      try {
-        await Attachments.createWriterForExisting(tempDirectory)(attachment);
-      } catch (error) {
-        assert.strictEqual(error.message, 'Invalid relative path');
-        return;
-      }
-
-      throw new Error('Expected an error');
-    });
-  });
-
   describe('createWriterForNew', () => {
     it('should write file to disk and return path', async () => {
       const input = Bytes.fromString('test string');
@@ -193,9 +107,8 @@ describe('Attachments', () => {
         'Attachments_createWriterForNew'
       );
 
-      const outputPath = await Attachments.createWriterForNew(tempDirectory)(
-        input
-      );
+      const outputPath =
+        await Attachments.createWriterForNew(tempDirectory)(input);
       const output = await fse.readFile(path.join(tempDirectory, outputPath));
 
       assert.lengthOf(outputPath, PATH_LENGTH);
@@ -238,11 +151,11 @@ describe('Attachments', () => {
 
   describe('createName', () => {
     it('should return random file name with correct length', () => {
-      assert.lengthOf(Attachments.createName(), NAME_LENGTH);
+      assert.lengthOf(createName(), NAME_LENGTH);
     });
 
     it('can include a suffix', () => {
-      const result = Attachments.createName('.txt');
+      const result = createName('.txt');
       assert.lengthOf(result, NAME_LENGTH + '.txt'.length);
       assert(result.endsWith('.txt'));
     });
@@ -252,7 +165,7 @@ describe('Attachments', () => {
     it('should return correct path', () => {
       const name =
         '608ce3bc536edbf7637a6aeb6040bdfec49349140c0dd43e97c7ce263b15ff7e';
-      assert.lengthOf(Attachments.getRelativePath(name), PATH_LENGTH);
+      assert.lengthOf(getRelativePath(name), PATH_LENGTH);
     });
   });
 
@@ -263,9 +176,7 @@ describe('Attachments', () => {
         'Attachments_createDeleter'
       );
 
-      const relativePath = Attachments.getRelativePath(
-        Attachments.createName()
-      );
+      const relativePath = getRelativePath(createName());
       const fullPath = path.join(tempDirectory, relativePath);
       const input = Bytes.fromString('test string');
 

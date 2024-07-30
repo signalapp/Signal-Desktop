@@ -18,7 +18,7 @@
  */
 export function makeEnumParser<
   TEnumKey extends string,
-  TEnumValue extends string
+  TEnumValue extends string,
 >(
   enumToParse: Record<TEnumKey, TEnumValue>,
   defaultValue: TEnumValue

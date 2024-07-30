@@ -5,6 +5,7 @@ import * as sinon from 'sinon';
 import casual from 'casual';
 import { v4 as generateUuid } from 'uuid';
 
+import { DataWriter } from '../../../sql/Client';
 import type {
   DispatchableViewStoryType,
   StoryDataType,
@@ -937,7 +938,10 @@ describe('both/state/ducks/stories', () => {
           },
         ],
       };
-
+      await DataWriter.saveMessage(messageAttributes, {
+        forceSave: true,
+        ourAci: generateAci(),
+      });
       const rootState = getEmptyRootState();
 
       const getState = () => ({
@@ -1000,6 +1004,10 @@ describe('both/state/ducks/stories', () => {
         preview: [preview],
       };
 
+      await DataWriter.saveMessage(messageAttributes, {
+        forceSave: true,
+        ourAci: generateAci(),
+      });
       const rootState = getEmptyRootState();
 
       const getState = () => ({

@@ -1,14 +1,16 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageAttributesType } from '../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import { DAY } from './durations';
 import { isMoreRecentThan } from './timestamp';
 import { isOutgoing } from '../messages/helpers';
 
 export const MESSAGE_MAX_EDIT_COUNT = 10;
 
-export function canEditMessage(message: MessageAttributesType): boolean {
+export function canEditMessage(
+  message: ReadonlyMessageAttributesType
+): boolean {
   const result =
     !message.deletedForEveryone &&
     isOutgoing(message) &&
@@ -29,6 +31,8 @@ export function canEditMessage(message: MessageAttributesType): boolean {
   return false;
 }
 
-export function isWithinMaxEdits(message: MessageAttributesType): boolean {
+export function isWithinMaxEdits(
+  message: ReadonlyMessageAttributesType
+): boolean {
   return (message.editHistory?.length ?? 0) <= MESSAGE_MAX_EDIT_COUNT;
 }

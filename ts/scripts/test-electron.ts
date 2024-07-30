@@ -1,10 +1,24 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { execFileSync } from 'child_process';
-import { join } from 'path';
+import { spawn } from 'node:child_process';
+import { join } from 'node:path';
+import { pipeline } from 'node:stream/promises';
+import { cpus, tmpdir } from 'node:os';
+import { mkdtemp, rm } from 'node:fs/promises';
+import z from 'zod';
+import split2 from 'split2';
+import logSymbols from 'log-symbols';
+
+import { explodePromise } from '../util/explodePromise';
+import { missingCaseError } from '../util/missingCaseError';
+import { SECOND } from '../util/durations';
 
 const ROOT_DIR = join(__dirname, '..', '..');
+
+const WORKER_COUNT = process.env.WORKER_COUNT
+  ? parseInt(process.env.WORKER_COUNT, 10)
+  : Math.min(8, cpus().length);
 
 const ELECTRON = join(
   ROOT_DIR,
@@ -16,16 +30,55 @@ const ELECTRON = join(
 const MAX_RETRIES = 3;
 const RETRIABLE_SIGNALS = ['SIGBUS'];
 
-function launchElectron(attempt: number): string {
+const failureSchema = z.object({
+  type: z.literal('fail'),
+  title: z.string().array(),
+  error: z.string(),
+});
+
+type Failure = z.infer<typeof failureSchema>;
+
+const eventSchema = z
+  .object({
+    type: z.literal('pass'),
+    title: z.string().array(),
+    duration: z.number(),
+  })
+  .or(failureSchema)
+  .or(
+    z.object({
+      type: z.literal('end'),
+    })
+  );
+
+async function launchElectron(
+  worker: number,
+  attempt: number
+): Promise<{ pass: number; failures: Array<Failure> }> {
   if (attempt > MAX_RETRIES) {
     console.error(`Failed after ${MAX_RETRIES} retries, exiting.`);
     process.exit(1);
   }
 
-  console.log(`Launching electron for tests, attempt #${attempt}...`);
+  if (attempt !== 1) {
+    console.log(
+      `Launching electron ${worker} for tests, attempt #${attempt}...`
+    );
+  }
 
-  try {
-    const stdout = execFileSync(ELECTRON, [ROOT_DIR], {
+  const storagePath = await mkdtemp(join(tmpdir(), 'signal-test-'));
+
+  const proc = spawn(
+    ELECTRON,
+    [
+      'ci.js',
+      '--worker',
+      worker.toString(),
+      '--worker-count',
+      WORKER_COUNT.toString(),
+      ...process.argv.slice(2),
+    ],
+    {
       cwd: ROOT_DIR,
       env: {
         ...process.env,
@@ -34,67 +87,140 @@ function launchElectron(attempt: number): string {
         // via `test.js`
         NODE_ENV: 'test',
         TEST_QUIT_ON_COMPLETE: 'on',
+        SIGNAL_CI_CONFIG: JSON.stringify({
+          storagePath,
+        }),
       },
-      encoding: 'utf8',
-    });
-    return stdout;
-  } catch (error) {
-    console.error('Status', error.status);
-
-    // In testing, error.signal is null, so we need to read it from stderr
-    const signalMatch = error.stderr.match(/exited with signal (\w+)/);
-    const signal = error.signal || signalMatch?.[1];
-
-    console.error('Signal', signal);
-    console.error(error.output[0] ?? '');
-    console.error(error.output[1] ?? '');
-
-    if (RETRIABLE_SIGNALS.includes(signal)) {
-      return launchElectron(attempt + 1);
+      // Since we run `.cmd` file on Windows - use shell
+      shell: process.platform === 'win32',
     }
+  );
 
+  const { resolve, reject, promise: exitPromise } = explodePromise<void>();
+
+  let exitSignal: string | undefined;
+  proc.on('exit', (code, signal) => {
+    if (code === 0) {
+      resolve();
+    } else {
+      exitSignal = signal || undefined;
+      reject(new Error(`Exit code: ${code}`));
+    }
+  });
+
+  let pass = 0;
+  const failures = new Array<Failure>();
+  let done = false;
+
+  try {
+    await Promise.all([
+      exitPromise,
+      pipeline(
+        proc.stdout,
+        split2()
+          .resume()
+          .on('data', line => {
+            if (!line) {
+              return;
+            }
+
+            const match = line.match(/^ci:test-electron:event=(.*)/);
+            if (!match) {
+              const debugMatch = line.match(/ci:test-electron:debug=(.*)?/);
+              if (debugMatch) {
+                try {
+                  console.log('DEBUG:', JSON.parse(debugMatch[1]));
+                } catch {
+                  // pass
+                }
+              }
+              return;
+            }
+
+            const event = eventSchema.parse(JSON.parse(match[1]));
+            if (event.type === 'pass') {
+              pass += 1;
+
+              process.stdout.write(logSymbols.success);
+              if (event.duration > SECOND) {
+                console.error('');
+                console.error(
+                  `  ${logSymbols.warning} ${event.title.join(' ')} ` +
+                    `took ${event.duration}ms`
+                );
+              }
+            } else if (event.type === 'fail') {
+              failures.push(event);
+
+              console.error('');
+              console.error(`  ${logSymbols.error} ${event.title.join(' ')}`);
+              console.error('');
+              console.error(event.error);
+            } else if (event.type === 'end') {
+              done = true;
+            } else {
+              throw missingCaseError(event);
+            }
+          })
+      ),
+    ]);
+  } catch (error) {
+    if (exitSignal && RETRIABLE_SIGNALS.includes(exitSignal)) {
+      return launchElectron(worker, attempt + 1);
+    }
+    throw error;
+  } finally {
+    try {
+      await rm(storagePath, { recursive: true });
+    } catch {
+      // Ignore
+    }
+  }
+
+  if (!done) {
+    throw new Error('Tests terminated early!');
+  }
+
+  return { pass, failures };
+}
+
+async function main() {
+  const promises = [];
+  for (let i = 0; i < WORKER_COUNT; i += 1) {
+    promises.push(launchElectron(i, 1));
+  }
+  const results = await Promise.all(promises);
+
+  let pass = 0;
+  let failures = new Array<Failure>();
+  for (const result of results) {
+    pass += result.pass;
+    failures = failures.concat(result.failures);
+  }
+
+  if (failures.length) {
+    console.error('');
+    console.error('Failing tests:');
+    console.error('');
+    for (const { title, error } of failures) {
+      console.log(` ${logSymbols.error} ${title.join(' ')}`);
+      console.log(error);
+      console.log('');
+    }
+  }
+
+  console.log('');
+  console.log(
+    `Passed ${pass} | Failed ${failures.length} | ` +
+      `Total ${pass + failures.length}`
+  );
+
+  if (failures.length !== 0) {
     process.exit(1);
   }
 }
 
-const stdout = launchElectron(1);
-
-const debugMatch = stdout.matchAll(/ci:test-electron:debug=(.*)?\n/g);
-Array.from(debugMatch).forEach(info => {
-  try {
-    const args = JSON.parse(info[1]);
-    console.log('DEBUG:', args);
-  } catch {
-    // this section intentionally left blank
-  }
-});
-
-const match = stdout.match(/ci:test-electron:done=(.*)?\n/);
-
-if (!match) {
-  throw new Error('No test results were found in stdout');
-}
-
-const {
-  passed,
-  failed,
-}: {
-  passed: Array<string>;
-  failed: Array<{ testName: string; error: string }>;
-} = JSON.parse(match[1]);
-
-const total = passed.length + failed.length;
-
-for (const { testName, error } of failed) {
-  console.error(`- ${testName}`);
+main().catch(error => {
   console.error(error);
-  console.error('');
-}
-
-console.log(
-  `Passed ${passed.length} | Failed ${failed.length} | Total ${total}`
-);
-
-if (failed.length !== 0) {
   process.exit(1);
-}
+});

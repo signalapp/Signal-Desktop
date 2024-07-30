@@ -311,7 +311,7 @@ export function ConversationHeader(): JSX.Element {
       {...createProps({})}
       getConversation={() => ({
         acceptedMessageRequest: true,
-        avatarPath: '/fixtures/kitten-1-64-64.jpg',
+        avatarUrl: '/fixtures/kitten-1-64-64.jpg',
         badges: [],
         id: '1234',
         isMe: false,

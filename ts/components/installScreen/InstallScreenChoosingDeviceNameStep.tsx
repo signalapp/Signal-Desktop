@@ -6,6 +6,7 @@ import React, { useRef } from 'react';
 
 import type { LocalizerType } from '../../types/Util';
 import { normalizeDeviceName } from '../../util/normalizeDeviceName';
+import { getEnvironment, Environment } from '../../environment';
 
 import { Button, ButtonVariant } from '../Button';
 import { TitlebarDragArea } from '../TitlebarDragArea';
@@ -20,6 +21,7 @@ export type PropsType = {
   deviceName: string;
   i18n: LocalizerType;
   onSubmit: () => void;
+  setBackupFile: (file: File) => void;
   setDeviceName: (value: string) => void;
 };
 
@@ -27,6 +29,7 @@ export function InstallScreenChoosingDeviceNameStep({
   deviceName,
   i18n,
   onSubmit,
+  setBackupFile,
   setDeviceName,
 }: Readonly<PropsType>): ReactElement {
   const hasFocusedRef = useRef<boolean>(false);
@@ -41,6 +44,26 @@ export function InstallScreenChoosingDeviceNameStep({
   const canSubmit =
     normalizedName.length > 0 &&
     normalizedName.length <= MAX_DEVICE_NAME_LENGTH;
+
+  let maybeBackupInput: JSX.Element | undefined;
+  if (getEnvironment() !== Environment.Production) {
+    maybeBackupInput = (
+      <label className="module-InstallScreenChoosingDeviceNameStep__input">
+        {/* Since this is only for testing - we don't require translation */}
+        Backup file:
+        <input
+          type="file"
+          accept=".bin"
+          onChange={event => {
+            const file = event.target.files && event.target.files[0];
+            if (file) {
+              setBackupFile(file);
+            }
+          }}
+        />
+      </label>
+    );
+  }
 
   return (
     <form
@@ -62,6 +85,8 @@ export function InstallScreenChoosingDeviceNameStep({
           <h2>{i18n('icu:Install__choose-device-name__description')}</h2>
         </div>
         <div className="module-InstallScreenChoosingDeviceNameStep__inputs">
+          {maybeBackupInput}
+
           <input
             className="module-InstallScreenChoosingDeviceNameStep__input"
             id="deviceName"

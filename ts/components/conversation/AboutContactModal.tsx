@@ -11,10 +11,20 @@ import { Modal } from '../Modal';
 import { UserText } from '../UserText';
 import { SharedGroupNames } from '../SharedGroupNames';
 import { About } from './About';
+import { I18n } from '../I18n';
+import { canHaveNicknameAndNote } from '../../util/nicknames';
+import { Tooltip, TooltipPlacement } from '../Tooltip';
+
+function muted(parts: Array<string | JSX.Element>) {
+  return (
+    <span className="AboutContactModal__TitleWithoutNickname">{parts}</span>
+  );
+}
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;
   onClose: () => void;
+  onOpenNotePreviewModal: () => void;
   conversation: ConversationType;
   isSignalConnection: boolean;
   toggleSignalConnectionsModal: () => void;
@@ -32,6 +42,7 @@ export function AboutContactModal({
   updateSharedGroups,
   unblurAvatar,
   onClose,
+  onOpenNotePreviewModal,
 }: PropsType): JSX.Element {
   const { isMe } = conversation;
 
@@ -109,7 +120,7 @@ export function AboutContactModal({
       <div className="AboutContactModal__row AboutContactModal__row--centered">
         <Avatar
           acceptedMessageRequest={conversation.acceptedMessageRequest}
-          avatarPath={conversation.avatarPath}
+          avatarUrl={conversation.avatarUrl}
           blur={avatarBlur}
           onClick={avatarBlur === AvatarBlur.NoBlur ? undefined : onAvatarClick}
           badge={undefined}
@@ -121,7 +132,7 @@ export function AboutContactModal({
           sharedGroupNames={[]}
           size={AvatarSize.TWO_HUNDRED_SIXTEEN}
           title={conversation.title}
-          unblurredAvatarPath={conversation.unblurredAvatarPath}
+          unblurredAvatarUrl={conversation.unblurredAvatarUrl}
         />
       </div>
 
@@ -135,7 +146,43 @@ export function AboutContactModal({
 
       <div className="AboutContactModal__row">
         <i className="AboutContactModal__row__icon AboutContactModal__row__icon--profile" />
-        <UserText text={conversation.title} />
+
+        {canHaveNicknameAndNote(conversation) &&
+        (conversation.nicknameGivenName || conversation.nicknameFamilyName) &&
+        conversation.titleNoNickname ? (
+          <span>
+            <I18n
+              i18n={i18n}
+              id="icu:AboutContactModal__TitleAndTitleWithoutNickname"
+              components={{
+                nickname: <UserText text={conversation.title} />,
+                titleNoNickname: (
+                  <Tooltip
+                    className="AboutContactModal__TitleWithoutNickname__Tooltip"
+                    direction={TooltipPlacement.Top}
+                    content={
+                      <I18n
+                        i18n={i18n}
+                        id="icu:AboutContactModal__TitleWithoutNickname__Tooltip"
+                        components={{
+                          title: (
+                            <UserText text={conversation.titleNoNickname} />
+                          ),
+                        }}
+                      />
+                    }
+                    delay={0}
+                  >
+                    <UserText text={conversation.titleNoNickname} />
+                  </Tooltip>
+                ),
+                muted,
+              }}
+            />
+          </span>
+        ) : (
+          <UserText text={conversation.title} />
+        )}
       </div>
 
       {!isMe && conversation.isVerified ? (
@@ -166,7 +213,7 @@ export function AboutContactModal({
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--connections" />
           <button
             type="button"
-            className="AboutContactModal__signal-connection"
+            className="AboutContactModal__button"
             onClick={onSignalConnectionClick}
           >
             {i18n('icu:AboutContactModal__signal-connection')}
@@ -178,7 +225,10 @@ export function AboutContactModal({
         <div className="AboutContactModal__row">
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--person" />
           {i18n('icu:AboutContactModal__system-contact', {
-            name: conversation.firstName || conversation.title,
+            name:
+              conversation.systemGivenName ||
+              conversation.firstName ||
+              conversation.title,
           })}
         </div>
       ) : null}
@@ -199,6 +249,21 @@ export function AboutContactModal({
               sharedGroupNames={conversation.sharedGroupNames || []}
             />
           </div>
+        </div>
+      )}
+
+      {conversation.note && (
+        <div className="AboutContactModal__row">
+          <i className="AboutContactModal__row__icon AboutContactModal__row__icon--note" />
+          <button
+            type="button"
+            className="AboutContactModal__button"
+            onClick={onOpenNotePreviewModal}
+          >
+            <div className="AboutContactModal__OneLineEllipsis">
+              <UserText text={conversation.note} />
+            </div>
+          </button>
         </div>
       )}
 

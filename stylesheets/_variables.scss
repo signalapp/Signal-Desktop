@@ -2,8 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Note: Add language-specific fallbacks in @localized-fonts mixin
-$inter: Inter, 'Source Sans Pro', 'Source Han Sans', -apple-system, system-ui,
-  'Segoe UI', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$inter:
+  Inter,
+  'Source Sans Pro',
+  'Source Han Sans',
+  -apple-system,
+  system-ui,
+  'Segoe UI',
+  'Noto Sans',
+  'Helvetica Neue',
+  Helvetica,
+  Arial,
+  sans-serif;
 
 // Note: This font-family is checked for in matchMonospace, to support paste scenarios
 $monospace: 'SF Mono', SFMono-Regular, ui-monospace, 'DejaVu Sans Mono', Menlo,
@@ -70,6 +80,7 @@ $color-ultramarine-light: #6191f3;
 $color-ultramarine-dawn: #406ec9;
 $color-ultramarine-pastel: #abc4f8;
 $color-ultramarine: #2c6bed;
+$color-link: #315ff4;
 
 // Flat colors
 
@@ -258,6 +269,9 @@ $header-height: 52px;
 $ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 
 $calling-background-color: $color-gray-90;
+
+// Maintain aspect ratio 960x720 with $local-preview-height
+$calling-local-preview-width: 106.67px;
 
 // General
 

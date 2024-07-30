@@ -20,7 +20,7 @@ export default {
 type PropsType = ComponentProps<typeof EditConversationAttributesModal>;
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  avatarPath: undefined,
+  avatarUrl: undefined,
   conversationId: '123',
   i18n,
   initiallyFocusDescription: false,
@@ -43,7 +43,7 @@ export function AvatarAndTitle(): JSX.Element {
   return (
     <EditConversationAttributesModal
       {...createProps({
-        avatarPath: '/fixtures/kitten-3-64-64.jpg',
+        avatarUrl: '/fixtures/kitten-3-64-64.jpg',
       })}
     />
   );

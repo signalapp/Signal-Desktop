@@ -22,7 +22,7 @@ export type Reaction = {
   from: Pick<
     ConversationType,
     | 'acceptedMessageRequest'
-    | 'avatarPath'
+    | 'avatarUrl'
     | 'badges'
     | 'color'
     | 'id'
@@ -226,7 +226,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
               <div className="module-reaction-viewer__body__row__avatar">
                 <Avatar
                   acceptedMessageRequest={from.acceptedMessageRequest}
-                  avatarPath={from.avatarPath}
+                  avatarUrl={from.avatarUrl}
                   badge={getPreferredBadge(from.badges)}
                   conversationType="direct"
                   sharedGroupNames={from.sharedGroupNames}

@@ -3,24 +3,38 @@
 
 import type { CallEventSyncEvent } from '../textsecure/messageReceiverEvents';
 import * as log from '../logging/log';
-import { updateCallHistoryFromRemoteEvent } from './callDisposition';
+import {
+  peerIdToLog,
+  updateCallHistoryFromRemoteEvent,
+} from './callDisposition';
+import { CallMode } from '../types/Calling';
 
 export async function onCallEventSync(
   syncEvent: CallEventSyncEvent
 ): Promise<void> {
   const { callEvent, confirm } = syncEvent;
-  const { callEventDetails, receivedAtCounter } = callEvent;
-  const { peerId } = callEventDetails;
+  const { callEventDetails, receivedAtCounter, receivedAtMS } = callEvent;
 
-  const conversation = window.ConversationController.get(peerId);
+  if (
+    callEventDetails.mode === CallMode.Direct ||
+    callEventDetails.mode === CallMode.Group
+  ) {
+    const { peerId } = callEventDetails;
+    const conversation = window.ConversationController.get(peerId);
 
-  if (!conversation) {
-    log.warn(
-      `onCallEventSync: No conversation found for conversationId ${peerId}`
-    );
-    return;
+    if (!conversation) {
+      const peerIdLog = peerIdToLog(peerId, callEventDetails.mode);
+      log.warn(
+        `onCallEventSync: No conversation found for conversationId ${peerIdLog}`
+      );
+      return;
+    }
   }
 
-  await updateCallHistoryFromRemoteEvent(callEventDetails, receivedAtCounter);
+  await updateCallHistoryFromRemoteEvent(
+    callEventDetails,
+    receivedAtCounter,
+    receivedAtMS
+  );
   confirm();
 }

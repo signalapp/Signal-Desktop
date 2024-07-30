@@ -104,7 +104,6 @@ export type PropsType = {
   preferredWidthFromStorage: number;
   selectedConversationId: undefined | string;
   targetedMessageId: undefined | string;
-  regionCode: string | undefined;
   challengeStatus: 'idle' | 'required' | 'pending';
   setChallengeStatus: (status: 'idle') => void;
   crashReportCount: number;
@@ -121,6 +120,8 @@ export type PropsType = {
   composeReplaceAvatar: ReplaceAvatarActionType;
   composeSaveAvatarToDisk: SaveAvatarToDiskActionType;
   createGroup: () => void;
+  endConversationSearch: () => void;
+  endSearch: () => void;
   navTabsCollapsed: boolean;
   openUsernameReservationModal: () => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
@@ -184,6 +185,8 @@ export function LeftPane({
   composeSaveAvatarToDisk,
   crashReportCount,
   createGroup,
+  endConversationSearch,
+  endSearch,
   getPreferredBadge,
   hasExpiredDialog,
   hasFailedStorySends,
@@ -635,7 +638,7 @@ export function LeftPane({
 
   return (
     <NavSidebar
-      title="Chats"
+      title={i18n('icu:LeftPane--chats')}
       hideHeader={hideHeader}
       i18n={i18n}
       otherTabsUnreadStats={otherTabsUnreadStats}
@@ -706,6 +709,8 @@ export function LeftPane({
             {helper.getSearchInput({
               clearConversationSearch,
               clearSearch,
+              endConversationSearch,
+              endSearch,
               i18n,
               onChangeComposeSearchTerm: event => {
                 setComposeSearchTerm(event.target.value);

@@ -40,7 +40,7 @@ const contactWithAllData = getDefaultConversation({
 });
 
 const contactWithJustProfile = getDefaultConversation({
-  avatarPath: undefined,
+  avatarUrl: undefined,
   title: '-*Smartest Dude*-',
   profileName: '-*Smartest Dude*-',
   name: undefined,
@@ -48,7 +48,7 @@ const contactWithJustProfile = getDefaultConversation({
 });
 
 const contactWithJustNumber = getDefaultConversation({
-  avatarPath: undefined,
+  avatarUrl: undefined,
   profileName: undefined,
   name: undefined,
   title: '(305) 123-4567',
@@ -57,7 +57,7 @@ const contactWithJustNumber = getDefaultConversation({
 
 const contactWithNothing = getDefaultConversation({
   id: 'some-guid',
-  avatarPath: undefined,
+  avatarUrl: undefined,
   profileName: undefined,
   title: 'Unknown contact',
   name: undefined,
@@ -70,7 +70,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
   safetyNumber:
     'safetyNumber' in overrideProps
-      ? overrideProps.safetyNumber
+      ? (overrideProps.safetyNumber ?? null)
       : {
           numberBlocks: generateNumberBlocks(),
           qrData: generateQRData(),

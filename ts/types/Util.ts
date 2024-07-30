@@ -23,12 +23,25 @@ export type RenderTextCallbackType = (options: {
 
 export { ICUJSXMessageParamsByKeyType, ICUStringMessageParamsByKeyType };
 
+export type LocalizerOptions = {
+  /**
+   * - 'default' will fence all string parameters with unicode bidi isolates
+   *   and balance the control characters within them
+   * - 'strip' should only be used when all of the parameters are not
+   *   user-generated and should not contain any control characters.
+   */
+  bidi?: 'default' | 'strip';
+};
+
 export type LocalizerType = {
   <Key extends keyof ICUStringMessageParamsByKeyType>(
     key: Key,
     ...values: ICUStringMessageParamsByKeyType[Key] extends undefined
-      ? [undefined?]
-      : [ICUStringMessageParamsByKeyType[Key]]
+      ? [params?: undefined, options?: LocalizerOptions]
+      : [
+          params: ICUStringMessageParamsByKeyType[Key],
+          options?: LocalizerOptions,
+        ]
   ): string;
   getIntl(): IntlShape;
   getLocale(): string;
@@ -56,13 +69,13 @@ export enum ScrollBehavior {
 type InternalAssertProps<
   Result,
   Value,
-  Missing = Omit<Result, keyof Value>
+  Missing = Omit<Result, keyof Value>,
 > = keyof Missing extends never
   ? Result
   : Result & {
       [key in keyof Required<Missing>]: [
         never,
-        'AssertProps: missing property'
+        'AssertProps: missing property',
       ];
     };
 
@@ -74,18 +87,19 @@ export type BytesToStrings<Value> = Value extends Uint8Array
   ? string
   : { [Key in keyof Value]: BytesToStrings<Value[Key]> };
 
-export type JSONWithUnknownFields<Value> = Value extends Record<
-  string | symbol | number,
-  unknown
->
-  ? Readonly<
-      {
-        [Key in keyof Value]: JSONWithUnknownFields<Value[Key]>;
-      } & {
-        // Make sure that rest property is required to handle.
-        __rest: never;
-      }
-    >
-  : Value extends Array<infer E>
-  ? ReadonlyArray<JSONWithUnknownFields<E>>
-  : Value;
+export type JSONWithUnknownFields<Value> =
+  Value extends Record<string | symbol | number, unknown>
+    ? Readonly<
+        {
+          [Key in keyof Value]: JSONWithUnknownFields<Value[Key]>;
+        } & {
+          // Make sure that rest property is required to handle.
+          __rest: never;
+        }
+      >
+    : Value extends Array<infer E>
+      ? ReadonlyArray<JSONWithUnknownFields<E>>
+      : Value;
+
+export type WithRequiredProperties<T, P extends keyof T> = Omit<T, P> &
+  Required<Pick<T, P>>;

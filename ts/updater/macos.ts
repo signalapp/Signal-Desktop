@@ -49,16 +49,27 @@ export class MacOSUpdater extends Updater {
     const { logger } = this;
     const { promise, resolve, reject } = explodePromise<void>();
 
-    autoUpdater.on('error', (...args) => {
+    const onError = (...args: Array<unknown>) => {
       logger.error('autoUpdater: error', ...args.map(Errors.toLogFormat));
 
       const [error] = args;
+      cleanup();
       reject(error);
-    });
-    autoUpdater.on('update-downloaded', () => {
+    };
+
+    const onDownloaded = () => {
       logger.info('autoUpdater: update-downloaded event fired');
+      cleanup();
       resolve();
-    });
+    };
+
+    function cleanup() {
+      autoUpdater.removeListener('error', onError);
+      autoUpdater.removeListener('update-downloaded', onDownloaded);
+    }
+
+    autoUpdater.on('error', onError);
+    autoUpdater.on('update-downloaded', onDownloaded);
 
     // See: https://github.com/electron/electron/issues/5020#issuecomment-477636990
     const updateUrl = pathToFileURL(filePath).href;

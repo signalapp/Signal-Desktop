@@ -96,7 +96,11 @@ export type PropsType = {
   > &
   Pick<
     MediaEditorPropsType,
-    'isFormattingEnabled' | 'onPickEmoji' | 'onTextTooLong' | 'platform'
+    | 'isFormattingEnabled'
+    | 'onPickEmoji'
+    | 'onTextTooLong'
+    | 'platform'
+    | 'sortedGroupMembers'
   >;
 
 export function StoryCreator({
@@ -139,6 +143,7 @@ export function StoryCreator({
   setMyStoriesToAllSignalConnections,
   signalConnections,
   skinTone,
+  sortedGroupMembers,
   theme,
   toggleGroupsForStorySend,
   toggleSignalConnectionsModal,
@@ -272,6 +277,9 @@ export function StoryCreator({
               platform={platform}
               recentStickers={recentStickers}
               skinTone={skinTone}
+              sortedGroupMembers={sortedGroupMembers}
+              draftText={null}
+              draftBodyRanges={null}
             />
           )}
           {!file && (

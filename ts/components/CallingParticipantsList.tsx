@@ -26,18 +26,25 @@ type ParticipantType = ConversationType & {
 };
 
 export type PropsType = {
+  readonly conversationId: string;
   readonly i18n: LocalizerType;
   readonly onClose: () => void;
   readonly ourServiceId: ServiceIdString | undefined;
   readonly participants: Array<ParticipantType>;
+  readonly showContactModal: (
+    contactId: string,
+    conversationId?: string
+  ) => void;
 };
 
 export const CallingParticipantsList = React.memo(
   function CallingParticipantsListInner({
+    conversationId,
     i18n,
     onClose,
     ourServiceId,
     participants,
+    showContactModal,
   }: PropsType) {
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
 
@@ -96,22 +103,33 @@ export const CallingParticipantsList = React.memo(
                 aria-label={i18n('icu:close')}
               />
             </div>
-            <ul className="module-calling-participants-list__list">
+            <div className="module-calling-participants-list__list">
               {sortedParticipants.map(
                 (participant: ParticipantType, index: number) => (
-                  <li
+                  <button
+                    aria-label={i18n('icu:calling__ParticipantInfoButton')}
                     className="module-calling-participants-list__contact"
+                    disabled={participant.isMe}
                     // It's tempting to use `participant.serviceId` as the `key`
                     //   here, but that can result in duplicate keys for
                     //   participants who have joined on multiple devices.
                     key={index}
+                    onClick={() => {
+                      if (participant.isMe) {
+                        return;
+                      }
+
+                      onClose();
+                      showContactModal(participant.id, conversationId);
+                    }}
+                    type="button"
                   >
                     <div className="module-calling-participants-list__avatar-and-name">
                       <Avatar
                         acceptedMessageRequest={
                           participant.acceptedMessageRequest
                         }
-                        avatarPath={participant.avatarPath}
+                        avatarUrl={participant.avatarUrl}
                         badge={undefined}
                         color={participant.color}
                         conversationType="direct"
@@ -134,13 +152,10 @@ export const CallingParticipantsList = React.memo(
                             title={participant.title}
                           />
                           {isInSystemContacts(participant) ? (
-                            <span>
-                              {' '}
-                              <InContactsIcon
-                                className="module-calling-participants-list__contact-icon"
-                                i18n={i18n}
-                              />
-                            </span>
+                            <InContactsIcon
+                              className="module-calling-participants-list__contact-icon"
+                              i18n={i18n}
+                            />
                           ) : null}
                         </>
                       )}
@@ -168,10 +183,10 @@ export const CallingParticipantsList = React.memo(
                           'module-calling-participants-list__muted--audio'
                       )}
                     />
-                  </li>
+                  </button>
                 )
               )}
-            </ul>
+            </div>
           </div>
         </div>
       </FocusTrap>,

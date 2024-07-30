@@ -4,6 +4,7 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { noop } from 'lodash';
+import { v4 as generateUuid } from 'uuid';
 
 import type { ReduxActions } from '../../../state/types';
 import {
@@ -68,6 +69,7 @@ describe('both/state/ducks/composer', () => {
       const attachments: Array<AttachmentDraftType> = [
         {
           contentType: IMAGE_JPEG,
+          clientUuid: generateUuid(),
           pending: true,
           size: 2433,
           path: 'image.jpg',

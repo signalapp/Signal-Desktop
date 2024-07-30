@@ -104,6 +104,8 @@ const createProps = (
   toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
   toggleAboutContactModal: action('toggleAboutContactModal'),
   toggleAddUserToAnotherGroupModal: action('toggleAddUserToAnotherGroup'),
+  onDeleteNicknameAndNote: action('onDeleteNicknameAndNote'),
+  onOpenEditNicknameAndNoteModal: action('onOpenEditNicknameAndNoteModal'),
   onOutgoingAudioCallInConversation: action(
     'onOutgoingAudioCallInConversation'
   ),
@@ -119,7 +121,6 @@ const createProps = (
         candidateContacts={allCandidateContacts}
         selectedContacts={[]}
         regionCode="US"
-        getPreferredBadge={() => undefined}
         theme={ThemeType.light}
         i18n={i18n}
         lookupConversationWithoutServiceId={makeFakeLookupConversationWithoutServiceId()}
@@ -141,6 +142,22 @@ export function Basic(): JSX.Element {
   const props = createProps();
 
   return <ConversationDetails {...props} />;
+}
+
+export function SystemContact(): JSX.Element {
+  const props = createProps();
+  const contact = getDefaultConversation();
+
+  return (
+    <ConversationDetails
+      {...props}
+      isGroup={false}
+      conversation={{
+        ...contact,
+        systemGivenName: contact.title,
+      }}
+    />
+  );
 }
 
 export function AsAdmin(): JSX.Element {

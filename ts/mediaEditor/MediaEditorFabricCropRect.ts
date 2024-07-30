@@ -3,6 +3,7 @@
 
 import { fabric } from 'fabric';
 import { clamp } from 'lodash';
+import { strictAssert } from '../util/assert';
 
 export class MediaEditorFabricCropRect extends fabric.Rect {
   static PADDING = 4;
@@ -14,37 +15,41 @@ export class MediaEditorFabricCropRect extends fabric.Rect {
       ...(options || {}),
     });
 
-    this.on('modified', this.containBounds.bind(this));
+    this.on('scaling', this.containBounds);
+    this.on('moving', this.containBounds);
   }
 
-  private containBounds() {
+  private containBounds = () => {
     if (!this.canvas) {
       return;
     }
 
-    const zoom = this.canvas.getZoom() || 1;
+    const zoom = this.canvas.getZoom() ?? 1;
+    const { left, top, width, height } = this.getBoundingRect(true, true);
+    const { scaleX, scaleY } = this;
 
-    const { left, top, height, width } = this.getBoundingRect();
+    strictAssert(scaleX, 'Expected scaleX to be defined');
+    strictAssert(scaleY, 'Expected scaleY to be defined');
 
-    const canvasHeight = this.canvas.getHeight();
-    const canvasWidth = this.canvas.getWidth();
+    const canvasHeight = this.canvas.getHeight() / zoom;
+    const canvasWidth = this.canvas.getWidth() / zoom;
 
-    const nextLeft = clamp(
-      left / zoom,
-      MediaEditorFabricCropRect.PADDING / zoom,
-      (canvasWidth - width - MediaEditorFabricCropRect.PADDING) / zoom
-    );
-    const nextTop = clamp(
-      top / zoom,
-      MediaEditorFabricCropRect.PADDING / zoom,
-      (canvasHeight - height - MediaEditorFabricCropRect.PADDING) / zoom
-    );
+    const padding = MediaEditorFabricCropRect.PADDING / zoom;
 
-    this.set('left', nextLeft);
-    this.set('top', nextTop);
+    const nextLeft = clamp(left, padding, canvasWidth - width - padding);
+    const nextTop = clamp(top, padding, canvasHeight - height - padding);
+
+    const nextScaleX = clamp(scaleX, 0, 1);
+    const nextScaleY = clamp(scaleY, 0, 1);
+
+    this.left = nextLeft;
+    this.top = nextTop;
+    this.scaleX = nextScaleX;
+    this.scaleY = nextScaleY;
 
     this.setCoords();
-  }
+    this.saveState();
+  };
 
   override render(ctx: CanvasRenderingContext2D): void {
     super.render(ctx);
@@ -73,121 +78,71 @@ export class MediaEditorFabricCropRect extends fabric.Rect {
   }
 }
 
+const CONTROL_DEFAULT_SIZE = 24;
+const CONTROL_HITBOX_SIZE = 48;
+
+enum Corner {
+  TopLeft,
+  TopRight,
+  BottomLeft,
+  BottomRight,
+}
+
+const cursorStyle: Record<Corner, string> = {
+  [Corner.TopLeft]: 'nwse-resize',
+  [Corner.TopRight]: 'nesw-resize',
+  [Corner.BottomLeft]: 'nesw-resize',
+  [Corner.BottomRight]: 'nwse-resize',
+};
+
+function getMinSize(width: number | undefined): number {
+  return Math.min(width ?? CONTROL_DEFAULT_SIZE, CONTROL_DEFAULT_SIZE);
+}
+
+function createControl(corner: Corner) {
+  const onTopSide = corner === Corner.TopLeft || corner === Corner.TopRight;
+  const onLeftSide = corner === Corner.TopLeft || corner === Corner.BottomLeft;
+  return new fabric.Control({
+    x: onLeftSide ? -0.5 : 0.5,
+    y: onTopSide ? -0.5 : 0.5,
+    actionHandler: fabric.controlsUtils.scalingEqually,
+    cursorStyle: cursorStyle[corner],
+    sizeX: CONTROL_HITBOX_SIZE,
+    sizeY: CONTROL_HITBOX_SIZE,
+
+    render: (
+      ctx: CanvasRenderingContext2D,
+      left: number,
+      top: number,
+      _,
+      rect: fabric.Object
+    ) => {
+      const WIDTH = getMinSize(rect.width);
+      ctx.save();
+      ctx.fillStyle = '#fff';
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      const yStart = onTopSide ? top + WIDTH : top - WIDTH;
+      const yEnd = onTopSide ? top - 2 : top + 2;
+      const xStart = onLeftSide ? left - 2 : left + 2;
+      const xEnd = onLeftSide ? left + WIDTH : left - WIDTH;
+      ctx.moveTo(xStart, yStart);
+      ctx.lineTo(xStart, yEnd);
+      ctx.lineTo(xEnd, yEnd);
+      ctx.stroke();
+      ctx.restore();
+    },
+  });
+}
+
 MediaEditorFabricCropRect.prototype.controls = {
-  tl: new fabric.Control({
-    x: -0.5,
-    y: -0.5,
-    actionHandler: fabric.controlsUtils.scalingEqually,
-    cursorStyle: 'nwse-resize',
-    render: (
-      ctx: CanvasRenderingContext2D,
-      left: number,
-      top: number,
-      _,
-      rect: fabric.Object
-    ) => {
-      const WIDTH = getMinSize(rect.width);
-
-      ctx.save();
-      ctx.fillStyle = '#fff';
-      ctx.strokeStyle = '#fff';
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(left - 2, top + WIDTH);
-      ctx.lineTo(left - 2, top - 2);
-      ctx.lineTo(left + WIDTH, top - 2);
-      ctx.stroke();
-
-      ctx.restore();
-    },
-  }),
-  tr: new fabric.Control({
-    x: 0.5,
-    y: -0.5,
-    actionHandler: fabric.controlsUtils.scalingEqually,
-    cursorStyle: 'nesw-resize',
-    render: (
-      ctx: CanvasRenderingContext2D,
-      left: number,
-      top: number,
-      _,
-      rect: fabric.Object
-    ) => {
-      const WIDTH = getMinSize(rect.width);
-
-      ctx.save();
-      ctx.fillStyle = '#fff';
-      ctx.strokeStyle = '#fff';
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(left + 2, top + WIDTH);
-      ctx.lineTo(left + 2, top - 2);
-      ctx.lineTo(left - WIDTH, top - 2);
-      ctx.stroke();
-
-      ctx.restore();
-    },
-  }),
-  bl: new fabric.Control({
-    x: -0.5,
-    y: 0.5,
-    actionHandler: fabric.controlsUtils.scalingEqually,
-    cursorStyle: 'nesw-resize',
-    render: (
-      ctx: CanvasRenderingContext2D,
-      left: number,
-      top: number,
-      _,
-      rect: fabric.Object
-    ) => {
-      const WIDTH = getMinSize(rect.width);
-
-      ctx.save();
-      ctx.fillStyle = '#fff';
-      ctx.strokeStyle = '#fff';
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(left - 2, top - WIDTH);
-      ctx.lineTo(left - 2, top + 2);
-      ctx.lineTo(left + WIDTH, top + 2);
-      ctx.stroke();
-
-      ctx.restore();
-    },
-  }),
-  br: new fabric.Control({
-    x: 0.5,
-    y: 0.5,
-    actionHandler: fabric.controlsUtils.scalingEqually,
-    cursorStyle: 'nwse-resize',
-    render: (
-      ctx: CanvasRenderingContext2D,
-      left: number,
-      top: number,
-      _,
-      rect: fabric.Object
-    ) => {
-      const WIDTH = getMinSize(rect.width);
-
-      ctx.save();
-      ctx.fillStyle = '#fff';
-      ctx.strokeStyle = '#fff';
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(left + 2, top - WIDTH);
-      ctx.lineTo(left + 2, top + 2);
-      ctx.lineTo(left - WIDTH, top + 2);
-      ctx.stroke();
-
-      ctx.restore();
-    },
-  }),
+  tl: createControl(Corner.TopLeft),
+  tr: createControl(Corner.TopRight),
+  bl: createControl(Corner.BottomLeft),
+  br: createControl(Corner.BottomRight),
 };
 
 MediaEditorFabricCropRect.prototype.excludeFromExport = true;
 MediaEditorFabricCropRect.prototype.borderColor = '#ffffff';
 MediaEditorFabricCropRect.prototype.cornerColor = '#ffffff';
-
-function getMinSize(width: number | undefined): number {
-  return Math.min(width || 24, 24);
-}

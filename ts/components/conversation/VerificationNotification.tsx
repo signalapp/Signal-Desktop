@@ -5,7 +5,7 @@ import React from 'react';
 
 import { SystemMessage } from './SystemMessage';
 import { ContactName } from './ContactName';
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import type { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
@@ -41,9 +41,9 @@ function VerificationNotificationContents({
   switch (type) {
     case 'markVerified':
       return isLocal ? (
-        <Intl id="icu:youMarkedAsVerified" components={{ name }} i18n={i18n} />
+        <I18n id="icu:youMarkedAsVerified" components={{ name }} i18n={i18n} />
       ) : (
-        <Intl
+        <I18n
           id="icu:youMarkedAsVerifiedOtherDevice"
           components={{ name }}
           i18n={i18n}
@@ -51,13 +51,13 @@ function VerificationNotificationContents({
       );
     case 'markNotVerified':
       return isLocal ? (
-        <Intl
+        <I18n
           id="icu:youMarkedAsNotVerified"
           components={{ name }}
           i18n={i18n}
         />
       ) : (
-        <Intl
+        <I18n
           id="icu:youMarkedAsNotVerifiedOtherDevice"
           components={{ name }}
           i18n={i18n}

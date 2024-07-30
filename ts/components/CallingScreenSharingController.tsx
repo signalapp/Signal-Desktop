@@ -4,11 +4,13 @@
 import React from 'react';
 import { Button, ButtonVariant } from './Button';
 import type { LocalizerType } from '../types/Util';
+import { ScreenShareStatus } from '../types/Calling';
 
 export type PropsType = {
   i18n: LocalizerType;
   onCloseController: () => unknown;
   onStopSharing: () => unknown;
+  status: ScreenShareStatus;
   presentedSourceName: string;
 };
 
@@ -16,15 +18,22 @@ export function CallingScreenSharingController({
   i18n,
   onCloseController,
   onStopSharing,
+  status,
   presentedSourceName,
 }: PropsType): JSX.Element {
+  let text: string;
+
+  if (status === ScreenShareStatus.Reconnecting) {
+    text = i18n('icu:calling__presenting--reconnecting');
+  } else {
+    text = i18n('icu:calling__presenting--info', {
+      window: presentedSourceName,
+    });
+  }
+
   return (
     <div className="module-CallingScreenSharingController">
-      <div className="module-CallingScreenSharingController__text">
-        {i18n('icu:calling__presenting--info', {
-          window: presentedSourceName,
-        })}
-      </div>
+      <div className="module-CallingScreenSharingController__text">{text}</div>
       <div className="module-CallingScreenSharingController__buttons">
         <Button
           className="module-CallingScreenSharingController__button"

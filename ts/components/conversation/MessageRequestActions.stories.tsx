@@ -4,12 +4,22 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './MessageRequestActions';
 import { MessageRequestActions } from './MessageRequestActions';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
+import {
+  getDefaultConversation,
+  getDefaultGroup,
+} from '../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
+
+type Args = {
+  conversationType: 'direct' | 'group';
+  isBlocked: boolean;
+  isHidden: boolean;
+  isReported: boolean;
+};
 
 export default {
   title: 'Components/Conversation/MessageRequestActions',
@@ -20,19 +30,9 @@ export default {
         options: ['direct', 'group'],
       },
     },
-    firstName: { control: { type: 'text' } },
-    title: { control: { type: 'text' } },
   },
   args: {
-    conversationId: '123',
-    i18n,
     conversationType: 'direct',
-    firstName: 'Cayce',
-    title: 'Cayce Bollard',
-    acceptConversation: action('acceptConversation'),
-    blockAndReportSpam: action('blockAndReportSpam'),
-    blockConversation: action('blockConversation'),
-    deleteConversation: action('deleteConversation'),
   },
   decorators: [
     (Story: React.ComponentType): JSX.Element => {
@@ -43,20 +43,62 @@ export default {
       );
     },
   ],
-} satisfies Meta<Props>;
+} satisfies Meta<Args>;
 
-export function Direct(args: Props): JSX.Element {
-  return <MessageRequestActions {...args} />;
+function Example(args: Args): JSX.Element {
+  const conversation =
+    args.conversationType === 'group'
+      ? getDefaultGroup()
+      : getDefaultConversation();
+  const addedBy =
+    args.conversationType === 'group' ? getDefaultConversation() : conversation;
+  return (
+    <MessageRequestActions
+      addedByName={addedBy}
+      conversationType={conversation.type}
+      conversationId={conversation.id}
+      conversationName={conversation}
+      i18n={i18n}
+      isBlocked={args.isBlocked}
+      isHidden={args.isHidden}
+      isReported={args.isReported}
+      acceptConversation={action('acceptConversation')}
+      blockAndReportSpam={action('blockAndReportSpam')}
+      blockConversation={action('blockConversation')}
+      deleteConversation={action('deleteConversation')}
+      reportSpam={action('reportSpam')}
+    />
+  );
 }
 
-export function DirectBlocked(args: Props): JSX.Element {
-  return <MessageRequestActions {...args} isBlocked />;
+export function Direct(args: Args): JSX.Element {
+  return <Example {...args} />;
 }
 
-export function Group(args: Props): JSX.Element {
-  return <MessageRequestActions {...args} conversationType="group" />;
+export function DirectBlocked(args: Args): JSX.Element {
+  return <Example {...args} isBlocked />;
 }
 
-export function GroupBlocked(args: Props): JSX.Element {
-  return <MessageRequestActions {...args} conversationType="group" isBlocked />;
+export function DirectReported(args: Args): JSX.Element {
+  return <Example {...args} isReported />;
+}
+
+export function DirectBlockedAndReported(args: Args): JSX.Element {
+  return <Example {...args} isBlocked isReported />;
+}
+
+export function Group(args: Args): JSX.Element {
+  return <Example {...args} conversationType="group" />;
+}
+
+export function GroupBlocked(args: Args): JSX.Element {
+  return <Example {...args} conversationType="group" isBlocked />;
+}
+
+export function GroupReported(args: Args): JSX.Element {
+  return <Example {...args} conversationType="group" isReported />;
+}
+
+export function GroupBlockedAndReported(args: Args): JSX.Element {
+  return <Example {...args} conversationType="group" isBlocked isReported />;
 }

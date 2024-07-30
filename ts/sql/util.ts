@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Database } from '@signalapp/better-sqlite3';
 import { isNumber, last } from 'lodash';
+import type { ReadableDB, WritableDB } from './Interface';
 
 export type EmptyQuery = [];
 export type ArrayQuery = Array<ReadonlyArray<null | number | bigint | string>>;
@@ -36,12 +36,17 @@ export function jsonToObject<T>(json: string): T {
   return JSON.parse(json);
 }
 
-export type QueryTemplateParam = string | number | null | undefined;
+export type QueryTemplateParam =
+  | Uint8Array
+  | string
+  | number
+  | null
+  | undefined;
 export type QueryFragmentValue = QueryFragment | QueryTemplateParam;
 
 export type QueryFragment = [
   { fragment: string },
-  ReadonlyArray<QueryTemplateParam>
+  ReadonlyArray<QueryTemplateParam>,
 ];
 
 /**
@@ -148,7 +153,7 @@ export type QueryTemplate = [string, ReadonlyArray<QueryTemplateParam>];
  */
 export function sql(
   strings: TemplateStringsArray,
-  ...values: ReadonlyArray<QueryFragment | QueryTemplateParam>
+  ...values: Array<QueryFragment | QueryTemplateParam>
 ): QueryTemplate {
   const [{ fragment }, params] = sqlFragment(strings, ...values);
   return [fragment, params];
@@ -180,7 +185,7 @@ type QueryPlan = Readonly<{
  * ```
  */
 export function explainQueryPlan(
-  db: Database,
+  db: ReadableDB,
   template: QueryTemplate
 ): QueryPlan {
   const [query, params] = template;
@@ -192,7 +197,7 @@ export function explainQueryPlan(
 // Database helpers
 //
 
-export function getSQLiteVersion(db: Database): string {
+export function getSQLiteVersion(db: ReadableDB): string {
   const { sqlite_version: version } = db
     .prepare<EmptyQuery>('select sqlite_version() AS sqlite_version')
     .get();
@@ -200,22 +205,22 @@ export function getSQLiteVersion(db: Database): string {
   return version;
 }
 
-export function getSchemaVersion(db: Database): number {
+export function getSchemaVersion(db: ReadableDB): number {
   return db.pragma('schema_version', { simple: true });
 }
 
-export function setUserVersion(db: Database, version: number): void {
+export function setUserVersion(db: WritableDB, version: number): void {
   if (!isNumber(version)) {
     throw new Error(`setUserVersion: version ${version} is not a number`);
   }
   db.pragma(`user_version = ${version}`);
 }
 
-export function getUserVersion(db: Database): number {
+export function getUserVersion(db: ReadableDB): number {
   return db.pragma('user_version', { simple: true });
 }
 
-export function getSQLCipherVersion(db: Database): string | undefined {
+export function getSQLCipherVersion(db: ReadableDB): string | undefined {
   return db.pragma('cipher_version', { simple: true });
 }
 
@@ -224,18 +229,18 @@ export function getSQLCipherVersion(db: Database): string | undefined {
 //
 
 export function batchMultiVarQuery<ValueT>(
-  db: Database,
+  db: ReadableDB,
   values: ReadonlyArray<ValueT>,
   query: (batch: ReadonlyArray<ValueT>) => void
 ): [];
 export function batchMultiVarQuery<ValueT, ResultT>(
-  db: Database,
+  db: ReadableDB,
   values: ReadonlyArray<ValueT>,
   query: (batch: ReadonlyArray<ValueT>) => Array<ResultT>
 ): Array<ResultT>;
 
 export function batchMultiVarQuery<ValueT, ResultT>(
-  db: Database,
+  db: ReadableDB,
   values: ReadonlyArray<ValueT>,
   query:
     | ((batch: ReadonlyArray<ValueT>) => void)
@@ -260,7 +265,7 @@ export function batchMultiVarQuery<ValueT, ResultT>(
 }
 
 export function createOrUpdate<Key extends string | number>(
-  db: Database,
+  db: WritableDB,
   table: TableType,
   data: Record<string, unknown> & { id: Key }
 ): void {
@@ -286,7 +291,7 @@ export function createOrUpdate<Key extends string | number>(
 }
 
 export function bulkAdd(
-  db: Database,
+  db: WritableDB,
   table: TableType,
   array: Array<Record<string, unknown> & { id: string | number }>
 ): void {
@@ -298,7 +303,7 @@ export function bulkAdd(
 }
 
 export function getById<Key extends string | number, Result = unknown>(
-  db: Database,
+  db: ReadableDB,
   table: TableType,
   id: Key
 ): Result | undefined {
@@ -322,7 +327,7 @@ export function getById<Key extends string | number, Result = unknown>(
 }
 
 export function removeById<Key extends string | number>(
-  db: Database,
+  db: WritableDB,
   tableName: TableType,
   id: Key | Array<Key>
 ): number {
@@ -354,11 +359,11 @@ export function removeById<Key extends string | number>(
   return totalChanges;
 }
 
-export function removeAllFromTable(db: Database, table: TableType): number {
+export function removeAllFromTable(db: WritableDB, table: TableType): number {
   return db.prepare<EmptyQuery>(`DELETE FROM ${table};`).run().changes;
 }
 
-export function getAllFromTable<T>(db: Database, table: TableType): Array<T> {
+export function getAllFromTable<T>(db: ReadableDB, table: TableType): Array<T> {
   const rows: JSONRows = db
     .prepare<EmptyQuery>(`SELECT json FROM ${table};`)
     .all();
@@ -366,7 +371,7 @@ export function getAllFromTable<T>(db: Database, table: TableType): Array<T> {
   return rows.map(row => jsonToObject(row.json));
 }
 
-export function getCountFromTable(db: Database, table: TableType): number {
+export function getCountFromTable(db: ReadableDB, table: TableType): number {
   const result: null | number = db
     .prepare<EmptyQuery>(`SELECT count(*) from ${table};`)
     .pluck(true)
@@ -379,7 +384,7 @@ export function getCountFromTable(db: Database, table: TableType): number {
 
 export class TableIterator<ObjectType extends { id: string }> {
   constructor(
-    private readonly db: Database,
+    private readonly db: ReadableDB,
     private readonly table: TableType,
     private readonly pageSize = 500
   ) {}

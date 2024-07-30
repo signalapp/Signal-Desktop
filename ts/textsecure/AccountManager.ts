@@ -4,6 +4,7 @@
 import PQueue from 'p-queue';
 import { isNumber, omit, orderBy } from 'lodash';
 import type { KyberPreKeyRecord } from '@signalapp/libsignal-client';
+import { Readable } from 'stream';
 
 import EventTarget from './EventTarget';
 import type {
@@ -26,6 +27,7 @@ import createTaskWithTimeout from './TaskWithTimeout';
 import * as Bytes from '../Bytes';
 import * as Errors from '../types/errors';
 import { senderCertificateService } from '../services/senderCertificate';
+import { backupsService } from '../services/backups';
 import {
   deriveAccessKey,
   generateRegistrationId,
@@ -122,7 +124,8 @@ type CreateAccountSharedOptionsType = Readonly<{
   aciKeyPair: KeyPairType;
   pniKeyPair: KeyPairType;
   profileKey: Uint8Array;
-  masterKey: Uint8Array | undefined;
+  masterKey: Uint8Array;
+  backupFile?: Uint8Array;
 }>;
 
 type CreatePrimaryDeviceOptionsType = Readonly<{
@@ -212,6 +215,11 @@ function signedPreKeyToUploadSignedPreKey({
     signature,
   };
 }
+
+export type ConfirmNumberResultType = Readonly<{
+  deviceName: string;
+  backupFile: Uint8Array | undefined;
+}>;
 
 export default class AccountManager extends EventTarget {
   pending: Promise<void>;
@@ -339,7 +347,7 @@ export default class AccountManager extends EventTarget {
 
   async registerSecondDevice(
     setProvisioningUrl: (url: string) => void,
-    confirmNumber: (number?: string) => Promise<string>
+    confirmNumber: (number?: string) => Promise<ConfirmNumberResultType>
   ): Promise<void> {
     const provisioningCipher = new ProvisioningCipher();
     const pubKey = await provisioningCipher.getPublicKey();
@@ -407,7 +415,9 @@ export default class AccountManager extends EventTarget {
     const provisionMessage = await provisioningCipher.decrypt(envelope);
 
     await this.queueTask(async () => {
-      const deviceName = await confirmNumber(provisionMessage.number);
+      const { deviceName, backupFile } = await confirmNumber(
+        provisionMessage.number
+      );
       if (typeof deviceName !== 'string' || deviceName.length === 0) {
         throw new Error(
           'AccountManager.registerSecondDevice: Invalid device name'
@@ -418,8 +428,9 @@ export default class AccountManager extends EventTarget {
         !provisionMessage.provisioningCode ||
         !provisionMessage.aciKeyPair ||
         !provisionMessage.pniKeyPair ||
-        !provisionMessage.profileKey ||
         !provisionMessage.aci ||
+        !Bytes.isNotEmpty(provisionMessage.profileKey) ||
+        !Bytes.isNotEmpty(provisionMessage.masterKey) ||
         !isUntaggedPniString(provisionMessage.untaggedPni)
       ) {
         throw new Error(
@@ -443,6 +454,7 @@ export default class AccountManager extends EventTarget {
           pniKeyPair: provisionMessage.pniKeyPair,
           profileKey: provisionMessage.profileKey,
           deviceName,
+          backupFile,
           userAgent: provisionMessage.userAgent,
           ourAci,
           ourPni,
@@ -588,7 +600,15 @@ export default class AccountManager extends EventTarget {
         await this.server.getMyKeyCounts(serviceIdKind);
 
       let preKeys: Array<UploadPreKeyType> | undefined;
-      if (preKeyCount < PRE_KEY_MINIMUM || forceUpdate) {
+
+      // We want to generate new keys both if there are too few keys, and also if we
+      // have too many on the server (unlikely, but has happened due to bugs), since
+      // uploading new keys _should_ replace all existing ones on the server
+      if (
+        preKeyCount < PRE_KEY_MINIMUM ||
+        preKeyCount > PRE_KEY_MAX_COUNT ||
+        forceUpdate
+      ) {
         log.info(
           `${logId}: Server prekey count is ${preKeyCount}, generating a new set`
         );
@@ -596,7 +616,11 @@ export default class AccountManager extends EventTarget {
       }
 
       let pqPreKeys: Array<UploadKyberPreKeyType> | undefined;
-      if (kyberPreKeyCount < PRE_KEY_MINIMUM || forceUpdate) {
+      if (
+        kyberPreKeyCount < PRE_KEY_MINIMUM ||
+        preKeyCount > PRE_KEY_MAX_COUNT ||
+        forceUpdate
+      ) {
         log.info(
           `${logId}: Server kyber prekey count is ${kyberPreKeyCount}, generating a new set`
         );
@@ -1006,6 +1030,7 @@ export default class AccountManager extends EventTarget {
       masterKey,
       readReceipts,
       userAgent,
+      backupFile,
     } = options;
 
     const { storage } = window.textsecure;
@@ -1037,7 +1062,7 @@ export default class AccountManager extends EventTarget {
     const numberChanged =
       !previousACI && previousNumber && previousNumber !== number;
 
-    if (uuidChanged || numberChanged) {
+    if (uuidChanged || numberChanged || backupFile !== undefined) {
       if (uuidChanged) {
         log.warn(
           'createAccount: New uuid is different from old uuid; deleting all previous data'
@@ -1046,6 +1071,11 @@ export default class AccountManager extends EventTarget {
       if (numberChanged) {
         log.warn(
           'createAccount: New number is different from old number; deleting all previous data'
+        );
+      }
+      if (backupFile !== undefined) {
+        log.warn(
+          'createAccount: Restoring from backup; deleting all previous data'
         );
       }
 
@@ -1188,16 +1218,12 @@ export default class AccountManager extends EventTarget {
     // This needs to be done very early, because it changes how things are saved in the
     //   database. Your identity, for example, in the saveIdentityWithAttributes call
     //   below.
-    const { conversation } = window.ConversationController.maybeMergeContacts({
+    window.ConversationController.maybeMergeContacts({
       aci: ourAci,
       pni: ourPni,
       e164: number,
       reason: 'createAccount',
     });
-
-    if (!conversation) {
-      throw new Error('registrationDone: no conversation!');
-    }
 
     const identityAttrs = {
       firstUse: true,
@@ -1236,13 +1262,11 @@ export default class AccountManager extends EventTarget {
     if (userAgent) {
       await storage.put('userAgent', userAgent);
     }
-    if (masterKey) {
-      await storage.put('masterKey', Bytes.toBase64(masterKey));
-      await storage.put(
-        'storageKey',
-        Bytes.toBase64(deriveStorageServiceKey(masterKey))
-      );
-    }
+    await storage.put('masterKey', Bytes.toBase64(masterKey));
+    await storage.put(
+      'storageKey',
+      Bytes.toBase64(deriveStorageServiceKey(masterKey))
+    );
 
     await storage.put('read-receipt-setting', Boolean(readReceipts));
 
@@ -1305,6 +1329,10 @@ export default class AccountManager extends EventTarget {
       uploadKeys(ServiceIdKind.ACI),
       uploadKeys(ServiceIdKind.PNI),
     ]);
+
+    if (backupFile !== undefined) {
+      await backupsService.importBackup(() => Readable.from(backupFile));
+    }
   }
 
   // Exposed only for testing

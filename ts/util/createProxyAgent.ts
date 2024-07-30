@@ -1,10 +1,10 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ProxyAgent } from 'proxy-agent';
 import net from 'net';
+import type { ProxyAgent } from 'proxy-agent';
 import { URL } from 'url';
-import type { LookupOneOptions, LookupAddress } from 'dns';
+import type { LookupOptions, LookupAddress } from 'dns';
 import { lookup } from 'dns/promises';
 
 import * as log from '../logging/log';
@@ -25,7 +25,9 @@ const SOCKS_PROTOCOLS = new Set([
   'socks5h:',
 ]);
 
-export function createProxyAgent(proxyUrl: string): ProxyAgent {
+export type { ProxyAgent };
+
+export async function createProxyAgent(proxyUrl: string): Promise<ProxyAgent> {
   const { port: portStr, hostname: proxyHost, protocol } = new URL(proxyUrl);
   let defaultPort: number | undefined;
   if (protocol === 'http:') {
@@ -37,14 +39,7 @@ export function createProxyAgent(proxyUrl: string): ProxyAgent {
   }
   const port = portStr ? parseInt(portStr, 10) : defaultPort;
 
-  async function happyLookup(
-    host: string,
-    opts: LookupOneOptions
-  ): Promise<LookupAddress> {
-    if (opts.all) {
-      throw new Error('createProxyAgent: all=true lookup is not supported');
-    }
-
+  async function happyLookup(host: string): Promise<LookupAddress> {
     const addresses = await lookup(host, { all: true });
 
     // SOCKS 4/5 resolve target host before sending it to the proxy.
@@ -79,27 +74,43 @@ export function createProxyAgent(proxyUrl: string): ProxyAgent {
     return address;
   }
 
+  type CoercedCallbackType = (
+    err: NodeJS.ErrnoException | null,
+    address: string | Array<LookupAddress>,
+    family?: number
+  ) => void;
+
   async function happyLookupWithCallback(
     host: string,
-    opts: LookupOneOptions,
-    callback: (
-      err: NodeJS.ErrnoException | null,
-      address: string,
-      family: number
-    ) => void
+    opts: LookupOptions,
+    callback: CoercedCallbackType
   ): Promise<void> {
     try {
-      const { address, family } = await happyLookup(host, opts);
-      callback(null, address, family);
+      const addr = await happyLookup(host);
+      if (opts.all) {
+        callback(null, [addr]);
+      } else {
+        const { address, family } = addr;
+        callback(null, address, family);
+      }
     } catch (error) {
       callback(error, '', -1);
     }
   }
 
+  const { ProxyAgent } = await import('proxy-agent');
+
   return new ProxyAgent({
     lookup:
       port !== undefined
-        ? (...args) => drop(happyLookupWithCallback(...args))
+        ? (host, opts, callback) =>
+            drop(
+              happyLookupWithCallback(
+                host,
+                opts,
+                callback as CoercedCallbackType
+              )
+            )
         : undefined,
     getProxyForUrl() {
       return proxyUrl;

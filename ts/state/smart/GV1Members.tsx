@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ConversationDetailsMembershipList } from '../../components/conversation/conversation-details/ConversationDetailsMembershipList';
@@ -19,7 +19,9 @@ export type PropsType = {
   conversationId: string;
 };
 
-export function SmartGV1Members({ conversationId }: PropsType): JSX.Element {
+export const SmartGV1Members = memo(function SmartGV1Members({
+  conversationId,
+}: PropsType): JSX.Element {
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
@@ -53,4 +55,4 @@ export function SmartGV1Members({ conversationId }: PropsType): JSX.Element {
       theme={theme}
     />
   );
-}
+});

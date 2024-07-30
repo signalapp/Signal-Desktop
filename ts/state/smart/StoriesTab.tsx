@@ -1,11 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect } from 'react';
+import React, { memo, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-
-import type { LocalizerType } from '../../types/Util';
-import type { StateType } from '../reducer';
 import { SmartStoryCreator } from './StoryCreator';
 import { SmartToastManager } from './ToastManager';
 import type { WidthBreakpoint } from '../../components/_util';
@@ -35,6 +32,9 @@ import { useAudioPlayerActions } from '../ducks/audioPlayer';
 import { useItemsActions } from '../ducks/items';
 import { getHasPendingUpdate } from '../selectors/updates';
 import { getOtherTabsUnreadStats } from '../selectors/nav';
+import { getIsStoriesSettingsVisible } from '../selectors/globalModals';
+import type { StoryViewType } from '../../types/Stories';
+import { ForwardMessagesModalType } from '../../components/ForwardMessagesModal';
 
 function renderStoryCreator(): JSX.Element {
   return <SmartStoryCreator />;
@@ -46,7 +46,7 @@ function renderToastManager(props: {
   return <SmartToastManager disableMegaphone {...props} />;
 }
 
-export function SmartStoriesTab(): JSX.Element | null {
+export const SmartStoriesTab = memo(function SmartStoriesTab() {
   const storiesActions = useStoriesActions();
   const {
     retryMessageSend,
@@ -58,30 +58,20 @@ export function SmartStoriesTab(): JSX.Element | null {
     useGlobalModalActions();
   const { showToast } = useToastActions();
 
-  const i18n = useSelector<StateType, LocalizerType>(getIntl);
-
-  const preferredWidthFromStorage = useSelector<StateType, number>(
-    getPreferredLeftPaneWidth
-  );
+  const i18n = useSelector(getIntl);
+  const preferredWidthFromStorage = useSelector(getPreferredLeftPaneWidth);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-
   const addStoryData = useSelector(getAddStoryData);
   const { hiddenStories, myStories, stories } = useSelector(getStories);
-
   const me = useSelector(getMe);
-
   const selectedStoryData = useSelector(getSelectedStoryData);
-
-  const isStoriesSettingsVisible = useSelector(
-    (state: StateType) => state.globalModals.isStoriesSettingsVisible
-  );
-
+  const isStoriesSettingsVisible = useSelector(getIsStoriesSettingsVisible);
   const hasViewReceiptSetting = useSelector(getHasStoryViewReceiptSetting);
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
-
   const remoteConfig = useSelector(getRemoteConfig);
+
   const maxAttachmentSizeInKb = getMaximumOutgoingAttachmentSizeInKb(
     (name: ConfigKeyType) => {
       const value = remoteConfig[name]?.value;
@@ -104,6 +94,25 @@ export function SmartStoriesTab(): JSX.Element | null {
     };
   }, [storiesActions]);
 
+  const handleForwardStory = useCallback(
+    (messageId: string) => {
+      toggleForwardMessagesModal({
+        type: ForwardMessagesModalType.Forward,
+        messageIds: [messageId],
+      });
+    },
+    [toggleForwardMessagesModal]
+  );
+
+  const handleSaveStory = useCallback(
+    (story: StoryViewType) => {
+      if (story.attachment) {
+        saveAttachment(story.attachment, story.timestamp);
+      }
+    },
+    [saveAttachment]
+  );
+
   return (
     <StoriesTab
       otherTabsUnreadStats={otherTabsUnreadStats}
@@ -117,14 +126,8 @@ export function SmartStoriesTab(): JSX.Element | null {
       me={me}
       myStories={myStories}
       navTabsCollapsed={navTabsCollapsed}
-      onForwardStory={messageId => {
-        toggleForwardMessagesModal([messageId]);
-      }}
-      onSaveStory={story => {
-        if (story.attachment) {
-          saveAttachment(story.attachment, story.timestamp);
-        }
-      }}
+      onForwardStory={handleForwardStory}
+      onSaveStory={handleSaveStory}
       onToggleNavTabsCollapse={toggleNavTabsCollapse}
       onMediaPlaybackStart={pauseVoiceNotePlayer}
       preferredLeftPaneWidth={preferredLeftPaneWidth}
@@ -145,4 +148,4 @@ export function SmartStoriesTab(): JSX.Element | null {
       {...storiesActions}
     />
   );
-}
+});

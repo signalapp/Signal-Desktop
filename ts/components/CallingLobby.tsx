@@ -28,7 +28,8 @@ import type { ConversationType } from '../state/ducks/conversations';
 import { useCallingToasts } from './CallingToast';
 import { CallingButtonToastsContainer } from './CallingToastManager';
 import { isGroupOrAdhocCallMode } from '../util/isGroupOrAdhocCall';
-import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode';
+import { Button, ButtonVariant } from './Button';
+import { SpinnerV2 } from './SpinnerV2';
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
@@ -36,7 +37,7 @@ export type PropsType = {
   conversation: Pick<
     CallingConversationType,
     | 'acceptedMessageRequest'
-    | 'avatarPath'
+    | 'avatarUrl'
     | 'color'
     | 'isMe'
     | 'memberships'
@@ -48,8 +49,9 @@ export type PropsType = {
     | 'systemNickname'
     | 'title'
     | 'type'
-    | 'unblurredAvatarPath'
+    | 'unblurredAvatarUrl'
   >;
+  getIsSharingPhoneNumberWithEverybody: () => boolean;
   groupMembers?: Array<
     Pick<
       ConversationType,
@@ -59,11 +61,12 @@ export type PropsType = {
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   i18n: LocalizerType;
+  isAdhocAdminApprovalRequired: boolean;
   isAdhocJoinRequestPending: boolean;
   isConversationTooBigToRing: boolean;
   isCallFull?: boolean;
   me: Readonly<
-    Pick<ConversationType, 'avatarPath' | 'color' | 'id' | 'serviceId'>
+    Pick<ConversationType, 'avatarUrl' | 'color' | 'id' | 'serviceId'>
   >;
   onCallCanceled: () => void;
   onJoinCall: () => void;
@@ -75,6 +78,7 @@ export type PropsType = {
   setOutgoingRing: (_: boolean) => void;
   showParticipantsList: boolean;
   toggleParticipants: () => void;
+  togglePip: () => void;
   toggleSettings: () => void;
 };
 
@@ -86,9 +90,11 @@ export function CallingLobby({
   hasLocalAudio,
   hasLocalVideo,
   i18n,
+  isAdhocAdminApprovalRequired,
   isAdhocJoinRequestPending,
   isCallFull = false,
   isConversationTooBigToRing,
+  getIsSharingPhoneNumberWithEverybody,
   me,
   onCallCanceled,
   onJoinCall,
@@ -98,6 +104,7 @@ export function CallingLobby({
   setLocalVideo,
   setOutgoingRing,
   toggleParticipants,
+  togglePip,
   toggleSettings,
   outgoingRing,
 }: PropsType): JSX.Element {
@@ -118,6 +125,10 @@ export function CallingLobby({
   const toggleOutgoingRing = React.useCallback((): void => {
     setOutgoingRing(!outgoingRing);
   }, [outgoingRing, setOutgoingRing]);
+
+  const togglePipForCallingHeader = isAdhocJoinRequestPending
+    ? togglePip
+    : undefined;
 
   React.useEffect(() => {
     setLocalPreview({ element: localVideoRef });
@@ -155,14 +166,16 @@ export function CallingLobby({
 
   const isOnline = useIsOnline();
 
-  const [isCallConnecting, setIsCallConnecting] = React.useState(false);
+  const [isCallConnecting, setIsCallConnecting] = React.useState(
+    isAdhocJoinRequestPending || false
+  );
 
   // eslint-disable-next-line no-nested-ternary
   const videoButtonType = hasLocalVideo
     ? CallingButtonType.VIDEO_ON
     : availableCameras.length === 0
-    ? CallingButtonType.VIDEO_DISABLED
-    : CallingButtonType.VIDEO_OFF;
+      ? CallingButtonType.VIDEO_DISABLED
+      : CallingButtonType.VIDEO_OFF;
 
   const audioButtonType = hasLocalAudio
     ? CallingButtonType.AUDIO_ON
@@ -200,13 +213,18 @@ export function CallingLobby({
   }
 
   const canJoin = !isCallFull && !isCallConnecting && isOnline;
+  const canLeave =
+    (isAdhocAdminApprovalRequired && isCallConnecting) ||
+    isAdhocJoinRequestPending;
 
   let callingLobbyJoinButtonVariant: CallingLobbyJoinButtonVariant;
   if (isCallFull) {
     callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.CallIsFull;
   } else if (isCallConnecting) {
     callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.Loading;
-  } else if (peekedParticipants.length) {
+  } else if (isAdhocAdminApprovalRequired) {
+    callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.AskToJoin;
+  } else if (peekedParticipants.length || callMode === CallMode.Adhoc) {
     callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.Join;
   } else {
     callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.Start;
@@ -247,7 +265,16 @@ export function CallingLobby({
   useWasInitiallyMutedToast(hasLocalAudio, i18n);
 
   return (
-    <FocusTrap>
+    <FocusTrap
+      focusTrapOptions={{
+        allowOutsideClick: ({ target }) => {
+          if (!target || !(target instanceof HTMLElement)) {
+            return false;
+          }
+          return target.matches('.Toast, .Toast *');
+        },
+      }}
+    >
       <div className="module-calling__container dark-theme">
         {shouldShowLocalVideo ? (
           <video
@@ -258,7 +285,7 @@ export function CallingLobby({
         ) : (
           <CallBackgroundBlur
             className="module-CallingLobby__local-preview module-CallingLobby__local-preview--camera-is-off"
-            avatarPath={me.avatarPath}
+            avatarUrl={me.avatarUrl}
           />
         )}
 
@@ -266,6 +293,7 @@ export function CallingLobby({
           i18n={i18n}
           isGroupCall={isGroupOrAdhocCall}
           participantCount={peekedParticipants.length}
+          togglePip={togglePipForCallingHeader}
           toggleSettings={toggleSettings}
           onCancel={onCallCanceled}
         />
@@ -292,13 +320,25 @@ export function CallingLobby({
           {i18n('icu:calling__your-video-is-off')}
         </div>
 
-        {callMode === CallMode.Adhoc && (
-          <div className="CallingLobby__CallLinkNotice">
-            {isSharingPhoneNumberWithEverybody()
-              ? i18n('icu:CallingLobby__CallLinkNotice--phone-sharing')
-              : i18n('icu:CallingLobby__CallLinkNotice')}
-          </div>
-        )}
+        {/* eslint-disable-next-line no-nested-ternary */}
+        {callMode === CallMode.Adhoc ? (
+          isAdhocJoinRequestPending ? (
+            <div className="CallingLobby__CallLinkNotice CallingLobby__CallLinkNotice--join-request-pending">
+              <SpinnerV2
+                className="CallingLobby__CallLinkJoinRequestPendingSpinner"
+                size={16}
+                strokeWidth={3}
+              />
+              {i18n('icu:CallingLobby__CallLinkNotice--join-request-pending')}
+            </div>
+          ) : (
+            <div className="CallingLobby__CallLinkNotice">
+              {getIsSharingPhoneNumberWithEverybody()
+                ? i18n('icu:CallingLobby__CallLinkNotice--phone-sharing')
+                : i18n('icu:CallingLobby__CallLinkNotice')}
+            </div>
+          )
+        ) : null}
 
         <CallingButtonToastsContainer
           hasLocalAudio={hasLocalAudio}
@@ -336,15 +376,25 @@ export function CallingLobby({
               />
             </div>
             <div className="CallControls__JoinLeaveButtonContainer">
-              <CallingLobbyJoinButton
-                disabled={!canJoin}
-                i18n={i18n}
-                onClick={() => {
-                  setIsCallConnecting(true);
-                  onJoinCall();
-                }}
-                variant={callingLobbyJoinButtonVariant}
-              />
+              {canLeave ? (
+                <Button
+                  className="CallControls__JoinLeaveButton CallControls__JoinLeaveButton--hangup"
+                  onClick={onCallCanceled}
+                  variant={ButtonVariant.Destructive}
+                >
+                  {i18n('icu:CallControls__JoinLeaveButton--hangup-group')}
+                </Button>
+              ) : (
+                <CallingLobbyJoinButton
+                  disabled={!canJoin}
+                  i18n={i18n}
+                  onClick={() => {
+                    setIsCallConnecting(true);
+                    onJoinCall();
+                  }}
+                  variant={callingLobbyJoinButtonVariant}
+                />
+              )}
             </div>
           </div>
           <div className="module-calling__spacer CallControls__OuterSpacer" />

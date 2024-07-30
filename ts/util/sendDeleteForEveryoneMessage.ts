@@ -3,6 +3,7 @@
 
 import type { ConversationAttributesType } from '../model-types.d';
 import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
+import { DataWriter } from '../sql/Client';
 import * as Errors from '../types/errors';
 import { DAY } from './durations';
 import * as log from '../logging/log';
@@ -81,7 +82,7 @@ export async function sendDeleteForEveryoneMessage(
         `sendDeleteForEveryoneMessage: Deleting message ${idForLogging} ` +
           `in conversation ${conversationIdForLogging} with job ${jobToInsert.id}`
       );
-      await window.Signal.Data.saveMessage(message.attributes, {
+      await DataWriter.saveMessage(message.attributes, {
         jobToInsert,
         ourAci: window.textsecure.storage.user.getCheckedAci(),
       });

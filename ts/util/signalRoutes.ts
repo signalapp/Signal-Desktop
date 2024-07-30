@@ -40,7 +40,7 @@ const SignalRouteHostnames = [
  * Type to help maintain {@link SignalRouteHostnames}, real hostnames should go there.
  */
 type AllHostnamePatterns =
-  | typeof SignalRouteHostnames[number]
+  | (typeof SignalRouteHostnames)[number]
   | 'verify'
   | 'linkdevice'
   | 'addstickers'
@@ -66,7 +66,7 @@ type PatternInput = {
 type URLMatcher = (input: URL) => URLPatternResult | null;
 
 function _pattern(
-  protocol: typeof SignalRouteProtocols[number],
+  protocol: (typeof SignalRouteProtocols)[number],
   hostname: AllHostnamePatterns,
   pathname: PatternString,
   init: PatternInput
@@ -440,38 +440,6 @@ export const artAddStickersRoute = _route('artAddStickers', {
 });
 
 /**
- * Art Service Authentication
- * @example
- * ```ts
- * artAuthRoute.toAppUrl({
- *   token: "123",
- *   pubKey: "abc",
- * })
- * // URL { "sgnl://art-auth?token=123&pub_key=abc" }
- */
-export const artAuthRoute = _route('artAuth', {
-  patterns: [_pattern('sgnl:', 'art-auth', '{/}?', { search: ':params' })],
-  schema: z.object({
-    token: paramSchema, // opaque
-    pubKey: paramSchema, // base64url
-  }),
-  parse(result) {
-    const params = new URLSearchParams(result.search.groups.params);
-    return {
-      token: params.get('token'),
-      pubKey: params.get('pub_key'),
-    };
-  },
-  toAppUrl(args) {
-    const params = new URLSearchParams({
-      token: args.token,
-      pub_key: args.pubKey,
-    });
-    return new URL(`sgnl://art-auth?${params.toString()}`);
-  },
-});
-
-/**
  * Show a conversation
  * @example
  * ```ts
@@ -594,7 +562,6 @@ const _allSignalRoutes = [
   captchaRoute,
   linkCallRoute,
   artAddStickersRoute,
-  artAuthRoute,
   showConversationRoute,
   startCallLobbyRoute,
   showWindowRoute,
@@ -618,7 +585,7 @@ strictAssert(
  * ```
  */
 export type ParsedSignalRoute = NonNullable<
-  ReturnType<typeof _allSignalRoutes[number]['fromUrl']>
+  ReturnType<(typeof _allSignalRoutes)[number]['fromUrl']>
 >;
 
 /** @internal */

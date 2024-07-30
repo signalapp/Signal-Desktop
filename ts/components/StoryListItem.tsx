@@ -35,7 +35,7 @@ export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
 
 function StoryListItemAvatar({
   acceptedMessageRequest,
-  avatarPath,
+  avatarUrl,
   avatarStoryRing,
   badges,
   color,
@@ -49,7 +49,7 @@ function StoryListItemAvatar({
 }: Pick<
   ConversationType,
   | 'acceptedMessageRequest'
-  | 'avatarPath'
+  | 'avatarUrl'
   | 'color'
   | 'profileName'
   | 'sharedGroupNames'
@@ -65,7 +65,7 @@ function StoryListItemAvatar({
   return (
     <Avatar
       acceptedMessageRequest={acceptedMessageRequest}
-      avatarPath={avatarPath}
+      avatarUrl={avatarUrl}
       badge={badges ? getPreferredBadge(badges) : undefined}
       color={getAvatarColor(color)}
       conversationType="direct"

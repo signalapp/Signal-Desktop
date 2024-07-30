@@ -4,6 +4,7 @@
 import pTimeout from 'p-timeout';
 
 import * as Errors from '../types/errors';
+import { isDone as isRegistrationDone } from '../util/registration';
 import { getConversation } from '../util/getConversation';
 import { MINUTE, DAY } from '../util/durations';
 import { drop } from '../util/drop';
@@ -69,6 +70,10 @@ class UsernameIntegrityService {
   }
 
   private async check(): Promise<void> {
+    if (!isRegistrationDone()) {
+      return;
+    }
+
     await this.checkUsername();
     await this.checkPhoneNumberSharing();
   }

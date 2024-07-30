@@ -78,10 +78,13 @@ export async function maybeForwardMessages(
   const preparedMessages = await Promise.all(
     messages.map(async message => {
       const { draft, originalMessage } = message;
-      const { sticker, contact } = originalMessage;
+      const { sticker, contact } = originalMessage ?? {};
       const { attachments, bodyRanges, messageBody, previews } = draft;
 
-      const idForLogging = getMessageIdForLogging(originalMessage);
+      const idForLogging =
+        originalMessage != null
+          ? getMessageIdForLogging(originalMessage)
+          : '(new message)';
       log.info(`maybeForwardMessage: Forwarding ${idForLogging}`);
 
       const attachmentLookup = new Set();
@@ -180,7 +183,9 @@ export async function maybeForwardMessages(
             log.error(
               'maybeForwardMessage: message send error',
               getConversationIdForLogging(conversation.attributes),
-              getMessageIdForLogging(originalMessage),
+              originalMessage != null
+                ? getMessageIdForLogging(originalMessage)
+                : '(new message)',
               toLogFormat(error)
             );
           })

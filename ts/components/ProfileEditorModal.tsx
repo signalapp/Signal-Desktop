@@ -24,13 +24,43 @@ type PropsType = {
   Omit<ProfileEditorPropsType, 'onEditStateChanged' | 'onProfileChanged'>;
 
 export function ProfileEditorModal({
+  aboutEmoji,
+  aboutText,
+  color,
+  conversationId,
+  deleteAvatarFromDisk,
+  deleteUsername,
+  familyName,
+  firstName,
+  hasCompletedUsernameLinkOnboarding,
   hasError,
   i18n,
+  initialEditState,
+  markCompletedUsernameLinkOnboarding,
   myProfileChanged,
   onSetSkinTone,
+  openUsernameReservationModal,
+  profileAvatarUrl,
+  recentEmojis,
+  renderEditUsernameModalBody,
+  replaceAvatar,
+  resetUsernameLink,
+  saveAttachment,
+  saveAvatarToDisk,
+  setUsernameEditState,
+  setUsernameLinkColor,
+  showToast,
+  skinTone,
   toggleProfileEditor,
   toggleProfileEditorHasError,
-  ...restProps
+  userAvatarData,
+  username,
+  usernameCorrupted,
+  usernameEditState,
+  usernameLink,
+  usernameLinkColor,
+  usernameLinkCorrupted,
+  usernameLinkState,
 }: PropsType): JSX.Element {
   const MODAL_TITLES_BY_EDIT_STATE: Record<EditState, string | undefined> = {
     [EditState.BetterAvatar]: i18n('icu:ProfileEditorModal--avatar'),
@@ -67,14 +97,46 @@ export function ProfileEditorModal({
       title={modalTitle}
     >
       <ProfileEditor
-        {...restProps}
+        aboutEmoji={aboutEmoji}
+        aboutText={aboutText}
+        color={color}
+        conversationId={conversationId}
+        deleteAvatarFromDisk={deleteAvatarFromDisk}
+        deleteUsername={deleteUsername}
+        familyName={familyName}
+        firstName={firstName}
+        hasCompletedUsernameLinkOnboarding={hasCompletedUsernameLinkOnboarding}
         i18n={i18n}
+        initialEditState={initialEditState}
+        markCompletedUsernameLinkOnboarding={
+          markCompletedUsernameLinkOnboarding
+        }
         onEditStateChanged={editState => {
           setModalTitle(MODAL_TITLES_BY_EDIT_STATE[editState]);
         }}
         onProfileChanged={myProfileChanged}
         onSetSkinTone={onSetSkinTone}
+        openUsernameReservationModal={openUsernameReservationModal}
+        profileAvatarUrl={profileAvatarUrl}
+        recentEmojis={recentEmojis}
+        renderEditUsernameModalBody={renderEditUsernameModalBody}
+        replaceAvatar={replaceAvatar}
+        resetUsernameLink={resetUsernameLink}
+        saveAttachment={saveAttachment}
+        saveAvatarToDisk={saveAvatarToDisk}
+        setUsernameEditState={setUsernameEditState}
+        setUsernameLinkColor={setUsernameLinkColor}
+        showToast={showToast}
+        skinTone={skinTone}
         toggleProfileEditor={toggleProfileEditor}
+        userAvatarData={userAvatarData}
+        username={username}
+        usernameCorrupted={usernameCorrupted}
+        usernameEditState={usernameEditState}
+        usernameLink={usernameLink}
+        usernameLinkColor={usernameLinkColor}
+        usernameLinkCorrupted={usernameLinkCorrupted}
+        usernameLinkState={usernameLinkState}
       />
     </Modal>
   );

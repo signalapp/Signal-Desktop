@@ -13,14 +13,16 @@ import './phase3-post-signal';
 import './phase4-test';
 import '../../backbone/reliable_trigger';
 
-import type { CdsLookupOptionsType } from '../../textsecure/WebAPI';
+import type {
+  CdsLookupOptionsType,
+  GetIceServersResultType,
+} from '../../textsecure/WebAPI';
 import type { FeatureFlagType } from '../../window.d';
 import type { StorageAccessType } from '../../types/Storage.d';
 import { start as startConversationController } from '../../ConversationController';
 import { initMessageCleanup } from '../../services/messageStateCleanup';
 import { Environment, getEnvironment } from '../../environment';
 import { isProduction } from '../../util/version';
-import { ipcInvoke } from '../../sql/channels';
 import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen';
 
 window.addEventListener('contextmenu', e => {
@@ -55,6 +57,8 @@ if (!isProduction(window.SignalContext.getVersion())) {
       window.MessageCache.__DEPRECATED$getById(id),
     getReduxState: () => window.reduxStore.getState(),
     getSfuUrl: () => window.Signal.Services.calling._sfuUrl,
+    getIceServerOverride: () =>
+      window.Signal.Services.calling._iceServerOverride,
     getStorageItem: (name: keyof StorageAccessType) => window.storage.get(name),
     putStorageItem: <K extends keyof StorageAccessType>(
       name: K,
@@ -69,8 +73,21 @@ if (!isProduction(window.SignalContext.getVersion())) {
     setSfuUrl: (url: string) => {
       window.Signal.Services.calling._sfuUrl = url;
     },
-    sqlCall: (name: string, ...args: ReadonlyArray<unknown>) =>
-      ipcInvoke(name, args),
+    setIceServerOverride: (
+      override: GetIceServersResultType | string | undefined
+    ) => {
+      if (typeof override === 'string') {
+        if (!/(turn|turns|stun):.*/.test(override)) {
+          log.warn(
+            'Override url should be prefixed with `turn:`, `turns:`, or `stun:` else override may not work'
+          );
+        }
+      }
+
+      window.Signal.Services.calling._iceServerOverride = override;
+    },
+    setRtcStatsInterval: (intervalMillis: number) =>
+      window.Signal.Services.calling.setAllRtcStatsInterval(intervalMillis),
     ...(window.SignalContext.config.ciMode === 'benchmark'
       ? {
           benchmarkConversationOpen,

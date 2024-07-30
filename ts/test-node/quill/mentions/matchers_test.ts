@@ -32,7 +32,7 @@ const createMockElement = (
   ({
     classList: new FakeTokenList([className]),
     dataset,
-  } as unknown as HTMLElement);
+  }) as unknown as HTMLElement;
 
 const createMockAtMentionElement = (
   dataset: Record<string, string>

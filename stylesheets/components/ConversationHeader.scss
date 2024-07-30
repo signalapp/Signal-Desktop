@@ -156,7 +156,9 @@
     margin-inline-end: var(--button-spacing);
     min-width: $icon-size;
     padding: 2px;
-    transition: margin-inline-end 200ms ease-out, opacity 200ms ease-out,
+    transition:
+      margin-inline-end 200ms ease-out,
+      opacity 200ms ease-out,
       background 100ms ease-out;
     width: $icon-size;
 

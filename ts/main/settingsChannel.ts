@@ -14,6 +14,7 @@ import type {
   IPCEventsValuesType,
   IPCEventsCallbacksType,
 } from '../util/createIPCEvents';
+import type { EphemeralSettings, SettingsValuesType } from '../util/preload';
 
 const EPHEMERAL_NAME_MAP = new Map([
   ['spellCheck', 'spell-check'],
@@ -26,6 +27,9 @@ type ResponseQueueEntry = Readonly<{
   resolve(value: unknown): void;
   reject(error: Error): void;
 }>;
+
+type SettingChangeEventType<Key extends keyof SettingsValuesType> =
+  `change:${Key}`;
 
 export class SettingsChannel extends EventEmitter {
   private mainWindow?: BrowserWindow;
@@ -70,17 +74,7 @@ export class SettingsChannel extends EventEmitter {
     this.installSetting('readReceiptSetting', { setter: false });
     this.installSetting('typingIndicatorSetting', { setter: false });
 
-    this.installSetting('themeSetting', {
-      isEphemeral: true,
-    });
     this.installSetting('hideMenuBar');
-    this.installSetting('systemTraySetting', {
-      isEphemeral: true,
-    });
-
-    this.installSetting('localeOverride', {
-      isEphemeral: true,
-    });
     this.installSetting('notificationSetting');
     this.installSetting('notificationDrawAttention');
     this.installSetting('audioMessage');
@@ -88,9 +82,6 @@ export class SettingsChannel extends EventEmitter {
     this.installSetting('countMutedConversations');
 
     this.installSetting('sentMediaQualitySetting');
-    this.installSetting('spellCheck', {
-      isEphemeral: true,
-    });
     this.installSetting('textFormatting');
 
     this.installSetting('autoConvertEmoji');
@@ -115,6 +106,11 @@ export class SettingsChannel extends EventEmitter {
 
     this.installSetting('phoneNumberDiscoverabilitySetting');
     this.installSetting('phoneNumberSharingSetting');
+
+    this.installEphemeralSetting('themeSetting');
+    this.installEphemeralSetting('systemTraySetting');
+    this.installEphemeralSetting('localeOverride');
+    this.installEphemeralSetting('spellCheck');
 
     installPermissionsHandler({ session: session.defaultSession, userConfig });
 
@@ -234,8 +230,7 @@ export class SettingsChannel extends EventEmitter {
     {
       getter = true,
       setter = true,
-      isEphemeral = false,
-    }: { getter?: boolean; setter?: boolean; isEphemeral?: boolean } = {}
+    }: { getter?: boolean; setter?: boolean } = {}
   ): void {
     if (getter) {
       ipc.handle(`settings:get:${name}`, async () => {
@@ -248,18 +243,89 @@ export class SettingsChannel extends EventEmitter {
     }
 
     ipc.handle(`settings:set:${name}`, async (_event, value) => {
-      if (isEphemeral) {
-        const ephemeralName = EPHEMERAL_NAME_MAP.get(name);
-        strictAssert(
-          ephemeralName !== undefined,
-          `${name} is not an ephemeral setting`
-        );
-        ephemeralConfig.set(ephemeralName, value);
-      }
-
       await this.setSettingInMainWindow(name, value);
 
       this.emit(`change:${name}`, value);
     });
+  }
+
+  private installEphemeralSetting<Name extends keyof EphemeralSettings>(
+    name: Name
+  ): void {
+    ipc.handle(`settings:get:${name}`, async () => {
+      const ephemeralName = EPHEMERAL_NAME_MAP.get(name);
+      strictAssert(
+        ephemeralName !== undefined,
+        `${name} is not an ephemeral setting`
+      );
+      return ephemeralConfig.get(ephemeralName);
+    });
+
+    ipc.handle(`settings:set:${name}`, async (_event, value) => {
+      const ephemeralName = EPHEMERAL_NAME_MAP.get(name);
+      strictAssert(
+        ephemeralName !== undefined,
+        `${name} is not an ephemeral setting`
+      );
+      ephemeralConfig.set(ephemeralName, value);
+
+      this.emit(`change:${name}`, value);
+
+      // Notify main to notify windows of preferences change. As for DB-backed
+      // settings, those are set by the renderer, and afterwards the renderer IPC sends
+      // to main the event 'preferences-changed'.
+      this.emit('ephemeral-setting-changed');
+
+      const { mainWindow } = this;
+      if (!mainWindow || !mainWindow.webContents) {
+        return;
+      }
+
+      mainWindow.webContents.send(`settings:update:${name}`, value);
+    });
+  }
+
+  // EventEmitter types
+
+  public override on(
+    type: 'change:systemTraySetting',
+    callback: (value: string) => void
+  ): this;
+
+  public override on(
+    type: 'ephemeral-setting-changed',
+    callback: () => void
+  ): this;
+
+  public override on(
+    type: SettingChangeEventType<keyof SettingsValuesType>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    callback: (...args: Array<any>) => void
+  ): this;
+
+  public override on(
+    type: string | symbol,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    listener: (...args: Array<any>) => void
+  ): this {
+    return super.on(type, listener);
+  }
+
+  public override emit(
+    type: 'change:systemTraySetting',
+    value: string
+  ): boolean;
+
+  public override emit(type: 'ephemeral-setting-changed'): boolean;
+
+  public override emit(
+    type: SettingChangeEventType<keyof SettingsValuesType>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ...args: Array<any>
+  ): boolean;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public override emit(type: string | symbol, ...args: Array<any>): boolean {
+    return super.emit(type, ...args);
   }
 }

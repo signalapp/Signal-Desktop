@@ -2,14 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import formatFileSize from 'filesize';
 import type { LocalizerType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { StorySendStateType, StoryViewType } from '../types/Stories';
 import { Avatar, AvatarSize } from './Avatar';
 import { ContactName } from './conversation/ContactName';
 import { ContextMenu } from './ContextMenu';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { Modal } from './Modal';
 import { SendStatus } from '../messages/MessageSendState';
 import { Theme } from '../util/theme';
@@ -21,6 +20,7 @@ import { ThemeType } from '../types/Util';
 import { Time } from './Time';
 import { groupBy } from '../util/mapUtil';
 import { format as formatRelativeTime } from '../util/expirationTimer';
+import { formatFileSize } from '../util/formatFileSize';
 
 export type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -129,7 +129,7 @@ export function StoryDetailsModal({
                   <div key={contact.id} className="StoryDetailsModal__contact">
                     <Avatar
                       acceptedMessageRequest={contact.acceptedMessageRequest}
-                      avatarPath={contact.avatarPath}
+                      avatarUrl={contact.avatarUrl}
                       badge={getPreferredBadge(contact.badges)}
                       color={contact.color}
                       conversationType="direct"
@@ -141,7 +141,7 @@ export function StoryDetailsModal({
                       size={AvatarSize.THIRTY_TWO}
                       theme={ThemeType.dark}
                       title={contact.title}
-                      unblurredAvatarPath={contact.unblurredAvatarPath}
+                      unblurredAvatarUrl={contact.unblurredAvatarUrl}
                     />
                     <div className="StoryDetailsModal__contact__text">
                       <ContactName title={contact.title} />
@@ -172,7 +172,7 @@ export function StoryDetailsModal({
           <div className="StoryDetailsModal__contact">
             <Avatar
               acceptedMessageRequest={sender.acceptedMessageRequest}
-              avatarPath={sender.avatarPath}
+              avatarUrl={sender.avatarUrl}
               badge={getPreferredBadge(sender.badges)}
               color={sender.color}
               conversationType="direct"
@@ -246,7 +246,7 @@ export function StoryDetailsModal({
           theme={Theme.Dark}
         >
           <div>
-            <Intl
+            <I18n
               i18n={i18n}
               id="icu:StoryDetailsModal__sent-time"
               components={{
@@ -263,7 +263,7 @@ export function StoryDetailsModal({
           </div>
           {attachment && (
             <div>
-              <Intl
+              <I18n
                 i18n={i18n}
                 id="icu:StoryDetailsModal__file-size"
                 components={{
@@ -278,7 +278,7 @@ export function StoryDetailsModal({
           )}
           {timeRemaining && timeRemaining > 0 && (
             <div>
-              <Intl
+              <I18n
                 i18n={i18n}
                 id="icu:StoryDetailsModal__disappears-in"
                 components={{

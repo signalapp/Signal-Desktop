@@ -9,9 +9,8 @@ import type { UnwrapPromise } from '../types/Util';
 import type {
   IPCEventsValuesType,
   IPCEventsCallbacksType,
-  IPCEventGetterType,
-  IPCEventSetterType,
 } from './createIPCEvents';
+import type { SystemTraySetting } from '../types/SystemTraySetting';
 
 type SettingOptionsType = {
   getter?: boolean;
@@ -23,7 +22,27 @@ export type SettingType<Value> = Readonly<{
   setValue: (value: Value) => Promise<Value>;
 }>;
 
-function capitalize<Name extends keyof IPCEventsValuesType>(
+export type ThemeType = 'light' | 'dark' | 'system';
+
+export type EphemeralSettings = {
+  spellCheck: boolean;
+  systemTraySetting: SystemTraySetting;
+  themeSetting: ThemeType;
+  localeOverride: string | null;
+};
+
+export type SettingsValuesType = IPCEventsValuesType & EphemeralSettings;
+
+type SettingGetterType<Key extends keyof SettingsValuesType> =
+  `get${Capitalize<Key>}`;
+
+type SettingSetterType<Key extends keyof SettingsValuesType> =
+  `set${Capitalize<Key>}`;
+
+type SettingUpdaterType<Key extends keyof SettingsValuesType> =
+  `update${Capitalize<Key>}`;
+
+function capitalize<Name extends keyof SettingsValuesType>(
   name: Name
 ): Capitalize<Name> {
   const result = name.slice(0, 1).toUpperCase() + name.slice(1);
@@ -31,21 +50,27 @@ function capitalize<Name extends keyof IPCEventsValuesType>(
   return result as Capitalize<Name>;
 }
 
-function getSetterName<Key extends keyof IPCEventsValuesType>(
+function getSetterName<Key extends keyof SettingsValuesType>(
   name: Key
-): IPCEventSetterType<Key> {
+): SettingSetterType<Key> {
   return `set${capitalize(name)}`;
 }
 
-function getGetterName<Key extends keyof IPCEventsValuesType>(
+function getGetterName<Key extends keyof SettingsValuesType>(
   name: Key
-): IPCEventGetterType<Key> {
+): SettingGetterType<Key> {
   return `get${capitalize(name)}`;
 }
 
+function getUpdaterName<Key extends keyof EphemeralSettings>(
+  name: Key
+): SettingUpdaterType<Key> {
+  return `update${capitalize(name)}`;
+}
+
 export function createSetting<
-  Name extends keyof IPCEventsValuesType,
-  Value extends IPCEventsValuesType[Name]
+  Name extends keyof SettingsValuesType,
+  Value extends SettingsValuesType[Name],
 >(name: Name, overrideOptions: SettingOptionsType = {}): SettingType<Value> {
   const options = {
     getter: true,
@@ -71,12 +96,12 @@ export function createSetting<
 
 type UnwrapReturn<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Callback extends (...args: Array<any>) => unknown
+  Callback extends (...args: Array<any>) => unknown,
 > = UnwrapPromise<ReturnType<Callback>>;
 
 export function createCallback<
   Name extends keyof IPCEventsCallbacksType,
-  Callback extends IPCEventsCallbacksType[Name]
+  Callback extends IPCEventsCallbacksType[Name],
 >(
   name: Name
 ): (...args: Parameters<Callback>) => Promise<UnwrapReturn<Callback>> {
@@ -86,7 +111,7 @@ export function createCallback<
 }
 
 export function installSetting(
-  name: keyof IPCEventsValuesType,
+  name: keyof SettingsValuesType,
   { getter = true, setter = true }: { getter?: boolean; setter?: boolean } = {}
 ): void {
   const getterName = getGetterName(name);
@@ -133,6 +158,21 @@ export function installSetting(
       }
     });
   }
+}
+
+export function installEphemeralSetting(name: keyof EphemeralSettings): void {
+  installSetting(name);
+
+  const updaterName = getUpdaterName(name);
+
+  ipcRenderer.on(`settings:update:${name}`, async (_event, value) => {
+    const updateFn = window.Events[updaterName] as (value: unknown) => void;
+    if (!updateFn) {
+      return;
+    }
+
+    await updateFn(value);
+  });
 }
 
 export function installCallback<Name extends keyof IPCEventsCallbacksType>(

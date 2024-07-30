@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
+import { DataWriter } from '../sql/Client';
 import * as log from '../logging/log';
 import { MINUTE } from '../util/durations';
 import { missingCaseError } from '../util/missingCaseError';
@@ -86,7 +87,7 @@ function getUrlsToDownload(): Array<string> {
 }
 
 async function downloadBadgeImageFile(url: string): Promise<string> {
-  await waitForOnline(navigator, window, { timeout: 1 * MINUTE });
+  await waitForOnline({ timeout: 1 * MINUTE });
 
   const { server } = window.textsecure;
   if (!server) {
@@ -96,11 +97,10 @@ async function downloadBadgeImageFile(url: string): Promise<string> {
   }
 
   const imageFileData = await server.getBadgeImageFile(url);
-  const localPath = await window.Signal.Migrations.writeNewBadgeImageFileData(
-    imageFileData
-  );
+  const localPath =
+    await window.Signal.Migrations.writeNewBadgeImageFileData(imageFileData);
 
-  await window.Signal.Data.badgeImageFileDownloaded(url, localPath);
+  await DataWriter.badgeImageFileDownloaded(url, localPath);
 
   window.reduxActions.badges.badgeImageFileDownloaded(url, localPath);
 

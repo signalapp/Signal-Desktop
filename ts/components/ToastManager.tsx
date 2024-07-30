@@ -27,8 +27,9 @@ export type PropsType = {
   toast?: AnyToast;
   megaphone?: AnyActionableMegaphone;
   centerToast?: boolean;
-  containerWidthBreakpoint: WidthBreakpoint;
+  containerWidthBreakpoint: WidthBreakpoint | null;
   isCompositionAreaVisible?: boolean;
+  isInFullScreenCall: boolean;
 };
 
 const SHORT_TIMEOUT = 3 * SECOND;
@@ -53,6 +54,16 @@ export function renderToast({
       <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
         {i18n('icu:AddUserToAnotherGroupModal__toast--adding-user-to-group', {
           contact: toast.parameters.contact,
+        })}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.AddedUsersToCall) {
+    return (
+      <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
+        {i18n('icu:CallingPendingParticipants__Toast--added-users-to-call', {
+          count: toast.parameters.count,
         })}
       </Toast>
     );
@@ -371,6 +382,14 @@ export function renderToast({
     return <Toast onClose={hideToast}>{i18n('icu:Reactions--error')}</Toast>;
   }
 
+  if (toastType === ToastType.ReportedSpam) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:MessageRequests--report-spam-success-toast')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.ReportedSpamAndBlocked) {
     return (
       <Toast onClose={hideToast}>
@@ -462,6 +481,10 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.TransportError) {
+    return <Toast onClose={hideToast}>{i18n('icu:TransportError')}</Toast>;
+  }
+
   if (toastType === ToastType.UnableToLoadAttachment) {
     return (
       <Toast onClose={hideToast}>{i18n('icu:unableToLoadAttachment')}</Toast>
@@ -542,8 +565,12 @@ export function renderMegaphone({
 }
 
 export function ToastManager(props: PropsType): JSX.Element {
-  const { centerToast, containerWidthBreakpoint, isCompositionAreaVisible } =
-    props;
+  const {
+    centerToast,
+    containerWidthBreakpoint,
+    isCompositionAreaVisible,
+    isInFullScreenCall,
+  } = props;
 
   const toast = renderToast(props);
 
@@ -557,7 +584,13 @@ export function ToastManager(props: PropsType): JSX.Element {
     >
       {centerToast
         ? createPortal(
-            <div className="ToastManager__root">{toast}</div>,
+            <div
+              className={classNames('ToastManager__root', {
+                'ToastManager--full-screen-call': isInFullScreenCall,
+              })}
+            >
+              {toast}
+            </div>,
             document.body
           )
         : toast}

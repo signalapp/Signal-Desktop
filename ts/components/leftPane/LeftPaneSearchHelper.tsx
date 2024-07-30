@@ -17,7 +17,7 @@ import type {
 } from '../../state/ducks/conversations';
 import { LeftPaneSearchInput } from '../LeftPaneSearchInput';
 
-import { Intl } from '../Intl';
+import { I18n } from '../I18n';
 import { assertDev } from '../../util/assert';
 import { UserText } from '../UserText';
 
@@ -44,6 +44,7 @@ export type LeftPaneSearchPropsType = {
   primarySendsSms: boolean;
   searchTerm: string;
   startSearchCounter: number;
+  isSearchingGlobally: boolean;
   searchDisabled: boolean;
   searchConversation: undefined | ConversationType;
 };
@@ -56,6 +57,8 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
   private readonly conversationResults: MaybeLoadedSearchResultsType<ConversationListItemPropsType>;
 
   private readonly contactResults: MaybeLoadedSearchResultsType<ConversationListItemPropsType>;
+
+  private readonly isSearchingGlobally: boolean;
 
   private readonly messageResults: MaybeLoadedSearchResultsType<{
     id: string;
@@ -78,6 +81,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
   constructor({
     contactResults,
     conversationResults,
+    isSearchingGlobally,
     messageResults,
     primarySendsSms,
     searchConversation,
@@ -90,6 +94,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
 
     this.contactResults = contactResults;
     this.conversationResults = conversationResults;
+    this.isSearchingGlobally = isSearchingGlobally;
     this.messageResults = messageResults;
     this.primarySendsSms = primarySendsSms;
     this.searchConversation = searchConversation;
@@ -103,12 +108,16 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
   override getSearchInput({
     clearConversationSearch,
     clearSearch,
+    endConversationSearch,
+    endSearch,
     i18n,
     showConversation,
     updateSearchTerm,
   }: Readonly<{
     clearConversationSearch: () => unknown;
     clearSearch: () => unknown;
+    endConversationSearch: () => unknown;
+    endSearch: () => unknown;
     i18n: LocalizerType;
     showConversation: ShowConversationType;
     updateSearchTerm: (searchTerm: string) => unknown;
@@ -117,8 +126,11 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
       <LeftPaneSearchInput
         clearConversationSearch={clearConversationSearch}
         clearSearch={clearSearch}
+        endConversationSearch={endConversationSearch}
+        endSearch={endSearch}
         disabled={this.searchDisabled}
         i18n={i18n}
+        isSearchingGlobally={this.isSearchingGlobally}
         onEnterKeyDown={this.onEnterKeyDown}
         searchConversation={this.searchConversation}
         searchTerm={this.searchTerm}
@@ -147,7 +159,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     let noResults: ReactChild;
     if (searchConversationName) {
       noResults = (
-        <Intl
+        <I18n
           id="icu:noSearchResultsInConversation"
           i18n={i18n}
           components={{

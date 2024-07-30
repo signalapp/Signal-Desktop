@@ -11,8 +11,12 @@ import { strictAssert } from '../util/assert';
 import { canvasToBlob } from '../util/canvasToBlob';
 import { KIBIBYTE } from './AttachmentSize';
 import { explodePromise } from '../util/explodePromise';
+import { SECOND } from '../util/durations';
+import * as logging from '../logging/log';
 
 export { blobToArrayBuffer };
+
+export const MAX_BACKUP_THUMBNAIL_SIZE = 8 * KIBIBYTE;
 
 export type GetImageDimensionsOptionsType = Readonly<{
   objectUrl: string;
@@ -106,7 +110,6 @@ export type MakeImageThumbnailForBackupOptionsType = Readonly<{
   maxDimension?: number;
   maxSize?: number;
   objectUrl: string;
-  logger: LoggerType;
 }>;
 
 // 0.7 quality seems to result in a good result in 1 interation for most images
@@ -121,11 +124,10 @@ export type CreatedThumbnailType = {
   mimeType: MIMEType;
 };
 
-export function makeImageThumbnailForBackup({
+export async function makeImageThumbnailForBackup({
   maxDimension = 256,
-  maxSize = 8 * KIBIBYTE,
+  maxSize = MAX_BACKUP_THUMBNAIL_SIZE,
   objectUrl,
-  logger,
 }: MakeImageThumbnailForBackupOptionsType): Promise<CreatedThumbnailType> {
   return new Promise((resolve, reject) => {
     const image = document.createElement('img');
@@ -173,7 +175,7 @@ export function makeImageThumbnailForBackup({
 
         const duration = (performance.now() - start).toFixed(1);
 
-        const logMethod = blob.size > maxSize ? logger.warn : logger.info;
+        const logMethod = blob.size > maxSize ? logging.warn : logging.info;
         const sizeInKiB = blob.size / KIBIBYTE;
         logMethod(
           'makeImageThumbnail: generated thumbnail of dimensions: ' +
@@ -195,7 +197,7 @@ export function makeImageThumbnailForBackup({
     });
 
     image.addEventListener('error', error => {
-      logger.error('makeImageThumbnail error', toLogFormat(error));
+      logging.error('makeImageThumbnail error', toLogFormat(error));
       reject(error);
     });
 
@@ -206,40 +208,14 @@ export function makeImageThumbnailForBackup({
 export type MakeVideoScreenshotOptionsType = Readonly<{
   objectUrl: string;
   contentType?: MIMEType;
-  logger: Pick<LoggerType, 'error'>;
 }>;
 
-async function loadVideo({
-  objectUrl,
-  logger,
-}: MakeVideoScreenshotOptionsType): Promise<HTMLVideoElement> {
-  const video = document.createElement('video');
-  const { promise, resolve, reject } = explodePromise();
-  video.addEventListener('loadeddata', resolve);
-  video.addEventListener('error', reject);
-  video.src = objectUrl;
-  try {
-    await promise;
-  } catch (error) {
-    logger.error('loadVideo error', toLogFormat(video.error));
-    throw error;
-  } finally {
-    video.removeEventListener('loadeddata', resolve);
-    video.removeEventListener('error', reject);
-  }
-  return video;
-}
+const MAKE_VIDEO_SCREENSHOT_TIMEOUT = 30 * SECOND;
 
-export async function makeVideoScreenshot({
-  objectUrl,
-  contentType = IMAGE_PNG,
-  logger,
-}: MakeVideoScreenshotOptionsType): Promise<Blob> {
-  const video = await loadVideo({ objectUrl, logger });
-  await new Promise<unknown>(res => {
-    video.currentTime = 1.0;
-    video.addEventListener('seeked', res, { once: true });
-  });
+function captureScreenshot(
+  video: HTMLVideoElement,
+  contentType: MIMEType
+): Promise<Blob> {
   const canvas = document.createElement('canvas');
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
@@ -247,6 +223,50 @@ export async function makeVideoScreenshot({
   strictAssert(context, 'Failed to get canvas context');
   context.drawImage(video, 0, 0, canvas.width, canvas.height);
   return canvasToBlob(canvas, contentType);
+}
+
+export async function makeVideoScreenshot({
+  objectUrl,
+  contentType = IMAGE_PNG,
+}: MakeVideoScreenshotOptionsType): Promise<Blob> {
+  const signal = AbortSignal.timeout(MAKE_VIDEO_SCREENSHOT_TIMEOUT);
+  const video = document.createElement('video');
+
+  const { promise: videoLoadedAndSeeked, resolve, reject } = explodePromise();
+
+  function onLoaded() {
+    if (signal.aborted) {
+      return;
+    }
+    video.addEventListener('seeked', resolve);
+    video.currentTime = 1.0;
+  }
+
+  function onAborted() {
+    reject(signal.reason);
+  }
+
+  video.addEventListener('loadeddata', onLoaded);
+  video.addEventListener('error', reject);
+  signal.addEventListener('abort', onAborted);
+
+  try {
+    video.src = objectUrl;
+    await videoLoadedAndSeeked;
+    return await captureScreenshot(video, contentType);
+  } catch (error) {
+    logging.error('makeVideoScreenshot error:', toLogFormat(error));
+    throw error;
+  } finally {
+    // hard reset the video element so it doesn't keep loading
+    video.src = '';
+    video.load();
+
+    video.removeEventListener('loadeddata', onLoaded);
+    video.removeEventListener('error', reject);
+    video.removeEventListener('seeked', resolve);
+    signal.removeEventListener('abort', onAborted);
+  }
 }
 
 export function makeObjectUrl(

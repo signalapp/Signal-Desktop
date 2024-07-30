@@ -284,7 +284,7 @@ export class MentionCompletion {
                 >
                   <Avatar
                     acceptedMessageRequest={member.acceptedMessageRequest}
-                    avatarPath={member.avatarPath}
+                    avatarUrl={member.avatarUrl}
                     badge={getPreferredBadge(member.badges)}
                     conversationType="direct"
                     i18n={this.options.i18n}
@@ -293,7 +293,7 @@ export class MentionCompletion {
                     size={AvatarSize.TWENTY_EIGHT}
                     theme={theme}
                     title={member.title}
-                    unblurredAvatarPath={member.unblurredAvatarPath}
+                    unblurredAvatarUrl={member.unblurredAvatarUrl}
                   />
                   <div className="module-composition-input__suggestions__title">
                     <UserText text={member.title} />

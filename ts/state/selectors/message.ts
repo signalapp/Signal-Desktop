@@ -3,7 +3,6 @@
 
 import { groupBy, isEmpty, isNumber, isObject, map } from 'lodash';
 import { createSelector } from 'reselect';
-import filesize from 'filesize';
 import getDirection from 'direction';
 import emojiRegex from 'emoji-regex';
 import LinkifyIt from 'linkify-it';
@@ -12,8 +11,9 @@ import type { ReadonlyDeep } from 'type-fest';
 import type { StateType } from '../reducer';
 import type {
   LastMessageStatus,
-  MessageAttributesType,
+  ReadonlyMessageAttributesType,
   MessageReactionType,
+  QuotedAttachmentType,
   ShallowChallengeError,
 } from '../../model-types.d';
 
@@ -27,8 +27,10 @@ import type { PropsData as TimelineMessagePropsData } from '../../components/con
 import { TextDirection } from '../../components/conversation/Message';
 import type { PropsData as TimerNotificationProps } from '../../components/conversation/TimerNotification';
 import type { PropsData as ChangeNumberNotificationProps } from '../../components/conversation/ChangeNumberNotification';
+import type { PropsData as JoinedSignalNotificationProps } from '../../components/conversation/JoinedSignalNotification';
 import type { PropsData as SafetyNumberNotificationProps } from '../../components/conversation/SafetyNumberNotification';
 import type { PropsData as VerificationNotificationProps } from '../../components/conversation/VerificationNotification';
+import type { PropsData as TitleTransitionNotificationProps } from '../../components/conversation/TitleTransitionNotification';
 import type { PropsDataType as GroupsV2Props } from '../../components/conversation/GroupV2Change';
 import type { PropsDataType as GroupV1MigrationPropsType } from '../../components/conversation/GroupV1Migration';
 import type { PropsDataType as DeliveryIssuePropsType } from '../../components/conversation/DeliveryIssueNotification';
@@ -40,7 +42,6 @@ import type {
   ChangeType,
 } from '../../components/conversation/GroupNotification';
 import type { PropsType as ProfileChangeNotificationPropsType } from '../../components/conversation/ProfileChangeNotification';
-import type { QuotedAttachmentType } from '../../components/conversation/Quote';
 
 import { getDomain, isCallLink, isStickerPack } from '../../types/LinkPreview';
 import type {
@@ -57,8 +58,15 @@ import type { AssertProps } from '../../types/Util';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { getMentionsRegex } from '../../types/Message';
 import { SignalService as Proto } from '../../protobuf';
-import type { AttachmentType } from '../../types/Attachment';
-import { isVoiceMessage, canBeDownloaded } from '../../types/Attachment';
+import type {
+  AttachmentForUIType,
+  AttachmentType,
+} from '../../types/Attachment';
+import {
+  isVoiceMessage,
+  canBeDownloaded,
+  defaultBlurHash,
+} from '../../types/Attachment';
 import { type DefaultConversationColorType } from '../../types/Colors';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 
@@ -70,6 +78,7 @@ import { isMoreRecentThan } from '../../util/timestamp';
 import * as iterables from '../../util/iterables';
 import { strictAssert } from '../../util/assert';
 import { canEditMessage } from '../../util/canEditMessage';
+import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
 
 import { getAccountSelector } from './accounts';
 import { getDefaultConversationColor } from './items';
@@ -129,6 +138,7 @@ import type { AnyPaymentEvent } from '../../types/Payment';
 import { isPaymentNotificationEvent } from '../../types/Payment';
 import {
   getTitleNoDefault,
+  getTitle,
   getNumber,
   renderNumber,
 } from '../../util/getTitle';
@@ -138,6 +148,8 @@ import { CallMode } from '../../types/Calling';
 import { CallDirection } from '../../types/CallDisposition';
 import { getCallIdFromEra } from '../../util/callDisposition';
 import { LONG_MESSAGE } from '../../types/MIME';
+import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification';
+import { formatFileSize } from '../../util/formatFileSize';
 
 export { isIncoming, isOutgoing, isStory };
 
@@ -152,7 +164,7 @@ type FormattedContact = Partial<ConversationType> &
     | 'sharedGroupNames'
     | 'title'
     | 'type'
-    | 'unblurredAvatarPath'
+    | 'unblurredAvatarUrl'
   >;
 export type PropsForMessage = Omit<TimelineMessagePropsData, 'interactionMode'>;
 export type MessagePropsType = Omit<
@@ -189,7 +201,7 @@ export function hasErrors(
 }
 
 export function getSource(
-  message: Pick<MessageAttributesType, 'type' | 'source'>,
+  message: Pick<ReadonlyMessageAttributesType, 'type' | 'source'>,
   ourNumber: string | undefined
 ): string | undefined {
   if (isIncoming(message)) {
@@ -221,7 +233,7 @@ export function getSourceDevice(
 }
 
 export function getSourceServiceId(
-  message: Pick<MessageAttributesType, 'type' | 'sourceServiceId'>,
+  message: Pick<ReadonlyMessageAttributesType, 'type' | 'sourceServiceId'>,
   ourAci: AciString | undefined
 ): ServiceIdString | undefined {
   if (isIncoming(message)) {
@@ -241,7 +253,7 @@ export type GetContactOptions = Pick<
   'conversationSelector' | 'ourConversationId' | 'ourNumber' | 'ourAci'
 >;
 
-export function getContactId(
+export function getAuthorId(
   message: MessageWithUIFieldsType,
   {
     conversationSelector,
@@ -297,19 +309,15 @@ export const getAttachmentsForMessage = ({
   if (sticker && sticker.data) {
     const { data } = sticker;
 
-    // We don't show anything if we don't have the sticker or the blurhash...
-    if (!data.blurHash && (data.pending || !data.path)) {
-      return [];
-    }
-
     return [
       {
         ...data,
         // We want to show the blurhash for stickers, not the spinner
         pending: false,
-        url: data.path
-          ? window.Signal.Migrations.getAbsoluteAttachmentPath(data.path)
-          : undefined,
+        // Stickers are not guaranteed to have a blurhash (e.g. if imported but
+        // undownloaded from backup), so we want to make sure we have something to show
+        blurHash: data.blurHash ?? defaultBlurHash(),
+        url: data.path ? getLocalAttachmentUrl(data) : undefined,
       },
     ];
   }
@@ -343,7 +351,7 @@ const getAuthorForMessage = (
 ): PropsData['author'] => {
   const {
     acceptedMessageRequest,
-    avatarPath,
+    avatarUrl,
     badges,
     color,
     id,
@@ -353,12 +361,12 @@ const getAuthorForMessage = (
     profileName,
     sharedGroupNames,
     title,
-    unblurredAvatarPath,
+    unblurredAvatarUrl,
   } = getContact(message, options);
 
   const unsafe = {
     acceptedMessageRequest,
-    avatarPath,
+    avatarUrl,
     badges,
     color,
     id,
@@ -368,7 +376,7 @@ const getAuthorForMessage = (
     profileName,
     sharedGroupNames,
     title,
-    unblurredAvatarPath,
+    unblurredAvatarUrl,
   };
 
   const safe: AssertProps<PropsData['author'], typeof unsafe> = unsafe;
@@ -412,7 +420,7 @@ const getReactionsForMessage = (
 
     const {
       acceptedMessageRequest,
-      avatarPath,
+      avatarUrl,
       badges,
       color,
       id,
@@ -426,7 +434,7 @@ const getReactionsForMessage = (
 
     const unsafe = {
       acceptedMessageRequest,
-      avatarPath,
+      avatarUrl,
       badges,
       color,
       id,
@@ -701,7 +709,7 @@ export const getPropsForMessage = (
     (message.reactions || []).find(re => re.fromId === ourConversationId) || {}
   ).emoji;
 
-  const authorId = getContactId(message, {
+  const authorId = getAuthorId(message, {
     conversationSelector,
     ourConversationId,
     ourNumber,
@@ -755,6 +763,7 @@ export const getPropsForMessage = (
     isMessageRequestAccepted: conversation?.acceptedMessageRequest ?? true,
     isSelected,
     isSelectMode,
+    isSMS: message.sms === true,
     isSpoilerExpanded: message.isSpoilerExpanded,
     isSticker: Boolean(sticker),
     isTargeted,
@@ -768,7 +777,7 @@ export const getPropsForMessage = (
     status: getMessagePropStatus(message, ourConversationId),
     text: message.body,
     textDirection: getTextDirection(message.body),
-    timestamp: getMessageSentTimestamp(message, { includeEdits: true, log }),
+    timestamp: getMessageSentTimestamp(message, { includeEdits: false, log }),
     receivedAtMS: message.received_at_ms,
   };
 };
@@ -790,18 +799,18 @@ export const getMessagePropsSelector = createSelector(
   getSelectedMessageIds,
   getDefaultConversationColor,
   (
-      conversationSelector,
-      ourConversationId,
-      ourAci,
-      ourPni,
-      ourNumber,
-      regionCode,
-      accountSelector,
-      cachedConversationMemberColorsSelector,
-      targetedMessage,
-      selectedMessageIds,
-      defaultConversationColor
-    ) =>
+    conversationSelector,
+    ourConversationId,
+    ourAci,
+    ourPni,
+    ourNumber,
+    regionCode,
+    accountSelector,
+    cachedConversationMemberColorsSelector,
+    targetedMessage,
+    selectedMessageIds,
+    defaultConversationColor
+  ) =>
     (message: MessageWithUIFieldsType) => {
       const contactNameColors = cachedConversationMemberColorsSelector(
         message.conversationId
@@ -922,6 +931,20 @@ export function getPropsForBubble(
       timestamp,
     };
   }
+  if (isJoinedSignalNotification(message)) {
+    return {
+      type: 'joinedSignalNotification',
+      data: getPropsForJoinedSignalNotification(message),
+      timestamp,
+    };
+  }
+  if (isTitleTransitionNotification(message)) {
+    return {
+      type: 'titleTransitionNotification',
+      data: getPropsForTitleTransitionNotification(message),
+      timestamp,
+    };
+  }
   if (isChatSessionRefreshed(message)) {
     return {
       type: 'chatSessionRefreshed',
@@ -962,6 +985,14 @@ export function getPropsForBubble(
     };
   }
 
+  if (isMessageRequestResponse(message)) {
+    return {
+      type: 'messageRequestResponse',
+      data: getPropsForMessageRequestResponse(message),
+      timestamp,
+    };
+  }
+
   const data = getPropsForMessage(message, options);
 
   return {
@@ -969,6 +1000,30 @@ export function getPropsForBubble(
     data,
     timestamp: data.timestamp,
   };
+}
+
+export function isNormalBubble(message: MessageWithUIFieldsType): boolean {
+  return (
+    !isCallHistory(message) &&
+    !isChatSessionRefreshed(message) &&
+    !isContactRemovedNotification(message) &&
+    !isConversationMerge(message) &&
+    !isEndSession(message) &&
+    !isExpirationTimerUpdate(message) &&
+    !isGroupUpdate(message) &&
+    !isGroupV1Migration(message) &&
+    !isGroupV2Change(message) &&
+    !isKeyChange(message) &&
+    !isPhoneNumberDiscovery(message) &&
+    !isTitleTransitionNotification(message) &&
+    !isProfileChange(message) &&
+    !isUniversalTimerNotification(message) &&
+    !isUnsupportedMessage(message) &&
+    !isVerifiedChange(message) &&
+    !isChangeNumberNotification(message) &&
+    !isJoinedSignalNotification(message) &&
+    !isDeliveryIssue(message)
+  );
 }
 
 function getPropsForPaymentEvent(
@@ -1074,6 +1129,8 @@ function getPropsForGroupV1Migration(
       conversationId: message.conversationId,
       droppedMembers,
       invitedMembers,
+      droppedMemberCount: droppedMembers.length,
+      invitedMemberCount: invitedMembers.length,
     };
   }
 
@@ -1081,19 +1138,30 @@ function getPropsForGroupV1Migration(
     areWeInvited,
     droppedMemberIds,
     invitedMembers: rawInvitedMembers,
+    droppedMemberCount: rawDroppedMemberCount,
+    invitedMemberCount: rawInvitedMemberCount,
   } = migration;
-  const invitedMembers = rawInvitedMembers.map(item =>
-    conversationSelector(item.uuid)
-  );
-  const droppedMembers = droppedMemberIds.map(conversationId =>
-    conversationSelector(conversationId)
-  );
+  const droppedMembers = droppedMemberIds
+    ? droppedMemberIds.map(conversationId =>
+        conversationSelector(conversationId)
+      )
+    : undefined;
+  const invitedMembers = rawInvitedMembers
+    ? rawInvitedMembers.map(item => conversationSelector(item.uuid))
+    : undefined;
+
+  const droppedMemberCount =
+    rawDroppedMemberCount ?? droppedMemberIds?.length ?? 0;
+  const invitedMemberCount =
+    rawInvitedMemberCount ?? invitedMembers?.length ?? 0;
 
   return {
     areWeInvited,
     conversationId: message.conversationId,
     droppedMembers,
     invitedMembers,
+    droppedMemberCount,
+    invitedMemberCount,
   };
 }
 
@@ -1380,10 +1448,10 @@ export function getPropsForCallHistory(
   const isSelectMode = selectedMessageIds != null;
 
   let callCreator: ConversationType | null = null;
-  if (callHistory.ringerId) {
-    callCreator = conversationSelector(callHistory.ringerId);
-  } else if (callHistory.direction === CallDirection.Outgoing) {
+  if (callHistory.direction === CallDirection.Outgoing) {
     callCreator = conversationSelector(ourConversationId);
+  } else if (callHistory.ringerId) {
+    callCreator = conversationSelector(callHistory.ringerId);
   }
 
   if (callHistory.mode === CallMode.Direct) {
@@ -1452,6 +1520,24 @@ function getPropsForProfileChange(
   } as ProfileChangeNotificationPropsType;
 }
 
+// Message Request Response Event
+
+export function isMessageRequestResponse(
+  message: ReadonlyMessageAttributesType
+): boolean {
+  return message.type === 'message-request-response-event';
+}
+
+function getPropsForMessageRequestResponse(
+  message: ReadonlyMessageAttributesType
+): MessageRequestResponseNotificationData {
+  const { messageRequestResponseEvent } = message;
+  if (!messageRequestResponseEvent) {
+    throw new Error('getPropsForMessageRequestResponse: event is missing!');
+  }
+  return { messageRequestResponseEvent };
+}
+
 // Universal Timer Notification
 
 // Note: smart, so props not generated here
@@ -1487,6 +1573,47 @@ function getPropsForChangeNumberNotification(
   return {
     sender: conversationSelector(message.sourceServiceId),
     timestamp: message.sent_at,
+  };
+}
+
+// Joined Signal Notification
+
+export function isJoinedSignalNotification(
+  message: MessageWithUIFieldsType
+): boolean {
+  return message.type === 'joined-signal-notification';
+}
+
+function getPropsForJoinedSignalNotification(
+  message: MessageWithUIFieldsType
+): JoinedSignalNotificationProps {
+  return {
+    timestamp: message.sent_at,
+  };
+}
+
+// Title Transition Notification
+
+export function isTitleTransitionNotification(
+  message: MessageWithUIFieldsType
+): boolean {
+  return (
+    message.type === 'title-transition-notification' &&
+    message.titleTransition != null
+  );
+}
+
+function getPropsForTitleTransitionNotification(
+  message: MessageWithUIFieldsType
+): TitleTransitionNotificationProps {
+  strictAssert(
+    message.titleTransition != null,
+    'Invalid attributes for title-transition-notification'
+  );
+  const { renderInfo } = message.titleTransition;
+  const oldTitle = getTitle(renderInfo);
+  return {
+    oldTitle,
   };
 }
 
@@ -1678,7 +1805,7 @@ export function getPropsForEmbeddedContact(
   message: MessageWithUIFieldsType,
   regionCode: string | undefined,
   accountSelector: (identifier?: string) => ServiceIdString | undefined
-): EmbeddedContactType | undefined {
+): ReadonlyDeep<EmbeddedContactType> | undefined {
   const contacts = message.contact;
   if (!contacts || !contacts.length) {
     return undefined;
@@ -1690,52 +1817,56 @@ export function getPropsForEmbeddedContact(
 
   return embeddedContactSelector(firstContact, {
     regionCode,
-    getAbsoluteAttachmentPath: getAttachmentUrlForPath,
     firstNumber,
     serviceId: accountSelector(firstNumber),
   });
 }
 
-export function getAttachmentUrlForPath(path: string): string {
-  return window.Signal.Migrations.getAbsoluteAttachmentPath(path);
-}
-
 export function getPropsForAttachment(
   attachment: AttachmentType
-): AttachmentType | undefined {
+): AttachmentForUIType | undefined {
   if (!attachment) {
     return undefined;
   }
 
-  const { path, pending, size, screenshot, thumbnail } = attachment;
+  const { path, pending, size, screenshot, thumbnail, thumbnailFromBackup } =
+    attachment;
 
   return {
     ...attachment,
-    fileSize: size ? filesize(size) : undefined,
+    fileSize: size ? formatFileSize(size) : undefined,
     isVoiceMessage: isVoiceMessage(attachment),
     pending,
-    url: path ? getAttachmentUrlForPath(path) : undefined,
+    url: path ? getLocalAttachmentUrl(attachment) : undefined,
+    thumbnailFromBackup: thumbnailFromBackup?.path
+      ? {
+          ...thumbnailFromBackup,
+          url: getLocalAttachmentUrl(thumbnailFromBackup),
+        }
+      : undefined,
     screenshot: screenshot?.path
       ? {
           ...screenshot,
-          url: getAttachmentUrlForPath(screenshot.path),
+          url: getLocalAttachmentUrl({
+            // Legacy v1 screenshots
+            size: 0,
+
+            ...screenshot,
+          }),
         }
       : undefined,
     thumbnail: thumbnail?.path
       ? {
           ...thumbnail,
-          url: getAttachmentUrlForPath(thumbnail.path),
+          url: getLocalAttachmentUrl(thumbnail),
         }
       : undefined,
   };
 }
 
-function processQuoteAttachment(
-  attachment: AttachmentType
-): QuotedAttachmentType {
+function processQuoteAttachment(attachment: QuotedAttachmentType) {
   const { thumbnail } = attachment;
-  const path =
-    thumbnail && thumbnail.path && getAttachmentUrlForPath(thumbnail.path);
+  const path = thumbnail && thumbnail.path && getLocalAttachmentUrl(thumbnail);
   const objectUrl = thumbnail && thumbnail.objectUrl;
 
   const thumbnailWithObjectUrl =
@@ -1960,7 +2091,7 @@ export function getLastChallengeError(
 
 const getTargetedMessageForDetails = (
   state: StateType
-): MessageAttributesType | undefined =>
+): ReadonlyMessageAttributesType | undefined =>
   state.conversations.targetedMessageForDetails;
 
 const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
@@ -2014,7 +2145,7 @@ export const getMessageDetails = createSelector(
     let conversationIds: Array<string>;
     if (isIncoming(message)) {
       conversationIds = [
-        getContactId(message, {
+        getAuthorId(message, {
           conversationSelector,
           ourConversationId,
           ourNumber,

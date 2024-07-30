@@ -24,7 +24,7 @@ export async function commonShouldJobContinue({
   }
 
   try {
-    await waitForOnline(window.navigator, window, { timeout: timeRemaining });
+    await waitForOnline({ timeout: timeRemaining });
   } catch (err: unknown) {
     log.info("didn't come online in time, giving up");
     return false;

@@ -11,6 +11,7 @@ import { FRAME_BUFFER_SIZE } from '../calling/constants';
 import { setupI18n } from '../util/setupI18n';
 import { generateAci } from '../types/ServiceId';
 import enMessages from '../../_locales/en/messages.json';
+import type { CallingImageDataCache } from './CallManager';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -54,6 +55,7 @@ const createProps = (
   getGroupCallVideoFrameSource: () => {
     return { receiveVideoFrame: () => undefined };
   },
+  imageDataCache: React.createRef<CallingImageDataCache>(),
   i18n,
   audioLevel: 0,
   remoteParticipant: {
@@ -187,6 +189,46 @@ export function NoMediaKeys(): JSX.Element {
           addedTime: Date.now() - 60 * 1000,
           hasRemoteAudio: true,
           mediaKeysReceived: false,
+        }
+      )}
+    />
+  );
+}
+
+export function NoMediaKeysBlockedIntermittent(): JSX.Element {
+  const [isBlocked, setIsBlocked] = React.useState(false);
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setIsBlocked(value => !value);
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, [isBlocked]);
+
+  const [mediaKeysReceived, setMediaKeysReceived] = React.useState(false);
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setMediaKeysReceived(value => !value);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [mediaKeysReceived]);
+
+  return (
+    <GroupCallRemoteParticipant
+      {...createProps(
+        {
+          isInPip: false,
+          height: 120,
+          left: 0,
+          top: 0,
+          width: 120,
+        },
+        {
+          addedTime: Date.now() - 60 * 1000,
+          hasRemoteAudio: true,
+          mediaKeysReceived,
+          isBlocked,
         }
       )}
     />

@@ -1,16 +1,17 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageAttributesType } from '../model-types.d';
 import type { MessageModel } from '../models/messages';
 import * as log from '../logging/log';
+import { DataWriter } from '../sql/Client';
 import { isMoreRecentThan } from './timestamp';
+import { isNotNil } from './isNotNil';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 const MAX_ATTACHMENT_MSGS_TO_DOWNLOAD = 250;
 
 let isEnabled = true;
-let attachmentDownloadQueue: Array<MessageModel> | undefined = [];
+let attachmentDownloadQueue: Array<string> | undefined = [];
 const queueEmptyCallbacks: Set<() => void> = new Set();
 
 export function shouldUseAttachmentDownloadQueue(): boolean {
@@ -25,6 +26,11 @@ export function registerQueueEmptyCallback(callback: () => void): void {
   queueEmptyCallbacks.add(callback);
 }
 
+function onQueueEmpty() {
+  queueEmptyCallbacks.forEach(callback => callback());
+  queueEmptyCallbacks.clear();
+}
+
 export function addToAttachmentDownloadQueue(
   idLog: string,
   message: MessageModel
@@ -33,7 +39,7 @@ export function addToAttachmentDownloadQueue(
     return;
   }
 
-  attachmentDownloadQueue.unshift(message);
+  attachmentDownloadQueue.unshift(message.id);
 
   log.info(
     `${idLog}: Adding to attachmentDownloadQueue`,
@@ -42,44 +48,63 @@ export function addToAttachmentDownloadQueue(
 }
 
 export async function flushAttachmentDownloadQueue(): Promise<void> {
-  if (!attachmentDownloadQueue) {
-    return;
-  }
-
   // NOTE: ts/models/messages.ts expects this global to become undefined
   // once we stop processing the queue.
   isEnabled = false;
 
-  const attachmentsToDownload = attachmentDownloadQueue.filter(
-    (message, index) =>
-      index <= MAX_ATTACHMENT_MSGS_TO_DOWNLOAD ||
-      isMoreRecentThan(message.getReceivedAt(), MAX_ATTACHMENT_DOWNLOAD_AGE) ||
-      // Stickers and long text attachments has to be downloaded for UI
-      // to display the message properly.
-      message.hasRequiredAttachmentDownloads()
+  if (!attachmentDownloadQueue?.length) {
+    onQueueEmpty();
+    return;
+  }
+
+  const messageIdsToDownload = attachmentDownloadQueue.slice(
+    0,
+    MAX_ATTACHMENT_MSGS_TO_DOWNLOAD
+  );
+
+  const messageIdsToSave: Array<string> = [];
+  let numMessagesQueued = 0;
+  await Promise.all(
+    messageIdsToDownload.map(async messageId => {
+      const message = window.MessageCache.__DEPRECATED$getById(messageId);
+      if (!message) {
+        log.warn(
+          'attachmentDownloadQueue: message not found in messageCache, maybe it was deleted?'
+        );
+        return;
+      }
+
+      if (
+        isMoreRecentThan(
+          message.getReceivedAt(),
+          MAX_ATTACHMENT_DOWNLOAD_AGE
+        ) ||
+        // Stickers and long text attachments has to be downloaded for UI
+        // to display the message properly.
+        message.hasRequiredAttachmentDownloads()
+      ) {
+        const shouldSave = await message.queueAttachmentDownloads();
+        if (shouldSave) {
+          messageIdsToSave.push(messageId);
+        }
+        numMessagesQueued += 1;
+      }
+    })
   );
 
   log.info(
-    'Downloading recent attachments of total attachments',
-    attachmentsToDownload.length,
-    attachmentDownloadQueue.length
+    `Downloading recent attachments for ${numMessagesQueued} ` +
+      `of ${attachmentDownloadQueue.length} total messages`
   );
 
-  const messagesWithDownloads = await Promise.all(
-    attachmentsToDownload.map(message => message.queueAttachmentDownloads())
-  );
-  const messagesToSave: Array<MessageAttributesType> = [];
-  messagesWithDownloads.forEach((shouldSave, messageKey) => {
-    if (shouldSave) {
-      const message = attachmentsToDownload[messageKey];
-      messagesToSave.push(message.attributes);
-    }
-  });
-  await window.Signal.Data.saveMessages(messagesToSave, {
+  const messagesToSave = messageIdsToSave
+    .map(messageId => window.MessageCache.accessAttributes(messageId))
+    .filter(isNotNil);
+
+  await DataWriter.saveMessages(messagesToSave, {
     ourAci: window.storage.user.getCheckedAci(),
   });
 
   attachmentDownloadQueue = undefined;
-  queueEmptyCallbacks.forEach(callback => callback());
-  queueEmptyCallbacks.clear();
+  onQueueEmpty();
 }

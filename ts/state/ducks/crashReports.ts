@@ -11,6 +11,8 @@ import type { StateType as RootStateType } from '../reducer';
 import { showToast } from './toast';
 import type { ShowToastActionType } from './toast';
 import type { PromiseAction } from '../util';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import { useBoundActions } from '../../hooks/useBoundActions';
 
 // State
 
@@ -43,6 +45,10 @@ export const actions = {
   writeCrashReportsToLog,
   eraseCrashReports,
 };
+
+export const useCrashReportsActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 function setCrashReportCount(count: number): SetCrashReportCountActionType {
   return { type: SET_COUNT, payload: count };

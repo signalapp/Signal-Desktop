@@ -13,7 +13,7 @@ export type MuteOption = {
 };
 
 export function getMuteOptions(
-  muteExpiresAt: undefined | number,
+  muteExpiresAt: null | undefined | number,
   i18n: LocalizerType
 ): Array<MuteOption> {
   return [

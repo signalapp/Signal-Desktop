@@ -33,7 +33,7 @@ function createParticipant(
     sharingScreen: Boolean(participantProps.sharingScreen),
     videoAspectRatio: 1.3,
     ...getDefaultConversationWithServiceId({
-      avatarPath: participantProps.avatarPath,
+      avatarUrl: participantProps.avatarUrl,
       color: sample(AvatarColors),
       isBlocked: Boolean(participantProps.isBlocked),
       name: participantProps.name,
@@ -49,8 +49,10 @@ function getCallLink(overrideProps: Partial<CallLinkType> = {}): CallLinkType {
   return {
     roomId: 'abcd1234abcd1234abcd1234abcd1234abcd1234',
     rootKey: 'abcd-abcd-abcd-abcd-abcd-abcd-abcd-abcd',
+    adminKey: null,
     name: 'Axolotl Discuss',
     restrictions: CallLinkRestrictions.None,
+    revoked: false,
     expiration: Date.now() + 30 * 24 * 60 * 60 * 1000,
     ...overrideProps,
   };
@@ -59,10 +61,16 @@ function getCallLink(overrideProps: Partial<CallLinkType> = {}): CallLinkType {
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   callLink: getCallLink(overrideProps.callLink || {}),
   i18n,
+  isCallLinkAdmin: overrideProps.isCallLinkAdmin || false,
+  isUnknownContactDiscrete: overrideProps.isUnknownContactDiscrete || false,
   ourServiceId: generateAci(),
   participants: overrideProps.participants || [],
   onClose: action('on-close'),
   onCopyCallLink: action('on-copy-call-link'),
+  onShareCallLinkViaSignal: action('on-share-call-link-via-signal'),
+  removeClient: overrideProps.removeClient || action('remove-client'),
+  blockClient: overrideProps.blockClient || action('block-client'),
+  showContactModal: action('show-contact-modal'),
 });
 
 export default {
@@ -131,6 +139,38 @@ export function Overflow(): JSX.Element {
     participants: Array(50)
       .fill(null)
       .map(() => createParticipant({ title: 'Kirby' })),
+  });
+  return <CallingAdhocCallInfo {...props} />;
+}
+
+export function AsAdmin(): JSX.Element {
+  const props = createProps({
+    participants: [
+      createParticipant({
+        title: 'Son Goku',
+      }),
+      createParticipant({
+        hasRemoteAudio: true,
+        hasRemoteVideo: true,
+        presenting: true,
+        name: 'Rage Trunks',
+        title: 'Rage Trunks',
+      }),
+      createParticipant({
+        hasRemoteAudio: true,
+        title: 'Prince Vegeta',
+      }),
+      createParticipant({
+        hasRemoteAudio: true,
+        hasRemoteVideo: true,
+        name: 'Goku',
+        title: 'Goku',
+      }),
+      createParticipant({
+        title: 'Someone With A Really Long Name',
+      }),
+    ],
+    isCallLinkAdmin: true,
   });
   return <CallingAdhocCallInfo {...props} />;
 }

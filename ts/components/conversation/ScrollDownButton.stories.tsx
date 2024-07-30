@@ -27,12 +27,7 @@ export default {
   argTypes: {
     count: {
       control: { type: 'radio' },
-      options: {
-        None: undefined,
-        Some: 5,
-        Plenty: 85,
-        'Please Stop': 1000,
-      },
+      options: [undefined, 5, 85, 1000],
     },
   },
 } satisfies Meta<ScrollDownButtonPropsType>;

@@ -3,6 +3,7 @@
 
 import PQueue from 'p-queue';
 
+import { DataWriter } from '../sql/Client';
 import type { ContactSyncEvent } from '../textsecure/messageReceiverEvents';
 import type { ContactDetailsWithAvatar } from '../textsecure/ContactsParser';
 import { normalizeAci } from '../util/normalizeAci';
@@ -167,7 +168,7 @@ async function doContactSync({
 
   // Save new conversation attributes
   promises.push(
-    window.Signal.Data.updateConversations(
+    DataWriter.updateConversations(
       [...updatedConversations, ...notUpdated].map(convo => convo.attributes)
     )
   );

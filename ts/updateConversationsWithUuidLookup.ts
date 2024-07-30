@@ -61,9 +61,8 @@ export async function updateConversationsWithUuidLookup({
       // and if not - drop it.
       let finalServiceId = finalConversation.getServiceId();
       if (!pairFromServer && finalServiceId) {
-        const doesAccountExist = await server.checkAccountExistence(
-          finalServiceId
-        );
+        const doesAccountExist =
+          await server.checkAccountExistence(finalServiceId);
         if (!doesAccountExist) {
           finalConversation.updateServiceId(undefined);
           finalServiceId = undefined;

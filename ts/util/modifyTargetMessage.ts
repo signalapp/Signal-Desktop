@@ -2,13 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEqual } from 'lodash';
+import PQueue from 'p-queue';
 import type { ConversationModel } from '../models/conversations';
 import type { MessageModel } from '../models/messages';
 import type { SendStateByConversationId } from '../messages/MessageSendState';
 
 import * as Edits from '../messageModifiers/Edits';
 import * as log from '../logging/log';
+import { DataWriter } from '../sql/Client';
 import * as Deletes from '../messageModifiers/Deletes';
+import * as DeletesForMe from '../messageModifiers/DeletesForMe';
 import * as MessageReceipts from '../messageModifiers/MessageReceipts';
 import * as Reactions from '../messageModifiers/Reactions';
 import * as ReadSyncs from '../messageModifiers/ReadSyncs';
@@ -28,6 +31,16 @@ import { getSourceServiceId } from '../messages/helpers';
 import { missingCaseError } from './missingCaseError';
 import { reduce } from './iterables';
 import { strictAssert } from './assert';
+import {
+  applyDeleteAttachmentFromMessage,
+  applyDeleteMessage,
+} from './deleteForMe';
+
+export enum ModifyTargetMessageResult {
+  Modified = 'Modified',
+  NotModified = 'MotModified',
+  Deleted = 'Deleted',
+}
 
 // This function is called twice - once from handleDataMessage, and then again from
 //    saveAndNotify, a function called at the end of handleDataMessage as a cleanup for
@@ -36,7 +49,7 @@ export async function modifyTargetMessage(
   message: MessageModel,
   conversation: ConversationModel,
   options?: { isFirstRun: boolean; skipEdits: boolean }
-): Promise<void> {
+): Promise<ModifyTargetMessageResult> {
   const { isFirstRun = false, skipEdits = false } = options ?? {};
 
   const logId = `modifyTargetMessage/${message.idForLogging()}`;
@@ -45,18 +58,62 @@ export async function modifyTargetMessage(
   const ourAci = window.textsecure.storage.user.getCheckedAci();
   const sourceServiceId = getSourceServiceId(message.attributes);
 
+  const syncDeletes = await DeletesForMe.forMessage(message.attributes);
+  if (syncDeletes.length) {
+    const attachmentDeletes = syncDeletes.filter(
+      item => item.deleteAttachmentData
+    );
+    const isFullDelete = attachmentDeletes.length !== syncDeletes.length;
+
+    if (isFullDelete) {
+      if (!isFirstRun) {
+        await applyDeleteMessage(message.attributes, logId);
+      }
+
+      return ModifyTargetMessageResult.Deleted;
+    }
+
+    log.warn(
+      `${logId}: Applying ${attachmentDeletes.length} attachment deletes in order`
+    );
+    const deleteQueue = new PQueue({ concurrency: 1 });
+    await deleteQueue.addAll(
+      attachmentDeletes.map(item => async () => {
+        if (!item.deleteAttachmentData) {
+          log.warn(
+            `${logId}: attachmentDeletes list had item with no deleteAttachmentData`
+          );
+          return;
+        }
+        const result = await applyDeleteAttachmentFromMessage(
+          message,
+          item.deleteAttachmentData,
+          {
+            logId,
+            shouldSave: false,
+            deleteOnDisk: window.Signal.Migrations.deleteAttachmentData,
+          }
+        );
+        if (result) {
+          changed = true;
+        }
+      })
+    );
+  }
+
   if (type === 'outgoing' || (type === 'story' && ourAci === sourceServiceId)) {
-    const sendActions = MessageReceipts.forMessage(message).map(receipt => {
+    const receipts = await MessageReceipts.forMessage(message.attributes);
+    const sendActions = receipts.map(({ receiptSync }) => {
       let sendActionType: SendActionType;
-      const receiptType = receipt.type;
+      const receiptType = receiptSync.type;
       switch (receiptType) {
-        case MessageReceipts.MessageReceiptType.Delivery:
+        case MessageReceipts.messageReceiptTypeSchema.enum.Delivery:
           sendActionType = SendActionType.GotDeliveryReceipt;
           break;
-        case MessageReceipts.MessageReceiptType.Read:
+        case MessageReceipts.messageReceiptTypeSchema.enum.Read:
           sendActionType = SendActionType.GotReadReceipt;
           break;
-        case MessageReceipts.MessageReceiptType.View:
+        case MessageReceipts.messageReceiptTypeSchema.enum.View:
           sendActionType = SendActionType.GotViewedReceipt;
           break;
         default:
@@ -64,10 +121,10 @@ export async function modifyTargetMessage(
       }
 
       return {
-        destinationConversationId: receipt.sourceConversationId,
+        destinationConversationId: receiptSync.sourceConversationId,
         action: {
           type: sendActionType,
-          updatedAt: receipt.receiptTimestamp,
+          updatedAt: receiptSync.receiptTimestamp,
         },
       };
     });
@@ -107,10 +164,10 @@ export async function modifyTargetMessage(
   if (type === 'incoming') {
     // In a followup (see DESKTOP-2100), we want to make `ReadSyncs#forMessage` return
     //   an array, not an object. This array wrapping makes that future a bit easier.
-    const readSync = ReadSyncs.forMessage(message);
-    const readSyncs = readSync ? [readSync] : [];
+    const maybeSingleReadSync = await ReadSyncs.forMessage(message.attributes);
+    const readSyncs = maybeSingleReadSync ? [maybeSingleReadSync] : [];
 
-    const viewSyncs = ViewSyncs.forMessage(message);
+    const viewSyncs = await ViewSyncs.forMessage(message.attributes);
 
     const isGroupStoryReply =
       isGroup(conversation.attributes) && message.get('storyId');
@@ -118,8 +175,8 @@ export async function modifyTargetMessage(
     if (readSyncs.length !== 0 || viewSyncs.length !== 0) {
       const markReadAt = Math.min(
         Date.now(),
-        ...readSyncs.map(sync => sync.readAt),
-        ...viewSyncs.map(sync => sync.viewedAt)
+        ...readSyncs.map(({ readSync }) => readSync.readAt),
+        ...viewSyncs.map(({ viewSync }) => viewSync.viewedAt)
       );
 
       if (message.get('expireTimer')) {
@@ -164,7 +221,7 @@ export async function modifyTargetMessage(
     if (!isFirstRun && message.getPendingMarkRead()) {
       const markReadAt = message.getPendingMarkRead();
       message.setPendingMarkRead(undefined);
-      const newestSentAt = readSync?.timestamp;
+      const newestSentAt = maybeSingleReadSync?.readSync.timestamp;
 
       // This is primarily to allow the conversation to mark all older
       // messages as read, as is done when we receive a read sync for
@@ -176,13 +233,13 @@ export async function modifyTargetMessage(
       drop(
         message
           .getConversation()
-          ?.onReadMessage(message, markReadAt, newestSentAt)
+          ?.onReadMessage(message.attributes, markReadAt, newestSentAt)
       );
     }
 
     // Check for out-of-order view once open syncs
     if (isTapToView(message.attributes)) {
-      const viewOnceOpenSync = ViewOnceOpenSyncs.forMessage(message);
+      const viewOnceOpenSync = ViewOnceOpenSyncs.forMessage(message.attributes);
       if (viewOnceOpenSync) {
         await message.markViewOnceMessageViewed({ fromSync: true });
         changed = true;
@@ -191,7 +248,7 @@ export async function modifyTargetMessage(
   }
 
   if (isStory(message.attributes)) {
-    const viewSyncs = ViewSyncs.forMessage(message);
+    const viewSyncs = await ViewSyncs.forMessage(message.attributes);
 
     if (viewSyncs.length !== 0) {
       message.set({
@@ -202,7 +259,7 @@ export async function modifyTargetMessage(
 
       const markReadAt = Math.min(
         Date.now(),
-        ...viewSyncs.map(sync => sync.viewedAt)
+        ...viewSyncs.map(({ viewSync }) => viewSync.viewedAt)
       );
       message.setPendingMarkRead(
         Math.min(message.getPendingMarkRead() ?? Date.now(), markReadAt)
@@ -220,12 +277,16 @@ export async function modifyTargetMessage(
   }
 
   // Does message message have any pending, previously-received associated reactions?
-  const reactions = Reactions.forMessage(message);
+  const reactions = Reactions.findReactionsForMessage(message.attributes);
+
+  log.info(
+    `${logId}: Found ${reactions.length} early reaction(s) for ${message.attributes.type} message`
+  );
   await Promise.all(
     reactions.map(async reaction => {
       if (isStory(message.attributes)) {
         // We don't set changed = true here, because we don't modify the original story
-        const generatedMessage = reaction.storyReactionMessage;
+        const generatedMessage = reaction.generatedMessageForStoryReaction;
         strictAssert(
           generatedMessage,
           'Story reactions must provide storyReactionMessage'
@@ -253,7 +314,7 @@ export async function modifyTargetMessage(
   // We save here before handling any edits because handleEditMessage does its own saves
   if (changed && !isFirstRun) {
     log.info(`${logId}: Changes in second run; saving.`);
-    await window.Signal.Data.saveMessage(message.attributes, {
+    await DataWriter.saveMessage(message.attributes, {
       ourAci,
     });
   }
@@ -270,4 +331,8 @@ export async function modifyTargetMessage(
       )
     );
   }
+
+  return changed
+    ? ModifyTargetMessageResult.Modified
+    : ModifyTargetMessageResult.NotModified;
 }

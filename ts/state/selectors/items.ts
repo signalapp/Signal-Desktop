@@ -115,7 +115,7 @@ export const getUsernameLink = createSelector(
     const content = Bytes.concatenate([entropy, serverId]);
 
     return contactByEncryptedUsernameRoute
-      .toWebUrl({ encryptedUsername: Bytes.toBase64(content) })
+      .toWebUrl({ encryptedUsername: Bytes.toBase64url(content) })
       .toString();
   }
 );
@@ -227,4 +227,24 @@ export const getTextFormattingEnabled = createSelector(
 export const getNavTabsCollapsed = createSelector(
   getItems,
   (state: ItemsStateType): boolean => Boolean(state.navTabsCollapsed ?? false)
+);
+
+export const getShowStickersIntroduction = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => {
+    return state.showStickersIntroduction ?? false;
+  }
+);
+
+export const getShowStickerPickerHint = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => {
+    return state.showStickerPickerHint ?? false;
+  }
+);
+
+export const getLocalDeleteWarningShown = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean =>
+    Boolean(state.localDeleteWarningShown ?? false)
 );

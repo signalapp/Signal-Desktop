@@ -6,7 +6,7 @@ import type {
   ConversationType,
   ShowConversationType,
 } from '../state/ducks/conversations';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import { Modal } from './Modal';
 import { ConversationListItem } from './conversationList/ConversationListItem';
@@ -51,7 +51,7 @@ export function AnnouncementsOnlyGroupBanner({
         </Modal>
       )}
       <div className="AnnouncementsOnlyGroupBanner__banner">
-        <Intl
+        <I18n
           i18n={i18n}
           id="icu:AnnouncementsOnlyGroupBanner--announcements-only"
           components={{

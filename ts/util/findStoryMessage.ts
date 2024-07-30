@@ -1,14 +1,15 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageAttributesType } from '../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import type { MessageModel } from '../models/messages';
 import type { SignalService as Proto } from '../protobuf';
 import type { AciString } from '../types/ServiceId';
+import { DataReader } from '../sql/Client';
 import * as log from '../logging/log';
 import { normalizeAci } from './normalizeAci';
 import { filter } from './iterables';
-import { getContactId } from '../messages/helpers';
+import { getAuthorId } from '../messages/helpers';
 import { getTimestampFromLong } from './timestampLongUtils';
 
 export async function findStoryMessages(
@@ -50,7 +51,7 @@ export async function findStoryMessages(
   }
 
   log.info('findStoryMessages: db lookup needed', sentAt);
-  const messages = await window.Signal.Data.getMessagesBySentAt(sentAt);
+  const messages = await DataReader.getMessagesBySentAt(sentAt);
   const found = messages.filter(item =>
     isStoryAMatch(item, conversationId, ourConversationId, authorAci, sentAt)
   );
@@ -71,12 +72,12 @@ export async function findStoryMessages(
 }
 
 function isStoryAMatch(
-  message: MessageAttributesType | null | undefined,
+  message: ReadonlyMessageAttributesType | null | undefined,
   conversationId: string,
   ourConversationId: string,
   authorAci: AciString,
   sentTimestamp: number
-): message is MessageAttributesType {
+): message is ReadonlyMessageAttributesType {
   if (!message) {
     return false;
   }
@@ -89,7 +90,7 @@ function isStoryAMatch(
 
   return (
     message.sent_at === sentTimestamp &&
-    getContactId(message) === authorConversation?.id &&
+    getAuthorId(message) === authorConversation?.id &&
     (message.conversationId === conversationId ||
       message.conversationId === ourConversationId)
   );

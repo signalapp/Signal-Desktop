@@ -18,12 +18,16 @@ import type { StateType as RootStateType } from '../reducer';
 
 import * as log from '../../logging/log';
 import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
-import type { MessageAttributesType } from '../../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../../model-types.d';
 import { isGIF } from '../../types/Attachment';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../../util/GoogleChrome';
+import {
+  getLocalAttachmentUrl,
+  AttachmentDisposition,
+} from '../../util/getLocalAttachmentUrl';
 import { isTapToView } from '../selectors/message';
 import { SHOW_TOAST } from './toast';
 import { ToastType } from '../../types/Toast';
@@ -35,7 +39,7 @@ import {
 } from './conversations';
 import { showStickerPackPreview } from './globalModals';
 import { useBoundActions } from '../../hooks/useBoundActions';
-import dataInterface from '../../sql/Client';
+import { DataReader } from '../../sql/Client';
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type LightboxStateType =
@@ -194,11 +198,8 @@ function showLightboxForViewOnceMedia(
       );
     }
 
-    const {
-      copyIntoTempDirectory,
-      getAbsoluteAttachmentPath,
-      getAbsoluteTempPath,
-    } = window.Signal.Migrations;
+    const { copyIntoTempDirectory, getAbsoluteAttachmentPath } =
+      window.Signal.Migrations;
 
     const absolutePath = getAbsoluteAttachmentPath(firstAttachment.path);
     const { path: tempPath } = await copyIntoTempDirectory(absolutePath);
@@ -209,12 +210,14 @@ function showLightboxForViewOnceMedia(
 
     await message.markViewOnceMessageViewed();
 
-    const { path, contentType } = tempAttachment;
+    const { contentType } = tempAttachment;
 
     const media = [
       {
         attachment: tempAttachment,
-        objectURL: getAbsoluteTempPath(path),
+        objectURL: getLocalAttachmentUrl(tempAttachment, {
+          disposition: AttachmentDisposition.Temporary,
+        }),
         contentType,
         index: 0,
         message: {
@@ -242,7 +245,7 @@ function showLightboxForViewOnceMedia(
 }
 
 function filterValidAttachments(
-  attributes: MessageAttributesType
+  attributes: ReadonlyMessageAttributesType
 ): Array<AttachmentType> {
   return (attributes.attachments ?? []).filter(
     item => item.thumbnail && !item.pending && !item.error
@@ -291,8 +294,6 @@ function showLightbox(opts: {
     const attachments = filterValidAttachments(message.attributes);
     const loop = isGIF(attachments);
 
-    const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
-
     const authorId =
       window.ConversationController.lookupOrCreate({
         serviceId: message.get('sourceServiceId'),
@@ -303,7 +304,7 @@ function showLightbox(opts: {
     const sentAt = message.get('sent_at');
 
     const media = attachments.map((item, index) => ({
-      objectURL: getAbsoluteAttachmentPath(item.path ?? ''),
+      objectURL: getLocalAttachmentUrl(item),
       path: item.path,
       contentType: item.contentType,
       loop,
@@ -318,8 +319,9 @@ function showLightbox(opts: {
       },
       attachment: item,
       thumbnailObjectUrl:
-        item.thumbnail?.objectUrl ||
-        getAbsoluteAttachmentPath(item.thumbnail?.path ?? ''),
+        item.thumbnail?.objectUrl || item.thumbnail
+          ? getLocalAttachmentUrl(item.thumbnail)
+          : undefined,
     }));
 
     if (!media.length) {
@@ -347,7 +349,7 @@ function showLightbox(opts: {
     }
 
     const { older, newer } =
-      await dataInterface.getConversationRangeCenteredOnMessage({
+      await DataReader.getConversationRangeCenteredOnMessage({
         conversationId: message.get('conversationId'),
         messageId,
         receivedAt,
@@ -434,8 +436,8 @@ function showLightboxForAdjacentMessage(
 
     const [adjacent] =
       direction === AdjacentMessageDirection.Previous
-        ? await dataInterface.getOlderMessagesByConversation(options)
-        : await dataInterface.getNewerMessagesByConversation(options);
+        ? await DataReader.getOlderMessagesByConversation(options)
+        : await DataReader.getNewerMessagesByConversation(options);
 
     if (!adjacent) {
       log.warn(

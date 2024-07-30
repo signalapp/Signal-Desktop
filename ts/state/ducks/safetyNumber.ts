@@ -15,6 +15,8 @@ import {
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
 import type { StateType as RootStateType } from '../reducer';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import { useBoundActions } from '../../hooks/useBoundActions';
 
 export type SafetyNumberContactType = ReadonlyDeep<{
   safetyNumber: SafetyNumberType;
@@ -173,6 +175,10 @@ export const actions = {
   generateSafetyNumber: generate,
   toggleVerified,
 };
+
+export const useSafetyNumberActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 export function getEmptyState(): SafetyNumberStateType {
   return {

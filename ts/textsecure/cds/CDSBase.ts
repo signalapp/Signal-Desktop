@@ -10,6 +10,7 @@ import type { LoggerType } from '../../types/Logging';
 import { isOlderThan } from '../../util/timestamp';
 import { HOUR } from '../../util/durations';
 import { createProxyAgent } from '../../util/createProxyAgent';
+import type { ProxyAgent } from '../../util/createProxyAgent';
 
 // It is 24 hours, but we don't want latency between server and client to be
 // count.
@@ -27,18 +28,14 @@ export type CachedAuthType = Readonly<{
 }>;
 
 export abstract class CDSBase<
-  Options extends CDSBaseOptionsType = CDSBaseOptionsType
+  Options extends CDSBaseOptionsType = CDSBaseOptionsType,
 > {
   protected readonly logger: LoggerType;
-  protected readonly proxyAgent?: ReturnType<typeof createProxyAgent>;
+  protected proxyAgent?: ProxyAgent;
   protected cachedAuth?: CachedAuthType;
 
   constructor(protected readonly options: Options) {
     this.logger = options.logger;
-
-    if (options.proxyUrl) {
-      this.proxyAgent = createProxyAgent(options.proxyUrl);
-    }
   }
 
   public abstract request(
@@ -46,6 +43,11 @@ export abstract class CDSBase<
   ): Promise<CDSResponseType>;
 
   protected async getAuth(): Promise<CDSAuthType> {
+    // Lazily create proxy agent
+    if (!this.proxyAgent && this.options.proxyUrl) {
+      this.proxyAgent = await createProxyAgent(this.options.proxyUrl);
+    }
+
     if (this.cachedAuth) {
       if (isOlderThan(this.cachedAuth.timestamp, CACHED_AUTH_TTL)) {
         this.cachedAuth = undefined;

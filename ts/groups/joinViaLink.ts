@@ -7,6 +7,7 @@ import type { ConversationAttributesType } from '../model-types.d';
 import type { ConversationModel } from '../models/conversations';
 import type { PreJoinConversationType } from '../state/ducks/conversations';
 
+import { DataWriter } from '../sql/Client';
 import * as Bytes from '../Bytes';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
@@ -30,6 +31,7 @@ import { isGroupV1 } from '../util/whatTypeOfConversation';
 import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
 import { sleep } from '../util/sleep';
 import { dropNull } from '../util/dropNull';
+import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
 
 export async function joinViaLink(value: string): Promise<void> {
   let inviteLinkPassword: string;
@@ -159,7 +161,7 @@ export async function joinViaLink(value: string): Promise<void> {
     const active_at = existingConversation.get('active_at') || Date.now();
     // eslint-disable-next-line camelcase
     existingConversation.set({ active_at, timestamp });
-    window.Signal.Data.updateConversation(existingConversation.attributes);
+    await DataWriter.updateConversation(existingConversation.attributes);
 
     // We're waiting for the left pane to re-sort before we navigate to that conversation
     await sleep(200);
@@ -184,9 +186,7 @@ export async function joinViaLink(value: string): Promise<void> {
       };
     } else if (localAvatar && localAvatar.path) {
       avatar = {
-        url: window.Signal.Migrations.getAbsoluteAttachmentPath(
-          localAvatar.path
-        ),
+        url: getLocalAttachmentUrl(localAvatar),
       };
     }
 
@@ -321,7 +321,7 @@ export async function joinViaLink(value: string): Promise<void> {
                 temporaryMemberCount: memberCount,
                 timestamp,
               });
-              window.Signal.Data.updateConversation(
+              await DataWriter.updateConversation(
                 targetConversation.attributes
               );
             }
@@ -344,9 +344,7 @@ export async function joinViaLink(value: string): Promise<void> {
                 // We want to keep this conversation around, since the join succeeded
                 isTemporary: undefined,
               });
-              window.Signal.Data.updateConversation(
-                tempConversation.attributes
-              );
+              await DataWriter.updateConversation(tempConversation.attributes);
             }
 
             window.reduxActions.conversations.showConversation({
@@ -358,7 +356,7 @@ export async function joinViaLink(value: string): Promise<void> {
               window.ConversationController.dangerouslyRemoveById(
                 tempConversation.id
               );
-              await window.Signal.Data.removeConversation(tempConversation.id);
+              await DataWriter.removeConversation(tempConversation.id);
             }
 
             throw error;
@@ -393,18 +391,19 @@ export async function joinViaLink(value: string): Promise<void> {
         loading: true,
       };
 
-      const attributes: Pick<
+      let attributes: Pick<
         ConversationAttributesType,
         'avatar' | 'secretParams'
       > = {
         avatar: null,
         secretParams,
       };
-      await applyNewAvatar(result.avatar, attributes, logId);
+      const patch = await applyNewAvatar(result.avatar, attributes, logId);
+      attributes = { ...attributes, ...patch };
 
       if (attributes.avatar && attributes.avatar.path) {
         localAvatar = {
-          path: attributes.avatar.path,
+          ...attributes.avatar,
         };
 
         // Dialog has been dismissed; we'll delete the unneeeded avatar

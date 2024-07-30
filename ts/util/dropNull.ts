@@ -1,9 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-export type NullToUndefined<T> = Extract<T, null> extends never
-  ? T
-  : Exclude<T, null> | undefined;
+export type NullToUndefined<T> =
+  Extract<T, null> extends never ? T : Exclude<T, null> | undefined;
 
 export function dropNull<T>(
   value: NonNullable<T> | null | undefined

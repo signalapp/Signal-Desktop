@@ -4,6 +4,7 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
+import { DataWriter } from '../../sql/Client';
 import { SendStatus } from '../../messages/MessageSendState';
 import { IMAGE_PNG } from '../../types/MIME';
 import { generateAci, generatePni } from '../../types/ServiceId';
@@ -79,7 +80,7 @@ describe('Conversations', () => {
     });
 
     // Saving to db and updating the convo's last message
-    await window.Signal.Data.saveMessage(message.attributes, {
+    await DataWriter.saveMessage(message.attributes, {
       forceSave: true,
       ourAci,
     });
@@ -88,7 +89,7 @@ describe('Conversations', () => {
       message,
       'test'
     );
-    await window.Signal.Data.updateConversation(conversation.attributes);
+    await DataWriter.updateConversation(conversation.attributes);
     await conversation.updateLastMessage();
 
     // Should be set to bananas because that's the last message sent.

@@ -1,51 +1,66 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import * as React from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-
-import type { StateType } from '../reducer';
-import type { LocalizerType } from '../../types/Util';
-import { useActions as usePreferredReactionsActions } from '../ducks/preferredReactions';
+import { usePreferredReactionsActions } from '../ducks/preferredReactions';
 import { useItemsActions } from '../ducks/items';
 import { getIntl } from '../selectors/user';
 import { getEmojiSkinTone } from '../selectors/items';
 import { useRecentEmojis } from '../selectors/emojis';
 import { getCustomizeModalState } from '../selectors/preferredReactions';
-
 import { CustomizingPreferredReactionsModal } from '../../components/CustomizingPreferredReactionsModal';
+import { strictAssert } from '../../util/assert';
 
-export function SmartCustomizingPreferredReactionsModal(): JSX.Element {
-  const preferredReactionsActions = usePreferredReactionsActions();
-  const { onSetSkinTone } = useItemsActions();
+export const SmartCustomizingPreferredReactionsModal = memo(
+  function SmartCustomizingPreferredReactionsModal(): JSX.Element {
+    const i18n = useSelector(getIntl);
+    const customizeModalState = useSelector(getCustomizeModalState);
+    const skinTone = useSelector(getEmojiSkinTone);
+    const recentEmojis = useRecentEmojis();
 
-  const i18n = useSelector<StateType, LocalizerType>(getIntl);
+    const {
+      cancelCustomizePreferredReactionsModal,
+      deselectDraftEmoji,
+      replaceSelectedDraftEmoji,
+      resetDraftEmoji,
+      savePreferredReactions,
+      selectDraftEmojiToBeReplaced,
+    } = usePreferredReactionsActions();
+    const { onSetSkinTone } = useItemsActions();
 
-  const customizeModalState = useSelector<
-    StateType,
-    ReturnType<typeof getCustomizeModalState>
-  >(state => getCustomizeModalState(state));
-
-  const recentEmojis = useRecentEmojis();
-
-  const skinTone = useSelector<StateType, number>(state =>
-    getEmojiSkinTone(state)
-  );
-
-  if (!customizeModalState) {
-    throw new Error(
+    strictAssert(
+      customizeModalState != null,
       '<SmartCustomizingPreferredReactionsModal> requires a modal'
     );
-  }
 
-  return (
-    <CustomizingPreferredReactionsModal
-      i18n={i18n}
-      onSetSkinTone={onSetSkinTone}
-      recentEmojis={recentEmojis}
-      skinTone={skinTone}
-      {...preferredReactionsActions}
-      {...customizeModalState}
-    />
-  );
-}
+    const {
+      hadSaveError,
+      isSaving,
+      draftPreferredReactions,
+      originalPreferredReactions,
+      selectedDraftEmojiIndex,
+    } = customizeModalState;
+
+    return (
+      <CustomizingPreferredReactionsModal
+        cancelCustomizePreferredReactionsModal={
+          cancelCustomizePreferredReactionsModal
+        }
+        deselectDraftEmoji={deselectDraftEmoji}
+        draftPreferredReactions={draftPreferredReactions}
+        hadSaveError={hadSaveError}
+        i18n={i18n}
+        isSaving={isSaving}
+        onSetSkinTone={onSetSkinTone}
+        originalPreferredReactions={originalPreferredReactions}
+        recentEmojis={recentEmojis}
+        replaceSelectedDraftEmoji={replaceSelectedDraftEmoji}
+        resetDraftEmoji={resetDraftEmoji}
+        savePreferredReactions={savePreferredReactions}
+        selectDraftEmojiToBeReplaced={selectDraftEmojiToBeReplaced}
+        selectedDraftEmojiIndex={selectedDraftEmojiIndex}
+        skinTone={skinTone}
+      />
+    );
+  }
+);

@@ -159,7 +159,7 @@ function getNavigationShortcuts(i18n: LocalizerType): Array<ShortcutType> {
     {
       id: 'Keyboard--begin-recording-voice-note',
       description: i18n('icu:Keyboard--begin-recording-voice-note'),
-      keys: [['commandOrCtrl', 'shift', 'V']],
+      keys: [['commandOrCtrl', 'shift', 'Y']],
     },
     {
       id: 'Keyboard--archive-conversation',

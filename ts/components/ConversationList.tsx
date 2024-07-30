@@ -371,12 +371,13 @@ export function ConversationList({
         case RowType.Conversation: {
           const itemProps = pick(row.conversation, [
             'acceptedMessageRequest',
-            'avatarPath',
+            'avatarUrl',
             'badges',
             'color',
             'draftPreview',
             'groupId',
             'id',
+            'isBlocked',
             'isMe',
             'isSelected',
             'isPinned',
@@ -392,7 +393,7 @@ export function ConversationList({
             'title',
             'type',
             'typingContactIdTimestamps',
-            'unblurredAvatarPath',
+            'unblurredAvatarUrl',
             'unreadCount',
             'unreadMentionsCount',
             'serviceId',

@@ -6,13 +6,14 @@ import type { EditAttributesType } from '../messageModifiers/Edits';
 import type {
   EditHistoryType,
   MessageAttributesType,
+  QuotedAttachmentType,
   QuotedMessageType,
 } from '../model-types.d';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import * as Edits from '../messageModifiers/Edits';
 import * as log from '../logging/log';
 import { ReadStatus } from '../messages/MessageReadStatus';
-import dataInterface from '../sql/Client';
+import { DataWriter } from '../sql/Client';
 import { drop } from './drop';
 import { getAttachmentSignature, isVoiceMessage } from '../types/Attachment';
 import { isAciString } from './isAciString';
@@ -121,6 +122,8 @@ export async function handleEditMessage(
       quote: mainMessage.quote,
       sendStateByConversationId: { ...mainMessage.sendStateByConversationId },
       timestamp: mainMessage.timestamp,
+      received_at: mainMessage.received_at,
+      received_at_ms: mainMessage.received_at_ms,
     },
   ];
 
@@ -135,16 +138,13 @@ export async function handleEditMessage(
   }
 
   const upgradedEditedMessageData =
-    await window.Signal.Migrations.upgradeMessageSchema(
-      editAttributes.message,
-      { keepOnDisk: true }
-    );
+    await window.Signal.Migrations.upgradeMessageSchema(editAttributes.message);
 
   // Copies over the attachments from the main message if they're the same
   // and they have already been downloaded.
   const attachmentSignatures: Map<string, AttachmentType> = new Map();
   const previewSignatures: Map<string, LinkPreviewType> = new Map();
-  const quoteSignatures: Map<string, AttachmentType> = new Map();
+  const quoteSignatures: Map<string, QuotedAttachmentType> = new Map();
 
   mainMessage.attachments?.forEach(attachment => {
     const signature = getAttachmentSignatureSafe(attachment);
@@ -227,13 +227,13 @@ export async function handleEditMessage(
           return attachment;
         }
         const signature = getAttachmentSignatureSafe(attachment.thumbnail);
-        const existingThumbnail = signature
+        const existingQuoteAttachment = signature
           ? quoteSignatures.get(signature)
           : undefined;
-        if (existingThumbnail) {
+        if (existingQuoteAttachment) {
           return {
             ...attachment,
-            thumbnail: existingThumbnail,
+            thumbnail: existingQuoteAttachment.thumbnail,
           };
         }
 
@@ -256,6 +256,8 @@ export async function handleEditMessage(
     sendStateByConversationId:
       upgradedEditedMessageData.sendStateByConversationId,
     timestamp: upgradedEditedMessageData.timestamp,
+    received_at: upgradedEditedMessageData.received_at,
+    received_at_ms: upgradedEditedMessageData.received_at_ms,
     quote: nextEditedMessageQuote,
   };
 
@@ -271,6 +273,8 @@ export async function handleEditMessage(
     bodyRanges: editedMessage.bodyRanges,
     editHistory,
     editMessageTimestamp: upgradedEditedMessageData.timestamp,
+    editMessageReceivedAt: upgradedEditedMessageData.received_at,
+    editMessageReceivedAtMs: upgradedEditedMessageData.received_at_ms,
     preview: editedMessage.preview,
     quote: editedMessage.quote,
   });
@@ -340,7 +344,7 @@ export async function handleEditMessage(
 
   // Save both the main message and the edited message for fast lookups
   drop(
-    dataInterface.saveEditedMessage(
+    DataWriter.saveEditedMessage(
       mainMessageModel.attributes,
       window.textsecure.storage.user.getCheckedAci(),
       {

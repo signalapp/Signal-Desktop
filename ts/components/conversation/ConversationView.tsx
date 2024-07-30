@@ -8,22 +8,24 @@ import { useEscapeHandling } from '../../hooks/useEscapeHandling';
 export type PropsType = {
   conversationId: string;
   hasOpenModal: boolean;
+  hasOpenPanel: boolean;
   isSelectMode: boolean;
   onExitSelectMode: () => void;
   processAttachments: (options: {
     conversationId: string;
     files: ReadonlyArray<File>;
   }) => void;
-  renderCompositionArea: () => JSX.Element;
-  renderConversationHeader: () => JSX.Element;
-  renderTimeline: () => JSX.Element;
-  renderPanel: () => JSX.Element | undefined;
+  renderCompositionArea: (conversationId: string) => JSX.Element;
+  renderConversationHeader: (conversationId: string) => JSX.Element;
+  renderTimeline: (conversationId: string) => JSX.Element;
+  renderPanel: (conversationId: string) => JSX.Element | undefined;
   shouldHideConversationView?: boolean;
 };
 
 export function ConversationView({
   conversationId,
   hasOpenModal,
+  hasOpenPanel,
   isSelectMode,
   onExitSelectMode,
   processAttachments,
@@ -57,6 +59,10 @@ export function ConversationView({
 
   const onPaste = React.useCallback(
     (event: React.ClipboardEvent<HTMLDivElement>) => {
+      if (hasOpenModal || hasOpenPanel) {
+        return;
+      }
+
       if (!event.clipboardData) {
         return;
       }
@@ -102,7 +108,7 @@ export function ConversationView({
         event.preventDefault();
       }
     },
-    [conversationId, processAttachments]
+    [conversationId, processAttachments, hasOpenModal, hasOpenPanel]
   );
 
   useEscapeHandling(
@@ -121,20 +127,20 @@ export function ConversationView({
         })}
       >
         <div className="ConversationView__header">
-          {renderConversationHeader()}
+          {renderConversationHeader(conversationId)}
         </div>
         <div className="ConversationView__pane">
           <div className="ConversationView__timeline--container">
             <div aria-live="polite" className="ConversationView__timeline">
-              {renderTimeline()}
+              {renderTimeline(conversationId)}
             </div>
           </div>
           <div className="ConversationView__composition-area">
-            {renderCompositionArea()}
+            {renderCompositionArea(conversationId)}
           </div>
         </div>
       </div>
-      {renderPanel()}
+      {renderPanel(conversationId)}
     </div>
   );
 }

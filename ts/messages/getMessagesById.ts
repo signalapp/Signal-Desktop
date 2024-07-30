@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as log from '../logging/log';
+import { DataReader } from '../sql/Client';
 import type { MessageModel } from '../models/messages';
 import type { MessageAttributesType } from '../model-types.d';
 import * as Errors from '../types/errors';
@@ -23,7 +24,7 @@ export async function getMessagesById(
 
   let rawMessagesFromDatabase: Array<MessageAttributesType>;
   try {
-    rawMessagesFromDatabase = await window.Signal.Data.getMessagesById(
+    rawMessagesFromDatabase = await DataReader.getMessagesById(
       messageIdsToLookUpInDatabase
     );
   } catch (err: unknown) {

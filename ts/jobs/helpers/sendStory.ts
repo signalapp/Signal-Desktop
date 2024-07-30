@@ -23,7 +23,7 @@ import type { ServiceIdString } from '../../types/ServiceId';
 import type { StoryDistributionIdString } from '../../types/StoryDistributionId';
 import * as Errors from '../../types/errors';
 import type { StoryMessageRecipientsType } from '../../types/Stories';
-import dataInterface from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client';
 import { SignalService as Proto } from '../../protobuf';
 import { getMessagesById } from '../../messages/getMessagesById';
 import {
@@ -252,7 +252,7 @@ export async function sendStory(
 
       const distributionList = isGroupV2(conversation.attributes)
         ? undefined
-        : await dataInterface.getStoryDistributionWithMembers(receiverId);
+        : await DataReader.getStoryDistributionWithMembers(receiverId);
 
       let messageSendErrors: Array<Error> = [];
 
@@ -541,7 +541,7 @@ export async function sendStory(
       }
 
       message.set('sendStateByConversationId', newSendStateByConversationId);
-      return window.Signal.Data.saveMessage(message.attributes, {
+      return DataWriter.saveMessage(message.attributes, {
         ourAci: window.textsecure.storage.user.getCheckedAci(),
       });
     })
@@ -688,7 +688,7 @@ async function markMessageFailed(
 ): Promise<void> {
   message.markFailed();
   void message.saveErrors(errors, { skipSave: true });
-  await window.Signal.Data.saveMessage(message.attributes, {
+  await DataWriter.saveMessage(message.attributes, {
     ourAci: window.textsecure.storage.user.getCheckedAci(),
   });
 }

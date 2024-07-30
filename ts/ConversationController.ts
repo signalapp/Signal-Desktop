@@ -4,6 +4,7 @@
 import { debounce, pick, uniq, without } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as generateUuid } from 'uuid';
+import { batch as batchDispatch } from 'react-redux';
 
 import type {
   ConversationModelCollectionType,
@@ -13,10 +14,10 @@ import type {
 } from './model-types.d';
 import type { ConversationModel } from './models/conversations';
 
-import dataInterface from './sql/Client';
+import { DataReader, DataWriter } from './sql/Client';
 import * as log from './logging/log';
 import * as Errors from './types/errors';
-import { getContactId } from './messages/helpers';
+import { getAuthorId } from './messages/helpers';
 import { maybeDeriveGroupV2Id } from './groups';
 import { assertDev, strictAssert } from './util/assert';
 import { drop } from './util/drop';
@@ -126,11 +127,15 @@ const {
   getAllConversations,
   getAllGroupsInvolvingServiceId,
   getMessagesBySentAt,
+} = DataReader;
+
+const {
   migrateConversationMessages,
   removeConversation,
   saveConversation,
   updateConversation,
-} = dataInterface;
+  updateConversations,
+} = DataWriter;
 
 // We have to run this in background.js, after all backbone models and collections on
 //   Whisper.* have been created. Once those are in typescript we can use more reasonable
@@ -261,7 +266,7 @@ export class ConversationController {
   getOrCreate(
     identifier: string | null,
     type: ConversationAttributesTypeType,
-    additionalInitialProps = {}
+    additionalInitialProps: Partial<ConversationAttributesType> = {}
   ): ConversationModel {
     if (typeof identifier !== 'string') {
       throw new TypeError("'id' must be a string");
@@ -357,7 +362,7 @@ export class ConversationController {
   async getOrCreateAndWait(
     id: string | null,
     type: ConversationAttributesTypeType,
-    additionalInitialProps = {}
+    additionalInitialProps: Partial<ConversationAttributesType> = {}
   ): Promise<ConversationModel> {
     await this.load();
     const conversation = this.getOrCreate(id, type, additionalInitialProps);
@@ -442,12 +447,12 @@ export class ConversationController {
       conversation.set({
         profileAvatar: { hash: SIGNAL_AVATAR_PATH, path: SIGNAL_AVATAR_PATH },
       });
-      updateConversation(conversation.attributes);
+      await updateConversation(conversation.attributes);
     }
 
     if (!conversation.get('profileName')) {
       conversation.set({ profileName: 'Signal' });
-      updateConversation(conversation.attributes);
+      await updateConversation(conversation.attributes);
     }
 
     this._signalConversationId = conversation.id;
@@ -720,6 +725,7 @@ export class ConversationController {
       (targetOldServiceIds.pni !== pni ||
         (aci && targetOldServiceIds.aci !== aci))
     ) {
+      targetConversation.unset('needsTitleTransition');
       mergePromises.push(
         targetConversation.addPhoneNumberDiscoveryIfNeeded(
           targetOldServiceIds.pni
@@ -830,7 +836,7 @@ export class ConversationController {
   // Note: `doCombineConversations` is directly used within this function since both
   //   run on `_combineConversationsQueue` queue and we don't want deadlocks.
   private async doCheckForConflicts(): Promise<void> {
-    log.info('checkForConflicts: starting...');
+    log.info('ConversationController.checkForConflicts: starting...');
     const byServiceId = Object.create(null);
     const byE164 = Object.create(null);
     const byGroupV2Id = Object.create(null);
@@ -932,7 +938,7 @@ export class ConversationController {
             );
 
             existing.set({ e164: undefined });
-            updateConversation(existing.attributes);
+            drop(updateConversation(existing.attributes));
 
             byE164[e164] = conversation;
 
@@ -1056,6 +1062,8 @@ export class ConversationController {
     }
     current.set('active_at', activeAt);
 
+    const currentHadMessages = (current.get('messageCount') ?? 0) > 0;
+
     const dataToCopy: Partial<ConversationAttributesType> = pick(
       obsolete.attributes,
       [
@@ -1067,6 +1075,7 @@ export class ConversationController {
         'draftTimestamp',
         'messageCount',
         'messageRequestResponseType',
+        'needsTitleTransition',
         'profileSharing',
         'quotedMessageId',
         'sentMessageCount',
@@ -1128,9 +1137,8 @@ export class ConversationController {
       log.warn(
         `${logId}: Ensure that all V1 groups have new conversationId instead of old`
       );
-      const groups = await this.getAllGroupsInvolvingServiceId(
-        obsoleteServiceId
-      );
+      const groups =
+        await this.getAllGroupsInvolvingServiceId(obsoleteServiceId);
       groups.forEach(group => {
         const members = group.get('members');
         const withoutObsolete = without(members, obsoleteId);
@@ -1139,7 +1147,7 @@ export class ConversationController {
         group.set({
           members: currentAdded,
         });
-        updateConversation(group.attributes);
+        drop(updateConversation(group.attributes));
       });
     }
 
@@ -1196,7 +1204,15 @@ export class ConversationController {
     const titleIsUseful = Boolean(
       obsoleteTitleInfo && getTitleNoDefault(obsoleteTitleInfo)
     );
-    if (obsoleteTitleInfo && titleIsUseful && obsoleteHadMessages) {
+    // If both conversations had messages - add merge
+    if (
+      titleIsUseful &&
+      conversationType === 'private' &&
+      currentHadMessages &&
+      obsoleteHadMessages
+    ) {
+      assertDev(obsoleteTitleInfo, 'part of titleIsUseful boolean');
+
       drop(current.addConversationMerge(obsoleteTitleInfo));
     }
 
@@ -1223,7 +1239,7 @@ export class ConversationController {
     targetTimestamp: number
   ): Promise<ConversationModel | null | undefined> {
     const messages = await getMessagesBySentAt(targetTimestamp);
-    const targetMessage = messages.find(m => getContactId(m) === targetFromId);
+    const targetMessage = messages.find(m => getAuthorId(m) === targetFromId);
 
     if (targetMessage) {
       return this.get(targetMessage.conversationId);
@@ -1324,7 +1340,7 @@ export class ConversationController {
       );
       convo.set('isPinned', true);
 
-      window.Signal.Data.updateConversation(convo.attributes);
+      drop(updateConversation(convo.attributes));
     }
   }
 
@@ -1340,7 +1356,7 @@ export class ConversationController {
         `updating ${sharedWith.length} conversations`
     );
 
-    await window.Signal.Data.updateConversations(
+    await updateConversations(
       sharedWith.map(c => {
         c.unset('shareMyPhoneNumber');
         return c.attributes;
@@ -1408,12 +1424,16 @@ export class ConversationController {
       );
       await queue.onIdle();
 
-      // Hydrate the final set of conversations
-      this._conversations.add(
-        collection.filter(conversation => !conversation.isTemporary)
-      );
-
+      // It is alright to call it first because the 'add'/'update' events are
+      // triggered after updating the collection.
       this._initialFetchComplete = true;
+
+      // Hydrate the final set of conversations
+      batchDispatch(() => {
+        this._conversations.add(
+          collection.filter(conversation => !conversation.isTemporary)
+        );
+      });
 
       await Promise.all(
         this._conversations.map(async conversation => {
@@ -1423,7 +1443,7 @@ export class ConversationController {
 
             const isChanged = maybeDeriveGroupV2Id(conversation);
             if (isChanged) {
-              updateConversation(conversation.attributes);
+              await updateConversation(conversation.attributes);
             }
 
             // In case a too-large draft was saved to the database
@@ -1432,7 +1452,7 @@ export class ConversationController {
               conversation.set({
                 draft: draft.slice(0, MAX_MESSAGE_BODY_LENGTH),
               });
-              updateConversation(conversation.attributes);
+              await updateConversation(conversation.attributes);
             }
 
             // Clean up the conversations that have service id as their e164.
@@ -1440,7 +1460,7 @@ export class ConversationController {
             const serviceId = conversation.getServiceId();
             if (e164 && isServiceIdString(e164) && serviceId) {
               conversation.set({ e164: undefined });
-              updateConversation(conversation.attributes);
+              await updateConversation(conversation.attributes);
 
               log.info(
                 `Cleaning up conversation(${serviceId}) with invalid e164`
@@ -1454,7 +1474,10 @@ export class ConversationController {
           }
         })
       );
-      log.info('ConversationController: done with initial fetch');
+      log.info(
+        'ConversationController: done with initial fetch, ' +
+          `got ${this._conversations.length} conversations`
+      );
     } catch (error) {
       log.error(
         'ConversationController: initial fetch failed',

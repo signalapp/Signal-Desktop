@@ -18,9 +18,12 @@ export type PropsType = {
   isPending: boolean;
 } & PropsActionsType;
 
-export function CrashReportDialog(props: Readonly<PropsType>): JSX.Element {
-  const { i18n, isPending, writeCrashReportsToLog, eraseCrashReports } = props;
-
+export function CrashReportDialog({
+  i18n,
+  isPending,
+  writeCrashReportsToLog,
+  eraseCrashReports,
+}: Readonly<PropsType>): JSX.Element {
   const onEraseClick = (event: React.MouseEvent) => {
     event.preventDefault();
 

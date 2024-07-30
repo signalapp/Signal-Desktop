@@ -5,7 +5,7 @@ import type { ReactChild } from 'react';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Avatar, AvatarSize } from './Avatar';
 import { Tooltip } from './Tooltip';
-import { Intl } from './Intl';
+import { I18n } from './I18n';
 import { Theme } from '../util/theme';
 import { getParticipantName } from '../util/callingGetParticipantName';
 import { ContactName } from './conversation/ContactName';
@@ -28,7 +28,7 @@ export type PropsType = {
   conversation: Pick<
     ConversationType,
     | 'acceptedMessageRequest'
-    | 'avatarPath'
+    | 'avatarUrl'
     | 'color'
     | 'id'
     | 'isMe'
@@ -124,7 +124,7 @@ function GroupCallMessage({
   switch (otherMembersRung.length) {
     case 0:
       return (
-        <Intl
+        <I18n
           id="icu:incomingGroupCall__ringing-you"
           i18n={i18n}
           components={{ ringer: ringerNode }}
@@ -132,7 +132,7 @@ function GroupCallMessage({
       );
     case 1:
       return (
-        <Intl
+        <I18n
           id="icu:incomingGroupCall__ringing-1-other"
           i18n={i18n}
           components={{
@@ -143,7 +143,7 @@ function GroupCallMessage({
       );
     case 2:
       return (
-        <Intl
+        <I18n
           id="icu:incomingGroupCall__ringing-2-others"
           i18n={i18n}
           components={{
@@ -155,7 +155,7 @@ function GroupCallMessage({
       );
     case 3:
       return (
-        <Intl
+        <I18n
           id="icu:incomingGroupCall__ringing-3-others"
           i18n={i18n}
           components={{
@@ -167,7 +167,7 @@ function GroupCallMessage({
       );
     default:
       return (
-        <Intl
+        <I18n
           id="icu:incomingGroupCall__ringing-many"
           i18n={i18n}
           components={{
@@ -194,7 +194,7 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
   const {
     id: conversationId,
     acceptedMessageRequest,
-    avatarPath,
+    avatarUrl,
     color,
     isMe,
     phoneNumber,
@@ -275,7 +275,7 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
           <div className="IncomingCallBar__conversation--avatar">
             <Avatar
               acceptedMessageRequest={acceptedMessageRequest}
-              avatarPath={avatarPath}
+              avatarUrl={avatarUrl}
               badge={undefined}
               color={color || AvatarColors[0]}
               noteToSelf={false}

@@ -4,6 +4,7 @@
 import type { MutableRefObject } from 'react';
 import React, {
   forwardRef,
+  memo,
   useCallback,
   useEffect,
   useRef,
@@ -91,11 +92,11 @@ function doAnimate({
   };
 }
 
-export function ConversationPanel({
+export const ConversationPanel = memo(function ConversationPanel({
   conversationId,
 }: {
   conversationId: string;
-}): JSX.Element | null {
+}) {
   const panelInformation = useSelector(getPanelInformation);
   const { panelAnimationDone, panelAnimationStarted } =
     useConversationsActions();
@@ -250,7 +251,7 @@ export function ConversationPanel({
   }
 
   return null;
-}
+});
 
 type PanelPropsType = {
   conversationId: string;

@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { omit } from 'lodash';
+import type { ReadonlyDeep } from 'type-fest';
 
 import { SignalService as Proto } from '../protobuf';
-import type { MessageAttributesType } from '../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../model-types.d';
 
 import { isNotNil } from '../util/isNotNil';
 import {
@@ -14,12 +15,14 @@ import {
 import type {
   AttachmentType,
   AttachmentWithHydratedData,
+  LocalAttachmentV2Type,
   UploadedAttachmentType,
 } from './Attachment';
 import { toLogFormat } from './errors';
 import type { LoggerType } from './Logging';
 import type { ServiceIdString } from './ServiceId';
 import type { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem';
+import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
 
 type GenericEmbeddedContactType<AvatarType> = {
   name?: Name;
@@ -145,16 +148,14 @@ export function numberToAddressType(
 }
 
 export function embeddedContactSelector(
-  contact: EmbeddedContactType,
+  contact: ReadonlyDeep<EmbeddedContactType>,
   options: {
     regionCode?: string;
     firstNumber?: string;
     serviceId?: ServiceIdString;
-    getAbsoluteAttachmentPath: (path: string) => string;
   }
-): EmbeddedContactType {
-  const { getAbsoluteAttachmentPath, firstNumber, serviceId, regionCode } =
-    options;
+): ReadonlyDeep<EmbeddedContactType> {
+  const { firstNumber, serviceId, regionCode } = options;
 
   let { avatar } = contact;
   if (avatar && avatar.avatar) {
@@ -166,7 +167,7 @@ export function embeddedContactSelector(
         avatar: {
           ...avatar.avatar,
           path: avatar.avatar.path
-            ? getAbsoluteAttachmentPath(avatar.avatar.path)
+            ? getLocalAttachmentUrl(avatar.avatar)
             : undefined,
         },
       };
@@ -189,7 +190,9 @@ export function embeddedContactSelector(
   };
 }
 
-export function getName(contact: EmbeddedContactType): string | undefined {
+export function getName(
+  contact: ReadonlyDeep<EmbeddedContactType>
+): string | undefined {
   const { name, organization } = contact;
   const displayName = (name && name.displayName) || undefined;
   const givenName = (name && name.givenName) || undefined;
@@ -206,10 +209,12 @@ export function parseAndWriteAvatar(
   return async (
     contact: EmbeddedContactType,
     context: {
-      message: MessageAttributesType;
+      message: ReadonlyMessageAttributesType;
       getRegionCode: () => string | undefined;
       logger: LoggerType;
-      writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
+      writeNewAttachmentData: (
+        data: Uint8Array
+      ) => Promise<LocalAttachmentV2Type>;
     }
   ): Promise<EmbeddedContactType> => {
     const { message, getRegionCode, logger } = context;
@@ -278,7 +283,7 @@ function parseContact(
   return result;
 }
 
-function idForLogging(message: MessageAttributesType): string {
+function idForLogging(message: ReadonlyMessageAttributesType): string {
   return `${message.source}.${message.sourceDevice} ${message.sent_at}`;
 }
 

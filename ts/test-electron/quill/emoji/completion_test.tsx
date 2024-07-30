@@ -5,7 +5,8 @@ import { assert } from 'chai';
 import sinon from 'sinon';
 
 import { EmojiCompletion } from '../../../quill/emoji/completion';
-import type { EmojiData } from '../../../components/emoji/lib';
+import type { InsertEmojiOptionsType } from '../../../quill/emoji/completion';
+import { createSearch } from '../../../components/emoji/lib';
 
 describe('emojiCompletion', () => {
   let emojiCompletion: EmojiCompletion;
@@ -15,6 +16,7 @@ describe('emojiCompletion', () => {
   beforeEach(function (this: Mocha.Context) {
     mockQuill = {
       getLeaf: sinon.stub(),
+      getText: sinon.stub(),
       getSelection: sinon.stub(),
       keyboard: {
         addBinding: sinon.stub(),
@@ -27,6 +29,10 @@ describe('emojiCompletion', () => {
       onPickEmoji: sinon.stub(),
       setEmojiPickerElement: sinon.stub(),
       skinTone: 0,
+      search: createSearch([
+        { shortName: 'smile', tags: [], rank: 0 },
+        { shortName: 'smile_cat', tags: [], rank: 0 },
+      ]),
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -51,14 +57,10 @@ describe('emojiCompletion', () => {
   });
 
   describe('onTextChange', () => {
-    let insertEmojiStub: sinon.SinonStub<
-      [EmojiData, number, number, (boolean | undefined)?],
-      void
-    >;
+    let insertEmojiStub: sinon.SinonStub<[InsertEmojiOptionsType], void>;
 
     beforeEach(() => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      emojiCompletion.results = [{ short_name: 'joy' } as any];
+      emojiCompletion.results = ['joy'];
       emojiCompletion.index = 5;
       insertEmojiStub = sinon
         .stub(emojiCompletion, 'insertEmoji')
@@ -191,9 +193,9 @@ describe('emojiCompletion', () => {
         });
 
         it('inserts the emoji at the current cursor position', () => {
-          const [emoji, index, range] = insertEmojiStub.args[0];
+          const [{ shortName, index, range }] = insertEmojiStub.args[0];
 
-          assert.equal(emoji.short_name, 'smile');
+          assert.equal(shortName, 'smile');
           assert.equal(index, 0);
           assert.equal(range, 7);
         });
@@ -220,9 +222,9 @@ describe('emojiCompletion', () => {
         });
 
         it('inserts the emoji at the current cursor position', () => {
-          const [emoji, index, range] = insertEmojiStub.args[0];
+          const [{ shortName, index, range }] = insertEmojiStub.args[0];
 
-          assert.equal(emoji.short_name, 'smile');
+          assert.equal(shortName, 'smile');
           assert.equal(index, 7);
           assert.equal(range, 7);
         });
@@ -280,9 +282,9 @@ describe('emojiCompletion', () => {
         });
 
         it('inserts the emoji at the current cursor position', () => {
-          const [emoji, index, range] = insertEmojiStub.args[0];
+          const [{ shortName, index, range }] = insertEmojiStub.args[0];
 
-          assert.equal(emoji.short_name, 'smile');
+          assert.equal(shortName, 'smile');
           assert.equal(index, 0);
           assert.equal(range, validEmoji.length);
         });
@@ -329,9 +331,9 @@ describe('emojiCompletion', () => {
         });
 
         it('inserts the emoji at the current cursor position', () => {
-          const [emoji, index, range] = insertEmojiStub.args[0];
+          const [{ shortName, index, range }] = insertEmojiStub.args[0];
 
-          assert.equal(emoji.short_name, 'smile');
+          assert.equal(shortName, 'smile');
           assert.equal(index, 0);
           assert.equal(range, 6);
         });
@@ -344,18 +346,10 @@ describe('emojiCompletion', () => {
   });
 
   describe('completeEmoji', () => {
-    let insertEmojiStub: sinon.SinonStub<
-      [EmojiData, number, number, (boolean | undefined)?],
-      void
-    >;
+    let insertEmojiStub: sinon.SinonStub<[InsertEmojiOptionsType], void>;
 
     beforeEach(() => {
-      emojiCompletion.results = [
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        { short_name: 'smile' } as any,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        { short_name: 'smile_cat' } as any,
-      ];
+      emojiCompletion.results = ['smile', 'smile_cat'];
       emojiCompletion.index = 1;
       insertEmojiStub = sinon.stub(emojiCompletion, 'insertEmoji');
     });
@@ -379,9 +373,10 @@ describe('emojiCompletion', () => {
       });
 
       it('inserts the currently selected emoji at the current cursor position', () => {
-        const [emoji, insertIndex, range] = insertEmojiStub.args[0];
+        const [{ shortName, index: insertIndex, range }] =
+          insertEmojiStub.args[0];
 
-        assert.equal(emoji.short_name, 'smile_cat');
+        assert.equal(shortName, 'smile_cat');
         assert.equal(insertIndex, 0);
         assert.equal(range, text.length);
       });

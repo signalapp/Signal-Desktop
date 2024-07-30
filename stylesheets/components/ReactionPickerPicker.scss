@@ -17,7 +17,9 @@
   align-items: center;
   border-style: solid;
   border-width: 1px;
-  box-shadow: 0 1px 4px $color-black-alpha-05, 0 10px 16px $color-black-alpha-20;
+  box-shadow:
+    0 1px 4px $color-black-alpha-05,
+    0 10px 16px $color-black-alpha-20;
   display: inline-flex;
   flex-direction: row;
   padding-block: 3px;

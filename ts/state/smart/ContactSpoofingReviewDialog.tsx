@@ -1,15 +1,12 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { mapValues } from 'lodash';
 import type { StateType } from '../reducer';
-
 import { ContactSpoofingReviewDialog } from '../../components/conversation/ContactSpoofingReviewDialog';
-
 import { useConversationsActions } from '../ducks/conversations';
-import type { GetConversationByIdType } from '../selectors/conversations';
 import {
   getConversationSelector,
   getConversationByServiceIdSelector,
@@ -33,114 +30,114 @@ export type PropsType = Readonly<{
   onClose: () => void;
 }>;
 
-export function SmartContactSpoofingReviewDialog(
-  props: PropsType
-): JSX.Element | null {
-  const { conversationId } = props;
+export const SmartContactSpoofingReviewDialog = memo(
+  function SmartContactSpoofingReviewDialog(props: PropsType) {
+    const { conversationId } = props;
 
-  const getConversation = useSelector<StateType, GetConversationByIdType>(
-    getConversationSelector
-  );
+    const getConversation = useSelector(getConversationSelector);
 
-  const {
-    acceptConversation,
-    blockAndReportSpam,
-    blockConversation,
-    deleteConversation,
-    removeMember,
-    updateSharedGroups,
-  } = useConversationsActions();
-  const { showContactModal, toggleSignalConnectionsModal } =
-    useGlobalModalActions();
-  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const i18n = useSelector(getIntl);
-  const theme = useSelector(getTheme);
-  const getConversationByServiceId = useSelector(
-    getConversationByServiceIdSelector
-  );
-  const conversation = getConversation(conversationId);
-
-  // Just binding the options argument
-  const safeConversationSelector = useCallback(
-    (state: StateType) => {
-      return getSafeConversationWithSameTitle(state, {
-        possiblyUnsafeConversation: conversation,
-      });
-    },
-    [conversation]
-  );
-  const safeConvo = useSelector(safeConversationSelector);
-
-  const sharedProps = {
-    ...props,
-    acceptConversation,
-    blockAndReportSpam,
-    blockConversation,
-    deleteConversation,
-    getPreferredBadge,
-    i18n,
-    removeMember,
-    updateSharedGroups,
-    showContactModal,
-    toggleSignalConnectionsModal,
-    theme,
-  };
-
-  if (conversation.type === 'group') {
-    const { memberships } = getGroupMemberships(
-      conversation,
-      getConversationByServiceId
+    const {
+      acceptConversation,
+      reportSpam,
+      blockAndReportSpam,
+      blockConversation,
+      deleteConversation,
+      removeMember,
+      updateSharedGroups,
+    } = useConversationsActions();
+    const { showContactModal, toggleSignalConnectionsModal } =
+      useGlobalModalActions();
+    const getPreferredBadge = useSelector(getPreferredBadgeSelector);
+    const i18n = useSelector(getIntl);
+    const theme = useSelector(getTheme);
+    const getConversationByServiceId = useSelector(
+      getConversationByServiceIdSelector
     );
-    const groupNameCollisions = getCollisionsFromMemberships(memberships);
+    const conversation = getConversation(conversationId);
 
-    const previouslyAcknowledgedTitlesById = invertIdsByTitle(
-      conversation.acknowledgedGroupNameCollisions
+    // Just binding the options argument
+    const safeConversationSelector = useCallback(
+      (state: StateType) => {
+        return getSafeConversationWithSameTitle(state, {
+          possiblyUnsafeConversation: conversation,
+        });
+      },
+      [conversation]
+    );
+    const safeConvo = useSelector(safeConversationSelector);
+
+    const sharedProps = {
+      ...props,
+      acceptConversation,
+      reportSpam,
+      blockAndReportSpam,
+      blockConversation,
+      deleteConversation,
+      getPreferredBadge,
+      i18n,
+      removeMember,
+      updateSharedGroups,
+      showContactModal,
+      toggleSignalConnectionsModal,
+      theme,
+    };
+
+    if (conversation.type === 'group') {
+      const { memberships } = getGroupMemberships(
+        conversation,
+        getConversationByServiceId
+      );
+      const groupNameCollisions = getCollisionsFromMemberships(memberships);
+
+      const previouslyAcknowledgedTitlesById = invertIdsByTitle(
+        conversation.acknowledgedGroupNameCollisions
+      );
+
+      const collisionInfoByTitle = mapValues(groupNameCollisions, collisions =>
+        collisions.map(collision => ({
+          conversation: collision,
+          isSignalConnection: isSignalConnection(collision),
+          oldName: getOwn(previouslyAcknowledgedTitlesById, collision.id),
+        }))
+      );
+
+      return (
+        <ContactSpoofingReviewDialog
+          {...sharedProps}
+          type={ContactSpoofingType.MultipleGroupMembersWithSameTitle}
+          group={conversation}
+          collisionInfoByTitle={collisionInfoByTitle}
+        />
+      );
+    }
+
+    const possiblyUnsafeConvo = conversation;
+    assertDev(
+      possiblyUnsafeConvo.type === 'direct',
+      'DirectConversationWithSameTitle: expects possibly unsafe direct ' +
+        'conversation'
     );
 
-    const collisionInfoByTitle = mapValues(groupNameCollisions, collisions =>
-      collisions.map(collision => ({
-        conversation: collision,
-        isSignalConnection: isSignalConnection(collision),
-        oldName: getOwn(previouslyAcknowledgedTitlesById, collision.id),
-      }))
-    );
+    if (!safeConvo) {
+      return null;
+    }
+
+    const possiblyUnsafe = {
+      conversation: possiblyUnsafeConvo,
+      isSignalConnection: isSignalConnection(possiblyUnsafeConvo),
+    };
+    const safe = {
+      conversation: safeConvo,
+      isSignalConnection: isSignalConnection(safeConvo),
+    };
 
     return (
       <ContactSpoofingReviewDialog
         {...sharedProps}
-        type={ContactSpoofingType.MultipleGroupMembersWithSameTitle}
-        group={conversation}
-        collisionInfoByTitle={collisionInfoByTitle}
+        type={ContactSpoofingType.DirectConversationWithSameTitle}
+        possiblyUnsafe={possiblyUnsafe}
+        safe={safe}
       />
     );
   }
-
-  const possiblyUnsafeConvo = conversation;
-  assertDev(
-    possiblyUnsafeConvo.type === 'direct',
-    'DirectConversationWithSameTitle: expects possibly unsafe direct ' +
-      'conversation'
-  );
-
-  if (!safeConvo) {
-    return null;
-  }
-
-  const possiblyUnsafe = {
-    conversation: possiblyUnsafeConvo,
-    isSignalConnection: isSignalConnection(possiblyUnsafeConvo),
-  };
-  const safe = {
-    conversation: safeConvo,
-    isSignalConnection: isSignalConnection(safeConvo),
-  };
-
-  return (
-    <ContactSpoofingReviewDialog
-      {...sharedProps}
-      type={ContactSpoofingType.DirectConversationWithSameTitle}
-      possiblyUnsafe={possiblyUnsafe}
-      safe={safe}
-    />
-  );
-}
+);

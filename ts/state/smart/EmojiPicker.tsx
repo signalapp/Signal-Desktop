@@ -1,56 +1,53 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import React, { useCallback, forwardRef, memo } from 'react';
 import { useSelector } from 'react-redux';
-import type { StateType } from '../reducer';
 import { useRecentEmojis } from '../selectors/emojis';
-import { useActions as useEmojiActions } from '../ducks/emojis';
-
+import { useEmojisActions as useEmojiActions } from '../ducks/emojis';
 import type { Props as EmojiPickerProps } from '../../components/emoji/EmojiPicker';
 import { EmojiPicker } from '../../components/emoji/EmojiPicker';
 import { getIntl } from '../selectors/user';
 import { getEmojiSkinTone } from '../selectors/items';
-import type { LocalizerType } from '../../types/Util';
 
-export const SmartEmojiPicker = React.forwardRef<
-  HTMLDivElement,
-  Pick<
-    EmojiPickerProps,
-    'onClickSettings' | 'onPickEmoji' | 'onSetSkinTone' | 'onClose' | 'style'
-  >
->(function SmartEmojiPickerInner(
-  { onClickSettings, onPickEmoji, onSetSkinTone, onClose, style },
-  ref
-) {
-  const i18n = useSelector<StateType, LocalizerType>(getIntl);
-  const skinTone = useSelector<StateType, number>(state =>
-    getEmojiSkinTone(state)
-  );
+export const SmartEmojiPicker = memo(
+  forwardRef<
+    HTMLDivElement,
+    Pick<
+      EmojiPickerProps,
+      'onClickSettings' | 'onPickEmoji' | 'onSetSkinTone' | 'onClose' | 'style'
+    >
+  >(function SmartEmojiPickerInner(
+    { onClickSettings, onPickEmoji, onSetSkinTone, onClose, style },
+    ref
+  ) {
+    const i18n = useSelector(getIntl);
+    const skinTone = useSelector(getEmojiSkinTone);
 
-  const recentEmojis = useRecentEmojis();
+    const recentEmojis = useRecentEmojis();
+    const { onUseEmoji } = useEmojiActions();
 
-  const { onUseEmoji } = useEmojiActions();
+    const handlePickEmoji = useCallback(
+      data => {
+        onUseEmoji({ shortName: data.shortName });
+        onPickEmoji(data);
+      },
+      [onUseEmoji, onPickEmoji]
+    );
 
-  const handlePickEmoji = React.useCallback(
-    data => {
-      onUseEmoji({ shortName: data.shortName });
-      onPickEmoji(data);
-    },
-    [onUseEmoji, onPickEmoji]
-  );
-
-  return (
-    <EmojiPicker
-      ref={ref}
-      i18n={i18n}
-      skinTone={skinTone}
-      onClickSettings={onClickSettings}
-      onSetSkinTone={onSetSkinTone}
-      onPickEmoji={handlePickEmoji}
-      recentEmojis={recentEmojis}
-      onClose={onClose}
-      style={style}
-    />
-  );
-});
+    return (
+      <EmojiPicker
+        i18n={i18n}
+        onClickSettings={onClickSettings}
+        onClose={onClose}
+        onSetSkinTone={onSetSkinTone}
+        onPickEmoji={handlePickEmoji}
+        recentEmojis={recentEmojis}
+        ref={ref}
+        skinTone={skinTone}
+        style={style}
+        wasInvokedFromKeyboard={false}
+      />
+    );
+  })
+);

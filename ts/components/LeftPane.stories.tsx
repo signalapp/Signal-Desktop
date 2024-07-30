@@ -62,6 +62,7 @@ const defaultConversations: Array<ConversationType> = [
 ];
 
 const defaultSearchProps = {
+  isSearchingGlobally: true,
   searchConversation: undefined,
   searchDisabled: false,
   searchTerm: 'hello',
@@ -145,13 +146,14 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     composeReplaceAvatar: action('composeReplaceAvatar'),
     composeSaveAvatarToDisk: action('composeSaveAvatarToDisk'),
     createGroup: action('createGroup'),
+    endConversationSearch: action('endConversationSearch'),
+    endSearch: action('endSearch'),
     getPreferredBadge: () => undefined,
     hasFailedStorySends: false,
     hasPendingUpdate: false,
     i18n,
     isMacOS: false,
     preferredWidthFromStorage: 320,
-    regionCode: 'US',
     challengeStatus: 'idle',
     crashReportCount: 0,
 
@@ -201,6 +203,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         i18n={i18n}
         socketStatus={SocketStatus.CLOSED}
         isOnline={false}
+        isOutage={false}
         manualReconnect={action('manualReconnect')}
         {...overrideProps.dialogNetworkStatus}
         {...props}
@@ -264,6 +267,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         toast={undefined}
         megaphone={undefined}
         containerWidthBreakpoint={containerWidthBreakpoint}
+        isInFullScreenCall={false}
       />
     ),
     selectedConversationId: undefined,
@@ -608,6 +612,7 @@ export function ArchiveNoArchivedConversations(): JSX.Element {
         modeSpecificProps: {
           mode: LeftPaneMode.Archive,
           archivedConversations: [],
+          isSearchingGlobally: false,
           searchConversation: undefined,
           searchTerm: '',
           startSearchCounter: 0,
@@ -624,6 +629,7 @@ export function ArchiveArchivedConversations(): JSX.Element {
         modeSpecificProps: {
           mode: LeftPaneMode.Archive,
           archivedConversations: defaultConversations,
+          isSearchingGlobally: false,
           searchConversation: undefined,
           searchTerm: '',
           startSearchCounter: 0,
@@ -640,6 +646,7 @@ export function ArchiveSearchingAConversation(): JSX.Element {
         modeSpecificProps: {
           mode: LeftPaneMode.Archive,
           archivedConversations: defaultConversations,
+          isSearchingGlobally: false,
           searchConversation: undefined,
           searchTerm: '',
           startSearchCounter: 0,

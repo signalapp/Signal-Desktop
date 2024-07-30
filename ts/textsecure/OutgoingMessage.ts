@@ -436,9 +436,8 @@ export default class OutgoingMessage {
               destinationDeviceId
             );
 
-            const activeSession = await sessionStore.getSession(
-              protocolAddress
-            );
+            const activeSession =
+              await sessionStore.getSession(protocolAddress);
             if (!activeSession) {
               throw new Error(
                 'OutgoingMessage.doSendMessage: No active session!'

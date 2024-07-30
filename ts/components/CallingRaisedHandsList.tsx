@@ -77,6 +77,12 @@ export function CallingRaisedHandsList({
             {i18n('icu:CallingRaisedHandsList__Title', {
               count: participants.length,
             })}
+            {participants.length > 1 ? (
+              <span className="CallingRaisedHandsList__TitleHint">
+                {' '}
+                {i18n('icu:CallingRaisedHandsList__TitleHint')}
+              </span>
+            ) : null}
           </div>
           <button
             type="button"
@@ -95,7 +101,7 @@ export function CallingRaisedHandsList({
               <div className="CallingRaisedHandsList__AvatarAndName module-calling-participants-list__avatar-and-name">
                 <Avatar
                   acceptedMessageRequest={participant.acceptedMessageRequest}
-                  avatarPath={participant.avatarPath}
+                  avatarUrl={participant.avatarUrl}
                   badge={undefined}
                   color={participant.color}
                   conversationType="direct"

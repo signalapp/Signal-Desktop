@@ -10,7 +10,7 @@ import type { StoryDistributionWithMembersType } from '../../sql/Interface';
 import type { StoryDistributionIdString } from '../../types/StoryDistributionId';
 import type { ServiceIdString } from '../../types/ServiceId';
 import * as log from '../../logging/log';
-import dataInterface from '../../sql/Client';
+import { DataReader, DataWriter } from '../../sql/Client';
 import { MY_STORY_ID } from '../../types/Stories';
 import { generateStoryDistributionId } from '../../types/StoryDistributionId';
 import { deleteStoryForEveryone } from '../../util/deleteStoryForEveryone';
@@ -113,7 +113,7 @@ function allowsRepliesChanged(
 ): ThunkAction<void, RootStateType, null, AllowRepliesChangedActionType> {
   return async dispatch => {
     const storyDistribution =
-      await dataInterface.getStoryDistributionWithMembers(listId);
+      await DataReader.getStoryDistributionWithMembers(listId);
 
     if (!storyDistribution) {
       log.warn(
@@ -131,7 +131,7 @@ function allowsRepliesChanged(
       return;
     }
 
-    await dataInterface.modifyStoryDistribution({
+    await DataWriter.modifyStoryDistribution({
       ...storyDistribution,
       allowsReplies,
       storageNeedsSync: true,
@@ -178,7 +178,7 @@ function createDistributionList(
     };
 
     if (shouldSave) {
-      await dataInterface.createNewStoryDistribution(storyDistribution);
+      await DataWriter.createNewStoryDistribution(storyDistribution);
     }
 
     if (storyDistribution.storageNeedsSync) {
@@ -208,14 +208,14 @@ function deleteDistributionList(
     const deletedAtTimestamp = Date.now();
 
     const storyDistribution =
-      await dataInterface.getStoryDistributionWithMembers(listId);
+      await DataReader.getStoryDistributionWithMembers(listId);
 
     if (!storyDistribution) {
       log.warn('No story distribution found for id', listId);
       return;
     }
 
-    await dataInterface.modifyStoryDistributionWithMembers(
+    await DataWriter.modifyStoryDistributionWithMembers(
       {
         ...storyDistribution,
         deletedAtTimestamp,
@@ -266,9 +266,8 @@ function hideMyStoriesFrom(
   memberServiceIds: Array<ServiceIdString>
 ): ThunkAction<void, RootStateType, null, HideMyStoriesFromActionType> {
   return async dispatch => {
-    const myStories = await dataInterface.getStoryDistributionWithMembers(
-      MY_STORY_ID
-    );
+    const myStories =
+      await DataReader.getStoryDistributionWithMembers(MY_STORY_ID);
 
     if (!myStories) {
       log.error(
@@ -279,7 +278,7 @@ function hideMyStoriesFrom(
 
     const toAdd = new Set<ServiceIdString>(memberServiceIds);
 
-    await dataInterface.modifyStoryDistributionWithMembers(
+    await DataWriter.modifyStoryDistributionWithMembers(
       {
         ...myStories,
         isBlockList: true,
@@ -316,7 +315,7 @@ function removeMembersFromDistributionList(
     }
 
     const storyDistribution =
-      await dataInterface.getStoryDistributionWithMembers(listId);
+      await DataReader.getStoryDistributionWithMembers(listId);
 
     if (!storyDistribution) {
       log.warn(
@@ -343,7 +342,7 @@ function removeMembersFromDistributionList(
       await window.storage.put('hasSetMyStoriesPrivacy', true);
     }
 
-    await dataInterface.modifyStoryDistributionWithMembers(
+    await DataWriter.modifyStoryDistributionWithMembers(
       {
         ...storyDistribution,
         isBlockList,
@@ -385,9 +384,8 @@ function setMyStoriesToAllSignalConnections(): ThunkAction<
   ResetMyStoriesActionType
 > {
   return async dispatch => {
-    const myStories = await dataInterface.getStoryDistributionWithMembers(
-      MY_STORY_ID
-    );
+    const myStories =
+      await DataReader.getStoryDistributionWithMembers(MY_STORY_ID);
 
     if (!myStories) {
       log.error(
@@ -397,7 +395,7 @@ function setMyStoriesToAllSignalConnections(): ThunkAction<
     }
 
     if (myStories.isBlockList || myStories.members.length > 0) {
-      await dataInterface.modifyStoryDistributionWithMembers(
+      await DataWriter.modifyStoryDistributionWithMembers(
         {
           ...myStories,
           isBlockList: true,
@@ -426,7 +424,7 @@ function updateStoryViewers(
 ): ThunkAction<void, RootStateType, null, ViewersChangedActionType> {
   return async dispatch => {
     const storyDistribution =
-      await dataInterface.getStoryDistributionWithMembers(listId);
+      await DataReader.getStoryDistributionWithMembers(listId);
 
     if (!storyDistribution) {
       log.warn(
@@ -456,7 +454,7 @@ function updateStoryViewers(
       }
     });
 
-    await dataInterface.modifyStoryDistributionWithMembers(
+    await DataWriter.modifyStoryDistributionWithMembers(
       {
         ...storyDistribution,
         isBlockList: false,
@@ -489,7 +487,7 @@ function removeMemberFromAllDistributionLists(
 ): ThunkAction<void, RootStateType, null, ModifyListActionType> {
   return async dispatch => {
     const logId = `removeMemberFromAllDistributionLists(${member})`;
-    const lists = await dataInterface.getAllStoryDistributionsWithMembers();
+    const lists = await DataReader.getAllStoryDistributionsWithMembers();
 
     const listsWithMember = lists.filter(({ members }) =>
       members.includes(member)

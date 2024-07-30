@@ -166,6 +166,12 @@
       @include system-message-icon('../images/icons/v3/refresh/refresh.svg');
     }
 
+    &--icon-thread::before {
+      @include system-message-icon(
+        '../images/icons/v3/thread/thread-compact.svg'
+      );
+    }
+
     &--icon-timer::before {
       @include system-message-icon(
         '../images/icons/v3/timer/timer-compact.svg'
@@ -240,6 +246,18 @@
       @include system-message-icon(
         '../images/icons/v3/merge/merge-compact.svg'
       );
+    }
+
+    &--icon-thread::before {
+      @include system-message-icon('../images/icons/v3/thread/thread.svg');
+    }
+
+    &--icon-spam::before {
+      @include system-message-icon('../images/icons/v3/spam/spam.svg');
+    }
+
+    &--icon-block::before {
+      @include system-message-icon('../images/icons/v3/block/block.svg');
     }
   }
 

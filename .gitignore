@@ -4,11 +4,12 @@ node_modules_bkp
 coverage/*
 build/curve25519_compiled.js
 build/dns-fallback.json
+build/compact-locales
 stylesheets/*.css.map
 /dist
 .DS_Store
 config/local.json
-config/local-*.json
+config/local-*
 *.provisionprofile
 release/
 /dev-app-update.yml
@@ -26,6 +27,7 @@ js/components.js
 js/util_worker.js
 libtextsecure/components.js
 stylesheets/*.css
+!stylesheets/webrtc_internals.css
 /storybook-static/
 preload.bundle.*
 bundles/

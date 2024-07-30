@@ -31,7 +31,7 @@ function createParticipant(
     sharingScreen: Boolean(participantProps.sharingScreen),
     videoAspectRatio: 1.3,
     ...getDefaultConversationWithServiceId({
-      avatarPath: participantProps.avatarPath,
+      avatarUrl: participantProps.avatarUrl,
       color: sample(AvatarColors),
       isBlocked: Boolean(participantProps.isBlocked),
       name: participantProps.name,
@@ -43,9 +43,11 @@ function createParticipant(
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
+  conversationId: 'fake-conversation-id',
   onClose: action('on-close'),
   ourServiceId: generateAci(),
   participants: overrideProps.participants || [],
+  showContactModal: action('show-contact-modal'),
 });
 
 export default {

@@ -46,6 +46,8 @@ export async function handleImageAttachment(
       : stringToMIMEType(file.type),
     fileName: file.name,
     file: processedFile,
+    // We always store draft attachments as HQ
+    highQuality: true,
   });
 
   const data = await blobToArrayBuffer(resizedBlob);
@@ -53,6 +55,7 @@ export async function handleImageAttachment(
 
   return {
     blurHash,
+    clientUuid: genUuid(),
     contentType,
     data: new Uint8Array(data),
     fileName: fileName || file.name,
@@ -66,10 +69,12 @@ export async function autoScale({
   contentType,
   file,
   fileName,
+  highQuality,
 }: {
   contentType: MIMEType;
   file: File | Blob;
   fileName: string;
+  highQuality: boolean;
 }): Promise<{
   contentType: MIMEType;
   file: Blob;
@@ -79,12 +84,12 @@ export async function autoScale({
     return { contentType, file, fileName };
   }
 
-  const { blob, contentType: newContentType } = await scaleImageToLevel(
-    file,
+  const { blob, contentType: newContentType } = await scaleImageToLevel({
+    fileOrBlobOrURL: file,
     contentType,
-    file.size,
-    true
-  );
+    size: file.size,
+    highQuality,
+  });
 
   if (newContentType !== IMAGE_JPEG) {
     return {

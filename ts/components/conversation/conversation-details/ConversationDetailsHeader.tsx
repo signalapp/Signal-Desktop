@@ -9,12 +9,13 @@ import { AvatarLightbox } from '../../AvatarLightbox';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import { GroupDescription } from '../GroupDescription';
 import { About } from '../About';
-import type { GroupV2Membership } from './ConversationDetailsMembershipList';
 import type { LocalizerType, ThemeType } from '../../../types/Util';
 import { assertDev } from '../../../util/assert';
 import { BadgeDialog } from '../../BadgeDialog';
 import type { BadgeType } from '../../../badges/types';
 import { UserText } from '../../UserText';
+import { isInSystemContacts } from '../../../util/isInSystemContacts';
+import { InContactsIcon } from '../../InContactsIcon';
 
 export type Props = {
   areWeASubscriber: boolean;
@@ -24,7 +25,7 @@ export type Props = {
   i18n: LocalizerType;
   isGroup: boolean;
   isMe: boolean;
-  memberships: ReadonlyArray<GroupV2Membership>;
+  membersCount: number | null;
   startEditing: (isGroupTitle: boolean) => void;
   toggleAboutContactModal: (contactId: string) => void;
   theme: ThemeType;
@@ -43,7 +44,7 @@ export function ConversationDetailsHeader({
   i18n,
   isGroup,
   isMe,
-  memberships,
+  membersCount,
   startEditing,
   toggleAboutContactModal,
   theme,
@@ -69,7 +70,7 @@ export function ConversationDetailsHeader({
       subtitle = i18n('icu:ConversationDetailsHeader--add-group-description');
     } else {
       subtitle = i18n('icu:ConversationDetailsHeader--members', {
-        number: memberships.length,
+        number: membersCount ?? 0,
       });
     }
   } else if (!isMe) {
@@ -106,7 +107,7 @@ export function ConversationDetailsHeader({
       modal = (
         <AvatarLightbox
           avatarColor={conversation.color}
-          avatarPath={conversation.avatarPath}
+          avatarUrl={conversation.avatarUrl}
           conversationTitle={conversation.title}
           i18n={i18n}
           isGroup={isGroup}
@@ -211,7 +212,15 @@ export function ConversationDetailsHeader({
       >
         <div className="ConversationDetailsHeader__title">
           <UserText text={conversation.title} />
-
+          {isInSystemContacts(conversation) && (
+            <span>
+              {' '}
+              <InContactsIcon
+                className="ConversationDetailsHeader__title-contact-icon"
+                i18n={i18n}
+              />
+            </span>
+          )}
           <span className="ConversationDetailsHeader__about-icon" />
         </div>
       </button>

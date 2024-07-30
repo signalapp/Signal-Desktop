@@ -8,12 +8,7 @@ import {
   getUserConversationId,
   getUserNumber,
 } from './user';
-import {
-  getAttachmentUrlForPath,
-  getMessagePropStatus,
-  getSource,
-  getSourceServiceId,
-} from './message';
+import { getMessagePropStatus, getSource, getSourceServiceId } from './message';
 import {
   getConversationByIdSelector,
   getConversations,
@@ -22,8 +17,9 @@ import {
 } from './conversations';
 import type { StateType } from '../reducer';
 import * as log from '../../logging/log';
+import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
 import type { MessageWithUIFieldsType } from '../ducks/conversations';
-import type { MessageAttributesType } from '../../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../../model-types.d';
 import { getMessageIdForLogging } from '../../util/idForLogging';
 import * as Attachment from '../../types/Attachment';
 import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer';
@@ -61,7 +57,7 @@ export const selectVoiceNoteTitle = createSelector(
   (ourNumber, ourAci, ourConversationId, conversationSelector, i18n) => {
     return (
       message: Pick<
-        MessageAttributesType,
+        ReadonlyMessageAttributesType,
         'type' | 'source' | 'sourceServiceId'
       >
     ) => {
@@ -79,7 +75,7 @@ export const selectVoiceNoteTitle = createSelector(
 );
 
 export function extractVoiceNoteForPlayback(
-  message: MessageAttributesType,
+  message: ReadonlyMessageAttributesType,
   ourConversationId: string | undefined
 ): VoiceNoteForPlayback | undefined {
   const { type } = message;
@@ -94,7 +90,7 @@ export function extractVoiceNoteForPlayback(
     return;
   }
   const voiceNoteUrl = attachment.path
-    ? getAttachmentUrlForPath(attachment.path)
+    ? getLocalAttachmentUrl(attachment)
     : undefined;
   const status = getMessagePropStatus(message, ourConversationId);
 

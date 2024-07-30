@@ -1,17 +1,16 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Database } from '@signalapp/better-sqlite3';
-import SQL from '@signalapp/better-sqlite3';
 import { assert } from 'chai';
 
-import { updateToVersion, insertData, getTableData } from './helpers';
+import type { WritableDB } from '../../sql/Interface';
+import { createDB, updateToVersion, insertData, getTableData } from './helpers';
 
 describe('SQL/updateToSchemaVersion90', () => {
-  let db: Database;
+  let db: WritableDB;
 
   beforeEach(() => {
-    db = new SQL(':memory:');
+    db = createDB();
   });
 
   afterEach(() => {

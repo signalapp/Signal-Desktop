@@ -5,11 +5,11 @@ import { take, uniq } from 'lodash';
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
-import dataInterface from '../../sql/Client';
+import { DataWriter } from '../../sql/Client';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
-const { updateEmojiUsage } = dataInterface;
+const { updateEmojiUsage } = DataWriter;
 
 // State
 
@@ -33,8 +33,9 @@ export const actions = {
   useEmoji,
 };
 
-export const useActions = (): BoundActionCreatorsMapObject<typeof actions> =>
-  useBoundActions(actions);
+export const useEmojisActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 function onUseEmoji({
   shortName,

@@ -1,15 +1,15 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Database } from '@signalapp/better-sqlite3';
 import type { LoggerType } from '../../types/Logging';
-import { getJobsInQueueSync, insertJobSync } from '../Server';
+import { getJobsInQueue, insertJob } from '../Server';
+import type { WritableDB } from '../Interface';
 import { isRecord } from '../../util/isRecord';
 import { isIterable } from '../../util/iterables';
 
 export default function updateToSchemaVersion55(
   currentVersion: number,
-  db: Database,
+  db: WritableDB,
   logger: LoggerType
 ): void {
   if (currentVersion >= 55) {
@@ -22,7 +22,7 @@ export default function updateToSchemaVersion55(
     );
 
     // First, make sure that report spam job data has e164 and serverGuids
-    const reportSpamJobs = getJobsInQueueSync(db, 'report spam');
+    const reportSpamJobs = getJobsInQueue(db, 'report spam');
     deleteJobsInQueue.run({ queueType: 'report spam' });
 
     reportSpamJobs.forEach(job => {
@@ -59,7 +59,7 @@ export default function updateToSchemaVersion55(
         },
       };
 
-      insertJobSync(db, newJob);
+      insertJob(db, newJob);
     });
 
     db.pragma('user_version = 55');

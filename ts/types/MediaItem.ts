@@ -1,12 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageAttributesType } from '../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import type { AttachmentType } from './Attachment';
 import type { MIMEType } from './MIME';
 
 export type MediaItemMessageType = Pick<
-  MessageAttributesType,
+  ReadonlyMessageAttributesType,
   | 'attachments'
   | 'conversationId'
   | 'id'

@@ -1,17 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Database } from '@signalapp/better-sqlite3';
-
 import type { LoggerType } from '../../types/Logging';
 import { isValidUuid } from '../../util/isValidUuid';
-import { assertSync } from '../../util/assert';
 import Helpers from '../../textsecure/Helpers';
 import { createOrUpdate, getById, removeById } from '../util';
 import type { EmptyQuery, Query } from '../util';
-import type { ItemKeyType } from '../Interface';
+import type { ItemKeyType, ReadableDB, WritableDB } from '../Interface';
 
-export function getOurUuid(db: Database): string | undefined {
+export function getOurUuid(db: ReadableDB): string | undefined {
   const UUID_ID: ItemKeyType = 'uuid_id';
 
   const row: { json: string } | undefined = db
@@ -30,7 +27,7 @@ export function getOurUuid(db: Database): string | undefined {
 
 export default function updateToSchemaVersion41(
   currentVersion: number,
-  db: Database,
+  db: WritableDB,
   logger: LoggerType
 ): void {
   if (currentVersion >= 41) {
@@ -92,8 +89,8 @@ export default function updateToSchemaVersion41(
       db.prepare('DELETE FROM preKeys').run().changes,
     ].reduce((a: number, b: number): number => a + b);
 
-    assertSync(removeById<string>(db, 'items', 'identityKey'));
-    assertSync(removeById<string>(db, 'items', 'registrationId'));
+    removeById<string>(db, 'items', 'identityKey');
+    removeById<string>(db, 'items', 'registrationId');
 
     return keyCount;
   };
@@ -104,36 +101,34 @@ export default function updateToSchemaVersion41(
       publicKey: string;
     };
 
-    const identityKey = assertSync(
-      getById<string, { value: IdentityKeyType }>(db, 'items', 'identityKey')
+    const identityKey = getById<string, { value: IdentityKeyType }>(
+      db,
+      'items',
+      'identityKey'
     );
-
     type RegistrationId = number;
 
-    const registrationId = assertSync(
-      getById<string, { value: RegistrationId }>(db, 'items', 'registrationId')
+    const registrationId = getById<string, { value: RegistrationId }>(
+      db,
+      'items',
+      'registrationId'
     );
-
     if (identityKey) {
-      assertSync(
-        createOrUpdate<ItemKeyType>(db, 'items', {
-          id: 'identityKeyMap',
-          value: {
-            [ourUuid]: identityKey.value,
-          },
-        })
-      );
+      createOrUpdate<ItemKeyType>(db, 'items', {
+        id: 'identityKeyMap',
+        value: {
+          [ourUuid]: identityKey.value,
+        },
+      });
     }
 
     if (registrationId) {
-      assertSync(
-        createOrUpdate<ItemKeyType>(db, 'items', {
-          id: 'registrationIdMap',
-          value: {
-            [ourUuid]: registrationId.value,
-          },
-        })
-      );
+      createOrUpdate<ItemKeyType>(db, 'items', {
+        id: 'registrationIdMap',
+        value: {
+          [ourUuid]: registrationId.value,
+        },
+      });
     }
 
     db.exec(

@@ -8,6 +8,7 @@ import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type { LocalizerType } from '../types/Util';
 import type { GroupCallRemoteParticipantType } from '../types/Calling';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
+import type { CallingImageDataCache } from './CallManager';
 
 const OVERFLOW_SCROLLED_TO_EDGE_THRESHOLD = 20;
 const OVERFLOW_SCROLL_BUTTON_RATIO = 0.75;
@@ -19,6 +20,7 @@ export type PropsType = {
   getFrameBuffer: () => Buffer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
+  imageDataCache: React.RefObject<CallingImageDataCache>;
   isCallReconnecting: boolean;
   onClickRaisedHand?: () => void;
   onParticipantVisibilityChanged: (
@@ -33,6 +35,7 @@ export type PropsType = {
 export function GroupCallOverflowArea({
   getFrameBuffer,
   getGroupCallVideoFrameSource,
+  imageDataCache,
   i18n,
   isCallReconnecting,
   onClickRaisedHand,
@@ -121,6 +124,7 @@ export function GroupCallOverflowArea({
             key={remoteParticipant.demuxId}
             getFrameBuffer={getFrameBuffer}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+            imageDataCache={imageDataCache}
             i18n={i18n}
             audioLevel={remoteAudioLevels.get(remoteParticipant.demuxId) ?? 0}
             onClickRaisedHand={onClickRaisedHand}

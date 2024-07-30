@@ -12,7 +12,41 @@ export enum SystemMessageKind {
 }
 
 export type PropsType = {
-  icon: string;
+  icon:
+    | 'audio-incoming'
+    | 'audio-missed'
+    | 'audio-outgoing'
+    | 'block'
+    | 'group'
+    | 'group-access'
+    | 'group-add'
+    | 'group-approved'
+    | 'group-avatar'
+    | 'group-decline'
+    | 'group-edit'
+    | 'group-leave'
+    | 'group-remove'
+    | 'group-summary'
+    | 'info'
+    | 'phone'
+    | 'profile'
+    | 'safety-number'
+    | 'spam'
+    | 'session-refresh'
+    | 'thread'
+    | 'timer'
+    | 'timer-disabled'
+    | 'unsupported'
+    | 'unsupported--can-process'
+    | 'verified'
+    | 'verified-not'
+    | 'video'
+    | 'video-incoming'
+    | 'video-missed'
+    | 'video-outgoing'
+    | 'warning'
+    | 'payment-event'
+    | 'merge';
   contents: ReactNode;
   button?: ReactNode;
   kind?: SystemMessageKind;

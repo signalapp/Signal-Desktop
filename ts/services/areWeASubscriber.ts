@@ -12,7 +12,7 @@ export class AreWeASubscriberService {
 
   update(
     storage: Pick<StorageInterface, 'get' | 'put' | 'onready'>,
-    server: Pick<WebAPIType, 'getHasSubscription'>
+    server: Pick<WebAPIType, 'getHasSubscription' | 'isOnline'>
   ): void {
     this.queue.add(async () => {
       await new Promise<void>(resolve => storage.onready(resolve));
@@ -23,7 +23,7 @@ export class AreWeASubscriberService {
         return;
       }
 
-      await waitForOnline(navigator, window);
+      await waitForOnline({ server });
 
       await storage.put(
         'areWeASubscriber',

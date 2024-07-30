@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { partition } from 'lodash';
-import type { MessageAttributesType } from '../model-types.d';
+import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import { isLongMessage } from '../types/MIME';
 
 // NOTE: If you're modifying this function then you'll likely also need
 // to modify ./queueAttachmentDownloads
 export function hasAttachmentDownloads(
-  message: MessageAttributesType
+  message: ReadonlyMessageAttributesType
 ): boolean {
   const attachments = message.attachments || [];
 
@@ -83,7 +83,7 @@ export function hasAttachmentDownloads(
 }
 
 function hasPreviewDownloads(
-  previews: MessageAttributesType['preview']
+  previews: ReadonlyMessageAttributesType['preview']
 ): boolean {
   return (previews || []).some(item => {
     if (!item.image) {
@@ -98,7 +98,7 @@ function hasPreviewDownloads(
 }
 
 function hasNormalAttachmentDownloads(
-  attachments: MessageAttributesType['attachments']
+  attachments: ReadonlyMessageAttributesType['attachments']
 ): boolean {
   return (attachments || []).some(attachment => {
     if (!attachment) {

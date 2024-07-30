@@ -82,6 +82,9 @@
       &::before {
         @include color-svg('../images/icons/v3/check/check.svg', $color-white);
       }
+      &:disabled {
+        opacity: 0.5;
+      }
     }
   }
 

@@ -69,7 +69,6 @@ describe('state/selectors/calling', () => {
       localAudioLevel: 0,
       viewMode: CallViewMode.Paginated,
       showParticipantsList: false,
-      safetyNumberChangedAcis: [],
       outgoingRing: true,
       pip: false,
       settingsDialogOpen: false,
@@ -101,6 +100,7 @@ describe('state/selectors/calling', () => {
     localDemuxId: undefined,
     peekInfo: {
       acis: [ACI_1],
+      pendingAcis: [],
       creatorAci: ACI_1,
       maxDevices: Infinity,
       deviceCount: 1,
@@ -181,6 +181,7 @@ describe('state/selectors/calling', () => {
             ...incomingGroupCall,
             peekInfo: {
               acis: [],
+              pendingAcis: [],
               maxDevices: Infinity,
               deviceCount: 1,
             },

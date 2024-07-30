@@ -1,35 +1,26 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
-import { connect } from 'react-redux';
-import { get } from 'lodash';
-
-import { mapDispatchToProps } from '../actions';
-import type { Props as ComponentPropsType } from '../../components/CompositionArea';
+import React, { useCallback, useMemo, memo } from 'react';
+import { useSelector } from 'react-redux';
 import { CompositionArea } from '../../components/CompositionArea';
-import type { StateType } from '../reducer';
+import { useContactNameData } from '../../components/conversation/ContactName';
 import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
 } from '../../types/BodyRange';
-import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
-import { dropNull } from '../../util/dropNull';
+import { hydrateRanges } from '../../types/BodyRange';
+import { strictAssert } from '../../util/assert';
+import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation';
 import { imageToBlurHash } from '../../util/imageToBlurHash';
-
+import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
+import { isSignalConversation } from '../../util/isSignalConversation';
+import {
+  getErrorDialogAudioRecorderType,
+  getRecordingState,
+} from '../selectors/audioRecorder';
 import { getPreferredBadgeSelector } from '../selectors/badges';
-import { selectRecentEmojis } from '../selectors/emojis';
-import {
-  getIntl,
-  getPlatform,
-  getTheme,
-  getUserConversationId,
-} from '../selectors/user';
-import {
-  getDefaultConversationColor,
-  getEmojiSkinTone,
-  getTextFormattingEnabled,
-} from '../selectors/items';
+import { getComposerStateForConversationIdSelector } from '../selectors/composer';
 import {
   getConversationSelector,
   getGroupAdminsSelector,
@@ -38,71 +29,95 @@ import {
   getSelectedMessageIds,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations';
+import { selectRecentEmojis } from '../selectors/emojis';
+import {
+  getDefaultConversationColor,
+  getEmojiSkinTone,
+  getShowStickerPickerHint,
+  getShowStickersIntroduction,
+  getTextFormattingEnabled,
+} from '../selectors/items';
 import { getPropsForQuote } from '../selectors/message';
 import {
   getBlessedStickerPacks,
   getInstalledStickerPacks,
   getKnownStickerPacks,
   getReceivedStickerPacks,
-  getRecentlyInstalledStickerPack,
   getRecentStickers,
+  getRecentlyInstalledStickerPack,
 } from '../selectors/stickers';
-import { isSignalConversation } from '../../util/isSignalConversation';
-import { getComposerStateForConversationIdSelector } from '../selectors/composer';
+import {
+  getIntl,
+  getPlatform,
+  getTheme,
+  getUserConversationId,
+} from '../selectors/user';
 import type { SmartCompositionRecordingProps } from './CompositionRecording';
 import { SmartCompositionRecording } from './CompositionRecording';
 import type { SmartCompositionRecordingDraftProps } from './CompositionRecordingDraft';
 import { SmartCompositionRecordingDraft } from './CompositionRecordingDraft';
-import { hydrateRanges } from '../../types/BodyRange';
+import { useItemsActions } from '../ducks/items';
+import { useComposerActions } from '../ducks/composer';
+import { useConversationsActions } from '../ducks/conversations';
+import { useAudioRecorderActions } from '../ducks/audioRecorder';
+import { useEmojisActions } from '../ducks/emojis';
+import { useGlobalModalActions } from '../ducks/globalModals';
+import { useStickersActions } from '../ducks/stickers';
+import { useToastActions } from '../ducks/toast';
+import { isShowingAnyModal } from '../selectors/globalModals';
 
-type ExternalProps = {
+function renderSmartCompositionRecording(
+  recProps: SmartCompositionRecordingProps
+) {
+  return <SmartCompositionRecording {...recProps} />;
+}
+
+function renderSmartCompositionRecordingDraft(
+  draftProps: SmartCompositionRecordingDraftProps
+) {
+  return <SmartCompositionRecordingDraft {...draftProps} />;
+}
+
+export const SmartCompositionArea = memo(function SmartCompositionArea({
+  id,
+}: {
   id: string;
-};
-
-export type CompositionAreaPropsType = ExternalProps & ComponentPropsType;
-
-const mapStateToProps = (state: StateType, props: ExternalProps) => {
-  const { id } = props;
-  const platform = getPlatform(state);
-
-  const shouldHidePopovers = getHasPanelOpen(state);
-
-  const conversationSelector = getConversationSelector(state);
+}) {
+  const conversationSelector = useSelector(getConversationSelector);
   const conversation = conversationSelector(id);
-  if (!conversation) {
-    throw new Error(`Conversation id ${id} not found!`);
-  }
+  strictAssert(conversation, `Conversation id ${id} not found!`);
 
-  const {
-    announcementsOnly,
-    areWeAdmin,
-    draftEditMessage,
-    draftText,
-    draftBodyRanges,
-  } = conversation;
-
-  const receivedPacks = getReceivedStickerPacks(state);
-  const installedPacks = getInstalledStickerPacks(state);
-  const blessedPacks = getBlessedStickerPacks(state);
-  const knownPacks = getKnownStickerPacks(state);
-
-  const installedPack = getRecentlyInstalledStickerPack(state);
-
-  const recentStickers = getRecentStickers(state);
-  const showIntroduction = get(
-    state.items,
-    ['showStickersIntroduction'],
-    false
+  const i18n = useSelector(getIntl);
+  const theme = useSelector(getTheme);
+  const skinTone = useSelector(getEmojiSkinTone);
+  const recentEmojis = useSelector(selectRecentEmojis);
+  const selectedMessageIds = useSelector(getSelectedMessageIds);
+  const isFormattingEnabled = useSelector(getTextFormattingEnabled);
+  const lastEditableMessageId = useSelector(getLastEditableMessageId);
+  const receivedPacks = useSelector(getReceivedStickerPacks);
+  const installedPacks = useSelector(getInstalledStickerPacks);
+  const blessedPacks = useSelector(getBlessedStickerPacks);
+  const knownPacks = useSelector(getKnownStickerPacks);
+  const platform = useSelector(getPlatform);
+  const shouldHidePopovers = useSelector(getHasPanelOpen);
+  const installedPack = useSelector(getRecentlyInstalledStickerPack);
+  const recentStickers = useSelector(getRecentStickers);
+  const showStickersIntroduction = useSelector(getShowStickersIntroduction);
+  const showStickerPickerHint = useSelector(getShowStickerPickerHint);
+  const recordingState = useSelector(getRecordingState);
+  const errorDialogAudioRecorderType = useSelector(
+    getErrorDialogAudioRecorderType
   );
-  const showPickerHint = Boolean(
-    get(state.items, ['showStickerPickerHint'], false) &&
-      receivedPacks.length > 0
+  const hasGlobalModalOpen = useSelector(isShowingAnyModal);
+  const hasPanelOpen = useSelector(getHasPanelOpen);
+  const getGroupAdmins = useSelector(getGroupAdminsSelector);
+  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
+  const composerStateForConversationIdSelector = useSelector(
+    getComposerStateForConversationIdSelector
   );
-
-  const composerStateForConversationIdSelector =
-    getComposerStateForConversationIdSelector(state);
-
   const composerState = composerStateForConversationIdSelector(id);
+  const { announcementsOnly, areWeAdmin, draftEditMessage, draftBodyRanges } =
+    conversation;
   const {
     attachments: draftAttachments,
     focusCounter,
@@ -114,6 +129,38 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     shouldSendHighQualityAttachments,
   } = composerState;
 
+  const isActive = useMemo(() => {
+    return !hasGlobalModalOpen && !hasPanelOpen;
+  }, [hasGlobalModalOpen, hasPanelOpen]);
+
+  const groupAdmins = useMemo(() => {
+    return getGroupAdmins(id);
+  }, [getGroupAdmins, id]);
+
+  const addedBy = useMemo(() => {
+    if (conversation.type === 'group') {
+      return getAddedByForOurPendingInvitation(conversation);
+    }
+    return null;
+  }, [conversation]);
+
+  const conversationName = useContactNameData(conversation);
+  strictAssert(conversationName, 'conversationName is required');
+  const addedByName = useContactNameData(addedBy);
+
+  const hydratedDraftBodyRanges = useMemo(() => {
+    return hydrateRanges(draftBodyRanges, conversationSelector);
+  }, [conversationSelector, draftBodyRanges]);
+
+  const convertDraftBodyRangesIntoHydrated = useCallback(
+    (
+      bodyRanges: DraftBodyRanges | undefined
+    ): HydratedBodyRangesType | undefined => {
+      return hydrateRanges(bodyRanges, conversationSelector);
+    },
+    [conversationSelector]
+  );
+
   let { quotedMessage } = composerState;
   if (!quotedMessage && draftEditMessage?.quote) {
     quotedMessage = {
@@ -122,117 +169,200 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     };
   }
 
-  const recentEmojis = selectRecentEmojis(state);
+  const ourConversationId = useSelector(getUserConversationId);
+  const defaultConversationColor = useSelector(getDefaultConversationColor);
 
-  const selectedMessageIds = getSelectedMessageIds(state);
-
-  const isFormattingEnabled = getTextFormattingEnabled(state);
-
-  const lastEditableMessageId = getLastEditableMessageId(state);
-
-  const convertDraftBodyRangesIntoHydrated = (
-    bodyRanges: DraftBodyRanges | undefined
-  ): HydratedBodyRangesType | undefined => {
-    return hydrateRanges(bodyRanges, conversationSelector);
-  };
-
-  return {
-    // Base
-    conversationId: id,
-    draftEditMessage,
-    focusCounter,
-    getPreferredBadge: getPreferredBadgeSelector(state),
-    i18n: getIntl(state),
-    isDisabled,
-    isFormattingEnabled,
-    lastEditableMessageId,
-    messageCompositionId,
-    platform,
-    sendCounter,
-    shouldHidePopovers,
-    theme: getTheme(state),
-    convertDraftBodyRangesIntoHydrated,
-
-    // AudioCapture
-    errorDialogAudioRecorderType:
-      state.audioRecorder.errorDialogAudioRecorderType,
-    recordingState: state.audioRecorder.recordingState,
-    // AttachmentsList
-    draftAttachments,
-    // MediaEditor
-    imageToBlurHash,
-    // MediaQualitySelector
-    shouldSendHighQualityAttachments:
-      shouldSendHighQualityAttachments !== undefined
-        ? shouldSendHighQualityAttachments
-        : window.storage.get('sent-media-quality') === 'high',
-    // StagedLinkPreview
-    linkPreviewLoading,
-    linkPreviewResult,
-    // Quote
-    quotedMessageId: quotedMessage?.quote?.messageId,
-    quotedMessageProps: quotedMessage
+  const quotedMessageProps = useMemo(() => {
+    return quotedMessage
       ? getPropsForQuote(quotedMessage, {
           conversationSelector,
-          ourConversationId: getUserConversationId(state),
-          defaultConversationColor: getDefaultConversationColor(state),
+          ourConversationId,
+          defaultConversationColor,
         })
-      : undefined,
-    quotedMessageAuthorAci: quotedMessage?.quote?.authorAci,
-    quotedMessageSentAt: quotedMessage?.quote?.id,
-    // Emojis
-    recentEmojis,
-    skinTone: getEmojiSkinTone(state),
-    // Stickers
-    receivedPacks,
-    installedPack,
-    blessedPacks,
-    knownPacks,
-    installedPacks,
-    recentStickers,
-    showIntroduction,
-    showPickerHint,
-    // Message Requests
-    ...conversation,
-    conversationType: conversation.type,
-    isSMSOnly: Boolean(isConversationSMSOnly(conversation)),
-    isSignalConversation: isSignalConversation(conversation),
-    isFetchingUUID: conversation.isFetchingUUID,
-    isMissingMandatoryProfileSharing:
-      isMissingRequiredProfileSharing(conversation),
-    // Groups
-    announcementsOnly,
-    areWeAdmin,
-    groupAdmins: getGroupAdminsSelector(state)(conversation.id),
+      : undefined;
+  }, [
+    quotedMessage,
+    conversationSelector,
+    ourConversationId,
+    defaultConversationColor,
+  ]);
 
-    draftText: dropNull(draftText),
-    draftBodyRanges: hydrateRanges(draftBodyRanges, conversationSelector),
-    renderSmartCompositionRecording: (
-      recProps: SmartCompositionRecordingProps
-    ) => {
-      return <SmartCompositionRecording {...recProps} />;
+  const { putItem, removeItem } = useItemsActions();
+
+  const onSetSkinTone = useCallback(
+    (tone: number) => {
+      putItem('skinTone', tone);
     },
-    renderSmartCompositionRecordingDraft: (
-      draftProps: SmartCompositionRecordingDraftProps
-    ) => {
-      return <SmartCompositionRecordingDraft {...draftProps} />;
-    },
+    [putItem]
+  );
 
-    // Select Mode
-    selectedMessageIds,
-  };
-};
+  const clearShowIntroduction = useCallback(() => {
+    removeItem('showStickersIntroduction');
+  }, [removeItem]);
 
-const dispatchPropsMap = {
-  ...mapDispatchToProps,
-  onSetSkinTone: (tone: number) => mapDispatchToProps.putItem('skinTone', tone),
-  clearShowIntroduction: () =>
-    mapDispatchToProps.removeItem('showStickersIntroduction'),
-  clearShowPickerHint: () =>
-    mapDispatchToProps.removeItem('showStickerPickerHint'),
-  onPickEmoji: mapDispatchToProps.onUseEmoji,
-};
+  const clearShowPickerHint = useCallback(() => {
+    removeItem('showStickerPickerHint');
+  }, [removeItem]);
 
-const smart = connect(mapStateToProps, dispatchPropsMap);
+  const {
+    onTextTooLong,
+    onCloseLinkPreview,
+    addAttachment,
+    removeAttachment,
+    onClearAttachments,
+    processAttachments,
+    setMediaQualitySetting,
+    setQuoteByMessageId,
+    cancelJoinRequest,
+    sendStickerMessage,
+    sendEditedMessage,
+    sendMultiMediaMessage,
+    setComposerFocus,
+  } = useComposerActions();
+  const {
+    pushPanelForConversation,
+    discardEditMessage,
+    acceptConversation,
+    blockAndReportSpam,
+    blockConversation,
+    reportSpam,
+    deleteConversation,
+    toggleSelectMode,
+    scrollToMessage,
+    setMessageToEdit,
+    showConversation,
+  } = useConversationsActions();
+  const { cancelRecording, completeRecording, startRecording, errorRecording } =
+    useAudioRecorderActions();
+  const { onUseEmoji } = useEmojisActions();
+  const { showGV2MigrationDialog, toggleForwardMessagesModal } =
+    useGlobalModalActions();
+  const { clearInstalledStickerPack } = useStickersActions();
+  const { showToast } = useToastActions();
+  const { onEditorStateChange } = useComposerActions();
 
-export const SmartCompositionArea = smart(CompositionArea);
+  return (
+    <CompositionArea
+      // Base
+      conversationId={id}
+      draftEditMessage={draftEditMessage ?? null}
+      focusCounter={focusCounter}
+      getPreferredBadge={getPreferredBadge}
+      i18n={i18n}
+      isDisabled={isDisabled}
+      isFormattingEnabled={isFormattingEnabled}
+      isActive={isActive}
+      lastEditableMessageId={lastEditableMessageId ?? null}
+      messageCompositionId={messageCompositionId}
+      platform={platform}
+      sendCounter={sendCounter}
+      shouldHidePopovers={shouldHidePopovers}
+      theme={theme}
+      convertDraftBodyRangesIntoHydrated={convertDraftBodyRangesIntoHydrated}
+      onTextTooLong={onTextTooLong}
+      pushPanelForConversation={pushPanelForConversation}
+      discardEditMessage={discardEditMessage}
+      onCloseLinkPreview={onCloseLinkPreview}
+      onEditorStateChange={onEditorStateChange}
+      // AudioCapture
+      errorDialogAudioRecorderType={errorDialogAudioRecorderType ?? null}
+      recordingState={recordingState}
+      cancelRecording={cancelRecording}
+      completeRecording={completeRecording}
+      startRecording={startRecording}
+      errorRecording={errorRecording}
+      // AttachmentsList
+      draftAttachments={draftAttachments}
+      addAttachment={addAttachment}
+      removeAttachment={removeAttachment}
+      onClearAttachments={onClearAttachments}
+      processAttachments={processAttachments}
+      // MediaEditor
+      imageToBlurHash={imageToBlurHash}
+      // MediaQualitySelector
+      shouldSendHighQualityAttachments={
+        shouldSendHighQualityAttachments !== undefined
+          ? shouldSendHighQualityAttachments
+          : window.storage.get('sent-media-quality') === 'high'
+      }
+      setMediaQualitySetting={setMediaQualitySetting}
+      // StagedLinkPreview
+      linkPreviewLoading={linkPreviewLoading}
+      linkPreviewResult={linkPreviewResult ?? null}
+      // Quote
+      quotedMessageId={quotedMessage?.quote?.messageId ?? null}
+      quotedMessageProps={quotedMessageProps ?? null}
+      quotedMessageAuthorAci={quotedMessage?.quote?.authorAci ?? null}
+      quotedMessageSentAt={quotedMessage?.quote?.id ?? null}
+      setQuoteByMessageId={setQuoteByMessageId}
+      // Emojis
+      recentEmojis={recentEmojis}
+      skinTone={skinTone}
+      onPickEmoji={onUseEmoji}
+      // Stickers
+      receivedPacks={receivedPacks}
+      installedPack={installedPack}
+      blessedPacks={blessedPacks}
+      knownPacks={knownPacks}
+      installedPacks={installedPacks}
+      recentStickers={recentStickers}
+      showIntroduction={showStickersIntroduction}
+      showPickerHint={showStickerPickerHint}
+      // Message Requests
+      acceptedMessageRequest={conversation.acceptedMessageRequest ?? null}
+      removalStage={conversation.removalStage ?? null}
+      addedByName={addedByName}
+      conversationName={conversationName}
+      conversationType={conversation.type}
+      isBlocked={conversation.isBlocked ?? false}
+      isReported={conversation.isReported ?? false}
+      isHidden={conversation.removalStage != null}
+      isSMSOnly={Boolean(isConversationSMSOnly(conversation))}
+      isSignalConversation={isSignalConversation(conversation)}
+      isFetchingUUID={conversation.isFetchingUUID ?? null}
+      isMissingMandatoryProfileSharing={isMissingRequiredProfileSharing(
+        conversation
+      )}
+      acceptConversation={acceptConversation}
+      blockAndReportSpam={blockAndReportSpam}
+      blockConversation={blockConversation}
+      reportSpam={reportSpam}
+      deleteConversation={deleteConversation}
+      // Groups
+      groupVersion={conversation.groupVersion ?? null}
+      isGroupV1AndDisabled={conversation.isGroupV1AndDisabled ?? null}
+      left={conversation.left ?? null}
+      announcementsOnly={announcementsOnly ?? null}
+      areWeAdmin={areWeAdmin ?? null}
+      areWePending={conversation.areWePending ?? null}
+      areWePendingApproval={conversation.areWePendingApproval ?? null}
+      groupAdmins={groupAdmins}
+      draftText={conversation.draftText ?? null}
+      draftBodyRanges={hydratedDraftBodyRanges ?? null}
+      renderSmartCompositionRecording={renderSmartCompositionRecording}
+      renderSmartCompositionRecordingDraft={
+        renderSmartCompositionRecordingDraft
+      }
+      showGV2MigrationDialog={showGV2MigrationDialog}
+      cancelJoinRequest={cancelJoinRequest}
+      sortedGroupMembers={conversation.sortedGroupMembers ?? null}
+      // Select Mode
+      selectedMessageIds={selectedMessageIds}
+      toggleSelectMode={toggleSelectMode}
+      toggleForwardMessagesModal={toggleForwardMessagesModal}
+      // Dispatch
+      onSetSkinTone={onSetSkinTone}
+      clearShowIntroduction={clearShowIntroduction}
+      clearInstalledStickerPack={clearInstalledStickerPack}
+      clearShowPickerHint={clearShowPickerHint}
+      showToast={showToast}
+      sendStickerMessage={sendStickerMessage}
+      sendEditedMessage={sendEditedMessage}
+      sendMultiMediaMessage={sendMultiMediaMessage}
+      scrollToMessage={scrollToMessage}
+      setComposerFocus={setComposerFocus}
+      setMessageToEdit={setMessageToEdit}
+      showConversation={showConversation}
+    />
+  );
+});
