@@ -2,6 +2,7 @@
 /* eslint-disable import/no-unresolved */
 import {
   BaseWrapperActionsCalls,
+  BlindingActionsCalls,
   ContactInfoSet,
   ContactsWrapperActionsCalls,
   ConvoInfoVolatileWrapperActionsCalls,
@@ -341,6 +342,17 @@ export const ConvoInfoVolatileWrapperActions: ConvoInfoVolatileWrapperActionsCal
       'eraseCommunityByFullUrl',
       fullUrlWithOrWithoutPubkey,
     ]) as Promise<ReturnType<ConvoInfoVolatileWrapperActionsCalls['eraseCommunityByFullUrl']>>,
+};
+
+export const BlindingActions: BlindingActionsCalls = {
+  blindVersionPubkey: async (opts: { ed25519SecretKey: Uint8Array }) =>
+    callLibSessionWorker(['Blinding', 'blindVersionPubkey', opts]) as Promise<
+      ReturnType<BlindingActionsCalls['blindVersionPubkey']>
+    >,
+  blindVersionSign: async (opts: { ed25519SecretKey: Uint8Array; sigTimestampSeconds: number }) =>
+    callLibSessionWorker(['Blinding', 'blindVersionSign', opts]) as Promise<
+      ReturnType<BlindingActionsCalls['blindVersionSign']>
+    >,
 };
 
 export const callLibSessionWorker = async (
