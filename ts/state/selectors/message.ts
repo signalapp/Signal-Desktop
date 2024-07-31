@@ -1022,7 +1022,8 @@ export function isNormalBubble(message: MessageWithUIFieldsType): boolean {
     !isVerifiedChange(message) &&
     !isChangeNumberNotification(message) &&
     !isJoinedSignalNotification(message) &&
-    !isDeliveryIssue(message)
+    !isDeliveryIssue(message) &&
+    !isMessageRequestResponse(message)
   );
 }
 

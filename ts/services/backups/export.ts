@@ -27,6 +27,7 @@ import {
 import type { RawBodyRange } from '../../types/BodyRange';
 import { LONG_ATTACHMENT_LIMIT } from '../../types/Message';
 import { PaymentEventKind } from '../../types/Payment';
+import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent';
 import type {
   ConversationAttributesType,
   MessageAttributesType,
@@ -78,6 +79,7 @@ import {
   isChangeNumberNotification,
   isJoinedSignalNotification,
   isTitleTransitionNotification,
+  isMessageRequestResponse,
 } from '../../state/selectors/message';
 import * as Bytes from '../../Bytes';
 import { canBeSynced as canPreferredReactionEmojiBeSynced } from '../../reactions/preferredReactionEmoji';
@@ -181,7 +183,7 @@ export class BackupExportStream extends Readable {
 
   // Map from custom color uuid to an index in accountSettings.customColors
   // array.
-  private customColorIdByUuid = new Map<string, number>();
+  private customColorIdByUuid = new Map<string, Long>();
 
   public run(backupLevel: BackupLevel): void {
     drop(
@@ -1328,6 +1330,31 @@ export class BackupExportStream extends Readable {
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
+    if (isMessageRequestResponse(message)) {
+      const { messageRequestResponseEvent: event } = message;
+      if (event == null) {
+        return { kind: NonBubbleResultKind.Drop };
+      }
+
+      let type: Backups.SimpleChatUpdate.Type;
+      const { Type } = Backups.SimpleChatUpdate;
+      switch (event) {
+        case MessageRequestResponseEvent.ACCEPT:
+        case MessageRequestResponseEvent.BLOCK:
+        case MessageRequestResponseEvent.UNBLOCK:
+          return { kind: NonBubbleResultKind.Drop };
+        case MessageRequestResponseEvent.SPAM:
+          type = Type.REPORTED_SPAM;
+          break;
+        default:
+          throw missingCaseError(event);
+      }
+
+      updateMessage.simpleUpdate = { type };
+
+      return { kind: NonBubbleResultKind.Directionless, patch };
+    }
+
     if (isDeliveryIssue(message)) {
       updateMessage.simpleUpdate = {
         type: Backups.SimpleChatUpdate.Type.BAD_DECRYPT,
@@ -2278,7 +2305,7 @@ export class BackupExportStream extends Readable {
 
     const result = new Array<Backups.ChatStyle.ICustomChatColor>();
     for (const [uuid, color] of Object.entries(customColors.colors)) {
-      const id = result.length;
+      const id = Long.fromNumber(result.length);
       this.customColorIdByUuid.set(uuid, id);
 
       const start = hslToRGBInt(color.start.hue, color.start.saturation);

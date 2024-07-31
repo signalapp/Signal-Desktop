@@ -23,6 +23,7 @@ import {
 import { isStoryDistributionId } from '../../types/StoryDistributionId';
 import * as Errors from '../../types/errors';
 import { PaymentEventKind } from '../../types/Payment';
+import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent';
 import {
   ContactFormType,
   AddressType as ContactAddressType,
@@ -2450,6 +2451,7 @@ export class BackupImportStream extends Writable {
     }
   ): Promise<Partial<MessageAttributesType> | undefined> {
     const { Type } = Backups.SimpleChatUpdate;
+    strictAssert(simpleUpdate.type != null, 'Simple update missing type');
     switch (simpleUpdate.type) {
       case Type.END_SESSION:
         return {
@@ -2493,7 +2495,6 @@ export class BackupImportStream extends Writable {
       case Type.RELEASE_CHANNEL_DONATION_REQUEST:
         log.warn('backups: dropping boost request from release notes');
         return undefined;
-      // TODO(indutny): REPORTED_SPAM
       case Type.PAYMENTS_ACTIVATED:
         return {
           payment: {
@@ -2513,8 +2514,13 @@ export class BackupImportStream extends Writable {
           requiredProtocolVersion:
             SignalService.DataMessage.ProtocolVersion.CURRENT - 1,
         };
+      case Type.REPORTED_SPAM:
+        return {
+          type: 'message-request-response-event',
+          messageRequestResponseEvent: MessageRequestResponseEvent.SPAM,
+        };
       default:
-        throw new Error('Not implemented');
+        throw new Error(`Unsupported update type: ${simpleUpdate.type}`);
     }
   }
 
@@ -2583,7 +2589,7 @@ export class BackupImportStream extends Writable {
       }
 
       customColors.colors[uuid] = value;
-      this.customColorById.set(color.id || 0, {
+      this.customColorById.set(color.id?.toNumber() || 0, {
         id: uuid,
         value,
       });
@@ -2703,7 +2709,9 @@ export class BackupImportStream extends Writable {
     } else {
       strictAssert(chatStyle.customColorId != null, 'Missing custom color id');
 
-      const entry = this.customColorById.get(chatStyle.customColorId);
+      const entry = this.customColorById.get(
+        chatStyle.customColorId.toNumber()
+      );
       strictAssert(entry != null, 'Missing custom color');
 
       color = 'custom';
