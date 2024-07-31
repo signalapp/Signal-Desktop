@@ -87,10 +87,10 @@
     "messageformat": "Recuperar dados"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Não foi possível acessar a chave de criptografia do banco de dados porque o backend do chaveiro de criptografia do sistema operacional foi alterado de {previousBackend} para {currentBackend}. Isso pode ocorrer se o ambiente de desktop for alterado, por exemplo, entre GNOME e KDE.\n\nPor favor, volte para o ambiente de desktop anterior."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Não foi possível acessar a chave de criptografia da base de dados porque o backend do chaveiro da criptografia OS foi alterado de {previousBackend} para {currentBackend}. Isso pode ocorrer se o ambiente do desktop for alterado, por exemplo, entre GNOME e KDE.\n\nTroque para o ambiente de desktop anterior ou tente veicular o Signal com a bandeira da linha de comando --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Arquivo"
@@ -831,13 +831,13 @@
     "messageformat": "Signal não foi atualizado. {retry} ou visite {url} para você instalar a atualização. Em seguida, {support} sobre esse problema"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Não foi possível atualizar o Signal. <retryUpdateButton>Tente atualizar novamente</retryUpdateButton> ou acesse {url} para instalar manualmente. Depois, <contactSupportLink>fale com o suporte</contactSupportLink> sobre este problema"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal não foi atualizado. Visite {url} para instalá-lo manualmente. Em seguida, {support} sobre esse problema"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Não foi possível atualizar o Signal. Acesse {url} para instalar manualmente. Depois, <contactSupportLink>fale com o suporte</contactSupportLink> sobre este problema"
   },
   "icu:readOnlyVolume": {
     "messageformat": "O Signal Desktop possivelmente está na quarentena do macOS, portanto não será capaz de atualizar-se automaticamente, Por favor, tente mover {app} para {folder} usando o Finder."
@@ -1113,7 +1113,7 @@
     "messageformat": "Aparelhos vinculados"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Vincular um novo dispositivo"
   },
   "icu:Install__learn-more": {
     "messageformat": "Saiba mais"
@@ -1131,7 +1131,7 @@
     "messageformat": "Configurações"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "Toque em {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Não foi possível carregar o QR code. Verifique a sua conexão de internet e tente novamente. <retry>Tente novamente</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "Corrigimos um erro que às vezes impedia o Signal de abrir o visualizador de figurinhas ao tentar abrir um link de pacote de figurinhas com o app fechado."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Esta atualização acelera o processo de exclusão de conversas longas ou com muitas mensagens e arquivos de mídia."
   }
 }

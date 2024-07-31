@@ -87,10 +87,10 @@
     "messageformat": "استرداد البيانات"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "تعذّر الوصول إلى مفتاح تشفير قاعدة البيانات لأن الواجهة الخلفية لحلقة مفاتيح تشفير نظام التشغيل تغيّرت من {previousBackend} إلى {currentBackend}. يُمكن أن يَحدث هذا إذا تغيّرت بيئة سطح المكتب، مثلا بين GNOME وKDE.\n\nيُرجى الرجوع إلى بيئة سطح المكتب السابقة."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "تعذّر الوصول إلى مفتاح تشفير قاعدة البيانات لأن الواجهة الخلفية لحلقة مفاتيح تشفير نظام التشغيل تغيّرت من {previousBackend} إلى {currentBackend}. يُمكن أن يَحدث هذا إذا تغيرت بيئة سطح المكتب، مثلا بين GNOME وKDE.\n\nيُرجى الرجوع إلى بيئة سطح المكتب أو حاول تشغيل سيجنال باستخدام علامة سطر الأوامر --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&ملف"
@@ -831,13 +831,13 @@
     "messageformat": "‫لقد تعذر تحديث سيجنال. {retry}‏ أو يكفي زيارة {url}‏ لتثبيته يدويا. بعدها، {support}‏ حول هذا المشكل"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "تعذّر تحديث سيجنال. <retryUpdateButton>جرّب التحديث من جديد</retryUpdateButton> أو زُر {url} لتثبيته يدويًا. ثم <contactSupportLink>اتصل بالدعم</contactSupportLink> حول هذه المشكلة"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "لقد تعذر تحديث سيجنال. يُرجى زيارة {url} لتثبيته يدويا. ثم {support} حول هذه المشكلة"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "تعذّر تحديث سيجنال. زُر {url} لتثبيته يدويًا. ثم <contactSupportLink>اتصل بالدعم</contactSupportLink> حول هذه المشكلة"
   },
   "icu:readOnlyVolume": {
     "messageformat": "من المحتمل أن يكون سيجنال Desktop في وحدة عزل نظام اشتغال ماك، لذا لن يكون قادرا على التحديث التلقائي. يُرجى محاولة نقل {app} إلى {folder} باستخدام برنامج « فايندر » (مدير الملفات)."
@@ -1113,7 +1113,7 @@
     "messageformat": "الأجهزة المرتبطة"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "يُرجى ربط جهاز جديد"
   },
   "icu:Install__learn-more": {
     "messageformat": "لمعرفة المزيد"
@@ -1131,7 +1131,7 @@
     "messageformat": "الإعدادات"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "انقر {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "لقد تعذر تحميل رمز الاستجابة السريعة. يُرجى التحقق من اتصالك بالأنترنت ثم المحاولة مرة أخرى. <retry>إعادة المُحاولة</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "أصلحنا الخطأ الذي كان يمنع سيجنال في بعض الأحيان من تشغيل عارض الملصقات عند فتح رابط حزمة الملصقات أثناء إغلاق التطبيق."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "يسرّع هذا الإصدار عميلة حذف سلاسل الرسائل الكبيرة."
   }
 }

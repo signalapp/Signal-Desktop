@@ -87,10 +87,10 @@
     "messageformat": "მონაცემების აღდგენა"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "მონაცემთა ბაზის დაშიფვრის გასაღებზე წვდომა შეუძლებელია, რადგან OS-ის დაშიფვრის გასაღების მონაცემები {previousBackend} {currentBackend}-ით შეიცვალა. ეს შეიძლება მოხდეს, თუ დესკტოპის გარემო იცვლება, მაგალითად GNOME-სა და KDE-ს შორის.\n\nგთხოვთ, დესკტოპის წინა გარემოზე გადახვიდე."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "მონაცემთა ბაზის დაშიფვრის გასაღებზე წვდომა შეუძლებელია, რადგან OS-ის დაშიფვრის გასაღების მონაცემები {previousBackend} {currentBackend}-ით შეიცვალა. ეს შეიძლება მოხდეს, თუ დესკტოპის გარემო იცვლება, მაგალითად GNOME-სა და KDE-ს შორის.\n\nგთხოვთ, დესკტოპის წინა გარემოზე გადახვიდე ან სცადო Signal-ის გაშვება ბრძანების ხაზით flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&ფაილი"
@@ -831,13 +831,13 @@
     "messageformat": "Signal-ი ვერ განახლდა. {retry} ან ხელით დასაყენებლად გადადი {url}. შემდეგ კი {support}-ს ამ პრობლემის თაობაზე"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal-ი ვერ განახლდა. <retryUpdateButton>თავიდან სცადე განახლება</retryUpdateButton> ან ხელით გადმოსაწერად {url}-ს ეწვიე. შემდეგ, <contactSupportLink>მხარდაჭერის გუნდს დაუკავშირდი</contactSupportLink> ამ პრობლემის თაობაზე"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal-ი ვერ განახლდა. ხელით დასაყენებლად გადადი {url}. შემდეგ კი {support}-ს ამ პრობლემის თაობაზე"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal-ი ვერ განახლდა. ხელით გადმოსაწერად ეწვიე {url}-ს. შემდეგ, <contactSupportLink>მხარდაჭერის გუნდს დაუკავშირდი</contactSupportLink> ამ პრობლემის თაობაზე"
   },
   "icu:readOnlyVolume": {
     "messageformat": "როგორც ჩანს, Signal Desktop-ი macOS კარანტინშია და ავტომატურ განახლებას ვერ შეძლებს. გთხოვთ, {app} Finder-ით {folder}-ში გადატანა სცადო."
@@ -1113,7 +1113,7 @@
     "messageformat": "დაკავშირებული მოწყობილობები"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "ახალი მოწყობილობის მიბმა"
   },
   "icu:Install__learn-more": {
     "messageformat": "გაიგე მეტი"
@@ -1131,7 +1131,7 @@
     "messageformat": "Settings"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "დააჭირე {linkNewDevice}-ს"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR კოდის ჩატვირთვა ვერ მოხერხდა. შეამოწმე შენი ინტერნეტი და თავიდან სცადე. <retry>თავიდან ცდა</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "ჩვენ გამოვასწორეთ ხარვეზი, რომელიც ზოგჯერ ხელს უშლიდა Signal-ს სტიკერების დამთვალიერებლის გახსნას, როცა სტიკერების ნაკრების ბმულზე გადასვლას დახურული აპისას ცდილობდი."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "ეს გამოშვება დიდი მიმოწერის წაშლის პროცესს აჩქარებს."
   }
 }

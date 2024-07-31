@@ -87,10 +87,10 @@
     "messageformat": "Recuperar información"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "No se puede acceder a la clave de cifrado de la base de datos porque el cifrado del llavero del back-end del sistema operativo ha cambiado de {previousBackend} a {currentBackend}. Esto puede ocurrir si el entorno del escritorio cambia, por ejemplo, entre GNOME y KDE.\n\nVuelve al entorno del escritorio anterior."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "No se puede acceder a la clave de cifrado de la base de datos porque el cifrado del llavero del back-end del sistema operativo ha cambiado de {previousBackend} a {currentBackend}. Esto puede ocurrir si el entorno del escritorio cambia, por ejemplo, entre GNOME y KDE.\n\nVuelve al entorno del escritorio anterior, o intenta ejecutar Signal con la orden flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Archivo"
@@ -831,13 +831,13 @@
     "messageformat": "No se ha podido actualizar Signal. {retry} o ve a {url} para instalar la aplicación manualmente. Luego, {support} para solucionar el problema."
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "No se ha podido actualizar Signal. <retryUpdateButton>Intenta volver a actualizar</retryUpdateButton>, o ve a {url} para instalar la aplicación manualmente. Luego, <contactSupportLink>ponte en contacto con el servicio de asistencia</contactSupportLink> para solucionar el problema"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "No se ha podido actualizar Signal. Ve a {url} para instalar la aplicación manualmente. Luego, {support} para solucionar el problema."
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "No se ha podido actualizar Signal. Ve a {url} para instalar la aplicación manualmente. Luego, <contactSupportLink>ponte en contacto con el servicio de asistencia</contactSupportLink> para solucionar el problema"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop probablemente se encuentra en aislamiento en macOS y no se podrá actualizar automáticamente. Intenta transferir {app} a {folder} con Finder."
@@ -1113,7 +1113,7 @@
     "messageformat": "Dispositivos vinculados"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Vincular un nuevo dispositivo"
   },
   "icu:Install__learn-more": {
     "messageformat": "Más información"
@@ -1131,7 +1131,7 @@
     "messageformat": "Ajustes"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "Pulsa {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Fallo al cargar el código QR. Comprueba tu conexión e inténtalo de nuevo. <retry>Reintentar</retry>"
@@ -4971,7 +4971,7 @@
     "messageformat": "Quién puede ver esta historia"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "Las personas que estén en el chat del grupo «{groupTitle}» podrán ver y responder a esta historia. Puedes actualizar quién está en este chat en el grupo."
+    "messageformat": "Las personas que están el grupo «{groupTitle}» podrán ver y responder a esta historia. Puedes añadir o eliminar personas en los ajustes del grupo."
   },
   "icu:GroupStorySettingsModal__remove_group": {
     "messageformat": "Eliminar historia de grupo"
@@ -5558,6 +5558,6 @@
     "messageformat": "¡Buenas noticias para los fanáticos de los stickers! Hemos corregido un error que a veces impedía que Signal iniciara el visor de stickers si intentabas abrir un enlace a un paquete de stickers sin tener la app abierta. Pero eso ya es cosa del pasado, como los DVD."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Esta nueva versión acelera el proceso de eliminación de hilos extensos de mensajes."
   }
 }

@@ -87,10 +87,10 @@
     "messageformat": "ဒေတာပြန်ယူပါ"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "OS ကုဒ်ပြောင်းဝှက်ခြင်း Keyring backend သည် {previousBackend} မှ {currentBackend} သို့ ပြောင်းသွားသောကြောင့် ဒေတာဘေ့စ် ကုဒ်ဝှက်ခြင်းကီးကို ဝင်သုံး၍မရပါ။ ဥပမာအားဖြင့် GNOME နှင့် KDE အကြား Desktop အခြေအနေ ပြောင်းလဲပါက ၎င်းသည် ဖြစ်ပေါ်နိုင်သည်။\n\nကျေးဇူးပြု၍ ယခင် Desktop အခြေအနေသို့ ပြောင်းပါ။"
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "OS ကုဒ်ပြောင်းဝှက်ခြင်း Keyring backend သည် {previousBackend} မှ {currentBackend} သို့ ပြောင်းသွားသောကြောင့် ဒေတာဘေ့စ် ကုဒ်ဝှက်ခြင်းကီးကို ဝင်သုံး၍မရပါ။ ဥပမာအားဖြင့် GNOME နှင့် KDE အကြား Desktop အခြေအနေ ပြောင်းလဲပါက ၎င်းသည် ဖြစ်ပေါ်နိုင်သည်။\n\nကျေးဇူးပြု၍ ယခင် Desktop အခြေအနေသို့ ပြောင်းပါ သို့မဟုတ် အမိန့်ပေးစာကြောင်း flag အချက်ပြမှုကို လုပ်ဆောင်ရန် --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&ဖိုင်"
@@ -831,13 +831,13 @@
     "messageformat": "Signal အပ်ဒိတ်လုပ်၍ မရပါ။ {retry} သို့မဟုတ် ကိုယ်တိုင် ထည့်သွင်းရန် {url} သို့ သွားပါ။ ထို့နောက် ဤပြဿနာနှင့်ပတ်သက်၍ {support}"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal အပ်ဒိတ်လုပ်၍ မရပါ။ <retryUpdateButton>အပ်ဒိတ် ထပ်လုပ်ကြည့်ပါ</retryUpdateButton> သို့မဟုတ် ၎င်းကို ကိုယ်တိုင်ထည့်သွင်းရန် {url} သို့ သွားပါ။ ထို့နောက် ဤပြဿနာနှင့်ပတ်သက်၍ <contactSupportLink>ပံ့ပိုးမှုသို့ ဆက်သွယ်ပါ။</contactSupportLink>"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal အပ်ဒိတ်လုပ်၍ မရပါ။ ကိုယ်တိုင် ထည့်သွင်းရန်{url} သို့ သွားပါ။ ထို့နောက် ဤပြဿနာနှင့်ပတ်သက်၍ {support}"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal အပ်ဒိတ်လုပ်၍ မရပါ။ ကိုယ်တိုင် ထည့်သွင်းရန် {url} သို့ သွားပါ။ ထို့နောက် ဤပြဿနာနှင့်ပတ်သက်၍ <contactSupportLink>ပံ့ပိုးမှုသို့ ဆက်သွယ်ပါ။</contactSupportLink>"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop သည် macOS Quarantine တွင် ရှိပုံပေါ်ပါသည်၊ အော်တိုအပ်ဒိတ် လုပ်နိုင်မည် မဟုတ်ပါ။ Finder ဖြင့် {app} အား {folder} သို့ ရွှေ့ကြည့်ပါ။"
@@ -1113,7 +1113,7 @@
     "messageformat": "ချိတ်ဆက်ထားသော ဖုန်းများ"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "စက်အသစ်တစ်ခုကို ချိတ်ဆက်ရန်"
   },
   "icu:Install__learn-more": {
     "messageformat": "ထပ်မံလေ့လာရန်"
@@ -1131,7 +1131,7 @@
     "messageformat": "အပြင်အဆင်များ"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "{linkNewDevice} ကို နှိပ်ပါ"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR ကုဒ်ကို ဖွင့်၍မရပါ။ သင့်အင်တာနက်ကို စစ်ဆေးပြီး ထပ်ကြိုးစားကြည့်ပါ။ <retry>ထပ်ကြိုးစားရန်</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "အက်ပ်ကိုပိတ်နေစဉ် စတစ်ကာတွဲလင့်ခ်တစ်ခုကို ဖွင့်ရန်ကြိုးစားပါက တစ်ခါတစ်ရံတွင် Signal ကို စတစ်ကာ ဖွင့်မရစေရန် တားဆီးထားသည့် ချွတ်ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ပြင်ဆင်ထားပါသည်။"
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "ယခုထုတ်ဝေမှုတွင် မက်ဆေ့ချ်တွဲ အရှည်ကြီးများကို ဖျက်ခြင်းလုပ်ငန်းစဉ်ကို အရှိန်မြှင့်တင် ပေးထားပါသည်။"
   }
 }

@@ -87,10 +87,10 @@
     "messageformat": "I-recover ang data"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Hindi ma-access ang database encryption key dahil nagbago ang OS encryption keyring backend mula {previousBackend} sa {currentBackend}. Nangyayari ito kapag nagbago ang desktop environment, halimbawa gaya ng GNOME at KDE.\n\nMag-switch pabalik sa dating desktop environment."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Hindi ma-access ang database encryption key dahil nagbago ang OS encryption keyring backend mula {previousBackend} sa {currentBackend}. Nangyayari ito kapag nagbago ang desktop environment, halimbawa gaya ng GNOME at KDE.\n\nMag-switch pabalik sa dating desktop environment o subukang i-run ang Signal gamit ang command line flag -- password-store=\"{previousBackendFlag}'}'\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&File"
@@ -831,13 +831,13 @@
     "messageformat": "Hindi ma-update ang Signal. {retry} o i-visit ang {url} para ma-install ito manually. Pagkatapos, {support} tungkol sa problem na ito."
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Hindi ma-update ang Signal. <retryUpdateButton>Subukan ulit ang pag-update</retryUpdateButton> o pumunta ang {url} para i-install ito manually. Pagkatapos, <contactSupportLink>kontakin ang support</contactSupportLink> tungkol sa problemang ito"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Hindi ma-update ang Signal. I-visit ang {url} para ma-install ito manually. Pagkatapos, {support} tungkol sa problem na ito."
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Hindi ma-update ang Signal. Puntahan ang {url} para i-install ito manually. Pagkatapos, <contactSupportLink>kontakin ang support</contactSupportLink> tungkol sa problemang ito"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Ang Signal Desktop ay maaaring nasa macOS quarantine, at hindi pwedeng mag-auto update. Subukang i-move ang {app} sa {folder} with Finder."
@@ -1113,7 +1113,7 @@
     "messageformat": "Mga naka-link na device"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Mag-link ng bagong device"
   },
   "icu:Install__learn-more": {
     "messageformat": "Matuto pa"
@@ -1131,7 +1131,7 @@
     "messageformat": "Settings"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "I-tap ang {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Hindi ma-load ang QR code. I-check ang iyong internet at subukan ulit. <retry>Subukan ulit</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "May inayos kaming bug na pumipigil sa Signal na i-launch ang sticker viewer kapag sinubukan mong magbukas ng sticker pack link habang nakasara ang app."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Pinabilis ng release na ito ang proseso ng pagbubura ng malalaking size ng message threads."
   }
 }

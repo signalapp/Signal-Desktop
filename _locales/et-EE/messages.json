@@ -87,10 +87,10 @@
     "messageformat": "Taasta andmed"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Andmebaasi krüptimisvõtmele ei pääsenud ligi, sest operatsioonisüsteemi krüptimise võtmerõngas {previousBackend} asendus uuega {currentBackend}. See võib juhtuda, kui töölauakeskkond muutub, näiteks GNOME'i ja KDE vahel.\n\nPalun pöördu tagasi endise töölauakeskkonna juurde."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Andmebaasi krüptimisvõtmele ei pääsenud ligi, sest operatsioonisüsteemi krüptimise võtmerõngas {previousBackend} asendus uuega {currentBackend}. See võib juhtuda, kui töölauakeskkond muutub, näiteks GNOME'i ja KDE vahel.\n\nPalun naase endisse töölauakeskkonda või proovi käivitada Signalit käsurea lipuga --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fail"
@@ -831,13 +831,13 @@
     "messageformat": "Signali uuendamine nurjus. {retry} või külasta lehte {url}, et see käsitsi paigaldada. Seejärel {support} seoses selle probleemiga"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signalit ei saanud uuendada. <retryUpdateButton>Proovi uuesti uuendada</retryUpdateButton> või külasta lehte {url}, et see käsitsi paigaldada. Seejärel <contactSupportLink>palun võta ühendust kasutajatoega</contactSupportLink> ning kirjelda probleemi"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signali uuendamine nurjus. Külasta lehte {url}, et see käsitsi paigaldada. Seejärel {support} seoses selle probleemiga"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signalit ei saanud uuendada. Külasta lehte {url}, et see käsitsi paigaldada. Seejärel <contactSupportLink>palun võta ühendust kasutajatoega</contactSupportLink> ning kirjelda probleemi"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop on tõenäoliselt macOS-i karantiinis ja seda pole võimalik automaatselt uuendada. Palun teisalda {app} kausta {folder} Finderi abil."
@@ -1113,7 +1113,7 @@
     "messageformat": "Ühendatud seadmed"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Lingi uus seade"
   },
   "icu:Install__learn-more": {
     "messageformat": "Rohkem infot"
@@ -1131,7 +1131,7 @@
     "messageformat": "Sätted"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "Toksa {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR-koodi ei saanud laadida. Kontrolli oma internetiühendust ja proovi uuesti. <retry>Proovi uuesti</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "Parandasime vea, mille tõttu Signal ei saanud mõnikord kleebiste kuvajat avada, kui proovisid avada kleebiste komplekti ajal, mil rakendus oli suletud."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "See väljalase kiirendab suurte sõnumilõimede kustutamist."
   }
 }

@@ -87,10 +87,10 @@
     "messageformat": "Aisghabh sonraí"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Ní féidir eochair chriptithe an bhunachair sonraí a rochtain toisc gur athraíodh cúl fáinne eochracha criptithe an OS ó {previousBackend} chuig {currentBackend}. Is féidir leis sin tarlú má athraítear timpeallacht an deasc, mar shampla idir GNOME agus KDE.\n\nAthraigh chuig timpeallacht an deasc a bhí ann roimhe."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Ní féidir eochair chriptithe an bhunachair sonraí a rochtain toisc gur athraíodh cúl fáinne eochracha criptithe an OS ó {previousBackend} chuig {currentBackend}. Is féidir leis sin tarlú má athraítear timpeallacht an deasc, mar shampla idir GNOME agus KDE.\n\nAthraigh chuig timpeallacht an deasc a bhí ann roimhe nó triail Signal a rith le bratach líne na n-orduithe --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Comhad"
@@ -831,13 +831,13 @@
     "messageformat": "Níorbh fhéidir le Signal nuashonrú. {retry} nó téigh chuig {url} lena shuiteáil de láimh. Ina dhiaidh sin, {support} faoin fhadhb sin"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Níorbh fhéidir Signal a nuashonrú. <retryUpdateButton>Atriail an nuashonrú</retryUpdateButton> nó téigh chuig {url} lena shuiteáil de láimh. Ansin <contactSupportLink>déan teagmháil leis an bhfoireann tacaíochta</contactSupportLink> faoin fhadhb sin"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Níorbh fhéidir le Signal nuashonrú. Téigh chuig {url} lena shuiteáil de láimh. Ina dhiaidh sin, {support} faoin fhadhb sin"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Níorbh fhéidir Signal nuashonrú. Téigh chuig {url} lena shuiteáil de láimh. Ansin <contactSupportLink>déan teagmháil leis an bhfoireann tacaíochta</contactSupportLink> faoin fhadhb sin"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Is cosúil go bhfuil Deasc Signal i gcoraintín macOS, agus ní bheidh sé in ann uath-nuashonrú a dhéanamh. Triail {app} a bhogadh chuig {folder} le hAimsitheoir."
@@ -1113,7 +1113,7 @@
     "messageformat": "Gléasanna Nasctha"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Nasc Gléas Nua"
   },
   "icu:Install__learn-more": {
     "messageformat": "Foghlaim tuilleadh"
@@ -1131,7 +1131,7 @@
     "messageformat": "Socruithe"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "Tapáil {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Níorbh fhéidir an cód QR a lódáil. Seiceáil d'Idirlíon agus triail arís. <retry>Triail arís</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "Réitíomar fabht a chuir bac ar Signal uaireanta an t-amharcóir greamán a lainseáil má rinne tú iarracht nasc le beart greamán a oscailt nuair a bhí an aip dúnta."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Luaitear an próiseas chun snáitheanna móra teachtaireachtaí a scriosadh."
   }
 }

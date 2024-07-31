@@ -87,10 +87,10 @@
     "messageformat": "Chcę odzyskać dane"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Nie można uzyskać dostępu do klucza szyfrowania bazy danych, ponieważ zaplecze kluczy szyfrowania systemu operacyjnego zostało zmienione z {previousBackend} na {currentBackend}. Może się to zdarzyć, jeśli zmieni się środowisko graficzne, na przykład z GNOME na KDE lub odwrotnie.\n\nPrzełącz się na poprzednie środowisko graficzne."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Nie można uzyskać dostępu do klucza szyfrowania bazy danych, ponieważ zaplecze kluczy szyfrowania systemu operacyjnego zostało zmienione z {previousBackend} na {currentBackend}. Może się to zdarzyć, jeśli zmieni się środowisko graficzne, na przykład z GNOME na KDE lub odwrotnie.\n\nPrzełącz się na poprzednie środowisko graficzne lub spróbuj uruchomić Signal z wierszem poleceń flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Plik"
@@ -831,13 +831,13 @@
     "messageformat": "Aktualizacja Signal nie powiodła się. {retry} lub odwiedź {url}, aby zainstalować ręcznie. Następnie, {support} w sprawie tego problemu"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Aktualizacja Signal nie powiodła się. <retryUpdateButton>Ponów próbę</retryUpdateButton> lub odwiedź {url}, aby zainstalować aktualizację ręcznie. Następnie <contactSupportLink>skontaktuj się z pomocą techniczną</contactSupportLink> w sprawie tego problemu"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Aktualizacja Signal nie powiodła się. Odwiedź {url}, aby zainstalować aplikację ręcznie. Następnie, {support} w sprawie tego problemu"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Aktualizacja Signal nie powiodła się. Odwiedź {url}, aby zainstalować aktualizację ręcznie. Następnie <contactSupportLink>skontaktuj się z pomocą techniczną</contactSupportLink> w sprawie tego problemu"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop prawdopodobnie znajduje się w kwarantannie systemu MacOS i nie będzie można dokonać automatycznej aktualizacji. Spróbuj przenieść  {app} do  {folder} za pomocą Findera."
@@ -1113,7 +1113,7 @@
     "messageformat": "Połączone urządzenia"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Powiąż nowe urządzenie"
   },
   "icu:Install__learn-more": {
     "messageformat": "Dowiedz się więcej"
@@ -1131,7 +1131,7 @@
     "messageformat": "Ustawienia"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "Wybierz {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Nie udało się załadować kodu QR. Sprawdź swoje połączenie z internetem i spróbuj ponownie. <retry>Ponów</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "Naprawiliśmy błąd, który czasem pojawiał się po kliknięciu w link do pakietu naklejek przy zamkniętej aplikacji i uniemożliwiał uruchomienie przeglądarki naklejek. Od teraz otwieranie naklejek jest tak proste, że nie sposób się od nich odkleić!"
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Dobrze jest czasem oddzielić przeszłość grubą krechą, dlatego przyspieszyliśmy proces usuwania dużych wątków wiadomości."
   }
 }

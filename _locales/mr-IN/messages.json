@@ -87,10 +87,10 @@
     "messageformat": "डेटा पुनर्प्राप्त करा"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "OS एन्क्रिप्शन कीरिंग बॅकएण्ड हे {previousBackend} पासून {currentBackend} मध्ये बदलल्याने डेटाबेस एन्क्रिप्शन की ॲक्सेस करण्यास अक्षम आहे. हे GNOME आणि KDE दरम्यान बदल होण्यासारख्या डेस्कटॉप एन्व्हायरनमेंटमध्ये बदल झाल्यास घडून येते.\n\nकृपया मागील डेस्कटॉप एन्व्हायरनमेंट मध्ये स्वीच व्हा."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "OS एन्क्रिप्शन कीरिंग बॅकएण्ड हे {previousBackend} पासून {currentBackend} मध्ये बदलल्याने डेटाबेस एन्क्रिप्शन की ॲक्सेस करण्यास अक्षम आहे. हे GNOME आणि KDE दरम्यान बदल होण्यासारख्या डेस्कटॉप एन्व्हायरनमेंटमध्ये बदल झाल्यास घडून येते.\n\nकृपया मागील डेस्कटॉप एन्व्हायरनमेंट मध्ये स्वीच व्हा किंवा कमांड लाइन फ्लॅग--पासवर्ड-स्टोअर=\"{previousBackendFlag}\" सह signal रन करण्याचा प्रयत्न करा"
   },
   "icu:mainMenuFile": {
     "messageformat": "फाईल"
@@ -831,13 +831,13 @@
     "messageformat": "Signal अद्यतनित होऊ शकत नाही. हस्तचलित पद्धतीने त्याला स्थापित करण्यासाठी {retry} किंवा t {url} ला भेट द्या. नंतर,  या समस्येबद्दल {support} भेट द्या"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal अद्यतनित होऊ शकत नाही. <retryUpdateButton>अद्यतनित करण्याचा पुन्हा प्रयत्न करा</retryUpdateButton> किंवा हस्तचलित पद्धतीने त्याला इन्स्टॉल करण्यासाठी {url} ला भेट द्या. नंतर, या समस्येसाठी <contactSupportLink>सपोर्टशी संपर्क</contactSupportLink> साधा"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal अद्यतनित होऊ शकत नाही. त्याला हस्तचलित पद्धतीने स्थापित करण्यास  {url}ला भेट द्या. नंतर या समस्येबद्दल, {support} ला"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal अद्यतनित होऊ शकत नाही. हस्तचलित पद्धतीने इन्स्टॉल करण्यासाठी {url} ला भेट द्या. नंतर, या समस्येसाठी <contactSupportLink>सपोर्ट शी संपर्क</contactSupportLink> साधा"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop हे कदाचित macOS क्वॉरंटाईन मध्ये आहे, आणि स्वयं-अद्यतन करू शकणार नाही. कृपया{folder}यासोबत फाईंडरने {app}वर हलविण्याचा प्रयत्न करा."
@@ -1113,7 +1113,7 @@
     "messageformat": "लिंक केलेले डिव्हाईस"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "नवीन डिव्हाइस लिंक करा"
   },
   "icu:Install__learn-more": {
     "messageformat": "अधिक जाणा"
@@ -1131,7 +1131,7 @@
     "messageformat": "सेटिंग"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "{linkNewDevice} टॅप करा"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR कोड लोड केला जाऊ शकत नाही. आपले इंटरनेट कनेक्शन तपासा आणि पुन्हा प्रयत्न करा. <retry>पुन्हा प्रयत्न करा</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "स्टिकर क्लिकर्ससाठी गोष्टी अधिक चपळ आणि जलद व्हाव्यात अशी आमची इच्छा होती, म्हणून आम्ही आपण ॲप बंद असताना स्टिकर पॅक लिंक उघडण्याचा प्रयत्न केल्यास सिग्नलला स्टिकर दर्शक लॉन्च करण्यापासून प्रतिबंधित करते अशा दोषाचे निराकरण केले आहे."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "जलद निरोप घेणे कधीकधी हळू हळू सोडून जाण्यापेक्षा सोपे असते. म्हणून आम्ही मोठे संदेश थ्रेड हटविण्याच्या प्रक्रियेला गती दिलेली आहे."
   }
 }

@@ -87,10 +87,10 @@
     "messageformat": "恢復資料"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "無法存取資料庫加密金鑰，因為作業系統加密金鑰環後端已從{previousBackend}變更為{currentBackend}。如果桌面環境有所轉變（例如在 GNOME 和 KDE 之間），就有可能發生這種情況。\n\n請切換到先前的桌面環境。"
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "無法存取資料庫加密金鑰，因為作業系統加密金鑰環後端已從{previousBackend}變更為{currentBackend}。如果桌面環境有所轉變（例如在 GNOME 和 KDE 之間），就有可能發生這種情況。\n\n請切換到先前的桌面環境或嘗試使用命令列標誌 --password-store=\"{previousBackendFlag}\" 執行 Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "檔案 (&F)"
@@ -831,13 +831,13 @@
     "messageformat": "Signal無法更新。 {retry} 或瀏覽 {url} 以手動安裝。 然後，{support} 關於這個問題"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal 無法更新。<retryUpdateButton>嘗試更新</retryUpdateButton>或瀏覽 {url} 以手動安裝。接著<contactSupportLink>聯絡支援團隊</contactSupportLink>以了解問題"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal無法更新。 瀏覽 {url} 以手動安裝。 然後，{support} 關於這個問題"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal 無法更新。瀏覽 {url} 以手動安裝。接著<contactSupportLink>聯絡支援團隊</contactSupportLink>以了解問題"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal 桌面版可能在 macOS 隔離區中，將無法自動更新。 請嘗試使用Finder 移動 {app}到 {folder}。"
@@ -1113,7 +1113,7 @@
     "messageformat": "已連結的裝置"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "連結新的裝置"
   },
   "icu:Install__learn-more": {
     "messageformat": "了解更多"
@@ -1131,7 +1131,7 @@
     "messageformat": "設定"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "點按 {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "無法載入 QR Code。請檢查你的網路，然後再試一次。<retry>重試</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "我們希望貼圖點擊器的操作更順暢也更快速，因此我們修復了一個錯誤，如果你在應用程式關閉時嘗試打開貼圖包連結，該錯誤有時會阻止 Signal 啟動貼圖檢視器。"
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "有時乾脆說再見比依依不捨的送別更容易，因此我們加快了刪除大量訊息串文的過程。"
   }
 }

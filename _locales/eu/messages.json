@@ -87,10 +87,10 @@
     "messageformat": "Berreskuratu datuak"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Ezin da atzitu datu-baseko enkriptatze-gakoa, sistema eragilearen enkriptatze-gako sortaren backend-a jada ez baita {previousBackend}, {currentBackend} baizik. Ordenagailuaren ingurunea aldatzean gerta daiteke hori; adibidez, GNOME-tik KDE-ra aldatzean.\n\nAldatu ordenagailuaren aurreko ingurunera."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Ezin da atzitu datu-baseko enkriptatze-gakoa, sistema eragilearen enkriptatze-gako sortaren backend-a jada ez baita {previousBackend}, {currentBackend} baizik. Ordenagailuaren ingurunea aldatzean gerta daiteke hori; adibidez, GNOME-tik KDE-ra aldatzean.\n\nAldatu ordenagailuaren aurreko ingurunera edo saiatu Signal agindu-lerro honekin exekutatzen: --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fitxategia"
@@ -831,13 +831,13 @@
     "messageformat": "Ezin izan da eguneratu Signal. {retry} edo bisitatu {url} eskuz instalatzeko. Ondoren, {support} arazo honi buruz."
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Ezin izan da eguneratu Signal. <retryUpdateButton>Saiatu berriro</retryUpdateButton> edo, eskuz instalatzeko, joan {url} helbidera. Ondoren, jakinarazi arazo hau <contactSupportLink>laguntza-zerbitzuari</contactSupportLink>"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Ezin izan da eguneratu Signal. Bisitatu {url} eskuz instalatzeko. Ondoren, {support} arazo honi buruz."
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Ezin izan da eguneratu Signal. Eskuz instalatzeko, joan {url} helbidera. Ondoren, jakinarazi arazo hau <contactSupportLink>laguntza-zerbitzuari</contactSupportLink>"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop ziur aski macOS koarentena batean dago eta ezingo da automatikoki eguneratu. Mesedez, Finder erabiliz saia zaitez mugitzen {app} aplikazioa {folder} karpetara."
@@ -1113,7 +1113,7 @@
     "messageformat": "Lotutako Gailuak"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Lotu beste gailu bat"
   },
   "icu:Install__learn-more": {
     "messageformat": "Gehiago jakin"
@@ -1131,7 +1131,7 @@
     "messageformat": "Ezarpenak"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "Sakatu {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Ezin izan da kargatu QR kodea. Egiaztatu Internetera konektatuta zaudela eta saiatu berriro. <retry>Saiatu berriro</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "Aplikazioa itxita zegoen bitartean eranskailu-pakete bat irekitzen saiatzean batzuetan Signal-ek eranskailuen ikuspegia abiaraztea eragozten zuen akats bat konpondu dugu."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Kaleratze honen bidez, mezu-hari handiak ezabatzeko prozesua bizkortzen da."
   }
 }

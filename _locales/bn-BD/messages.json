@@ -87,10 +87,10 @@
     "messageformat": "ডেটা পুনরুদ্ধার করুন"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "ডেটাবেজ এনক্রিপশন কী অ্যাক্সেস করতে সক্ষম নয় কারণ OS এনক্রিপশন কী-রিং ব্যাকএন্ড {previousBackend} থেকে {currentBackend}-এ পরিবর্তিত হয়েছে। যদি ডেস্কটপের পরিবেশ পরিবর্তন হয় তবে এটি ঘটতে পারে, যেমন GNOME এবং KDE-এর মধ্যে পরিবর্তন।\n\nপূর্ববর্তী ডেস্কটপ পরিবেশে স্যুইচ করুন।"
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "ডেটাবেজ এনক্রিপশন কী অ্যাক্সেস করতে সক্ষম নয় কারণ OS এনক্রিপশন কী-রিং ব্যাকএন্ড {previousBackend} থেকে {currentBackend}-এ পরিবর্তিত হয়েছে। যদি ডেস্কটপের পরিবেশ পরিবর্তন হয় তবে এটি ঘটতে পারে, যেমন GNOME এবং KDE-এর মধ্যে পরিবর্তন।\n\nঅনুগ্রহ করে পূর্ববর্তী ডেস্কটপ পরিবেশে স্যুইচ করুন অথবা কমান্ড লাইন ফ্ল্যাগ --password-store=\"{previousBackendFlag}\" ব্যবহার করে Signal চালানোর চেষ্টা করুন"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ফাইল"
@@ -831,13 +831,13 @@
     "messageformat": "Signal আপডেট করা যায়নি। {retry} অথবা ম্যানুয়ালি ইন্সটল করতে ভিজিট করুন {url}। তারপর, এই সমস্যা সম্পর্কে {support}"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal আপডেট করা যায়নি। <retryUpdateButton>পুনরায় আপডেট করার চেষ্টা করুন</retryUpdateButton> অথবা ম্যানুয়ালি ইনস্টল করতে {url} ভিজিট করুন। তারপর, এই সমস্যার ব্যাপারে <contactSupportLink>সাপোর্টের সাথে যোগাযোগ করুন</contactSupportLink>"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal আপডেট করা যায়নি। ম্যানুয়ালি ইন্সটল করতে ভিজিট করুন {url}। তারপর, এই সমস্যা সম্পর্কে {support}"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal আপডেট করা যায়নি। ম্যানুয়ালি ইন্সটল করতে ভিজিট করুন {url}। তারপর, এই সমস্যা সম্পর্কে <contactSupportLink>সাপোর্টের সাথে যোগাযোগ করুন</contactSupportLink>"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal ডেস্কটপ সম্ভবত macOS কোয়ারেন্টিনে আছে এবং স্বয়ংক্রিয়ভাবে আপডেট হবে না। অনুগ্রহ করে Finder-এর সাহায্যে {app}-কে {folder}-এ সরানোর চেষ্টা করুন।"
@@ -1113,7 +1113,7 @@
     "messageformat": "সংযুক্ত ডিভাইসগুলি"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "একটি নতুন ডিভাইস লিংক করুন"
   },
   "icu:Install__learn-more": {
     "messageformat": "আরও জানুন"
@@ -1131,7 +1131,7 @@
     "messageformat": "সেটিংস"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "{linkNewDevice} ট্যাপ করুন"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "কিউআর কোড লোড করা যায়নি। আপনার ইন্টারনেট সংযোগ ঠিক আছে কি না দেখুন এবং আবার চেষ্টা করুন। <retry>পুনরায় চেষ্টা করুন</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "আমরা স্টিকার ক্লিকারদের জন্য জিনিসগুলি আরও সহজ এবং দ্রুত করতে চেয়েছি, তাই আমরা একটি বাগ ঠিক করেছি যার কারণে মাঝেমধ্যে অ্যাপ বন্ধ থাকাকালীন আপনি কোনও স্টিকার প্যাক লিঙ্ক খোলার চেষ্টা করলে Signal-এর স্টিকার ভিউয়ার চালু হত না।"
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "কখনও কখনও দ্রুত অনানুষ্ঠানিক বিদায় দীর্ঘ আনুষ্ঠানিক বিদায়ের চেয়ে সহজ হয়, তাই আমরা বড় মেসেজ থ্রেডগুলি মুছে ফেলার প্রক্রিয়াটিকে ত্বরান্বিত করেছি৷"
   }
 }

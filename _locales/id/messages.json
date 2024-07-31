@@ -87,10 +87,10 @@
     "messageformat": "Pulihkan data"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Tidak dapat mengakses kunci enkripsi database karena backend keyring enkripsi OS telah berubah dari {previousBackend} menjadi {currentBackend}. Ini dapat terjadi jika lingkungan desktop diganti, misalnya antara GNOME dan KDE.\n\nHarap ganti ke lingkungan desktop sebelumnya."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Tidak dapat mengakses kunci enkripsi database karena backend keyring enkripsi OS telah berubah dari {previousBackend} menjadi {currentBackend}. Ini dapat terjadi jika lingkungan desktop diganti, misalnya antara GNOME dan KDE.\n\nHarap ganti ke lingkungan desktop sebelumnya atau coba jalankan Signal dengan command line flag --password-store = \"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Berkas"
@@ -831,13 +831,13 @@
     "messageformat": "Signal tidak dapat diperbarui. {retry} atau kunjungi {url} untuk memasangnya secara manual. Lalu, {support} mengenai masalah ini."
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal tidak dapat diperbarui. <retryUpdateButton>Coba lagi perbarui</retryUpdateButton> atau buka {url} untuk instal secara manual. Lalu, <contactSupportLink>hubungi dukungan</contactSupportLink> untuk menyampaikan masalah ini"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal tidak dapat melakukan pembaruan. Buka {url} untuk menginstal secara manual. Lalu, {support} terkait masalah ini"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal tidak dapat diperbarui. Buka {url} untuk menginstal secara manual. Lalu, <contactSupportLink>hubungi dukungan</contactSupportLink> untuk menyampaikan masalah ini"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop tampak dalam karantina macOS dan tidak dapat melakukan pembaruan otomatis. Coba pindahkan {app} ke {folder} melalui Finder."
@@ -1113,7 +1113,7 @@
     "messageformat": "Perangkat Terhubung"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Hubungkan Perangkat Baru"
   },
   "icu:Install__learn-more": {
     "messageformat": "Pelajari lebih lanjut"
@@ -1131,7 +1131,7 @@
     "messageformat": "Pengaturan"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "Ketuk {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Kode QR tidak dapat dimuat. Periksa internet Anda dan coba lagi. <retry>Coba lagi</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "Kami memperbaiki bug yang terkadang membuat Signal tidak bisa membuka penampil stiker jika Anda mencoba membuka tautan paket stiker saat aplikasi tertutup."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Rilis ini mempercepat proses penghapusan utas pesan berukuran besar."
   }
 }

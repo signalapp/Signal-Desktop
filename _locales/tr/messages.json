@@ -87,10 +87,10 @@
     "messageformat": "Verileri kurtar"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "İşletim sistemi şifreleme anahtarı arka ucunu {previousBackend} değerinden {currentBackend} değerine değiştirdiği için veritabanı şifreleme anahtarına erişilemiyor. Bu durum, örneğin GNOME ve KDE arasında masaüstü ortamı değiştiğinde meydana gelebilir.\n\nLütfen önceki masaüstü ortamına geç."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "İşletim sistemi şifreleme anahtarı arka ucunu {previousBackend} değerinden {currentBackend} değerine değiştirdiği için veritabanı şifreleme anahtarına erişilemiyor. Bu durum, örneğin GNOME ve KDE arasında masaüstü ortamı değiştiğinde meydana gelebilir.\n\nLütfen önceki masaüstü ortamına geç ya da Signal'i flag --password-store=\"{previousBackendFlag}\" komut satırı ile çalıştırmayı dene"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Dosya"
@@ -831,13 +831,13 @@
     "messageformat": "Signal güncellenemedi. {retry} veya el ile kurmak için {url}. Sonra, bu sorun hakkında {support}"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal güncellenemedi. <retryUpdateButton>Güncellemeyi yeniden dene</retryUpdateButton> ya da el ile kurmak için {url} adresini ziyaret et. Ardından bu sorun hakkında <contactSupportLink>destek ile iletişime geç</contactSupportLink>"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal güncellenemedi. El ile kurmak için {url} adresini ziyaret edin. Sonra, bu sorun hakkında {support}"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal güncellenemedi. El ile kurmak için {url} adresini ziyaret et. Ardından bu sorun hakkında <contactSupportLink>destek ile iletişime geç</contactSupportLink>"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop muhtemelen macOS karantinasında ve otomatik güncellenemeyecek. Lütfen Bulucu ile  {app} uygulamasını  {folder} klasörüne taşıyın."
@@ -1113,7 +1113,7 @@
     "messageformat": "Bağlı cihazlar"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Yeni bir cihaz bağla"
   },
   "icu:Install__learn-more": {
     "messageformat": "Dahasını öğrenin"
@@ -1131,7 +1131,7 @@
     "messageformat": "Ayarlar"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "{linkNewDevice} üzerine dokun"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR kod yüklenemedi. İnternet bağlantını kontrol et ve tekrar dene. <retry>Tekrar dene</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "Uygulama kapalıyken bir çıkartma paketi bağlantısını açmaya çalıştığında Signal'in bazen çıkartma görüntüleyiciyi başlatmasını engelleyen bir hatayı düzelttik."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Bu sürüm büyük mesaj dizilerini silme sürecini hızlandırmaktadır."
   }
 }

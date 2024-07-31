@@ -87,10 +87,10 @@
     "messageformat": "Récupérer les données"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Impossible d’accéder à la clé de chiffrement de la base de données, car le backend du keyring de chiffrement associé au système d’exploitation est passé de {previousBackend} à {currentBackend}. Cela peut se produire lorsque vous changez d’environnement de bureau pour passer de GNOME à KDE, par exemple.\n\nPour y remédier, revenez à l’ancien environnement de bureau."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Impossible d’accéder à la clé de chiffrement de la base de données, car le backend du keyring de chiffrement associé au système d’exploitation est passé de {previousBackend} à {currentBackend}. Cela peut se produire lorsque vous changez d’environnement de bureau pour passer de GNOME à KDE, par exemple.\n\nPour y remédier, revenez à l’ancien environnement de bureau ou essayez d’exécuter Signal avec l’indicateur de ligne de commande --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fichier"
@@ -831,13 +831,13 @@
     "messageformat": "Impossible de mettre à jour Signal. {retry} ou visitez {url} pour installer la mise à jour manuellement. Nous vous invitons ensuite à signaler le problème à l’{support}."
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Impossible de mettre à jour Signal. <retryUpdateButton>Veuillez réessayer</retryUpdateButton> ou visiter {url} pour installer la mise à jour manuellement. Nous vous invitons ensuite à signaler le problème à l’<contactSupportLink>assistance</contactSupportLink>."
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Impossible de mettre à jour Signal. Visitez {url} pour installer la mise à jour manuellement. Nous vous invitons ensuite à signaler le problème à l’{support}."
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Impossible de mettre à jour Signal. Veuillez visiter {url} pour installer la mise à jour manuellement. Nous vous invitons ensuite à signaler le problème à l’<contactSupportLink>assistance</contactSupportLink>."
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop pour ordinateur a probablement été mise en quarantaine par macOS et ne pourra pas se mettre automatiquement à jour. Avec Finder, essayez de déplacer  {app} dans  {folder}."
@@ -1113,7 +1113,7 @@
     "messageformat": "Appareils associés"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Associer un nouvel appareil"
   },
   "icu:Install__learn-more": {
     "messageformat": "En savoir plus"
@@ -1131,7 +1131,7 @@
     "messageformat": "Paramètres"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "Appuyez sur {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Impossible de charger le code QR. Veuillez vérifier votre connexion Internet et réessayer. <retry>Réessayer</retry>"
@@ -2709,7 +2709,7 @@
     "messageformat": "Lancer un appel vidéo"
   },
   "icu:joinOngoingCall": {
-    "messageformat": "Me joindre"
+    "messageformat": "Rejoindre"
   },
   "icu:callNeedPermission": {
     "messageformat": "{title} recevra votre invitation par message. Vous pourrez l’appeler une fois votre invitation acceptée."
@@ -2985,7 +2985,7 @@
     "messageformat": "Un administrateur de ce groupe doit approuver votre demande avant que vous puissiez vous joindre à ce groupe. Si votre demande est approuvée, vos nom et photo seront partagés avec ses membres."
   },
   "icu:GroupV2--join--join-button": {
-    "messageformat": "Me joindre"
+    "messageformat": "Rejoindre"
   },
   "icu:GroupV2--join--request-to-join-button": {
     "messageformat": "Demander à me joindre"
@@ -4251,7 +4251,7 @@
     "messageformat": "Résoudre"
   },
   "icu:ProfileEditor__username-link": {
-    "messageformat": "Code QR ou lien"
+    "messageformat": "Lien ou code QR"
   },
   "icu:ProfileEditor__username__error-icon": {
     "messageformat": "Le nom d'utilisateur doit être réinitialisé"
@@ -5558,6 +5558,6 @@
     "messageformat": "Bonne nouvelle pour les fans de stickers : lorsque l’appli était fermée, la visionneuse de stickers ne s’affichait pas toujours quand vous vouliez ouvrir un pack de stickers. Mais tout ça, c’est du passé !"
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Vous n’aimez pas les au revoir qui s’éternisent ? Nous non plus ! Nous avons donc accéléré la procédure de suppression des longs fils de discussion. Et une médaille d’or pour ce sprint !"
   }
 }

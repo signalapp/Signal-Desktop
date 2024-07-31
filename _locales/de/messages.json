@@ -87,10 +87,10 @@
     "messageformat": "Daten wiederherstellen"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Zugriff auf den Schlüssel zur Verschlüsselung der Datenbank ist nicht möglich, da das Verschlüsselungs-Keyring-Backend von {previousBackend} zu {currentBackend} geändert wurde. Dies kann auftreten, wenn sich die Desktop-Umgebung ändert, zum Beispiel von GNOME zu KDE.\n\nBitte wechsle zur vorherigen Desktop-Umgebung."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Zugriff auf den Schlüssel zur Verschlüsselung der Datenbank ist nicht möglich, da das Verschlüsselungs-Keyring-Backend von {previousBackend} zu {currentBackend} geändert wurde. Dies kann auftreten, wenn sich die Desktop-Umgebung ändert, zum Beispiel von GNOME zu KDE.\n\nBitte wechsle zur vorherigen Desktop-Umgebung oder versuche, Signal mit der Option --password-store=\"{previousBackendFlag}\" in der Kommandozeile laufen zu lassen."
   },
   "icu:mainMenuFile": {
     "messageformat": "&Datei"
@@ -729,7 +729,7 @@
     "messageformat": "Diese Person ist in deinen Kontakten."
   },
   "icu:contactAvatarAlt": {
-    "messageformat": "Kontaktavatar für {name}"
+    "messageformat": "Profilbild für {name}"
   },
   "icu:sendMessageToContact": {
     "messageformat": "Nachricht senden"
@@ -831,13 +831,13 @@
     "messageformat": "Signal konnte nicht aktualisiert werden. {retry} oder besuche {url}, um Signal manuell zu installieren. Kontaktiere danach {support} hinsichtlich dieses Problems."
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal konnte nicht aktualisiert werden. Versuche, <retryUpdateButton>erneut zu aktualisieren</retryUpdateButton>, oder besuche {url}, um Signal manuell zu installieren. Kontaktiere danach den <contactSupportLink>Support</contactSupportLink> hinsichtlich dieses Problems."
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal konnte nicht aktualisiert werden. Rufe {url} auf, um Signal manuell zu installieren. Kontaktiere danach {support} hinsichtlich dieses Problems."
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal konnte nicht aktualisiert werden. Besuche {url}, um Signal manuell zu installieren. Kontaktiere danach den <contactSupportLink>Support</contactSupportLink> hinsichtlich dieses Problems."
   },
   "icu:readOnlyVolume": {
     "messageformat": "macOS hat Signal Desktop vermutlich unter Dateiquarantäne gestellt und Signal kann daher nicht automatisch aktualisiert werden. Bitte versuche mit Finder, {app} in den Ordner {folder} zu verschieben."
@@ -1113,7 +1113,7 @@
     "messageformat": "Gekoppelte Geräte"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Ein neues Gerät koppeln"
   },
   "icu:Install__learn-more": {
     "messageformat": "Mehr erfahren"
@@ -1131,7 +1131,7 @@
     "messageformat": "Einstellungen"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "Tippe auf {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Der QR-Code konnte nicht geladen werden. Überprüfe deine Internetverbindung und versuche es erneut. <retry>Erneut versuchen</retry>"
@@ -2763,7 +2763,7 @@
     "messageformat": "{name} und {otherName} haben ihre Hand gehoben."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{overflowCount, plural, one {{name}, {otherName} und {overflowCount,number} hat die Hand gehoben.} other {{name}, {otherName} und {overflowCount,number} haben ihre Hand gehoben.}}"
+    "messageformat": "{overflowCount, plural, one {{name}, {otherName} und {overflowCount,number} eine weitere Person hat die Hand gehoben.} other {{name}, {otherName} und {overflowCount,number} weitere Personen haben ihre Hand gehoben.}}"
   },
   "icu:CallControls__RaiseHands--open-queue": {
     "messageformat": "Warteschlange öffnen"
@@ -4383,7 +4383,7 @@
     "messageformat": "Info"
   },
   "icu:ProfileEditorModal--avatar": {
-    "messageformat": "Dein Avatar"
+    "messageformat": "Dein Profilbild"
   },
   "icu:ProfileEditorModal--username": {
     "messageformat": "Nutzername"
@@ -4401,7 +4401,7 @@
     "messageformat": "Admins"
   },
   "icu:AvatarEditor--choose": {
-    "messageformat": "Wähle einen Avatar"
+    "messageformat": "Wähle ein Profilbild"
   },
   "icu:AvatarColorPicker--choose": {
     "messageformat": "Wähle eine Farbe"
@@ -5558,6 +5558,6 @@
     "messageformat": "Wir wollten es für Sticker-Klicker einfacher und schneller machen. Also haben wir einen Fehler behoben, der Signal manchmal daran hinderte, den Sticker-Viewer zu starten, wenn du bei geschlossener App versucht hast, den Link zu einem Sticker-Set zu öffnen."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Kurz und schmerzlos ist oft die einfachste Option. Aus diesem Grund löschen wir lange Nachrichtenverläufe jetzt schneller."
   }
 }

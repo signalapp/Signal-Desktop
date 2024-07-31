@@ -87,10 +87,10 @@
     "messageformat": "데이터 복원"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "OS 암호화 백엔드가 {previousBackend}에서 {currentBackend}로 변경되어 데이터베이스 암호화 키에 접근할 수 없습니다. 이 문제는 데스크톱 환경(예: GNOME 및 KDE간)이 변경될 때 발생할 수 있습니다.\n\n이전 데스크톱 환경으로 전환하세요."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "OS 암호화 백엔드가 {previousBackend}에서 {currentBackend}로 변경되어 데이터베이스 암호화 키에 접근할 수 없습니다. 이 문제는 데스크톱 환경(예: GNOME 및 KDE간)이 변경될 때 발생할 수 있습니다.\n\n이전 데스크톱 환경으로 전환하거나 커맨드라인 플래그 --password-store=\"{previousBackendFlag}\"로 Signal을 실행해 보세요."
   },
   "icu:mainMenuFile": {
     "messageformat": "파일 (&F)"
@@ -831,13 +831,13 @@
     "messageformat": "Signal을 업데이트하지 못했습니다. {retry} 또는 {url}을(를) 방문하여 수동으로 설치하세요. 그다음 {support}에 이 문제에 관해 문의하세요."
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal을 업데이트하지 못했습니다. <retryUpdateButton>업데이트를 다시 시도</retryUpdateButton>하거나 {url} 을(를) 방문하여 수동으로 설치하세요. 그다음 <contactSupportLink>지원팀</contactSupportLink>에 이 문제에 관해 문의하세요."
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal을 업데이트하지 못했습니다. {url}을(를) 방문하여 수동으로 설치하세요. 그다음 {support}에 이 문제에 관해 문의하세요."
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal을 업데이트하지 못했습니다. {url}을(를) 방문하여 수동으로 설치하세요. 그다음 <contactSupportLink>지원팀</contactSupportLink>에 이 문제에 관해 문의하세요."
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop이 macOS 검역에 걸렸을 가능성이 크며 자동 업데이트할 수 없습니다. 탐색기를 사용하여 {app} 앱을 {folder} 폴더로 이동하세요."
@@ -1113,7 +1113,7 @@
     "messageformat": "연결된 기기"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "새 기기 연결"
   },
   "icu:Install__learn-more": {
     "messageformat": "더 알아보기"
@@ -1131,7 +1131,7 @@
     "messageformat": "설정"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "{linkNewDevice}을(를) 탭하세요."
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR 코드를 로드할 수 없습니다. 인터넷 연결을 확인하고 다시 시도하세요. <retry>다시 시도하기</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "앱이 종료된 상태에서 스티커 팩 링크를 열려고 할 때 간혹 Signal에서 스티커 뷰어를 시작하지 못하는 버그를 수정했습니다."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "이번 릴리스에서는 대용량 메시지 대화 삭제 프로세스 속도가 향상되었습니다."
   }
 }

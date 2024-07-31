@@ -87,10 +87,10 @@
     "messageformat": "Gendan data"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Kan ikke tilgå databasekrypteringsnøglen, fordi OS-krypteringsnøgleringens backend er ændret fra {previousBackend} til {currentBackend}. Dette kan ske, hvis skrivebordsmiljøet ændres, for eksempel mellem GNOME og KDE.\n\nSkift til det forrige skrivebordsmiljø."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Kan ikke tilgå databasekrypteringsnøglen, fordi OS-krypteringsnøgleringens backend er ændret fra {previousBackend} til {currentBackend}. Dette kan ske, hvis skrivebordsmiljøet ændres, for eksempel mellem GNOME og KDE.\n\nSkift til det forrige skrivebordsmiljø, eller prøv at køre signal med kommandolinjen flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fil"
@@ -831,13 +831,13 @@
     "messageformat": "Signal kunne ikke opdatere. {retry} eller besøg {url} for at installere det manuelt. Dernæst, {support} om dette problem"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal kunne ikke opdateres. <retryUpdateButton>Prøv at opdatere igen</retryUpdateButton>, eller gå til {url} for at installere opdateringen manuelt. <contactSupportLink>Kontakt derefter support</contactSupportLink> vedrørende problemet"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal kunne ikke opdatere. Besøg {url} for at installere den manuelt. Dernæst, {support} om dette problem"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal kunne ikke opdateres. Gå til {url} for at installere opdateringen manuelt. <contactSupportLink>Kontakt derefter support</contactSupportLink> vedrørende problemet"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop findes sandsynligvis i en macOS-karantæne og vil ikke være i stand til automatisk at opdatere. Prøv at flytte {app} til {folder} med Finder."
@@ -1113,7 +1113,7 @@
     "messageformat": "Forbundne enheder"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Forbind en ny enhed"
   },
   "icu:Install__learn-more": {
     "messageformat": "Læs mere"
@@ -1131,7 +1131,7 @@
     "messageformat": "Indstillinger"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "Tryk på {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR-koden kunne ikke indlæses. Tjek din internetforbindelse, og prøv igen. <retry>Prøv igen</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "Vi ville gerne have, at tingene skulle være nemmere og hurtigere for klistermærkeklikkere, så vi rettede en fejl, der forhindrede Signal i at starte klistermærkevisningen, hvis du forsøgte at åbne et klistermærkepakkelink, mens appen var lukket."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Denne opdatering gør det hurtigere at slette store tråde med masser af beskeder."
   }
 }

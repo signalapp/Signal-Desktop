@@ -87,10 +87,10 @@
     "messageformat": "Rejesha data"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Haiwezi kufikia ufunguo wa usimbaji wa kanzidata kwa sababu mazingira ya nyuma ya usimbaji wa mfumo wa uendeshaji yamebadilika kutoka {previousBackend} kwenda {currentBackend}. Hii inaweza kutokea endapo mazingira ya kompyuta ya mezani yamebadilika, kwa mfano kati ya GNOME na KDE.\n\nTafadhali badili hadi mazingira ya zamani ya kompyuta ya mezani."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Haiwezi kufikia ufunguo wa usimbaji wa kanzidata kwa sababu mazingira ya nyuma ya usimbaji wa mfumo wa uendeshaji yamebadilika kutoka {previousBackend} kwenda {currentBackend}. Hii inaweza kutokea endapo mazingira ya kompyuta ya mezani yamebadilika, kwa mfano kati ya GNOME na KDE.\n\nTafadhali badili kwenda mazingira ya zamani ya kompyuta ya mezani au jaribu kuendesha Signal kwa alama ya mstari wa amri --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Faili"
@@ -831,13 +831,13 @@
     "messageformat": "Signal haingeweza kusasishwa. {retry} au tembelea {url} ili kusanikisha mwenyewe. Kisha, {support} kuhusu tatizo hili"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal imeshindwa kusasisha. <retryUpdateButton>Jaribu tena kusasisha</retryUpdateButton> au tembelea {url} ili kusanikisha mwenyewe. Halafu, <contactSupportLink>wasiliana na usaidizi</contactSupportLink> kuhusu tatizo hili"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal haingeweza kusasishwa. Tembelea {url} kusanikisha mwenyewe. Kisha, {support} kuhusu tatizo hili"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal imeshindwa kusasisha. Tembelea {url} ili kusakinisha mwenyewe. Halafu, <contactSupportLink>wasiliana na usaidizi</contactSupportLink> kuhusu tatizo hili"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Huenda Signal Desktop ipo katika karantini ya macOS, na haitaweza kusasisha kiotomatiki. Tafadhali jaribu kuhamishia {app} kwenye {folder} kwa kutumia Kitafutaji."
@@ -1113,7 +1113,7 @@
     "messageformat": "Vifaa Vilivyounganishwa"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Unganisha Kifaa Kipya"
   },
   "icu:Install__learn-more": {
     "messageformat": "Jifunze zaidi"
@@ -1131,7 +1131,7 @@
     "messageformat": "Mipangilio"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "Bonyeza {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Msimbo wa QR umeshindwa kupakia. Angalia mtandao wako na ujaribu tena. <retry>Jaribu Upya</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "Tulitaka kufanya mambo yawe mepesi kwenye vibofya vibandiko, hivyo tukarekebisha hitilafu ambayo wakati mwingine ilizuia Signal isiwashe kipengele cha kitazama vibandiko kama ukijaribu kufungua kiungo cha pakiti ya vibandiko wakati programu imefungwa."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Kuagana kwa haraka wakati mwingine ni rahisi kuliko kuagana kwa taratibu, hivyo tunaharakisha mchakato wa kufuta nyuzi kubwa za ujumbe."
   }
 }

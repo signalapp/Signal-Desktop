@@ -87,10 +87,10 @@
     "messageformat": "ડેટા રિકવર કરો"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "ડેટાબેઝ એન્ક્રિપ્શન કી ઍક્સેસ કરવામાં અસમર્થ કારણ કે OS એન્ક્રિપ્શન કીરીંગ બેકએન્ડ {previousBackend}માંથી {currentBackend} માં બદલાઈ ગયું છે. આ તો થઈ શકે છે જો ડેસ્કટોપ એન્વાયર્નમેન્ટ બદલાય, ઉદાહરણ તરીકે GNOME અને KDE વચ્ચે.\n\nકૃપા કરીને પહેલાંના ડેસ્કટોપ એન્વાયર્નમેન્ટ પર સ્વિચ કરો."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "ડેટાબેઝ એન્ક્રિપ્શન કી ઍક્સેસ કરવામાં અસમર્થ કારણ કે OS એન્ક્રિપ્શન કીરીંગ બેકએન્ડ {previousBackend}માંથી {currentBackend} માં બદલાઈ ગયું છે. આ તો થઈ શકે છે જો ડેસ્કટોપ એન્વાયર્નમેન્ટ બદલાય, ઉદાહરણ તરીકે GNOME અને KDE વચ્ચે.\n\nકૃપા કરીને પહેલાંના ડેસ્કટોપ એન્વાયર્નમેન્ટ પર સ્વિચ કરો અથવા કમાન્ડ લાઇન ફ્લેગ --password-store=\"{previousBackendFlag}\" સાથે Signalને રન કરવાનો પ્રયાસ કરો"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ફાઇલ"
@@ -831,13 +831,13 @@
     "messageformat": "Signal અપડેટ ન થઈ શક્યું. {retry} અથવા તેને જાતે ઇન્સ્ટોલ કરવા {url}ની મુલાકાત લો. પછી, આ સમસ્યા વિશે {support}."
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal અપડેટ ન થઈ શક્યું. <retryUpdateButton>અપડેટનો ફરી પ્રયાસ કરો</retryUpdateButton> અથવા તેને મેન્યુઅલી ઇન્સ્ટોલ કરવા માટે {url}ની મુલાકાત લો. પછી, આ સમસ્યા વિશે <contactSupportLink>સપોર્ટનો સંપર્ક કરો</contactSupportLink>"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal અપડેટ ન થઈ શક્યું. તેને જાતે ઇન્સ્ટોલ કરવા {url}ની મુલાકાત લો. પછી, આ સમસ્યા વિશે {support}."
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal અપડેટ ન થઈ શક્યું. તેને મેન્યુઅલી ઇન્સ્ટોલ કરવા માટે {url}ની મુલાકાત લો. પછી આ સમસ્યા વિશે <contactSupportLink>સપોર્ટનો સંપર્ક કરો</contactSupportLink>"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal ડેસ્કટપ સંભવત મેકોસ ક્વોરેન્ટાઇનમાં છે, અને તે સ્વત અપડેટ કરી શકશે નહીં. કૃપા કરીને ફાઇન્ડર સાથે {app} ને {folder} માં ખસેડવાનો પ્રયાસ કરો."
@@ -1113,7 +1113,7 @@
     "messageformat": "લિંક થયેલ ડિવાઇસ"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "નવું ડિવાઇસ લિંક કરો"
   },
   "icu:Install__learn-more": {
     "messageformat": "વધુ શીખો"
@@ -1131,7 +1131,7 @@
     "messageformat": "સેટિંગ્સ"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "{linkNewDevice} પર ટેપ કરો"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR કોડ લોડ ન થઈ શક્યો. તમારું ઇન્ટરનેટ તપાસો અને ફરી પ્રયાસ કરો. <retry>ફરી પ્રયાસ કરો</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "અમે એક એવા બગને ઠીક કર્યો જે તમે ઍપ બંધ હોય ત્યારે સ્ટીકર પેક લિંક ખોલવાનો પ્રયાસ કર્યો હોય ત્યારે કેટલીકવાર Signalને સ્ટીકર વ્યૂઅરને લોંચ કરવાથી અટકાવતો હતો."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "આ રિલીઝ મોટા મેસેજ થ્રેડને ડિલીટ કરવાની પ્રક્રિયાને ઝડપી બનાવે છે."
   }
 }

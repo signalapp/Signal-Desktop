@@ -87,10 +87,10 @@
     "messageformat": "Recuperează datele"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Nu se poate accesa cheia de criptare a bazei de date deoarece backend-ul de criptare al sistemului de operare s-a schimbat de la {previousBackend} la {currentBackend}. Acest lucru se poate întâmpla dacă mediul desktop se schimbă, de exemplu între GNOME și KDE.\n\nTreci la mediul desktop anterior."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Nu se poate accesa cheia de criptare a bazei de date deoarece backend-ul de criptare al sistemului de operare s-a schimbat de la {previousBackend} la {currentBackend}. Acest lucru se poate întâmpla dacă mediul desktop se schimbă, de exemplu între GNOME și KDE.\n\nTreci de la mediul desktop anterior sau să încearcă să execuți semnalul cu steagul din linia de comandă --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fișier"
@@ -831,13 +831,13 @@
     "messageformat": "Signal nu a putut fi actualizat. {retry} sau mergi la {url} pentru a o instala manual. Apoi, {support} în legătură cu această problemă"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal nu s-a putut actualiza. <retryUpdateButton>Reîncearcă actualizarea</retryUpdateButton> sau vizitează {url} ca să-l instalezi manual. Apoi, <contactSupportLink>contactează asistența</contactSupportLink> referitor la problemă"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal nu a putut fi actualizat. Mergi la {url} pentru a instala manual. Apoi, {support} în legătură cu această problemă"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal nu a putut fi actualizat. Mergi la {url} pentru a-l instala manual. Apoi, <contactSupportLink>contactează asistența</contactSupportLink> despre această problemă"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop se află probabil în carantină macOS, și nu va putea fi actualizat automat. Te rugăm să încearci să muți {app} în {folder} folosind Finder."
@@ -1113,7 +1113,7 @@
     "messageformat": "Dispozitive asociate"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Asociază un dispozitiv nou"
   },
   "icu:Install__learn-more": {
     "messageformat": "Află mai multe"
@@ -1131,7 +1131,7 @@
     "messageformat": "Setări"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "Atinge {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "Codul QR nu a putut fi încărcat. Verifică internetul și încearcă din nou. <retry>Încearcă din nou</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "Am vrut ca lucrurile să fie mai simple și mai rapide pentru cei care dau clic pe stickere, așa că, am remediat o eroare care uneori împiedica Signal să lanseze vizualizatorul de stickere dacă încercai să deschizi un link pentru un pachet de stickere în timp ce aplicația era închisă."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "O despărțire rapidă este uneori mai ușoară decât o despărțire lentă, așa că am accelerat procesul de ștergere a conversațiilor cu multe mesaje."
   }
 }

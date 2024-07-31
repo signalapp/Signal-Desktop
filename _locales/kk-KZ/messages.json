@@ -87,10 +87,10 @@
     "messageformat": "Деректерді қалпына келтіру"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Дерекқорды шифрлау кілтіне кіру мүмкін болмады, себебі операциялық жүйені шифрлау кілті серверін ({previousBackend}) {currentBackend} деп өзгерту мүмкін болмады. GNOME және KDE арасында жұмыс үстелінің ортасы өзгерсе, осындай жағдай орын алады.\n\nАлдыңғы жұмыс үстелі ортасына ауысыңыз."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Дерекқорды шифрлау кілтіне кіру мүмкін болмады, себебі операциялық жүйені шифрлау кілті серверін ({previousBackend}) {currentBackend} деп өзгерту мүмкін болмады. GNOME және KDE арасында жұмыс үстелінің ортасы өзгерсе, осындай жағдай орын алады.\n\nАлдыңғы жұмыс орнының ортасына ауысыңыз немесе Signal-ды --password-store=\"{previousBackendFlag}\" пәрмен жолының жалаушасымен іске қосып көріңіз."
   },
   "icu:mainMenuFile": {
     "messageformat": "&Файл"
@@ -831,13 +831,13 @@
     "messageformat": "Signal жаңартылмады. {retry} немесе {url} бетіне кіріп, оны қолмен орнатыңыз. Содан кейін осы мәселе туралы {support}"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal-ды жаңарту мүмкін болмады. <retryUpdateButton>Қайта жаңартып көріңіз</retryUpdateButton> немесе {url} бетіне кіріп, оны қолмен орнатыңыз. Содан кейін бұл мәселе жайында <contactSupportLink>қолдау көрсету орталығына</contactSupportLink> хабарлаңыз."
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal-ды жаңарту мүмкін болмады. {url} бетіне кіріп, оны қолмен орнатыңыз. Содан кейін осы мәселе туралы {support}"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal-ды жаңарту мүмкін болмады. {url} бетіне кіріп, оны қолмен орнатыңыз. Содан кейін бұл мәселе жайында <contactSupportLink>қолдау көрсету орталығына</contactSupportLink> хабарлаңыз."
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal-дың компьютерлік нұсқасы macOS карантинінде сияқты, сондықтан автоматты түрде жаңартылмайды. Finder арқылы {app} қолданбасын {folder} қалтасына ауыстырып көріңіз."
@@ -1113,7 +1113,7 @@
     "messageformat": "Байланыстырылған құрылғылар"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Жаңа құрылғыны байланыстыру"
   },
   "icu:Install__learn-more": {
     "messageformat": "Толық ақпарат"
@@ -1131,7 +1131,7 @@
     "messageformat": "Параметрлер"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "{linkNewDevice} сілтемесін басыңыз"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR коды жүктелмеді. Интернетті тексеріп, қайталап көріңіз. <retry>Қайталап көру</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "Қолданба жабық тұрып, стикерлер жинағы сілтемесін ашқыңыз келгенде, ақау шығып, Signal стикерлерді көрсету құралын аша алмай қалатын. Стикерді пайдаланатын адамдар үшін ыңғайлы әрі жылдам болуы үшін, бұл ақауды түзеттік."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Бұл шығарылымда үлкен хаттар тізбегін жою процесінің жылдамдығы артты."
   }
 }

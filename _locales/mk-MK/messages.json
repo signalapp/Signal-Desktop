@@ -87,10 +87,10 @@
     "messageformat": "Враќање на податоците"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Не може да се пристапи до клучот на шифрираната датабаза бидејќи заднинскиот код на шифрирачот на лозинки на оперативниот систем се има сменето од {previousBackend} во {currentBackend}. Ова може да се случи доколку се смени видот на десктоп, на пример од GNOME во KDE.\n\nВе молиме сменете во претходниот вид на десктоп."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Не може да се пристапи до клучот на шифрираната датабаза бидејќи заднинскиот код на шифрирачот на лозинки на оперативниот систем се има сменето од {previousBackend} во {currentBackend}. Ова може да се случи доколку се смени видот на десктоп, на пример од GNOME во KDE.\n\nВе молиме сменете во претходниот вид на десктоп или обидете се да ја отворите апликацијата со командата --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Датотека"
@@ -831,13 +831,13 @@
     "messageformat": "Signal не можеше да се ажурира. {retry}или посетете ја {url}за рачна инсталација. Потоа, {support} за проблемот"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal не можеше да се ажурира. <retryUpdateButton>Обидете се повторно да ажурирате</retryUpdateButton> или посетете ја {url} за рачна инсталација. Потоа, <contactSupportLink>контактирајте со тимот за корисничка поддршка</contactSupportLink> за проблемот"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal не можеше да се ажурира. Посетете ја {url} за рачна инсталација. Потоа, {support}за проблемот"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal не можеше да се ажурира. Посетете ја {url} за рачна инсталација. Потоа, <contactSupportLink>контактирајте со тимот за корисничка поддршка</contactSupportLink> за проблемот"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop е најверојатно во macOS карантин, и нема да може автоматски да се ажурира. Ве молиме преместете го {app} во {folder} со помош на Finder."
@@ -1113,7 +1113,7 @@
     "messageformat": "Поврзани уреди"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Поврзете нов уред"
   },
   "icu:Install__learn-more": {
     "messageformat": "Дознајте повеќе"
@@ -1131,7 +1131,7 @@
     "messageformat": "Поставувања"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
+    "messageformat": "Допрете на {linkNewDevice}"
   },
   "icu:Install__qr-failed-load": {
     "messageformat": "QR кодот не можеше да се вчита. Проверете ја интернет врската и обидете се повторно. <retry>Обидете се повторно</retry>"
@@ -5558,6 +5558,6 @@
     "messageformat": "Решивме грешка што понекогаш спречуваше Signal да го отвори прегледот на налепници доколку се обидевте да отворите линк за пакет налепници додека апликацијата е затворена."
   },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Во оваа верзија процесот на бришење големи разговори е забрзан."
   }
 }
