@@ -87,10 +87,10 @@
     "messageformat": "Daten wiederherstellen"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Zugriff auf den Schlüssel zur Verschlüsselung der Datenbank ist nicht möglich, da das Verschlüsselungs-Keyring-Backend von {previousBackend} zu {currentBackend} geändert wurde. Dies kann auftreten, wenn sich die Desktop-Umgebung ändert, zum Beispiel von GNOME zu KDE.\n\nBitte wechsle zur vorherigen Desktop-Umgebung."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Zugriff auf den Schlüssel zur Verschlüsselung der Datenbank ist nicht möglich, da das Verschlüsselungs-Keyring-Backend von {previousBackend} zu {currentBackend} geändert wurde. Dies kann auftreten, wenn sich die Desktop-Umgebung ändert, zum Beispiel von GNOME zu KDE.\n\nBitte wechsle zur vorherigen Desktop-Umgebung oder versuche, Signal mit der Option --password-store=\"{previousBackendFlag}\" in der Kommandozeile laufen zu lassen."
   },
   "icu:mainMenuFile": {
     "messageformat": "&Datei"
@@ -729,7 +729,7 @@
     "messageformat": "Diese Person ist in deinen Kontakten."
   },
   "icu:contactAvatarAlt": {
-    "messageformat": "Kontaktavatar für {name}"
+    "messageformat": "Profilbild für {name}"
   },
   "icu:sendMessageToContact": {
     "messageformat": "Nachricht senden"
@@ -831,13 +831,13 @@
     "messageformat": "Signal konnte nicht aktualisiert werden. {retry} oder besuche {url}, um Signal manuell zu installieren. Kontaktiere danach {support} hinsichtlich dieses Problems."
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal konnte nicht aktualisiert werden. Versuche, <retryUpdateButton>erneut zu aktualisieren</retryUpdateButton>, oder besuche {url}, um Signal manuell zu installieren. Kontaktiere danach den <contactSupportLink>Support</contactSupportLink> hinsichtlich dieses Problems."
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal konnte nicht aktualisiert werden. Rufe {url} auf, um Signal manuell zu installieren. Kontaktiere danach {support} hinsichtlich dieses Problems."
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal konnte nicht aktualisiert werden. Besuche {url}, um Signal manuell zu installieren. Kontaktiere danach den <contactSupportLink>Support</contactSupportLink> hinsichtlich dieses Problems."
   },
   "icu:readOnlyVolume": {
     "messageformat": "macOS hat Signal Desktop vermutlich unter Dateiquarantäne gestellt und Signal kann daher nicht automatisch aktualisiert werden. Bitte versuche mit Finder, {app} in den Ordner {folder} zu verschieben."
@@ -1113,7 +1113,7 @@
     "messageformat": "Gekoppelte Geräte"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Ein neues Gerät koppeln"
   },
   "icu:Install__learn-more": {
     "messageformat": "Mehr erfahren"
@@ -1131,10 +1131,7 @@
     "messageformat": "Einstellungen"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
-  },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "Der QR-Code konnte nicht geladen werden. Überprüfe deine Internetverbindung und versuche es erneut. <retry>Erneut versuchen</retry>"
+    "messageformat": "Tippe auf {linkNewDevice}"
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "Der QR-Code konnte nicht geladen werden. Überprüfe deine Verbindung und versuche es erneut."
@@ -1203,16 +1200,16 @@
     "messageformat": "Anrufe"
   },
   "icu:calling__call-back": {
-    "messageformat": "Rückruf"
+    "messageformat": "Call back"
   },
   "icu:calling__call-again": {
-    "messageformat": "Erneut anrufen"
+    "messageformat": "Call again"
   },
   "icu:calling__join": {
-    "messageformat": "Anruf beitreten"
+    "messageformat": "Join call"
   },
   "icu:calling__return": {
-    "messageformat": "Zurück zum Anruf"
+    "messageformat": "Return to call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Mikrofon stummgeschaltet aufgrund der Anzahl der Anrufteilnehmer"
@@ -2637,10 +2634,10 @@
     "messageformat": "Ablehnen"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Du hast einen Sprachanruf abgelehnt"
+    "messageformat": "Declined voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Du hast einen Videoanruf abgelehnt"
+    "messageformat": "Declined video call"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Eingehender Sprachanruf"
@@ -2673,10 +2670,10 @@
     "messageformat": "Signal bleibt im Benachrichtigungsbereich aktiv. Das kannst du in den Signal-Einstellungen ändern."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Eingehender Sprachanruf …"
+    "messageformat": "Incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Eingehender Videoanruf …"
+    "messageformat": "Incoming video call"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Ausgehender Sprachanruf"
@@ -2721,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} Person} other {{count,number} Personen}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Sprachanruf"
+    "messageformat": "Voice call"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Anruflink"
@@ -2763,7 +2760,7 @@
     "messageformat": "{name} und {otherName} haben ihre Hand gehoben."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{overflowCount, plural, one {{name}, {otherName} und {overflowCount,number} hat die Hand gehoben.} other {{name}, {otherName} und {overflowCount,number} haben ihre Hand gehoben.}}"
+    "messageformat": "{overflowCount, plural, one {{name}, {otherName} und {overflowCount,number} eine weitere Person hat die Hand gehoben.} other {{name}, {otherName} und {overflowCount,number} weitere Personen haben ihre Hand gehoben.}}"
   },
   "icu:CallControls__RaiseHands--open-queue": {
     "messageformat": "Warteschlange öffnen"
@@ -2784,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} im Anruf} other {{people,number} im Anruf}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "Der Gruppenanruf wurde beendet"
+    "messageformat": "The video call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "Ein Gruppenanruf wurde gestartet"
+    "messageformat": "A video call was started"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "Du hast einen Gruppenanruf gestartet"
+    "messageformat": "You started a video call"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} hat einen Gruppenanruf gestartet"
+    "messageformat": "{name} started a video call"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Du nimmst bereits an einem Anruf teil"
@@ -4383,7 +4380,7 @@
     "messageformat": "Info"
   },
   "icu:ProfileEditorModal--avatar": {
-    "messageformat": "Dein Avatar"
+    "messageformat": "Dein Profilbild"
   },
   "icu:ProfileEditorModal--username": {
     "messageformat": "Nutzername"
@@ -4401,7 +4398,7 @@
     "messageformat": "Admins"
   },
   "icu:AvatarEditor--choose": {
-    "messageformat": "Wähle einen Avatar"
+    "messageformat": "Wähle ein Profilbild"
   },
   "icu:AvatarColorPicker--choose": {
     "messageformat": "Wähle eine Farbe"
@@ -5436,6 +5433,9 @@
   "icu:CallsList__ItemCallInfo--Missed": {
     "messageformat": "Verpasst"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Gruppenanruf"
   },
@@ -5449,7 +5449,7 @@
     "messageformat": "Aktuellen Anruf verlassen?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "Du musst den aktuellen Anruf verlassen, bevor du einem neuen Anruf beitrittst."
+    "messageformat": "You must leave the current call before starting or joining a new call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Anruf verlassen"
@@ -5481,8 +5481,29 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Anruflink"
   },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call"
+  },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Beitreten"
+  },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Link kopieren"
@@ -5499,17 +5520,23 @@
   "icu:CallLinkEditModal__AddCallNameLabel": {
     "messageformat": "Anrufnamen hinzufügen"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Alle Teilnehmer bestätigen"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Aus"
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
+    "messageformat": "Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "Ein"
+  "icu:CallLinkRestrictionsSelect__Option--On": {
+    "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Anrufnamen hinzufügen"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Anrufname"
@@ -5554,10 +5581,13 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.17--0": {
-    "messageformat": "Wir wollten es für Sticker-Klicker einfacher und schneller machen. Also haben wir einen Fehler behoben, der Signal manchmal daran hinderte, den Sticker-Viewer zu starten, wenn du bei geschlossener App versucht hast, den Link zu einem Sticker-Set zu öffnen."
-  },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Kurz und schmerzlos ist oft die einfachste Option. Aus diesem Grund löschen wir lange Nachrichtenverläufe jetzt schneller."
+  },
+  "icu:WhatsNew__v7.19--0": {
+    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+  },
+  "icu:WhatsNew__v7.19--1": {
+    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
   }
 }

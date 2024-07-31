@@ -87,10 +87,10 @@
     "messageformat": "Aisghabh sonraí"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Ní féidir eochair chriptithe an bhunachair sonraí a rochtain toisc gur athraíodh cúl fáinne eochracha criptithe an OS ó {previousBackend} chuig {currentBackend}. Is féidir leis sin tarlú má athraítear timpeallacht an deasc, mar shampla idir GNOME agus KDE.\n\nAthraigh chuig timpeallacht an deasc a bhí ann roimhe."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Ní féidir eochair chriptithe an bhunachair sonraí a rochtain toisc gur athraíodh cúl fáinne eochracha criptithe an OS ó {previousBackend} chuig {currentBackend}. Is féidir leis sin tarlú má athraítear timpeallacht an deasc, mar shampla idir GNOME agus KDE.\n\nAthraigh chuig timpeallacht an deasc a bhí ann roimhe nó triail Signal a rith le bratach líne na n-orduithe --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Comhad"
@@ -831,13 +831,13 @@
     "messageformat": "Níorbh fhéidir le Signal nuashonrú. {retry} nó téigh chuig {url} lena shuiteáil de láimh. Ina dhiaidh sin, {support} faoin fhadhb sin"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Níorbh fhéidir Signal a nuashonrú. <retryUpdateButton>Atriail an nuashonrú</retryUpdateButton> nó téigh chuig {url} lena shuiteáil de láimh. Ansin <contactSupportLink>déan teagmháil leis an bhfoireann tacaíochta</contactSupportLink> faoin fhadhb sin"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Níorbh fhéidir le Signal nuashonrú. Téigh chuig {url} lena shuiteáil de láimh. Ina dhiaidh sin, {support} faoin fhadhb sin"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Níorbh fhéidir Signal nuashonrú. Téigh chuig {url} lena shuiteáil de láimh. Ansin <contactSupportLink>déan teagmháil leis an bhfoireann tacaíochta</contactSupportLink> faoin fhadhb sin"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Is cosúil go bhfuil Deasc Signal i gcoraintín macOS, agus ní bheidh sé in ann uath-nuashonrú a dhéanamh. Triail {app} a bhogadh chuig {folder} le hAimsitheoir."
@@ -1113,7 +1113,7 @@
     "messageformat": "Gléasanna Nasctha"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Nasc Gléas Nua"
   },
   "icu:Install__learn-more": {
     "messageformat": "Foghlaim tuilleadh"
@@ -1131,10 +1131,7 @@
     "messageformat": "Socruithe"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
-  },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "Níorbh fhéidir an cód QR a lódáil. Seiceáil d'Idirlíon agus triail arís. <retry>Triail arís</retry>"
+    "messageformat": "Tapáil {linkNewDevice}"
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "Níorbh fhéidir an cód QR a lódáil. Seiceáil do nasc agus triail arís."
@@ -1203,16 +1200,16 @@
     "messageformat": "Glaonna"
   },
   "icu:calling__call-back": {
-    "messageformat": "Glaoigh ar ais"
+    "messageformat": "Call back"
   },
   "icu:calling__call-again": {
-    "messageformat": "Glaoigh Arís"
+    "messageformat": "Call again"
   },
   "icu:calling__join": {
-    "messageformat": "Téigh isteach sa ghlao"
+    "messageformat": "Join call"
   },
   "icu:calling__return": {
-    "messageformat": "Return To Call"
+    "messageformat": "Return to call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Balbhaíodh an micreafón mar gheall ar mhéid an ghlao"
@@ -2637,10 +2634,10 @@
     "messageformat": "Diúltaigh"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Dhiúltaigh tú do ghuthghlao"
+    "messageformat": "Declined voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Dhiúltaigh tú d'físghlao"
+    "messageformat": "Declined video call"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Guthghlao isteach"
@@ -2673,10 +2670,10 @@
     "messageformat": "Coinneoidh Signal air ag rith sa limistéar fógraí. Is féidir leat é sin a athrú i socruithe Signal."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Guthghlao isteach..."
+    "messageformat": "Incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Físghlao isteach…"
+    "messageformat": "Incoming video call"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Guthghlao amach"
@@ -2721,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} duine} two {{count,number} dhuine} few {{count,number} dhuine} many {{count,number} nduine} other {{count,number} duine}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Guthghlao"
+    "messageformat": "Voice call"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Nasc glao"
@@ -2784,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} sa ghlao} two {{people,number} sa ghlao} few {{people,number} sa ghlao} many {{people,number} sa ghlao} other {{people,number} sa ghlao}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The group call has ended"
+    "messageformat": "The video call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "Tosaíodh ar ghlao grúpa"
+    "messageformat": "A video call was started"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a group call"
+    "messageformat": "You started a video call"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a group call"
+    "messageformat": "{name} started a video call"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Tá tú i mbun glao cheana féin"
@@ -5436,6 +5433,9 @@
   "icu:CallsList__ItemCallInfo--Missed": {
     "messageformat": "Caillte"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Glao grúpa"
   },
@@ -5449,7 +5449,7 @@
     "messageformat": "Imigh as an nglao reatha?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "Ní mór duit imeacht as an nglao reatha chun dul isteach i nglao nua."
+    "messageformat": "You must leave the current call before starting or joining a new call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Imigh as an nglao"
@@ -5481,8 +5481,29 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Nasc glao"
   },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call"
+  },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Téigh isteach ann"
+  },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Cóipeáil an nasc"
@@ -5499,17 +5520,23 @@
   "icu:CallLinkEditModal__AddCallNameLabel": {
     "messageformat": "Cuir ainm an ghlao leis"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Faomh gach ball"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "As"
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
+    "messageformat": "Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "Air"
+  "icu:CallLinkRestrictionsSelect__Option--On": {
+    "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Cuir ainm an ghlao leis"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Ainm an ghlao"
@@ -5554,10 +5581,13 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.17--0": {
-    "messageformat": "Réitíomar fabht a chuir bac ar Signal uaireanta an t-amharcóir greamán a lainseáil má rinne tú iarracht nasc le beart greamán a oscailt nuair a bhí an aip dúnta."
-  },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Luaitear an próiseas chun snáitheanna móra teachtaireachtaí a scriosadh."
+  },
+  "icu:WhatsNew__v7.19--0": {
+    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+  },
+  "icu:WhatsNew__v7.19--1": {
+    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
   }
 }

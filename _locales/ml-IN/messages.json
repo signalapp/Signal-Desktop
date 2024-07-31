@@ -87,10 +87,10 @@
     "messageformat": "ഡാറ്റ വീണ്ടെടുക്കുക"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "OS എൻക്രിപ്ഷൻ കീറിംഗ് ബാക്കെൻഡ് {previousBackend}-ൽ നിന്ന് {currentBackend} ആയി മാറിയതിനാൽ ഡാറ്റാബേസ് എൻക്രിപ്ഷൻ കീ ആക്സസ് ചെയ്യാൻ കഴിയുന്നില്ല. ഡെസ്ക്ടോപ്പ് പരിതസ്ഥിതി മാറുകയാണെങ്കിൽ ഇത് സംഭവിക്കാം, ഉദാഹരണത്തിന് GNOME-നും KDE-യ്ക്കും ഇടയിൽ.\n\nമുമ്പത്തെ ഡെസ്ക്ടോപ്പ് പരിതസ്ഥിതിയിലേക്ക് മാറുക."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "OS എൻക്രിപ്ഷൻ കീറിംഗ് ബാക്കെൻഡ് {previousBackend}-ൽ നിന്ന് {currentBackend} ആയി മാറിയതിനാൽ ഡാറ്റാബേസ് എൻക്രിപ്ഷൻ കീ ആക്സസ് ചെയ്യാൻ കഴിയുന്നില്ല. ഡെസ്ക്ടോപ്പ് പരിതസ്ഥിതി മാറുകയാണെങ്കിൽ ഇത് സംഭവിക്കാം, ഉദാഹരണത്തിന് GNOME-നും KDE-യ്ക്കും ഇടയിൽ.\n\nമുമ്പത്തെ ഡെസ്ക്ടോപ്പ് പരിതസ്ഥിതിയിലേക്ക് മാറുക അല്ലെങ്കിൽ കമാൻഡ് ലൈൻ ഫ്ലാഗ് ഉപയോഗിച്ച് സിഗ്നൽ പ്രവർത്തിപ്പിക്കാൻ ശ്രമിക്കുക --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&ഫയൽ"
@@ -831,13 +831,13 @@
     "messageformat": "Signal അപ്‌ഡേറ്റ് ചെയ്യാനായില്ല. {retry}അല്ലെങ്കിൽ അത് മാനുവലായി ഇൻസ്റ്റാൾ ചെയ്യാൻ, {url} സന്ദർശിക്കൂ. തുടർന്ന്, ഈ പ്രശ്‌നത്തെ കുറിച്ച് {support}"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal അപ്ഡേറ്റ് ചെയ്യാനായില്ല. <retryUpdateButton>അപ്ഡേറ്റിന് വീണ്ടും ശ്രമിക്കുക</retryUpdateButton> അല്ലെങ്കിൽ ഇത് നേരിട്ട് ഇൻസ്റ്റാൾ ചെയ്യാൻ {url} സന്ദർശിക്കുക. തുടർന്ന് ഈ പ്രശ്നം സംബന്ധിച്ച്, <contactSupportLink>പിന്തുണയുമായി ബന്ധപ്പെടുക</contactSupportLink>"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal അപ്‌ഡേറ്റ് ചെയ്യാനായില്ല. അത് മാനുവലായി ഇൻസ്റ്റാൾ ചെയ്യാൻ, {url} സന്ദർശിക്കൂ. തുടർന്ന്, ഈ പ്രശ്‌നത്തെ കുറിച്ച് {support}"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal അപ്ഡേറ്റ് ചെയ്യാനായില്ല. ഇത് നേരിട്ട് ഇൻസ്റ്റാൾ ചെയ്യാൻ {url} സന്ദർശിക്കുക. തുടർന്ന് ഈ പ്രശ്നം സംബന്ധിച്ച്, <contactSupportLink>പിന്തുണയുമായി ബന്ധപ്പെടുക</contactSupportLink>"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop ഒരു മാക് ഒഎസ് ക്വാറന്റൈനിലാണ്, അതിനാൽ സ്വയം അപ്‌ഡേറ്റ് ചെയ്യാൻ കഴിയില്ല. ഫൈൻഡർ ഉപയോഗിച്ച് {app}- യെ {folder}- ലേക്ക് നീക്കാൻ ശ്രമിക്കുക."
@@ -1113,7 +1113,7 @@
     "messageformat": "ലിങ്ക് ചെയ്തിട്ടുള്ള ഡിവൈസുകൾ"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "ഒരു പുതിയ ഉപകരണം ലിങ്ക് ചെയ്യുക"
   },
   "icu:Install__learn-more": {
     "messageformat": "കൂടുതൽ അറിയുക"
@@ -1131,10 +1131,7 @@
     "messageformat": "ക്രമീകരണങ്ങൾ"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
-  },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "QR കോഡ് ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല. നിങ്ങളുടെ ഇന്റർനെറ്റ് പരിശോധിച്ച ശേഷം വീണ്ടും ശ്രമിക്കുക. വീണ്ടും ശ്രമിക്കുക"
+    "messageformat": "{linkNewDevice} ടാപ്പ് ചെയ്യുക"
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "QR കോഡ് ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല. നിങ്ങളുടെ കണക്ഷൻ പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക."
@@ -1203,16 +1200,16 @@
     "messageformat": "കോളിംഗ്"
   },
   "icu:calling__call-back": {
-    "messageformat": "തിരികെ വിളിക്കുക"
+    "messageformat": "Call back"
   },
   "icu:calling__call-again": {
-    "messageformat": "വീണ്ടും വിളിക്കുക"
+    "messageformat": "Call again"
   },
   "icu:calling__join": {
-    "messageformat": "കോളിൽ ചേരുക"
+    "messageformat": "Join call"
   },
   "icu:calling__return": {
-    "messageformat": "കോളിലേക്ക് മടങ്ങുക"
+    "messageformat": "Return to call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "കോളിൽ നിരവധി ആളുകളുള്ളതിനാൽ മൈക്രോഫോൺ മ്യൂട്ട് ചെയ്തിരിക്കുന്നു"
@@ -2637,10 +2634,10 @@
     "messageformat": "നിരസിക്കുക"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "നിങ്ങൾ ഒരു വോയ്‌സ് കോൾ നിരസിച്ചു"
+    "messageformat": "Declined voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "നിങ്ങൾ ഒരു വീഡിയോ കോൾ നിരസിച്ചു"
+    "messageformat": "Declined video call"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "ഇൻകമിംഗ് വോയ്‌സ് കോൾ"
@@ -2673,10 +2670,10 @@
     "messageformat": "അറിയിപ്പ് ഏരിയയിൽ Signal പ്രവർത്തിക്കുന്നത് തുടരുന്നതാണ്. നിങ്ങൾക്ക് ഇത് Signal ക്രമീകരണങ്ങളിൽ മാറ്റാൻ കഴിയുന്നതാണ്."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "ഇൻകമിംഗ് വോയ്‌സ് കോൾ..."
+    "messageformat": "Incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "ഇൻകമിംഗ് വീഡിയോ കോൾ..."
+    "messageformat": "Incoming video call"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "ഔട്ട്ഗോയിംഗ് വോയ്‌സ് കോൾ"
@@ -2721,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} ആൾ} other {{count,number} പേര്‍}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "ഓഡിയോ കോൾ"
+    "messageformat": "Voice call"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "കോൾ ലിങ്ക്"
@@ -2784,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} കോളിൽ} other {{people,number} കോളിൽ}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "ഗ്രൂപ്പ് കോൾ അവസാനിച്ചു"
+    "messageformat": "The video call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "ഒരു ഗ്രൂപ്പ് കോൾ ആരംഭിച്ചു."
+    "messageformat": "A video call was started"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "നിങ്ങൾ ഒരു ഗ്രൂപ്പ് കോൾ ആരംഭിച്ചു"
+    "messageformat": "You started a video call"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} ഒരു ഗ്രൂപ്പ് കോൾ ആരംഭിച്ചു"
+    "messageformat": "{name} started a video call"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "നിങ്ങൾ ഇതിനകം ഒരു കോളിൽ ഉണ്ട്"
@@ -5436,6 +5433,9 @@
   "icu:CallsList__ItemCallInfo--Missed": {
     "messageformat": "മിസ്‌ഡ്"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "ഗ്രൂപ്പ് കോൾ"
   },
@@ -5449,7 +5449,7 @@
     "messageformat": "നിലവിലെ കോൾ ഉപേക്ഷിക്കണോ?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "ഒരു പുതിയ കോളിൽ ചേരുന്നതിന് മുമ്പ് നിങ്ങൾ നിലവിലെ കോൾ ഉപേക്ഷിക്കണം."
+    "messageformat": "You must leave the current call before starting or joining a new call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "കോൾ ഉപേക്ഷിക്കുക"
@@ -5481,8 +5481,29 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "കോൾ ലിങ്ക്"
   },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call"
+  },
   "icu:CallLinkDetails__Join": {
     "messageformat": "ചേരുക"
+  },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "ലിങ്ക് പകർത്തുക"
@@ -5499,17 +5520,23 @@
   "icu:CallLinkEditModal__AddCallNameLabel": {
     "messageformat": "കോളിന്‍റെ പേര് ചേർക്കുക"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "എല്ലാ അംഗങ്ങളെയും അംഗീകരിക്കൂ"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "ഓഫ്"
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
+    "messageformat": "Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "ഓൺ"
+  "icu:CallLinkRestrictionsSelect__Option--On": {
+    "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "കോളിന്‍റെ പേര് ചേർക്കുക"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "കോളിന്റെ പേര്"
@@ -5554,10 +5581,13 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.17--0": {
-    "messageformat": "സ്റ്റിക്കർ ക്ലിക്കറുകൾക്ക് കാര്യങ്ങൾ കൂടുതൽ ഫലപ്രദവും വേഗത്തിലും ആയിരിക്കണമെന്ന് ഞങ്ങൾ ആഗ്രഹിച്ചു, അതിനാൽ ആപ്പ് അടച്ചിരിക്കുമ്പോൾ നിങ്ങൾ ഒരു സ്റ്റിക്കർ പായ്ക്ക് ലിങ്ക് തുറക്കാൻ ശ്രമിച്ചാൽ, ചിലപ്പോൾ സ്റ്റിക്കർ വ്യൂവർ ലോഞ്ച് ചെയ്യുന്നതിൽ നിന്ന് Signal-നെ തടയുന്ന ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചു."
-  },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "വേഗത്തിലുള്ള വിടവാങ്ങൽ ചിലപ്പോൾ സാവധാനത്തിലുള്ള വിടവാങ്ങലിനേക്കാൾ എളുപ്പമാണ്, അതിനാൽ വലിയ സന്ദേശ ത്രെഡുകൾ ഇല്ലാതാക്കുന്ന പ്രക്രിയ ഞങ്ങൾ വേഗത്തിലാക്കി."
+  },
+  "icu:WhatsNew__v7.19--0": {
+    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+  },
+  "icu:WhatsNew__v7.19--1": {
+    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
   }
 }
