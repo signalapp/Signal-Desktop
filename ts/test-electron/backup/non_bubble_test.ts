@@ -13,6 +13,7 @@ import { DataWriter } from '../../sql/Client';
 import { generateAci } from '../../types/ServiceId';
 import { PaymentEventKind } from '../../types/Payment';
 import { ContactFormType } from '../../types/EmbeddedContact';
+import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent';
 import { DurationInSeconds } from '../../util/durations';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SeenStatus } from '../../MessageSeenStatus';
@@ -541,5 +542,21 @@ describe('backup/non-bubble messages', () => {
         },
       ]
     );
+  });
+
+  it('roundtrips spam report message', async () => {
+    await symmetricRoundtripHarness([
+      {
+        conversationId: contactA.id,
+        id: generateGuid(),
+        type: 'message-request-response-event',
+        received_at: 1,
+        sourceServiceId: CONTACT_A,
+        sourceDevice: 1,
+        sent_at: 1,
+        timestamp: 1,
+        messageRequestResponseEvent: MessageRequestResponseEvent.SPAM,
+      },
+    ]);
   });
 });

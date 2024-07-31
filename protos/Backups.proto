@@ -751,6 +751,7 @@ message SimpleChatUpdate {
     PAYMENTS_ACTIVATED = 10;
     PAYMENT_ACTIVATION_REQUEST = 11;
     UNSUPPORTED_PROTOCOL_MESSAGE = 12;
+    REPORTED_SPAM = 13;
   }
 
   Type type = 1;
@@ -1042,7 +1043,7 @@ message ChatStyle {
   }
 
   message CustomChatColor {
-    uint32 id = 1;
+    uint64 id = 1;
 
     oneof color {
       fixed32 solid = 2;
@@ -1116,7 +1117,7 @@ message ChatStyle {
     BubbleColorPreset bubbleColorPreset = 4;
 
     // See AccountSettings.customChatColors
-    uint32 customColorId = 5;
+    uint64 customColorId = 5;
   }
 
   bool dimWallpaperInDarkMode = 7;
