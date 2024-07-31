@@ -133,13 +133,15 @@ export const RestoreAccount = () => {
     if (!(!!recoveryPassword && !recoveryPasswordError)) {
       return;
     }
+    const trimmedPassword = recoveryPassword.trim();
+    setRecoveryPassword(trimmedPassword);
 
     const abortController = new AbortController();
     try {
       dispatch(setProgress(0));
       dispatch(setAccountRestorationStep(AccountRestoration.Loading));
       await signInAndFetchDisplayName({
-        recoveryPassword,
+        recoveryPassword: trimmedPassword,
         dispatch,
         abortSignal: abortController.signal,
       });
@@ -248,7 +250,6 @@ export const RestoreAccount = () => {
               }}
               onEnterPressed={recoverAndFetchDisplayName}
               error={recoveryPasswordError}
-              maxLength={LIBSESSION_CONSTANTS.CONTACT_MAX_NAME_LENGTH}
               enableShowHideButton={true}
               showHideButtonAriaLabels={{
                 hide: 'Hide recovery password toggle',
@@ -289,6 +290,7 @@ export const RestoreAccount = () => {
               }}
               onEnterPressed={recoverAndEnterDisplayName}
               error={displayNameError}
+              maxLength={LIBSESSION_CONSTANTS.CONTACT_MAX_NAME_LENGTH}
               inputDataTestId="display-name-input"
             />
             <SpacerLG />
