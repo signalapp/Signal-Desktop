@@ -26,7 +26,7 @@ export function decodeGroupSendEndorsementResponse({
   groupSecretParamsBase64: string;
   groupMembersV2: ReadonlyArray<GroupV2MemberType>;
 }): GroupSendEndorsementsData {
-  const idForLogging = `groupV2(${groupId})`;
+  const idForLogging = `groupv2(${groupId})`;
 
   strictAssert(
     groupSendEndorsementResponse != null,
