@@ -1510,10 +1510,6 @@
     "messageformat": "Tap {linkNewDevice}",
     "description": "Instructions on the device link screen"
   },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "The QR code couldn't load. Check your internet and try again. <retry>Retry</retry>",
-    "description": "(Deleted 2024/07/01) Shown on the install screen if the QR code fails to load"
-  },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "The QR code couldn't load. Check your connection and try again.",
     "description": "Shown on the install screen if the QR code fails to load due to connection timeout"
@@ -1631,7 +1627,7 @@
   },
   "icu:calling__dialog-already-in-call": {
     "messageformat": "You are already in a call.",
-    "description": "Error message when clicking a call link to join a call, but you're in a call already."
+    "description": "(Deleted 2024/07/31) Error message when clicking a call link to join a call, but you're in a call already."
   },
   "icu:calling__call-link-connection-issues": {
     "messageformat": "Could not fetch call link information. Please check your network connection and try again.",
@@ -7267,7 +7263,7 @@
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
     "messageformat": "You must leave the current call before joining a new call",
-    "description": "Calls Tab button tooltip for the join call button when you are already in a different call."
+    "description": "(Deleted 2024/07/31) Calls Tab button tooltip for the join call button when you are already in a different call."
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{direction, select, Outgoing {Outgoing} other {Incoming}} {type, select, Audio {voice} Video {video} Group {group} other {}} call",
@@ -7422,7 +7418,7 @@
   },
   "icu:WhatsNew__v7.18--0": {
     "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads.",
-    "description": "Release notes for version 7.18"
+    "description": "(Deleted 2024/07/31) Release notes for version 7.18"
   },
   "icu:WhatsNew__v7.19--0": {
     "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first.",

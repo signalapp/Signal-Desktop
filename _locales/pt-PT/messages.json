@@ -87,10 +87,10 @@
     "messageformat": "Recuperar dados"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Não é possível aceder à chave de encriptação da base de dados porque o backend da keyring de encriptação do SO foi alterado de {previousBackend} para {currentBackend}. Isto pode ocorrer se o ambiente de trabalho mudar, por exemplo, entre GNOME e KDE.\n\nMude para o ambiente de trabalho anterior."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Não é possível aceder à chave de encriptação da base de dados porque o backend da keyring de encriptação do SO foi alterado de {previousBackend} para {currentBackend}. Isto pode ocorrer se o ambiente de trabalho mudar, por exemplo, entre GNOME e KDE.\n\nMude para o ambiente de trabalho anterior ou tente executar o Signal com o sinalizador da linha de comando --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Ficheiro"
@@ -831,13 +831,13 @@
     "messageformat": "O Signal não conseguiu atualizar. {retry} ou visite {url} para o instalar manualmente. Depois, {support} acerca deste problema"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "O Signal não foi atualizado. <retryUpdateButton>Volte a tentar atualizar</retryUpdateButton> ou visite {url} para instalar manualmente. Depois, <contactSupportLink>contacte o suporte</contactSupportLink> acerca deste problema"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal não foi atualizado. Visite {url} para instalá-lo manualmente. De seguida, {support} acerca deste problema"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "O Signal não foi atualizado. Visite {url} para instalar manualmente. Depois, <contactSupportLink>contacte o suporte</contactSupportLink> acerca deste problema"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Provavelmente o Signal Desktop encontra-se na quarentena do macOS e como tal não será possível atualizar automaticamente. Por favor, tente mover {app} para {folder} com o Finder."
@@ -1113,7 +1113,7 @@
     "messageformat": "Dispositivos associados"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Associe um novo dispositivo"
   },
   "icu:Install__learn-more": {
     "messageformat": "Saber mais"
@@ -1131,10 +1131,7 @@
     "messageformat": "Definições"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
-  },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "Não foi possível carregar o código QR. Verifique a sua internet e tente novamente. <retry>Tentar novamente</retry>"
+    "messageformat": "Toque em {linkNewDevice}"
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "Não foi possível carregar o código QR. Verifique a sua ligação e tente novamente."
@@ -1203,16 +1200,16 @@
     "messageformat": "Chamadas"
   },
   "icu:calling__call-back": {
-    "messageformat": "Ligar de volta"
+    "messageformat": "Call back"
   },
   "icu:calling__call-again": {
-    "messageformat": "Ligar novamente"
+    "messageformat": "Call again"
   },
   "icu:calling__join": {
-    "messageformat": "Entrar na chamada"
+    "messageformat": "Join call"
   },
   "icu:calling__return": {
-    "messageformat": "Regressar à chamada"
+    "messageformat": "Return to call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Microfone silenciado devido ao tamanho da chamada"
@@ -2637,10 +2634,10 @@
     "messageformat": "Recusar"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Rejeitou uma chamada de voz"
+    "messageformat": "Declined voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Rejeitou uma videochamada"
+    "messageformat": "Declined video call"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "A receber chamada de voz"
@@ -2673,10 +2670,10 @@
     "messageformat": "O Signal continuará a funcionar na área de notificações. Pode alterar isto nas definições do Signal."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "A receber chamada de voz…"
+    "messageformat": "Incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "A receber videochamada…"
+    "messageformat": "Incoming video call"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "A efetuar chamada de voz"
@@ -2721,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} pessoa} other {{count,number} pessoas}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Chamada de áudio"
+    "messageformat": "Voice call"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Link de chamada"
@@ -2784,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} na chamada} other {{people,number} na chamada}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "A chamada de grupo terminou"
+    "messageformat": "The video call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "Foi iniciada uma chamada de grupo"
+    "messageformat": "A video call was started"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "Você iniciou uma chamada de grupo"
+    "messageformat": "You started a video call"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} iniciou uma chamada de grupo"
+    "messageformat": "{name} started a video call"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Já se encontra numa chamada"
@@ -5436,6 +5433,9 @@
   "icu:CallsList__ItemCallInfo--Missed": {
     "messageformat": "Perdida"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Chamada de grupo"
   },
@@ -5449,7 +5449,7 @@
     "messageformat": "Sair da chamada atual?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "Tem de sair da chamada atual antes de entrar numa nova."
+    "messageformat": "You must leave the current call before starting or joining a new call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Abandonar chamada"
@@ -5481,8 +5481,29 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Link de chamada"
   },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call"
+  },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Entrar"
+  },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Copiar link"
@@ -5499,17 +5520,23 @@
   "icu:CallLinkEditModal__AddCallNameLabel": {
     "messageformat": "Adicionar nome de chamada"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Aprovar todos os membros"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
+  "icu:CallLinkRestrictionsSelect__Option--On": {
     "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Adicionar nome de chamada"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Nome da chamada"
@@ -5554,10 +5581,13 @@
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.17--0": {
-    "messageformat": "Corrigimos um erro que impedia o Signal de inicializar o visualizador de autocolantes caso tentasse abrir um link de pacote de autocolantes sem ter a app aberta."
-  },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Este lançamento acelera o processo de eliminar grupos grandes de mensagens."
+  },
+  "icu:WhatsNew__v7.19--0": {
+    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+  },
+  "icu:WhatsNew__v7.19--1": {
+    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
   }
 }

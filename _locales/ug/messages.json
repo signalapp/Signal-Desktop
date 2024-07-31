@@ -87,10 +87,10 @@
     "messageformat": "سانلىق مەلۇماتنى ئەسلىگە كەلتۈرۈش"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "ئۇچۇر ئامبىرىنى شىفىرلاشتۇرۇش ئاچقۇچىنى زىيارەت قىلالمىدى ، چۈنكى OS شىفىرلاشتۇرۇش ئاچقۇچ ھالقىسىنىڭ ئاخىرقى ئۇچى {previousBackend} دىن {currentBackend} گە ئۆزگەردى. بۇ ئەھۋال ئۈستەل يۈزى مۇھىتى ئۆزگەرگەندە يۈز بېرىدۇ ، مەسىلەن GNOME بىلەن KDE ئارىلىقىدا.\n\nئالدىنقى ئۈستەل مۇھىتىغا ئالماشتۇرۇڭ."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "ئۇچۇر ئامبىرىنى شىفىرلاشتۇرۇش ئاچقۇچىنى زىيارەت قىلالمىدى ، چۈنكى OS شىفىرلاشتۇرۇش ئاچقۇچ ھالقىسىنىڭ ئاخىرقى ئۇچى {previousBackend} دىن {currentBackend} گە ئۆزگەردى. بۇ ئەھۋال ئۈستەل يۈزى مۇھىتى ئۆزگەرگەندە يۈز بېرىدۇ ، مەسىلەن GNOME بىلەن KDE ئارىلىقىدا.\n\nئالدىنقى ئۈستەل مۇھىتىغا ئالماشتۇرۇڭ ياكى بۇيرۇق قۇرى بايرىقى --password-store = \"{previousBackendFlag}\" ئارقىلىق سىگنالنى ئىشلىتىشنى سىناڭ"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ھۆججەت"
@@ -831,13 +831,13 @@
     "messageformat": "Signal يېڭىلانمىدى. {retry} ياكى «{url}» نى زىيارەت قىلىپ ئۇنى قولدا قاچىلاڭ. ئاندىن {support} بىلەن بۇ مەسىلە ھەققىدە ئالاقىلىشىڭ"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "سىگنال يېڭىلىنالمىدى. <retryUpdateButton>يېڭىلاشنى قايتا سىناڭ</retryUpdateButton> ياكى {url} نى زىيارەت قىلىپ قولدا قاچىلاڭ. ئاندىن ، بۇ مەسىلە ھەققىدە <contactSupportLink>ياردەم ئۈچۈن ئالاقىلىشىڭ</contactSupportLink>"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal يېڭىلانمىدى. «{url}» نى زىيارەت قىلىپ ئۇنى قولدا قاچىلاڭ. ئاندىن {support} بىلەن بۇ مەسىلە ھەققىدە ئالاقىلىشىڭ"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "سىگنال يېڭىلىنالمىدى. قولدا قاچىلاش ئۈچۈن {url} نى زىيارەت قىلىڭ. ئاندىن ، بۇ مەسىلە ھەققىدە <contactSupportLink>ياردەم ئۈچۈن ئالاقىلىشىڭ</contactSupportLink>"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal ئۈستەليۈزى نەشرى macOS نىڭ ئايرىۋېتىلگەن رايونىدا بولۇشى مۇمكىن، ئاپتوماتىك يېڭىلىغىلى بولمايدۇ. «{app}» نى Finder دا «{folder}» گە يۆتكەڭ."
@@ -1113,7 +1113,7 @@
     "messageformat": "باغلانغان ئۈسكۈنىلەر"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "يېڭى ئۈسكۈنىنى ئۇلاڭ"
   },
   "icu:Install__learn-more": {
     "messageformat": "كۆپرەك ئۆگىنىش"
@@ -1131,10 +1131,7 @@
     "messageformat": "تەڭشەكلەر"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
-  },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "QR كودىنى يۈكلىيەلمىدى. تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ. <retry>قايتا سىناش</retry>"
+    "messageformat": "{linkNewDevice} نى چىكىڭ"
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "QR كودىنى يۈكلىيەلمىدى. تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ."
@@ -1203,16 +1200,16 @@
     "messageformat": "چاقىرغاندا"
   },
   "icu:calling__call-back": {
-    "messageformat": "قايتۇرۇپ چاقىر"
+    "messageformat": "Call back"
   },
   "icu:calling__call-again": {
-    "messageformat": "قايتا چاقىر"
+    "messageformat": "Call again"
   },
   "icu:calling__join": {
-    "messageformat": "چاقىرىققا قېتىل"
+    "messageformat": "Join call"
   },
   "icu:calling__return": {
-    "messageformat": "چاقىرىققا قايت"
+    "messageformat": "Return to call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "چاقىرىقتىكى كىشىلەر بەك كۆپ بولغاچقا چاقىرىق ئۈنسىز قىلىندى"
@@ -2637,10 +2634,10 @@
     "messageformat": "رەت قىل"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "بىر ئاۋازلىق چاقىرىقنى رەت قىلدىڭىز"
+    "messageformat": "Declined voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "بىر ۋىدېيولۇق چاقىرىقنى رەت قىلدىڭىز"
+    "messageformat": "Declined video call"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "كەلگەن ئاۋازلىق چاقىرىق"
@@ -2673,10 +2670,10 @@
     "messageformat": "Signal ئۇقتۇرۇش رايونىدا داۋاملىق ئىجرا بولىدۇ. بۇنى Signal تەڭشىكىدە ئۆزگەرتەلەيسىز."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "كەلگەن ئاۋازلىق چاقىرىق..."
+    "messageformat": "Incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "كەلگەن ۋىدېيولۇق چاقىرىق..."
+    "messageformat": "Incoming video call"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "ئۇرۇلغان ئاۋازلىق چاقىرىق"
@@ -2721,7 +2718,7 @@
     "messageformat": "{count, plural, other {{count,number} كىشى}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "ئاۋازلىق چاقىرىق"
+    "messageformat": "Voice call"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "چاقىرىق ئۇلانمىسى"
@@ -2784,16 +2781,16 @@
     "messageformat": "{people, plural, other {{people,number} چاقىرىقتا}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "گۇرۇپپا چاقىرىش ئاخىرلاشتى"
+    "messageformat": "The video call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "بىر گۇرۇپپا چاقىرىقى باشلاندى"
+    "messageformat": "A video call was started"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "سىز گۇرۇپپا چاقىرىقىنى باشلىدىڭىز"
+    "messageformat": "You started a video call"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} گۇرۇپپا چاقىرىقىنى باشلىدى."
+    "messageformat": "{name} started a video call"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "سىز ئاللىبۇرۇن چاقىرىقتا"
@@ -5436,6 +5433,9 @@
   "icu:CallsList__ItemCallInfo--Missed": {
     "messageformat": "ئېلىنمىغىنى"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "گۇرۇپپا چاقىرىقى"
   },
@@ -5449,7 +5449,7 @@
     "messageformat": "نۆۋەتتىكى چاقىرىقتىن چېكىنەمسىز؟"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "يېڭى چاقىرىققا قوشۇلۇشتىن بۇرۇن نۆۋەتتىكى چاقىرىقتىن چېكىنىشىڭىز كېرەك."
+    "messageformat": "You must leave the current call before starting or joining a new call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "چاقىرىقتىن ئايرىل"
@@ -5481,8 +5481,29 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "چاقىرىق ئۇلانمىسى"
   },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call"
+  },
   "icu:CallLinkDetails__Join": {
     "messageformat": "قوشۇلۇش"
+  },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "ئۇلانما كۆچۈر"
@@ -5499,17 +5520,23 @@
   "icu:CallLinkEditModal__AddCallNameLabel": {
     "messageformat": "چاقىرىق نامى قوشۇش"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "بارلىق ئەزلارغا رۇخسەت"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "ئېتىش"
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
+    "messageformat": "Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "ئېچىش"
+  "icu:CallLinkRestrictionsSelect__Option--On": {
+    "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "چاقىرىق نامى قوشۇش"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "چاقىرىق نامى"
@@ -5554,10 +5581,13 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.17--0": {
-    "messageformat": "بىز چاپلاق چېكىشنىڭ سىلىق ھەم تېز بولۇشىنى ئۈمىد قىلىپ ئەپ تاقالغاندا چاپلاق بولىقى ئۇلانمىسىنى ئاچماقچى بولسىڭىز سىگنالنىڭ چاپلاق كۆرگۈچنى قوزغىتىشتىن توسىدىغان كەمتۈكلۈكنى تۈزىدۇق."
-  },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "تېز خوشلىشىش ئاستا ۋىدالىشىشتىن ئەۋزەل ، شۇڭىلاشقا بىز چوڭ ھەجىملىك ئۇچۇر تېمىلىرىنىڭ ئۆچۈرلىش سۈرئىتىنى تېزلەتتۇق."
+  },
+  "icu:WhatsNew__v7.19--0": {
+    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+  },
+  "icu:WhatsNew__v7.19--1": {
+    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
   }
 }

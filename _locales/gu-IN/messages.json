@@ -87,10 +87,10 @@
     "messageformat": "ડેટા રિકવર કરો"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "ડેટાબેઝ એન્ક્રિપ્શન કી ઍક્સેસ કરવામાં અસમર્થ કારણ કે OS એન્ક્રિપ્શન કીરીંગ બેકએન્ડ {previousBackend}માંથી {currentBackend} માં બદલાઈ ગયું છે. આ તો થઈ શકે છે જો ડેસ્કટોપ એન્વાયર્નમેન્ટ બદલાય, ઉદાહરણ તરીકે GNOME અને KDE વચ્ચે.\n\nકૃપા કરીને પહેલાંના ડેસ્કટોપ એન્વાયર્નમેન્ટ પર સ્વિચ કરો."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "ડેટાબેઝ એન્ક્રિપ્શન કી ઍક્સેસ કરવામાં અસમર્થ કારણ કે OS એન્ક્રિપ્શન કીરીંગ બેકએન્ડ {previousBackend}માંથી {currentBackend} માં બદલાઈ ગયું છે. આ તો થઈ શકે છે જો ડેસ્કટોપ એન્વાયર્નમેન્ટ બદલાય, ઉદાહરણ તરીકે GNOME અને KDE વચ્ચે.\n\nકૃપા કરીને પહેલાંના ડેસ્કટોપ એન્વાયર્નમેન્ટ પર સ્વિચ કરો અથવા કમાન્ડ લાઇન ફ્લેગ --password-store=\"{previousBackendFlag}\" સાથે Signalને રન કરવાનો પ્રયાસ કરો"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ફાઇલ"
@@ -831,13 +831,13 @@
     "messageformat": "Signal અપડેટ ન થઈ શક્યું. {retry} અથવા તેને જાતે ઇન્સ્ટોલ કરવા {url}ની મુલાકાત લો. પછી, આ સમસ્યા વિશે {support}."
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal અપડેટ ન થઈ શક્યું. <retryUpdateButton>અપડેટનો ફરી પ્રયાસ કરો</retryUpdateButton> અથવા તેને મેન્યુઅલી ઇન્સ્ટોલ કરવા માટે {url}ની મુલાકાત લો. પછી, આ સમસ્યા વિશે <contactSupportLink>સપોર્ટનો સંપર્ક કરો</contactSupportLink>"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal અપડેટ ન થઈ શક્યું. તેને જાતે ઇન્સ્ટોલ કરવા {url}ની મુલાકાત લો. પછી, આ સમસ્યા વિશે {support}."
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal અપડેટ ન થઈ શક્યું. તેને મેન્યુઅલી ઇન્સ્ટોલ કરવા માટે {url}ની મુલાકાત લો. પછી આ સમસ્યા વિશે <contactSupportLink>સપોર્ટનો સંપર્ક કરો</contactSupportLink>"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal ડેસ્કટપ સંભવત મેકોસ ક્વોરેન્ટાઇનમાં છે, અને તે સ્વત અપડેટ કરી શકશે નહીં. કૃપા કરીને ફાઇન્ડર સાથે {app} ને {folder} માં ખસેડવાનો પ્રયાસ કરો."
@@ -1113,7 +1113,7 @@
     "messageformat": "લિંક થયેલ ડિવાઇસ"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "નવું ડિવાઇસ લિંક કરો"
   },
   "icu:Install__learn-more": {
     "messageformat": "વધુ શીખો"
@@ -1131,10 +1131,7 @@
     "messageformat": "સેટિંગ્સ"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
-  },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "QR કોડ લોડ ન થઈ શક્યો. તમારું ઇન્ટરનેટ તપાસો અને ફરી પ્રયાસ કરો. <retry>ફરી પ્રયાસ કરો</retry>"
+    "messageformat": "{linkNewDevice} પર ટેપ કરો"
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "QR કોડ લોડ ન થઈ શક્યો. તમારું કનેક્શન તપાસો અને ફરી પ્રયાસ કરો."
@@ -1203,16 +1200,16 @@
     "messageformat": "કૉલ થઈ રહ્યો છે"
   },
   "icu:calling__call-back": {
-    "messageformat": "પાછો કૉલ કરો"
+    "messageformat": "Call back"
   },
   "icu:calling__call-again": {
-    "messageformat": "ફરીથી કૉલ કરો"
+    "messageformat": "Call again"
   },
   "icu:calling__join": {
-    "messageformat": "કૉલમાં જોડાઓ"
+    "messageformat": "Join call"
   },
   "icu:calling__return": {
-    "messageformat": "કૉલ પર પાછા ફરો"
+    "messageformat": "Return to call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "કૉલની સાઇઝના કારણે માઇક્રોફોન મ્યૂટ થઈ ગયો"
@@ -2637,10 +2634,10 @@
     "messageformat": "નકારો"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "તમે વૉઇસ કૉલ નકાર્યો"
+    "messageformat": "Declined voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "તમે વિડિયો કૉલ નકાર્યો"
+    "messageformat": "Declined video call"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "ઇનકમિંગ વૉઇસ કૉલ"
@@ -2673,10 +2670,10 @@
     "messageformat": "Signal નોટિફિકેશન એરિયામાં ચાલુ રહેશે. તમે આને Signal સેટિંગ્સમાં બદલી શકો છો."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "ઇનકમિંગ વૉઇસ કૉલ..."
+    "messageformat": "Incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "ઈનકમિંગ વિડિયો કૉલ ..."
+    "messageformat": "Incoming video call"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "આઉટગોઇંગ વૉઇસ કૉલ"
@@ -2721,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} વ્યક્તિ} other {{count,number} લોકો}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "ઓડિયો કૉલ"
+    "messageformat": "Voice call"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "કૉલ લિંક"
@@ -2784,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} કૉલમાં} other {{people,number} કૉલમાં}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "ગ્રુપ કૉલ સમાપ્ત થયો"
+    "messageformat": "The video call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "ગ્રુપ કૉલ શરૂ થયો"
+    "messageformat": "A video call was started"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "તમે ગ્રુપ કૉલ શરૂ કર્યો"
+    "messageformat": "You started a video call"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} એ એક ગ્રુપ કૉલ શરૂ કર્યો"
+    "messageformat": "{name} started a video call"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "તમે પહેલેથી જ કૉલમાં છો"
@@ -5436,6 +5433,9 @@
   "icu:CallsList__ItemCallInfo--Missed": {
     "messageformat": "મિસ્ડ કૉલ"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "ગ્રુપ કૉલ"
   },
@@ -5449,7 +5449,7 @@
     "messageformat": "હાલનો કૉલ છોડવો છે?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "નવા કૉલમાં જોડાતા પહેલાં તમારે હાલના કૉલને છોડવો આવશ્યક છે."
+    "messageformat": "You must leave the current call before starting or joining a new call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "કૉલ છોડો"
@@ -5481,8 +5481,29 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "કૉલ લિંક"
   },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call"
+  },
   "icu:CallLinkDetails__Join": {
     "messageformat": "જોડાઓ"
+  },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "લિંક કૉપિ કરો"
@@ -5499,17 +5520,23 @@
   "icu:CallLinkEditModal__AddCallNameLabel": {
     "messageformat": "કૉલ નામ ઉમેરો"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "બધા સભ્યોને મંજૂર કરો"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "બંધ"
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
+    "messageformat": "Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "ચાલુ"
+  "icu:CallLinkRestrictionsSelect__Option--On": {
+    "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "કૉલ નામ ઉમેરો"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "કૉલ નામ"
@@ -5554,10 +5581,13 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.17--0": {
-    "messageformat": "અમે એક એવા બગને ઠીક કર્યો જે તમે ઍપ બંધ હોય ત્યારે સ્ટીકર પેક લિંક ખોલવાનો પ્રયાસ કર્યો હોય ત્યારે કેટલીકવાર Signalને સ્ટીકર વ્યૂઅરને લોંચ કરવાથી અટકાવતો હતો."
-  },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "આ રિલીઝ મોટા મેસેજ થ્રેડને ડિલીટ કરવાની પ્રક્રિયાને ઝડપી બનાવે છે."
+  },
+  "icu:WhatsNew__v7.19--0": {
+    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+  },
+  "icu:WhatsNew__v7.19--1": {
+    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
   }
 }

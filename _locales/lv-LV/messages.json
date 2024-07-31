@@ -87,10 +87,10 @@
     "messageformat": "Atgūt datus"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Nevar piekļūt datu bāzes šifrēšanas atslēgai, jo OS šifrēšanas atslēgu turētāja aizmugursistēma ir mainīta no {previousBackend} uz {currentBackend}. Tas var notikt, ja mainās darbvirsmas vide, piemēram, no GNOME uz KDE.\n\nLūdzu, pārslēdzieties uz iepriekšējo darbvirsmas vidi."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Nevar piekļūt datu bāzes šifrēšanas atslēgai, jo OS šifrēšanas atslēgu turētāja aizmugursistēma ir mainīta no {previousBackend} uz {currentBackend}. Tas var notikt, ja mainās darbvirsmas vide, piemēram, no GNOME uz KDE.\n\nLūdzu, pārslēdzieties uz iepriekšējo darbvirsmas vidi vai mēģiniet palaist Signal ar komandrindas karogu --password-store=\"{previousBackendFlag}\"."
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fails"
@@ -831,13 +831,13 @@
     "messageformat": "Signal nevarēja atjaunināt. {retry} vai apmeklējiet{url}, lai instalētu atjauninājumu manuāli. Pēc tam {support} par šo problēmu"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal nevarēja atjaunināt. <retryUpdateButton>Mēģiniet atjaunināt vēlreiz</retryUpdateButton> vai apmeklējiet {url}, lai instalētu atjauninājumu manuāli. Pēc tam informējiet <contactSupportLink>atbalsta dienestu</contactSupportLink> par problēmu, sazinoties ar to"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal nevarēja atjaunināt. Apmeklējiet {url}, lai instalētu atjauninājumu manuāli. Pēc tam {support} informējiet par šo problēmu"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal nevarēja atjaunināt. Apmeklējiet {url}, lai instalētu atjauninājumu manuāli. Pēc tam informējiet <contactSupportLink>atbalsta dienestu</contactSupportLink> par problēmu, sazinoties ar to."
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop, visticamāk, atrodas macOS karantīnā, un šo lietotnes versiju nevarēs automātiski atjaunināt. Pārvietojiet {app}uz {folder}, izmantojot meklētāju."
@@ -1113,7 +1113,7 @@
     "messageformat": "Saistītās ierīces"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Piesaistīt jaunu ierīci"
   },
   "icu:Install__learn-more": {
     "messageformat": "Lasīt vairāk"
@@ -1131,10 +1131,7 @@
     "messageformat": "Iestatījumi"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
-  },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "QR kodu nevarēja ielādēt. Pārbaudiet interneta savienojumu un mēģiniet vēlreiz. Mēģināt vēlreiz"
+    "messageformat": "Pieskarieties pie {linkNewDevice}."
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "QR kodu nevarēja ielādēt. Pārbaudiet savienojumu un mēģiniet vēlreiz."
@@ -1203,16 +1200,16 @@
     "messageformat": "Zvani"
   },
   "icu:calling__call-back": {
-    "messageformat": "Atzvanīt"
+    "messageformat": "Call back"
   },
   "icu:calling__call-again": {
-    "messageformat": "Zvanīt vēlreiz"
+    "messageformat": "Call again"
   },
   "icu:calling__join": {
-    "messageformat": "Pievienoties zvanam/sarunai"
+    "messageformat": "Join call"
   },
   "icu:calling__return": {
-    "messageformat": "Atgriezties zvanā"
+    "messageformat": "Return to call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Mikrofons izslēgts zvana dalībnieku skaita dēļ"
@@ -2637,10 +2634,10 @@
     "messageformat": "Atteikt"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Jūs noraidījāt balss zvanu"
+    "messageformat": "Declined voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Jūs noraidījāt videozvanu"
+    "messageformat": "Declined video call"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Ienākošs balss zvans"
@@ -2673,10 +2670,10 @@
     "messageformat": "Signal turpinās darboties paziņojumu sadaļā. Varat to mainīt Signal iestatījumos."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Ienākošs balss zvans…"
+    "messageformat": "Incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Ienākošs videozvans…"
+    "messageformat": "Incoming video call"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Izejošs balss zvans"
@@ -2721,7 +2718,7 @@
     "messageformat": "{count, plural, zero {{count,number} personu} one {{count,number} persona} other {{count,number} personas}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Audiozvans"
+    "messageformat": "Voice call"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Zvana saite"
@@ -2784,16 +2781,16 @@
     "messageformat": "{people, plural, zero {Zvanā piedalās {people,number}} one {Zvanā piedalās {people,number}} other {Zvanā piedalās {people,number}}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "Grupas zvans tika pabeigts"
+    "messageformat": "The video call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "Grupas zvans tika sākts"
+    "messageformat": "A video call was started"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "Jūs sākāt grupas zvanu"
+    "messageformat": "You started a video call"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name}sāka grupas zvanu"
+    "messageformat": "{name} started a video call"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Jūs jau esat zvanā"
@@ -5436,6 +5433,9 @@
   "icu:CallsList__ItemCallInfo--Missed": {
     "messageformat": "Neatbildēts"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Grupas zvans"
   },
@@ -5449,7 +5449,7 @@
     "messageformat": "Vai pamest pašreizējo zvana?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "Lai pievienotos citam zvanam, jums jāpamet pašreizējais zvans"
+    "messageformat": "You must leave the current call before starting or joining a new call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Pamest sarunu"
@@ -5481,8 +5481,29 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Zvana saite"
   },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call"
+  },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Pievienoties"
+  },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopēt saiti"
@@ -5499,17 +5520,23 @@
   "icu:CallLinkEditModal__AddCallNameLabel": {
     "messageformat": "Pievienot audiozvana nosaukumu"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Apstiprināt visus dalībniekus"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Izslēgts"
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
+    "messageformat": "Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "Ieslēgts"
+  "icu:CallLinkRestrictionsSelect__Option--On": {
+    "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Pievienot audiozvana nosaukumu"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Zvana nosaukums"
@@ -5554,10 +5581,13 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.17--0": {
-    "messageformat": "Mēs izlabojām kļūdu, kuras dēļ Signal reizēm nevarēja atvērt uzlīmju skatītāju, ja mēģinājāt atvērt uzlīmju komplekta saiti, kamēr lietotne ir aizvērta."
-  },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Reizēm ātri pateikt \"atā\" ir vieglāk nekā ilgi atvadīties, tāpēc paātrinājām dzēšanas procesu apjomīgām sarakstēm."
+  },
+  "icu:WhatsNew__v7.19--0": {
+    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+  },
+  "icu:WhatsNew__v7.19--1": {
+    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
   }
 }

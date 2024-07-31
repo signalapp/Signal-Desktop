@@ -87,10 +87,10 @@
     "messageformat": "Rejesha data"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Haiwezi kufikia ufunguo wa usimbaji wa kanzidata kwa sababu mazingira ya nyuma ya usimbaji wa mfumo wa uendeshaji yamebadilika kutoka {previousBackend} kwenda {currentBackend}. Hii inaweza kutokea endapo mazingira ya kompyuta ya mezani yamebadilika, kwa mfano kati ya GNOME na KDE.\n\nTafadhali badili hadi mazingira ya zamani ya kompyuta ya mezani."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Haiwezi kufikia ufunguo wa usimbaji wa kanzidata kwa sababu mazingira ya nyuma ya usimbaji wa mfumo wa uendeshaji yamebadilika kutoka {previousBackend} kwenda {currentBackend}. Hii inaweza kutokea endapo mazingira ya kompyuta ya mezani yamebadilika, kwa mfano kati ya GNOME na KDE.\n\nTafadhali badili kwenda mazingira ya zamani ya kompyuta ya mezani au jaribu kuendesha Signal kwa alama ya mstari wa amri --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Faili"
@@ -831,13 +831,13 @@
     "messageformat": "Signal haingeweza kusasishwa. {retry} au tembelea {url} ili kusanikisha mwenyewe. Kisha, {support} kuhusu tatizo hili"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal imeshindwa kusasisha. <retryUpdateButton>Jaribu tena kusasisha</retryUpdateButton> au tembelea {url} ili kusanikisha mwenyewe. Halafu, <contactSupportLink>wasiliana na usaidizi</contactSupportLink> kuhusu tatizo hili"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal haingeweza kusasishwa. Tembelea {url} kusanikisha mwenyewe. Kisha, {support} kuhusu tatizo hili"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal imeshindwa kusasisha. Tembelea {url} ili kusakinisha mwenyewe. Halafu, <contactSupportLink>wasiliana na usaidizi</contactSupportLink> kuhusu tatizo hili"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Huenda Signal Desktop ipo katika karantini ya macOS, na haitaweza kusasisha kiotomatiki. Tafadhali jaribu kuhamishia {app} kwenye {folder} kwa kutumia Kitafutaji."
@@ -1113,7 +1113,7 @@
     "messageformat": "Vifaa Vilivyounganishwa"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Unganisha Kifaa Kipya"
   },
   "icu:Install__learn-more": {
     "messageformat": "Jifunze zaidi"
@@ -1131,10 +1131,7 @@
     "messageformat": "Mipangilio"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
-  },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "Msimbo wa QR umeshindwa kupakia. Angalia mtandao wako na ujaribu tena. <retry>Jaribu Upya</retry>"
+    "messageformat": "Bonyeza {linkNewDevice}"
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "Msimbo wa QR umeshindwa kupakia. Angalia mwunganisho wa mtandao wako na ujaribu tena."
@@ -1203,16 +1200,16 @@
     "messageformat": "Inapiga"
   },
   "icu:calling__call-back": {
-    "messageformat": "Rudisha Simu"
+    "messageformat": "Call back"
   },
   "icu:calling__call-again": {
-    "messageformat": "Piga Tena"
+    "messageformat": "Call again"
   },
   "icu:calling__join": {
-    "messageformat": "Jiunge na Mazungumzo ya Simu"
+    "messageformat": "Join call"
   },
   "icu:calling__return": {
-    "messageformat": "Rudi kwenye Mazungumzo ya Simu"
+    "messageformat": "Return to call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Maikrofoni imenyamazishwa kufuatia ukubwa wa simu"
@@ -2637,10 +2634,10 @@
     "messageformat": "Kataa"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Umekataa simu ya kawaida"
+    "messageformat": "Declined voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Umekataa simu ya video"
+    "messageformat": "Declined video call"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Simu ya kawaida inayopigwa"
@@ -2673,10 +2670,10 @@
     "messageformat": "Signal itaendelea kufanya kazi kwenye eneo la arifa. Unaweza ukabadili hili kwenye Mipangilio ya Signal."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Simu ya sauti inaingia..."
+    "messageformat": "Incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Unapigiwa simu ya video..."
+    "messageformat": "Incoming video call"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Simu ya kawaida uliyopiga"
@@ -2721,7 +2718,7 @@
     "messageformat": "{count, plural, one {mtu {count,number}} other {watu {count,number}}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Simu ya sauti"
+    "messageformat": "Voice call"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Kiungo cha simu"
@@ -2784,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} katika mazungumzo ya simu} other {{people,number} katika mazungumzo ya simu}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "Mazungumzo ya simu ya kikundi yamekwisha"
+    "messageformat": "The video call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "Mazungumzo ya simu ya kikundi yameanzishwa"
+    "messageformat": "A video call was started"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "Umeanzisha mazungumzo ya simu ya kikundi"
+    "messageformat": "You started a video call"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} ameanzisha mazungumzo ya simu ya kikundi"
+    "messageformat": "{name} started a video call"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Tayari uko kwenye mazungumzo ya simu"
@@ -5436,6 +5433,9 @@
   "icu:CallsList__ItemCallInfo--Missed": {
     "messageformat": "Simu Fifi"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Mazungumzo ya simu ya kikundi"
   },
@@ -5449,7 +5449,7 @@
     "messageformat": "Sitisha simu hii?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "Ni lazima ukate simu hii kabla hujapiga simu mpya."
+    "messageformat": "You must leave the current call before starting or joining a new call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Ondoka kwenye mazungumzo ya simu"
@@ -5481,8 +5481,29 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Kiungo cha simu"
   },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call"
+  },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Jiunge"
+  },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Nakili kiungo"
@@ -5499,17 +5520,23 @@
   "icu:CallLinkEditModal__AddCallNameLabel": {
     "messageformat": "Ongeza jina la simu"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Ruhusu wanakikundi wote"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Zima"
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
+    "messageformat": "Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "Washa"
+  "icu:CallLinkRestrictionsSelect__Option--On": {
+    "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Ongeza jina la simu"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Jina la simu"
@@ -5554,10 +5581,13 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.17--0": {
-    "messageformat": "Tulitaka kufanya mambo yawe mepesi kwenye vibofya vibandiko, hivyo tukarekebisha hitilafu ambayo wakati mwingine ilizuia Signal isiwashe kipengele cha kitazama vibandiko kama ukijaribu kufungua kiungo cha pakiti ya vibandiko wakati programu imefungwa."
-  },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Kuagana kwa haraka wakati mwingine ni rahisi kuliko kuagana kwa taratibu, hivyo tunaharakisha mchakato wa kufuta nyuzi kubwa za ujumbe."
+  },
+  "icu:WhatsNew__v7.19--0": {
+    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+  },
+  "icu:WhatsNew__v7.19--1": {
+    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
   }
 }

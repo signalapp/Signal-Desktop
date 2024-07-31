@@ -87,10 +87,10 @@
     "messageformat": "恢复数据"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "无法访问数据库加密密钥，因为 OS 加密密钥环后端已从 {previousBackend} 更改为 {currentBackend}。当桌面环境发生变化时，如在 GNOME 和 KDE 之间切换，这种情况就会发生。\n\n请切换到之前的桌面环境。"
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "无法访问数据库加密密钥，因为 OS 加密密钥环后端已从 {previousBackend} 更改为 {currentBackend}。当桌面环境发生变化时，如在 GNOME 和 KDE 之间切换，这种情况就会发生。\n\n请切换到之前的桌面环境，或尝试使用命令行标志 flag --password-store=\"{previousBackendFlag}\" 运行 Signal。"
   },
   "icu:mainMenuFile": {
     "messageformat": "文件(&F)"
@@ -831,13 +831,13 @@
     "messageformat": "Signal 无法更新。请{retry}或访问{url}手动安装应用，然后{support}此问题"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal 无法更新。请<retryUpdateButton>重试更新</retryUpdateButton>或访问 {url} 以进行手动安装，然后<contactSupportLink>联系支持团队</contactSupportLink>反映此问题"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal 无法更新。请访问{url}手动安装应用，然后{support}此问题"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal 无法更新。请访问 {url} 以进行手动安装，然后<contactSupportLink>联系支持团队</contactSupportLink>反映此问题"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop 可能在 macOS 隔离区，无法自动升级。请用 Finder 移动{app}应用至{folder}。"
@@ -1113,7 +1113,7 @@
     "messageformat": "已关联的设备"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "链接新设备"
   },
   "icu:Install__learn-more": {
     "messageformat": "了解更多"
@@ -1131,10 +1131,7 @@
     "messageformat": "设置"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
-  },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "无法加载此二维码。请检查您的网络并重试。<retry>重试</retry>"
+    "messageformat": "点击 {linkNewDevice}"
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "无法加载此二维码。请检查您的网络连接并重试。"
@@ -1203,16 +1200,16 @@
     "messageformat": "呼叫时"
   },
   "icu:calling__call-back": {
-    "messageformat": "回拨"
+    "messageformat": "Call back"
   },
   "icu:calling__call-again": {
-    "messageformat": "重拨"
+    "messageformat": "Call again"
   },
   "icu:calling__join": {
-    "messageformat": "加入通话"
+    "messageformat": "Join call"
   },
   "icu:calling__return": {
-    "messageformat": "回拨"
+    "messageformat": "Return to call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "由于通话人数众多，麦克风已静音"
@@ -2637,10 +2634,10 @@
     "messageformat": "拒绝"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "您拒接了语音通话"
+    "messageformat": "Declined voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "您拒接了视频通话"
+    "messageformat": "Declined video call"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "语音来电"
@@ -2673,10 +2670,10 @@
     "messageformat": "Signal 将会在通知区域继续运行。您可以在 Signal 设置中对此进行更改。"
   },
   "icu:incomingAudioCall": {
-    "messageformat": "语音来电…"
+    "messageformat": "Incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "视频来电…"
+    "messageformat": "Incoming video call"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "拨出语音通话"
@@ -2721,7 +2718,7 @@
     "messageformat": "{count, plural, other {{count,number} 人}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "音频通话"
+    "messageformat": "Voice call"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "通话链接"
@@ -2784,16 +2781,16 @@
     "messageformat": "{people, plural, other {{people,number} 人参与通话}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "群组通话已结束"
+    "messageformat": "The video call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "群组通话已开启"
+    "messageformat": "A video call was started"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "您发起了一个群组通话"
+    "messageformat": "You started a video call"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} 开启了群组通话"
+    "messageformat": "{name} started a video call"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "您已在通话中"
@@ -5436,6 +5433,9 @@
   "icu:CallsList__ItemCallInfo--Missed": {
     "messageformat": "未接"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "群组通话"
   },
@@ -5449,7 +5449,7 @@
     "messageformat": "要退出当前通话？"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "您必须退出当前通话才能加入到其他通话中。"
+    "messageformat": "You must leave the current call before starting or joining a new call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "离开通话"
@@ -5481,8 +5481,29 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "通话链接"
   },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call"
+  },
   "icu:CallLinkDetails__Join": {
     "messageformat": "加入"
+  },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "复制链接"
@@ -5499,17 +5520,23 @@
   "icu:CallLinkEditModal__AddCallNameLabel": {
     "messageformat": "添加通话名称"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "批准所有成员"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "关"
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
+    "messageformat": "Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "开"
+  "icu:CallLinkRestrictionsSelect__Option--On": {
+    "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "添加通话名称"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "通话名称"
@@ -5554,10 +5581,13 @@
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.17--0": {
-    "messageformat": "我们修复了一个漏洞，如果您在应用关闭时尝试打开贴纸包链接，该漏洞有时会导致 Signal 无法启动贴纸查看器。"
-  },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "此版本加快了删除大消息线程的过程。"
+  },
+  "icu:WhatsNew__v7.19--0": {
+    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+  },
+  "icu:WhatsNew__v7.19--1": {
+    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
   }
 }

@@ -87,10 +87,10 @@
     "messageformat": "Recuperar informació"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "No es pot accedir a la clau de codificació de la base de dades perquè la codificació del clauer del back-end del sistema operatiu ha canviat de {previousBackend} a {currentBackend}. Això pot passar si l'entorn d'escriptori canvia, per exemple, entre GNOME i KDE.\n\nTorna a l'entorn d'escriptori anterior."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "No es pot accedir a la clau de codificació de la base de dades perquè la codificació del clauer del back-end del sistema operatiu ha canviat de {previousBackend} a {currentBackend}. Això pot passar si l'entorn d'escriptori canvia, per exemple, entre GNOME i KDE.\n\nTorna a l'entorn d'escriptori anterior, o prova d'executar Signal amb el comandament flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fitxer"
@@ -831,13 +831,13 @@
     "messageformat": "El Signal Desktop no es pot actualitzar. {retry} o visiteu {url} per a instal·lar la versió nova manualment. Després, {support} sobre aquest problema."
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal no s'ha pogut actualitzar. <retryUpdateButton>Prova de tornar-lo a actualitzar</retryUpdateButton>, o ves a {url} per instal·lar-lo manualment. Després, <contactSupportLink>posa't en contacte amb el servei d'assistència</contactSupportLink> per informar d'aquest problema"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "El Signal no s'ha pogut actualitzar. Visiteu {url} per instal·lar-lo manualment. Aleshores, {support} sobre aquest problema."
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal no s'ha pogut actualitzar. Ves a {url} per instal·lar-lo manualment. Després, <contactSupportLink>posa't en contacte amb el servei d'assistència</contactSupportLink> per informar d'aquest problema"
   },
   "icu:readOnlyVolume": {
     "messageformat": "El Signal Desktop es troba probablement en una quarentena de macOS i no es podrà actualitzar automàticament. Proveu de moure  {app} a  {folder} amb el Finder."
@@ -1113,7 +1113,7 @@
     "messageformat": "Dispositius enllaçats"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Vincular un nou dispositiu"
   },
   "icu:Install__learn-more": {
     "messageformat": "Més informació"
@@ -1131,10 +1131,7 @@
     "messageformat": "Configuració"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
-  },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "No s'ha pogut carregar el codi QR. Comprova la connexió a Internet i torna-ho a provar. <retry>Tornar a provar-ho</retry>"
+    "messageformat": "Toca {linkNewDevice}"
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "No s'ha pogut carregar el codi QR. Comprova la connexió i torna-ho a provar."
@@ -1203,16 +1200,16 @@
     "messageformat": "Trucades"
   },
   "icu:calling__call-back": {
-    "messageformat": "Torna la trucada"
+    "messageformat": "Call back"
   },
   "icu:calling__call-again": {
-    "messageformat": "Torna a trucar"
+    "messageformat": "Call again"
   },
   "icu:calling__join": {
-    "messageformat": "Afegeix-me a la trucada"
+    "messageformat": "Join call"
   },
   "icu:calling__return": {
-    "messageformat": "Torna a la trucada"
+    "messageformat": "Return to call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "S'ha silenciat el micròfon a causa de la mida de la trucada."
@@ -2637,10 +2634,10 @@
     "messageformat": "Rebutja"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Has rebutjat una trucada"
+    "messageformat": "Declined voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Heu rebutjat una trucada de vídeo"
+    "messageformat": "Declined video call"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Trucada entrant"
@@ -2673,10 +2670,10 @@
     "messageformat": "Signal continuarà enviant notificacions. Podeu canviar-ho als Ajustos de Signal."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Trucada entrant…"
+    "messageformat": "Incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Trucada de vídeo entrant…"
+    "messageformat": "Incoming video call"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Trucada sortint"
@@ -2721,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} persona} other {{count,number} persones}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Trucada"
+    "messageformat": "Voice call"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Enllaç de trucada"
@@ -2784,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} a la trucada} other {{people,number} a la trucada}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "La trucada ha acabat"
+    "messageformat": "The video call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "S'ha iniciat una trucada de grup."
+    "messageformat": "A video call was started"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "Heu iniciat una trucada de grup."
+    "messageformat": "You started a video call"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} ha iniciat una trucada de grup."
+    "messageformat": "{name} started a video call"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Ja sou en una trucada."
@@ -5436,6 +5433,9 @@
   "icu:CallsList__ItemCallInfo--Missed": {
     "messageformat": "Perduda"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Trucada de grup"
   },
@@ -5449,7 +5449,7 @@
     "messageformat": "Vols sortir de la trucada actual?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "Has de sortir de la trucada actual abans d'unir-te a una nova trucada."
+    "messageformat": "You must leave the current call before starting or joining a new call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Surt de la trucada"
@@ -5481,8 +5481,29 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Enllaç de trucada"
   },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call"
+  },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Afegeix-m'hi"
+  },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Copiar l'enllaç"
@@ -5499,17 +5520,23 @@
   "icu:CallLinkEditModal__AddCallNameLabel": {
     "messageformat": "Afegir nom de trucada"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Aprovar tots els membres"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Inactiu"
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
+    "messageformat": "Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "Actiu"
+  "icu:CallLinkRestrictionsSelect__Option--On": {
+    "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Afegir nom de trucada"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Nom de trucada"
@@ -5554,10 +5581,13 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.17--0": {
-    "messageformat": "Hem corregit un error que de vegades impedia que Signal iniciés el visualitzador d'stickers si intentaves obrir un enllaç a un paquet d'stickers amb l'app tancada."
-  },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Aquesta actualització ha accelerat el procés d'eliminació de fils extensos de missatges."
+  },
+  "icu:WhatsNew__v7.19--0": {
+    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+  },
+  "icu:WhatsNew__v7.19--1": {
+    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
   }
 }

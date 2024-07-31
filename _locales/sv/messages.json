@@ -87,10 +87,10 @@
     "messageformat": "Återställ data"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Det går inte att komma åt databasens krypteringsnyckel eftersom OS-krypteringsnyckelns backend har ändrats från {previousBackend} till {currentBackend}. Detta kan inträffa om skrivbordsmiljön ändras, t.ex. mellan GNOME och KDE.\n\nByt till den tidigare skrivbordsmiljön."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Det går inte att komma åt databasens krypteringsnyckel eftersom OS-krypteringsnyckelns backend har ändrats från {previousBackend} till {currentBackend}. Detta kan inträffa om skrivbordsmiljön ändras, t.ex. mellan GNOME och KDE.\n\nByt till föregående skrivbordsmiljö eller försök att köra Signal med kommandoradsflaggan --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Arkiv"
@@ -831,13 +831,13 @@
     "messageformat": "Det gick inte att uppdatera Signal. {retry} eller besök {url} för att installera det manuellt. Därefter, {support} om detta problem"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal kunde inte uppdateras. <retryUpdateButton>Försök uppdatera igen</retryUpdateButton> eller besök {url} för att installera manuellt. <contactSupportLink>Kontakta sedan supporten</contactSupportLink> om detta problem"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal kunde inte uppdateras. Besök {url} för att installera det manuellt. Sedan, {support} om det här problemet"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal kunde inte uppdateras. Besök {url} för att installera manuellt. <contactSupportLink>Kontakta sedan supporten</contactSupportLink> om detta problem"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop är sannolikt i en MacOS-karantän och kan inte uppdateras automatiskt. Försök att flytta {app} till {folder} med Finder."
@@ -1113,7 +1113,7 @@
     "messageformat": "Länkade enheter"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Länka en ny enhet"
   },
   "icu:Install__learn-more": {
     "messageformat": "Läs mer"
@@ -1131,10 +1131,7 @@
     "messageformat": "Inställningar"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
-  },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "QR-koden kunde inte läsas in. Kontrollera ditt internet och försök igen. <retry>Försök igen</retry>"
+    "messageformat": "Tryck på {linkNewDevice}"
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "QR-koden kunde inte läsas in. Kontrollera din anslutning och försök igen."
@@ -1203,16 +1200,16 @@
     "messageformat": "Samtal"
   },
   "icu:calling__call-back": {
-    "messageformat": "Ring tillbaka"
+    "messageformat": "Call back"
   },
   "icu:calling__call-again": {
-    "messageformat": "Ring igen"
+    "messageformat": "Call again"
   },
   "icu:calling__join": {
-    "messageformat": "Gå med i samtalet"
+    "messageformat": "Join call"
   },
   "icu:calling__return": {
-    "messageformat": "Återgå till samtalet"
+    "messageformat": "Return to call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Mikrofonen är av på grund av samtalets storlek"
@@ -2637,10 +2634,10 @@
     "messageformat": "Avfärda"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Du avböjde ett röstsamtal"
+    "messageformat": "Declined voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Du avböjde ett videosamtal"
+    "messageformat": "Declined video call"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Inkommande röstsamtal"
@@ -2673,10 +2670,10 @@
     "messageformat": "Signal fortsätter att köras i aviseringsfältet. Du kan ändra detta i Signal-inställningarna."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Inkommande röstsamtal ..."
+    "messageformat": "Incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Inkommande videosamtal …"
+    "messageformat": "Incoming video call"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Utgående röstsamtal"
@@ -2721,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} person} other {{count,number} personer}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Ljudsamtal"
+    "messageformat": "Voice call"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Samtalslänk"
@@ -2784,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} i samtalet} other {{people,number} i samtalet}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "Gruppsamtalet har avslutats"
+    "messageformat": "The video call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "Ett gruppsamtal startades"
+    "messageformat": "A video call was started"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "Du startade ett gruppsamtal"
+    "messageformat": "You started a video call"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} startade ett gruppsamtal"
+    "messageformat": "{name} started a video call"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Du är redan i ett samtal"
@@ -5436,6 +5433,9 @@
   "icu:CallsList__ItemCallInfo--Missed": {
     "messageformat": "Missat"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Gruppsamtal"
   },
@@ -5449,7 +5449,7 @@
     "messageformat": "Lämna det aktuella samtalet?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "Du måste lämna det pågående samtalet innan du kan ansluta till ett nytt samtal."
+    "messageformat": "You must leave the current call before starting or joining a new call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Lämna samtalet"
@@ -5481,8 +5481,29 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Samtalslänk"
   },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call"
+  },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Gå med"
+  },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopiera länk"
@@ -5499,17 +5520,23 @@
   "icu:CallLinkEditModal__AddCallNameLabel": {
     "messageformat": "Lägg till samtalsnamn"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Godkänn alla medlemmar"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Av"
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
+    "messageformat": "Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "På"
+  "icu:CallLinkRestrictionsSelect__Option--On": {
+    "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Lägg till samtalsnamn"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Samtalsnamn"
@@ -5554,10 +5581,13 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.17--0": {
-    "messageformat": "Vi har åtgärdat en bugg som ibland hindrade Signal från att starta visaren för klistermärken om du försökte öppna en länk till ett klistermärkespaket medan appen var stängd."
-  },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Denna version snabbar upp processen med att ta bort långa meddelandetrådar."
+  },
+  "icu:WhatsNew__v7.19--0": {
+    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+  },
+  "icu:WhatsNew__v7.19--1": {
+    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
   }
 }

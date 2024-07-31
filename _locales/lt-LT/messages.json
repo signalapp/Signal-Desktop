@@ -87,10 +87,10 @@
     "messageformat": "Atkurti duomenis"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Nepavyko pasiekti duomenų bazės šifravimo rakto, nes OS šifravimo raktų rinkinys pasikeitė iš {previousBackend} į {currentBackend}. Taip gali nutikti pasikeitus darbalaukio aplinkai, pavyzdžiui, tarp GNOME ir KDE.\n\nPereikite į ankstesnę darbalaukio aplinką."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Nepavyko pasiekti duomenų bazės šifravimo rakto, nes OS šifravimo raktų rinkinys pasikeitė iš {previousBackend} į {currentBackend}. Taip gali nutikti pasikeitus darbalaukio aplinkai, pavyzdžiui, tarp GNOME ir KDE.\n\nGrįžkite į ankstesnę darbalaukio aplinką arba pabandykite paleisti „Signal“ naudodami komandinės eilutės parinktį --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Failas"
@@ -831,13 +831,13 @@
     "messageformat": "Signal programai nepavyko atsinaujinti. {retry} arba apsilankykite adresu {url} ir įdiekite ją rankiniu būdu. Tuomet, {support} dėl šios problemos"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "„Signal“ nepavyko atsinaujinti. <retryUpdateButton>Bandykite atnaujinti dar kartą</retryUpdateButton> arba apsilankykite {url}, kad įdiegtumėte naujinį rankiniu būdu. Tuomet <contactSupportLink>susisiekite su palaikymo komanda</contactSupportLink> dėl šios problemos"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal nepavyko atsinaujinti. Apsilankykite adresu {url}, kad įdiegtumėte programą rankiniu būdu. Tuomet, {support} dėl šios problemos"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "„Signal“ nepavyko atsinaujinti. Apsilankykite adresu {url}, kad įdiegtumėte naujinį rankiniu būdu. Tada <contactSupportLink>susisiekite su palaikymo komanda</contactSupportLink> dėl šios problemos"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Tikriausiai, Signal Desktop yra macOS karantine ir negalės būti automatiškai atnaujinta. Pabandykite, naudodami Finder, perkelti  {app} į  {folder}."
@@ -1113,7 +1113,7 @@
     "messageformat": "Susieti įrenginiai"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Susieti naują įrenginį"
   },
   "icu:Install__learn-more": {
     "messageformat": "Sužinoti daugiau"
@@ -1131,10 +1131,7 @@
     "messageformat": "Nustatymai"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
-  },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "Nepavyko įkelti QR kodo. Patikrink interneto ryšį ir bandyk dar kartą. <retry>Bandyti dar kartą</retry>"
+    "messageformat": "Bakstelėkite {linkNewDevice}"
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "Nepavyko įkelti QR kodo. Patikrink interneto ryšį ir bandyk dar kartą."
@@ -1203,16 +1200,16 @@
     "messageformat": "Skambinimas"
   },
   "icu:calling__call-back": {
-    "messageformat": "Atskambinti"
+    "messageformat": "Call back"
   },
   "icu:calling__call-again": {
-    "messageformat": "Skambinti vėl"
+    "messageformat": "Call again"
   },
   "icu:calling__join": {
-    "messageformat": "Prisijungti prie skambučio"
+    "messageformat": "Join call"
   },
   "icu:calling__return": {
-    "messageformat": "Grįžti į skambutį"
+    "messageformat": "Return to call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Mikrofonas išjungtas dėl skambučio dalyvių skaičiaus"
@@ -2637,10 +2634,10 @@
     "messageformat": "Atmesti"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Tu atmetei balso skambutį"
+    "messageformat": "Declined voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Jūs atmetėte vaizdo skambutį"
+    "messageformat": "Declined video call"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Gaunamasis balso skambutis"
@@ -2673,10 +2670,10 @@
     "messageformat": "Programėlė „Signal“ tebebus įjungta pranešimų skiltyje. Gali tai pakeisti nustatymuose."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Gaunamasis balso skambutis…"
+    "messageformat": "Incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Gaunamasis vaizdo skambutis…"
+    "messageformat": "Incoming video call"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Išsiunčiamasis balso skambutis"
@@ -2721,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} žmogus} few {{count,number} žmonės} many {{count,number} žmonių} other {{count,number} žmogus}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Garso skambutis"
+    "messageformat": "Voice call"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Skambučio nuoroda"
@@ -2784,16 +2781,16 @@
     "messageformat": "{people, plural, one {Skambutyje yra {people,number} žmogus} few {Skambutyje yra {people,number} žmonės} many {Skambutyje yra {people,number} žmonių} other {Skambutyje yra {people,number} žmonių}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "Grupės skambutis baigtas"
+    "messageformat": "The video call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "Buvo pradėtas grupės skambutis"
+    "messageformat": "A video call was started"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "Jūs pradėjote grupės skambutį"
+    "messageformat": "You started a video call"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} pradėjo grupės skambutį"
+    "messageformat": "{name} started a video call"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Jūs jau esate skambutyje"
@@ -5436,6 +5433,9 @@
   "icu:CallsList__ItemCallInfo--Missed": {
     "messageformat": "Praleisti"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Grupės skambutis"
   },
@@ -5449,7 +5449,7 @@
     "messageformat": "Išeiti iš dabartinio skambučio?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "Prieš prisijungdami prie naujo skambučio, turite išeiti iš dabartinio skambučio."
+    "messageformat": "You must leave the current call before starting or joining a new call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Išeiti iš skambučio"
@@ -5481,8 +5481,29 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Skambučio nuoroda"
   },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call"
+  },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Prisijungti"
+  },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopijuoti nuorodą"
@@ -5499,17 +5520,23 @@
   "icu:CallLinkEditModal__AddCallNameLabel": {
     "messageformat": "Pridėti skambučio pavadinimą"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Patvirtinti visus narius"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Išjungta"
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
+    "messageformat": "Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "Įjungta"
+  "icu:CallLinkRestrictionsSelect__Option--On": {
+    "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Pridėti skambučio pavadinimą"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Skambučio pavadinimas"
@@ -5554,10 +5581,13 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.17--0": {
-    "messageformat": "Ištaisėme klaidą, dėl kurios „Signal“ kartais neleisdavo paleisti lipdukų paketo peržiūros priemonės, jei lipdukų paketo nuorodą bandydavote paleisti, kai programa uždaryta."
-  },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Ši versija paspartina didelių žinučių gijų ištrynimo procesą."
+  },
+  "icu:WhatsNew__v7.19--0": {
+    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+  },
+  "icu:WhatsNew__v7.19--1": {
+    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
   }
 }

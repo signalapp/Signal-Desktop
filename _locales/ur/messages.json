@@ -87,10 +87,10 @@
     "messageformat": "ڈیٹا بحال کریں"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "ڈیٹا بیس انکرپشن کیی تک رسائی حاصل کرنے سے قاصر ہیں کیونکہ OS انکرپشن کیی رنگ بیک اینڈ {previousBackend} سے{currentBackend} میں تبدیل ہو چکا ہے۔ ایسا اس صورت میں واقع ہو سکتا ہے اگر مثال کے طور پر GNOME اور KDE کے درمیان ڈیسک ٹاپ انوائرنمنٹ تبدیل ہوتی ہے۔\n\nبراہ کرم پچھلے ڈیسک ٹاپ انوائرنمنٹ میں تبدیل کریں۔"
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "ڈیٹا بیس انکرپشن کیی تک رسائی حاصل کرنے سے قاصر ہیں کیونکہ OS انکرپشن کیی رنگ بیک اینڈ {previousBackend} سے{currentBackend} میں تبدیل ہو چکا ہے۔ ایسا اس صورت میں واقع ہو سکتا ہے اگر مثال کے طور پر GNOME اور KDE کے درمیان ڈیسک ٹاپ انوائرنمنٹ تبدیل ہوتی ہے۔\n\nبراہ کرم پچھلی ڈیسک ٹاپ انوائرنمنٹ میں تبدیل کریں یا Signal کو line flag --password-store=\"{previousBackendFlag}\" کی کمانڈ کے ساتھ چلانے کی کوشش کریں"
   },
   "icu:mainMenuFile": {
     "messageformat": "اور فائل"
@@ -831,13 +831,13 @@
     "messageformat": "Signal اپ ڈیٹ نہیں ہو سکی۔ دستی طور پر اسے دوبارہ انسٹال کرنے کے لیے {retry} یا {url} ملاحظہ کریں۔ پھر، اس مسئلے کے متعلق {support}"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal اپ ڈیٹ نہیں ہو سکا۔ <retryUpdateButton>دوبارہ اپ ڈیٹ کرنے کی کوشش کریں</retryUpdateButton> یا اسے دستی طور پر انسٹال کرنے کے لیے {url} ملاحظہ کریں۔ اس کے بعد، اس مسئلہ کے بارے میں <contactSupportLink>سپورٹ سے رابطہ</contactSupportLink> کریں"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal اپ ڈیٹ نہیں ہو سکی۔ دستی طور پر اسے انسٹال کرنے کے لیے {url} پر جائیں۔ پھر، اس مسئلے کے متعلق {support}"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal اپ ڈیٹ نہیں ہو سکا۔ اسے دستی طور پر انسٹال کرنے کے لیے {url} ملاحظہ کریں۔ اس کے بعد، اس مسئلہ کے بارے میں <contactSupportLink>سپورٹ سے رابطہ</contactSupportLink> کریں"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop ممکنہ طور پر macOS کے quarantine میں ہے ، اور خودبخود تازہ کاری کرنے کے قابل نہیں ہوگا۔ برائے مہربانی فائنڈر کے ساتھ {app} کو {folder} میں منتقل کرنے کی کوشش کریں۔"
@@ -1113,7 +1113,7 @@
     "messageformat": "ڈیوائس منسلک ہو چکی"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "ایک نئی ڈیوائس کو لنک کریں"
   },
   "icu:Install__learn-more": {
     "messageformat": "مزید پڑھیں"
@@ -1131,10 +1131,7 @@
     "messageformat": "ترتیبات"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
-  },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "QR کوڈ لوڈ نہیں ہو سکا۔ اپنا انٹرنیٹ چیک کریں اور دوبارہ کوشش کریں۔ <retry>دوبارہ کوشش کریں</retry>"
+    "messageformat": "{linkNewDevice} پر ٹیپ کریں"
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "QR کوڈ لوڈ نہیں ہو سکا۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔"
@@ -1203,16 +1200,16 @@
     "messageformat": "کال ہو رہی ہے"
   },
   "icu:calling__call-back": {
-    "messageformat": "واپسی کال کریں"
+    "messageformat": "Call back"
   },
   "icu:calling__call-again": {
-    "messageformat": "دوبارہ کال کریں"
+    "messageformat": "Call again"
   },
   "icu:calling__join": {
-    "messageformat": "کال میں شامل ہوں"
+    "messageformat": "Join call"
   },
   "icu:calling__return": {
-    "messageformat": "کال پر واپس جائیں"
+    "messageformat": "Return to call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "کال کے دورانیے کی وجہ سے مائیکروفون خاموش کر دیا گیا"
@@ -2637,10 +2634,10 @@
     "messageformat": "مسترد"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "آپ نے وائس کال مسترد کر دی"
+    "messageformat": "Declined voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "آپ نے ویڈیو کال مسترد کردی"
+    "messageformat": "Declined video call"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "ان کمنگ وائس کال"
@@ -2673,10 +2670,10 @@
     "messageformat": "Signal نوٹیفکیشن ایریا میں چلتی رہے گی۔ آپ اسے Signal سیٹنگز میں تبدیل کر سکتے ہیں۔"
   },
   "icu:incomingAudioCall": {
-    "messageformat": "آنے والی وائس کال..."
+    "messageformat": "Incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "آنے والی ویڈیو کال…"
+    "messageformat": "Incoming video call"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "آؤٹ گوئنگ وائس کال"
@@ -2721,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} فرد} other {{count,number} افراد}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "آڈیو کال"
+    "messageformat": "Voice call"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "کال کا لنک"
@@ -2784,16 +2781,16 @@
     "messageformat": "{people, plural, one {کال میں {people,number}} other {کال میں {people,number}}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "گروپ کال ختم ہوچکی ہے"
+    "messageformat": "The video call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "ایک گروپ کال شروع کی گئی تھی"
+    "messageformat": "A video call was started"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "آپ نے ایک گروپ کال شروع کی"
+    "messageformat": "You started a video call"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} نے ایک گروپ کال شروع کی"
+    "messageformat": "{name} started a video call"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "آپ پہلے ہی کال میں ہیں"
@@ -5436,6 +5433,9 @@
   "icu:CallsList__ItemCallInfo--Missed": {
     "messageformat": "مسڈ"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "گروپ کال"
   },
@@ -5449,7 +5449,7 @@
     "messageformat": "موجودہ کال سے نکلیں؟"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "نئی کال میں شامل ہونے سے پہلے آپ کو موجودہ کال سے نکلنا ہو گا۔"
+    "messageformat": "You must leave the current call before starting or joining a new call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "کال چھوڑو"
@@ -5481,8 +5481,29 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "کال کا لنک"
   },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call"
+  },
   "icu:CallLinkDetails__Join": {
     "messageformat": "شامل ہوں"
+  },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "لنک کاپی کریں"
@@ -5499,17 +5520,23 @@
   "icu:CallLinkEditModal__AddCallNameLabel": {
     "messageformat": "کال نیم شامل کریں"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "تمام ممبرز منظور کریں"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "بند کریں"
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
+    "messageformat": "Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "آن کریں"
+  "icu:CallLinkRestrictionsSelect__Option--On": {
+    "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "کال نیم شامل کریں"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "کال نیم"
@@ -5554,10 +5581,13 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.17--0": {
-    "messageformat": "ہم نے اس نقص کو درست کیا جو بعض اوقات Signal کو اسٹکر ویور کو لانچ کرنے سے روکتا تھا جب آپ ایپ بند ہونے کے باوجود اسٹیکر پیک کھولنے کی کوشش کرتے تھے۔"
-  },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "یہ ریلیزبڑے میسج تھریڈز کو حذف کرنے کے عمل کو تیز کرتا ہے۔"
+  },
+  "icu:WhatsNew__v7.19--0": {
+    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+  },
+  "icu:WhatsNew__v7.19--1": {
+    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
   }
 }

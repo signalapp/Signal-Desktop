@@ -87,10 +87,10 @@
     "messageformat": "Pulihkan data"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Tidak dapat mengakses kunci enkripsi database karena backend keyring enkripsi OS telah berubah dari {previousBackend} menjadi {currentBackend}. Ini dapat terjadi jika lingkungan desktop diganti, misalnya antara GNOME dan KDE.\n\nHarap ganti ke lingkungan desktop sebelumnya."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Tidak dapat mengakses kunci enkripsi database karena backend keyring enkripsi OS telah berubah dari {previousBackend} menjadi {currentBackend}. Ini dapat terjadi jika lingkungan desktop diganti, misalnya antara GNOME dan KDE.\n\nHarap ganti ke lingkungan desktop sebelumnya atau coba jalankan Signal dengan command line flag --password-store = \"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Berkas"
@@ -831,13 +831,13 @@
     "messageformat": "Signal tidak dapat diperbarui. {retry} atau kunjungi {url} untuk memasangnya secara manual. Lalu, {support} mengenai masalah ini."
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal tidak dapat diperbarui. <retryUpdateButton>Coba lagi perbarui</retryUpdateButton> atau buka {url} untuk instal secara manual. Lalu, <contactSupportLink>hubungi dukungan</contactSupportLink> untuk menyampaikan masalah ini"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal tidak dapat melakukan pembaruan. Buka {url} untuk menginstal secara manual. Lalu, {support} terkait masalah ini"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal tidak dapat diperbarui. Buka {url} untuk menginstal secara manual. Lalu, <contactSupportLink>hubungi dukungan</contactSupportLink> untuk menyampaikan masalah ini"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop tampak dalam karantina macOS dan tidak dapat melakukan pembaruan otomatis. Coba pindahkan {app} ke {folder} melalui Finder."
@@ -1113,7 +1113,7 @@
     "messageformat": "Perangkat Terhubung"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Hubungkan Perangkat Baru"
   },
   "icu:Install__learn-more": {
     "messageformat": "Pelajari lebih lanjut"
@@ -1131,10 +1131,7 @@
     "messageformat": "Pengaturan"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
-  },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "Kode QR tidak dapat dimuat. Periksa internet Anda dan coba lagi. <retry>Coba lagi</retry>"
+    "messageformat": "Ketuk {linkNewDevice}"
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "Kode QR tidak dapat dimuat. Periksa koneksi Anda dan coba lagi."
@@ -1203,16 +1200,16 @@
     "messageformat": "Memanggil"
   },
   "icu:calling__call-back": {
-    "messageformat": "Panggil Ulang"
+    "messageformat": "Call back"
   },
   "icu:calling__call-again": {
-    "messageformat": "Telepon lagi"
+    "messageformat": "Call again"
   },
   "icu:calling__join": {
-    "messageformat": "Bergabung Panggilan"
+    "messageformat": "Join call"
   },
   "icu:calling__return": {
-    "messageformat": "Kembali ke Panggilan"
+    "messageformat": "Return to call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Mikrofon dibisukan karena ukuran panggilan"
@@ -2637,10 +2634,10 @@
     "messageformat": "Tolak"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Anda menolak panggilan suara"
+    "messageformat": "Declined voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Anda menolak panggilan video"
+    "messageformat": "Declined video call"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Panggilan suara masuk"
@@ -2673,10 +2670,10 @@
     "messageformat": "Signal akan terus berjalan di area notifikasi. Anda dapat mengubahnya di pengaturan Signal."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Panggilan suara masuk…"
+    "messageformat": "Incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Panggilan video masuk…"
+    "messageformat": "Incoming video call"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Panggilan suara keluar"
@@ -2721,7 +2718,7 @@
     "messageformat": "{count, plural, other {{count,number} orang}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Panggilan audio"
+    "messageformat": "Voice call"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Tautan panggilan"
@@ -2784,16 +2781,16 @@
     "messageformat": "{people, plural, other {{people,number} dalam panggilan}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "Panggilan grup telah berakhir"
+    "messageformat": "The video call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "Panggilan grup dimulai"
+    "messageformat": "A video call was started"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "Anda memulai panggilan grup"
+    "messageformat": "You started a video call"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} memulai panggilan grup"
+    "messageformat": "{name} started a video call"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Anda telah berada dalam panggilan"
@@ -5436,6 +5433,9 @@
   "icu:CallsList__ItemCallInfo--Missed": {
     "messageformat": "Panggilan Tidak Terjawab"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Panggilan grup"
   },
@@ -5449,7 +5449,7 @@
     "messageformat": "Tinggalkan panggilan saat ini?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "Anda harus tinggalkan panggilan saat ini sebelum gabung ke panggilan baru."
+    "messageformat": "You must leave the current call before starting or joining a new call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Tinggalkan panggilan"
@@ -5481,8 +5481,29 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Tautan panggilan"
   },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call"
+  },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Gabung"
+  },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Salin tautan"
@@ -5499,17 +5520,23 @@
   "icu:CallLinkEditModal__AddCallNameLabel": {
     "messageformat": "Tambahkan nama panggilan"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Setujui semua anggota"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Nonaktif"
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
+    "messageformat": "Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "Aktif"
+  "icu:CallLinkRestrictionsSelect__Option--On": {
+    "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Tambahkan nama panggilan"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Nama panggilan"
@@ -5554,10 +5581,13 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.17--0": {
-    "messageformat": "Kami memperbaiki bug yang terkadang membuat Signal tidak bisa membuka penampil stiker jika Anda mencoba membuka tautan paket stiker saat aplikasi tertutup."
-  },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Rilis ini mempercepat proses penghapusan utas pesan berukuran besar."
+  },
+  "icu:WhatsNew__v7.19--0": {
+    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+  },
+  "icu:WhatsNew__v7.19--1": {
+    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
   }
 }

@@ -87,10 +87,10 @@
     "messageformat": "தரவை மீட்டெடு"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "OS குறியாக்க கீரிங் பின்தளம் {previousBackend} -இலிருந்து {currentBackend} -க்கு மாறியதால் தரவுத்தளக் குறியாக்க விசையை அணுக முடியவில்லை. உதாரணமாக GNOME மற்றும் KDE க்கு இடையில் போன்ற டெஸ்க்டாப் சூழல் மாறினால் இது நிகழலாம்.\n\nமுந்தைய டெஸ்க்டாப் சூழலுக்கு மாறவும்."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "OS குறியாக்க கீரிங் பின்தளம் {previousBackend} -இலிருந்து {currentBackend}-க்கு மாறியதால் தரவுத்தளக் குறியாக்க விசையை அணுக முடியவில்லை. உதாரணமாக GNOME மற்றும் KDE க்கு இடையில் போன்ற டெஸ்க்டாப் சூழல் மாறினால் இது நிகழலாம்.\n\nமுந்தைய டெஸ்க்டாப் சூழலுக்கு மாறவும் அல்லது சிக்னலைக் கட்டளை வரி கொடி --password-store=\"{previousBackendFlag}\" என அமைத்து இயக்க முயற்சிக்கவும்"
   },
   "icu:mainMenuFile": {
     "messageformat": "&கோப்பு"
@@ -831,13 +831,13 @@
     "messageformat": "சிக்னலைப் புதுப்பிக்க முடியவில்லை. அதை கைமுறையாக நிறுவ{retry} அல்லது {url}-ஐ பார்வையிடவும். பின்னர், இந்த பிரச்சனை பற்றி {support}"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "சிக்னலை புதுப்பிக்க இயலவில்லை. <retryUpdateButton>புதுப்பிப்பை மீண்டும் முயற்சிக்கவும்</retryUpdateButton> அல்லது கைமுறையாக நிறுவ, {url} என்ற இணைப்பைப் பார்வையிடவும். பின்னர், இந்தச் சிக்கலுக்காக <contactSupportLink>ஆதரவைத் தொடர்பு கொள்ளவும்</contactSupportLink>"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "சிக்னலைப் புதுப்பிக்க முடியவில்லை. அதை கைமுறையாக நிறுவ {url}-ஐ பார்வையிடவும். பின்னர், இந்த பிரச்சனை பற்றி {support}"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "சிக்னலைப் புதுப்பிக்க இயலவில்லை. கைமுறையாக நிறுவ, {url} என்ற இணைப்பைப் பார்வையிடவும். பின்னர், இந்தச் சிக்கலுக்காக <contactSupportLink>ஆதரவைத் தொடர்பு கொள்ளவும்</contactSupportLink>"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop டெஸ்க்டாப் ஒரு macOS தனிமைப்படுத்தலில் இருக்கலாம், அதனால் தானாக புதுப்பிக்க முடியாது.  {app} பயன்பாட்டை {folder} கோப்புறையில் Finder மூலம் நகர்த்த முயற்சிக்கவும்."
@@ -1113,7 +1113,7 @@
     "messageformat": "இணைக்கப்பட்ட சாதனங்கள்"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "புதிய சாதனத்தை இணைக்கவும்"
   },
   "icu:Install__learn-more": {
     "messageformat": "மேலும் அறிக"
@@ -1131,10 +1131,7 @@
     "messageformat": "அமைப்புகள்"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
-  },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "QR குறியீட்டை ஏற்ற முடியவில்லை. உங்கள் இணையத்தைச் சரிபார்த்து மீண்டும் முயலவும். <retry>மீண்டும் முயல்க</retry>"
+    "messageformat": "{linkNewDevice} என்பதை அழுத்தவும்"
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "QR குறியீட்டை ஏற்ற முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்."
@@ -1203,16 +1200,16 @@
     "messageformat": "அழைக்கிறது"
   },
   "icu:calling__call-back": {
-    "messageformat": "மீண்டும் அழைக்கவும்"
+    "messageformat": "Call back"
   },
   "icu:calling__call-again": {
-    "messageformat": "மீண்டும் அழை"
+    "messageformat": "Call again"
   },
   "icu:calling__join": {
-    "messageformat": "அழைப்பில் சேர்"
+    "messageformat": "Join call"
   },
   "icu:calling__return": {
-    "messageformat": "அழைப்புக்குத் திரும்பு"
+    "messageformat": "Return to call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "அழைப்பின் அளவு காரணமாக மைக்ரோஃபோன் ஒலியடக்கப்பட்டது"
@@ -2637,10 +2634,10 @@
     "messageformat": "மறு"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "குரல் அழைப்பை மறுத்துவிட்டீர்கள்"
+    "messageformat": "Declined voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "காணொளி அழைப்பை மறுத்துவிட்டீர்கள்"
+    "messageformat": "Declined video call"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "உள்வரும் குரல் அழைப்பு"
@@ -2673,10 +2670,10 @@
     "messageformat": "அறிவிப்புகள் பகுதியில் சிக்னல் தொடர்ந்து இயங்கும். சிக்னல் அமைப்புகளில் நீங்கள் இதை மாற்றலாம்."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "இன்கமிங் குரல் அழைப்பு..."
+    "messageformat": "Incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "இன்கமிங் வீடியோ அழைப்பு…"
+    "messageformat": "Incoming video call"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "வெளிச்செல்லும் குரல் அழைப்பு"
@@ -2721,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} நபர்} other {{count,number} நபர்கள்}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "ஆடியோ அழைப்பு"
+    "messageformat": "Voice call"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "அழைப்பு இணைப்பு"
@@ -2784,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} அழைப்பில்} other {{people,number} அழைப்பில்}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "தி குழு அழைப்பு முடிந்தது"
+    "messageformat": "The video call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "அ குழு அழைப்பு இருந்தது தொடங்கியது"
+    "messageformat": "A video call was started"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "நீங்கள் ஒரு தொடங்கினீர்கள் குழு அழைப்பு"
+    "messageformat": "You started a video call"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} ஒரு தொடங்கியது குழு அழைப்பு"
+    "messageformat": "{name} started a video call"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "நீங்கள் ஏற்கனவே அழைப்பில் உள்ளீர்கள்"
@@ -5436,6 +5433,9 @@
   "icu:CallsList__ItemCallInfo--Missed": {
     "messageformat": "தவறவிட்டவை"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "குழு அழைப்பு"
   },
@@ -5449,7 +5449,7 @@
     "messageformat": "தற்போதைய அழைப்பிலிருந்து வெளியேறுகிறீர்களா?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "புதிய அழைப்பில் சேர்வதற்கு முன் தற்போதைய அழைப்பிலிருந்து வெளியேற வேண்டும்."
+    "messageformat": "You must leave the current call before starting or joining a new call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "அழைப்பிலிருந்து வெளியேறு"
@@ -5481,8 +5481,29 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "அழைப்பு இணைப்பு"
   },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call"
+  },
   "icu:CallLinkDetails__Join": {
     "messageformat": "இணைக"
+  },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "இணைப்பை நகலெடு"
@@ -5499,17 +5520,23 @@
   "icu:CallLinkEditModal__AddCallNameLabel": {
     "messageformat": "அழைப்பின் பெயரைச் சேர்க்கவும்"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "அனைத்து உறுப்பினர்களையும் அங்கீகரிக்கவும்"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "அணை"
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
+    "messageformat": "Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "இயக்கு"
+  "icu:CallLinkRestrictionsSelect__Option--On": {
+    "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "அழைப்பின் பெயரைச் சேர்க்கவும்"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "அழைப்புப் பெயர்"
@@ -5554,10 +5581,13 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.17--0": {
-    "messageformat": "செயலி மூடப்பட்டிருக்கும் போது ஸ்டிக்கர் பேக் இணைப்பைத் திறக்க முயற்சி செய்யும்போது, சில சமயங்களில் சிக்னல் ஸ்டிக்கர் வியூவரைத் தொடங்குவதைத் தடுக்கும் பிழையை நாங்கள் சரிசெய்துள்ளோம்."
-  },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "இந்த வெளியீடு பெரிய மெசேஜ் திரட்களை அழிக்கும் செயல்முறையைத் துரிதப்படுத்துகிறது."
+  },
+  "icu:WhatsNew__v7.19--0": {
+    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+  },
+  "icu:WhatsNew__v7.19--1": {
+    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
   }
 }

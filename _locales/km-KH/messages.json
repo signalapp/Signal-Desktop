@@ -87,10 +87,10 @@
     "messageformat": "ស្តារទិន្នន័យ"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "មិនអាចចូលប្រើកូដអ៊ីនគ្រីបមូលដ្ឋានទិន្នន័យបានទេ ដោយសារផ្នែកខាងក្រោយនៃកម្មវិធីឃីរីងអ៊ីនគ្រីប OS បានផ្លាស់ប្តូរពី {previousBackend} ទៅ {currentBackend}។ វាអាចកើតឡើងប្រសិនបើអ៊ីនធើហ្វេសរបស់ Desktop ផ្លាស់ប្តូរ ឧទាហរណ៍រវាង GNOME និង KDE។\n\nសូមប្តូរទៅអ៊ីនធើហ្វេសរបស់ Desktop ពីមុន។"
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "មិនអាចចូលប្រើកូដអ៊ីនគ្រីបមូលដ្ឋានទិន្នន័យបានទេ ដោយសារផ្នែកខាងក្រោយនៃកម្មវិធីឃីរីងអ៊ីនគ្រីប OS បានផ្លាស់ប្តូរពី {previousBackend} ទៅ {currentBackend}។ វាអាចកើតឡើងប្រសិនបើអ៊ីនធើហ្វេសរបស់ Desktop ផ្លាស់ប្តូរ ឧទាហរណ៍រវាង GNOME និង KDE។\n\nសូមប្តូរទៅអ៊ីនធើហ្វេសរបស់ Desktop ពីមុន ឬព្យាយាមដំណើរការ Signal ជាមួយពាក្យបញ្ជា flag --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&ឯកសារ"
@@ -831,13 +831,13 @@
     "messageformat": "Signal មិនអាចដំឡើងកំណែបានទេ។ {retry} ឬចូលទៅកាន់ {url} ដើម្បីដំឡើងវាដោយផ្ទាល់។ បន្ទាប់មក {support} អំពីបញ្ហានេះ"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal មិនអាចដំឡើងកំណែបានទេ។ <retryUpdateButton>សាកល្បងដំឡើងកំណែម្តងទៀត</retryUpdateButton> ឬចូលទៅកាន់ {url} ដើម្បីដំឡើងវាដោយដៃ។ បន្ទាប់មក<contactSupportLink>ទាក់ទងផ្នែកជំនួយ</contactSupportLink>អំពីបញ្ហានេះ"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal មិនអាចដំឡើងកំណែបានទេ។ ចូលទៅកាន់ {url}ដើម្បីដំឡើងវាដោយផ្ទាល់។ បន្ទាប់មក {support} អំពីបញ្ហានេះ"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Signal មិនអាចដំឡើងកំណែបានទេ។ ចូលទៅកាន់ {url} ដើម្បីដំឡើងវាដោយដៃ។ បន្ទាប់មក<contactSupportLink>ទាក់ទងផ្នែកជំនួយ</contactSupportLink>អំពីបញ្ហានេះ"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop ហាក់ដូចជាត្រូវបានដាក់ដាច់គេនៅ macOS និងមិនអាចធ្វើបច្ចុប្បន្នភាពដោយស្វ័យប្រវត្តិបានទេ។​ សូមសាកល្បងផ្លាស់ប្តូរ {app} ទៅ {folder} ជាមួយ Finder។"
@@ -1113,7 +1113,7 @@
     "messageformat": "ឧបករណ៍បានតភ្ជាប់"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "ភ្ជាប់ឧបករណ៍ថ្មី"
   },
   "icu:Install__learn-more": {
     "messageformat": "សិក្សាបន្ថែម"
@@ -1131,10 +1131,7 @@
     "messageformat": "ការកំណត់"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
-  },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "កូដ QR មិនអាចផ្ទុកបានទេ។ សូមមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។ <retry>ព្យាយាមម្តងទៀត</retry>"
+    "messageformat": "ចុច {linkNewDevice}"
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "កូដ QR មិនអាចផ្ទុកបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។"
@@ -1203,16 +1200,16 @@
     "messageformat": "ការហៅ"
   },
   "icu:calling__call-back": {
-    "messageformat": "ហៅទៅវិញ"
+    "messageformat": "Call back"
   },
   "icu:calling__call-again": {
-    "messageformat": "ហៅម្តងទៀត"
+    "messageformat": "Call again"
   },
   "icu:calling__join": {
-    "messageformat": "ចូលរួមការហៅ"
+    "messageformat": "Join call"
   },
   "icu:calling__return": {
-    "messageformat": "ត្រឡប់ទៅការហៅវិញ"
+    "messageformat": "Return to call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "មីក្រូហ្វូនត្រូវបានបិទសំឡេងដោយសារមានមនុស្សច្រើនចូលរួមក្នុងការហៅ"
@@ -2637,10 +2634,10 @@
     "messageformat": "បដិសេធ"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "អ្នកមិនព្រមទទួលការហៅជាសំឡេង"
+    "messageformat": "Declined voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "អ្នកបានបដិសេធការហៅជាវីដេអូ"
+    "messageformat": "Declined video call"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "ការហៅចូលជាសំឡេង"
@@ -2673,10 +2670,10 @@
     "messageformat": "Signal នឹងបន្តដំណើរការក្នុងទំព័រជូនដំណឹង។ អ្នកអាចផ្លាស់ប្តូរវាបាននៅក្នុងការកំណត់របស់ Signal។"
   },
   "icu:incomingAudioCall": {
-    "messageformat": "ការហៅចូលជាសំឡេង…"
+    "messageformat": "Incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "ការហៅចូលជាវីដេអូ…"
+    "messageformat": "Incoming video call"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "ការហៅចេញជាសំឡេង"
@@ -2721,7 +2718,7 @@
     "messageformat": "{count, plural, other {មនុស្ស {count,number} នាក់}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "ការហៅជាសំឡេង"
+    "messageformat": "Voice call"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "តំណសម្រាប់ការហៅ"
@@ -2784,16 +2781,16 @@
     "messageformat": "{people, plural, other {{people,number} នាក់នៅក្នុងការហៅ}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "ការហៅជាក្រុមត្រូវបានបញ្ចប់"
+    "messageformat": "The video call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "ការហៅជាក្រុមត្រូវបានចាប់ផ្តើម"
+    "messageformat": "A video call was started"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "អ្នកបានចាប់ផ្តើមការហៅជាក្រុម"
+    "messageformat": "You started a video call"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} ចាប់ផ្តើមការហៅជាក្រុម"
+    "messageformat": "{name} started a video call"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "អ្នកស្ថិតនៅក្នុងការហៅទូរសព្ទស្រាប់ហើយ"
@@ -5436,6 +5433,9 @@
   "icu:CallsList__ItemCallInfo--Missed": {
     "messageformat": "ខកមិនបានទទួល"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "ការហៅជាក្រុម"
   },
@@ -5449,7 +5449,7 @@
     "messageformat": "ចាកចេញពីការហៅបច្ចុប្បន្នឬ?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "អ្នកត្រូវតែចាកចេញពីការហៅបច្ចុប្បន្ន មុនពេលចូលរួមការហៅថ្មី។"
+    "messageformat": "You must leave the current call before starting or joining a new call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "បិទការហៅ"
@@ -5481,8 +5481,29 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "តំណសម្រាប់ការហៅ"
   },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call"
+  },
   "icu:CallLinkDetails__Join": {
     "messageformat": "ចូលរួម"
+  },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "ចម្លងតំណ"
@@ -5499,17 +5520,23 @@
   "icu:CallLinkEditModal__AddCallNameLabel": {
     "messageformat": "ដាក់ឈ្មោះសម្រាប់ការហៅ"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "អនុញ្ញាតសមាជិកទាំងអស់"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "បិទ"
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
+    "messageformat": "Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "បើក"
+  "icu:CallLinkRestrictionsSelect__Option--On": {
+    "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "ដាក់ឈ្មោះសម្រាប់ការហៅ"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "ឈ្មោះសម្រាប់ការហៅ"
@@ -5554,10 +5581,13 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.17--0": {
-    "messageformat": "យើងចង់ឱ្យអ្វីៗកាន់តែរលូន និងលឿនជាងមុនសម្រាប់អ្នកចុចស្ទីកគ័រ ដូច្នេះយើងបានដោះស្រាយបញ្ហាមួយដែលជួនកាលធ្វើឱ្យ Signal មិនអាចបើកដំណើរការមុខងារមើលស្ទីកគ័របាន ប្រសិនបើអ្នកព្យាយាមបើកតំណកញ្ចប់ស្ទីកគ័រពេលដែលកម្មវិធីបិទទៅហើយ។"
-  },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "ការចេញផ្សាយនេះបង្កើនល្បឿននៃដំណើរការលុបប្រវត្តិសារសន្ទនាវែងៗ។"
+  },
+  "icu:WhatsNew__v7.19--0": {
+    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+  },
+  "icu:WhatsNew__v7.19--1": {
+    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
   }
 }

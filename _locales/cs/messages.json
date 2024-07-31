@@ -87,10 +87,10 @@
     "messageformat": "Obnovit data"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment."
+    "messageformat": "Nelze použít šifrovací klíč databáze, protože backend šifrovacího klíče operačního systému se změnil z {previousBackend} na {currentBackend}. Stává se to při změně prostředí, například mezi prostředím GNOME a KDE.\n\nPřepněte na předchozí desktopové prostředí."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Unable to access the database encryption key because the OS encryption keyring backend has changed from {previousBackend} to {currentBackend}. This can occur if the desktop environment changes, for example between GNOME and KDE.\n\nPlease switch to the previous desktop environment or try to run signal with the command line flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Nelze použít šifrovací klíč databáze, protože backend šifrovacího klíče operačního systému se změnil z {previousBackend} na {currentBackend}. Stává se to při změně prostředí, například mezi prostředím GNOME a KDE.\n\nPřepněte prosím na předchozí desktopové prostředí nebo zkuste spustit aplikaci Signal s příznakem příkazového řádku --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Soubor"
@@ -831,13 +831,13 @@
     "messageformat": "Signal se nepodařilo aktualizavoat. {retry} nebo navštivte {url} pro manuální instalaci. A pak o svém problému napište na {support}."
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Aplikaci Signal nebylo možné aktualizovat. <retryUpdateButton>Zkuste aktualizaci opakovat</retryUpdateButton> nebo navštivte {url} a nainstalujte ji ručně. Poté <contactSupportLink>kontaktujte podporu</contactSupportLink> ohledně tohoto problému"
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal se nepodařilo aktualizovat. Navštivte {url} pro manuální instalaci. A pak o problému napište na {support}."
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem"
+    "messageformat": "Aplikaci Signal nebylo možné aktualizovat. Navštivte {url} a nainstalujte ji ručně. Poté <contactSupportLink>kontaktujte podporu</contactSupportLink> ohledně tohoto problému"
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop je pravděpodobně v karanténě macOS a nebude schopen se sám aktualizovat. Zkuste přesunout {app} do {folder} pomocí aplikace Finder."
@@ -1113,7 +1113,7 @@
     "messageformat": "Propojená zařízení"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Link a New Device"
+    "messageformat": "Propojit nové zařízení"
   },
   "icu:Install__learn-more": {
     "messageformat": "Zjistit více"
@@ -1131,10 +1131,7 @@
     "messageformat": "Nastavení"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Tap {linkNewDevice}"
-  },
-  "icu:Install__qr-failed-load": {
-    "messageformat": "QR kód se nepodařilo načíst. Zkontrolujte své připojení k internetu a zkuste to znovu. <retry>Zkusit znovu</retry>"
+    "messageformat": "Klikněte na {linkNewDevice}"
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "QR kód se nepodařilo načíst. Zkontrolujte připojení k internetu a zkuste to znovu."
@@ -1203,16 +1200,16 @@
     "messageformat": "Volání"
   },
   "icu:calling__call-back": {
-    "messageformat": "Zavolat zpět"
+    "messageformat": "Call back"
   },
   "icu:calling__call-again": {
-    "messageformat": "Zavolat znovu"
+    "messageformat": "Call again"
   },
   "icu:calling__join": {
-    "messageformat": "Připojit se k hovoru"
+    "messageformat": "Join call"
   },
   "icu:calling__return": {
-    "messageformat": "Zpátky k hovoru"
+    "messageformat": "Return to call"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Mikrofon ztlumen kvůli velkému počtu lidí v hovoru"
@@ -2637,10 +2634,10 @@
     "messageformat": "Odmítnout"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Odmítli jste hlasový hovor"
+    "messageformat": "Declined voice call"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Odmítli jste videohovor"
+    "messageformat": "Declined video call"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Příchozí hlasový hovor"
@@ -2673,10 +2670,10 @@
     "messageformat": "Signal bude dál běžet v oznamovací oblasti. To můžete změnit v nastavení aplikace Signal."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Příchozí hlasový hovor…"
+    "messageformat": "Incoming voice call"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Příchozí videohovor…"
+    "messageformat": "Incoming video call"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Odchozí hlasový hovor"
@@ -2721,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} člověk} few {{count,number} lidé} many {{count,number} lidí} other {{count,number} lidí}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Hlasový hovor"
+    "messageformat": "Voice call"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Odkaz na hovor"
@@ -2784,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} v hovoru} few {{people,number} v hovoru} many {{people,number} v hovoru} other {{people,number} v hovoru}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "Skupinový hovor skončil"
+    "messageformat": "The video call has ended"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "Skupinový hovor byl zahájen"
+    "messageformat": "A video call was started"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "Zahájili jste skupinový hovor"
+    "messageformat": "You started a video call"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} zahájil/a skupinový hovor"
+    "messageformat": "{name} started a video call"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Již jste v hovoru"
@@ -5436,6 +5433,9 @@
   "icu:CallsList__ItemCallInfo--Missed": {
     "messageformat": "Zmeškané"
   },
+  "icu:CallsList__ItemCallInfo--Declined": {
+    "messageformat": "Declined"
+  },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Skupinový hovor"
   },
@@ -5449,7 +5449,7 @@
     "messageformat": "Ukončit stávající hovor?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "Před připojením k novému hovoru musíte ukončit stávající hovor."
+    "messageformat": "You must leave the current call before starting or joining a new call."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Opustit hovor"
@@ -5481,8 +5481,29 @@
   "icu:CallHistory__Description--Adhoc": {
     "messageformat": "Odkaz na hovor"
   },
+  "icu:CallHistory__DescriptionVideoCall--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Missed": {
+    "messageformat": "Missed video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Unanswered": {
+    "messageformat": "Unanswered video call"
+  },
+  "icu:CallHistory__DescriptionVideoCall--Declined": {
+    "messageformat": "Declined video call"
+  },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Připojit"
+  },
+  "icu:CallLinkDetails__AddCallNameLabel": {
+    "messageformat": "Add call name"
+  },
+  "icu:CallLinkDetails__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
+  "icu:CallLinkDetails__ApproveAllMembersLabel": {
+    "messageformat": "Approve all members"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Zkopírovat odkaz"
@@ -5499,17 +5520,23 @@
   "icu:CallLinkEditModal__AddCallNameLabel": {
     "messageformat": "Přidat název hovoru"
   },
+  "icu:CallLinkEditModal__EditCallNameLabel": {
+    "messageformat": "Edit call name"
+  },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Schválit všechny členy"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--Off": {
-    "messageformat": "Vypnout"
+  "icu:CallLinkRestrictionsSelect__Option--Off": {
+    "messageformat": "Off"
   },
-  "icu:CallLinkEditModal__ApproveAllMembers__Option--On": {
-    "messageformat": "Zapnout"
+  "icu:CallLinkRestrictionsSelect__Option--On": {
+    "messageformat": "On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Přidat název hovoru"
+  },
+  "icu:CallLinkAddNameModal__Title--Edit": {
+    "messageformat": "Edit call name"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Název hovoru"
@@ -5554,10 +5581,13 @@
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.17--0": {
-    "messageformat": "Opravili jsme chybu, která občas bránila aplikaci Signal spustit prohlížeč nálepek, když jste se pokusili otevřít odkaz na balíček s nálepkami, zatímco byla aplikace zavřená."
-  },
   "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads."
+    "messageformat": "Toto vydání urychluje proces mazání velkých vláken zpráv."
+  },
+  "icu:WhatsNew__v7.19--0": {
+    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+  },
+  "icu:WhatsNew__v7.19--1": {
+    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
   }
 }
