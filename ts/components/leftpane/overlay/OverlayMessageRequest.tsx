@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';

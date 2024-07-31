@@ -1,4 +1,3 @@
-import React from 'react';
 import { Item, Menu } from 'react-contexify';
 
 import { useSelector } from 'react-redux';

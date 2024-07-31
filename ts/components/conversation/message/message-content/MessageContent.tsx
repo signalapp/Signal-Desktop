@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import moment from 'moment';
-import React, { useCallback, useLayoutEffect, useState } from 'react';
+import { MouseEvent, useCallback, useLayoutEffect, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -40,7 +40,7 @@ type Props = {
 
 // TODO not too sure what is this doing? It is not preventDefault()
 // or stopPropagation() so I think this is never cancelling a click event?
-function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>) {
+function onClickOnMessageInnerContainer(event: MouseEvent<HTMLDivElement>) {
   const selection = window.getSelection();
   // Text is being selected
   if (selection && selection.type === 'Range') {

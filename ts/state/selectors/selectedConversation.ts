@@ -1,7 +1,7 @@
 import { isString } from 'lodash';
 import { useSelector } from 'react-redux';
 import { useUnreadCount } from '../../hooks/useParamSelector';
-import { ConversationTypeEnum, isOpenOrClosedGroup } from '../../models/conversationAttributes';
+import { isOpenOrClosedGroup } from '../../models/conversationAttributes';
 import {
   DisappearingMessageConversationModeType,
   DisappearingMessageConversationModes,
@@ -17,6 +17,7 @@ import {
   getSelectedMessageIds,
 } from './conversations';
 import { getCanWrite, getModerators, getSubscriberCount } from './sogsRoomInfo';
+import { ConversationTypeEnum } from '../../models/types';
 
 /**
  * Returns the formatted text for notification setting.

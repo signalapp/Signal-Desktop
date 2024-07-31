@@ -7,6 +7,7 @@ import {
   stringToUint8Array,
   toHex,
 } from '../../utils/String';
+import { NotFoundError } from '../../utils/errors';
 import { OnsResolveSubRequest } from './SnodeRequestTypes';
 import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';
@@ -57,7 +58,7 @@ async function getSessionIDForOnsName(onsNameCase: string) {
     const intermediate = parsedBody?.result;
 
     if (!intermediate || !intermediate?.encrypted_value) {
-      throw new Error('ONSresolve: no encrypted_value');
+      throw new NotFoundError('ONSresolve: no encrypted_value');
     }
     const hexEncodedCipherText = intermediate?.encrypted_value;
 
@@ -103,7 +104,7 @@ async function getSessionIDForOnsName(onsNameCase: string) {
       throw new Error('ONSresolve: Validation failed');
     }
 
-    // assert all the returned session ids are the same
+    // assert all the returned account ids are the same
     if (_.uniq(allResolvedSessionIds).length !== 1) {
       throw new Error('ONSresolve: Validation failed');
     }

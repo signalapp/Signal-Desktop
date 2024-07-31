@@ -10,7 +10,6 @@ import {
 } from 'libsession_util_nodejs';
 import { from_hex } from 'libsodium-wrappers-sumo';
 import { isEmpty, isEqual } from 'lodash';
-import { CONVERSATION_PRIORITIES } from '../../../models/conversationAttributes';
 import { HexKeyPair } from '../../../receiver/keypairs';
 import { fromHexToArray } from '../../../session/utils/String';
 import {
@@ -20,6 +19,7 @@ import {
 } from '../../../types/sqlSharedTypes';
 import { sqlNode } from '../../sql';
 import { checkTargetMigration, hasDebugEnvVariable } from '../utils';
+import { CONVERSATION_PRIORITIES } from '../../../models/types';
 
 const targetVersion = 34;
 

@@ -1,134 +1,16 @@
-// //////////////////////////////////////////////
-// /////////////////// Fonts ////////////////////
-// //////////////////////////////////////////////
-
-@font-face {
-  font-family: SpaceMono;
-  src: url('../fonts/SpaceMono-Regular.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url('../fonts/Roboto-Thin.ttf') format('truetype');
-  font-weight: 100;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url('../fonts/Roboto-ThinItalic.ttf') format('truetype');
-  font-style: italic;
-  font-weight: 100;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url('../fonts/Roboto-Light.ttf') format('truetype');
-  font-weight: 300;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url('../fonts/Roboto-LightItalic.ttf') format('truetype');
-  font-style: italic;
-  font-weight: 300;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url('../fonts/Roboto-Regular.ttf') format('truetype');
-  font-weight: 400;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url('../fonts/Roboto-Italic.ttf') format('truetype');
-  font-style: italic;
-  font-weight: 400;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url('../fonts/Roboto-Medium.ttf') format('truetype');
-  font-weight: 500;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url('../fonts/Roboto-MediumItalic.ttf') format('truetype');
-  font-style: italic;
-  font-weight: 500;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url('../fonts/Roboto-Bold.ttf') format('truetype');
-  font-weight: 700;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url('../fonts/Roboto-BoldItalic.ttf') format('truetype');
-  font-weight: 700;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url('../fonts/Roboto-Black.ttf') format('truetype');
-  font-weight: 900;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url('../fonts/Roboto-BlackItalic.ttf') format('truetype');
-  font-weight: 900;
-  font-style: italic;
-}
-
-// Accented font
-@font-face {
-  font-family: Loor; // Loor does not support some Cyrillic ghyphs so where we use it, we add a fallback to Roboto
-  src: url('../fonts/Loor.ttf') format('truetype');
-  line-height: 1.4rem;
-}
-
-// //////////////////////////////////////////////
-// /////////////////// Text /////////////////////
-// //////////////////////////////////////////////
-
-// Sizing
-$session-font-xs: 11px;
-$session-font-sm: 13px;
-$session-font-md: 15px;
-
 // Mixins
 
 @mixin text-highlight($color) {
   background-color: $color;
-  padding: $session-margin-xs $session-margin-sm;
+  padding: var(--margins-xs) var(--margins-sm);
   border-radius: 3px;
   display: inline-block;
 }
 
-@mixin pulse-color($color, $duration, $repetition) {
-  animation: pulseColor $duration $repetition;
-
-  @keyframes pulseColor {
-    0% {
-      transform: scale(0.95);
-      box-shadow: 0 0 0 0 rgba($color, 0.7);
-    }
-
-    70% {
-      transform: scale(1);
-      box-shadow: 0 0 0 10px rgba($color, 0);
-    }
-
-    100% {
-      transform: scale(0.95);
-      box-shadow: 0 0 0 0 rgba($color, 0);
-    }
-  }
+@mixin color-svg($svg, $color) {
+  -webkit-mask: url($svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: $color;
 }
 
 $session-subtle-factor: 0.6;
@@ -136,21 +18,6 @@ $session-subtle-factor: 0.6;
 @function subtle($color) {
   @return rgba($color, $session-subtle-factor);
 }
-
-// //////////////////////////////////////////////
-// ////////////////// Sizing ////////////////////
-// //////////////////////////////////////////////
-
-// Various Components
-$session-modal-size-sm: 220px;
-$session-modal-size-md: 400px;
-$session-modal-size-lg: 650px;
-
-// Spacing
-$session-margin-xs: 5px;
-$session-margin-sm: 10px;
-$session-margin-md: 15px;
-$session-margin-lg: 20px;
 
 // Animations
 

@@ -1,10 +1,11 @@
 import classNames from 'classnames';
 import { isNil } from 'lodash';
-import React, { useCallback } from 'react';
+import { MouseEvent, ReactNode, useCallback } from 'react';
 import { contextMenu } from 'react-contexify';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { CSSProperties } from 'styled-components';
 import { Avatar, AvatarSize } from '../../avatar/Avatar';
 
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
@@ -24,17 +25,12 @@ import {
 } from '../../../hooks/useParamSelector';
 import { isSearching } from '../../../state/selectors/search';
 import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
+import { SpacerXS } from '../../basic/Text';
 import { MemoConversationListItemContextMenu } from '../../menu/ConversationListItemContextMenu';
 import { ConversationListItemHeaderItem } from './HeaderItem';
 import { MessageItem } from './MessageItem';
 
-type PropsHousekeeping = {
-  style?: object;
-};
-
-type Props = { conversationId: string } & PropsHousekeeping;
-
-const Portal = ({ children }: { children: React.ReactNode }) => {
+const Portal = ({ children }: { children: ReactNode }) => {
   return createPortal(children, document.querySelector('.inbox.index') as Element);
 };
 
@@ -65,8 +61,9 @@ const AvatarItem = () => {
     </div>
   );
 };
+type Props = { conversationId: string; style?: CSSProperties };
 
-const ConversationListItemInner = (props: Props) => {
+export const ConversationListItem = (props: Props) => {
   const { conversationId, style } = props;
   const key = `conversation-item-${conversationId}`;
 
@@ -88,7 +85,7 @@ const ConversationListItemInner = (props: Props) => {
   const triggerId = `${key}-ctxmenu`;
 
   const openConvo = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
+    (e: MouseEvent<HTMLDivElement>) => {
       // mousedown is invoked sooner than onClick, but for both right and left click
       if (e.button === 0) {
         void openConversationWithMessages({ conversationKey: conversationId, messageId: null });
@@ -125,7 +122,12 @@ const ConversationListItemInner = (props: Props) => {
           <AvatarItem />
           <div className="module-conversation-list-item__content">
             <ConversationListItemHeaderItem />
-            <MessageItem />
+            {!isSearch ? (
+              <>
+                <SpacerXS />
+                <MessageItem />
+              </>
+            ) : null}
           </div>
         </div>
         <Portal>
@@ -135,5 +137,3 @@ const ConversationListItemInner = (props: Props) => {
     </ContextConversationProvider>
   );
 };
-
-export const ConversationListItem = ConversationListItemInner;

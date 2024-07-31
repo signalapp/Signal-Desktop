@@ -1,6 +1,5 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-case-declarations */
-import { isEmpty, isNull } from 'lodash';
 import {
   BaseConfigWrapperNode,
   BlindingWrapperNode,
@@ -9,6 +8,7 @@ import {
   UserConfigWrapperNode,
   UserGroupsWrapperNode,
 } from 'libsession_util_nodejs';
+import { isEmpty, isNull } from 'lodash';
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import { ConfigWrapperObjectTypes } from '../../browser/libsession_worker_functions';
 
@@ -121,6 +121,36 @@ function initUserWrapper(options: Array<any>, wrapperType: ConfigWrapperObjectTy
   }
 }
 
+/**
+ * This function is used to free wrappers from memory only
+ *
+ * NOTE only use this function for wrappers that have not been saved to the database.
+ *
+ * EXAMPLE When restoring an account and fetching the display name of a user. We want to fetch a UserProfile config message and make a temporary wrapper for it in order to look up the display name.
+ */
+function freeUserWrapper(wrapperType: ConfigWrapperObjectTypes) {
+  const userWrapperType = assertUserWrapperType(wrapperType);
+
+  switch (userWrapperType) {
+    case 'UserConfig':
+      userProfileWrapper = undefined;
+      break;
+    case 'ContactsConfig':
+      contactsConfigWrapper = undefined;
+      break;
+    case 'UserGroupsConfig':
+      userGroupsConfigWrapper = undefined;
+      break;
+    case 'ConvoInfoVolatileConfig':
+      convoInfoVolatileConfigWrapper = undefined;
+      break;
+    default:
+      assertUnreachable(
+        userWrapperType,
+        `freeUserWrapper: Missing case error "${userWrapperType}"`
+      );
+  }
+}
 onmessage = async (e: {
   data: [number, ConfigWrapperObjectTypes | 'Blinding', string, ...any];
 }) => {
@@ -134,6 +164,15 @@ onmessage = async (e: {
         initUserWrapper(args, config);
       }
       postMessage([jobId, null, null]);
+      return;
+    }
+
+    if (action === 'free') {
+      if (config !== 'Blinding') {
+        freeUserWrapper(config);
+      }
+      postMessage([jobId, null, null]);
+
       return;
     }
 

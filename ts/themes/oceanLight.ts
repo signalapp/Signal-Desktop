@@ -25,9 +25,12 @@ export const oceanLight: ThemeColorVariables = {
   '--message-bubbles-sent-text-color': 'var(--text-primary-color)',
   '--message-bubbles-received-text-color': 'var(--text-primary-color)',
 
-  '--menu-button-background-color': 'var(--primary-color)',
-  '--menu-button-background-hover-color': THEMES.OCEAN_LIGHT.COLOR3,
-  '--menu-button-icon-color': THEMES.OCEAN_LIGHT.COLOR1,
+  '--menu-button-background-color': 'transparent',
+  '--menu-button-background-hover-color': 'var(--primary-color)',
+  '--menu-button-icon-color': 'var(--primary-color)',
+  '--menu-button-icon-hover-color': THEMES.OCEAN_LIGHT.COLOR5,
+  '--menu-button-border-color': 'var(--primary-color)',
+  '--menu-button-border-hover-color': 'var(--primary-color)',
 
   '--chat-buttons-background-color': THEMES.OCEAN_LIGHT.COLOR5,
   '--chat-buttons-background-hover-color': THEMES.OCEAN_LIGHT.COLOR3,
@@ -54,6 +57,10 @@ export const oceanLight: ThemeColorVariables = {
   '--button-solid-text-hover-color': 'var(--text-primary-color)',
   '--button-solid-disabled-color': THEMES.OCEAN_LIGHT.COLOR4,
   '--button-solid-shadow-color': `rgba(${hexColorToRGB(THEMES.OCEAN_LIGHT.COLOR0)}, 0.25)`,
+
+  '--button-ghost-background-color': 'none',
+  '--button-ghost-background-hover-color': THEMES.OCEAN_LIGHT.COLOR6,
+  '--button-ghost-disabled-color': 'none',
 
   '--button-simple-text-color': 'var(--text-primary-color)',
   '--button-simple-disabled-color': 'var(--disabled-color)',
@@ -156,4 +163,6 @@ export const oceanLight: ThemeColorVariables = {
 
   '--file-dropzone-background-color': 'var(--message-link-preview-background-color)',
   '--file-dropzone-border-color': 'var(--text-primary-color)',
+
+  '--session-recording-pulse-color': hexColorToRGB(THEMES.OCEAN_LIGHT.DANGER),
 };

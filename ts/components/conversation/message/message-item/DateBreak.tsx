@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React from 'react';
+
 import styled from 'styled-components';
 
 const DateBreakContainer = styled.div``;

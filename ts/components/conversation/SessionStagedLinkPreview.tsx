@@ -1,15 +1,13 @@
-import React from 'react';
-// eslint-disable-next-line import/no-named-default
-import { default as insecureNodeFetch } from 'node-fetch';
 import { AbortSignal } from 'abort-controller';
+import insecureNodeFetch from 'node-fetch';
 import { StagedLinkPreviewData } from './composition/CompositionBox';
 
 import { arrayBufferFromFile } from '../../types/Attachment';
+import { getImageDimensions } from '../../types/attachments/VisualAttachment';
 import { AttachmentUtil, LinkPreviewUtil } from '../../util';
 import { fetchLinkPreviewImage } from '../../util/linkPreviewFetch';
-import { StagedLinkPreview } from './StagedLinkPreview';
-import { getImageDimensions } from '../../types/attachments/VisualAttachment';
 import { LinkPreviews } from '../../util/linkPreviews';
+import { StagedLinkPreview } from './StagedLinkPreview';
 
 export interface StagedLinkPreviewProps extends StagedLinkPreviewData {
   onClose: (url: string) => void;

@@ -1,11 +1,10 @@
 import Backbone from 'backbone';
 import _ from 'lodash';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import nativeEmojiData from '@emoji-mart/data';
 import { ipcRenderer } from 'electron';
 // eslint-disable-next-line import/no-named-default
-import { default as React } from 'react';
 
 import { isMacOS } from '../OS';
 import { SessionInboxView } from '../components/SessionInboxView';
@@ -285,11 +284,9 @@ async function start() {
   window.log.info('Cleanup: complete');
 
   window.log.info('listening for registration events');
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  WhisperEvents.on('registration_done', async () => {
-    window.log.info('handling registration event');
-
-    await connect();
+  WhisperEvents.on('registration_done', () => {
+    window.log.info('[onboarding] handling registration event');
+    void connect();
   });
 
   function switchBodyToRtlIfNeeded() {
@@ -310,14 +307,19 @@ async function start() {
     void getConversationController()
       .loadPromise()
       ?.then(() => {
-        ReactDOM.render(<SessionInboxView />, document.getElementById('root'));
+        const container = document.getElementById('root');
+        const root = createRoot(container!);
+        root.render(<SessionInboxView />);
       });
   }
 
   function showRegistrationView() {
-    ReactDOM.render(<SessionRegistrationView />, document.getElementById('root'));
+    const container = document.getElementById('root');
+    const root = createRoot(container!);
+    root.render(<SessionRegistrationView />);
     switchBodyToRtlIfNeeded();
   }
+
   DisappearingMessages.initExpiringMessageListener();
 
   if (Registration.isDone() && !isSignInByLinking()) {
@@ -404,7 +406,10 @@ async function start() {
     window.showWindow();
     if (conversationKey) {
       // do not put the messageId here so the conversation is loaded on the last unread instead
-      await window.openConversationWithMessages({ conversationKey, messageId: null });
+      await window.openConversationWithMessages({
+        conversationKey,
+        messageId: null,
+      });
     } else {
       openInbox();
     }
@@ -506,90 +511,3 @@ function onEmpty() {
 
   Notifications.enable();
 }
-
-class TextScramble {
-  private frame: any;
-  private queue: any;
-  private readonly el: any;
-  private readonly chars: any;
-  private resolve: any;
-  private frameRequest: any;
-
-  constructor(el: any) {
-    this.el = el;
-    this.chars = '0123456789abcdef';
-    this.update = this.update.bind(this);
-  }
-
-  public async setText(newText: string) {
-    const oldText = this.el.value;
-    const length = Math.max(oldText.length, newText.length);
-    // eslint-disable-next-line no-return-assign, no-promise-executor-return
-    const promise = new Promise(resolve => (this.resolve = resolve));
-    this.queue = [];
-
-    for (let i = 0; i < length; i++) {
-      const from = oldText[i] || '';
-      const to = newText[i] || '';
-      const startNumber = Math.floor(Math.random() * 40);
-      const end = startNumber + Math.floor(Math.random() * 40);
-      this.queue.push({
-        from,
-        to,
-        start: startNumber,
-        end,
-      });
-    }
-
-    cancelAnimationFrame(this.frameRequest);
-    this.frame = 0;
-    this.update();
-    return promise;
-  }
-
-  public update() {
-    let output = '';
-    let complete = 0;
-
-    for (let i = 0, n = this.queue.length; i < n; i++) {
-      const { from, to, start: startNumber, end } = this.queue[i];
-      let { char } = this.queue[i];
-
-      if (this.frame >= end) {
-        complete++;
-        output += to;
-      } else if (this.frame >= startNumber) {
-        if (!char || Math.random() < 0.28) {
-          char = this.randomChar();
-          this.queue[i].char = char;
-        }
-        output += char;
-      } else {
-        output += from;
-      }
-    }
-
-    this.el.value = output;
-
-    if (complete === this.queue.length) {
-      this.resolve();
-    } else {
-      this.frameRequest = requestAnimationFrame(this.update);
-      this.frame++;
-    }
-  }
-
-  public randomChar() {
-    return this.chars[Math.floor(Math.random() * this.chars.length)];
-  }
-}
-window.Session = window.Session || {};
-
-window.Session.setNewSessionID = (sessionID: string) => {
-  const el = document.querySelector('.session-id-editable-textarea');
-  const fx = new TextScramble(el);
-  if (el) {
-    (el as any).value = sessionID;
-  }
-  void fx.setText(sessionID);
-};

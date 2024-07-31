@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
+import { useEffect, useState } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import useInterval from 'react-use/lib/useInterval';
 import useTimeoutFn from 'react-use/lib/useTimeoutFn';
@@ -41,8 +42,7 @@ import {
   getFreshSwarmFor,
 } from '../../session/apis/snode_api/snodePool';
 import { ConfigurationSync } from '../../session/utils/job_runners/jobs/ConfigurationSyncJob';
-import { isDarkTheme } from '../../state/selectors/theme';
-import { ensureThemeConsistency } from '../../themes/SessionTheme';
+import { useIsDarkTheme } from '../../state/selectors/theme';
 import { switchThemeTo } from '../../themes/switchTheme';
 import { ReleasedFeatures } from '../../util/releaseFeature';
 import { getOppositeTheme } from '../../util/theme';
@@ -54,7 +54,7 @@ const Section = (props: { type: SectionType }) => {
   const dispatch = useDispatch();
   const { type } = props;
 
-  const isDarkMode = useSelector(isDarkTheme);
+  const isDarkTheme = useIsDarkTheme();
   const focusedSection = useSelector(getFocusedSection);
   const isSelected = focusedSection === props.type;
 
@@ -131,7 +131,7 @@ const Section = (props: { type: SectionType }) => {
       return (
         <SessionIconButton
           iconSize="medium"
-          iconType={isDarkMode ? 'moon' : 'sun'}
+          iconType={isDarkTheme ? 'moon' : 'sun'}
           dataTestId="theme-section"
           onClick={handleClick}
           isSelected={isSelected}
@@ -142,30 +142,7 @@ const Section = (props: { type: SectionType }) => {
 
 const cleanUpMediasInterval = DURATION.MINUTES * 60;
 
-const setupTheme = async () => {
-  const shouldFollowSystemTheme = window.getSettingValue(SettingsKey.hasFollowSystemThemeEnabled);
-  const theme = window.Events.getThemeSetting();
-  const themeConfig = {
-    theme,
-    mainWindow: true,
-    usePrimaryColor: true,
-    dispatch: window?.inboxStore?.dispatch || undefined,
-  };
-
-  if (shouldFollowSystemTheme) {
-    // Check if system theme matches currently set theme, if not switch it and return true, if matching return false
-    const wasThemeSwitched = await ensureThemeConsistency();
-    if (!wasThemeSwitched) {
-      // if theme wasn't switched them set theme to default
-      await switchThemeTo(themeConfig);
-    }
-    return;
-  }
-
-  await switchThemeTo(themeConfig);
-};
-
-// Do this only if we created a new Session ID, or if we already received the initial configuration message
+// Do this only if we created a new account id, or if we already received the initial configuration message
 const triggerSyncIfNeeded = async () => {
   const us = UserUtils.getOurPubKeyStrFromCache();
   await getConversationController().get(us).setDidApproveMe(true, true);
@@ -192,7 +169,6 @@ const triggerAvatarReUploadIfNeeded = async () => {
  * This function is called only once: on app startup with a logged in user
  */
 const doAppStartUp = async () => {
-  void setupTheme();
   // this generates the key to encrypt attachments locally
   await Data.generateAttachmentKeyIfEmpty();
 

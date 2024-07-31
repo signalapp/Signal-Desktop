@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React from 'react';
 
 import useUpdate from 'react-use/lib/useUpdate';
 import { SettingsKey } from '../../../data/settings-key';
-import { ConversationTypeEnum } from '../../../models/conversationAttributes';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG } from '../../basic/Text';
@@ -19,6 +17,7 @@ import {
 import { Storage } from '../../../util/storage';
 import { SessionSettingButtonItem, SessionToggleWithDescription } from '../SessionSettingListItem';
 import { displayPasswordModal } from '../SessionSettings';
+import { ConversationTypeEnum } from '../../../models/types';
 
 async function toggleLinkPreviews(isToggleOn: boolean, forceUpdate: () => void) {
   if (!isToggleOn) {
@@ -110,7 +109,7 @@ export const SettingsCategoryPrivacy = (props: {
 
       {!props.hasPassword ? (
         <SessionSettingButtonItem
-          title={window.i18n('setAccountPasswordTitle')}
+          title={window.i18n('lockApp')}
           description={window.i18n('setAccountPasswordDescription')}
           onClick={() => {
             displayPasswordModal('set', props.onPasswordUpdated);

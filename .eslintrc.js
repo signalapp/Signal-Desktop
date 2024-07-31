@@ -23,7 +23,7 @@ module.exports = {
     'airbnb-base',
     'prettier',
     'plugin:@typescript-eslint/recommended',
-    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
     'plugin:import/recommended',
     'plugin:import/typescript',
@@ -79,7 +79,7 @@ module.exports = {
     // make imports without file extensions
     'import/extensions': ['warn', 'never'],
 
-    // NOTE Remove this line when debugging cyclic dependencies
+    // NOTE Comment out this line when debugging cyclic dependencies / circular imports
     'import/no-cycle': 'off',
 
     // Prettier overrides:
@@ -120,6 +120,19 @@ module.exports = {
         comments: 200,
         ignoreUrls: true,
         ignoreRegExpLiterals: true,
+      },
+    ],
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          // There is an issue with the current version of react-use where it requires an arbitrary 'Locale' package on the window object which causes random app crashes on startup in some cases
+          {
+            name: 'react-use',
+            message:
+              "Don't import from 'react-use' directly. Please use a default import for each hook from 'react-use/lib' instead.",
+          },
+        ],
       },
     ],
   },

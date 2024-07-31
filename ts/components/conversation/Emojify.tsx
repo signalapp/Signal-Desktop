@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { SizeClassType } from '../../util/emoji';
 
 import { RenderTextCallbackType } from '../../types/Util';

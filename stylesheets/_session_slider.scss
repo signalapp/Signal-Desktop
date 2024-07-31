@@ -38,7 +38,7 @@
 
   height: 8px;
   border-radius: 6px;
-  margin: 0px 0px 0px -1px;
+  margin: 0px;
 }
 .rc-slider-handle {
   transition: var(--default-duration);
@@ -48,7 +48,6 @@
   cursor: pointer;
   cursor: -webkit-grab;
   margin-top: -9.5px;
-  margin-left: -2.3px;
   cursor: grab;
   border-radius: 4px;
   background-color: var(--zoom-bar-thumb-color);
@@ -97,32 +96,24 @@
   height: 4px;
   top: -4px;
   background: transparent;
+  margin-left: -3px;
 }
 .rc-slider-dot {
   position: absolute;
   bottom: -2px;
-  margin-left: -4px;
   width: 3px;
   height: 6px;
   background: var(--zoom-bar-interval-color);
-
+  margin-left: 3px;
   cursor: pointer;
   border-radius: 2px;
   vertical-align: middle;
 }
-.rc-slider-dot:first-child {
-  margin-left: -2px;
-}
-.rc-slider-dot:last-child {
-  margin-right: -2px;
-}
+
 .rc-slider-dot-active {
   border-color: var(--primary-color);
 }
-.rc-slider-dot-reverse {
-  margin-left: 0;
-  margin-right: -4px;
-}
+
 .rc-slider-disabled {
   background-color: var(--zoom-bar-track-color);
 }

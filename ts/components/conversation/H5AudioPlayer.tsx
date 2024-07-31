@@ -1,11 +1,11 @@
 // Audio Player
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import H5AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 import { setNextMessageToPlayId } from '../../state/ducks/conversations';
-import { useMessageSelected } from '../../state/selectors';
+import { useMessageDirection, useMessageSelected } from '../../state/selectors';
 import {
   getNextMessageToPlayId,
   getSortedMessagesOfSelectedConversation,
@@ -166,36 +166,12 @@ export const AudioPlayerWithEncryptedFile = (props: {
   const nextMessageToPlayId = useSelector(getNextMessageToPlayId);
   const multiSelectMode = useSelector(isMessageSelectionMode);
   const selected = useMessageSelected(messageId);
-
+  const direction = useMessageDirection(messageId);
+  const iconColor =
+    direction === 'incoming'
+      ? 'var(--message-bubbles-received-text-color)'
+      : 'var(--message-bubbles-sent-text-color)';
   const dataTestId = `audio-${messageId}`;
-
-  useEffect(() => {
-    // Updates datatestId once rendered
-    if (
-      player.current?.audio.current &&
-      player.current?.container.current &&
-      player.current.container.current.dataset.testId !== dataTestId
-    ) {
-      // NOTE we can't assign the value using dataset.testId because the result is data-test-id not data-testid which is our convention
-      player.current.container.current.setAttribute('data-testid', dataTestId);
-    }
-  }, [dataTestId, player]);
-
-  useEffect(() => {
-    // updates playback speed to value selected in context menu
-    if (
-      player.current?.audio.current &&
-      player.current?.audio.current?.playbackRate !== playbackSpeed
-    ) {
-      player.current.audio.current.playbackRate = playbackSpeed;
-    }
-  }, [playbackSpeed, player]);
-
-  useEffect(() => {
-    if (messageId !== undefined && messageId === nextMessageToPlayId) {
-      void player.current?.audio.current?.play();
-    }
-  }, [messageId, nextMessageToPlayId, player]);
 
   const triggerPlayNextMessageIfNeeded = (endedMessageId: string) => {
     const justEndedMessageIndex = messageProps.findIndex(
@@ -237,6 +213,34 @@ export const AudioPlayerWithEncryptedFile = (props: {
     }
   };
 
+  useEffect(() => {
+    // Updates datatestId once rendered
+    if (
+      player.current?.audio.current &&
+      player.current?.container.current &&
+      player.current.container.current.dataset.testId !== dataTestId
+    ) {
+      // NOTE we can't assign the value using dataset.testId because the result is data-test-id not data-testid which is our convention
+      player.current.container.current.setAttribute('data-testid', dataTestId);
+    }
+  }, [dataTestId, player]);
+
+  useEffect(() => {
+    // updates playback speed to value selected in context menu
+    if (
+      player.current?.audio.current &&
+      player.current?.audio.current?.playbackRate !== playbackSpeed
+    ) {
+      player.current.audio.current.playbackRate = playbackSpeed;
+    }
+  }, [playbackSpeed, player]);
+
+  useEffect(() => {
+    if (messageId !== undefined && messageId === nextMessageToPlayId) {
+      void player.current?.audio.current?.play();
+    }
+  }, [messageId, nextMessageToPlayId, player]);
+
   return (
     <StyledH5AudioPlayer
       src={urlToLoad}
@@ -264,8 +268,8 @@ export const AudioPlayerWithEncryptedFile = (props: {
         </StyledSpeedButton>,
       ]}
       customIcons={{
-        play: <SessionIcon iconType="play" iconSize="small" />,
-        pause: <SessionIcon iconType="pause" iconSize="small" />,
+        play: <SessionIcon iconType="play" iconSize="small" iconColor={iconColor} />,
+        pause: <SessionIcon iconType="pause" iconSize="small" iconColor={iconColor} />,
       }}
       dropShadow={selected}
     />

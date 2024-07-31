@@ -1,10 +1,10 @@
 import { isArray } from 'lodash';
 import pRetry from 'p-retry';
-import { Snode } from '../../../data/data';
+import { Snode } from '../../../data/types';
+import { SwarmForSubRequest } from './SnodeRequestTypes';
 import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';
 import { getRandomSnode } from './snodePool';
-import { SwarmForSubRequest } from './SnodeRequestTypes';
 
 function buildSwarmForSubRequests(pubkey: string): Array<SwarmForSubRequest> {
   return [{ method: 'get_swarm', params: { pubkey } }];

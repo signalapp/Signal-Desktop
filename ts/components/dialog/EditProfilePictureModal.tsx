@@ -1,37 +1,39 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { clearOurAvatar, uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { ToastUtils } from '../../session/utils';
 import { editProfileModal, updateEditProfilePictureModel } from '../../state/ducks/modalDialog';
+import type { EditProfilePictureModalProps } from '../../types/ReduxTypes';
 import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { SessionSpinner } from '../basic/SessionSpinner';
 import { SpacerLG } from '../basic/Text';
 import { SessionIconButton } from '../icon';
-import { ProfileAvatar } from './EditProfileDialog';
-import type { EditProfilePictureModalProps } from '../../types/ReduxTypes';
+import { SessionSpinner } from '../loading';
+import { ProfileAvatar } from './edit-profile/components';
 
 const StyledAvatarContainer = styled.div`
   cursor: pointer;
 `;
+
+const StyledUploadButton = styled.div`
+  background-color: var(--chat-buttons-background-color);
+  border-radius: 50%;
+  overflow: hidden;
+`;
+
 const UploadImageButton = () => {
   return (
     <div style={{ position: 'relative' }}>
-      <div style={{ borderRadius: '50%', overflow: 'hidden' }}>
-        <SessionIconButton
-          iconType="thumbnail"
-          iconSize="max"
-          iconPadding="16px"
-          backgroundColor="var(--chat-buttons-background-color)"
-        />
-      </div>
+      <StyledUploadButton>
+        <SessionIconButton iconType="thumbnail" iconSize={80} iconPadding="16px" />
+      </StyledUploadButton>
       <SessionIconButton
         iconType="plusFat"
-        iconSize="medium"
+        iconSize={23}
         iconColor="var(--modal-background-content-color)"
-        iconPadding="4.5px"
+        iconPadding="5px"
         borderRadius="50%"
         backgroundColor="var(--primary-color)"
         style={{ position: 'absolute', bottom: 0, right: 0 }}
@@ -109,6 +111,7 @@ export const EditProfilePictureModal = (props: EditProfilePictureModalProps) => 
       title={window.i18n('setDisplayPicture')}
       onClose={closeDialog}
       showHeader={true}
+      headerReverse={true}
       showExitIcon={true}
     >
       <div

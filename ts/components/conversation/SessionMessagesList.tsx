@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import useKey from 'react-use/lib/useKey';
@@ -7,11 +7,9 @@ import {
   PropsForMessageRequestResponse,
 } from '../../models/messageType';
 import {
-  PropsForCallNotification,
   PropsForExpirationTimer,
   PropsForGroupInvitation,
   PropsForGroupUpdate,
-  PropsForInteractionNotification,
 } from '../../state/ducks/conversations';
 import {
   getOldBottomMessageId,
@@ -31,6 +29,7 @@ import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 import { TimerNotification } from './TimerNotification';
 import { DataExtractionNotification } from './message/message-item/DataExtractionNotification';
 import { InteractionNotification } from './message/message-item/InteractionNotification';
+import { PropsForCallNotification, PropsForInteractionNotification } from '../../state/ducks/types';
 
 function isNotTextboxEvent(e: KeyboardEvent) {
   return (e?.target as any)?.type === undefined;

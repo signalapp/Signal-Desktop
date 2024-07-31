@@ -93,13 +93,13 @@ textarea {
   font-weight: bold;
   width: 100%;
   display: flex;
-  font-size: $session-font-md;
+  font-size: var(--font-size-md);
 
   &-text {
     color: var(--text-primary-color);
     font-weight: 400;
-    font-size: $session-font-sm;
-    line-height: $session-font-sm;
+    font-size: var(--font-size-sm);
+    line-height: var(--font-size-sm);
   }
 
   .module-contact-name {
@@ -174,7 +174,7 @@ label {
   z-index: 150;
   min-width: 300px;
   box-sizing: border-box;
-  max-height: 70vh;
+  max-height: 90vh;
   max-width: calc(min(70vw, 800px));
   font-family: var(--font-default);
   background-color: var(--modal-background-content-color);
@@ -188,72 +188,24 @@ label {
   flex-direction: column;
 
   &__header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-    padding: var(--margins-lg);
-
     font-family: var(--font-default);
-    text-align: center;
-    line-height: 18px;
     font-size: var(--font-size-lg);
     font-weight: 500;
-
-    &.reverse {
-      flex-direction: row-reverse;
-
-      .session-modal__header__close > div {
-        float: right;
-      }
-
-      .session-modal__header__icons > div {
-        float: left;
-        padding-inline-start: 0px;
-        padding-inline-end: 10px;
-      }
-    }
-
-    &__icons,
-    &__close {
-      width: 60px;
-    }
-    &__icons {
-      float: right;
-    }
-    &__close > div {
-      float: left;
-      padding: var(--margins-xs);
-      margin: 0px;
-    }
-    &__icons > div {
-      float: right;
-      padding-inline-start: 10px;
-    }
+    text-align: center;
+    line-height: 18px;
   }
 
   &__body {
     padding: 0px var(--margins-lg) var(--margins-lg) var(--margins-lg);
     font-family: var(--font-default);
-    line-height: $session-font-md;
-    font-size: $session-font-md;
+    line-height: var(--font-size-md);
+    font-size: var(--font-size-md);
     overflow-y: auto;
     overflow-x: hidden;
 
     .message {
       text-align: center;
     }
-
-    .session-id-editable {
-      width: 30vw;
-      max-width: 400px;
-    }
-  }
-
-  .group-member-list__selection {
-    overflow-y: auto;
-    width: 100%;
   }
 
   &__centered {
@@ -288,9 +240,9 @@ label {
 
     color: var(--black-color);
 
-    font-family: monospace;
+    font-family: var(--font-mono);
     font-style: normal;
-    font-size: $session-font-xs;
+    font-size: var(--font-size-xs);
   }
 }
 
@@ -307,7 +259,7 @@ label {
   }
 
   &-main-message {
-    font-size: $session-font-md;
+    font-size: var(--font-size-md);
     line-height: 1.5;
   }
 
@@ -418,21 +370,6 @@ label {
   }
 }
 
-.qr-image {
-  display: flex;
-  justify-content: center;
-
-  background: var(--white-color);
-  padding: 0.5rem;
-  svg {
-    width: 135px;
-    height: 135px;
-    border-radius: 3px;
-    padding: var(--margins-xs);
-    background-color: var(--white-color);
-  }
-}
-
 .conversation-loader {
   position: absolute;
   top: 50%;
@@ -444,64 +381,6 @@ label {
   }
 }
 
-.session-loader {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
-  flex-shrink: 0;
-
-  div {
-    position: absolute;
-    top: 33px;
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    background: var(--primary-color);
-    animation-timing-function: cubic-bezier(0, 1, 1, 0);
-  }
-  div:nth-child(1) {
-    left: 8px;
-    animation: session-loader1 0.6s infinite;
-  }
-  div:nth-child(2) {
-    left: 8px;
-    animation: session-loader2 0.6s infinite;
-  }
-  div:nth-child(3) {
-    left: 32px;
-    animation: session-loader2 0.6s infinite;
-  }
-  div:nth-child(4) {
-    left: 56px;
-    animation: session-loader3 0.6s infinite;
-  }
-  @keyframes session-loader1 {
-    0% {
-      transform: scale(0);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-  @keyframes session-loader3 {
-    0% {
-      transform: scale(1);
-    }
-    100% {
-      transform: scale(0);
-    }
-  }
-  @keyframes session-loader2 {
-    0% {
-      transform: translate(0, 0);
-    }
-    100% {
-      transform: translate(24px, 0);
-    }
-  }
-}
-
 .session-settings {
   width: 100%;
   height: 100%;
@@ -510,49 +389,8 @@ label {
   background-color: var(--background-secondary-color);
 }
 
-#qr svg,
-.qr-image svg {
-  width: $session-modal-size-sm;
-  height: $session-modal-size-sm;
-  padding: var(--margins-xs);
-  background-color: var(--white-color);
-  border-radius: 3px;
-}
-
 .messages li {
   transition: var(--default-duration) !important;
-}
-
-.session-id-editable {
-  padding: var(--margins-lg);
-  background: var(--input-background-color);
-  color: var(--input-text-color);
-
-  textarea {
-    width: 30vh;
-  }
-}
-.session-id-editable textarea {
-  resize: none;
-  overflow: hidden;
-  user-select: all;
-  overflow-y: auto;
-  padding: 0px 5px 20px 5px;
-
-  &.session-id-editable-textarea:placeholder-shown {
-    height: 38px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 5px;
-    padding-right: 5px;
-    font-family: var(--font-default);
-    color: var(--input-text-placeholder-color);
-  }
-
-  &.group-id-editable-textarea {
-    margin-top: 15px;
-    white-space: nowrap;
-  }
 }
 
 input {
@@ -562,7 +400,10 @@ input {
 .contact-selection-list {
   display: flex;
   flex-direction: column;
-  width: 20vw;
+  width: 400px;
+  max-height: 240px;
+  overflow-y: auto;
+  margin: var(--margins-sm);
 }
 
 .session-confirm-wrapper {
@@ -573,32 +414,6 @@ input {
 
   .session-modal {
     margin: auto auto;
-  }
-}
-
-.group-member-list {
-  &__selection {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-.create-group-name-input {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-
-  .session-id-editable {
-    height: 60px !important;
-
-    textarea {
-      padding-bottom: 0px !important;
-    }
-
-    &-disabled {
-      border: 1px solid var(--border-color) !important;
-    }
   }
 }
 

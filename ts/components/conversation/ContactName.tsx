@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import { CSSProperties } from 'react';
 
 import {
   useIsPrivate,
@@ -28,7 +28,7 @@ export const ContactName = (props: Props) => {
     'min-width': 0,
     'text-overflow': 'ellipsis',
     overflow: 'hidden',
-  } as React.CSSProperties;
+  } as CSSProperties;
 
   const styles = (
     boldProfileName
@@ -37,7 +37,7 @@ export const ContactName = (props: Props) => {
           ...commonStyles,
         }
       : commonStyles
-  ) as React.CSSProperties;
+  ) as CSSProperties;
   const textProfile = profileName || name || convoName || window.i18n('anonymous');
 
   return (

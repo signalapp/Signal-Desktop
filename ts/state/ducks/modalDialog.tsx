@@ -1,5 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { EnterPasswordModalProps } from '../../components/dialog/EnterPasswordModal';
+import { HideRecoveryPasswordDialogProps } from '../../components/dialog/HideRecoveryPasswordDialog';
 import { SessionConfirmDialogProps } from '../../components/dialog/SessionConfirm';
+import { MediaItemType } from '../../components/lightbox/LightboxGallery';
+import { AttachmentTypeWithPath } from '../../types/Attachment';
 import type { EditProfilePictureModalProps, PasswordAction } from '../../types/ReduxTypes';
 
 export type BanType = 'ban' | 'unban';
@@ -18,7 +22,7 @@ export type UpdateGroupNameModalState = InviteContactModalState;
 export type ChangeNickNameModalState = InviteContactModalState;
 export type EditProfileModalState = object | null;
 export type OnionPathModalState = EditProfileModalState;
-export type RecoveryPhraseModalState = EditProfileModalState;
+export type EnterPasswordModalState = EnterPasswordModalProps | null;
 export type DeleteAccountModalState = EditProfileModalState;
 
 export type SessionPasswordModalState = { passwordAction: PasswordAction; onOk: () => void } | null;
@@ -36,6 +40,15 @@ export type ReactModalsState = {
 
 export type EditProfilePictureModalState = EditProfilePictureModalProps | null;
 
+export type HideRecoveryPasswordModalState = HideRecoveryPasswordDialogProps | null;
+
+export type LightBoxOptions = {
+  media: Array<MediaItemType>;
+  attachment: AttachmentTypeWithPath;
+  selectedIndex?: number;
+  onClose?: () => void;
+} | null;
+
 export type ModalState = {
   confirmModal: ConfirmModalState;
   inviteContactModal: InviteContactModalState;
@@ -48,12 +61,14 @@ export type ModalState = {
   nickNameModal: ChangeNickNameModalState;
   editProfileModal: EditProfileModalState;
   onionPathModal: OnionPathModalState;
-  recoveryPhraseModal: RecoveryPhraseModalState;
+  enterPasswordModal: EnterPasswordModalState;
   sessionPasswordModal: SessionPasswordModalState;
   deleteAccountModal: DeleteAccountModalState;
   reactListModalState: ReactModalsState;
   reactClearAllModalState: ReactModalsState;
   editProfilePictureModalState: EditProfilePictureModalState;
+  hideRecoveryPasswordModalState: HideRecoveryPasswordModalState;
+  lightBoxOptions: LightBoxOptions;
 };
 
 export const initialModalState: ModalState = {
@@ -68,12 +83,14 @@ export const initialModalState: ModalState = {
   nickNameModal: null,
   editProfileModal: null,
   onionPathModal: null,
-  recoveryPhraseModal: null,
+  enterPasswordModal: null,
   sessionPasswordModal: null,
   deleteAccountModal: null,
   reactListModalState: null,
   reactClearAllModalState: null,
   editProfilePictureModalState: null,
+  hideRecoveryPasswordModalState: null,
+  lightBoxOptions: null,
 };
 
 const ModalSlice = createSlice({
@@ -113,8 +130,8 @@ const ModalSlice = createSlice({
     onionPathModal(state, action: PayloadAction<OnionPathModalState | null>) {
       return { ...state, onionPathModal: action.payload };
     },
-    recoveryPhraseModal(state, action: PayloadAction<RecoveryPhraseModalState | null>) {
-      return { ...state, recoveryPhraseModal: action.payload };
+    updateEnterPasswordModal(state, action: PayloadAction<EnterPasswordModalState | null>) {
+      return { ...state, enterPasswordModal: action.payload };
     },
     sessionPassword(state, action: PayloadAction<SessionPasswordModalState>) {
       return { ...state, sessionPasswordModal: action.payload };
@@ -131,6 +148,26 @@ const ModalSlice = createSlice({
     updateEditProfilePictureModel(state, action: PayloadAction<EditProfilePictureModalState>) {
       return { ...state, editProfilePictureModalState: action.payload };
     },
+    updateHideRecoveryPasswordModel(state, action: PayloadAction<HideRecoveryPasswordModalState>) {
+      return { ...state, hideRecoveryPasswordModalState: action.payload };
+    },
+    updateLightBoxOptions(state, action: PayloadAction<LightBoxOptions>) {
+      const lightBoxOptions = action.payload;
+
+      if (lightBoxOptions) {
+        const { media, attachment } = lightBoxOptions;
+
+        if (attachment && media) {
+          const selectedIndex =
+            media.length > 1
+              ? media.findIndex(mediaMessage => mediaMessage.attachment.path === attachment.path)
+              : 0;
+          lightBoxOptions.selectedIndex = selectedIndex;
+        }
+      }
+
+      return { ...state, lightBoxOptions };
+    },
   },
 });
 
@@ -146,12 +183,14 @@ export const {
   changeNickNameModal,
   editProfileModal,
   onionPathModal,
-  recoveryPhraseModal,
+  updateEnterPasswordModal,
   sessionPassword,
   updateDeleteAccountModal,
   updateBanOrUnbanUserModal,
   updateReactListModal,
   updateReactClearAllModal,
   updateEditProfilePictureModel,
+  updateHideRecoveryPasswordModel,
+  updateLightBoxOptions,
 } = actions;
 export const modalReducer = reducer;

@@ -115,28 +115,6 @@
   }
 }
 
-.send-message-button {
-  animation: fadein var(--default-duration);
-
-  &---scale {
-    animation: scaling 2s ease-in-out;
-
-    @keyframes scaling {
-      0% {
-        transform: scale(1);
-      }
-
-      80% {
-        transform: scale(1.3);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
-  }
-}
-
 .session-recording {
   height: var(--composition-container-height);
   display: flex;
@@ -199,16 +177,6 @@
       @media (-webkit-min-device-pixel-ratio: 1.6) {
         margin-left: auto;
       }
-    }
-
-    &-light {
-      height: var(--margins-sm);
-      width: var(--margins-sm);
-      border-radius: 50%;
-      background-color: var(--danger-color);
-      margin: 0 var(--margins-sm);
-
-      @include pulse-color(var(--danger-color), 1s, infinite);
     }
   }
 }

@@ -2,10 +2,10 @@ import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
   ConversationAttributes,
-  ConversationTypeEnum,
   fillConvoAttributesWithDefaults,
 } from '../../../../models/conversationAttributes';
 import { formatRowOfConversation } from '../../../../node/database_utility';
+import { ConversationTypeEnum } from '../../../../models/types';
 
 describe('formatRowOfConversation', () => {
   describe('isTrustedForAttachmentDownload', () => {

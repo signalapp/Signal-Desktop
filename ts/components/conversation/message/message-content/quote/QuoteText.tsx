@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash';
-import React from 'react';
+
 import styled from 'styled-components';
 import { useSelectedIsGroupOrCommunity } from '../../../../../state/selectors/selectedConversation';
 import { MIME } from '../../../../../types';

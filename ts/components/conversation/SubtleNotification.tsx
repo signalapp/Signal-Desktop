@@ -1,7 +1,6 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { useIsIncomingRequest } from '../../hooks/useParamSelector';
+import { useIsIncomingRequest, useIsOutgoingRequest } from '../../hooks/useParamSelector';
 import {
   getSelectedHasMessages,
   hasSelectedConversationIncomingMessages,
@@ -31,10 +30,32 @@ const TextInner = styled.div`
 `;
 
 /**
+ * This component is used to display a warning when the user is sending a message request.
+ *
+ */
+export const ConversationOutgoingRequestExplanation = () => {
+  const selectedConversation = useSelectedConversationKey();
+  const isOutgoingMessageRequest = useIsOutgoingRequest(selectedConversation);
+  const hasIncomingMessages = useSelector(hasSelectedConversationIncomingMessages);
+
+  const showMsgRequestUI = selectedConversation && isOutgoingMessageRequest;
+
+  if (!showMsgRequestUI || hasIncomingMessages) {
+    return null;
+  }
+
+  return (
+    <Container data-testid={'empty-conversation-control-message'} style={{ padding: 0 }}>
+      <TextInner>{window.i18n('messageRequestPendingDescription')}</TextInner>
+    </Container>
+  );
+};
+
+/**
  * This component is used to display a warning when the user is responding to a message request.
  *
  */
-export const ConversationRequestExplanation = () => {
+export const ConversationIncomingRequestExplanation = () => {
   const selectedConversation = useSelectedConversationKey();
   const isIncomingMessageRequest = useIsIncomingRequest(selectedConversation);
 
@@ -47,7 +68,7 @@ export const ConversationRequestExplanation = () => {
 
   return (
     <Container>
-      <TextInner>{window.i18n('respondingToRequestWarning')}</TextInner>
+      <TextInner>{window.i18n('messageRequestsAcceptDescription')}</TextInner>
     </Container>
   );
 };

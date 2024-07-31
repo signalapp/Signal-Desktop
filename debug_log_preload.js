@@ -14,9 +14,6 @@ const localeMessages = ipcRenderer.sendSync('locale-data');
 
 window._ = require('lodash');
 
-window.React = require('react');
-window.ReactDOM = require('react-dom');
-
 window.getVersion = () => config.version;
 window.theme = config.theme;
 window.i18n = i18n.setupi18n(locale, localeMessages);
@@ -29,7 +26,8 @@ window.getEnvironment = () => config.environment;
 
 require('./ts/util/logging');
 
-window.getOSRelease = () => `${os.type()} ${os.release} ${os.platform()}`;
+window.getOSRelease = () =>
+  `${os.type()} ${os.release()}, Node.js ${config.node_version} ${os.platform()} ${os.arch()}`;
 window.getCommitHash = () => config.commitHash;
 
 window.closeDebugLog = () => ipcRenderer.send('close-debug-log');

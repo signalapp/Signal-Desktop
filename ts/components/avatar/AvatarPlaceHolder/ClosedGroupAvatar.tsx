@@ -1,10 +1,9 @@
-import React from 'react';
 import { isEmpty } from 'lodash';
 
-import { assertUnreachable } from '../../../types/sqlSharedTypes';
-import { Avatar, AvatarSize } from '../Avatar';
 import { useIsClosedGroup, useSortedGroupMembers } from '../../../hooks/useParamSelector';
 import { UserUtils } from '../../../session/utils';
+import { assertUnreachable } from '../../../types/sqlSharedTypes';
+import { Avatar, AvatarSize } from '../Avatar';
 
 function getClosedGroupAvatarsSize(size: AvatarSize): AvatarSize {
   // Always use the size directly under the one requested

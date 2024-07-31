@@ -1,7 +1,7 @@
 import { cloneDeep, isNumber, uniq } from 'lodash';
-import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
-import { isOpenGroupV2 } from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { channels } from './channels';
+import { OpenGroupRequestCommonType, OpenGroupV2Room } from './types';
+import { isOpenGroupV2 } from '../session/apis/open_group_api/utils/OpenGroupUtils';
 
 export type OpenGroupV2RoomWithImageID = {
   serverUrl: string;
@@ -12,36 +12,6 @@ export type OpenGroupV2RoomWithImageID = {
 
   /** the fileId to the group room's image */
   imageID?: string;
-};
-
-export type OpenGroupV2Room = {
-  serverUrl: string;
-
-  /** this is actually shared for all this server's room */
-  serverPublicKey: string;
-  roomId: string;
-
-  /** a user displayed name */
-  roomName?: string;
-
-  /** the fileId of the group room's image */
-  imageID?: string;
-
-  /** the linked ConversationModel.id */
-  conversationId?: string;
-  maxMessageFetchedSeqNo?: number;
-  lastInboxIdFetched?: number;
-  lastOutboxIdFetched?: number;
-
-  /**
-   * This value is set with the current timestamp whenever we get new messages.
-   */
-  lastFetchTimestamp?: number;
-
-  /**
-   * This is shared across all rooms in a server.
-   */
-  capabilities?: Array<string>;
 };
 
 export const OpenGroupData = {

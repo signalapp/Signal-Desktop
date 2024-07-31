@@ -1,7 +1,6 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { useIsIncomingRequest } from '../../hooks/useParamSelector';
+import { useIsIncomingRequest, useIsOutgoingRequest } from '../../hooks/useParamSelector';
 import {
   approveConvoAndSendResponse,
   declineConversationWithConfirm,
@@ -10,7 +9,10 @@ import { getConversationController } from '../../session/conversations';
 import { hasSelectedConversationIncomingMessages } from '../../state/selectors/conversations';
 import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
-import { ConversationRequestExplanation } from './SubtleNotification';
+import {
+  ConversationIncomingRequestExplanation,
+  ConversationOutgoingRequestExplanation,
+} from './SubtleNotification';
 
 const ConversationRequestBanner = styled.div`
   display: flex;
@@ -18,7 +20,7 @@ const ConversationRequestBanner = styled.div`
   justify-content: center;
   padding: var(--margins-lg);
   gap: var(--margins-lg);
-  background-color: var(--background-secondary-color);
+  text-align: center;
 `;
 
 const ConversationBannerRow = styled.div`
@@ -78,45 +80,46 @@ export const ConversationMessageRequestButtons = () => {
 
   const hasIncomingMessages = useSelector(hasSelectedConversationIncomingMessages);
   const isIncomingRequest = useIsIncomingRequest(selectedConvoId);
+  const isOutgoingRequest = useIsOutgoingRequest(selectedConvoId);
 
-  if (!selectedConvoId || !hasIncomingMessages) {
-    return null;
-  }
-
-  if (!isIncomingRequest) {
+  if (!selectedConvoId || (!isIncomingRequest && !isOutgoingRequest)) {
     return null;
   }
 
   return (
     <ConversationRequestBanner>
-      <StyledBlockUserText
-        onClick={() => {
-          handleDeclineAndBlockConversationRequest(selectedConvoId, selectedConvoId);
-        }}
-        data-testid="decline-and-block-message-request"
-      >
-        {window.i18n('block')}
-      </StyledBlockUserText>
-
-      <ConversationRequestExplanation />
-
-      <ConversationBannerRow>
-        <SessionButton
-          onClick={async () => {
-            await handleAcceptConversationRequest(selectedConvoId);
-          }}
-          text={window.i18n('accept')}
-          dataTestId="accept-message-request"
-        />
-        <SessionButton
-          buttonColor={SessionButtonColor.Danger}
-          text={window.i18n('decline')}
-          onClick={() => {
-            handleDeclineConversationRequest(selectedConvoId, selectedConvoId);
-          }}
-          dataTestId="decline-message-request"
-        />
-      </ConversationBannerRow>
+      {isOutgoingRequest && !hasIncomingMessages ? (
+        <ConversationOutgoingRequestExplanation />
+      ) : (
+        <>
+          <StyledBlockUserText
+            onClick={() => {
+              handleDeclineAndBlockConversationRequest(selectedConvoId, selectedConvoId);
+            }}
+            data-testid="decline-and-block-message-request"
+          >
+            {window.i18n('block')}
+          </StyledBlockUserText>
+          <ConversationIncomingRequestExplanation />
+          <ConversationBannerRow>
+            <SessionButton
+              onClick={async () => {
+                await handleAcceptConversationRequest(selectedConvoId);
+              }}
+              text={window.i18n('accept')}
+              dataTestId="accept-message-request"
+            />
+            <SessionButton
+              buttonColor={SessionButtonColor.Danger}
+              text={window.i18n('decline')}
+              onClick={() => {
+                handleDeclineConversationRequest(selectedConvoId, selectedConvoId);
+              }}
+              dataTestId="decline-message-request"
+            />
+          </ConversationBannerRow>
+        </>
+      )}
     </ConversationRequestBanner>
   );
 };

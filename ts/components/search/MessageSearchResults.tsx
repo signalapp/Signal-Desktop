@@ -1,17 +1,20 @@
-import React from 'react';
 import styled, { CSSProperties } from 'styled-components';
 
-import { useConversationUsername, useIsPrivate } from '../../hooks/useParamSelector';
-import { MessageAttributes } from '../../models/messageType';
+import {
+  useIsPrivate,
+  useIsPublic,
+  useNicknameOrProfileNameOrShortenedPubkey,
+} from '../../hooks/useParamSelector';
+import { isUsAnySogsFromCache } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { PubKey } from '../../session/types';
 import { UserUtils } from '../../session/utils';
 import { getOurPubKeyStrFromCache } from '../../session/utils/User';
 import { openConversationToSpecificMessage } from '../../state/ducks/conversations';
+import { MessageResultProps } from '../../types/message';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { MessageBodyHighlight } from '../basic/MessageBodyHighlight';
 import { ContactName } from '../conversation/ContactName';
 import { Timestamp } from '../conversation/Timestamp';
-
-export type MessageResultProps = MessageAttributes & { snippet: string };
 
 const StyledConversationTitleResults = styled.div`
   flex-grow: 1;
@@ -121,14 +124,18 @@ const FromUserInGroup = (props: { authorPubkey: string; conversationId: string }
   const { authorPubkey, conversationId } = props;
 
   const ourKey = getOurPubKeyStrFromCache();
+  const isPublic = useIsPublic(conversationId);
   const convoIsPrivate = useIsPrivate(conversationId);
-  const authorConvoName = useConversationUsername(authorPubkey);
+  const authorConvoName = useNicknameOrProfileNameOrShortenedPubkey(authorPubkey);
 
   if (convoIsPrivate) {
     return null;
   }
 
-  if (authorPubkey === ourKey) {
+  if (
+    authorPubkey === ourKey ||
+    (isPublic && PubKey.isBlinded(authorPubkey) && isUsAnySogsFromCache(authorPubkey))
+  ) {
     return (
       <StyledConversationFromUserInGroup>{window.i18n('you')}: </StyledConversationFromUserInGroup>
     );

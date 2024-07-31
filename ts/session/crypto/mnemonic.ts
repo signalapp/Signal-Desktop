@@ -1,14 +1,55 @@
-/* eslint-disable camelcase */
 import crc32 from 'buffer-crc32';
 
-class MnemonicError extends Error {}
+class MnemonicError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = this.constructor.name; // Set the error name to the class name
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, this.constructor);
+    }
+    // restore prototype chain
+    Object.setPrototypeOf(this, MnemonicError.prototype);
+  }
+}
+
+export class NotEnoughWordsError extends MnemonicError {
+  constructor(message = "You've entered too few words, please try again") {
+    super(message);
+    // restore prototype chain
+    Object.setPrototypeOf(this, NotEnoughWordsError.prototype);
+  }
+}
+
+export class InvalidWordsError extends MnemonicError {
+  constructor(message = "You've entered too few words, please try again") {
+    super(message);
+    // restore prototype chain
+    Object.setPrototypeOf(this, InvalidWordsError.prototype);
+  }
+}
+
+export class DecodingError extends MnemonicError {
+  constructor(message = 'Something went wrong when decoding your private key, please try again') {
+    super(message);
+    // restore prototype chain
+    Object.setPrototypeOf(this, DecodingError.prototype);
+  }
+}
+
+export class VerificationError extends MnemonicError {
+  constructor(message = 'Your private key could not be verified, please verify the checksum word') {
+    super(message);
+    // restore prototype chain
+    Object.setPrototypeOf(this, VerificationError.prototype);
+  }
+}
 
 /*
- mnemonic.js : Converts between 4-byte aligned strings and a human-readable
+ mnemonic.ts : Converts between 4-byte aligned strings and a human-readable
  sequence of words. Uses 1626 common words taken from wikipedia article:
  http://en.wiktionary.org/wiki/Wiktionary:Frequency_lists/Contemporary_poetry
  Originally written in python special for Electrum (lightweight Bitcoin client).
- This version has been reimplemented in javascript and placed in public domain.
+ This version has been reimplemented in javascript and placed in public domain and has further been converted to TypeScript as part of the Session project.
  */
 
 const MN_DEFAULT_WORDSET = 'english';
@@ -60,18 +101,19 @@ export function mnDecode(str: string, wordsetName: string = MN_DEFAULT_WORDSET):
   const wlist = str.split(' ');
   let checksumWord = '';
   if (wlist.length < 12) {
-    throw new MnemonicError("You've entered too few words, please try again");
+    throw new NotEnoughWordsError();
   }
   if (
     (wordset.prefixLen === 0 && wlist.length % 3 !== 0) ||
     (wordset.prefixLen > 0 && wlist.length % 3 === 2)
   ) {
-    throw new MnemonicError("You've entered too few words, please try again");
+    throw new NotEnoughWordsError();
   }
   if (wordset.prefixLen > 0 && wlist.length % 3 === 0) {
-    throw new MnemonicError(
-      'You seem to be missing the last word in your private key, please try again'
+    window.log.error(
+      'mnDecode(): You seem to be missing the last word in your private key, please try again'
     );
+    throw new NotEnoughWordsError();
   }
   if (wordset.prefixLen > 0) {
     // Pop checksum from mnemonic
@@ -92,14 +134,12 @@ export function mnDecode(str: string, wordsetName: string = MN_DEFAULT_WORDSET):
       w3 = wordset.truncWords.indexOf(wlist[i + 2].slice(0, wordset.prefixLen));
     }
     if (w1 === -1 || w2 === -1 || w3 === -1) {
-      throw new MnemonicError('invalid word in mnemonic');
+      throw new InvalidWordsError();
     }
 
     const x = w1 + n * ((n - w1 + w2) % n) + n * n * ((n - w2 + w3) % n);
     if (x % n !== w1) {
-      throw new MnemonicError(
-        'Something went wrong when decoding your private key, please try again'
-      );
+      throw new DecodingError();
     }
     out += mn_swap_endian_4byte(`0000000${x.toString(16)}`.slice(-8));
   }
@@ -110,9 +150,7 @@ export function mnDecode(str: string, wordsetName: string = MN_DEFAULT_WORDSET):
     if (
       expectedChecksumWord.slice(0, wordset.prefixLen) !== checksumWord.slice(0, wordset.prefixLen)
     ) {
-      throw new MnemonicError(
-        'Your private key could not be verified, please verify the checksum word'
-      );
+      throw new VerificationError();
     }
   }
   return out;

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import useUpdate from 'react-use/lib/useUpdate';
 import { SettingsKey } from '../../../data/settings-key';
 import { useHasFollowSystemThemeEnabled } from '../../../state/selectors/settings';

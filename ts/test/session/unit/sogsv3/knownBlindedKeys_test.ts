@@ -2,7 +2,6 @@
 import { expect } from 'chai';
 import Sinon from 'sinon';
 import { KNOWN_BLINDED_KEYS_ITEM } from '../../../../data/settings-key';
-import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { getSodiumNode } from '../../../../node/sodiumNode';
 import {
   addCachedBlindedKey,
@@ -24,6 +23,7 @@ import { LibSodiumWrappers } from '../../../../session/crypto';
 import { UserUtils } from '../../../../session/utils';
 import { expectAsyncToThrow, stubData, stubWindowLog } from '../../../test-utils/utils';
 import { TestUtils } from '../../../test-utils';
+import { ConversationTypeEnum } from '../../../../models/types';
 
 const serverPublicKey = 'serverPublicKey';
 const blindedId = '151111';

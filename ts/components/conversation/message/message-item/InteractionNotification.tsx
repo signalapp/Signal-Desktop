@@ -1,16 +1,14 @@
-import React from 'react';
-
 import { isEmpty } from 'lodash';
 import styled from 'styled-components';
 import { useIsPrivate, useIsPublic } from '../../../../hooks/useParamSelector';
-import {
-  ConversationInteractionStatus,
-  ConversationInteractionType,
-} from '../../../../interactions/conversationInteractions';
-import { PropsForInteractionNotification } from '../../../../state/ducks/conversations';
 import { assertUnreachable } from '../../../../types/sqlSharedTypes';
 import { Flex } from '../../../basic/Flex';
 import { ReadableMessage } from './ReadableMessage';
+import {
+  ConversationInteractionStatus,
+  ConversationInteractionType,
+} from '../../../../interactions/types';
+import { PropsForInteractionNotification } from '../../../../state/ducks/types';
 
 const StyledFailText = styled.div`
   color: var(--danger-color);

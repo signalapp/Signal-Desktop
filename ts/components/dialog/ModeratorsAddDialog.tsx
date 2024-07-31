@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
+import { sogsV3AddAdmin } from '../../session/apis/open_group_api/sogsv3/sogsV3AddRemoveMods';
+import { getConversationController } from '../../session/conversations';
 import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
-import { Flex } from '../basic/Flex';
-import { getConversationController } from '../../session/conversations';
 import { updateAddModeratorsModal } from '../../state/ducks/modalDialog';
-import { SessionButton, SessionButtonType } from '../basic/SessionButton';
-import { SessionSpinner } from '../basic/SessionSpinner';
-import { SessionWrapperModal } from '../SessionWrapperModal';
-import { sogsV3AddAdmin } from '../../session/apis/open_group_api/sogsv3/sogsV3AddRemoveMods';
+import { useIsDarkTheme } from '../../state/selectors/theme';
 import { SessionHeaderSearchInput } from '../SessionHeaderSearchInput';
-import { isDarkTheme } from '../../state/selectors/theme';
+import { SessionWrapperModal } from '../SessionWrapperModal';
+import { Flex } from '../basic/Flex';
+import { SessionButton, SessionButtonType } from '../basic/SessionButton';
+import { SessionSpinner } from '../loading';
 
 type Props = {
   conversationId: string;
@@ -21,7 +21,7 @@ export const AddModeratorsDialog = (props: Props) => {
   const { conversationId } = props;
 
   const dispatch = useDispatch();
-  const darkMode = useSelector(isDarkTheme);
+  const isDarkTheme = useIsDarkTheme();
   const convo = getConversationController().get(conversationId);
 
   const [inputBoxValue, setInputBoxValue] = useState('');
@@ -85,8 +85,8 @@ export const AddModeratorsDialog = (props: Props) => {
         <p>Add Moderator:</p>
         <SessionHeaderSearchInput
           type="text"
-          darkMode={darkMode}
-          placeholder={i18n('enterSessionID')}
+          isDarkTheme={isDarkTheme}
+          placeholder={i18n('accountIdEnter')}
           dir="auto"
           onChange={onPubkeyBoxChanges}
           disabled={addingInProgress}

@@ -1,33 +1,31 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import styled from 'styled-components';
+import { Flex } from './Flex';
 
 type PillContainerProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   margin?: string;
   padding?: string;
   onClick?: () => void;
   disableHover?: boolean;
 };
 
-export const StyledPillContainerHoverable = styled.div<PillContainerProps>`
+export const StyledPillContainerHoverable = styled(Flex)<PillContainerProps>`
   background: none;
   position: relative;
-  flex-direction: 'row';
-  flex-shrink: 0;
-  min-width: 50%;
-  max-width: 100%;
   white-space: nowrap;
   text-overflow: ellipsis;
   align-items: center;
-  padding: ${props => props.padding || ''};
-  margin: ${props => props.margin || ''};
 `;
 
 const StyledPillInner = styled.div<PillContainerProps>`
   background: none;
+  width: 100%;
 
   display: flex;
   flex-direction: 'row';
+  justify-content: flex-start;
+  align-items: center;
   flex-grow: 1;
   flex-shrink: 0;
 
@@ -35,7 +33,6 @@ const StyledPillInner = styled.div<PillContainerProps>`
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  align-items: center;
   padding: ${props => props.padding || ''};
   margin: ${props => props.margin || ''};
   border-radius: 300px;

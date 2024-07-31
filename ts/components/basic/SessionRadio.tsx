@@ -1,10 +1,11 @@
-import React, { ChangeEvent } from 'react';
+import { ChangeEvent, SyntheticEvent } from 'react';
 import styled, { CSSProperties } from 'styled-components';
 import { Flex } from './Flex';
 
 const StyledButton = styled.button<{ disabled: boolean }>`
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   min-height: 30px;
+  background-color: var(--transparent-color);
 `;
 
 const StyledInput = styled.input<{
@@ -17,7 +18,7 @@ const StyledInput = styled.input<{
   width: ${props => props.filledSize + props.outlineOffset}px;
   height: ${props => props.filledSize + props.outlineOffset}px;
 
-  :checked + label:before {
+  &:checked + label:before {
     background: ${props =>
       props.disabled
         ? 'var(--disabled-color)'
@@ -37,7 +38,7 @@ const StyledLabel = styled.label<{
   cursor: pointer;
   color: ${props => (props.disabled ? 'var(--disabled-color)' : 'var(--text-primary-color)')};
 
-  :before {
+  &:before {
     content: '';
     display: inline-block;
     border-radius: 100%;
@@ -75,7 +76,7 @@ export const SessionRadio = (props: SessionRadioProps) => {
     style,
   } = props;
 
-  const clickHandler = (e: React.SyntheticEvent<any>) => {
+  const clickHandler = (e: SyntheticEvent<any>) => {
     if (!disabled && onClick) {
       // let something else catch the event if our click handler is not set
       e.stopPropagation();
@@ -138,12 +139,13 @@ const StyledInputOutlineSelected = styled(StyledInput)`
   label:before {
     outline: none;
   }
-  :checked + label:before {
+
+  &:checked + label:before {
     outline: 1px solid currentColor;
   }
 `;
 const StyledLabelOutlineSelected = styled(StyledLabel)<{ selectedColor: string }>`
-  :before {
+  &:before {
     background: ${props =>
       props.disabled
         ? 'var(--disabled-color)'

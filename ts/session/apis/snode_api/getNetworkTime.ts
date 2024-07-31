@@ -5,9 +5,9 @@
  */
 
 import { isNumber } from 'lodash';
-import { Snode } from '../../../data/data';
-import { doSnodeBatchRequest } from './batchRequest';
+import { Snode } from '../../../data/types';
 import { NetworkTimeSubRequest } from './SnodeRequestTypes';
+import { doSnodeBatchRequest } from './batchRequest';
 
 function getNetworkTimeSubRequests(): Array<NetworkTimeSubRequest> {
   const request: NetworkTimeSubRequest = { method: 'info', params: {} };

@@ -11,15 +11,13 @@ import {
 import { isEmpty, isEqual, isFinite, isNumber } from 'lodash';
 import { from_hex } from 'libsodium-wrappers-sumo';
 import { MESSAGES_TABLE, toSqliteBoolean } from '../../database_utility';
-import {
-  CONVERSATION_PRIORITIES,
-  ConversationAttributes,
-} from '../../../models/conversationAttributes';
+import { ConversationAttributes } from '../../../models/conversationAttributes';
 import { maybeArrayJSONtoArray } from '../../../types/sqlSharedTypes';
 import { checkTargetMigration, hasDebugEnvVariable } from '../utils';
 import { sqlNode } from '../../sql';
 import { HexKeyPair } from '../../../receiver/keypairs';
 import { fromHexToArray } from '../../../session/utils/String';
+import { CONVERSATION_PRIORITIES } from '../../../models/types';
 
 const targetVersion = 31;
 

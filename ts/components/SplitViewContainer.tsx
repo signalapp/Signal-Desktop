@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 type SplitViewProps = {
-  top: React.ReactElement;
-  bottom: React.ReactElement;
+  top: ReactElement;
+  bottom: ReactElement;
   disableTop: boolean;
 };
 
@@ -44,12 +44,12 @@ const TopSplitViewPanel = ({
   topHeight,
   setTopHeight,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   topHeight: number | undefined;
   setTopHeight: (value: number) => void;
 }) => {
   const topRef = useRef<HTMLDivElement>(null);
-  React.useEffect(() => {
+  useEffect(() => {
     if (topRef.current) {
       if (!topHeight) {
         setTopHeight(Math.max(MIN_HEIGHT_TOP, (topRef.current?.clientHeight || 0) / 2));
