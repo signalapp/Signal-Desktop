@@ -277,6 +277,7 @@ export const SessionInput = (props: Props) => {
   } = props;
   const [inputValue, setInputValue] = useState('');
   const [errorString, setErrorString] = useState('');
+  const [textErrorStyle, setTextErrorStyle] = useState(false);
   const [forceShow, setForceShow] = useState(false);
 
   const correctType = forceShow ? 'text' : type;
@@ -288,6 +289,7 @@ export const SessionInput = (props: Props) => {
     e.preventDefault();
     const val = e.target.value;
     setInputValue(val);
+    setTextErrorStyle(false);
     if (onValueChanged) {
       onValueChanged(val);
     }
@@ -332,7 +334,7 @@ export const SessionInput = (props: Props) => {
 
   const containerProps = {
     noValue: isEmpty(value),
-    error: Boolean(error),
+    error: textErrorStyle,
     centerText,
     textSize,
     monospaced,
@@ -342,6 +344,7 @@ export const SessionInput = (props: Props) => {
   useEffect(() => {
     if (error && !isEmpty(error) && !isEqual(error, errorString)) {
       setErrorString(error);
+      setTextErrorStyle(!!error);
     }
   }, [error, errorString]);
 
