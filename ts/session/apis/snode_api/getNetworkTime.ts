@@ -70,9 +70,16 @@ function getNowWithNetworkOffset() {
   return Date.now() - GetNetworkTime.getLatestTimestampOffset();
 }
 
+function getNowWithNetworkOffsetSeconds() {
+  // make sure to call exports here, as we stub the exported one for testing.
+
+  return Math.floor(GetNetworkTime.getNowWithNetworkOffset() / 1000);
+}
+
 export const GetNetworkTime = {
   getNetworkTime,
   handleTimestampOffsetFromNetwork,
+  getNowWithNetworkOffsetSeconds,
   getLatestTimestampOffset,
   getNowWithNetworkOffset,
 };

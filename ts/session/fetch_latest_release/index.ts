@@ -8,12 +8,6 @@ import { DURATION } from '../constants';
 import { getLatestReleaseFromFileServer } from '../apis/file_server_api/FileServerApi';
 
 /**
- * Try to fetch the latest release from the fileserver every 1 minute.
- * If we did fetch a release already in the last 30 minutes, we will skip the call.
- */
-const fetchReleaseFromFileServerInterval = DURATION.MINUTES * 1;
-
-/**
  * We don't want to hit the fileserver too often. Only often on start, and then every 30 minutes
  */
 const skipIfLessThan = DURATION.MINUTES * 30;
@@ -24,7 +18,7 @@ function resetForTesting() {
   lastFetchedTimestamp = Number.MIN_SAFE_INTEGER;
 }
 
-async function fetchReleaseFromFSAndUpdateMain() {
+async function fetchReleaseFromFSAndUpdateMain(userEd25519SecretKey: Uint8Array) {
   try {
     window.log.info('[updater] about to fetchReleaseFromFSAndUpdateMain');
     const diff = Date.now() - lastFetchedTimestamp;
@@ -35,7 +29,7 @@ async function fetchReleaseFromFSAndUpdateMain() {
       return;
     }
 
-    const justFetched = await getLatestReleaseFromFileServer();
+    const justFetched = await getLatestReleaseFromFileServer(userEd25519SecretKey);
     window.log.info('[updater] fetched latest release from fileserver: ', justFetched);
 
     if (isString(justFetched) && !isEmpty(justFetched)) {
@@ -49,7 +43,11 @@ async function fetchReleaseFromFSAndUpdateMain() {
 }
 
 export const fetchLatestRelease = {
-  fetchReleaseFromFileServerInterval,
+  /**
+   * Try to fetch the latest release from the fileserver every 1 minute.
+   * If we did fetch a release already in the last 30 minutes, we will skip the call.
+   */
+  fetchReleaseFromFileServerInterval: DURATION.MINUTES * 1,
   fetchReleaseFromFSAndUpdateMain,
   resetForTesting,
 };

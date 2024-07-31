@@ -30,9 +30,11 @@ type UserGroupsConfigFunctions =
 type ConvoInfoVolatileConfigFunctions =
   | [ConvoInfoVolatileConfig, ...BaseConfigActions]
   | [ConvoInfoVolatileConfig, ...ConvoInfoVolatileConfigActionsType];
+type BlindingFunctions = ['Blinding', ...BlindingFunctions];
 
 export type LibSessionWorkerFunctions =
   | UserConfigFunctions
   | ContactsConfigFunctions
   | UserGroupsConfigFunctions
-  | ConvoInfoVolatileConfigFunctions;
+  | ConvoInfoVolatileConfigFunctions
+  | BlindingFunctions;
