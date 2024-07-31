@@ -2,6 +2,7 @@
 /* eslint-disable no-case-declarations */
 import {
   BaseConfigWrapperNode,
+  BlindingWrapperNode,
   ContactsConfigWrapperNode,
   ConvoInfoVolatileWrapperNode,
   UserConfigWrapperNode,
@@ -55,6 +56,7 @@ function getCorrespondingWrapper(wrapperType: ConfigWrapperObjectTypes): BaseCon
         throw new Error(`${wrapperType} is not init yet`);
       }
       return wrapper;
+
     default:
       assertUnreachable(
         wrapperType,
@@ -149,32 +151,53 @@ function freeUserWrapper(wrapperType: ConfigWrapperObjectTypes) {
       );
   }
 }
-
-onmessage = async (e: { data: [number, ConfigWrapperObjectTypes, string, ...any] }) => {
+onmessage = async (e: {
+  data: [number, ConfigWrapperObjectTypes | 'Blinding', string, ...any];
+}) => {
   const [jobId, config, action, ...args] = e.data;
 
   try {
     if (action === 'init') {
-      initUserWrapper(args, config);
+      if (config === 'Blinding') {
+        // nothing to do for the blinding wrapper, all functions are static
+      } else {
+        initUserWrapper(args, config);
+      }
       postMessage([jobId, null, null]);
       return;
     }
 
     if (action === 'free') {
-      freeUserWrapper(config);
+      if (config !== 'Blinding') {
+        freeUserWrapper(config);
+      }
       postMessage([jobId, null, null]);
+
       return;
     }
 
-    const wrapper = getCorrespondingWrapper(config);
-    const fn = (wrapper as any)[action];
+    let result: any;
 
-    if (!fn) {
-      throw new Error(
-        `Worker: job "${jobId}" did not find function "${action}" on config "${config}"`
-      );
+    if (config === 'Blinding') {
+      const fn = (BlindingWrapperNode as any)[action];
+
+      if (!fn) {
+        throw new Error(
+          `Worker: job "${jobId}" did not find function "${action}" on wrapper "${config}"`
+        );
+      }
+      result = await (BlindingWrapperNode as any)[action](...args);
+    } else {
+      const wrapper = getCorrespondingWrapper(config);
+      const fn = (wrapper as any)[action];
+
+      if (!fn) {
+        throw new Error(
+          `Worker: job "${jobId}" did not find function "${action}" on config "${config}"`
+        );
+      }
+      result = await (wrapper as any)[action](...args);
     }
-    const result = await (wrapper as any)[action](...args);
     postMessage([jobId, null, result]);
   } catch (error) {
     const errorForDisplay = prepareErrorForPostMessage(error);
