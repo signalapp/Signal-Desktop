@@ -389,7 +389,7 @@ export function ProfileNameStage({
           dir="auto"
           pattern="\s*[0-9]{3}-?[0-9]{3}\s*"
           title="Enter your first name"
-          placeholder="First name"
+          placeholder="First Name (Required)"
           autoComplete="off"
           value={firstName}
           onChange={onChangeFirstName}
@@ -400,7 +400,7 @@ export function ProfileNameStage({
           dir="auto"
           pattern="\s*[0-9]{3}-?[0-9]{3}\s*"
           title="Enter your last name"
-          placeholder="First name"
+          placeholder="Last Name (Optional)"
           autoComplete="off"
           value={lastName}
           onChange={onChangeLastName}
