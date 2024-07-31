@@ -9,15 +9,14 @@ export function sanitizeDisplayNameOrToast(
 ) {
   try {
     const sanitizedName = sanitizeSessionUsername(displayName);
-    const trimName = sanitizedName.trim();
-    const errorString = !trimName ? window.i18n('displayNameEmpty') : undefined;
+    const errorString = !sanitizedName ? window.i18n('displayNameEmpty') : undefined;
     if (dispatch) {
       dispatch(onDisplayNameError(errorString));
     } else {
       onDisplayNameError(errorString); // this is is either calling dispatch in the caller or just `setDisplayNameError`
     }
 
-    return trimName;
+    return sanitizedName;
   } catch (e) {
     if (dispatch) {
       dispatch(onDisplayNameError(window.i18n('displayNameErrorDescriptionShorter')));

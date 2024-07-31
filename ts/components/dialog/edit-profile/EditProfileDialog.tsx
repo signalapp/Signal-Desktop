@@ -216,6 +216,7 @@ export const EditProfileDialog = () => {
       setLoading(true);
       const validName = await ProfileManager.updateOurProfileDisplayName(profileName);
       setUpdateProfileName(validName);
+      setProfileName(validName);
       setMode('default');
     } catch (err) {
       window.log.error('Profile update error', err);
