@@ -42,13 +42,13 @@ export function getMediaNameForAttachment(attachment: AttachmentType): string {
     return attachment.backupLocator.mediaName;
   }
   strictAssert(attachment.digest, 'Digest must be present');
-  return attachment.digest;
+  return Bytes.toHex(Bytes.fromBase64(attachment.digest));
 }
 
 export function getMediaNameForAttachmentThumbnail(
   fullsizeMediaName: string
 ): string {
-  return Bytes.toBase64(Bytes.fromString(`${fullsizeMediaName}_thumbnail`));
+  return `${fullsizeMediaName}_thumbnail`;
 }
 
 export function getBytesFromMediaIdString(mediaId: string): Uint8Array {

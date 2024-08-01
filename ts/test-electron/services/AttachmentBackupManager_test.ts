@@ -343,9 +343,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
         jobForNonVisualAttachment
       );
 
-      const thumbnailMediaName = Bytes.toBase64(
-        Bytes.fromString(`${jobForVisualAttachment.mediaName}_thumbnail`)
-      );
+      const thumbnailMediaName = `${jobForVisualAttachment.mediaName}_thumbnail`;
       const allJobs = await getAllSavedJobs();
       assert.strictEqual(allJobs.length, 3);
       assert.sameMembers(
