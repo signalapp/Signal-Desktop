@@ -271,7 +271,7 @@ export function deriveMediaIdFromMediaName(
     BACKUP_MEDIA_ID_LEN,
     Buffer.from(backupKey),
     Buffer.from(BACKUP_MEDIA_ID_INFO),
-    Buffer.from(Bytes.fromBase64(mediaName))
+    Buffer.from(mediaName, 'utf8')
   );
 }
 
