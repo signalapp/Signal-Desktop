@@ -60,23 +60,24 @@ export type JobManagerJobResultType<CoreJobType> =
   | {
       status: 'retry';
     }
-  | { status: 'finished'; newJob?: CoreJobType };
+  | { status: 'finished'; newJob?: CoreJobType }
+  | { status: 'rate-limited'; pauseDurationMs: number };
 
 export abstract class JobManager<CoreJobType> {
-  protected enabled: boolean = false;
-  protected activeJobs: Map<
+  private enabled: boolean = false;
+  private activeJobs: Map<
     string,
     {
       completionPromise: ExplodePromiseResultType<void>;
       job: CoreJobType & JobManagerJobType;
     }
   > = new Map();
-  protected jobStartPromises: Map<string, ExplodePromiseResultType<void>> =
+  private jobStartPromises: Map<string, ExplodePromiseResultType<void>> =
     new Map();
-  protected jobCompletePromises: Map<string, ExplodePromiseResultType<void>> =
+  private jobCompletePromises: Map<string, ExplodePromiseResultType<void>> =
     new Map();
+  private tickTimeout: NodeJS.Timeout | null = null;
 
-  protected tickTimeout: NodeJS.Timeout | null = null;
   protected logPrefix = 'JobManager';
   public tickInterval = DEFAULT_TICK_INTERVAL;
   constructor(readonly params: JobManagerParamsType<CoreJobType>) {}
@@ -98,11 +99,20 @@ export abstract class JobManager<CoreJobType> {
     );
   }
 
-  tick(): void {
+  private tick(): void {
     clearTimeoutIfNecessary(this.tickTimeout);
     this.tickTimeout = null;
     drop(this.maybeStartJobs());
     this.tickTimeout = setTimeout(() => this.tick(), this.tickInterval);
+  }
+
+  private pauseForDuration(durationMs: number): void {
+    this.enabled = false;
+    clearTimeoutIfNecessary(this.tickTimeout);
+    this.tickTimeout = setTimeout(() => {
+      this.enabled = true;
+      this.tick();
+    }, durationMs);
   }
 
   // used in testing
@@ -268,6 +278,13 @@ export abstract class JobManager<CoreJobType> {
           if (isLastAttempt) {
             throw new Error('Cannot retry on last attempt');
           }
+          await this.retryJobLater(job);
+          return;
+        case 'rate-limited':
+          log.info(
+            `${logId}: rate-limited; retrying in ${jobRunResult.pauseDurationMs}`
+          );
+          this.pauseForDuration(jobRunResult.pauseDurationMs);
           await this.retryJobLater(job);
           return;
         default:

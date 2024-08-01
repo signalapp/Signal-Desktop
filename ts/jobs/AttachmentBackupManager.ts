@@ -60,6 +60,7 @@ import {
   isVideoTypeSupported,
 } from '../util/GoogleChrome';
 import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
+import { findRetryAfterTimeFromError } from './helpers/findRetryAfterTimeFromError';
 
 const MAX_CONCURRENT_JOBS = 3;
 const RETRY_CONFIG = {
@@ -213,6 +214,17 @@ export async function runAttachmentBackupJob(
         `${logId}: Unable to reencrypt to match same digest; content must have changed`
       );
       return { status: 'finished' };
+    }
+
+    if (
+      error instanceof Error &&
+      'code' in error &&
+      (error.code === 413 || error.code === 429)
+    ) {
+      return {
+        status: 'rate-limited',
+        pauseDurationMs: findRetryAfterTimeFromError(error),
+      };
     }
 
     return { status: 'retry' };
