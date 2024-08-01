@@ -988,7 +988,7 @@ export async function startApp(): Promise<void> {
     );
     idleDetector.on('idle', async () => {
       const NUM_MESSAGES_PER_BATCH = 25;
-      const BATCH_DELAY = 10 * durations.SECOND;
+      const BATCH_DELAY = durations.SECOND / 2;
 
       if (isIdleTaskProcessing) {
         log.warn(
