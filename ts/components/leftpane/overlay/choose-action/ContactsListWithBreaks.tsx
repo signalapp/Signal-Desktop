@@ -6,12 +6,13 @@ import styled, { CSSProperties } from 'styled-components';
 import {
   DirectContactsByNameType,
   getDirectContactsByName,
-  getDirectContactsCount,
+  getContactsCount,
 } from '../../../../state/selectors/conversations';
 import { leftPaneListWidth } from '../../LeftPane';
 import { StyledLeftPaneList } from '../../LeftPaneList';
 import { StyledChooseActionTitle } from './ActionRow';
 import { ContactRow, ContactRowBreak } from './ContactRow';
+import { UserUtils } from '../../../../session/utils';
 
 const StyledContactSection = styled.div`
   display: flex;
@@ -90,6 +91,11 @@ const ContactListItemSection = () => {
     directContactsByNameWithBreaks.push(m);
   });
 
+  directContactsByNameWithBreaks.unshift({
+    id: UserUtils.getOurPubKeyStrFromCache(),
+    displayName: window.i18n('noteToSelf'),
+  });
+
   const length = Number(directContactsByNameWithBreaks.length);
 
   return (
@@ -118,7 +124,7 @@ const ContactListItemSection = () => {
 };
 
 export const ContactsListWithBreaks = () => {
-  const contactsCount = useSelector(getDirectContactsCount);
+  const contactsCount = useSelector(getContactsCount);
 
   return (
     <StyledContactSection>

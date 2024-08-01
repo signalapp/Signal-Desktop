@@ -297,18 +297,12 @@ const _getLeftPaneConversationIds = (
     .map(m => m.id);
 };
 
-const _getPrivateFriendsConversations = (
+const _getContacts = (
   sortedConversations: Array<ReduxConversationType>
 ): Array<ReduxConversationType> => {
   return sortedConversations.filter(convo => {
-    return (
-      convo.isPrivate &&
-      !convo.isMe &&
-      !convo.isBlocked &&
-      convo.isApproved &&
-      convo.didApproveMe &&
-      convo.activeAt !== undefined
-    );
+    // a private conversation not approved is a message request. Include them in the list of contacts
+    return !convo.isBlocked && convo.isPrivate && !convo.isMe;
   });
 };
 
@@ -437,7 +431,6 @@ export const getUnreadConversationRequests = createSelector(
  * - approved (or message requests are disabled)
  * - active_at is set to something truthy
  */
-
 export const getLeftPaneConversationIds = createSelector(
   getSortedConversations,
   _getLeftPaneConversationIds
@@ -450,10 +443,16 @@ export const getLeftPaneConversationIdsCount = createSelector(
   }
 );
 
-const getDirectContacts = createSelector(getSortedConversations, _getPrivateFriendsConversations);
+/**
+ * Returns all the conversation ids of contacts which are
+ * - private
+ * - not me
+ * - not blocked
+ */
+const getContacts = createSelector(getSortedConversations, _getContacts);
 
-export const getDirectContactsCount = createSelector(
-  getDirectContacts,
+export const getContactsCount = createSelector(
+  getContacts,
   (contacts: Array<ReduxConversationType>) => contacts.length
 );
 
@@ -464,7 +463,7 @@ export type DirectContactsByNameType = {
 
 // make sure that createSelector is called here so this function is memoized
 export const getDirectContactsByName = createSelector(
-  getDirectContacts,
+  getContacts,
   (contacts: Array<ReduxConversationType>): Array<DirectContactsByNameType> => {
     const us = UserUtils.getOurPubKeyStrFromCache();
     const extractedContacts = contacts
@@ -475,10 +474,12 @@ export const getDirectContactsByName = createSelector(
           displayName: m.nickname || m.displayNameInProfile,
         };
       });
+
     const extractedContactsNoDisplayName = sortBy(
       extractedContacts.filter(m => !m.displayName),
       'id'
     );
+
     const extractedContactsWithDisplayName = sortBy(
       extractedContacts.filter(m => Boolean(m.displayName)),
       m => m.displayName?.toLowerCase()
