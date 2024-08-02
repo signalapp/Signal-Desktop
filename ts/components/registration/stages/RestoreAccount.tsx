@@ -117,6 +117,8 @@ async function signInWithNewDisplayName({
   }
 }
 
+let abortController = new AbortController();
+
 export const RestoreAccount = () => {
   const step = useOnboardAccountRestorationStep();
   const recoveryPassword = useRecoveryPassword();
@@ -136,8 +138,8 @@ export const RestoreAccount = () => {
     const trimmedPassword = recoveryPassword.trim();
     setRecoveryPassword(trimmedPassword);
 
-    const abortController = new AbortController();
     try {
+      abortController = new AbortController();
       dispatch(setProgress(0));
       dispatch(setAccountRestorationStep(AccountRestoration.Loading));
       await signInAndFetchDisplayName({
@@ -201,6 +203,23 @@ export const RestoreAccount = () => {
       margin={'2px 0 0 -36px'}
       shouldQuitOnClick={step !== AccountRestoration.RecoveryPassword}
       quitMessage={window.i18n('onboardingBackLoadAccount')}
+      onQuitVisible={() => {
+        if (!abortController.signal.aborted) {
+          abortController.abort();
+        }
+        dispatch(setRecoveryPassword(''));
+        dispatch(setDisplayName(''));
+        dispatch(setProgress(0));
+        dispatch(setRecoveryPasswordError(undefined));
+        dispatch(setDisplayNameError(undefined));
+        if (
+          step === AccountRestoration.Loading ||
+          step === AccountRestoration.Finishing ||
+          step === AccountRestoration.Finished
+        ) {
+          dispatch(setAccountRestorationStep(AccountRestoration.RecoveryPassword));
+        }
+      }}
       callback={() => {
         dispatch(setRecoveryPassword(''));
         dispatch(setDisplayName(''));

@@ -28,12 +28,14 @@ export const BackButtonWithinContainer = ({
   children,
   margin,
   callback,
+  onQuitVisible,
   shouldQuitOnClick,
   quitMessage,
 }: {
   children: ReactNode;
   margin?: string;
   callback?: () => void;
+  onQuitVisible?: () => void;
   shouldQuitOnClick?: boolean;
   quitMessage?: string;
 }) => {
@@ -48,6 +50,7 @@ export const BackButtonWithinContainer = ({
       <div style={{ margin }}>
         <BackButton
           callback={callback}
+          onQuitVisible={onQuitVisible}
           shouldQuitOnClick={shouldQuitOnClick}
           quitMessage={quitMessage}
         />
@@ -59,10 +62,12 @@ export const BackButtonWithinContainer = ({
 
 export const BackButton = ({
   callback,
+  onQuitVisible,
   shouldQuitOnClick,
   quitMessage,
 }: {
   callback?: () => void;
+  onQuitVisible?: () => void;
   shouldQuitOnClick?: boolean;
   quitMessage?: string;
 }) => {
@@ -81,6 +86,9 @@ export const BackButton = ({
       padding={'0'}
       onClick={() => {
         if (shouldQuitOnClick && quitMessage) {
+          if (onQuitVisible) {
+            onQuitVisible();
+          }
           dispatch(
             updateQuitModal({
               title: window.i18n('warning'),
