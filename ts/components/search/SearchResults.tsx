@@ -12,6 +12,7 @@ import {
   getSearchResultsList,
   getSearchTerm,
 } from '../../state/selectors/search';
+import { calcContactRowHeight } from '../leftpane/overlay/choose-action/ContactsListWithBreaks';
 
 const StyledSeparatorSection = styled.div<{ isSubtitle: boolean }>`
   height: 36px;
@@ -63,15 +64,16 @@ function isContact(item: SearchResultsMergedListItem): item is { contactConvoId:
 
 const VirtualizedList = () => {
   const searchResultList = useSelector(getSearchResultsList);
+
   return (
     <AutoSizer>
       {({ height, width }) => (
         <List
           height={height}
           rowCount={searchResultList.length}
-          rowHeight={rowPos => {
-            return isString(searchResultList[rowPos.index]) ? 36 : 64;
-          }}
+          rowHeight={params =>
+            calcContactRowHeight(searchResultList, params, { breakRowHeight: 36 })
+          }
           rowRenderer={({ index, key, style }) => {
             const row = searchResultList[index];
             if (!row) {

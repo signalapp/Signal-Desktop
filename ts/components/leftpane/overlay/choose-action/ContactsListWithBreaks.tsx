@@ -14,6 +14,7 @@ import { StyledChooseActionTitle } from './ActionRow';
 import { ContactRow, ContactRowBreak } from './ContactRow';
 import { UserUtils } from '../../../../session/utils';
 import { getThemeValue, pxValueToNumber } from '../../../../themes/globals';
+import { SearchResultsMergedListItem } from '../../../../state/selectors/search';
 
 const StyledContactSection = styled.div`
   display: flex;
@@ -68,6 +69,19 @@ const renderRow = (props: ListRowProps) => {
   return <ContactRow style={style as CSSProperties} key={key} {...item} />;
 };
 
+export function calcContactRowHeight(
+  items: Array<SearchResultsMergedListItem | string | DirectContactsByNameType>,
+  params: Index,
+  overrides?: {
+    rowHeight?: number;
+    breakRowHeight?: number;
+  }
+) {
+  return isString(items[params.index])
+    ? overrides?.breakRowHeight || pxValueToNumber(getThemeValue('--contact-row-break-height'))
+    : overrides?.rowHeight || pxValueToNumber(getThemeValue('--contact-row-height'));
+}
+
 const unknownSection = 'unknown';
 
 const ContactListItemSection = () => {
@@ -99,12 +113,6 @@ const ContactListItemSection = () => {
 
   const length = Number(directContactsByNameWithBreaks.length);
 
-  const calcRowHeight = (params: Index) => {
-    return isString(directContactsByNameWithBreaks[params.index])
-      ? pxValueToNumber(getThemeValue('--contact-row-break-height'))
-      : pxValueToNumber(getThemeValue('--contact-row-height'));
-  };
-
   return (
     <StyledLeftPaneList key={0} style={{ width: '100%' }}>
       <AutoSizer>
@@ -114,7 +122,7 @@ const ContactListItemSection = () => {
               className="module-left-pane__virtual-list"
               height={height}
               rowCount={length}
-              rowHeight={calcRowHeight}
+              rowHeight={params => calcContactRowHeight(directContactsByNameWithBreaks, params)}
               directContactsByNameWithBreaks={directContactsByNameWithBreaks}
               rowRenderer={renderRow}
               width={leftPaneListWidth}

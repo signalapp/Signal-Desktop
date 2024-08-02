@@ -99,21 +99,22 @@ export const getSearchResultsList = createSelector([getSearchResults], searchSta
     );
 
     // add a break wherever needed
-    let currentChar = '';
+    // let currentChar = '';
     for (let i = 0; i < idsWithNameAndType.length; i++) {
       const m = idsWithNameAndType[i];
       if (m.contactConvoId === us) {
         usIndex = i;
         continue;
       }
-      if (
-        idsWithNameAndType.length > 1 &&
-        m.displayName &&
-        m.displayName[0].toLowerCase() !== currentChar
-      ) {
-        currentChar = m.displayName[0].toLowerCase();
-        builtList.push(currentChar.toUpperCase());
-      }
+      // we might want breaks again in future
+      // if (
+      //   idsWithNameAndType.length > 1 &&
+      //   m.displayName &&
+      //   m.displayName[0].toLowerCase() !== currentChar
+      // ) {
+      //   currentChar = m.displayName[0].toLowerCase();
+      //   builtList.push(currentChar.toUpperCase());
+      // }
       builtList.push(m);
     }
 
