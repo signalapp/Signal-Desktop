@@ -8,9 +8,17 @@ import type {
   LocalAttachmentV2Type,
 } from '../types/Attachment';
 import * as log from '../logging/log';
+import { DataWriter } from '../sql/Client';
 import { AttachmentDisposition } from './getLocalAttachmentUrl';
+import { drop } from './drop';
+import { MINUTE } from './durations';
 
 let setCheck = false;
+let orphanedCount = 0;
+let cleanupTimeout: NodeJS.Timeout | undefined;
+
+// Max number of orphaned attachments before we schedule a cleanup.
+const MAX_ORPHANED_COUNT = 10000;
 
 const lru = new LRU<string, Promise<LocalAttachmentV2Type>>({
   max: 1000,
@@ -70,11 +78,32 @@ async function doEncrypt<T extends Partial<AddressableAttachmentType>>(
   const data = await readAttachmentData(attachment);
   const result = await writeNewAttachmentData(data);
 
+  orphanedCount += 1;
+
   // Remove fully migrated attachments without references on next startup.
-  if (!setCheck) {
+  if (orphanedCount > MAX_ORPHANED_COUNT) {
+    log.error('encryptLegacyAttachment: too many orphaned, cleanup now');
+    if (cleanupTimeout !== undefined) {
+      clearTimeout(cleanupTimeout);
+      cleanupTimeout = undefined;
+    }
+    cleanup();
+  } else if (!setCheck) {
     setCheck = true;
     await window.storage.put('needOrphanedAttachmentCheck', true);
+    log.error('encryptLegacyAttachment: scheduling orphaned cleanup');
+    cleanupTimeout = setTimeout(cleanup, 15 * MINUTE);
   }
 
   return result;
+}
+
+function cleanup(): void {
+  log.error('encryptLegacyAttachment: running orphaned cleanup');
+
+  cleanupTimeout = undefined;
+  setCheck = false;
+  orphanedCount = 0;
+  drop(window.storage.remove('needOrphanedAttachmentCheck'));
+  drop(DataWriter.cleanupOrphanedAttachments());
 }
