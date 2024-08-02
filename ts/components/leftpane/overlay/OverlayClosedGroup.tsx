@@ -46,9 +46,6 @@ const StyledGroupMemberListContainer = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
 
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
-
   &::-webkit-scrollbar-track {
     background-color: var(--background-secondary-color);
   }
@@ -192,6 +189,7 @@ export const OverlayClosedGroup = () => {
               isSelected={selectedMemberIds.includes(pubkey)}
               onSelect={addToSelected}
               onUnselect={removeFromSelected}
+              withBorder={false}
               disabled={loading}
             />
           ))

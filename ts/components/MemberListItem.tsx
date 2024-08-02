@@ -23,6 +23,7 @@ const StyledSessionMemberItem = styled.button<{
   zombie?: boolean;
   selected?: boolean;
   disableBg?: boolean;
+  withBorder?: boolean;
 }>`
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   display: flex;
@@ -40,11 +41,16 @@ const StyledSessionMemberItem = styled.button<{
       ? 'var(--conversation-tab-background-selected-color) !important'
       : null};
 
-  &:not(button:last-child) {
-    border-bottom: 1px solid var(--border-color);
-  }
-
   ${props => props.inMentions && 'max-width: 300px;'}
+  ${props =>
+    props.withBorder &&
+    `&:not(button:last-child) {
+    border-bottom: 1px solid var(--border-color);
+  }`}
+
+  &:hover {
+    background-color: var(--conversation-tab-background-hover-color);
+  }
 `;
 
 const StyledInfo = styled.div`
@@ -75,6 +81,7 @@ export const MemberListItem = (props: {
   isZombie?: boolean;
   inMentions?: boolean; // set to true if we are rendering members but in the Mentions picker
   disableBg?: boolean;
+  withBorder?: boolean;
   maxNameWidth?: string;
   isAdmin?: boolean; // if true,  we add a small crown on top of their avatar
   onSelect?: (pubkey: string) => void;
@@ -91,6 +98,7 @@ export const MemberListItem = (props: {
     onUnselect,
     inMentions,
     disableBg,
+    withBorder = true,
     maxNameWidth,
     disabled,
     dataTestId,
@@ -104,18 +112,12 @@ export const MemberListItem = (props: {
         // eslint-disable-next-line no-unused-expressions
         isSelected ? onUnselect?.(pubkey) : onSelect?.(pubkey);
       }}
-      style={
-        !inMentions && !disableBg
-          ? {
-              backgroundColor: 'var(--background-primary-color)',
-            }
-          : {}
-      }
       data-testid={dataTestId}
       zombie={isZombie}
       inMentions={inMentions}
       selected={isSelected}
       disableBg={disableBg}
+      withBorder={withBorder}
       disabled={disabled}
     >
       <StyledInfo>
