@@ -110,6 +110,7 @@ import {
   NotificationSetting,
   FALLBACK_NOTIFICATION_TITLE,
   NotificationType,
+  shouldSaveNotificationAvatarToDisk,
 } from './notifications';
 import * as log from '../logging/log';
 import { assertDev, strictAssert } from '../util/assert';
@@ -154,6 +155,8 @@ import type { CallLinkType, CallLinkStateType } from '../types/CallLink';
 import { CallLinkRestrictions } from '../types/CallLink';
 import { getConversationIdForLogging } from '../util/idForLogging';
 import { sendCallLinkUpdateSync } from '../util/sendCallLinkUpdateSync';
+import { createIdenticon } from '../util/createIdenticon';
+import { getColorForCallLink } from '../util/getColorForCallLink';
 
 const { wasGroupCallRingPreviouslyCanceled } = DataReader;
 const {
@@ -2027,7 +2030,8 @@ export class CallingClass {
   async setPresenting(
     conversationId: string,
     hasLocalVideo: boolean,
-    source?: PresentedSource
+    source?: PresentedSource,
+    callLinkRootKey?: string
   ): Promise<void> {
     const call = getOwn(this.callsLookup, conversationId);
     if (!call) {
@@ -2062,18 +2066,33 @@ export class CallingClass {
     if (source) {
       ipcRenderer.send('show-screen-share', source.name);
 
-      // TODO: DESKTOP-7068
+      let url: string;
+      let absolutePath: string | undefined;
+
       if (
         call instanceof GroupCall &&
         call.getKind() === GroupCallKind.CallLink
       ) {
-        return;
+        strictAssert(callLinkRootKey, 'If call is adhoc, we need rootKey');
+        const color = getColorForCallLink(callLinkRootKey);
+        const saveToDisk = shouldSaveNotificationAvatarToDisk();
+        const result = await createIdenticon(
+          color,
+          { type: 'call-link' },
+          { saveToDisk }
+        );
+        url = result.url;
+        absolutePath = result.path
+          ? window.Signal.Migrations.getAbsoluteTempPath(result.path)
+          : undefined;
+      } else {
+        const conversation = window.ConversationController.get(conversationId);
+        strictAssert(conversation, 'setPresenting: conversation not found');
+
+        const result = await conversation.getAvatarOrIdenticon();
+        url = result.url;
+        absolutePath = result.absolutePath;
       }
-
-      const conversation = window.ConversationController.get(conversationId);
-      strictAssert(conversation, 'setPresenting: conversation not found');
-
-      const { url, absolutePath } = await conversation.getAvatarOrIdenticon();
 
       notificationService.notify({
         conversationId,

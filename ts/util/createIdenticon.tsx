@@ -7,6 +7,7 @@ import { renderToString } from 'react-dom/server';
 import type { AvatarColorType } from '../types/Colors';
 import { AvatarColorMap } from '../types/Colors';
 import {
+  IdenticonSVGForCallLink,
   IdenticonSVGForContact,
   IdenticonSVGForGroup,
 } from '../components/IdenticonSVG';
@@ -21,6 +22,9 @@ type IdenticonDetailsType =
     }
   | {
       type: 'group';
+    }
+  | {
+      type: 'call-link';
     };
 
 export function createIdenticon(
@@ -43,6 +47,13 @@ export function createIdenticon(
   } else if (details.type === 'group') {
     html = renderToString(
       <IdenticonSVGForGroup
+        backgroundColor={avatarColor?.bg || defaultColorValue.bg}
+        foregroundColor={avatarColor?.fg || defaultColorValue.fg}
+      />
+    );
+  } else if (details.type === 'call-link') {
+    html = renderToString(
+      <IdenticonSVGForCallLink
         backgroundColor={avatarColor?.bg || defaultColorValue.bg}
         foregroundColor={avatarColor?.fg || defaultColorValue.fg}
       />
