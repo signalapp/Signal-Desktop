@@ -1,5 +1,5 @@
 import { debounce } from 'lodash';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import useInterval from 'react-use/lib/useInterval';
@@ -47,6 +47,8 @@ import { switchThemeTo } from '../../themes/switchTheme';
 import { ReleasedFeatures } from '../../util/releaseFeature';
 import { getOppositeTheme } from '../../util/theme';
 import { SessionNotificationCount } from '../icon/SessionNotificationCount';
+import { useHotkey } from '../../hooks/useHotkey';
+import { getIsModalVisble } from '../../state/selectors/modal';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -54,6 +56,7 @@ const Section = (props: { type: SectionType }) => {
   const dispatch = useDispatch();
   const { type } = props;
 
+  const isModalVisible = useSelector(getIsModalVisble);
   const isDarkTheme = useIsDarkTheme();
   const focusedSection = useSelector(getFocusedSection);
   const isSelected = focusedSection === props.type;
@@ -81,6 +84,17 @@ const Section = (props: { type: SectionType }) => {
       dispatch(resetLeftOverlayMode());
     }
   };
+
+  const settingsIconRef = useRef<HTMLButtonElement>(null);
+
+  useHotkey('Escape', () => {
+    if (type === SectionType.Settings && !isModalVisible) {
+      settingsIconRef.current?.blur();
+      dispatch(clearSearch());
+      dispatch(showLeftPaneSection(SectionType.Message));
+      dispatch(resetLeftOverlayMode());
+    }
+  });
 
   if (type === SectionType.Profile) {
     return (
@@ -116,6 +130,7 @@ const Section = (props: { type: SectionType }) => {
           iconType={'gear'}
           onClick={handleClick}
           isSelected={isSelected}
+          ref={settingsIconRef}
         />
       );
     case SectionType.PathIndicator:

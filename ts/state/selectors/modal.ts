@@ -27,6 +27,19 @@ export const getModal = (state: StateType): ModalState => {
   return state.modals;
 };
 
+export const getIsModalVisble = createSelector(getModal, (state: ModalState): boolean => {
+  const modalValues = Object.values(state);
+  let visible = false;
+  for (let i = 0; i < modalValues.length; i++) {
+    if (modalValues[i] !== null) {
+      visible = true;
+      break;
+    }
+  }
+
+  return visible;
+});
+
 export const getConfirmModal = createSelector(
   getModal,
   (state: ModalState): ConfirmModalState => state.confirmModal
