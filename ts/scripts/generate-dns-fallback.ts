@@ -25,31 +25,34 @@ const FALLBACK_DOMAINS = [
 async function main() {
   const config = await Promise.all(
     FALLBACK_DOMAINS.sort().map(async domain => {
+      const ipv4endpoints = (await resolve4(domain)).map(a => ({
+        family: 'ipv4',
+        address: a,
+      }));
 
-      const ipv4endpoints = (await resolve4(domain))
-        .map(a => ({"family": "ipv4", "address": a}))
-
-      const ipv6endpoints = (await resolve6(domain))
-        .map(a => ({"family": "ipv6", "address": a}))
+      const ipv6endpoints = (await resolve6(domain)).map(a => ({
+        family: 'ipv6',
+        address: a,
+      }));
 
       const endpoints = [...ipv4endpoints, ...ipv6endpoints]
-      .filter(isNotNil)
-      .sort((a, b) => {
-        if (a.family < b.family) {
-          return -1;
-        }
-        if (a.family > b.family) {
-          return 1;
-        }
+        .filter(isNotNil)
+        .sort((a, b) => {
+          if (a.family < b.family) {
+            return -1;
+          }
+          if (a.family > b.family) {
+            return 1;
+          }
 
-        if (a.address < b.address) {
-          return -1;
-        }
-        if (a.address > b.address) {
-          return 1;
-        }
-        return 0;
-      })
+          if (a.address < b.address) {
+            return -1;
+          }
+          if (a.address > b.address) {
+            return 1;
+          }
+          return 0;
+        });
 
       return { domain, endpoints };
     })
