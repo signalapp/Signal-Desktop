@@ -15,6 +15,7 @@ import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { MessageBodyHighlight } from '../basic/MessageBodyHighlight';
 import { ContactName } from '../conversation/ContactName';
 import { Timestamp } from '../conversation/Timestamp';
+import { leftPaneListWidth } from '../leftpane/LeftPane';
 
 const StyledConversationTitleResults = styled.div`
   flex-grow: 1;
@@ -39,11 +40,9 @@ const StyledConversationFromUserInGroup = styled(StyledConversationTitleResults)
 `;
 
 const StyledSearchResults = styled.div`
-  padding: 8px;
-  padding-inline-start: 16px;
-  padding-inline-end: 16px;
-  min-height: 64px;
-  max-width: 300px;
+  padding: var(--margins-sm) var(--margins-md);
+  height: var(--contact-row-height);
+  max-width: ${leftPaneListWidth}px;
 
   display: flex;
   flex-direction: row;
