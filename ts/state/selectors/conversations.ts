@@ -462,7 +462,7 @@ export type DirectContactsByNameType = {
 };
 
 // make sure that createSelector is called here so this function is memoized
-export const getDirectContactsByName = createSelector(
+export const getSortedContacts = createSelector(
   getContacts,
   (contacts: Array<ReduxConversationType>): Array<DirectContactsByNameType> => {
     const us = UserUtils.getOurPubKeyStrFromCache();
@@ -475,21 +475,60 @@ export const getDirectContactsByName = createSelector(
         };
       });
 
-    const extractedContactsNoDisplayName = sortBy(
-      extractedContacts.filter(m => !m.displayName),
-      'id'
+    const contactsStartingWithANumber = sortBy(
+      extractedContacts.filter(
+        m => !m.displayName || (m.displayName && m.displayName[0].match(/^[0-9]+$/))
+      ),
+      m => m.displayName || m.id
     );
 
-    const extractedContactsWithDisplayName = sortBy(
-      extractedContacts.filter(m => Boolean(m.displayName)),
+    const contactsWithDisplayName = sortBy(
+      extractedContacts.filter(m => !!m.displayName && !m.displayName[0].match(/^[0-9]+$/)),
       m => m.displayName?.toLowerCase()
     );
 
-    return [...extractedContactsWithDisplayName, ...extractedContactsNoDisplayName];
+    return [...contactsWithDisplayName, ...contactsStartingWithANumber];
   }
 );
 
-export const getPrivateContactsPubkeys = createSelector(getDirectContactsByName, state =>
+export const getSortedContactsWithBreaks = createSelector(
+  getSortedContacts,
+  (contacts: Array<DirectContactsByNameType>): Array<DirectContactsByNameType | string> => {
+    // add a break wherever needed
+    const unknownSection = 'unknown';
+    let currentChar = '';
+    // if the item is a string we consider it to be a break of that string
+    const contactsWithBreaks: Array<DirectContactsByNameType | string> = [];
+
+    contacts.forEach(m => {
+      if (
+        !!m.displayName &&
+        m.displayName[0].toLowerCase() !== currentChar &&
+        !m.displayName[0].match(/^[0-9]+$/)
+      ) {
+        currentChar = m.displayName[0].toLowerCase();
+        contactsWithBreaks.push(currentChar.toUpperCase());
+      } else if (
+        ((m.displayName && m.displayName[0].match(/^[0-9]+$/)) || !m.displayName) &&
+        currentChar !== unknownSection
+      ) {
+        currentChar = unknownSection;
+        contactsWithBreaks.push('#');
+      }
+
+      contactsWithBreaks.push(m);
+    });
+
+    contactsWithBreaks.unshift({
+      id: UserUtils.getOurPubKeyStrFromCache(),
+      displayName: window.i18n('noteToSelf'),
+    });
+
+    return contactsWithBreaks;
+  }
+);
+
+export const getPrivateContactsPubkeys = createSelector(getSortedContacts, state =>
   state.map(m => m.id)
 );
 

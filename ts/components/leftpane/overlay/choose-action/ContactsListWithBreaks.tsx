@@ -5,14 +5,13 @@ import { AutoSizer, Index, List, ListRowProps } from 'react-virtualized';
 import styled, { CSSProperties } from 'styled-components';
 import {
   DirectContactsByNameType,
-  getDirectContactsByName,
   getContactsCount,
+  getSortedContactsWithBreaks,
 } from '../../../../state/selectors/conversations';
 import { leftPaneListWidth } from '../../LeftPane';
 import { StyledLeftPaneList } from '../../LeftPaneList';
 import { StyledChooseActionTitle } from './ActionRow';
 import { ContactRow, ContactRowBreak } from './ContactRow';
-import { UserUtils } from '../../../../session/utils';
 import { getThemeValue, pxValueToNumber } from '../../../../themes/globals';
 import { SearchResultsMergedListItem } from '../../../../state/selectors/search';
 
@@ -55,9 +54,10 @@ const renderRow = (props: ListRowProps) => {
 
   // ugly, but it seems react-virtualized does not support very well functional components just yet
   // https://stackoverflow.com/questions/54488954/how-to-pass-prop-into-rowrender-of-react-virtualized
-  const directContactsByNameWithBreaks = (parent as any).props
-    .directContactsByNameWithBreaks as Array<DirectContactsByNameType | string>;
-  const item = directContactsByNameWithBreaks?.[index];
+  const contactsByNameWithBreaks = (parent as any).props.contactsByNameWithBreaks as Array<
+    DirectContactsByNameType | string
+  >;
+  const item = contactsByNameWithBreaks?.[index];
   if (!item) {
     return null;
   }
@@ -82,53 +82,14 @@ export function calcContactRowHeight(
     : overrides?.rowHeight || pxValueToNumber(getThemeValue('--contact-row-height'));
 }
 
-const unknownSection = 'unknown';
-
 const ContactListItemSection = () => {
-  const directContactsByName = useSelector(getDirectContactsByName);
+  const contactsByNameWithBreaks = useSelector(getSortedContactsWithBreaks);
 
-  if (!directContactsByName) {
+  if (!contactsByNameWithBreaks) {
     return null;
   }
 
-  // add a break wherever needed
-  let currentChar = '';
-  // if the item is a string we consider it to be a break of that string
-  const directContactsByNameWithBreaks: Array<DirectContactsByNameType | string> = [];
-  const directContactsStartingWithANumber: Array<DirectContactsByNameType | string> = [];
-  directContactsByName.forEach(m => {
-    if (
-      m.displayName &&
-      m.displayName[0].toLowerCase() !== currentChar &&
-      !m.displayName[0].match(/^[0-9]+$/)
-    ) {
-      currentChar = m.displayName[0].toLowerCase();
-      directContactsByNameWithBreaks.push(currentChar.toUpperCase());
-    } else if (!m.displayName && currentChar !== unknownSection) {
-      currentChar = unknownSection;
-      directContactsByNameWithBreaks.push('#');
-    }
-
-    if (m.displayName && !!m.displayName[0].match(/^[0-9]+$/)) {
-      directContactsStartingWithANumber.push(m);
-    } else {
-      directContactsByNameWithBreaks.push(m);
-    }
-  });
-
-  directContactsByNameWithBreaks.unshift({
-    id: UserUtils.getOurPubKeyStrFromCache(),
-    displayName: window.i18n('noteToSelf'),
-  });
-
-  if (directContactsStartingWithANumber.length) {
-    if (currentChar !== unknownSection) {
-      directContactsByNameWithBreaks.push('#');
-    }
-    directContactsByNameWithBreaks.push(...directContactsStartingWithANumber);
-  }
-
-  const length = Number(directContactsByNameWithBreaks.length);
+  const length = Number(contactsByNameWithBreaks.length);
 
   return (
     <StyledLeftPaneList key={0} style={{ width: '100%' }}>
@@ -139,8 +100,8 @@ const ContactListItemSection = () => {
               className="module-left-pane__virtual-list"
               height={height}
               rowCount={length}
-              rowHeight={params => calcContactRowHeight(directContactsByNameWithBreaks, params)}
-              directContactsByNameWithBreaks={directContactsByNameWithBreaks}
+              rowHeight={params => calcContactRowHeight(contactsByNameWithBreaks, params)}
+              contactsByNameWithBreaks={contactsByNameWithBreaks}
               rowRenderer={renderRow}
               width={leftPaneListWidth}
               autoHeight={false}
