@@ -4,9 +4,17 @@
 import { ipcMain, protocol } from 'electron';
 import { createReadStream } from 'node:fs';
 import { join, normalize } from 'node:path';
-import { Readable, PassThrough } from 'node:stream';
+import { Readable, PassThrough, type Writable } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
+import { randomBytes } from 'node:crypto';
+import { once } from 'node:events';
 import z from 'zod';
 import * as rimraf from 'rimraf';
+import LRU from 'lru-cache';
+import {
+  inferChunkSize,
+  DigestingWritable,
+} from '@signalapp/libsignal-client/dist/incremental_mac';
 import { RangeFinder, DefaultStorage } from '@indutny/range-finder';
 import {
   getAllAttachments,
@@ -32,6 +40,7 @@ import { safeParseInteger } from '../ts/util/numbers';
 import { SECOND } from '../ts/util/durations';
 import { drop } from '../ts/util/drop';
 import { strictAssert } from '../ts/util/assert';
+import { ValidatingPassThrough } from '../ts/util/ValidatingPassThrough';
 import { decryptAttachmentV2ToSink } from '../ts/AttachmentCrypto';
 
 let initialized = false;
@@ -45,23 +54,81 @@ const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 const INTERACTIVITY_DELAY = 50;
 
 type RangeFinderContextType = Readonly<
-  | {
-      type: 'ciphertext';
-      path: string;
-      keysBase64: string;
-      size: number;
-    }
-  | {
-      type: 'plaintext';
-      path: string;
-    }
+  (
+    | {
+        type: 'ciphertext';
+        keysBase64: string;
+        size: number;
+      }
+    | {
+        type: 'plaintext';
+      }
+  ) & {
+    path: string;
+  }
 >;
 
+type DigestLRUEntryType = Readonly<{
+  key: Buffer;
+  digest: Buffer;
+}>;
+
+const digestLRU = new LRU<string, DigestLRUEntryType>({
+  // The size of each entry is roughgly 8kb per digest + 32 bytes per key. We
+  // mostly need this cache for range requests, so keep it low.
+  max: 100,
+});
+
 async function safeDecryptToSink(
-  ...args: Parameters<typeof decryptAttachmentV2ToSink>
+  ctx: RangeFinderContextType,
+  sink: Writable
 ): Promise<void> {
+  strictAssert(ctx.type === 'ciphertext', 'Cannot decrypt plaintext');
+
+  const options = {
+    ciphertextPath: ctx.path,
+    idForLogging: 'attachment_channel',
+    keysBase64: ctx.keysBase64,
+    type: 'local' as const,
+    size: ctx.size,
+  };
+
   try {
-    await decryptAttachmentV2ToSink(...args);
+    const chunkSize = inferChunkSize(ctx.size);
+    let entry = digestLRU.get(ctx.path);
+    if (!entry) {
+      const key = randomBytes(32);
+      const writable = new DigestingWritable(key, chunkSize);
+
+      const controller = new AbortController();
+
+      await Promise.race([
+        // Just use a non-existing event name to wait for an 'error'. We want
+        // to handle errors on `sink` while generating digest in case whole
+        // request get cancelled early.
+        once(sink, 'non-error-event', { signal: controller.signal }),
+        decryptAttachmentV2ToSink(options, writable),
+      ]);
+
+      // Stop handling errors on sink
+      controller.abort();
+
+      entry = {
+        key,
+        digest: writable.getFinalDigest(),
+      };
+      digestLRU.set(ctx.path, entry);
+    }
+
+    const validator = new ValidatingPassThrough(
+      entry.key,
+      chunkSize,
+      entry.digest
+    );
+    await Promise.all([
+      decryptAttachmentV2ToSink(options, validator),
+      pipeline(validator, sink),
+    ]);
   } catch (error) {
     // These errors happen when canceling fetch from `attachment://` urls,
     // ignore them to avoid noise in the logs.
@@ -86,16 +153,8 @@ const storage = new DefaultStorage<RangeFinderContextType>(
     }
 
     if (ctx.type === 'ciphertext') {
-      const options = {
-        ciphertextPath: ctx.path,
-        idForLogging: 'attachment_channel',
-        keysBase64: ctx.keysBase64,
-        type: 'local' as const,
-        size: ctx.size,
-      };
-
       const plaintext = new PassThrough();
-      drop(safeDecryptToSink(options, plaintext));
+      drop(safeDecryptToSink(ctx, plaintext));
       return plaintext;
     }
 
