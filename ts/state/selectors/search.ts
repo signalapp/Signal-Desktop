@@ -93,8 +93,8 @@ export const getSearchResultsList = createSelector([getSearchResults], searchSta
       m => m.displayName?.toLowerCase()
     );
 
-    const idsWithNoDisplayNames = sortBy(
-      remove(idsWithNameAndType, m => !m.displayName),
+    const idsWithNoDisplayNamesOrStartingWithANumber = sortBy(
+      remove(idsWithNameAndType, m => !m.displayName || m.displayName[0].match(/^[0-9]+$/)),
       m => m.contactConvoId
     );
 
@@ -120,8 +120,9 @@ export const getSearchResultsList = createSelector([getSearchResults], searchSta
 
     builtList.unshift(...groupsAndCommunities);
 
-    if (idsWithNoDisplayNames.length) {
-      builtList.push('#', ...idsWithNoDisplayNames);
+    if (idsWithNoDisplayNamesOrStartingWithANumber.length) {
+      // builtList.push('#');
+      builtList.push(...idsWithNoDisplayNamesOrStartingWithANumber);
     }
 
     if (usIndex !== -1) {

@@ -95,21 +95,38 @@ const ContactListItemSection = () => {
   let currentChar = '';
   // if the item is a string we consider it to be a break of that string
   const directContactsByNameWithBreaks: Array<DirectContactsByNameType | string> = [];
+  const directContactsStartingWithANumber: Array<DirectContactsByNameType | string> = [];
   directContactsByName.forEach(m => {
-    if (m.displayName && m.displayName[0].toLowerCase() !== currentChar) {
+    if (
+      m.displayName &&
+      m.displayName[0].toLowerCase() !== currentChar &&
+      !m.displayName[0].match(/^[0-9]+$/)
+    ) {
       currentChar = m.displayName[0].toLowerCase();
       directContactsByNameWithBreaks.push(currentChar.toUpperCase());
     } else if (!m.displayName && currentChar !== unknownSection) {
       currentChar = unknownSection;
       directContactsByNameWithBreaks.push('#');
     }
-    directContactsByNameWithBreaks.push(m);
+
+    if (m.displayName && !!m.displayName[0].match(/^[0-9]+$/)) {
+      directContactsStartingWithANumber.push(m);
+    } else {
+      directContactsByNameWithBreaks.push(m);
+    }
   });
 
   directContactsByNameWithBreaks.unshift({
     id: UserUtils.getOurPubKeyStrFromCache(),
     displayName: window.i18n('noteToSelf'),
   });
+
+  if (directContactsStartingWithANumber.length) {
+    if (currentChar !== unknownSection) {
+      directContactsByNameWithBreaks.push('#');
+    }
+    directContactsByNameWithBreaks.push(...directContactsStartingWithANumber);
+  }
 
   const length = Number(directContactsByNameWithBreaks.length);
 
