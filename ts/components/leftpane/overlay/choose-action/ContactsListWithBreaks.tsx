@@ -13,6 +13,7 @@ import { StyledLeftPaneList } from '../../LeftPaneList';
 import { StyledChooseActionTitle } from './ActionRow';
 import { ContactRow, ContactRowBreak } from './ContactRow';
 import { UserUtils } from '../../../../session/utils';
+import { getThemeValue, pxValueToNumber } from '../../../../themes/globals';
 
 const StyledContactSection = styled.div`
   display: flex;
@@ -98,6 +99,12 @@ const ContactListItemSection = () => {
 
   const length = Number(directContactsByNameWithBreaks.length);
 
+  const calcRowHeight = (params: Index) => {
+    return isString(directContactsByNameWithBreaks[params.index])
+      ? pxValueToNumber(getThemeValue('--contact-row-break-height'))
+      : pxValueToNumber(getThemeValue('--contact-row-height'));
+  };
+
   return (
     <StyledLeftPaneList key={0} style={{ width: '100%' }}>
       <AutoSizer>
@@ -107,10 +114,7 @@ const ContactListItemSection = () => {
               className="module-left-pane__virtual-list"
               height={height}
               rowCount={length}
-              rowHeight={
-                (params: Index) =>
-                  isString(directContactsByNameWithBreaks[params.index]) ? 30 : 64 // should also be changed in `ContactRowBreak`
-              }
+              rowHeight={calcRowHeight}
               directContactsByNameWithBreaks={directContactsByNameWithBreaks}
               rowRenderer={renderRow}
               width={leftPaneListWidth}

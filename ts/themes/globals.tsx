@@ -7,6 +7,10 @@ function setDuration(duration: number | string) {
   return `${!isTestIntegration() ? duration : typeof duration === 'string' ? '0s' : '0'}`;
 }
 
+export function pxValueToNumber(value: string) {
+  return Number(value.replace('px', ''));
+}
+
 // These variables are independent of the current theme
 type ThemeGlobals = {
   /* Fonts */
@@ -117,6 +121,10 @@ type ThemeGlobals = {
   '--right-panel-height': string;
   '--right-panel-attachment-width': string;
   '--right-panel-attachment-height': string;
+
+  /* Contact Row */
+  '--contact-row-height': string;
+  '--contact-row-break-height': string;
 };
 
 type Theme = ThemeGlobals | ThemeColorVariables;
@@ -226,4 +234,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--right-panel-attachment-width': 'calc(var(--right-panel-width) - 2 * var(--margins-2xl) - 7px)',
   '--right-panel-attachment-height':
     'calc(var(--right-panel-height) - 2 * var(--margins-2xl) -7px)',
+
+  '--contact-row-height': '60px',
+  '--contact-row-break-height': '20px',
 };
