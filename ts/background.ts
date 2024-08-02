@@ -735,6 +735,9 @@ export async function startApp(): Promise<void> {
           'background/shutdown: shutdown requested'
         );
 
+        const attachmentDownloadStopPromise = AttachmentDownloadManager.stop();
+        const attachmentBackupStopPromise = AttachmentBackupManager.stop();
+
         server?.cancelInflightRequests('shutdown');
 
         // Stop background processing
@@ -815,13 +818,12 @@ export async function startApp(): Promise<void> {
         ]);
 
         log.info(
-          'background/shutdown: waiting for all attachment downloads to finish'
+          'background/shutdown: waiting for all attachment backups & downloads to finish'
         );
-
         // Since we canceled the inflight requests earlier in shutdown, these should
         // resolve quickly
-        await AttachmentDownloadManager.stop();
-        await AttachmentBackupManager.stop();
+        await attachmentDownloadStopPromise;
+        await attachmentBackupStopPromise;
 
         log.info('background/shutdown: closing the database');
 

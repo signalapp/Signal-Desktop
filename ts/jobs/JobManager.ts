@@ -83,19 +83,26 @@ export abstract class JobManager<CoreJobType> {
   constructor(readonly params: JobManagerParamsType<CoreJobType>) {}
 
   async start(): Promise<void> {
+    log.info(`${this.logPrefix}: starting`);
+
     this.enabled = true;
     await this.params.markAllJobsInactive();
     this.tick();
   }
 
   async stop(): Promise<void> {
+    const activeJobs = [...this.activeJobs.values()];
+
+    log.info(
+      `${this.logPrefix}: stopping. There are ` +
+        `${activeJobs.length} active job(s)`
+    );
+
     this.enabled = false;
     clearTimeoutIfNecessary(this.tickTimeout);
     this.tickTimeout = null;
     await Promise.all(
-      [...this.activeJobs.values()].map(
-        ({ completionPromise }) => completionPromise.promise
-      )
+      activeJobs.map(({ completionPromise }) => completionPromise.promise)
     );
   }
 

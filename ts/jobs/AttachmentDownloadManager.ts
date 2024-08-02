@@ -208,12 +208,10 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
   }
 
   static async start(): Promise<void> {
-    log.info('AttachmentDownloadManager/starting');
     await AttachmentDownloadManager.instance.start();
   }
 
   static async stop(): Promise<void> {
-    log.info('AttachmentDownloadManager/stopping');
     return AttachmentDownloadManager._instance?.stop();
   }
 
