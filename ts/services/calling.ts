@@ -2969,6 +2969,11 @@ export class CallingClass {
     };
 
     // eslint-disable-next-line no-param-reassign
+    call.handleRemoteAudioEnabled = () => {
+      // TODO: Implement handling for the remote audio state using call.remoteAudioEnabled
+    };
+
+    // eslint-disable-next-line no-param-reassign
     call.handleRemoteVideoEnabled = () => {
       reduxInterface.remoteVideoChange({
         conversationId: conversation.id,
