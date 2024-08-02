@@ -488,3 +488,20 @@ function filterNotificationText(text: string) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 }
+
+export function shouldSaveNotificationAvatarToDisk(): boolean {
+  const notificationSetting = notificationService.getNotificationSetting();
+  switch (notificationSetting) {
+    case NotificationSetting.NameOnly:
+    case NotificationSetting.NameAndMessage:
+      // According to the MSDN, avatars can only be loaded from disk or an
+      // http server:
+      // https://learn.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-image?redirectedfrom=MSDN
+      return OS.isWindows();
+    case NotificationSetting.Off:
+    case NotificationSetting.NoNameOrMessage:
+      return false;
+    default:
+      throw missingCaseError(notificationSetting);
+  }
+}

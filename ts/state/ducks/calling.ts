@@ -96,6 +96,7 @@ import { addCallHistory } from './callHistory';
 import { saveDraftRecordingIfNeeded } from './composer';
 import type { CallHistoryDetails } from '../../types/CallDisposition';
 import type { StartCallData } from '../../components/ConfirmLeaveCallModal';
+import { getCallLinksByRoomId } from '../selectors/calling';
 
 // State
 
@@ -1794,7 +1795,9 @@ function setPresenting(
   sourceToPresent?: PresentedSource
 ): ThunkAction<void, RootStateType, unknown, SetPresentingFulfilledActionType> {
   return async (dispatch, getState) => {
-    const callingState = getState().calling;
+    const state = getState();
+    const callingState = state.calling;
+
     const { activeCallState } = callingState;
     const activeCall = getActiveCall(callingState);
     if (!activeCall || !activeCallState) {
@@ -1802,10 +1805,20 @@ function setPresenting(
       return;
     }
 
+    let rootKey: string | undefined;
+    if (activeCall.callMode === CallMode.Adhoc) {
+      const callLink = getOwn(
+        getCallLinksByRoomId(state),
+        activeCall.conversationId
+      );
+      rootKey = callLink?.rootKey;
+    }
+
     await calling.setPresenting(
       activeCall.conversationId,
       activeCallState.hasLocalVideo,
-      sourceToPresent
+      sourceToPresent,
+      rootKey
     );
 
     dispatch({

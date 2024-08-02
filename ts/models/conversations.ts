@@ -37,7 +37,6 @@ import {
 } from '../util/avatarUtils';
 import { getDraftPreview } from '../util/getDraftPreview';
 import { hasDraft } from '../util/hasDraft';
-import { missingCaseError } from '../util/missingCaseError';
 import { hydrateStoryContext } from '../util/hydrateStoryContext';
 import * as Conversation from '../types/Conversation';
 import type { StickerType, StickerWithHydratedData } from '../types/Stickers';
@@ -94,8 +93,8 @@ import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
 import {
   NotificationType,
-  NotificationSetting,
   notificationService,
+  shouldSaveNotificationAvatarToDisk,
 } from '../services/notifications';
 import { storageServiceUploadJob } from '../services/storage';
 import { getSendOptions } from '../util/getSendOptions';
@@ -172,7 +171,6 @@ import { ReceiptType } from '../types/Receipt';
 import { getQuoteAttachment } from '../util/makeQuote';
 import { deriveProfileKeyVersion } from '../util/zkgroup';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
-import OS from '../util/os/osMain';
 import { getMessageAuthorText } from '../util/getMessageAuthorText';
 import { downscaleOutgoingAttachment } from '../util/attachments';
 import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent';
@@ -5292,24 +5290,7 @@ export class ConversationModel extends window.Backbone
     url: string;
     absolutePath?: string;
   }> {
-    let saveToDisk: boolean;
-
-    const notificationSetting = notificationService.getNotificationSetting();
-    switch (notificationSetting) {
-      case NotificationSetting.NameOnly:
-      case NotificationSetting.NameAndMessage:
-        // According to the MSDN, avatars can only be loaded from disk or an
-        // http server:
-        // https://learn.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-image?redirectedfrom=MSDN
-        saveToDisk = OS.isWindows();
-        break;
-      case NotificationSetting.Off:
-      case NotificationSetting.NoNameOrMessage:
-        saveToDisk = false;
-        break;
-      default:
-        throw missingCaseError(notificationSetting);
-    }
+    const saveToDisk = shouldSaveNotificationAvatarToDisk();
     const avatarUrl = getLocalAvatarUrl(this.attributes);
     if (avatarUrl) {
       return {
