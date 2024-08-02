@@ -843,12 +843,6 @@ async function createWindow() {
   // App dock icon bounce
   bounce.init(mainWindow);
 
-  mainWindow.on('hide', () => {
-    if (mainWindow && !windowState.shouldQuit()) {
-      mainWindow.webContents.send('set-media-playback-disabled', true);
-    }
-  });
-
   // Emitted when the window is about to be closed.
   // Note: We do most of our shutdown logic here because all windows are closed by
   //   Electron before the app quits.
@@ -872,6 +866,9 @@ async function createWindow() {
 
     // Prevent the shutdown
     e.preventDefault();
+
+    // Disable media playback
+    mainWindow.webContents.send('set-media-playback-disabled', true);
 
     // In certain cases such as during an active call, we ask the user to confirm close
     // which includes shutdown, clicking X on MacOS or closing to tray.
