@@ -139,12 +139,14 @@ export function sendTextMessage({
   from,
   to,
   text,
+  attachments,
   desktop,
   timestamp = Date.now(),
 }: {
   from: PrimaryDevice;
   to: PrimaryDevice | Device | GroupInfo;
   text: string;
+  attachments?: Array<Proto.IAttachmentPointer>;
   desktop: Device;
   timestamp?: number;
 }): Promise<void> {
@@ -158,6 +160,7 @@ export function sendTextMessage({
       to: to as PrimaryDevice,
       dataMessage: {
         body: text,
+        attachments,
         timestamp: Long.fromNumber(timestamp),
         groupV2: groupInfo
           ? {

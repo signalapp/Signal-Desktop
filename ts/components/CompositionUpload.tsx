@@ -49,6 +49,7 @@ export const CompositionUpload = forwardRef<HTMLInputElement, PropsType>(
 
     return (
       <input
+        data-testid="attachfile-input"
         hidden
         multiple
         onChange={onFileInputChange}
