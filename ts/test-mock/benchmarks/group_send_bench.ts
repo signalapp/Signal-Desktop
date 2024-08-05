@@ -118,7 +118,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
           `>> text="${LAST_MESSAGE}"`
       )
       .first();
-    await item.click({ timeout: 2 * MINUTE });
+    await item.click({ timeout: 3 * MINUTE });
   }
 
   const deltaList = new Array<number>();

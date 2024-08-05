@@ -4117,7 +4117,10 @@ async function integrateGroupChanges({
 
   // If this is our first fetch, we will collapse this down to one set of messages
   const isFirstFetch = !isNumber(group.revision);
-  if (isFirstFetch) {
+  // ...but only if there has been more than one revision since creation
+  const moreThanOneVersion = Boolean(attributes.revision);
+
+  if (isFirstFetch && moreThanOneVersion) {
     // The first array in finalMessages is from the first revision we could process. It
     //   should contain a message about how we joined the group.
     const joinMessages = finalMessages[0];
