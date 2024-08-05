@@ -3,7 +3,6 @@ node_modules_bkp
 .sass-cache
 coverage/*
 build/curve25519_compiled.js
-build/dns-fallback.json
 build/compact-locales
 stylesheets/*.css.map
 /dist
