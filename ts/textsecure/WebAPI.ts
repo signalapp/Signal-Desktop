@@ -257,15 +257,10 @@ function getHostname(url: string): string {
   return urlObject.hostname;
 }
 
-type FetchOptionsType = {
-  method: string;
-  body?: Uint8Array | Readable | string;
-  headers: FetchHeaderListType;
-  redirect?: 'error' | 'follow' | 'manual';
-  agent?: Agent;
+type FetchOptionsType = Omit<RequestInit, 'headers'> & {
+  headers: Record<string, string>;
+  // This is patch-packaged
   ca?: string;
-  timeout?: number;
-  abortSignal?: AbortSignal;
 };
 
 async function getFetchOptions(
@@ -297,7 +292,7 @@ async function getFetchOptions(
   const agentEntry = agents[cacheKey];
   const agent = agentEntry?.agent ?? null;
 
-  const fetchOptions = {
+  const fetchOptions: FetchOptionsType = {
     method: options.type,
     body: typeof options.data === 'function' ? options.data() : options.data,
     headers: {
@@ -309,7 +304,7 @@ async function getFetchOptions(
     agent,
     ca: options.certificateAuthority,
     timeout,
-    abortSignal: options.abortSignal,
+    signal: options.abortSignal,
   };
 
   if (options.contentType) {
@@ -364,7 +359,6 @@ async function _promiseAjax(
     response = socketManager
       ? await socketManager.fetch(url, fetchOptions)
       : await fetch(url, fetchOptions);
-
     if (
       options.serverUrl &&
       getHostname(options.serverUrl) === getHostname(url)
@@ -414,7 +408,6 @@ async function _promiseAjax(
       options.stack
     );
   }
-
   if (
     options.responseType === 'json' ||
     options.responseType === 'jsonwithdetails'
@@ -431,6 +424,17 @@ async function _promiseAjax(
         );
       }
     }
+  }
+
+  if (options.responseType === 'stream') {
+    log.info(logId, response.status, 'Streaming');
+    response.body.on('error', e => {
+      log.info(logId, 'Errored while streaming:', e.message);
+    });
+    response.body.on('end', () => {
+      log.info(logId, response.status, 'Streaming ended');
+    });
+    return result;
   }
 
   log.info(logId, response.status, 'Success');
@@ -3482,19 +3486,38 @@ export function initialize({
     }): Promise<Readable> {
       const abortController = new AbortController();
       const cdnUrl = cdnUrlObject[cdnNumber] ?? cdnUrlObject['0'];
+
+      let downloadStream: Readable | undefined;
+
+      const cancelRequest = () => {
+        abortController.abort();
+      };
+
+      registerInflightRequest(cancelRequest);
+
       // This is going to the CDN, not the service, so we use _outerAjax
-      const downloadStream = await _outerAjax(`${cdnUrl}${cdnPath}`, {
-        headers,
-        certificateAuthority,
-        disableRetries: options?.disableRetries,
-        proxyUrl,
-        responseType: 'stream',
-        timeout: options?.timeout || 0,
-        type: 'GET',
-        redactUrl: redactor,
-        version,
-        abortSignal: abortController.signal,
-      });
+      try {
+        downloadStream = await _outerAjax(`${cdnUrl}${cdnPath}`, {
+          headers,
+          certificateAuthority,
+          disableRetries: options?.disableRetries,
+          proxyUrl,
+          responseType: 'stream',
+          timeout: options?.timeout || 0,
+          type: 'GET',
+          redactUrl: redactor,
+          version,
+          abortSignal: abortController.signal,
+        });
+      } finally {
+        if (!downloadStream) {
+          unregisterInFlightRequest(cancelRequest);
+        } else {
+          downloadStream.on('close', () => {
+            unregisterInFlightRequest(cancelRequest);
+          });
+        }
+      }
 
       const timeoutStream = getTimeoutStream({
         name: `getAttachment(${redactor(cdnPath)})`,
@@ -3508,16 +3531,6 @@ export function initialize({
           timeoutStream.emit('error', error);
         })
         .pipe(timeoutStream);
-
-      const cancelRequest = (error: Error) => {
-        combinedStream.emit('error', error);
-        abortController.abort();
-      };
-      registerInflightRequest(cancelRequest);
-
-      combinedStream.on('done', () => {
-        unregisterInFlightRequest(cancelRequest);
-      });
 
       return combinedStream;
     }
