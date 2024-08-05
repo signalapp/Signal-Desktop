@@ -4,7 +4,7 @@
 import { ipcMain, protocol } from 'electron';
 import { createReadStream } from 'node:fs';
 import { join, normalize } from 'node:path';
-import { Readable, PassThrough } from 'node:stream';
+import { PassThrough } from 'node:stream';
 import z from 'zod';
 import * as rimraf from 'rimraf';
 import { RangeFinder, DefaultStorage } from '@indutny/range-finder';
@@ -32,6 +32,7 @@ import { safeParseInteger } from '../ts/util/numbers';
 import { SECOND } from '../ts/util/durations';
 import { drop } from '../ts/util/drop';
 import { strictAssert } from '../ts/util/assert';
+import { toWebStream } from '../ts/util/toWebStream';
 import { decryptAttachmentV2ToSink } from '../ts/AttachmentCrypto';
 
 let initialized = false;
@@ -455,7 +456,7 @@ function handleRangeRequest({
 
   const create200Response = (): Response => {
     const plaintext = rangeFinder.get(0, context);
-    return new Response(Readable.toWeb(plaintext) as ReadableStream<Buffer>, {
+    return new Response(toWebStream(plaintext), {
       status: 200,
       headers,
     });
@@ -488,7 +489,7 @@ function handleRangeRequest({
   }
 
   const stream = rangeFinder.get(start, context);
-  return new Response(Readable.toWeb(stream) as ReadableStream<Buffer>, {
+  return new Response(toWebStream(stream), {
     status: 206,
     headers,
   });
