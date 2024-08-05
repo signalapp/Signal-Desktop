@@ -10,6 +10,8 @@ export function toWebStream(readable: Readable): ReadableStream<Buffer> {
   let controller: ReadableStreamDefaultController<Buffer>;
 
   const cleanup = finished(readable, err => {
+    cleanup();
+
     if (err != null) {
       return controller.error(err);
     }
