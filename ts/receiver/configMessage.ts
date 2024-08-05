@@ -602,6 +602,8 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
 
     const members = fromWrapper.members.map(m => m.pubkeyHex);
     const admins = fromWrapper.members.filter(m => m.isAdmin).map(m => m.pubkeyHex);
+
+    const creationTimestamp = fromWrapper.joinedAtSeconds ? fromWrapper.joinedAtSeconds * 1000 : 0;
     // then for all the existing legacy group in the wrapper, we need to override the field of what we have in the DB with what is in the wrapper
     // We only set group admins on group creation
     const groupDetails: ClosedGroup.GroupInfo = {
@@ -610,10 +612,9 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
       members,
       admins,
       activeAt:
-        !!legacyGroupConvo.get('active_at') &&
-        legacyGroupConvo.get('active_at') < latestEnvelopeTimestamp
+        !!legacyGroupConvo.get('active_at') && legacyGroupConvo.get('active_at') > creationTimestamp
           ? legacyGroupConvo.get('active_at')
-          : latestEnvelopeTimestamp,
+          : creationTimestamp,
     };
 
     await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
