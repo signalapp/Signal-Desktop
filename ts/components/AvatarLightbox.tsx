@@ -15,6 +15,7 @@ export type PropsType = {
   conversationTitle?: string;
   i18n: LocalizerType;
   isGroup?: boolean;
+  noteToSelf?: boolean;
   onClose: () => unknown;
 };
 
@@ -24,6 +25,7 @@ export function AvatarLightbox({
   conversationTitle,
   i18n,
   isGroup,
+  noteToSelf,
   onClose,
 }: PropsType): JSX.Element {
   return (
@@ -47,6 +49,7 @@ export function AvatarLightbox({
         conversationTitle={conversationTitle}
         i18n={i18n}
         isGroup={isGroup}
+        noteToSelf={noteToSelf}
         style={{
           fontSize: '16em',
           width: 'auto',
