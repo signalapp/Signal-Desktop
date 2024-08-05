@@ -21,8 +21,12 @@ const StyledContent = styled(Flex)`
     color: var(--text-primary-color);
   }
 
-  img {
-    margin: var(--margins-lg) 0 var(--margins-md);
+  img:first-child {
+    margin: var(--margins-2xl) 0 var(--margins-lg);
+  }
+
+  img:nth-child(2) {
+    margin-bottom: var(--margins-xl);
   }
 
   .session-button {
@@ -67,7 +71,18 @@ export const AboutView = () => {
         justifyContent={'center'}
         alignItems={'center'}
       >
-        <img src="images/session/session_icon.png" width="250" height="250" alt="session icon" />
+        <img
+          src="images/session/session_icon.png"
+          alt="session brand icon"
+          width="200"
+          height="200"
+        />
+        <img
+          src="images/session/session-text.svg"
+          alt="session brand text"
+          width={192}
+          height={26}
+        />
 
         <CopyToClipboardButton
           className="version"
