@@ -1,8 +1,10 @@
 import { forwardRef } from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 import { useIsOutgoingRequest } from '../../../hooks/useParamSelector';
 import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 import { SessionIconButton } from '../../icon';
+import { getSelectedHasMessages } from '../../../state/selectors/conversations';
 
 const StyledChatButtonContainer = styled.div<{ disabled?: boolean }>`
   .session-icon-button {
@@ -20,7 +22,8 @@ const StyledChatButtonContainer = styled.div<{ disabled?: boolean }>`
 
 export const AddStagedAttachmentButton = (props: { onClick: () => void }) => {
   const selectedConvoKey = useSelectedConversationKey();
-  const isOutgoingRequest = useIsOutgoingRequest(selectedConvoKey);
+  const hasMessages = useSelector(getSelectedHasMessages);
+  const isOutgoingRequest = useIsOutgoingRequest(selectedConvoKey, hasMessages);
 
   return (
     <StyledChatButtonContainer disabled={isOutgoingRequest}>

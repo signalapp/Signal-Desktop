@@ -18,6 +18,7 @@ import { MessageBody } from '../../conversation/message/message-content/MessageB
 import { SessionIcon } from '../../icon';
 import { InteractionItem } from './InteractionItem';
 import { LastMessageStatusType } from '../../../state/ducks/types';
+import { getSelectedHasMessages } from '../../../state/selectors/conversations';
 
 export const MessageItem = () => {
   const conversationId = useConvoIdFromContext();
@@ -27,7 +28,8 @@ export const MessageItem = () => {
   const hasUnread = useHasUnread(conversationId);
   const isConvoTyping = useIsTyping(conversationId);
   const isMessageRequest = useSelector(getIsMessageRequestOverlayShown);
-  const isOutgoingRequest = useIsOutgoingRequest(conversationId);
+  const hasMessages = useSelector(getSelectedHasMessages);
+  const isOutgoingRequest = useIsOutgoingRequest(conversationId, hasMessages);
 
   const isSearchingMode = useSelector(isSearching);
 

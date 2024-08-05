@@ -35,7 +35,8 @@ const TextInner = styled.div`
  */
 export const ConversationOutgoingRequestExplanation = () => {
   const selectedConversation = useSelectedConversationKey();
-  const isOutgoingMessageRequest = useIsOutgoingRequest(selectedConversation);
+  const hasMessages = useSelector(getSelectedHasMessages);
+  const isOutgoingMessageRequest = useIsOutgoingRequest(selectedConversation, hasMessages);
   const hasIncomingMessages = useSelector(hasSelectedConversationIncomingMessages);
 
   const showMsgRequestUI = selectedConversation && isOutgoingMessageRequest;

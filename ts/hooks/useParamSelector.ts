@@ -194,11 +194,12 @@ export function useIsIncomingRequest(convoId?: string) {
   );
 }
 
-export function useIsOutgoingRequest(convoId?: string) {
+export function useIsOutgoingRequest(convoId?: string, hasMessages?: boolean) {
   const convoProps = useConversationPropsById(convoId);
   if (!convoProps) {
     return false;
   }
+
   return Boolean(
     convoProps &&
       hasValidOutgoingRequestValues({
@@ -208,6 +209,7 @@ export function useIsOutgoingRequest(convoId?: string) {
         isPrivate: convoProps.isPrivate || false,
         isBlocked: convoProps.isBlocked || false,
         activeAt: convoProps.activeAt || 0,
+        hasMessages,
       })
   );
 }

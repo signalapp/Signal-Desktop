@@ -2588,6 +2588,7 @@ export function hasValidOutgoingRequestValues({
   isBlocked,
   isPrivate,
   activeAt,
+  hasMessages,
 }: {
   isMe: boolean;
   isApproved: boolean;
@@ -2595,10 +2596,19 @@ export function hasValidOutgoingRequestValues({
   isBlocked: boolean;
   isPrivate: boolean;
   activeAt: number;
+  hasMessages?: boolean;
 }): boolean {
   const isActive = activeAt && isFinite(activeAt) && activeAt > 0;
 
-  return Boolean(!isMe && isApproved && isPrivate && !isBlocked && !didApproveMe && isActive);
+  // Started a new message, but haven't sent a message yet
+  const emptyConvo =
+    !hasMessages && !isMe && !isApproved && isPrivate && !isBlocked && !didApproveMe && !!isActive;
+
+  // Started a new message, and sent a message
+  const sentOutgoingRequest =
+    !isMe && isApproved && isPrivate && !isBlocked && !didApproveMe && !!isActive;
+
+  return emptyConvo || sentOutgoingRequest;
 }
 
 /**
