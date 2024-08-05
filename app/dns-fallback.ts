@@ -19,7 +19,7 @@ export async function getDNSFallback(): Promise<DNSFallbackType> {
     str = await readFile(configPath, 'utf8');
   } catch (error) {
     console.error(
-      'Warning: build/dns-fallback.json not build, run `yarn generate`'
+      'Warning: build/dns-fallback.json not build, run `npm run build:dns-fallback`'
     );
     cached = [];
     return cached;

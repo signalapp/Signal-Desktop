@@ -1,0 +1,178 @@
+[
+  {
+    "domain": "cdn.signal.org",
+    "endpoints": [
+      {
+        "family": "ipv4",
+        "address": "13.227.74.123"
+      },
+      {
+        "family": "ipv4",
+        "address": "13.227.74.19"
+      },
+      {
+        "family": "ipv4",
+        "address": "13.227.74.59"
+      },
+      {
+        "family": "ipv4",
+        "address": "13.227.74.77"
+      },
+      {
+        "family": "ipv6",
+        "address": "2600:9000:2202:3800:1d:4f32:50c0:93a1"
+      },
+      {
+        "family": "ipv6",
+        "address": "2600:9000:2202:3a00:1d:4f32:50c0:93a1"
+      },
+      {
+        "family": "ipv6",
+        "address": "2600:9000:2202:4400:1d:4f32:50c0:93a1"
+      },
+      {
+        "family": "ipv6",
+        "address": "2600:9000:2202:6600:1d:4f32:50c0:93a1"
+      },
+      {
+        "family": "ipv6",
+        "address": "2600:9000:2202:9a00:1d:4f32:50c0:93a1"
+      },
+      {
+        "family": "ipv6",
+        "address": "2600:9000:2202:a200:1d:4f32:50c0:93a1"
+      },
+      {
+        "family": "ipv6",
+        "address": "2600:9000:2202:ce00:1d:4f32:50c0:93a1"
+      },
+      {
+        "family": "ipv6",
+        "address": "2600:9000:2202:ee00:1d:4f32:50c0:93a1"
+      }
+    ]
+  },
+  {
+    "domain": "cdn2.signal.org",
+    "endpoints": [
+      {
+        "family": "ipv4",
+        "address": "104.18.10.47"
+      },
+      {
+        "family": "ipv4",
+        "address": "104.18.11.47"
+      },
+      {
+        "family": "ipv6",
+        "address": "2606:4700::6812:a2f"
+      },
+      {
+        "family": "ipv6",
+        "address": "2606:4700::6812:b2f"
+      }
+    ]
+  },
+  {
+    "domain": "cdn3.signal.org",
+    "endpoints": [
+      {
+        "family": "ipv4",
+        "address": "104.18.10.47"
+      },
+      {
+        "family": "ipv4",
+        "address": "104.18.11.47"
+      },
+      {
+        "family": "ipv6",
+        "address": "2606:4700::6812:a2f"
+      },
+      {
+        "family": "ipv6",
+        "address": "2606:4700::6812:b2f"
+      }
+    ]
+  },
+  {
+    "domain": "cdsi.signal.org",
+    "endpoints": [
+      {
+        "family": "ipv4",
+        "address": "40.122.45.194"
+      },
+      {
+        "family": "ipv6",
+        "address": "2603:1030:7::1"
+      }
+    ]
+  },
+  {
+    "domain": "chat.signal.org",
+    "endpoints": [
+      {
+        "family": "ipv4",
+        "address": "13.248.212.111"
+      },
+      {
+        "family": "ipv4",
+        "address": "76.223.92.165"
+      },
+      {
+        "family": "ipv6",
+        "address": "2600:9000:a507:ab6d:4ce3:2f58:25d7:9cbf"
+      },
+      {
+        "family": "ipv6",
+        "address": "2600:9000:a61f:527c:d5eb:a431:5239:3232"
+      }
+    ]
+  },
+  {
+    "domain": "sfu.voip.signal.org",
+    "endpoints": [
+      {
+        "family": "ipv4",
+        "address": "34.128.167.52"
+      },
+      {
+        "family": "ipv6",
+        "address": "2600:1901:0:1603::"
+      }
+    ]
+  },
+  {
+    "domain": "storage.signal.org",
+    "endpoints": [
+      {
+        "family": "ipv4",
+        "address": "142.250.191.51"
+      },
+      {
+        "family": "ipv6",
+        "address": "2607:f8b0:4005:813::2013"
+      }
+    ]
+  },
+  {
+    "domain": "updates2.signal.org",
+    "endpoints": [
+      {
+        "family": "ipv4",
+        "address": "104.18.26.44"
+      },
+      {
+        "family": "ipv4",
+        "address": "104.18.27.44"
+      },
+      {
+        "family": "ipv6",
+        "address": "2606:4700::6812:1a2c"
+      },
+      {
+        "family": "ipv6",
+        "address": "2606:4700::6812:1b2c"
+      }
+    ]
+  }
+]
