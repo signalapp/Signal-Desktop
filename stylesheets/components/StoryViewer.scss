@@ -127,6 +127,7 @@
     padding-block: 4px;
     padding-inline: 0;
     margin-bottom: 24px;
+    text-shadow: 0px 0px 48px 0px $color-black-alpha-80;
 
     &__overlay {
       @include button-reset;
@@ -397,7 +398,17 @@
     &--bottom {
       background: linear-gradient($color-transparent, $color-black-alpha-60);
       bottom: 0;
-      height: 256px;
+      height: 140px;
+    }
+    &--bottom.StoryViewer__protection--has-caption {
+      background: linear-gradient($color-transparent, $color-black-alpha-80);
+      height: 280px;
+    }
+
+    &--whole {
+      top: 0;
+      bottom: 0;
+      background: linear-gradient($color-transparent, $color-black-alpha-40);
     }
   }
 
