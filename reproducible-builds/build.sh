@@ -1,5 +1,36 @@
 #!/bin/sh
+# Copyright 2024 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
 
-docker build -t signal-desktop --build-arg NODE_VERSION=$(cat ../.nvmrc) .
+# Usage:
+# ./build.sh [ dev (default) | public (prod and beta builds) | alpha | test | staging ] [ Build timestamp override. Defaults to latest git commit or 0. ]
+
+# First we prepare the docker container in which our build scripts will run. This container includes
+# all build dependencies at specific versions.
+# We set SOURCE_DATE_EPOCH to make system build timestamps deterministic.
+docker build -t signal-desktop --build-arg SOURCE_DATE_EPOCH=0 --build-arg NODE_VERSION=$(cat ../.nvmrc) .
+
+# Before performing the actual build, go to the project root.
 cd ..
-docker run --rm -v "$(pwd)":/project -w /project --user "$(id -u):$(id -g)" signal-desktop sh -c "npm install; npm run generate; npm run build-release" 
+
+# Prepare the timestamp of the actual build based on the latest git commit.
+source_date_epoch=0
+if [ "$2" != "" ]; then
+  echo "Using override timestamp for SOURCE_DATE_EPOCH."
+  source_date_epoch=$(($2))
+else
+  git_timestamp=$(git log -1 --pretty=%ct)
+  if [ "${git_timestamp}" != "" ]; then
+    echo "At commit: $(git log -1 --oneline)"
+    echo "Setting SOURCE_DATE_EPOCH to latest commit's timestamp."
+    source_date_epoch=$((git_timestamp))
+  else
+    echo "Can't get latest commit timestamp. Defaulting to 0."
+    source_date_epoch=0
+  fi
+fi
+
+# Perform the build by mounting the project into the container and passing in the 1st command line
+# arg to select the build type (e.g. "public"). The container runs docker-entrypoint.sh.
+# After the process is finished, the resulting package is located in the ./release/ directory.
+docker run --rm -v "$(pwd)":/project -w /project --user "$(id -u):$(id -g)" -e SOURCE_DATE_EPOCH=$source_date_epoch signal-desktop $1

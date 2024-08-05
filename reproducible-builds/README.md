@@ -1,8 +1,11 @@
+<!-- Copyright 2024 Signal Messenger, LLC -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+
 # Reproducible builds
 
-In order to verify that Signal's official apps are correctly built from the open source code, we need *reproducible builds*. 
+In order to verify that Signal's official apps are correctly built from the open source code, we need _reproducible builds_.
 
-Reproducible builds help ensure that anyone, including you, can build Signal Desktop in a way that is completely identical to the official downloads available to all users. 
+Reproducible builds help ensure that anyone, including you, can build Signal Desktop in a way that is completely identical to the official downloads available to all users.
 
 This provides an extra security layer to ensure that the builds aren't tampered with, corrupted, and built with the free open source code.
 
@@ -11,6 +14,12 @@ This provides an extra security layer to ensure that the builds aren't tampered 
 Reproducible builds for macOS and Windows are not available yet.
 
 ## Reproduce and verify the Linux build
+
+### Experimental notice
+
+We are in the process of rolling out and verifying reproducible builds. As such, reproducibility is still
+experimental and may not work on public releases yet. If you notice any inconsistencies then please file an issue [on the Github Issues page](https://github.com/signalapp/Signal-Desktop/issues).
+Thanks for your patience while we set it up!
 
 ### Pre-requisites
 
@@ -26,29 +35,31 @@ First, grab the source code by using `git`:
 $ git clone https://github.com/signalapp/Signal-Desktop.git
 ```
 
-This will download Signal Desktop's source code under the `Signal-Desktop` file. Once the download is complete, go inside the file and make sure you are selecting the branch used in official builds. For instance, if you are trying to build `7.18.0`, then do:
+This will download Signal Desktop's source code under the `Signal-Desktop` directory. Once the download is complete, go inside the directory and make sure you are on the branch used in official builds. For instance, if you are trying to build `7.18.0`, then do:
 
 ```bash
 $ cd Signal-Desktop/
-Signal-Desktop$ git checkout tags/7.16.0
+$ git checkout tags/7.18.0
 ```
 
-You are now on the version of the source code used for `7.16.0`. Then, make sure your shell is in the `reproducible-builds` directory first:
+You are now on the version of the source code used for `7.18.0`. Then, make sure your shell is in the `reproducible-builds` directory:
 
 ```bash
-Signal-Desktop$ cd reproducible-builds/
-Signal-Desktop/reproducible-builds$ pwd
+$ cd reproducible-builds/
+$ pwd
 [...]/Signal-Desktop/reproducible-builds
 ```
 
-Last step is to run the `./build.sh` script. (If your user is not in Docker's `docker` group, then you may need to run the script as `sudo`).
+The last step is to run the `./build.sh` script, passing the "public" arg because you are verifying
+a public production or beta build.
+(If your user is not in Docker's `docker` group, then you may need to run the script as `sudo`).
 
 ```bash
-Signal-Desktop/reproducible-builds$ chmod +x ./build.sh
-Signal-Desktop/reproducible-builds$ ./build.sh
+$ chmod +x ./build.sh public
+$ ./build.sh public
 ```
 
-This bash script will do two things. First, it will create the Docker container where Signal Desktop will be built. Second, it will build Signal Desktop inside the container. 
+This bash script will do two things. First, it will create the Docker container where Signal Desktop will be built. Second, it will build Signal Desktop inside the container.
 
 When the build is completed, the resulting file will be available at `Signal-Desktop/release/signal-desktop_7.18.0_amd64.deb`.
 
@@ -69,7 +80,7 @@ To verify the official `.deb` package against your build, make sure that your ve
 ```bash
 $ sha256sum signal-desktop_7.18.0_amd64-OUR_BUILD.deb signal-desktop_7.18.0_amd64_OFFICIAL_BUILD.deb
 
-0df3d06f74c6855559ef079b368326ca18e144a28ede559fd76648a62ec3eed7  signal-desktop_7.18.0_amd64-OUR_BUILD.deb 
+0df3d06f74c6855559ef079b368326ca18e144a28ede559fd76648a62ec3eed7  signal-desktop_7.18.0_amd64-OUR_BUILD.deb
 0df3d06f74c6855559ef079b368326ca18e144a28ede559fd76648a62ec3eed7  signal-desktop_7.18.0_amd64_OFFICIAL_BUILD.deb
 ```
 

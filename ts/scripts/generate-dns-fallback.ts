@@ -60,7 +60,7 @@ async function main() {
 
   const outPath = join(__dirname, '../../build/dns-fallback.json');
 
-  //await writeFile(outPath, `${JSON.stringify(config, null, 2)}\n`);
+  await writeFile(outPath, `${JSON.stringify(config, null, 2)}\n`);
 }
 
 main().catch(error => {

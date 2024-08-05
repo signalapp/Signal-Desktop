@@ -5,11 +5,18 @@ FROM ubuntu:jammy-20230624@sha256:b060fffe8e1561c9c3e6dea6db487b900100fc26830b9e
 # UNIX timestamp will be generated at the time of the build, and is non-deterministic.
 #
 # Read https://reproducible-builds.org/specs/source-date-epoch/ for more info
-ENV SOURCE_DATE_EPOCH=1
+ENV SOURCE_DATE_EPOCH=0
 
 # Due to some issues with NVM reading .nvmrc, we define the version
-# as an environment variable and use that instead. 
+# as an environment variable and use that instead.
 ARG NODE_VERSION
+
+# User for building. electron-builder works better when not running as root.
+ARG USERNAME=signaluser
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
+ENV SIGNAL_ENV=production
 
 # ---
 # This portion of the code is identical to the Signal Android's
@@ -19,18 +26,21 @@ ARG NODE_VERSION
 COPY docker/ docker/
 COPY docker/apt.conf docker/sources.list /etc/apt/
 
+# Ubuntu needs the ca-certificates package before it'll trust our mirror.
+# But we can't install it because it doesn't trust our mirror!
 # Temporarily disables APT's certificate signature checking
-# to download the certificates. See 
+# to download the certificates.
 RUN apt update -oAcquire::https::Verify-Peer=false
 RUN apt install -oAcquire::https::Verify-Peer=false -y ca-certificates
 
+# Back to normal, verification back on
 RUN apt update
 RUN apt install -y git curl g++ gcc make python3 tar
 # ---
 
 # Install nvm
+ENV NVM_VERSION=0.40.0
 ENV NVM_DIR=/usr/local/nvm
-ENV NVM_VERSION=0.39.7
 RUN mkdir $NVM_DIR
 
 RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh" | bash \
@@ -43,3 +53,18 @@ ENV NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 RUN git config --global --add safe.directory /project
+
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Use non-root user for build.
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
+
+USER $USERNAME
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+# Specify build type using CMD, which affects the app version and name of the resulting package.
+# For more information see build.sh and docker-entrypoint.sh
+CMD ["dev"]
