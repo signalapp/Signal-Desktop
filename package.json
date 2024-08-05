@@ -135,7 +135,7 @@
     "glob": "7.1.6",
     "google-libphonenumber": "3.2.36",
     "got": "11.8.5",
-    "heic-convert": "1.2.4",
+    "heic-convert": "2.1.0",
     "humanize-duration": "3.27.1",
     "intl-tel-input": "17.0.13",
     "js-yaml": "3.13.1",
