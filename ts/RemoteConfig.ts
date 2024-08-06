@@ -26,6 +26,7 @@ export type ConfigKeyType =
   | 'desktop.retryRespondMaxAge'
   | 'desktop.senderKey.retry'
   | 'desktop.senderKeyMaxAge'
+  | 'desktop.experimentalTransport.enableAuth'
   | 'desktop.experimentalTransportEnabled.alpha'
   | 'desktop.experimentalTransportEnabled.beta'
   | 'desktop.experimentalTransportEnabled.prod'

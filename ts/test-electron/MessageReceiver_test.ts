@@ -7,7 +7,7 @@ import { assert } from 'chai';
 import Long from 'long';
 
 import MessageReceiver from '../textsecure/MessageReceiver';
-import { IncomingWebSocketRequest } from '../textsecure/WebsocketResources';
+import { IncomingWebSocketRequestLegacy } from '../textsecure/WebsocketResources';
 import type { WebAPIType } from '../textsecure/WebAPI';
 import type { DecryptionErrorEvent } from '../textsecure/messageReceiverEvents';
 import { generateAci } from '../types/ServiceId';
@@ -53,7 +53,7 @@ describe('MessageReceiver', () => {
       }).finish();
 
       messageReceiver.handleRequest(
-        new IncomingWebSocketRequest(
+        new IncomingWebSocketRequestLegacy(
           {
             id: Long.fromNumber(1),
             verb: 'PUT',

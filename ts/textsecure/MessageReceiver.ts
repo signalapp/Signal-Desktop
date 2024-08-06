@@ -13,13 +13,13 @@ import type {
   UnidentifiedSenderMessageContent,
 } from '@signalapp/libsignal-client';
 import {
-  ContentHint,
   CiphertextMessageType,
+  ContentHint,
   DecryptionErrorMessage,
   groupDecrypt,
   PlaintextContent,
-  PreKeySignalMessage,
   Pni,
+  PreKeySignalMessage,
   processSenderKeyDistributionMessage,
   ProtocolAddress,
   PublicKey,
@@ -40,7 +40,7 @@ import {
   SignedPreKeys,
 } from '../LibSignalStores';
 import { verifySignature } from '../Curve';
-import { strictAssert, assertDev } from '../util/assert';
+import { assertDev, strictAssert } from '../util/assert';
 import type { BatcherType } from '../util/batcher';
 import { createBatcher } from '../util/batcher';
 import { drop } from '../util/drop';
@@ -48,6 +48,7 @@ import { dropNull } from '../util/dropNull';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { Zone } from '../util/Zone';
+import * as durations from '../util/durations';
 import { DurationInSeconds, SECOND } from '../util/durations';
 import type { AttachmentType } from '../types/Attachment';
 import { Address } from '../types/Address';
@@ -55,13 +56,13 @@ import { QualifiedAddress } from '../types/QualifiedAddress';
 import { normalizeStoryDistributionId } from '../types/StoryDistributionId';
 import type { ServiceIdString } from '../types/ServiceId';
 import {
-  ServiceIdKind,
-  normalizeServiceId,
-  normalizePni,
-  isPniString,
-  isUntaggedPniString,
-  isServiceIdString,
   fromPniObject,
+  isPniString,
+  isServiceIdString,
+  isUntaggedPniString,
+  normalizePni,
+  normalizeServiceId,
+  ServiceIdKind,
   toTaggedPni,
 } from '../types/ServiceId';
 import { normalizeAci } from '../util/normalizeAci';
@@ -75,70 +76,70 @@ import createTaskWithTimeout from './TaskWithTimeout';
 import {
   processAttachment,
   processDataMessage,
-  processPreview,
   processGroupV2Context,
+  processPreview,
 } from './processDataMessage';
 import { processSyncMessage } from './processSyncMessage';
 import type { EventHandler } from './EventTarget';
 import EventTarget from './EventTarget';
 import { downloadAttachment } from './downloadAttachment';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
+import { ServerRequestType } from './WebsocketResources';
 import { parseContactsV2 } from './ContactsParser';
 import type { WebAPIType } from './WebAPI';
 import type { Storage } from './Storage';
 import { WarnOnlyError } from './Errors';
 import * as Bytes from '../Bytes';
 import type {
+  IRequestHandler,
   ProcessedAttachment,
   ProcessedDataMessage,
-  ProcessedPreview,
-  ProcessedSyncMessage,
-  ProcessedSent,
   ProcessedEnvelope,
-  IRequestHandler,
+  ProcessedPreview,
+  ProcessedSent,
+  ProcessedSyncMessage,
   UnprocessedType,
 } from './Types.d';
+import type {
+  ConversationToDelete,
+  DeleteForMeSyncEventData,
+  DeleteForMeSyncTarget,
+  MessageToDelete,
+  ReadSyncEventData,
+  ViewSyncEventData,
+} from './messageReceiverEvents';
 import {
   CallEventSyncEvent,
+  CallLinkUpdateSyncEvent,
+  CallLogEventSyncEvent,
+  ConfigurationEvent,
+  ContactSyncEvent,
+  DecryptionErrorEvent,
+  DeleteForMeSyncEvent,
+  DeliveryEvent,
   EmptyEvent,
   EnvelopeQueuedEvent,
   EnvelopeUnsealedEvent,
-  ProgressEvent,
-  TypingEvent,
   ErrorEvent,
-  DeliveryEvent,
-  DecryptionErrorEvent,
-  SentEvent,
-  ProfileKeyUpdateEvent,
-  InvalidPlaintextEvent,
-  MessageEvent,
-  RetryRequestEvent,
-  ReadEvent,
-  ViewEvent,
-  ConfigurationEvent,
-  ViewOnceOpenSyncEvent,
-  MessageRequestResponseEvent,
   FetchLatestEvent,
+  InvalidPlaintextEvent,
   KeysEvent,
-  StickerPackEvent,
+  MessageEvent,
+  MessageRequestResponseEvent,
+  ProfileKeyUpdateEvent,
+  ProgressEvent,
+  ReadEvent,
   ReadSyncEvent,
-  ViewSyncEvent,
-  ContactSyncEvent,
+  RetryRequestEvent,
+  SentEvent,
+  StickerPackEvent,
   StoryRecipientUpdateEvent,
-  CallLogEventSyncEvent,
-  CallLinkUpdateSyncEvent,
-  DeleteForMeSyncEvent,
-} from './messageReceiverEvents';
-import type {
-  MessageToDelete,
-  DeleteForMeSyncEventData,
-  DeleteForMeSyncTarget,
-  ConversationToDelete,
-  ViewSyncEventData,
-  ReadSyncEventData,
+  TypingEvent,
+  ViewEvent,
+  ViewOnceOpenSyncEvent,
+  ViewSyncEvent,
 } from './messageReceiverEvents';
 import * as log from '../logging/log';
-import * as durations from '../util/durations';
 import { areArraysMatchingSets } from '../util/areArraysMatchingSets';
 import { generateBlurHash } from '../util/generateBlurHash';
 import { TEXT_ATTACHMENT } from '../types/MIME';
@@ -385,11 +386,11 @@ export default class MessageReceiver
   public handleRequest(request: IncomingWebSocketRequest): void {
     // We do the message decryption here, instead of in the ordered pending queue,
     // to avoid exposing the time it took us to process messages through the time-to-ack.
-    log.info('MessageReceiver: got request', request.verb, request.path);
-    if (request.path !== '/api/v1/message') {
+    log.info('MessageReceiver: got request', request.requestType);
+    if (request.requestType !== ServerRequestType.ApiMessage) {
       request.respond(200, 'OK');
 
-      if (request.verb === 'PUT' && request.path === '/api/v1/queue/empty') {
+      if (request.requestType === ServerRequestType.ApiEmptyQueue) {
         drop(
           this.incomingQueue.add(
             createTaskWithTimeout(
@@ -406,8 +407,6 @@ export default class MessageReceiver
     }
 
     const job = async () => {
-      const headers = request.headers || [];
-
       if (!request.body) {
         throw new Error(
           'MessageReceiver.handleRequest: request.body was falsey!'
@@ -429,7 +428,10 @@ export default class MessageReceiver
           receivedAtCounter: incrementMessageCounter(),
           receivedAtDate: Date.now(),
           // Calculate the message age (time on server).
-          messageAgeSec: this.calculateMessageAge(headers, serverTimestamp),
+          messageAgeSec: this.calculateMessageAge(
+            request.timestamp,
+            serverTimestamp
+          ),
 
           // Proto.Envelope fields
           type: decoded.type ?? Proto.Envelope.Type.UNKNOWN,
@@ -728,32 +730,15 @@ export default class MessageReceiver
   }
 
   private calculateMessageAge(
-    headers: ReadonlyArray<string>,
-    serverTimestamp?: number
+    timestamp: number | undefined,
+    serverTimestamp: number | undefined
   ): number {
-    let messageAgeSec = 0; // Default to 0 in case of unreliable parameters.
-
-    if (serverTimestamp) {
-      // The 'X-Signal-Timestamp' is usually the last item, so start there.
-      let it = headers.length;
-      // eslint-disable-next-line no-plusplus
-      while (--it >= 0) {
-        const match = headers[it].match(/^X-Signal-Timestamp:\s*(\d+)\s*$/i);
-        if (match && match.length === 2) {
-          const timestamp = Number(match[1]);
-
-          // One final sanity check, the timestamp when a message is pulled from
-          // the server should be later than when it was pushed.
-          if (timestamp > serverTimestamp) {
-            messageAgeSec = Math.floor((timestamp - serverTimestamp) / 1000);
-          }
-
-          break;
-        }
-      }
-    }
-
-    return messageAgeSec;
+    // Default to 0 in case of unreliable parameters.
+    // One final sanity check, the timestamp when a message is pulled from
+    // the server should be later than when it was pushed.
+    return serverTimestamp && timestamp && timestamp > serverTimestamp
+      ? Math.floor((timestamp - serverTimestamp) / 1000)
+      : 0;
   }
 
   private async addToQueue<T>(

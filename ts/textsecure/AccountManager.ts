@@ -15,39 +15,40 @@ import type {
   WebAPIType,
 } from './WebAPI';
 import type {
-  CompatSignedPreKeyType,
   CompatPreKeyType,
+  CompatSignedPreKeyType,
   KeyPairType,
   KyberPreKeyType,
   PniKeyMaterialType,
 } from './Types.d';
 import ProvisioningCipher from './ProvisioningCipher';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
+import { ServerRequestType } from './WebsocketResources';
 import createTaskWithTimeout from './TaskWithTimeout';
 import * as Bytes from '../Bytes';
 import * as Errors from '../types/errors';
 import { senderCertificateService } from '../services/senderCertificate';
 import { backupsService } from '../services/backups';
 import {
+  decryptDeviceName,
   deriveAccessKey,
+  deriveStorageServiceKey,
+  encryptDeviceName,
   generateRegistrationId,
   getRandomBytes,
-  decryptDeviceName,
-  encryptDeviceName,
-  deriveStorageServiceKey,
 } from '../Crypto';
 import {
   generateKeyPair,
-  generateSignedPreKey,
-  generatePreKey,
   generateKyberPreKey,
+  generatePreKey,
+  generateSignedPreKey,
 } from '../Curve';
-import type { ServiceIdString, AciString, PniString } from '../types/ServiceId';
+import type { AciString, PniString, ServiceIdString } from '../types/ServiceId';
 import {
-  ServiceIdKind,
-  normalizePni,
-  toTaggedPni,
   isUntaggedPniString,
+  normalizePni,
+  ServiceIdKind,
+  toTaggedPni,
 } from '../types/ServiceId';
 import { normalizeAci } from '../util/normalizeAci';
 import { drop } from '../util/drop';
@@ -367,8 +368,7 @@ export default class AccountManager extends EventTarget {
     const wsr = await this.server.getProvisioningResource({
       handleRequest(request: IncomingWebSocketRequest) {
         if (
-          request.path === '/v1/address' &&
-          request.verb === 'PUT' &&
+          request.requestType === ServerRequestType.ProvisioningAddress &&
           request.body
         ) {
           const proto = Proto.ProvisioningUuid.decode(request.body);
@@ -388,8 +388,7 @@ export default class AccountManager extends EventTarget {
           setProvisioningUrl(url);
           request.respond(200, 'OK');
         } else if (
-          request.path === '/v1/message' &&
-          request.verb === 'PUT' &&
+          request.requestType === ServerRequestType.ProvisioningMessage &&
           request.body
         ) {
           const envelope = Proto.ProvisionEnvelope.decode(request.body);
@@ -397,7 +396,7 @@ export default class AccountManager extends EventTarget {
           wsr.close();
           envelopeCallbacks?.resolve(envelope);
         } else {
-          log.error('Unknown websocket message', request.path);
+          log.error('Unknown websocket message', request.requestType);
         }
       },
     });
