@@ -1411,6 +1411,8 @@ export async function startApp(): Promise<void> {
 
     void badgeImageFileDownloader.checkForFilesToDownload();
 
+    initializeExpiringMessageService(singleProtoJobQueue);
+
     log.info('Expiration start timestamp cleanup: starting...');
     const messagesUnexpectedlyMissingExpirationStartTimestamp =
       await DataReader.getMessagesUnexpectedlyMissingExpirationStartTimestamp();
@@ -1503,8 +1505,6 @@ export async function startApp(): Promise<void> {
     startTimeTravelDetector(() => {
       window.Whisper.events.trigger('timetravel');
     });
-
-    initializeExpiringMessageService(singleProtoJobQueue);
 
     void updateExpiringMessagesService();
     void tapToViewMessagesDeletionService.update();
