@@ -157,18 +157,22 @@ describe('AttachmentDownloadManager/JobManager', () => {
     );
   }
 
+  async function flushSQLReads() {
+    await DataWriter.getNextAttachmentDownloadJobs({ limit: 10 });
+  }
+
   async function advanceTime(ms: number) {
     // When advancing the timers, we want to make sure any DB operations are completed
     // first. In cases like maybeStartJobs where we prevent re-entrancy, without this,
     // prior (unfinished) invocations can prevent subsequent calls after the clock is
     // ticked forward and make tests unreliable
-    await DataReader.getAllItems();
+    await flushSQLReads();
     const now = Date.now();
     while (Date.now() < now + ms) {
       // eslint-disable-next-line no-await-in-loop
       await clock.tickAsync(downloadManager?.tickInterval ?? 1000);
       // eslint-disable-next-line no-await-in-loop
-      await DataReader.getAllItems();
+      await flushSQLReads();
     }
   }
 
