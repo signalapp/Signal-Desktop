@@ -96,10 +96,10 @@ export const LightboxGallery = (props: Props) => {
   useKey(
     'Escape',
     () => {
-      dispatch(updateLightBoxOptions(null));
       if (onClose) {
         onClose();
       }
+      dispatch(updateLightBoxOptions(null));
     },
     undefined,
     [currentIndex, updateLightBoxOptions, dispatch, onClose]
@@ -122,6 +122,7 @@ export const LightboxGallery = (props: Props) => {
       onPrevious={hasPrevious ? onPrevious : undefined}
       onNext={hasNext ? onNext : undefined}
       onSave={handleSave}
+      onClose={onClose}
       objectURL={objectURL}
       caption={caption}
       contentType={selectedMedia.contentType}

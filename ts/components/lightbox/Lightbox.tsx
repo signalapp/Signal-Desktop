@@ -28,6 +28,7 @@ type Props = {
   onNext?: () => void;
   onPrevious?: () => void;
   onSave?: () => void;
+  onClose?: () => void;
 };
 
 const CONTROLS_WIDTH = 50;
@@ -273,10 +274,17 @@ export const LightboxObject = ({
 export const Lightbox = (props: Props) => {
   const renderedRef = useRef<any>(null);
   const dispatch = useDispatch();
-  const { caption, contentType, objectURL, onNext, onPrevious, onSave } = props;
+  const { caption, contentType, objectURL, onNext, onPrevious, onSave, onClose } = props;
 
   const onObjectClick = (event: any) => {
     event.stopPropagation();
+    dispatch(updateLightBoxOptions(null));
+  };
+
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
+    }
     dispatch(updateLightBoxOptions(null));
   };
 
@@ -284,7 +292,7 @@ export const Lightbox = (props: Props) => {
     if (renderedRef && event.target === renderedRef.current) {
       return;
     }
-    dispatch(updateLightBoxOptions(null));
+    handleClose();
   };
 
   return (
@@ -306,12 +314,7 @@ export const Lightbox = (props: Props) => {
         </div>
         <div style={styles.controls as any}>
           <Flex container={true}>
-            <IconButton
-              type="close"
-              onClick={() => {
-                dispatch(updateLightBoxOptions(null));
-              }}
-            />
+            <IconButton type="close" onClick={handleClose} />
           </Flex>
 
           {onSave ? <IconButton type="save" onClick={onSave} style={styles.saveButton} /> : null}

@@ -36,7 +36,7 @@ export const QRView = ({
       loading={loading}
       onClick={(fileName, dataUrl) => {
         const lightBoxOptions = prepareQRCodeForLightBox(fileName, dataUrl, () => {
-          setMode('edit');
+          setMode('qr');
         });
         window.inboxStore?.dispatch(updateLightBoxOptions(lightBoxOptions));
         setMode('lightbox');
