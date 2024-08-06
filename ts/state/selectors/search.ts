@@ -76,56 +76,41 @@ export type SearchResultsMergedListItem =
 
 export const getSearchResultsList = createSelector([getSearchResults], searchState => {
   const { contactsAndGroups, messages } = searchState;
-  const builtList: Array<SearchResultsMergedListItem> = [];
+  const builtList = [];
 
   if (contactsAndGroups.length) {
-    const us = UserUtils.getOurPubKeyStrFromCache();
-    let usIndex: number = -1;
-
-    const idsWithNameAndType = contactsAndGroups.map(m => ({
+    const contactsWithNameAndType = contactsAndGroups.map(m => ({
       contactConvoId: m.id,
       displayName: m.nickname || m.displayNameInProfile,
       type: m.type,
     }));
 
     const groupsAndCommunities = sortBy(
-      remove(idsWithNameAndType, m => m.type === ConversationTypeEnum.GROUP),
+      remove(contactsWithNameAndType, m => m.type === ConversationTypeEnum.GROUP),
       m => m.displayName?.toLowerCase()
     );
 
-    const idsWithNoDisplayNames = sortBy(
-      remove(idsWithNameAndType, m => !m.displayName),
-      m => m.contactConvoId
+    const contactsStartingWithANumber = sortBy(
+      remove(
+        contactsWithNameAndType,
+        m => !m.displayName || (m.displayName && m.displayName[0].match(/^[0-9]+$/))
+      ),
+      m => m.displayName || m.contactConvoId
     );
 
-    // add a break wherever needed
-    let currentChar = '';
-    for (let i = 0; i < idsWithNameAndType.length; i++) {
-      const m = idsWithNameAndType[i];
-      if (m.contactConvoId === us) {
-        usIndex = i;
-        continue;
-      }
-      if (
-        idsWithNameAndType.length > 1 &&
-        m.displayName &&
-        m.displayName[0].toLowerCase() !== currentChar
-      ) {
-        currentChar = m.displayName[0].toLowerCase();
-        builtList.push(currentChar.toUpperCase());
-      }
-      builtList.push(m);
-    }
+    builtList.push(
+      ...groupsAndCommunities,
+      ...contactsWithNameAndType,
+      ...contactsStartingWithANumber
+    );
 
-    builtList.unshift(...groupsAndCommunities);
+    const us = UserUtils.getOurPubKeyStrFromCache();
+    const hasUs = remove(builtList, m => m.contactConvoId === us);
 
-    if (idsWithNoDisplayNames.length) {
-      builtList.push('#', ...idsWithNoDisplayNames);
-    }
-
-    if (usIndex !== -1) {
+    if (hasUs.length) {
       builtList.unshift({ contactConvoId: us, displayName: window.i18n('noteToSelf') });
     }
+
     builtList.unshift(window.i18n('sessionConversations'));
   }
 

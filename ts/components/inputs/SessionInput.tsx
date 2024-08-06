@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactNode, RefObject, useEffect, useState } from 'react';
+import { ChangeEvent, ReactNode, RefObject, useEffect, useRef, useState } from 'react';
 
 import { motion } from 'framer-motion';
 import { isEmpty, isEqual } from 'lodash';
@@ -13,7 +13,7 @@ type TextSizes = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 const StyledSessionInput = styled(Flex)<{
   error: boolean;
-  textSize?: TextSizes;
+  textSize: TextSizes;
 }>`
   position: relative;
   width: 100%;
@@ -68,6 +68,7 @@ const StyledBorder = styled(AnimatedFlex)`
 
 const StyledInput = styled(motion.input)<{
   error: boolean;
+  textSize: TextSizes;
   centerText?: boolean;
   monospaced?: boolean;
 }>`
@@ -79,9 +80,9 @@ const StyledInput = styled(motion.input)<{
   color: ${props => (props.error ? 'var(--danger-color)' : 'var(--input-text-color)')};
 
   font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
-  font-size: 12px;
   line-height: 1.4;
   ${props => props.centerText && 'text-align: center;'}
+  ${props => `font-size: var(--font-size-${props.textSize});`}
 
   &::placeholder {
     color: var(--input-text-placeholder-color);
@@ -89,13 +90,15 @@ const StyledInput = styled(motion.input)<{
   }
 `;
 
-const StyledTextAreaContainer = styled(motion.div)<{
+export const StyledTextAreaContainer = styled(motion.div)<{
   noValue: boolean;
   error: boolean;
+  textSize: TextSizes;
   centerText?: boolean;
-  textSize?: TextSizes;
   monospaced?: boolean;
 }>`
+  display: flex;
+  align-items: center;
   overflow: hidden;
   position: relative;
   height: ${props => (props.textSize ? `calc(var(--font-size-${props.textSize}) * 4)` : '48px')};
@@ -107,8 +110,8 @@ const StyledTextAreaContainer = styled(motion.div)<{
   outline: 0;
 
   font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
-  font-size: 12px;
-  line-height: 1.4;
+  ${props => `font-size: var(--font-size-${props.textSize});`}
+  line-height: 1;
 
   ${props => props.centerText && 'text-align: center;'}
 
@@ -121,21 +124,20 @@ const StyledTextAreaContainer = styled(motion.div)<{
     border: none;
     background: transparent;
 
-    ${props =>
-      props.noValue &&
-      `position: absolute;
-    top: ${props.textSize ? `calc(var(--font-size-${props.textSize}) + 5px)` : 'calc(12px + 5px)'};`}
+    position: absolute;
+    top: ${props =>
+      `calc(var(--font-size-${props.textSize}) + ${props.textSize === 'xl' ? '8px' : '5px'})`};
 
     resize: none;
-    overflow-wrap: break-word;
+    word-break: break-all;
     user-select: all;
 
     ${props => props.centerText && 'text-align: center;'}
 
     &:placeholder-shown {
       font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
-      font-size: 12px;
-      line-height: 1.4;
+      ${props => `font-size: var(--font-size-${props.textSize});`}
+      line-height: 1;
     }
 
     &::placeholder {
@@ -267,7 +269,7 @@ export const SessionInput = (props: Props) => {
     showHideButtonDataTestIds,
     ctaButton,
     monospaced,
-    textSize,
+    textSize = 'sm',
     centerText,
     editable = true,
     isTextArea,
@@ -277,7 +279,10 @@ export const SessionInput = (props: Props) => {
   } = props;
   const [inputValue, setInputValue] = useState('');
   const [errorString, setErrorString] = useState('');
+  const [textErrorStyle, setTextErrorStyle] = useState(false);
   const [forceShow, setForceShow] = useState(false);
+
+  const textAreaRef = useRef(inputRef?.current || null);
 
   const correctType = forceShow ? 'text' : type;
 
@@ -288,6 +293,17 @@ export const SessionInput = (props: Props) => {
     e.preventDefault();
     const val = e.target.value;
     setInputValue(val);
+    setTextErrorStyle(false);
+    if (isTextArea && textAreaRef && textAreaRef.current !== null) {
+      const scrollHeight = `${textAreaRef.current.scrollHeight}px`;
+      if (isEmpty(val)) {
+        // resets the height of the text area so it's centered if we clear the text
+        textAreaRef.current.style.height = 'unset';
+      }
+      if (scrollHeight !== textAreaRef.current.style.height) {
+        textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+      }
+    }
     if (onValueChanged) {
       onValueChanged(val);
     }
@@ -299,6 +315,7 @@ export const SessionInput = (props: Props) => {
     type: correctType,
     placeholder,
     value,
+    textSize,
     disabled: !editable,
     maxLength,
     autoFocus,
@@ -306,7 +323,6 @@ export const SessionInput = (props: Props) => {
     required,
     'aria-required': required,
     tabIndex,
-    ref: inputRef,
     onChange: updateInputValue,
     style: { paddingInlineEnd: enableShowHideButton ? '48px' : undefined },
     // just in case onChange isn't triggered
@@ -332,7 +348,7 @@ export const SessionInput = (props: Props) => {
 
   const containerProps = {
     noValue: isEmpty(value),
-    error: Boolean(error),
+    error: textErrorStyle,
     centerText,
     textSize,
     monospaced,
@@ -342,6 +358,7 @@ export const SessionInput = (props: Props) => {
   useEffect(() => {
     if (error && !isEmpty(error) && !isEqual(error, errorString)) {
       setErrorString(error);
+      setTextErrorStyle(!!error);
     }
   }, [error, errorString]);
 
@@ -369,12 +386,17 @@ export const SessionInput = (props: Props) => {
       >
         {isTextArea ? (
           <StyledTextAreaContainer {...containerProps}>
-            <textarea {...inputProps} aria-label={ariaLabel || 'session input text area'} />
+            <textarea
+              {...inputProps}
+              ref={inputRef || textAreaRef}
+              aria-label={ariaLabel || 'session input text area'}
+            />
           </StyledTextAreaContainer>
         ) : (
           <StyledInput
             {...inputProps}
             {...containerProps}
+            ref={inputRef}
             aria-label={ariaLabel || 'session input'}
           />
         )}

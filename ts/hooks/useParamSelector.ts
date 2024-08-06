@@ -199,6 +199,7 @@ export function useIsOutgoingRequest(convoId?: string) {
   if (!convoProps) {
     return false;
   }
+
   return Boolean(
     convoProps &&
       hasValidOutgoingRequestValues({

@@ -16,8 +16,9 @@ import { ConversationTypeEnum } from '../../models/types';
 
 const StyledInputContainer = styled(Flex)`
   textarea {
+    cursor: default;
     overflow: hidden;
-    padding-top: var(--margins-xs);
+    top: 14px;
   }
 `;
 

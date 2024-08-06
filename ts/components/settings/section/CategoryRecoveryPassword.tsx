@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useMount from 'react-use/lib/useMount';
 import styled from 'styled-components';
 import { useIconToImageURL } from '../../../hooks/useIconToImageURL';
@@ -24,6 +24,8 @@ import { SpacerMD, SpacerSM } from '../../basic/Text';
 import { CopyToClipboardIcon } from '../../buttons/CopyToClipboardButton';
 import { SessionIconButton } from '../../icon';
 import { SessionSettingButtonItem, SessionSettingsItemWrapper } from '../SessionSettingListItem';
+import { useHotkey } from '../../../hooks/useHotkey';
+import { getIsModalVisble } from '../../../state/selectors/modal';
 
 const StyledSettingsItemContainer = styled.div`
   p {
@@ -62,6 +64,7 @@ export const SettingsCategoryRecoveryPassword = () => {
   const [isQRVisible, setIsQRVisible] = useState(false);
 
   const hideRecoveryPassword = useHideRecoveryPasswordEnabled();
+  const isModalVisible = useSelector(getIsModalVisble);
 
   const isDarkTheme = useIsDarkTheme();
   const { dataURL, iconSize, iconColor, backgroundColor, loading } = useIconToImageURL(qrLogoProps);
@@ -89,6 +92,16 @@ export const SettingsCategoryRecoveryPassword = () => {
       fetchRecoverPhrase();
     }
   });
+
+  useHotkey(
+    'v',
+    () => {
+      if (!isModalVisible) {
+        setIsQRVisible(!isQRVisible);
+      }
+    },
+    (hasPassword && !passwordValid) || loadingSeed || hideRecoveryPassword
+  );
 
   if ((hasPassword && !passwordValid) || loadingSeed || hideRecoveryPassword) {
     return null;

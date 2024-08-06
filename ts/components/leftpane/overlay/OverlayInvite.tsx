@@ -13,6 +13,7 @@ import { CopyToClipboardButton } from '../../buttons/CopyToClipboardButton';
 import { SessionIcon } from '../../icon';
 import { SessionInput } from '../../inputs';
 import { StyledLeftPaneOverlay } from './OverlayMessage';
+import { StyledTextAreaContainer } from '../../inputs/SessionInput';
 
 const StyledHeadingContainer = styled(Flex)`
   .session-icon-button {
@@ -53,9 +54,13 @@ const StyledButtonerContainer = styled.div`
 `;
 
 const StyledInputContainer = styled(Flex)`
-  textarea {
-    position: absolute;
-    top: 8px;
+  ${StyledTextAreaContainer} {
+    margin: var(--margins-sm);
+    textarea {
+      cursor: default;
+      overflow: hidden;
+      top: 12px;
+    }
   }
 `;
 

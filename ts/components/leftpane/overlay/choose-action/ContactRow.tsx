@@ -47,11 +47,6 @@ const StyledRowContainer = styled.button`
   padding: 0 var(--margins-lg);
   transition: background-color var(--default-duration) linear;
   cursor: pointer;
-  border-bottom: 1px var(--border-color) solid;
-
-  &:first-child {
-    border-top: 1px var(--border-color) solid;
-  }
 
   &:hover {
     background-color: var(--conversation-tab-background-hover-color);
@@ -63,10 +58,8 @@ const StyledBreak = styled.div`
   align-items: center;
   padding: 0 var(--margins-lg);
   color: var(--text-secondary-color);
-  font-size: var(--font-size-md);
-  height: 30px; // should also be changed in rowHeight
-
-  border-bottom: 1px var(--border-color) solid;
+  font-size: var(--font-size-sm);
+  height: var(--contact-row-break-width);
 `;
 
 export const ContactRowBreak = (props: { char: string; key: string; style: CSSProperties }) => {
