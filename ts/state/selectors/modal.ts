@@ -29,15 +29,13 @@ export const getModal = (state: StateType): ModalState => {
 
 export const getIsModalVisble = createSelector(getModal, (state: ModalState): boolean => {
   const modalValues = Object.values(state);
-  let visible = false;
   for (let i = 0; i < modalValues.length; i++) {
     if (modalValues[i] !== null) {
-      visible = true;
-      break;
+      return true;
     }
   }
 
-  return visible;
+  return false;
 });
 
 export const getConfirmModal = createSelector(
