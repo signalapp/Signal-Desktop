@@ -352,7 +352,7 @@ export const EditProfileDialog = () => {
           <YourSessionIDSelectable />
           <SessionSpinner loading={loading} height={'74px'} />
           {!loading ? <Spacer2XL /> : null}
-          {mode === 'default' || mode === 'qr' ? (
+          {mode === 'default' || mode === 'qr' || mode === 'lightbox' ? (
             <Flex
               container={true}
               justifyContent={mode === 'default' ? 'space-between' : 'center'}
