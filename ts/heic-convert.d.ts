@@ -6,5 +6,5 @@ declare module 'heic-convert' {
     buffer: Uint8Array;
     format: string;
     quality: number;
-  }): Promise<File>;
+  }): Promise<Buffer>;
 }

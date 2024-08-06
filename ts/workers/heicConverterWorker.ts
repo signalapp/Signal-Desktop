@@ -15,7 +15,7 @@ if (!parentPort) {
 
 const port = parentPort;
 
-function respond(uuid: string, error: Error | undefined, response?: File) {
+function respond(uuid: string, error: Error | undefined, response?: Buffer) {
   const wrappedResponse: WrappedWorkerResponse = {
     uuid,
     error: error?.stack,
@@ -26,13 +26,13 @@ function respond(uuid: string, error: Error | undefined, response?: File) {
 
 port.on('message', async ({ uuid, data }: WrappedWorkerRequest) => {
   try {
-    const file = await heicConvert({
+    const buf = await heicConvert({
       buffer: new Uint8Array(data),
       format: 'JPEG',
       quality: 0.75,
     });
 
-    respond(uuid, undefined, file);
+    respond(uuid, undefined, buf);
   } catch (error) {
     respond(uuid, error, undefined);
   }

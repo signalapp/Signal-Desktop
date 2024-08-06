@@ -13,7 +13,7 @@ export type WrappedWorkerRequest = {
 export type WrappedWorkerResponse = {
   readonly uuid: string;
   readonly error: string | undefined;
-  readonly response?: File;
+  readonly response?: Buffer;
 };
 
 export function getHeicConverter(): (
