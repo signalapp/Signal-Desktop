@@ -8,4 +8,5 @@ export const LINUX_PASSWORD_STORE_FLAGS: Record<string, string> = {
   gnome_libsecret: 'gnome-libsecret',
   kwallet: 'kwallet',
   kwallet5: 'kwallet5',
+  kwallet6: 'kwallet6',
 };
