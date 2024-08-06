@@ -15,6 +15,7 @@ import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SeenStatus } from '../../MessageSeenStatus';
 import { loadCallsHistory } from '../../services/callHistoryLoader';
 import { ID_V1_LENGTH } from '../../groups';
+import { DurationInSeconds, WEEK } from '../../util/durations';
 import {
   setupBasics,
   asymmetricRoundtripHarness,
@@ -422,5 +423,50 @@ describe('backup/bubble messages', () => {
       ],
       []
     );
+  });
+
+  it('drops messages that expire soon', async () => {
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          timestamp: 3,
+          sourceServiceId: CONTACT_A,
+          body: 'd',
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          expirationStartTimestamp: Date.now(),
+          expireTimer: DurationInSeconds.fromSeconds(1),
+        },
+      ],
+      []
+    );
+  });
+
+  it('does not drop messages that expire far in the future', async () => {
+    await symmetricRoundtripHarness([
+      {
+        conversationId: contactA.id,
+        id: generateGuid(),
+        type: 'incoming',
+        received_at: 3,
+        received_at_ms: 3,
+        sent_at: 3,
+        timestamp: 3,
+        sourceServiceId: CONTACT_A,
+        body: 'd',
+        readStatus: ReadStatus.Unread,
+        seenStatus: SeenStatus.Unseen,
+        unidentifiedDeliveryReceived: true,
+        expirationStartTimestamp: Date.now(),
+        expireTimer: DurationInSeconds.fromMillis(WEEK),
+      },
+    ]);
   });
 });
