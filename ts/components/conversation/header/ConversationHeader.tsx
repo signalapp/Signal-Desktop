@@ -1,8 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getSelectedHasMessages,
-  isMessageSelectionMode,
-} from '../../../state/selectors/conversations';
+import { isMessageSelectionMode } from '../../../state/selectors/conversations';
 
 import { openRightPanel } from '../../../state/ducks/conversations';
 
@@ -16,8 +13,7 @@ import { ConversationHeaderTitle } from './ConversationHeaderTitle';
 export const ConversationHeaderWithDetails = () => {
   const isSelectionMode = useSelector(isMessageSelectionMode);
   const selectedConvoKey = useSelectedConversationKey();
-  const hasMessages = useSelector(getSelectedHasMessages);
-  const isOutgoingRequest = useIsOutgoingRequest(selectedConvoKey, hasMessages);
+  const isOutgoingRequest = useIsOutgoingRequest(selectedConvoKey);
 
   const dispatch = useDispatch();
 

@@ -6,10 +6,7 @@ import {
   declineConversationWithConfirm,
 } from '../../interactions/conversationInteractions';
 import { getConversationController } from '../../session/conversations';
-import {
-  getSelectedHasMessages,
-  hasSelectedConversationIncomingMessages,
-} from '../../state/selectors/conversations';
+import { hasSelectedConversationIncomingMessages } from '../../state/selectors/conversations';
 import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 import {
@@ -81,10 +78,9 @@ const handleAcceptConversationRequest = async (convoId: string) => {
 export const ConversationMessageRequestButtons = () => {
   const selectedConvoId = useSelectedConversationKey();
 
-  const hasMessages = useSelector(getSelectedHasMessages);
   const hasIncomingMessages = useSelector(hasSelectedConversationIncomingMessages);
   const isIncomingRequest = useIsIncomingRequest(selectedConvoId);
-  const isOutgoingRequest = useIsOutgoingRequest(selectedConvoId, hasMessages);
+  const isOutgoingRequest = useIsOutgoingRequest(selectedConvoId);
 
   if (!selectedConvoId || (!isIncomingRequest && !isOutgoingRequest)) {
     return null;

@@ -194,7 +194,7 @@ export function useIsIncomingRequest(convoId?: string) {
   );
 }
 
-export function useIsOutgoingRequest(convoId?: string, hasMessages?: boolean) {
+export function useIsOutgoingRequest(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
   if (!convoProps) {
     return false;
@@ -209,7 +209,6 @@ export function useIsOutgoingRequest(convoId?: string, hasMessages?: boolean) {
         isPrivate: convoProps.isPrivate || false,
         isBlocked: convoProps.isBlocked || false,
         activeAt: convoProps.activeAt || 0,
-        hasMessages,
       })
   );
 }
