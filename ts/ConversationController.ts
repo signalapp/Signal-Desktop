@@ -492,12 +492,20 @@ export class ConversationController {
     const dataProvided = [];
     if (providedAci) {
       dataProvided.push(`aci=${providedAci}`);
-    }
-    if (e164) {
-      dataProvided.push(`e164=${e164}`);
-    }
-    if (providedPni) {
-      dataProvided.push(`pni=${providedPni}`);
+
+      if (e164) {
+        dataProvided.push('e164');
+      }
+      if (providedPni) {
+        dataProvided.push('pni');
+      }
+    } else {
+      if (e164) {
+        dataProvided.push(`e164=${e164}`);
+      }
+      if (providedPni) {
+        dataProvided.push(`pni=${providedPni}`);
+      }
     }
     if (fromPniSignature) {
       dataProvided.push(`fromPniSignature=${fromPniSignature}`);
