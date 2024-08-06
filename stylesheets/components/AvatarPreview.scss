@@ -48,6 +48,13 @@
     width: 100%;
   }
 
+  &__note_to_self {
+    -webkit-mask: url('../images/icons/v3/note/note.svg') no-repeat center;
+    -webkit-mask-size: 70%;
+    height: 100%;
+    width: 100%;
+  }
+
   &__upload {
     align-items: center;
     background: $color-gray-02;

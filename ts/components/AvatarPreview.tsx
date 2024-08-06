@@ -21,6 +21,7 @@ export type PropsType = {
   i18n: LocalizerType;
   isEditable?: boolean;
   isGroup?: boolean;
+  noteToSelf?: boolean;
   onAvatarLoaded?: (avatarBuffer: Uint8Array) => unknown;
   onClear?: () => unknown;
   onClick?: () => unknown;
@@ -41,6 +42,7 @@ export function AvatarPreview({
   i18n,
   isEditable,
   isGroup,
+  noteToSelf,
   onAvatarLoaded,
   onClear,
   onClick,
@@ -117,6 +119,8 @@ export function AvatarPreview({
   let encodedPath: string | undefined;
   if (avatarValue && !objectUrl) {
     imageStatus = ImageStatus.Loading;
+  } else if (noteToSelf) {
+    imageStatus = ImageStatus.Nothing;
   } else if (objectUrl) {
     encodedPath = objectUrl;
     imageStatus = ImageStatus.HasImage;
@@ -149,6 +153,23 @@ export function AvatarPreview({
   }
 
   if (imageStatus === ImageStatus.Nothing) {
+    let content: JSX.Element | string | undefined;
+    if (isGroup) {
+      content = (
+        <div
+          className={`BetterAvatarBubble--${avatarColor}--icon AvatarPreview__group`}
+        />
+      );
+    } else if (noteToSelf) {
+      content = (
+        <div
+          className={`BetterAvatarBubble--${avatarColor}--icon AvatarPreview__note_to_self`}
+        />
+      );
+    } else {
+      content = getInitials(conversationTitle);
+    }
+
     return (
       <div className="AvatarPreview">
         <div
@@ -156,13 +177,7 @@ export function AvatarPreview({
           {...clickProps}
           style={componentStyle}
         >
-          {isGroup ? (
-            <div
-              className={`BetterAvatarBubble--${avatarColor}--icon AvatarPreview__group`}
-            />
-          ) : (
-            getInitials(conversationTitle)
-          )}
+          {content}
           {isEditable && <div className="AvatarPreview__upload" />}
         </div>
       </div>
