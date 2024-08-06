@@ -47,7 +47,7 @@ import { isConversationUnregistered } from '../../util/isConversationUnregistere
 import { uuidToBytes } from '../../util/uuidToBytes';
 import { assertDev, strictAssert } from '../../util/assert';
 import { getSafeLongFromTimestamp } from '../../util/timestampLongUtils';
-import { MINUTE, SECOND, DurationInSeconds } from '../../util/durations';
+import { DAY, MINUTE, SECOND, DurationInSeconds } from '../../util/durations';
 import {
   PhoneNumberDiscoverability,
   parsePhoneNumberDiscoverability,
@@ -111,6 +111,7 @@ import {
 import type { CoreAttachmentBackupJobType } from '../../types/AttachmentBackup';
 import { AttachmentBackupManager } from '../../jobs/AttachmentBackupManager';
 import { getBackupCdnInfo } from './util/mediaId';
+import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 
 const MAX_CONCURRENCY = 10;
@@ -174,7 +175,10 @@ type NonBubbleResultType = Readonly<
 >;
 
 export class BackupExportStream extends Readable {
-  private readonly backupTimeMs = getSafeLongFromTimestamp(Date.now());
+  // Shared between all methods for consistency.
+  private now = Date.now();
+
+  private readonly backupTimeMs = getSafeLongFromTimestamp(this.now);
   private readonly convoIdToRecipientId = new Map<string, number>();
   private attachmentBackupJobs: Array<CoreAttachmentBackupJobType> = [];
   private buffers = new Array<Uint8Array>();
@@ -822,6 +826,12 @@ export class BackupExportStream extends Readable {
     const chatId = this.getRecipientId({ id: message.conversationId });
     if (chatId === undefined) {
       log.warn('backups: message chat not found');
+      return undefined;
+    }
+
+    const expirationTimestamp = calculateExpirationTimestamp(message);
+    if (expirationTimestamp != null && expirationTimestamp <= this.now + DAY) {
+      // Message expires too soon
       return undefined;
     }
 
