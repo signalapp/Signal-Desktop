@@ -1200,16 +1200,16 @@
     "messageformat": "Appel"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Rappeler"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Rappeler"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Rejoindre l’appel"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Revenir à l’appel"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Microphone coupé en raison du nombre de participants à l’appel"
@@ -1290,13 +1290,13 @@
     "messageformat": "Réactiver le microphone"
   },
   "icu:calling__button--presenting-disabled": {
-    "messageformat": "Présentation désactivée"
+    "messageformat": "Partage d’écran désactivé"
   },
   "icu:calling__button--presenting-on": {
-    "messageformat": "Commencer la présentation"
+    "messageformat": "Partager mon écran"
   },
   "icu:calling__button--presenting-off": {
-    "messageformat": "Arrêter la présentation"
+    "messageformat": "Arrêter le partage d’écran"
   },
   "icu:calling__button--react": {
     "messageformat": "Réagir"
@@ -1434,10 +1434,10 @@
     "messageformat": "Faire défiler vers le bas"
   },
   "icu:calling__presenting--notification-title": {
-    "messageformat": "Vous présentez à tout le monde."
+    "messageformat": "Vous partagez votre écran avec tout le monde"
   },
   "icu:calling__presenting--notification-body": {
-    "messageformat": "Quand vous serez prêt à cesser de présenter, cliquez ici pour revenir à l’appel."
+    "messageformat": "Cliquez ici pour revenir à l’appel quand vous voudrez arrêter le partage d’écran."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
     "messageformat": "Reconnexion…"
@@ -1455,13 +1455,13 @@
     "messageformat": "Arrêter le partage"
   },
   "icu:calling__presenting--you-stopped": {
-    "messageformat": "Vous avez cessé de présenter"
+    "messageformat": "Vous avez arrêté le partage d’écran"
   },
   "icu:calling__presenting--person-ongoing": {
-    "messageformat": "{name} présente actuellement"
+    "messageformat": "{name} partage son écran"
   },
   "icu:calling__presenting--person-stopped": {
-    "messageformat": "{name} a cessé de présenter"
+    "messageformat": "{name} a arrêté le partage d’écran"
   },
   "icu:calling__presenting--permission-title": {
     "messageformat": "Permission nécessaire"
@@ -2496,7 +2496,7 @@
     "messageformat": "Terminé"
   },
   "icu:MessageRequests--message-direct": {
-    "messageformat": "Autoriser {name} à échanger des messages et partager votre nom et votre photo avec ce contact ? Ce contact ne saura pas que vous avez vu ses messages tant que vous n’aurez pas accepté."
+    "messageformat": "Partager votre nom et votre photo avec {name} et l’autoriser à échanger des messages avec vous ? Cet utilisateur ne saura pas que vous avez vu ses messages tant que vous n’aurez pas accepté."
   },
   "icu:MessageRequests--message-direct-hidden": {
     "messageformat": "Autoriser {name} à vous envoyer des messages et partager vos nom et photo avec ce contact ? Vous avez précédemment supprimé ce contact."
@@ -2505,7 +2505,7 @@
     "messageformat": "Autoriser {name} à vous envoyer des messages et partager vos nom et photo avec ce contact ? Vous ne recevrez aucun message tant que vous ne l’aurez pas débloqué."
   },
   "icu:MessageRequests--message-group": {
-    "messageformat": "Vous joindre à ce groupe et partager votre nom et votre photo avec ses membres ? Ils ne sauront pas que vous avez vu leurs messages tant que vous n’aurez pas accepté."
+    "messageformat": "Rejoindre ce groupe et partager vos nom et photo avec ses membres ? Ce contact ne saura que vous avez vu son invitation que si vous l’acceptez."
   },
   "icu:MessageRequests--message-group-blocked": {
     "messageformat": "Débloquer ce groupe et partager vos nom et photo avec ses membres ? Vous ne recevrez aucun message tant que vous ne l’aurez pas débloqué."
@@ -2634,10 +2634,10 @@
     "messageformat": "Refuser"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Appel vocal rejeté"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Appel vidéo rejeté"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Appel vocal entrant"
@@ -2670,10 +2670,10 @@
     "messageformat": "Les notifications Signal continueront de fonctionner. Rendez-vous dans les Paramètres pour modifier les notifications."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Appel vocal entrant"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Appel vidéo entrant"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Appel vocal sortant"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} personne} other {{count,number} personnes}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Appel vocal"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Lien d’appel"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} participant} other {{people,number} participants}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "L’appel vidéo est terminé"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "Un appel vidéo a été lancé"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Vous avez démarré un appel vidéo"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} a démarré un appel vidéo"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Vous êtes déjà en communication"
@@ -2949,10 +2949,10 @@
     "messageformat": "Le lien est invalide"
   },
   "icu:GroupV2--join--invalid-link": {
-    "messageformat": "Ce lien de groupe n’est pas valide. Assurez-vous que l’intégralité du lien soit intacte et correcte avant de tenter de vous joindre."
+    "messageformat": "Ce lien de groupe n’est pas valide. Vérifiez qu’il n’est pas tronqué et qu’il s’agit du bon lien."
   },
   "icu:GroupV2--join--prompt": {
-    "messageformat": "Voulez-vous vous joindre à ce groupe et partager vos nom et photo avec ses membres ?"
+    "messageformat": "Voulez-vous vous vraiment rejoindre ce groupe et partager vos nom et photo avec ses membres ?"
   },
   "icu:GroupV2--join--already-in-group": {
     "messageformat": "Vous faites déjà partie de ce groupe."
@@ -3003,7 +3003,7 @@
     "messageformat": "{memberCount, plural, one {Groupe · {memberCount,number} membre} other {Groupe · {memberCount,number} membres}}"
   },
   "icu:GroupV2--join--requested": {
-    "messageformat": "Votre demande de vous joindre au groupe a été envoyée à son administrateur. Vous serez averti de sa décision."
+    "messageformat": "Votre demande a bien été envoyée à l’admin. Un message vous signalera si vous êtes autorisé à rejoindre le groupe."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Erreur du lien"
@@ -3495,10 +3495,10 @@
     "messageformat": "{count, plural, one {{count,number} membre n’a pas pu rejoindre les nouveaux groupes. Signal l’a retiré du groupe existant.} other {{count,number} membres n’ont pas pu rejoindre les nouveaux groupes. Signal les a retirés du groupe existant.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
-    "messageformat": "Vous n’avez pas pu être ajouté au Nouveau groupe et avez été invité à vous y joindre"
+    "messageformat": "Impossible de vous ajouter au nouveau groupe. Vous avez donc reçu une invitation à le rejoindre."
   },
   "icu:GroupV1--Migration--invited--one": {
-    "messageformat": "{contact} n’a pas pu être ajouté au Nouveau groupe et a été invité à s’y joindre."
+    "messageformat": "{contact} n’a pas pu être ajouté au nouveau groupe et a été invité à le rejoindre."
   },
   "icu:GroupV1--Migration--invited--many": {
     "messageformat": "{count, plural, one {{count,number} membre n’a pas pu être ajouté au nouveau groupe et a été invité à le rejoindre.} other {{count,number} membres n’ont pas pu être ajoutés au nouveau groupe et ont été invités à le rejoindre.}}"
@@ -3762,7 +3762,7 @@
     "messageformat": "Copier le lien"
   },
   "icu:GroupLinkManagement--confirm-reset": {
-    "messageformat": "Voulez-vous vraiment réinitialiser le lien du groupe ? Personne ne pourra plus se joindre au groupe grâce au lien actuel."
+    "messageformat": "Voulez-vous vraiment réinitialiser le lien du groupe ? Personne ne pourra plus rejoindre le groupe via le lien actuel."
   },
   "icu:GroupLinkManagement--reset": {
     "messageformat": "Réinitialiser le lien"
@@ -5034,7 +5034,7 @@
     "messageformat": "Seuls les administrateurs peuvent envoyer des Stories à ce groupe."
   },
   "icu:Stories__settings-toggle--title": {
-    "messageformat": "Partager et voir les Stories"
+    "messageformat": "Partager et afficher les stories"
   },
   "icu:Stories__settings-toggle--description": {
     "messageformat": "Si vous décidez de désactiver les stories, vous ne pourrez plus en partager ni en consulter."
@@ -5434,7 +5434,7 @@
     "messageformat": "Manqué"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Rejeté"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Appel de groupe"
@@ -5449,7 +5449,7 @@
     "messageformat": "Quitter l’appel en cours ?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Pour passer ou rejoindre un nouvel appel, vous devez quitter l’appel en cours."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Quitter l’appel"
@@ -5482,28 +5482,28 @@
     "messageformat": "Lien d’appel"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Appel vidéo sortant} other {Appel vidéo entrant}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Appel vidéo manqué"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Appel vidéo sans réponse"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Appel vidéo rejeté"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Rejoindre"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Nommer l’appel"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Renommer l’appel"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Approuver tous les membres"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Copier le lien"
@@ -5521,22 +5521,22 @@
     "messageformat": "Nommer l’appel"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Renommer l’appel"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Approuver tous les membres"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Désactivé"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Activé"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Nommer l’appel"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Renommer l’appel"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Nom de l’appel"
@@ -5585,9 +5585,9 @@
     "messageformat": "Vous n’aimez pas les au revoir qui s’éternisent ? Nous non plus ! Nous avons donc accéléré la procédure de suppression des longs fils de discussion. Et une médaille d’or pour ce sprint !"
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "On vous appelle alors que vous êtes déjà en ligne ? Pas de panique : un nouveau raccourci vous permet de quitter l’appel en cours pour en rejoindre un autre. Signal vous demandera de confirmer votre choix (mais si vous venez de passer 3 h au téléphone avec votre belle-mère et qu’un certain Teddy Riner veut à tout prix vous parler, la décision sera vite prise)."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "Cette mise à jour corrige aussi une erreur de démarrage qui se produisait sous Linux pour les utilisateurs dont les paramètres régionaux sont définis sur POSIX."
   }
 }
