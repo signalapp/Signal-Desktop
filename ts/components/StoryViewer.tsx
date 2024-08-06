@@ -726,7 +726,19 @@ export function StoryViewer({
             )}
           </div>
 
-          <div className="StoryViewer__protection StoryViewer__protection--bottom" />
+          <div
+            className={classNames(
+              'StoryViewer__protection',
+              'StoryViewer__protection--bottom',
+              {
+                'StoryViewer__protection--has-caption': caption != null,
+              }
+            )}
+          />
+
+          {hasExpandedCaption && (
+            <div className="StoryViewer__protection StoryViewer__protection--whole" />
+          )}
 
           {canNavigateRight && (
             <button
