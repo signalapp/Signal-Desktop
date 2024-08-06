@@ -28,6 +28,7 @@ import {
   DirectCallStatus,
   GroupCallStatus,
   isSameCallHistoryGroup,
+  CallMode,
 } from '../types/CallDisposition';
 import { formatDateTimeShort, isMoreRecentThan } from '../util/timestamp';
 import type { ConversationType } from '../state/ducks/conversations';
@@ -47,7 +48,6 @@ import { CallsNewCallButton } from './CallsNewCall';
 import { Tooltip, TooltipPlacement } from './Tooltip';
 import { Theme } from '../util/theme';
 import type { CallingConversationType } from '../types/Calling';
-import { CallMode } from '../types/Calling';
 import type { CallLinkType } from '../types/CallLink';
 import {
   callLinkToConversation,

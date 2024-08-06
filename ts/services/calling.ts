@@ -68,11 +68,11 @@ import type {
   PresentedSource,
 } from '../types/Calling';
 import {
-  CallMode,
   GroupCallConnectionState,
   GroupCallJoinState,
   ScreenShareStatus,
 } from '../types/Calling';
+import { CallMode, LocalCallEvent } from '../types/CallDisposition';
 import {
   findBestMatchingAudioDeviceIndex,
   findBestMatchingCameraId,
@@ -135,17 +135,16 @@ import {
   getCallDetailsForAdhocCall,
 } from '../util/callDisposition';
 import { isNormalNumber } from '../util/isNormalNumber';
-import { LocalCallEvent } from '../types/CallDisposition';
 import type { AciString, ServiceIdString } from '../types/ServiceId';
 import { isServiceIdString } from '../types/ServiceId';
 import { isInSystemContacts } from '../util/isInSystemContacts';
+import { toAdminKeyBytes } from '../util/callLinks';
 import {
-  getRoomIdFromRootKey,
   getCallLinkAuthCredentialPresentation,
-  toAdminKeyBytes,
+  getRoomIdFromRootKey,
   callLinkRestrictionsToRingRTC,
   callLinkStateFromRingRTC,
-} from '../util/callLinks';
+} from '../util/callLinksRingrtc';
 import { isAdhocCallingEnabled } from '../util/isAdhocCallingEnabled';
 import {
   conversationJobQueue,
@@ -154,7 +153,10 @@ import {
 import type { CallLinkType, CallLinkStateType } from '../types/CallLink';
 import { CallLinkRestrictions } from '../types/CallLink';
 import { getConversationIdForLogging } from '../util/idForLogging';
-import { sendCallLinkUpdateSync } from '../util/sendCallLinkUpdateSync';
+import {
+  sendCallLinkDeleteSync,
+  sendCallLinkUpdateSync,
+} from '../util/sendCallLinkUpdateSync';
 import { createIdenticon } from '../util/createIdenticon';
 import { getColorForCallLink } from '../util/getColorForCallLink';
 
@@ -681,6 +683,41 @@ export class CallingClass {
     drop(sendCallLinkUpdateSync(callLink));
 
     return callLink;
+  }
+
+  async deleteCallLink(callLink: CallLinkType): Promise<void> {
+    strictAssert(
+      this._sfuUrl,
+      'createCallLink() missing SFU URL; not deleting call link'
+    );
+
+    const sfuUrl = this._sfuUrl;
+    const logId = `deleteCallLink(${callLink.roomId})`;
+
+    const callLinkRootKey = CallLinkRootKey.parse(callLink.rootKey);
+    strictAssert(callLink.adminKey, 'Missing admin key');
+    const callLinkAdminKey = toAdminKeyBytes(callLink.adminKey);
+    const authCredentialPresentation =
+      await getCallLinkAuthCredentialPresentation(callLinkRootKey);
+
+    const result = await RingRTC.deleteCallLink(
+      sfuUrl,
+      authCredentialPresentation.serialize(),
+      callLinkRootKey,
+      callLinkAdminKey
+    );
+
+    if (!result.success) {
+      if (result.errorStatusCode === 404) {
+        log.info(`${logId}: Call link not found, already deleted`);
+        return;
+      }
+      const message = `Failed to delete call link: ${result.errorStatusCode}`;
+      log.error(`${logId}: ${message}`);
+      throw new Error(message);
+    }
+
+    drop(sendCallLinkDeleteSync(callLink));
   }
 
   async updateCallLinkName(

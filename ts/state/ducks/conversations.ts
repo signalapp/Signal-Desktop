@@ -70,7 +70,7 @@ import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
 } from '../../types/BodyRange';
-import { CallMode } from '../../types/Calling';
+import { CallMode } from '../../types/CallDisposition';
 import type { MediaItemType } from '../../types/MediaItem';
 import type { StoryDistributionIdString } from '../../types/StoryDistributionId';
 import { normalizeStoryDistributionId } from '../../types/StoryDistributionId';

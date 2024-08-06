@@ -3,7 +3,7 @@
 
 import React from 'react';
 import type { LocalizerType } from '../types/Util';
-import { CallMode } from '../types/Calling';
+import { CallMode } from '../types/CallDisposition';
 
 export type PropsType = {
   callMode: CallMode;

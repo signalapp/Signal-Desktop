@@ -98,3 +98,7 @@ export const callLinkRecordSchema = z.object({
   expiration: z.number().int().nullable(),
   revoked: z.union([z.literal(1), z.literal(0)]),
 }) satisfies z.ZodType<CallLinkRecord>;
+
+export function isCallLinkAdmin(callLink: CallLinkType): boolean {
+  return callLink.adminKey != null;
+}

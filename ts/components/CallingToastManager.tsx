@@ -3,7 +3,7 @@
 
 import React, { useEffect, useMemo, useRef } from 'react';
 import type { ActiveCallType } from '../types/Calling';
-import { CallMode } from '../types/Calling';
+import { CallMode } from '../types/CallDisposition';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 import { CallingToastProvider, useCallingToasts } from './CallingToast';

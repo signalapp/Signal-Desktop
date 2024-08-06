@@ -5,17 +5,10 @@ import type { AudioDevice, Reaction as CallReaction } from '@signalapp/ringrtc';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { AciString, ServiceIdString } from './ServiceId';
 import type { CallLinkConversationType } from './CallLink';
+import type { CallMode } from './CallDisposition';
 
 export const MAX_CALLING_REACTIONS = 5;
 export const CALLING_REACTIONS_LIFETIME = 4000;
-
-// These are strings (1) for the database (2) for Storybook.
-export enum CallMode {
-  Direct = 'Direct',
-  Group = 'Group',
-  Adhoc = 'Adhoc',
-}
-
 // Speaker and Presentation mode have the same UI, but Presentation is only set
 // automatically when someone starts to present, and will revert to the previous view mode
 // once presentation is complete

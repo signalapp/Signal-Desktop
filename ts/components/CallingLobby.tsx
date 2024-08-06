@@ -19,7 +19,7 @@ import {
   CallingLobbyJoinButton,
   CallingLobbyJoinButtonVariant,
 } from './CallingLobbyJoinButton';
-import { CallMode } from '../types/Calling';
+import { CallMode } from '../types/CallDisposition';
 import type { CallingConversationType } from '../types/Calling';
 import type { LocalizerType } from '../types/Util';
 import { useIsOnline } from '../hooks/useIsOnline';

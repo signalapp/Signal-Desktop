@@ -562,6 +562,7 @@ type ReadableInterface = {
   callLinkExists(roomId: string): boolean;
   getAllCallLinks: () => ReadonlyArray<CallLinkType>;
   getCallLinkByRoomId: (roomId: string) => CallLinkType | undefined;
+  getAllMarkedDeletedCallLinks(): ReadonlyArray<CallLinkType>;
   getMessagesBetween: (
     conversationId: string,
     options: GetMessagesBetweenOptions
@@ -794,6 +795,10 @@ type WritableInterface = {
     roomId: string,
     callLinkState: CallLinkStateType
   ): CallLinkType;
+  beginDeleteAllCallLinks(): void;
+  beginDeleteCallLink(roomId: string): void;
+  finalizeDeleteCallLink(roomId: string): void;
+  deleteCallLinkFromSync(roomId: string): void;
   migrateConversationMessages: (obsoleteId: string, currentId: string) => void;
   saveEditedMessage: (
     mainMessage: ReadonlyDeep<MessageType>,

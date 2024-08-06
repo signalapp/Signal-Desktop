@@ -14,7 +14,8 @@ import type {
   GroupCallRemoteParticipantType,
   GroupCallVideoRequest,
 } from '../types/Calling';
-import { CallMode, GroupCallJoinState } from '../types/Calling';
+import { GroupCallJoinState } from '../types/Calling';
+import { CallMode } from '../types/CallDisposition';
 import { AvatarColors } from '../types/Colors';
 import type { SetRendererCanvasType } from '../state/ducks/calling';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';

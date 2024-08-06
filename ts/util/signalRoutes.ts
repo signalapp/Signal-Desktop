@@ -386,11 +386,11 @@ export const linkCallRoute = _route('linkCall', {
   },
   toWebUrl(args) {
     const params = new URLSearchParams({ key: args.key });
-    return new URL(`https://signal.link/call#${params.toString()}`);
+    return new URL(`https://signal.link/call/#${params.toString()}`);
   },
   toAppUrl(args) {
     const params = new URLSearchParams({ key: args.key });
-    return new URL(`sgnl://signal.link/call#${params.toString()}`);
+    return new URL(`sgnl://signal.link/call/#${params.toString()}`);
   },
 });
 

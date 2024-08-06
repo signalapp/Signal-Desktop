@@ -20,11 +20,11 @@ import type {
 } from '../types/Calling';
 import {
   CallEndedReason,
-  CallMode,
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
 } from '../types/Calling';
+import { CallMode } from '../types/CallDisposition';
 import type { ConversationType } from '../state/ducks/conversations';
 import type {
   AcceptCallType,

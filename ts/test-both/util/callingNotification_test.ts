@@ -3,18 +3,18 @@
 
 import { assert } from 'chai';
 import { getCallingNotificationText } from '../../util/callingNotification';
-import { CallMode } from '../../types/Calling';
+import {
+  CallMode,
+  CallDirection,
+  CallType,
+  GroupCallStatus,
+} from '../../types/CallDisposition';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import {
   getDefaultConversation,
   getDefaultGroup,
 } from '../helpers/getDefaultConversation';
-import {
-  CallDirection,
-  CallType,
-  GroupCallStatus,
-} from '../../types/CallDisposition';
 import { getPeerIdFromConversation } from '../../util/callDisposition';
 import { HOUR } from '../../util/durations';
 

@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { CallMode } from '../types/Calling';
+import { CallMode } from '../types/CallDisposition';
 import type { ActiveCallType, ActiveGroupCallType } from '../types/Calling';
 import type {
   DirectCallStateType,

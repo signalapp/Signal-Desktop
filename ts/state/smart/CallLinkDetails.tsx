@@ -15,20 +15,29 @@ import type { CallLinkRestrictions } from '../../types/CallLink';
 export type SmartCallLinkDetailsProps = Readonly<{
   roomId: string;
   callHistoryGroup: CallHistoryGroup;
+  onClose: () => void;
 }>;
 
 export const SmartCallLinkDetails = memo(function SmartCallLinkDetails({
   roomId,
   callHistoryGroup,
+  onClose,
 }: SmartCallLinkDetailsProps) {
   const i18n = useSelector(getIntl);
   const callLinkSelector = useSelector(getCallLinkSelector);
-  const { startCallLinkLobby, updateCallLinkRestrictions } =
+
+  const { deleteCallLink, startCallLinkLobby, updateCallLinkRestrictions } =
     useCallingActions();
   const { toggleCallLinkAddNameModal, showShareCallLinkViaSignal } =
     useGlobalModalActions();
 
   const callLink = callLinkSelector(roomId);
+
+  const handleDeleteCallLink = useCallback(() => {
+    strictAssert(callLink != null, 'callLink not found');
+    deleteCallLink(callLink.roomId);
+    onClose();
+  }, [callLink, deleteCallLink, onClose]);
 
   const handleOpenCallLinkAddNameModal = useCallback(() => {
     toggleCallLinkAddNameModal(roomId);
@@ -61,6 +70,7 @@ export const SmartCallLinkDetails = memo(function SmartCallLinkDetails({
       callHistoryGroup={callHistoryGroup}
       callLink={callLink}
       i18n={i18n}
+      onDeleteCallLink={handleDeleteCallLink}
       onOpenCallLinkAddNameModal={handleOpenCallLinkAddNameModal}
       onStartCallLinkLobby={handleStartCallLinkLobby}
       onShareCallLinkViaSignal={handleShareCallLinkViaSignal}

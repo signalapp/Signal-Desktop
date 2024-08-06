@@ -7325,6 +7325,26 @@
     "messageformat": "Share link via Signal",
     "description": "Call History > Call Link Details > Share Link via Signal Button"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link",
+    "description": "Call History > Call Link Details > Delete Link Button"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?",
+    "description": "Call History > Call Link Details > Delete Link Modal > Title"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it.",
+    "description": "Call History > Call Link Details > Delete Link Modal > Body"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel",
+    "description": "Call History > Call Link Details > Delete Link Modal > Cancel Button"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete",
+    "description": "Call History > Call Link Details > Delete Link Modal > Delete Button"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Call link details",
     "description": "Call Link Edit Modal > Title"

@@ -17,8 +17,8 @@ import {
   CallType,
   GroupCallStatus,
   callHistoryDetailsSchema,
+  CallMode,
 } from '../../types/CallDisposition';
-import { CallMode } from '../../types/Calling';
 import type { WritableDB, MessageType, ConversationType } from '../Interface';
 import { strictAssert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';

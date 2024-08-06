@@ -30,12 +30,12 @@ import { isAnybodyElseInGroupCall } from '../../../state/ducks/callingHelpers';
 import { truncateAudioLevel } from '../../../calling/truncateAudioLevel';
 import { calling as callingService } from '../../../services/calling';
 import {
-  CallMode,
   CallState,
   CallViewMode,
   GroupCallConnectionState,
   GroupCallJoinState,
 } from '../../../types/Calling';
+import { CallMode } from '../../../types/CallDisposition';
 import { generateAci } from '../../../types/ServiceId';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 import type { UnwrapPromise } from '../../../types/Util';

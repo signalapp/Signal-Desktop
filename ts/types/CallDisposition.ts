@@ -3,13 +3,19 @@
 
 import { z } from 'zod';
 import Long from 'long';
-import { CallMode } from './Calling';
 import type { AciString } from './ServiceId';
 import { aciSchema } from './ServiceId';
 import { bytesToUuid } from '../util/uuidToBytes';
 import { SignalService as Proto } from '../protobuf';
 import * as Bytes from '../Bytes';
 import { UUID_BYTE_SIZE } from './Crypto';
+
+// These are strings (1) for the database (2) for Storybook.
+export enum CallMode {
+  Direct = 'Direct',
+  Group = 'Group',
+  Adhoc = 'Adhoc',
+}
 
 export enum CallType {
   Audio = 'Audio',

@@ -62,7 +62,8 @@ type CallsTabProps = Readonly<{
   preferredLeftPaneWidth: number;
   renderCallLinkDetails: (
     roomId: string,
-    callHistoryGroup: CallHistoryGroup
+    callHistoryGroup: CallHistoryGroup,
+    onClose: () => void
   ) => JSX.Element;
   renderConversationDetails: (
     conversationId: string,
@@ -151,6 +152,10 @@ export function CallsTab({
     },
     [updateSelectedView]
   );
+
+  const onCloseSelectedView = useCallback(() => {
+    updateSelectedView(null);
+  }, [updateSelectedView]);
 
   useEscapeHandling(
     sidebarView === CallsTabSidebarView.NewCallView
@@ -328,7 +333,8 @@ export function CallsTab({
             {selectedView.type === 'callLink' &&
               renderCallLinkDetails(
                 selectedView.roomId,
-                selectedView.callHistoryGroup
+                selectedView.callHistoryGroup,
+                onCloseSelectedView
               )}
           </div>
         )}

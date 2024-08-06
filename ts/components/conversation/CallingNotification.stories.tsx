@@ -6,7 +6,13 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { CallMode } from '../../types/Calling';
+import {
+  CallMode,
+  CallType,
+  CallDirection,
+  GroupCallStatus,
+  DirectCallStatus,
+} from '../../types/CallDisposition';
 import { generateAci } from '../../types/ServiceId';
 import { CallingNotification, type PropsType } from './CallingNotification';
 import {
@@ -14,12 +20,6 @@ import {
   getDefaultGroup,
 } from '../../test-both/helpers/getDefaultConversation';
 import type { CallStatus } from '../../types/CallDisposition';
-import {
-  CallType,
-  CallDirection,
-  GroupCallStatus,
-  DirectCallStatus,
-} from '../../types/CallDisposition';
 import type { ConversationType } from '../../state/ducks/conversations';
 
 const i18n = setupI18n('en', enMessages);

@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { LocalizerType } from '../types/Util';
-import { CallMode } from '../types/Calling';
-import { missingCaseError } from './missingCaseError';
-import type { CallStatus } from '../types/CallDisposition';
 import {
+  CallMode,
   CallDirection,
   DirectCallStatus,
   type CallHistoryDetails,
   CallType,
   GroupCallStatus,
 } from '../types/CallDisposition';
+import { missingCaseError } from './missingCaseError';
+import type { CallStatus } from '../types/CallDisposition';
 import type { ConversationType } from '../state/ducks/conversations';
 import { strictAssert } from './assert';
 import { isMoreRecentThan } from './timestamp';

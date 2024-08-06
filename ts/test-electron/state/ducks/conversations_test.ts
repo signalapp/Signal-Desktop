@@ -36,7 +36,7 @@ import {
 } from '../../../state/ducks/conversations';
 import { ReadStatus } from '../../../messages/MessageReadStatus';
 import type { SingleServePromiseIdString } from '../../../services/singleServePromise';
-import { CallMode } from '../../../types/Calling';
+import { CallMode } from '../../../types/CallDisposition';
 import { generateAci, getAciFromPrefix } from '../../../types/ServiceId';
 import { generateStoryDistributionId } from '../../../types/StoryDistributionId';
 import {
