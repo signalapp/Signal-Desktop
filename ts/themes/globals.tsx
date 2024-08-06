@@ -8,7 +8,11 @@ function setDuration(duration: number | string) {
 }
 
 export function pxValueToNumber(value: string) {
-  return Number(value.replace('px', ''));
+  const numberValue = Number(value.replace('px', ''));
+  if (Number.isNaN(numberValue)) {
+    throw new Error('Invalid number value');
+  }
+  return numberValue;
 }
 
 // These variables are independent of the current theme
