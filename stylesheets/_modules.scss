@@ -951,7 +951,7 @@
 .module-left-pane {
   display: inline-flex;
   flex-direction: column;
-  width: 380px;
+  width: var(--left-panel-width);
   height: 100%;
 }
 

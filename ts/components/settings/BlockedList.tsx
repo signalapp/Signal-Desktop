@@ -63,7 +63,6 @@ const BlockedEntries = (props: {
               onSelect={addToSelected}
               onUnselect={removeFromSelected}
               disableBg={true}
-              maxNameWidth={'33vw'}
             />
           );
         })}

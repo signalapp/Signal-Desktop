@@ -126,6 +126,15 @@ type ThemeGlobals = {
   '--right-panel-attachment-width': string;
   '--right-panel-attachment-height': string;
 
+  /* Left Panel */
+  '--left-panel-width': string;
+
+  /* Actions panel (the 80px of the 380px of the left pane) */
+  '--actions-panel-width': string;
+
+  /* Main panel */
+  '--main-panel-content-width': string;
+
   /* Contact Row */
   '--contact-row-height': string;
   '--contact-row-break-height': string;
@@ -238,6 +247,10 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--right-panel-attachment-width': 'calc(var(--right-panel-width) - 2 * var(--margins-2xl) - 7px)',
   '--right-panel-attachment-height':
     'calc(var(--right-panel-height) - 2 * var(--margins-2xl) -7px)',
+
+  '--left-panel-width': '380px',
+  '--actions-panel-width': '80px',
+  '--main-panel-content-width': 'calc(100vw - var(--left-panel-width))',
 
   '--contact-row-height': '60px',
   '--contact-row-break-height': '20px',
