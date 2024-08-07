@@ -183,9 +183,12 @@ export const RestoreAccount = () => {
     try {
       const validName = await ProfileManager.updateOurProfileDisplayName(displayName, true);
 
+      const trimmedPassword = recoveryPassword.trim();
+      setRecoveryPassword(trimmedPassword);
+
       await signInWithNewDisplayName({
         displayName: validName,
-        recoveryPassword,
+        recoveryPassword: trimmedPassword,
         dispatch,
       });
     } catch (err) {
