@@ -87,10 +87,10 @@
     "messageformat": "데이터 복원"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "OS 암호화 백엔드가 {previousBackend}에서 {currentBackend}로 변경되어 데이터베이스 암호화 키에 접근할 수 없습니다. 이 문제는 데스크톱 환경(예: GNOME 및 KDE간)이 변경될 때 발생할 수 있습니다.\n\n이전 데스크톱 환경으로 전환하세요."
+    "messageformat": "OS 암호화 키링 백엔드가 {previousBackend}에서 {currentBackend}(으)로 변경되어 데이터베이스 암호화 키에 접근할 수 없습니다. 이 문제는 데스크톱 환경(예: GNOME 및 KDE 간)이 변경될 때 발생할 수 있습니다.\n\n이전 데스크톱 환경으로 전환하세요."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "OS 암호화 백엔드가 {previousBackend}에서 {currentBackend}로 변경되어 데이터베이스 암호화 키에 접근할 수 없습니다. 이 문제는 데스크톱 환경(예: GNOME 및 KDE간)이 변경될 때 발생할 수 있습니다.\n\n이전 데스크톱 환경으로 전환하거나 커맨드라인 플래그 --password-store=\"{previousBackendFlag}\"로 Signal을 실행해 보세요."
+    "messageformat": "OS 암호화 키링 백엔드가 {previousBackend}에서 {currentBackend}(으)로 변경되어 데이터베이스 암호화 키에 접근할 수 없습니다. 이 문제는 데스크톱 환경(예: GNOME 및 KDE 간)이 변경될 때 발생할 수 있습니다.\n\n이전 데스크톱 환경으로 전환하거나 --password-store=\"{previousBackendFlag}\" 명령줄 플래그로 Signal을 실행해 보세요."
   },
   "icu:mainMenuFile": {
     "messageformat": "파일 (&F)"
@@ -831,13 +831,13 @@
     "messageformat": "Signal을 업데이트하지 못했습니다. {retry} 또는 {url}을(를) 방문하여 수동으로 설치하세요. 그다음 {support}에 이 문제에 관해 문의하세요."
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal을 업데이트하지 못했습니다. <retryUpdateButton>업데이트를 다시 시도</retryUpdateButton>하거나 {url} 을(를) 방문하여 수동으로 설치하세요. 그다음 <contactSupportLink>지원팀</contactSupportLink>에 이 문제에 관해 문의하세요."
+    "messageformat": "Signal을 업데이트하지 못했습니다. <retryUpdateButton>업데이트를 다시 시도</retryUpdateButton>하거나 {url}을(를) 방문하여 수동으로 설치하세요. 그런 다음 <contactSupportLink>지원팀</contactSupportLink>에 이 문제에 관해 문의하세요."
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal을 업데이트하지 못했습니다. {url}을(를) 방문하여 수동으로 설치하세요. 그다음 {support}에 이 문제에 관해 문의하세요."
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Signal을 업데이트하지 못했습니다. {url}을(를) 방문하여 수동으로 설치하세요. 그다음 <contactSupportLink>지원팀</contactSupportLink>에 이 문제에 관해 문의하세요."
+    "messageformat": "Signal을 업데이트하지 못했습니다. {url}을(를) 방문하여 수동으로 설치하세요. 그런 다음 <contactSupportLink>지원팀</contactSupportLink>에 이 문제에 관해 문의하세요."
   },
   "icu:readOnlyVolume": {
     "messageformat": "Signal Desktop이 macOS 검역에 걸렸을 가능성이 크며 자동 업데이트할 수 없습니다. 탐색기를 사용하여 {app} 앱을 {folder} 폴더로 이동하세요."
@@ -1200,16 +1200,16 @@
     "messageformat": "통화"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "다시 걸기"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "다시 걸기"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "통화 참여"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "통화로 돌아가기"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "통화 규모로 인해 마이크가 음소거 처리되었습니다."
@@ -2634,10 +2634,10 @@
     "messageformat": "거절"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "음성 통화를 거부함"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "화상 통화를 거부함"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "수신 음성 통화"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal이 알림 영역에서 계속 실행됩니다. Signal 설정에서 이 설정을 변경할 수 있습니다."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "수신 음성 통화"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "수신 화상 통화"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "발신 음성 통화"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, other {{count,number}명}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "음성 통화"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "통화 링크"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, other {{people,number}명이 통화 중}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "화상 통화를 종료했습니다"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "화상 통화를 시작함"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "화상 통화를 시작했습니다"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} 님이 화상 통화를 시작했습니다"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "이미 통화 참가자 수 최대"
@@ -5434,7 +5434,7 @@
     "messageformat": "부재중"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "거부됨"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "그룹 통화"
@@ -5449,7 +5449,7 @@
     "messageformat": "현재 통화를 종료하시겠어요?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "새 통화를 시작하거나 새 통화에 참여하려면 먼저 현재 통화를 끝내야 합니다."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "통화 종료"
@@ -5482,34 +5482,49 @@
     "messageformat": "통화 링크"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {발신 화상 통화} other {수신 화상 통화}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "부재중 화상 통화"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "응답하지 않은 화상 통화"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "화상 통화를 거부함"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "참가"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "통화 이름 추가"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "통화 이름 수정"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "모든 멤버 승인"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "링크 복사"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Signal을 통해 링크 공유"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "통화 링크 세부 정보"
@@ -5521,22 +5536,22 @@
     "messageformat": "통화 이름 추가"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "통화 이름 수정"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "모든 멤버 승인"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "꺼짐"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "켜짐"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "통화 이름 추가"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "통화 이름 수정"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "통화 이름"
@@ -5585,9 +5600,15 @@
     "messageformat": "이번 릴리스에서는 대용량 메시지 대화 삭제 프로세스 속도가 향상되었습니다."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "다른 통화가 이미 진행 중일 때 통화를 종료하고 새 통화에 참여하는 바로 가기를 추가했습니다."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "또한 이 업데이트는 로캘이 `POSIX`로 설정된 사용자의 Linux 시작 충돌을 해결합니다."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

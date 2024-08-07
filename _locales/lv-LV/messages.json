@@ -1200,16 +1200,16 @@
     "messageformat": "Zvani"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Atzvanīt"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Zvanīt vēlreiz"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Pievienoties sarunai"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Atgriezties pie zvana"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Mikrofons izslēgts zvana dalībnieku skaita dēļ"
@@ -2634,10 +2634,10 @@
     "messageformat": "Atteikt"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Noraidīts balss zvans"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Noraidīts video zvans"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Ienākošs balss zvans"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal turpinās darboties paziņojumu sadaļā. Varat to mainīt Signal iestatījumos."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Ienākošs balss zvans"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Ienākošs videozvans"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Izejošs balss zvans"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, zero {{count,number} personu} one {{count,number} persona} other {{count,number} personas}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Balss zvans"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Zvana saite"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, zero {Zvanā piedalās {people,number}} one {Zvanā piedalās {people,number}} other {Zvanā piedalās {people,number}}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "Video zvans ir beidzies"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "Video zvans tika uzsākts"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Jūs uzsākāt video zvanu"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} uzsāka video zvanu"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Jūs jau esat zvanā"
@@ -5434,7 +5434,7 @@
     "messageformat": "Neatbildēts"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Noraidīts"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Grupas zvans"
@@ -5449,7 +5449,7 @@
     "messageformat": "Vai pamest pašreizējo zvana?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Lai uzsāktu jaunu zvanu vai pievienotos jaunam zvanam, vispirms pārtrauciet esošo."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Pamest sarunu"
@@ -5482,34 +5482,49 @@
     "messageformat": "Zvana saite"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Izejošs videozvans} other {Ienākošs videozvans}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Neatbildēts videozvans"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Neatbildēts videozvans"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Noraidīts video zvans"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Pievienoties"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Pievienot audiozvana nosaukumu"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Rediģēt zvana nosaukumu"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Apstiprināt visus dalībniekus"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopēt saiti"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Kopīgot saiti caur Signal"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Zvana saites informācija"
@@ -5521,22 +5536,22 @@
     "messageformat": "Pievienot audiozvana nosaukumu"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Rediģēt zvana nosaukumu"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Apstiprināt visus dalībniekus"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Izslēgts"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Ieslēgts"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Pievienot audiozvana nosaukumu"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Rediģēt zvana nosaukumu"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Zvana nosaukums"
@@ -5585,9 +5600,15 @@
     "messageformat": "Reizēm ātri pateikt \"atā\" ir vieglāk nekā ilgi atvadīties, tāpēc paātrinājām dzēšanas procesu apjomīgām sarakstēm."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "Mēs pievienojām saīsni, kas ļauj pārtraukt notiekošu zvanu, lai pievienotos jaunam zvanam. Jums būs jāapstiprina tas, ka pametat zvanu."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "Tāpat šajā atjauninājumā novērsām avarēšanu palaišanas brīdī Linux lietotājiem, kuru iestatītā valoda ir \"POSIX\"."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

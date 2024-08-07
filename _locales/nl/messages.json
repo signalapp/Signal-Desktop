@@ -90,7 +90,7 @@
     "messageformat": "Kan geen toegang krijgen tot de database-encryptiesleutel omdat de back-end voor de keyring van het besturingssysteem is gewijzigd van {previousBackend} in {currentBackend}. Dit kan gebeuren als de desktopomgeving verandert, bijvoorbeeld van GNOME naar KDE.\n\nSchakel over naar de vorige desktopomgeving."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Kan geen toegang krijgen tot de database-encryptiesleutel omdat de back-end voor de keyring van het besturingssysteem is gewijzigd van {previousBackend} in {currentBackend}. Dit kan gebeuren als de desktopomgeving verandert, bijvoorbeeld van GNOME naar KDE.\n\nSchakel over naar de vorige desktopomgeving of probeer Signal uit te voeren met de commandoregel: flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Kan geen toegang krijgen tot de database-encryptiesleutel omdat de back-end voor de keyring van het besturingssysteem is gewijzigd van {previousBackend} naar {currentBackend}. Dit kan gebeuren als de desktopomgeving verandert, bijvoorbeeld van GNOME naar KDE.\n\nSchakel over naar de vorige desktopomgeving of probeer Signal uit te voeren met de commandoregel-flag: --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Bestand"
@@ -1200,16 +1200,16 @@
     "messageformat": "Bellen"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Terugbellen"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Opnieuw bellen"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Aan oproep deelnemen"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Naar oproep terugkeren"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Je microfoon is gedempt vanwege het aantal deelnemers aan deze oproep"
@@ -2634,10 +2634,10 @@
     "messageformat": "Weigeren"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Spraakoproep geweigerd"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Video-oproep geweigerd"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Inkomende spraakoproep"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal blijft actief in het meldingencentrum. Je kunt dit wijzigen in de instellingen van Signal."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Inkomende spraakoproep"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Inkomende video-oproep"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Uitgaande spraakoproep"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} persoon} other {{count,number} personen}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Spraakoproep"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Oproeplink"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} in de oproep} other {{people,number} in de oproep}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "De video-oproep is beëindigd"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "Er is een video-oproep gestart"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Je bent een video-oproep gestart"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} is een video-oproep gestart"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Je neemt op dit moment al aan een oproep deel"
@@ -5434,7 +5434,7 @@
     "messageformat": "Gemist"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Geweigerd"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Groepsoproep"
@@ -5449,7 +5449,7 @@
     "messageformat": "Huidige oproep verlaten?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Je moet de huidige oproep verlaten voordat je een nieuwe oproep kunt starten of kunt deelnemen aan een nieuwe oproep."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Oproep verlaten"
@@ -5482,34 +5482,49 @@
     "messageformat": "Oproeplink"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Uitgaande video-oproep} other {Inkomende video-oproep}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Gemiste video-oproep"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Onbeantwoorde video-oproep"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Video-oproep geweigerd"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Deelnemen"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Oproepnaam toevoegen"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Oproepnaam bewerken"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Alle deelnemers goedkeuren"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Link kopiëren"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Link delen via Signal"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Oproeplinkdetails"
@@ -5521,22 +5536,22 @@
     "messageformat": "Oproepnaam toevoegen"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Oproepnaam bewerken"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Alle deelnemers goedkeuren"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Uit"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Aan"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Oproepnaam toevoegen"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Oproepnaam bewerken"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Oproepnaam"
@@ -5585,9 +5600,15 @@
     "messageformat": "Soms is snel zwaaien makkelijker dan een uitgebreid afscheid, daarom hebben we het proces van het verwijderen van grote berichtenthreads versneld."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "We hebben een snelkoppeling toegevoegd om de huidige oproep te verlaten en deel te nemen aan een nieuwe. Je moet je vertrek eerst even bevestigen, maar afscheid nemen is niet verplicht. Of je gedag zegt is aan jou."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "Deze update lost ook opstartproblemen op voor Linux-gebruikers die `POSIX` gebruiken."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

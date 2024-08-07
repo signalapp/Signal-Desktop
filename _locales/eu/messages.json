@@ -90,7 +90,7 @@
     "messageformat": "Ezin da atzitu datu-baseko enkriptatze-gakoa, sistema eragilearen enkriptatze-gako sortaren backend-a jada ez baita {previousBackend}, {currentBackend} baizik. Ordenagailuaren ingurunea aldatzean gerta daiteke hori; adibidez, GNOME-tik KDE-ra aldatzean.\n\nAldatu ordenagailuaren aurreko ingurunera."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Ezin da atzitu datu-baseko enkriptatze-gakoa, sistema eragilearen enkriptatze-gako sortaren backend-a jada ez baita {previousBackend}, {currentBackend} baizik. Ordenagailuaren ingurunea aldatzean gerta daiteke hori; adibidez, GNOME-tik KDE-ra aldatzean.\n\nAldatu ordenagailuaren aurreko ingurunera edo saiatu Signal agindu-lerro honekin exekutatzen: --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Ezin da atzitu datu-baseko enkriptatze-gakoa, sistema eragilearen enkriptatze-gako sortaren backend-a jada ez baita {previousBackend}, {currentBackend} baizik. Ordenagailuaren ingurunea aldatzean gerta daiteke hori; adibidez, GNOME-tik KDE-ra aldatzean.\n\nAldatu ordenagailuaren aurreko ingurunera edo saiatu Signal agindu-lerroen aukera honekin exekutatzen: --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fitxategia"
@@ -1200,16 +1200,16 @@
     "messageformat": "Deitzen"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Itzuli deia"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Deitu berriro"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Deian sartu"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Deira itzuli"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Deiaren tamaina dela eta, mikrofonoa desaktibatuta dago"
@@ -2634,10 +2634,10 @@
     "messageformat": "Uko egin"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Ahots-deia baztertu da"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Bideodeia baztertu da"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Sarrerako ahots-deia"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal-ek abian jarraituko du jakinarazpen-eremuan. Hori aldatzeko, joan ezarpenetara."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Sarrerako ahots-deia"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Sarrerako bideodeia"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Irteerako ahots-deia"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {Pertsona {count,number}} other {{count,number} pertsona}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Ahots-deia"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Deiaren esteka"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} deian dago} other {{people,number} deian daude}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "Bideodeia amaitu da"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "Bideodei bat hasi da"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Bideodeia hasi duzu"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} erabiltzaileak bideodeia hasi du"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Deian zaude"
@@ -5434,7 +5434,7 @@
     "messageformat": "Galduak"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Baztertu da"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Talde-deia"
@@ -5449,7 +5449,7 @@
     "messageformat": "Oraingo deitik irten nahi duzu?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Beste dei bat hasteko edo beste dei batean sartzeko, oraingo deitik irten behar duzu."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Deia utzi"
@@ -5482,34 +5482,49 @@
     "messageformat": "Deiaren esteka"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Irteerako bideodeia} other {Sarrerako bideodeia}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Bideodei galdua"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Erantzun gabeo bideodeia"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Bideodeia baztertu da"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Sartu"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Gehitu deiaren izena"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Editatu deiaren izena"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Kide guztiak onartu"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopiatu esteka"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Partekatu esteka Signal bidez"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Deiaren estekaren xehetasunak"
@@ -5521,22 +5536,22 @@
     "messageformat": "Gehitu deiaren izena"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Editatu deiaren izena"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Kide guztiak onartu"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Desaktibatuta"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Aktibatuta"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Gehitu deiaren izena"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Editatu deiaren izena"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Deitu izena"
@@ -5585,9 +5600,15 @@
     "messageformat": "Kaleratze honen bidez, mezu-hari handiak ezabatzeko prozesua bizkortzen da."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "Dei bat abian denean uneko deia esekitzeko eta dei berrian sartzeko lasterbide bat gehitu dugu."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "Eguneratze honen bidez, halaber, eskualdeko ezarpenetan POSIX darabilten Linux-eko erabiltzaileei abioan gertatzen zitzaien hutsegite bat konpondu da."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

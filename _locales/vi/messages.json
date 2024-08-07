@@ -1200,16 +1200,16 @@
     "messageformat": "Đang gọi"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Gọi lại"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Gọi Lại"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Tham gia cuộc gọi"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Quay trở lại cuộc gọi"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Microphone bị tắt tiếng do kích thước cuộc gọi quá lớn"
@@ -2634,10 +2634,10 @@
     "messageformat": "Từ chối"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Cuộc gọi thoại đã từ chối"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Cuộc gọi video đã từ chối"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Cuộc gọi thoại đến"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal sẽ tiếp tục chạy ở vùng thông báo. Bạn có thể thay đổi trong mục cài đặt của Signal."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Cuộc gọi thoại đến"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Cuộc gọi video đang đến"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Cuộc gọi thoại đi"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, other {{count,number} người}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Cuộc gọi thoại"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Đường dẫn cuộc gọi"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, other {{people,number} trong cuộc gọi}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "Cuộc gọi video đã kết thúc"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "Một cuộc gọi video đã được bắt đầu"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Bạn đã bắt đầu cuộc gọi video"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} đã bắt đầu cuộc gọi video"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Bạn đã đang ở trong một cuộc gọi"
@@ -5434,7 +5434,7 @@
     "messageformat": "Cuộc gọi nhỡ"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Đã từ chối"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Cuộc gọi nhóm"
@@ -5449,7 +5449,7 @@
     "messageformat": "Rời khỏi cuộc gọi hiện tại?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Bạn phải rời khỏi cuộc gọi hiện tại trước khi bắt đầu hoặc tham gia một cuộc gọi mới."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Rời cuộc gọi"
@@ -5482,34 +5482,49 @@
     "messageformat": "Đường dẫn cuộc gọi"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Cuộc gọi video đang gọi đi} other {Cuộc gọi video đang đến}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Cuộc gọi video bị nhỡ"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Cuộc gọi video không được trả lời"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Cuộc gọi video đã từ chối"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Tham gia"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Thêm tên cuộc gọi"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Sửa tên cuộc gọi"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Chấp nhận tất cả thành viên"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Sao chép đường dẫn"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Chia sẻ đường dẫn qua Signal"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Chi tiết đường dẫn cuộc gọi"
@@ -5521,22 +5536,22 @@
     "messageformat": "Thêm tên cuộc gọi"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Sửa tên cuộc gọi"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Chấp nhận tất cả thành viên"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Tắt"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Bật"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Thêm tên cuộc gọi"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Sửa tên cuộc gọi"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Tên cuộc gọi"
@@ -5585,9 +5600,15 @@
     "messageformat": "Quá trình xóa các chuỗi tin nhắn được tăng tốc qua bản cập nhật này."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "Chúng tôi đã thêm một shortcut để ngắt và tham gia cuộc gọi mới khi đang ở trong một cuộc gọi đang diễn ra."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "Bản cập nhật này cũng sửa lỗi ứng dụng đóng đột ngột ở nền tảng Linux đối với những người dùng có ngôn ngữ được thiết lập là `POSIX`."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

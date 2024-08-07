@@ -90,7 +90,7 @@
     "messageformat": "OS ကုဒ်ပြောင်းဝှက်ခြင်း Keyring backend သည် {previousBackend} မှ {currentBackend} သို့ ပြောင်းသွားသောကြောင့် ဒေတာဘေ့စ် ကုဒ်ဝှက်ခြင်းကီးကို ဝင်သုံး၍မရပါ။ ဥပမာအားဖြင့် GNOME နှင့် KDE အကြား Desktop အခြေအနေ ပြောင်းလဲပါက ၎င်းသည် ဖြစ်ပေါ်နိုင်သည်။\n\nကျေးဇူးပြု၍ ယခင် Desktop အခြေအနေသို့ ပြောင်းပါ။"
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "OS ကုဒ်ပြောင်းဝှက်ခြင်း Keyring backend သည် {previousBackend} မှ {currentBackend} သို့ ပြောင်းသွားသောကြောင့် ဒေတာဘေ့စ် ကုဒ်ဝှက်ခြင်းကီးကို ဝင်သုံး၍မရပါ။ ဥပမာအားဖြင့် GNOME နှင့် KDE အကြား Desktop အခြေအနေ ပြောင်းလဲပါက ၎င်းသည် ဖြစ်ပေါ်နိုင်သည်။\n\nကျေးဇူးပြု၍ ယခင် Desktop အခြေအနေသို့ ပြောင်းပါ သို့မဟုတ် အမိန့်ပေးစာကြောင်း flag အချက်ပြမှုကို လုပ်ဆောင်ရန် --password-store=\"{previousBackendFlag}\""
+    "messageformat": "OS ကုဒ်ပြောင်းဝှက်ခြင်း Keyring backend သည် {previousBackend} မှ {currentBackend} သို့ ပြောင်းသွားသောကြောင့် ဒေတာဘေ့စ် ကုဒ်ဝှက်ခြင်းကီးကို ဝင်သုံး၍မရပါ။ ဥပမာအားဖြင့် GNOME နှင့် KDE အကြား Desktop အခြေအနေ ပြောင်းလဲပါက ၎င်းသည် ဖြစ်ပေါ်နိုင်သည်။\n\nယခင် Desktop အခြေအနေသို့ ပြောင်းပါ သို့မဟုတ် Signal ကို command line flag --password-store=\"{previousBackendFlag}\" ဖြင့် လည်ပတ်ကြည့်ပါ"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ဖိုင်"
@@ -1200,16 +1200,16 @@
     "messageformat": "ခေါ်နေသည်"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "ပြန်ခေါ်မည်"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "ပြန်ခေါ်ဆိုပါ"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "ခေါ်ဆိုမှုတွင် ပါဝင်ရန်"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "ခေါ်ဆိုမှုသို့ ပြန်သွားရန်"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "ကောလ် အရွယ်အစားကြောင့် မိုက်ခရိုဖုန်း အသံပိတ်ထားသည်"
@@ -2634,10 +2634,10 @@
     "messageformat": "လက်မခံပါ"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "ငြင်းပယ်ခဲ့သော အော်ဒီယိုကောလ်"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "ငြင်းပယ်ခဲ့သော ဗီဒီယိုကောလ်"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "အဝင် အော်ဒီယိုကောလ်"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal သည် အသိပေးချက် ဧရိယာတွင် ဆက်လက်လုပ်ဆောင်နေပါမည်။ ဤသည်ကို Signal ဆက်တင်တွင် ပြောင်းနိုင်ပါသည်။"
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "အော်ဒီယိုကောလ် အဝင်"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "ဗီဒီယိုကောလ် အဝင်"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "အထွက် အော်ဒီယိုကောလ်"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, other {{count,number} ဦး}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "အော်ဒီယိုကောလ်"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "ကောလ်လင့်ခ်"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, other {ကောလ်တွင် {people,number} ဦးပါဝင်}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "ဗီဒီယိုကောလ်ခေါ်ဆိုမှု ပြီးဆုံးသွားပါပြီ"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "ဗီဒီယိုကောလ်ခေါ်ဆိုမှုတစ်ခု စတင်ခဲ့သည်"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "သင်သည် ဗီဒီယိုကောလ်ခေါ်ဆိုမှုကို စတင်ခဲ့သည်"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} ဗီဒီယိုကောလ်ခေါ်ဆိုမှုကို စတင်ခဲ့သည်"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "သင်သည် ကောလ်ထဲတွင် ရှိပြီးဖြစ်သည်"
@@ -5434,7 +5434,7 @@
     "messageformat": "လွတ်သွားသည်"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "ငြင်းပယ်သည်"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "အဖွဲ့လိုက် ခေါ်ဆိုမှု"
@@ -5449,7 +5449,7 @@
     "messageformat": "လက်ရှိခေါ်ဆိုမှုကို ရပ်နားမလား။"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "ခေါ်ဆိုမှုအသစ်တစ်ခု မစတင်မီ သို့မဟုတ် မပါဝင်မီ လက်ရှိခေါ်ဆိုမှုကို ရပ်နားရပါမည်။"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "ခေါ်ဆိုမှုကို ရပ်နားမယ်"
@@ -5482,34 +5482,49 @@
     "messageformat": "ကောလ်လင့်ခ်"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {ဗီဒီယိုကောလ် အထွက်} other {ဗီဒီယိုကောလ် အဝင်}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "လွတ်သွားသော ဗီဒီယိုကောလ်"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "မဖြေဆိုသော ဗီဒီယိုကောလ်"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "ငြင်းပယ်ခဲ့သော ဗီဒီယိုကောလ်"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "ပါဝင်မည်"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "ကောလ်အမည် ပေါင်းထည့်ရန်"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "ကောလ်အမည် ပြင်ဆင်ရန်"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "မန်ဘာအားလုံးကို အတည်ပြုရန်"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "လင့်ခ် ကူးရန်"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Signal မှတစ်ဆင့် လင့်ခ်ဝေမျှရန်"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Signal ဖြင့်ဖုန်းခေါ်ဆိုရန် လင့်ခ်အသေးစိတ်"
@@ -5521,22 +5536,22 @@
     "messageformat": "ကောလ်အမည် ပေါင်းထည့်ရန်"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "ကောလ်အမည် ပြင်ဆင်ရန်"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "မန်ဘာအားလုံးကို အတည်ပြုရန်"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "ပိတ်မည်"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "ဖွင့်မည်"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "ကောလ်အမည် ပေါင်းထည့်ရန်"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "ကောလ်အမည် ပြင်ဆင်ရန်"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "ကောလ်အမည်"
@@ -5585,9 +5600,15 @@
     "messageformat": "ယခုထုတ်ဝေမှုတွင် မက်ဆေ့ချ်တွဲ အရှည်ကြီးများကို ဖျက်ခြင်းလုပ်ငန်းစဉ်ကို အရှိန်မြှင့်တင် ပေးထားပါသည်။"
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "အခြားခေါ်ဆိုမှုတစ်ခုသည် သင့်အမည်ကိုခေါ်ဆိုပါက လက်ရှိခေါ်ဆိုမှုမှထွက်ပြီး အသစ်တစ်ခုဖြင့် ချိတ်ဆက်နိုင်ရန် ရှော့တ်ကတ်တစ်ခုကို ထည့်သွင်းထားသည်။ သင်ထွက်ခွာသွားခြင်းကို အတည်ပြုရန် သင့်အား အသိပေးသွားမည်ဖြစ်သော်လည်း မထွက်ခွာမီ နှုတ်ဆက်ခြင်း မနှုတ်ဆက်ခြင်းသည် သင့်သဘောဖြစ်သည်။"
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "ဤအပ်ဒိတ်သည် စက်တွင်း `POSIX` သုံးစွဲသူများအတွက် Linux တွင် စတင်ချိန် ပျက်ယွင်းမှုကိုလည်း ပြင်ဆင်ပေးပါသည်။"
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

@@ -90,7 +90,7 @@
     "messageformat": "មិនអាចចូលប្រើកូដអ៊ីនគ្រីបមូលដ្ឋានទិន្នន័យបានទេ ដោយសារផ្នែកខាងក្រោយនៃកម្មវិធីឃីរីងអ៊ីនគ្រីប OS បានផ្លាស់ប្តូរពី {previousBackend} ទៅ {currentBackend}។ វាអាចកើតឡើងប្រសិនបើអ៊ីនធើហ្វេសរបស់ Desktop ផ្លាស់ប្តូរ ឧទាហរណ៍រវាង GNOME និង KDE។\n\nសូមប្តូរទៅអ៊ីនធើហ្វេសរបស់ Desktop ពីមុន។"
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "មិនអាចចូលប្រើកូដអ៊ីនគ្រីបមូលដ្ឋានទិន្នន័យបានទេ ដោយសារផ្នែកខាងក្រោយនៃកម្មវិធីឃីរីងអ៊ីនគ្រីប OS បានផ្លាស់ប្តូរពី {previousBackend} ទៅ {currentBackend}។ វាអាចកើតឡើងប្រសិនបើអ៊ីនធើហ្វេសរបស់ Desktop ផ្លាស់ប្តូរ ឧទាហរណ៍រវាង GNOME និង KDE។\n\nសូមប្តូរទៅអ៊ីនធើហ្វេសរបស់ Desktop ពីមុន ឬព្យាយាមដំណើរការ Signal ជាមួយពាក្យបញ្ជា flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "មិនអាចចូលប្រើកូដអ៊ីនគ្រីបមូលដ្ឋានទិន្នន័យបានទេ ដោយសារផ្នែកខាងក្រោយនៃកម្មវិធីឃីរីងអ៊ីនគ្រីប OS បានផ្លាស់ប្តូរពី {previousBackend} ទៅ {currentBackend}។ វាអាចកើតឡើងប្រសិនបើអ៊ីនធើហ្វេសរបស់ Desktop ផ្លាស់ប្តូរ ឧទាហរណ៍រវាង GNOME និង KDE។\n\nសូមប្តូរទៅអ៊ីនធើហ្វេសរបស់ Desktop ពីមុន ឬព្យាយាមដំណើរការ Signal ដោយឃ្លាបញ្ជា --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&ឯកសារ"
@@ -1200,16 +1200,16 @@
     "messageformat": "ការហៅ"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "ហៅទៅវិញ"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "ហៅម្តងទៀត"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "ចូលរួមការហៅ"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "ត្រឡប់ទៅការហៅ"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "មីក្រូហ្វូនត្រូវបានបិទសំឡេងដោយសារមានមនុស្សច្រើនចូលរួមក្នុងការហៅ"
@@ -2634,10 +2634,10 @@
     "messageformat": "បដិសេធ"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "ការហៅជាសំឡេងដែលបានបដិសេធ"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "ការហៅជាវីដេអូដែលបានបដិសេធ"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "ការហៅចូលជាសំឡេង"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal នឹងបន្តដំណើរការក្នុងទំព័រជូនដំណឹង។ អ្នកអាចផ្លាស់ប្តូរវាបាននៅក្នុងការកំណត់របស់ Signal។"
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "ការហៅចូលជាសំឡេង"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "ការហៅចូលជាវីដេអូ"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "ការហៅចេញជាសំឡេង"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, other {មនុស្ស {count,number} នាក់}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "ការហៅជាសំឡេង"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "តំណសម្រាប់ការហៅ"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, other {{people,number} នាក់នៅក្នុងការហៅ}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "ការហៅជាវីដេអូបានបញ្ចប់"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "ការហៅជាវីដេអូបានចាប់ផ្តើម"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "អ្នកបានចាប់ផ្តើមការហៅជាវីដេអូ"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} បានចាប់ផ្តើមការហៅជាវីដេអូ"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "អ្នកស្ថិតនៅក្នុងការហៅទូរសព្ទស្រាប់ហើយ"
@@ -5434,7 +5434,7 @@
     "messageformat": "ខកមិនបានទទួល"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "បានបដិសេធ"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "ការហៅជាក្រុម"
@@ -5449,7 +5449,7 @@
     "messageformat": "ចាកចេញពីការហៅបច្ចុប្បន្នឬ?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "អ្នកត្រូវតែចេញពីការហៅបច្ចុប្បន្នសិន ទើបអាចចាប់ផ្តើម ឬចូលរួមការហៅថ្មីបាន។"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "បិទការហៅ"
@@ -5482,34 +5482,49 @@
     "messageformat": "តំណសម្រាប់ការហៅ"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {ការហៅចេញជាវីដេអូ} other {ការហៅចូលជាវីដេអូ}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "ការហៅជាវីដេអូដែលបានខកខាន"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "ការហៅជាវីដេអូដែលមិនបានឆ្លើយតប"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "ការហៅជាវីដេអូដែលបានបដិសេធ"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "ចូលរួម"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "ដាក់ឈ្មោះសម្រាប់ការហៅ"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "កែឈ្មោះសម្រាប់ការហៅ"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "អនុញ្ញាតសមាជិកទាំងអស់"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "ចម្លងតំណ"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "ចែករំលែកតំណតាមរយៈ Signal"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "ព័ត៌មានលម្អិតអំពីតំណហៅទូរសព្ទ"
@@ -5521,22 +5536,22 @@
     "messageformat": "ដាក់ឈ្មោះសម្រាប់ការហៅ"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "កែឈ្មោះសម្រាប់ការហៅ"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "អនុញ្ញាតសមាជិកទាំងអស់"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "បិទ"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "បើក"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "ដាក់ឈ្មោះសម្រាប់ការហៅ"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "កែឈ្មោះសម្រាប់ការហៅ"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "ឈ្មោះសម្រាប់ការហៅ"
@@ -5585,9 +5600,15 @@
     "messageformat": "ការចេញផ្សាយនេះបង្កើនល្បឿននៃដំណើរការលុបប្រវត្តិសារសន្ទនាវែងៗ។"
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "ប្រសិនបើការហៅផ្សេងទៀតកំពុងហៅឈ្មោះរបស់អ្នក យើងបានបន្ថែមផ្លូវកាត់មួយដើម្បីអាចចេញពីការហៅបច្ចុប្បន្ន ហើយចូលរួមការហៅថ្មីបាន។ អ្នកនឹងត្រូវបានជំរុញឱ្យបញ្ជាក់ពីការចាកចេញរបស់អ្នក ប៉ុន្តែវាអាស្រ័យលើអ្នកទេ ថាតើអ្នកចង់លាទៅមុនឬអត់។"
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "កំណែថ្មីនេះក៏ដោះស្រាយផងដែរនូវបញ្ហាគាំងនៅពេលចាប់ផ្តើមនៅលើ Linux សម្រាប់អ្នកប្រើទាំងឡាយដែលបានកំណត់អ៊ីនធើហ្វេសទៅជា `POSIX`។"
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

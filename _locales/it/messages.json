@@ -1200,16 +1200,16 @@
     "messageformat": "Chiamate"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Richiama"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Chiama di nuovo"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Unisciti alla chiamata"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Torna alla chiamata"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Microfono disattivato visto il numero di utenti nella chiamata"
@@ -2634,10 +2634,10 @@
     "messageformat": "Rifiuta"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Chiamata vocale rifiutata"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Videochiamata rifiutata"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Chiamata in arrivo"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal continuerà a funzionare nell'area notifiche. Puoi cambiare questa opzione nelle Impostazioni di Signal."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Chiamata vocale in arrivo"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Videochiamata in arrivo"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Chiamata in uscita"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} persona} other {{count,number} persone}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Chiamata vocale"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Link chiamata"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} in chiamata} other {{people,number} in chiamata}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "Videochiamata terminata"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "Videochiamata iniziata"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Hai iniziato una videochiamata"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} ha iniziato una videochiamata"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Sei già in una chiamata"
@@ -5434,7 +5434,7 @@
     "messageformat": "Chiamata persa"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Rifiutata"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Chiamata di gruppo"
@@ -5449,7 +5449,7 @@
     "messageformat": "Vuoi abbandonare la chiamata?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Per iniziare o unirti a una nuova chiamata, devi prima uscire da quella in corso."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Esci"
@@ -5482,34 +5482,49 @@
     "messageformat": "Link chiamata"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Videochiamata in uscita} other {Videochiamata in arrivo}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Videochiamata persa"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Videochiamata senza risposta"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Videochiamata rifiutata"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Unisciti"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Aggiungi nome chiamata"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Modifica nome chiamata"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Approva tutti gli utenti"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Copia link"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Condividi il link via Signal"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Dettagli del link della chiamata"
@@ -5521,7 +5536,7 @@
     "messageformat": "Aggiungi nome chiamata"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Modifica nome chiamata"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Approva tutti gli utenti"
@@ -5536,7 +5551,7 @@
     "messageformat": "Aggiungi nome chiamata"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Modifica nome chiamata"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Nome chiamata"
@@ -5585,9 +5600,15 @@
     "messageformat": "Non è mai facile dire addio, quindi meglio farlo nel modo più rapido possibile… questo aggiornamento può aiutare, visto che velocizza tutto il processo di eliminazione dei messaggi."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "Se ti chiamano mentre stai partecipando a una chiamata, non preoccuparti. Abbiamo aggiunto una scorciatoia per lasciare (di fretta o con calma) la chiamata attuale e unirti a quella nuova. Noi ti chiederemo conferma dell'operazione, tu però ricordati di salutare!"
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "Questo aggiornamento risolve anche dei casi di crash su Linux durante la fase di avvio di Signal per gli utenti che avevano le impostazioni locali impostate su \"POSIX\"."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

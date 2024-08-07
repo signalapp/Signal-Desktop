@@ -87,7 +87,7 @@
     "messageformat": "Gjenopprett data"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Ingen tilgang til krypteringsnøkkelen for databasen fordi krypteringsringen til operativsystemet har endret seg fra {previousBackend} til {currentBackend}. Dette skjer hvis skrivebordsmiljøet endres, for eksempel fra GNOME til KDE.\n\nBytt til det forrige miljøet."
+    "messageformat": "Ingen tilgang til krypteringsnøkkelen for databasen fordi krypteringsringen til operativsystemet har endret seg fra {previousBackend} til {currentBackend}. Dette skjer hvis skrivebordsmiljøet endres, for eksempel fra GNOME til KDE.\n\nBytt tilbake til det forrige miljøet."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "Ingen tilgang til krypteringsnøkkelen for databasen fordi krypteringsringen til operativsystemet har endret seg fra {previousBackend} til {currentBackend}. Dette skjer hvis skrivebordsmiljøet endres, for eksempel fra GNOME til KDE.\n\nBytt tilbake til det forrige miljøet, eller kjør Signal med kommandolinjeflagget --password-store=\"{previousBackendFlag}\""
@@ -831,7 +831,7 @@
     "messageformat": "Signal kunne ikke oppdateres. {retry}, eller gå inn på {url} for å installere oppdateringen manuelt. Deretter kan du {support} om problemet."
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Signal kunne ikke oppdateres. <retryUpdateButton>Prøv på nytt</retryUpdateButton> eller gå til {url} for å installere oppdateringen manuelt. Etterpå kan du <contactSupportLink>gi Signals brukerstøtte beskjed</contactSupportLink> om problemet."
+    "messageformat": "Signal kunne ikke oppdateres. <retryUpdateButton>Prøv på nytt</retryUpdateButton>, eller gå til {url} for å installere oppdateringen manuelt. Etterpå kan du <contactSupportLink>gi Signals brukerstøtte beskjed</contactSupportLink> om problemet."
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "Signal kunne ikke oppdateres. Gå inn på {url} for å installere oppdateringen manuelt. Deretter kan du {support} om problemet."
@@ -1200,16 +1200,16 @@
     "messageformat": "Ringer"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Ring tilbake"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Ring på nytt"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Bli med i samtalen"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Gå tilbake til samtalen"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Mikrofonen ble slått av på grunn av antallet personer i samtalen"
@@ -2634,10 +2634,10 @@
     "messageformat": "Avslå"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Avvist taleanrop"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Avvist videoanrop"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Innkommende taleanrop"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal vil fortsette å kjøre i varslingsområdet. Du kan endre dette i innstillingene."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Innkommende taleanrop"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Innkommende videoanrop"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Utgående taleanrop"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} person} other {{count,number} personer}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Lydsamtale"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Samtalelenke"
@@ -2730,7 +2730,7 @@
     "messageformat": "Avslutt"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group": {
-    "messageformat": "Forlat gruppen"
+    "messageformat": "Legg på"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Mikrofon av"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} i samtalen} other {{people,number} i samtalen}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "Videosamtalen er avsluttet"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "Noen startet en videosamtale"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Du startet en videosamtale"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} startet en videosamtale"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Du er allerede i en samtale"
@@ -2820,7 +2820,7 @@
     "messageformat": "Visning oppdatert"
   },
   "icu:calling__hangup": {
-    "messageformat": "Forlat samtale"
+    "messageformat": "Legg på"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Del skjermen din"
@@ -5434,7 +5434,7 @@
     "messageformat": "ubesvart"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Avvist"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Gruppesamtale"
@@ -5449,10 +5449,10 @@
     "messageformat": "Vil du forlate samtalen?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Du må forlate denne samtalen før du kan bli med i en annen eller starte en ny samtale."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Forlat samtalen"
+    "messageformat": "Legg på"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Ingen nylige samtaler."
@@ -5482,34 +5482,49 @@
     "messageformat": "Samtalelenke"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Utgående videoanrop} other {Innkommende videoanrop}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Tapt videoanrop"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Ubesvart videoanrop"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Avvist videoanrop"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Bli med"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Gi samtalen et navn"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Endre navnet på samtalen"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Godkjenn alle medlemmene"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopier lenken"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Del lenken via Signal"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Informasjon om anropslenke"
@@ -5521,22 +5536,22 @@
     "messageformat": "Gi samtalen et navn"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Endre navnet på samtalen"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Godkjenn alle medlemmene"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Av"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "På"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Gi samtalen et navn"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Endre navnet på samtalen"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Samtalenavn"
@@ -5585,9 +5600,15 @@
     "messageformat": "I denne oppdateringen har det blitt lettere å slette lange meldingstråder."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "Vi har lagt til en knapp som lar deg forlate samtalen du er i og bli med i en annen, på en kjapp og enkel måte."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "Oppdateringen fikser også et oppstartsproblem for Linux-brukere med lokaliteten satt til «POSIX»."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

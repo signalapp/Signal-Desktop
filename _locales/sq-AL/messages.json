@@ -90,7 +90,7 @@
     "messageformat": "Nuk mund të futesh te çelësi i kodimit të bazës së të dhënave sepse pjesa mbështetëse e çelësave të kodimit të OS ka ndryshuar nga {previousBackend} në {currentBackend}. Kjo mund të ndodhë nëse mjedisi i desktopit ndryshon, për shembull midis GNOME dhe KDE.\n\nTë lutem kalo në mjedisin e mëparshëm të desktopit."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Nuk mund të futesh te çelësi i kodimit të bazës së të dhënave sepse pjesa mbështetëse e çelësave të kodimit të OS ka ndryshuar nga {previousBackend} në {currentBackend}. Kjo mund të ndodhë nëse mjedisi i desktopit ndryshon, për shembull midis GNOME dhe KDE.\n\nTë lutem kalo në mjedisin e mëparshëm të desktopit ose provo të ekzekutosh Signal me flamurin e linjës së komandës --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Nuk mund të futesh te çelësi i kodimit të bazës së të dhënave sepse pjesa mbështetëse e çelësave të kodimit të OS ka ndryshuar nga {previousBackend} në {currentBackend}. Kjo mund të ndodhë nëse mjedisi i desktopit ndryshon, për shembull midis GNOME dhe KDE.\n\nTë lutem kalo te mjedisi i mëparshëm i desktopit ose provo të ekzekutosh Signal me flamurin e linjës së komandës --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Kartelë"
@@ -1200,16 +1200,16 @@
     "messageformat": "Thirrje"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Ktheji Thirrjen"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Rithirre"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Bashkoju thirrjes"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Kthehu te thirrja"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Mikrofoni është pa zë për shkak të numrit të madh të pjesëmarrësve në thirrje"
@@ -2634,10 +2634,10 @@
     "messageformat": "Hidhet tej"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Thirrje zanore e refuzuar"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Thirrje me video e refuzuar"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Thirrje zanore hyrëse"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal do të vazhdojë të punojë në zonën e njoftimeve. Këtë mund ta ndryshosh te parametrat e Signal."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Thirrje zanore hyrëse"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Thirrje video ardhëse"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Thirrje zanore dalëse"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} person} other {{count,number} persona}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Thirrje zanore"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Lidhja e thirrjes"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} në telefonatë} other {{people,number} në telefonatë}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "Thirrja me video ka përfunduar"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "Filloi thirrja me video"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Ti fillove një thirrje me video"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} filloi një thirrje me video"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Jeni tashmë në një thirrje"
@@ -5434,7 +5434,7 @@
     "messageformat": "E humbur"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Refuzuar"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Thirrje grupi"
@@ -5449,7 +5449,7 @@
     "messageformat": "Do të largohesh nga thirrja aktuale?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Duhet të largohesh nga telefonata aktuale përpara se të fillosh ose t'i bashkohesh një telefonate të re."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Dilni nga thirrja"
@@ -5482,34 +5482,49 @@
     "messageformat": "Lidhja e thirrjes"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Thirrje video nga ju} other {Thirrje video ardhëse}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Humbët thirrje video"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Thirrje video pa përgjigje"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Thirrje me video e refuzuar"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Bashkohu"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Shto emrin e thirrjes"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Përpuno emrin e telefonuesit"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Mirato të gjithë anëtarët"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopjo linkun"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Ndaj lidhjen përmes Signal"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Të dhënat e lidhjes së thirrjes"
@@ -5521,22 +5536,22 @@
     "messageformat": "Shto emrin e thirrjes"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Përpuno emrin e telefonuesit"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Mirato të gjithë anëtarët"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Joaktiv"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Aktiv"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Shto emrin e thirrjes"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Përpuno emrin e telefonuesit"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Emri i telefonuesit"
@@ -5585,9 +5600,15 @@
     "messageformat": "Një lamtumirë e shpejtë ndonjëherë është më e lehtë se një lamtumirë e ngadaltë, kështu që ne përshpejtuam procesin e fshirjes së temave të mëdha të mesazheve."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "Kemi shtuar shkurtoren që të mundëson të largohesh nga thirrja aktuale dhe t'i bashkohesh një të reje, kur emri yt po thërritet nga një thirrje tjetër. Do të të kërkohet të konfirmosh largimin, por varet nga ti nëse do të thuash lamtumirë fillimisht."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "Përditësimi rregullon edhe gabimin e nisjes në Linux për përdoruesit, lokaliteti i të cilëve është vendosur në \"POSIX\"."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

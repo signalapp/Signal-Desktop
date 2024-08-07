@@ -90,7 +90,7 @@
     "messageformat": "No es pot accedir a la clau de codificació de la base de dades perquè la codificació del clauer del back-end del sistema operatiu ha canviat de {previousBackend} a {currentBackend}. Això pot passar si l'entorn d'escriptori canvia, per exemple, entre GNOME i KDE.\n\nTorna a l'entorn d'escriptori anterior."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "No es pot accedir a la clau de codificació de la base de dades perquè la codificació del clauer del back-end del sistema operatiu ha canviat de {previousBackend} a {currentBackend}. Això pot passar si l'entorn d'escriptori canvia, per exemple, entre GNOME i KDE.\n\nTorna a l'entorn d'escriptori anterior, o prova d'executar Signal amb el comandament flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "No es pot accedir a la clau de codificació de la base de dades perquè la codificació del clauer del back-end del sistema operatiu ha canviat de {previousBackend} a {currentBackend}. Això pot passar si l'entorn d'escriptori canvia, per exemple, entre GNOME i KDE.\n\nTorna a l’entorn d’escriptori anterior, o prova d’executar Signal amb el paràmetre de la línia d’ordres --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fitxer"
@@ -1200,16 +1200,16 @@
     "messageformat": "Trucades"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Torna la trucada"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Torna a trucar"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Unir-me a la trucada"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Tornar a la trucada"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "S'ha silenciat el micròfon a causa de la mida de la trucada."
@@ -2634,10 +2634,10 @@
     "messageformat": "Rebutja"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Trucada de veu rebutjada"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Videotrucada rebutjada"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Trucada entrant"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal continuarà enviant notificacions. Podeu canviar-ho als Ajustos de Signal."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Trucada entrant"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Trucada de vídeo entrant"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Trucada sortint"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} persona} other {{count,number} persones}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Trucada de veu"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Enllaç de trucada"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} a la trucada} other {{people,number} a la trucada}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "La videotrucada ha finalitzat"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "S'ha iniciat una videotrucada"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Has iniciat una videotrucada"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} ha iniciat una videotrucada"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Ja sou en una trucada."
@@ -5434,7 +5434,7 @@
     "messageformat": "Perduda"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Rebutjada"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Trucada de grup"
@@ -5449,7 +5449,7 @@
     "messageformat": "Vols sortir de la trucada actual?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Has de sortir de la trucada actual abans de començar-ne o unir-te a una de nova."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Surt de la trucada"
@@ -5482,34 +5482,49 @@
     "messageformat": "Enllaç de trucada"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Trucada de vídeo sortint} other {Trucada de vídeo entrant}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Trucada de vídeo perduda"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Trucada de vídeo sense contestar"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Videotrucada rebutjada"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Afegeix-m'hi"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Afegir nom de trucada"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Editar nom de trucada"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Aprovar tots els membres"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Copiar l'enllaç"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Compartir enllaç per Signal"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalls de l'enllaç de trucada"
@@ -5521,22 +5536,22 @@
     "messageformat": "Afegir nom de trucada"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Editar nom de trucada"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Aprovar tots els membres"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Inactiu"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Actiu"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Afegir nom de trucada"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Editar nom de trucada"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Nom de trucada"
@@ -5585,9 +5600,15 @@
     "messageformat": "Aquesta actualització ha accelerat el procés d'eliminació de fils extensos de missatges."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "Amb la drecera que hem afegit, quan estiguis en una trucada en curs podràs penjar i unir-te'n a una de nova."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "Aquesta actualització també corregeix un error d'inici a Linux per als usuaris amb la configuració regional configurada en \"POSIX\"."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

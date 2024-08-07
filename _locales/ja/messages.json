@@ -90,7 +90,7 @@
     "messageformat": "OS暗号化キーリングバックエンドが{previousBackend}から{currentBackend}に変更されたため、データベース暗号化キーにアクセスできません。これは、デスクトップ環境がGNOMEとKDEの間で変更された場合などに発生することがあります。\n\n以前のデスクトップ環境に切り替えてください。"
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "OS暗号化キーリングバックエンドが{previousBackend}から{currentBackend}に変更されたため、データベース暗号化キーにアクセスできません。これは、デスクトップ環境がGNOMEとKDEの間で変更された場合などに発生することがあります。\n\n以前のデスクトップ環境に切り替えるか、コマンドライン flag -- password-store=\"{previousBackendFlag}\" を使ってSignalを起動してください。"
+    "messageformat": "OS暗号化キーリングバックエンドが{previousBackend}から{currentBackend}に変更されたため、データベース暗号化キーにアクセスできません。これは、デスクトップ環境がGNOMEとKDEの間で変更された場合などに発生することがあります。\n\n以前のデスクトップ環境に切り替えるか、コマンドラインフラグ -- password-store=\"{previousBackendFlag}\" を使ってSignalを起動してください。"
   },
   "icu:mainMenuFile": {
     "messageformat": "ファイル (&F)"
@@ -1200,16 +1200,16 @@
     "messageformat": "通話"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "折り返す"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "リダイヤルする"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "通話に参加する"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "通話に戻る"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "すでに多くの参加者がいるためマイクをミュートしました"
@@ -2634,10 +2634,10 @@
     "messageformat": "拒否する"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "音声通話が拒否されました"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "ビデオ通話が拒否されました"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "音声通話着信"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signalは通知エリアで動作し続けます。これはSignalの設定で変更できます。"
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "音声通話着信"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "ビデオ通話着信"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "音声通話発信"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, other {{count,number}人}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "音声通話"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "通話リンク"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, other {{people,number} 通話中}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "ビデオ通話が終了しました"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "ビデオ通話が開始されました"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "ビデオ通話を開始しました"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name}はビデオ通話を開始しました"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "あなたはすでに通話中です"
@@ -5434,7 +5434,7 @@
     "messageformat": "不在着信"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "拒否"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "グループ通話"
@@ -5449,7 +5449,7 @@
     "messageformat": "現在の通話を終了しますか？"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "新しい通話を開始または参加するには、現在の通話を終了する必要があります。"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "通話終了"
@@ -5482,34 +5482,49 @@
     "messageformat": "通話リンク"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {ビデオ通話発信} other {ビデオ通話着信}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "ビデオ通話着信あり"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "ビデオ通話応答なし"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "ビデオ通話が拒否されました"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "参加する"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "通話名を追加する"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "通話名を編集する"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "全メンバーを承認制にする"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "リンクをコピーします"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Signal 経由でリンクを共有する"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "通話リンク詳細"
@@ -5521,22 +5536,22 @@
     "messageformat": "通話名を追加する"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "通話名を編集する"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "全メンバーを承認制にする"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "オフ"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "オン"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "通話名を追加する"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "通話名を編集する"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "通話名"
@@ -5585,9 +5600,15 @@
     "messageformat": "このリリースでは、サイズの大きいメッセージスレッドの消去プロセスが高速化されました。"
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "別の通話が進行中の場合、現在の通話を終了して新しい通話に参加するためのショートカットを追加しました。"
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "このアップデートでは、ロケールが「POSIX」に設定されているユーザーのLinuxでの起動クラッシュも修正されています。"
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

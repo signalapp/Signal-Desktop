@@ -90,7 +90,7 @@
     "messageformat": "無法存取資料庫加密金鑰，因為作業系統加密金鑰環後端已從{previousBackend}變更為{currentBackend}。如果桌面環境有所轉變（例如在 GNOME 和 KDE 之間），就有可能發生這種情況。\n\n請切換到先前的桌面環境。"
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "無法存取資料庫加密金鑰，因為作業系統加密金鑰環後端已從{previousBackend}變更為{currentBackend}。如果桌面環境有所轉變（例如在 GNOME 和 KDE 之間），就有可能發生這種情況。\n\n請切換到先前的桌面環境或嘗試使用命令列標誌 --password-store=\"{previousBackendFlag}\" 執行 Signal"
+    "messageformat": "無法存取資料庫加密金鑰，因為作業系統加密金鑰環後端已從{previousBackend}變更為{currentBackend}。如果桌面環境有所轉變（例如在 GNOME 和 KDE 之間）就有可能發生這種情況。\n\n請切換到先前的桌面環境或嘗試使用命令列標誌 --password-store=\"{previousBackendFlag}\" 執行 Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "檔案 (&F)"
@@ -1200,16 +1200,16 @@
     "messageformat": "撥打中"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "回撥"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "重撥電話"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "加入通話"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "返回通話"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "因通話人數眾多而將麥克風靜音"
@@ -2634,10 +2634,10 @@
     "messageformat": "拒絕"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "拒接的語音通話"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "拒接的視訊通話"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "語音通話來電"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal 會在通知區域持續運行。你可以在 Signal 設定中進行更改。"
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "語音通話來電"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "視訊電話來電"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "撥打語音通話"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, other {{count,number} 人}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "語音通話"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "通話連結"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, other {{people,number} 通話中}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "視訊通話已結束"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "視訊通話已開始"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "你開始了視訊通話"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} 開始了視訊通話"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "你已經在通話中"
@@ -5434,7 +5434,7 @@
     "messageformat": "未接來電"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "已拒絕"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "群組通話"
@@ -5449,7 +5449,7 @@
     "messageformat": "要退出目前通話？"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "在開始或加入新通話之前，你必須先退出目前通話。"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "離開通話"
@@ -5482,34 +5482,49 @@
     "messageformat": "通話連結"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {撥出視訊電話} other {視訊電話來電}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "錯過視訊電話"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "未接的視訊電話"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "拒接的視訊通話"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "加入"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "新增通話名稱"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "編輯通話名稱"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "批准全部成員"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "複製連結"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "透過 Signal 分享連結"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "通話連結詳情"
@@ -5521,22 +5536,22 @@
     "messageformat": "新增通話名稱"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "編輯通話名稱"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "批准全部成員"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "關"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "開"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "新增通話名稱"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "編輯通話名稱"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "通話名稱"
@@ -5585,9 +5600,15 @@
     "messageformat": "有時乾脆說再見比依依不捨的送別更容易，因此我們加快了刪除大量訊息串文的過程。"
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "如果另一個通話正呼喊你的名字，我們添加了一個快捷方式來退出當前通話並加入新的通話。系統會提示你確認離開，但是否先說再見取決於你。"
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "此更新還修復了區域設定為「POSIX」的用戶在 Linux 上的啟動故障問題。"
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

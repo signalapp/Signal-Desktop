@@ -90,7 +90,7 @@
     "messageformat": "İşletim sistemi şifreleme anahtarı arka ucunu {previousBackend} değerinden {currentBackend} değerine değiştirdiği için veritabanı şifreleme anahtarına erişilemiyor. Bu durum, örneğin GNOME ve KDE arasında masaüstü ortamı değiştiğinde meydana gelebilir.\n\nLütfen önceki masaüstü ortamına geç."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "İşletim sistemi şifreleme anahtarı arka ucunu {previousBackend} değerinden {currentBackend} değerine değiştirdiği için veritabanı şifreleme anahtarına erişilemiyor. Bu durum, örneğin GNOME ve KDE arasında masaüstü ortamı değiştiğinde meydana gelebilir.\n\nLütfen önceki masaüstü ortamına geç ya da Signal'i flag --password-store=\"{previousBackendFlag}\" komut satırı ile çalıştırmayı dene"
+    "messageformat": "İşletim sistemi şifreleme anahtarının arka ucu {previousBackend} değerinden {currentBackend} değerine değiştirildiği için veritabanı şifreleme anahtarına erişilemiyor. Bu durum, örneğin GNOME ve KDE arasında masaüstü ortamı değiştiğinde meydana gelebilir.\n\nLütfen önceki masaüstü ortamına geç ya da Signal'i --password-store=\"{previousBackendFlag}\" komut satırı işareti ile çalıştırmayı dene."
   },
   "icu:mainMenuFile": {
     "messageformat": "&Dosya"
@@ -1200,16 +1200,16 @@
     "messageformat": "Arama"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Geri Ara"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Tekrar Ara"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Aramaya katıl"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Aramaya dön"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Aramanın boyutundan dolayı mikrofon sessize alındı"
@@ -2634,10 +2634,10 @@
     "messageformat": "Reddet"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Sesli arama reddedildi"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Görüntülü arama reddedildi"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Gelen sesli arama"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal, bildirim alanında çalışmaya devam edecek. Bunu Signal ayarlarından değiştirebilirsin."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Gelen sesli arama"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Gelen görüntülü arama"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Giden sesli arama"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} kişi} other {{count,number} kişi}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Sesli arama"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Arama bağlantısı"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} aramada} other {{people,number} aramada}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "Görüntülü arama sona erdi"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "Bir görüntülü arama başlatıldı"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Bir görüntülü arama başlattın"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} bir görüntülü arama başlattı"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Zaten bir aramadasınız"
@@ -5434,7 +5434,7 @@
     "messageformat": "Cevapsız"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Reddedildi"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Grup görüşmesi"
@@ -5449,7 +5449,7 @@
     "messageformat": "Mevcut aramadan çıkılsın mı?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Yeni bir arama başlatmadan veya bir aramaya katılmadan önce mevcut aramadan ayrılmalısın."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Aramadan ayrıl"
@@ -5482,34 +5482,49 @@
     "messageformat": "Arama bağlantısı"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Giden görüntülü arama} other {Gelen görüntülü arama}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Cevapsız görüntülü arama"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Cevaplanmamış görüntülü arama"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Görüntülü arama reddedildi"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Katıl"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Arama adı ekle"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Arama adını düzenle"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Tüm üyeleri onayla"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Bağlantıyı kopyala"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Bağlantıyı Signal ile paylaş"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Arama bağlantısı detayları"
@@ -5521,22 +5536,22 @@
     "messageformat": "Arama adı ekle"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Arama adını düzenle"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Tüm üyeleri onayla"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Kapalı"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Açık"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Arama adı ekle"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Arama adını düzenle"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Arama adı"
@@ -5585,9 +5600,15 @@
     "messageformat": "Bu sürüm büyük mesaj dizilerini silme sürecini hızlandırmaktadır."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "Halen başka bir arama sürüyorsa mevcut aramadan ayrılıp yeni bir aramaya katılmak için bir kısayol ekledik. Bu işlem için senden ayrılmanı onaylaman istenecektir."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "Bu güncelleme, yerel ayarı 'POSIX' olarak ayarlanmış kullanıcılar için Linux'teki bir başlangıç çökmesini de düzeltmektedir."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

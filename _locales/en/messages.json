@@ -7442,11 +7442,11 @@
   },
   "icu:WhatsNew__v7.19--0": {
     "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first.",
-    "description": "Release notes for version 7.19"
+    "description": "(Deleted 2024/08/07) Release notes for version 7.19"
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`.",
-    "description": "Release notes for version 7.19, part 2"
+    "description": "(Deleted 2024/08/07) Release notes for version 7.19, part 2"
   },
   "icu:WhatsNew__v7.20--0": {
     "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\"",

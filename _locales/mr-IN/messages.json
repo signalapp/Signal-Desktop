@@ -90,7 +90,7 @@
     "messageformat": "OS एन्क्रिप्शन कीरिंग बॅकएण्ड हे {previousBackend} पासून {currentBackend} मध्ये बदलल्याने डेटाबेस एन्क्रिप्शन की ॲक्सेस करण्यास अक्षम आहे. हे GNOME आणि KDE दरम्यान बदल होण्यासारख्या डेस्कटॉप एन्व्हायरनमेंटमध्ये बदल झाल्यास घडून येते.\n\nकृपया मागील डेस्कटॉप एन्व्हायरनमेंट मध्ये स्वीच व्हा."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "OS एन्क्रिप्शन कीरिंग बॅकएण्ड हे {previousBackend} पासून {currentBackend} मध्ये बदलल्याने डेटाबेस एन्क्रिप्शन की ॲक्सेस करण्यास अक्षम आहे. हे GNOME आणि KDE दरम्यान बदल होण्यासारख्या डेस्कटॉप एन्व्हायरनमेंटमध्ये बदल झाल्यास घडून येते.\n\nकृपया मागील डेस्कटॉप एन्व्हायरनमेंट मध्ये स्वीच व्हा किंवा कमांड लाइन फ्लॅग--पासवर्ड-स्टोअर=\"{previousBackendFlag}\" सह signal रन करण्याचा प्रयत्न करा"
+    "messageformat": "OS एन्क्रिप्शन कीरिंग बॅकएण्ड हे {previousBackend} पासून {currentBackend} मध्ये बदलल्याने डेटाबेस एन्क्रिप्शन की ॲक्सेस करण्यास अक्षम आहे. हे GNOME आणि KDE दरम्यान बदल होण्यासारख्या डेस्कटॉप एन्व्हायरनमेंटमध्ये बदल झाल्यास घडून येते.\n\nकृपया मागील डेस्कटॉप एन्व्हायरनमेंट मध्ये स्वीच व्हा किंवा कमांड लाइन फ्लॅग--password-store=\"{previousBackendFlag}\" सह signal रन करण्याचा प्रयत्न करा"
   },
   "icu:mainMenuFile": {
     "messageformat": "फाईल"
@@ -1200,16 +1200,16 @@
     "messageformat": "कॉलिंग"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "परत कॉल करा"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "पुन्हा कॉल करा"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "कॉलमध्ये सामील व्हा"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "कॉलवर परत या"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "कॉलच्या कालावधीमुळे मायक्रोफोन मूक करण्यात आलेला आहे"
@@ -2634,10 +2634,10 @@
     "messageformat": "नकार द्या"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "व्हॉईस कॉल नाकारा"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "व्हिडिओ कॉल नाकारा"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "येणारा व्हाईस कॉल"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal अधिसूचना क्षेत्रात सुरू राहील. आपण हे Signal सेटिंग्ज मध्ये बदलू शकता."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "येणारा व्हाईस कॉल"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "येणारा व्हिडिओ कॉल"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "बाहेर जाणारा व्हाईस कॉल"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} व्यक्ति} other {{count,number} लोक}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "व्हॉईस कॉल"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "कॉल लिंक"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {कॉलमध्ये {people,number}} other {कॉलमध्ये {people,number}}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "व्हिडिओ कॉल समाप्त झाला आहे"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "व्हिडिओ कॉल सुरू झाला"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "आपण व्हिडिओ कॉल सुरु केला"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} ने व्हिडिओ कॉल सुरु केला"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "आपण आधीच एक कॉलमध्ये आहात"
@@ -5434,7 +5434,7 @@
     "messageformat": "मिस्ड"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "नाकारलेले"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "गट कॉल"
@@ -5449,7 +5449,7 @@
     "messageformat": "वर्तमान कॉल सोडायचा का?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "नवीन कॉलमये सामील होण्यापूर्वी आपण वर्तमान कॉल सोडणे आवश्यक आहे."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "कॉल सोडा"
@@ -5482,34 +5482,49 @@
     "messageformat": "कॉल लिंक"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {जाणारा व्हिडिओ कॉल} other {येणारा व्हिडिओ कॉल}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "सुटलेला व्हिडिओ कॉल"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "अनुत्तरित व्हिडिओ कॉल"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "व्हिडिओ कॉल नाकारा"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "सामील व्हा"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "कॉलचे नाव जोडा"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "कॉल नाव संपादित करा"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "सर्व सदस्यांना मंजूर करा"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "लिंक कॉपी करा"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Signal मार्फत लिंक शेअर करा"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "कॉल लिंक तपशील"
@@ -5521,22 +5536,22 @@
     "messageformat": "कॉलचे नाव जोडा"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "कॉल नाव संपादित करा"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "सर्व सदस्यांना मंजूर करा"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "बंद"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "चालू"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "कॉलचे नाव जोडा"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "कॉल नाव संपादित करा"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "कॉलचे नाव"
@@ -5585,9 +5600,15 @@
     "messageformat": "जलद निरोप घेणे कधीकधी हळू हळू सोडून जाण्यापेक्षा सोपे असते. म्हणून आम्ही मोठे संदेश थ्रेड हटविण्याच्या प्रक्रियेला गती दिलेली आहे."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "दुसरा कॉल आपल्या नावावर कॉल करत असल्यास, आम्ही सध्याचा कॉल सोडण्यासाठी आणि नवीन कॉलमध्ये सामील होण्यासाठी शॉर्टकट जोडला आहे. आपणाला आपल्या प्रस्थानाची पुष्टी करण्यासाठी सूचित केले जाईल, परंतु आपण आधी निरोप घ्यावा की नाही हे आपल्यावर अवलंबून आहे."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "हे अपडेट ज्या वापरकर्त्याचे 'POSIX' वर सेट केले आहे त्यांच्यासाठी Linux वर स्टार्टअप क्रॅशचे निराकरण देखील करते."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }
