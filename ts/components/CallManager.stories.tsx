@@ -8,12 +8,12 @@ import type { PropsType } from './CallManager';
 import { CallManager } from './CallManager';
 import {
   CallEndedReason,
-  CallMode,
   CallState,
   CallViewMode,
   GroupCallConnectionState,
   GroupCallJoinState,
 } from '../types/Calling';
+import { CallMode } from '../types/CallDisposition';
 import type {
   ActiveGroupCallType,
   GroupCallRemoteParticipantType,

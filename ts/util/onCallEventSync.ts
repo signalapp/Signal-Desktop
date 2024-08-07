@@ -7,7 +7,7 @@ import {
   peerIdToLog,
   updateCallHistoryFromRemoteEvent,
 } from './callDisposition';
-import { CallMode } from '../types/Calling';
+import { CallMode } from '../types/CallDisposition';
 
 export async function onCallEventSync(
   syncEvent: CallEventSyncEvent

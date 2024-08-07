@@ -7,15 +7,16 @@ import {
   callLinkRestrictionsSchema,
   callLinkRecordSchema,
 } from '../../types/CallLink';
+import { toAdminKeyBytes } from '../../util/callLinks';
 import {
   callLinkToRecord,
   callLinkFromRecord,
-  toAdminKeyBytes,
-} from '../../util/callLinks';
+} from '../../util/callLinksRingrtc';
 import type { ReadableDB, WritableDB } from '../Interface';
 import { prepare } from '../Server';
 import { sql } from '../util';
 import { strictAssert } from '../../util/assert';
+import { CallStatusValue } from '../../types/CallDisposition';
 
 export function callLinkExists(db: ReadableDB, roomId: string): boolean {
   const [query, params] = sql`
@@ -132,4 +133,107 @@ function assertRoomIdMatchesRootKey(roomId: string, rootKey: string): void {
     roomId === derivedRoomId,
     'passed roomId must match roomId derived from root key'
   );
+}
+
+function deleteCallHistoryByRoomId(db: WritableDB, roomId: string) {
+  const [
+    markCallHistoryDeleteByPeerIdQuery,
+    markCallHistoryDeleteByPeerIdParams,
+  ] = sql`
+    UPDATE callsHistory
+    SET
+      status = ${CallStatusValue.Deleted},
+      timestamp = ${Date.now()}
+    WHERE peerId = ${roomId}
+  `;
+
+  db.prepare(markCallHistoryDeleteByPeerIdQuery).run(
+    markCallHistoryDeleteByPeerIdParams
+  );
+}
+
+// This should only be called from a sync message to avoid accidentally deleting
+// on the client but not the server
+export function deleteCallLinkFromSync(db: WritableDB, roomId: string): void {
+  db.transaction(() => {
+    const [query, params] = sql`
+      DELETE FROM callLinks
+      WHERE roomId = ${roomId};
+    `;
+
+    db.prepare(query).run(params);
+
+    deleteCallHistoryByRoomId(db, roomId);
+  })();
+}
+
+export function beginDeleteCallLink(db: WritableDB, roomId: string): void {
+  db.transaction(() => {
+    // If adminKey is null, then we should delete the call link
+    const [deleteNonAdminCallLinksQuery, deleteNonAdminCallLinksParams] = sql`
+      DELETE FROM callLinks
+      WHERE adminKey IS NULL
+      AND roomId = ${roomId};
+    `;
+
+    const result = db
+      .prepare(deleteNonAdminCallLinksQuery)
+      .run(deleteNonAdminCallLinksParams);
+
+    // Skip this query if the call is already deleted
+    if (result.changes === 0) {
+      // If the admin key is not null, we should mark it for deletion
+      const [markAdminCallLinksDeletedQuery, markAdminCallLinksDeletedParams] =
+        sql`
+          UPDATE callLinks
+          SET deleted = 1
+          WHERE adminKey IS NOT NULL
+          AND roomId = ${roomId};
+        `;
+
+      db.prepare(markAdminCallLinksDeletedQuery).run(
+        markAdminCallLinksDeletedParams
+      );
+    }
+
+    deleteCallHistoryByRoomId(db, roomId);
+  })();
+}
+
+export function beginDeleteAllCallLinks(db: WritableDB): void {
+  db.transaction(() => {
+    const [markAdminCallLinksDeletedQuery] = sql`
+      UPDATE callLinks
+      SET deleted = 1
+      WHERE adminKey IS NOT NULL;
+    `;
+
+    db.prepare(markAdminCallLinksDeletedQuery).run();
+
+    const [deleteNonAdminCallLinksQuery] = sql`
+      DELETE FROM callLinks
+      WHERE adminKey IS NULL;
+    `;
+
+    db.prepare(deleteNonAdminCallLinksQuery).run();
+  })();
+}
+
+export function getAllMarkedDeletedCallLinks(
+  db: ReadableDB
+): ReadonlyArray<CallLinkType> {
+  const [query] = sql`
+    SELECT * FROM callLinks WHERE deleted = 1;
+  `;
+  return db
+    .prepare(query)
+    .all()
+    .map(item => callLinkFromRecord(callLinkRecordSchema.parse(item)));
+}
+
+export function finalizeDeleteCallLink(db: WritableDB, roomId: string): void {
+  const [query, params] = sql`
+    DELETE FROM callLinks WHERE roomId = ${roomId} AND deleted = 1;
+  `;
+  db.prepare(query).run(params);
 }

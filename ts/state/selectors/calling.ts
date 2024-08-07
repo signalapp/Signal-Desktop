@@ -13,7 +13,7 @@ import type {
   GroupCallStateType,
 } from '../ducks/calling';
 import { getIncomingCall as getIncomingCallHelper } from '../ducks/callingHelpers';
-import { CallMode } from '../../types/Calling';
+import { CallMode } from '../../types/CallDisposition';
 import type { CallLinkType } from '../../types/CallLink';
 import { getUserACI } from './user';
 import { getOwn } from '../../util/getOwn';

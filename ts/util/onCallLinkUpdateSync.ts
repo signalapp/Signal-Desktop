@@ -5,9 +5,11 @@ import { CallLinkRootKey } from '@signalapp/ringrtc';
 import type { CallLinkUpdateSyncEvent } from '../textsecure/messageReceiverEvents';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
-import { fromAdminKeyBytes, getRoomIdFromRootKey } from './callLinks';
+import { fromAdminKeyBytes } from './callLinks';
+import { getRoomIdFromRootKey } from './callLinksRingrtc';
 import { strictAssert } from './assert';
 import { CallLinkUpdateSyncType } from '../types/CallLink';
+import { DataWriter } from '../sql/Client';
 
 export async function onCallLinkUpdateSync(
   syncEvent: CallLinkUpdateSyncEvent
@@ -46,8 +48,9 @@ export async function onCallLinkUpdateSync(
         adminKey: adminKeyString,
       });
     } else if (type === CallLinkUpdateSyncType.Delete) {
-      // TODO: DESKTOP-6951
-      log.warn(`${logId}: Deleting call links is not supported`);
+      log.info(`${logId}: Deleting call link record ${roomId}`);
+      await DataWriter.deleteCallLinkFromSync(roomId);
+      window.reduxActions.calling.handleCallLinkDelete({ roomId });
     }
 
     confirm();

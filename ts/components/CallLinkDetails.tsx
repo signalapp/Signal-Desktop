@@ -1,6 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React from 'react';
+import React, { useState } from 'react';
 import type { CallHistoryGroup } from '../types/CallDisposition';
 import type { LocalizerType } from '../types/I18N';
 import { CallHistoryGroupPanelSection } from './conversation/conversation-details/CallHistoryGroupPanelSection';
@@ -17,8 +17,9 @@ import { Avatar, AvatarSize } from './Avatar';
 import { Button, ButtonSize, ButtonVariant } from './Button';
 import { copyCallLink } from '../util/copyLinksWithToast';
 import { getColorForCallLink } from '../util/getColorForCallLink';
-import { isCallLinkAdmin } from '../util/callLinks';
+import { isCallLinkAdmin } from '../types/CallLink';
 import { CallLinkRestrictionsSelect } from './CallLinkRestrictionsSelect';
+import { ConfirmationDialog } from './ConfirmationDialog';
 
 function toUrlWithoutProtocol(url: URL): string {
   return `${url.hostname}${url.pathname}${url.search}${url.hash}`;
@@ -28,6 +29,7 @@ export type CallLinkDetailsProps = Readonly<{
   callHistoryGroup: CallHistoryGroup;
   callLink: CallLinkType;
   i18n: LocalizerType;
+  onDeleteCallLink: () => void;
   onOpenCallLinkAddNameModal: () => void;
   onStartCallLinkLobby: () => void;
   onShareCallLinkViaSignal: () => void;
@@ -38,11 +40,14 @@ export function CallLinkDetails({
   callHistoryGroup,
   callLink,
   i18n,
+  onDeleteCallLink,
   onOpenCallLinkAddNameModal,
   onStartCallLinkLobby,
   onShareCallLinkViaSignal,
   onUpdateCallLinkRestrictions,
 }: CallLinkDetailsProps): JSX.Element {
+  const [isDeleteCallLinkModalOpen, setIsDeleteCallLinkModalOpen] =
+    useState(false);
   const webUrl = linkCallRoute.toWebUrl({
     key: callLink.rootKey,
   });
@@ -144,6 +149,43 @@ export function CallLinkDetails({
           onClick={onShareCallLinkViaSignal}
         />
       </PanelSection>
+      {isCallLinkAdmin(callLink) && (
+        <PanelSection>
+          <PanelRow
+            className="CallLinkDetails__DeleteLink"
+            icon={
+              <ConversationDetailsIcon
+                ariaLabel={i18n('icu:CallLinkDetails__DeleteLink')}
+                icon={IconType.trash}
+              />
+            }
+            label={i18n('icu:CallLinkDetails__DeleteLink')}
+            onClick={() => {
+              setIsDeleteCallLinkModalOpen(true);
+            }}
+          />
+        </PanelSection>
+      )}
+      {isDeleteCallLinkModalOpen && (
+        <ConfirmationDialog
+          i18n={i18n}
+          dialogName="CallLinkDetails__DeleteLinkModal"
+          title={i18n('icu:CallLinkDetails__DeleteLinkModal__Title')}
+          cancelText={i18n('icu:CallLinkDetails__DeleteLinkModal__Cancel')}
+          actions={[
+            {
+              text: i18n('icu:CallLinkDetails__DeleteLinkModal__Delete'),
+              style: 'affirmative',
+              action: onDeleteCallLink,
+            },
+          ]}
+          onClose={() => {
+            setIsDeleteCallLinkModalOpen(false);
+          }}
+        >
+          {i18n('icu:CallLinkDetails__DeleteLinkModal__Body')}
+        </ConfirmationDialog>
+      )}
     </div>
   );
 }

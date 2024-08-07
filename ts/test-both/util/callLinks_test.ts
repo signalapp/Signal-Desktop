@@ -3,7 +3,10 @@
 
 import { assert } from 'chai';
 
-import { callLinkToRecord, callLinkFromRecord } from '../../util/callLinks';
+import {
+  callLinkToRecord,
+  callLinkFromRecord,
+} from '../../util/callLinksRingrtc';
 import {
   FAKE_CALL_LINK as CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY as CALL_LINK_WITH_ADMIN_KEY,

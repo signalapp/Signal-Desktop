@@ -19,7 +19,7 @@ import {
   getDefaultConversationWithServiceId,
 } from '../test-both/helpers/getDefaultConversation';
 import { CallingToastProvider } from './CallingToast';
-import { CallMode } from '../types/Calling';
+import { CallMode } from '../types/CallDisposition';
 import { getDefaultCallLinkConversation } from '../test-both/helpers/fakeCallLink';
 
 const i18n = setupI18n('en', enMessages);

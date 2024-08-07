@@ -45,3 +45,17 @@
 .CallLinkDetails__HeaderButton {
   font-weight: 600;
 }
+
+.CallLinkDetails__DeleteLink {
+  // Override the default icon color
+  .ConversationDetails-icon__icon--trash::after {
+    @include any-theme {
+      background-color: $color-accent-red;
+    }
+  }
+
+  // Override the default label color
+  .ConversationDetails-panel-row__label {
+    color: $color-accent-red;
+  }
+}

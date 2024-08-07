@@ -3,11 +3,8 @@
 
 // Note that this file should not important any binary addons or Node.js modules
 // because it can be imported by storybook
-import {
-  CallMode,
-  CallState,
-  GroupCallConnectionState,
-} from '../../types/Calling';
+import { CallState, GroupCallConnectionState } from '../../types/Calling';
+import { CallMode } from '../../types/CallDisposition';
 import type { AciString } from '../../types/ServiceId';
 import { missingCaseError } from '../../util/missingCaseError';
 import type {

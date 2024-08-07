@@ -107,10 +107,15 @@ function getCallHistoryFilter({
 
 function renderCallLinkDetails(
   roomId: string,
-  callHistoryGroup: CallHistoryGroup
+  callHistoryGroup: CallHistoryGroup,
+  onClose: () => void
 ): JSX.Element {
   return (
-    <SmartCallLinkDetails roomId={roomId} callHistoryGroup={callHistoryGroup} />
+    <SmartCallLinkDetails
+      roomId={roomId}
+      callHistoryGroup={callHistoryGroup}
+      onClose={onClose}
+    />
   );
 }
 
@@ -167,11 +172,8 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
     startCallLinkLobbyByRoomId,
     togglePip,
   } = useCallingActions();
-  const {
-    clearAllCallHistory: clearCallHistory,
-    markCallHistoryRead,
-    markCallsTabViewed,
-  } = useCallHistoryActions();
+  const { clearAllCallHistory, markCallHistoryRead, markCallsTabViewed } =
+    useCallHistoryActions();
   const { toggleCallLinkEditModal, toggleConfirmLeaveCallModal } =
     useGlobalModalActions();
 
@@ -244,7 +246,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
       hasPendingUpdate={hasPendingUpdate}
       i18n={i18n}
       navTabsCollapsed={navTabsCollapsed}
-      onClearCallHistory={clearCallHistory}
+      onClearCallHistory={clearAllCallHistory}
       onMarkCallHistoryRead={markCallHistoryRead}
       onToggleNavTabsCollapse={toggleNavTabsCollapse}
       onCreateCallLink={handleCreateCallLink}

@@ -168,6 +168,7 @@ import {
   GroupCallStatus,
   CallType,
   CallStatusValue,
+  CallMode,
 } from '../types/CallDisposition';
 import {
   callLinkExists,
@@ -176,13 +177,17 @@ import {
   insertCallLink,
   updateCallLinkAdminKeyByRoomId,
   updateCallLinkState,
+  beginDeleteAllCallLinks,
+  getAllMarkedDeletedCallLinks,
+  finalizeDeleteCallLink,
+  beginDeleteCallLink,
+  deleteCallLinkFromSync,
 } from './server/callLinks';
 import {
   replaceAllEndorsementsForGroup,
   deleteAllEndorsementsForGroup,
   getGroupSendCombinedEndorsementExpiration,
 } from './server/groupEndorsements';
-import { CallMode } from '../types/Calling';
 import {
   attachmentDownloadJobSchema,
   type AttachmentDownloadJobType,
@@ -296,6 +301,7 @@ export const DataReader: ServerReadableInterface = {
   callLinkExists,
   getAllCallLinks,
   getCallLinkByRoomId,
+  getAllMarkedDeletedCallLinks,
   getMessagesBetween,
   getNearbyMessageFromDeletedSet,
   getMostRecentAddressableMessages,
@@ -430,6 +436,10 @@ export const DataWriter: ServerWritableInterface = {
   insertCallLink,
   updateCallLinkAdminKeyByRoomId,
   updateCallLinkState,
+  beginDeleteAllCallLinks,
+  beginDeleteCallLink,
+  finalizeDeleteCallLink,
+  deleteCallLinkFromSync,
   migrateConversationMessages,
   saveEditedMessage,
   saveEditedMessages,
@@ -3458,7 +3468,7 @@ function clearCallHistory(
   return db.transaction(() => {
     const timestamp = getMessageTimestampForCallLogEventTarget(db, target);
 
-    const [selectCallIdsQuery, selectCallIdsParams] = sql`
+    const [selectCallsQuery, selectCallsParams] = sql`
       SELECT callsHistory.callId
       FROM callsHistory
       WHERE
@@ -3471,18 +3481,30 @@ function clearCallHistory(
         );
     `;
 
-    const callIds = db
-      .prepare(selectCallIdsQuery)
+    const deletedCallIds: ReadonlyArray<string> = db
+      .prepare(selectCallsQuery)
       .pluck()
-      .all(selectCallIdsParams);
+      .all(selectCallsParams);
 
     let deletedMessageIds: ReadonlyArray<string> = [];
 
-    batchMultiVarQuery(db, callIds, (ids: ReadonlyArray<string>): void => {
+    batchMultiVarQuery(db, deletedCallIds, (ids): void => {
+      const idsFragment = sqlJoin(ids);
+
+      const [clearCallsHistoryQuery, clearCallsHistoryParams] = sql`
+        UPDATE callsHistory
+        SET
+          status = ${DirectCallStatus.Deleted},
+          timestamp = ${Date.now()}
+        WHERE callsHistory.callId IN (${idsFragment});
+      `;
+
+      db.prepare(clearCallsHistoryQuery).run(clearCallsHistoryParams);
+
       const [deleteMessagesQuery, deleteMessagesParams] = sql`
         DELETE FROM messages
         WHERE messages.type IS 'call-history'
-        AND messages.callId IN (${sqlJoin(ids)})
+        AND messages.callId IN (${idsFragment})
         RETURNING id;
       `;
 
@@ -3494,21 +3516,6 @@ function clearCallHistory(
       deletedMessageIds = deletedMessageIds.concat(batchDeletedMessageIds);
     });
 
-    const [clearCallsHistoryQuery, clearCallsHistoryParams] = sql`
-      UPDATE callsHistory
-      SET
-        status = ${DirectCallStatus.Deleted},
-        timestamp = ${Date.now()}
-      WHERE callsHistory.timestamp <= ${timestamp};
-    `;
-
-    try {
-      db.prepare(clearCallsHistoryQuery).run(clearCallsHistoryParams);
-    } catch (error) {
-      logger.error(error, error.message);
-      throw error;
-    }
-
     return deletedMessageIds;
   })();
 }
@@ -3519,9 +3526,8 @@ function markCallHistoryDeleted(db: WritableDB, callId: string): void {
     SET
       status = ${DirectCallStatus.Deleted},
       timestamp = ${Date.now()}
-    WHERE callId = ${callId};
+    WHERE callId = ${callId}
   `;
-
   db.prepare(query).run(params);
 }
 
@@ -4829,7 +4835,7 @@ function getNextAttachmentBackupJobs(
       active = 0
     AND
       (retryAfter is NULL OR retryAfter <= ${timestamp})
-    ORDER BY 
+    ORDER BY
       -- type is "standard" or "thumbnail"; we prefer "standard" jobs
       type ASC, receivedAt DESC
     LIMIT ${limit}

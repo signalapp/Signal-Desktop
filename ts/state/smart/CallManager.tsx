@@ -32,7 +32,8 @@ import type {
   ConversationsByDemuxIdType,
   GroupCallRemoteParticipantType,
 } from '../../types/Calling';
-import { CallMode, CallState } from '../../types/Calling';
+import { CallState } from '../../types/Calling';
+import { CallMode } from '../../types/CallDisposition';
 import type { AciString } from '../../types/ServiceId';
 import { strictAssert } from '../../util/assert';
 import { callLinkToConversation } from '../../util/callLinks';

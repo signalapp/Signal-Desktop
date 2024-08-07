@@ -6,8 +6,8 @@ import { findLast } from 'lodash';
 import type { WritableDB } from '../../sql/Interface';
 import { markAllCallHistoryRead } from '../../sql/Server';
 import { SeenStatus } from '../../MessageSeenStatus';
-import { CallMode } from '../../types/Calling';
 import {
+  CallMode,
   CallDirection,
   CallType,
   DirectCallStatus,

@@ -7,14 +7,14 @@ import { v4 as generateUuid } from 'uuid';
 import { times } from 'lodash';
 import { DataReader, DataWriter } from '../../sql/Client';
 
-import { CallMode } from '../../types/Calling';
-import { generateAci } from '../../types/ServiceId';
-import type { CallHistoryDetails } from '../../types/CallDisposition';
 import {
+  CallMode,
   CallDirection,
   CallType,
   GroupCallStatus,
 } from '../../types/CallDisposition';
+import { generateAci } from '../../types/ServiceId';
+import type { CallHistoryDetails } from '../../types/CallDisposition';
 import type { MaybeStaleCallHistory } from '../../sql/Server';
 
 const { getAllCallHistory } = DataReader;

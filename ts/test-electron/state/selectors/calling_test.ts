@@ -6,12 +6,12 @@ import { reducer as rootReducer } from '../../../state/reducer';
 import { noopAction } from '../../../state/ducks/noop';
 import { actions as userActions } from '../../../state/ducks/user';
 import {
-  CallMode,
   CallState,
   CallViewMode,
   GroupCallConnectionState,
   GroupCallJoinState,
 } from '../../../types/Calling';
+import { CallMode } from '../../../types/CallDisposition';
 import { generateAci } from '../../../types/ServiceId';
 import {
   getCallsByConversation,

@@ -5,15 +5,15 @@ import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
 import { jsonToObject, sql } from '../../sql/util';
-import { CallMode } from '../../types/Calling';
-import type { CallHistoryDetails } from '../../types/CallDisposition';
 import {
+  CallMode,
   CallDirection,
   CallType,
   DirectCallStatus,
   GroupCallStatus,
   callHistoryDetailsSchema,
 } from '../../types/CallDisposition';
+import type { CallHistoryDetails } from '../../types/CallDisposition';
 import type {
   CallHistoryDetailsFromDiskType,
   MessageWithCallHistoryDetails,

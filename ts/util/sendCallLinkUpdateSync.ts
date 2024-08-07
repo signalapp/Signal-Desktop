@@ -7,7 +7,8 @@ import * as Errors from '../types/errors';
 import { SignalService as Proto } from '../protobuf';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import MessageSender from '../textsecure/SendMessage';
-import { toAdminKeyBytes, toRootKeyBytes } from './callLinks';
+import { toAdminKeyBytes } from './callLinks';
+import { toRootKeyBytes } from './callLinksRingrtc';
 
 export type sendCallLinkUpdateSyncCallLinkType = {
   rootKey: string;

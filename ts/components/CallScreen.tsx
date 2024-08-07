@@ -33,12 +33,12 @@ import type {
 } from '../types/Calling';
 import {
   CALLING_REACTIONS_LIFETIME,
-  CallMode,
   CallViewMode,
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
 } from '../types/Calling';
+import { CallMode } from '../types/CallDisposition';
 import type { ServiceIdString } from '../types/ServiceId';
 import { AvatarColors } from '../types/Colors';
 import type { ConversationType } from '../state/ducks/conversations';

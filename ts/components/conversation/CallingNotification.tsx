@@ -10,7 +10,13 @@ import { SystemMessage, SystemMessageKind } from './SystemMessage';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { MessageTimestamp } from './MessageTimestamp';
 import type { LocalizerType } from '../../types/Util';
-import { CallMode } from '../../types/Calling';
+import {
+  CallMode,
+  CallDirection,
+  CallType,
+  DirectCallStatus,
+  GroupCallStatus,
+} from '../../types/CallDisposition';
 import type { CallingNotificationType } from '../../util/callingNotification';
 import {
   getCallingIcon,
@@ -19,12 +25,6 @@ import {
 import { missingCaseError } from '../../util/missingCaseError';
 import { Tooltip, TooltipPlacement } from '../Tooltip';
 import * as log from '../../logging/log';
-import {
-  CallDirection,
-  CallType,
-  DirectCallStatus,
-  GroupCallStatus,
-} from '../../types/CallDisposition';
 import {
   type ContextMenuTriggerType,
   MessageContextMenu,

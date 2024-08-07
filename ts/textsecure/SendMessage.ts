@@ -95,12 +95,12 @@ import {
   AdhocCallStatus,
   DirectCallStatus,
   GroupCallStatus,
+  CallMode,
 } from '../types/CallDisposition';
 import {
   getBytesForPeerId,
   getProtoForCallHistory,
 } from '../util/callDisposition';
-import { CallMode } from '../types/Calling';
 import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types';
 
 export type SendMetadataType = {

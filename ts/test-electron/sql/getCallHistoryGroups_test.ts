@@ -6,20 +6,20 @@ import { v4 as generateUuid } from 'uuid';
 
 import { DataReader, DataWriter } from '../../sql/Client';
 
-import { CallMode } from '../../types/Calling';
+import {
+  CallMode,
+  AdhocCallStatus,
+  CallDirection,
+  CallHistoryFilterStatus,
+  CallType,
+  DirectCallStatus,
+} from '../../types/CallDisposition';
 import { generateAci } from '../../types/ServiceId';
 import type { ServiceIdString } from '../../types/ServiceId';
 import type {
   CallHistoryDetails,
   CallHistoryGroup,
   CallStatus,
-} from '../../types/CallDisposition';
-import {
-  AdhocCallStatus,
-  CallDirection,
-  CallHistoryFilterStatus,
-  CallType,
-  DirectCallStatus,
 } from '../../types/CallDisposition';
 import { strictAssert } from '../../util/assert';
 import type { ConversationAttributesType } from '../../model-types';

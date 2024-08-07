@@ -23,6 +23,12 @@ import {
   getCallHistoryLatestCall,
   getCallHistorySelector,
 } from '../selectors/callHistory';
+import {
+  getCallsHistoryForRedux,
+  getCallsHistoryUnreadCountForRedux,
+  loadCallsHistory,
+} from '../../services/callHistoryLoader';
+import { makeLookup } from '../../util/makeLookup';
 
 export type CallHistoryState = ReadonlyDeep<{
   // This informs the app that underlying call history data has changed.
@@ -34,6 +40,7 @@ export type CallHistoryState = ReadonlyDeep<{
 const CALL_HISTORY_ADD = 'callHistory/ADD';
 const CALL_HISTORY_REMOVE = 'callHistory/REMOVE';
 const CALL_HISTORY_RESET = 'callHistory/RESET';
+const CALL_HISTORY_RELOAD = 'callHistory/RELOAD';
 const CALL_HISTORY_UPDATE_UNREAD = 'callHistory/UPDATE_UNREAD';
 
 export type CallHistoryAdd = ReadonlyDeep<{
@@ -50,6 +57,14 @@ export type CallHistoryReset = ReadonlyDeep<{
   type: typeof CALL_HISTORY_RESET;
 }>;
 
+export type CallHistoryReload = ReadonlyDeep<{
+  type: typeof CALL_HISTORY_RELOAD;
+  payload: {
+    callsHistory: ReadonlyArray<CallHistoryDetails>;
+    callsHistoryUnreadCount: number;
+  };
+}>;
+
 export type CallHistoryUpdateUnread = ReadonlyDeep<{
   type: typeof CALL_HISTORY_UPDATE_UNREAD;
   payload: number;
@@ -59,6 +74,7 @@ export type CallHistoryAction = ReadonlyDeep<
   | CallHistoryAdd
   | CallHistoryRemove
   | CallHistoryReset
+  | CallHistoryReload
   | CallHistoryUpdateUnread
 >;
 
@@ -178,9 +194,29 @@ function clearAllCallHistory(): ThunkAction<
     } catch (error) {
       log.error('Error clearing call history', Errors.toLogFormat(error));
     } finally {
-      // Just force a reset, even if the clear failed.
-      dispatch(resetCallHistory());
-      dispatch(updateCallHistoryUnreadCount());
+      // Just force a reload, even if the clear failed.
+      dispatch(reloadCallHistory());
+    }
+  };
+}
+
+export function reloadCallHistory(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  CallHistoryReload
+> {
+  return async dispatch => {
+    try {
+      await loadCallsHistory();
+      const callsHistory = getCallsHistoryForRedux();
+      const callsHistoryUnreadCount = getCallsHistoryUnreadCountForRedux();
+      dispatch({
+        type: CALL_HISTORY_RELOAD,
+        payload: { callsHistory, callsHistoryUnreadCount },
+      });
+    } catch (error) {
+      log.error('Error reloading call history', Errors.toLogFormat(error));
     }
   };
 }
@@ -225,6 +261,12 @@ export function reducer(
       return {
         ...state,
         unreadCount: action.payload,
+      };
+    case CALL_HISTORY_RELOAD:
+      return {
+        edition: state.edition + 1,
+        unreadCount: action.payload.callsHistoryUnreadCount,
+        callHistoryByCallId: makeLookup(action.payload.callsHistory, 'callId'),
       };
     default:
       return state;

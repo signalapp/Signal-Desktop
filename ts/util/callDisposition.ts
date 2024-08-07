@@ -18,11 +18,24 @@ import { DataReader, DataWriter } from '../sql/Client';
 import { SignalService as Proto } from '../protobuf';
 import { bytesToUuid, uuidToBytes } from './uuidToBytes';
 import { missingCaseError } from './missingCaseError';
+import { CallEndedReason, GroupCallJoinState } from '../types/Calling';
 import {
-  CallEndedReason,
   CallMode,
-  GroupCallJoinState,
-} from '../types/Calling';
+  DirectCallStatus,
+  GroupCallStatus,
+  callEventNormalizeSchema,
+  CallType,
+  CallDirection,
+  callEventDetailsSchema,
+  LocalCallEvent,
+  RemoteCallEvent,
+  callHistoryDetailsSchema,
+  callDetailsSchema,
+  AdhocCallStatus,
+  CallStatusValue,
+  callLogEventNormalizeSchema,
+  CallLogEvent,
+} from '../types/CallDisposition';
 import type { AciString } from '../types/ServiceId';
 import { isAciString } from './isAciString';
 import { isMe } from './whatTypeOfConversation';
@@ -49,26 +62,11 @@ import type {
   CallStatus,
   GroupCallMeta,
 } from '../types/CallDisposition';
-import {
-  DirectCallStatus,
-  GroupCallStatus,
-  callEventNormalizeSchema,
-  CallType,
-  CallDirection,
-  callEventDetailsSchema,
-  LocalCallEvent,
-  RemoteCallEvent,
-  callHistoryDetailsSchema,
-  callDetailsSchema,
-  AdhocCallStatus,
-  CallStatusValue,
-  callLogEventNormalizeSchema,
-  CallLogEvent,
-} from '../types/CallDisposition';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { ConversationModel } from '../models/conversations';
 import { drop } from './drop';
 import { sendCallLinkUpdateSync } from './sendCallLinkUpdateSync';
+import { callLinksDeleteJobQueue } from '../jobs/callLinksDeleteJobQueue';
 
 // utils
 // -----
@@ -1295,11 +1293,15 @@ export async function clearCallHistoryDataAndSync(
       `clearCallHistory: Clearing call history before (${latestCall.callId}, ${latestCall.timestamp})`
     );
     const messageIds = await DataWriter.clearCallHistory(latestCall);
+    await DataWriter.beginDeleteAllCallLinks();
     updateDeletedMessages(messageIds);
     log.info('clearCallHistory: Queueing sync message');
     await singleProtoJobQueue.add(
       MessageSender.getClearCallHistoryMessage(latestCall)
     );
+    await callLinksDeleteJobQueue.add({
+      source: 'clearCallHistoryDataAndSync',
+    });
   } catch (error) {
     log.error('clearCallHistory: Failed to clear call history', error);
   }
