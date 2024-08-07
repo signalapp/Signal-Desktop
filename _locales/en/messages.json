@@ -7447,5 +7447,13 @@
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`.",
     "description": "Release notes for version 7.19, part 2"
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\"",
+    "description": "Release notes for version 7.20, part 1"
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away).",
+    "description": "Release notes for version 7.20, part 2"
   }
 }
