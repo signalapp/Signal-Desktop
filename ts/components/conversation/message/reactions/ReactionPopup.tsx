@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Data } from '../../../../data/data';
 import { findAndFormatContact } from '../../../../models/message';
 import { PubKey } from '../../../../session/types/PubKey';
-import { isDarkTheme } from '../../../../state/selectors/theme';
+import { useIsDarkTheme } from '../../../../state/selectors/theme';
 import { nativeEmojiData } from '../../../../util/emoji';
 
 export type TipPosition = 'center' | 'left' | 'right';
@@ -66,8 +65,8 @@ const StyledContacts = styled.span`
   }
 `;
 
-const StyledOthers = styled.span<{ darkMode: boolean }>`
-  color: ${props => (props.darkMode ? 'var(--primary-color)' : 'var(--text-primary-color)')};
+const StyledOthers = styled.span<{ isDarkTheme: boolean }>`
+  color: ${props => (props.isDarkTheme ? 'var(--primary-color)' : 'var(--text-primary-color)')};
 `;
 
 const generateContactsString = async (
@@ -97,7 +96,7 @@ const generateContactsString = async (
 };
 
 const Contacts = (contacts: Array<string>, count: number) => {
-  const darkMode = useSelector(isDarkTheme);
+  const isDarkTheme = useIsDarkTheme();
 
   if (!(contacts?.length > 0)) {
     return null;
@@ -123,7 +122,7 @@ const Contacts = (contacts: Array<string>, count: number) => {
     return (
       <StyledContacts>
         {window.i18n('reactionPopupMany', [contacts[0], contacts[1], contacts[3]])}{' '}
-        <StyledOthers darkMode={darkMode}>
+        <StyledOthers isDarkTheme={isDarkTheme}>
           {window.i18n(reactors === 4 ? 'otherSingular' : 'otherPlural', [`${count - 3}`])}
         </StyledOthers>{' '}
         <span>{window.i18n('reactionPopup')}</span>

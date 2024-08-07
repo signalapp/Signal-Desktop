@@ -25,7 +25,7 @@ export class EmptySwarmError extends Error {
 
 export class NotFoundError extends Error {
   public error: any;
-  constructor(message: string, error: any) {
+  constructor(message: string, error?: any) {
     // 'Error' breaks prototype chain here
     super(message);
     this.error = error;
@@ -64,5 +64,13 @@ export class HTTPError extends Error {
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this);
     }
+  }
+}
+
+export class SnodeResponseError extends Error {
+  constructor(message = 'sessionRpc could not talk to node') {
+    super(message);
+    // restore prototype chain
+    Object.setPrototypeOf(this, SnodeResponseError.prototype);
   }
 }

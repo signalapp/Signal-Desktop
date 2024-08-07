@@ -9,6 +9,7 @@ const SettingsBoolsKeyTrackedInRedux = [
   SettingsKey.hasBlindedMsgRequestsEnabled,
   SettingsKey.hasFollowSystemThemeEnabled,
   SettingsKey.hasShiftSendEnabled,
+  SettingsKey.hideRecoveryPassword,
 ] as const;
 
 export type SettingsState = {
@@ -23,6 +24,7 @@ export function getSettingsInitialState() {
       hasBlindedMsgRequestsEnabled: false,
       hasFollowSystemThemeEnabled: false,
       hasShiftSendEnabled: false,
+      hideRecoveryPassword: false,
     },
   };
 }
@@ -53,6 +55,7 @@ const settingsSlice = createSlice({
         hasBlindedMsgRequestsEnabled: boolean;
         hasFollowSystemThemeEnabled: boolean;
         hasShiftSendEnabled: boolean;
+        hideRecoveryPassword: boolean;
       }>
     ) {
       const {
@@ -61,6 +64,7 @@ const settingsSlice = createSlice({
         settingsLinkPreview,
         someDeviceOutdatedSyncing,
         hasShiftSendEnabled,
+        hideRecoveryPassword,
       } = payload;
 
       state.settingsBools.someDeviceOutdatedSyncing = someDeviceOutdatedSyncing;
@@ -68,6 +72,7 @@ const settingsSlice = createSlice({
       state.settingsBools.hasBlindedMsgRequestsEnabled = hasBlindedMsgRequestsEnabled;
       state.settingsBools.hasFollowSystemThemeEnabled = hasFollowSystemThemeEnabled;
       state.settingsBools.hasShiftSendEnabled = hasShiftSendEnabled;
+      state.settingsBools.hideRecoveryPassword = hideRecoveryPassword;
 
       return state;
     },

@@ -1,13 +1,14 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-case-declarations */
-import { isEmpty, isNull } from 'lodash';
 import {
   BaseConfigWrapperNode,
+  BlindingWrapperNode,
   ContactsConfigWrapperNode,
   ConvoInfoVolatileWrapperNode,
   UserConfigWrapperNode,
   UserGroupsWrapperNode,
 } from 'libsession_util_nodejs';
+import { isEmpty, isNull } from 'lodash';
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import { ConfigWrapperObjectTypes } from '../../browser/libsession_worker_functions';
 
@@ -55,6 +56,7 @@ function getCorrespondingWrapper(wrapperType: ConfigWrapperObjectTypes): BaseCon
         throw new Error(`${wrapperType} is not init yet`);
       }
       return wrapper;
+
     default:
       assertUnreachable(
         wrapperType,
@@ -119,24 +121,83 @@ function initUserWrapper(options: Array<any>, wrapperType: ConfigWrapperObjectTy
   }
 }
 
-onmessage = async (e: { data: [number, ConfigWrapperObjectTypes, string, ...any] }) => {
+/**
+ * This function is used to free wrappers from memory only
+ *
+ * NOTE only use this function for wrappers that have not been saved to the database.
+ *
+ * EXAMPLE When restoring an account and fetching the display name of a user. We want to fetch a UserProfile config message and make a temporary wrapper for it in order to look up the display name.
+ */
+function freeUserWrapper(wrapperType: ConfigWrapperObjectTypes) {
+  const userWrapperType = assertUserWrapperType(wrapperType);
+
+  switch (userWrapperType) {
+    case 'UserConfig':
+      userProfileWrapper = undefined;
+      break;
+    case 'ContactsConfig':
+      contactsConfigWrapper = undefined;
+      break;
+    case 'UserGroupsConfig':
+      userGroupsConfigWrapper = undefined;
+      break;
+    case 'ConvoInfoVolatileConfig':
+      convoInfoVolatileConfigWrapper = undefined;
+      break;
+    default:
+      assertUnreachable(
+        userWrapperType,
+        `freeUserWrapper: Missing case error "${userWrapperType}"`
+      );
+  }
+}
+onmessage = async (e: {
+  data: [number, ConfigWrapperObjectTypes | 'Blinding', string, ...any];
+}) => {
   const [jobId, config, action, ...args] = e.data;
 
   try {
     if (action === 'init') {
-      initUserWrapper(args, config);
+      if (config === 'Blinding') {
+        // nothing to do for the blinding wrapper, all functions are static
+      } else {
+        initUserWrapper(args, config);
+      }
       postMessage([jobId, null, null]);
       return;
     }
-    const wrapper = getCorrespondingWrapper(config);
-    const fn = (wrapper as any)[action];
 
-    if (!fn) {
-      throw new Error(
-        `Worker: job "${jobId}" did not find function "${action}" on config "${config}"`
-      );
+    if (action === 'free') {
+      if (config !== 'Blinding') {
+        freeUserWrapper(config);
+      }
+      postMessage([jobId, null, null]);
+
+      return;
     }
-    const result = await (wrapper as any)[action](...args);
+
+    let result: any;
+
+    if (config === 'Blinding') {
+      const fn = (BlindingWrapperNode as any)[action];
+
+      if (!fn) {
+        throw new Error(
+          `Worker: job "${jobId}" did not find function "${action}" on wrapper "${config}"`
+        );
+      }
+      result = await (BlindingWrapperNode as any)[action](...args);
+    } else {
+      const wrapper = getCorrespondingWrapper(config);
+      const fn = (wrapper as any)[action];
+
+      if (!fn) {
+        throw new Error(
+          `Worker: job "${jobId}" did not find function "${action}" on config "${config}"`
+        );
+      }
+      result = await (wrapper as any)[action](...args);
+    }
     postMessage([jobId, null, result]);
   } catch (error) {
     const errorForDisplay = prepareErrorForPostMessage(error);

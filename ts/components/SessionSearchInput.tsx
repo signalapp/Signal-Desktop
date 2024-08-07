@@ -1,12 +1,13 @@
+import { Dispatch } from '@reduxjs/toolkit';
 import { debounce } from 'lodash';
-import React, { Dispatch, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { clearSearch, search, updateSearchTerm } from '../state/ducks/search';
 import { getConversationsCount } from '../state/selectors/conversations';
 import { getLeftOverlayMode } from '../state/selectors/section';
-import { cleanSearchTerm } from '../util/cleanSearchTerm';
 import { SessionIconButton } from './icon';
+import { useHotkey } from '../hooks/useHotkey';
 
 const StyledSearchInput = styled.div`
   height: var(--search-input-height);
@@ -62,15 +63,6 @@ function updateSearch(dispatch: Dispatch<any>, searchTerm: string) {
   // this updates our current state and text field.
   dispatch(updateSearchTerm(searchTerm));
 
-  if (searchTerm.length < 2) {
-    return;
-  }
-  // this effectively trigger a search
-  const cleanedTerm = cleanSearchTerm(searchTerm);
-  if (!cleanedTerm) {
-    return;
-  }
-
   debouncedSearch(dispatch, searchTerm);
 }
 export const SessionSearchInput = () => {
@@ -78,6 +70,15 @@ export const SessionSearchInput = () => {
   const dispatch = useDispatch();
   const isGroupCreationSearch = useSelector(getLeftOverlayMode) === 'closed-group';
   const convoCount = useSelector(getConversationsCount);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useHotkey('Escape', () => {
+    if (inputRef.current !== null && inputRef.current === document.activeElement) {
+      setCurrentSearchTerm('');
+      dispatch(clearSearch());
+    }
+  });
 
   // just after onboard we only have a conversation with ourself
   if (convoCount <= 1) {
@@ -96,6 +97,7 @@ export const SessionSearchInput = () => {
         iconType="search"
       />
       <StyledInput
+        ref={inputRef}
         value={currentSearchTerm}
         onChange={e => {
           const inputValue = e.target.value;

@@ -4,7 +4,6 @@ import Sinon, * as sinon from 'sinon';
 
 import chaiAsPromised from 'chai-as-promised';
 import { ConversationModel } from '../../../../models/conversation';
-import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { getSwarmPollingInstance, SnodePool } from '../../../../session/apis/snode_api';
 import { resetHardForkCachedValues } from '../../../../session/apis/snode_api/hfHandling';
 import { SnodeAPIRetrieve } from '../../../../session/apis/snode_api/retrieveRequest';
@@ -18,6 +17,7 @@ import { sleepFor } from '../../../../session/utils/Promise';
 import { UserGroupsWrapperActions } from '../../../../webworker/workers/browser/libsession_worker_interface';
 import { TestUtils } from '../../../test-utils';
 import { generateFakeSnodes, stubData } from '../../../test-utils/utils';
+import { ConversationTypeEnum } from '../../../../models/types';
 
 chai.use(chaiAsPromised as any);
 chai.should();

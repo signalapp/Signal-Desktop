@@ -7,7 +7,6 @@ import { MessageModel } from '../models/message';
 import { getConversationController } from '../session/conversations';
 import { Quote } from './types';
 
-import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { MessageDirection } from '../models/messageType';
 import { SignalService } from '../protobuf';
 import { DisappearingMessages } from '../session/disappearing_messages';
@@ -23,6 +22,7 @@ import { showMessageRequestBannerOutsideRedux } from '../state/ducks/userConfig'
 import { getHideMessageRequestBannerOutsideRedux } from '../state/selectors/userConfig';
 import { GoogleChrome } from '../util';
 import { LinkPreviews } from '../util/linkPreviews';
+import { ConversationTypeEnum } from '../models/types';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -102,9 +102,9 @@ async function copyFromQuotedMessage(
       : quotedMessage.propsForMessage.text) || '';
 
   if (isMessageModel(quotedMessage)) {
-    window.inboxStore.dispatch(pushQuotedMessageDetails(quotedMessage.getMessageModelProps()));
+    window.inboxStore?.dispatch(pushQuotedMessageDetails(quotedMessage.getMessageModelProps()));
   } else {
-    window.inboxStore.dispatch(pushQuotedMessageDetails(quotedMessage));
+    window.inboxStore?.dispatch(pushQuotedMessageDetails(quotedMessage));
   }
 
   // no attachments, just save the quote with the body

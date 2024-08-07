@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { useMouse } from 'react-use';
+import { useRef, useState } from 'react';
+import useMouse from 'react-use/lib/useMouse';
 import styled from 'styled-components';
 import { useRightOverlayMode } from '../../../../hooks/useUI';
 import { isUsAnySogsFromCache } from '../../../../session/apis/open_group_api/sogsv3/knownBlindedkeys';

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { MediaItemType } from '../../lightbox/LightboxGallery';
 import { AttachmentSection } from './AttachmentSection';

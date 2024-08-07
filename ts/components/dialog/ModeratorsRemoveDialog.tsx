@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { compact } from 'lodash';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { getConversationController } from '../../session/conversations';
@@ -7,13 +7,13 @@ import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
 import { Flex } from '../basic/Flex';
 
-import { updateRemoveModeratorsModal } from '../../state/ducks/modalDialog';
-import { SessionWrapperModal } from '../SessionWrapperModal';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { SessionSpinner } from '../basic/SessionSpinner';
-import { MemberListItem } from '../MemberListItem';
 import { useConversationPropsById } from '../../hooks/useParamSelector';
 import { sogsV3RemoveAdmins } from '../../session/apis/open_group_api/sogsv3/sogsV3AddRemoveMods';
+import { updateRemoveModeratorsModal } from '../../state/ducks/modalDialog';
+import { MemberListItem } from '../MemberListItem';
+import { SessionWrapperModal } from '../SessionWrapperModal';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionSpinner } from '../loading';
 
 type Props = {
   conversationId: string;
@@ -85,7 +85,7 @@ export const RemoveModeratorsDialog = (props: Props) => {
           <div className="contact-selection-list">
             {existingMods.map(modId => (
               <MemberListItem
-                key={modId}
+                key={`mod-list-${modId}`}
                 pubkey={modId}
                 isSelected={modsToRemove.some(m => m === modId)}
                 onSelect={(selectedMember: string) => {

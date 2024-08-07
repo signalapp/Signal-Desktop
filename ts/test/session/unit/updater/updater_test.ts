@@ -1,4 +1,5 @@
 import path from 'path';
+
 import { readFileSync } from 'fs-extra';
 import { isEmpty } from 'lodash';
 

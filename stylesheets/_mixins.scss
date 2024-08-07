@@ -1,5 +1,0 @@
-@mixin color-svg($svg, $color) {
-  -webkit-mask: url($svg) no-repeat center;
-  -webkit-mask-size: 100%;
-  background-color: $color;
-}

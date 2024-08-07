@@ -1,7 +1,8 @@
 /* eslint-disable no-promise-executor-return */
 /* eslint-disable no-async-promise-executor */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { Snode } from '../../data/data';
+
+import { Snode } from '../../data/types';
 
 type SimpleFunction<T> = (arg: T) => void;
 type Return<T> = Promise<T> | T;

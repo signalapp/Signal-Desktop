@@ -1,15 +1,12 @@
 import classNames from 'classnames';
 import { clone } from 'lodash';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../../../data/data';
 import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
-import {
-  PropsForAttachment,
-  showLightBox,
-  toggleSelectedMessageId,
-} from '../../../../state/ducks/conversations';
+import { PropsForAttachment, toggleSelectedMessageId } from '../../../../state/ducks/conversations';
+import { LightBoxOptions, updateLightBoxOptions } from '../../../../state/ducks/modalDialog';
 import { StateType } from '../../../../state/reducer';
 import { useMessageSelected } from '../../../../state/selectors';
 import {
@@ -28,10 +25,10 @@ import {
   isVideo,
 } from '../../../../types/Attachment';
 import { saveAttachmentToDisk } from '../../../../util/attachmentsUtil';
-import { Spinner } from '../../../basic/Spinner';
+import { MediaItemType } from '../../../lightbox/LightboxGallery';
+import { Spinner } from '../../../loading';
 import { AudioPlayerWithEncryptedFile } from '../../H5AudioPlayer';
 import { ImageGrid } from '../../ImageGrid';
-import { LightBoxOptions } from '../../SessionConversation';
 import { ClickToTrustSender } from './ClickToTrustSender';
 import { MessageHighlighter } from './MessageHighlighter';
 
@@ -244,7 +241,7 @@ export async function showLightboxFromAttachmentProps(
   const media = (msgAttachments || []).map(attachmentForMedia => {
     index++;
     const messageTimestamp =
-      found.get('timestamp') || found.get('serverTimestamp') || found.get('received_at');
+      found.get('timestamp') || found.get('serverTimestamp') || found.get('received_at') || -1;
 
     return {
       index: clone(index),
@@ -259,10 +256,10 @@ export async function showLightboxFromAttachmentProps(
 
   if (attachmentIsAttachmentTypeWithPath(selected)) {
     const lightBoxOptions: LightBoxOptions = {
-      media: media as any,
+      media,
       attachment: selected,
     };
-    window.inboxStore?.dispatch(showLightBox(lightBoxOptions));
+    window.inboxStore?.dispatch(updateLightBoxOptions(lightBoxOptions));
   } else {
     window.log.warn('Attachment is not of the right type');
   }
@@ -281,10 +278,10 @@ const onClickAttachment = async (onClickProps: {
   }
   const msgAttachments = found.getPropsForMessage().attachments;
 
-  const media = (msgAttachments || []).map(attachmentForMedia => {
+  const media: Array<MediaItemType> = (msgAttachments || []).map(attachmentForMedia => {
     index++;
     const messageTimestamp =
-      found.get('timestamp') || found.get('serverTimestamp') || found.get('received_at');
+      found.get('timestamp') || found.get('serverTimestamp') || found.get('received_at') || -1;
 
     return {
       index: clone(index),
@@ -299,10 +296,10 @@ const onClickAttachment = async (onClickProps: {
 
   if (attachmentIsAttachmentTypeWithPath(onClickProps.attachment)) {
     const lightBoxOptions: LightBoxOptions = {
-      media: media as any,
+      media,
       attachment: onClickProps.attachment,
     };
-    window.inboxStore?.dispatch(showLightBox(lightBoxOptions));
+    window.inboxStore?.dispatch(updateLightBoxOptions(lightBoxOptions));
   } else {
     window.log.warn('Attachment is not of the right type');
   }

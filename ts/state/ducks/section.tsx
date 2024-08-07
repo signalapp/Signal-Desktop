@@ -72,7 +72,8 @@ export type LeftOverlayMode =
   | 'message'
   | 'open-group'
   | 'closed-group'
-  | 'message-requests';
+  | 'message-requests'
+  | 'invite-a-friend';
 
 export function setLeftOverlayMode(overlayMode: LeftOverlayMode): LeftOverlayModeActionType {
   return {

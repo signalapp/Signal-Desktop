@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React from 'react';
+
 import classNames from 'classnames';
 import moment from 'moment';
 
 import autoBind from 'auto-bind';
 import MicRecorder from 'mic-recorder-to-mp3';
-import styled from 'styled-components';
-import { SessionIconButton } from '../icon';
+import { Component } from 'react';
+import styled, { keyframes } from 'styled-components';
 import { Constants } from '../../session';
-import { ToastUtils } from '../../session/utils';
 import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
+import { ToastUtils } from '../../session/utils';
+import { SessionIconButton } from '../icon';
 
 interface Props {
   onExitVoiceNoteView: () => void;
@@ -36,6 +37,32 @@ interface StyledFlexWrapperProps {
   marginHorizontal: string;
 }
 
+const pulseColorAnimation = keyframes`
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(var(--session-recording-pulse-color), 0.7);
+    }
+
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(var(--session-recording-pulse-color), 0);
+    }
+
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(var(--session-recording-pulse-color), 0);
+    }
+`;
+
+const StyledRecordTimerLight = styled.div`
+  height: var(--margins-sm);
+  width: var(--margins-sm);
+  border-radius: 50%;
+  background-color: rgb(var(--session-recording-pulse-color));
+  margin: 0 var(--margins-sm);
+  animation: ${pulseColorAnimation} var(--duration-pulse) infinite;
+`;
+
 /**
  * Generic wrapper for quickly passing in theme constant values.
  */
@@ -49,7 +76,7 @@ const StyledFlexWrapper = styled.div<StyledFlexWrapperProps>`
   }
 `;
 
-export class SessionRecording extends React.Component<Props, State> {
+export class SessionRecording extends Component<Props, State> {
   private recorder?: any;
   private audioBlobMp3?: Blob;
   private audioElement?: HTMLAudioElement | null;
@@ -157,17 +184,12 @@ export class SessionRecording extends React.Component<Props, State> {
         {isRecording ? (
           <div className={classNames('session-recording--timer')}>
             {displayTimeString}
-            <div className="session-recording--timer-light" />
+            <StyledRecordTimerLight />
           </div>
         ) : null}
 
         {!isRecording && (
-          <div
-            className={classNames(
-              'send-message-button',
-              hasRecording && 'send-message-button---scale'
-            )}
-          >
+          <div>
             <SessionIconButton
               iconType="send"
               iconSize={'large'}

@@ -1,7 +1,5 @@
 import { isEmpty } from 'lodash';
-import { Snode } from '../../../data/data';
-import { doSnodeBatchRequest } from './batchRequest';
-import { GetNetworkTime } from './getNetworkTime';
+import { Snode } from '../../../data/types';
 import {
   DeleteByHashesFromNodeParams,
   DeleteFromNodeSubRequest,
@@ -9,6 +7,8 @@ import {
   StoreOnNodeParams,
   StoreOnNodeSubRequest,
 } from './SnodeRequestTypes';
+import { doSnodeBatchRequest } from './batchRequest';
+import { GetNetworkTime } from './getNetworkTime';
 
 function justStores(params: Array<StoreOnNodeParams>) {
   return params.map(p => {

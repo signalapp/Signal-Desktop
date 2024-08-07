@@ -1,8 +1,6 @@
-import React from 'react';
-
-export const MemberAvatarPlaceHolder = () => {
+export const MemberAvatarPlaceHolder = ({ dataTestId }: { dataTestId?: string }) => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" data-testid={dataTestId}>
       <circle fill="var(--primary-color)" cx="13" cy="13" r="13" />
       <path
         fill="var(--white-color)"

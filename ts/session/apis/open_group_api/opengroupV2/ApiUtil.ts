@@ -10,11 +10,6 @@ import { allowOnlyOneAtATime } from '../../../utils/Promise';
 import { getAllRoomInfos } from '../sogsv3/sogsV3RoomInfos';
 import { parseOpenGroupV2 } from './JoinOpenGroupV2';
 
-export type OpenGroupRequestCommonType = {
-  serverUrl: string;
-  roomId: string;
-};
-
 export type OpenGroupCapabilityRequest = {
   server: string;
   endpoint: string;

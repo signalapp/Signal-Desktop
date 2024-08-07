@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { ClosedGroup, getMessageQueue } from '..';
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { addKeyPairToCacheAndDBIfNeeded } from '../../receiver/closedGroups';
 import { ECKeyPair } from '../../receiver/keypairs';
 import { openConversationWithMessages } from '../../state/ducks/conversations';
@@ -16,6 +15,7 @@ import { PubKey } from '../types';
 import { UserUtils } from '../utils';
 import { forceSyncConfigurationNowIfNeeded } from '../utils/sync/syncUtils';
 import { getConversationController } from './ConversationController';
+import { ConversationTypeEnum } from '../../models/types';
 
 export async function createClosedGroup(groupName: string, members: Array<string>, isV3: boolean) {
   const setOfMembers = new Set(members);

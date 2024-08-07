@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 import { isEmpty } from 'lodash';
@@ -51,7 +50,7 @@ const ReactButton = styled.span`
   cursor: pointer;
   font-size: 24px;
 
-  :hover {
+  &:hover {
     background-color: var(--chat-buttons-background-hover-color);
   }
 `;

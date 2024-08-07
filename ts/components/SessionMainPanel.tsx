@@ -1,11 +1,10 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { useAppIsFocused } from '../hooks/useAppFocused';
 import { getFocusedSettingsSection } from '../state/selectors/section';
 
 import { SmartSessionConversation } from '../state/smart/SessionConversation';
-import { SessionSettingsView } from './settings/SessionSettings';
 import { useHTMLDirection } from '../util/i18n';
+import { SessionSettingsView } from './settings/SessionSettings';
 
 const FilteredSettingsView = SessionSettingsView as any;
 

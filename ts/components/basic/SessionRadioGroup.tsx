@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import useMount from 'react-use/lib/useMount';
 import styled, { CSSProperties } from 'styled-components';
 

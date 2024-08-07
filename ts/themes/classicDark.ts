@@ -25,9 +25,12 @@ export const classicDark: ThemeColorVariables = {
   '--message-bubbles-sent-text-color': 'var(--background-primary-color)',
   '--message-bubbles-received-text-color': 'var(--text-primary-color)',
 
-  '--menu-button-background-color': 'var(--primary-color)',
-  '--menu-button-background-hover-color': THEMES.CLASSIC_DARK.COLOR4,
-  '--menu-button-icon-color': THEMES.CLASSIC_DARK.COLOR6,
+  '--menu-button-background-color': 'transparent',
+  '--menu-button-background-hover-color': 'var(--primary-color)',
+  '--menu-button-icon-color': 'var(--primary-color)',
+  '--menu-button-icon-hover-color': 'var(--text-primary-color)',
+  '--menu-button-border-color': 'var(--primary-color)',
+  '--menu-button-border-hover-color': 'var(--primary-color)',
 
   '--chat-buttons-background-color': THEMES.CLASSIC_DARK.COLOR2,
   '--chat-buttons-background-hover-color': THEMES.CLASSIC_DARK.COLOR3,
@@ -54,6 +57,10 @@ export const classicDark: ThemeColorVariables = {
   '--button-solid-text-hover-color': 'var(--text-primary-color)',
   '--button-solid-disabled-color': THEMES.CLASSIC_DARK.COLOR4,
   '--button-solid-shadow-color': 'none',
+
+  '--button-ghost-background-color': 'none',
+  '--button-ghost-background-hover-color': THEMES.CLASSIC_DARK.COLOR2,
+  '--button-ghost-disabled-color': 'none',
 
   '--button-simple-text-color': 'var(--text-primary-color)',
   '--button-simple-disabled-color': 'var(--disabled-color)',
@@ -156,4 +163,6 @@ export const classicDark: ThemeColorVariables = {
 
   '--file-dropzone-background-color': 'var(--message-link-preview-background-color)',
   '--file-dropzone-border-color': 'var(--primary-color)',
+
+  '--session-recording-pulse-color': hexColorToRGB(THEMES.CLASSIC_DARK.DANGER),
 };

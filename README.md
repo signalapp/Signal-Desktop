@@ -14,7 +14,7 @@ Please search for any [existing issues](https://github.com/oxen-io/session-deskt
 
 ## Supported platforms
 
-Session requires Windows 10 or later, macOS Catalina (10.15) or later, or a linux distribution with glibc 2.28 or later like Debian 10 or Ubuntu 20.04.
+Session requires Windows 10 or later, macOS Monterey (12) or later, or a linux distribution with glibc 2.28 or later like Debian 10 or Ubuntu 20.04.
 
 ## Build instruction
 

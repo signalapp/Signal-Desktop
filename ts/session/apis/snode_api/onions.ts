@@ -14,9 +14,10 @@ import { OnionPaths } from '../../onions';
 import { incrementBadPathCountOrDrop } from '../../onions/onionPath';
 import { ed25519Str, toHex } from '../../utils/String';
 
-import { Snode } from '../../../data/data';
+import { Snode } from '../../../data/types';
 import { callUtilsWorker } from '../../../webworker/workers/browser/util_worker_interface';
 import { encodeV4Request } from '../../onions/onionv4';
+import { SnodeResponseError } from '../../utils/errors';
 import { fileServerHost } from '../file_server_api/FileServerApi';
 import { hrefPnServerProd } from '../push_notification_api/PnServer';
 import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
@@ -1158,7 +1159,7 @@ async function lokiOnionFetch({
     window?.log?.warn('onionFetchRetryable failed ', e.message);
     if (e?.errno === 'ENETUNREACH') {
       // better handle the no connection state
-      throw new Error(ERROR_CODE_NO_CONNECT);
+      throw new SnodeResponseError(ERROR_CODE_NO_CONNECT);
     }
     if (e?.message === CLOCK_OUT_OF_SYNC_MESSAGE_ERROR) {
       window?.log?.warn('Its a clock out of sync error ');

@@ -1,11 +1,11 @@
 import FocusTrap from 'focus-trap-react';
-import React, { useState } from 'react';
-import { useMount } from 'react-use';
+import { ReactNode, useState } from 'react';
+import useMount from 'react-use/lib/useMount';
 
 /**
  * Focus trap which activates on mount.
  */
-export function SessionFocusTrap(props: { children: React.ReactNode }) {
+export function SessionFocusTrap(props: { children: ReactNode }) {
   const [active, setActive] = useState(false);
 
   // Activate the trap on mount so we **should** have a button to tab through. focus-trap-react will throw if we don't have a button when the trap becomes active.

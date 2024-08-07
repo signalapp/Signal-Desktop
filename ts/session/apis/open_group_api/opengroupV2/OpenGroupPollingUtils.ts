@@ -1,12 +1,13 @@
 import { compact } from 'lodash';
 
-import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
+import { OpenGroupData } from '../../../../data/opengroups';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { UserUtils } from '../../../utils';
 import { fromHexToArray } from '../../../utils/String';
 import { getSodiumRenderer } from '../../../crypto';
 import { SogsBlinding } from '../sogsv3/sogsBlinding';
 import { GetNetworkTime } from '../../snode_api/getNetworkTime';
+import { OpenGroupV2Room } from '../../../../data/types';
 
 export type OpenGroupRequestHeaders = {
   'X-SOGS-Pubkey': string;

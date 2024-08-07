@@ -1,7 +1,6 @@
 import { isNil } from 'lodash';
 import {
   ConversationNotificationSettingType,
-  ConversationTypeEnum,
   READ_MESSAGE_STATE,
 } from '../models/conversationAttributes';
 import { CallManager, SyncUtils, ToastUtils, UserUtils } from '../session/utils';
@@ -46,18 +45,8 @@ import { encryptProfile } from '../util/crypto/profileEncrypter';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { Storage, setLastProfileUpdateTimestamp } from '../util/storage';
 import { UserGroupsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
-
-export enum ConversationInteractionStatus {
-  Start = 'start',
-  Loading = 'loading',
-  Error = 'error',
-  Complete = 'complete',
-}
-
-export enum ConversationInteractionType {
-  Hide = 'hide',
-  Leave = 'leave',
-}
+import { ConversationTypeEnum } from '../models/types';
+import { ConversationInteractionStatus, ConversationInteractionType } from './types';
 
 export async function copyPublicKeyByConvoId(convoId: string) {
   if (OpenGroupUtils.isOpenGroupV2(convoId)) {

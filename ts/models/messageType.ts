@@ -4,15 +4,15 @@ import {
   DisappearingMessageType,
   ExpirationTimerUpdate,
 } from '../session/disappearing_messages/types';
-import {
-  CallNotificationType,
-  InteractionNotificationType,
-  LastMessageStatusType,
-  PropsForMessageWithConvoProps,
-} from '../state/ducks/conversations';
+import { PropsForMessageWithConvoProps } from '../state/ducks/conversations';
 import { AttachmentTypeWithPath } from '../types/Attachment';
 import { Reaction, ReactionList, SortedReactionList } from '../types/Reaction';
 import { READ_MESSAGE_STATE } from './conversationAttributes';
+import {
+  LastMessageStatusType,
+  CallNotificationType,
+  InteractionNotificationType,
+} from '../state/ducks/types';
 
 export type MessageModelType = 'incoming' | 'outgoing';
 

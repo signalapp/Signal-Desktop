@@ -13,7 +13,6 @@ import {
   deleteMessagesFromSwarmAndCompletelyLocally,
   deleteMessagesFromSwarmAndMarkAsDeletedLocally,
 } from '../interactions/conversations/unsendingInteractions';
-import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../models/conversationAttributes';
 import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { getConversationController } from '../session/conversations';
 import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
@@ -34,6 +33,7 @@ import { handleCallMessage } from './callMessage';
 import { getAllCachedECKeyPair, sentAtMoreRecentThanWrapper } from './closedGroups';
 import { ConfigMessageHandler } from './configMessage';
 import { ECKeyPair } from './keypairs';
+import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../models/types';
 
 export async function handleSwarmContentMessage(
   envelope: EnvelopePlus,

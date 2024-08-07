@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { useQuoteAuthorName } from '../../../../../hooks/useParamSelector';
 import { PubKey } from '../../../../../session/types';

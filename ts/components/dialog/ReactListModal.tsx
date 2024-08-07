@@ -1,5 +1,5 @@
 import { isEmpty, isEqual } from 'lodash';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../data/data';
@@ -334,7 +334,7 @@ export const ReactListModal = (props: Props) => {
 
   return (
     <SessionWrapperModal
-      additionalClassName={'reaction-list-modal'}
+      additionalClassName={'reaction-list-modal no-body-padding'}
       showHeader={false}
       onClose={handleClose}
     >

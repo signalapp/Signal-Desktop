@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { switchThemeTo } from '../themes/switchTheme';
 import { SessionTheme } from '../themes/SessionTheme';
+import { switchThemeTo } from '../themes/switchTheme';
 import { fetchNodeLog } from '../util/logging';
 import { SessionButton, SessionButtonType } from './basic/SessionButton';
 import { SessionIconButton } from './icon';
@@ -42,8 +42,9 @@ const StyledContent = styled.div`
     resize: none;
     min-height: 100px;
 
-    font-family: Monaco, Consolas, 'Courier New', Courier, monospace;
+    font-family: var(--font-debug);
     font-size: 12px;
+    line-height: 18px;
   }
 `;
 
@@ -73,9 +74,9 @@ const DebugLogViewAndSave = () => {
   const [content, setContent] = useState(window.i18n('loading'));
 
   useEffect(() => {
-    const operatingSystemInfo = `Operating System: ${(window as any).getOSRelease()}`;
+    const operatingSystemInfo = `Operating System ${window.getOSRelease()}`;
 
-    const commitHashInfo = window.getCommitHash() ? `Commit Hash: ${window.getCommitHash()}` : '';
+    const commitHashInfo = window.getCommitHash() ? `Commit ${window.getCommitHash()}` : '';
 
     // eslint-disable-next-line more/no-then
     fetchNodeLog()
@@ -100,6 +101,7 @@ export const DebugLogView = () => {
     if (window.theme) {
       void switchThemeTo({
         theme: window.theme,
+        usePrimaryColor: true,
       });
     }
   }, []);

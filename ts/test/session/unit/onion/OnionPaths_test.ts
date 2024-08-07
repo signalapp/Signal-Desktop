@@ -1,17 +1,17 @@
 import chai from 'chai';
-import Sinon from 'sinon';
+import chaiAsPromised from 'chai-as-promised';
 import _ from 'lodash';
 import { describe } from 'mocha';
-import chaiAsPromised from 'chai-as-promised';
+import Sinon from 'sinon';
 
-import { TestUtils } from '../../../test-utils';
 import * as SNodeAPI from '../../../../session/apis/snode_api';
+import { TestUtils } from '../../../test-utils';
 
+import { GuardNode, Snode } from '../../../../data/types';
 import * as OnionPaths from '../../../../session/onions/onionPath';
-import { GuardNode, Snode } from '../../../../data/data';
 import {
-  generateFakeSnodes,
   generateFakeSnodeWithEdKey,
+  generateFakeSnodes,
   stubData,
 } from '../../../test-utils/utils';
 import { SeedNodeAPI } from '../../../../session/apis/seed_node_api';

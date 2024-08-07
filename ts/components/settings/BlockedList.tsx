@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import useUpdate from 'react-use/lib/useUpdate';
 import styled from 'styled-components';
 import { useSet } from '../../hooks/useSet';
 import { ToastUtils } from '../../session/utils';
 import { BlockedNumberController } from '../../util';
+import { MemberListItem } from '../MemberListItem';
 import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 import { SpacerLG, SpacerSM } from '../basic/Text';
 import { SessionIconButton } from '../icon';
-import { MemberListItem } from '../MemberListItem';
 import { SessionSettingsItemWrapper, SettingsTitleAndDescription } from './SessionSettingListItem';
 
 const BlockedEntriesContainer = styled.div`
@@ -57,9 +57,9 @@ const BlockedEntries = (props: {
         {blockedNumbers.map(blockedEntry => {
           return (
             <MemberListItem
+              key={`blocked-list-item-${blockedEntry}`}
               pubkey={blockedEntry}
               isSelected={selectedIds.includes(blockedEntry)}
-              key={blockedEntry}
               onSelect={addToSelected}
               onUnselect={removeFromSelected}
               disableBg={true}

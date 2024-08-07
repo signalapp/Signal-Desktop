@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useMessageReactsPropsById } from '../../hooks/useParamSelector';
@@ -8,7 +8,7 @@ import { updateReactClearAllModal } from '../../state/ducks/modalDialog';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { SessionSpinner } from '../basic/SessionSpinner';
+import { SessionSpinner } from '../loading';
 
 type Props = {
   reaction: string;

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import styled, { CSSProperties } from 'styled-components';
 import { Flex } from '../basic/Flex';
 
@@ -76,7 +76,7 @@ const StyledPanelButton = styled.button<{
   transition: var(--default-duration);
   color: ${props => (props.disabled ? 'var(--disabled-color)' : 'inherit')};
 
-  :not(:last-child) {
+  &:not(:last-child) {
     border-bottom: 1px solid var(--border-color);
   }
 `;

@@ -1,7 +1,7 @@
 import autoBind from 'auto-bind';
 import classNames from 'classnames';
 import { isString } from 'lodash';
-import React, { useEffect } from 'react';
+import { PureComponent, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 
@@ -12,8 +12,8 @@ import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
 import { switchThemeTo } from '../themes/switchTheme';
 import { SessionToastContainer } from './SessionToastContainer';
 import { SessionWrapperModal } from './SessionWrapperModal';
-import { SessionSpinner } from './basic/SessionSpinner';
 import { SessionToast } from './basic/SessionToast';
+import { SessionSpinner } from './loading';
 
 interface State {
   errorCount: number;
@@ -45,7 +45,7 @@ function pushToastError(id: string, title: string, description?: string) {
   });
 }
 
-class SessionPasswordPromptInner extends React.PureComponent<unknown, State> {
+class SessionPasswordPromptInner extends PureComponent<unknown, State> {
   private inputRef?: any;
 
   constructor(props: any) {

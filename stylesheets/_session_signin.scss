@@ -1,57 +1,5 @@
 .session {
-  &-fullscreen {
-    width: 100%;
-    height: 100%;
-    background-color: var(--background-primary-color);
-    color: var(--text-primary-color);
-  }
-  &-content {
-    &-accent {
-      &-text {
-        font-family: var(--font-accent), var(--font-default);
-        text-align: center;
-        .title {
-          font-size: 90px;
-          font-weight: 700;
-          line-height: 100px;
-        }
-      }
-    }
-
-    &-registration {
-      padding-inline-end: 128px;
-    }
-
-    &-header {
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-      justify-content: space-between;
-      padding: 17px 20px;
-    }
-
-    &-body {
-      display: flex;
-      flex-direction: row;
-      flex: 1;
-      align-items: center;
-      width: 100%;
-      padding-bottom: 20px;
-    }
-  }
-
   &-registration {
-    &-container {
-      display: flex;
-      flex-direction: column;
-      width: 289px;
-
-      .session-button {
-        width: 80%;
-        margin: auto;
-      }
-    }
-
     &__content {
       width: 100%;
       padding-top: 20px;
@@ -61,7 +9,7 @@
       color: var(--text-primary-color);
 
       font-weight: bold;
-      padding: 20px;
+      padding: 0 20px 20px;
     }
 
     &__welcome-session {
@@ -76,98 +24,6 @@
     &__unique-session-id {
       @include registration-label-mixin;
       text-align: center;
-    }
-
-    &__entry-fields {
-      margin: 0px;
-      padding-bottom: 30px;
-    }
-  }
-
-  &-input-floating-label-show-hide {
-    padding-inline-end: 30px;
-  }
-
-  &-input-with-label-container {
-    height: 46.5px;
-    width: 280px;
-    font-family: var(--font-default);
-    color: var(--text-primary-color);
-
-    padding: 2px 0 2px 0;
-    transition: opacity var(--default-duration);
-    opacity: 1;
-    position: relative;
-
-    label {
-      line-height: 14px;
-      opacity: 0;
-      color: var(--text-primary-color);
-
-      font-size: 10px;
-      line-height: 11px;
-      position: absolute;
-      top: 0px;
-    }
-
-    &.filled {
-      opacity: 1;
-    }
-
-    &.error {
-      color: var(--danger-color);
-    }
-
-    input {
-      border: none;
-      outline: 0;
-      height: 14px;
-      width: 280px;
-      background: transparent;
-      color: var(--input-text-color);
-
-      font-family: var(--font-default);
-      font-size: 12px;
-      line-height: 14px;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-
-      &::placeholder {
-        color: var(--input-text-placeholder-color);
-      }
-    }
-
-    hr {
-      border: 1px solid var(--border-color);
-
-      width: 100%;
-      position: absolute;
-      bottom: 0px;
-    }
-  }
-
-  &-terms-conditions-agreement {
-    padding-top: var(--margins-md);
-
-    color: var(--text-secondary-color);
-    text-align: center;
-    font-size: 12px;
-
-    a {
-      white-space: nowrap;
-      font-weight: bold;
-      text-decoration: none;
-      color: var(--text-secondary-color);
-      transition: var(--default-duration);
-
-      &:visited &:link {
-        color: var(--text-secondary-color);
-      }
-
-      &:hover {
-        color: var(--text-primary-color);
-      }
     }
   }
 

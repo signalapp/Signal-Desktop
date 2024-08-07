@@ -1,6 +1,6 @@
-import React, { memo } from 'react';
 import styled, { css, CSSProperties, keyframes } from 'styled-components';
 
+import { memo } from 'react';
 import { icons, SessionIconSize, SessionIconType } from '.';
 import { ClipRule, FillRule } from './Icons';
 
@@ -38,8 +38,6 @@ const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
       return 30;
     case 'huge2':
       return 40;
-    case 'max':
-      return 80;
     default:
       return 20;
   }

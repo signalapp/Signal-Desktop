@@ -1,4 +1,3 @@
-import React from 'react';
 import { PropsForDataExtractionNotification } from '../../../../models/messageType';
 import { SignalService } from '../../../../protobuf';
 import { ExpirableReadableMessage } from './ExpirableReadableMessage';

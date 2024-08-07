@@ -19,7 +19,6 @@ import { ClosedGroupVisibleMessage } from '../messages/outgoing/visibleMessage/C
 import { SyncMessageType } from '../utils/sync/syncUtils';
 import { MessageSentHandler } from './MessageSentHandler';
 
-import { OpenGroupRequestCommonType } from '../apis/open_group_api/opengroupV2/ApiUtil';
 import { OpenGroupMessageV2 } from '../apis/open_group_api/opengroupV2/OpenGroupMessageV2';
 import { sendSogsReactionOnionV4 } from '../apis/open_group_api/sogsv3/sogsV3SendReaction';
 import {
@@ -31,6 +30,7 @@ import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 import { SharedConfigMessage } from '../messages/outgoing/controlMessage/SharedConfigMessage';
 import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+import { OpenGroupRequestCommonType } from '../../data/types';
 
 type ClosedGroupMessageType =
   | ClosedGroupVisibleMessage

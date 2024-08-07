@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getSodiumRenderer } from '../../../session/crypto';
+import { allowOnlyOneAtATime } from '../../../session/utils/Promise';
+import { toHex } from '../../../session/utils/String';
 import { COLORS } from '../../../themes/constants/colors';
 import { getInitials } from '../../../util/getInitials';
-import { allowOnlyOneAtATime } from '../../../session/utils/Promise';
 import { MemberAvatarPlaceHolder } from '../../icon/MemberAvatarPlaceHolder';
 
 type Props = {
   diameter: number;
   name: string;
   pubkey: string;
+  dataTestId?: string;
 };
 
+/** NOTE we use libsodium instead of crypto.subtle.digest because node:crypto.subtle.digest does not work the same way and we need to unit test this component */
 const sha512FromPubkeyOneAtAtime = async (pubkey: string) => {
   return allowOnlyOneAtATime(`sha512FromPubkey-${pubkey}`, async () => {
-    const buf = await crypto.subtle.digest('SHA-512', new TextEncoder().encode(pubkey));
-
-    return Array.prototype.map
-      .call(new Uint8Array(buf), (x: any) => `00${x.toString(16)}`.slice(-2))
-      .join('');
+    const sodium = await getSodiumRenderer();
+    const buf = sodium.crypto_hash_sha512(pubkey);
+    return toHex(buf);
   });
 };
 
@@ -74,7 +76,7 @@ function useHashBasedOnPubkey(pubkey: string) {
 }
 
 export const AvatarPlaceHolder = (props: Props) => {
-  const { pubkey, diameter, name } = props;
+  const { pubkey, diameter, name, dataTestId } = props;
 
   const { hash, loading } = useHashBasedOnPubkey(pubkey);
 
@@ -85,7 +87,7 @@ export const AvatarPlaceHolder = (props: Props) => {
 
   if (loading || !hash) {
     // return avatar placeholder circle
-    return <MemberAvatarPlaceHolder />;
+    return <MemberAvatarPlaceHolder dataTestId={dataTestId} />;
   }
 
   const initials = getInitials(name);
@@ -97,7 +99,7 @@ export const AvatarPlaceHolder = (props: Props) => {
   const bgColor = avatarPlaceholderColors[bgColorIndex];
 
   return (
-    <svg viewBox={viewBox}>
+    <svg viewBox={viewBox} data-testid={dataTestId}>
       <g id="UrTavla">
         <circle
           cx={r}
@@ -112,9 +114,9 @@ export const AvatarPlaceHolder = (props: Props) => {
           fontSize={fontSize}
           x="50%"
           y="50%"
-          fill="white"
+          fill="var(--white-color)"
           textAnchor="middle"
-          stroke="white"
+          stroke="var(--white-color)"
           strokeWidth={1}
           alignmentBaseline="central"
           height={fontSize}

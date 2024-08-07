@@ -1,17 +1,19 @@
 import { isString } from 'lodash';
-import React from 'react';
+
 import { useSelector } from 'react-redux';
 import { AutoSizer, Index, List, ListRowProps } from 'react-virtualized';
 import styled, { CSSProperties } from 'styled-components';
 import {
   DirectContactsByNameType,
-  getDirectContactsByName,
-  getDirectContactsCount,
+  getContactsCount,
+  getSortedContactsWithBreaks,
 } from '../../../../state/selectors/conversations';
 import { leftPaneListWidth } from '../../LeftPane';
 import { StyledLeftPaneList } from '../../LeftPaneList';
+import { StyledChooseActionTitle } from './ActionRow';
 import { ContactRow, ContactRowBreak } from './ContactRow';
-import { StyledChooseActionTitle } from './OverlayChooseAction';
+import { getThemeValue, pxValueToNumber } from '../../../../themes/globals';
+import { SearchResultsMergedListItem } from '../../../../state/selectors/search';
 
 const StyledContactSection = styled.div`
   display: flex;
@@ -38,14 +40,24 @@ const StyledContactSection = styled.div`
   }
 `;
 
+const StyledContactsTitle = styled(StyledChooseActionTitle)`
+  padding: var(--margins-xs) var(--margins-lg);
+`;
+
+const StyledContactsEmpty = styled.div`
+  color: var(--text-secondary-color);
+  padding: var(--margins-xs) var(--margins-lg);
+`;
+
 const renderRow = (props: ListRowProps) => {
   const { index, key, style, parent } = props;
 
   // ugly, but it seems react-virtualized does not support very well functional components just yet
   // https://stackoverflow.com/questions/54488954/how-to-pass-prop-into-rowrender-of-react-virtualized
-  const directContactsByNameWithBreaks = (parent as any).props
-    .directContactsByNameWithBreaks as Array<DirectContactsByNameType | string>;
-  const item = directContactsByNameWithBreaks?.[index];
+  const contactsByNameWithBreaks = (parent as any).props.contactsByNameWithBreaks as Array<
+    DirectContactsByNameType | string
+  >;
+  const item = contactsByNameWithBreaks?.[index];
   if (!item) {
     return null;
   }
@@ -57,31 +69,27 @@ const renderRow = (props: ListRowProps) => {
   return <ContactRow style={style as CSSProperties} key={key} {...item} />;
 };
 
-const unknownSection = 'unknown';
+export function calcContactRowHeight(
+  items: Array<SearchResultsMergedListItem | string | DirectContactsByNameType>,
+  params: Index,
+  overrides?: {
+    rowHeight?: number;
+    breakRowHeight?: number;
+  }
+) {
+  return isString(items[params.index])
+    ? overrides?.breakRowHeight || pxValueToNumber(getThemeValue('--contact-row-break-height'))
+    : overrides?.rowHeight || pxValueToNumber(getThemeValue('--contact-row-height'));
+}
 
 const ContactListItemSection = () => {
-  const directContactsByName = useSelector(getDirectContactsByName);
+  const contactsByNameWithBreaks = useSelector(getSortedContactsWithBreaks);
 
-  if (!directContactsByName) {
+  if (!contactsByNameWithBreaks) {
     return null;
   }
 
-  // add a break wherever needed
-  let currentChar = '';
-  // if the item is a string we consider it to be a break of that string
-  const directContactsByNameWithBreaks: Array<DirectContactsByNameType | string> = [];
-  directContactsByName.forEach(m => {
-    if (m.displayName && m.displayName[0] !== currentChar) {
-      currentChar = m.displayName[0];
-      directContactsByNameWithBreaks.push(currentChar.toUpperCase());
-    } else if (!m.displayName && currentChar !== unknownSection) {
-      currentChar = unknownSection;
-      directContactsByNameWithBreaks.push(window.i18n('unknown'));
-    }
-    directContactsByNameWithBreaks.push(m);
-  });
-
-  const length = Number(directContactsByNameWithBreaks.length);
+  const length = Number(contactsByNameWithBreaks.length);
 
   return (
     <StyledLeftPaneList key={0} style={{ width: '100%' }}>
@@ -92,11 +100,8 @@ const ContactListItemSection = () => {
               className="module-left-pane__virtual-list"
               height={height}
               rowCount={length}
-              rowHeight={
-                (params: Index) =>
-                  isString(directContactsByNameWithBreaks[params.index]) ? 30 : 64 // should also be changed in `ContactRowBreak`
-              }
-              directContactsByNameWithBreaks={directContactsByNameWithBreaks}
+              rowHeight={params => calcContactRowHeight(contactsByNameWithBreaks, params)}
+              contactsByNameWithBreaks={contactsByNameWithBreaks}
               rowRenderer={renderRow}
               width={leftPaneListWidth}
               autoHeight={false}
@@ -108,22 +113,17 @@ const ContactListItemSection = () => {
   );
 };
 
-const ContactsTitle = () => {
-  const contactsCount = useSelector(getDirectContactsCount);
-  if (contactsCount <= 0) {
-    return null;
-  }
-
-  return (
-    <StyledChooseActionTitle tabIndex={0}>{window.i18n('contactsHeader')}</StyledChooseActionTitle>
-  );
-};
-
 export const ContactsListWithBreaks = () => {
+  const contactsCount = useSelector(getContactsCount);
+
   return (
     <StyledContactSection>
-      <ContactsTitle />
-      <ContactListItemSection />
+      <StyledContactsTitle tabIndex={0}>{window.i18n('contactsHeader')}</StyledContactsTitle>
+      {contactsCount > 0 ? (
+        <ContactListItemSection />
+      ) : (
+        <StyledContactsEmpty>{window.i18n('contactsNone')}</StyledContactsEmpty>
+      )}
     </StyledContactSection>
   );
 };
