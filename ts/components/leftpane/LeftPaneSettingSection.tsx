@@ -39,7 +39,7 @@ const StyledSettingsListItem = styled(Flex)<{ active: boolean }>`
 `;
 
 const StyledIconContainer = styled.div`
-  width: 34px;
+  width: 38px;
 `;
 
 type Categories = {
@@ -58,7 +58,7 @@ const getCategories = (): Array<Categories> => {
     {
       id: 'privacy' as const,
       title: window.i18n('privacySettingsTitle'),
-      icon: { type: 'padlock', style: { marginTop: '-5px' } },
+      icon: { type: 'padlock', size: 28, style: { marginLeft: '-2px' } },
     },
     {
       id: 'notifications' as const,
@@ -73,32 +73,32 @@ const getCategories = (): Array<Categories> => {
     {
       id: 'messageRequests' as const,
       title: window.i18n('openMessageRequestInbox'),
-      icon: { type: 'messageRequest' },
+      icon: { type: 'messageRequest', style: { marginLeft: '1px' } },
     },
     {
       id: 'appearance' as const,
       title: window.i18n('appearanceSettingsTitle'),
-      icon: { type: 'paintbrush' },
+      icon: { type: 'paintbrush', style: { marginLeft: '1px' } },
     },
     {
       id: 'permissions',
       title: window.i18n('permissionsSettingsTitle'),
-      icon: { type: 'checkCircle', size: 19 },
+      icon: { type: 'checkCircle', style: { marginLeft: '1px' } },
     },
     {
       id: 'help' as const,
       title: window.i18n('helpSettingsTitle'),
-      icon: { type: 'question', size: 19 },
+      icon: { type: 'question', size: 24 },
     },
     {
       id: 'recoveryPassword' as const,
       title: window.i18n('sessionRecoveryPassword'),
-      icon: { type: 'recoveryPasswordFill', size: 'medium' },
+      icon: { type: 'recoveryPasswordFill', size: 24 },
     },
     {
       id: 'clearData' as const,
       title: window.i18n('clearDataSettingsTitle'),
-      icon: { type: 'delete', size: 19, color: 'var(--danger-color)' },
+      icon: { type: 'delete', color: 'var(--danger-color)' },
     },
   ];
 };
