@@ -23,7 +23,11 @@ import { SessionHtmlRenderer } from '../../basic/SessionHTMLRenderer';
 import { SpacerMD, SpacerSM } from '../../basic/Text';
 import { CopyToClipboardIcon } from '../../buttons/CopyToClipboardButton';
 import { SessionIconButton } from '../../icon';
-import { SessionSettingButtonItem, SessionSettingsItemWrapper } from '../SessionSettingListItem';
+import {
+  SessionSettingButtonItem,
+  SessionSettingsItemWrapper,
+  StyledSettingItem,
+} from '../SessionSettingListItem';
 import { useHotkey } from '../../../hooks/useHotkey';
 import { getIsModalVisble } from '../../../state/selectors/modal';
 
@@ -36,6 +40,12 @@ const StyledSettingsItemContainer = styled.div`
 
   button[data-testid='hide-recovery-password-button'] {
     width: 130px;
+  }
+
+  ${StyledSettingItem} {
+    svg {
+      margin-top: -2px;
+    }
   }
 `;
 
@@ -113,7 +123,7 @@ export const SettingsCategoryRecoveryPassword = () => {
         title={window.i18n('sessionRecoveryPassword')}
         icon={{
           iconType: 'recoveryPasswordFill',
-          iconSize: 16,
+          iconSize: 18,
           iconColor: 'var(--text-primary-color)',
         }}
         description={
