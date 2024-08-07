@@ -209,6 +209,7 @@ import { AttachmentBackupManager } from './jobs/AttachmentBackupManager';
 import { getConversationIdForLogging } from './util/idForLogging';
 import { encryptConversationAttachments } from './util/encryptConversationAttachments';
 import { DataReader, DataWriter } from './sql/Client';
+import { restoreRemoteConfigFromStorage } from './RemoteConfig';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -501,6 +502,7 @@ export async function startApp(): Promise<void> {
     }
     first = false;
 
+    restoreRemoteConfigFromStorage();
     server = window.WebAPI.connect({
       ...window.textsecure.storage.user.getWebAPICredentials(),
       hasStoriesDisabled: window.storage.get('hasStoriesDisabled', false),

@@ -57,8 +57,12 @@ type ConfigListenersMapType = {
 let config: ConfigMapType = {};
 const listeners: ConfigListenersMapType = {};
 
-export async function initRemoteConfig(server: WebAPIType): Promise<void> {
+export function restoreRemoteConfigFromStorage(): void {
   config = window.storage.get('remoteConfig') || {};
+}
+
+export async function initRemoteConfig(server: WebAPIType): Promise<void> {
+  restoreRemoteConfigFromStorage();
   await maybeRefreshRemoteConfig(server);
 }
 
