@@ -13,6 +13,7 @@ import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import { HTTPError } from '../textsecure/Errors';
 import { SignalService as Proto } from '../protobuf';
+import type { ContactAvatarType } from '../types/Avatar';
 import { ToastType } from '../types/Toast';
 import {
   applyNewAvatar,
@@ -32,6 +33,8 @@ import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
 import { sleep } from '../util/sleep';
 import { dropNull } from '../util/dropNull';
 import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
+import { type Loadable, LoadingState } from '../util/loadable';
+import { missingCaseError } from '../util/missingCaseError';
 
 export async function joinViaLink(value: string): Promise<void> {
   let inviteLinkPassword: string;
@@ -130,12 +133,14 @@ export async function joinViaLink(value: string): Promise<void> {
     return;
   }
 
-  let localAvatar:
-    | {
-        loading?: boolean;
-        path?: string;
+  let localAvatar: Loadable<ContactAvatarType | undefined> = result.avatar
+    ? {
+        loadingState: LoadingState.Loading,
       }
-    | undefined = result.avatar ? { loading: true } : undefined;
+    : {
+        loadingState: LoadingState.Loaded,
+        value: undefined,
+      };
   const memberCount = result.memberCount || 1;
   const approvalRequired =
     result.addFromInviteLink ===
@@ -178,16 +183,21 @@ export async function joinViaLink(value: string): Promise<void> {
 
   const getPreJoinConversation = (): PreJoinConversationType => {
     let avatar;
-    if (!localAvatar) {
-      avatar = undefined;
-    } else if (localAvatar && localAvatar.loading) {
+    if (localAvatar.loadingState === LoadingState.Loading) {
       avatar = {
         loading: true,
       };
-    } else if (localAvatar && localAvatar.path) {
-      avatar = {
-        url: getLocalAttachmentUrl(localAvatar),
-      };
+    } else if (localAvatar.loadingState === LoadingState.Loaded) {
+      avatar =
+        localAvatar.value == null
+          ? undefined
+          : {
+              url: getLocalAttachmentUrl(localAvatar.value),
+            };
+    } else if (localAvatar.loadingState === LoadingState.LoadFailed) {
+      avatar = undefined;
+    } else {
+      throw missingCaseError(localAvatar);
     }
 
     return {
@@ -211,8 +221,13 @@ export async function joinViaLink(value: string): Promise<void> {
 
       window.reduxActions.conversations.setPreJoinConversation(undefined);
 
-      if (localAvatar && localAvatar.path) {
-        await window.Signal.Migrations.deleteAttachmentData(localAvatar.path);
+      if (
+        localAvatar?.loadingState === LoadingState.Loaded &&
+        localAvatar.value?.path
+      ) {
+        await window.Signal.Migrations.deleteAttachmentData(
+          localAvatar.value.path
+        );
       }
       resolve();
     } catch (error) {
@@ -260,6 +275,15 @@ export async function joinViaLink(value: string): Promise<void> {
           }
 
           try {
+            const avatar =
+              localAvatar?.loadingState === LoadingState.Loaded &&
+              localAvatar.value?.path &&
+              result.avatar
+                ? {
+                    url: result.avatar,
+                    ...localAvatar.value,
+                  }
+                : undefined;
             if (!targetConversation) {
               // Note: we save this temp conversation in the database, so we'll need to
               //   clean it up if something goes wrong
@@ -281,13 +305,8 @@ export async function joinViaLink(value: string): Promise<void> {
                   left: true,
                   revision: result.version,
 
-                  avatar:
-                    localAvatar && localAvatar.path && result.avatar
-                      ? {
-                          url: result.avatar,
-                          path: localAvatar.path,
-                        }
-                      : undefined,
+                  avatar,
+
                   description: groupDescription,
                   groupInviteLinkPassword: inviteLinkPassword,
                   name: title,
@@ -306,13 +325,7 @@ export async function joinViaLink(value: string): Promise<void> {
               targetConversation.set({
                 // eslint-disable-next-line camelcase
                 active_at,
-                avatar:
-                  localAvatar && localAvatar.path && result.avatar
-                    ? {
-                        url: result.avatar,
-                        path: localAvatar.path,
-                      }
-                    : undefined,
+                avatar,
                 description: groupDescription,
                 groupInviteLinkPassword: inviteLinkPassword,
                 left: true,
@@ -386,24 +399,28 @@ export async function joinViaLink(value: string): Promise<void> {
 
   // We declare a new function here so we can await but not block
   const fetchAvatar = async () => {
-    if (result.avatar) {
-      localAvatar = {
-        loading: true,
-      };
+    if (!result.avatar) {
+      return;
+    }
+    localAvatar = {
+      loadingState: LoadingState.Loading,
+    };
 
-      let attributes: Pick<
-        ConversationAttributesType,
-        'avatar' | 'secretParams'
-      > = {
-        avatar: null,
-        secretParams,
-      };
+    let attributes: Pick<
+      ConversationAttributesType,
+      'avatar' | 'secretParams'
+    > = {
+      avatar: null,
+      secretParams,
+    };
+    try {
       const patch = await applyNewAvatar(result.avatar, attributes, logId);
       attributes = { ...attributes, ...patch };
 
       if (attributes.avatar && attributes.avatar.path) {
         localAvatar = {
-          ...attributes.avatar,
+          loadingState: LoadingState.Loaded,
+          value: { ...attributes.avatar },
         };
 
         // Dialog has been dismissed; we'll delete the unneeeded avatar
@@ -414,14 +431,16 @@ export async function joinViaLink(value: string): Promise<void> {
           return;
         }
       } else {
-        localAvatar = undefined;
+        localAvatar = { loadingState: LoadingState.Loaded, value: undefined };
       }
-
-      // Update join dialog with newly-downloaded avatar
-      window.reduxActions.conversations.setPreJoinConversation(
-        getPreJoinConversation()
-      );
+    } catch (error) {
+      localAvatar = { loadingState: LoadingState.LoadFailed, error };
     }
+
+    // Update join dialog with newly-downloaded avatar
+    window.reduxActions.conversations.setPreJoinConversation(
+      getPreJoinConversation()
+    );
   };
 
   void fetchAvatar();
