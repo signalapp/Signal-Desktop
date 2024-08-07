@@ -1200,16 +1200,16 @@
     "messageformat": "Чалуу"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Кайра чалуу"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Кайра чалуу"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Чалууга кошулуу"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Чалууга кайтуу"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Чалуудагы адамдардын санына жараша микрофондун үнү өчүрүлөт"
@@ -2634,10 +2634,10 @@
     "messageformat": "Четке кагуу"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Четке кагылган аудио чалуу"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Четке кагылган видео чалуу"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Келүүчү аудио чалуу"
@@ -2670,10 +2670,10 @@
     "messageformat": "Сигнал билдирме аймагында иштей берет. Бул нерсени Signal'дын тууралоо бөлүмүндө өзгөртө аласыз."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Келүүчү аудио чалуу"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Кирүүчү видео чалуу"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Чыгуучу аудио чалуу"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, other {{count,number} киши}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Аудио чалуу"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Чалуу шилтемеси"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, other {{people,number} ушул чалууда катышууда}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "Видео чалуу бүттү"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "Видео режиминде чалып баштадыңыз"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Видео режиминде чалып баштадыңыз"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} видео режиминде чалып баштады"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Сиз чалуудасыз"
@@ -5434,7 +5434,7 @@
     "messageformat": "Жооп берилбеген"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Четке кагылды"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Топтук чалуу"
@@ -5449,7 +5449,7 @@
     "messageformat": "Учурдагы чалуудан чыгасызбы?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Бирөөгө чалуу же жаңысына кошулуу үчүн учурдагыдан чыгышыңыз керек."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Чалуудан чыгуу"
@@ -5482,34 +5482,49 @@
     "messageformat": "Чалуу шилтемеси"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Чыгуучу видео чалуу} other {Кирүүчү видео чалуу}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Жооп берилбеген видео чалуу"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Жоопсуз видео чалуу"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Четке кагылган видео чалуу"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Кошулуу"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Чалуунун аталышын кошуу"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Чалуунун аталышын өзгөртүү"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Бардык мүчөлөрдү жактыруу"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Шилтемени көчүрүү"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Шилтемени Signal аркылуу бөлүшүү"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Чалуу шилтемесинин чоо-жайы"
@@ -5521,22 +5536,22 @@
     "messageformat": "Чалуунун аталышын кошуу"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Чалуунун аталышын өзгөртүү"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Бардык мүчөлөрдү жактыруу"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Өчүк"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Күйүк"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Чалуунун аталышын кошуу"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Чалуунун аталышын өзгөртүү"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Чалуунун аталышы"
@@ -5585,9 +5600,15 @@
     "messageformat": "Эми көлөмдүү билдирүүлөр тезирээк өчөт."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "Учурдагы чалууну токтото туруп, жаңы чалууга кошулууга мүмкүнчүлүк берген функцияны коштук. Башка чалууга кетип жатканыңызды эскертпей деле койсоңуз болот."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "Бул жаңы версияда тили `POSIX` деп коюлган колдонуучулардын Linux'ту иштетүү катасы оңдолду."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

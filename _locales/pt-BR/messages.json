@@ -90,7 +90,7 @@
     "messageformat": "Não foi possível acessar a chave de criptografia do banco de dados porque o backend do chaveiro de criptografia do sistema operacional foi alterado de {previousBackend} para {currentBackend}. Isso pode ocorrer se o ambiente de desktop for alterado, por exemplo, entre GNOME e KDE.\n\nPor favor, volte para o ambiente de desktop anterior."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Não foi possível acessar a chave de criptografia da base de dados porque o backend do chaveiro da criptografia OS foi alterado de {previousBackend} para {currentBackend}. Isso pode ocorrer se o ambiente do desktop for alterado, por exemplo, entre GNOME e KDE.\n\nTroque para o ambiente de desktop anterior ou tente veicular o Signal com a bandeira da linha de comando --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Não foi possível acessar a chave de criptografia do banco de dados porque o backend do chaveiro de criptografia do sistema operacional mudou de {previousBackend} para {currentBackend}.  Isso pode ocorrer se o ambiente de desktop mudar, por exemplo, entre GNOME e KDE.  .\n\nTroque para o ambiente de desktop anterior ou tente veicular o Signal com a bandeira da linha de comando --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Arquivo"
@@ -1200,16 +1200,16 @@
     "messageformat": "Chamadas"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Retornar chamada"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Ligar novamente"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Participar da chamada"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Voltar para a chamada"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Microfone silenciado devido à quantidade de pessoas na chamada"
@@ -2634,10 +2634,10 @@
     "messageformat": "Recusar"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Chamada de voz recusada"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Chamada de vídeo recusada"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Recebendo chamada de voz"
@@ -2670,10 +2670,10 @@
     "messageformat": "O Signal ficará aberto na área de notificações. Você pode alterar isso nas configurações do Signal."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Recebendo chamada de voz"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Chamada de vídeo recebida"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Chamada de voz efetuada"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} pessoa} other {{count,number} pessoas}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Chamada de voz"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Link da chamada"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} na chamada} other {{people,number} na chamada}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "A chamada de vídeo foi encerrada"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "Foi iniciada uma chamada de vídeo"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Você iniciou uma chamada de vídeo"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} iniciou uma chamada de vídeo"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Você já está em uma chamada"
@@ -5434,7 +5434,7 @@
     "messageformat": "Perdida"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Chamada recusada"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Chamada em grupo"
@@ -5449,7 +5449,7 @@
     "messageformat": "Sair da chamada atual?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Você deve encerrar a chamada atual antes de entrar em uma nova chamada."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Sair da chamada"
@@ -5482,34 +5482,49 @@
     "messageformat": "Link de chamada"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Chamada de vídeo efetuada} other {Chamada de vídeo recebida}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Chamada de vídeo perdida"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Chamada de vídeo não atendida"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Chamada de vídeo recusada"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Participar"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Adicionar nome da chamada"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Editar nome da chamada"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Aprovar todos os membros"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Copiar link"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Compartilhar link via Signal"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalhes do link de chamada"
@@ -5521,22 +5536,22 @@
     "messageformat": "Adicionar nome da chamada"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Editar nome da chamada"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Aprovar todos os membros"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Desligado"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Ligado"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Adicionar nome da chamada"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Editar nome da chamada"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Nome da chamada"
@@ -5585,9 +5600,15 @@
     "messageformat": "Esta atualização acelera o processo de exclusão de conversas longas ou com muitas mensagens e arquivos de mídia."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "Adicionamos um atalho para você sair da chamada atual e entrar em uma nova, caso alguém te chame. Você verá uma solicitação para confirmar sua saída, mas pode decidir se sai ou não da chamada em que está."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "Essa atualização também corrige uma falha de inicialização no Linux para usuários cuja localidade está definida como `POSIX`."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

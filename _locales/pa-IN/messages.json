@@ -1200,16 +1200,16 @@
     "messageformat": "ਕਾਲਿੰਗ"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "ਵਾਪਸ ਕਾਲ ਕਰੋ"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "ਦੁਬਾਰਾ ਕਾਲ ਕਰੋ"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "ਕਾਲ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਵੋ"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "ਕਾਲ ’ਤੇ ਵਾਪਸ ਜਾਓ"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "ਕਾਲ ਵਿੱਚ ਬਹੁਤ ਜ਼ਿਆਦਾ ਲੋਕ ਹੋਣ ਕਾਰਨ ਮਾਈਕ੍ਰੋਫ਼ੋਨ ਮਿਊਟ ਕੀਤਾ ਗਿਆ"
@@ -2634,10 +2634,10 @@
     "messageformat": "ਅਸਵੀਕਾਰ ਕਰੋ"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "ਵੌਇਸ ਕਾਲ ਨੂੰ ਅਸਵੀਕਾਰ ਕੀਤਾ ਗਿਆ"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "ਵੀਡੀਓ ਕਾਲ ਨੂੰ ਅਸਵੀਕਾਰ ਕੀਤਾ ਗਿਆ"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "ਇਨਕਮਿੰਗ ਵੌਇਸ ਕਾਲ"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal ਸੂਚਨਾ ਖੇਤਰ ਵਿੱਚ ਚੱਲਦਾ ਰਹੇਗਾ। ਤੁਸੀਂ ਇਸ ਨੂੰ Signal ਦੀਆਂ ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਬਦਲ ਸਕਦੇ ਹੋ।"
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "ਇਨਕਮਿੰਗ ਵੌਇਸ ਕਾਲ"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "ਇਨਕਮਿੰਗ ਵੀਡੀਓ ਕਾਲ"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "ਆਊਟਗੋਇੰਗ ਵੌਇਸ ਕਾਲ"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} ਵਿਅਕਤੀ} other {{count,number} ਲੋਕ}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "ਵੌਇਸ ਕਾਲ"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "ਕਾਲ ਦਾ ਲਿੰਕ"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {ਕਾਲ ਵਿੱਚ {people,number}} other {ਕਾਲ ਵਿੱਚ {people,number}}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "ਵੀਡੀਓ ਕਾਲ ਸਮਾਪਤ ਹੋ ਗਈ ਹੈ"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "ਵੀਡੀਓ ਕਾਲ ਸ਼ੁਰੂ ਕੀਤੀ ਗਈ"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "ਤੁਸੀਂ ਵੀਡੀਓ ਕਾਲ ਸ਼ੁਰੂ ਕੀਤੀ"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} ਨੇ ਵੀਡੀਓ ਕਾਲ ਸ਼ੁਰੂ ਕੀਤੀ"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "ਤੁਸੀਂ ਪਹਿਲਾਂ ਹੀ ਕਾਲ ਵਿੱਚ ਹੋ"
@@ -5434,7 +5434,7 @@
     "messageformat": "ਮਿਸਡ ਕਾਲ"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "ਅਸਵੀਕਾਰ ਕੀਤੀ ਗਈ"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "ਗਰੁੱਪ ਕਾਲ"
@@ -5449,7 +5449,7 @@
     "messageformat": "ਕੀ ਮੌਜੂਦਾ ਕਾਲ ਛੱਡਣੀ ਹੈ?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "ਨਵੀਂ ਕਾਲ ਸ਼ੁਰੂ ਕਰਨ ਜਾਂ ਉਸ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਨੂੰ ਮੌਜੂਦਾ ਕਾਲ ਛੱਡਣੀ ਪਵੇਗੀ।"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "ਕਾਲ ਨੂੰ ਛੱਡੋ"
@@ -5482,34 +5482,49 @@
     "messageformat": "ਕਾਲ ਦਾ ਲਿੰਕ"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {ਜਾਰੀ ਵੀਡੀਓ ਕਾਲ} other {ਇਨਕਮਿੰਗ ਵੀਡੀਓ ਕਾਲ}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "ਵੀਡੀਓ ਕਾਲ ਮਿਸ ਹੋਈ"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "ਜਵਾਬ ਨਾ ਦਿੱਤੀ ਵੀਡੀਓ ਕਾਲ"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "ਵੀਡੀਓ ਕਾਲ ਨੂੰ ਅਸਵੀਕਾਰ ਕੀਤਾ ਗਿਆ"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "ਸ਼ਾਮਲ ਹੋਵੋ"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "ਕਾਲ ਦਾ ਨਾਮ ਸ਼ਾਮਲ ਕਰੋ"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "ਕਾਲ ਦਾ ਨਾਮ ਸੋਧੋ"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "ਸਾਰੇ ਮੈਂਬਰਾਂ ਨੂੰ ਮਨਜ਼ੂਰੀ ਦਿਓ"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "ਲਿੰਕ ਕਾਪੀ ਕਰੋ"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Signal ਰਾਹੀਂ ਲਿੰਕ ਸਾਂਝਾ ਕਰੋ"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "ਕਾਲ ਲਿੰਕ ਵੇਰਵੇ"
@@ -5521,22 +5536,22 @@
     "messageformat": "ਕਾਲ ਦਾ ਨਾਮ ਸ਼ਾਮਲ ਕਰੋ"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "ਕਾਲ ਦਾ ਨਾਮ ਸੋਧੋ"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "ਸਾਰੇ ਮੈਂਬਰਾਂ ਨੂੰ ਮਨਜ਼ੂਰੀ ਦਿਓ"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "ਬੰਦ"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "ਚਾਲੂ"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "ਕਾਲ ਦਾ ਨਾਮ ਸ਼ਾਮਲ ਕਰੋ"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "ਕਾਲ ਦਾ ਨਾਮ ਸੋਧੋ"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "ਕਾਲ ਦਾ ਨਾਮ"
@@ -5585,9 +5600,15 @@
     "messageformat": "ਇਹ ਰੀਲੀਜ਼ ਸੁਨੇਹਿਆਂ ਦੇ ਵੱਡੇ ਥਰਿੱਡਾਂ ਨੂੰ ਮਿਟਾਉਣ ਦੀ ਪ੍ਰਕਿਰਿਆ ਨੂੰ ਤੇਜ਼ ਕਰਦਾ ਹੈ।"
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "ਜਦੋਂ ਕੋਈ ਹੋਰ ਕਾਲ ਪਹਿਲਾਂ ਹੀ ਚੱਲ ਰਹੀ ਹੁੰਦੀ ਹੈ ਤਾਂ ਅਸੀਂ ਉਸ ਕਾਲ ਨੂੰ ਛੱਡਣ ਅਤੇ ਇੱਕ ਨਵੀਂ ਕਾਲ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਇੱਕ ਸ਼ਾਰਟਕੱਟ ਜੋੜਿਆ ਹੈ।"
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "ਇਹ ਅੱਪਡੇਟ ਉਹਨਾਂ ਵਰਤੋਂਕਾਰਾਂ ਲਈ Linux 'ਤੇ ਇੱਕ ਸਟਾਰਟਅੱਪ ਕਰੈਸ਼ ਨੂੰ ਵੀ ਠੀਕ ਕਰਦਾ ਹੈ ਜਿਹਨਾਂ ਦਾ ਲੋਕੇਲ `POSIX` 'ਤੇ ਸੈੱਟ ਹੈ।"
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

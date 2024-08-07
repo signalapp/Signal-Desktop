@@ -1200,16 +1200,16 @@
     "messageformat": "چاقىرغاندا"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "قايتۇرۇپ چاقىر"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "قايتا چاقىر"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "چاقىرىققا قوشۇلۇش"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "چاقىرىققا قايتىش"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "چاقىرىقتىكى كىشىلەر بەك كۆپ بولغاچقا چاقىرىق ئۈنسىز قىلىندى"
@@ -2634,10 +2634,10 @@
     "messageformat": "رەت قىل"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "رەت قىلىنغان ئاۋازلىق چاقىرىق"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "رەت قىلىنغان ۋىدېيولۇق چاقىرىق"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "كەلگەن ئاۋازلىق چاقىرىق"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal ئۇقتۇرۇش رايونىدا داۋاملىق ئىجرا بولىدۇ. بۇنى Signal تەڭشىكىدە ئۆزگەرتەلەيسىز."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "كەلگەن ئاۋازلىق چاقىرىق"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "كەلگەن ۋىدېيولۇق چاقىرىق"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "ئۇرۇلغان ئاۋازلىق چاقىرىق"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, other {{count,number} كىشى}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "ئاۋازلىق چاقىرىق"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "چاقىرىق ئۇلانمىسى"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, other {{people,number} چاقىرىقتا}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "ۋىدېيولۇق چاقىرىق ئاخىرلاشتى"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "بىر ۋىدېيولۇق چاقىرىق باشلانغان"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "بىر ۋىدېيولۇق چاقىرىق باشلىدىڭىز"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} ۋىدېيولۇق چاقىرىق باشلىدى"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "سىز ئاللىبۇرۇن چاقىرىقتا"
@@ -5434,7 +5434,7 @@
     "messageformat": "ئېلىنمىغىنى"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "رەت قىلىندى"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "گۇرۇپپا چاقىرىقى"
@@ -5449,7 +5449,7 @@
     "messageformat": "نۆۋەتتىكى چاقىرىقتىن چېكىنەمسىز؟"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "يېڭى تېلېفوننى باشلاشتىن ياكى چاقىرىققا قوشۇلۇشتىن بۇرۇن چوقۇم ھازىرقى چاقىرىقتىن چېكىنىشىڭزلازىم."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "چاقىرىقتىن ئايرىل"
@@ -5482,34 +5482,49 @@
     "messageformat": "چاقىرىق ئۇلانمىسى"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {ئۇرۇلغان ۋىدېيولۇق چاقىرىق} other {كەلگەن ۋىدېيولۇق چاقىرىق}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "سۆزلەشمىگەن سىن چاقىرىش"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "جاۋابسىز ۋىدېيولۇق چاقىرىق"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "رەت قىلىنغان ۋىدېيولۇق چاقىرىق"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "قوشۇلۇش"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "چاقىرىق نامى قوشۇش"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "چاقىرىق نامىنى تەھرىرلەش"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "بارلىق ئەزلارغا رۇخسەت"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "ئۇلانما كۆچۈر"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "ئۇلانمىنى Signal ئارقىلىق ئورتاقلىشىش"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "چاقىرىق ئۇلانمىسى تەپسىلاتى"
@@ -5521,22 +5536,22 @@
     "messageformat": "چاقىرىق نامى قوشۇش"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "چاقىرىق نامىنى تەھرىرلەش"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "بارلىق ئەزلارغا رۇخسەت"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "ئېتىش"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "ئېچىش"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "چاقىرىق نامى قوشۇش"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "چاقىرىق نامىنى تەھرىرلەش"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "چاقىرىق نامى"
@@ -5585,9 +5600,15 @@
     "messageformat": "تېز خوشلىشىش ئاستا ۋىدالىشىشتىن ئەۋزەل ، شۇڭىلاشقا بىز چوڭ ھەجىملىك ئۇچۇر تېمىلىرىنىڭ ئۆچۈرلىش سۈرئىتىنى تېزلەتتۇق."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "ئەگەر باشقا بىرى سىزگە چاقىرىق قىلىۋاتقان بولسا ، نۆۋەتتىكى ئالاقىنى تاشلاپ يېڭى چاقىرىققا قاتنىشىش ئۈچۈن تېزلەتمە ئۈنۈمى قوشتۇق. ئايرىلىشىڭىزنى جەزملەشتۈرۈشىڭىز تەلەپ قىلىنىدۇ ، ئەمما ئالدىنئالا خوشلىشىشڭىز ئۆزىڭىزگە باغلىق."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "بۇ يېڭىلانما «POSIX» نى مەنبە قىلغان Linux ئىشلەتكۈچىلەر مەشغۇلات قىلغاندا يۈز بېرىدىغان قوزغىلىش ھادىسىسىنى ئوڭشايدۇ."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

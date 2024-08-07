@@ -1200,16 +1200,16 @@
     "messageformat": "Здійснення викликів"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Передзвонити"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Подзвонити ще раз"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Приєднатися до виклику"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Повернутися до виклику"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Мікрофон вимкнено через велику кількість учасників виклику"
@@ -1488,7 +1488,7 @@
     "messageformat": "Завжди ретранслювати виклики"
   },
   "icu:alwaysRelayCallsDetail": {
-    "messageformat": "Ретранслювати всі виклики через сервер Signal, щоб не розкривати співрозмовникам вашої IP-адреси. Якщо увімкнути ретрансляцію, якість викликів буде нижча."
+    "messageformat": "Ретранслювати всі виклики через сервер Signal, щоб не розкривати контактам своєї IP-адреси. Увімкнення цієї функції знизить якість викликів."
   },
   "icu:permissions": {
     "messageformat": "Дозволи"
@@ -2634,10 +2634,10 @@
     "messageformat": "Відхилити"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Відхилений аудіовиклик"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Відхилений відеовиклик"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Вхідний аудіовиклик"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal продовжить працювати в області сповіщень. Це можливо змінити в налаштуваннях Signal."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Вхідний аудіовиклик"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Вхідний відеовиклик"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Вихідний аудіовиклик"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} учасник} few {{count,number} учасники} many {{count,number} учасників} other {{count,number} учасника}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Аудіовиклик"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Посилання на виклик"
@@ -2754,13 +2754,13 @@
     "messageformat": "{overflowCount, plural, one {Ви, {otherName} і ще {overflowCount,number} користувач підняли руки.} few {Ви, {otherName} і ще {overflowCount,number} користувачі підняли руки.} many {Ви, {otherName} і ще {overflowCount,number} користувачів підняли руки.} other {Ви, {otherName} і ще {overflowCount,number} користувача підняли руки.}}"
   },
   "icu:CallControls__RaiseHandsToast--one": {
-    "messageformat": "{name} підіймає руку."
+    "messageformat": "Користувач {name} підняв руку."
   },
   "icu:CallControls__RaiseHandsToast--two": {
     "messageformat": "{name} і {otherName} підняли руки."
   },
   "icu:CallControls__RaiseHandsToast--more": {
-    "messageformat": "{overflowCount, plural, one {{name}, {otherName} і ще {overflowCount,number} підняли руки.} few {{name}, {otherName} і ще {overflowCount,number} підняли руки.} many {{name}, {otherName} і ще {overflowCount,number} підняли руки.} other {{name}, {otherName} і ще {overflowCount,number} підняли руки.}}"
+    "messageformat": "{overflowCount, plural, one {{name}, {otherName} і ще {overflowCount,number} користувач підняли руки.} few {{name}, {otherName} і ще {overflowCount,number} користувачі підняли руки.} many {{name}, {otherName} і ще {overflowCount,number} користувачів підняли руки.} other {{name}, {otherName} і ще {overflowCount,number} користувача підняли руки.}}"
   },
   "icu:CallControls__RaiseHands--open-queue": {
     "messageformat": "Відкрити список"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {У виклику {people,number}} few {У виклику {people,number}} many {У виклику {people,number}} other {У виклику {people,number}}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "Відеовиклик завершено"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "Почався відеовиклик"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Ви почали відеовиклик"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "Користувач {name} почав відеовиклик"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Ви вже у дзвінку"
@@ -3072,37 +3072,37 @@
     "messageformat": "Тільки адміністратори тепер можуть редагувати інформацію про групу, оскільки користувач {adminName} змінив налаштування."
   },
   "icu:GroupV2--access-attributes--admins--you": {
-    "messageformat": "Ви змінили хто може редагувати інформацію групи, на \"Тільки адміністратори\"."
+    "messageformat": "Тільки адміністратори тепер можуть редагувати інформацію про групу, оскільки ви змінили налаштування."
   },
   "icu:GroupV2--access-attributes--admins--unknown": {
-    "messageformat": "Адміністратор змінив хто може редагувати інформацію групи, на \"Тільки адміністратори\"."
+    "messageformat": "Тільки адміністратори тепер можуть редагувати інформацію про групу, оскільки адміністратор змінив налаштування."
   },
   "icu:GroupV2--access-attributes--all--other": {
-    "messageformat": "{adminName} змінив хто може редагувати інформацію групи, на \"Всі учасники\"."
+    "messageformat": "Усі учасники тепер можуть редагувати інформацію про групу, оскільки користувач {adminName} змінив налаштування."
   },
   "icu:GroupV2--access-attributes--all--you": {
-    "messageformat": "Ви змінили хто може редагувати інформацію групи, на \"Всі учасники\"."
+    "messageformat": "Усі учасники тепер можуть редагувати інформацію про групу, оскільки ви змінили налаштування."
   },
   "icu:GroupV2--access-attributes--all--unknown": {
-    "messageformat": "Адміністратор змінив хто може редагувати інформацію групи, на \"Всі учасники\"."
+    "messageformat": "Усі учасники тепер можуть редагувати інформацію про групу, оскільки адміністратор змінив налаштування."
   },
   "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} змінив хто може редагувати групове членство, на \"Тільки адміністратори\"."
+    "messageformat": "Тільки адміністратори тепер можуть змінювати склад групи, оскільки користувач {adminName} змінив налаштування."
   },
   "icu:GroupV2--access-members--admins--you": {
-    "messageformat": "Ви змінили хто може редагувати групове членство, на \"Тільки адміністратори\"."
+    "messageformat": "Тільки адміністратори тепер можуть змінювати склад групи, оскільки ви змінили налаштування."
   },
   "icu:GroupV2--access-members--admins--unknown": {
-    "messageformat": "Адміністратор змінив хто може редагувати групове членство, на \"Тільки адміністратори\"."
+    "messageformat": "Тільки адміністратори тепер можуть змінювати склад групи, оскільки адміністратор змінив налаштування."
   },
   "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} змінив хто може редагувати групове членство, на \"Всі учасники\"."
+    "messageformat": "Усі учасники тепер можуть змінювати склад групи, оскільки учасник {adminName} змінив налаштування."
   },
   "icu:GroupV2--access-members--all--you": {
-    "messageformat": "Ви змінили хто може редагувати групове членство, на \"Всі учасники\"."
+    "messageformat": "Усі учасники тепер можуть змінювати склад групи, оскільки ви змінили налаштування."
   },
   "icu:GroupV2--access-members--all--unknown": {
-    "messageformat": "Адміністратор змінив хто може редагувати групове членство, на \"Всі учасники\"."
+    "messageformat": "Усі учасники тепер можуть змінювати склад групи, оскільки адміністратор змінив налаштування."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Ви відключили схвалення адміністратора для посилання на групу."
@@ -5434,7 +5434,7 @@
     "messageformat": "Пропущений"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Відхилено"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Груповий виклик"
@@ -5446,13 +5446,13 @@
     "messageformat": "Активний"
   },
   "icu:CallsList__LeaveCallDialogTitle": {
-    "messageformat": "Вийти з цього виклику?"
+    "messageformat": "Покинути цей виклик?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Щоб приєднатися до іншого виклику або почати власний, потрібно спочатку покинути поточний."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
-    "messageformat": "Вийти"
+    "messageformat": "Покинути виклик"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
     "messageformat": "Немає недавніх розмов."
@@ -5464,7 +5464,7 @@
     "messageformat": "Назад"
   },
   "icu:CallsNewCallButtonTooltip--in-another-call": {
-    "messageformat": "Щоб приєднатися до іншого виклику, потрібно спочатку вийти з поточного"
+    "messageformat": "Щоб приєднатися до іншого виклику, потрібно спочатку покинути поточний"
   },
   "icu:CallHistory__Description--Default": {
     "messageformat": "{type, select, Audio {{direction, select, Outgoing {Вихідний аудіовиклик} other {Вхідний аудіовиклик}}} Video {{direction, select, Outgoing {Вихідний відеовиклик} other {Вхідний відеовиклик}}} Group {{direction, select, Outgoing {Вихідний груповий виклик} other {Вхідний груповий виклик}}} other {{direction, select, Outgoing {Вихідний виклик} other {Вхідний виклик}}}}"
@@ -5482,34 +5482,49 @@
     "messageformat": "Посилання на виклик"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Вихідний відеовиклик} other {Вхідний відеовиклик}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Пропущений відеовиклик"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Відеовиклик без відповіді"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Відхилений відеовиклик"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Приєднатися"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Додати назву виклику"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Змінити назву виклику"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Затверджувати всіх учасників"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Копіювати посилання"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Поділитися посиланням у Signal"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Додатково про посилання на виклик"
@@ -5521,22 +5536,22 @@
     "messageformat": "Додати назву виклику"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Змінити назву виклику"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Затверджувати всіх учасників"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Вимк."
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Увімк."
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Додати назву виклику"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Змінити назву виклику"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Назва виклику"
@@ -5585,9 +5600,15 @@
     "messageformat": "Іноді прощання краще не затягувати, тому ми прискорили видалення довгих розмов."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "Ми додали можливість легко вийти з поточного дзвінка й приєднатися до нового, коли під час виклику вам телефонує хтось іще. Вихід потрібно буде підтвердити, а прощатися чи ні — вирішувати вам."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "У цьому оновленні ми також виправили збій під час запуску застосунку на Linux, що траплявся в користувачів з регіональним стандартом POSIX."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

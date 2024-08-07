@@ -90,7 +90,7 @@
     "messageformat": "მონაცემთა ბაზის დაშიფვრის გასაღებზე წვდომა შეუძლებელია, რადგან OS-ის დაშიფვრის გასაღების მონაცემები {previousBackend} {currentBackend}-ით შეიცვალა. ეს შეიძლება მოხდეს, თუ დესკტოპის გარემო იცვლება, მაგალითად GNOME-სა და KDE-ს შორის.\n\nგთხოვთ, დესკტოპის წინა გარემოზე გადახვიდე."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "მონაცემთა ბაზის დაშიფვრის გასაღებზე წვდომა შეუძლებელია, რადგან OS-ის დაშიფვრის გასაღების მონაცემები {previousBackend} {currentBackend}-ით შეიცვალა. ეს შეიძლება მოხდეს, თუ დესკტოპის გარემო იცვლება, მაგალითად GNOME-სა და KDE-ს შორის.\n\nგთხოვთ, დესკტოპის წინა გარემოზე გადახვიდე ან სცადო Signal-ის გაშვება ბრძანების ხაზით flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "მონაცემთა ბაზის დაშიფვრის გასაღებზე წვდომა შეუძლებელია, რადგან OS-ის დაშიფვრის გასაღების მონაცემები {previousBackend} {currentBackend}-ით შეიცვალა. ეს შეიძლება მოხდეს, თუ დესკტოპის გარემო იცვლება, მაგალითად GNOME-სა და KDE-ს შორის.\n\nგთხოვთ, დესკტოპის წინა გარემოზე გადახვიდე ან სცადო Signal-ის გაშვება ბრძანების ხაზის დროშით --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&ფაილი"
@@ -1200,16 +1200,16 @@
     "messageformat": "ირეკება"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "გადარეკვა"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "ისევ დარეკვა"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "ზარზე შესვლა"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "ზარზე დაბრუნება"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "მიკროფონი დადუმებულია ზარის მოცულობის გამო"
@@ -2634,10 +2634,10 @@
     "messageformat": "უარყოფა"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "უარყოფილი ხმოვანი ზარი"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "უარყოფილი ვიდეო ზარი"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "შემომავალი ხმოვანი ზარი"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal-ი იმუშავებს შეტყობინებების ჭრილში. შეგიძლია ეს Signal-ის პარამეტრებიდან შეცვალო."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "შემომავალი ხმოვანი ზარი"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "შემომავალი ვიდეო ზარი"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "გამავალი ხმოვანი ზარი"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} ადამიანი} other {{count,number} ადამიანი}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "ხმოვანი ზარი"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "ზარის ბმული"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} ზარზე} other {{people,number} ზარზე}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "ეს ვიდეო ზარი დასრულდა"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "ვიდეო ზარი დაიწყო"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "შენ წამოიწყე ვიდეო ზარი"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name}-მა ვიდეო ზარი წამოიწყო"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "შენ უკვე ამ ზარზე იმყოფები"
@@ -5434,7 +5434,7 @@
     "messageformat": "გამოტოვებული"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "უარყოფილი"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "ჯგუფური ზარი"
@@ -5449,7 +5449,7 @@
     "messageformat": "გსურს, მიმდინარე ზარიდან გახვიდე?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "ზარზე შესვლამდე ან ახლის წამოწყებამდე მიმდინარე ზარი უნდა დატოვო."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "ზარის დატოვება"
@@ -5482,34 +5482,49 @@
     "messageformat": "ზარის ბმული"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {გამავალი ვიდეო ზარი} other {შემომავალი ვიდეო ზარი}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "გამოტოვებული ვიდეო ზარი"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "უპასუხო ვიდეო ზარი"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "უარყოფილი ვიდეო ზარი"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "შეუერთდი"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "ზარის სახელის დამატება"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "ზარის სახელის რედაქტირება"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "ყველა წევრის დადასტურება"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "ბმულის დაკოპირება"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "ბმულის Signal-ით გაზიარება"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "ზარის ბმულის დეტალები"
@@ -5521,22 +5536,22 @@
     "messageformat": "ზარის სახელის დამატება"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "ზარის სახელის რედაქტირება"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "ყველა წევრის დადასტურება"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "გამორთული"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "ჩართული"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "ზარის სახელის დამატება"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "ზარის სახელის რედაქტირება"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "ზარის სახელი"
@@ -5585,9 +5600,15 @@
     "messageformat": "ეს გამოშვება დიდი მიმოწერის წაშლის პროცესს აჩქარებს."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "ჩვენ დავამატეთ მალსახმობი, რომ გათიშო მიმდინარე ზარი და ახალს შეუერთდე, როდესაც სხვა ზარი უკვე მიმდინარეობს."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "ეს განახლება ასევე აგვარებს Linux-ზე ავარიული გაშვების პრობლემას იმ მომხმარებლებისთვის, რომელთა ადგილმდებარეობა `POSIX`-ზეა დაყენებული."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

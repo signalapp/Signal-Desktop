@@ -1200,16 +1200,16 @@
     "messageformat": "Memanggil"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Panggilan Balik"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Panggil Semula"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Sertai panggilan"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Kembali ke panggilan"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Mikrofon diredam kerana saiz panggilan"
@@ -2634,10 +2634,10 @@
     "messageformat": "Tolak"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Panggilan suara ditolak"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Panggilan video ditolak"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Panggilan suara masuk"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal akan terus berjalan dalam kawasan pemberitahuan. Ini boleh diubah dalam tetapan Signal."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Panggilan suara masuk"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Panggilan video masuk"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Panggilan suara keluar"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, other {{count,number} orang}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Panggilan suara"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Pautan panggilan"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, other {{people,number} orang dalam panggilan}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "Panggilan video telah tamat"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "Panggilan video dimulakan"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Anda memulakan panggilan video"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} memulakan panggilan video"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Anda sudah berada dalam panggilan"
@@ -5434,7 +5434,7 @@
     "messageformat": "Panggilan terlepas"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Tolak"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Panggilan kumpulan"
@@ -5449,7 +5449,7 @@
     "messageformat": "Tinggalkan panggilan semasa?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Anda mesti meninggalkan panggilan semasa sebelum memulakan atau menyertai panggilan baharu."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Tinggalkan panggilan"
@@ -5482,34 +5482,49 @@
     "messageformat": "Pautan panggilan"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Panggilan video keluar} other {Panggilan video masuk}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Panggilan video tidak dijawab"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Panggilan video tidak dijawab"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Panggilan video ditolak"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Sertai"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Tambah nama panggilan"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Edit nama panggilan"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Luluskan semua ahli"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Salin pautan"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Kongsi pautan melalui Signal"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Butiran pautan panggilan"
@@ -5521,22 +5536,22 @@
     "messageformat": "Tambah nama panggilan"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Edit nama panggilan"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Luluskan semua ahli"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Mati"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Hidup"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Tambah nama panggilan"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Edit nama panggilan"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Nama panggilan"
@@ -5585,9 +5600,15 @@
     "messageformat": "Keluaran ini mempercepatkan proses memadamkan urutan mesej yang besar."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "Kami telah menambahkan pintasan untuk meletakkan panggilan atau menyertai panggilan baharu apabila panggilan lain sedang berjalan."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "Kemas kini ini juga membaiki ranap permulaan pada Linux untuk pengguna yang tempatnya ditetapkan kepada 'POSIX'."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

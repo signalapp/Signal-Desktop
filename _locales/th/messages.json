@@ -90,7 +90,7 @@
     "messageformat": "ไม่สามารถเข้าถึงกุญแจการเข้ารหัสของฐานข้อมูลได้ เนื่องจากระบบจัดการพวงกุญแจการเข้ารหัสของระบบปฏิบัติการมีการเปลี่ยนจาก {previousBackend} เป็น {currentBackend} กรณีเช่นนี้อาจเกิดขึ้นได้หากมีการเปลี่ยน Desktop Environment เช่น ระหว่าง GNOME และ KDE\n\nโปรดเปลี่ยนกลับไปใช้ Desktop Environment เดิม"
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "ไม่สามารถเข้าถึงกุญแจการเข้ารหัสของฐานข้อมูลได้ เนื่องจากระบบจัดการพวงกุญแจการเข้ารหัสของระบบปฏิบัติการมีการเปลี่ยนจาก {previousBackend} เป็น {currentBackend} กรณีเช่นนี้อาจเกิดขึ้นได้หากมีการเปลี่ยน Desktop Environment เช่น ระหว่าง GNOME และ KDE\n\nโปรดเปลี่ยนกลับไปใช้ Desktop Environment เดิม หรือพยายามเปิด Signal โดยใช้ Command Line: flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "ไม่สามารถเข้าถึงกุญแจการเข้ารหัสของฐานข้อมูลได้ เนื่องจากระบบจัดการพวงกุญแจการเข้ารหัสของระบบปฏิบัติการมีการเปลี่ยนจาก {previousBackend} เป็น {currentBackend} กรณีเช่นนี้อาจเกิดขึ้นได้หากมีการเปลี่ยน Desktop Environment เช่น ระหว่าง GNOME และ KDE\n\nโปรดเปลี่ยนกลับไปใช้ Desktop Environment เดิม หรือพยายามเปิด Signal โดยใช้ Command Line Flag: --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "แ&ฟ้ม"
@@ -1200,16 +1200,16 @@
     "messageformat": "การโทร"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "โทรกลับ"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "โทรอีกครั้ง"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "เข้าร่วมการโทร"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "กลับไปยังสายที่โทรอยู่"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "ไมโครโฟนถูกปิดเสียงเนื่องจากมีผู้ใช้สายจำนวนมาก"
@@ -2634,10 +2634,10 @@
     "messageformat": "ปฏิเสธ"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "การโทรด้วยเสียงที่ถูกปฏิเสธ"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "วิดีโอคอลที่ถูกปฏิเสธ"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "การโทรด้วยเสียงขาเข้า"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal จะยังทำงานอยู่ในพื้นที่การแจ้งเตือน (Notification Area) คุณสามารถเปลี่ยนแปลงตัวเลือกนี้ได้ในการตั้งค่าของ Signal"
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "การโทรด้วยเสียงขาเข้า"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "สายวิดีโอเรียกเข้า"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "การโทรด้วยเสียงขาออก"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, other {{count,number} คน}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "โทรเสียง"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "ลิงก์การโทร"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, other {{people,number} คนอยู่ในสาย}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "วิดีโอคอลสิ้นสุดแล้ว"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "สมาชิกกลุ่มเริ่มวิดีโอคอล"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "คุณเริ่มวิดีโอคอล"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} เริ่มวิดีโอคอล"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "คุณอยู่ในสายแล้ว"
@@ -5434,7 +5434,7 @@
     "messageformat": "ไม่ได้รับ"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "ปฏิเสธ"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "โทรกลุ่ม"
@@ -5449,7 +5449,7 @@
     "messageformat": "ออกจากสายที่ใช้งานอยู่ใช่หรือไม่"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "คุณต้องออกจากสายที่กำลังใช้งานอยู่ก่อนที่จะเริ่มต้นหรือเข้าร่วมการโทรสายใหม่"
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "ออกจากสาย"
@@ -5482,34 +5482,49 @@
     "messageformat": "ลิงก์การโทร"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {สายวิดีโอโทรออก} other {สายวิดีโอเรียกเข้า}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "โทรวิดีโอที่พลาด"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "โทรวิดีโอที่ไม่ได้รับ"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "วิดีโอคอลที่ถูกปฏิเสธ"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "เข้าร่วม"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "เพิ่มชื่อการโทร"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "แก้ไขชื่อการโทร"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "อนุมัติสำหรับสมาชิกทุกคน"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "คัดลอกลิงก์"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "แชร์ลิงก์ผ่าน Signal"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "รายละเอียดลิงก์การโทร"
@@ -5521,22 +5536,22 @@
     "messageformat": "เพิ่มชื่อการโทร"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "แก้ไขชื่อการโทร"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "อนุมัติสำหรับสมาชิกทุกคน"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "ปิด"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "เปิด"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "เพิ่มชื่อการโทร"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "แก้ไขชื่อการโทร"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "ชื่อการโทร"
@@ -5585,9 +5600,15 @@
     "messageformat": "การอัปเดตครั้งนี้ปรับความเร็วให้คุณลบข้อความไซส์ใหญ่ได้ทันใจยิ่งขึ้น"
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "เราเพิ่มทางลัดที่ให้คุณวางสายที่ใช้งานอยู่ก่อนเพื่อเข้าร่วมการโทรใหม่ได้สะดวกยิ่งกว่าเดิม"
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "การอัปเดตครั้งนี้ยังมาพร้อมกับการแก้ไขปัญหาในการเปิดแอปสำหรับผู้ใช้ Linux ที่ตั้ง Locale เป็น POSIX"
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

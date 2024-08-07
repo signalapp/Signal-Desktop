@@ -1200,16 +1200,16 @@
     "messageformat": "Κλήσεις"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Επανάκληση"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Επανάκληση"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Είσοδος στην κλήση"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Επιστροφή στην κλήση"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Το μικρόφωνο είναι σε σίγαση λόγω του μεγέθους αυτής της κλήσης"
@@ -2634,10 +2634,10 @@
     "messageformat": "Απόρριψη"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Απορρίφθηκε μια κλήση"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Απορρίφθηκε μια βιντεοκλήση"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Εισερχόμενη κλήση"
@@ -2670,10 +2670,10 @@
     "messageformat": "Το Signal θα συνεχίσει να λειτουργεί στην περιοχή ειδοποιήσεων. Μπορείς να το αλλάξεις στις Ρυθμίσεις του Signal."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Εισερχόμενη κλήση"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Εισερχόμενη βιντεοκλήση"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Εξερχόμενη κλήση"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} άτομο} other {{count,number} άτομα}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Φωνητική κλήση"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Σύνδεσμος κλήσης"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} στην κλήση} other {{people,number} στην κλήση}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "Η βιντεοκλήση τελείωσε"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "Ξεκίνησε μια βιντεοκλήση"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Ξεκίνησες μια βιντεοκλήση"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "Ο/Η {name} ξεκίνησε μια βιντεοκλήση"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Είσαι ήδη σε κάποια κλήση"
@@ -5434,7 +5434,7 @@
     "messageformat": "Αναπάντητη"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Απορρίφθηκε"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Ομαδική κλήση"
@@ -5449,7 +5449,7 @@
     "messageformat": "Αποχώρηση από την τρέχουσα κλήση;"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Πρέπει να αποχωρήσεις από την τρέχουσα κλήση πριν ξεκινήσεις ή συνδεθείς σε μια νέα."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Αποχώρηση από την κλήση"
@@ -5482,34 +5482,49 @@
     "messageformat": "Σύνδεσμος κλήσης"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Εξερχόμενη βιντεοκλήση} other {Εισερχόμενη βιντεοκλήση}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Αναπάντητη βιντεοκλήση"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Αναπάντητη βιντεοκλήση"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Απορρίφθηκε μια βιντεοκλήση"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Συμμετοχή"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Προσθήκη ονόματος κλήσης"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Επεξεργασία ονόματος κλήσης"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Έγκριση όλων των μελών"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Αντιγραφή συνδέσμου"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Κοινοποίηση συνδέσμου μέσω Signal"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Λεπτομέρειες συνδέσμου κλήσης"
@@ -5521,22 +5536,22 @@
     "messageformat": "Προσθήκη ονόματος κλήσης"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Επεξεργασία ονόματος κλήσης"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Έγκριση όλων των μελών"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Ανενεργό"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Ενεργό"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Προσθήκη ονόματος κλήσης"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Επεξεργασία ονόματος κλήσης"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Όνομα κλήσης"
@@ -5585,9 +5600,15 @@
     "messageformat": "Αυτή η έκδοση επιταχύνει τη διαδικασία διαγραφής μεγάλων νημάτων μηνυμάτων."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "Προσθέσαμε μια συντόμευση για να κλείνεις και να συνδέεσαι σε μια νέα κλήση όταν μια άλλη κλήση είναι ήδη σε εξέλιξη."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "Αυτή η ενημέρωση διορθώνει επίσης απρόσμενους τερματισμούς λειτουργίας κατά την εκκίνηση σε Linux για χρήστες των οποίων η γλώσσα έχει οριστεί σε `POSIX`."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

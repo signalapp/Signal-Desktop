@@ -1200,16 +1200,16 @@
     "messageformat": "Skambinimas"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Atskambinti"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Skambinti vėl"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Prisijungti prie skambučio"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Grįžti į skambutį"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Mikrofonas išjungtas dėl skambučio dalyvių skaičiaus"
@@ -2634,10 +2634,10 @@
     "messageformat": "Atmesti"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Atmestas balso skambutis"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Atmestas vaizdo skambutis"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Gaunamasis balso skambutis"
@@ -2670,10 +2670,10 @@
     "messageformat": "Programėlė „Signal“ tebebus įjungta pranešimų skiltyje. Gali tai pakeisti nustatymuose."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Gaunamasis balso skambutis"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Gaunamasis vaizdo skambutis"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Išsiunčiamasis balso skambutis"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} žmogus} few {{count,number} žmonės} many {{count,number} žmonių} other {{count,number} žmogus}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Balso skambutis"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Skambučio nuoroda"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {Skambutyje yra {people,number} žmogus} few {Skambutyje yra {people,number} žmonės} many {Skambutyje yra {people,number} žmonių} other {Skambutyje yra {people,number} žmonių}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "Vaizdo skambutis baigtas"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "Pradėtas vaizdo skambutis"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Pradėjote vaizdo skambutį"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} pradėjo vaizdo skambutį"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Jūs jau esate skambutyje"
@@ -5434,7 +5434,7 @@
     "messageformat": "Praleisti"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Atmestas"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Grupės skambutis"
@@ -5449,7 +5449,7 @@
     "messageformat": "Išeiti iš dabartinio skambučio?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Prieš pradėdami skambutį ar prisijungdami prie naujo skambučio, turite išeiti iš dabartinio skambučio."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Išeiti iš skambučio"
@@ -5482,34 +5482,49 @@
     "messageformat": "Skambučio nuoroda"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Išsiunčiamasis vaizdo skambutis} other {Gaunamasis vaizdo skambutis}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Praleistas vaizdo skambutis"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Neatsakytas vaizdo skambutis"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Atmestas vaizdo skambutis"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Prisijungti"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Pridėti skambučio pavadinimą"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Redaguoti skambučio pavadinimą"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Patvirtinti visus narius"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopijuoti nuorodą"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Bendrinti nuorodą per „Signal“"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Skambučio nuorodos informacija"
@@ -5521,22 +5536,22 @@
     "messageformat": "Pridėti skambučio pavadinimą"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Redaguoti skambučio pavadinimą"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Patvirtinti visus narius"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Išjungta"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Įjungta"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Pridėti skambučio pavadinimą"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Redaguoti skambučio pavadinimą"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Skambučio pavadinimas"
@@ -5585,9 +5600,15 @@
     "messageformat": "Ši versija paspartina didelių žinučių gijų ištrynimo procesą."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "Pridėjome šaukinį, leidžiantį išeiti iš dabartinio skambučio ir prisijungti prie naujo, kai jau dalyvaujate kitame skambutyje."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "Be to, šiuo atnaujinimu ištaisoma paleidimo strigtis „Linux“ naudotojams, kurių lokalė nustatyta į „POSIX“."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

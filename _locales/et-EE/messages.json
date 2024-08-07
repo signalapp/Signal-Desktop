@@ -90,7 +90,7 @@
     "messageformat": "Andmebaasi krüptimisvõtmele ei pääsenud ligi, sest operatsioonisüsteemi krüptimise võtmerõngas {previousBackend} asendus uuega {currentBackend}. See võib juhtuda, kui töölauakeskkond muutub, näiteks GNOME'i ja KDE vahel.\n\nPalun pöördu tagasi endise töölauakeskkonna juurde."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Andmebaasi krüptimisvõtmele ei pääsenud ligi, sest operatsioonisüsteemi krüptimise võtmerõngas {previousBackend} asendus uuega {currentBackend}. See võib juhtuda, kui töölauakeskkond muutub, näiteks GNOME'i ja KDE vahel.\n\nPalun naase endisse töölauakeskkonda või proovi käivitada Signalit käsurea lipuga --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Andmebaasi krüpteerimisvõtmele ei pääsenud ligi, sest operatsioonisüsteemi krüpteerimise võtmerõngas {previousBackend} asendus uuega {currentBackend}. See võib juhtuda, kui töölauakeskkond muutub, näiteks GNOME'i ja KDE vahel.\n\nPalun naase endisse töölauakeskkonda või proovi käivitada Signalit käsurea lipuga --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fail"
@@ -1200,16 +1200,16 @@
     "messageformat": "Helistamine"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Helista tagasi"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Helista uuesti"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Liitu kõnega"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Tagasi kõnesse"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Mikrofon on kõne suuruse tõttu vaigistatud"
@@ -2634,10 +2634,10 @@
     "messageformat": "Keeldu"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Sa keeldusid häälkõnest"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Keeldutud videokõne"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Sissetulev häälkõne"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal jääb teavituste alal tööle. Saad seda Signali sätete alt muuta."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Sissetulev häälkõne"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Sissetulev videokõne"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Väljuv häälkõne"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} inimene} other {{count,number} inimest}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Häälkõne"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Kõne link"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} kõnes} other {{people,number} kõnes}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "Videokõne on lõppenud"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "Alustati videokõnet"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Sa alustasid videokõnet"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} alustas videokõnet"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Sa oled juba kõnes"
@@ -5434,7 +5434,7 @@
     "messageformat": "Vastamata"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Keeldutud"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Grupikõne"
@@ -5449,7 +5449,7 @@
     "messageformat": "Kas lahkuda pragusest kõnest?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Enne uue kõne alustamist või uue kõnega liitumist pead praegusest kõnest väljuma."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Lahku kõnest"
@@ -5482,34 +5482,49 @@
     "messageformat": "Kõne link"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Tehtud videokõne} other {Sissetulev videokõne}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Vastamata videokõne"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Vastamata videokõne"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Keeldutud videokõne"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Liitu"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Lisa kõne nimi"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Muuda kõne nime"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Võta kõik uued liikmed vastu"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Kopeeri link"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Jaga linki Signali kaudu"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Kõnelingi andmed"
@@ -5521,22 +5536,22 @@
     "messageformat": "Lisa kõne nimi"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Muuda kõne nime"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Võta kõik uued liikmed vastu"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Väljas"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Sees"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Lisa kõne nimi"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Muuda kõne nime"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Kõne nimi"
@@ -5585,9 +5600,15 @@
     "messageformat": "See väljalase kiirendab suurte sõnumilõimede kustutamist."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "Lisasime otsetee, mille kaudu saad ühe kõne lõpetada ja kohe teisega liituda, kui uus kõne tuleb sisse eelmise ajal."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "Selle uuendusega parandatakse ka käivitumisel kokkujooksmise probleem Linuxi kasutajate puhul, kelle asukohaks on määratud POSIX."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

@@ -558,7 +558,7 @@
     "messageformat": "این ماه"
   },
   "icu:unsupportedAttachment": {
-    "messageformat": "این نوع ضمیمه پشتیبانی نمی‌شود. برای ذخیره کلیک کنید."
+    "messageformat": "این نوع پیوست پشتیبانی نمی‌شود. برای ذخیره کلیک کنید."
   },
   "icu:voiceMessage": {
     "messageformat": "پیام صوتی"
@@ -762,7 +762,7 @@
     "messageformat": "بارگیری پیام کامل"
   },
   "icu:downloadAttachment": {
-    "messageformat": "بارگیری ضمیمه"
+    "messageformat": "بارگیری پیوست"
   },
   "icu:reactToMessage": {
     "messageformat": "واکنش به پیام"
@@ -1200,16 +1200,16 @@
     "messageformat": "درحال تماس"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "تماس"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "تماس دوباره"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "پیوستن به تماس"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "بازگشت به تماس"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "صدای میکروفون به‌دلیل تعداد زیاد کاربر حاضر در تماس قطع شد"
@@ -2634,10 +2634,10 @@
     "messageformat": "رد کردن"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "تماس صوتی رد شده"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "تماس تصویری رد شده"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "تماس صوتی دریافتی"
@@ -2670,10 +2670,10 @@
     "messageformat": "سیگنال در ناحیه اعلان به کار خود ادامه خواهد داد. می‌توانید این حالت را در تنظیمات سیگنال تغییر دهید."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "تماس صوتی دریافتی"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "تماس صوتی دریافتی"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "تماس صوتی خروجی"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} نفر} other {{count,number} نفر}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "تماس صوتی"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "پیوند تماس"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {‏{people,number} در تماس} other {‏{people,number} در تماس}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "تماس تصویری پایان یافت"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "تماس تصویری شروع شد"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "یک تماس تصویری شروع کردید"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "‏{name} یک تماس تصویری شروع کرد"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "شما در حال حاضر در یک تماس هستید"
@@ -5088,7 +5088,7 @@
     "messageformat": "کپی کردن برچسب زمان"
   },
   "icu:StoryDetailsModal__download-attachment": {
-    "messageformat": "بارگیری ضمیمه"
+    "messageformat": "بارگیری پیوست"
   },
   "icu:StoryViewsNRepliesModal__read-receipts-off": {
     "messageformat": "رسیدهای بازدید را فعال کنید تا بتوانید ببینید چه کسی از استوری‌های شما بازدید کرده است. برنامه سیگنال را روی دستگاه تلفن همراه خود باز کنید و به «تنظیمات > استوری‌ها» بروید"
@@ -5434,7 +5434,7 @@
     "messageformat": "ازدست‌رفته"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "رد شد"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "تماس گروهی"
@@ -5449,7 +5449,7 @@
     "messageformat": "تماس فعلی را ترک می‌کنید؟"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "قبل از شروع تماس جدید یا پیوستن به آن، باید تماس فعلی را ترک کنید."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "ترک کردن تماس"
@@ -5482,34 +5482,49 @@
     "messageformat": "پیوند تماس"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {تماس تصویری خروجی} other {تماس صوتی دریافتی}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "تماس تصویری از دست رفته"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "تماس تصویری بی‌پاسخ"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "تماس تصویری رد شده"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "پیوستن"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "افزودن نام تماس"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "ویرایش نام تماس"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "تأیید همه اعضا"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "کپی کردن پیوند"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "اشتراک‌گذاری پیوند از طریق سیگنال"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "جزئیات پیوند تماس"
@@ -5521,22 +5536,22 @@
     "messageformat": "افزودن نام تماس"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "ویرایش نام تماس"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "تأیید همه اعضا"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "خاموش"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "روشن"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "افزودن نام تماس"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "ویرایش نام تماس"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "نام تماس"
@@ -5585,9 +5600,15 @@
     "messageformat": "این نسخه روند حذف رشته‌پیام‌های بزرگ را سرعت می‌بخشد."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "ما میان‌بری اضافه کردیم تا بتوانید تماس جاری را قطع کنید و به یک تماس جدید بپیوندید."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "اختلال راه‌اندازی در لینوکس برای کاربرانی که زبانشان روی `POSIX` تنظیم شده است، در این نسخه جدید برطرف شده است."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }

@@ -90,7 +90,7 @@
     "messageformat": "Приступање кључу за шифровање базе података није успело јер је позадински део кључева за шифровање оперативног система промењен са {previousBackend} на {currentBackend}. То се може десити ако се промени окружење радне површине, на пример са окружења GNOME на KDE.\n\nВратите се на претходно окружење радне површине."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Приступање кључу за шифровање базе података није успело јер је позадински део кључева за шифровање оперативног система промењен са {previousBackend} на {currentBackend}. То се може десити ако се промени окружење радне површине, на пример са окружења GNOME на KDE.\n\nВратите се на претходно окружење радне површине или пробајте да покренете Signal помоћу командне линије flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Приступање кључу за шифровање базе података није успело јер је позадински део кључева за шифровање оперативног система промењен са {previousBackend} на {currentBackend}. То се може десити ако се промени окружење радне површине, на пример са окружења GNOME на KDE.\n\nВратите се на претходно окружење радне површине или пробајте да покренете Signal помоћу параметра за командну линију --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Фајл"
@@ -1200,16 +1200,16 @@
     "messageformat": "Позиви"
   },
   "icu:calling__call-back": {
-    "messageformat": "Call back"
+    "messageformat": "Позови"
   },
   "icu:calling__call-again": {
-    "messageformat": "Call again"
+    "messageformat": "Позови поново"
   },
   "icu:calling__join": {
-    "messageformat": "Join call"
+    "messageformat": "Укључите се у позив"
   },
   "icu:calling__return": {
-    "messageformat": "Return to call"
+    "messageformat": "Вратите се на позив"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
     "messageformat": "Микрофон је искључен због величине позива"
@@ -2634,10 +2634,10 @@
     "messageformat": "Одбиј"
   },
   "icu:declinedIncomingAudioCall": {
-    "messageformat": "Declined voice call"
+    "messageformat": "Одбијен гласовни позив"
   },
   "icu:declinedIncomingVideoCall": {
-    "messageformat": "Declined video call"
+    "messageformat": "Одбијен видео позив"
   },
   "icu:acceptedIncomingAudioCall": {
     "messageformat": "Долазни гласовни позив"
@@ -2670,10 +2670,10 @@
     "messageformat": "Signal ће наставити да ради у пољу са обавештењима. То можете променити у подешавањима Signal-а."
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Incoming voice call"
+    "messageformat": "Долазни гласовни позив"
   },
   "icu:incomingVideoCall": {
-    "messageformat": "Incoming video call"
+    "messageformat": "Долазни видео позив"
   },
   "icu:outgoingAudioCall": {
     "messageformat": "Одлазни гласовни позив"
@@ -2718,7 +2718,7 @@
     "messageformat": "{count, plural, one {{count,number} особа} other {Њих {count,number}}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
-    "messageformat": "Voice call"
+    "messageformat": "Гласовни позив"
   },
   "icu:CallControls__InfoDisplay--adhoc-call": {
     "messageformat": "Линк за позив"
@@ -2781,16 +2781,16 @@
     "messageformat": "{people, plural, one {{people,number} у позиву} other {{people,number} у позиву}}"
   },
   "icu:calling__call-notification__ended": {
-    "messageformat": "The video call has ended"
+    "messageformat": "Видео-позив је завршен"
   },
   "icu:calling__call-notification__started-by-someone": {
-    "messageformat": "A video call was started"
+    "messageformat": "Започет је видео позив"
   },
   "icu:calling__call-notification__started-by-you": {
-    "messageformat": "You started a video call"
+    "messageformat": "Започели сте видео-позив"
   },
   "icu:calling__call-notification__started": {
-    "messageformat": "{name} started a video call"
+    "messageformat": "{name} је започео/ла видео-позив"
   },
   "icu:calling__in-another-call-tooltip": {
     "messageformat": "Већ сте у позиву"
@@ -5434,7 +5434,7 @@
     "messageformat": "Пропуштени"
   },
   "icu:CallsList__ItemCallInfo--Declined": {
-    "messageformat": "Declined"
+    "messageformat": "Одбијено"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
     "messageformat": "Групни позив"
@@ -5449,7 +5449,7 @@
     "messageformat": "Желите ли да напустите тренутни позив?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "You must leave the current call before starting or joining a new call."
+    "messageformat": "Морате да напустите тренутни позив да бисте започели нови позив или се прикључили новом позиву."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Напусти позив"
@@ -5482,34 +5482,49 @@
     "messageformat": "Линк за позив"
   },
   "icu:CallHistory__DescriptionVideoCall--Default": {
-    "messageformat": "{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}"
+    "messageformat": "{direction, select, Outgoing {Одлазни видео позив} other {Долазни видео позив}}"
   },
   "icu:CallHistory__DescriptionVideoCall--Missed": {
-    "messageformat": "Missed video call"
+    "messageformat": "Пропуштен видео позив"
   },
   "icu:CallHistory__DescriptionVideoCall--Unanswered": {
-    "messageformat": "Unanswered video call"
+    "messageformat": "Пропуштен видео позив"
   },
   "icu:CallHistory__DescriptionVideoCall--Declined": {
-    "messageformat": "Declined video call"
+    "messageformat": "Одбијен видео позив"
   },
   "icu:CallLinkDetails__Join": {
     "messageformat": "Придружите се"
   },
   "icu:CallLinkDetails__AddCallNameLabel": {
-    "messageformat": "Add call name"
+    "messageformat": "Унесите назив позива"
   },
   "icu:CallLinkDetails__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Измените назив позива"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Approve all members"
+    "messageformat": "Обавезно одобрење за све чланове"
   },
   "icu:CallLinkDetails__CopyLink": {
     "messageformat": "Копирај линк"
   },
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Подели линк преко Signal-а"
+  },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Delete link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Delete call link?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "This link will no longer work for anyone who has it."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Delete"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Детаљи линка за позив"
@@ -5521,22 +5536,22 @@
     "messageformat": "Унесите назив позива"
   },
   "icu:CallLinkEditModal__EditCallNameLabel": {
-    "messageformat": "Edit call name"
+    "messageformat": "Измените назив позива"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
     "messageformat": "Обавезно одобрење за све чланове"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "Искључено"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Укључено"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Унесите назив позива"
   },
   "icu:CallLinkAddNameModal__Title--Edit": {
-    "messageformat": "Edit call name"
+    "messageformat": "Измените назив позива"
   },
   "icu:CallLinkAddNameModal__NameLabel": {
     "messageformat": "Назив позива"
@@ -5585,9 +5600,15 @@
     "messageformat": "У овом издању смо убрзали процес брисања великих преписки."
   },
   "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first."
+    "messageformat": "Додали смо пречицу за прекидање везе и прикључивање новом позиву када је други позив већ у току."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`."
+    "messageformat": "У овом ажурирању је такође исправљена грешка која узрокује пад приликом покретања на Linux-у код корисника чији је језик подешен на „POSIX“."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
   }
 }
