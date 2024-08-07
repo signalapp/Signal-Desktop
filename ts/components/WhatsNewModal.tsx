@@ -43,8 +43,8 @@ export function WhatsNewModal({
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
     features: [
-      <I18n i18n={i18n} id="icu:WhatsNew__v7.19--0" />,
-      <I18n i18n={i18n} id="icu:WhatsNew__v7.19--1" />,
+      <I18n i18n={i18n} id="icu:WhatsNew__v7.20--0" />,
+      <I18n i18n={i18n} id="icu:WhatsNew__v7.20--1" />,
     ],
   };
 
