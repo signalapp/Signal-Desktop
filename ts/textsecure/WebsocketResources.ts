@@ -37,6 +37,8 @@ import { random } from 'lodash';
 import type { ChatServiceDebugInfo } from '@signalapp/libsignal-client/Native';
 
 import type { Net } from '@signalapp/libsignal-client';
+import { Buffer } from 'node:buffer';
+import type { ChatServerMessageAck } from '@signalapp/libsignal-client/dist/net';
 import type { EventHandler } from './EventTarget';
 import EventTarget from './EventTarget';
 
@@ -54,6 +56,7 @@ import { isProduction } from '../util/version';
 
 import { ToastType } from '../types/Toast';
 import { AbortableProcess } from '../util/AbortableProcess';
+import type { WebAPICredentials } from './Types';
 
 const THIRTY_SECONDS = 30 * durations.SECOND;
 
@@ -166,16 +169,49 @@ export namespace AggregatedStats {
   }
 }
 
-export class IncomingWebSocketRequest {
+export enum ServerRequestType {
+  ApiMessage = '/api/v1/message',
+  ApiEmptyQueue = '/api/v1/queue/empty',
+  ProvisioningMessage = '/v1/message',
+  ProvisioningAddress = '/v1/address',
+  Unknown = 'unknown',
+}
+
+export type IncomingWebSocketRequest = {
+  readonly requestType: ServerRequestType;
+  readonly body: Uint8Array | undefined;
+  readonly timestamp: number | undefined;
+
+  respond(status: number, message: string): void;
+};
+
+export class IncomingWebSocketRequestLibsignal
+  implements IncomingWebSocketRequest
+{
+  constructor(
+    readonly requestType: ServerRequestType,
+    readonly body: Uint8Array | undefined,
+    readonly timestamp: number | undefined,
+    private readonly ack: ChatServerMessageAck | undefined
+  ) {}
+
+  respond(status: number, _message: string): void {
+    if (this.ack) {
+      drop(this.ack.send(status));
+    }
+  }
+}
+
+export class IncomingWebSocketRequestLegacy
+  implements IncomingWebSocketRequest
+{
   private readonly id: Long;
 
-  public readonly verb: string;
-
-  public readonly path: string;
+  public readonly requestType: ServerRequestType;
 
   public readonly body: Uint8Array | undefined;
 
-  public readonly headers: ReadonlyArray<string>;
+  public readonly timestamp: number | undefined;
 
   constructor(
     request: Proto.IWebSocketRequestMessage,
@@ -186,10 +222,9 @@ export class IncomingWebSocketRequest {
     strictAssert(request.path, 'request without path');
 
     this.id = request.id;
-    this.verb = request.verb;
-    this.path = request.path;
+    this.requestType = resolveType(request.path, request.verb);
     this.body = dropNull(request.body);
-    this.headers = request.headers || [];
+    this.timestamp = resolveTimestamp(request.headers || []);
   }
 
   public respond(status: number, message: string): void {
@@ -200,6 +235,35 @@ export class IncomingWebSocketRequest {
 
     this.sendBytes(Buffer.from(bytes));
   }
+}
+
+function resolveType(path: string, verb: string): ServerRequestType {
+  if (path === ServerRequestType.ApiMessage) {
+    return ServerRequestType.ApiMessage;
+  }
+  if (path === ServerRequestType.ApiEmptyQueue && verb === 'PUT') {
+    return ServerRequestType.ApiEmptyQueue;
+  }
+  if (path === ServerRequestType.ProvisioningAddress && verb === 'PUT') {
+    return ServerRequestType.ProvisioningAddress;
+  }
+  if (path === ServerRequestType.ProvisioningMessage && verb === 'PUT') {
+    return ServerRequestType.ProvisioningMessage;
+  }
+  return ServerRequestType.Unknown;
+}
+
+function resolveTimestamp(headers: ReadonlyArray<string>): number | undefined {
+  // The 'X-Signal-Timestamp' is usually the last item, so start there.
+  let it = headers.length;
+  // eslint-disable-next-line no-plusplus
+  while (--it >= 0) {
+    const match = headers[it].match(/^X-Signal-Timestamp:\s*(\d+)\s*$/i);
+    if (match && match.length === 2) {
+      return Number(match[1]);
+    }
+  }
+  return undefined;
 }
 
 export type SendRequestOptions = Readonly<{
@@ -266,6 +330,100 @@ export interface IWebSocketResource extends IResource {
   localPort(): number | undefined;
 }
 
+export function connectUnauthenticatedLibsignal({
+  libsignalNet,
+  name,
+}: {
+  libsignalNet: Net.Net;
+  name: string;
+}): AbortableProcess<LibsignalWebSocketResource> {
+  return connectLibsignal(libsignalNet.newUnauthenticatedChatService(), name);
+}
+
+export function connectAuthenticatedLibsignal({
+  libsignalNet,
+  name,
+  credentials,
+  handler,
+  receiveStories,
+}: {
+  libsignalNet: Net.Net;
+  name: string;
+  credentials: WebAPICredentials;
+  handler: (request: IncomingWebSocketRequest) => void;
+  receiveStories: boolean;
+}): AbortableProcess<LibsignalWebSocketResource> {
+  const listener = {
+    onIncomingMessage(
+      envelope: Buffer,
+      timestamp: number,
+      ack: ChatServerMessageAck
+    ): void {
+      const request = new IncomingWebSocketRequestLibsignal(
+        ServerRequestType.ApiMessage,
+        envelope,
+        timestamp,
+        ack
+      );
+      handler(request);
+    },
+    onQueueEmpty(): void {
+      const request = new IncomingWebSocketRequestLibsignal(
+        ServerRequestType.ApiEmptyQueue,
+        undefined,
+        undefined,
+        undefined
+      );
+      handler(request);
+    },
+    onConnectionInterrupted(): void {
+      log.warn(`LibsignalWebSocketResource(${name}): connection interrupted`);
+    },
+  };
+  return connectLibsignal(
+    libsignalNet.newAuthenticatedChatService(
+      credentials.username,
+      credentials.password,
+      receiveStories,
+      listener
+    ),
+    name
+  );
+}
+
+function connectLibsignal(
+  chatService: Net.ChatService,
+  name: string
+): AbortableProcess<LibsignalWebSocketResource> {
+  const connectAsync = async () => {
+    try {
+      const debugInfo = await chatService.connect();
+      log.info(`LibsignalWebSocketResource(${name}) connected`, debugInfo);
+      return new LibsignalWebSocketResource(
+        chatService,
+        IpVersion.fromDebugInfoCode(debugInfo.ipType)
+      );
+    } catch (error) {
+      // Handle any errors that occur during connection
+      log.error(
+        `LibsignalWebSocketResource(${name}) connection failed`,
+        Errors.toLogFormat(error)
+      );
+      throw error;
+    }
+  };
+  return new AbortableProcess<LibsignalWebSocketResource>(
+    `LibsignalWebSocketResource.connect(${name})`,
+    {
+      abort() {
+        // if interrupted, trying to disconnect
+        drop(chatService.disconnect());
+      },
+    },
+    connectAsync()
+  );
+}
+
 export class LibsignalWebSocketResource
   extends EventTarget
   implements IWebSocketResource
@@ -275,40 +433,6 @@ export class LibsignalWebSocketResource
     private readonly socketIpVersion: IpVersion | undefined
   ) {
     super();
-  }
-
-  public static connect(
-    libsignalNet: Net.Net,
-    name: string
-  ): AbortableProcess<LibsignalWebSocketResource> {
-    const chatService = libsignalNet.newChatService();
-    const connectAsync = async () => {
-      try {
-        const debugInfo = await chatService.connectUnauthenticated();
-        log.info(`LibsignalWebSocketResource(${name}) connected`, debugInfo);
-        return new LibsignalWebSocketResource(
-          chatService,
-          IpVersion.fromDebugInfoCode(debugInfo.ipType)
-        );
-      } catch (error) {
-        // Handle any errors that occur during connection
-        log.error(
-          `LibsignalWebSocketResource(${name}) connection failed`,
-          Errors.toLogFormat(error)
-        );
-        throw error;
-      }
-    };
-    return new AbortableProcess<LibsignalWebSocketResource>(
-      `LibsignalWebSocketResource.connect(${name})`,
-      {
-        abort() {
-          // if interrupted, trying to disconnect
-          drop(chatService.disconnect());
-        },
-      },
-      connectAsync()
-    );
   }
 
   public localPort(): number | undefined {
@@ -348,14 +472,13 @@ export class LibsignalWebSocketResource
   public async sendRequestGetDebugInfo(
     options: SendRequestOptions
   ): Promise<[Response, ChatServiceDebugInfo]> {
-    const { response, debugInfo } =
-      await this.chatService.unauthenticatedFetchAndDebug({
-        verb: options.verb,
-        path: options.path,
-        headers: options.headers ? options.headers : [],
-        body: options.body,
-        timeoutMillis: options.timeout,
-      });
+    const { response, debugInfo } = await this.chatService.fetchAndDebug({
+      verb: options.verb,
+      path: options.path,
+      headers: options.headers ? options.headers : [],
+      body: options.body,
+      timeoutMillis: options.timeout,
+    });
     return [
       new Response(response.body, {
         status: response.status,
@@ -765,7 +888,7 @@ export default class WebSocketResource
         this.options.handleRequest ||
         (request => request.respond(404, 'Not found'));
 
-      const incomingRequest = new IncomingWebSocketRequest(
+      const incomingRequest = new IncomingWebSocketRequestLegacy(
         message.request,
         (bytes: Buffer): void => {
           this.removeActive(incomingRequest);

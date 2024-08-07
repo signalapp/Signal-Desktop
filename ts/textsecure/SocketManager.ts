@@ -13,14 +13,14 @@ import { AbortableProcess } from '../util/AbortableProcess';
 import { strictAssert } from '../util/assert';
 import {
   BackOff,
-  FIBONACCI_TIMEOUTS,
   EXTENDED_FIBONACCI_TIMEOUTS,
+  FIBONACCI_TIMEOUTS,
 } from '../util/BackOff';
 import * as durations from '../util/durations';
 import { sleep } from '../util/sleep';
 import { drop } from '../util/drop';
-import { createProxyAgent } from '../util/createProxyAgent';
 import type { ProxyAgent } from '../util/createProxyAgent';
+import { createProxyAgent } from '../util/createProxyAgent';
 import { SocketStatus } from '../types/SocketStatus';
 import * as Errors from '../types/errors';
 import * as Bytes from '../Bytes';
@@ -32,7 +32,8 @@ import type {
   WebSocketResourceOptions,
 } from './WebsocketResources';
 import WebSocketResource, {
-  LibsignalWebSocketResource,
+  connectAuthenticatedLibsignal,
+  connectUnauthenticatedLibsignal,
   TransportOption,
   WebSocketResourceWithShadowing,
 } from './WebsocketResources';
@@ -166,22 +167,38 @@ export class SocketManager extends EventListener {
 
     this.setStatus(SocketStatus.CONNECTING);
 
-    const process = this.connectResource({
-      name: AUTHENTICATED_CHANNEL_NAME,
-      path: '/v1/websocket/',
-      query: { login: username, password },
-      proxyAgent: await this.getProxyAgent(),
-      resourceOptions: {
-        name: AUTHENTICATED_CHANNEL_NAME,
-        keepalive: { path: '/v1/keepalive' },
-        handleRequest: (req: IncomingWebSocketRequest): void => {
-          this.queueOrHandleRequest(req);
-        },
-      },
-      extraHeaders: {
-        'X-Signal-Receive-Stories': String(!this.hasStoriesDisabled),
-      },
-    });
+    const proxyAgent = await this.getProxyAgent();
+    const useLibsignalTransport =
+      window.Signal.RemoteConfig.isEnabled(
+        'desktop.experimentalTransport.enableAuth'
+      ) && this.transportOption(proxyAgent) === TransportOption.Libsignal;
+
+    const process = useLibsignalTransport
+      ? connectAuthenticatedLibsignal({
+          libsignalNet: this.libsignalNet,
+          name: AUTHENTICATED_CHANNEL_NAME,
+          credentials: this.credentials,
+          handler: (req: IncomingWebSocketRequest): void => {
+            this.queueOrHandleRequest(req);
+          },
+          receiveStories: !this.hasStoriesDisabled,
+        })
+      : this.connectResource({
+          name: AUTHENTICATED_CHANNEL_NAME,
+          path: '/v1/websocket/',
+          query: { login: username, password },
+          resourceOptions: {
+            name: AUTHENTICATED_CHANNEL_NAME,
+            keepalive: { path: '/v1/keepalive' },
+            handleRequest: (req: IncomingWebSocketRequest): void => {
+              this.queueOrHandleRequest(req);
+            },
+          },
+          extraHeaders: {
+            'X-Signal-Receive-Stories': String(!this.hasStoriesDisabled),
+          },
+          proxyAgent,
+        });
 
     // Cancel previous connect attempt or close socket
     this.authenticated?.abort();
@@ -575,10 +592,10 @@ export class SocketManager extends EventListener {
   }
 
   private connectLibsignalUnauthenticated(): AbortableProcess<IWebSocketResource> {
-    return LibsignalWebSocketResource.connect(
-      this.libsignalNet,
-      UNAUTHENTICATED_CHANNEL_NAME
-    );
+    return connectUnauthenticatedLibsignal({
+      libsignalNet: this.libsignalNet,
+      name: UNAUTHENTICATED_CHANNEL_NAME,
+    });
   }
 
   private async getUnauthenticatedResource(): Promise<IWebSocketResource> {
@@ -724,10 +741,10 @@ export class SocketManager extends EventListener {
     options: WebSocketResourceOptions
   ): AbortableProcess<IWebSocketResource> {
     // creating an `AbortableProcess` of libsignal websocket connection
-    const shadowingConnection = LibsignalWebSocketResource.connect(
-      this.libsignalNet,
-      options.name
-    );
+    const shadowingConnection = connectUnauthenticatedLibsignal({
+      libsignalNet: this.libsignalNet,
+      name: options.name,
+    });
     const shadowWrapper = async () => {
       // if main connection results in an error,
       // it's propagated as the error of the resulting process

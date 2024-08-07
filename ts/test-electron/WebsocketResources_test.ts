@@ -16,7 +16,9 @@ import Long from 'long';
 import { dropNull } from '../util/dropNull';
 import { SignalService as Proto } from '../protobuf';
 
-import WebSocketResource from '../textsecure/WebsocketResources';
+import WebSocketResource, {
+  ServerRequestType,
+} from '../textsecure/WebsocketResources';
 
 describe('WebSocket-Resource', () => {
   class FakeSocket extends EventEmitter {
@@ -72,8 +74,7 @@ describe('WebSocket-Resource', () => {
       new WebSocketResource(socket as WebSocket, {
         name: 'test',
         handleRequest(request: any) {
-          assert.strictEqual(request.verb, 'PUT');
-          assert.strictEqual(request.path, '/some/path');
+          assert.strictEqual(request.requestType, ServerRequestType.ApiMessage);
           assert.deepEqual(request.body, new Uint8Array([1, 2, 3]));
           request.respond(200, 'OK');
         },
@@ -87,7 +88,7 @@ describe('WebSocket-Resource', () => {
           request: {
             id: requestId,
             verb: 'PUT',
-            path: '/some/path',
+            path: ServerRequestType.ApiMessage.toString(),
             body: new Uint8Array([1, 2, 3]),
           },
         }).finish(),
