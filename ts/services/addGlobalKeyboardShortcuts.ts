@@ -42,7 +42,7 @@ export function addGlobalKeyboardShortcuts(): void {
       return;
     }
 
-    // Super tab :)
+    // Super tab :(
     if (
       (commandOrCtrl && key === 'F6') ||
       (commandOrCtrl && !shiftKey && (key === 't' || key === 'T'))
@@ -55,10 +55,7 @@ export function addGlobalKeyboardShortcuts(): void {
       const focusedIndexes: Array<number> = [];
 
       targets.forEach((target, index) => {
-        if (
-          (focusedElement != null && target === focusedElement) ||
-          target.contains(focusedElement)
-        ) {
+        if (target.contains(focusedElement)) {
           focusedIndexes.push(index);
         }
       });
@@ -75,22 +72,7 @@ export function addGlobalKeyboardShortcuts(): void {
       // elements match (generally going to be a parent element)
       const focusedIndex = focusedIndexes.at(-1) ?? -1;
 
-      const lastIndex = targets.length - 1;
-      const increment = shiftKey ? -1 : 1;
-
-      let index;
-      if (focusedIndex < 0 || focusedIndex >= lastIndex) {
-        index = 0;
-      } else {
-        index = focusedIndex + increment;
-      }
-
-      while (!targets[index]) {
-        index += increment;
-        if (index > lastIndex || index < 0) {
-          index = 0;
-        }
-      }
+      const index = (focusedIndex + 1) % targets.length;
 
       const node = targets[index];
       const firstFocusableElement = matchOrQueryFocusable(node);
