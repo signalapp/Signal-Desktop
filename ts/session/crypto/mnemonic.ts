@@ -20,6 +20,15 @@ export class NotEnoughWordsError extends MnemonicError {
   }
 }
 
+/** NOTE 2024-08-07 (Will) Maximum number of words is 13 */
+export class TooManyWordsError extends MnemonicError {
+  constructor(message = "You've entered too many words, please try again") {
+    super(message);
+    // restore prototype chain
+    Object.setPrototypeOf(this, TooManyWordsError.prototype);
+  }
+}
+
 export class InvalidWordsError extends MnemonicError {
   constructor(message = "You've entered too few words, please try again") {
     super(message);
@@ -103,6 +112,10 @@ export function mnDecode(str: string, wordsetName: string = MN_DEFAULT_WORDSET):
   if (wlist.length < 12) {
     throw new NotEnoughWordsError();
   }
+  if (wlist.length > 13) {
+    throw new TooManyWordsError();
+  }
+
   if (
     (wordset.prefixLen === 0 && wlist.length % 3 !== 0) ||
     (wordset.prefixLen > 0 && wlist.length % 3 === 2)
