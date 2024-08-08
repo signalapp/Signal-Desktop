@@ -92,8 +92,11 @@ export const StickerPicker = React.memo(
         tabIds[recentStickers.length > 0 ? 0 : Math.min(1, tabIds.length)]
       );
       const selectedPack = packs.find(({ id }) => id === currentTab);
+      // Prevent recent stickers from re-rendering each time the user sends a sticker
+      // while keeping the sticker picker open (using Shift).
+      const recentStickersRef = React.useRef(recentStickers);
       const {
-        stickers = recentStickers,
+        stickers = recentStickersRef.current,
         title: packTitle = 'Recent Stickers',
       } = selectedPack || {};
 
@@ -321,7 +324,12 @@ export const StickerPicker = React.memo(
                         <button
                           type="button"
                           className="module-sticker-picker__body__cell module-sticker-picker__time--digital"
-                          onClick={() => onPickTimeSticker('digital')}
+                          onClick={e => {
+                            if (!e.shiftKey) {
+                              onClose();
+                            }
+                            return onPickTimeSticker('digital');
+                          }}
                         >
                           {getDateTimeFormatter({
                             hour: 'numeric',
@@ -337,7 +345,12 @@ export const StickerPicker = React.memo(
                             'icu:stickers__StickerPicker__analog-time'
                           )}
                           className="module-sticker-picker__body__cell module-sticker-picker__time--analog"
-                          onClick={() => onPickTimeSticker('analog')}
+                          onClick={e => {
+                            if (!e.shiftKey) {
+                              onClose();
+                            }
+                            return onPickTimeSticker('analog');
+                          }}
                           type="button"
                         >
                           <span
@@ -378,7 +391,12 @@ export const StickerPicker = React.memo(
                           ref={maybeFocusRef}
                           key={`${packId}-${id}`}
                           className="module-sticker-picker__body__cell"
-                          onClick={() => onPickSticker(packId, id, url)}
+                          onClick={e => {
+                            if (!e.shiftKey) {
+                              onClose();
+                            }
+                            return onPickSticker(packId, id, url);
+                          }}
                         >
                           <img
                             className="module-sticker-picker__body__cell__image"

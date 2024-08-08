@@ -106,22 +106,6 @@ export const StickerButton = React.memo(function StickerButtonInner({
     setOpen,
   ]);
 
-  const handlePickSticker = React.useCallback(
-    (packId: string, stickerId: number, url: string) => {
-      setOpen(false);
-      onPickSticker(packId, stickerId, url);
-    },
-    [setOpen, onPickSticker]
-  );
-
-  const handlePickTimeSticker = React.useCallback(
-    (style: 'analog' | 'digital') => {
-      setOpen(false);
-      onPickTimeSticker?.(style);
-    },
-    [setOpen, onPickTimeSticker]
-  );
-
   const handleClose = React.useCallback(() => {
     setOpen(false);
   }, [setOpen]);
@@ -367,10 +351,8 @@ export const StickerButton = React.memo(function StickerButtonInner({
                     onClickAddPack={
                       onClickAddPack ? handleClickAddPack : undefined
                     }
-                    onPickSticker={handlePickSticker}
-                    onPickTimeSticker={
-                      onPickTimeSticker ? handlePickTimeSticker : undefined
-                    }
+                    onPickSticker={onPickSticker}
+                    onPickTimeSticker={onPickTimeSticker}
                     recentStickers={recentStickers}
                     showPickerHint={showPickerHint}
                   />
