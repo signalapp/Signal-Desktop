@@ -52,7 +52,10 @@ function getToast(toastType: ToastType): AnyToast {
     case ToastType.ConversationArchived:
       return {
         toastType: ToastType.ConversationArchived,
-        parameters: { conversationId: 'some-conversation-id' },
+        parameters: {
+          conversationId: 'some-conversation-id',
+          wasPinned: false,
+        },
       };
     case ToastType.ConversationMarkedUnread:
       return { toastType: ToastType.ConversationMarkedUnread };

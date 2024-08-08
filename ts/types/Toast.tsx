@@ -89,7 +89,7 @@ export type AnyToast =
   | { toastType: ToastType.CaptchaSolved }
   | {
       toastType: ToastType.ConversationArchived;
-      parameters: { conversationId: string };
+      parameters: { conversationId: string; wasPinned: boolean };
     }
   | { toastType: ToastType.ConversationMarkedUnread }
   | { toastType: ToastType.ConversationRemoved; parameters: { title: string } }

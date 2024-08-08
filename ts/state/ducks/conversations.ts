@@ -1201,6 +1201,7 @@ function onArchive(
       throw new Error('onArchive: Conversation not found!');
     }
 
+    const wasPinned = conversation.attributes.isPinned ?? false;
     conversation.setArchived(true);
 
     onConversationClosed(conversationId, 'archive')(
@@ -1215,13 +1216,15 @@ function onArchive(
         toastType: ToastType.ConversationArchived,
         parameters: {
           conversationId,
+          wasPinned,
         },
       },
     });
   };
 }
 function onUndoArchive(
-  conversationId: string
+  conversationId: string,
+  options: { wasPinned?: boolean } = {}
 ): ThunkAction<
   void,
   RootStateType,
@@ -1235,6 +1238,9 @@ function onUndoArchive(
     }
 
     conversation.setArchived(false);
+    if (options.wasPinned) {
+      conversation.pin();
+    }
     showConversation({
       conversationId,
     })(dispatch, getState, null);

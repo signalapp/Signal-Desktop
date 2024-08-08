@@ -23,7 +23,10 @@ export type PropsType = {
   openFileInFolder: (target: string) => unknown;
   OS: string;
   onShowDebugLog: () => unknown;
-  onUndoArchive: (conversaetionId: string) => unknown;
+  onUndoArchive: (
+    conversationId: string,
+    options?: { wasPinned?: boolean }
+  ) => unknown;
   toast?: AnyToast;
   megaphone?: AnyActionableMegaphone;
   centerToast?: boolean;
@@ -166,7 +169,9 @@ export function renderToast({
         toastAction={{
           label: i18n('icu:conversationArchivedUndo'),
           onClick: () => {
-            onUndoArchive(String(toast.parameters.conversationId));
+            onUndoArchive(String(toast.parameters.conversationId), {
+              wasPinned: toast.parameters.wasPinned,
+            });
           },
         }}
       >
