@@ -11,11 +11,6 @@ ENV SOURCE_DATE_EPOCH=0
 # as an environment variable and use that instead.
 ARG NODE_VERSION
 
-# User for building. electron-builder works better when not running as root.
-ARG USERNAME=signaluser
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-
 ENV SIGNAL_ENV=production
 
 # ---
@@ -56,12 +51,6 @@ RUN git config --global --add safe.directory /project
 
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
-# Use non-root user for build.
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
-
-USER $USERNAME
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
