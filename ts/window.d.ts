@@ -47,7 +47,7 @@ declare global {
     persistStore?: Persistor;
     restart: () => void;
     getSeedNodeList: () => Array<string> | undefined;
-    setPassword: (newPassword: string | null, oldPassword: string | null) => Promise<void>;
+    setPassword: (newPassword: string | null, oldPassword: string | null) => Promise<string>;
     isOnline: boolean;
     toggleMediaPermissions: () => Promise<void>;
     toggleCallMediaPermissionsTo: (enabled: boolean) => Promise<void>;
