@@ -33,4 +33,11 @@ fi
 # Perform the build by mounting the project into the container and passing in the 1st command line
 # arg to select the build type (e.g. "public"). The container runs docker-entrypoint.sh.
 # After the process is finished, the resulting package is located in the ./release/ directory.
-docker run --rm -v "$(pwd)":/project -w /project -e SOURCE_DATE_EPOCH=$source_date_epoch signal-desktop $1
+# npm cache set to tmp to fix permissions issues.
+docker run --rm \
+  -v "$(pwd)":/project \
+  -w /project \
+  --user "$(id -u):$(id -g)" \
+  -e NPM_CONFIG_CACHE=/tmp/.npm-cache \
+  -e SOURCE_DATE_EPOCH=$source_date_epoch \
+  signal-desktop $1

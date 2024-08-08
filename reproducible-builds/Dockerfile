@@ -52,6 +52,12 @@ RUN git config --global --add safe.directory /project
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
+# For electron builder cache.
+# It's tricky to synchronize user/group permissions between the host and container without creating
+# host-specific users at container build time, which would break reproducibility.
+# Instead of doing that we will fix permissions on required directories.
+RUN mkdir /.cache && chmod -R 777 /.cache
+
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 # Specify build type using CMD, which affects the app version and name of the resulting package.
