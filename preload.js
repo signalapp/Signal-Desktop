@@ -63,13 +63,11 @@ window.setZoomFactor = number => {
 // Set the password for the database
 window.setPassword = async (passPhrase, oldPhrase) =>
   new Promise((resolve, reject) => {
-    ipc.once('set-password-response', (_event, error) => {
-      if (error) {
-        reject(error);
-        return;
+    ipc.once('set-password-response', (_event, response) => {
+      if (!response) {
+        return reject('window.setPassword: No response from main process');
       }
-      resolve(undefined);
-      return;
+      return resolve(response);
     });
     ipc.send('set-password', passPhrase, oldPhrase);
   });

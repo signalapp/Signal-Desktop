@@ -253,6 +253,7 @@ function getPasswordHash() {
   const item = getItemById(PASS_HASH_ID);
   return item && item.value;
 }
+
 function savePasswordHash(hash: string) {
   if (isEmpty(hash)) {
     removePasswordHash();
@@ -262,6 +263,7 @@ function savePasswordHash(hash: string) {
   const data = { id: PASS_HASH_ID, value: hash };
   createOrUpdateItem(data);
 }
+
 function removePasswordHash() {
   removeItemById(PASS_HASH_ID);
 }
