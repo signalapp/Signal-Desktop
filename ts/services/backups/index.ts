@@ -129,6 +129,21 @@ export class BackupsService {
     return backupsService.importBackup(() => createReadStream(backupFile));
   }
 
+  public async download(): Promise<void> {
+    const path = window.Signal.Migrations.getAbsoluteTempPath(
+      randomBytes(32).toString('hex')
+    );
+
+    const stream = await this.api.download();
+    await pipeline(stream, createWriteStream(path));
+
+    try {
+      await this.importFromDisk(path);
+    } finally {
+      await unlink(path);
+    }
+  }
+
   public async importBackup(createBackupStream: () => Readable): Promise<void> {
     strictAssert(!this.isRunning, 'BackupService is already running');
 
@@ -281,7 +296,7 @@ export class BackupsService {
       await this.api.refresh();
       log.info('Backup: refreshed');
     } catch (error) {
-      log.error('Backup: periodic refresh kufailed', Errors.toLogFormat(error));
+      log.error('Backup: periodic refresh failed', Errors.toLogFormat(error));
     }
   }
 }
