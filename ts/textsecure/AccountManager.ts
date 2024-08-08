@@ -779,7 +779,7 @@ export default class AccountManager extends EventTarget {
     serviceIdKind: ServiceIdKind,
     identityKey: KeyPairType
   ): Promise<KyberPreKeyRecord> {
-    const logId = `generateLastRestortKyberKey(${serviceIdKind})`;
+    const logId = `generateLastResortKyberKey(${serviceIdKind})`;
 
     const kyberKeyId = getNextKeyId(serviceIdKind, KYBER_KEY_ID_KEY);
     if (typeof kyberKeyId !== 'number') {

@@ -65,6 +65,9 @@ describe('attachments', function (this: Mocha.Suite) {
       .setInputFiles(
         path.join(__dirname, '..', '..', '..', 'fixtures', 'cat-screenshot.png')
       );
+    await page
+      .locator('.module-image.module-staged-attachment .module-image__image')
+      .waitFor();
     const input = await app.waitForEnabledComposer();
     await typeIntoInput(input, 'This is my cat');
     await input.press('Enter');
