@@ -10,7 +10,9 @@ import * as Curve from './Curve';
 import { start as conversationControllerStart } from './ConversationController';
 import * as Groups from './groups';
 import OS from './util/os/osMain';
+import { isProduction } from './util/version';
 import * as RemoteConfig from './RemoteConfig';
+import { DataReader, DataWriter } from './sql/Client';
 
 // Components
 import { ConfirmationDialog } from './components/ConfirmationDialog';
@@ -463,5 +465,12 @@ export const setup = (options: {
     Services,
     State,
     Types,
+
+    ...(isProduction(window.getVersion())
+      ? {}
+      : {
+          DataReader,
+          DataWriter,
+        }),
   };
 };
