@@ -39,14 +39,21 @@ export const Timestamp = (props: Props) => {
     return null;
   }
 
-  const momentValue = moment(timestamp);
-  // this is a hack to make the date string shorter, looks like moment does not have a localized way of doing this for now.
+  let title = '';
+  let dateString = '';
 
-  const dateString = momentFromNow
-    ? momentValue.fromNow().replace('minutes', 'mins').replace('minute', 'min')
-    : momentValue.format('lll');
+  // NOTE some existing groups might not have a joinedAtSeconds and we use a fallback value of 1 in order to poll and show up in the conversations list
+  if (timestamp !== 1) {
+    const momentValue = moment(timestamp);
+    // this is a hack to make the date string shorter, looks like moment does not have a localized way of doing this for now.
 
-  const title = moment(timestamp).format('llll');
+    dateString = momentFromNow
+      ? momentValue.fromNow().replace('minutes', 'mins').replace('minute', 'min')
+      : momentValue.format('lll');
+
+    title = moment(timestamp).format('llll');
+  }
+
   if (props.isConversationListItem) {
     return <TimestampContainerListItem title={title}>{dateString}</TimestampContainerListItem>;
   }
