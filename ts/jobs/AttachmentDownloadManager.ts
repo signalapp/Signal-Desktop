@@ -180,18 +180,11 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
 
     const newJob = parseResult.data;
 
-    const { isAlreadyRunning } = await this._addJob(newJob, {
+    await this._addJob(newJob, {
       forceStart: urgency === AttachmentDownloadUrgency.IMMEDIATE,
     });
 
-    if (isAlreadyRunning) {
-      return attachment;
-    }
-
-    return {
-      ...attachment,
-      pending: !this.params.shouldHoldOffOnStartingQueuedJobs?.(),
-    };
+    return attachment;
   }
 
   updateVisibleTimelineMessages(messageIds: Array<string>): void {

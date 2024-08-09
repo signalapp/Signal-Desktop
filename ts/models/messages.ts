@@ -1348,6 +1348,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     this.set(value);
+    queueUpdateMessage(this.attributes);
+
     return true;
   }
 
