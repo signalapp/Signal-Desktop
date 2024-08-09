@@ -306,9 +306,14 @@ async function shouldDropIncomingPrivateMessage(
   envelope: EnvelopePlus,
   content: SignalService.Content
 ) {
+  const isUs = UserUtils.isUsFromCache(envelope.source);
   // sentAtMoreRecentThanWrapper is going to be true, if the latest contact wrapper we processed was roughly more recent that this message timestamp
-  const moreRecentOrNah = await sentAtMoreRecentThanWrapper(sentAtTimestamp, 'ContactsConfig');
+  const moreRecentOrNah = await sentAtMoreRecentThanWrapper(
+    sentAtTimestamp,
+    isUs ? 'UserConfig' : 'ContactsConfig'
+  );
   const isSyncedMessage = isUsFromCache(envelope.source);
+
 
   if (moreRecentOrNah === 'wrapper_more_recent') {
     // we need to check if that conversation is already in the wrapper

@@ -21,6 +21,7 @@ import {
   PersistedJob,
   RunJobResult,
 } from '../PersistedJob';
+import { DURATION } from '../../../constants';
 
 const defaultMsBetweenRetries = 15000; // a long time between retries, to avoid running multiple jobs at the same time, when one was postponed at the same time as one already planned (5s)
 const defaultMaxAttempts = 2;
@@ -54,6 +55,8 @@ async function retrieveSingleDestinationChanges(
 
   return { messages: outgoingConfResults, allOldHashes: compactedHashes };
 }
+
+let firstJobStart: number | undefined;
 
 /**
  * This function is run once we get the results from the multiple batch-send.
@@ -191,6 +194,18 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
         return RunJobResult.Success;
       }
       const singleDestChanges = await retrieveSingleDestinationChanges(thisJobDestination);
+      if (!firstJobStart) {
+        firstJobStart = Date.now();
+      }
+
+      // not ideal, but we need to postpone the first sync job to after we've handled the incoming config messages
+      // otherwise we are pushing an incomplete config to the network, which will need to be merged and that action alone
+      // will bump the timestamp of the config.
+      // We rely on the timestamp of configs to know when to drop messages that would unhide/unremove a conversation.
+      // The whole thing is a dirty fix of a dirty fix, that will **eventually** need proper fixing
+      if (Date.now() - firstJobStart <= 20 * DURATION.SECONDS) {
+        return RunJobResult.RetryJobIfPossible;
+      }
 
       // If there are no pending changes then the job can just complete (next time something
       // is updated we want to try and run immediately so don't scuedule another run in this case)
