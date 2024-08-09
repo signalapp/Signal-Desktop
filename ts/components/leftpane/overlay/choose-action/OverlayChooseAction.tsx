@@ -71,6 +71,7 @@ export const OverlayChooseAction = () => {
           title={window.i18n('newMessage')}
           ariaLabel={'New message button'}
           iconType={'chatBubble'}
+          iconSize={20}
           onClick={openNewMessage}
           dataTestId="chooser-new-conversation-button"
         />
@@ -78,7 +79,7 @@ export const OverlayChooseAction = () => {
           title={window.i18n('createGroup')}
           ariaLabel={'Create a group button'}
           iconType={'group'}
-          iconSize={36}
+          iconSize={30}
           onClick={openCreateGroup}
           dataTestId="chooser-new-group"
         />
@@ -86,6 +87,7 @@ export const OverlayChooseAction = () => {
           title={window.i18n('joinOpenGroup')}
           ariaLabel={'Join a community button'}
           iconType={'communities'}
+          iconSize={20}
           onClick={openJoinCommunity}
           dataTestId="chooser-new-community"
         />
@@ -93,6 +95,7 @@ export const OverlayChooseAction = () => {
           title={window.i18n('sessionInviteAFriend')}
           ariaLabel={'Invite a friend button'}
           iconType={'addUser'}
+          iconSize={20}
           onClick={inviteAFriend}
           dataTestId="chooser-invite-friend"
         />

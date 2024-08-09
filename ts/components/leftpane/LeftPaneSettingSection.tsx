@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import styled, { CSSProperties } from 'styled-components';
+import styled from 'styled-components';
 
 import { resetConversationExternal } from '../../state/ducks/conversations';
 import { updateDeleteAccountModal } from '../../state/ducks/modalDialog';
@@ -13,7 +13,7 @@ import { getFocusedSettingsSection } from '../../state/selectors/section';
 import { useHideRecoveryPasswordEnabled } from '../../state/selectors/settings';
 import type { SessionSettingCategory } from '../../types/ReduxTypes';
 import { Flex } from '../basic/Flex';
-import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
+import { SessionIcon, SessionIconType } from '../icon';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 
 const StyledSettingsSectionTitle = styled.span`
@@ -47,58 +47,58 @@ type Categories = {
   title: string;
   icon: {
     type: SessionIconType;
-    size?: SessionIconSize | number;
+    size: number;
     color?: string;
-    style?: CSSProperties;
   };
 };
 
 const getCategories = (): Array<Categories> => {
+  const forcedSize = { size: 19 };
   return [
     {
       id: 'privacy' as const,
       title: window.i18n('privacySettingsTitle'),
-      icon: { type: 'padlock', size: 28, style: { marginLeft: '-2px' } },
+      icon: { type: 'padlock', ...forcedSize },
     },
     {
       id: 'notifications' as const,
       title: window.i18n('notificationsSettingsTitle'),
-      icon: { type: 'speaker' },
+      icon: { type: 'speaker', ...forcedSize },
     },
     {
       id: 'conversations' as const,
       title: window.i18n('conversationsSettingsTitle'),
-      icon: { type: 'chatBubble' },
+      icon: { type: 'chatBubble', ...forcedSize },
     },
     {
       id: 'messageRequests' as const,
       title: window.i18n('openMessageRequestInbox'),
-      icon: { type: 'messageRequest', style: { marginLeft: '1px' } },
+      icon: { type: 'messageRequest', ...forcedSize },
     },
     {
       id: 'appearance' as const,
       title: window.i18n('appearanceSettingsTitle'),
-      icon: { type: 'paintbrush', style: { marginLeft: '1px' } },
+      icon: { type: 'paintbrush', ...forcedSize },
     },
     {
       id: 'permissions',
       title: window.i18n('permissionsSettingsTitle'),
-      icon: { type: 'checkCircle', style: { marginLeft: '1px' } },
+      icon: { type: 'checkCircle', ...forcedSize },
     },
     {
       id: 'help' as const,
       title: window.i18n('helpSettingsTitle'),
-      icon: { type: 'question', size: 24 },
+      icon: { type: 'question', ...forcedSize },
     },
     {
       id: 'recoveryPassword' as const,
       title: window.i18n('sessionRecoveryPassword'),
-      icon: { type: 'recoveryPasswordFill', size: 24 },
+      icon: { type: 'recoveryPasswordFill', ...forcedSize },
     },
     {
       id: 'clearData' as const,
       title: window.i18n('clearDataSettingsTitle'),
-      icon: { type: 'delete', color: 'var(--danger-color)' },
+      icon: { type: 'delete', ...forcedSize, color: 'var(--danger-color)' },
     },
   ];
 };
@@ -143,9 +143,9 @@ const LeftPaneSettingsCategoryRow = (props: { item: Categories }) => {
       <StyledIconContainer>
         <SessionIcon
           iconType={icon.type}
-          iconSize={icon.size || 23}
+          iconSize={icon.size}
+          sizeIsWidth={true}
           iconColor={icon.color || 'var(--text-primary-color)'}
-          style={icon.style}
         />
       </StyledIconContainer>
       <StyledSettingsSectionTitle style={{ color: isClearData ? 'var(--danger-color)' : 'unset' }}>
