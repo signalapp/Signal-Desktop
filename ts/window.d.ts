@@ -170,6 +170,10 @@ export type SignalCoreType = {
   };
   conversationControllerStart: () => void;
   challengeHandler?: ChallengeHandler;
+
+  // Only for debugging in Dev Tools
+  DataReader?: unknown;
+  DataWriter?: unknown;
 };
 
 declare global {
