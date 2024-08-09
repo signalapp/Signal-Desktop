@@ -1147,8 +1147,15 @@ export type GetBackupCDNCredentialsResponseType = z.infer<
   typeof getBackupCDNCredentialsResponseSchema
 >;
 
+export type GetBackupStreamOptionsType = Readonly<{
+  cdn: number;
+  backupDir: string;
+  backupName: string;
+  headers: Record<string, string>;
+}>;
+
 export const getBackupInfoResponseSchema = z.object({
-  cdn: z.number(),
+  cdn: z.literal(3),
   backupDir: z.string(),
   mediaDir: z.string(),
   backupName: z.string(),
@@ -1380,6 +1387,7 @@ export type WebAPIType = {
   getBackupInfo: (
     headers: BackupPresentationHeadersType
   ) => Promise<GetBackupInfoResponseType>;
+  getBackupStream: (options: GetBackupStreamOptionsType) => Promise<Readable>;
   getBackupUploadForm: (
     headers: BackupPresentationHeadersType
   ) => Promise<AttachmentUploadFormResponseType>;
@@ -1707,6 +1715,7 @@ export function initialize({
       getBackupCredentials,
       getBackupCDNCredentials,
       getBackupInfo,
+      getBackupStream,
       getBackupMediaUploadForm,
       getBackupUploadForm,
       getBadgeImageFile,
@@ -2762,6 +2771,20 @@ export function initialize({
       });
 
       return getBackupInfoResponseSchema.parse(res);
+    }
+
+    async function getBackupStream({
+      headers,
+      cdn,
+      backupDir,
+      backupName,
+    }: GetBackupStreamOptionsType): Promise<Readable> {
+      return _getAttachment({
+        cdnPath: `/backups/${encodeURIComponent(backupDir)}/${encodeURIComponent(backupName)}`,
+        cdnNumber: cdn,
+        redactor: _createRedactor(backupDir, backupName),
+        headers,
+      });
     }
 
     async function getBackupMediaUploadForm(

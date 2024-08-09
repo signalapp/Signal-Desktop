@@ -1482,6 +1482,12 @@ export async function startApp(): Promise<void> {
         )
       );
 
+      // Now that we authenticated - time to download the backup!
+      if (isBackupEnabled()) {
+        backupsService.start();
+        drop(backupsService.download());
+      }
+
       // Cancel throttled calls to refreshRemoteConfig since our auth changed.
       window.Signal.RemoteConfig.maybeRefreshRemoteConfig.cancel();
       drop(window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server));

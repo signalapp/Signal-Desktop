@@ -1,6 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { type Readable } from 'node:stream';
 import { strictAssert } from '../../util/assert';
 import type {
   WebAPIType,
@@ -63,6 +64,18 @@ export class BackupAPI {
       absoluteCiphertextPath: filePath,
       ciphertextFileSize: fileSize,
       uploadForm: form,
+    });
+  }
+
+  public async download(): Promise<Readable> {
+    const { cdn, backupDir, backupName } = await this.getInfo();
+    const { headers } = await this.credentials.getCDNReadCredentials(cdn);
+
+    return this.server.getBackupStream({
+      cdn,
+      backupDir,
+      backupName,
+      headers,
     });
   }
 
