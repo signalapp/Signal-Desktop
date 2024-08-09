@@ -52,6 +52,7 @@ import { HexKeyPair } from './keypairs';
 import { queueAllCachedFromSource } from './receiver';
 import { EnvelopePlus } from './types';
 import { ConversationTypeEnum, CONVERSATION_PRIORITIES } from '../models/types';
+import { CONVERSATION } from '../session/constants';
 
 function groupByNamespace(incomingConfigs: Array<RetrieveMessageItemWithNamespace>) {
   const groupedByVariant: Map<
@@ -603,8 +604,9 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
     const members = fromWrapper.members.map(m => m.pubkeyHex);
     const admins = fromWrapper.members.filter(m => m.isAdmin).map(m => m.pubkeyHex);
 
-    // NOTE some existing groups might not have a joinedAtSeconds and we need a truthy fallback value in order to poll and show up in the conversations list
-    const creationTimestamp = fromWrapper.joinedAtSeconds ? fromWrapper.joinedAtSeconds * 1000 : 1;
+    const creationTimestamp = fromWrapper.joinedAtSeconds
+      ? fromWrapper.joinedAtSeconds * 1000
+      : CONVERSATION.LAST_JOINED_FALLBACK_TIMESTAMP;
 
     // then for all the existing legacy group in the wrapper, we need to override the field of what we have in the DB with what is in the wrapper
     // We only set group admins on group creation

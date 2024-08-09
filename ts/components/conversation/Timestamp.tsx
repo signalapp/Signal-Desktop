@@ -3,6 +3,7 @@ import moment from 'moment';
 import useInterval from 'react-use/lib/useInterval';
 import useUpdate from 'react-use/lib/useUpdate';
 import styled from 'styled-components';
+import { CONVERSATION } from '../../session/constants';
 
 type Props = {
   timestamp?: number;
@@ -42,8 +43,7 @@ export const Timestamp = (props: Props) => {
   let title = '';
   let dateString = '';
 
-  // NOTE some existing groups might not have a joinedAtSeconds and we use a fallback value of 1 in order to poll and show up in the conversations list
-  if (timestamp !== 1) {
+  if (timestamp !== CONVERSATION.LAST_JOINED_FALLBACK_TIMESTAMP) {
     const momentValue = moment(timestamp);
     // this is a hack to make the date string shorter, looks like moment does not have a localized way of doing this for now.
 
