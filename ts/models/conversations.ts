@@ -4152,7 +4152,7 @@ export class ConversationModel extends window.Backbone
       )
     );
     drop(
-      this.queueJob('maybeAddRemovedNotificaiton', async () =>
+      this.queueJob('maybeAddRemovedNotification', async () =>
         this.maybeSetContactRemoved()
       )
     );
