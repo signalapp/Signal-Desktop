@@ -58,7 +58,7 @@ const NoContacts = () => {
 };
 
 /**
- * Makes some validity check and return true if the group was indead created
+ * Makes some validity check and return true if the group was indeed created
  */
 async function createClosedGroupWithErrorHandling(
   groupName: string,
@@ -75,13 +75,14 @@ async function createClosedGroupWithErrorHandling(
     return false;
   }
 
-  // >= because we add ourself as a member AFTER this. so a 10 group is already invalid as it will be 11 with ourself
+  // >= because we add ourself as a member AFTER this. so a 10 group is already invalid as it will be 11 when we are included
   // the same is valid with groups count < 1
 
   if (groupMemberIds.length < 1) {
     onError(window.i18n('pickClosedGroupMember'));
     return false;
   }
+
   if (groupMemberIds.length >= VALIDATION.CLOSED_GROUP_SIZE_LIMIT) {
     onError(window.i18n('closedGroupMaxSize'));
     return false;

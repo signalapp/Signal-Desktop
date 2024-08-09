@@ -62,6 +62,8 @@ export const CONVERSATION = {
   MAX_VOICE_MESSAGE_DURATION: 300,
   MAX_CONVO_UNREAD_COUNT: 999,
   MAX_GLOBAL_UNREAD_COUNT: 99, // the global one does not look good with 4 digits (999+) so we have a smaller one for it
+  /** NOTE some existing groups might not have joinedAtSeconds and we need a fallback value that is not falsy in order to poll and show up in the conversations list */
+  LAST_JOINED_FALLBACK_TIMESTAMP: 1,
 } as const;
 
 /**
