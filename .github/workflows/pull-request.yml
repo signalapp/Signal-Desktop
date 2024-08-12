@@ -6,7 +6,7 @@ on:
     branches:
       - clearnet
       - unstable
-      - unstable1
+      - release/
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}

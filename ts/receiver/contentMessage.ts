@@ -306,8 +306,12 @@ async function shouldDropIncomingPrivateMessage(
   envelope: EnvelopePlus,
   content: SignalService.Content
 ) {
+  const isUs = UserUtils.isUsFromCache(envelope.source);
   // sentAtMoreRecentThanWrapper is going to be true, if the latest contact wrapper we processed was roughly more recent that this message timestamp
-  const moreRecentOrNah = await sentAtMoreRecentThanWrapper(sentAtTimestamp, 'ContactsConfig');
+  const moreRecentOrNah = await sentAtMoreRecentThanWrapper(
+    sentAtTimestamp,
+    isUs ? 'UserConfig' : 'ContactsConfig'
+  );
   const isSyncedMessage = isUsFromCache(envelope.source);
 
   if (moreRecentOrNah === 'wrapper_more_recent') {
@@ -319,30 +323,50 @@ async function shouldDropIncomingPrivateMessage(
         ? content.dataMessage?.syncTarget || undefined
         : envelope.source;
 
+      // handle the `us` case first, as we will never find ourselves in the contacts wrapper. The NTS details are in the UserProfile wrapper.
+      if (isUs) {
+        const us = getConversationController().get(envelope.source);
+        const ourPriority = us?.get('priority') || CONVERSATION_PRIORITIES.default;
+        if (us && ourPriority <= CONVERSATION_PRIORITIES.hidden) {
+          // if the wrapper data is more recent than this message and the NTS conversation is hidden, just drop this incoming message to avoid showing the NTS conversation again.
+          window.log.info(
+            `shouldDropIncomingPrivateMessage: received message in NTS which appears to be hidden in our most recent libsession userconfig, sentAt: ${sentAtTimestamp}. Dropping it`
+          );
+          return true;
+        }
+        window.log.info(
+          `shouldDropIncomingPrivateMessage: received message on conversation ${syncTargetOrSource} which appears to NOT be hidden/removed in our most recent libsession userconfig, sentAt: ${sentAtTimestamp}. `
+        );
+        return false;
+      }
+
       if (!syncTargetOrSource) {
         return false;
       }
 
-      const privateConvoInWrapper = await ContactsWrapperActions.get(syncTargetOrSource);
-      if (
-        !privateConvoInWrapper ||
-        privateConvoInWrapper.priority <= CONVERSATION_PRIORITIES.hidden
-      ) {
-        // the wrapper is more recent that this message and there is no such private conversation. Just drop this incoming message.
-        window.log.info(
-          `received message on conversation ${syncTargetOrSource} which appears to be hidden/removed in our most recent libsession contactconfig, sentAt: ${sentAtTimestamp}. Dropping it`
-        );
-        return true;
-      }
+      if (syncTargetOrSource.startsWith('05')) {
+        const privateConvoInWrapper = await ContactsWrapperActions.get(syncTargetOrSource);
+        if (
+          !privateConvoInWrapper ||
+          privateConvoInWrapper.priority <= CONVERSATION_PRIORITIES.hidden
+        ) {
+          // the wrapper is more recent that this message and there is no such private conversation. Just drop this incoming message.
+          window.log.info(
+            `shouldDropIncomingPrivateMessage: received message on conversation ${syncTargetOrSource} which appears to be hidden/removed in our most recent libsession contactconfig, sentAt: ${sentAtTimestamp}. Dropping it`
+          );
+          return true;
+        }
 
-      window.log.info(
-        `received message on conversation ${syncTargetOrSource} which appears to NOT be hidden/removed in our most recent libsession contactconfig, sentAt: ${sentAtTimestamp}. `
-      );
+        window.log.info(
+          `shouldDropIncomingPrivateMessage: received message on conversation ${syncTargetOrSource} which appears to NOT be hidden/removed in our most recent libsession contactconfig, sentAt: ${sentAtTimestamp}. `
+        );
+      } else {
+        window.log.info(
+          `shouldDropIncomingPrivateMessage: received message on conversation ${syncTargetOrSource} but neither NTS not 05. Probably nothing to do but let it through. `
+        );
+      }
     } catch (e) {
-      window.log.warn(
-        'ContactsWrapperActions.get in handleSwarmDataMessage failed with',
-        e.message
-      );
+      window.log.warn('shouldDropIncomingPrivateMessage: failed with', e.message);
     }
   }
   return false;

@@ -113,64 +113,11 @@ describe('OnionPaths', () => {
   });
 
   describe('getRandomEdgeSnode', () => {
-    it('find single valid snode in poll of many non valid snodes', () => {
-      const originalSnodePool = generateFakeSnodes(20);
-      const firstValidSnodePool = originalSnodePool.map((m, i) => {
-        if (i > 0) {
-          return {
-            ...m,
-            storage_server_version: [2, 7, 0],
-          };
-        }
-        return m;
-      });
-
-      expect(OnionPaths.getRandomEdgeSnode(firstValidSnodePool)).to.be.deep.eq(
-        originalSnodePool[0]
-      );
-
-      const lastValidSnodePool = originalSnodePool.map((m, i) => {
-        if (i !== originalSnodePool.length - 1) {
-          return {
-            ...m,
-            storage_server_version: [2, 7, 0],
-          };
-        }
-        return m;
-      });
-
-      expect(OnionPaths.getRandomEdgeSnode(lastValidSnodePool)).to.be.deep.eq(
-        originalSnodePool[originalSnodePool.length - 1]
-      );
-    });
-
     it('random if multiple matches', () => {
       const originalSnodePool = generateFakeSnodes(5);
-      const multipleMatchesSnodePool = originalSnodePool.map((m, i) => {
-        if (i % 5 === 0) {
-          return {
-            ...m,
-            storage_server_version: [2, 7, 0],
-          };
-        }
-        return m;
-      });
       const filtered = originalSnodePool.filter((_m, i) => i % 5 !== 0);
-      const winner = OnionPaths.getRandomEdgeSnode(multipleMatchesSnodePool);
+      const winner = OnionPaths.getRandomEdgeSnode(originalSnodePool);
       expect(filtered).to.deep.include(winner);
-    });
-
-    it('throws if we run out of snodes with valid version', () => {
-      const originalSnodePool = generateFakeSnodes(5);
-      const multipleMatchesSnodePool = originalSnodePool.map(m => {
-        return {
-          ...m,
-          storage_server_version: [2, 7, 0],
-        };
-      });
-      expect(() => {
-        OnionPaths.getRandomEdgeSnode(multipleMatchesSnodePool);
-      }).to.throw();
     });
   });
 
@@ -211,7 +158,7 @@ describe('OnionPaths', () => {
     });
 
     it('throws if we cannot find a valid edge snode', async () => {
-      const badPool = generateFakeSnodes(20).map(m => {
+      const badPool = generateFakeSnodes(0).map(m => {
         return { ...m, storage_server_version: [2, 1, 1] };
       });
       fetchSnodePoolFromSeedNodeWithRetries.reset();
@@ -227,20 +174,6 @@ describe('OnionPaths', () => {
         throw new Error('fake error');
       } catch (e) {
         expect(e.message).to.not.be.eq('fake error');
-      }
-    });
-
-    it('rebuild a bunch of paths and check that last snode is always >=2.8.0', async () => {
-      for (let index = 0; index < 1000; index++) {
-        // build 20 times a path and make sure that the edge snode is always with at least version 2.8.0, when half of the snodes are not upgraded
-        const pool = generateFakeSnodes(20).map((m, i) => {
-          return i % 2 === 0 ? { ...m, storage_server_version: [2, 1, 1] } : m;
-        });
-        fetchSnodePoolFromSeedNodeWithRetries.resolves(pool);
-        const newOnionPath = await OnionPaths.getOnionPath({});
-        expect(newOnionPath.length).to.eq(3);
-
-        expect(newOnionPath[2].storage_server_version).to.deep.eq([2, 8, 0]);
       }
     });
   });

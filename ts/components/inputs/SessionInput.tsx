@@ -91,7 +91,6 @@ const StyledInput = styled(motion.input)<{
 `;
 
 export const StyledTextAreaContainer = styled(motion.div)<{
-  noValue: boolean;
   error: boolean;
   textSize: TextSizes;
   centerText?: boolean;
@@ -99,11 +98,12 @@ export const StyledTextAreaContainer = styled(motion.div)<{
 }>`
   display: flex;
   align-items: center;
-  overflow: hidden;
   position: relative;
-  height: ${props => (props.textSize ? `calc(var(--font-size-${props.textSize}) * 4)` : '48px')};
+  line-height: 1;
+  min-height: 80px;
+  height: 100%;
   width: 100%;
-  margin: var(--margins-sm) var(--margins-md);
+  padding: 0 var(--margins-md);
 
   background: transparent;
   color: ${props => (props.error ? 'var(--danger-color)' : 'var(--input-text-color)')};
@@ -111,40 +111,55 @@ export const StyledTextAreaContainer = styled(motion.div)<{
 
   font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
   ${props => `font-size: var(--font-size-${props.textSize});`}
-  line-height: 1;
-
-  ${props => props.centerText && 'text-align: center;'}
 
   textarea {
     display: flex;
     height: 100%;
     width: 100%;
-    padding: 0;
+    padding: var(--margins-md) 0;
     outline: 0;
     border: none;
     background: transparent;
-
-    position: absolute;
-    top: ${props =>
-      `calc(var(--font-size-${props.textSize}) + ${props.textSize === 'xl' ? '8px' : '5px'})`};
 
     resize: none;
     word-break: break-all;
     user-select: all;
 
-    ${props => props.centerText && 'text-align: center;'}
-
     &:placeholder-shown {
+      line-height: 1;
       font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
       ${props => `font-size: var(--font-size-${props.textSize});`}
-      line-height: 1;
     }
 
     &::placeholder {
       color: var(--input-text-placeholder-color);
-      ${props => props.centerText && 'text-align: center;'}
     }
   }
+`;
+
+const StyledPlaceholder = styled(motion.div)<{
+  error: boolean;
+  textSize: TextSizes;
+  editable: boolean;
+  centerText?: boolean;
+  monospaced?: boolean;
+}>`
+  position: relative;
+  width: 100%;
+  min-height: 80px;
+  height: 100%;
+  transition: opacity var(--default-duration) color var(--default-duration);
+  ${props => props.editable && 'cursor: pointer;'}
+  line-height: 1;
+
+  background: transparent;
+  color: ${props => (props.error ? 'var(--danger-color)' : 'var(--input-text-color)')};
+
+  font-family: ${props => (props.monospaced ? 'var(--font-mono)' : 'var(--font-default)')};
+  font-size: ${props => `var(--font-size-${props.textSize})`};
+  ${props =>
+    props.centerText &&
+    'text-align: center; display: flex; align-items: center; justify-content: center;'}
 `;
 
 const ErrorItem = (props: { id: string; error: string }) => {
@@ -281,6 +296,7 @@ export const SessionInput = (props: Props) => {
   const [errorString, setErrorString] = useState('');
   const [textErrorStyle, setTextErrorStyle] = useState(false);
   const [forceShow, setForceShow] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const textAreaRef = useRef(inputRef?.current || null);
 
@@ -309,7 +325,6 @@ export const SessionInput = (props: Props) => {
     }
   };
 
-  // TODO[epic=ses-893] Type inputProps properly
   const inputProps: any = {
     id,
     type: correctType,
@@ -329,6 +344,9 @@ export const SessionInput = (props: Props) => {
     onBlur: (event: ChangeEvent<HTMLInputElement>) => {
       if (editable && !disableOnBlurEvent) {
         updateInputValue(event);
+        if (isEmpty(value) && isFocused) {
+          setIsFocused(false);
+        }
       }
     },
     onKeyDown: (event: KeyboardEvent) => {
@@ -386,11 +404,29 @@ export const SessionInput = (props: Props) => {
       >
         {isTextArea ? (
           <StyledTextAreaContainer {...containerProps}>
-            <textarea
-              {...inputProps}
-              ref={inputRef || textAreaRef}
-              aria-label={ariaLabel || 'session input text area'}
-            />
+            {isFocused ? (
+              <textarea
+                {...inputProps}
+                placeholder={''}
+                ref={inputRef || textAreaRef}
+                aria-label={ariaLabel || 'session input text area'}
+              />
+            ) : (
+              <StyledPlaceholder
+                error={textErrorStyle}
+                textSize={textSize}
+                editable={editable}
+                centerText={centerText}
+                monospaced={monospaced}
+                onClick={() => {
+                  if (editable) {
+                    setIsFocused(true);
+                  }
+                }}
+              >
+                {editable ? placeholder : value}
+              </StyledPlaceholder>
+            )}
           </StyledTextAreaContainer>
         ) : (
           <StyledInput

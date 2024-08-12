@@ -6,6 +6,9 @@ import { ClipRule, FillRule } from './Icons';
 
 export type SessionIconProps = {
   iconType: SessionIconType;
+  /**
+   * iconSize is usually the height of the icon, we then have a ratio for each icons to calculate the width.
+   * see sizeIsWidth for how to do the opposite */
   iconSize: SessionIconSize | number;
   iconColor?: string;
   iconRotation?: number;
@@ -19,6 +22,8 @@ export type SessionIconProps = {
   style?: CSSProperties;
   dataTestId?: string;
   unreadCount?: number;
+  /** for some usecases, we want to fix the width of the icon and have the height be calculated from the ratio of the icon */
+  sizeIsWidth?: boolean;
 };
 
 const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
@@ -187,24 +192,28 @@ export const SessionIcon = (props: SessionIconProps) => {
     iconPadding,
     style,
     dataTestId,
+    sizeIsWidth,
   } = props;
   let { iconSize, iconRotation } = props;
   iconSize = iconSize || 'medium';
   iconRotation = iconRotation || 0;
 
-  const iconDimensions = getIconDimensionFromIconSize(iconSize);
+  const calculatedIconSize = getIconDimensionFromIconSize(iconSize);
   const iconDef = icons[iconType];
-  const ratio = iconDef?.ratio || 1;
+  const ratio = iconDef.ratio;
   const fill = iconDef?.fill || undefined;
   const clipRule = iconDef?.clipRule || 'nonzero';
   const fillRule = iconDef?.fillRule || 'nonzero';
+
+  const width = sizeIsWidth ? calculatedIconSize : calculatedIconSize * ratio;
+  const height = sizeIsWidth ? calculatedIconSize / ratio : calculatedIconSize;
 
   return (
     <SessionSvg
       viewBox={iconDef.viewBox}
       path={iconDef.path}
-      width={iconDimensions * ratio}
-      height={iconDimensions}
+      width={width}
+      height={height}
       rotateDuration={rotateDuration}
       glowDuration={glowDuration}
       glowStartDelay={glowStartDelay}

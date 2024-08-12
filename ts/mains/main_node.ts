@@ -1064,13 +1064,15 @@ ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
       sqlNode.setSQLPassword(defaultKey);
       sqlNode.removePasswordHash();
       userConfig.set('dbHasPassword', false);
+      sendResponse(undefined);
     } else {
       sqlNode.setSQLPassword(passPhrase);
       const newHash = PasswordUtil.generateHash(passPhrase);
       sqlNode.savePasswordHash(newHash);
+      const updatedHash = sqlNode.getPasswordHash();
       userConfig.set('dbHasPassword', true);
+      sendResponse(updatedHash);
     }
-    sendResponse(undefined);
   } catch (e) {
     const localisedError = locale.messages.setPasswordFail;
     sendResponse(localisedError || 'Failed to set password');
