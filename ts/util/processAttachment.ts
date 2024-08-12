@@ -21,6 +21,7 @@ import { handleVideoAttachment } from './handleVideoAttachment';
 import { isHeic, stringToMIMEType } from '../types/MIME';
 import { ToastType } from '../types/Toast';
 import { isImageTypeSupported, isVideoTypeSupported } from './GoogleChrome';
+import { getAttachmentCiphertextLength } from '../AttachmentCrypto';
 
 export async function processAttachment(
   file: File,
@@ -79,10 +80,11 @@ export async function processAttachment(
 
 function isAttachmentSizeOkay(attachment: Readonly<AttachmentType>): boolean {
   const limitKb = getMaximumOutgoingAttachmentSizeInKb(getRemoteConfigValue);
-  // this needs to be cast properly
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  if ((attachment.data.byteLength / KIBIBYTE).toFixed(4) >= limitKb) {
+  const limitBytes =
+    getMaximumOutgoingAttachmentSizeInKb(getRemoteConfigValue) * KIBIBYTE;
+
+  const paddedAndEncryptedSize = getAttachmentCiphertextLength(attachment.size);
+  if (paddedAndEncryptedSize > limitBytes) {
     window.reduxActions.toast.showToast({
       toastType: ToastType.FileSize,
       parameters: getRenderDetailsForLimit(limitKb),
