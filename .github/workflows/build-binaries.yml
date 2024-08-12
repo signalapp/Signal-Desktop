@@ -6,10 +6,12 @@ on:
     branches:
       - clearnet
       - unstable
+      - release/
   pull_request:
     branches:
       - clearnet
       - unstable
+      - release/
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
