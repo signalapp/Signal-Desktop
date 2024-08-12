@@ -11,7 +11,7 @@ import type {
   WrappedWorkerLogEntry,
 } from './main';
 import type { WritableDB } from './Interface';
-import { initialize, DataReader, DataWriter } from './Server';
+import { initialize, DataReader, DataWriter, removeDB } from './Server';
 import { SqliteErrorKind, parseSqliteError } from './errors';
 
 if (!parentPort) {
@@ -102,6 +102,31 @@ port.on('message', ({ seq, request }: WrappedWorkerRequest) => {
       return;
     }
 
+    // Removing database does not require active connection.
+    if (request.type === 'removeDB') {
+      try {
+        if (db) {
+          if (isPrimary) {
+            DataWriter.close(db);
+          } else {
+            DataReader.close(db);
+          }
+          db = undefined;
+        }
+      } catch (error) {
+        logger.error('Failed to close database before removal');
+      }
+
+      if (isPrimary) {
+        removeDB();
+      }
+
+      isRemoved = true;
+
+      respond(seq, undefined, undefined);
+      return;
+    }
+
     if (!db) {
       throw new Error('Not initialized');
     }
@@ -116,20 +141,6 @@ port.on('message', ({ seq, request }: WrappedWorkerRequest) => {
 
       respond(seq, undefined, undefined);
       process.exit(0);
-      return;
-    }
-
-    if (request.type === 'removeDB') {
-      if (isPrimary) {
-        DataWriter.removeDB(db);
-      } else {
-        DataReader.close(db);
-      }
-
-      isRemoved = true;
-      db = undefined;
-
-      respond(seq, undefined, undefined);
       return;
     }
 

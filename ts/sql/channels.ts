@@ -9,6 +9,7 @@ import { missingCaseError } from '../util/missingCaseError';
 
 const SQL_READ_KEY = 'sql-channel:read';
 const SQL_WRITE_KEY = 'sql-channel:write';
+const SQL_REMOVE_DB_KEY = 'sql-channel:remove-db';
 let activeJobCount = 0;
 let resolveShutdown: (() => void) | undefined;
 let shutdownPromise: Promise<void> | null = null;
@@ -76,4 +77,8 @@ export async function doShutdown(): Promise<void> {
   } finally {
     log.info('data.shutdown: process complete');
   }
+}
+
+export async function removeDB(): Promise<void> {
+  return ipcRenderer.invoke(SQL_REMOVE_DB_KEY);
 }
