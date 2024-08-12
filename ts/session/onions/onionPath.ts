@@ -1,23 +1,22 @@
 /* eslint-disable import/no-mutable-exports */
 /* eslint-disable no-await-in-loop */
-import _, { compact, isFinite, isNumber, sample } from 'lodash';
+import _, { compact, sample } from 'lodash';
 import pRetry from 'p-retry';
 // eslint-disable-next-line import/no-named-default
 import { default as insecureNodeFetch } from 'node-fetch';
 
-import semver from 'semver';
+import { OnionPaths } from '.';
 import { Data } from '../../data/data';
+import { Snode } from '../../data/types';
+import { updateOnionPaths } from '../../state/ducks/onion';
+import { APPLICATION_JSON } from '../../types/MIME';
+import { Onions, snodeHttpsAgent } from '../apis/snode_api/onions';
+import { ERROR_CODE_NO_CONNECT } from '../apis/snode_api/SNodeAPI';
 import * as SnodePool from '../apis/snode_api/snodePool';
+import { DURATION } from '../constants';
 import { UserUtils } from '../utils';
 import { allowOnlyOneAtATime } from '../utils/Promise';
 import { ed25519Str } from '../utils/String';
-import { DURATION } from '../constants';
-import { Snode } from '../../data/types';
-import { updateOnionPaths } from '../../state/ducks/onion';
-import { Onions, snodeHttpsAgent } from '../apis/snode_api/onions';
-import { APPLICATION_JSON } from '../../types/MIME';
-import { ERROR_CODE_NO_CONNECT } from '../apis/snode_api/SNodeAPI';
-import { OnionPaths } from '.';
 
 const desiredGuardCount = 3;
 const minimumGuardCount = 2;
@@ -545,29 +544,7 @@ async function buildNewOnionPathsWorker() {
 }
 
 export function getRandomEdgeSnode(snodes: Array<Snode>) {
-  const allSnodesWithv280 = snodes.filter(snode => {
-    const snodeStorageVersion = snode.storage_server_version;
-
-    if (
-      !snodeStorageVersion ||
-      !Array.isArray(snodeStorageVersion) ||
-      snodeStorageVersion.length !== 3 ||
-      snodeStorageVersion.some(m => !isNumber(m) || !isFinite(m))
-    ) {
-      return false;
-    }
-    const storageVersionAsString = `${snodeStorageVersion[0]}.${snodeStorageVersion[1]}.${snodeStorageVersion[2]}`;
-    const verifiedStorageVersion = semver.valid(storageVersionAsString);
-    if (!verifiedStorageVersion) {
-      return false;
-    }
-    if (semver.lt(verifiedStorageVersion, '2.8.0')) {
-      return false;
-    }
-    return true;
-  });
-
-  const randomEdgeSnode = sample(allSnodesWithv280);
+  const randomEdgeSnode = sample(snodes);
   if (!randomEdgeSnode) {
     throw new Error('did not find a single snode which can be the edge');
   }
