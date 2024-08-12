@@ -99,9 +99,12 @@ export const StyledTextAreaContainer = styled(motion.div)<{
 }>`
   display: flex;
   align-items: center;
-  overflow: hidden;
+  overflow-y: ${props => (props.noValue ? 'hidden' : 'auto')};
   position: relative;
-  height: ${props => (props.textSize ? `calc(var(--font-size-${props.textSize}) * 4)` : '48px')};
+  min-height: 48px;
+  height: 100%;
+  max-height: ${props =>
+    props.textSize ? `calc(var(--font-size-${props.textSize}) * 4)` : '48px'};
   width: 100%;
   margin: var(--margins-sm) var(--margins-md);
 

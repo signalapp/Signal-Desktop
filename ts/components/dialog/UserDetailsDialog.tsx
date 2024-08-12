@@ -13,12 +13,15 @@ import { CopyToClipboardButton } from '../buttons/CopyToClipboardButton';
 import { SessionInput } from '../inputs';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { ConversationTypeEnum } from '../../models/types';
+import { StyledTextAreaContainer } from '../inputs/SessionInput';
 
 const StyledInputContainer = styled(Flex)`
-  textarea {
-    cursor: default;
-    overflow: hidden;
-    top: 14px;
+  ${StyledTextAreaContainer} {
+    overflow-y: hidden;
+    textarea {
+      cursor: default;
+      top: 10px;
+    }
   }
 `;
 
