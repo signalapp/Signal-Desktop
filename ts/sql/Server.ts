@@ -344,7 +344,6 @@ export const DataReader: ServerReadableInterface = {
 
 export const DataWriter: ServerWritableInterface = {
   close: closeWritable,
-  removeDB,
   removeIndexedDBFiles,
 
   createOrUpdateIdentityKey,
@@ -619,20 +618,29 @@ function openAndMigrateDatabase(
   // If that fails, we try to open the database with 3.x compatibility to extract the
   //   user_version (previously stored in schema_version, blown away by cipher_migrate).
   db = new SQL(filePath) as WritableDB;
-  keyDatabase(db, key);
+  try {
+    keyDatabase(db, key);
 
-  // https://www.zetetic.net/blog/2018/11/30/sqlcipher-400-release/#compatability-sqlcipher-4-0-0
-  db.pragma('cipher_compatibility = 3');
-  migrateSchemaVersion(db);
-  db.close();
+    // https://www.zetetic.net/blog/2018/11/30/sqlcipher-400-release/#compatability-sqlcipher-4-0-0
+    db.pragma('cipher_compatibility = 3');
+    migrateSchemaVersion(db);
+    db.close();
 
-  // After migrating user_version -> schema_version, we reopen database, because we can't
-  //   migrate to the latest ciphers after we've modified the defaults.
-  db = new SQL(filePath) as WritableDB;
-  keyDatabase(db, key);
+    // After migrating user_version -> schema_version, we reopen database, because
+    // we can't migrate to the latest ciphers after we've modified the defaults.
+    db = new SQL(filePath) as WritableDB;
+    keyDatabase(db, key);
 
-  db.pragma('cipher_migrate');
-  switchToWAL(db);
+    db.pragma('cipher_migrate');
+    switchToWAL(db);
+  } catch (error) {
+    try {
+      db.close();
+    } catch {
+      // Best effort
+    }
+    throw error;
+  }
 
   return db;
 }
@@ -649,8 +657,17 @@ function openAndSetUpSQLCipher(
 
   const db = openAndMigrateDatabase(filePath, key, readonly);
 
-  // Because foreign key support is not enabled by default!
-  db.pragma('foreign_keys = ON');
+  try {
+    // Because foreign key support is not enabled by default!
+    db.pragma('foreign_keys = ON');
+  } catch (error) {
+    try {
+      db.close();
+    } catch {
+      // Best effort
+    }
+    throw error;
+  }
 
   return db;
 }
@@ -740,13 +757,7 @@ function closeWritable(db: WritableDB): void {
   db.close();
 }
 
-function removeDB(db: WritableDB): void {
-  try {
-    db.close();
-  } catch (error) {
-    logger.error('removeDB: Failed to close database:', error.stack);
-  }
-
+export function removeDB(): void {
   if (!databaseFilePath) {
     throw new Error(
       'removeDB: Cannot erase database without a databaseFilePath!'

@@ -10,7 +10,11 @@ import { remove as removeEphemeralConfig } from './ephemeral_config';
 let sql:
   | Pick<
       MainSQL,
-      'sqlRead' | 'sqlWrite' | 'pauseWriteAccess' | 'resumeWriteAccess'
+      | 'sqlRead'
+      | 'sqlWrite'
+      | 'pauseWriteAccess'
+      | 'resumeWriteAccess'
+      | 'removeDB'
     >
   | undefined;
 
@@ -18,6 +22,7 @@ let initialized = false;
 
 const SQL_READ_KEY = 'sql-channel:read';
 const SQL_WRITE_KEY = 'sql-channel:write';
+const SQL_REMOVE_DB_KEY = 'sql-channel:remove-db';
 const ERASE_SQL_KEY = 'erase-sql-key';
 const PAUSE_WRITE_ACCESS = 'pause-sql-writes';
 const RESUME_WRITE_ACCESS = 'resume-sql-writes';
@@ -42,6 +47,13 @@ export function initialize(mainSQL: typeof sql): void {
       throw new Error(`${SQL_WRITE_KEY}: Not yet initialized!`);
     }
     return sql.sqlWrite(callName, ...args);
+  });
+
+  ipcMain.handle(SQL_REMOVE_DB_KEY, () => {
+    if (!sql) {
+      throw new Error(`${SQL_REMOVE_DB_KEY}: Not yet initialized!`);
+    }
+    return sql.removeDB();
   });
 
   ipcMain.handle(ERASE_SQL_KEY, () => {

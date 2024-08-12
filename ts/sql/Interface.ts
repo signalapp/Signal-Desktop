@@ -645,8 +645,6 @@ type ReadableInterface = {
 type WritableInterface = {
   close: () => void;
 
-  removeDB: () => void;
-
   removeIndexedDBFiles: () => void;
 
   removeIdentityKeyById: (id: IdentityKeyIdType) => number;
@@ -1113,6 +1111,7 @@ export type ClientOnlyWritableInterface = ClientInterfaceWrap<{
   // Client-side only
 
   shutdown: () => void;
+  removeDB: () => void;
   removeMessagesInConversation: (
     conversationId: string,
     options: {
