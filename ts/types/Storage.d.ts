@@ -73,7 +73,6 @@ export type StorageAccessType = {
   customColors: CustomColorsItemType;
   device_name: string;
   existingOnboardingStoryMessageIds: ReadonlyArray<string> | undefined;
-  hasRegisterSupportForUnauthenticatedDelivery: boolean;
   hasSetMyStoriesPrivacy: boolean;
   hasCompletedUsernameOnboarding: boolean;
   hasCompletedUsernameLinkOnboarding: boolean;
@@ -188,6 +187,7 @@ export type StorageAccessType = {
   lastStartup: never;
   sendEditWarningShown: never;
   formattingWarningShown: never;
+  hasRegisterSupportForUnauthenticatedDelivery: never;
 };
 
 export type StorageInterface = {

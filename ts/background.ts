@@ -893,14 +893,6 @@ export async function startApp(): Promise<void> {
         ]);
       }
 
-      if (window.isBeforeVersion(lastVersion, 'v1.26.0')) {
-        // Ensure that we re-register our support for sealed sender
-        await window.storage.put(
-          'hasRegisterSupportForUnauthenticatedDelivery',
-          false
-        );
-      }
-
       if (window.isBeforeVersion(lastVersion, 'v1.32.0-beta.4')) {
         drop(DataWriter.ensureFilePermissions());
       }
@@ -961,6 +953,12 @@ export async function startApp(): Promise<void> {
       if (window.isBeforeVersion(lastVersion, 'v7.8.0-beta.1')) {
         await window.storage.remove('sendEditWarningShown');
         await window.storage.remove('formattingWarningShown');
+      }
+
+      if (window.isBeforeVersion(lastVersion, 'v7.21.0-beta.1')) {
+        await window.storage.remove(
+          'hasRegisterSupportForUnauthenticatedDelivery'
+        );
       }
     }
 
@@ -1821,19 +1819,6 @@ export async function startApp(): Promise<void> {
           log.error(
             'Problem with account manager updates after starting new version: ',
             Errors.toLogFormat(e)
-          );
-        }
-      }
-
-      const udSupportKey = 'hasRegisterSupportForUnauthenticatedDelivery';
-      if (!window.storage.get(udSupportKey)) {
-        try {
-          await server.registerSupportForUnauthenticatedDelivery();
-          await window.storage.put(udSupportKey, true);
-        } catch (error) {
-          log.error(
-            'Error: Unable to register for unauthenticated delivery support.',
-            Errors.toLogFormat(error)
           );
         }
       }
