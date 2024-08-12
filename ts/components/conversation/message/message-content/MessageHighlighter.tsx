@@ -1,29 +1,34 @@
-import styled, { css, keyframes } from 'styled-components';
+import { motion } from 'framer-motion';
+import { MouseEvent, ReactNode } from 'react';
+import styled from 'styled-components';
+import { THEME_GLOBALS } from '../../../../themes/globals';
 
-const opacityAnimation = keyframes`
-    0% {
-      opacity: 1;
-    }
-    25% {
-      opacity: 0.2;
-    }
-    50% {
-      opacity: 1;
-    }
-    75% {
-      opacity: 0.2;
-    }
-    100% {
-      opacity: 1;
-    }
-`;
+const StyledMessageHighlighter = styled(motion.div)``;
 
-export const MessageHighlighter = styled.div<{
+export function MessageHighlighter(props: {
+  children: ReactNode;
   highlight: boolean;
-}>`
-  ${props =>
-    props.highlight &&
-    css`
-      animation: ${opacityAnimation} 1s linear;
-    `}
-`;
+  role?: string;
+  className?: string;
+  onClick?: (event: MouseEvent<HTMLDivElement>) => void;
+}) {
+  const { className, children, highlight, role, onClick } = props;
+
+  return (
+    <StyledMessageHighlighter
+      className={className}
+      role={role}
+      onClick={onClick}
+      animate={{
+        opacity: highlight ? [1, 0.2, 1, 0.2, 1] : undefined,
+        transition: {
+          duration: THEME_GLOBALS['--duration-message-highlight-seconds'],
+          ease: 'linear',
+          repeat: 0,
+        },
+      }}
+    >
+      {children}
+    </StyledMessageHighlighter>
+  );
+}

@@ -1,0 +1,7 @@
+{
+  "exit": true,
+  "spec": ["ts/test/**/*_test.js"],
+  "require": "jsdom-global/register",
+  "timeout": "10000",
+  "recursive": true
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SessionIcon, SessionIconType } from '../icon';
 
 import { SessionDropdownItem, SessionDropDownItemType } from './SessionDropdownItem';

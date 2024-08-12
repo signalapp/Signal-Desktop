@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
+import { MessageModelType } from '../../models/messageType';
 import { UserUtils } from '../../session/utils';
 import {
-  LastMessageStatusType,
   MessageModelPropsWithConvoProps,
   PropsForAttachment,
   PropsForQuote,
@@ -10,6 +10,7 @@ import {
 import { StateType } from '../reducer';
 import { getIsMessageSelected, getMessagePropsByMessageId } from './conversations';
 import { useSelectedIsPrivate } from './selectedConversation';
+import { LastMessageStatusType } from '../ducks/types';
 
 function useMessagePropsByMessageId(messageId: string | undefined) {
   return useSelector((state: StateType) => getMessagePropsByMessageId(state, messageId));
@@ -80,7 +81,9 @@ export const useMessageAuthor = (messageId: string | undefined): string | undefi
   return useMessagePropsByMessageId(messageId)?.propsForMessage.sender;
 };
 
-export const useMessageDirection = (messageId: string | undefined): string | undefined => {
+export const useMessageDirection = (
+  messageId: string | undefined
+): MessageModelType | undefined => {
   return useMessagePropsByMessageId(messageId)?.propsForMessage.direction;
 };
 

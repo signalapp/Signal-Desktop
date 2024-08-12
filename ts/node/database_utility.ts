@@ -1,10 +1,10 @@
 import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 import { difference, isNumber, omit, pick } from 'lodash';
 import {
-  CONVERSATION_PRIORITIES,
   ConversationAttributes,
   ConversationAttributesWithNotSavedOnes,
 } from '../models/conversationAttributes';
+import { CONVERSATION_PRIORITIES } from '../models/types';
 
 export const CONVERSATIONS_TABLE = 'conversations';
 export const MESSAGES_TABLE = 'messages';

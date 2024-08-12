@@ -1,10 +1,10 @@
 import _, { intersectionWith, sampleSize } from 'lodash';
 import { SnodePool } from '.';
-import { Snode } from '../../../data/data';
+import { Snode } from '../../../data/types';
+import { GetServiceNodesSubRequest } from './SnodeRequestTypes';
 import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';
 import { minSnodePoolCount, requiredSnodesForAgreement } from './snodePool';
-import { GetServiceNodesSubRequest } from './SnodeRequestTypes';
 
 function buildSnodeListRequests(): Array<GetServiceNodesSubRequest> {
   const request: GetServiceNodesSubRequest = {

@@ -1,7 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
+import styled from 'styled-components';
 import { SessionIcon, SessionIconButton } from '../icon';
 
 import { quoteMessage } from '../../state/ducks/conversations';
@@ -11,9 +10,9 @@ import { AUDIO_MP3 } from '../../types/MIME';
 import { Flex } from '../basic/Flex';
 import { Image } from './Image';
 
+import { findAndFormatContact } from '../../models/message';
 import { getAbsoluteAttachmentPath } from '../../types/MessageAttachment';
 import { GoogleChrome } from '../../util';
-import { findAndFormatContact } from '../../models/message';
 
 const QuotedMessageComposition = styled(Flex)`
   border-top: 1px solid var(--border-color);

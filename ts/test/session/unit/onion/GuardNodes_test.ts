@@ -5,7 +5,6 @@ import chaiAsPromised from 'chai-as-promised';
 
 import { TestUtils } from '../../../test-utils';
 import { Onions, SnodePool } from '../../../../session/apis/snode_api';
-import { Snode } from '../../../../data/data';
 
 import * as OnionPaths from '../../../../session/onions/onionPath';
 import {
@@ -14,6 +13,7 @@ import {
   stubData,
 } from '../../../test-utils/utils';
 import { SeedNodeAPI } from '../../../../session/apis/seed_node_api';
+import { Snode } from '../../../../data/types';
 
 chai.use(chaiAsPromised as any);
 chai.should();

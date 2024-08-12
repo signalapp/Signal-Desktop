@@ -1,9 +1,7 @@
-import React from 'react';
-
-import { DocumentListItem } from './DocumentListItem';
-import { MediaGridItem } from './MediaGridItem';
 import { missingCaseError } from '../../../util/missingCaseError';
 import { MediaItemType } from '../../lightbox/LightboxGallery';
+import { DocumentListItem } from './DocumentListItem';
+import { MediaGridItem } from './MediaGridItem';
 
 type Props = {
   type: 'media' | 'documents';

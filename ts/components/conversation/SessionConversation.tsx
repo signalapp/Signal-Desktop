@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import React from 'react';
 
 import autoBind from 'auto-bind';
 import { blobToArrayBuffer } from 'blob-util';
 import loadImage from 'blueimp-load-image';
 import classNames from 'classnames';
+import { Component, RefObject, createRef } from 'react';
 import styled from 'styled-components';
 import {
   CompositionBox,
@@ -33,9 +33,7 @@ import {
 } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { addStagedAttachmentsInConversation } from '../../state/ducks/stagedAttachments';
-import { SessionTheme } from '../../themes/SessionTheme';
 import { MIME } from '../../types';
-import { AttachmentTypeWithPath } from '../../types/Attachment';
 import {
   THUMBNAIL_CONTENT_TYPE,
   getAudioDuration,
@@ -45,27 +43,23 @@ import {
 } from '../../types/attachments/VisualAttachment';
 import { AttachmentUtil, GoogleChrome, arrayBufferToObjectURL } from '../../util';
 import { getCurrentRecoveryPhrase } from '../../util/storage';
-import { MessageView } from '../MainViewController';
+import { EmptyMessageView } from '../EmptyMessageView';
 import { SplitViewContainer } from '../SplitViewContainer';
 import { SessionButtonColor } from '../basic/SessionButton';
 import { InConversationCallContainer } from '../calling/InConversationCallContainer';
-import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
 import { NoMessageInConversation } from './SubtleNotification';
 import { ConversationHeaderWithDetails } from './header/ConversationHeader';
 
 import { isAudio } from '../../types/MIME';
 import { HTMLDirection } from '../../util/i18n';
 import { NoticeBanner } from '../NoticeBanner';
-import { SessionSpinner } from '../basic/SessionSpinner';
+import { SessionSpinner } from '../loading';
 import { RightPanel, StyledRightPanelContainer } from './right-panel/RightPanel';
 
 const DEFAULT_JPEG_QUALITY = 0.85;
+
 interface State {
   isDraggingFile: boolean;
-}
-export interface LightBoxOptions {
-  media: Array<MediaItemType>;
-  attachment: AttachmentTypeWithPath;
 }
 
 interface Props {
@@ -78,9 +72,6 @@ interface Props {
   isRightPanelShowing: boolean;
   hasOngoingCallWithFocusedConvo: boolean;
   htmlDirection: HTMLDirection;
-
-  // lightbox options
-  lightBoxOptions?: LightBoxOptions;
 
   stagedAttachments: Array<StagedAttachmentType>;
   isSelectedConvoInitialLoadingInProgress: boolean;
@@ -102,8 +93,8 @@ const ConvoLoadingSpinner = () => {
   );
 };
 
-export class SessionConversation extends React.Component<Props, State> {
-  private readonly messageContainerRef: React.RefObject<HTMLDivElement>;
+export class SessionConversation extends Component<Props, State> {
+  private readonly messageContainerRef: RefObject<HTMLDivElement>;
   private dragCounter: number;
   private publicMembersRefreshTimeout?: NodeJS.Timeout;
   private readonly updateMemberList: () => any;
@@ -114,7 +105,7 @@ export class SessionConversation extends React.Component<Props, State> {
     this.state = {
       isDraggingFile: false,
     };
-    this.messageContainerRef = React.createRef();
+    this.messageContainerRef = createRef();
     this.dragCounter = 0;
     this.updateMemberList = _.debounce(this.updateMemberListBouncy.bind(this), 10000);
 
@@ -208,8 +199,8 @@ export class SessionConversation extends React.Component<Props, State> {
     if (msg.body.replace(/\s/g, '').includes(recoveryPhrase.replace(/\s/g, ''))) {
       window.inboxStore?.dispatch(
         updateConfirmModal({
-          title: window.i18n('sendRecoveryPhraseTitle'),
-          message: window.i18n('sendRecoveryPhraseMessage'),
+          title: window.i18n('warning'),
+          message: window.i18n('recoveryPasswordWarningSendDescription'),
           okTheme: SessionButtonColor.Danger,
           onClickOk: () => {
             void sendAndScroll();
@@ -238,13 +229,11 @@ export class SessionConversation extends React.Component<Props, State> {
       messagesProps,
       selectedMessages,
       isRightPanelShowing,
-      lightBoxOptions,
       isSelectedConvoInitialLoadingInProgress,
     } = this.props;
 
     if (!selectedConversation || !messagesProps) {
-      // return an empty message view
-      return <MessageView />;
+      return <EmptyMessageView />;
     }
     // TODOLATER break selectionMode into it's own container component so we can use hooks to fetch relevant state from the store
     const selectionMode = selectedMessages.length > 0;
@@ -256,7 +245,7 @@ export class SessionConversation extends React.Component<Props, State> {
         : window.i18n('someOfYourDeviceUseOutdatedVersion');
 
     return (
-      <SessionTheme>
+      <>
         <div className="conversation-header">
           <ConversationHeaderWithDetails />
           {selectedConversation?.hasOutdatedClient?.length ? (
@@ -281,8 +270,6 @@ export class SessionConversation extends React.Component<Props, State> {
               onKeyDown={this.onKeyDown}
               role="navigation"
             >
-              {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
-
               <div className="conversation-messages">
                 <NoMessageInConversation />
 
@@ -312,7 +299,7 @@ export class SessionConversation extends React.Component<Props, State> {
             </StyledRightPanelContainer>
           </>
         )}
-      </SessionTheme>
+      </>
     );
   }
 
@@ -356,14 +343,6 @@ export class SessionConversation extends React.Component<Props, State> {
           break;
       }
     }
-  }
-
-  private renderLightBox({ media, attachment }: LightBoxOptions) {
-    const selectedIndex =
-      media.length > 1
-        ? media.findIndex(mediaMessage => mediaMessage.attachment.path === attachment.path)
-        : 0;
-    return <LightboxGallery media={media} selectedIndex={selectedIndex} />;
   }
 
   private async onChoseAttachments(attachmentsFileList: Array<File>) {

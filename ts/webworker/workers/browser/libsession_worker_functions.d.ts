@@ -1,9 +1,9 @@
 import {
   BaseConfigActions,
   ContactsConfigActionsType,
+  ConvoInfoVolatileConfigActionsType,
   UserConfigActionsType,
   UserGroupsConfigActionsType,
-  ConvoInfoVolatileConfigActionsType,
 } from 'libsession_util_nodejs';
 
 // we can only have one of those wrapper for our current user (but we can have a few configs for it to be merged into one)
@@ -30,9 +30,11 @@ type UserGroupsConfigFunctions =
 type ConvoInfoVolatileConfigFunctions =
   | [ConvoInfoVolatileConfig, ...BaseConfigActions]
   | [ConvoInfoVolatileConfig, ...ConvoInfoVolatileConfigActionsType];
+type BlindingFunctions = ['Blinding', ...BlindingFunctions];
 
 export type LibSessionWorkerFunctions =
   | UserConfigFunctions
   | ContactsConfigFunctions
   | UserGroupsConfigFunctions
-  | ConvoInfoVolatileConfigFunctions;
+  | ConvoInfoVolatileConfigFunctions
+  | BlindingFunctions;

@@ -1,16 +1,16 @@
 import { isEmpty } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 import { useIsPrivate, useIsPublic } from '../../../hooks/useParamSelector';
-import {
-  ConversationInteractionStatus,
-  ConversationInteractionType,
-} from '../../../interactions/conversationInteractions';
 import { getConversationController } from '../../../session/conversations';
-import { LastMessageType } from '../../../state/ducks/conversations';
 import { assertUnreachable } from '../../../types/sqlSharedTypes';
 import { MessageBody } from '../../conversation/message/message-content/MessageBody';
+import {
+  ConversationInteractionType,
+  ConversationInteractionStatus,
+} from '../../../interactions/types';
+import { LastMessageType } from '../../../state/ducks/types';
 
 const StyledInteractionItemText = styled.div<{ isError: boolean }>`
   ${props => props.isError && 'color: var(--danger-color) !important;'}

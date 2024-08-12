@@ -29,7 +29,6 @@ import { MessageModel } from './message';
 import { MessageAttributesOptionals, MessageDirection } from './messageType';
 
 import { Data } from '../data/data';
-import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
 import { getOpenGroupV2FromConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { ExpirationTimerUpdateMessage } from '../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
@@ -98,10 +97,8 @@ import { Reactions } from '../util/reactions';
 import { Registration } from '../util/registration';
 import { Storage } from '../util/storage';
 import {
-  CONVERSATION_PRIORITIES,
   ConversationAttributes,
   ConversationNotificationSetting,
-  ConversationTypeEnum,
   fillConvoAttributesWithDefaults,
   isDirectConversation,
   isOpenOrClosedGroup,
@@ -123,6 +120,8 @@ import { FetchMsgExpirySwarm } from '../session/utils/job_runners/jobs/FetchMsgE
 import { UpdateMsgExpirySwarm } from '../session/utils/job_runners/jobs/UpdateMsgExpirySwarmJob';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { markAttributesAsReadIfNeeded } from './messageFactory';
+import { OpenGroupRequestCommonType } from '../data/types';
+import { ConversationTypeEnum, CONVERSATION_PRIORITIES } from './types';
 
 type InMemoryConvoInfos = {
   mentionedUs: boolean;
@@ -2599,7 +2598,14 @@ export function hasValidOutgoingRequestValues({
 }): boolean {
   const isActive = activeAt && isFinite(activeAt) && activeAt > 0;
 
-  return Boolean(!isMe && isApproved && isPrivate && !isBlocked && !didApproveMe && isActive);
+  // Started a new message, but haven't sent a message yet
+  const emptyConvo = !isMe && !isApproved && isPrivate && !isBlocked && !didApproveMe && !!isActive;
+
+  // Started a new message, and sent a message
+  const sentOutgoingRequest =
+    !isMe && isApproved && isPrivate && !isBlocked && !didApproveMe && !!isActive;
+
+  return emptyConvo || sentOutgoingRequest;
 }
 
 /**

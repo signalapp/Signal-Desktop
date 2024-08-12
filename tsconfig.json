@@ -7,7 +7,7 @@
       "dom", // Required to access `window`
       "es2021"
     ],
-    "jsx": "react", // Specify JSX code generation: 'preserve', 'react-native', or 'react'.
+    "jsx": "react-jsx", // Specify JSX code generation: 'preserve', 'react-native', or 'react-jsx'.
     // "noEmitHelpers": false,
     "rootDir": "./", // Specify the root directory of input files. Use to control the output directory structure with --outDir
     "removeComments": true, // Do not emit comments to output.

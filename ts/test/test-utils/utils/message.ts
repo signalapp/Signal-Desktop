@@ -2,7 +2,6 @@ import { isEmpty } from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { TestUtils } from '..';
 import { MessageModel } from '../../../models/message';
-import { OpenGroupRequestCommonType } from '../../../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { OpenGroupMessageV2 } from '../../../session/apis/open_group_api/opengroupV2/OpenGroupMessageV2';
 import {
   OpenGroupMessageV4,
@@ -19,6 +18,7 @@ import { VisibleMessage } from '../../../session/messages/outgoing/visibleMessag
 import { PubKey } from '../../../session/types';
 import { OpenGroupReaction } from '../../../types/Reaction';
 import { generateFakePubKey } from './pubkey';
+import { OpenGroupRequestCommonType } from '../../../data/types';
 
 export function generateVisibleMessage({
   identifier,

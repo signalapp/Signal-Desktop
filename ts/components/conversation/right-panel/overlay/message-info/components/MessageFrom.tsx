@@ -1,8 +1,10 @@
-import React from 'react';
 import styled from 'styled-components';
 import { MessageInfoLabel } from '.';
 import { useConversationUsername } from '../../../../../../hooks/useParamSelector';
+import { isDevProd } from '../../../../../../shared/env_vars';
 import { Avatar, AvatarSize, CrownIcon } from '../../../../../avatar/Avatar';
+import { Flex } from '../../../../../basic/Flex';
+import { CopyToClipboardIcon } from '../../../../../buttons';
 
 const StyledFromContainer = styled.div`
   display: flex;
@@ -39,9 +41,20 @@ export const MessageFrom = (props: { sender: string; isSenderAdmin: boolean }) =
   const profileName = useConversationUsername(sender);
   const from = window.i18n('from');
 
+  const isDev = isDevProd();
+
   return (
     <StyledMessageInfoAuthor>
-      <MessageInfoLabel>{from}</MessageInfoLabel>
+      <Flex container={true} justifyContent="flex-start" alignItems="flex-start">
+        <MessageInfoLabel>{from}</MessageInfoLabel>
+        {isDev ? (
+          <CopyToClipboardIcon
+            iconSize={'medium'}
+            copyContent={`${profileName} ${sender}`}
+            margin={'0 0 0 var(--margins-xs)'}
+          />
+        ) : null}
+      </Flex>
       <StyledFromContainer>
         <StyledAvatar>
           <Avatar size={AvatarSize.M} pubkey={sender} onAvatarClick={undefined} />

@@ -93,6 +93,8 @@ export const getDecryptedMediaUrl = async (
     // we consider the file is encrypted.
     // if it's not, the hook caller has to fallback to setting the img src as an url to the file instead and load it
     if (urlToDecryptedBlobMap.has(url)) {
+      // typescript does not realize that the `has()` above makes sure the `get()` is not undefined
+
       // refresh the last access timestamp so we keep the one being currently in use
       const existing = urlToDecryptedBlobMap.get(url);
       const existingObjUrl = existing?.decrypted as string;
@@ -102,7 +104,6 @@ export const getDecryptedMediaUrl = async (
         lastAccessTimestamp: Date.now(),
         forceRetain: existing?.forceRetain || false,
       });
-      // typescript does not realize that the has above makes sure the get is not undefined
 
       return existingObjUrl;
     }

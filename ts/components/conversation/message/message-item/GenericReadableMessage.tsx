@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { isNil, isString, toNumber } from 'lodash';
-import React, { useCallback, useEffect, useState } from 'react';
+import { MouseEvent, useCallback, useEffect, useState } from 'react';
 import { contextMenu } from 'react-contexify';
 import { useSelector } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
@@ -33,9 +33,7 @@ type Props = {
 };
 
 const highlightedMessageAnimation = keyframes`
-  1% {
-      background-color: var(--primary-color);
-  }
+  1% { background-color: var(--primary-color); }
 `;
 
 const StyledReadableMessage = styled.div<{
@@ -50,7 +48,7 @@ const StyledReadableMessage = styled.div<{
   padding: ${props => (props.isDetailView ? '0' : 'var(--margins-xs) var(--margins-lg) 0')};
 
   &.message-highlighted {
-    animation: ${highlightedMessageAnimation} 1s ease-in-out;
+    animation: ${highlightedMessageAnimation} var(--duration-message-highlight) ease-in-out;
   }
 
   ${StyledMessageReactionsContainer} {
@@ -86,7 +84,7 @@ export const GenericReadableMessage = (props: Props) => {
   }, [isRightClicked]);
 
   const handleContextMenu = useCallback(
-    (e: React.MouseEvent<HTMLElement>) => {
+    (e: MouseEvent<HTMLElement>) => {
       // this is quite dirty but considering that we want the context menu of the message to show on click on the attachment
       // and the context menu save attachment item to save the right attachment I did not find a better way for now.
 

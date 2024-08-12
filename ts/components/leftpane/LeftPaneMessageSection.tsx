@@ -1,5 +1,4 @@
-import autoBind from 'auto-bind';
-import React from 'react';
+import { isEmpty } from 'lodash';
 import { useSelector } from 'react-redux';
 import { AutoSizer, List, ListRowProps } from 'react-virtualized';
 import styled from 'styled-components';
@@ -7,7 +6,9 @@ import { SearchResults } from '../search/SearchResults';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { MessageRequestsBanner } from './MessageRequestsBanner';
 
-import { LeftOverlayMode, setLeftOverlayMode } from '../../state/ducks/section';
+import { setLeftOverlayMode } from '../../state/ducks/section';
+import { getLeftPaneConversationIds } from '../../state/selectors/conversations';
+import { getSearchTerm } from '../../state/selectors/search';
 import { getLeftOverlayMode } from '../../state/selectors/section';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
 import { SessionSearchInput } from '../SessionSearchInput';
@@ -15,15 +16,10 @@ import { StyledLeftPaneList } from './LeftPaneList';
 import { ConversationListItem } from './conversation-list-item/ConversationListItem';
 import { OverlayClosedGroup } from './overlay/OverlayClosedGroup';
 import { OverlayCommunity } from './overlay/OverlayCommunity';
+import { OverlayInvite } from './overlay/OverlayInvite';
 import { OverlayMessage } from './overlay/OverlayMessage';
 import { OverlayMessageRequest } from './overlay/OverlayMessageRequest';
 import { OverlayChooseAction } from './overlay/choose-action/OverlayChooseAction';
-
-export interface Props {
-  conversationIds?: Array<string>;
-  hasSearchResults: boolean;
-  leftOverlayMode: LeftOverlayMode | undefined;
-}
 
 const StyledLeftPaneContent = styled.div`
   display: flex;
@@ -55,6 +51,8 @@ const ClosableOverlay = () => {
       return <OverlayMessage />;
     case 'message-requests':
       return <OverlayMessageRequest />;
+    case 'invite-a-friend':
+      return <OverlayInvite />;
     case undefined:
       return null;
     default:
@@ -65,83 +63,78 @@ const ClosableOverlay = () => {
   }
 };
 
-export class LeftPaneMessageSection extends React.Component<Props> {
-  public constructor(props: Props) {
-    super(props);
-    autoBind(this);
+const ConversationRow = (
+  { index, key, style }: ListRowProps,
+  conversationIds: Array<string>
+): JSX.Element | null => {
+  // assume conversations that have been marked unapproved should be filtered out by selector.
+  if (!conversationIds) {
+    throw new Error('ConversationRow: Tried to render without conversations');
   }
 
-  public renderRow = ({ index, key, style }: ListRowProps): JSX.Element | null => {
-    const { conversationIds } = this.props;
-
-    // assume conversations that have been marked unapproved should be filtered out by selector.
-    if (!conversationIds) {
-      throw new Error('renderRow: Tried to render without conversations');
-    }
-
-    const conversationId = conversationIds[index];
-    if (!conversationId) {
-      throw new Error('renderRow: conversations selector returned element containing falsy value.');
-    }
-
-    return <ConversationListItem key={key} style={style} conversationId={conversationId} />;
-  };
-
-  public renderList(): JSX.Element {
-    const { conversationIds, hasSearchResults } = this.props;
-
-    if (hasSearchResults) {
-      return <SearchResults />;
-    }
-
-    if (!conversationIds) {
-      throw new Error('render: must provided conversations if no search results are provided');
-    }
-
-    const length = conversationIds.length;
-
-    return (
-      <StyledLeftPaneList key={0}>
-        <AutoSizer>
-          {({ height, width }) => (
-            <List
-              className="module-left-pane__virtual-list"
-              height={height}
-              rowCount={length}
-              rowHeight={64}
-              rowRenderer={this.renderRow}
-              width={width}
-              autoHeight={false}
-              conversationIds={conversationIds}
-            />
-          )}
-        </AutoSizer>
-      </StyledLeftPaneList>
+  const conversationId = conversationIds[index];
+  if (!conversationId) {
+    throw new Error(
+      'ConversationRow: conversations selector returned element containing falsy value.'
     );
   }
 
-  public render(): JSX.Element {
-    const { leftOverlayMode } = this.props;
+  return <ConversationListItem key={key} style={style} conversationId={conversationId} />;
+};
 
-    return (
-      <StyledLeftPaneContent>
-        <LeftPaneSectionHeader />
-        {leftOverlayMode ? <ClosableOverlay /> : this.renderConversations()}
-      </StyledLeftPaneContent>
+const ConversationList = () => {
+  const searchTerm = useSelector(getSearchTerm);
+  const conversationIds = useSelector(getLeftPaneConversationIds);
+
+  if (!isEmpty(searchTerm)) {
+    return <SearchResults />;
+  }
+
+  if (!conversationIds) {
+    throw new Error(
+      'ConversationList: must provided conversations if no search results are provided'
     );
   }
 
-  public renderConversations() {
-    return (
-      <StyledConversationListContent>
-        <SessionSearchInput />
-        <MessageRequestsBanner
-          handleOnClick={() => {
-            window.inboxStore?.dispatch(setLeftOverlayMode('message-requests'));
-          }}
-        />
-        {this.renderList()}
-      </StyledConversationListContent>
-    );
-  }
-}
+  return (
+    <StyledLeftPaneList key={`conversation-list-0`}>
+      <AutoSizer>
+        {({ height, width }) => (
+          <List
+            className="module-left-pane__virtual-list"
+            height={height}
+            rowCount={conversationIds.length}
+            rowHeight={64}
+            rowRenderer={props => ConversationRow(props, conversationIds)}
+            width={width}
+            autoHeight={false}
+            conversationIds={conversationIds}
+          />
+        )}
+      </AutoSizer>
+    </StyledLeftPaneList>
+  );
+};
+
+export const LeftPaneMessageSection = () => {
+  const leftOverlayMode = useSelector(getLeftOverlayMode);
+
+  return (
+    <StyledLeftPaneContent>
+      <LeftPaneSectionHeader />
+      {leftOverlayMode ? (
+        <ClosableOverlay />
+      ) : (
+        <StyledConversationListContent>
+          <SessionSearchInput />
+          <MessageRequestsBanner
+            handleOnClick={() => {
+              window.inboxStore?.dispatch(setLeftOverlayMode('message-requests'));
+            }}
+          />
+          <ConversationList />
+        </StyledConversationListContent>
+      )}
+    </StyledLeftPaneContent>
+  );
+};

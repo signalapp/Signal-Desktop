@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import {
   getAddModeratorsModal,
@@ -8,34 +7,38 @@ import {
   getDeleteAccountModalState,
   getEditProfileDialog,
   getEditProfilePictureModalState,
+  getEnterPasswordModalState,
+  getHideRecoveryPasswordModalState,
   getInviteContactModal,
+  getLightBoxOptions,
   getOnionPathDialog,
   getReactClearAllDialog,
   getReactListDialog,
-  getRecoveryPhraseDialog,
   getRemoveModeratorsModal,
   getSessionPasswordDialog,
   getUpdateGroupMembersModal,
   getUpdateGroupNameModal,
   getUserDetailsModal,
 } from '../../state/selectors/modal';
-import { InviteContactsDialog } from './InviteContactsDialog';
+import { LightboxGallery } from '../lightbox/LightboxGallery';
+import { BanOrUnBanUserDialog } from './BanOrUnbanUserDialog';
 import { DeleteAccountModal } from './DeleteAccountModal';
-import { EditProfileDialog } from './EditProfileDialog';
-import { OnionPathModal } from './OnionStatusPathDialog';
-import { UserDetailsDialog } from './UserDetailsDialog';
-import { SessionConfirm } from './SessionConfirm';
-import { SessionPasswordDialog } from './SessionPasswordDialog';
-import { SessionSeedModal } from './SessionSeedModal';
+import { EditProfilePictureModal } from './EditProfilePictureModal';
+import { EnterPasswordModal } from './EnterPasswordModal';
+import { HideRecoveryPasswordDialog } from './HideRecoveryPasswordDialog';
+import { InviteContactsDialog } from './InviteContactsDialog';
 import { AddModeratorsDialog } from './ModeratorsAddDialog';
 import { RemoveModeratorsDialog } from './ModeratorsRemoveDialog';
+import { OnionPathModal } from './OnionStatusPathDialog';
+import { ReactClearAllModal } from './ReactClearAllModal';
+import { ReactListModal } from './ReactListModal';
+import { SessionConfirm } from './SessionConfirm';
+import { SessionNicknameDialog } from './SessionNicknameDialog';
+import { SessionSetPasswordDialog } from './SessionSetPasswordDialog';
 import { UpdateGroupMembersDialog } from './UpdateGroupMembersDialog';
 import { UpdateGroupNameDialog } from './UpdateGroupNameDialog';
-import { SessionNicknameDialog } from './SessionNicknameDialog';
-import { BanOrUnBanUserDialog } from './BanOrUnbanUserDialog';
-import { ReactListModal } from './ReactListModal';
-import { ReactClearAllModal } from './ReactClearAllModal';
-import { EditProfilePictureModal } from './EditProfilePictureModal';
+import { UserDetailsDialog } from './UserDetailsDialog';
+import { EditProfileDialog } from './edit-profile/EditProfileDialog';
 
 export const ModalContainer = () => {
   const confirmModalState = useSelector(getConfirmModal);
@@ -48,13 +51,15 @@ export const ModalContainer = () => {
   const changeNicknameModal = useSelector(getChangeNickNameDialog);
   const editProfileModalState = useSelector(getEditProfileDialog);
   const onionPathModalState = useSelector(getOnionPathDialog);
-  const recoveryPhraseModalState = useSelector(getRecoveryPhraseDialog);
+  const enterPasswordModalState = useSelector(getEnterPasswordModalState);
   const sessionPasswordModalState = useSelector(getSessionPasswordDialog);
   const deleteAccountModalState = useSelector(getDeleteAccountModalState);
   const banOrUnbanUserModalState = useSelector(getBanOrUnbanUserModalState);
   const reactListModalState = useSelector(getReactListDialog);
   const reactClearAllModalState = useSelector(getReactClearAllDialog);
   const editProfilePictureModalState = useSelector(getEditProfilePictureModalState);
+  const hideRecoveryPasswordModalState = useSelector(getHideRecoveryPasswordModalState);
+  const lightBoxOptions = useSelector(getLightBoxOptions);
 
   return (
     <>
@@ -70,8 +75,8 @@ export const ModalContainer = () => {
       {changeNicknameModal && <SessionNicknameDialog {...changeNicknameModal} />}
       {editProfileModalState && <EditProfileDialog {...editProfileModalState} />}
       {onionPathModalState && <OnionPathModal {...onionPathModalState} />}
-      {recoveryPhraseModalState && <SessionSeedModal {...recoveryPhraseModalState} />}
-      {sessionPasswordModalState && <SessionPasswordDialog {...sessionPasswordModalState} />}
+      {enterPasswordModalState && <EnterPasswordModal {...enterPasswordModalState} />}
+      {sessionPasswordModalState && <SessionSetPasswordDialog {...sessionPasswordModalState} />}
       {deleteAccountModalState && <DeleteAccountModal {...deleteAccountModalState} />}
       {confirmModalState && <SessionConfirm {...confirmModalState} />}
       {reactListModalState && <ReactListModal {...reactListModalState} />}
@@ -79,6 +84,10 @@ export const ModalContainer = () => {
       {editProfilePictureModalState && (
         <EditProfilePictureModal {...editProfilePictureModalState} />
       )}
+      {hideRecoveryPasswordModalState && (
+        <HideRecoveryPasswordDialog {...hideRecoveryPasswordModalState} />
+      )}
+      {lightBoxOptions && <LightboxGallery {...lightBoxOptions} />}
     </>
   );
 };

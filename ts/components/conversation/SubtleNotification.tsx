@@ -1,7 +1,6 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { useIsIncomingRequest } from '../../hooks/useParamSelector';
+import { useIsIncomingRequest, useIsOutgoingRequest } from '../../hooks/useParamSelector';
 import {
   getSelectedHasMessages,
   hasSelectedConversationIncomingMessages,
@@ -11,10 +10,12 @@ import {
   useSelectedConversationKey,
   useSelectedHasDisabledBlindedMsgRequests,
   useSelectedIsNoteToSelf,
+  useSelectedIsPrivate,
   useSelectedNicknameOrProfileNameOrShortenedPubkey,
 } from '../../state/selectors/selectedConversation';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
+import { SessionUtilContact } from '../../session/utils/libsession/libsession_utils_contacts';
 
 const Container = styled.div`
   display: flex;
@@ -31,10 +32,41 @@ const TextInner = styled.div`
 `;
 
 /**
+ * This component is used to display a warning when the user is sending a message request.
+ *
+ */
+export const ConversationOutgoingRequestExplanation = () => {
+  const selectedConversation = useSelectedConversationKey();
+  const isOutgoingMessageRequest = useIsOutgoingRequest(selectedConversation);
+  const hasIncomingMessages = useSelector(hasSelectedConversationIncomingMessages);
+
+  const showMsgRequestUI = selectedConversation && isOutgoingMessageRequest;
+
+  const selectedIsPrivate = useSelectedIsPrivate();
+
+  if (!showMsgRequestUI || hasIncomingMessages || !selectedIsPrivate) {
+    return null;
+  }
+  const contactFromLibsession = SessionUtilContact.getContactCached(selectedConversation);
+  // Note: we want to display this description when the conversation is private (or blinded) AND
+  // - the conversation is brand new (and not saved yet in libsession: transient conversation),
+  // - the conversation exists in libsession but we are not approved yet.
+  // This works because a blinded conversation is not saved in libsession currently, and will only be once approved_me is true
+  if (!contactFromLibsession || !contactFromLibsession.approvedMe) {
+    return (
+      <Container data-testid={'empty-conversation-control-message'} style={{ padding: 0 }}>
+        <TextInner>{window.i18n('messageRequestPendingDescription')}</TextInner>
+      </Container>
+    );
+  }
+  return null;
+};
+
+/**
  * This component is used to display a warning when the user is responding to a message request.
  *
  */
-export const ConversationRequestExplanation = () => {
+export const ConversationIncomingRequestExplanation = () => {
   const selectedConversation = useSelectedConversationKey();
   const isIncomingMessageRequest = useIsIncomingRequest(selectedConversation);
 
@@ -47,7 +79,7 @@ export const ConversationRequestExplanation = () => {
 
   return (
     <Container>
-      <TextInner>{window.i18n('respondingToRequestWarning')}</TextInner>
+      <TextInner>{window.i18n('messageRequestsAcceptDescription')}</TextInner>
     </Container>
   );
 };
@@ -58,7 +90,7 @@ export const ConversationRequestExplanation = () => {
 export const NoMessageInConversation = () => {
   const selectedConversation = useSelectedConversationKey();
 
-  const hasMessage = useSelector(getSelectedHasMessages);
+  const hasMessages = useSelector(getSelectedHasMessages);
 
   const isMe = useSelectedIsNoteToSelf();
   const canWrite = useSelector(getSelectedCanWrite);
@@ -66,7 +98,7 @@ export const NoMessageInConversation = () => {
   // TODOLATER use this selector across the whole application (left pane excluded)
   const nameToRender = useSelectedNicknameOrProfileNameOrShortenedPubkey();
 
-  if (!selectedConversation || hasMessage) {
+  if (!selectedConversation || hasMessages) {
     return null;
   }
   let localizedKey: LocalizerKeys = 'noMessagesInEverythingElse';

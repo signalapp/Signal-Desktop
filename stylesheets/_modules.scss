@@ -617,7 +617,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: var(--margins-xs);
 }
 
 .module-conversation-list-item__header__name {
@@ -952,7 +951,7 @@
 .module-left-pane {
   display: inline-flex;
   flex-direction: column;
-  width: 380px;
+  width: var(--left-panel-width);
   height: 100%;
 }
 

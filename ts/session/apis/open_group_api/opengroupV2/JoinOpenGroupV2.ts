@@ -1,4 +1,4 @@
-import { OpenGroupV2Room } from '../../../../data/opengroups';
+import { OpenGroupV2Room } from '../../../../data/types';
 import { ConversationModel } from '../../../../models/conversation';
 import { getConversationController } from '../../../conversations';
 import { PromiseUtils, ToastUtils } from '../../../utils';
@@ -133,13 +133,17 @@ export async function joinOpenGroupV2WithUIEvents(
   completeUrl: string,
   showToasts: boolean,
   fromConfigMessage: boolean,
-  uiCallback?: (args: JoinSogsRoomUICallbackArgs) => void
+  uiCallback?: (args: JoinSogsRoomUICallbackArgs) => void,
+  errorHandler?: (error: string) => void
 ): Promise<boolean> {
   try {
     const parsedRoom = parseOpenGroupV2(completeUrl);
     if (!parsedRoom) {
       if (showToasts) {
         ToastUtils.pushToastError('connectToServer', window.i18n('invalidOpenGroupUrl'));
+      }
+      if (errorHandler) {
+        errorHandler(window.i18n('invalidOpenGroupUrl'));
       }
       return false;
     }
@@ -152,6 +156,9 @@ export async function joinOpenGroupV2WithUIEvents(
       await existingConvo.commit();
       if (showToasts) {
         ToastUtils.pushToastError('publicChatExists', window.i18n('publicChatExists'));
+      }
+      if (errorHandler) {
+        errorHandler(window.i18n('publicChatExists'));
       }
       return false;
     }
@@ -177,12 +184,18 @@ export async function joinOpenGroupV2WithUIEvents(
     if (showToasts) {
       ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
     }
+    if (errorHandler) {
+      errorHandler(window.i18n('connectToServerFail'));
+    }
 
     uiCallback?.({ loadingState: 'failed', conversationKey: conversationID });
   } catch (error) {
     window?.log?.warn('got error while joining open group:', error.message);
     if (showToasts) {
       ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
+    }
+    if (errorHandler) {
+      errorHandler(window.i18n('connectToServerFail'));
     }
     uiCallback?.({ loadingState: 'failed', conversationKey: null });
   }

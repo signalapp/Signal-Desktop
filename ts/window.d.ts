@@ -1,6 +1,9 @@
 // eslint-disable-next-line import/no-unresolved
 import {} from 'styled-components/cssprop';
 
+import { Store } from '@reduxjs/toolkit';
+import { Persistor } from 'redux-persist/es/types';
+
 import { LocalizerType } from './types/Util';
 
 import { ConversationCollection } from './models/conversation';
@@ -44,7 +47,7 @@ declare global {
     persistStore?: Persistor;
     restart: () => void;
     getSeedNodeList: () => Array<string> | undefined;
-    setPassword: (newPassword: string | null, oldPassword: string | null) => Promise<void>;
+    setPassword: (newPassword: string | null, oldPassword: string | null) => Promise<string>;
     isOnline: boolean;
     toggleMediaPermissions: () => Promise<void>;
     toggleCallMediaPermissionsTo: (enabled: boolean) => Promise<void>;
@@ -78,6 +81,7 @@ declare global {
     getAppInstance: () => string;
     getCommitHash: () => string | undefined;
     getVersion: () => string;
+    getOSRelease: () => string;
     setAutoHideMenuBar: (val: boolean) => void;
     setMenuBarVisibility: (val: boolean) => void;
     contextMenuShown: boolean;

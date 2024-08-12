@@ -1,4 +1,3 @@
-import React from 'react';
 import _ from 'lodash';
 import { useDispatch } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
@@ -6,11 +5,11 @@ import styled from 'styled-components';
 
 import { ToastUtils, UserUtils } from '../../session/utils';
 
-import { SpacerLG, Text } from '../basic/Text';
 import { updateGroupMembersModal } from '../../state/ducks/modalDialog';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { MemberListItem } from '../MemberListItem';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SpacerLG, Text } from '../basic/Text';
 
 import { useConversationPropsById, useWeAreAdmin } from '../../hooks/useParamSelector';
 
@@ -54,11 +53,11 @@ const ClassicMemberList = (props: {
 
         return (
           <MemberListItem
+            key={`classic-member-list-${member}`}
             pubkey={member}
             isSelected={isSelected}
             onSelect={onSelect}
             onUnselect={onUnselect}
-            key={member}
             isAdmin={isAdmin}
             disableBg={true}
           />
@@ -85,11 +84,11 @@ const ZombiesList = ({ convoId }: { convoId: string }) => {
     const isSelected = weAreAdmin || false; // && !member.checkmarked;
     return (
       <MemberListItem
+        key={`zombie-list-${zombie}`}
         isSelected={isSelected}
         onSelect={onZombieClicked}
         onUnselect={onZombieClicked}
         isZombie={true}
-        key={zombie}
         pubkey={zombie}
       />
     );
@@ -234,7 +233,7 @@ export const UpdateGroupMembersDialog = (props: Props) => {
 
   return (
     <SessionWrapperModal title={titleText} onClose={closeDialog}>
-      <StyledClassicMemberList className="group-member-list__selection">
+      <StyledClassicMemberList className="contact-selection-list">
         <ClassicMemberList
           convoId={conversationId}
           onSelect={onAdd}

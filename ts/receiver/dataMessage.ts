@@ -13,7 +13,6 @@ import { StringUtils, UserUtils } from '../session/utils';
 import { handleClosedGroupControlMessage } from './closedGroups';
 import { handleMessageJob, toRegularMessage } from './queuedJob';
 
-import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { MessageModel } from '../models/message';
 import {
   createSwarmMessageSentFromNotUs,
@@ -26,6 +25,7 @@ import { isUsFromCache } from '../session/utils/User';
 import { Action, Reaction } from '../types/Reaction';
 import { toLogFormat } from '../types/attachments/Errors';
 import { Reactions } from '../util/reactions';
+import { ConversationTypeEnum } from '../models/types';
 
 function cleanAttachment(attachment: any) {
   return {

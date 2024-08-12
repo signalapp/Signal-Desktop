@@ -1,4 +1,4 @@
-import React from 'react';
+import { MouseEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
@@ -54,7 +54,7 @@ type Props = {
 export const SessionToggle = (props: Props) => {
   const dispatch = useDispatch();
 
-  const clickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
+  const clickHandler = (event: MouseEvent<HTMLDivElement>) => {
     const stateManager = (e: any) => {
       e.stopPropagation();
       props.onClick();

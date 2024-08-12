@@ -10,8 +10,7 @@ import { PubKey } from '../../../../session/types';
 import { MessageUtils, UserUtils } from '../../../../session/utils';
 import { TestUtils } from '../../../test-utils';
 
-import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
-import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
+import { OpenGroupData } from '../../../../data/opengroups';
 import { SignalService } from '../../../../protobuf';
 import { getOpenGroupV2ConversationId } from '../../../../session/apis/open_group_api/utils/OpenGroupUtils';
 import { SnodeNamespaces } from '../../../../session/apis/snode_api/namespaces';
@@ -24,6 +23,8 @@ import { ClosedGroupNewMessage } from '../../../../session/messages/outgoing/con
 import { ClosedGroupRemovedMembersMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { getCurrentConfigurationMessage } from '../../../../session/utils/sync/syncUtils';
 import { stubData, stubOpenGroupData } from '../../../test-utils/utils';
+import { OpenGroupV2Room } from '../../../../data/types';
+import { ConversationTypeEnum } from '../../../../models/types';
 
 chai.use(chaiAsPromised as any);
 

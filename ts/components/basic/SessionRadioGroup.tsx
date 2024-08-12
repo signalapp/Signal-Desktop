@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import useMount from 'react-use/lib/useMount';
 import styled, { CSSProperties } from 'styled-components';
 
@@ -57,6 +57,7 @@ export const SessionRadioGroup = (props: Props) => {
             }}
             beforeMargins={'0 var(--margins-sm) 0 0 '}
             radioPosition={radioPosition}
+            style={{ textAlign: 'start' }}
           />
         );
       })}

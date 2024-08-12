@@ -1,17 +1,16 @@
-import React from 'react';
-
 import { contextMenu } from 'react-contexify';
 
 import { connect } from 'react-redux';
 
 import autoBind from 'auto-bind';
+import { Component, RefObject } from 'react';
 import styled from 'styled-components';
 import {
-  quotedMessageToAnimate,
   ReduxConversationType,
+  SortedMessageModelProps,
+  quotedMessageToAnimate,
   resetOldBottomMessageId,
   resetOldTopMessageId,
-  SortedMessageModelProps,
 } from '../../state/ducks/conversations';
 import { SessionScrollButton } from '../SessionScrollButton';
 
@@ -31,7 +30,7 @@ import { SessionMessagesList } from './SessionMessagesList';
 import { TypingBubble } from './TypingBubble';
 
 export type SessionMessageListProps = {
-  messageContainerRef: React.RefObject<HTMLDivElement>;
+  messageContainerRef: RefObject<HTMLDivElement>;
 };
 export const messageContainerDomID = 'messages-container';
 
@@ -66,11 +65,12 @@ const StyledMessagesContainer = styled.div`
   }
 `;
 
-const StyledTypingBubble = styled(TypingBubble)`
-  margin: var(--margins-xs) var(--margins-lg) 0;
+// NOTE Must always match the padding of the StyledReadableMessage
+const StyledTypingBubbleContainer = styled.div`
+  padding: var(--margins-xs) var(--margins-lg) 0;
 `;
 
-class SessionMessagesListContainerInner extends React.Component<Props> {
+class SessionMessagesListContainerInner extends Component<Props> {
   private timeoutResetQuotedScroll: NodeJS.Timeout | null = null;
 
   public constructor(props: Props) {
@@ -119,11 +119,13 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
         ref={this.props.messageContainerRef}
         data-testid="messages-container"
       >
-        <StyledTypingBubble
-          conversationType={conversation.type}
-          isTyping={!!conversation.isTyping}
-          key="typing-bubble"
-        />
+        <StyledTypingBubbleContainer>
+          <TypingBubble
+            conversationType={conversation.type}
+            isTyping={!!conversation.isTyping}
+            key="typing-bubble"
+          />
+        </StyledTypingBubbleContainer>
         <ConversationMessageRequestButtons />
 
         <ScrollToLoadedMessageContext.Provider value={this.scrollToLoadedMessage}>

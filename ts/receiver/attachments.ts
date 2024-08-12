@@ -4,7 +4,6 @@ import { MessageModel } from '../models/message';
 import { Data } from '../data/data';
 import { AttachmentDownloads } from '../session/utils';
 import { ConversationModel } from '../models/conversation';
-import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { getUnpaddedAttachment } from '../session/crypto/BufferPadding';
 import { decryptAttachment } from '../util/crypto/attachmentsEncrypter';
 import { callUtilsWorker } from '../webworker/workers/browser/util_worker_interface';
@@ -14,6 +13,7 @@ import {
   downloadFileFromFileServer,
   fileServerURL,
 } from '../session/apis/file_server_api/FileServerApi';
+import { OpenGroupRequestCommonType } from '../data/types';
 
 export async function downloadAttachment(attachment: {
   url: string;

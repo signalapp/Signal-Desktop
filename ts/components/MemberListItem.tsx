@@ -1,8 +1,7 @@
-import React from 'react';
 import styled from 'styled-components';
 
-import { Avatar, AvatarSize, CrownIcon } from './avatar/Avatar';
 import { useNicknameOrProfileNameOrShortenedPubkey } from '../hooks/useParamSelector';
+import { Avatar, AvatarSize, CrownIcon } from './avatar/Avatar';
 import { SessionRadio } from './basic/SessionRadio';
 
 const AvatarContainer = styled.div`
@@ -24,13 +23,13 @@ const StyledSessionMemberItem = styled.button<{
   zombie?: boolean;
   selected?: boolean;
   disableBg?: boolean;
+  withBorder?: boolean;
 }>`
-  cursor: pointer;
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
-  flex-grow: 1;
   font-family: var(--font-default);
   padding: 0px var(--margins-sm);
   height: ${props => (props.inMentions ? '40px' : '50px')};
@@ -42,8 +41,15 @@ const StyledSessionMemberItem = styled.button<{
       ? 'var(--conversation-tab-background-selected-color) !important'
       : null};
 
-  :not(:last-child) {
+  ${props => props.inMentions && 'max-width: 300px;'}
+  ${props =>
+    props.withBorder &&
+    `&:not(button:last-child) {
     border-bottom: 1px solid var(--border-color);
+  }`}
+
+  &:hover {
+    background-color: var(--conversation-tab-background-hover-color);
   }
 `;
 
@@ -53,13 +59,14 @@ const StyledInfo = styled.div`
   min-width: 0;
 `;
 
-const StyledName = styled.span`
+const StyledName = styled.span<{ maxName?: string }>`
   font-weight: bold;
   margin-inline-start: var(--margins-md);
   margin-inline-end: var(--margins-md);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  ${props => props.maxName && `max-width: ${props.maxName};`}
 `;
 
 const StyledCheckContainer = styled.div`
@@ -74,9 +81,12 @@ export const MemberListItem = (props: {
   isZombie?: boolean;
   inMentions?: boolean; // set to true if we are rendering members but in the Mentions picker
   disableBg?: boolean;
+  withBorder?: boolean;
+  maxNameWidth?: string;
   isAdmin?: boolean; // if true,  we add a small crown on top of their avatar
   onSelect?: (pubkey: string) => void;
   onUnselect?: (pubkey: string) => void;
+  disabled?: boolean;
   dataTestId?: string;
 }) => {
   const {
@@ -88,6 +98,9 @@ export const MemberListItem = (props: {
     onUnselect,
     inMentions,
     disableBg,
+    withBorder = true,
+    maxNameWidth,
+    disabled,
     dataTestId,
   } = props;
 
@@ -99,22 +112,17 @@ export const MemberListItem = (props: {
         // eslint-disable-next-line no-unused-expressions
         isSelected ? onUnselect?.(pubkey) : onSelect?.(pubkey);
       }}
-      style={
-        !inMentions && !disableBg
-          ? {
-              backgroundColor: 'var(--background-primary-color)',
-            }
-          : {}
-      }
       data-testid={dataTestId}
       zombie={isZombie}
       inMentions={inMentions}
       selected={isSelected}
       disableBg={disableBg}
+      withBorder={withBorder}
+      disabled={disabled}
     >
       <StyledInfo>
         <AvatarItem memberPubkey={pubkey} isAdmin={isAdmin || false} />
-        <StyledName>{memberName}</StyledName>
+        <StyledName maxName={maxNameWidth}>{memberName}</StyledName>
       </StyledInfo>
 
       {!inMentions && (

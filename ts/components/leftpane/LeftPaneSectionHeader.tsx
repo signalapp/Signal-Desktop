@@ -1,19 +1,33 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
-import { SectionType } from '../../state/ducks/section';
+import { clearSearch } from '../../state/ducks/search';
+import {
+  LeftOverlayMode,
+  SectionType,
+  setLeftOverlayMode,
+  showLeftPaneSection,
+  showSettingsSection,
+} from '../../state/ducks/section';
 import { disableRecoveryPhrasePrompt } from '../../state/ducks/userConfig';
-import { getFocusedSection, getIsMessageRequestOverlayShown } from '../../state/selectors/section';
+import { getFocusedSection, getLeftOverlayMode } from '../../state/selectors/section';
+import { useHideRecoveryPasswordEnabled } from '../../state/selectors/settings';
+import { useIsDarkTheme } from '../../state/selectors/theme';
 import { getShowRecoveryPhrasePrompt } from '../../state/selectors/userConfig';
 import { isSignWithRecoveryPhrase } from '../../util/storage';
 import { Flex } from '../basic/Flex';
 import { SessionButton } from '../basic/SessionButton';
+import { SpacerMD, SpacerSM } from '../basic/Text';
 import { MenuButton } from '../buttons';
+import { SessionIcon, SessionIconButton } from '../icon';
+
+const StyledLeftPaneSectionHeader = styled(Flex)`
+  height: var(--main-view-header-height);
+  padding-inline-end: 7px;
+  transition: var(--default-duration);
+`;
 
 const SectionTitle = styled.h1`
   padding-top: var(--margins-xs);
-  padding-left: var(--margins-sm);
   flex-grow: 1;
   color: var(--text-primary-color);
 `;
@@ -27,71 +41,98 @@ const StyledProgressBarContainer = styled.div`
 
 const StyledProgressBarInner = styled.div`
   background: var(--primary-color);
-  width: 90%;
+  width: 100%;
   transition: width var(--default-duration) ease-in;
   height: 100%;
 `;
 
-export const StyledBannerTitle = styled.div`
-  line-height: 1.3;
-  font-size: var(--font-size-md);
-  font-weight: bold;
-  margin: var(--margins-sm) var(--margins-sm) 0 var(--margins-sm);
+const StyledBanner = styled(Flex)`
+  p {
+    padding: 0;
+    margin: 0;
+    line-height: 1.2;
+  }
 
-  span {
-    color: var(--primary-color);
+  p:nth-child(2) {
+    font-size: 12px;
+  }
+
+  .session-button {
+    width: 100%;
+  }
+
+  svg {
+    margin-top: -3px;
+    margin-left: var(--margins-xs);
   }
 `;
 
-export const StyledLeftPaneBanner = styled.div`
-  background: var(--background-primary-color);
+const StyledBannerTitle = styled.p`
+  font-size: var(--font-size-h4);
+  font-weight: 500;
+  line-height: 1;
+`;
+
+const StyledLeftPaneBanner = styled.div`
+  background: var(--background-secondary-color);
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid var(--border-color);
 `;
 
-const StyledBannerInner = styled.div`
-  p {
-    margin: 0;
+function getLeftPaneHeaderLabel(
+  leftOverlayMode: LeftOverlayMode | undefined,
+  focusedSection: SectionType
+): string {
+  let label = '';
+
+  switch (leftOverlayMode) {
+    case 'open-group':
+      label = window.i18n('joinOpenGroup');
+      break;
+    case 'closed-group':
+      label = window.i18n('createGroup');
+      break;
+    case 'message':
+      label = window.i18n('newMessage');
+      break;
+    case 'message-requests':
+      label = window.i18n('messageRequests');
+      break;
+    case 'invite-a-friend':
+      label = window.i18n('sessionInviteAFriend');
+      break;
+    case 'choose-action':
+    default:
+      label = window.i18n('messagesHeader');
   }
 
-  .left-pane-banner___phrase {
-    margin-top: var(--margins-md);
+  switch (focusedSection) {
+    case SectionType.Settings:
+      label = window.i18n('settingsHeader');
+      break;
+    case SectionType.Message:
+    default:
   }
 
-  .session-button {
-    margin-top: var(--margins-md);
-    flex-grow: 1;
-  }
-`;
+  return label;
+}
 
-const BannerInner = () => {
+export const LeftPaneBanner = () => {
+  const isDarkTheme = useIsDarkTheme();
+  const section = useSelector(getFocusedSection);
+  const isSignInWithRecoveryPhrase = isSignWithRecoveryPhrase();
+  const hideRecoveryPassword = useHideRecoveryPasswordEnabled();
+
   const dispatch = useDispatch();
 
   const showRecoveryPhraseModal = () => {
     dispatch(disableRecoveryPhrasePrompt());
-    dispatch(recoveryPhraseModal({}));
+    dispatch(showLeftPaneSection(SectionType.Settings));
+    dispatch(showSettingsSection('recoveryPassword'));
   };
 
-  return (
-    <StyledBannerInner>
-      <p>{window.i18n('recoveryPhraseRevealMessage')}</p>
-      <Flex container={true} alignItems="center" justifyContent="center">
-        <SessionButton
-          text={window.i18n('recoveryPhraseRevealButtonText')}
-          onClick={showRecoveryPhraseModal}
-          dataTestId="reveal-recovery-phrase"
-        />
-      </Flex>
-    </StyledBannerInner>
-  );
-};
-
-export const LeftPaneBanner = () => {
-  const section = useSelector(getFocusedSection);
-  const isSignInWithRecoveryPhrase = isSignWithRecoveryPhrase();
-
-  if (section !== SectionType.Message || isSignInWithRecoveryPhrase) {
+  if (section !== SectionType.Message || isSignInWithRecoveryPhrase || hideRecoveryPassword) {
     return null;
   }
 
@@ -100,12 +141,30 @@ export const LeftPaneBanner = () => {
       <StyledProgressBarContainer>
         <StyledProgressBarInner />
       </StyledProgressBarContainer>
-      <StyledBannerTitle>
-        {window.i18n('recoveryPhraseSecureTitle')} <span>90%</span>
-      </StyledBannerTitle>
-      <Flex flexDirection="column" justifyContent="space-between" padding={'var(--margins-sm)'}>
-        <BannerInner />
-      </Flex>
+      <StyledBanner
+        container={true}
+        width={'100%'}
+        flexDirection="column"
+        alignItems={'flex-start'}
+        padding={'var(--margins-md)'}
+      >
+        <Flex container={true} width={'100%'} alignItems="flex-start">
+          <StyledBannerTitle>{window.i18n('saveRecoveryPassword')}</StyledBannerTitle>
+          <SessionIcon
+            iconType={isDarkTheme ? 'recoveryPasswordFill' : 'recoveryPasswordOutline'}
+            iconSize="medium"
+            iconColor="var(--text-primary-color)"
+          />
+        </Flex>
+        <p>{window.i18n('saveRecoveryPasswordDescription')}</p>
+        <SpacerMD />
+        <SessionButton
+          ariaLabel="Reveal recovery phrase button"
+          text={window.i18n('continue')}
+          onClick={showRecoveryPhraseModal}
+          dataTestId="reveal-recovery-phrase"
+        />
+      </StyledBanner>
     </StyledLeftPaneBanner>
   );
 };
@@ -113,30 +172,44 @@ export const LeftPaneBanner = () => {
 export const LeftPaneSectionHeader = () => {
   const showRecoveryPhrasePrompt = useSelector(getShowRecoveryPhrasePrompt);
   const focusedSection = useSelector(getFocusedSection);
-  const isMessageRequestOverlayShown = useSelector(getIsMessageRequestOverlayShown);
+  const leftOverlayMode = useSelector(getLeftOverlayMode);
 
-  let label: string | undefined;
+  const dispatch = useDispatch();
+  const returnToActionChooser = () => {
+    if (leftOverlayMode === 'closed-group') {
+      dispatch(clearSearch());
+    }
+    dispatch(setLeftOverlayMode('choose-action'));
+  };
 
+  const label = getLeftPaneHeaderLabel(leftOverlayMode, focusedSection);
   const isMessageSection = focusedSection === SectionType.Message;
-
-  switch (focusedSection) {
-    case SectionType.Settings:
-      label = window.i18n('settingsHeader');
-      break;
-    case SectionType.Message:
-      label = isMessageRequestOverlayShown
-        ? window.i18n('messageRequests')
-        : window.i18n('messagesHeader');
-      break;
-    default:
-  }
 
   return (
     <Flex flexDirection="column">
-      <div className="module-left-pane__header">
+      <StyledLeftPaneSectionHeader
+        container={true}
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        {leftOverlayMode &&
+        leftOverlayMode !== 'choose-action' &&
+        leftOverlayMode !== 'message-requests' ? (
+          <SessionIconButton
+            ariaLabel="Back button"
+            iconSize="medium"
+            iconType="chevron"
+            iconRotation={90}
+            onClick={returnToActionChooser}
+            dataTestId="back-button"
+          />
+        ) : (
+          <SpacerSM />
+        )}
         <SectionTitle>{label}</SectionTitle>
         {isMessageSection && <MenuButton />}
-      </div>
+      </StyledLeftPaneSectionHeader>
       {showRecoveryPhrasePrompt && <LeftPaneBanner />}
     </Flex>
   );

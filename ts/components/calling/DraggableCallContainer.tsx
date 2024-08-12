@@ -1,16 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
+import { useSelector } from 'react-redux';
 
 import styled from 'styled-components';
-import { getHasOngoingCall, getHasOngoingCallWith } from '../../state/selectors/call';
-import { openConversationWithMessages } from '../../state/ducks/conversations';
-import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { useVideoCallEventsListener } from '../../hooks/useVideoEventListener';
-import { VideoLoadingSpinner } from './InConversationCallContainer';
-import { getSection } from '../../state/selectors/section';
+import { openConversationWithMessages } from '../../state/ducks/conversations';
 import { SectionType } from '../../state/ducks/section';
+import { getHasOngoingCall, getHasOngoingCallWith } from '../../state/selectors/call';
+import { getSection } from '../../state/selectors/section';
 import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
+import { Avatar, AvatarSize } from '../avatar/Avatar';
+import { VideoLoadingSpinner } from './InConversationCallContainer';
 
 export const DraggableCallWindow = styled.div`
   position: absolute;

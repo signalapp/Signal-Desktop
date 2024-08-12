@@ -1,10 +1,9 @@
-import React from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { isMessageSelectionMode } from '../../../state/selectors/conversations';
 
 import { openRightPanel } from '../../../state/ducks/conversations';
 
+import { useIsOutgoingRequest } from '../../../hooks/useParamSelector';
 import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 import { Flex } from '../../basic/Flex';
 import { AvatarHeader, CallButton } from './ConversationHeaderItems';
@@ -14,6 +13,8 @@ import { ConversationHeaderTitle } from './ConversationHeaderTitle';
 export const ConversationHeaderWithDetails = () => {
   const isSelectionMode = useSelector(isMessageSelectionMode);
   const selectedConvoKey = useSelectedConversationKey();
+  const isOutgoingRequest = useIsOutgoingRequest(selectedConvoKey);
+
   const dispatch = useDispatch();
 
   if (!selectedConvoKey) {
@@ -29,9 +30,9 @@ export const ConversationHeaderWithDetails = () => {
         width="100%"
         flexGrow={1}
       >
-        <ConversationHeaderTitle />
+        <ConversationHeaderTitle showSubtitle={!isOutgoingRequest} />
 
-        {!isSelectionMode && (
+        {!isOutgoingRequest && !isSelectionMode && (
           <Flex
             container={true}
             flexDirection="row"

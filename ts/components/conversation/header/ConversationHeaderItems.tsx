@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { callRecipient } from '../../../interactions/conversationInteractions';
 import { getHasIncomingCall, getHasOngoingCall } from '../../../state/selectors/call';

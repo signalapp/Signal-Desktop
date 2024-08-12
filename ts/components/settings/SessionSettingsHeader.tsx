@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
 import { SettingsViewProps } from './SessionSettings';
@@ -44,9 +43,11 @@ export const SettingsHeader = (props: Props) => {
     case 'privacy':
       categoryTitle = window.i18n('privacySettingsTitle');
       break;
+    case 'recoveryPassword':
+      categoryTitle = window.i18n('sessionRecoveryPassword');
+      break;
     case 'clearData':
     case 'messageRequests':
-    case 'recoveryPhrase':
       throw new Error(`no header for should be tried to be rendered for "${category}"`);
 
     default:

@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import { expect } from 'chai';
 import Sinon from 'sinon';
-import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
-import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
+import { OpenGroupData } from '../../../../data/opengroups';
 import {
   hasExistingOpenGroup,
   isSessionRunOpenGroup,
@@ -12,6 +11,8 @@ import { getConversationController } from '../../../../session/conversations';
 import { stubData, stubOpenGroupData, stubWindowLog } from '../../../test-utils/utils';
 import { UserUtils } from '../../../../session/utils';
 import { TestUtils } from '../../../test-utils';
+import { OpenGroupV2Room } from '../../../../data/types';
+import { ConversationTypeEnum } from '../../../../models/types';
 
 describe('APIUtils', () => {
   beforeEach(() => {

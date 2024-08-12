@@ -1,5 +1,5 @@
 import { SignalService } from '../../../../protobuf';
-import { LokiProfile } from '../../../../types/Message';
+import { LokiProfile } from '../../../../types/message';
 import { ContentMessage } from '../ContentMessage';
 import { MessageParams } from '../Message';
 import { buildProfileForOutgoingMessage } from '../visibleMessage/VisibleMessage';

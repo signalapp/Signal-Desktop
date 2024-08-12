@@ -1,5 +1,6 @@
 import { isArray } from 'lodash';
-import { Snode } from '../../../data/data';
+import { Snode } from '../../../data/types';
+import { SnodeResponseError } from '../../utils/errors';
 import { processOnionRequestErrorAtDestination, SnodeResponse } from './onions';
 import { snodeRpc } from './sessionRpc';
 import {
@@ -44,7 +45,7 @@ export async function doSnodeBatchRequest(
     window?.log?.warn(
       `doSnodeBatchRequest - sessionRpc could not talk to ${targetNode.ip}:${targetNode.port}`
     );
-    throw new Error(
+    throw new SnodeResponseError(
       `doSnodeBatchRequest - sessionRpc could not talk to ${targetNode.ip}:${targetNode.port}`
     );
   }

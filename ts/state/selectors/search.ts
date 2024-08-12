@@ -1,12 +1,14 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { compact, isEmpty } from 'lodash';
+import { compact, isEmpty, remove, sortBy } from 'lodash';
 
 import { StateType } from '../reducer';
 
+import { UserUtils } from '../../session/utils';
+import { MessageResultProps } from '../../types/message';
 import { ConversationLookupType } from '../ducks/conversations';
 import { SearchStateType } from '../ducks/search';
 import { getConversationLookup } from './conversations';
-import { MessageResultProps } from '../../components/search/MessageSearchResults';
+import { ConversationTypeEnum } from '../../models/types';
 
 export const getSearch = (state: StateType): SearchStateType => state.search;
 
@@ -67,18 +69,55 @@ export const getSearchResultsContactOnly = createSelector([getSearchResults], se
  * When type just has a conversationId field, we render a ConversationListItem.
  * When type is MessageResultProps we render a MessageSearchResult
  */
-export type SearchResultsMergedListItem = string | { contactConvoId: string } | MessageResultProps;
+export type SearchResultsMergedListItem =
+  | string
+  | { contactConvoId: string; displayName?: string }
+  | MessageResultProps;
 
 export const getSearchResultsList = createSelector([getSearchResults], searchState => {
   const { contactsAndGroups, messages } = searchState;
-  const builtList: Array<SearchResultsMergedListItem> = [];
+  const builtList = [];
+
   if (contactsAndGroups.length) {
-    builtList.push(window.i18n('conversationsHeader', [`${contactsAndGroups.length}`]));
-    builtList.push(...contactsAndGroups.map(m => ({ contactConvoId: m.id })));
+    const contactsWithNameAndType = contactsAndGroups.map(m => ({
+      contactConvoId: m.id,
+      displayName: m.nickname || m.displayNameInProfile,
+      type: m.type,
+    }));
+
+    const groupsAndCommunities = sortBy(
+      remove(contactsWithNameAndType, m => m.type === ConversationTypeEnum.GROUP),
+      m => m.displayName?.toLowerCase()
+    );
+
+    const contactsStartingWithANumber = sortBy(
+      remove(
+        contactsWithNameAndType,
+        m => !m.displayName || (m.displayName && m.displayName[0].match(/^[0-9]+$/))
+      ),
+      m => m.displayName || m.contactConvoId
+    );
+
+    builtList.push(
+      ...groupsAndCommunities,
+      ...contactsWithNameAndType,
+      ...contactsStartingWithANumber
+    );
+
+    const us = UserUtils.getOurPubKeyStrFromCache();
+    const hasUs = remove(builtList, m => m.contactConvoId === us);
+
+    if (hasUs.length) {
+      builtList.unshift({ contactConvoId: us, displayName: window.i18n('noteToSelf') });
+    }
+
+    builtList.unshift(window.i18n('sessionConversations'));
   }
+
   if (messages.length) {
-    builtList.push(window.i18n('searchMessagesHeader', [`${messages.length}`]));
+    builtList.push(window.i18n('messages'));
     builtList.push(...messages);
   }
+
   return builtList;
 });

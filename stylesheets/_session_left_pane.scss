@@ -80,16 +80,6 @@ $session-compose-margin: 20px;
     height: 100%;
   }
 
-  &__header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: var(--main-view-header-height);
-    padding-inline-end: 7px;
-    transition: var(--default-duration);
-  }
-
   &__title {
     padding-inline-end: var(--margins-sm);
     padding-inline-start: var(--margins-sm);
@@ -117,20 +107,6 @@ $session-compose-margin: 20px;
       align-self: flex-start;
     }
 
-    .session-id-editable {
-      width: 90%;
-
-      textarea::-webkit-inner-spin-button {
-        margin: 0px 20px;
-        width: -webkit-fill-available;
-        flex-shrink: 0;
-      }
-    }
-
-    .session-id-editable-disabled {
-      border: none;
-    }
-
     .session-button {
       min-width: 160px;
       width: fit-content;
@@ -138,35 +114,5 @@ $session-compose-margin: 20px;
       margin-bottom: 3rem;
       flex-shrink: 0;
     }
-  }
-}
-
-.conversation.placeholder {
-  margin: auto;
-  height: 100%;
-
-  .container {
-    display: flex;
-    height: 100%;
-  }
-}
-
-.session-full-logo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: auto;
-
-  .session-brand-logo {
-    height: 180px;
-    filter: brightness(0) saturate(100%) invert(75%) sepia(84%) saturate(3272%) hue-rotate(103deg)
-      brightness(106%) contrast(103%);
-  }
-
-  .session-text-logo {
-    margin-top: 10px;
-    width: 250px;
-    transition: 0s;
-    filter: var(--session-logo-text-current-filter);
   }
 }

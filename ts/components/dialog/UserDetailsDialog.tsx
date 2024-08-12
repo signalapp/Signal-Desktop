@@ -1,26 +1,22 @@
-import React, { useState } from 'react';
-
-import useCopyToClipboard from 'react-use/lib/useCopyToClipboard';
+import { useState } from 'react';
 
 import useKey from 'react-use/lib/useKey';
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { getConversationController } from '../../session/conversations';
-import { ToastUtils } from '../../session/utils';
 import { openConversationWithMessages } from '../../state/ducks/conversations';
 import { updateUserDetailsModal, UserDetailsModalState } from '../../state/ducks/modalDialog';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
-import { SessionIdEditable } from '../basic/SessionIdEditable';
 import { SpacerLG } from '../basic/Text';
+import { CopyToClipboardButton } from '../buttons/CopyToClipboardButton';
+import { SessionInput } from '../inputs';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import { ConversationTypeEnum } from '../../models/types';
+import { Flex } from '../basic/Flex';
 
 export const UserDetailsDialog = (props: UserDetailsModalState) => {
   const [isEnlargedImageShown, setIsEnlargedImageShown] = useState(false);
 
   const size = isEnlargedImageShown ? AvatarSize.HUGE : AvatarSize.XL;
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, copyToClipboard] = useCopyToClipboard();
 
   function closeDialog() {
     window.inboxStore?.dispatch(updateUserDetailsModal(null));
@@ -56,7 +52,12 @@ export const UserDetailsDialog = (props: UserDetailsModalState) => {
   }
 
   return (
-    <SessionWrapperModal title={props.userName} onClose={closeDialog} showExitIcon={true}>
+    <SessionWrapperModal
+      title={props.userName}
+      onClose={closeDialog}
+      showExitIcon={true}
+      additionalClassName="user-details-dialog"
+    >
       <div className="avatar-center">
         <div className="avatar-center-inner">
           <Avatar
@@ -68,23 +69,28 @@ export const UserDetailsDialog = (props: UserDetailsModalState) => {
           />
         </div>
       </div>
-
       <SpacerLG />
-      <SessionIdEditable editable={false} text={props.conversationId} />
-
+      <Flex container={true} width={'100%'} justifyContent="center" alignItems="center">
+        <SessionInput
+          value={props.conversationId}
+          textSize="md"
+          centerText={true}
+          editable={false}
+          monospaced={true}
+          isTextArea={true}
+        />
+      </Flex>
+      <SpacerLG />
       <div className="session-modal__button-group__center">
         <SessionButton
           text={window.i18n('startConversation')}
           buttonType={SessionButtonType.Simple}
           onClick={onClickStartConversation}
         />
-        <SessionButton
-          text={window.i18n('editMenuCopy')}
+        <CopyToClipboardButton
+          copyContent={props.conversationId}
           buttonType={SessionButtonType.Simple}
-          onClick={() => {
-            copyToClipboard(props.conversationId);
-            ToastUtils.pushCopiedToClipBoard();
-          }}
+          hotkey={true}
         />
       </div>
     </SessionWrapperModal>

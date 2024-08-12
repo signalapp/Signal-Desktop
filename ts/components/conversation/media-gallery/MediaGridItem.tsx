@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
 import classNames from 'classnames';
+import { useState } from 'react';
 
-import { isImageTypeSupported, isVideoTypeSupported } from '../../../util/GoogleChrome';
-import { useEncryptedFileFetch } from '../../../hooks/useEncryptedFileFetch';
-import { showLightBox } from '../../../state/ducks/conversations';
 import { useDisableDrag } from '../../../hooks/useDisableDrag';
-import { LightBoxOptions } from '../SessionConversation';
+import { useEncryptedFileFetch } from '../../../hooks/useEncryptedFileFetch';
+import { LightBoxOptions, updateLightBoxOptions } from '../../../state/ducks/modalDialog';
+import { isImageTypeSupported, isVideoTypeSupported } from '../../../util/GoogleChrome';
 import { MediaItemType } from '../../lightbox/LightboxGallery';
 
 type Props = {
@@ -104,7 +103,7 @@ export const MediaGridItem = (props: Props) => {
           attachment: props.mediaItem.attachment,
         };
 
-        window.inboxStore?.dispatch(showLightBox(lightBoxOptions));
+        window.inboxStore?.dispatch(updateLightBoxOptions(lightBoxOptions));
       }}
     >
       <MediaGridItemContent {...props} />

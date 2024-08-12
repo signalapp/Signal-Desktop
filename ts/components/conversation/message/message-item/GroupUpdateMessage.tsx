@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useConversationsUsernameWithQuoteOrFullPubkey } from '../../../../hooks/useParamSelector';
 import { arrayContainsUsOnly } from '../../../../models/message';
 import {

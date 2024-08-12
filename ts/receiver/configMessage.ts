@@ -6,7 +6,6 @@ import { Data } from '../data/data';
 import { SettingsKey } from '../data/settings-key';
 import { ConversationInteraction } from '../interactions';
 import { deleteAllMessagesByConvoIdNoConfirmation } from '../interactions/conversationInteractions';
-import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../models/conversationAttributes';
 import { SignalService } from '../protobuf';
 import { ClosedGroup } from '../session';
 import {
@@ -34,12 +33,7 @@ import { assertUnreachable } from '../types/sqlSharedTypes';
 import { BlockedNumberController } from '../util';
 import { Registration } from '../util/registration';
 import { ReleasedFeatures } from '../util/releaseFeature';
-import {
-  Storage,
-  getLastProfileUpdateTimestamp,
-  isSignInByLinking,
-  setLastProfileUpdateTimestamp,
-} from '../util/storage';
+import { Storage, isSignInByLinking, setLastProfileUpdateTimestamp } from '../util/storage';
 
 import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
 import { RetrieveMessageItemWithNamespace } from '../session/apis/snode_api/types';
@@ -57,6 +51,8 @@ import { addKeyPairToCacheAndDBIfNeeded } from './closedGroups';
 import { HexKeyPair } from './keypairs';
 import { queueAllCachedFromSource } from './receiver';
 import { EnvelopePlus } from './types';
+import { ConversationTypeEnum, CONVERSATION_PRIORITIES } from '../models/types';
+import { CONVERSATION } from '../session/constants';
 
 function groupByNamespace(incomingConfigs: Array<RetrieveMessageItemWithNamespace>) {
   const groupedByVariant: Map<
@@ -607,6 +603,11 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
 
     const members = fromWrapper.members.map(m => m.pubkeyHex);
     const admins = fromWrapper.members.filter(m => m.isAdmin).map(m => m.pubkeyHex);
+
+    const creationTimestamp = fromWrapper.joinedAtSeconds
+      ? fromWrapper.joinedAtSeconds * 1000
+      : CONVERSATION.LAST_JOINED_FALLBACK_TIMESTAMP;
+
     // then for all the existing legacy group in the wrapper, we need to override the field of what we have in the DB with what is in the wrapper
     // We only set group admins on group creation
     const groupDetails: ClosedGroup.GroupInfo = {
@@ -615,10 +616,9 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
       members,
       admins,
       activeAt:
-        !!legacyGroupConvo.get('active_at') &&
-        legacyGroupConvo.get('active_at') < latestEnvelopeTimestamp
+        !!legacyGroupConvo.get('active_at') && legacyGroupConvo.get('active_at') > creationTimestamp
           ? legacyGroupConvo.get('active_at')
-          : latestEnvelopeTimestamp,
+          : creationTimestamp,
     };
 
     await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
@@ -647,13 +647,12 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
 
     const existingTimestampMs = legacyGroupConvo.get('lastJoinedTimestamp');
     const existingJoinedAtSeconds = Math.floor(existingTimestampMs / 1000);
-    if (existingJoinedAtSeconds !== fromWrapper.joinedAtSeconds) {
+    if (existingJoinedAtSeconds !== creationTimestamp) {
       legacyGroupConvo.set({
-        lastJoinedTimestamp: fromWrapper.joinedAtSeconds * 1000,
+        lastJoinedTimestamp: creationTimestamp,
       });
       changes = true;
     }
-
     // start polling for this group if we haven't left it yet. The wrapper does not store this info for legacy group so we check from the DB entry instead
     if (!legacyGroupConvo.get('isKickedFromGroup') && !legacyGroupConvo.get('left')) {
       getSwarmPollingInstance().addGroupId(PubKey.cast(fromWrapper.pubkeyHex));
@@ -868,6 +867,7 @@ async function processMergingResults(results: Map<ConfigWrapperObjectTypes, Inco
             window.log.warn('assertUnreachable failed', e.message);
           }
       }
+
       const variant = LibSessionUtil.kindToVariant(kind);
       try {
         await updateLibsessionLatestProcessedUserTimestamp(
@@ -927,6 +927,7 @@ async function handleConfigMessagesViaLibSession(
   );
 
   const incomingMergeResult = await mergeConfigsWithIncomingUpdates(configMessages);
+
   await processMergingResults(incomingMergeResult);
 }
 
@@ -950,32 +951,6 @@ async function updateOurProfileLegacyOrViaLibSession({
     trigger(configurationMessageReceived, displayName);
   } else {
     window?.log?.warn('Got a configuration message but the display name is empty');
-  }
-}
-
-async function handleOurProfileUpdateLegacy(
-  sentAt: number | Long,
-  configMessage: SignalService.ConfigurationMessage
-) {
-  const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
-  // we want to allow if we are not registered, as we might need to fetch an old config message (can be removed once we released for a weeks the libsession util)
-  if (userConfigLibsession && !isSignInByLinking()) {
-    return;
-  }
-  const latestProfileUpdateTimestamp = getLastProfileUpdateTimestamp();
-  if (!latestProfileUpdateTimestamp || sentAt > latestProfileUpdateTimestamp) {
-    window?.log?.info(
-      `Handling our profileUdpate ourLastUpdate:${latestProfileUpdateTimestamp}, envelope sent at: ${sentAt}`
-    );
-    const { profileKey, profilePicture, displayName } = configMessage;
-
-    await updateOurProfileLegacyOrViaLibSession({
-      sentAt: toNumber(sentAt),
-      displayName,
-      profileUrl: profilePicture,
-      profileKey,
-      priority: null, // passing null to say do not set the priority, as we do not get one from the legacy config message
-    });
   }
 }
 
@@ -1148,7 +1123,6 @@ async function handleConfigurationMessageLegacy(
     return;
   }
 
-  await handleOurProfileUpdateLegacy(envelope.timestamp, configurationMessage);
   await handleGroupsAndContactsFromConfigMessageLegacy(envelope, configurationMessage);
   await removeFromCache(envelope);
 }

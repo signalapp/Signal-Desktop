@@ -10,7 +10,6 @@ import { handleOpenGroupV4Message } from '../../../../receiver/opengroup';
 import { callUtilsWorker } from '../../../../webworker/workers/browser/util_worker_interface';
 import { getConversationController } from '../../../conversations';
 import { PubKey } from '../../../types';
-import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 import {
   OpenGroupMessageV4,
   getRoomAndUpdateLastFetchTimestamp,
@@ -29,7 +28,6 @@ import { handleCapabilities } from './sogsCapabilities';
 import { BatchSogsReponse, OpenGroupBatchRow, SubRequestMessagesType } from './sogsV3BatchPoll';
 
 import { Data } from '../../../../data/data';
-import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { createSwarmMessageSentFromUs } from '../../../../models/messageFactory';
 import { SignalService } from '../../../../protobuf';
 import { innerHandleSwarmContentMessage } from '../../../../receiver/contentMessage';
@@ -42,6 +40,8 @@ import { DisappearingMessages } from '../../../disappearing_messages';
 import { UserUtils } from '../../../utils';
 import { sogsRollingDeletions } from './sogsRollingDeletions';
 import { processMessagesUsingCache } from './sogsV3MutationCache';
+import { OpenGroupRequestCommonType } from '../../../../data/types';
+import { ConversationTypeEnum } from '../../../../models/types';
 
 /**
  * Get the convo matching those criteria and make sure it is an opengroup convo, or return null.
@@ -267,7 +267,7 @@ const handleMessagesResponseV4 = async (
     );
 
     const roomDetails: OpenGroupRequestCommonType = pick(roomInfos, 'serverUrl', 'roomId');
-    // then we try to find matching real session ids with the blinded ids we have.
+    // then we try to find matching real account ids with the blinded ids we have.
     // this is where we override the blindedId with the real one in case we already know that user real sessionId
 
     const messagesWithResolvedBlindedIdsIfFound = [];

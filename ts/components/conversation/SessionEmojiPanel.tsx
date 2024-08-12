@@ -1,22 +1,21 @@
-import React, { forwardRef } from 'react';
-import classNames from 'classnames';
-import styled from 'styled-components';
-import { useSelector } from 'react-redux';
 import Picker from '@emoji-mart/react';
+import classNames from 'classnames';
+import { forwardRef } from 'react';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 
-import { getTheme, isDarkTheme } from '../../state/selectors/theme';
+import { getPrimaryColor } from '../../state/selectors/primaryColor';
+import { useIsDarkTheme, useTheme } from '../../state/selectors/theme';
 import {
   COLORS,
   ColorsType,
   PrimaryColorStateType,
   THEMES,
   ThemeStateType,
-  // eslint-disable-next-line import/extensions
-} from '../../themes/constants/colors.js';
-import { hexColorToRGB } from '../../util/hexColorToRGB';
-import { getPrimaryColor } from '../../state/selectors/primaryColor';
-import { i18nEmojiData } from '../../util/emoji';
+} from '../../themes/constants/colors';
 import { FixedBaseEmoji } from '../../types/Reaction';
+import { i18nEmojiData } from '../../util/emoji';
+import { hexColorToRGB } from '../../util/hexColorToRGB';
 
 export const StyledEmojiPanel = styled.div<{
   isModal: boolean;
@@ -106,8 +105,8 @@ const pickerProps = {
 export const SessionEmojiPanel = forwardRef<HTMLDivElement, Props>((props: Props, ref) => {
   const { onEmojiClicked, show, isModal = false, onKeyDown } = props;
   const primaryColor = useSelector(getPrimaryColor);
-  const theme = useSelector(getTheme);
-  const isDarkMode = useSelector(isDarkTheme);
+  const theme = useTheme();
+  const isDarkTheme = useIsDarkTheme();
 
   let panelBackgroundRGB = hexColorToRGB(THEMES.CLASSIC_DARK.COLOR1);
   let panelTextRGB = hexColorToRGB(THEMES.CLASSIC_DARK.COLOR6);
@@ -143,7 +142,7 @@ export const SessionEmojiPanel = forwardRef<HTMLDivElement, Props>((props: Props
       ref={ref}
     >
       <Picker
-        theme={isDarkMode ? 'dark' : 'light'}
+        theme={isDarkTheme ? 'dark' : 'light'}
         i18n={i18nEmojiData}
         onEmojiSelect={onEmojiClicked}
         onKeyDown={onKeyDown}

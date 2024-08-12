@@ -1,9 +1,12 @@
 import AbortController from 'abort-controller';
+import { BlindingActions } from '../../../webworker/workers/browser/libsession_worker_interface';
 import { OnionSending, OnionV4JSONSnodeResponse } from '../../onions/onionSend';
 import {
   batchGlobalIsSuccess,
   parseBatchGlobalStatusCode,
 } from '../open_group_api/sogsv3/sogsV3BatchPoll';
+import { GetNetworkTime } from '../snode_api/getNetworkTime';
+import { fromUInt8ArrayToBase64 } from '../../utils/String';
 
 export const fileServerHost = 'filev2.getsession.org';
 export const fileServerURL = `http://${fileServerHost}`;
@@ -123,12 +126,27 @@ const parseStatusCodeFromOnionRequestV4 = (
  * Fetch the latest desktop release available on github from the fileserver.
  * This call is onion routed and so do not expose our ip to github nor the file server.
  */
-export const getLatestReleaseFromFileServer = async (): Promise<string | null> => {
+export const getLatestReleaseFromFileServer = async (
+  userEd25519SecretKey: Uint8Array
+): Promise<string | null> => {
+  const sigTimestampSeconds = GetNetworkTime.getNowWithNetworkOffsetSeconds();
+  const blindedPkHex = await BlindingActions.blindVersionPubkey({
+    ed25519SecretKey: userEd25519SecretKey,
+  });
+  const signature = await BlindingActions.blindVersionSign({
+    ed25519SecretKey: userEd25519SecretKey,
+    sigTimestampSeconds,
+  });
+  const body = {
+    'X-FS-Pubkey': blindedPkHex,
+    'X-FS-Timestamp': `${sigTimestampSeconds}`,
+    'X-FS-Signature': fromUInt8ArrayToBase64(signature),
+  };
   const result = await OnionSending.sendJsonViaOnionV4ToFileServer({
     abortSignal: new AbortController().signal,
     endpoint: RELEASE_VERSION_ENDPOINT,
     method: 'GET',
-    stringifiedBody: null,
+    stringifiedBody: JSON.stringify(body),
   });
 
   if (!batchGlobalIsSuccess(result) || parseStatusCodeFromOnionRequestV4(result) !== 200) {
