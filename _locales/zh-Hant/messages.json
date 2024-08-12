@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "透過 Signal 分享連結"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "刪除連結"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "要刪除通話連結嗎？"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "此連結將不再適用於任何人。"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "取消"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "刪除"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "通話連結詳情"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "此更新還修復了區域設定為「POSIX」的用戶在 Linux 上的啟動故障問題。"
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "帶有長標題的限時動態會顯示在輕微漸變的背景上，這樣可提高對比度並使文字更易閱讀。既然別人可以更清楚看到你在說什麼，就可以隨意寫幾段話來說明你為什麼大笑，而不僅僅寫「lol」。"
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "此發行版本還提高了連結預覽產生的效能，並修復了一個錯誤，該錯誤導致「設定」視窗在關閉時短暫閃爍群青色陰影（而不是立即關閉）。"
   }
 }

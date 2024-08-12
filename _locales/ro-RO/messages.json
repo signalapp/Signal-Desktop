@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Trimite linkul prin Signal"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Șterge linkul"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Ștergi linkul de apel?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "Linkul nu va mai funcționa pentru nicio persoană care îl are."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Anulează"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Șterge"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalii despre linkul apelului"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "Această actualizare corectează, de asemenea, o blocare la pornire pe Linux pentru utilizatorii a căror localizare este setată la `POSIX`."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Poveștile cu subtitrări lungi sunt afișate pe un fundal cu un degrade subtil, care îmbunătățește contrastul și face textul mai ușor de citit. Acum că oamenii pot vedea ce spui, nu ezita să scrii câteva alineate despre ceva te-a făcut să râzi cu adevărat, în loc să spui doar \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "Această versiune îmbunătățește, de asemenea, performanța previzualizării linkurilor și corectează o eroare care făcea ca fereastra Setări să clipească pentru scurt timp într-o nuanță frumoasă de albastru închis, atunci când era închisă (în loc să se închidă imediat)."
   }
 }

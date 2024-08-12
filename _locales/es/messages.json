@@ -87,10 +87,10 @@
     "messageformat": "Recuperar información"
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "No se puede acceder a la clave de cifrado de la base de datos porque el backend del cifrado del almacén de claves del sistema operativo ha cambiado de {previousBackend} a {currentBackend}. Esto puede ocurrir si el entorno de escritorio cambia, por ejemplo, de GNOME a KDE.\n\nVuelve al entorno de escritorio anterior."
+    "messageformat": "No se puede acceder a la clave de cifrado de la base de datos porque el backend del cifrado del almacén de claves del SO ha cambiado de {previousBackend} a {currentBackend}. Esto puede ocurrir si el entorno de escritorio cambia, por ejemplo, de GNOME a KDE.\n\nVuelve al entorno de escritorio anterior."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "No se puede acceder a la clave de cifrado de la base de datos porque el backend del cifrado del almacén de claves del sistema operativo ha cambiado de {previousBackend} a {currentBackend}. Esto puede ocurrir si el entorno de escritorio cambia, por ejemplo, de GNOME a KDE.\n\nVuelve al entorno de escritorio anterior o intenta ejecutar Signal con la marca de línea de comandos --password-store=\"{previousBackendFlag}\"."
+    "messageformat": "No se puede acceder a la clave de cifrado de la base de datos porque el backend del cifrado del almacén de claves del SO ha cambiado de {previousBackend} a {currentBackend}. Esto puede ocurrir si el entorno de escritorio cambia, por ejemplo, de GNOME a KDE.\n\nVuelve al entorno de escritorio anterior o intenta ejecutar Signal con la marca de línea de comandos --password-store=\"{previousBackendFlag}\"."
   },
   "icu:mainMenuFile": {
     "messageformat": "&Archivo"
@@ -831,7 +831,7 @@
     "messageformat": "No se ha podido actualizar Signal. {retry} o ve a {url} para instalar la aplicación manualmente. Luego, {support} para solucionar el problema."
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "No se ha podido actualizar Signal. <retryUpdateButton>Intenta volver a actualizar</retryUpdateButton> o ve a {url} para instalar la aplicación manualmente. Luego, <contactSupportLink>contacta con el equipo de asistencia</contactSupportLink> para informarles sobre el problema."
+    "messageformat": "No se ha podido actualizar Signal. <retryUpdateButton>Intenta actualizar de nuevo</retryUpdateButton> o ve a {url} para instalar la aplicación manualmente. Luego, <contactSupportLink>contacta con el equipo de asistencia</contactSupportLink> para informarles sobre el problema."
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "No se ha podido actualizar Signal. Ve a {url} para instalar la aplicación manualmente. Luego, {support} para solucionar el problema."
@@ -1842,7 +1842,7 @@
     "messageformat": "Actualización disponible"
   },
   "icu:autoUpdateRetry": {
-    "messageformat": "Vuelve a intentarlo"
+    "messageformat": "Intenta actualizar de nuevo"
   },
   "icu:autoUpdateContactSupport": {
     "messageformat": "contactar con asistencia"
@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Compartir enlace vía Signal"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Eliminar enlace"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "¿Eliminar enlace de llamada?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "Este enlace ya no funcionará para nadie."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Cancelar"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Eliminar"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalles del enlace de llamada"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "Esta actualización también corrige un bloqueo de inicio en Linux para configuraciones regionales establecidas como 'POSIX'."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Las Historias con subtítulos largos se muestran sobre un sutil fondo con degradado que mejora el contraste y facilita la lectura del texto. Ahora que las personas pueden ver lo que dices, anímate a escribir un par de párrafos sobre por qué algo realmente te hizo reír en lugar de decir solo \"lol\"."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "Esta versión también mejora el rendimiento de la generación de vistas previas de enlaces y corrige un error que provocaba que la ventana de Ajustes parpadeara brevemente en un encantador tono ultramarina cada vez que se cerraba (en lugar de cerrarse de inmediato)."
   }
 }

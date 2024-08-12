@@ -90,7 +90,7 @@
     "messageformat": "Ni mogoče dostopati do šifrirnega ključa podatkovne zbirke, ker se je zaledje šifrirnega ključa operacijskega sistema spremenilo iz {previousBackend} v {currentBackend}. To se lahko zgodi, če se namizno okolje spremeni, na primer med GNOME in KDE.\n\nPreklopite na prejšnje namizno okolje."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Ni mogoče dostopati do šifrirnega ključa podatkovne zbirke, ker se je zaledje šifrirnega ključa operacijskega sistema spremenilo iz {previousBackend} v {currentBackend}. To se lahko zgodi, če se namizno okolje spremeni, na primer med GNOME in KDE.\n\nPreklopite na prejšnje namizno okolje ali poskusite zagnati Signal iz ukazne vrstice flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Ni mogoče dostopati do šifrirnega ključa podatkovne zbirke, ker se je zaledje šifrirnega ključa operacijskega sistema spremenilo iz {previousBackend} v {currentBackend}. To se lahko zgodi, če se namizno okolje spremeni, na primer med GNOME in KDE.\n\nPreklopite na prejšnje namizno okolje ali poskusite zagnati Signal z navodilom ukazne vrstice --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Datoteka"
@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Deli povezavo prek Signala"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Izbriši povezavo"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Želite izbrisati povezavo klica?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "Ta povezava ne bo več delovala za nikogar."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Prekliči"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Izbriši"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Podrobnosti o klicni povezavi"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "Ta posodobitev odpravlja tudi okvaro ob zagonu v operacijskem sistemu Linux za uporabnike, katerih krajevna lestvica je nastavljena na `POSIX`."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Zgodbe z dolgimi besedili so zdaj prikazane z izboljšanim kontrastom, ki olajša branje besedila. Zdaj, ko lahko ljudje vidijo, kaj pravite, lahko napišete nekaj odstavkov o tem, zakaj vas je nekaj resnično nasmejalo, namesto da samo rečete \"lol.\""
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "Ta izdaja izboljšuje tudi zmogljivost ustvarjanja predogleda povezav in odpravlja manjšo napako ob zapiranju okna Nastavitve."
   }
 }

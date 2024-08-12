@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Del lenken via Signal"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Slett lenken"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Vil du slette anropslenken?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "Dette vil føre til at den slutter å fungere for alle som har den."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Avbryt"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Slett"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Informasjon om anropslenke"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "Oppdateringen fikser også et oppstartsproblem for Linux-brukere med lokaliteten satt til «POSIX»."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Storyer med lange undertekster vises nå med mer kontrast slik at teksten blir lettere å lese."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "I denne oppdateringen har også forhåndsvisninger av lenker blitt bedre, og en liten feil ved lukking av innstillingsvinduet er fikset."
   }
 }

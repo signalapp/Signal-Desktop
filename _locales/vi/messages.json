@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Chia sẻ đường dẫn qua Signal"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Xóa liên kết"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Xóa đường dẫn cuộc gọi?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "Đường dẫn này sẽ không còn hoạt động với bất kỳ ai."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Hủy"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Xóa"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Chi tiết đường dẫn cuộc gọi"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "Bản cập nhật này cũng sửa lỗi ứng dụng đóng đột ngột ở nền tảng Linux đối với những người dùng có ngôn ngữ được thiết lập là `POSIX`."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Các story có phần chú thích dài giờ đây được hiển thị tương phản tốt hơn giúp phần văn bản dễ đọc hơn."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "Bản cập nhật này nâng cao hiệu suất tạo xem trước đường dẫn và sửa một lỗi hiển thị nhỏ khi đóng cửa sổ Tùy chỉnh."
   }
 }

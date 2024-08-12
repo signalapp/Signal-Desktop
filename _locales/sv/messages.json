@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Dela länk via Signal"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Ta bort länk"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Ta bort samtalslänk?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "Den här länken fungerar inte längre för alla som har den."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Avbryt"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Ta bort"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Uppgifter om samtalslänk"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "Denna uppdatering åtgärdar också en uppstartskrasch på Linux för användare vars språkzon är inställt på POSIX."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Stories med långa bildtexter visas nu med förbättrad kontrast som gör texten lättare att läsa."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "Denna version förbättrar också prestandan för generering av länkförhandsvisning och åtgärdar en mindre visningsbugg när du stänger fönstret Inställningar."
   }
 }

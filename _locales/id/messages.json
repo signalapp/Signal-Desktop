@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Bagikan tautan via Signal"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Hapus tautan"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Hapus tautan panggilan?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "Tautan ini tidak akan berfungsi lagi bagi siapa pun yang memilikinya."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Batal"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Hapus"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detail tautan panggilan"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "Pembaruan ini juga memperbaiki masalah kemacetan saat memulai di Linux bagi pengguna yang pengaturan lokalnya diatur ke `POSIX`."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Cerita yang menyertakan teks panjang kini ditampilkan dengan kontras yang lebih baik agar lebih mudah dibaca."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "Rilis ini juga meningkatkan kinerja pembuatan pratinjau tautan dan memperbaiki bug kecil tampilan yang terjadi saat menutup jendela Pengaturan."
   }
 }

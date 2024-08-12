@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Споделете го линкот преку Signal"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Избриши го линкот"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Да се избрише линкот за повикот?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "Овој линк повеќе нема да функционира за тие кои го имаат."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Откажи"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Избриши"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Детали за линкот за повикот"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "Во оваа верзија е поправен пад при отворање на апликацијата за корисници на Linux со „POSIX“ стандарди."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Приказните со појаснителен текст сега се прикажуваат со подобрен контраст за полесно да се чита текстот."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "Во оваа верзија е исто така подобренo создавањето на преглед на линк и решена е мала грешка на дисплејот која се јавува при затворање на прозорецот со поставувања."
   }
 }

@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Споделяне на линк чрез Signal"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Изтриване на линк"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Изтриване на линк за разговор?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "Този линк повече няма да работи за никого."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Отказ"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Изтриване"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Подробности за линк за разговор"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "Тази актуализация също коригира срив при стартиране на Linux за потребители, чийто локал е зададен на `POSIX`."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Историите с дълги надписи се показват с подобрен контраст, който прави текста по-лесен за четене."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "Тази версия също така подобрява производителността на генерирането на предварителен преглед на връзката и поправя малък визуален бъг при затварянето на прозореца с настройки."
   }
 }

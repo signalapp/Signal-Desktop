@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Bağlantıyı Signal ile paylaş"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Bağlantıyı sil"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Arama bağlantısı silinsin mi?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "Bu bağlantı artık ona sahip olan hiç kimse için çalışmayacaktır."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "İptal"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Sil"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Arama bağlantısı detayları"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "Bu güncelleme, yerel ayarı 'POSIX' olarak ayarlanmış kullanıcılar için Linux'teki bir başlangıç çökmesini de düzeltmektedir."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Uzun başlıklar içeren kısa hikayeler artık metnin okunmasını kolaylaştıran kontrastı arttırılmış bir arka plan üzerinde görüntülenir. Bundan sonra insanlar ne söylediğini görebildiğine göre, sadece \"lol\" demek yerine bir şeyin seni neden güldürdüğüne dair birkaç paragraf yazabilirsin."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "Bu sürüm, bağlantı ön izleme oluşturma performansını iyileştirmekte ve Ayarlar penceresi kapatıldığında meydana gelen ufak bir görüntü hatasını da düzeltmektedir."
   }
 }

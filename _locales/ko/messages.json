@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Signal을 통해 링크 공유"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "링크 삭제"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "통화 링크를 삭제할까요?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "이 링크는 더 이상 누구도 사용할 수 없습니다."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "취소"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "삭제"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "통화 링크 세부 정보"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "또한 이 업데이트는 로캘이 `POSIX`로 설정된 사용자의 Linux 시작 충돌을 해결합니다."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "이제 대조를 향상하여 긴 캡션이 포함된 스토리의 텍스트를 더 쉽게 읽을 수 있습니다."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "이 릴리스는 또한 링크 미리 보기 생성 기능을 개선하고, 설정 창을 닫을 때 발생하는 사소한 표시 버그를 해결합니다."
   }
 }

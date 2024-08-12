@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "通过 Signal 分享链接"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "删除链接"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "要删除通话链接吗？"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "删除后，拥有链接的任何人将无法再使用此链接。"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "取消"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "删除"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "通话链接详情"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "对于语言环境设置为“POSIX”的用户，此次更新还修复了 Linux 上的启动崩溃问题。"
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "长字幕动态的显示对比度得到了优化，使文字更易于阅读。"
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "此版本还改进了链接预览生成的性能，并修复了关闭设置窗口时会出现的显示小错误。"
   }
 }

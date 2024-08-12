@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "แชร์ลิงก์ผ่าน Signal"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "ลบลิงก์"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "ลบลิงก์การโทรใช่หรือไม่"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "ทุกคนจะไม่สามารถใช้ลิงก์นี้ได้อีก"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "ยกเลิก"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "ลบ"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "รายละเอียดลิงก์การโทร"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "การอัปเดตครั้งนี้ยังมาพร้อมกับการแก้ไขปัญหาในการเปิดแอปสำหรับผู้ใช้ Linux ที่ตั้ง Locale เป็น POSIX"
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "อัปเดตหน้าตาของการแสดงสตอรี่ที่มีคำบรรยายยาวๆ ด้วยการปรับคอนทราสต์ให้ตัวอักษรอ่านง่ายสบายตายิ่งขึ้น"
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "การอัปเดตครั้งนี้ยังมาพร้อมการพัฒนาประสิทธิภาพในการสร้างตัวอย่างลิงก์ รวมถึงแก้ไขบั๊กที่อาจเคยเป็นอุปสรรคในตอนปิดหน้าต่างการตั้งค่า"
   }
 }

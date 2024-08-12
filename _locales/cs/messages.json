@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Sdílet odkaz přes Signal"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Odstranit odkaz"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Odstranit odkaz na hovor?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "Tento odkaz již nebude nikomu, kdo ho má, fungovat."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Zrušit"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Odstranit"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Podrobnosti odkazu na hovor"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "Tato aktualizace také opravuje pády při spuštění na platformě Linux u uživatelů, jejichž místní nastavení je na POSIX."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Dlouhé příběhy se nyní zobrazují s vylepšeným kontrastem, takže je text čitelnější."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "Toto vydání také vylepšuje generování náhledu odkazu a opravuje drobnou chybu zobrazení při zavírání okna nastavení."
   }
 }

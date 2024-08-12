@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "اشتراک‌گذاری پیوند از طریق سیگنال"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "حذف پیوند"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "پیوند تماس حذف شود؟"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "این پیوند دیگر برای کسانی که آن را دارند کار نمی‌کند."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "لغو"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "پاک کردن"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "جزئیات پیوند تماس"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "اختلال راه‌اندازی در لینوکس برای کاربرانی که زبانشان روی `POSIX` تنظیم شده است، در این نسخه جدید برطرف شده است."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "اکنون استوری‌هایی که متن طولانی دارند با کنتراست بهتری نمایش داده می‌شوند که خواندن متن را آسان‌تر می‌کند."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "این نسخۀ جدید همچنین عملکرد تولید پیش‌نمایش پیوند را بهبود می‌بخشد و اشکال جزئی نمایش را هنگام بستن پنجره تنظیمات برطرف می‌کند."
   }
 }

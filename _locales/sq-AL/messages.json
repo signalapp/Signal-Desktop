@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Ndaj lidhjen përmes Signal"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Fshi lidhjen"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Të fshihet lidhja e thirrjes?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "Lidhja nuk do të funksionojë më për këdo."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Anulo"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Fshije"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Të dhënat e lidhjes së thirrjes"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "Përditësimi rregullon edhe gabimin e nisjes në Linux për përdoruesit, lokaliteti i të cilëve është vendosur në \"POSIX\"."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Tregimet me titra të gjata shfaqen në një sfond delikat gradient që përmirëson kontrastin dhe e bën tekstin më të lehtë për t'u lexuar. Tani që njerëzit mund të shohin se çfarë flet, mos ngurro të shkruash disa paragrafë lidhur me atë çka të bëri vërtet të qeshësh në vend që të thuash thjesht \"lol\"."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "Ky version përmirëson edhe performancën e gjenerimit të pamjes paraprake të lidhjeve dhe rregullon gabimin që bëri që dritarja e Cilësimeve të ndezë shkurtimisht një nuancë të bukur ultramarine sa herë që mbyllej (në vend që thjesht të mbyllej menjëherë)."
   }
 }

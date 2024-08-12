@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "שיתוף לינק דרך Signal"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "מחיקת לינק"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "למחוק לינק לשיחה?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "הלינק הזה לא יעבוד יותר לאף אחד."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "ביטול"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "מחיקה"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "פרטי לינק שיחה"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "העדכון הזה מתקן גם קריסת הפעלה ב–Linux עבור משתמשים שהמיקום שלהם מוגדר ל`POSIX`."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "סטוריז עם תיאורים ארוכים מוצגים עכשיו עם ניגוד צבעים משופר שמקל על קריאת הטקסט."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "הגרסה הזו גם משפרת את הביצועים של יצירת תצוגה מקדימה של לינקים ומתקנת באג תצוגה קטן בעת סגירת חלון ההגדרות."
   }
 }

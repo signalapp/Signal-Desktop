@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Signal દ્વારા લિંક શેર કરો"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "લિંક ડિલીટ કરો"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "કૉલ લિંક ડિલીટ કરવી છે?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "આ લિંક હવેથી જેમની પણ પાસે હશે તે કોઈ પણ માટે કામ નહીં કરે."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "રદ કરો"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "ડિલીટ કરો"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "કૉલ લિંકની વિગતો"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "આ અપડેટ એવા વપરાશકર્તા માટે Linux પર સ્ટાર્ટઅપ ક્રેશને પણ ઠીક કરે છે કે જેમનું લોકેલ `POSIX` પર સેટ હોય."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "લાંબા કેપ્શન ધરાવતી સ્ટોરી હવે બહેતર કોન્ટ્રાસ્ટ સાથે પ્રદર્શિત થાય છે જે તેમને વાંચવાનું વધુ સરળ બનાવે છે."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "આ રિલીઝ લિંક પ્રિવ્યૂ જનરેશનના પ્રદર્શનને પણ સુધારે છે અને સેટિંગ્સ વિન્ડોને બંધ કરતી વખતે આવતા એક નાનકડા પ્રદર્શન સંબંધી બગને ઠીક કરે છે."
   }
 }

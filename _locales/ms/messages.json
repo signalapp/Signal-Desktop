@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Kongsi pautan melalui Signal"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Padam pautan"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Padam pautan panggilan?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "Pautan ini tidak akan berfungsi lagi untuk sesiapa yang mempunyainya."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Batal"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Padam"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Butiran pautan panggilan"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "Kemas kini ini juga membaiki ranap permulaan pada Linux untuk pengguna yang tempatnya ditetapkan kepada 'POSIX'."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Cerita dengan kapsyen panjang kini dipaparkan dengan kontras yang lebih baik, menjadikan teks lebih mudah untuk dibaca."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "Keluaran ini juga meningkatkan prestasi penjanaan pratonton pautan dan membetulkan pepijat paparan kecil semasa menutup tetingkap Tetapan."
   }
 }

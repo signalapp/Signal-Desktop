@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Signal ਰਾਹੀਂ ਲਿੰਕ ਸਾਂਝਾ ਕਰੋ"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "ਲਿੰਕ ਮਿਟਾਓ"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "ਕੀ ਕਾਲ ਦਾ ਲਿੰਕ ਮਿਟਾਉਣਾ ਹੈ?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "ਇਹ ਲਿੰਕ ਜਿਹਨਾਂ ਕੋਲ ਵੀ ਹੈ ਉਹਨਾਂ ਲਈ ਕੰਮ ਨਹੀਂ ਕਰੇਗਾ।"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "ਰੱਦ ਕਰੋ"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "ਮਿਟਾਓ"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "ਕਾਲ ਲਿੰਕ ਵੇਰਵੇ"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "ਇਹ ਅੱਪਡੇਟ ਉਹਨਾਂ ਵਰਤੋਂਕਾਰਾਂ ਲਈ Linux 'ਤੇ ਇੱਕ ਸਟਾਰਟਅੱਪ ਕਰੈਸ਼ ਨੂੰ ਵੀ ਠੀਕ ਕਰਦਾ ਹੈ ਜਿਹਨਾਂ ਦਾ ਲੋਕੇਲ `POSIX` 'ਤੇ ਸੈੱਟ ਹੈ।"
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "ਲੰਮੀ ਕੈਪਸ਼ਨ ਵਾਲੀਆਂ ਸਟੋਰੀਆਂ ਹੁਣ ਵਧੀਆ ਕੰਟਰਾਸਟ ਨਾਲ ਦਿਖਾਈਆਂ ਜਾਂਦੀਆਂ ਹਨ ਜਿਸ ਨਾਲ ਟੈਕਸਟ ਨੂੰ ਪੜ੍ਹਨਾ ਆਸਾਨ ਬਣ ਜਾਂਦਾ ਹੈ।"
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "ਇਹ ਰੀਲੀਜ਼ ਲਿੰਕ ਦੀ ਝਲਕ ਜਨਰੇਸ਼ਨ ਦੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਵੀ ਸੁਧਾਰਦੀ ਹੈ ਅਤੇ ਸੈਟਿੰਗਾਂ ਵਾਲੀ ਵਿੰਡੋ ਨੂੰ ਬੰਦ ਕਰਨ ਵੇਲੇ ਆਉਣ ਵਾਲੀ ਇੱਕ ਮਾਮੂਲੀ ਡਿਸਪਲੇ ਖਰਾਬੀ ਨੂੰ ਠੀਕ ਕਰਦੀ ਹੈ।"
   }
 }

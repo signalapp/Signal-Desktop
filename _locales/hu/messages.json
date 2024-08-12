@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Hivatkozás megosztása a Signalon keresztül"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Hivatkozás törlése"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Híváslink törlése?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "Ez a hivatkozás többé nem fog működni azok számára, akiknek már megvan."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Mégse"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Törlés"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Híváslink részletei"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "Ez a frissítés kijavítja a Linux rendszerindítási összeomlását is azon felhasználók számára, akiknek a nyelvi beállítása „POSIX”."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "A hosszú feliratokkal ellátott történetek mostantól jobb kontraszttal jelennek meg, amitől a szöveg jobban olvasható lesz."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "Ez a kiadás javítja a hivatkozás-előnézet létrehozásának teljesítményét is, és kijavítja a Beállítások ablak bezárásakor jelentkező kisebb megjelenítési hibát."
   }
 }

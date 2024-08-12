@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Podijelite poveznicu putem Signala"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Izbriši link"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Izbriši link za poziv?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "Ovaj link više neće raditi ni za koga ko ga koristi."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Otkaži"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Izbriši"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalji linka za poziv"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "Ovo ažuriranje također popravlja rušenje pri pokretanju Linuxa za korisnike čija je lokalizacija postavljena na `POSIX`."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Priče s dugim naslovima sada se prikazuju s poboljšanim kontrastom koji čini tekst lakšim za čitanje."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "Ovo izdanje također poboljšava izvedbu generiranja pregleda linka i ispravlja manju pogrešku prikaza prilikom zatvaranja prozora postavki."
   }
 }

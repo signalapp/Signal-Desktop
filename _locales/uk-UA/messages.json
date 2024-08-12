@@ -1266,7 +1266,7 @@
     "messageformat": "Почати"
   },
   "icu:CallingLobbyJoinButton--call-full": {
-    "messageformat": "Немає вільних місць для дзвінка"
+    "messageformat": "Немає місць"
   },
   "icu:CallingLobbyJoinButton--ask-to-join": {
     "messageformat": "Попросити приєднатися"
@@ -1302,7 +1302,7 @@
     "messageformat": "Реагувати"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
-    "messageformat": "Група завелика для дзвінків її учасникам."
+    "messageformat": "Група завелика, тому в учасників не лунатиме дзвінок."
   },
   "icu:CallingButton__ring-off": {
     "messageformat": "Вимкнути дзвінок"
@@ -1365,16 +1365,16 @@
     "messageformat": "Тут більше нікого немає"
   },
   "icu:calling__pre-call-info--1-person-in-call": {
-    "messageformat": "{first} у цьому дзвінку"
+    "messageformat": "{first} бере участь у цьому виклику"
   },
   "icu:calling__pre-call-info--another-device-in-call": {
-    "messageformat": "Один з ваших пристроїв у цьому дзвінку"
+    "messageformat": "У цьому виклику бере участь один з ваших інших пристроїв"
   },
   "icu:calling__pre-call-info--2-people-in-call": {
-    "messageformat": "{first} і {second} у цьому дзвінку"
+    "messageformat": "{first} і {second} беруть участь у цьому виклику"
   },
   "icu:calling__pre-call-info--3-people-in-call": {
-    "messageformat": "{first}, {second}, і {third} у цьому дзвінку"
+    "messageformat": "{first}, {second} і {third} беруть участь у цьому виклику"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second} і ще {others,number} у цьому виклику} few {{first}, {second} і ще {others,number} у цьому виклику} many {{first}, {second} і ще {others,number} у цьому виклику} other {{first}, {second} і ще {others,number} у цьому виклику}}"
@@ -1680,7 +1680,7 @@
     "messageformat": "Програвати звук виклику"
   },
   "icu:callSystemNotificationDescription": {
-    "messageformat": "Показувати сповіщення для дзвінків"
+    "messageformat": "Показувати сповіщення про виклики"
   },
   "icu:incomingCallNotificationDescription": {
     "messageformat": "Дозволити вхідні виклики"
@@ -2793,7 +2793,7 @@
     "messageformat": "Користувач {name} почав відеовиклик"
   },
   "icu:calling__in-another-call-tooltip": {
-    "messageformat": "Ви вже у дзвінку"
+    "messageformat": "Ви вже берете участь у виклику"
   },
   "icu:calling__call-notification__button__call-full-tooltip": {
     "messageformat": "У цьому виклику вже бере участь максимальна кількість учасників: {max,number}"
@@ -3072,37 +3072,37 @@
     "messageformat": "Тільки адміністратори тепер можуть редагувати інформацію про групу, оскільки користувач {adminName} змінив налаштування."
   },
   "icu:GroupV2--access-attributes--admins--you": {
-    "messageformat": "Ви змінили хто може редагувати інформацію групи, на \"Тільки адміністратори\"."
+    "messageformat": "Тільки адміністратори тепер можуть редагувати інформацію про групу, оскільки ви змінили налаштування."
   },
   "icu:GroupV2--access-attributes--admins--unknown": {
-    "messageformat": "Адміністратор змінив хто може редагувати інформацію групи, на \"Тільки адміністратори\"."
+    "messageformat": "Тільки адміністратори тепер можуть редагувати інформацію про групу, оскільки адміністратор змінив налаштування."
   },
   "icu:GroupV2--access-attributes--all--other": {
-    "messageformat": "{adminName} змінив хто може редагувати інформацію групи, на \"Всі учасники\"."
+    "messageformat": "Усі учасники тепер можуть редагувати інформацію про групу, оскільки користувач {adminName} змінив налаштування."
   },
   "icu:GroupV2--access-attributes--all--you": {
-    "messageformat": "Ви змінили хто може редагувати інформацію групи, на \"Всі учасники\"."
+    "messageformat": "Усі учасники тепер можуть редагувати інформацію про групу, оскільки ви змінили налаштування."
   },
   "icu:GroupV2--access-attributes--all--unknown": {
-    "messageformat": "Адміністратор змінив хто може редагувати інформацію групи, на \"Всі учасники\"."
+    "messageformat": "Усі учасники тепер можуть редагувати інформацію про групу, оскільки адміністратор змінив налаштування."
   },
   "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} змінив хто може редагувати групове членство, на \"Тільки адміністратори\"."
+    "messageformat": "Тільки адміністратори тепер можуть змінювати склад групи, оскільки користувач {adminName} змінив налаштування."
   },
   "icu:GroupV2--access-members--admins--you": {
-    "messageformat": "Ви змінили хто може редагувати групове членство, на \"Тільки адміністратори\"."
+    "messageformat": "Тільки адміністратори тепер можуть змінювати склад групи, оскільки ви змінили налаштування."
   },
   "icu:GroupV2--access-members--admins--unknown": {
-    "messageformat": "Адміністратор змінив хто може редагувати групове членство, на \"Тільки адміністратори\"."
+    "messageformat": "Тільки адміністратори тепер можуть змінювати склад групи, оскільки адміністратор змінив налаштування."
   },
   "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} змінив хто може редагувати групове членство, на \"Всі учасники\"."
+    "messageformat": "Усі учасники тепер можуть змінювати склад групи, оскільки учасник {adminName} змінив налаштування."
   },
   "icu:GroupV2--access-members--all--you": {
-    "messageformat": "Ви змінили хто може редагувати групове членство, на \"Всі учасники\"."
+    "messageformat": "Усі учасники тепер можуть змінювати склад групи, оскільки ви змінили налаштування."
   },
   "icu:GroupV2--access-members--all--unknown": {
-    "messageformat": "Адміністратор змінив хто може редагувати групове членство, на \"Всі учасники\"."
+    "messageformat": "Усі учасники тепер можуть змінювати склад групи, оскільки адміністратор змінив налаштування."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Ви відключили схвалення адміністратора для посилання на групу."
@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Поділитися посиланням у Signal"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "Видалити посилання"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "Видалити посилання на виклик?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "Це посилання більше не працюватиме."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "Закрити"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "Видалити"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Додатково про посилання на виклик"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "У цьому оновленні ми також виправили збій під час запуску застосунку на Linux, що траплявся в користувачів з регіональним стандартом POSIX."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "Історії, у яких багато тексту, тепер матимуть тло з легким градієнтом, що покращить контрастність і полегшить читання. Тепер люди можуть бачити, що саме ви намагаєтеся сказати, а ви можете відвести душу та в деталях розписати, чому хтось в інтернеті неправий."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "У цьому оновленні ми також покращили генерацію попереднього вигляду вебсторінок і виправили помилку, через яку вікно «Налаштування» іноді спалахувало красивим ультрамариновим кольором, перш ніж закритися (а не просто відразу закривалося)."
   }
 }

@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Signal ద్వారా లింక్‌ను పంచుకోండి"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "లింక్‌ను తొలగించండి"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "కాల్ లింక్ తొలగించేదా?"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "ఈ లింక్‌ను కలిగి ఉన్న ఎవరికైనా ఇకపై ఇది పని చేయదు."
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "రద్దు చేయండి"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "తొలగించండి"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "కాల్ లింక్ వివరాలు"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "ఈ అప్‌డేట్ స్థానికంను `POSIX`కి సెట్ చేయబడిన యూజర్‌ల కోసం Linux లో ప్రారంభ క్రాష్‌ను కూడా పరిష్కరిస్తుంది."
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "పొడవాటి శీర్షికలతో కూడిన కథలు ఇప్పుడు మెరుగైన కాంట్రాస్ట్‌తో ప్రదర్శించబడతాయి, ఇది టెక్స్ట్‌ను సులభంగా చదవడానికి వీలు కల్పిస్తుంది. ఇప్పుడు మీరు ఏమి చెబుతున్నారో ప్రజలు చూడగలుగుతారు, కేవలం \"లోల్\" అని చెప్పడానికి బదులుగా ఏదైనా నిజంగా మిమ్మల్ని ఎందుకు నవ్వించింది అనే దాని గురించి రెండు పేరాలు వ్రాయడానికి సంకోచించకండి."
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "ఈ విడుదల లింక్ ప్రివ్యూ జనరేషన్ యొక్క పనితీరును కూడా మెరుగుపరుస్తుంది మరియు సెట్టింగ్స్ విండోను మూసివేసినప్పుడు ఒక చిన్న డిస్‌ప్లే బగ్‌ను పరిష్కరిస్తుంది."
   }
 }

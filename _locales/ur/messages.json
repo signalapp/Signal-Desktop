@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "بذریعہ Signal لنک شیئر کریں"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "لنک حذف کریں"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "کال لنک حذف کریں؟"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "یہ لنک جس کے پاس ہے اب مزید اس کے لیے کام نہیں کرے گا۔"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "منسوخ کریں"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "حذف کریں"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "کال لنک کی تفصیلات"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "یہ اپ ڈیٹ Linux پر ان یوزر کے لیے اسٹارٹ اپ کریش کو بھی درست کرتی ہے جن کا مقام 'POSIX' پر سیٹ کیا گیا ہے۔"
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "طویل کیپشنز کی حامل سٹوریز اب بہتر امتزاج کے ساتھ ڈسپلے کی جاتی ہیں جو ٹیکسٹ پڑھنے میں آسانی فراہم کرتی ہیں۔"
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "یہ ریلیز لنک کے پیش منظر میں جنریشن کی کارکردگی کو بھی بہتر بناتی ہے اور سیٹنگز کی ونڈو کو بند کرتے وقت معمولی ڈسپلے بگ کو بھی درست کرتی ہے۔"
   }
 }

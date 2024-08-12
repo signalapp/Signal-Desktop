@@ -5511,6 +5511,21 @@
   "icu:CallLinkDetails__ShareLinkViaSignal": {
     "messageformat": "Signal မှတစ်ဆင့် လင့်ခ်ဝေမျှရန်"
   },
+  "icu:CallLinkDetails__DeleteLink": {
+    "messageformat": "လင့်ခ်ကို ဖျက်မည်"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Title": {
+    "messageformat": "ကောလ်လင့်ခ် ဖျက်မည်လား။"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Body": {
+    "messageformat": "ဤလင့်ခ်ကို ရရှိထားသူများအတွက် အလုပ်လုပ်တော့မည်မဟုတ်ပါ။"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
+    "messageformat": "မလုပ်တော့ပါ"
+  },
+  "icu:CallLinkDetails__DeleteLinkModal__Delete": {
+    "messageformat": "ဖျက်ရန်"
+  },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Signal ဖြင့်ဖုန်းခေါ်ဆိုရန် လင့်ခ်အသေးစိတ်"
   },
@@ -5589,5 +5604,11 @@
   },
   "icu:WhatsNew__v7.19--1": {
     "messageformat": "ဤအပ်ဒိတ်သည် စက်တွင်း `POSIX` သုံးစွဲသူများအတွက် Linux တွင် စတင်ချိန် ပျက်ယွင်းမှုကိုလည်း ပြင်ဆင်ပေးပါသည်။"
+  },
+  "icu:WhatsNew__v7.20--0": {
+    "messageformat": "စာတန်းရှည်များပါသော စတိုရီများကို အလင်းအမှောင် ပိုမိုကောင်းမွန်စေပြီး စာသားကိုဖတ်ရလွယ်ကူစေရန် ယခုအခါ ဖော်ပြထားပြီဖြစ်သည်။"
+  },
+  "icu:WhatsNew__v7.20--1": {
+    "messageformat": "ဤထုတ်ဝေမှုသည် လင့်ခ်ကြိုတင်ကြည့်ရှုမှု အဆင့်၏ စွမ်းဆောင်ရည်ကိုလည်း မြှင့်တင်ပေးထားပြီး ဆက်တင်ဝင်းဒိုး ပိတ်သည့်အခါတိုင်း ဖြစ်တတ်သည့် အသေးစားချွတ်ယွင်းချက်တစ်ခုကို ပြင်ဆင်ပေးထားသည်။"
   }
 }
