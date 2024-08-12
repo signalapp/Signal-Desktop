@@ -1,29 +1,17 @@
 import { useState } from 'react';
 
 import useKey from 'react-use/lib/useKey';
-import styled from 'styled-components';
 import { getConversationController } from '../../session/conversations';
 import { openConversationWithMessages } from '../../state/ducks/conversations';
 import { updateUserDetailsModal, UserDetailsModalState } from '../../state/ducks/modalDialog';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
-import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SpacerLG } from '../basic/Text';
 import { CopyToClipboardButton } from '../buttons/CopyToClipboardButton';
 import { SessionInput } from '../inputs';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { ConversationTypeEnum } from '../../models/types';
-import { StyledTextAreaContainer } from '../inputs/SessionInput';
-
-const StyledInputContainer = styled(Flex)`
-  ${StyledTextAreaContainer} {
-    overflow-y: hidden;
-    textarea {
-      cursor: default;
-      top: 10px;
-    }
-  }
-`;
+import { Flex } from '../basic/Flex';
 
 export const UserDetailsDialog = (props: UserDetailsModalState) => {
   const [isEnlargedImageShown, setIsEnlargedImageShown] = useState(false);
@@ -82,12 +70,7 @@ export const UserDetailsDialog = (props: UserDetailsModalState) => {
         </div>
       </div>
       <SpacerLG />
-      <StyledInputContainer
-        container={true}
-        width={'100%'}
-        justifyContent="center"
-        alignItems="center"
-      >
+      <Flex container={true} width={'100%'} justifyContent="center" alignItems="center">
         <SessionInput
           value={props.conversationId}
           textSize="md"
@@ -96,7 +79,7 @@ export const UserDetailsDialog = (props: UserDetailsModalState) => {
           monospaced={true}
           isTextArea={true}
         />
-      </StyledInputContainer>
+      </Flex>
       <SpacerLG />
       <div className="session-modal__button-group__center">
         <SessionButton

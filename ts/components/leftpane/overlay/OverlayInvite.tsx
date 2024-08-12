@@ -55,12 +55,9 @@ const StyledButtonerContainer = styled.div`
 
 const StyledInputContainer = styled(Flex)`
   ${StyledTextAreaContainer} {
-    margin: var(--margins-sm);
-    overflow-y: hidden;
-
-    textarea {
-      cursor: default;
-      top: 10px;
+    padding: 0;
+    div:first-child {
+      padding: 0 var(--margins-sm);
     }
   }
 `;
