@@ -62,7 +62,8 @@ export const OverlayCommunity = () => {
         return;
       }
       setGroupUrlError(undefined);
-      await joinOpenGroup(completeUrl || groupUrl, setGroupUrlError, joinSogsUICallback);
+      const url = (completeUrl && completeUrl.trim()) || (groupUrl && groupUrl.trim());
+      await joinOpenGroup(url, setGroupUrlError, joinSogsUICallback);
     } catch (e) {
       setGroupUrlError(e.message);
       window.log.warn(e);
