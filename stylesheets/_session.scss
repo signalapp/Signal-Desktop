@@ -184,6 +184,7 @@ label {
   box-shadow: var(--modal-drop-shadow);
 
   overflow: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 
