@@ -24,7 +24,7 @@ import * as Errors from '../types/errors';
 import type { StoredJob } from '../jobs/types';
 import { formatJobForInsert } from '../jobs/formatJobForInsert';
 import { cleanupMessages } from '../util/cleanup';
-import { AccessType, ipcInvoke, doShutdown } from './channels';
+import { AccessType, ipcInvoke, doShutdown, removeDB } from './channels';
 
 import type {
   ClientInterfaceWrap,
@@ -124,6 +124,7 @@ const clientOnlyWritable: ClientOnlyWritableInterface = {
 
   flushUpdateConversationBatcher,
 
+  removeDB,
   shutdown,
   removeMessagesInConversation,
 
