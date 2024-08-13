@@ -441,6 +441,9 @@
       ],
       "target": [
         "nsis"
+      ],
+      "asarUnpack": [
+        "build/icons/win/icon.ico"
       ]
     },
     "nsis": {
