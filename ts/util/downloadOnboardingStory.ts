@@ -65,11 +65,11 @@ export async function downloadOnboardingStory(): Promise<void> {
   log.info('downloadOnboardingStory: downloaded stories:', imageBuffers.length);
 
   const attachments: Array<AttachmentType> = await Promise.all(
-    imageBuffers.map(data => {
+    imageBuffers.map(async data => {
+      const local = await window.Signal.Migrations.writeNewAttachmentData(data);
       const attachment: AttachmentType = {
         contentType: IMAGE_JPEG,
-        data,
-        size: data.byteLength,
+        ...local,
       };
 
       return window.Signal.Migrations.processNewAttachment(attachment);
@@ -100,7 +100,11 @@ export async function downloadOnboardingStory(): Promise<void> {
         timestamp,
         type: 'story',
       };
-      return new window.Whisper.Message(partialMessage);
+      return window.MessageCache.__DEPRECATED$register(
+        partialMessage.id,
+        partialMessage,
+        'downloadOnboardingStory'
+      );
     }
   );
 
