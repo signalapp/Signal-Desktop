@@ -284,6 +284,7 @@ export function getCallLogEventForProto(
 const directionToProto = {
   [CallDirection.Incoming]: Proto.SyncMessage.CallEvent.Direction.INCOMING,
   [CallDirection.Outgoing]: Proto.SyncMessage.CallEvent.Direction.OUTGOING,
+  [CallDirection.Unknown]: Proto.SyncMessage.CallEvent.Direction.UNKNOWN,
 };
 
 const typeToProto = {
@@ -291,6 +292,7 @@ const typeToProto = {
   [CallType.Video]: Proto.SyncMessage.CallEvent.Type.VIDEO_CALL,
   [CallType.Group]: Proto.SyncMessage.CallEvent.Type.GROUP_CALL,
   [CallType.Adhoc]: Proto.SyncMessage.CallEvent.Type.AD_HOC_CALL,
+  [CallType.Unknown]: Proto.SyncMessage.CallEvent.Type.UNKNOWN,
 };
 
 const statusToProto: Record<
@@ -301,6 +303,7 @@ const statusToProto: Record<
   [CallStatusValue.Declined]: Proto.SyncMessage.CallEvent.Event.NOT_ACCEPTED,
   [CallStatusValue.Deleted]: Proto.SyncMessage.CallEvent.Event.DELETE,
   [CallStatusValue.Missed]: null,
+  [CallStatusValue.MissedNotificationProfile]: null,
   [CallStatusValue.Pending]: null,
   [CallStatusValue.GenericGroupCall]: null,
   [CallStatusValue.GenericAdhocCall]:
@@ -309,6 +312,7 @@ const statusToProto: Record<
   [CallStatusValue.Ringing]: null,
   [CallStatusValue.Joined]: null,
   [CallStatusValue.JoinedAdhoc]: Proto.SyncMessage.CallEvent.Event.ACCEPTED,
+  [CallStatusValue.Unknown]: Proto.SyncMessage.CallEvent.Event.UNKNOWN,
 };
 
 function shouldSyncStatus(callStatus: CallStatus) {
@@ -681,12 +685,16 @@ function transitionTimestamp(
   // We don't care about holding onto timestamps that were from these states
   if (
     callHistory.status === DirectCallStatus.Pending ||
+    callHistory.status === DirectCallStatus.Unknown ||
     callHistory.status === GroupCallStatus.GenericGroupCall ||
     callHistory.status === GroupCallStatus.OutgoingRing ||
     callHistory.status === GroupCallStatus.Ringing ||
     callHistory.status === DirectCallStatus.Missed ||
+    callHistory.status === DirectCallStatus.MissedNotificationProfile ||
     callHistory.status === GroupCallStatus.Missed ||
-    callHistory.status === AdhocCallStatus.Pending
+    callHistory.status === GroupCallStatus.MissedNotificationProfile ||
+    callHistory.status === AdhocCallStatus.Pending ||
+    callHistory.status === AdhocCallStatus.Unknown
   ) {
     return latestTimestamp;
   }
@@ -801,6 +809,7 @@ function transitionGroupCallStatus(
       }
       case GroupCallStatus.Ringing:
       case GroupCallStatus.Missed:
+      case GroupCallStatus.MissedNotificationProfile:
       case GroupCallStatus.Declined: {
         return GroupCallStatus.Accepted;
       }

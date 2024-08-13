@@ -182,6 +182,7 @@ import {
   finalizeDeleteCallLink,
   beginDeleteCallLink,
   deleteCallLinkFromSync,
+  _removeAllCallLinks,
 } from './server/callLinks';
 import {
   replaceAllEndorsementsForGroup,
@@ -425,6 +426,7 @@ export const DataWriter: ServerWritableInterface = {
   _removeAllMessages,
   getUnreadEditedMessagesAndMarkRead,
   clearCallHistory,
+  _removeAllCallHistory,
   markCallHistoryDeleted,
   cleanupCallHistoryMessages,
   markCallHistoryRead,
@@ -438,6 +440,7 @@ export const DataWriter: ServerWritableInterface = {
   beginDeleteAllCallLinks,
   beginDeleteCallLink,
   finalizeDeleteCallLink,
+  _removeAllCallLinks,
   deleteCallLinkFromSync,
   migrateConversationMessages,
   saveEditedMessage,
@@ -3470,6 +3473,13 @@ function getAllCallHistory(db: ReadableDB): ReadonlyArray<CallHistoryDetails> {
     SELECT * FROM callsHistory;
   `;
   return db.prepare(query).all();
+}
+
+function _removeAllCallHistory(db: WritableDB): void {
+  const [query, params] = sql`
+    DELETE FROM callsHistory;
+  `;
+  db.prepare(query).run(params);
 }
 
 function clearCallHistory(

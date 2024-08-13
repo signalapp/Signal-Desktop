@@ -39,9 +39,9 @@ describe('backup/attachments', () => {
   let contactA: ConversationModel;
 
   beforeEach(async () => {
-    await DataWriter._removeAllMessages();
-    await DataWriter._removeAllConversations();
+    await DataWriter.removeAll();
     window.storage.reset();
+    window.ConversationController.reset();
 
     await setupBasics();
 
@@ -69,7 +69,9 @@ describe('backup/attachments', () => {
     });
   });
 
-  afterEach(() => {
+  afterEach(async () => {
+    await DataWriter.removeAll();
+
     sandbox.restore();
   });
 
