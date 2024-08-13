@@ -587,7 +587,6 @@ const URL_CALLS = {
   storageToken: 'v1/storage/auth',
   subscriptions: 'v1/subscription',
   subscriptionConfiguration: 'v1/subscription/configuration',
-  supportUnauthenticatedDelivery: 'v1/devices/unauthenticated_delivery',
   updateDeviceName: 'v1/accounts/name',
   username: 'v1/accounts/username_hash',
   reserveUsername: 'v1/accounts/username_hash/reserve',
@@ -619,7 +618,6 @@ const WEBSOCKET_CALLS = new Set<keyof typeof URL_CALLS>([
   // Devices
   'linkDevice',
   'registerCapabilities',
-  'supportUnauthenticatedDelivery',
 
   // Directory
   'directoryAuthV2',
@@ -1346,7 +1344,6 @@ export type WebAPIType = {
     genKeys: UploadKeysType,
     serviceIdKind: ServiceIdKind
   ) => Promise<void>;
-  registerSupportForUnauthenticatedDelivery: () => Promise<void>;
   reportMessage: (options: ReportMessageOptionsType) => Promise<void>;
   requestVerification: (
     number: string,
@@ -1763,7 +1760,6 @@ export function initialize({
       registerCapabilities,
       registerKeys,
       registerRequestHandler,
-      registerSupportForUnauthenticatedDelivery,
       resolveUsernameLink,
       replaceUsernameLink,
       reportMessage,
@@ -2080,14 +2076,6 @@ export function initialize({
         //   it will will be an Uint8Array at the response key on the Error
         responseType: 'bytes',
         ...credentials,
-      });
-    }
-
-    async function registerSupportForUnauthenticatedDelivery() {
-      await _ajax({
-        call: 'supportUnauthenticatedDelivery',
-        httpType: 'PUT',
-        responseType: 'json',
       });
     }
 
