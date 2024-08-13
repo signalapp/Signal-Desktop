@@ -124,7 +124,7 @@ export function StoryImage({
 
     storyElement = (
       <video
-        autoPlay
+        autoPlay={!isPaused}
         className={getClassName('__image')}
         controls={false}
         key={attachment.url}

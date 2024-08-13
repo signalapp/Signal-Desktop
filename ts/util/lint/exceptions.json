@@ -2882,24 +2882,10 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/StoryViewer.tsx",
-    "line": "  const progressBarRef = useRef<HTMLDivElement>(null);",
+    "path": "ts/components/StoryProgressSegment.tsx",
+    "line": "  const onFinishRef = useRef(onFinish);",
     "reasonCategory": "usageTrusted",
-    "updated": "2022-10-13T15:18:21.267Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/StoryViewer.tsx",
-    "line": "  const animationRef = useRef<Animation | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-10-13T15:18:21.267Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/StoryViewer.tsx",
-    "line": "  const onFinishRef = useRef<(() => void) | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-10-13T15:18:21.267Z"
+    "updated": "2024-08-13T20:48:09.226Z"
   },
   {
     "rule": "React-useRef",

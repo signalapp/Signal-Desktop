@@ -3,13 +3,7 @@
 
 import FocusTrap from 'focus-trap-react';
 import type { UIEvent } from 'react';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import type { DraftBodyRanges } from '../types/BodyRange';
 import type { LocalizerType } from '../types/Util';
@@ -59,6 +53,7 @@ import { MessageBody } from './conversation/MessageBody';
 import { RenderLocation } from './conversation/MessageTextRenderer';
 import { arrow } from '../util/keyboard';
 import { useElementId } from '../hooks/useUniqueId';
+import { StoryProgressSegment } from './StoryProgressSegment';
 
 function renderStrong(parts: Array<JSX.Element | string>) {
   return <strong>{parts}</strong>;
@@ -294,69 +289,8 @@ export function StoryViewer({
     };
   }, [attachment, messageId]);
 
-  const progressBarRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<Animation | null>(null);
-
-  // Putting this in a ref allows us to call it from the useEffect below without
-  // triggering the effect to re-run every time these values change.
-  const onFinishRef = useRef<(() => void) | null>(null);
-  useEffect(() => {
-    onFinishRef.current = () => {
-      viewStory({
-        storyId: story.messageId,
-        storyViewMode,
-        viewDirection: StoryViewDirectionType.Next,
-      });
-    };
-  }, [story.messageId, storyViewMode, viewStory]);
-
   // This guarantees that we'll have a valid ref to the animation when we need it
   strictAssert(currentIndex != null, "StoryViewer: currentIndex can't be null");
-
-  // We need to be careful about this effect refreshing, it should only run
-  // every time a story changes or its duration changes.
-  useEffect(() => {
-    if (!storyDuration) {
-      return;
-    }
-
-    strictAssert(
-      progressBarRef.current != null,
-      "progressBarRef can't be null"
-    );
-    const target = progressBarRef.current;
-
-    const animation = target.animate(
-      [{ transform: 'translateX(-100%)' }, { transform: 'translateX(0%)' }],
-      {
-        id: 'story-progress-bar',
-        duration: storyDuration,
-        easing: 'linear',
-        fill: 'forwards',
-      }
-    );
-
-    animationRef.current = animation;
-
-    function onFinish() {
-      onFinishRef.current?.();
-    }
-
-    animation.addEventListener('finish', onFinish);
-
-    // Reset the stuff that pauses a story when you switch story views
-    setConfirmDeleteStory(undefined);
-    setHasConfirmHideStory(false);
-    setHasExpandedCaption(false);
-    setIsSpoilerExpanded({});
-    setIsShowingContextMenu(false);
-    setPauseStory(false);
-
-    return () => {
-      animation.removeEventListener('finish', onFinish);
-      animation.cancel();
-    };
-  }, [story.messageId, storyDuration]);
 
   const [pauseStory, setPauseStory] = useState(false);
   const [pressing, setPressing] = useState(false);
@@ -384,9 +318,21 @@ export function StoryViewer({
     }
   }, [isWindowActive]);
 
+  // Reset the stuff that pauses a story when you switch story views
+  useEffect(() => {
+    setConfirmDeleteStory(undefined);
+    setHasConfirmHideStory(false);
+    setHasExpandedCaption(false);
+    setIsSpoilerExpanded({});
+    setIsShowingContextMenu(false);
+    setPauseStory(false);
+    setStoryDuration(undefined);
+  }, [story.messageId]);
+
   const alertElement = renderAlert();
 
   const shouldPauseViewing =
+    storyDuration == null ||
     Boolean(alertElement) ||
     Boolean(confirmDeleteStory) ||
     currentViewTarget != null ||
@@ -397,14 +343,6 @@ export function StoryViewer({
     pauseStory ||
     Boolean(reactionEmoji) ||
     pressing;
-
-  useEffect(() => {
-    if (shouldPauseViewing) {
-      animationRef.current?.pause();
-    } else {
-      animationRef.current?.play();
-    }
-  }, [shouldPauseViewing, story.messageId, storyDuration]);
 
   useEffect(() => {
     markStoryRead(messageId);
@@ -890,25 +828,20 @@ export function StoryViewer({
             </div>
             <div className="StoryViewer__progress" {...stopPauseBubblingProps}>
               {Array.from(Array(numStories), (_, index) => (
-                <div className="StoryViewer__progress--container" key={index}>
-                  {currentIndex === index ? (
-                    <div
-                      ref={progressBarRef}
-                      className="StoryViewer__progress--bar"
-                    />
-                  ) : (
-                    <div
-                      className="StoryViewer__progress--bar"
-                      style={
-                        currentIndex < index
-                          ? {}
-                          : {
-                              transform: 'translateX(0%)',
-                            }
-                      }
-                    />
-                  )}
-                </div>
+                <StoryProgressSegment
+                  key={`${story.messageId}-${index}-${currentIndex}`}
+                  index={index}
+                  currentIndex={currentIndex}
+                  duration={storyDuration ?? null}
+                  playing={!shouldPauseViewing}
+                  onFinish={() => {
+                    viewStory({
+                      storyId: story.messageId,
+                      storyViewMode,
+                      viewDirection: StoryViewDirectionType.Next,
+                    });
+                  }}
+                />
               ))}
             </div>
             <div className="StoryViewer__actions" {...stopPauseBubblingProps}>

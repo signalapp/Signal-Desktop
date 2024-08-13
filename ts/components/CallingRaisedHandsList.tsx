@@ -174,6 +174,7 @@ export function CallingRaisedHandsListButton({
 }: CallingRaisedHandsListButtonPropsType): JSX.Element | null {
   const [isVisible, setIsVisible] = React.useState(raisedHandsCount > 0);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [opacitySpringProps, opacitySpringApi] = useSpring(
     {
       from: { opacity: 0 },
@@ -182,6 +183,7 @@ export function CallingRaisedHandsListButton({
     },
     []
   );
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [scaleSpringProps, scaleSpringApi] = useSpring(
     {
       from: { scale: 0.9 },
