@@ -22,7 +22,8 @@ jobs:
       - name: Checkout git repo
         uses: actions/checkout@v3
 
-      - uses: ./actions/setup_and_build
+      - name: Setup & Build
+        uses: ./actions/setup_and_build
 
       - name: Build windows production binaries
         if: runner.os == 'Windows'
