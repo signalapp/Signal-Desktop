@@ -6,4 +6,4 @@ runs:
     - name: Enforce yarn.lock has no duplicates
       shell: bash
       if: runner.os == 'Linux'
-      run: yarn yarn-deduplicate yarn.lock --fail
+      run: yarn dedup-yarn-lock --fail

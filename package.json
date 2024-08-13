@@ -43,7 +43,7 @@
     "protobuf": "pbjs --target static-module --wrap commonjs --out ts/protobuf/compiled.js protos/*.proto && pbts --out ts/protobuf/compiled.d.ts ts/protobuf/compiled.js --force-long",
     "sass": "rimraf 'stylesheets/dist/' && webpack  --config=./sass.config.js",
     "clean": "rimraf 'ts/**/*.js' 'ts/*.js' 'ts/*.js.map' 'ts/**/*.js.map' && rimraf tsconfig.tsbuildinfo;",
-    "lint-full": "yarn yarn-deduplicate yarn.lock && yarn format-full && eslint .",
+    "lint-full": "yarn dedup-yarn-lock && yarn format-full && eslint .",
     "format-full": "prettier --list-different --write \"*.{css,js,json,scss,ts,tsx}\" \"./**/*.{css,js,json,scss,ts,tsx}\"",
     "start-prod-test": "cross-env NODE_ENV=production NODE_APP_INSTANCE=$MULTI electron .",
     "test": "mocha",
@@ -60,11 +60,12 @@
     "appImage": "yarn sedtoAppImage; yarn build-release-non-linux; yarn sedtoDeb",
     "sedtoAppImage": "sed -i 's/\"target\": \\[\"deb\", \"rpm\", \"freebsd\"\\]/\"target\": \"AppImage\"/g' package.json",
     "sedtoDeb": "sed -i 's/\"target\": \"AppImage\"/\"target\": \\[\"deb\", \"rpm\", \"freebsd\"\\]/g' package.json",
-    "ready": "yarn yarn-deduplicate yarn.lock --fail && yarn build-everything && yarn lint-full && yarn test",
+    "ready": "yarn dedup-yarn-lock --fail && yarn build-everything && yarn lint-full && yarn test",
     "postinstall": "yarn patch-package && yarn electron-builder install-app-deps",
     "update-git-info": "node ./build/updateLocalConfig.js",
     "worker:utils": "webpack  --config=./utils.worker.config.js",
     "worker:libsession": "rimraf 'ts/webworker/workers/node/libsession/*.node' && webpack  --config=./libsession.worker.config.js",
+    "dedup-yarn-lock": "yarn-deduplicate yarn.lock",
     "prepare": "husky install"
   },
   "dependencies": {
