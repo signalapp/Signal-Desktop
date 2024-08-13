@@ -117,7 +117,6 @@ import { load as loadLocale } from './locale';
 import type { LoggerType } from '../ts/types/Logging';
 import { HourCyclePreference } from '../ts/types/I18N';
 import { ScreenShareStatus } from '../ts/types/Calling';
-import { DBVersionFromFutureError } from '../ts/sql/migrations';
 import type { ParsedSignalRoute } from '../ts/util/signalRoutes';
 import { parseSignalRoute } from '../ts/util/signalRoutes';
 import * as dns from '../ts/util/dns';
@@ -1800,7 +1799,9 @@ const onDatabaseError = async (error: Error) => {
   const copyErrorAndQuitButtonIndex = 0;
   const SIGNAL_SUPPORT_LINK = 'https://support.signal.org/error';
 
-  if (error instanceof DBVersionFromFutureError) {
+  // Note that this error is thrown by the worker process and thus instanceof
+  // check won't work.
+  if (error.name === 'DBVersionFromFutureError') {
     // If the DB version is too new, the user likely opened an older version of Signal,
     // and they would almost never want to delete their data as a result, so we don't show
     // that option

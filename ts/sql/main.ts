@@ -70,7 +70,13 @@ export type WrappedWorkerResponse =
   | Readonly<{
       type: 'response';
       seq: number;
-      error: string | undefined;
+      error:
+        | Readonly<{
+            name: string;
+            message: string;
+            stack: string | undefined;
+          }>
+        | undefined;
       errorKind: SqliteErrorKind | undefined;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       response: any;
@@ -382,7 +388,9 @@ export class MainSQL {
       }
 
       if (error) {
-        const errorObj = new Error(error);
+        const errorObj = new Error(error.message);
+        errorObj.stack = error.stack;
+        errorObj.name = error.name;
         this.onError(errorKind ?? SqliteErrorKind.Unknown, errorObj);
 
         pair.reject(errorObj);

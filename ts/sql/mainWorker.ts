@@ -4,7 +4,6 @@
 import { parentPort } from 'worker_threads';
 
 import type { LoggerType } from '../types/Logging';
-import * as Errors from '../types/errors';
 import type {
   WrappedWorkerRequest,
   WrappedWorkerResponse,
@@ -23,10 +22,8 @@ const port = parentPort;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function respond(seq: number, error: Error | undefined, response?: any) {
   let errorKind: SqliteErrorKind | undefined;
-  let errorString: string | undefined;
   if (error !== undefined) {
     errorKind = parseSqliteError(error);
-    errorString = Errors.toLogFormat(error);
 
     if (errorKind === SqliteErrorKind.Corrupted && db != null) {
       DataWriter.runCorruptionChecks(db);
@@ -36,7 +33,14 @@ function respond(seq: number, error: Error | undefined, response?: any) {
   const wrappedResponse: WrappedWorkerResponse = {
     type: 'response',
     seq,
-    error: errorString,
+    error:
+      error == null
+        ? undefined
+        : {
+            name: error.name,
+            message: error.message,
+            stack: error.stack,
+          },
     errorKind,
     response,
   };
