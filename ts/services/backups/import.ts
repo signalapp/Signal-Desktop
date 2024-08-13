@@ -258,6 +258,8 @@ export class BackupImportStream extends Writable {
   private ourConversation?: ConversationAttributesType;
   private pinnedConversations = new Array<[number, string]>();
   private customColorById = new Map<number, CustomColorDataType>();
+  private releaseNotesRecipientId: Long | undefined;
+  private releaseNotesChatId: Long | undefined;
 
   constructor() {
     super({ objectMode: true });
@@ -383,6 +385,15 @@ export class BackupImportStream extends Writable {
         let convo: ConversationAttributesType;
         if (recipient.contact) {
           convo = await this.fromContact(recipient.contact);
+        } else if (recipient.releaseNotes) {
+          strictAssert(
+            this.releaseNotesRecipientId == null,
+            'Duplicate release notes recipient'
+          );
+          this.releaseNotesRecipientId = recipient.id;
+
+          // Not yet supported
+          return;
         } else if (recipient.self) {
           strictAssert(this.ourConversation != null, 'Missing account data');
           convo = this.ourConversation;
@@ -980,6 +991,16 @@ export class BackupImportStream extends Writable {
     strictAssert(chat.id != null, 'chat must have an id');
     strictAssert(chat.recipientId != null, 'chat must have a recipientId');
 
+    // Drop release notes chat
+    if (this.releaseNotesRecipientId?.eq(chat.recipientId)) {
+      strictAssert(
+        this.releaseNotesChatId == null,
+        'Duplicate release notes chat'
+      );
+      this.releaseNotesChatId = chat.id;
+      return;
+    }
+
     const conversation = this.recipientIdToConvo.get(
       chat.recipientId.toNumber()
     );
@@ -1044,6 +1065,11 @@ export class BackupImportStream extends Writable {
     strictAssert(item.chatId != null, `${logId}: must have a chatId`);
     strictAssert(item.dateSent != null, `${logId}: must have a dateSent`);
     strictAssert(timestamp, `${logId}: must have a timestamp`);
+
+    if (this.releaseNotesChatId?.eq(item.chatId)) {
+      // Drop release notes messages
+      return;
+    }
 
     const chatConvo = this.chatIdToConvo.get(item.chatId.toNumber());
     strictAssert(
