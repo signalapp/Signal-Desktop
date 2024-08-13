@@ -31,6 +31,7 @@ async function updateConversationFromContactSync(
   receivedAtCounter: number,
   sentAt: number
 ): Promise<void> {
+  const logId = `updateConversationFromContactSync(${conversation.idForLogging()}`;
   const { writeNewAttachmentData, deleteAttachmentData, doesAttachmentExist } =
     window.Signal.Migrations;
 
@@ -60,16 +61,24 @@ async function updateConversationFromContactSync(
     conversation.set({ avatar: null });
   }
 
-  // expireTimer isn't in Storage Service so we have to rely on contact sync.
-  await conversation.updateExpirationTimer(details.expireTimer, {
-    // Note: because it's our conversationId, this notification will be marked read. But
-    //   setting this will make 'isSetByOther' check true.
-    source: window.ConversationController.getOurConversationId(),
-    receivedAt: receivedAtCounter,
-    fromSync: true,
-    isInitialSync,
-    reason: `contact sync (sent=${sentAt})`,
-  });
+  if (isInitialSync) {
+    // expireTimer isn't in Storage Service so we have to rely on contact sync.
+    await conversation.updateExpirationTimer(details.expireTimer, {
+      // Note: because it's our conversationId, this notification will be marked read. But
+      //   setting this will make 'isSetByOther' check true.
+      source: window.ConversationController.getOurConversationId(),
+      receivedAt: receivedAtCounter,
+      fromSync: true,
+      isInitialSync,
+      reason: `contact sync (sent=${sentAt})`,
+    });
+  } else if (
+    (details.expireTimer ?? 0) !== (conversation.get('expireTimer') ?? 0)
+  ) {
+    log.warn(
+      `${logId}: Expire timer from contact sync is different from our data, but isInitialSync=${isInitialSync} so we won't apply it.`
+    );
+  }
 
   window.Whisper.events.trigger('incrementProgress');
 }
