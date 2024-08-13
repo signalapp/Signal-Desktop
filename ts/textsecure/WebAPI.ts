@@ -3514,7 +3514,7 @@ export function initialize({
           disableRetries: options?.disableRetries,
           proxyUrl,
           responseType: 'stream',
-          timeout: options?.timeout || 0,
+          timeout: options?.timeout ?? DEFAULT_TIMEOUT,
           type: 'GET',
           redactUrl: redactor,
           version,
