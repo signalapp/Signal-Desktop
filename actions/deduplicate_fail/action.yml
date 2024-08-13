@@ -1,0 +1,9 @@
+name: 'Deduplicate check'
+description: 'Deduplicate check'
+runs:
+  using: 'composite'
+  steps:
+    - name: Enforce yarn.lock has no duplicates
+      shell: bash
+      if: runner.os == 'Linux'
+      run: yarn dedup-yarn-lock --fail

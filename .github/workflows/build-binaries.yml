@@ -32,7 +32,11 @@ jobs:
       - name: Checkout git repo
         uses: actions/checkout@v3
 
-      - uses: ./actions/setup_and_build
+      - name: Setup & Build
+        uses: ./actions/setup_and_build
+
+      - name: Enforce yarn.lock has no duplicates
+        uses: ./actions/deduplicate_fail
 
       - name: Build windows production binaries
         if: runner.os == 'Windows'

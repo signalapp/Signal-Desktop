@@ -28,12 +28,16 @@ jobs:
       - name: Checkout git repo
         uses: actions/checkout@v3
 
-      - uses: ./actions/setup_and_build
+      - name: Setup & Build
+        uses: ./actions/setup_and_build
 
       - name: Lint Files
         # no need to lint files on all platforms. Just do it once on the quicker one
         if: runner.os == 'Linux'
         run: yarn lint-full
+
+      - name: Enforce yarn.lock has no duplicates
+        uses: ./actions/deduplicate_fail
 
       - name: Unit Test
         run: yarn test
