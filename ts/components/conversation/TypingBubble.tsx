@@ -87,6 +87,7 @@ function TypingBubbleAvatar({
   i18n: LocalizerType;
   theme: ThemeType;
 }): ReactElement | null {
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [springProps, springApi] = useSpring(
     {
       config: SPRING_CONFIG,
@@ -287,6 +288,7 @@ export function TypingBubble({
     [typingContactIds]
   );
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [outerDivStyle, outerDivSpringApi] = useSpring(
     {
       to: OUTER_DIV_ANIMATION_PROPS[isSomeoneTyping ? 'visible' : 'hidden'],
@@ -294,6 +296,7 @@ export function TypingBubble({
     },
     [isSomeoneTyping]
   );
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [typingAnimationStyle, typingAnimationSpringApi] = useSpring(
     {
       to: BUBBLE_ANIMATION_PROPS[isSomeoneTyping ? 'visible' : 'hidden'],

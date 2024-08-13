@@ -31,6 +31,7 @@ export function PlaybackRateButton({
 }: Props): JSX.Element {
   const [isDown, setIsDown] = useState(false);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [animProps] = useSpring(
     {
       config: SPRING_CONFIG,

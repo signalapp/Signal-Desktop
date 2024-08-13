@@ -27,6 +27,7 @@ export type ButtonProps = {
 export const PlaybackButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   function ButtonInner(props, ref) {
     const { mod, label, variant, onClick, context, visible = true } = props;
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
     const [animProps] = useSpring(
       {
         config: SPRING_CONFIG,

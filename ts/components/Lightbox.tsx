@@ -322,6 +322,7 @@ export function Lightbox({
   const thumbnailsMarginInlineStart =
     0 - (selectedIndex * THUMBNAIL_FULL_WIDTH + THUMBNAIL_WIDTH / 2);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [thumbnailsStyle, thumbnailsAnimation] = useSpring(
     {
       config: THUMBNAIL_SPRING_CONFIG,

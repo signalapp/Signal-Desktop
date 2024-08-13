@@ -172,6 +172,13 @@ const rules = {
         '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
     },
   ],
+
+  'react-hooks/exhaustive-deps': [
+    'error',
+    {
+      additionalHooks: '^(useSpring|useSprings)$',
+    },
+  ],
 };
 
 const typescriptRules = {
