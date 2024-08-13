@@ -44,11 +44,12 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding-block: 78px 28px;
 }
 
 .CallsTab__EmptyStateIcon {
-  width: 56px;
-  height: 56px;
+  width: 40px;
+  height: 40px;
   opacity: 0.7;
   @include light-theme {
     @include color-svg('../images/icons/v3/phone/phone.svg', $color-gray-60);
@@ -62,11 +63,32 @@
   margin-block: 12px 0;
   margin-inline: 0;
   opacity: 0.7;
+  text-align: center;
   @include light-theme {
     color: $color-gray-60;
   }
   @include dark-theme {
     color: $color-gray-25;
+  }
+}
+
+.CallsTab__EmptyState__ActionIcon {
+  vertical-align: text-top;
+  display: inline-block;
+
+  width: 16px;
+  height: 16px;
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v3/phone/phone-plus-bold.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v3/phone/phone-plus-bold.svg',
+      $color-gray-25
+    );
   }
 }
 

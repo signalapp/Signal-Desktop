@@ -5,7 +5,6 @@ import { last } from 'lodash';
 import type { ReactChild } from 'react';
 import React from 'react';
 
-import { I18n } from '../I18n';
 import type { ToFindType } from './LeftPaneHelper';
 import type {
   ConversationType,
@@ -15,6 +14,7 @@ import { LeftPaneHelper } from './LeftPaneHelper';
 import { getConversationInDirection } from './getConversationInDirection';
 import type { Row } from '../ConversationList';
 import { RowType } from '../ConversationList';
+import { NavSidebarEmpty } from '../NavSidebar';
 import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
 import type { LocalizerType } from '../../types/Util';
 import { handleKeydownForSearch } from './handleKeydownForSearch';
@@ -121,31 +121,17 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     );
   }
 
-  override getPreRowsNode({
+  override getBackgroundNode({
     i18n,
   }: Readonly<{
     i18n: LocalizerType;
   }>): ReactChild | null {
     if (this.getRowCount() === 0) {
       return (
-        <div className="module-left-pane__empty">
-          <div>
-            <I18n
-              i18n={i18n}
-              id="icu:emptyInboxMessage"
-              components={{
-                composeIcon: (
-                  <span>
-                    <strong>{i18n('icu:composeIcon')}</strong>
-                    <span className="module-left-pane__empty--composer_icon">
-                      <i className="module-left-pane__empty--composer_icon--icon" />
-                    </span>
-                  </span>
-                ),
-              }}
-            />
-          </div>
-        </div>
+        <NavSidebarEmpty
+          title={i18n('icu:emptyInbox__title')}
+          subtitle={i18n('icu:emptyInbox__subtitle')}
+        />
       );
     }
 

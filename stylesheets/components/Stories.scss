@@ -123,6 +123,8 @@
     flex: 1;
     justify-content: center;
     opacity: 0.7;
+    padding-block: 78px 28px;
+
     @include light-theme {
       color: $color-gray-60;
     }
@@ -130,21 +132,39 @@
       color: $color-gray-25;
     }
 
-    &__stories {
-      height: 56px;
-      margin-bottom: 22px;
-      width: 56px;
+    &__icon {
+      margin-bottom: 12px;
+      width: 40px;
+      height: 40px;
       @include light-theme {
         @include color-svg(
-          '../images/icons/v3/stories/stories-display.svg',
+          '../images/icons/v3/stories/stories-display-bold.svg',
           $color-gray-60
         );
       }
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v3/stories/stories-display.svg',
+          '../images/icons/v3/stories/stories-display-bold.svg',
           $color-gray-25
         );
+      }
+    }
+
+    &__text {
+      text-align: center;
+    }
+
+    &__text__action {
+      vertical-align: text-top;
+      display: inline-block;
+
+      width: 16px;
+      height: 16px;
+      @include light-theme {
+        @include color-svg('../images/icons/v3/plus/plus.svg', $color-gray-60);
+      }
+      @include dark-theme {
+        @include color-svg('../images/icons/v3/plus/plus.svg', $color-gray-25);
       }
     }
   }

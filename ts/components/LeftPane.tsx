@@ -472,6 +472,10 @@ export function LeftPane({
     startSearch,
   ]);
 
+  const backgroundNode = helper.getBackgroundNode({
+    i18n,
+  });
+
   const preRowsNode = helper.getPreRowsNode({
     clearConversationSearch,
     clearGroupCreationError,
@@ -686,6 +690,7 @@ export function LeftPane({
         </>
       }
     >
+      {backgroundNode}
       <nav
         className={classNames(
           'module-left-pane',

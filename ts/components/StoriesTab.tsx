@@ -24,6 +24,7 @@ import { StoriesPane } from './StoriesPane';
 import { NavSidebar, NavSidebarActionButton } from './NavSidebar';
 import { StoriesAddStoryButton } from './StoriesAddStoryButton';
 import { ContextMenu } from './ContextMenu';
+import { I18n } from './I18n';
 import type { WidthBreakpoint } from './_util';
 import type { UnreadStats } from '../util/countUnreadStats';
 
@@ -217,8 +218,33 @@ export function StoriesTab({
         </NavSidebar>
       )}
       <div className="Stories__placeholder">
-        <div className="Stories__placeholder__stories" />
-        {i18n('icu:Stories__placeholder--text')}
+        <div className="Stories__placeholder__icon" />
+        <div className="Stories__placeholder__text">
+          {stories.length ? (
+            i18n('icu:Stories__placeholder--text')
+          ) : (
+            <I18n
+              i18n={i18n}
+              id="icu:Stories__placeholder-with-icon--text"
+              components={{
+                // eslint-disable-next-line react/no-unstable-nested-components
+                newStoryIcon: children => {
+                  let label: string | undefined;
+                  const first = children[0];
+                  if (typeof first === 'string') {
+                    label = first;
+                  }
+                  return (
+                    <span
+                      className="Stories__placeholder__text__action"
+                      aria-label={label}
+                    />
+                  );
+                },
+              }}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

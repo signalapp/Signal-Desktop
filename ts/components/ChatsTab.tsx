@@ -58,15 +58,16 @@ export function ChatsTab({
         ) : (
           <div className="Inbox__no-conversation-open">
             {renderMiniPlayer({ shouldFlow: false })}
-            <div className="module-splash-screen__logo module-img--128 module-logo-blue" />
-            <h3>
+            <div className="module-splash-screen__logo module-img--80 module-logo-blue" />
+            <h3 className="Inbox__welcome">
               {getEnvironment() !== Environment.Staging
                 ? i18n('icu:welcomeToSignal')
                 : 'THIS IS A STAGING DESKTOP'}
             </h3>
-            <p>
+            <p className="Inbox__whatsnew">
               <WhatsNewLink i18n={i18n} showWhatsNewModal={showWhatsNewModal} />
             </p>
+            <div className="Inbox__padding" />
           </div>
         )}
       </div>

@@ -66,6 +66,14 @@ export abstract class LeftPaneHelper<T> {
     return undefined;
   }
 
+  getBackgroundNode(
+    _: Readonly<{
+      i18n: LocalizerType;
+    }>
+  ): null | ReactChild {
+    return null;
+  }
+
   getPreRowsNode(
     _: Readonly<{
       clearConversationSearch: () => unknown;
