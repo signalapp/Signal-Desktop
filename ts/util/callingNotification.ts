@@ -35,7 +35,10 @@ export function getDirectCallNotificationText(
   callStatus: DirectCallStatus,
   i18n: LocalizerType
 ): string {
-  if (callStatus === DirectCallStatus.Pending) {
+  if (
+    callStatus === DirectCallStatus.Pending ||
+    callStatus === DirectCallStatus.Unknown
+  ) {
     if (callDirection === CallDirection.Incoming) {
       return callType === CallType.Video
         ? i18n('icu:incomingVideoCall')
@@ -68,7 +71,10 @@ export function getDirectCallNotificationText(
       : i18n('icu:missedOrDeclinedOutgoingAudioCall');
   }
 
-  if (callStatus === DirectCallStatus.Missed) {
+  if (
+    callStatus === DirectCallStatus.Missed ||
+    callStatus === DirectCallStatus.MissedNotificationProfile
+  ) {
     if (callDirection === CallDirection.Incoming) {
       return callType === CallType.Video
         ? i18n('icu:missedIncomingVideoCall')
@@ -217,6 +223,9 @@ export function getCallingIcon(
     return 'video';
   }
   if (callType === CallType.Group || callType === CallType.Adhoc) {
+    return 'video';
+  }
+  if (callType === CallType.Unknown) {
     return 'video';
   }
   throw missingCaseError(callType);

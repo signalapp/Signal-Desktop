@@ -70,6 +70,9 @@ describe('sql/getCallHistoryGroups', () => {
   beforeEach(async () => {
     await removeAll();
   });
+  after(async () => {
+    await removeAll();
+  });
 
   it('should merge related items in order', async () => {
     const now = Date.now();

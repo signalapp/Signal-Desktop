@@ -237,3 +237,10 @@ export function finalizeDeleteCallLink(db: WritableDB, roomId: string): void {
   `;
   db.prepare(query).run(params);
 }
+
+export function _removeAllCallLinks(db: WritableDB): void {
+  const [query, params] = sql`
+    DELETE FROM callLinks;
+  `;
+  db.prepare(query).run(params);
+}

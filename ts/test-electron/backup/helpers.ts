@@ -199,9 +199,7 @@ export async function asymmetricRoundtripHarness(
 }
 
 async function clearData() {
-  await DataWriter._removeAllMessages();
-  await DataWriter._removeAllConversations();
-  await DataWriter.removeAllItems();
+  await DataWriter.removeAll();
   window.storage.reset();
   window.ConversationController.reset();
 

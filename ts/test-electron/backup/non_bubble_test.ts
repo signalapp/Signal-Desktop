@@ -87,6 +87,8 @@ describe('backup/non-bubble messages', () => {
         received_at: 1,
         sent_at: 1,
         timestamp: 1,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
         sourceServiceId: OUR_ACI,
       },
     ]);
@@ -101,6 +103,8 @@ describe('backup/non-bubble messages', () => {
         received_at: 1,
         sent_at: 1,
         timestamp: 1,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
         sourceServiceId: CONTACT_A,
       },
     ]);
@@ -116,6 +120,8 @@ describe('backup/non-bubble messages', () => {
         received_at: 1,
         sent_at: 1,
         timestamp: 1,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
         sourceServiceId: CONTACT_A,
       },
     ]);
@@ -132,6 +138,8 @@ describe('backup/non-bubble messages', () => {
         received_at: 1,
         sent_at: 1,
         timestamp: 1,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
         sourceServiceId: CONTACT_A,
       },
     ]);
@@ -148,6 +156,8 @@ describe('backup/non-bubble messages', () => {
         received_at: 1,
         sent_at: 1,
         timestamp: 1,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
         sourceServiceId: CONTACT_A,
       },
     ]);
@@ -162,6 +172,8 @@ describe('backup/non-bubble messages', () => {
         received_at: 1,
         sent_at: 1,
         timestamp: 1,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
         sourceServiceId: CONTACT_A,
       },
     ]);
@@ -176,6 +188,8 @@ describe('backup/non-bubble messages', () => {
         received_at: 1,
         sent_at: 1,
         timestamp: 1,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
         sourceServiceId: CONTACT_A,
       },
     ]);
@@ -190,6 +204,8 @@ describe('backup/non-bubble messages', () => {
         received_at: 1,
         sent_at: 1,
         timestamp: 1,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
         sourceServiceId: CONTACT_A,
       },
     ]);
@@ -399,6 +415,8 @@ describe('backup/non-bubble messages', () => {
         received_at: 1,
         sent_at: 1,
         timestamp: 1,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
         flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
         sourceServiceId: CONTACT_A,
         sourceDevice: 1,
@@ -419,6 +437,8 @@ describe('backup/non-bubble messages', () => {
         received_at: 1,
         sent_at: 1,
         timestamp: 1,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
         changedId: contactA.id,
         sourceServiceId: CONTACT_A,
         profileChange: {
@@ -439,6 +459,8 @@ describe('backup/non-bubble messages', () => {
         received_at: 1,
         sent_at: 1,
         timestamp: 1,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
         sourceServiceId: CONTACT_A,
         titleTransition: {
           renderInfo: {
@@ -460,6 +482,8 @@ describe('backup/non-bubble messages', () => {
         received_at: 1,
         sent_at: 1,
         timestamp: 1,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
         conversationMerge: {
           renderInfo: {
             type: 'private',
@@ -479,6 +503,8 @@ describe('backup/non-bubble messages', () => {
         received_at: 1,
         sent_at: 1,
         timestamp: 1,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
         sourceServiceId: CONTACT_A,
         phoneNumberDiscovery: {
           e164: '+12125551234',
@@ -499,8 +525,8 @@ describe('backup/non-bubble messages', () => {
         sourceDevice: 1,
         sent_at: 1,
         timestamp: 1,
-        readStatus: ReadStatus.Unread,
-        seenStatus: SeenStatus.Unseen,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
         unidentifiedDeliveryReceived: true,
         supportedVersionAtReceive: 5,
         requiredProtocolVersion: 6,
@@ -537,6 +563,8 @@ describe('backup/non-bubble messages', () => {
           },
           received_at: 1,
           sent_at: 1,
+          readStatus: ReadStatus.Read,
+          seenStatus: SeenStatus.Seen,
           sourceServiceId: CONTACT_A,
           timestamp: 1,
         },
@@ -553,6 +581,8 @@ describe('backup/non-bubble messages', () => {
         received_at: 1,
         sourceServiceId: CONTACT_A,
         sourceDevice: 1,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
         sent_at: 1,
         timestamp: 1,
         messageRequestResponseEvent: MessageRequestResponseEvent.SPAM,

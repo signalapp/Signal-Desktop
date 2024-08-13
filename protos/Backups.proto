@@ -276,7 +276,7 @@ message AdHocCall {
   }
 
   uint64 callId = 1;
-  // Refers to a `CallLink` recipient.
+  // Refers to a Recipient with the `callLink` field set
   uint64 recipientId = 2;
   State state = 3;
   uint64 callTimestamp = 4;
@@ -703,6 +703,7 @@ message IndividualCall {
   Direction direction = 3;
   State state = 4;
   uint64 startedCallTimestamp = 5;
+  bool read = 6;
 }
 
 message GroupCall {
@@ -734,6 +735,7 @@ message GroupCall {
   uint64 startedCallTimestamp = 5;
   // The time the call ended. 0 indicates an unknown time.
   uint64 endedCallTimestamp = 6;
+  bool read = 7;
 }
 
 message SimpleChatUpdate {
