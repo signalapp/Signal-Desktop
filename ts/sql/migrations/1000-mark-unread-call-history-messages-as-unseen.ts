@@ -52,9 +52,9 @@ export function updateToSchemaVersion1000(
 
       db.prepare(updateQuery).run(updateParams);
     }
-  })();
 
-  db.pragma('user_version = 1000');
+    db.pragma('user_version = 1000');
+  })();
 
   logger.info('updateToSchemaVersion1000: success!');
 }

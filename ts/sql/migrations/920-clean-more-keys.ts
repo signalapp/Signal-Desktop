@@ -41,9 +41,9 @@ export function updateToSchemaVersion920(
     );
 
     logger.info('updateToSchemaVersion920: Done with deletions');
-  })();
 
-  db.pragma('user_version = 920');
+    db.pragma('user_version = 920');
+  })();
 
   logger.info(
     'updateToSchemaVersion920: user_version set to 920. Starting vacuum...'

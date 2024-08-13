@@ -23,9 +23,9 @@ export function updateToSchemaVersion1080(
           conversationId, isAddressableMessage, received_at, sent_at
       ) WHERE expireTimer IS NULL;
     `);
-  })();
 
-  db.pragma('user_version = 1080');
+    db.pragma('user_version = 1080');
+  })();
 
   logger.info('updateToSchemaVersion1080: success!');
 }

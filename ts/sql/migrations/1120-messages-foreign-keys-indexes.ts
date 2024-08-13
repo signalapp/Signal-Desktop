@@ -25,9 +25,9 @@ export function updateToSchemaVersion1120(
       CREATE INDEX mentions_messageId
         ON mentions(messageId);
     `);
-  })();
 
-  db.pragma('user_version = 1120');
+    db.pragma('user_version = 1120');
+  })();
 
   logger.info('updateToSchemaVersion1120: success!');
 }

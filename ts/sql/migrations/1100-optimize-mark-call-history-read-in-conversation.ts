@@ -55,9 +55,9 @@ export function updateToSchemaVersion1100(
     `;
 
     db.exec(query);
-  })();
 
-  db.pragma('user_version = 1100');
+    db.pragma('user_version = 1100');
+  })();
 
   logger.info('updateToSchemaVersion1100: success!');
 }

@@ -24,8 +24,8 @@ export function updateToSchemaVersion1140(
       CREATE INDEX callLinks_deleted
         ON callLinks (deleted, roomId);
     `);
-  })();
 
-  db.pragma('user_version = 1140');
+    db.pragma('user_version = 1140');
+  })();
   logger.info('updateToSchemaVersion1140: success!');
 }

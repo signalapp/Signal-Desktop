@@ -27,9 +27,9 @@ export function updateToSchemaVersion1110(
       ALTER TABLE stickers
         ADD COLUMN size INTEGER;
     `);
-  })();
 
-  db.pragma('user_version = 1110');
+    db.pragma('user_version = 1110');
+  })();
 
   logger.info('updateToSchemaVersion1110: success!');
 }

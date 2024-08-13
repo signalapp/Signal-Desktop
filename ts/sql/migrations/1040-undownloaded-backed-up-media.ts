@@ -200,9 +200,9 @@ export function updateToSchemaVersion1040(
         existingJobs.length - numTransferred
       }`
     );
-  })();
 
-  db.pragma('user_version = 1040');
+    db.pragma('user_version = 1040');
+  })();
 
   logger.info('updateToSchemaVersion1040: success!');
 }
