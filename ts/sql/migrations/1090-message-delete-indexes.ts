@@ -24,9 +24,9 @@ export function updateToSchemaVersion1090(
       CREATE INDEX storyReads_storyId
         ON storyReads (storyId);
     `);
-  })();
 
-  db.pragma('user_version = 1090');
+    db.pragma('user_version = 1090');
+  })();
 
   logger.info('updateToSchemaVersion1090: success!');
 }

@@ -48,9 +48,9 @@ export function updateToSchemaVersion1060(
         createdAt, sentAt, id
       )
     `);
-  })();
 
-  db.pragma('user_version = 1060');
+    db.pragma('user_version = 1060');
+  })();
 
   logger.info('updateToSchemaVersion1060: success!');
 }

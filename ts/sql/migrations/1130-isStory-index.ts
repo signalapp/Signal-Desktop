@@ -23,9 +23,9 @@ export function updateToSchemaVersion1130(
         ON messages(received_at, sent_at)
         WHERE isStory = 1;
     `);
-  })();
 
-  db.pragma('user_version = 1130');
+    db.pragma('user_version = 1130');
+  })();
 
   logger.info('updateToSchemaVersion1130: success!');
 }

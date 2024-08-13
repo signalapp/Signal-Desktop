@@ -47,9 +47,9 @@ export function updateToSchemaVersion1070(
         sizeOnBackupCdn INTEGER
       ) STRICT;
     `);
-  })();
 
-  db.pragma('user_version = 1070');
+    db.pragma('user_version = 1070');
+  })();
 
   logger.info('updateToSchemaVersion1070: success!');
 }
