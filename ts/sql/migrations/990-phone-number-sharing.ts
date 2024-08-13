@@ -37,9 +37,9 @@ export function updateToSchemaVersion990(
       -- to do anything if the field wasn't present.
       WHERE json ->> '$.notSharingPhoneNumber' IS NOT NULL;
     `);
-  })();
 
-  db.pragma('user_version = 990');
+    db.pragma('user_version = 990');
+  })();
 
   logger.info('updateToSchemaVersion990: success!');
 }

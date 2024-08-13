@@ -24,9 +24,9 @@ export function updateToSchemaVersion980(
       ON reactions
       (fromId, timestamp);
     `);
-  })();
 
-  db.pragma('user_version = 980');
+    db.pragma('user_version = 980');
+  })();
 
   logger.info('updateToSchemaVersion980: success!');
 }

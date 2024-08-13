@@ -22,6 +22,7 @@ export function updateToSchemaVersion1020(
 
     if (ourAci == null) {
       logger.info('updateToSchemaVersion1020: not linked');
+      db.pragma('user_version = 1020');
       return;
     }
 
@@ -32,6 +33,7 @@ export function updateToSchemaVersion1020(
     const ourConversationId = db.prepare(selectQuery).pluck().get(selectParams);
     if (ourConversationId == null) {
       logger.error('updateToSchemaVersion1020: no conversation');
+      db.pragma('user_version = 1020');
       return;
     }
 
@@ -45,9 +47,9 @@ export function updateToSchemaVersion1020(
     if (changes !== 0) {
       logger.warn(`updateToSchemaVersion1020: removed ${changes} self merges`);
     }
-  })();
 
-  db.pragma('user_version = 1020');
+    db.pragma('user_version = 1020');
+  })();
 
   logger.info('updateToSchemaVersion1020: success!');
 }
