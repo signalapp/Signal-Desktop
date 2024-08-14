@@ -45,6 +45,7 @@
   justify-content: center;
   flex-direction: column;
   padding-block: 78px 28px;
+  user-select: none;
 }
 
 .CallsTab__EmptyStateIcon {
@@ -52,10 +53,16 @@
   height: 40px;
   opacity: 0.7;
   @include light-theme {
-    @include color-svg('../images/icons/v3/phone/phone.svg', $color-gray-60);
+    @include color-svg(
+      '../images/icons/v3/phone/phone-display-bold.svg',
+      $color-gray-60
+    );
   }
   @include dark-theme {
-    @include color-svg('../images/icons/v3/phone/phone.svg', $color-gray-25);
+    @include color-svg(
+      '../images/icons/v3/phone/phone-display-bold.svg',
+      $color-gray-25
+    );
   }
 }
 
