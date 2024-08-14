@@ -722,6 +722,17 @@ export abstract class Updater {
             'downloadUpdate: Failed to restore from backup folder, ignoring',
             Errors.toLogFormat(restoreError)
           );
+
+          // If not possible - at least clean up
+          try {
+            await deleteTempDir(this.logger, restoreDir);
+          } catch (cleanupError) {
+            this.logger.warn(
+              'downloadUpdate: Failed to remove backup folder after ' +
+                'failed restore, ignoring',
+              Errors.toLogFormat(cleanupError)
+            );
+          }
         }
 
         this.logger.warn(
