@@ -18,7 +18,7 @@ import { MyStoryButton } from './MyStoryButton';
 import { SearchInput } from './SearchInput';
 import { StoryListItem } from './StoryListItem';
 import { isNotNil } from '../util/isNotNil';
-import { NavSidebarSearchHeader } from './NavSidebar';
+import { NavSidebarSearchHeader, NavSidebarEmpty } from './NavSidebar';
 
 const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationStoryType> = {
   getFn: (story, path) => {
@@ -104,6 +104,12 @@ export function StoriesPane({
   }, [searchTerm, stories]);
   return (
     <>
+      {!stories.length && (
+        <NavSidebarEmpty
+          title={i18n('icu:Stories__list__empty--title')}
+          subtitle={i18n('icu:Stories__list__empty--subtitle')}
+        />
+      )}
       <NavSidebarSearchHeader>
         <SearchInput
           i18n={i18n}
@@ -179,11 +185,6 @@ export function StoriesPane({
                 />
               ))}
           </>
-        )}
-        {!stories.length && (
-          <div className="Stories__pane__list--empty">
-            {i18n('icu:Stories__list-empty')}
-          </div>
         )}
       </div>
     </>

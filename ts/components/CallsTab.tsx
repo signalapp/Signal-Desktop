@@ -24,6 +24,7 @@ import type { WidthBreakpoint } from './_util';
 import type { CallLinkType } from '../types/CallLink';
 import type { CallStateType } from '../state/selectors/calling';
 import type { StartCallData } from './ConfirmLeaveCallModal';
+import { I18n } from './I18n';
 
 enum CallsTabSidebarView {
   CallsListView,
@@ -316,7 +317,26 @@ export function CallsTab({
           <div className="CallsTab__EmptyState">
             <div className="CallsTab__EmptyStateIcon" />
             <p className="CallsTab__EmptyStateLabel">
-              {i18n('icu:CallsTab__EmptyStateText')}
+              <I18n
+                i18n={i18n}
+                id="icu:CallsTab__EmptyStateText--with-icon"
+                components={{
+                  // eslint-disable-next-line react/no-unstable-nested-components
+                  newCallIcon: children => {
+                    let label: string | undefined;
+                    const first = children[0];
+                    if (typeof first === 'string') {
+                      label = first;
+                    }
+                    return (
+                      <span
+                        className="CallsTab__EmptyState__ActionIcon"
+                        aria-label={label}
+                      />
+                    );
+                  },
+                }}
+              />
             </p>
           </div>
         ) : (

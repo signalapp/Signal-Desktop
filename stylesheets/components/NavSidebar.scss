@@ -222,3 +222,41 @@
   margin-bottom: 8px;
   gap: 12px;
 }
+
+.NavSidebarEmpty {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  pointer-events: none; // since this is going to overlap with the navbar header
+  // we don't want it to capture any clicks.
+
+  align-items: center;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  padding-block: 0;
+  padding-inline: 32px;
+  text-align: center;
+
+  .module-left-pane--width-narrow & {
+    display: none;
+  }
+}
+
+.NavSidebarEmpty__inner {
+  padding-block: 100px 28px;
+}
+
+.NavSidebarEmpty__title {
+  margin-block: 0px 6px;
+
+  @include font-title-medium;
+  color: $color-gray-45;
+}
+
+.NavSidebarEmpty__subtitle {
+  margin-block: 0;
+
+  color: $color-gray-45;
+}

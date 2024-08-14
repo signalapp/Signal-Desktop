@@ -239,3 +239,20 @@ export function NavSidebarSearchHeader({
 }): JSX.Element {
   return <div className="NavSidebarSearchHeader">{children}</div>;
 }
+
+export function NavSidebarEmpty({
+  title,
+  subtitle,
+}: {
+  title: string;
+  subtitle: string;
+}): JSX.Element {
+  return (
+    <div className="NavSidebarEmpty">
+      <div className="NavSidebarEmpty__inner">
+        <h3 className="NavSidebarEmpty__title">{title}</h3>
+        <p className="NavSidebarEmpty__subtitle">{subtitle}</p>
+      </div>
+    </div>
+  );
+}

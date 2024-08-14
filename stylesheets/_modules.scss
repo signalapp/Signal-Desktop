@@ -58,6 +58,11 @@
     width: 128px;
   }
 
+  &.module-img--80 {
+    height: 80px;
+    width: 80px;
+  }
+
   &.module-logo-blue {
     background-color: $color-ultramarine-icon;
   }
@@ -5309,41 +5314,6 @@ button.module-calling-participants-list__contact {
 .module-left-pane__dialogs {
   &:first-child {
     margin-top: 8px;
-  }
-}
-
-.module-left-pane__empty {
-  align-items: center;
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  padding-block: 0;
-  padding-inline: 32px;
-  text-align: center;
-
-  .module-left-pane--width-narrow & {
-    display: none;
-  }
-
-  &--composer_icon {
-    align-items: center;
-    background-color: $color-gray-05;
-    border-radius: 100%;
-    display: inline-flex;
-    height: 28px;
-    justify-content: center;
-    margin-bottom: -2px;
-    margin-inline-start: 4px;
-    vertical-align: bottom;
-    width: 28px;
-
-    &--icon {
-      $icon: '../images/icons/v3/compose/compose.svg';
-      @include color-svg($icon, $color-gray-90);
-      display: inline-block;
-      height: 16px;
-      width: 16px;
-    }
   }
 }
 

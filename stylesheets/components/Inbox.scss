@@ -35,6 +35,10 @@
   }
 }
 
+.Inbox__no-conversation-open .module-splash-screen__logo {
+  margin: 0;
+}
+
 .Inbox__logo {
   flex-shrink: 0;
 
@@ -77,4 +81,21 @@
     transform: rotate(0deg);
     opacity: 1;
   }
+}
+
+.Inbox__welcome {
+  margin-block: 20px 6px;
+
+  @include font-title-medium;
+  line-height: 24px;
+}
+
+.Inbox__whatsnew {
+  margin: 0;
+}
+
+// To center the content relative left pane
+.Inbox__padding {
+  flex-grow: 1;
+  max-height: 28px;
 }

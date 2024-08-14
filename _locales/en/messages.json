@@ -5257,11 +5257,19 @@
   },
   "icu:emptyInboxMessage": {
     "messageformat": "Click the {composeIcon} above and search for your contacts or groups to message.",
-    "description": "Shown in the left-pane when the inbox is empty"
+    "description": "(Deleted 2024/08/05) Shown in the left-pane when the inbox is empty"
   },
   "icu:composeIcon": {
     "messageformat": "compose button",
-    "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+    "description": "(Deleted 2024/08/05) Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
+  },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats",
+    "description": "Shown as a title in the left-pane when the inbox is empty"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here.",
+    "description": "Shown as a subtitle in the left-pane when the inbox is empty"
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Forward To",
@@ -6445,6 +6453,14 @@
     "messageformat": "No recent stories to show right now",
     "description": "Description for when there are no stories to show"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories",
+    "description": "Message title for when there are no stories to show"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here.",
+    "description": "Message subtitle for when there are no stories to show"
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Sending...",
     "description": "Pending text for story being sent in list view"
@@ -6463,6 +6479,10 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Click to view a story",
+    "description": "Placeholder label for the story view"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update.",
     "description": "Placeholder label for the story view"
   },
   "icu:Stories__from-to-group": {
@@ -7183,6 +7203,10 @@
   },
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Click to view or start a call",
+    "description": "(Deleted 2024/08/12) Calls Tab > When no call is selected > Empty state > Call to action text"
+  },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call.",
     "description": "Calls Tab > When no call is selected > Empty state > Call to action text"
   },
   "icu:CallsList__SearchInputPlaceholder": {
@@ -7199,7 +7223,23 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "No recent calls. Get started by calling a friend.",
-    "description": "Calls Tab > Calls List > When no results found > With no search query"
+    "description": "(Deleted 2024/08/12) Calls Tab > Calls List > When no results found > With no search query"
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls",
+    "description": "Calls Tab > Calls List > When no results found > With no search query. Message title"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here.",
+    "description": "Calls Tab > Calls List > When no results found > With no search query. Message subtitle"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls",
+    "description": "Calls Tab > Calls List > When no missed calls found > With no search query. Message title"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here.",
+    "description": "Calls Tab > Calls List > When no missed calls found > With no search query. Message subtitle"
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "No results for “{query}”",
