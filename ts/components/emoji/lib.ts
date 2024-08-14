@@ -3,7 +3,6 @@
 
 // Camelcase disabled due to emoji-datasource using snake_case
 /* eslint-disable camelcase */
-import untypedData from 'emoji-datasource';
 import emojiRegex from 'emoji-regex';
 import {
   compact,
@@ -24,6 +23,10 @@ import * as log from '../../logging/log';
 import { MINUTE } from '../../util/durations';
 import { drop } from '../../util/drop';
 import type { LocaleEmojiType } from '../../types/emoji';
+
+// Import emoji-datasource dynamically to avoid costly typechecking.
+// eslint-disable-next-line import/no-dynamic-require, @typescript-eslint/no-var-requires
+const untypedData = require('emoji-datasource' as string);
 
 export const skinTones = ['1F3FB', '1F3FC', '1F3FD', '1F3FE', '1F3FF'];
 
@@ -78,7 +81,7 @@ export type EmojiData = {
   };
 };
 
-const data = (untypedData as Array<EmojiData>)
+export const data = (untypedData as Array<EmojiData>)
   .filter(emoji => emoji.has_img_apple)
   .map(emoji =>
     // Why this weird map?

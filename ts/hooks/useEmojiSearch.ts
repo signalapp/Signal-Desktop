@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useEffect, useCallback, useRef } from 'react';
-import data from 'emoji-datasource';
 
-import { createSearch } from '../components/emoji/lib';
+import { data, createSearch } from '../components/emoji/lib';
 import type { SearchEmojiListType } from '../components/emoji/lib';
 import { drop } from '../util/drop';
 import * as log from '../logging/log';

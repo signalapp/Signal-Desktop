@@ -1,20 +1,32 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { assert } from 'chai';
 import * as moment from 'moment';
 import { setupI18n } from '../../util/setupI18n';
 import { DurationInSeconds } from '../../util/durations';
-import enMessages from '../../../_locales/en/messages.json';
-import esMessages from '../../../_locales/es/messages.json';
-import nbMessages from '../../../_locales/nb/messages.json';
-import nlMessages from '../../../_locales/nl/messages.json';
-import ptBrMessages from '../../../_locales/pt-BR/messages.json';
-import zhCnMessages from '../../../_locales/zh-CN/messages.json';
+import type { LocaleMessagesType } from '../../types/I18N';
 
 import * as expirationTimer from '../../util/expirationTimer';
 
-describe('expiration timer utilities', () => {
+function loadMessages(locale: string): LocaleMessagesType {
+  const localePath = join(
+    __dirname,
+    '..',
+    '..',
+    '..',
+    '_locales',
+    locale,
+    'messages.json'
+  );
+  const json = readFileSync(localePath, 'utf8');
+  return JSON.parse(json) as LocaleMessagesType;
+}
+
+describe('expiration timer utilities', async () => {
+  const enMessages = loadMessages('en');
   const i18n = setupI18n('en', enMessages);
 
   describe('DEFAULT_DURATIONS_IN_SECONDS', () => {
@@ -68,12 +80,14 @@ describe('expiration timer utilities', () => {
     });
 
     it('formats other languages successfully', () => {
+      const esMessages = loadMessages('es');
       const esI18n = setupI18n('es', esMessages);
       assert.strictEqual(
         format(esI18n, DurationInSeconds.fromSeconds(120)),
         '2 minutos'
       );
 
+      const zhCnMessages = loadMessages('zh-CN');
       const zhCnI18n = setupI18n('zh-CN', zhCnMessages);
       assert.strictEqual(
         format(zhCnI18n, DurationInSeconds.fromSeconds(60)),
@@ -82,6 +96,7 @@ describe('expiration timer utilities', () => {
 
       // The underlying library supports the "pt" locale, not the "pt_BR" locale. That's
       //   what we're testing here.
+      const ptBrMessages = loadMessages('pt-BR');
       const ptBrI18n = setupI18n('pt_BR', ptBrMessages);
       assert.strictEqual(
         format(ptBrI18n, DurationInSeconds.fromDays(5)),
@@ -90,6 +105,8 @@ describe('expiration timer utilities', () => {
 
       // The underlying library supports the Norwegian language, which is a macrolanguage
       //   for Bokmål and Nynorsk.
+      const nbMessages = loadMessages('nb');
+      const nlMessages = loadMessages('nl');
       [setupI18n('nb', nbMessages), setupI18n('nn', nlMessages)].forEach(
         norwegianI18n => {
           assert.strictEqual(
