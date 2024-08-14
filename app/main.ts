@@ -2616,6 +2616,7 @@ ipc.on(
   async (_event: Electron.Event, logText: string) => {
     const { filePath } = await dialog.showSaveDialog({
       defaultPath: 'debuglog.txt',
+      showsTagField: false,
     });
     if (filePath) {
       await writeFile(filePath, logText);
@@ -2979,9 +2980,11 @@ ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
 
   const { canceled, filePath: selectedFilePath } = await dialog.showSaveDialog(
     mainWindow,
-    { defaultPath }
+    {
+      defaultPath,
+      showsTagField: false,
+    }
   );
-
   if (canceled || selectedFilePath == null) {
     return { canceled: true };
   }
