@@ -7495,5 +7495,9 @@
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away).",
     "description": "Release notes for version 7.20, part 2"
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release.",
+    "description": "Release notes for version 7.21"
   }
 }
