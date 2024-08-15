@@ -180,6 +180,10 @@ export class App extends EventEmitter {
     return window.evaluate('window.SignalCI.unlink()');
   }
 
+  public async waitForUnlink(): Promise<void> {
+    return this.waitForEvent('unlinkCleanupComplete');
+  }
+
   // EventEmitter types
 
   public override on(type: 'close', callback: () => void): this;

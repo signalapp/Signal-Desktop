@@ -305,6 +305,8 @@ export class Bootstrap {
     const app = await this.startApp(extraConfig);
 
     const window = await app.getWindow();
+
+    debug('looking for QR code or relink button');
     const qrCode = window.locator(
       '.module-InstallScreenQrCodeNotScannedStep__qr-code__code'
     );
@@ -316,10 +318,13 @@ export class Bootstrap {
       await qrCode.waitFor();
     }
 
+    debug('waiting for provision');
     const provision = await this.server.waitForProvision();
 
+    debug('waiting for provision URL');
     const provisionURL = await app.waitForProvisionURL();
 
+    debug('completing provision');
     this.privDesktop = await provision.complete({
       provisionURL,
       primaryDevice: this.phone,
