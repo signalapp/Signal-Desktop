@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "നിങ്ങളുടെ ഡാറ്റാബേസിന്റെ പതിപ്പ് നിങ്ങളുടെ Signal പതിപ്പുമായി പൊരുത്തപ്പെടുന്നില്ല. നിങ്ങളുടെ കമ്പ്യൂട്ടറിൽ Signal-ന്റെ ഏറ്റവും പുതിയ പതിപ്പാണ് തുറക്കുന്നതെന്ന് ഉറപ്പാക്കുക."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "ഡാറ്റാബേസ് പിശകുണ്ടായി. പിശക് പകർത്തിയതിന് ശേഷം Signal പിന്തുണയുമായി ബന്ധപ്പെട്ട് നിങ്ങൾക്ക് പ്രശ്‌നം പരിഹരിക്കാം. നിങ്ങൾക്ക് ഉടൻ തന്നെ Signal ഉപയോഗിക്കണമെങ്കിൽ, നിങ്ങളുടെ ഡാറ്റ വീണ്ടെടുക്കാൻ ശ്രമിക്കാവുന്നതാണ്.\n\nഈ ലിങ്ക് സന്ദർശിച്ച് പിന്തുണയുമായി ബന്ധപ്പെടുക: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "ഡാറ്റ വീണ്ടെടുക്കുക"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "OS എൻക്രിപ്ഷൻ കീറിംഗ് ബാക്കെൻഡ് {previousBackend}-ൽ നിന്ന് {currentBackend} ആയി മാറിയതിനാൽ ഡാറ്റാബേസ് എൻക്രിപ്ഷൻ കീ ആക്സസ് ചെയ്യാൻ കഴിയുന്നില്ല. ഡെസ്ക്ടോപ്പ് പരിതസ്ഥിതി മാറുകയാണെങ്കിൽ ഇത് സംഭവിക്കാം, ഉദാഹരണത്തിന് GNOME-നും KDE-യ്ക്കും ഇടയിൽ.\n\nമുമ്പത്തെ ഡെസ്ക്ടോപ്പ് പരിതസ്ഥിതിയിലേക്ക് മാറുക."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {ഈ കോളിൽ · {people,number} ആളുണ്ട്} other {ഈ കോളിൽ · {people,number} ആളുകളുണ്ട് }}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "നിങ്ങൾ {name} എന്നയാളെ ബ്ലോക്ക് ചെയ്തു"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} എന്നയാളെ ബ്ലോക്ക് ചെയ്തിരിക്കുന്നു"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "കമ്പോസ് ബട്ടൺ"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "ഇനിപ്പറയുന്നയാൾക്ക് കൈമാറുക"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "ഇപ്പോൾ കാണിക്കാൻ സമീപകാല സ്റ്റോറികൾ ഒന്നുമില്ല"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "അയയ്ക്കുന്നു..."
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "ഒരു സ്റ്റോറി കാണാൻ ക്ലിക്ക് ചെയ്യുക"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name}  {group} എന്നതിലേക്ക് അയച്ചു"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "കാണാനോ കോൾ തുടങ്ങാനോ ക്ലിക്ക് ചെയ്യുക"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "തിരയൽ"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "സമീപകാല കോളുകളൊന്നുമില്ല. ഒരു സുഹൃത്തിനെ വിളിച്ച് തുടങ്ങൂ."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "\"{query}\" എന്നതിന് ഫലങ്ങളൊന്നുമില്ല"
@@ -5512,19 +5533,19 @@
     "messageformat": "Signal-ലൂടെ ലിങ്ക് പങ്കിടൂ"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "ലിങ്ക് ഇല്ലാതാക്കുക"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "കോൾ ലിങ്ക് ഇല്ലാതാക്കണോ?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "ഈ ലിങ്ക് ഉള്ള ആർക്കും ഇനി അത് പ്രവർത്തിക്കില്ല."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "റദ്ദാക്കുക"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "ഇല്ലാതാക്കൂ"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "കോൾ ലിങ്ക് വിശദാംശങ്ങൾ"
@@ -5606,9 +5627,12 @@
     "messageformat": "ഈ അപ്‌ഡേറ്റ് 'POSIX' ആയി സജ്ജീകരിച്ചിരിക്കുന്ന ലോക്കലുകളുടെ ഉപയോക്താക്കൾക്കായി Linux-ൽ ഒരു സ്റ്റാർട്ടപ്പ് ക്രാഷും പരിഹരിക്കുന്നു."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "ദൈർഘ്യമേറിയ അടിക്കുറിപ്പുകളുള്ള സ്റ്റോറികൾ സൂക്ഷ്മമായ ഗ്രേഡിയൻ്റ് പശ്ചാത്തലത്തിൽ പ്രദർശിപ്പിക്കും, അത് ദൃശ്യതീവ്രത മെച്ചപ്പെടുത്തുകയും വാചകം വായിക്കാൻ എളുപ്പമാക്കുകയും ചെയ്യുന്നു. ഇപ്പോൾ നിങ്ങൾ പറയുന്നത് ആളുകൾക്ക് കാണാൻ കഴിയും, \"lol\" എന്ന് പറയുന്നതിന് പകരം എന്തെങ്കിലും നിങ്ങളെ ശരിക്കും ചിരിപ്പിച്ചത് എന്തുകൊണ്ടാണെന്ന് രണ്ട് ഖണ്ഡികകൾ എഴുതാൻ മടിക്കേണ്ടതില്ല."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "ലിങ്ക് പ്രിവ്യൂ ജനറേഷൻ്റെ പ്രകടനം ഈ റിലീസ് മെച്ചപ്പെടുത്തുകയും ക്രമീകരണ വിൻഡോ അടയ്‌ക്കുമ്പോഴെല്ലാം അൾട്രാമറൈനിൻ്റെ മനോഹരമായ ഷേഡ് ഹ്രസ്വമായി ഫ്ലാഷുചെയ്യുന്നതിന് കാരണമായ ഒരു ബഗ് പരിഹരിക്കുകയും ചെയ്യുന്നു (ഉടൻ തന്നെ അടയ്ക്കുന്നതിന് പകരം)."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }

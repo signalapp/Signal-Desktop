@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "La version de votre base de données ne peut pas supporter cette version de Signal. Assurez-vous d’ouvrir la dernière version de Signal sur votre ordinateur."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "Une erreur de base de données s’est produite. Pour nous aider à résoudre le problème, vous pouvez copier l’erreur via le bouton ci-dessous et la transmettre à l’assistance Signal. Si vous devez utiliser Signal immédiatement, vous pouvez aussi tenter de récupérer vos données.\n\nPour contacter l’équipe d’assistance, rendez-vous sur {link}."
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "Récupérer les données"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Impossible d’accéder à la clé de chiffrement de la base de données, car le backend du keyring de chiffrement associé au système d’exploitation est passé de {previousBackend} à {currentBackend}. Cela peut se produire lorsque vous changez d’environnement de bureau pour passer de GNOME à KDE, par exemple.\n\nPour y remédier, revenez à l’ancien environnement de bureau."
   },
@@ -843,7 +837,7 @@
     "messageformat": "Signal Desktop pour ordinateur a probablement été mise en quarantaine par macOS et ne pourra pas se mettre automatiquement à jour. Avec Finder, essayez de déplacer  {app} dans  {folder}."
   },
   "icu:ok": {
-    "messageformat": "Valider"
+    "messageformat": "OK"
   },
   "icu:cancel": {
     "messageformat": "Annuler"
@@ -1409,9 +1403,6 @@
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {{people,number} participant} other {{people,number} participants}}"
   },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "Vous avez bloqué {name}"
-  },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} est bloqué"
   },
@@ -1677,7 +1668,7 @@
     "messageformat": "Sons des notifications push"
   },
   "icu:callRingtoneNotificationDescription": {
-    "messageformat": "Jouer les sons des appels"
+    "messageformat": "Activer la sonnerie des appels"
   },
   "icu:callSystemNotificationDescription": {
     "messageformat": "Afficher les notifications pour les appels"
@@ -2928,7 +2919,7 @@
     "messageformat": "Veuillez réessayer ou contacter l’assistance."
   },
   "icu:Confirmation--confirm": {
-    "messageformat": "Valider"
+    "messageformat": "OK"
   },
   "icu:MessageMaxEditsModal__Title": {
     "messageformat": "Impossible de modifier le message"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "bouton « Nouveau message »"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Transférer à"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "Aucune story récente à afficher pour le moment"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Envoi…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Cliquer sur une story pour l’afficher"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} à {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Cliquer sur un appel pour l’afficher ou passer un nouvel appel"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Rechercher"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "Aucun appel récent. Pour commencer, appelez un ami."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Aucun résultat pour « {query} »"
@@ -5512,19 +5533,19 @@
     "messageformat": "Partager le lien via Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Supprimer le lien"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Supprimer le lien d’appel ?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Les personnes disposant de ce lien ne pourront plus l’utiliser."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annuler"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Supprimer"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Détails du lien d’appel"
@@ -5606,9 +5627,12 @@
     "messageformat": "Cette mise à jour corrige aussi une erreur de démarrage qui se produisait sous Linux pour les utilisateurs dont les paramètres régionaux sont définis sur POSIX."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Vos stories méritent bien de belles et longues légendes. Pour en faciliter la lecture, elles s’affichent désormais sur un fond plus contrasté, avec un léger dégradé. Maintenant que vos amis peuvent lire ce que vous écrivez sans avoir à sortir la loupe, vous pouvez leur raconter ce qui vous a valu le fou rire de l’année plutôt que de vous contenter d’un énième « MDR »."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "La génération des aperçus de lien n’est pas non plus en reste. Autre amélioration : au moment de fermer la fenêtre Paramètres, celle-ci avait une fâcheuse tendance à se transformer en voyant clignotant d’un bleu outremer… On adore le bleu, mais les lumières clignotantes, on préfère les voir à Noël. "
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }

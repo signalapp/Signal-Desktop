@@ -80,17 +80,11 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "La versión de tu base de datos no coincide con esta versión de Signal. Asegúrate de abrir la versión más reciente de Signal en tu ordenador."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "Se ha producido un error en la base de datos. Puedes copiar el error y ponerte en contacto con el equipo de asistencia de Signal para que te ayude a solucionar el problema. Si necesitas usar Signal de inmediato, puedes intentar recuperar tu información.\n\nContacta con el equipo de asistencia en {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "Recuperar información"
-  },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "No se puede acceder a la clave de cifrado de la base de datos porque el backend del cifrado del almacén de claves del sistema operativo ha cambiado de {previousBackend} a {currentBackend}. Esto puede ocurrir si el entorno de escritorio cambia, por ejemplo, de GNOME a KDE.\n\nVuelve al entorno de escritorio anterior."
+    "messageformat": "No se puede acceder a la clave de cifrado de la base de datos porque el backend del cifrado del almacén de claves del SO ha cambiado de {previousBackend} a {currentBackend}. Esto puede ocurrir si el entorno de escritorio cambia, por ejemplo, de GNOME a KDE.\n\nVuelve al entorno de escritorio anterior."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "No se puede acceder a la clave de cifrado de la base de datos porque el backend del cifrado del almacén de claves del sistema operativo ha cambiado de {previousBackend} a {currentBackend}. Esto puede ocurrir si el entorno de escritorio cambia, por ejemplo, de GNOME a KDE.\n\nVuelve al entorno de escritorio anterior o intenta ejecutar Signal con la marca de línea de comandos --password-store=\"{previousBackendFlag}\"."
+    "messageformat": "No se puede acceder a la clave de cifrado de la base de datos porque el backend del cifrado del almacén de claves del SO ha cambiado de {previousBackend} a {currentBackend}. Esto puede ocurrir si el entorno de escritorio cambia, por ejemplo, de GNOME a KDE.\n\nVuelve al entorno de escritorio anterior o intenta ejecutar Signal con la marca de línea de comandos --password-store=\"{previousBackendFlag}\"."
   },
   "icu:mainMenuFile": {
     "messageformat": "&Archivo"
@@ -831,7 +825,7 @@
     "messageformat": "No se ha podido actualizar Signal. {retry} o ve a {url} para instalar la aplicación manualmente. Luego, {support} para solucionar el problema."
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "No se ha podido actualizar Signal. <retryUpdateButton>Intenta volver a actualizar</retryUpdateButton> o ve a {url} para instalar la aplicación manualmente. Luego, <contactSupportLink>contacta con el equipo de asistencia</contactSupportLink> para informarles sobre el problema."
+    "messageformat": "No se ha podido actualizar Signal. <retryUpdateButton>Intenta actualizar de nuevo</retryUpdateButton> o ve a {url} para instalar la aplicación manualmente. Luego, <contactSupportLink>contacta con el equipo de asistencia</contactSupportLink> para informarles sobre el problema."
   },
   "icu:cannotUpdateRequireManualDetail": {
     "messageformat": "No se ha podido actualizar Signal. Ve a {url} para instalar la aplicación manualmente. Luego, {support} para solucionar el problema."
@@ -1409,9 +1403,6 @@
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {En esta llamada · {people,number} persona} other {En esta llamada · {people,number} personas}}"
   },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "Has bloqueado a {name}"
-  },
   "icu:calling__blocked-participant": {
     "messageformat": "Se ha bloqueado a {name}"
   },
@@ -1842,7 +1833,7 @@
     "messageformat": "Actualización disponible"
   },
   "icu:autoUpdateRetry": {
-    "messageformat": "Vuelve a intentarlo"
+    "messageformat": "Intenta actualizar de nuevo"
   },
   "icu:autoUpdateContactSupport": {
     "messageformat": "contactar con asistencia"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "botón de escribir mensaje"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Reenviar a"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "No hay historias recientes que mostrar"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Enviando…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Haz clic para ver una historia"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} a «{group}»"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Haz clic para ver o empezar una llamada"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Buscar"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "No hay llamadas recientes. Empieza llamando a alguien."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "No se encontraron resultados para «{query}»"
@@ -5512,19 +5533,19 @@
     "messageformat": "Compartir enlace vía Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Eliminar enlace"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "¿Eliminar enlace de llamada?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Este enlace ya no funcionará para nadie."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cancelar"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Eliminar"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalles del enlace de llamada"
@@ -5606,9 +5627,12 @@
     "messageformat": "Esta actualización también corrige un bloqueo de inicio en Linux para configuraciones regionales establecidas como 'POSIX'."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Las Historias con subtítulos largos se muestran sobre un sutil fondo con degradado que mejora el contraste y facilita la lectura del texto. Ahora que las personas pueden ver lo que dices, anímate a escribir un par de párrafos sobre por qué algo realmente te hizo reír en lugar de decir solo \"lol\"."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Esta versión también mejora el rendimiento de la generación de vistas previas de enlaces y corrige un error que provocaba que la ventana de Ajustes parpadeara brevemente en un encantador tono ultramarina cada vez que se cerraba (en lugar de cerrarse de inmediato)."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }

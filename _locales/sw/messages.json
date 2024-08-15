@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Toleo hili la kanzidata halilingani na toleo la Signal. Hakikisha unafungua toleo jipya zaidi la Signal kwenye kompyuta yako."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "Hitilafu ya kanzidata imetokea. Unaweza kunakili hitilafu kisha uwasiliane na msaada wa Signal ili usaidiwe kurekebisha tatizo. Ikiwa utahitaji kutumia Signal muda huo huo, unaweza kujaribu kurejesha data yako.\n\nWasiliana na watoa huduma kwa kutembelea: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "Rejesha data"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Haiwezi kufikia ufunguo wa usimbaji wa kanzidata kwa sababu mazingira ya nyuma ya usimbaji wa mfumo wa uendeshaji yamebadilika kutoka {previousBackend} kwenda {currentBackend}. Hii inaweza kutokea endapo mazingira ya kompyuta ya mezani yamebadilika, kwa mfano kati ya GNOME na KDE.\n\nTafadhali badili hadi mazingira ya zamani ya kompyuta ya mezani."
   },
@@ -150,7 +144,7 @@
     "messageformat": "Futa"
   },
   "icu:editMenuSelectAll": {
-    "messageformat": "Chagua Yote"
+    "messageformat": "Chagua Zote"
   },
   "icu:editMenuStartSpeaking": {
     "messageformat": "Anza kuzungumza"
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {Katika mazungumzo haya ya simu· Watu {people,number}} other {Katika mazungumzo haya ya simu· Watu {people,number}}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "Umemzuia {name}"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} amezuiliwa"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "kitufe cha kutunga"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Sambaza Kwa"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "Hakuna stori za hivi karibuni za kuonyesha sasa hivi"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Kutuma"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Bonyeza kuangalia stori"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} kwa {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Bofya ili kutazama au kuanzisha simu"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Tafuta"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "Hakuna simu za hivi karibuni. Anza kwa kumpigia rafiki."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Hakuna matokeo ya \"{query}\""
@@ -5512,19 +5533,19 @@
     "messageformat": "Shiriki kiungo kupitia Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Futa kiungo"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Je, futa kiungo cha simu?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Kiungo hiki hakitafanya tena kazi kwa yeyote alichonacho."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ghairi"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Futa"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Maelezo ya kiungo cha simu"
@@ -5606,9 +5627,12 @@
     "messageformat": "Sasisho hili pia hurekebisha tukio la kuacha kufanya kazi kwenye Linux kwa watumiaji ambao lugha yao imewekwa kuwa `POSIX`."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Stori zenye maandishi marefu zinaonyesha kwenye mandhari nyuma ya rangi tulivu inayoboresha muonekano na kufanya jumbe zisomwe kwa urahisi. Sasa kwani watu wanaweza kuona unachosema, uko huru kuandika aya kadhaa kuhusu kilichokuchekesha badala ya kusema tu \"lol.\""
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Toleo hili pia linaboresha utendaji wa uzalishaji wa hakikisho la kiungo na kurekebisha hitilafu iliyosababisha dirisha la Mipangilio kuonyesha kwa muda mfupi rangi ya ultramarine kila ilipokuwa inafungwa (badala ya kufunga mara moja)."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }

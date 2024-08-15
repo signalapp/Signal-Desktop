@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Η έκδοση της βάσης δεδομένων σου δεν ταιριάζει με αυτή την έκδοση του Signal. Βεβαιώσου ότι ανοίγεις την πιο πρόσφατη έκδοση του Signal στον υπολογιστή σου."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "Προέκυψε σφάλμα βάσης δεδομένων. Μπορείς να αντιγράψεις το σφάλμα και να επικοινωνήσεις με την υποστήριξη Signal για να επιλυθεί το πρόβλημα. Εάν πρέπει να χρησιμοποιήσεις το Signal αμέσως, μπορείς να προσπαθήσεις να ανακτήσεις τα δεδομένα σου.\n\nΕπικοινώνησε με την υποστήριξη: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "Επαναφορά δεδομένων"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Δεν είναι δυνατή η πρόσβαση στο κλειδί κρυπτογράφησης της βάσης δεδομένων επειδή το κλειδί κρυπτογράφησης του λειτουργικού συστήματος έχει αλλάξει από {previousBackend} σε {currentBackend}. Αυτό μπορεί να συμβεί αν το περιβάλλον επιφάνειας εργασίας αλλάξει, για παράδειγμα από GNOME σε KDE.\n\nΠήγαινε πίσω στο προηγούμενο περιβάλλον εργασίας."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {Σε αυτή τη κλήση · {people,number} άτομο} other {Σε αυτή τη κλήση · {people,number} άτομα}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "Έχεις αποκλείσει τον/την {name}"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "Ο/Η {name} έχει αποκλειστεί"
@@ -3147,7 +3138,7 @@
     "messageformat": "Ο/Η {inviteeName} αποδέχτηκε τη πρόσκλησή σου στην ομάδα."
   },
   "icu:GroupV2--member-add--other--other": {
-    "messageformat": "Ο/Η {adderName} πρόσθεσε τον/την{addeeName}."
+    "messageformat": "Ο/Η {adderName} πρόσθεσε τον/την {addeeName}."
   },
   "icu:GroupV2--member-add--other--you": {
     "messageformat": "Πρόσθεσες τον/την {memberName}."
@@ -3961,6 +3952,12 @@
   },
   "icu:composeIcon": {
     "messageformat": "κουμπί σύνθεσης"
+  },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Προώθηση σε"
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "Δεν υπάρχουν πρόσφατες ιστορίες αυτή τη στιγμή"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Αποστολή…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Κάνε κλικ για να δεις μια ιστορία"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} προς {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Κάνε κλικ για να δεις ή να ξεκινήσεις μια κλήση"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Αναζήτηση"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "Δεν υπάρχουν πρόσφατες κλήσεις. Ξεκίνα καλώντας κάποιο φιλαράκι."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Δεν βρέθηκαν αποτελέσματα για “{query}”"
@@ -5512,19 +5533,19 @@
     "messageformat": "Κοινοποίηση συνδέσμου μέσω Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Διαγραφή συνδέσμου"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Διαγραφή συνδέσμου κλήσης;"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Αυτός ο σύνδεσμος δεν θα λειτουργεί πλέον για κάθε κάτοχο."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ακύρωση"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Διαγραφή"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Λεπτομέρειες συνδέσμου κλήσης"
@@ -5606,9 +5627,12 @@
     "messageformat": "Αυτή η ενημέρωση διορθώνει επίσης απρόσμενους τερματισμούς λειτουργίας κατά την εκκίνηση σε Linux για χρήστες των οποίων η γλώσσα έχει οριστεί σε `POSIX`."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Οι ιστορίες με μακροσκελείς λεζάντες εμφανίζονται τώρα με βελτιωμένη αντίθεση που κάνει το κείμενο πιο ευανάγνωστο."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Αυτή η έκδοση βελτιώνει επίσης την απόδοση της δημιουργίας προεπισκόπησης συνδέσμων και διορθώνει ένα μικρό σφάλμα εμφάνισης κατά το κλείσιμο του παραθύρου Ρυθμίσεων."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }

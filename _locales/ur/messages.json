@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "آپ کے ڈیٹا بیس کا ورژن Signal کے اس ورژن سے ملتا نہیں ہے۔ اس بات کو یقینی بنائیں کہ آپ اپنے کمپیوٹر پر Signal کا تازہ ترین ورژن کھول رہے ہیں۔"
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "ڈیٹا بیس میں خرابی واقع ہوئی ہے۔ آپ خرابی کو کاپی کر سکتے ہیں اور Signal سپورٹ سے اس مسئلے کو حل کرنے میں مدد کے لیے رابطہ کر سکتے ہیں۔ اگر آپ کو Signal کو فوراً استعمال کرنے کی ضرورت ہے، تو آپ اپنے ڈیٹا کو بحال کرنے کی کوشش کر سکتے ہیں۔\n\nاسے ملاحظہ کر کے سپورٹ سے رابطہ کریں:{link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "ڈیٹا بحال کریں"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "ڈیٹا بیس انکرپشن کیی تک رسائی حاصل کرنے سے قاصر ہیں کیونکہ OS انکرپشن کیی رنگ بیک اینڈ {previousBackend} سے{currentBackend} میں تبدیل ہو چکا ہے۔ ایسا اس صورت میں واقع ہو سکتا ہے اگر مثال کے طور پر GNOME اور KDE کے درمیان ڈیسک ٹاپ انوائرنمنٹ تبدیل ہوتی ہے۔\n\nبراہ کرم پچھلے ڈیسک ٹاپ انوائرنمنٹ میں تبدیل کریں۔"
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {اس کال میں · {people,number} شخص} other {اس کال میں · {people,number} افراد}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "آپ نے {name} کو بلاک کر دیا ہے"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} بلاک ہے"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "compose بٹن"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "فارورڈ بطرف"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "ابھی دکھانے کے لیے کوئی حالیہ سٹوریز نہیں ہیں"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "بھیج رہا ہے ..."
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "سٹوری دیکھنے کے لیے کلک کریں"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} تا {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "دیکھنے کے لیے کلک کریں یا کال شروع کریں"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "تلا ‎ش کر یں"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "کوئی حالیہ کالز نہیں۔ دوست کو کال کرنے کے ذریعے آغاز کریں۔"
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "\"{query}\" کے لیے کوئی نتائج نہیں ہیں"
@@ -5512,19 +5533,19 @@
     "messageformat": "بذریعہ Signal لنک شیئر کریں"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "لنک حذف کریں"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "کال لنک حذف کریں؟"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "یہ لنک جس کے پاس ہے اب مزید اس کے لیے کام نہیں کرے گا۔"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "منسوخ کریں"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "حذف کریں"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "کال لنک کی تفصیلات"
@@ -5606,9 +5627,12 @@
     "messageformat": "یہ اپ ڈیٹ Linux پر ان یوزر کے لیے اسٹارٹ اپ کریش کو بھی درست کرتی ہے جن کا مقام 'POSIX' پر سیٹ کیا گیا ہے۔"
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "طویل کیپشنز کی حامل سٹوریز اب بہتر امتزاج کے ساتھ ڈسپلے کی جاتی ہیں جو ٹیکسٹ پڑھنے میں آسانی فراہم کرتی ہیں۔"
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "یہ ریلیز لنک کے پیش منظر میں جنریشن کی کارکردگی کو بھی بہتر بناتی ہے اور سیٹنگز کی ونڈو کو بند کرتے وقت معمولی ڈسپلے بگ کو بھی درست کرتی ہے۔"
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }

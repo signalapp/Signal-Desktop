@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "మీ డేటాబేస్ యొక్క వెర్షన్ Signal యొక్క ఈ వెర్షన్‌తో సరిపోలడం లేదు. మీరు మీ కంప్యూటరులో Signal యొక్క తాజా వెర్షన్‌ను తెరుస్తున్నారని నిర్ధారించుకోండి."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "డేటాబేస్ లోపం ఏర్పడింది. మీరు లోపం కాపీ చేసి, సమస్యను పరిష్కరించడంలో సహాయపడటానికి Signal మద్దతును సంప్రదించవచ్చు. ఒకవేళ మీరు Signal ను ఇప్పుడే ఉపయోగించాల్సిన అవసరం ఉంటే, మీరు మీ డేటాను రికవర్ చేయడానికి ప్రయత్నించవచ్చు.\n\nదీనిని సందర్శించడం ద్వారా మద్దతును సంప్రదించండి: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "డేటాను రికవర్ చేయండి"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "OS గుప్తీకరణ కీరింగ్ బ్యాకెండ్ {previousBackend} నుండి {currentBackend} కు మారినందున డేటాబేస్ గుప్తీకరణ కీని యాక్సెస్ చేయడం సాధ్యపడలేదు. ఒకవేళ డెస్క్‌టాప్ ఆవరణము మారితే ఇది సంభవించవచ్చు, ఉదాహరణకు GNOME నుండి KDE కు.\n\nదయచేసి మునుపటి డెస్క్‌టాప్ ఆవరణమునకు మారండి."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {ఈ కాల్‌లో · {people,number}వ్యక్తి} other {ఈ కాల్‌లో · {people,number} వ్యక్తులు}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "మీరు {name}ను బ్లాక్ చేశారు"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} బ్లాక్ చేయబడ్డారు"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "కంపోజ్ బటన్"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "వీరికి ఫార్వర్డ్ చేయండి"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "ఇప్పుడు చూపించడానికి ఎలాంటి ఇటీవలి కథలు లేవు"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "పంపుతోంది..."
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "ఒక కథను చూడటానికి క్లిక్ చేయండి"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} నుంచి {group}కు"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "ఒక కాల్‌ను వీక్షించడానికి లేదా ప్రారంభించడానికి క్లిక్ చేయండి"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "వెతకండి"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "ఇటీవలి కాల్స్  లేవు స్నేహితుడికి కాల్ చేయడం ద్వారా ప్రారంభించండి."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}” కోసం ఫలితాలు లేవు"
@@ -5512,19 +5533,19 @@
     "messageformat": "Signal ద్వారా లింక్‌ను పంచుకోండి"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "లింక్‌ను తొలగించండి"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "కాల్ లింక్ తొలగించేదా?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "ఈ లింక్‌ను కలిగి ఉన్న ఎవరికైనా ఇకపై ఇది పని చేయదు."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "రద్దు చేయండి"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "తొలగించండి"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "కాల్ లింక్ వివరాలు"
@@ -5606,9 +5627,12 @@
     "messageformat": "ఈ అప్‌డేట్ స్థానికంను `POSIX`కి సెట్ చేయబడిన యూజర్‌ల కోసం Linux లో ప్రారంభ క్రాష్‌ను కూడా పరిష్కరిస్తుంది."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "పొడవాటి శీర్షికలతో కూడిన కథలు ఇప్పుడు మెరుగైన కాంట్రాస్ట్‌తో ప్రదర్శించబడతాయి, ఇది టెక్స్ట్‌ను సులభంగా చదవడానికి వీలు కల్పిస్తుంది. ఇప్పుడు మీరు ఏమి చెబుతున్నారో ప్రజలు చూడగలుగుతారు, కేవలం \"లోల్\" అని చెప్పడానికి బదులుగా ఏదైనా నిజంగా మిమ్మల్ని ఎందుకు నవ్వించింది అనే దాని గురించి రెండు పేరాలు వ్రాయడానికి సంకోచించకండి."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "ఈ విడుదల లింక్ ప్రివ్యూ జనరేషన్ యొక్క పనితీరును కూడా మెరుగుపరుస్తుంది మరియు సెట్టింగ్స్ విండోను మూసివేసినప్పుడు ఒక చిన్న డిస్‌ప్లే బగ్‌ను పరిష్కరిస్తుంది."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }

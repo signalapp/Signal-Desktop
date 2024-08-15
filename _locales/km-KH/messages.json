@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "កំណែនៃមូលដ្ឋានទិន្នន័យរបស់អ្នកមិនត្រូវគ្នានឹងកំណែរបស់ Signal នេះទេ។ ត្រូវប្រាកដថាអ្នកកំពុងបើកកំណែថ្មីបំផុតនៃ Signal នៅលើកុំព្យូទ័ររបស់អ្នក។"
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "បញ្ហាមូលដ្ឋានទិន្នន័យបានកើតឡើង។ អ្នកអាចចម្លងបញ្ហានេះ ហើយទាក់ទងផ្នែកជំនួយរបស់ Signal ឱ្យជួយដោះស្រាយ។ ប្រសិនបើអ្នកត្រូវការប្រើ Signal ភ្លាមៗ អ្នកអាចព្យាយាមស្តារទិន្នន័យរបស់អ្នក។\n\nទាក់ទងផ្នែកជំនួយដោយចូលទៅកាន់៖ {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "ស្តារទិន្នន័យ"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "មិនអាចចូលប្រើកូដអ៊ីនគ្រីបមូលដ្ឋានទិន្នន័យបានទេ ដោយសារផ្នែកខាងក្រោយនៃកម្មវិធីឃីរីងអ៊ីនគ្រីប OS បានផ្លាស់ប្តូរពី {previousBackend} ទៅ {currentBackend}។ វាអាចកើតឡើងប្រសិនបើអ៊ីនធើហ្វេសរបស់ Desktop ផ្លាស់ប្តូរ ឧទាហរណ៍រវាង GNOME និង KDE។\n\nសូមប្តូរទៅអ៊ីនធើហ្វេសរបស់ Desktop ពីមុន។"
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, other {ក្នុងការហៅនេះ · {people,number} នាក់}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "អ្នកបានទប់ស្កាត់ {name}"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} ត្រូវបានទប់ស្កាត់"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "ប៊ូតុងសរសេរសារ"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "បញ្ជូនបន្តទៅកាន់"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "មិនមានរឿងរ៉ាវថ្មីៗសម្រាប់បង្ហាញឥឡូវនេះទេ"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "កំពុងផ្ញើ…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "ចុចដើម្បីមើលរឿងរ៉ាវ"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} ទៅ {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "ចុចដើម្បីមើល ឬចាប់ផ្តើមការហៅ"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ស្វែងរក"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "គ្មានការហៅថ្មីៗនេះទេ។ ចាប់ផ្តើមដោយហៅទៅមិត្តភក្តិណាម្នាក់។"
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "គ្មានលទ្ធផលសម្រាប់ “{query}”"
@@ -5512,19 +5533,19 @@
     "messageformat": "ចែករំលែកតំណតាមរយៈ Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "លុបតំណឬ?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "លុបតំណហៅទូរសព្ទឬ?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "តំណនេះនឹងលែងដំណើរការសម្រាប់នរណាដែលមានវាទៀតហើយ។"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "បោះបង់"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "លុប"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "ព័ត៌មានលម្អិតអំពីតំណហៅទូរសព្ទ"
@@ -5606,9 +5627,12 @@
     "messageformat": "កំណែថ្មីនេះក៏ដោះស្រាយផងដែរនូវបញ្ហាគាំងនៅពេលចាប់ផ្តើមនៅលើ Linux សម្រាប់អ្នកប្រើទាំងឡាយដែលបានកំណត់អ៊ីនធើហ្វេសទៅជា `POSIX`។"
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "រឿងរ៉ាវដែលមានចំណងជើងវែងៗត្រូវបានបង្ហាញនៅលើផ្ទៃខាងក្រោយដែលធ្វើឱ្យមើលឃើញអក្សរច្បាស់ជាងមុន និងកាន់តែងាយស្រួលអាន។ ដោយសារឥឡូវនេះមនុស្សអាចមើលឃើញអ្វីដែលអ្នកកំពុងតែនិយាយ ដូច្នេះអ្នកអាចសរសេរពីរបីកថាខណ្ឌបានដោយសេរី អំពីមូលហេតុដែលអ្វីមួយនោះធ្វើឱ្យអ្នកអស់សំណើចខ្លាំង ប្រសើរជាងគ្រាន់តែនិយាយថា \"lol\"។"
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "ការចេញផ្សាយនេះក៏បង្កើនប្រសិទ្ធភាពនៃការបង្កើតការមើលតំណជាមុនផងដែរ និងដោះស្រាយបញ្ហាបន្តិចបន្តួចលើការបង្ហាញ នៅពេលបិទផ្ទាំងវីនដូ។"
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }
