@@ -4733,7 +4733,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## attest 0.1.0, libsignal-ffi 0.54.0, libsignal-jni 0.54.0, libsignal-jni-testing 0.54.0, libsignal-node 0.54.0, signal-neon-futures 0.1.0, signal-neon-futures-tests 0.1.0, libsignal-bridge 0.1.0, libsignal-bridge-macros 0.1.0, libsignal-bridge-testing 0.1.0, libsignal-bridge-types 0.1.0, libsignal-core 0.1.0, signal-crypto 0.1.0, device-transfer 0.1.0, signal-media 0.1.0, libsignal-message-backup 0.1.0, libsignal-message-backup-macros 0.1.0, libsignal-net 0.1.0, signal-pin 0.1.0, poksho 0.7.0, libsignal-protocol 0.1.0, libsignal-svr3 0.1.0, usernames 0.1.0, zkcredential 0.1.0, zkgroup 0.9.0
+## attest 0.1.0, libsignal-ffi 0.55.0, libsignal-jni 0.55.0, libsignal-jni-testing 0.55.0, libsignal-node 0.55.0, signal-neon-futures 0.1.0, signal-neon-futures-tests 0.1.0, libsignal-bridge 0.1.0, libsignal-bridge-macros 0.1.0, libsignal-bridge-testing 0.1.0, libsignal-bridge-types 0.1.0, libsignal-core 0.1.0, signal-crypto 0.1.0, device-transfer 0.1.0, signal-media 0.1.0, libsignal-message-backup 0.1.0, libsignal-message-backup-macros 0.1.0, libsignal-net 0.1.0, signal-pin 0.1.0, poksho 0.7.0, libsignal-protocol 0.1.0, libsignal-svr3 0.1.0, usernames 0.1.0, zkcredential 0.1.0, zkgroup 0.9.0
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE
@@ -5986,7 +5986,7 @@ limitations under the License.
 
 ```
 
-## boring 4.6.0
+## boring 4.9.0
 
 ```
 Copyright 2011-2017 Google Inc.
@@ -6421,7 +6421,7 @@ express Statement of Purpose.
    CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ```
 
-## boring-sys 4.6.0
+## boring-sys 4.9.0
 
 ```
 /* Copyright (c) 2015, Google Inc.
@@ -6792,7 +6792,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## boring-sys 4.6.0
+## boring-sys 4.9.0
 
 ```
 Copyright (c) 2014 Alex Crichton
@@ -7113,7 +7113,7 @@ THE SOFTWARE.
 
 ```
 
-## anstyle-wincon 3.0.4
+## anstyle-wincon 3.0.3
 
 ```
 Copyright (c) 2015 Josh Triplett, 2022 The rust-cli Developers
@@ -7200,7 +7200,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## gimli 0.29.0, heck 0.5.0, peeking_take_while 0.1.2, unicode-bidi 0.3.15, unicode-normalization 0.1.23
+## gimli 0.29.0, heck 0.4.1, heck 0.5.0, peeking_take_while 0.1.2, unicode-bidi 0.3.15, unicode-normalization 0.1.23
 
 ```
 Copyright (c) 2015 The Rust Project Developers
@@ -7351,7 +7351,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## boring-sys 4.6.0
+## boring-sys 4.9.0
 
 ```
 Copyright (c) 2015-2016 the fiat-crypto authors (see
@@ -7579,7 +7579,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## hashbrown 0.14.5
+## hashbrown 0.12.3, hashbrown 0.14.5
 
 ```
 Copyright (c) 2016 Amanieu d'Antras
@@ -7641,7 +7641,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## anstyle-parse 0.2.5
+## anstyle-parse 0.2.4
 
 ```
 Copyright (c) 2016 Joe Wilm and individual contributors
@@ -7822,7 +7822,7 @@ SOFTWARE.
 
 ```
 
-## tokio-boring 4.6.0
+## tokio-boring 4.9.0
 
 ```
 Copyright (c) 2016 Tokio contributors
@@ -7885,7 +7885,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## indexmap 2.2.6
+## indexmap 1.9.3, indexmap 2.2.6
 
 ```
 Copyright (c) 2016--2017
@@ -8757,7 +8757,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## protobuf-codegen 3.5.0, protobuf-json-mapping 3.5.0, protobuf-support 3.5.0, protobuf 3.5.0
+## protobuf-codegen 3.4.0, protobuf-json-mapping 3.4.0, protobuf-parse 3.4.0, protobuf-support 3.4.0, protobuf 3.4.0
 
 ```
 Copyright (c) 2019 Stepan Koltsov
@@ -8779,7 +8779,6 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE.
-
 ```
 
 ## ppv-lite86 0.2.17
@@ -9306,7 +9305,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## anstyle 1.0.8
+## anstyle 1.0.7
 
 ```
 Copyright (c) 2022 The rust-cli Developers
@@ -9518,7 +9517,7 @@ SOFTWARE.
 
 ```
 
-## anstream 0.6.15, anstyle-query 1.1.1, clap 4.5.11, colorchoice 1.0.2, env_filter 0.1.2, env_logger 0.11.5, is_terminal_polyfill 1.70.1, toml_datetime 0.6.7, toml_edit 0.21.1
+## anstream 0.6.14, anstyle-query 1.1.0, clap 4.4.18, colorchoice 1.0.1, env_filter 0.1.1, env_logger 0.11.4, is_terminal_polyfill 1.70.0, toml_datetime 0.6.6, toml_edit 0.21.1
 
 ```
 Copyright (c) Individual contributors
@@ -10248,7 +10247,7 @@ SOFTWARE.
 
 ```
 
-## cesu8 1.1.0, half 2.4.1, pqcrypto-internals 0.2.5, pqcrypto-kyber 0.7.9, pqcrypto-kyber 0.8.1, pqcrypto-traits 0.3.5, protobuf-parse 3.5.0
+## cesu8 1.1.0, half 2.4.1, pqcrypto-internals 0.2.5, pqcrypto-kyber 0.7.9, pqcrypto-kyber 0.8.1, pqcrypto-traits 0.3.5
 
 ```
 MIT License
@@ -10597,7 +10596,7 @@ THE SOFTWARE.
 
 ```
 
-## strsim 0.10.0, strsim 0.11.1
+## strsim 0.10.0
 
 ```
 The MIT License (MIT)
@@ -10735,7 +10734,7 @@ SOFTWARE.
 
 ```
 
-## clap_builder 4.5.11, clap_derive 4.5.11, clap_lex 0.7.2
+## clap_builder 4.4.18, clap_derive 4.4.7, clap_lex 0.6.0
 
 ```
 The MIT License (MIT)
@@ -11018,7 +11017,7 @@ SOFTWARE.
 
 ```
 
-## version_check 0.9.5
+## version_check 0.9.4
 
 ```
 The MIT License (MIT)
@@ -11096,7 +11095,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## boring-sys 4.6.0, ring 0.17.8
+## boring-sys 4.9.0, ring 0.17.8
 
 ```
 /* ====================================================================
