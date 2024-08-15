@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Die weergawe van jou databasis pas nie by hierdie weergawe van Signal nie. Maak seker dat jy die jongste weergawe van Signal op jou rekenaar oopmaak."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "'n Databasisfout het voorgekom. Jy kan die fout kopieer en Signal-steundiens kontak om die probleem te help oplos. As jy Signal dadelik moet gebruik, kan jy jou data probeer herwin.\n\nKontak die steundiens deur te gaan na: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "Herwin data"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Kan nie toegang tot die databasis-enkripsiesleutel verkry nie, omdat die enkripteringsleutelring-implementering van die bedryfstelsel van {previousBackend} na {currentBackend} verander het. Dit kan gebeur as die rekenaaromgewing verander, byvoorbeeld van GNOME na KDE.\n\nSkakel asseblief terug na die vorige rekenaaromgewing."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {In hierdie oproep · {people,number} persoon} other {In hierdie oproep · {people,number} mense}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "Jy het {name} versper"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} is versper"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "saamstelknop"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Stuur aan na"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "Tans geen onlangse stories om te wys nie."
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Besig om te stuur…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Klik om 'n storie te kyk."
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} aan {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Klik om 'n oproep te sien of te begin"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Soek"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "Geen onlangse oproepe nie. Begin deur 'n vriend te bel."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Geen resultate vir \"{query}\" nie"
@@ -5512,19 +5533,19 @@
     "messageformat": "Deel skakel d.m.v. Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Skrap skakel"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Skrap oproepskakel?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Hierdie skakel sal nie meer werk vir enigiemand wat dit het nie."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Kanselleer"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Skrap"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Oproepskakelbesonderhede"
@@ -5606,9 +5627,12 @@
     "messageformat": "Hierdie opdatering stel ook 'n oopmaak-uitbom in Linux reg vir gebruikers wie se lokaliteit op 'POSIX' gestel is."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Stories met lang byskrifte word nou met beter kontras vertoon wat die teks makliker maak om te lees."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Hierdie vrystelling verbeter ook die werkverrigting van skakelvoorskou-generering en stel 'n geringe vertoonfout reg wanneer die Instellingsvenster gesluit word."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }

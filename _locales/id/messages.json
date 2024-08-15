@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Versi basis data Anda tidak cocok dengan versi Signal ini. Pastikan Anda membuka Signal versi terbaru di komputer Anda."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "Terjadi kesalahan pada basis data. Anda dapat menyalin kode kesalahan dan menghubungi dukungan Signal untuk meminta bantuan terkait masalah ini. Jika ingin langsung menggunakan Signal, Anda dapat mencoba memulihkan data Anda.\n\nHubungi dukungan dengan membuka: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "Pulihkan data"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Tidak dapat mengakses kunci enkripsi database karena backend keyring enkripsi OS telah berubah dari {previousBackend} menjadi {currentBackend}. Ini dapat terjadi jika lingkungan desktop diganti, misalnya antara GNOME dan KDE.\n\nHarap ganti ke lingkungan desktop sebelumnya."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, other {Dalam panggilan ini · {people,number} orang}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "Anda telah memblokir {name}"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} diblokir"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "tombol susun"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Teruskan Ke"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "Tidak ada cerita terbaru untuk ditampilkan sekarang"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Mengirim…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Klik untuk melihat cerita"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} ke {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Klik untuk melihat atau memulai panggilan"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Cari"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "Tidak ada panggilan baru Mulai dengan menelepon teman."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Tidak ada hasil untuk “{query}”"
@@ -5512,19 +5533,19 @@
     "messageformat": "Bagikan tautan via Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Hapus tautan"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Hapus tautan panggilan?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Tautan ini tidak akan berfungsi lagi bagi siapa pun yang memilikinya."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Batal"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Hapus"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detail tautan panggilan"
@@ -5606,9 +5627,12 @@
     "messageformat": "Pembaruan ini juga memperbaiki masalah kemacetan saat memulai di Linux bagi pengguna yang pengaturan lokalnya diatur ke `POSIX`."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Cerita yang menyertakan teks panjang kini ditampilkan dengan kontras yang lebih baik agar lebih mudah dibaca."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Rilis ini juga meningkatkan kinerja pembuatan pratinjau tautan dan memperbaiki bug kecil tampilan yang terjadi saat menutup jendela Pengaturan."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }

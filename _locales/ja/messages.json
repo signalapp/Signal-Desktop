@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "データベースのバージョンと、開いたSignalのバージョンが一致しません。 ご利用のコンピューターで、最新バージョンのSignalを開いているかをお確かめください。"
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "データベースエラーが発生しました。エラーをコピーしてSignalサポートへ連絡すると、問題の解決に役立てることができます。すぐにSignalを使用する必要がある場合は、データの復旧を試みることができます。\n\nサポートへのお問い合わせは{link}までお願いします。"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "データを復旧する"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "OS暗号化キーリングバックエンドが{previousBackend}から{currentBackend}に変更されたため、データベース暗号化キーにアクセスできません。これは、デスクトップ環境がGNOMEとKDEの間で変更された場合などに発生することがあります。\n\n以前のデスクトップ環境に切り替えてください。"
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, other {参加者 · {people,number}人}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "{name} はブロックしています"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} はブロックされました"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "作成ボタン"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "転送先"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "表示できる最近のストーリーはありません"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "送信中…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "クリックしてストーリーを表示"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} から {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "クリックして通話を表示、または通話を開始します"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "検索"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "最近の通話はありません。 友達に電話をかけましょう。"
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}” の検索結果はありません"
@@ -5512,19 +5533,19 @@
     "messageformat": "Signal 経由でリンクを共有する"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "リンクを消去する"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "通話リンクを消去しますか？"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "リンクを消去すると、他のメンバーもこのリンクを使えなくなります。"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "キャンセル"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "消去"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "通話リンク詳細"
@@ -5606,9 +5627,12 @@
     "messageformat": "このアップデートでは、ロケールが「POSIX」に設定されているユーザーのLinuxでの起動クラッシュも修正されています。"
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "長いキャプションがあるストーリーは、テキストが読みやすくなるようにコントラストを改善して表示されるようになりました。"
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "このリリースでは、リンクプレビュー生成のパフォーマンスも改善され、設定画面を閉じた時の軽微な表示バグも修正されました。"
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }

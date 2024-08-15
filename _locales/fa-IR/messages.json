@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "نسخه پایگاه داده شما با این نسخه سیگنال مطابقت ندارد. مطمئن شوید که جدیدترین نسخه سیگنال را در رایانه‌تان باز می‌کنید."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "خطای پایگاه داده رخ داد. می‌توانید خطا را کپی کنید و برای کمک به رفع مشکل با پشتیبانی سیگنال تماس بگیرید. اگر بلافاصله نیاز به استفاده از سیگنال دارید، می‌توانید سعی کنید داده‌هایتان را بازیابی کنید.\n\nتماس با پشتیبانی با مراجعه به: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "بازیابی داده‌ها"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "دسترسی به کلید رمزگذاری پایگاه داده امکان‌پذیر نیست زیرا پشتیبان کلید رمزگذاری سیستم عامل از {previousBackend} به {currentBackend} تغییر کرده است. اگر محیط دسک‌تاپ مثلاً از GNOME به KDE تغییر کند، ممکن است این اتفاق بیفتد.\n\nلطفاً به محیط دسک‌تاپ قبلی بروید."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {در این تماس · {people,number} نفر} other {در این تماس · {people,number} نفر}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "شما {name} را مسدود کرده‌اید"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} مسدود شده است"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "دکمهٔ نگارش"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "بازارسال به"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "اکنون استوری جدیدی برای نمایش وجود ندارد"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "در حال ارسال..."
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "برای مشاهده استوری کلیک کنید"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} به {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "برای مشاهده یا شروع تماس کلیک کنید"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "جستجو"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "بدون تماس های جدید. با تماس با یک دوست شروع کنید."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "نتیجه‌ای برای «{query}» پیدا نشد"
@@ -5512,19 +5533,19 @@
     "messageformat": "اشتراک‌گذاری پیوند از طریق سیگنال"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "حذف پیوند"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "پیوند تماس حذف شود؟"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "این پیوند دیگر برای کسانی که آن را دارند کار نمی‌کند."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "لغو"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "پاک کردن"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "جزئیات پیوند تماس"
@@ -5606,9 +5627,12 @@
     "messageformat": "اختلال راه‌اندازی در لینوکس برای کاربرانی که زبانشان روی `POSIX` تنظیم شده است، در این نسخه جدید برطرف شده است."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "اکنون استوری‌هایی که متن طولانی دارند با کنتراست بهتری نمایش داده می‌شوند که خواندن متن را آسان‌تر می‌کند."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "این نسخۀ جدید همچنین عملکرد تولید پیش‌نمایش پیوند را بهبود می‌بخشد و اشکال جزئی نمایش را هنگام بستن پنجره تنظیمات برطرف می‌کند."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }

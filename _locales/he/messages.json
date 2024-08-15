@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "הגרסה של מסד הנתונים שלך לא תואמת לגרסה זו של Signal. יש לוודא שפתחת את הגרסה החדשה ביותר של Signal במחשב שלך."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "אירעה שגיאת מסד נתונים. אפשר להעתיק את תוכן השגיאה וליצור קשר עם התמיכה של Signal כדי לעזור לפתור את הבעיה. אם יש לך צורך מידי להשתמש ב–Signal, יש לך אפשרות לנסות לשחזר את הנתונים שלך.\n\nאפשר ליצור קשר עם התמיכה כאן: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "שחזור נתונים"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "לא הצלחנו לגשת למפתח ההצפנה של מסד הנתונים כי מחזיק המפתחות להצפנת מערכת ההפעלה השתנה מ–{previousBackend} ל–{currentBackend}. זה יכול להתרחש אם סביבת שולחן העבודה משתנה, למשל בין GNOME ל–KDE.\n\nיש לעבור לסביבת שולחן העבודה הקודמת."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {בשיחה זו · אדם {people,number}} two {בשיחה זו · {people,number} אנשים} many {בשיחה זו · {people,number} אנשים} other {בשיחה זו · {people,number} אנשים}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "חסמת את {name}"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "חסמת את {name}"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "כפתור חַבֵּר"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "העברה אל"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "אין סטוריז מהזמן האחרון להראות כרגע"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "שולחים…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "אפשר ללחוץ כדי להציג סטורי"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} אל {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "אפשר ללחוץ כדי להציג או להתחיל שיחה"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "חיפוש"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "אין שיחות אחרונות. כדי להתחיל, אפשר להתקשר לחבר או חברה."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "אין תוצאות עבור ״{query}״"
@@ -5512,19 +5533,19 @@
     "messageformat": "שיתוף לינק דרך Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "מחיקת לינק"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "למחוק לינק לשיחה?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "הלינק הזה לא יעבוד יותר לאף אחד."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ביטול"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "מחיקה"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "פרטי לינק שיחה"
@@ -5606,9 +5627,12 @@
     "messageformat": "העדכון הזה מתקן גם קריסת הפעלה ב–Linux עבור משתמשים שהמיקום שלהם מוגדר ל`POSIX`."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "סטוריז עם תיאורים ארוכים מוצגים עכשיו עם ניגוד צבעים משופר שמקל על קריאת הטקסט."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "הגרסה הזו גם משפרת את הביצועים של יצירת תצוגה מקדימה של לינקים ומתקנת באג תצוגה קטן בעת סגירת חלון ההגדרות."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }

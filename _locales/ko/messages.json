@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "데이터베이스 버전이 이 버전의 Signal과 일치하지 않습니다. 컴퓨터에서 최신 버전 Signal을 열었는지 확인하세요."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "데이터베이스 오류가 발생했습니다. 오류를 복사하여 Signal 지원팀에 문제 해결을 요청할 수 있습니다. Signal을 바로 사용해야 하는 경우 데이터 복원을 시도할 수 있습니다.\n\n{link}을(를) 방문하여 지원팀에 문의하세요."
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "데이터 복원"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "OS 암호화 키링 백엔드가 {previousBackend}에서 {currentBackend}(으)로 변경되어 데이터베이스 암호화 키에 접근할 수 없습니다. 이 문제는 데스크톱 환경(예: GNOME 및 KDE 간)이 변경될 때 발생할 수 있습니다.\n\n이전 데스크톱 환경으로 전환하세요."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, other {이 통화 참여자 · {people,number}명}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "{name} 님을 차단했습니다."
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} 님을 차단함"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "구성 버튼"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "전달 대상"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "표시할 최근 스토리가 없습니다."
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "보내는 중…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "클릭하여 스토리 보기"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "보낸 사람: {name} 님, 받는 사람: {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "클릭하여 통화 보기 또는 시작"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "검색"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "최근 통화 없음 친구에게 전화를 걸어 시작하세요."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}” 검색 결과 없음"
@@ -5512,19 +5533,19 @@
     "messageformat": "Signal을 통해 링크 공유"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "링크 삭제"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "통화 링크를 삭제할까요?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "이 링크는 더 이상 누구도 사용할 수 없습니다."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "취소"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "삭제"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "통화 링크 세부 정보"
@@ -5606,9 +5627,12 @@
     "messageformat": "또한 이 업데이트는 로캘이 `POSIX`로 설정된 사용자의 Linux 시작 충돌을 해결합니다."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "이제 대조를 향상하여 긴 캡션이 포함된 스토리의 텍스트를 더 쉽게 읽을 수 있습니다."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "이 릴리스는 또한 링크 미리 보기 생성 기능을 개선하고, 설정 창을 닫을 때 발생하는 사소한 표시 버그를 해결합니다."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }

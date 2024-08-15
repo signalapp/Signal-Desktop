@@ -80,17 +80,11 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Različica vaše zbirke podatkov se ne ujema s to različico Signala. Prepričajte se, da v računalniku odpirate najnovejšo različico Signala."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "Prišlo je do napake v zbirki podatkov. Napako lahko kopirate in se obrnete na podporo za Signal, da vam pomaga odpraviti težavo. Če morate Signal uporabiti takoj, lahko poskusite obnoviti podatke.\n\nObrnite se na podporo tako, da obiščete: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "Obnovitev podatkov"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Ni mogoče dostopati do šifrirnega ključa podatkovne zbirke, ker se je zaledje šifrirnega ključa operacijskega sistema spremenilo iz {previousBackend} v {currentBackend}. To se lahko zgodi, če se namizno okolje spremeni, na primer med GNOME in KDE.\n\nPreklopite na prejšnje namizno okolje."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Ni mogoče dostopati do šifrirnega ključa podatkovne zbirke, ker se je zaledje šifrirnega ključa operacijskega sistema spremenilo iz {previousBackend} v {currentBackend}. To se lahko zgodi, če se namizno okolje spremeni, na primer med GNOME in KDE.\n\nPreklopite na prejšnje namizno okolje ali poskusite zagnati Signal iz ukazne vrstice flag --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Ni mogoče dostopati do šifrirnega ključa podatkovne zbirke, ker se je zaledje šifrirnega ključa operacijskega sistema spremenilo iz {previousBackend} v {currentBackend}. To se lahko zgodi, če se namizno okolje spremeni, na primer med GNOME in KDE.\n\nPreklopite na prejšnje namizno okolje ali poskusite zagnati Signal z navodilom ukazne vrstice --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Datoteka"
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {Na tem klicu · {people,number} oseba} two {Na tem klicu · {people,number} osebi} few {Na tem klicu · {people,number} osebe} other {Na tem klicu · {people,number} ljudi}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "Blokirali ste uporabnika_co {name}"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} je blokiran_a"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "gumb za pisanje"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Posreduj uporabniku_ci"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "Trenutno ni nobenih zgodb za prikaz"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Pošiljam ..."
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Klikni za ogled zgodbe"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} za {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Klikni za ogled ali začetek klica"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Iskanje"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "Ni zadnjih klicev. Začnite tako, da pokličete prijatelja_ico."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Ni rezultatov za “{query}”"
@@ -5512,19 +5533,19 @@
     "messageformat": "Deli povezavo prek Signala"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Izbriši povezavo"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Želite izbrisati povezavo klica?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Ta povezava ne bo več delovala za nikogar."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Prekliči"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Izbriši"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Podrobnosti o klicni povezavi"
@@ -5606,9 +5627,12 @@
     "messageformat": "Ta posodobitev odpravlja tudi okvaro ob zagonu v operacijskem sistemu Linux za uporabnike, katerih krajevna lestvica je nastavljena na `POSIX`."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Zgodbe z dolgimi besedili so zdaj prikazane z izboljšanim kontrastom, ki olajša branje besedila. Zdaj, ko lahko ljudje vidijo, kaj pravite, lahko napišete nekaj odstavkov o tem, zakaj vas je nekaj resnično nasmejalo, namesto da samo rečete \"lol.\""
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Ta izdaja izboljšuje tudi zmogljivost ustvarjanja predogleda povezav in odpravlja manjšo napako ob zapiranju okna Nastavitve."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }

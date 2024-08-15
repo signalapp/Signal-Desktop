@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "A versão da sua base de dados não corresponde a esta versão do Signal. Confira se está abrindo a versão mais recente do Signal no seu computador."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "Ocorreu um erro no banco de dados. Copie a mensagem de erro e entre em contato com o suporte do Signal para resolver o problema. Se precisar usar o Signal imediatamente, tente recuperar seus dados.\n\nEntre em contato com o suporte aqui: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "Recuperar dados"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Não foi possível acessar a chave de criptografia do banco de dados porque o backend do chaveiro de criptografia do sistema operacional foi alterado de {previousBackend} para {currentBackend}. Isso pode ocorrer se o ambiente de desktop for alterado, por exemplo, entre GNOME e KDE.\n\nPor favor, volte para o ambiente de desktop anterior."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {Na ligação · {people,number} pessoa} other {Na ligação · {people,number} pessoas}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "Você bloqueou {name}"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "Você bloqueou {name}"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "botão Escrever"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Encaminhar para"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "Nenhum story em exibição no momento"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Enviando…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Clique para ver um story"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} em {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Clique para ver ou iniciar uma chamada"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Pesquisar"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "Sem chamadas recentes. Comece ligando para um amigo."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Nenhum resultado encontrado para “{query}”"
@@ -5512,19 +5533,19 @@
     "messageformat": "Compartilhar link via Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Excluir link"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Excluir link da chamada?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Este link não funcionará mais para ninguém que o tenha."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cancelar"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Excluir"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalhes do link de chamada"
@@ -5606,9 +5627,12 @@
     "messageformat": "Essa atualização também corrige uma falha de inicialização no Linux para usuários cuja localidade está definida como `POSIX`."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Agora, stories com textos mais longos terão um fundo degradê sutil para melhorar o contraste e facilitar a leitura. Com o texto mais legível, você pode se sentir à vontade para escrever alguns parágrafos sobre o que realmente te fez rir, em vez de apenas mandar um 'Kkkk' básico.\""
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Nesta atualização, também melhoramos a performance das prévias de links e corrigimos um bug que fazia a janela de configurações dar uma piscada em um tom de azul ultramarino ao ser fechada, em vez de simplesmente fechar imediatamente."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }

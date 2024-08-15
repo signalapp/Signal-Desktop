@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Ваша версия базы данных не соответствует этой версии Signal. Убедитесь, что на вашем компьютере установлена самая последняя версия Signal."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "Произошла ошибка базы данных. Вы можете создать копию ошибки и обратиться в службу поддержки Signal для решения проблемы. Если вы хотите использовать Signal прямо сейчас, вы можете попытаться восстановить свои данные.\n\nСвязаться с поддержкой можно по адресу: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "Восстановить данные"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Не удаётся получить доступ к ключу шифрования базы данных, так как серверная часть связки ключей шифрования ОС изменилась с {previousBackend} на {currentBackend}. Это может произойти при изменении интерфейса ПК, например с GNOME на KDE.\n\nПожалуйста, переключитесь на предыдущей интерфейс ПК."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {В этом звонке · {people,number} человек} few {В этом звонке · {people,number} человека} many {В этом звонке · {people,number} человек} other {В этом звонке · {people,number} человека}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "Вы заблокировали {name}"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} заблокирован(-а)"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "кнопку «Новый разговор»"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Переслать"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "Нет недавних историй"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Отправляем…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Нажмите на историю, чтобы просмотреть её"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} для {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Нажмите, чтобы просмотреть или начать звонок"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Поиск"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "Нет недавних звонков. Начните со звонка другу."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "No calls"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "No missed calls"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Нет результатов для «{query}»"
@@ -5512,19 +5533,19 @@
     "messageformat": "Поделиться ссылкой через Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Удалить ссылку"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Удалить ссылку на звонок?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Эта ссылка больше не будет действовать для всех, кто ею пользовался."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Отменить"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Удалить"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Подробности ссылки на звонок"
@@ -5606,9 +5627,12 @@
     "messageformat": "В этом обновлении также исправлен сбой при запуске в Linux у пользователей с языковым стандартом \"POSIX\"."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Истории с длинными подписями отображаются на тонком градиентном фоне, который повышает контрастность и облегчает чтение текста. Теперь, когда люди могут видеть, что вы хотите сказать, не стесняйтесь написать пару абзацев о том, почему что-то действительно вас рассмешило, вместо того чтобы просто сказать «лол»."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "В этом релизе также улучшена генерация просмотра ссылок и исправлена ошибка, из-за которой окно настроек при закрытии всякий раз на мгновение окрашивалось в приятный ультрамариновый оттенок (вместо того, чтобы просто сразу закрыться)."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }
