@@ -35,6 +35,7 @@ import { ChallengeHandler } from './challenge';
 import * as durations from './util/durations';
 import { drop } from './util/drop';
 import { explodePromise } from './util/explodePromise';
+import type { ExplodePromiseResultType } from './util/explodePromise';
 import { isWindowDragElement } from './util/isWindowDragElement';
 import { assertDev, strictAssert } from './util/assert';
 import { filter } from './util/iterables';
@@ -1462,7 +1463,7 @@ export async function startApp(): Promise<void> {
       log.info(`Startup/syncTasks: Queueing ${syncTasks.length} sync tasks`);
       await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
 
-      log.info('`Startup/syncTasks: Done');
+      log.info('Startup/syncTasks: Done');
     }
 
     log.info('listening for registration events');
@@ -1708,14 +1709,29 @@ export async function startApp(): Promise<void> {
   }
 
   let connectCount = 0;
-  let connecting = false;
+  let connectPromise: ExplodePromiseResultType<void> | undefined;
   let remotelyExpired = false;
   async function connect(firstRun?: boolean) {
-    if (connecting) {
+    if (connectPromise && !firstRun) {
       log.warn('background: connect already running', {
         connectCount,
         firstRun,
       });
+      return;
+    }
+    if (connectPromise && firstRun) {
+      while (connectPromise) {
+        log.warn(
+          'background: connect already running; waiting for previous run',
+          {
+            connectCount,
+            firstRun,
+          }
+        );
+        // eslint-disable-next-line no-await-in-loop
+        await connectPromise.promise;
+      }
+      await connect(firstRun);
       return;
     }
 
@@ -1727,8 +1743,7 @@ export async function startApp(): Promise<void> {
     strictAssert(server !== undefined, 'WebAPI not connected');
 
     try {
-      connecting = true;
-
+      connectPromise = explodePromise();
       // Reset the flag and update it below if needed
       setIsInitialSync(false);
 
@@ -1804,12 +1819,13 @@ export async function startApp(): Promise<void> {
         window.textsecure.storage.user.getDeviceId() !== 1
       ) {
         log.info('Boot after upgrading. Requesting contact sync');
-        window.getSyncRequest();
-
-        void StorageService.reprocessUnknownFields();
-        void runStorageService();
 
         try {
+          window.getSyncRequest();
+
+          void StorageService.reprocessUnknownFields();
+          void runStorageService();
+
           const manager = window.getAccountManager();
           await Promise.all([
             manager.maybeUpdateDeviceName(),
@@ -1817,7 +1833,7 @@ export async function startApp(): Promise<void> {
           ]);
         } catch (e) {
           log.error(
-            'Problem with account manager updates after starting new version: ',
+            "Problem with 'boot after upgrade' tasks: ",
             Errors.toLogFormat(e)
           );
         }
@@ -1982,7 +1998,15 @@ export async function startApp(): Promise<void> {
 
       reconnectBackOff.reset();
     } finally {
-      connecting = false;
+      if (connectPromise) {
+        connectPromise.resolve();
+        connectPromise = undefined;
+      } else {
+        log.warn('background connect: in finally, no connectPromise!', {
+          connectCount,
+          firstRun,
+        });
+      }
     }
   }
 
@@ -3082,6 +3106,10 @@ export async function startApp(): Promise<void> {
       );
     } finally {
       await Registration.markEverDone();
+
+      if (window.SignalCI) {
+        window.SignalCI.handleEvent('unlinkCleanupComplete', null);
+      }
     }
   }
 

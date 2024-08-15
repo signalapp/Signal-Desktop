@@ -9,7 +9,7 @@ import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
 import { expectSystemMessages } from '../helpers';
 
-export const debug = createDebug('mock:test:stories');
+export const debug = createDebug('mock:test:relink');
 
 describe('messaging/relink', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
@@ -70,9 +70,10 @@ describe('messaging/relink', function (this: Mocha.Suite) {
 
   it('updates pin state on relink', async () => {
     const {
-      phone,
-      desktop,
       contacts: [first, second],
+      desktop,
+      phone,
+      server,
     } = bootstrap;
 
     {
@@ -88,7 +89,10 @@ describe('messaging/relink', function (this: Mocha.Suite) {
         .waitFor();
 
       await app.unlink();
+      await app.waitForUnlink();
       await phone.unlink(desktop);
+      await server.removeDevice(desktop.number, desktop.deviceId);
+
       await app.close();
 
       debug('change pinned contact, identity key');
@@ -132,6 +136,9 @@ describe('messaging/relink', function (this: Mocha.Suite) {
       await phone.sendFetchStorage({
         timestamp: bootstrap.getTimestamp(),
       });
+
+      // Wait for that storage service version to be processed
+      await app.waitForManifestVersion(state.version);
 
       debug('open old pinned contact');
       await leftPane
