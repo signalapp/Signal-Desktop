@@ -5512,19 +5512,19 @@
     "messageformat": "ბმულის Signal-ით გაზიარება"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "ბმულის წაშლა"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "გსურს ზარის ბმული წაშალო?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "მათთვის, ვისაც ეს ბმული აქვს, ის აღარ იმუშავებს."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "გაუქმება"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "წაშლა"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "ზარის ბმულის დეტალები"
@@ -5606,9 +5606,9 @@
     "messageformat": "ეს განახლება ასევე აგვარებს Linux-ზე ავარიული გაშვების პრობლემას იმ მომხმარებლებისთვის, რომელთა ადგილმდებარეობა `POSIX`-ზეა დაყენებული."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "გრძელი ტექსტის მქონე Stories-ები ახლა გაუმჯობესებული კონტრასტით ჩნდება, რაც აადვილებს ტექსტის წაკითხვას."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "ეს გამოშვება ასევე აუმჯობესებს ბმულის წინასწარი ნახვის დაგენერირებას და ასწორებს ეკრანის მცირე ხარვეზს პარამეტრების ფანჯრის დახურვისას."
   }
 }

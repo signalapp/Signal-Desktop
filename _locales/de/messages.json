@@ -5512,19 +5512,19 @@
     "messageformat": "Link über Signal teilen"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Link löschen?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Anruflink löschen?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Dieser Link wird für alle, die ihn benutzt haben, nicht mehr funktionieren."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Abbrechen"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Löschen"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Details zum Anruflink"
@@ -5606,9 +5606,9 @@
     "messageformat": "Dieses Update behebt außerdem einen Absturz beim Starten von Linux für Nutzer mit festgelegter Region „POSIX“."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Storys mit langen Untertiteln werden auf einem dezenten Hintergrund mit Farbverlauf angezeigt, der den Kontrast verbessert und das Lesen des Textes erleichtert. Nachdem Leute jetzt sehen können, was du sagst, kannst du statt eines kurzen „Lols“ in ein paar Sätzen beschreiben, warum du etwas lustig fandest."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Diese Version verbessert außerdem die Erstellung und Anzeige einer Linkvorschau und behebt den Fehler, der das Einstellungsfenster beim Schließen kurz in einem schönen Blauton angezeigt hat, statt es gleich zu schließen."
   }
 }

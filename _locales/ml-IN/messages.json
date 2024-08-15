@@ -5512,19 +5512,19 @@
     "messageformat": "Signal-ലൂടെ ലിങ്ക് പങ്കിടൂ"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "ലിങ്ക് ഇല്ലാതാക്കുക"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "കോൾ ലിങ്ക് ഇല്ലാതാക്കണോ?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "ഈ ലിങ്ക് ഉള്ള ആർക്കും ഇനി അത് പ്രവർത്തിക്കില്ല."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "റദ്ദാക്കുക"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "ഇല്ലാതാക്കൂ"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "കോൾ ലിങ്ക് വിശദാംശങ്ങൾ"
@@ -5606,9 +5606,9 @@
     "messageformat": "ഈ അപ്‌ഡേറ്റ് 'POSIX' ആയി സജ്ജീകരിച്ചിരിക്കുന്ന ലോക്കലുകളുടെ ഉപയോക്താക്കൾക്കായി Linux-ൽ ഒരു സ്റ്റാർട്ടപ്പ് ക്രാഷും പരിഹരിക്കുന്നു."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "ദൈർഘ്യമേറിയ അടിക്കുറിപ്പുകളുള്ള സ്റ്റോറികൾ സൂക്ഷ്മമായ ഗ്രേഡിയൻ്റ് പശ്ചാത്തലത്തിൽ പ്രദർശിപ്പിക്കും, അത് ദൃശ്യതീവ്രത മെച്ചപ്പെടുത്തുകയും വാചകം വായിക്കാൻ എളുപ്പമാക്കുകയും ചെയ്യുന്നു. ഇപ്പോൾ നിങ്ങൾ പറയുന്നത് ആളുകൾക്ക് കാണാൻ കഴിയും, \"lol\" എന്ന് പറയുന്നതിന് പകരം എന്തെങ്കിലും നിങ്ങളെ ശരിക്കും ചിരിപ്പിച്ചത് എന്തുകൊണ്ടാണെന്ന് രണ്ട് ഖണ്ഡികകൾ എഴുതാൻ മടിക്കേണ്ടതില്ല."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "ലിങ്ക് പ്രിവ്യൂ ജനറേഷൻ്റെ പ്രകടനം ഈ റിലീസ് മെച്ചപ്പെടുത്തുകയും ക്രമീകരണ വിൻഡോ അടയ്‌ക്കുമ്പോഴെല്ലാം അൾട്രാമറൈനിൻ്റെ മനോഹരമായ ഷേഡ് ഹ്രസ്വമായി ഫ്ലാഷുചെയ്യുന്നതിന് കാരണമായ ഒരു ബഗ് പരിഹരിക്കുകയും ചെയ്യുന്നു (ഉടൻ തന്നെ അടയ്ക്കുന്നതിന് പകരം)."
   }
 }

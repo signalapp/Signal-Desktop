@@ -5512,19 +5512,19 @@
     "messageformat": "Jaga linki Signali kaudu"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Kustuta link"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Kas kustutada kõnelink?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "See link ei toimi enam mitte kellegi jaoks, kellel see on."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Loobu"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Kustuta"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Kõnelingi andmed"
@@ -5606,9 +5606,9 @@
     "messageformat": "Selle uuendusega parandatakse ka käivitumisel kokkujooksmise probleem Linuxi kasutajate puhul, kelle asukohaks on määratud POSIX."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Pikkade kirjeldustega lugusid kuvatakse nüüd parema kontrastiga, et teksti oleks lihtsam lugeda."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Selle väljalaskega parandatakse ka lingi eelvaate loomist ning kõrvaldatakse väike kuvamise viga, mis tekkis Sätete akna sulgemisel."
   }
 }

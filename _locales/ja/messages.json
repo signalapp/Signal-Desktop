@@ -5512,19 +5512,19 @@
     "messageformat": "Signal 経由でリンクを共有する"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "リンクを消去する"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "通話リンクを消去しますか？"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "リンクを消去すると、他のメンバーもこのリンクを使えなくなります。"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "キャンセル"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "消去"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "通話リンク詳細"
@@ -5606,9 +5606,9 @@
     "messageformat": "このアップデートでは、ロケールが「POSIX」に設定されているユーザーのLinuxでの起動クラッシュも修正されています。"
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "長いキャプションがあるストーリーは、テキストが読みやすくなるようにコントラストを改善して表示されるようになりました。"
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "このリリースでは、リンクプレビュー生成のパフォーマンスも改善され、設定画面を閉じた時の軽微な表示バグも修正されました。"
   }
 }

@@ -5512,19 +5512,19 @@
     "messageformat": "Trimite linkul prin Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Șterge linkul"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Ștergi linkul de apel?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Linkul nu va mai funcționa pentru nicio persoană care îl are."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anulează"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Șterge"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalii despre linkul apelului"
@@ -5606,9 +5606,9 @@
     "messageformat": "Această actualizare corectează, de asemenea, o blocare la pornire pe Linux pentru utilizatorii a căror localizare este setată la `POSIX`."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Poveștile cu subtitrări lungi sunt afișate pe un fundal cu un degrade subtil, care îmbunătățește contrastul și face textul mai ușor de citit. Acum că oamenii pot vedea ce spui, nu ezita să scrii câteva alineate despre ceva te-a făcut să râzi cu adevărat, în loc să spui doar \"lol.\""
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Această versiune îmbunătățește, de asemenea, performanța previzualizării linkurilor și corectează o eroare care făcea ca fereastra Setări să clipească pentru scurt timp într-o nuanță frumoasă de albastru închis, atunci când era închisă (în loc să se închidă imediat)."
   }
 }

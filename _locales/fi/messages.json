@@ -5512,19 +5512,19 @@
     "messageformat": "Jaa linkki Signalissa"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Poista linkki"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Poistetaanko puhelulinkki?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Poistamisen jälkeen linkki ei ole enää kenenkään käytettävissä."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Peruuta"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Poista"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Puhelulinkin tiedot"
@@ -5606,9 +5606,9 @@
     "messageformat": "Tämä päivitys korjaa myös sovelluksen kaatumisen käynnistyksessä Linux-käyttäjillä, joiden maa-asetuksena on POSIX."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Tarinat, joissa on pitkät kuvatekstit, näytetään parannetulla kontrastilla, mikä helpottaa tekstin lukemista."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Tämä julkaisu parantaa myös linkkien esikatselun luomisen suorituskykyä ja korjaa pienen näyttövirheen Asetukset-ikkunan sulkeutumisessa."
   }
 }

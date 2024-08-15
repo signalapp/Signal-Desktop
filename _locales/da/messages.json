@@ -5512,19 +5512,19 @@
     "messageformat": "Del link via Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Slet link"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Vil du slette opkaldslinket?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Dette link vil ikke længere fungere for dem, der har det."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annullér"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Slet"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Oplysninger om opkaldslink"
@@ -5606,9 +5606,9 @@
     "messageformat": "Denne opdatering løser også et opstartsnedbrud på Linux for brugere, hvis lokalitet er indstillet til \"POSIX\"."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Historier med lange billedtekster vises på en subtil gradientbaggrund, der forbedrer kontrasten og gør teksten lettere at læse. Nu hvor folk kan se, hvad du siger, er du velkommen til at skrive et par linjer om, hvorfor noget virkelig fik dig til at grine i stedet for bare at sige \"lol\"."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Denne udgivelse forbedrer også ydeevnen ved generering af linkforhåndsvisning og retter en fejl, der fik vinduet Indstillinger til kortvarigt at blinke en dejlig nuance af ultramarin, når det blev lukket (i stedet for bare at lukke med det samme)."
   }
 }

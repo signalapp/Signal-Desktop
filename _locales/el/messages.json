@@ -3147,7 +3147,7 @@
     "messageformat": "Ο/Η {inviteeName} αποδέχτηκε τη πρόσκλησή σου στην ομάδα."
   },
   "icu:GroupV2--member-add--other--other": {
-    "messageformat": "Ο/Η {adderName} πρόσθεσε τον/την{addeeName}."
+    "messageformat": "Ο/Η {adderName} πρόσθεσε τον/την {addeeName}."
   },
   "icu:GroupV2--member-add--other--you": {
     "messageformat": "Πρόσθεσες τον/την {memberName}."
@@ -5512,19 +5512,19 @@
     "messageformat": "Κοινοποίηση συνδέσμου μέσω Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Διαγραφή συνδέσμου"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Διαγραφή συνδέσμου κλήσης;"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Αυτός ο σύνδεσμος δεν θα λειτουργεί πλέον για κάθε κάτοχο."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ακύρωση"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Διαγραφή"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Λεπτομέρειες συνδέσμου κλήσης"
@@ -5606,9 +5606,9 @@
     "messageformat": "Αυτή η ενημέρωση διορθώνει επίσης απρόσμενους τερματισμούς λειτουργίας κατά την εκκίνηση σε Linux για χρήστες των οποίων η γλώσσα έχει οριστεί σε `POSIX`."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Οι ιστορίες με μακροσκελείς λεζάντες εμφανίζονται τώρα με βελτιωμένη αντίθεση που κάνει το κείμενο πιο ευανάγνωστο."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Αυτή η έκδοση βελτιώνει επίσης την απόδοση της δημιουργίας προεπισκόπησης συνδέσμων και διορθώνει ένα μικρό σφάλμα εμφάνισης κατά το κλείσιμο του παραθύρου Ρυθμίσεων."
   }
 }

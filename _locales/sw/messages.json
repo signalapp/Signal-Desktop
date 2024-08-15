@@ -150,7 +150,7 @@
     "messageformat": "Futa"
   },
   "icu:editMenuSelectAll": {
-    "messageformat": "Chagua Yote"
+    "messageformat": "Chagua Zote"
   },
   "icu:editMenuStartSpeaking": {
     "messageformat": "Anza kuzungumza"
@@ -5512,19 +5512,19 @@
     "messageformat": "Shiriki kiungo kupitia Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Futa kiungo"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Je, futa kiungo cha simu?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Kiungo hiki hakitafanya tena kazi kwa yeyote alichonacho."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ghairi"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Futa"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Maelezo ya kiungo cha simu"
@@ -5606,9 +5606,9 @@
     "messageformat": "Sasisho hili pia hurekebisha tukio la kuacha kufanya kazi kwenye Linux kwa watumiaji ambao lugha yao imewekwa kuwa `POSIX`."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Stori zenye maandishi marefu zinaonyesha kwenye mandhari nyuma ya rangi tulivu inayoboresha muonekano na kufanya jumbe zisomwe kwa urahisi. Sasa kwani watu wanaweza kuona unachosema, uko huru kuandika aya kadhaa kuhusu kilichokuchekesha badala ya kusema tu \"lol.\""
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Toleo hili pia linaboresha utendaji wa uzalishaji wa hakikisho la kiungo na kurekebisha hitilafu iliyosababisha dirisha la Mipangilio kuonyesha kwa muda mfupi rangi ya ultramarine kila ilipokuwa inafungwa (badala ya kufunga mara moja)."
   }
 }

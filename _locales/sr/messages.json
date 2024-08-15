@@ -2895,16 +2895,16 @@
     "messageformat": "Нису искључена обавештења"
   },
   "icu:muteHour": {
-    "messageformat": "Искључи обавештења на сат времена"
+    "messageformat": "Искључи обавештења на 1 сат"
   },
   "icu:muteEightHours": {
-    "messageformat": "Искључи обавештења на осам сати"
+    "messageformat": "Искључи обавештења на 8 сати"
   },
   "icu:muteDay": {
-    "messageformat": "Искључи обавештења на један дан"
+    "messageformat": "Искључи обавештења на 1 дан"
   },
   "icu:muteWeek": {
-    "messageformat": "Искључи обавештења на недељу дана"
+    "messageformat": "Искључи обавештења на 7 дана"
   },
   "icu:muteAlways": {
     "messageformat": "Трајно искључи обавештења"
@@ -5512,19 +5512,19 @@
     "messageformat": "Подели линк преко Signal-а"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Избриши линк"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Желите ли да избришете линк за позив?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Овај линк више неће радити никоме ко га има."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Откажи"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Избриши"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Детаљи линка за позив"
@@ -5606,9 +5606,9 @@
     "messageformat": "У овом ажурирању је такође исправљена грешка која узрокује пад приликом покретања на Linux-у код корисника чији је језик подешен на „POSIX“."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Приче са дугим натписима се сада приказују са бољим контрастом који чини текст лакшим за читање."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "У овом издању су такође побољшане перформансе генерисања приказа линка и исправљена је мања визуелна грешка која се дешавала приликом затварања прозора за подешавања."
   }
 }

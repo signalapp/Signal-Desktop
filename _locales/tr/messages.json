@@ -5512,19 +5512,19 @@
     "messageformat": "Bağlantıyı Signal ile paylaş"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Bağlantıyı sil"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Arama bağlantısı silinsin mi?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Bu bağlantı artık ona sahip olan hiç kimse için çalışmayacaktır."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "İptal"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Sil"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Arama bağlantısı detayları"
@@ -5606,9 +5606,9 @@
     "messageformat": "Bu güncelleme, yerel ayarı 'POSIX' olarak ayarlanmış kullanıcılar için Linux'teki bir başlangıç çökmesini de düzeltmektedir."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Uzun başlıklar içeren kısa hikayeler artık metnin okunmasını kolaylaştıran kontrastı arttırılmış bir arka plan üzerinde görüntülenir. Bundan sonra insanlar ne söylediğini görebildiğine göre, sadece \"lol\" demek yerine bir şeyin seni neden güldürdüğüne dair birkaç paragraf yazabilirsin."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Bu sürüm, bağlantı ön izleme oluşturma performansını iyileştirmekte ve Ayarlar penceresi kapatıldığında meydana gelen ufak bir görüntü hatasını da düzeltmektedir."
   }
 }

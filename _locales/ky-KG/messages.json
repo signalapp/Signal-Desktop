@@ -5512,19 +5512,19 @@
     "messageformat": "Шилтемени Signal аркылуу бөлүшүү"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Шилтемени өчүрүү"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Чалуу шилтемесин өчүрөсүзбү?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Бул шилтемени эч ким колдоно албай калат."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Жок"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Өчүрүү"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Чалуу шилтемесинин чоо-жайы"
@@ -5606,9 +5606,9 @@
     "messageformat": "Бул жаңы версияда тили `POSIX` деп коюлган колдонуучулардын Linux'ту иштетүү катасы оңдолду."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Окуялардын фону эми билинер-билинбеген градиент түрүндө болгондуктан, анын тексти оңой окулат. Эми адамдар айткан нерселериңизди көрүп, аябай күлкүлүү көрүнүштөргө сезимдерин кенен билдире алышат."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Бул версияда алдын ала көрүү шилтемелери жакшыраак иштеп, Параметр терезесин жапкандагы мүчүлүштүктөр оңдолду."
   }
 }

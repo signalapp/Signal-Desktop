@@ -5512,19 +5512,19 @@
     "messageformat": "Keçidi Signal vasitəsilə paylaş"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Keçidi sil"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Zəng keçidi silinsin?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Bu keçid artıq onu istifadə edənlərin heç biri üçün aktiv olmayacaq."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ləğv et"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Sil"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Zəng keçidi təfərrüatları"
@@ -5606,9 +5606,9 @@
     "messageformat": "Bu yeniləmə həm də yerli parametrləri \"POSIX\" olaraq təyin edilmiş istifadəçilər üçün Linux-da başlama nasazlığını aradan qaldırır."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Uzun subtitrləri olan hekayələr artıq mətni oxumağı asanlaşdıran təkmilləşdirilmiş kontrastla göstərilir. Artıq insanlar nə dediyinizi görə bildiklərinə görə, qısaca \"səsli güldüm\" demək əvəzinə, sizi güldürən şey haqqında bir neçə abzas yazmaqdan çəkinməyin."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Bu buraxılış həmçinin keçidə önbaxışın yaradılmasını yaxşılaşdırır və Parametrlər pəncərəsini bağlayarkən (dərhal bağlanmaq əvəzində) kiçik ekran nasazlığını düzəldir."
   }
 }

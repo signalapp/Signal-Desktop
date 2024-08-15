@@ -5512,19 +5512,19 @@
     "messageformat": "Deel skakel d.m.v. Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Skrap skakel"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Skrap oproepskakel?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Hierdie skakel sal nie meer werk vir enigiemand wat dit het nie."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Kanselleer"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Skrap"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Oproepskakelbesonderhede"
@@ -5606,9 +5606,9 @@
     "messageformat": "Hierdie opdatering stel ook 'n oopmaak-uitbom in Linux reg vir gebruikers wie se lokaliteit op 'POSIX' gestel is."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Stories met lang byskrifte word nou met beter kontras vertoon wat die teks makliker maak om te lees."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Hierdie vrystelling verbeter ook die werkverrigting van skakelvoorskou-generering en stel 'n geringe vertoonfout reg wanneer die Instellingsvenster gesluit word."
   }
 }

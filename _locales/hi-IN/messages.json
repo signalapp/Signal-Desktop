@@ -5512,19 +5512,19 @@
     "messageformat": "Signal के माध्यम से लिंक साझा करें"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "लिंक डिलीट करें"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "कॉल लिंक डिलीट करें?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "यह लिंक अब उन लोगों के लिए काम नहीं करेगा जिनके पास यह है।"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "रद्द करें"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "डिलीट करें"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "कॉल लिंक की जानकारी"
@@ -5606,9 +5606,9 @@
     "messageformat": "इस अपडेट से, उन यूज़र्स के लिए Linux पर स्टार्टअप क्रैश भी ठीक हो जाता है जिनका लोकेल 'POSIX' पर सेट है।"
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "लंबे कैप्शन वाली स्टोरीज़ को सादा ग्रेडिएंट बैकग्राउंड पर दिखाया जाता है, जिससे कंट्रास्ट बेहतर होता है और टेक्स्ट को पढ़ना आसान हो जाता है। अब लोग देख सकते हैं कि आप क्या कह रहे हैं, सिर्फ़ \"lol\" कहने के बजाय, बिना किसी झिझक के एक-दो पैराग्राफ़ लिखकर बताएँ कि आपको कोई चीज़ इतनी मज़ाकिया क्यों लगी।"
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "इस रिलीज़ की मदद से, लिंक प्रीव्यू जनरेशन का प्रदर्शन भी बेहतर होता है और वह गड़बड़ी भी ठीक होती है जिसकी वजह से सेटिंग विंडो बंद होने पर (सीधे बंद होने के बजाय) अल्ट्रामरीन रंग दिखाई देता था।"
   }
 }

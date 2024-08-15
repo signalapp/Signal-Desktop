@@ -5512,19 +5512,19 @@
     "messageformat": "Signal मार्फत लिंक शेअर करा"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "लिंक हटवा"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "कॉल लिंक हटवायची?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "ज्या कोणाकडे ही लिंक आहे त्यांच्यासाठी ही लिंक यापुढे काम करणार नाही."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "रद्द करा"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "हटवा"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "कॉल लिंक तपशील"
@@ -5606,9 +5606,9 @@
     "messageformat": "हे अपडेट ज्या वापरकर्त्याचे 'POSIX' वर सेट केले आहे त्यांच्यासाठी Linux वर स्टार्टअप क्रॅशचे निराकरण देखील करते."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "लांब मथळे असलेल्या स्टोरीज सूक्ष्म ग्रेडियंट पार्श्वभूमीवर प्रदर्शित केल्या जातात ज्यामुळे कॉन्ट्रास्ट सुधारतो आणि मजकूर वाचणे सोपे होते. आता लोक आपण काय म्हणत आहात ते लोक पाहू शकतील, फक्त \"lol\" असे म्हणण्याऐवजी एखाद्या गोष्टीने आपणाला खरोखर का हसवले याबद्दल काही परिच्छेद लिहिण्यास संकोच करू नका."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "हे प्रकाशन लिंक पूर्वावलोकनाची कामगिरी देखील सुधारते आणि ज्यामुळे सेटिंग्ज विंडो जेव्हाही बंद होते (फक्त लगेचच बंद होण्याऐवजी) अल्ट्रामरिनची सुंदर शेड हलकेच फ्लॅश होण्याच्या दोषाचे निराकरण करते."
   }
 }

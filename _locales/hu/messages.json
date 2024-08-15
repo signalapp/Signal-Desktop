@@ -5512,19 +5512,19 @@
     "messageformat": "Hivatkozás megosztása a Signalon keresztül"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Hivatkozás törlése"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Híváslink törlése?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Ez a hivatkozás többé nem fog működni azok számára, akiknek már megvan."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Mégse"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Törlés"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Híváslink részletei"
@@ -5606,9 +5606,9 @@
     "messageformat": "Ez a frissítés kijavítja a Linux rendszerindítási összeomlását is azon felhasználók számára, akiknek a nyelvi beállítása „POSIX”."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "A hosszú feliratokkal ellátott történetek mostantól jobb kontraszttal jelennek meg, amitől a szöveg jobban olvasható lesz."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Ez a kiadás javítja a hivatkozás-előnézet létrehozásának teljesítményét is, és kijavítja a Beállítások ablak bezárásakor jelentkező kisebb megjelenítési hibát."
   }
 }

@@ -5512,19 +5512,19 @@
     "messageformat": "Compartilhar link via Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Excluir link"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Excluir link da chamada?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Este link não funcionará mais para ninguém que o tenha."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cancelar"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Excluir"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalhes do link de chamada"
@@ -5606,9 +5606,9 @@
     "messageformat": "Essa atualização também corrige uma falha de inicialização no Linux para usuários cuja localidade está definida como `POSIX`."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Agora, stories com textos mais longos terão um fundo degradê sutil para melhorar o contraste e facilitar a leitura. Com o texto mais legível, você pode se sentir à vontade para escrever alguns parágrafos sobre o que realmente te fez rir, em vez de apenas mandar um 'Kkkk' básico.\""
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Nesta atualização, também melhoramos a performance das prévias de links e corrigimos um bug que fazia a janela de configurações dar uma piscada em um tom de azul ultramarino ao ser fechada, em vez de simplesmente fechar imediatamente."
   }
 }

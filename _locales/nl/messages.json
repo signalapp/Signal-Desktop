@@ -5512,19 +5512,19 @@
     "messageformat": "Link delen via Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Link verwijderen"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Oproeplink verwijderen?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Deze link zal niet meer werken."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annuleren"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Verwijderen"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Oproeplinkdetails"
@@ -5606,9 +5606,9 @@
     "messageformat": "Deze update lost ook opstartproblemen op voor Linux-gebruikers die `POSIX` gebruiken."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Verhalen met lange bijschriften worden nu getoond met meer contrast, waardoor de tekst beter leesbaar is. Nu mensen daadwerkelijk kunnen zien wat je probeert te delen, kun je in detail beschrijven waarom je zo moet lachen in plaats van kort 'lol' zeggen."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Deze uitgave verbetert ook het genereren van linkvoorbeelden en er is een kleine fout opgelost die optrad bij het sluiten van het Instellingen-venster."
   }
 }

@@ -5512,19 +5512,19 @@
     "messageformat": "Споделете го линкот преку Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Избриши го линкот"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Да се избрише линкот за повикот?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Овој линк повеќе нема да функционира за тие кои го имаат."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Откажи"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Избриши"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Детали за линкот за повикот"
@@ -5606,9 +5606,9 @@
     "messageformat": "Во оваа верзија е поправен пад при отворање на апликацијата за корисници на Linux со „POSIX“ стандарди."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Приказните со појаснителен текст сега се прикажуваат со подобрен контраст за полесно да се чита текстот."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Во оваа верзија е исто така подобренo создавањето на преглед на линк и решена е мала грешка на дисплејот која се јавува при затворање на прозорецот со поставувања."
   }
 }

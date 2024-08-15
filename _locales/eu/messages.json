@@ -5512,19 +5512,19 @@
     "messageformat": "Partekatu esteka Signal bidez"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Ezabatu esteka"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Deiaren esteka ezabatu nahi duzu?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Esteka dutenek ezingo dute erabili."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Utzi"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Ezabatu"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Deiaren estekaren xehetasunak"
@@ -5606,9 +5606,9 @@
     "messageformat": "Eguneratze honen bidez, halaber, eskualdeko ezarpenetan POSIX darabilten Linux-eko erabiltzaileei abioan gertatzen zitzaien hutsegite bat konpondu da."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Orain, azpititulu luzeak dituzten istorioak kontraste hobetuarekin bistaratzen dira, testua irakurterrazagoa izan dadin."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Halaber, kaleratze honen bidez, esteken aurreikuspena sortzeko funtzioaren errendimendua hobetu da, eta ezarpenen leihoa ixtean gertatzen zen akats txiki bat konpondu da."
   }
 }

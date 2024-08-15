@@ -5512,19 +5512,19 @@
     "messageformat": "சிக்னல் மூலம் இணைப்பைப் பகிர்க"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "இணைப்பை அழி"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "அழைப்பு இணைப்பை அழிக்க வேண்டுமா?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "இந்த இணைப்பை வைத்திருக்கும் எவருக்கும் இது இனி வேலை செய்யாது."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ரத்துசெய்"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "நீக்கு"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "அழைப்பு இணைப்பு விவரங்கள்"
@@ -5606,9 +5606,9 @@
     "messageformat": "இந்தப் புதுப்பிப்பு, `POSIX` என அமைக்கப்பட்டுள்ள பயனர்களுக்கான லினக்ஸில் தொடக்க செயலிழப்பை சரிசெய்கிறது."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "நீண்ட தலைப்புகளுடன் கூடிய ஸ்டோரீஸ் இப்போது மேம்படுத்தப்பட்ட மாறுபாட்டுடன் காட்டப்படுகின்றன, இது உரையைப் வாசிப்பதை எளிதாக்குகிறது."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "இந்த ரிலீஸ் இணைப்பு முன்னோட்ட உருவாக்கத்தின் செயல்திறனையும் மேம்படுத்துகிறது மற்றும் அமைப்புகள் சாளரத்தை மூடும் போது ஏற்படும் ஒரு சிறிய காட்சிப் பிழையைச் சரிசெய்கிறது."
   }
 }

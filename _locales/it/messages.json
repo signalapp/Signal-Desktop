@@ -5512,19 +5512,19 @@
     "messageformat": "Condividi il link via Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Elimina link"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Vuoi eliminare il link per la chiamata?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Questo link non sarà più valido per chi l'ha già ricevuto."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annulla"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Elimina"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Dettagli del link della chiamata"
@@ -5606,9 +5606,9 @@
     "messageformat": "Questo aggiornamento risolve anche dei casi di crash su Linux durante la fase di avvio di Signal per gli utenti che avevano le impostazioni locali impostate su \"POSIX\"."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Ora le Storie che contengono testi lunghi verranno mostrate su uno sfondo sfumato per migliorare il contrasto e rendere i testi più leggibili. Perciò sì, se sei un amante dei muri di testo, oggi è il tuo giorno fortunato!"
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Questo aggiornamento risolve anche dei problemi legati alla visualizzazione delle anteprime dei link, oltre a un bug che faceva sì che la finestra delle Impostazioni lampeggiasse in blu ogni volta che veniva chiusa (invece di chiudersi immediatamente)."
   }
 }

@@ -5512,19 +5512,19 @@
     "messageformat": "مشاركة الرابط عبر سيجنال"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "حذف الرابط"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "حذف رابط المكالمة؟"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "لن يشتغل هذا الرابط لأي أحد يتحصّل عليه بعد الآن."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "إلغاء"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "حذف"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "تفاصيل رابط المكالمة"
@@ -5606,9 +5606,9 @@
     "messageformat": "يُصلح هذا التحديث أيضًا عطلاً على Linux للمُستخدمين الذين اختاروا تحديد إعداداتهم المحلية إلى \"POSIX\"."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "تظهر القِصص ذات التعليقات الطويلة الآن بتباين أفضل ما يجعل النص أوضح للقراءة."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "يُحسّن هذا الإصدار أيضًا أداء إنشاء معاينة الروابط ويصلح خطأ متعلقًا بالعرض عند إغلاق نافذة الإعدادات."
   }
 }

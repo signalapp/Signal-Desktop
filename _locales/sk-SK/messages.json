@@ -5512,19 +5512,19 @@
     "messageformat": "Zdieľať odkaz cez Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Vymazať odkaz"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Vymazať odkaz na hovor?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Tento odkaz už nebude fungovať pre nikoho, kto má k nemu prístup."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Zrušiť"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Vymazať"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Podrobnosti odkazu na hovor"
@@ -5606,9 +5606,9 @@
     "messageformat": "Táto aktualizácia tiež opravuje zlyhanie programu pri spustení v systéme Linux pre používateľov, ktorých lokalita je nastavená na „POSIX“."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Príbehy s dlhým popisom sa teraz zobrazujú s vylepšeným kontrastom, ktorý uľahčuje čítanie textu."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Toto vydanie tiež zlepšuje generovanie náhľadu odkazov a opravuje menšiu chybu zobrazenia pri zatváraní okna Nastavenia."
   }
 }

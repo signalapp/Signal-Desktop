@@ -5512,19 +5512,19 @@
     "messageformat": "透過 Signal 分享連結"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "刪除連結"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "係咪要刪除通話連結呀？"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "呢個連結將會失效，任何人都唔會再用到。"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "刪除"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "通話連結詳情"
@@ -5606,9 +5606,9 @@
     "messageformat": "呢次更新仲修復咗區域設定為「POSIX」嘅用戶喺 Linux 啟動時嘅死機問題。"
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "字數比較多嘅限時動態會用漸變色背景，咁就可以加強對比，令啲字易睇啲。既然咁易睇，不妨打返幾段字嚟解釋下你個笑位，唔洗淨係用「lol」啦。"
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "呢次版本仲改善咗產生連結預覽嘅功能，同埋修復咗一個錯誤，以後「設定」視窗就唔會再喺閂嗰陣有青色陰影閃閃吓喇。"
   }
 }

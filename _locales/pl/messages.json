@@ -5512,19 +5512,19 @@
     "messageformat": "Udostępnij link za pomocą Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Usuń link"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Usunąć link do połączenia?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Ten link nie będzie już działał u żadnego użytkownika."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anuluj"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Usuń"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Szczegóły linku do połączenia"
@@ -5606,9 +5606,9 @@
     "messageformat": "W tej aktualizacji naprawiliśmy również błąd uruchamiania systemu Linux dla użytkowników z ustawieniami regionalnymi „POSIX”."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Relacje z długimi napisami od teraz wyświetlać się będą na subtelnym gradientowym tle, które poprawi kontrast i sprawi, że tekst będzie bardziej czytelny. Zapomnij o zdawkowym „lol”. Teraz możesz śmiało się rozpisywać."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "W tej wersji poprawiliśmy również wydajność generowania podglądu linków i naprawiliśmy błąd, który powodował, że okno ustawień nie znikało się od razu po zamknięciu, ale przez sekundę migało pięknym odcieniem ultramaryny."
   }
 }

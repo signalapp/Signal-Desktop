@@ -5512,19 +5512,19 @@
     "messageformat": "ئۇلانمىنى Signal ئارقىلىق ئورتاقلىشىش"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "ئۇلانمىنى ئۆچۈرۈڭ"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "چاقىرىق ئۇلانمىسىنى ئۆچۈرەمسىز؟"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "بۇ ئۇلانمىنى ھېچكىم ئىشلىتەلمەيدۇ."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "بىكار قىلىش"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "ئۆچۈر"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "چاقىرىق ئۇلانمىسى تەپسىلاتى"
@@ -5606,9 +5606,9 @@
     "messageformat": "بۇ يېڭىلانما «POSIX» نى مەنبە قىلغان Linux ئىشلەتكۈچىلەر مەشغۇلات قىلغاندا يۈز بېرىدىغان قوزغىلىش ھادىسىسىنى ئوڭشايدۇ."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "ئۇزۇن يازمىلار غۇۋاراق تەدرىجىي ئارقا كۆرۈنۈشتە كۆرسىتىلىدۇ ، بۇ سېلىشتۇرمىنى ياخشىلاپ ، تېكىستنى ئوقۇشقا قولايلىق يارىتىدۇ. ھازىر باشقىلار سىزنىڭ نېمە دەۋاتقانلىقىڭىزنى كۆردى، «lol» دەپ قويغاننىڭ ئورنىغا ، قايسى ئشنىڭ سىزنى نېمىشقا كۈلدۈرگەنلىكى ھەققىدە ئختىيارىڭىزچە بىر نەچچە ئابزاس يېزىپ قويۇڭ."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "بۇ نەشىر ئۇلانما كۆرىكى ئېچىش ئىقتىدارىنى ياخشىلايدۇ ۋە تەڭشەك كۆزنىكىنى تاقىغاندا يۈز بېرىدىغان كىچىككىنە ئېكران ھادىسىسىنى ئوڭشايدۇ."
   }
 }

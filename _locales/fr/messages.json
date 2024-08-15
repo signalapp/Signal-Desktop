@@ -843,7 +843,7 @@
     "messageformat": "Signal Desktop pour ordinateur a probablement été mise en quarantaine par macOS et ne pourra pas se mettre automatiquement à jour. Avec Finder, essayez de déplacer  {app} dans  {folder}."
   },
   "icu:ok": {
-    "messageformat": "Valider"
+    "messageformat": "OK"
   },
   "icu:cancel": {
     "messageformat": "Annuler"
@@ -1677,7 +1677,7 @@
     "messageformat": "Sons des notifications push"
   },
   "icu:callRingtoneNotificationDescription": {
-    "messageformat": "Jouer les sons des appels"
+    "messageformat": "Activer la sonnerie des appels"
   },
   "icu:callSystemNotificationDescription": {
     "messageformat": "Afficher les notifications pour les appels"
@@ -2928,7 +2928,7 @@
     "messageformat": "Veuillez réessayer ou contacter l’assistance."
   },
   "icu:Confirmation--confirm": {
-    "messageformat": "Valider"
+    "messageformat": "OK"
   },
   "icu:MessageMaxEditsModal__Title": {
     "messageformat": "Impossible de modifier le message"
@@ -5512,19 +5512,19 @@
     "messageformat": "Partager le lien via Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Supprimer le lien"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Supprimer le lien d’appel ?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Les personnes disposant de ce lien ne pourront plus l’utiliser."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annuler"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Supprimer"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Détails du lien d’appel"
@@ -5606,9 +5606,9 @@
     "messageformat": "Cette mise à jour corrige aussi une erreur de démarrage qui se produisait sous Linux pour les utilisateurs dont les paramètres régionaux sont définis sur POSIX."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Vos stories méritent bien de belles et longues légendes. Pour en faciliter la lecture, elles s’affichent désormais sur un fond plus contrasté, avec un léger dégradé. Maintenant que vos amis peuvent lire ce que vous écrivez sans avoir à sortir la loupe, vous pouvez leur raconter ce qui vous a valu le fou rire de l’année plutôt que de vous contenter d’un énième « MDR »."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "La génération des aperçus de lien n’est pas non plus en reste. Autre amélioration : au moment de fermer la fenêtre Paramètres, celle-ci avait une fâcheuse tendance à se transformer en voyant clignotant d’un bleu outremer… On adore le bleu, mais les lumières clignotantes, on préfère les voir à Noël. "
   }
 }

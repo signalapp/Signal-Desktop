@@ -5512,19 +5512,19 @@
     "messageformat": "I-share ang link via Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Burahin ang link"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Gusto mo bang burahin ang call link?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Hindi na gagana ang link na ito para sa mga taong may kopya nito."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "I-cancel"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Burahin"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalye ng call link"
@@ -5606,9 +5606,9 @@
     "messageformat": "Inaayos din ng update na ito ang startup crash sa Linux para sa users na may locale na `POSIX`."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "May improved contrast ang stories na may mahabang captions para mas madaling basahin ang text."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Mas pinaganda ng release na ito ang performance ng paggawa ng link preview at inayos ang minor display bug sa pagsara ng Settings window."
   }
 }

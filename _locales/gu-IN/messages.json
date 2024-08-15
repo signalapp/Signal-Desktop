@@ -5512,19 +5512,19 @@
     "messageformat": "Signal દ્વારા લિંક શેર કરો"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "લિંક ડિલીટ કરો"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "કૉલ લિંક ડિલીટ કરવી છે?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "આ લિંક હવેથી જેમની પણ પાસે હશે તે કોઈ પણ માટે કામ નહીં કરે."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "રદ કરો"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "ડિલીટ કરો"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "કૉલ લિંકની વિગતો"
@@ -5606,9 +5606,9 @@
     "messageformat": "આ અપડેટ એવા વપરાશકર્તા માટે Linux પર સ્ટાર્ટઅપ ક્રેશને પણ ઠીક કરે છે કે જેમનું લોકેલ `POSIX` પર સેટ હોય."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "લાંબા કેપ્શન ધરાવતી સ્ટોરી હવે બહેતર કોન્ટ્રાસ્ટ સાથે પ્રદર્શિત થાય છે જે તેમને વાંચવાનું વધુ સરળ બનાવે છે."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "આ રિલીઝ લિંક પ્રિવ્યૂ જનરેશનના પ્રદર્શનને પણ સુધારે છે અને સેટિંગ્સ વિન્ડોને બંધ કરતી વખતે આવતા એક નાનકડા પ્રદર્શન સંબંધી બગને ઠીક કરે છે."
   }
 }

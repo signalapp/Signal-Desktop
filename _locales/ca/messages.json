@@ -5512,19 +5512,19 @@
     "messageformat": "Compartir enllaç per Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Eliminar enllaç"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Eliminar l'enllaç de trucada?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "Aquest enllaç ja no funcionarà per a ningú."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cancel·la"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Suprimeix"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Detalls de l'enllaç de trucada"
@@ -5606,9 +5606,9 @@
     "messageformat": "Aquesta actualització també corregeix un error d'inici a Linux per als usuaris amb la configuració regional configurada en \"POSIX\"."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "Les històries amb subtítols llargs es mostren sobre un fons degradat subtil que millora el contrast i facilita la lectura del text. Ara que la gent pot veure el que esteu dient, no dubtis a escriure un parell de paràgrafs sobre per què alguna cosa realment et va fer riure en lloc de dir només \"hehehe\"."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "Aquesta versió també millora el rendiment de la previsualització d'enllaços i corregeix un petit error que apareixia en tancar-se la finestra de Configuració."
   }
 }

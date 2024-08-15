@@ -5512,19 +5512,19 @@
     "messageformat": "Compartir ligazón por Signal"
   },
   "icu:CallLinkDetails__DeleteLink": {
-    "messageformat": "Delete link"
+    "messageformat": "Borrar ligazón"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "Delete call link?"
+    "messageformat": "Borrar ligazón da chamada?"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "This link will no longer work for anyone who has it."
+    "messageformat": "A ligazón xa non funcionará para todos os que a teñan."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cancelar"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Eliminar"
   },
   "icu:CallLinkEditModal__Title": {
     "messageformat": "Información da ligazón da chamada"
@@ -5606,9 +5606,9 @@
     "messageformat": "Esta actualización tamén soluciona un erro de arranque en Linux para usuarios coa localización configurada en «POSIX»."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\""
+    "messageformat": "As historias con descricións longas móstranse agora cun contraste mellorado que facilita a lectura do texto."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away)."
+    "messageformat": "A nova versión tamén optimiza a xeración de previsualizacións de enlaces e soluciona un pequeno erro de visualización ao pechar a ventá de Configuración."
   }
 }
