@@ -137,7 +137,8 @@ export const getLatestReleaseFromFileServer = async (
     ed25519SecretKey: userEd25519SecretKey,
     sigTimestampSeconds,
   });
-  const body = {
+
+  const headers = {
     'X-FS-Pubkey': blindedPkHex,
     'X-FS-Timestamp': `${sigTimestampSeconds}`,
     'X-FS-Signature': fromUInt8ArrayToBase64(signature),
@@ -146,7 +147,8 @@ export const getLatestReleaseFromFileServer = async (
     abortSignal: new AbortController().signal,
     endpoint: RELEASE_VERSION_ENDPOINT,
     method: 'GET',
-    stringifiedBody: JSON.stringify(body),
+    stringifiedBody: null,
+    headers,
   });
 
   if (!batchGlobalIsSuccess(result) || parseStatusCodeFromOnionRequestV4(result) !== 200) {

@@ -502,8 +502,9 @@ async function sendJsonViaOnionV4ToFileServer(sendOptions: {
   method: string;
   stringifiedBody: string | null;
   abortSignal: AbortSignal;
+  headers: Record<string, string | number>;
 }): Promise<OnionV4JSONSnodeResponse | null> {
-  const { endpoint, method, stringifiedBody, abortSignal } = sendOptions;
+  const { endpoint, method, stringifiedBody, abortSignal, headers } = sendOptions;
   if (!endpoint.startsWith('/')) {
     throw new Error('endpoint needs a leading /');
   }
@@ -514,7 +515,7 @@ async function sendJsonViaOnionV4ToFileServer(sendOptions: {
     builtUrl,
     {
       method,
-      headers: {},
+      headers,
       body: stringifiedBody,
       useV4: true,
     },
