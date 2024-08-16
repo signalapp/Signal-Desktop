@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-2022, macos-12, ubuntu-20.04]
+        os: [windows-2022, ubuntu-20.04, macos-12, macos-13-xlarge]
     env:
       SIGNAL_ENV: production
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -75,5 +75,5 @@ jobs:
       - name: Upload Production Artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: ${{ runner.OS }}-production
+          name: ${{ runner.os }}-${{ runner.arch }}-production
           path: release

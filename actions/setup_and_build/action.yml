@@ -19,7 +19,7 @@ runs:
       if: runner.os != 'Windows'
       with:
         path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
+        key: ${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
 
     # Not having this will break the windows build because the PATH won't be set by msbuild.
     - name: Add msbuild to PATH
