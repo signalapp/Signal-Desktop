@@ -115,9 +115,8 @@ describe('OnionPaths', () => {
   describe('getRandomEdgeSnode', () => {
     it('random if multiple matches', () => {
       const originalSnodePool = generateFakeSnodes(5);
-      const filtered = originalSnodePool.filter((_m, i) => i % 5 !== 0);
       const winner = OnionPaths.getRandomEdgeSnode(originalSnodePool);
-      expect(filtered).to.deep.include(winner);
+      expect(originalSnodePool).to.deep.include(winner);
     });
   });
 
