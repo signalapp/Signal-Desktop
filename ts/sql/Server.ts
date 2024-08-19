@@ -6442,9 +6442,13 @@ function getMessageServerGuidsForSpam(
     .all({ conversationId });
 }
 
-function getExternalFilesForMessage(message: MessageType): Array<string> {
+function getExternalFilesForMessage(message: MessageType): {
+  externalAttachments: Array<string>;
+  externalDownloads: Array<string>;
+} {
   const { attachments, contact, quote, preview, sticker } = message;
-  const files: Array<string> = [];
+  const externalAttachments: Array<string> = [];
+  const externalDownloads: Array<string> = [];
 
   forEach(attachments, attachment => {
     const {
@@ -6452,21 +6456,28 @@ function getExternalFilesForMessage(message: MessageType): Array<string> {
       thumbnail,
       screenshot,
       thumbnailFromBackup,
+      downloadPath,
     } = attachment;
     if (file) {
-      files.push(file);
+      externalAttachments.push(file);
+    }
+
+    // downloadPath is relative to downloads folder and has to be tracked
+    // separately.
+    if (downloadPath) {
+      externalDownloads.push(downloadPath);
     }
 
     if (thumbnail && thumbnail.path) {
-      files.push(thumbnail.path);
+      externalAttachments.push(thumbnail.path);
     }
 
     if (screenshot && screenshot.path) {
-      files.push(screenshot.path);
+      externalAttachments.push(screenshot.path);
     }
 
     if (thumbnailFromBackup && thumbnailFromBackup.path) {
-      files.push(thumbnailFromBackup.path);
+      externalAttachments.push(thumbnailFromBackup.path);
     }
   });
 
@@ -6475,7 +6486,7 @@ function getExternalFilesForMessage(message: MessageType): Array<string> {
       const { thumbnail } = attachment;
 
       if (thumbnail && thumbnail.path) {
-        files.push(thumbnail.path);
+        externalAttachments.push(thumbnail.path);
       }
     });
   }
@@ -6485,7 +6496,7 @@ function getExternalFilesForMessage(message: MessageType): Array<string> {
       const { avatar } = item;
 
       if (avatar && avatar.avatar && avatar.avatar.path) {
-        files.push(avatar.avatar.path);
+        externalAttachments.push(avatar.avatar.path);
       }
     });
   }
@@ -6495,20 +6506,20 @@ function getExternalFilesForMessage(message: MessageType): Array<string> {
       const { image } = item;
 
       if (image && image.path) {
-        files.push(image.path);
+        externalAttachments.push(image.path);
       }
     });
   }
 
   if (sticker && sticker.data && sticker.data.path) {
-    files.push(sticker.data.path);
+    externalAttachments.push(sticker.data.path);
 
     if (sticker.data.thumbnail && sticker.data.thumbnail.path) {
-      files.push(sticker.data.thumbnail.path);
+      externalAttachments.push(sticker.data.thumbnail.path);
     }
   }
 
-  return files;
+  return { externalAttachments, externalDownloads };
 }
 
 function getExternalFilesForConversation(
@@ -6559,17 +6570,20 @@ function getKnownMessageAttachments(
   const innerCursor = cursor as MessageCursorType | undefined as
     | PageMessagesCursorType
     | undefined;
-  const result = new Set<string>();
+  const attachments = new Set<string>();
+  const downloads = new Set<string>();
 
   const { messages, cursor: newCursor } = pageMessages(db, innerCursor);
-
   for (const message of messages) {
-    const externalFiles = getExternalFilesForMessage(message);
-    forEach(externalFiles, file => result.add(file));
+    const { externalAttachments, externalDownloads } =
+      getExternalFilesForMessage(message);
+    externalAttachments.forEach(file => attachments.add(file));
+    externalDownloads.forEach(file => downloads.add(file));
   }
 
   return {
-    attachments: Array.from(result),
+    attachments: Array.from(attachments),
+    downloads: Array.from(downloads),
     cursor: newCursor as MessageCursorType as MessageAttachmentsCursorType,
   };
 }

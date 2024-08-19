@@ -78,6 +78,7 @@ export type AttachmentType = {
   cdnNumber?: number;
   cdnId?: string;
   cdnKey?: string;
+  downloadPath?: string;
   key?: string;
   iv?: string;
   data?: Uint8Array;
@@ -386,9 +387,13 @@ export function loadData(
   };
 }
 
-export function deleteData(
-  deleteOnDisk: (path: string) => Promise<void>
-): (attachment?: AttachmentType) => Promise<void> {
+export function deleteData({
+  deleteOnDisk,
+  deleteDownloadOnDisk,
+}: {
+  deleteOnDisk: (path: string) => Promise<void>;
+  deleteDownloadOnDisk: (path: string) => Promise<void>;
+}): (attachment?: AttachmentType) => Promise<void> {
   if (!isFunction(deleteOnDisk)) {
     throw new TypeError('deleteData: deleteOnDisk must be a function');
   }
@@ -398,10 +403,15 @@ export function deleteData(
       throw new TypeError('deleteData: attachment is not valid');
     }
 
-    const { path, thumbnail, screenshot, thumbnailFromBackup } = attachment;
+    const { path, downloadPath, thumbnail, screenshot, thumbnailFromBackup } =
+      attachment;
 
     if (isString(path)) {
       await deleteOnDisk(path);
+    }
+
+    if (isString(downloadPath)) {
+      await deleteDownloadOnDisk(downloadPath);
     }
 
     if (thumbnail && isString(thumbnail.path)) {

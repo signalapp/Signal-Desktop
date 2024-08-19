@@ -1,9 +1,10 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createWriteStream } from 'fs';
+import { createWriteStream } from 'node:fs';
+import { stat } from 'node:fs/promises';
 import { isNumber } from 'lodash';
-import type { Readable } from 'stream';
+import type { Readable, Writable } from 'stream';
 import { Transform } from 'stream';
 import { pipeline } from 'stream/promises';
 import { ensureFile } from 'fs-extra';
@@ -24,7 +25,7 @@ import {
 } from '../Crypto';
 import {
   getAttachmentCiphertextLength,
-  safeUnlinkSync,
+  safeUnlink,
   splitKeys,
   type ReencryptedAttachmentV2,
   decryptAndReencryptLocally,
@@ -124,6 +125,39 @@ export async function downloadAttachment(
 
   let downloadResult: Awaited<ReturnType<typeof downloadToDisk>>;
 
+  let { downloadPath } = attachment;
+  let downloadOffset = 0;
+  if (downloadPath) {
+    const absoluteDownloadPath =
+      window.Signal.Migrations.getAbsoluteAttachmentPath(downloadPath);
+    try {
+      ({ size: downloadOffset } = await stat(absoluteDownloadPath));
+    } catch (error) {
+      if (error.code !== 'ENOENT') {
+        log.error(
+          'downloadAttachment: Failed to get file size for previous download',
+          Errors.toLogFormat(error)
+        );
+        try {
+          await safeUnlink(downloadPath);
+        } catch {
+          downloadPath = undefined;
+        }
+      }
+    }
+  }
+
+  // Start over if we go over the size
+  if (downloadOffset >= size && downloadPath) {
+    log.warn('downloadAttachment: went over, retrying');
+    await safeUnlink(downloadPath);
+    downloadOffset = 0;
+  }
+
+  if (downloadOffset !== 0) {
+    log.info(`${logId}: resuming from ${downloadOffset}`);
+  }
+
   if (mediaTier === MediaTier.STANDARD) {
     strictAssert(
       options.variant !== AttachmentVariant.ThumbnailFromBackup,
@@ -135,9 +169,17 @@ export async function downloadAttachment(
     const downloadStream = await server.getAttachment({
       cdnKey,
       cdnNumber,
-      options,
+      options: {
+        ...options,
+        downloadOffset,
+      },
     });
-    downloadResult = await downloadToDisk({ downloadStream, size });
+    downloadResult = await downloadToDisk({
+      downloadStream,
+      size,
+      downloadPath,
+      downloadOffset,
+    });
   } else {
     const mediaId =
       options.variant === AttachmentVariant.ThumbnailFromBackup
@@ -157,10 +199,15 @@ export async function downloadAttachment(
       mediaDir,
       headers: cdnCredentials.headers,
       cdnNumber,
-      options,
+      options: {
+        ...options,
+        downloadOffset,
+      },
     });
     downloadResult = await downloadToDisk({
       downloadStream,
+      downloadPath,
+      downloadOffset,
       size: getAttachmentCiphertextLength(
         options.variant === AttachmentVariant.ThumbnailFromBackup
           ? // be generous, accept downloads of up to twice what we expect for thumbnail
@@ -170,10 +217,7 @@ export async function downloadAttachment(
     });
   }
 
-  const { relativePath: downloadedRelativePath, downloadSize } = downloadResult;
-
-  const cipherTextAbsolutePath =
-    window.Signal.Migrations.getAbsoluteAttachmentPath(downloadedRelativePath);
+  const { absolutePath: cipherTextAbsolutePath, downloadSize } = downloadResult;
 
   try {
     switch (options.variant) {
@@ -226,23 +270,42 @@ export async function downloadAttachment(
       }
     }
   } finally {
-    safeUnlinkSync(cipherTextAbsolutePath);
+    await safeUnlink(cipherTextAbsolutePath);
   }
 }
 
 async function downloadToDisk({
   downloadStream,
+  downloadPath,
+  downloadOffset = 0,
   size,
 }: {
   downloadStream: Readable;
+  downloadPath?: string;
+  downloadOffset?: number;
   size: number;
-}): Promise<{ relativePath: string; downloadSize: number }> {
-  const relativeTargetPath = getRelativePath(createName());
-  const absoluteTargetPath =
-    window.Signal.Migrations.getAbsoluteAttachmentPath(relativeTargetPath);
+}): Promise<{ absolutePath: string; downloadSize: number }> {
+  const absoluteTargetPath = downloadPath
+    ? window.Signal.Migrations.getAbsoluteDownloadsPath(downloadPath)
+    : window.Signal.Migrations.getAbsoluteAttachmentPath(
+        getRelativePath(createName())
+      );
   await ensureFile(absoluteTargetPath);
-  const writeStream = createWriteStream(absoluteTargetPath);
-  const targetSize = getAttachmentCiphertextLength(size);
+  let writeStream: Writable;
+  if (downloadPath) {
+    writeStream = createWriteStream(absoluteTargetPath, {
+      flags: 'a',
+      start: downloadOffset,
+    });
+  } else {
+    strictAssert(
+      !downloadOffset,
+      'Download cannot be resumed without downloadPath'
+    );
+    writeStream = createWriteStream(absoluteTargetPath);
+  }
+
+  const targetSize = getAttachmentCiphertextLength(size) - downloadOffset;
   let downloadSize = 0;
 
   try {
@@ -255,19 +318,23 @@ async function downloadToDisk({
       writeStream
     );
   } catch (error) {
-    try {
-      safeUnlinkSync(absoluteTargetPath);
-    } catch (cleanupError) {
-      log.error(
-        'downloadToDisk: Error while cleaning up',
-        Errors.toLogFormat(cleanupError)
-      );
+    if (downloadPath) {
+      log.warn(`downloadToDisk: stopping at ${downloadSize}`);
+    } else {
+      try {
+        await safeUnlink(absoluteTargetPath);
+      } catch (cleanupError) {
+        log.error(
+          'downloadToDisk: Error while cleaning up',
+          Errors.toLogFormat(cleanupError)
+        );
+      }
     }
 
     throw error;
   }
 
-  return { relativePath: relativeTargetPath, downloadSize };
+  return { absolutePath: absoluteTargetPath, downloadSize };
 }
 
 // A simple transform that throws if it sees more than maxBytes on the stream.

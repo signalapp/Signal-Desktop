@@ -406,6 +406,7 @@ export type MessageAttachmentsCursorType = MessageCursorType &
 export type GetKnownMessageAttachmentsResultType = Readonly<{
   cursor: MessageAttachmentsCursorType;
   attachments: ReadonlyArray<string>;
+  downloads: ReadonlyArray<string>;
 }>;
 
 export type PageMessagesCursorType = MessageCursorType &

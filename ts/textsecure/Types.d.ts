@@ -119,6 +119,7 @@ export type ProcessedAttachment = {
   cdnNumber?: number;
   textAttachment?: Omit<TextAttachmentType, 'preview'>;
   backupLocator?: AttachmentType['backupLocator'];
+  downloadPath?: string;
 };
 
 export type ProcessedGroupV2Context = {

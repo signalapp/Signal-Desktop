@@ -1104,6 +1104,10 @@ export async function startApp(): Promise<void> {
       reportLongRunningTasks();
     }, FIVE_MINUTES);
 
+    setInterval(() => {
+      drop(window.Events.cleanupDownloads());
+    }, DAY);
+
     let mainWindowStats = {
       isMaximized: false,
       isFullScreen: false,

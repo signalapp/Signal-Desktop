@@ -123,9 +123,11 @@ export async function deleteAttachmentFromMessage(
   },
   {
     deleteOnDisk,
+    deleteDownloadOnDisk,
     logId,
   }: {
     deleteOnDisk: (path: string) => Promise<void>;
+    deleteDownloadOnDisk: (path: string) => Promise<void>;
     logId: string;
   }
 ): Promise<boolean> {
@@ -147,6 +149,7 @@ export async function deleteAttachmentFromMessage(
 
   return applyDeleteAttachmentFromMessage(message, deleteAttachmentData, {
     deleteOnDisk,
+    deleteDownloadOnDisk,
     logId,
     shouldSave: true,
   });
@@ -165,10 +168,12 @@ export async function applyDeleteAttachmentFromMessage(
   },
   {
     deleteOnDisk,
+    deleteDownloadOnDisk,
     shouldSave,
     logId,
   }: {
     deleteOnDisk: (path: string) => Promise<void>;
+    deleteDownloadOnDisk: (path: string) => Promise<void>;
     shouldSave: boolean;
     logId: string;
   }
@@ -206,7 +211,7 @@ export async function applyDeleteAttachmentFromMessage(
         if (shouldSave) {
           await saveMessage(message.attributes, { ourAci });
         }
-        await deleteData(deleteOnDisk)(attachment);
+        await deleteData({ deleteOnDisk, deleteDownloadOnDisk })(attachment);
 
         return true;
       }
