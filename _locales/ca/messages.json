@@ -3954,10 +3954,10 @@
     "messageformat": "botó per a escriure"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "No hi ha xats"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Els xats recents apareixeran aquí."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Reenvia a"
@@ -4848,10 +4848,10 @@
     "messageformat": "Ara no hi ha històries per veure"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "No hi ha històries"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Les actualitzacions apareixeran aquí."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Enviant…"
@@ -4869,7 +4869,7 @@
     "messageformat": "Cliqueu per veure la història"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Fes clic a <newStoryIcon>Afegir una història</newStoryIcon> per afegir una actualització."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} a {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Fes clic per veure o iniciar una trucada"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Fes clic a <newCallIcon>Nova trucada</newCallIcon> per iniciar una nova trucada de veu o vídeo."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Cerca"
@@ -5428,16 +5428,16 @@
     "messageformat": "No hi ha cap trucada recent. Comença trucant a algú."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Cap trucada"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Les trucades recents apareixeran aquí."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "No hi ha trucades perdudes"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Les trucades perdudes apareixeran aquí."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "No s'ha trobat cap resultat per a «{query}»"
@@ -5633,6 +5633,6 @@
     "messageformat": "Aquesta versió també millora el rendiment de la previsualització d'enllaços i corregeix un petit error que apareixia en tancar-se la finestra de Configuració."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Hem solucionat un error que de vegades feia que la barra de progrés es congelés mentre es visualitzava una història."
   }
 }

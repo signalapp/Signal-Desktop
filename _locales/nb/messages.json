@@ -3954,10 +3954,10 @@
     "messageformat": "opprett-knapp"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Ingen samtaler"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Nylige samtaler dukker opp her."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Videresend til"
@@ -4848,10 +4848,10 @@
     "messageformat": "Ingen nylige storyer å vise"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Ingen storyer"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Nye oppdateringer dukker opp her."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Sender …"
@@ -4869,7 +4869,7 @@
     "messageformat": "Klikk for å se en story"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Trykk på <newStoryIcon>Legg til en story</newStoryIcon> for å legge ut en oppdatering."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} til {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Trykk for å se eller foreta et anrop"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Trykk på <newCallIcon>Nytt anrop</newCallIcon> for å starte en ny lyd- eller videosamtale."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Søk"
@@ -5428,16 +5428,16 @@
     "messageformat": "Ingen nylige samtaler. Kom i gang ved å ringe en venn."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Ingen anrop"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Nylige samtaler dukker opp her."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Ingen ubesvarte anrop"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Tapte anrop dukker opp her."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "«{query}» ga ingen resultater"
@@ -5633,6 +5633,6 @@
     "messageformat": "I denne oppdateringen har også forhåndsvisninger av lenker blitt bedre, og en liten feil ved lukking av innstillingsvinduet er fikset."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Vi har fikset en feil som fører til at fremdriftslinjen enkelte ganger stopper opp når man ser på en story."
   }
 }

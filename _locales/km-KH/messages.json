@@ -3954,10 +3954,10 @@
     "messageformat": "ប៊ូតុងសរសេរសារ"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "មិនមានការជជែកទេ"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "ការជជែកថ្មីៗនឹងបង្ហាញនៅទីនេះ។"
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "បញ្ជូនបន្តទៅកាន់"
@@ -4848,10 +4848,10 @@
     "messageformat": "មិនមានរឿងរ៉ាវថ្មីៗសម្រាប់បង្ហាញឥឡូវនេះទេ"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "មិនមានរឿងរ៉ាវទេ"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "បច្ចុប្បន្នភាពថ្មីៗនឹងបង្ហាញនៅទីនេះ។"
   },
   "icu:Stories__list--sending": {
     "messageformat": "កំពុងផ្ញើ…"
@@ -4869,7 +4869,7 @@
     "messageformat": "ចុចដើម្បីមើលរឿងរ៉ាវ"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "ចុច <newStoryIcon>បញ្ចូលរឿងរ៉ាវមួយ</newStoryIcon> ដើម្បីបញ្ចូលបច្ចុប្បន្នភាព។"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} ទៅ {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "ចុចដើម្បីមើល ឬចាប់ផ្តើមការហៅ"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "ចុច <newCallIcon>ការហៅថ្មី</newCallIcon> ដើម្បីចាប់ផ្តើមការហៅជាសំឡេង ឬវីដេអូថ្មី។"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ស្វែងរក"
@@ -5428,16 +5428,16 @@
     "messageformat": "គ្មានការហៅថ្មីៗនេះទេ។ ចាប់ផ្តើមដោយហៅទៅមិត្តភក្តិណាម្នាក់។"
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "មិនមានការហៅទេ"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "ការហៅថ្មីៗនឹងបង្ហាញនៅទីនេះ។"
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "មិនមានការហៅដែលខកខានទេ"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "ការហៅដែលខកខាននឹងបង្ហាញនៅទីនេះ។"
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "គ្មានលទ្ធផលសម្រាប់ “{query}”"
@@ -5633,6 +5633,6 @@
     "messageformat": "ការចេញផ្សាយនេះក៏បង្កើនប្រសិទ្ធភាពនៃការបង្កើតការមើលតំណជាមុនផងដែរ និងដោះស្រាយបញ្ហាបន្តិចបន្តួចលើការបង្ហាញ នៅពេលបិទផ្ទាំងវីនដូ។"
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "មនុស្សគ្រប់គ្នាសុទ្ធតែចូលចិត្តរឿងរ៉ាវដែលល្អ ហើយយើងអាចប្រាប់អ្នកបានថា ធ្លាប់មានបញ្ហាមួយដែលជួនកាលធ្វើឱ្យរបារវឌ្ឍនភាពគាំងភ្លាមៗនៅពាក់កណ្តាលទីពេលកំពុងមើលរឿងរ៉ាវដ៏ល្អ ប៉ុន្តែគួរឱ្យរីករាយណាស់ ដំណើររឿងនៃបញ្ហានោះបានបញ្ចប់ទៅហើយ ដោយសារយើងបានដោះស្រាយវានៅក្នុងការចេញផ្សាយនេះ។"
   }
 }

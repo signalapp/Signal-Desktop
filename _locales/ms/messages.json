@@ -3954,10 +3954,10 @@
     "messageformat": "butang mengarang"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Tiada sembang"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Sembang terbaharu akan dipaparkan di sini."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Majukan Kepada"
@@ -4848,10 +4848,10 @@
     "messageformat": "Tiada cerita terkini untuk ditunjukkan sekarang"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Tiada cerita"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Kemas kini baharu akan dipaparkan di sini."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Menghantar..."
@@ -4869,7 +4869,7 @@
     "messageformat": "Klik untuk menonton cerita"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Klik <newStoryIcon>Tambah cerita</newStoryIcon> untuk menambah kemas kini."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} kepada {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Klik untuk melihat atau memulakan panggilan"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Klik <newCallIcon>Panggilan Baharu</newCallIcon> untuk memulakan panggilan suara atau video baharu."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Cari"
@@ -5428,16 +5428,16 @@
     "messageformat": "Tiada panggilan terbaru. Mulakan dengan menghubungi rakan."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Tiada panggilan"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Panggilan terbaharu akan dipaparkan di sini."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Tiada panggilan terlepas"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Panggilan terlepas akan dipaparkan di sini."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Tiada hasil untuk “{query}”"
@@ -5633,6 +5633,6 @@
     "messageformat": "Keluaran ini juga meningkatkan prestasi penjanaan pratonton pautan dan membetulkan pepijat paparan kecil semasa menutup tetingkap Tetapan."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Kami membaiki pepijat yang kadangkala menyebabkan bar kemajuan tidak bergerak semasa menonton Cerita."
   }
 }

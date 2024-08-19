@@ -3954,10 +3954,10 @@
     "messageformat": "შეტყობინების შედგენის ღილაკი"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "ჩატები ვერ მოიძებნა"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "ბოლო ჩატები აქ გამოჩნდება."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "გაეგზავნოთ ჩამოთვლილებს"
@@ -4848,10 +4848,10 @@
     "messageformat": "უახლესი Stories-ები ვერ მოიძებნა"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Stories-ები ვერ მოიძებნა"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "ბოლო განახლებები აქ გამოჩნდება."
   },
   "icu:Stories__list--sending": {
     "messageformat": "იგზავნება…"
@@ -4869,7 +4869,7 @@
     "messageformat": "დააწკაპუნე Story-ის სანახავად"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "განახლების დასამატებლად დააჭირე <newStoryIcon>Story-ის დამატება</newStoryIcon>."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} {group}-ს"
@@ -5413,7 +5413,7 @@
     "messageformat": "დააწკაპუნე ზარის სანახავად ან დასაწყებად"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "ახალი ხმოვანი ან ვიდეო ზარის დასაწყებად დააჭირე <newCallIcon>ახალი ზარი</newCallIcon>."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ძიება"
@@ -5428,16 +5428,16 @@
     "messageformat": "ბოლოდროინდელი ზარები ვერ მოიძებნა. დაიწყე მეგობართან დარეკვით."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "ზარები ვერ მოიძებნა"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "ბოლო ზარები აქ გამოჩნდება."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "გამოტოვებული ზარები ვერ მოიძებნა"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "გამოტოვებული ზარები აქ გამოჩნდება."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "„{query}“-ზე ვერაფერი მოიძებნა"
@@ -5633,6 +5633,6 @@
     "messageformat": "ეს გამოშვება ასევე აუმჯობესებს ბმულის წინასწარი ნახვის დაგენერირებას და ასწორებს ეკრანის მცირე ხარვეზს პარამეტრების ფანჯრის დახურვისას."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "ჩვენ გამოვასწორეთ შეცდომა, რომელიც ზოგჯერ Story-ის ნახვისას პროგრესის ზოლის გაყინვას იწვევდა."
   }
 }

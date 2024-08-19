@@ -3954,10 +3954,10 @@
     "messageformat": "idazteko botoia"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Txatik ez"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Azken txatak hemen agertuko dira."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Birbidali honi"
@@ -4848,10 +4848,10 @@
     "messageformat": "Une honetan ez dago azken istoriorik erakusteko"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Istoriorik ez"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Eguneraketa berriak hemen agertuko dira."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Bidaltzen…"
@@ -4869,7 +4869,7 @@
     "messageformat": "Istorio bat ikusteko, egin klik hartan"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Sakatu <newStoryIcon>Istorio bat gehitu</newStoryIcon> eguneraketa bat gehitzeko."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} erabiltzaileak hona: {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Egin klik dei bat ikusteko edo hasteko"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Sakatu <newCallIcon>Dei berria</newCallIcon> dei edo bideodei berri bat hasteko."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Bilatu"
@@ -5428,16 +5428,16 @@
     "messageformat": "Ez dago azken deirik. Hasi lagun bati deitzen."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Deirik ez"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Azken deiak hemen agertuko dira."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Dei galdurik ez"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Dei galduak hemen agertuko dira."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Ez dago honen emaitzarik: \"{query}\""
@@ -5633,6 +5633,6 @@
     "messageformat": "Halaber, kaleratze honen bidez, esteken aurreikuspena sortzeko funtzioaren errendimendua hobetu da, eta ezarpenen leihoa ixtean gertatzen zen akats txiki bat konpondu da."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Mundu guztiak gustoko du istorio on bat, eta, batzuetan istorio on bat ikusten ari zinen bitartean, aurrerapen-barra izoztu egiten zuen akats baten ipuina konta genezake; baina akats horren abenturak amaiera zoriontsua du dagoeneko, kaleratze honetan konpondu dugulako."
   }
 }

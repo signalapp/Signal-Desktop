@@ -3954,10 +3954,10 @@
     "messageformat": "kirjoituspainike"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Ei keskusteluja"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Viimeisimmät keskustelut näytetään tässä."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Välitä vastaanottajalle"
@@ -4848,10 +4848,10 @@
     "messageformat": "Ei viimeaikaisia tarinoita näytettäväksi juuri nyt"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Ei tarinoita"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Uudet päivitykset näytetään tässä."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Lähetetään…"
@@ -4869,7 +4869,7 @@
     "messageformat": "Näytä tarina napsauttamalla"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Napsauta <newStoryIcon>Lisää tarina</newStoryIcon> lisätäksesi päivityksen."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} ryhmälle {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Näytä tai aloita puhelu napsauttamalla"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Napsauta <newCallIcon>Uusi puhelu</newCallIcon> aloittaaksesi uuden ääni- tai videopuhelun."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Hae"
@@ -5428,16 +5428,16 @@
     "messageformat": "Ei uusia soittoja. Aloita soittamalla kaverillesi."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Ei puheluita"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Viimeisimmät puhelut näytetään tässä."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Ei vastaamattomia puheluita"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Vastaamattomat puhelut näytetään tässä."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Ei tuloksia haulle \"{query}\""
@@ -5633,6 +5633,6 @@
     "messageformat": "Tämä julkaisu parantaa myös linkkien esikatselun luomisen suorituskykyä ja korjaa pienen näyttövirheen Asetukset-ikkunan sulkeutumisessa."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Korjasimme virheen, joka saattoi aiheuttaa edistymispalkin jäätymisen tarinaa katsoessa."
   }
 }

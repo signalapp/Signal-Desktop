@@ -3954,10 +3954,10 @@
     "messageformat": "rašymo mygtukas"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Pokalbių nėra"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Čia bus rodomi naujausi pokalbiai."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Kam persiųsti"
@@ -4848,10 +4848,10 @@
     "messageformat": "Šiuo metu nėra naujų istorijų"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Istorijų nėra"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Čia bus rodomos paskutinės naujienos."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Siunčiama…"
@@ -4869,7 +4869,7 @@
     "messageformat": "Spustelėk, jei nori žiūrėti istoriją"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Spustelėkite <newStoryIcon>Pridėti istoriją</newStoryIcon>, kad pridėtumėte naujieną."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "Nuo {name} grupei {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Spustelėk peržiūrėti ar pradėti skambutį"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Spustelėkite <newCallIcon>Naujas skambutis</newCallIcon> norėdami pradėti naują balso arba vaizdo skambutį."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Ieškoti"
@@ -5428,16 +5428,16 @@
     "messageformat": "Nesenų skambučių nėra. Pradėk nuo skambučio draugui."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Skambučių nėra"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Čia bus rodomi naujausi skambučiai."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Nėra praleistų skambučių"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Čia bus rodomi praleisti skambučiai."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Paieška „{query}“ be rezultatų"
@@ -5633,6 +5633,6 @@
     "messageformat": "Be to, šioje versijoje pagerintas nuorodų peržiūros generavimo našumas ir ištaisyta nedidelė ekrano klaida, kylanti uždarant nustatymų langą."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Ištaisėme klaidą, dėl kurios eigos juosta kartais sustingdavo žiūrint istoriją."
   }
 }

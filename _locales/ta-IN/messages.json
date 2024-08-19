@@ -3954,10 +3954,10 @@
     "messageformat": "எழுது பொத்தானை"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "சாட்ஸ் ஏதும் இல்லை"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "சமீபத்திய சாட்ஸ் இங்கே தோன்றும்."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "இவருக்கு முன்னனுப்பு"
@@ -4848,10 +4848,10 @@
     "messageformat": "தற்போது காண்பிக்க சமீபத்திய ஸ்டோரீஸ் எதுவும் இல்லை"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "ஸ்டோரீஸ் ஏதும் இல்லை"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "புதிய புதுப்பிப்புகள் இங்கே தோன்றும்."
   },
   "icu:Stories__list--sending": {
     "messageformat": "அனுப்புகிறது…"
@@ -4869,7 +4869,7 @@
     "messageformat": "ஒரு ஸ்டோரியைப் பார்க்க கிளிக் செய்யவும்"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "ஒரு புதுப்பிப்பைச் சேர்க்க <newStoryIcon>ஒரு ஸ்டோரியைச் சேர்</newStoryIcon> என்பதைக் கிளிக் செய்யவும்."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} - {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "பார்க்க அல்லது அழைப்பைத் தொடங்க கிளிக் செய்யவும்"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "புதிய குரல் அல்லது வீடியோ அழைப்பைத் தொடங்க <newCallIcon>புதிய அழைப்பு</newCallIcon> என்பதைக் கிளிக் செய்யவும்."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "தேடல்"
@@ -5428,16 +5428,16 @@
     "messageformat": "சமீபத்திய அழைப்புகள் இல்லை. ஒரு நண்பருக்கு செய்தி அனுப்புவதன் மூலம் தொடங்கவும்."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "அழைப்புகள் ஏதும் இல்லை"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "சமீபத்திய அழைப்புகள் இங்கே தோன்றும்."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "தவறிய அழைப்புகள் ஏதும் இல்லை"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "தவறிய அழைப்புகள் இங்கே தோன்றும்."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "''{query}' க்கான முடிவுகள் எதுவும் கிடைக்கவில்லை"
@@ -5633,6 +5633,6 @@
     "messageformat": "இந்த ரிலீஸ் இணைப்பு முன்னோட்ட உருவாக்கத்தின் செயல்திறனையும் மேம்படுத்துகிறது மற்றும் அமைப்புகள் சாளரத்தை மூடும் போது ஏற்படும் ஒரு சிறிய காட்சிப் பிழையைச் சரிசெய்கிறது."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "ஸ்டோரியைப் பார்க்கும்போது சில சமயங்களில் செயலாக்கப் பட்டியைச் செயலிழக்கச்செய்யும் பிழையை நாங்கள் சரிசெய்துள்ளோம்."
   }
 }

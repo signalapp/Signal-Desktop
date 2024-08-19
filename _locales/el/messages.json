@@ -3954,10 +3954,10 @@
     "messageformat": "κουμπί σύνθεσης"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Καμία συνομιλία"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Οι νέες συνομιλίες θα εμφανίζονται εδώ."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Προώθηση σε"
@@ -4848,10 +4848,10 @@
     "messageformat": "Δεν υπάρχουν πρόσφατες ιστορίες αυτή τη στιγμή"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Καμία ιστορία"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Οι νέες ιστορίες θα εμφανίζονται εδώ."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Αποστολή…"
@@ -4869,7 +4869,7 @@
     "messageformat": "Κάνε κλικ για να δεις μια ιστορία"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Πάτα <newStoryIcon>Προσθήκη ιστορίας</newStoryIcon> για να προσθέσεις κάποιο νέο."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} προς {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Κάνε κλικ για να δεις ή να ξεκινήσεις μια κλήση"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Πάτα <newCallIcon>Νέα κλήση</newCallIcon> για να ξεκινήσεις μια νέα φωνητική κλήση ή μια βιντεοκλήση."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Αναζήτηση"
@@ -5428,16 +5428,16 @@
     "messageformat": "Δεν υπάρχουν πρόσφατες κλήσεις. Ξεκίνα καλώντας κάποιο φιλαράκι."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Καμία κλήση"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Οι νέες κλήσεις θα εμφανίζονται εδώ."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Δεν υπάρχουν αναπάντητες κλήσεις"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Οι χαμένες κλήσεις θα εμφανίζονται εδώ."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Δεν βρέθηκαν αποτελέσματα για “{query}”"
@@ -5633,6 +5633,6 @@
     "messageformat": "Αυτή η έκδοση βελτιώνει επίσης την απόδοση της δημιουργίας προεπισκόπησης συνδέσμων και διορθώνει ένα μικρό σφάλμα εμφάνισης κατά το κλείσιμο του παραθύρου Ρυθμίσεων."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Διορθώσαμε ένα σφάλμα που μερικές φορές προκαλούσε το πάγωμα της γραμμής προόδου κατά την προβολή μιας Ιστορίας."
   }
 }

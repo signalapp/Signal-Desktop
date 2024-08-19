@@ -3954,10 +3954,10 @@
     "messageformat": "כפתור חַבֵּר"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "אין צ׳אטים"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "צ'אטים אחרונים יופיעו כאן."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "העברה אל"
@@ -4848,10 +4848,10 @@
     "messageformat": "אין סטוריז מהזמן האחרון להראות כרגע"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "אין סטוריז"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "עדכונים חדשים יופיעו כאן."
   },
   "icu:Stories__list--sending": {
     "messageformat": "שולחים…"
@@ -4869,7 +4869,7 @@
     "messageformat": "אפשר ללחוץ כדי להציג סטורי"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "יש ללחוץ על <newStoryIcon>הוספת סטורי</newStoryIcon> כדי להוסיף עדכון."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} אל {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "אפשר ללחוץ כדי להציג או להתחיל שיחה"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "יש ללחוץ על <newCallIcon>שיחה חדשה</newCallIcon> כדי להתחיל שיחה קולית או שיחת וידאו חדשה."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "חיפוש"
@@ -5428,16 +5428,16 @@
     "messageformat": "אין שיחות אחרונות. כדי להתחיל, אפשר להתקשר לחבר או חברה."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "אין שיחות"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "שיחות אחרונות יופיעו כאן."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "אין שיחות שלא נענו"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "שיחות שלא נענו יופיעו כאן."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "אין תוצאות עבור ״{query}״"
@@ -5633,6 +5633,6 @@
     "messageformat": "הגרסה הזו גם משפרת את הביצועים של יצירת תצוגה מקדימה של לינקים ומתקנת באג תצוגה קטן בעת סגירת חלון ההגדרות."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "תיקנו באג שלפעמים גרם לסרגל ההתקדמות לקפוא במהלך צפייה בסטורי."
   }
 }

@@ -3954,10 +3954,10 @@
     "messageformat": "dugme za sastavljanje poruke"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Nema razgovora"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Ovdje će se pojaviti vaši nedavni razgovori."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Proslijedi kontaktu"
@@ -4848,10 +4848,10 @@
     "messageformat": "Trenutno nema nedavnih priča za prikaz"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Nema priča"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Ovdje će se pojaviti nova ažuriranja priče."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Slanje…"
@@ -4869,7 +4869,7 @@
     "messageformat": "Kliknite da biste vidjeli priču"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Kliknite na <newStoryIcon>Dodaj priču</newStoryIcon> za ažuriranje priče."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} šalje priču grupi {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Kliknite za pregled ili novi poziv"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Kliknite na <newCallIcon>Novi poziv</newCallIcon> za početak novog glasovnog poziva ili videopoziva."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Pretraži"
@@ -5428,16 +5428,16 @@
     "messageformat": "Nema nedavnih poziva. Nazovite prijatelja i započnite."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Nema poziva"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Ovdje će se pojaviti vaši nedavni pozivi."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Nema propuštenih poziva"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Ovdje će se pojaviti vaši propušteni pozivi."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Nema rezultata za \"{query}\""
@@ -5633,6 +5633,6 @@
     "messageformat": "Ovo izdanje također poboljšava performanse generiranja pregleda poveznica te ispravlja pogrešku u prikazu koja se pojavljivala prilikom zatvaranja postavki."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Ispravili smo programsku pogrešku koja je uzrokovala povremeno zamrzavanje trake napretka usred prikazivanja priče."
   }
 }

@@ -3954,10 +3954,10 @@
     "messageformat": "撰寫按鈕"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "沒有聊天"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "最近的聊天將顯示在此處。"
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "轉寄給"
@@ -4848,10 +4848,10 @@
     "messageformat": "目前沒有可顯示的最新限時動態"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "沒有限時動態"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "最新資訊將出現在此處。"
   },
   "icu:Stories__list--sending": {
     "messageformat": "正在傳送..."
@@ -4869,7 +4869,7 @@
     "messageformat": "點擊以瀏覽限時動態"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "點擊「<newStoryIcon>新增限時動態</newStoryIcon>」以新增最新資訊。"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} 傳送給 {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "點擊以檢視或開始通話"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "點擊「<newCallIcon>新通話</newCallIcon>」以開始新的語音或視訊通話。"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "搜尋"
@@ -5428,16 +5428,16 @@
     "messageformat": "沒有最近的通話。致電給好友，開始使用吧。"
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "冇來電"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "最近的通話將顯示在此處。"
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "沒有未接來電"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "未接來電將顯示在此處。"
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "沒有符合「{query}」的結果"
@@ -5633,6 +5633,6 @@
     "messageformat": "此發行版本還提高了連結預覽產生的效能，並修復了一個錯誤，該錯誤導致「設定」視窗在關閉時短暫閃爍群青色陰影（而不是立即關閉）。"
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "相信大家都不想在觀看限時「動」態時見到進度列凍結不動，但我們在這次發行版本修復了這個錯誤。"
   }
 }

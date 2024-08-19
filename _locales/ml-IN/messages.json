@@ -3954,10 +3954,10 @@
     "messageformat": "കമ്പോസ് ബട്ടൺ"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "ചാറ്റുകളൊന്നുമില്ല"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "സമീപകാല ചാറ്റുകൾ ഇവിടെ ദൃശ്യമാകും."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "ഇനിപ്പറയുന്നയാൾക്ക് കൈമാറുക"
@@ -4848,10 +4848,10 @@
     "messageformat": "ഇപ്പോൾ കാണിക്കാൻ സമീപകാല സ്റ്റോറികൾ ഒന്നുമില്ല"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "സ്റ്റോറികളൊന്നുമില്ല"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "പുതിയ അപ്‌ഡേറ്റുകൾ ഇവിടെ ദൃശ്യമാകും."
   },
   "icu:Stories__list--sending": {
     "messageformat": "അയയ്ക്കുന്നു..."
@@ -4869,7 +4869,7 @@
     "messageformat": "ഒരു സ്റ്റോറി കാണാൻ ക്ലിക്ക് ചെയ്യുക"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "ഒരു അപ്ഡേറ്റ് ചേർക്കാൻ <newStoryIcon>ഒരു സ്റ്റോറി ചേർക്കുക</newStoryIcon> ക്ലിക്ക് ചെയ്യുക."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name}  {group} എന്നതിലേക്ക് അയച്ചു"
@@ -5413,7 +5413,7 @@
     "messageformat": "കാണാനോ കോൾ തുടങ്ങാനോ ക്ലിക്ക് ചെയ്യുക"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "ഒരു പുതിയ വോയ്‌സ് അല്ലെങ്കിൽ വീഡിയോ കോൾ ആരംഭിക്കാൻ <newCallIcon>പുതിയ കോൾ</newCallIcon> ക്ലിക്ക് ചെയ്യുക."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "തിരയൽ"
@@ -5428,16 +5428,16 @@
     "messageformat": "സമീപകാല കോളുകളൊന്നുമില്ല. ഒരു സുഹൃത്തിനെ വിളിച്ച് തുടങ്ങൂ."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "കോളുകളൊന്നുമില്ല"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "സമീപകാല കോളുകൾ ഇവിടെ ദൃശ്യമാകും."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "മിസ്ഡ് കോളുകളൊന്നുമില്ല"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "മിസ്ഡ് കോളുകൾ ഇവിടെ ദൃശ്യമാകും."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "\"{query}\" എന്നതിന് ഫലങ്ങളൊന്നുമില്ല"
@@ -5633,6 +5633,6 @@
     "messageformat": "ലിങ്ക് പ്രിവ്യൂ ജനറേഷൻ്റെ പ്രകടനം ഈ റിലീസ് മെച്ചപ്പെടുത്തുകയും ക്രമീകരണ വിൻഡോ അടയ്‌ക്കുമ്പോഴെല്ലാം അൾട്രാമറൈനിൻ്റെ മനോഹരമായ ഷേഡ് ഹ്രസ്വമായി ഫ്ലാഷുചെയ്യുന്നതിന് കാരണമായ ഒരു ബഗ് പരിഹരിക്കുകയും ചെയ്യുന്നു (ഉടൻ തന്നെ അടയ്ക്കുന്നതിന് പകരം)."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "ഒരു നല്ല സ്റ്റോറി എല്ലാവർക്കും ഇഷ്ടമാണ്, ഒരു നല്ല സ്റ്റോറി കാണുന്നതിന് ഇടയിൽ, പ്രോഗ്രസ് ബാർ മരവിപ്പിക്കാൻ ഇടവരുത്തിയ ഒരു ബഗിൻ്റെ കഥ ഞങ്ങൾ നിങ്ങളോട് പറയാം - എന്നാൽ ഈ റിലീസിൽ ഞങ്ങൾ അത് പരിഹരിച്ചതിനാൽ ആ ബഗിൻ്റെ സാഹസികതയ്ക്ക് ഇതിനകം തന്നെ സന്തോഷകരമായ ഒരു അന്ത്യമായി."
   }
 }

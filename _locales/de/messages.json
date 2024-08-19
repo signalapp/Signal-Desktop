@@ -5428,13 +5428,13 @@
     "messageformat": "Keine aktuellen Anrufe. Leg los und rufe einen Kontakt an."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Keine Anrufe"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Recent calls will appear here."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Keine verpassten Anrufe"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
     "messageformat": "Missed calls will appear here."

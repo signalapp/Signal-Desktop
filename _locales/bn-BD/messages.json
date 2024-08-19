@@ -3954,10 +3954,10 @@
     "messageformat": "লিখুন বোতাম"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "কোন চ্যাট নেই"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "সাম্প্রতিক চ্যাট এখানে দেখানো হবে।"
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "ফরওয়ার্ড করুন"
@@ -4848,10 +4848,10 @@
     "messageformat": "এই মুহূর্তে দেখানোর মতো কোনো সাম্প্রতিক স্টোরি নেই"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "কোনো স্টোরি নেই"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "নতুন আপডেট এখানে দেখানো হবে।"
   },
   "icu:Stories__list--sending": {
     "messageformat": "পাঠানো হচ্ছে…"
@@ -4869,7 +4869,7 @@
     "messageformat": "একটি স্টোরি দেখতে ভিউ-তে ক্লিক করুন"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "কোনও আপডেট যোগ করতে <newStoryIcon>স্টোরি যোগ করুন</newStoryIcon>-এ ক্লিক করুন।"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} থেকে {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "দেখতে বা কল শুরু করতে ক্লিক করুন"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "নতুন ভয়েস বা ভিডিও কল শুরু করতে <newCallIcon>নতুন কল</newCallIcon>-এ ক্লিক করুন।"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "অনুসন্ধান"
@@ -5428,16 +5428,16 @@
     "messageformat": "কোনো সাম্প্রতিক কল নেই। একজন বন্ধুকে কল দিয়ে শুরু করুন।"
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "কোন কল নেই"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "সাম্প্রতিক কল এখানে দেখানো হবে।"
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "কোনো মিসড কল নেই"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "মিসড কল এখানে দেখানো হবে।"
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}”-এর জন্য কোনো ফলাফল পাওয়া যায়নি"
@@ -5633,6 +5633,6 @@
     "messageformat": "এছাড়াও এই রিলিজটি লিংক প্রিভিউ জেনারেশনের পারফর্মেন্সকে উন্নত করে এবং সেটিংস উইন্ডো বন্ধ করার সময় একটি ছোট ডিসপ্লে বাগ ঠিক করে যার কারণে সেটিংস উইন্ডোটি বন্ধ করার সময় (সাথে সাথে বন্ধ হওয়ার পরিবর্তে) আল্ট্রামেরিনের সুন্দর একটি শেড দেখা যায়।"
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "একটি ভাল স্টোরি সবাই পছন্দ করে এবং আমরা আপনাকে একটি স্টোরি বলতে পারি যেখানে একটি বাগ-এর কারণে কখনও কখনও একটি ভাল স্টোরি দেখার মাঝখানে প্রগ্রেসবার স্থির হয়ে যেত — কিন্তু বাগ নিয়ে সেই অ্যাডভেঞ্চারের ইতিমধ্যেই একটি শুভ পরিণতি ঘটেছে, কারণ আমরা এই রিলিজে সেই বাগটি ঠিক করেছি।"
   }
 }

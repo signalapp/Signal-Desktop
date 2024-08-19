@@ -3954,10 +3954,10 @@
     "messageformat": "saamstelknop"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Geen kletse nie"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Onlangse kletse sal hier verskyn."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Stuur aan na"
@@ -4848,10 +4848,10 @@
     "messageformat": "Tans geen onlangse stories om te wys nie."
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Geen stories nie"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Nuwe opdaterings sal hier verskyn."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Besig om te stuur…"
@@ -4869,7 +4869,7 @@
     "messageformat": "Klik om 'n storie te kyk."
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Klik op <newStoryIcon>Voeg 'n storie by</newStoryIcon> om 'n opdatering by te voeg."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} aan {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Klik om 'n oproep te sien of te begin"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Klik op <newCallIcon>Nuwe oproep</newCallIcon> om 'n nuwe stem- of video-oproep te begin."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Soek"
@@ -5428,16 +5428,16 @@
     "messageformat": "Geen onlangse oproepe nie. Begin deur 'n vriend te bel."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Geen oproepe nie"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Onlangse oproepe sal hier verskyn."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Geen gemiste oproepe nie"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Gemiste oproepe sal hier verskyn."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Geen resultate vir \"{query}\" nie"
@@ -5633,6 +5633,6 @@
     "messageformat": "Hierdie vrystelling verbeter ook die werkverrigting van skakelvoorskou-generering en stel 'n geringe vertoonfout reg wanneer die Instellingsvenster gesluit word."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Ons het 'n fout reggestel wat soms veroorsaak het dat die vorderingstaaf vries terwyl jy besig was om na 'n storie te kyk."
   }
 }

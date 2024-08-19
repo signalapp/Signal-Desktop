@@ -3954,10 +3954,10 @@
     "messageformat": "oluştur butonu"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Sohbet yok"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Son sohbetler burada görünecektir."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "İlet:"
@@ -4848,10 +4848,10 @@
     "messageformat": "Şu anda gösterilecek yeni hikaye yok"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Kısa hikaye yok"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Yeni güncellemeler burada görünecektir."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Gönderiliyor…"
@@ -4869,7 +4869,7 @@
     "messageformat": "Bir hikayeyi görüntülemek için tıkla"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Bir güncelleme eklemek için <newStoryIcon>Bir kısa hikaye ekleyin</newStoryIcon> ifadesine tıklayın."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{group} grubunda {name}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Bir aramayı görüntülemek veya başlatmak için tıkla"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Yeni bir sesli veya görüntülü arama başlatmak için <newCallIcon>Yeni Arama</newCallIcon> ögesine tıklayın."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Ara"
@@ -5428,16 +5428,16 @@
     "messageformat": "Güncel arama yok. Bir arkadaşını arayarak başla."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Arama yok"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Son aramalar burada görünecektir."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Cevapsız arama yok"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Cevapsız aramalar burada görünecektir."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "\"{query}\" için sonuç yok"
@@ -5633,6 +5633,6 @@
     "messageformat": "Bu sürüm, bağlantı ön izleme oluşturma performansını iyileştirmekte ve Ayarlar penceresi kapatıldığında meydana gelen ufak bir görüntü hatasını da düzeltmektedir."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Bir Kısa Hikaye görüntülenirken bazen ilerleme çubuğunun donmasına neden olan bir hatayı düzelttik."
   }
 }

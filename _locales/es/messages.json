@@ -639,7 +639,7 @@
     "messageformat": "Probar la versión beta"
   },
   "icu:signalDesktopPreferences": {
-    "messageformat": "Preferencias de Signal Desktop"
+    "messageformat": "Ajustes de Signal Desktop"
   },
   "icu:signalDesktopStickerCreator": {
     "messageformat": "Creador de paquetes de stickers"
@@ -2889,7 +2889,7 @@
     "messageformat": "Silenciar por una hora"
   },
   "icu:muteEightHours": {
-    "messageformat": "Silenciar durante 8 horas"
+    "messageformat": "Silenciar por ocho horas"
   },
   "icu:muteDay": {
     "messageformat": "Silenciar por un día"
@@ -4494,7 +4494,7 @@
     "messageformat": "Nadie"
   },
   "icu:Preferences__pnp__discoverability--title": {
-    "messageformat": "Quién puede encontrarme a través de mi número"
+    "messageformat": "Quién puede encontrarme con mi número"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
     "messageformat": "Cualquiera que tenga tu número de teléfono verá que estás en Signal y podrá iniciar conversaciones contigo."
@@ -5428,13 +5428,13 @@
     "messageformat": "No hay llamadas recientes. Empieza llamando a alguien."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Sin llamadas"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Recent calls will appear here."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "No hay llamadas perdidas"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
     "messageformat": "Missed calls will appear here."
@@ -5627,10 +5627,10 @@
     "messageformat": "Esta actualización también corrige un bloqueo de inicio en Linux para configuraciones regionales establecidas como 'POSIX'."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Las Historias con subtítulos largos se muestran sobre un sutil fondo con degradado que mejora el contraste y facilita la lectura del texto. Ahora que las personas pueden ver lo que dices, anímate a escribir un par de párrafos sobre por qué algo realmente te hizo reír en lugar de decir solo \"lol\"."
+    "messageformat": "Las historias con leyendas largas se muestran sobre un fondo con un suave degradado que mejora el contraste y facilita la lectura del texto. Ahora que las personas pueden ver lo que dices, anímate a escribir un párrafo o dos sobre por qué algo te hizo morir de risa en lugar de limitarte a un simple \"jajaja\"."
   },
   "icu:WhatsNew__v7.20--1": {
-    "messageformat": "Esta versión también mejora el rendimiento de la generación de vistas previas de enlaces y corrige un error que provocaba que la ventana de Ajustes parpadeara brevemente en un encantador tono ultramarina cada vez que se cerraba (en lugar de cerrarse de inmediato)."
+    "messageformat": "Esta versión también mejora el rendimiento en la generación de vistas previas de enlaces y corrige un error que hacía que la ventana de Ajustes parpadeara brevemente en un encantador tono ultramarino cada vez que se cerraba (en lugar de cerrarse de inmediato)."
   },
   "icu:WhatsNew__v7.21--0": {
     "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."

@@ -3954,10 +3954,10 @@
     "messageformat": "compose button"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Walang chats"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Makikita rito ang recent chats."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "I-forward Kay"
@@ -4848,10 +4848,10 @@
     "messageformat": "Walang recent stories na mapakita sa ngayon"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Walang stories"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Makikita rito ang bagong updates."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Sine-send…"
@@ -4869,7 +4869,7 @@
     "messageformat": "I-click para makita ang story"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "I-click ang <newStoryIcon>Add a story</newStoryIcon> para maglagay ng update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} para sa {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "I-click para makita o magsimula ng call"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "I-click ang <newCallIcon>New Call</newCallIcon> para magsimula ng bagong voice o video call."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Maghanap"
@@ -5428,16 +5428,16 @@
     "messageformat": "Walang recent calls. Magsimula sa pamamagitan ng pagtawag sa kaibigan mo."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Walang calls"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Makikita rito ang recent calls."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Walang missed calls"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Makikita rito ang missed calls."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Walang resulta para sa \"{query}\""
@@ -5633,6 +5633,6 @@
     "messageformat": "Mas pinaganda ng release na ito ang performance ng paggawa ng link preview at inayos ang minor display bug sa pagsara ng Settings window."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "May inayos kaming bug na minsang nagiging dahilan ng pag-freeze ng progress bar habang tumitingin ng Story."
   }
 }

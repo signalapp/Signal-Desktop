@@ -3954,10 +3954,10 @@
     "messageformat": "撰写按钮"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "无聊天"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "最近的聊天将会在这里显示。"
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "转发给"
@@ -4848,10 +4848,10 @@
     "messageformat": "当前没有可以显示的近期动态"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "无动态"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "新的更新将会在这里显示。"
   },
   "icu:Stories__list--sending": {
     "messageformat": "正在发送……"
@@ -4869,7 +4869,7 @@
     "messageformat": "点击查看动态"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "点击<newStoryIcon>添加动态</newStoryIcon>来添加更新。"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name}发送给{group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "点击查看或发起通话"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "点击<newCallIcon>新通话</newCallIcon>来发起一个新的语音或视频通话。"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "搜索"
@@ -5428,16 +5428,16 @@
     "messageformat": "没有最近呼叫。 呼叫朋友开始互动吧。"
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "没有通话"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "最近的通话将会在这里显示。"
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "无未接来电"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "未接通话将会在这里显示。"
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "没有找到“{query}”的相关结果"
@@ -5633,6 +5633,6 @@
     "messageformat": "此版本还改进了链接预览生成的性能，并修复了关闭设置窗口时会出现的显示小错误。"
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "我们修复了一个漏洞，在浏览动态时，该漏洞有时会导致进度条冻结。"
   }
 }

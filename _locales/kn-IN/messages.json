@@ -3954,10 +3954,10 @@
     "messageformat": "ಕಂಪೋಸ್ ಬಟನ್"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "ಯಾವುದೇ ಚಾಟ್‌ಗಳಿಲ್ಲ"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "ಇತ್ತೀಚಿನ ಚಾಟ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "ಇವರಿಗೆ ಫಾರ್ವರ್ಡ್ ಮಾಡಿ"
@@ -4848,10 +4848,10 @@
     "messageformat": "ಪ್ರಸ್ತುತ ತೋರಿಸಲು ಯಾವುದೇ ಸ್ಟೋರೀಸ್ ಇಲ್ಲ"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "ಯಾವುದೇ ಸ್ಟೋರಿಗಳಿಲ್ಲ"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "ಹೊಸ ಅಪ್‌ಡೇಟ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ."
   },
   "icu:Stories__list--sending": {
     "messageformat": "ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ…"
@@ -4869,7 +4869,7 @@
     "messageformat": "ಸ್ಟೋರಿ ವೀಕ್ಷಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "ಅಪ್‌ಡೇಟ್ ಅನ್ನು ಸೇರಿಸಲು <newStoryIcon>ಸ್ಟೋರಿಯನ್ನು ಸೇರಿಸಿ</newStoryIcon> ಅನ್ನು ಕ್ಲಿಕ್ ಮಾಡಿ."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} ನಿಂದ {group} ಗೆ"
@@ -5413,7 +5413,7 @@
     "messageformat": "ಕರೆಯನ್ನು ವೀಕ್ಷಿಸಲು ಅಥವಾ ಪ್ರಾಂಭಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "ಹೊಸ ಧ್ವನಿ ಅಥವಾ ವೀಡಿಯೊ ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲು <newCallIcon>ಹೊಸ ಕರೆ</newCallIcon> ಕ್ಲಿಕ್ ಮಾಡಿ."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ಹುಡುಕಿ"
@@ -5428,16 +5428,16 @@
     "messageformat": "ಇತ್ತೀಚಿನ ಯಾವುದೇ ಕರೆಗಳಿಲ್ಲ. ಸ್ನೇಹಿತರಿಗೆ ಕರೆ ಮಾಡುವ ಮೂಲಕ ಪ್ರಾರಂಭಿಸಿ."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "ಯಾವುದೇ ಕರೆಗಳಿಲ್ಲ"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "ಇತ್ತೀಚಿನ ಕರೆಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "ಯಾವುದೇ ಮಿಸ್ಡ್ ಕಾಲ್‌ಗಳಿಲ್ಲ"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "ಮಿಸ್ಡ್ ಕಾಲ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "{query} ಗೆ ಫಲಿತಾಂಶಗಳು ಲಭ್ಯವಿಲ್ಲ"
@@ -5633,6 +5633,6 @@
     "messageformat": "ಈ ಆವೃತ್ತಿಯು ಲಿಂಕ್ ಪ್ರಿವ್ಯೂ ಜನರೇಷನ್ ನ ಕಾರ್ಯಕ್ಷಮತೆಯನ್ನು ಸುಧಾರಿಸುತ್ತದೆ ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳ ವಿಂಡೋವನ್ನು ಮುಚ್ಚಿದಾಗಲೆಲ್ಲಾ ಅಲ್ಟ್ರಾಮರೀನ್‌ನ ಸುಂದರವಾದ ಛಾಯೆಯನ್ನು ಸಂಕ್ಷಿಪ್ತವಾಗಿ ಫ್ಲ್ಯಾಷ್ ಮಾಡಲು ಕಾರಣವಾದ ದೋಷವನ್ನು ಸರಿಪಡಿಸುತ್ತದೆ (ಆ ಕ್ಷಣದಲ್ಲೇ ಮುಚ್ಚುವ ಬದಲು)."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "ಪ್ರತಿಯೊಬ್ಬರೂ ಒಳ್ಳೆಯ ಸ್ಟೋರಿಯನ್ನು ಇಷ್ಟಪಡುತ್ತಾರೆ ಮತ್ತು ಉತ್ತಮ ಸ್ಟೋರಿಯನ್ನು ವೀಕ್ಷಿಸುವ ಮಧ್ಯದಲ್ಲಿ ಪ್ರೋಗ್ರೆಸ್ ಬಾರ್ ಸ್ಥಗಿತಗೊಳ್ಳಲು ಕಾರಣವಾದ ದೋಷದ ಸ್ಟೋರಿಯನ್ನು ನಾವು ನಿಮಗೆ ಹೇಳಬಹುದು - ಆದರೆ ಆ ದೋಷದ ಸಾಹಸವು ಈಗಾಗಲೇ ಸುಖಾಂತ್ಯವನ್ನು ಹೊಂದಿದೆ, ಏಕೆಂದರೆ ನಾವು ಅದನ್ನು ಈ ಆವೃತ್ತಿಯಲ್ಲಿ ಸರಿಪಡಿಸಿದ್ದೇವೆ ."
   }
 }

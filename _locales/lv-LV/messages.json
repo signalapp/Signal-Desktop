@@ -5428,7 +5428,7 @@
     "messageformat": "Nav neseno zvanu. Sāciet ar zvanu draugam."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Nav zvanu"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Recent calls will appear here."

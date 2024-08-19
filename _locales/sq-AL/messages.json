@@ -5428,7 +5428,7 @@
     "messageformat": "Nuk ka thirrje së voni. Fillo duke telefonuar një mik."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Nuk ka thirrje"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Recent calls will appear here."

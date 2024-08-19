@@ -2946,7 +2946,7 @@
     "messageformat": "Ви бажаєте приєднатися до цієї групи і поширити ваше ім'я і фото серед її учасників?"
   },
   "icu:GroupV2--join--already-in-group": {
-    "messageformat": "Ви вже у групі."
+    "messageformat": "Ви вже учасник цієї групи."
   },
   "icu:GroupV2--join--already-awaiting-approval": {
     "messageformat": "Ви вже надіслали запит для приєднання до цієї групи."
@@ -3006,7 +3006,7 @@
     "messageformat": "Адміністратор"
   },
   "icu:GroupV2--only-admins": {
-    "messageformat": "Тільки Адміністратори"
+    "messageformat": "Тільки адміністратори"
   },
   "icu:GroupV2--all-members": {
     "messageformat": "Усі учасники"
@@ -3207,7 +3207,7 @@
     "messageformat": "Адміністратор зробив {memberName} адміністратором."
   },
   "icu:GroupV2--member-privilege--promote--you--other": {
-    "messageformat": "{adminName} зробив вас адміністратором."
+    "messageformat": "Користувач {adminName} зробив вас адміністратором."
   },
   "icu:GroupV2--member-privilege--promote--you--unknown": {
     "messageformat": "Адміністратор зробив адміністратором."
@@ -3621,22 +3621,22 @@
     "messageformat": "Сповіщення"
   },
   "icu:ConversationDetails--group-info-label": {
-    "messageformat": "Хто може редагувати інформацію групи"
+    "messageformat": "Хто може редагувати інформацію про групу"
   },
   "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Оберіть, хто може змінювати назву, фото, опис групи і таймер тимчасових повідомлень."
+    "messageformat": "Оберіть, хто може змінювати назву, фото, опис групи й таймер тимчасових повідомлень."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Хто може додавати учасників"
   },
   "icu:ConversationDetails--add-members-info": {
-    "messageformat": "Виберіть, хто може додавати учасників до цієї групи."
+    "messageformat": "Оберіть, хто може додавати учасників до цієї групи."
   },
   "icu:ConversationDetails--announcement-label": {
     "messageformat": "Хто може надсилати повідомлення"
   },
   "icu:ConversationDetails--announcement-info": {
-    "messageformat": "Виберіть, хто може надсилати повідомлення до цієї групи."
+    "messageformat": "Оберіть, хто може надсилати повідомлення в цій групі."
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Запити і запрошення"
@@ -5428,13 +5428,13 @@
     "messageformat": "Викликів не було. Подзвоніть комусь із друзів."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Дзвінків немає"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Recent calls will appear here."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Немає пропущених викликів"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
     "messageformat": "Missed calls will appear here."

@@ -5428,13 +5428,13 @@
     "messageformat": "Nu exista apeluri recente. Începe prin a suna un prieten."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Nu aveți apeluri"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Recent calls will appear here."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Nu există apeluri pierdute"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
     "messageformat": "Missed calls will appear here."

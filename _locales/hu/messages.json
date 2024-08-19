@@ -3954,10 +3954,10 @@
     "messageformat": "új üzenet gomb"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Nincs csevegés"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Itt jelennek meg a legutóbbi csevegések."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Továbbítás ide:"
@@ -4848,10 +4848,10 @@
     "messageformat": "Nincs aktuális friss Történet"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Nincs történet"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Itt jelennek meg az új frissítések."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Küldés…"
@@ -4869,7 +4869,7 @@
     "messageformat": "Kattints ide a Történet megtekintéséhez"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Kattints a <newStoryIcon>Történet hozzáadása</newStoryIcon> lehetőségre frissítés hozzáadásához."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} → {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "A hívás megtekintéséhez vagy indításához kattints ide"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Kattints az <newCallIcon>Új hívás</newCallIcon> lehetőségre új hang- vagy videohívás indításához."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Keresés"
@@ -5428,16 +5428,16 @@
     "messageformat": "Nincsenek legutóbbi hívások. Először hívd fel egy ismerősödet."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Nincsenek hívások"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Itt jelennek meg a legutóbbi hívások."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Nincs nem fogadott hívás"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Itt jelennek meg a nem fogadott hívások."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Nincs találat a következőre: „{query}”"
@@ -5633,6 +5633,6 @@
     "messageformat": "Ez a kiadás javítja a hivatkozás-előnézet létrehozásának teljesítményét is, és kijavítja a Beállítások ablak bezárásakor jelentkező kisebb megjelenítési hibát."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Kijavítottunk egy hibát, amely miatt a folyamatjelző sáv néha lefagyott egy történet megtekintése közben."
   }
 }

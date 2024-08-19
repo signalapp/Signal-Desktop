@@ -1692,7 +1692,7 @@
     "messageformat": "Changements des numéros de sécurité"
   },
   "icu:safetyNumberChangedGroup": {
-    "messageformat": "Le numéro de sécurité avec {name} a changé"
+    "messageformat": "Le numéro de sécurité de {name} a changé"
   },
   "icu:ConversationDetails__viewSafetyNumber": {
     "messageformat": "Afficher le numéro de sécurité"
@@ -5428,13 +5428,13 @@
     "messageformat": "Aucun appel récent. Pour commencer, appelez un ami."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Aucun appel"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Recent calls will appear here."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Aucun appel manqué"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
     "messageformat": "Missed calls will appear here."

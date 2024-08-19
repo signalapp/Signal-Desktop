@@ -3954,10 +3954,10 @@
     "messageformat": "копче за составување нова порака"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Нема разговори"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Неодамнешните разговори ќе се појават овде."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Препрати до"
@@ -4848,10 +4848,10 @@
     "messageformat": "Нема неодамнешни приказни за прикажување моментално"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Нема приказни"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Новостите ќе се прикажат тука."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Се испраќа…"
@@ -4869,7 +4869,7 @@
     "messageformat": "Кликнете за да погледнете приказна"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Кликнете на <newStoryIcon>Додај приказна</newStoryIcon> за да додадете новост."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} до {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Кликнете за да ги прегледате повиците или за да започнете нов повик"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Кликнете на <newCallIcon>Нов повик</newCallIcon> за да започнете нов гласовен или видео повик."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Барај"
@@ -5428,16 +5428,16 @@
     "messageformat": "Нема скорешни повици. Започнете со јавување на пријател."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Нема повици"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Неодамнешните повици ќе се појават овде."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Нема пропуштени повици"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Пропуштените повици ќе се појават овде."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Не се пронајдени резултати за „{query}“"
@@ -5633,6 +5633,6 @@
     "messageformat": "Во оваа верзија е исто така подобренo создавањето на преглед на линк и решена е мала грешка на дисплејот која се јавува при затворање на прозорецот со поставувања."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Решивме грешка што понекогаш предизвикуваше замрзнување на лентата за напредок при гледање приказна."
   }
 }

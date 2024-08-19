@@ -3954,10 +3954,10 @@
     "messageformat": "دکمهٔ نگارش"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "گفتگویی وجود ندارد"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "گفتگوهای اخیر در اینجا ظاهر می‌شود."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "بازارسال به"
@@ -4848,10 +4848,10 @@
     "messageformat": "اکنون استوری جدیدی برای نمایش وجود ندارد"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "استوری وجود ندارد"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "به‌روزرسانی‌های جدید در اینجا ظاهر می‌شود."
   },
   "icu:Stories__list--sending": {
     "messageformat": "در حال ارسال..."
@@ -4869,7 +4869,7 @@
     "messageformat": "برای مشاهده استوری کلیک کنید"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "برای به‌روزرسانی، روی <newStoryIcon>افزودن استوری</newStoryIcon> کلیک کنید."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} به {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "برای مشاهده یا شروع تماس کلیک کنید"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "برای شروع تماس صوتی یا تصویری جدید، روی <newCallIcon>تماس جدید</newCallIcon> کلیک کنید."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "جستجو"
@@ -5428,16 +5428,16 @@
     "messageformat": "بدون تماس های جدید. با تماس با یک دوست شروع کنید."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "هیچ تماسی وجود ندارد."
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "تماس‌های اخیر در اینجا ظاهر می‌شود."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "تماس ازدست‌رفته‌ای وجود ندارد"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "تماس‌های بی پاسخ در اینجا ظاهر می‌شود."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "نتیجه‌ای برای «{query}» پیدا نشد"
@@ -5633,6 +5633,6 @@
     "messageformat": "این نسخۀ جدید همچنین عملکرد تولید پیش‌نمایش پیوند را بهبود می‌بخشد و اشکال جزئی نمایش را هنگام بستن پنجره تنظیمات برطرف می‌کند."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "اشکالی را که گاهی باعث متوقف شدن نوار پیشرفت هنگام مشاهده استوری می‌شد برطرف کردیم."
   }
 }

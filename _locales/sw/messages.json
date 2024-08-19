@@ -3954,10 +3954,10 @@
     "messageformat": "kitufe cha kutunga"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Hakuna magumzo"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Magumzo ya hivi karibuni yataonekana hapa."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Sambaza Kwa"
@@ -4848,10 +4848,10 @@
     "messageformat": "Hakuna stori za hivi karibuni za kuonyesha sasa hivi"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Hakuna stori"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Sasisho mpya zitaonekana hapa."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Kutuma"
@@ -4869,7 +4869,7 @@
     "messageformat": "Bonyeza kuangalia stori"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Bonyeza <newStoryIcon>Weka stori</newStoryIcon> ili kuweka sasisho."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} kwa {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Bofya ili kutazama au kuanzisha simu"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Bofya <newCallIcon>Simu Mpya</newCallIcon> ili kuanzisha simu ya kawaida au ya video."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Tafuta"
@@ -5428,16 +5428,16 @@
     "messageformat": "Hakuna simu za hivi karibuni. Anza kwa kumpigia rafiki."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Hakuna simu"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Simu zilizopigwa hivi karibuni zitaonekana hapa."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Hakuna simu fifi"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Simu fifi zitaonekana hapa."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Hakuna matokeo ya \"{query}\""
@@ -5633,6 +5633,6 @@
     "messageformat": "Toleo hili pia linaboresha utendaji wa uzalishaji wa hakikisho la kiungo na kurekebisha hitilafu iliyosababisha dirisha la Mipangilio kuonyesha kwa muda mfupi rangi ya ultramarine kila ilipokuwa inafungwa (badala ya kufunga mara moja)."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Kila mtu anapenda hadithi nzuri, na tungeweza kukusimulia kuhusu hitilafu ambayo wakati mwingine husababisha upau kuganda pale unapokuwa unatazama hadithi nzuri — lakini hekaheka za hitilafu hizi zimeishia pazuri maana tumeweza kuirekebisha kwenye toleo hili."
   }
 }

@@ -3954,10 +3954,10 @@
     "messageformat": "tlačidlo zostavenia"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Žiadne čety"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Nedávne čety sa zobrazia tu."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Preposlať používateľovi"
@@ -4848,10 +4848,10 @@
     "messageformat": "Momentálne nie sú k dispozícii žiadne nové príbehy"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Žiadne príbehy"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Nové aktualizácie sa zobrazia tu."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Odosiela sa…"
@@ -4869,7 +4869,7 @@
     "messageformat": "Kliknutím zobrazíte príbeh"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Pridajte niečo nové kliknutím na <newStoryIcon>Pridať príbeh</newStoryIcon>."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} do {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Kliknutím zobrazíte alebo začnete hovor"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Kliknite na <newCallIcon>Nový hovor</newCallIcon> a zahájte nový hlasový hovor alebo videohovor."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Hľadať"
@@ -5428,16 +5428,16 @@
     "messageformat": "Žiadne nedávne hovory. Začnite zavolaním známemu."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Žiadne hovory"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Posledné hovory sa zobrazia tu."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Žiadne zmeškané hovory"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Zmeškané hovory sa zobrazia tu."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Žiadne výsledky pre „{query}“"
@@ -5633,6 +5633,6 @@
     "messageformat": "Toto vydanie tiež zlepšuje generovanie náhľadu odkazov a opravuje menšiu chybu zobrazenia pri zatváraní okna Nastavenia."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Opravili sme chybu, ktorá niekedy spôsobovala zamrznutie indikátora priebehu pri prezeraní príbehu."
   }
 }

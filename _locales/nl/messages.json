@@ -84,7 +84,7 @@
     "messageformat": "Kan geen toegang krijgen tot de database-encryptiesleutel omdat de back-end voor de keyring van het besturingssysteem is gewijzigd van {previousBackend} in {currentBackend}. Dit kan gebeuren als de desktopomgeving verandert, bijvoorbeeld van GNOME naar KDE.\n\nSchakel over naar de vorige desktopomgeving."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Kan geen toegang krijgen tot de database-encryptiesleutel omdat de back-end voor de keyring van het besturingssysteem is gewijzigd van {previousBackend} naar {currentBackend}. Dit kan gebeuren als de desktopomgeving verandert, bijvoorbeeld van GNOME naar KDE.\n\nSchakel over naar de vorige desktopomgeving of probeer Signal uit te voeren met de commandoregel-flag: --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Kan geen toegang krijgen tot de database-encryptiesleutel omdat de back-end voor de keyring van het besturingssysteem is gewijzigd van {previousBackend} naar {currentBackend}. Dit kan gebeuren als de desktopomgeving verandert, bijvoorbeeld van GNOME naar KDE.\n\nSchakel over naar de vorige desktopomgeving of probeer Signal uit te voeren met de commandoregelvlag: --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Bestand"
@@ -5428,13 +5428,13 @@
     "messageformat": "Geen recente oproepen. Begin door een contact te bellen."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Geen oproepen"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Recent calls will appear here."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Geen gemiste oproepen"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
     "messageformat": "Missed calls will appear here."
@@ -5627,7 +5627,7 @@
     "messageformat": "Deze update lost ook opstartproblemen op voor Linux-gebruikers die `POSIX` gebruiken."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Verhalen met lange bijschriften worden nu getoond met meer contrast, waardoor de tekst beter leesbaar is. Nu mensen daadwerkelijk kunnen zien wat je probeert te delen, kun je in detail beschrijven waarom je zo moet lachen in plaats van kort 'lol' zeggen."
+    "messageformat": "Verhalen met lange bijschriften worden nu getoond met meer contrast, waardoor de tekst beter leesbaar is. Nu mensen daadwerkelijk kunnen zien wat je probeert te delen, kun je in detail beschrijven waarom je zo moet lachen in plaats van kort “lol” zeggen."
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "Deze uitgave verbetert ook het genereren van linkvoorbeelden en er is een kleine fout opgelost die optrad bij het sluiten van het Instellingen-venster."

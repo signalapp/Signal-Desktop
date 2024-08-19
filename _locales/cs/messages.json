@@ -3954,10 +3954,10 @@
     "messageformat": "tlačítko napsat"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Žádné chaty"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Zde se objeví poslední chaty."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Přeposlat uživateli"
@@ -4848,10 +4848,10 @@
     "messageformat": "Žádné nové příběhy k zobrazení"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Žádné příběhy"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Zde se objeví nové příspěvky."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Odesílání…"
@@ -4869,7 +4869,7 @@
     "messageformat": "Kliknutím zobrazíte příběh"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Klikněte na <newStoryIcon>Přidat příběh</newStoryIcon> a přidejte příspěvek."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} skupině {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Kliknutím zobrazíte nebo zahájíte hovor"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Klikněte na <newCallIcon>Nový hovor</newCallIcon> a zahajte nový hlasový nebo video hovor."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Hledat"
@@ -5428,16 +5428,16 @@
     "messageformat": "Žádné nedávné hovory. Začněte tím, že zavoláte příteli."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Žádné hovory"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Zde se objeví poslední hovory."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Žádné zmeškané hovory"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Zde se objeví zmeškané hovory."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Pro „{query}“ nebylo nic nalezeno"
@@ -5633,6 +5633,6 @@
     "messageformat": "Toto vydání také vylepšuje generování náhledu odkazu a opravuje drobnou chybu zobrazení při zavírání okna nastavení."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Opravili jsme chybu, která občas způsobovala zamrznutí ukazatele průběhu během sledování příběhu."
   }
 }
