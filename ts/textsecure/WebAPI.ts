@@ -578,6 +578,7 @@ const URL_CALLS = {
   challenge: 'v1/challenge',
   config: 'v1/config',
   deliveryCert: 'v1/certificate/delivery',
+  devices: 'v1/devices',
   directoryAuthV2: 'v2/directory/auth',
   discovery: 'v1/discovery',
   getGroupAvatarUpload: 'v1/groups/avatar/form',
@@ -647,6 +648,7 @@ const WEBSOCKET_CALLS = new Set<keyof typeof URL_CALLS>([
   'getGroupCredentials',
 
   // Devices
+  'devices',
   'linkDevice',
   'registerCapabilities',
 
@@ -1327,6 +1329,7 @@ export type WebAPIType = {
     abortSignal: AbortSignal
   ) => Promise<null | linkPreviewFetch.LinkPreviewImage>;
   linkDevice: (options: LinkDeviceOptionsType) => Promise<LinkDeviceResultType>;
+  unlink: () => Promise<void>;
   makeProxiedRequest: (
     targetUrl: string,
     options?: ProxiedRequestOptionsType
@@ -1806,6 +1809,7 @@ export function initialize({
       setBackupSignatureKey,
       setPhoneNumberDiscoverability,
       startRegistration,
+      unlink,
       unregisterRequestHandler,
       updateDeviceName,
       uploadAvatar,
@@ -2695,6 +2699,19 @@ export function initialize({
           return linkDeviceResultZod.parse(responseJson);
         }
       );
+    }
+
+    async function unlink() {
+      if (!username) {
+        return;
+      }
+
+      const [, deviceId] = username.split('.');
+      await _ajax({
+        call: 'devices',
+        httpType: 'DELETE',
+        urlParameters: `/${deviceId}`,
+      });
     }
 
     async function updateDeviceName(deviceName: string) {
