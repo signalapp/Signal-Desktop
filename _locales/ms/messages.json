@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Versi pangkalan data anda tidak sepadan dengan versi Signal ini. Pastikan anda membuka versi terbaru Signal pada komputer anda."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "Ralat pangkalan data telah berlaku. Anda boleh menyalin ralat dan menghubungi sokongan Signal untuk membantu menyelesaikan isu tersebut. Jika anda perlu menggunakan Signal dengan segera, anda boleh cuba memulihkan data anda.\n\nHubungi sokongan dengan melayari: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "Pulihkan data"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Tidak dapat mengakses kunci penyulitan pangkalan data kerana hujung belakang cincin kekunci penyulitan OS telah berubah daripada {previousBackend} kepada {currentBackend}. Ini boleh berlaku jika persekitaran desktop berubah, contohnya antara GNOME dan KDE.\n\nSila tukar ke persekitaran desktop sebelumnya."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, other {Dalam panggilan ini · {people,number} orang}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "Anda telah menyekat {name}"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} telah disekat"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "butang mengarang"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "Tiada sembang"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Sembang terbaharu akan dipaparkan di sini."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Majukan Kepada"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "Tiada cerita terkini untuk ditunjukkan sekarang"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "Tiada cerita"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "Kemas kini baharu akan dipaparkan di sini."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Menghantar..."
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Klik untuk menonton cerita"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Klik <newStoryIcon>Tambah cerita</newStoryIcon> untuk menambah kemas kini."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} kepada {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Klik untuk melihat atau memulakan panggilan"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Klik <newCallIcon>Panggilan Baharu</newCallIcon> untuk memulakan panggilan suara atau video baharu."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Cari"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "Tiada panggilan terbaru. Mulakan dengan menghubungi rakan."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "Tiada panggilan"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Panggilan terbaharu akan dipaparkan di sini."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "Tiada panggilan terlepas"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Panggilan terlepas akan dipaparkan di sini."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Tiada hasil untuk “{query}”"
@@ -5610,5 +5631,8 @@
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "Keluaran ini juga meningkatkan prestasi penjanaan pratonton pautan dan membetulkan pepijat paparan kecil semasa menutup tetingkap Tetapan."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Kami membaiki pepijat yang kadangkala menyebabkan bar kemajuan tidak bergerak semasa menonton Cerita."
   }
 }

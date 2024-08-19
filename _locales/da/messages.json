@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Din version af databasen stemmer ikke overens med denne version af Signal. Sørg for, at du åbner den nyeste version af Signal på din computer."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "Der opstod en databasefejl. Du kan kopiere fejlen og kontakte Signals support for at få hjælp til at løse problemet. Hvis du skal bruge Signal med det samme, kan du forsøge at gendanne dine data.\n\nKontakt support ved at gå til: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "Gendan data"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Kan ikke tilgå databasekrypteringsnøglen, fordi OS-krypteringsnøgleringens backend er ændret fra {previousBackend} til {currentBackend}. Dette kan ske, hvis skrivebordsmiljøet ændres, for eksempel mellem GNOME og KDE.\n\nSkift til det forrige skrivebordsmiljø."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {I dette opkald · {people,number} person} other {I dette opkald · {people,number} personer}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "Du har blokeret {name}"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} er blokeret"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "skriv-knappen"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "Ingen chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Seneste chats vises her."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Videresend til"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "Ingen nye historier at vise lige nu"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "Ingen historier"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "Nye opdateringer vises her."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Sender…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Klik for at se en historie"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Klik på <newStoryIcon>Tilføj en historie</newStoryIcon> for at tilføje en opdatering."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} til {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Klik for at se eller starte et opkald"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Klik <newCallIcon>Nyt opkald</newCallIcon> for at starte et nyt tale- eller videoopkald."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Søg"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "Ingen nye opkald. Kom i gang ved at ringe til en ven."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "Ingen opkald"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "De seneste opkald vises her."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "Ingen ubesvarede opkald"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Ubesvarede opkald vises her."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Ingen resultater for \"{query}\""
@@ -5610,5 +5631,8 @@
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "Denne udgivelse forbedrer også ydeevnen ved generering af linkforhåndsvisning og retter en fejl, der fik vinduet Indstillinger til kortvarigt at blinke en dejlig nuance af ultramarin, når det blev lukket (i stedet for bare at lukke med det samme)."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Alle elsker en god historie, og vi kan fortælle dig historien om en fejl, der nogle gange fik statuslinjen til at fryse lige midt under at se en god historie – men fejlens eventyr har allerede en lykkelig slutning, da vi har rettet den i denne udgivelse."
   }
 }

@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "ನಿಮ್ಮ ಡೇಟಾಬೇಸ್‌ನ ಈ ಆವೃತ್ತಿಯು Signal ನ ಈ ಆವೃತ್ತಿಗೆ ಹೊಂದಿಕೆಯಾಗುವುದಿಲ್ಲ. ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ Signal ನ ಹೊಚ್ಚಹೊಸ ಆವೃತ್ತಿಯನ್ನು ತೆರೆಯುತ್ತಿರುವುದನ್ನು ಖಾತ್ರಿಗೊಳಿಸಿ."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "ಡೇಟಾಬೇಸ್ ದೋಷ ಸಂಭವಿಸಿದೆ. ನೀವು ದೋಷವನ್ನು ನಕಲಿಸಬಹುದು ಮತ್ತು ಈ ಸಮಸ್ಯೆಯನ್ನು ಸರಿಪಡಿಸುವುದಕ್ಕೆ ಸಹಾಯವಾಗಲು Signal ಬೆಂಬಲವನ್ನು ಸಂಪರ್ಕಿಸಬಹುದು. ನೀವು ಈಗಲೇ Signal ಅನ್ನು ಬಳಸಬೇಕಿದ್ದರೆ, ನಿಮ್ಮ ಡೇಟಾವನ್ನು ಮರಳಿ ಪಡೆಯಲು ನೀವು ಪ್ರಯತ್ನಿಸಬಹುದು.\n\nಇಲ್ಲಿಗೆ ಭೇಟಿ ನೀಡುವ ಮೂಲಕ ಬೆಂಬಲವನ್ನು ಸಂಪರ್ಕಿಸಿ: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "ಡೇಟಾವನ್ನು ಮರಳಿ ಪಡೆಯಿರಿ"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "ಡೇಟಾಬೇಸ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಕೀಯನ್ನು ಆ್ಯಕ್ಸೆಸ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ, ಏಕೆಂದರೆ OS ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಕೀರಿಂಗ್ ಬ್ಯಾಕ್‌ಎಂಡ್ {previousBackend} ನಿಂದ {currentBackend} ಗೆ ಬದಲಾಗಿದೆ. ಡೆಸ್ಕ್‌ಟಾಪ್ ಪರಿಸರವು ಬದಲಾದರೆ ಇದು ಸಂಭವಿಸಬಹುದು, ಉದಾಹರಣೆಗೆ GNOME ಮತ್ತು KDE ನಡುವೆ.\n\nದಯವಿಟ್ಟು ಹಿಂದಿನ ಡೆಸ್ಕ್‌ಟಾಪ್ ಪರಿಸರಕ್ಕೆ ಬದಲಿಸಿ."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {ಈ ಕರೆಯಲ್ಲಿ · {people,number} ಜನರು} other {ಈ ಕರೆಯಲ್ಲಿ · {people,number} ಜನರು}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "ನೀವು {name} ಅವರನ್ನು ನಿರ್ಬಂಧಿಸಿದ್ದೀರಿ"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} ಅವರನ್ನು ಬ್ಲಾಕ್ ಮಾಡಲಾಗಿದೆ"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "ಕಂಪೋಸ್ ಬಟನ್"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "ಯಾವುದೇ ಚಾಟ್‌ಗಳಿಲ್ಲ"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "ಇತ್ತೀಚಿನ ಚಾಟ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "ಇವರಿಗೆ ಫಾರ್ವರ್ಡ್ ಮಾಡಿ"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "ಪ್ರಸ್ತುತ ತೋರಿಸಲು ಯಾವುದೇ ಸ್ಟೋರೀಸ್ ಇಲ್ಲ"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "ಯಾವುದೇ ಸ್ಟೋರಿಗಳಿಲ್ಲ"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "ಹೊಸ ಅಪ್‌ಡೇಟ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "ಸ್ಟೋರಿ ವೀಕ್ಷಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "ಅಪ್‌ಡೇಟ್ ಅನ್ನು ಸೇರಿಸಲು <newStoryIcon>ಸ್ಟೋರಿಯನ್ನು ಸೇರಿಸಿ</newStoryIcon> ಅನ್ನು ಕ್ಲಿಕ್ ಮಾಡಿ."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} ನಿಂದ {group} ಗೆ"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "ಕರೆಯನ್ನು ವೀಕ್ಷಿಸಲು ಅಥವಾ ಪ್ರಾಂಭಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "ಹೊಸ ಧ್ವನಿ ಅಥವಾ ವೀಡಿಯೊ ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲು <newCallIcon>ಹೊಸ ಕರೆ</newCallIcon> ಕ್ಲಿಕ್ ಮಾಡಿ."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ಹುಡುಕಿ"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "ಇತ್ತೀಚಿನ ಯಾವುದೇ ಕರೆಗಳಿಲ್ಲ. ಸ್ನೇಹಿತರಿಗೆ ಕರೆ ಮಾಡುವ ಮೂಲಕ ಪ್ರಾರಂಭಿಸಿ."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "ಯಾವುದೇ ಕರೆಗಳಿಲ್ಲ"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "ಇತ್ತೀಚಿನ ಕರೆಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "ಯಾವುದೇ ಮಿಸ್ಡ್ ಕಾಲ್‌ಗಳಿಲ್ಲ"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "ಮಿಸ್ಡ್ ಕಾಲ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "{query} ಗೆ ಫಲಿತಾಂಶಗಳು ಲಭ್ಯವಿಲ್ಲ"
@@ -5610,5 +5631,8 @@
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "ಈ ಆವೃತ್ತಿಯು ಲಿಂಕ್ ಪ್ರಿವ್ಯೂ ಜನರೇಷನ್ ನ ಕಾರ್ಯಕ್ಷಮತೆಯನ್ನು ಸುಧಾರಿಸುತ್ತದೆ ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳ ವಿಂಡೋವನ್ನು ಮುಚ್ಚಿದಾಗಲೆಲ್ಲಾ ಅಲ್ಟ್ರಾಮರೀನ್‌ನ ಸುಂದರವಾದ ಛಾಯೆಯನ್ನು ಸಂಕ್ಷಿಪ್ತವಾಗಿ ಫ್ಲ್ಯಾಷ್ ಮಾಡಲು ಕಾರಣವಾದ ದೋಷವನ್ನು ಸರಿಪಡಿಸುತ್ತದೆ (ಆ ಕ್ಷಣದಲ್ಲೇ ಮುಚ್ಚುವ ಬದಲು)."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "ಪ್ರತಿಯೊಬ್ಬರೂ ಒಳ್ಳೆಯ ಸ್ಟೋರಿಯನ್ನು ಇಷ್ಟಪಡುತ್ತಾರೆ ಮತ್ತು ಉತ್ತಮ ಸ್ಟೋರಿಯನ್ನು ವೀಕ್ಷಿಸುವ ಮಧ್ಯದಲ್ಲಿ ಪ್ರೋಗ್ರೆಸ್ ಬಾರ್ ಸ್ಥಗಿತಗೊಳ್ಳಲು ಕಾರಣವಾದ ದೋಷದ ಸ್ಟೋರಿಯನ್ನು ನಾವು ನಿಮಗೆ ಹೇಳಬಹುದು - ಆದರೆ ಆ ದೋಷದ ಸಾಹಸವು ಈಗಾಗಲೇ ಸುಖಾಂತ್ಯವನ್ನು ಹೊಂದಿದೆ, ಏಕೆಂದರೆ ನಾವು ಅದನ್ನು ಈ ಆವೃತ್ತಿಯಲ್ಲಿ ಸರಿಪಡಿಸಿದ್ದೇವೆ ."
   }
 }

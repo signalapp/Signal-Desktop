@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "เวอร์ชันฐานข้อมูลของคุณไม่ตรงกับ Signal เวอร์ชันนี้ ตรวจสอบให้แน่ใจว่า Signal ที่คุณเปิดอยู่บนคอมพิวเตอร์เป็นเวอร์ชันล่าสุด"
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "เกิดข้อผิดพลาดด้านฐานข้อมูล คุณสามารถคัดลอกข้อมูลความผิดพลาดนี้แล้วติดต่อฝ่ายสนับสนุนของ Signal ให้ช่วยแก้ไขปัญหาดังกล่าว ในกรณีที่คุณต้องการใช้ Signal ทันที คุณสามารถพยายามกู้คืนข้อมูลของคุณได้\n\nติดต่อฝ่ายสนับสนุนโดยไปที่: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "กู้คืนข้อมูล"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "ไม่สามารถเข้าถึงกุญแจการเข้ารหัสของฐานข้อมูลได้ เนื่องจากระบบจัดการพวงกุญแจการเข้ารหัสของระบบปฏิบัติการมีการเปลี่ยนจาก {previousBackend} เป็น {currentBackend} กรณีเช่นนี้อาจเกิดขึ้นได้หากมีการเปลี่ยน Desktop Environment เช่น ระหว่าง GNOME และ KDE\n\nโปรดเปลี่ยนกลับไปใช้ Desktop Environment เดิม"
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, other {ในสายนี้ · {people,number} คน}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "คุณบล็อก {name} แล้ว"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} ถูกบล็อกอยู่"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "ปุ่มเขียนข้อความ"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "ไม่มีแชท"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "แชทล่าสุดจะปรากฏที่นี่"
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "ส่งต่อไปยัง"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "ไม่มีสตอรี่ใหม่ๆ ให้แสดงในตอนนี้"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "ไม่มีสตอรี่"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "สตอรี่ใหม่จะปรากฏที่นี่"
+  },
   "icu:Stories__list--sending": {
     "messageformat": "กำลังส่ง…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "คลิกเพื่อดูสตอรี่"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "คลิก<newStoryIcon>เพิ่มสตอรี่</newStoryIcon>เพื่อเพิ่มสตอรี่ใหม่"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} ส่งไปยัง {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "คลิกเพื่อดูหรือเริ่มการโทร"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "คลิก<newCallIcon>การโทรใหม่</newCallIcon>เพื่อเริ่มต้นการโทรด้วยเสียงหรือวิดีโอคอล"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ค้นหา"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "ยังไม่มีการโทรล่าสุด เริ่มต้นด้วยการโทรหาเพื่อนของคุณ"
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "ไม่มีการโทร"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "การโทรล่าสุดจะปรากฏที่นี่"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "ไม่มีสายที่ไม่ได้รับ"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "สายที่ไม่ได้รับจะปรากฏที่นี่"
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "ไม่พบผลลัพธ์สำหรับ “{query}”"
@@ -5610,5 +5631,8 @@
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "การอัปเดตครั้งนี้ยังมาพร้อมการพัฒนาประสิทธิภาพในการสร้างตัวอย่างลิงก์ รวมถึงแก้ไขบั๊กที่อาจเคยเป็นอุปสรรคในตอนปิดหน้าต่างการตั้งค่า"
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "เราแก้ไขบั๊กที่อาจเคยทำให้แถบแสดงสถานะสตอรี่หยุดชะงักหรือค้างในระหว่างที่คุณกำลังเปิดดู"
   }
 }

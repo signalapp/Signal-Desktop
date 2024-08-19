@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "A versión da túa base de datos non coincide con esta versión de Signal. Asegúrate de abrir a última versión de Signal no teu ordenador."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "Ocorreu un erro na base de datos. Podes copiar o erro e contactar co Centro de axuda de Signal para solucionar o problema. Se tes que empregar Signal canto antes, podes tentar recuperar os teus datos.\n\nPara contactar co Centro de axuda visita: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "Recuperar datos"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Non se pode acceder á clave de cifrado da base de datos xa que o backend do keyring do sistema operativo pasou de {previousBackend} a {currentBackend}. Este problema pode xurdir se hai un cambio no entorno do escritorio, por exemplo, ao pasar de GNOME a KDE.\n\nVolta ao anterior entorno."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {Nesta chamada · {people,number} persoa} other {Nesta chamada · {people,number} persoas}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "Bloqueaches a {name}"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} está bloqueado"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "botón de escribir mensaxe"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "Sen conversas"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "As conversas recentes aparecerán aquí."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Reenviar a"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "Non hai historias recentes que mostrar"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "Sen historias"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "As novidades aparecerán aquí."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Enviando…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Preme para ver historia"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Preme en <newStoryIcon>Engadir historia</newStoryIcon> para subir unha novidade."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} a {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Premer para ver ou comezar unha chamada"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Preme en <newCallIcon>Nova chamada</newCallIcon> para iniciar unha nova chamada de voz ou videochamada."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Buscar"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "Sen chamadas recentes. Comeza chamando a un amigo."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "Sen chamadas"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "As chamadas recentes aparecerán aquí."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "Sen chamadas perdidas"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "As chamadas perdidas aparecerán aquí."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Ningún resultado para «{query}»"
@@ -5610,5 +5631,8 @@
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "A nova versión tamén optimiza a xeración de previsualizacións de enlaces e soluciona un pequeno erro de visualización ao pechar a ventá de Configuración."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Solucionamos un erro que ás veces facía que a barra de progreso se conxelase ao visualizar unha historia."
   }
 }

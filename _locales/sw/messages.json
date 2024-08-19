@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Toleo hili la kanzidata halilingani na toleo la Signal. Hakikisha unafungua toleo jipya zaidi la Signal kwenye kompyuta yako."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "Hitilafu ya kanzidata imetokea. Unaweza kunakili hitilafu kisha uwasiliane na msaada wa Signal ili usaidiwe kurekebisha tatizo. Ikiwa utahitaji kutumia Signal muda huo huo, unaweza kujaribu kurejesha data yako.\n\nWasiliana na watoa huduma kwa kutembelea: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "Rejesha data"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Haiwezi kufikia ufunguo wa usimbaji wa kanzidata kwa sababu mazingira ya nyuma ya usimbaji wa mfumo wa uendeshaji yamebadilika kutoka {previousBackend} kwenda {currentBackend}. Hii inaweza kutokea endapo mazingira ya kompyuta ya mezani yamebadilika, kwa mfano kati ya GNOME na KDE.\n\nTafadhali badili hadi mazingira ya zamani ya kompyuta ya mezani."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {Katika mazungumzo haya ya simu· Watu {people,number}} other {Katika mazungumzo haya ya simu· Watu {people,number}}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "Umemzuia {name}"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} amezuiliwa"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "kitufe cha kutunga"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "Hakuna magumzo"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Magumzo ya hivi karibuni yataonekana hapa."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Sambaza Kwa"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "Hakuna stori za hivi karibuni za kuonyesha sasa hivi"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "Hakuna stori"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "Sasisho mpya zitaonekana hapa."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Kutuma"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Bonyeza kuangalia stori"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Bonyeza <newStoryIcon>Weka stori</newStoryIcon> ili kuweka sasisho."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} kwa {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Bofya ili kutazama au kuanzisha simu"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Bofya <newCallIcon>Simu Mpya</newCallIcon> ili kuanzisha simu ya kawaida au ya video."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Tafuta"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "Hakuna simu za hivi karibuni. Anza kwa kumpigia rafiki."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "Hakuna simu"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Simu zilizopigwa hivi karibuni zitaonekana hapa."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "Hakuna simu fifi"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Simu fifi zitaonekana hapa."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Hakuna matokeo ya \"{query}\""
@@ -5610,5 +5631,8 @@
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "Toleo hili pia linaboresha utendaji wa uzalishaji wa hakikisho la kiungo na kurekebisha hitilafu iliyosababisha dirisha la Mipangilio kuonyesha kwa muda mfupi rangi ya ultramarine kila ilipokuwa inafungwa (badala ya kufunga mara moja)."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Kila mtu anapenda hadithi nzuri, na tungeweza kukusimulia kuhusu hitilafu ambayo wakati mwingine husababisha upau kuganda pale unapokuwa unatazama hadithi nzuri — lakini hekaheka za hitilafu hizi zimeishia pazuri maana tumeweza kuirekebisha kwenye toleo hili."
   }
 }

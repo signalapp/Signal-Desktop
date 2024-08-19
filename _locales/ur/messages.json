@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "آپ کے ڈیٹا بیس کا ورژن Signal کے اس ورژن سے ملتا نہیں ہے۔ اس بات کو یقینی بنائیں کہ آپ اپنے کمپیوٹر پر Signal کا تازہ ترین ورژن کھول رہے ہیں۔"
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "ڈیٹا بیس میں خرابی واقع ہوئی ہے۔ آپ خرابی کو کاپی کر سکتے ہیں اور Signal سپورٹ سے اس مسئلے کو حل کرنے میں مدد کے لیے رابطہ کر سکتے ہیں۔ اگر آپ کو Signal کو فوراً استعمال کرنے کی ضرورت ہے، تو آپ اپنے ڈیٹا کو بحال کرنے کی کوشش کر سکتے ہیں۔\n\nاسے ملاحظہ کر کے سپورٹ سے رابطہ کریں:{link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "ڈیٹا بحال کریں"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "ڈیٹا بیس انکرپشن کیی تک رسائی حاصل کرنے سے قاصر ہیں کیونکہ OS انکرپشن کیی رنگ بیک اینڈ {previousBackend} سے{currentBackend} میں تبدیل ہو چکا ہے۔ ایسا اس صورت میں واقع ہو سکتا ہے اگر مثال کے طور پر GNOME اور KDE کے درمیان ڈیسک ٹاپ انوائرنمنٹ تبدیل ہوتی ہے۔\n\nبراہ کرم پچھلے ڈیسک ٹاپ انوائرنمنٹ میں تبدیل کریں۔"
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {اس کال میں · {people,number} شخص} other {اس کال میں · {people,number} افراد}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "آپ نے {name} کو بلاک کر دیا ہے"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} بلاک ہے"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "compose بٹن"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "کوئی چیٹس نہیں ہیں"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "حالیہ چیٹس یہاں ظاہر ہوں گی۔"
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "فارورڈ بطرف"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "ابھی دکھانے کے لیے کوئی حالیہ سٹوریز نہیں ہیں"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "کوئی سٹوریز نہیں ہیں"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "نئی اپ ڈیٹس یہاں ظاہر ہوں گی۔"
+  },
   "icu:Stories__list--sending": {
     "messageformat": "بھیج رہا ہے ..."
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "سٹوری دیکھنے کے لیے کلک کریں"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "اپ ڈیٹ شامل کرنے کے لیے <newStoryIcon>سٹوری شامل کریں</newStoryIcon> پر کلک کریں۔"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} تا {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "دیکھنے کے لیے کلک کریں یا کال شروع کریں"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "کسی نئی وائس یا ویڈیو کال شروع کرنے کے لیے <newCallIcon>نئی کال</newCallIcon> پر کلک کریں۔"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "تلا ‎ش کر یں"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "کوئی حالیہ کالز نہیں۔ دوست کو کال کرنے کے ذریعے آغاز کریں۔"
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "کوئی کالز نہیں ہیں"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "حالیہ کالز یہاں ظاہر ہوں گی۔"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "کوئی مسڈ کالز نہیں"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "مسڈ کالز یہاں ظاہر ہوں گی۔"
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "\"{query}\" کے لیے کوئی نتائج نہیں ہیں"
@@ -5610,5 +5631,8 @@
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "یہ ریلیز لنک کے پیش منظر میں جنریشن کی کارکردگی کو بھی بہتر بناتی ہے اور سیٹنگز کی ونڈو کو بند کرتے وقت معمولی ڈسپلے بگ کو بھی درست کرتی ہے۔"
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "ہم نے نقص جو بعض اوقات سٹوری دیکھتے وقت پیش رفت بار کے منجمد ہونے کا باعث بنتا تھا کو ٹھیک کیا۔"
   }
 }

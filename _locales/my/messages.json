@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "သင်၏ ဒေတာဘေ့စ်ဗားရှင်းသည် ဤ Signal ဗားရှင်းနှင့် မကိုက်ညီပါ။ သင့်ကွန်ပျူတာတွင် Signal နောက်ဆုံးထွက်ဗားရှင်းကို ဖွင့်ထားခြင်းဖြစ်ကြောင်း သေချာအောင်လုပ်ပါ။"
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "ဒေတာဘေ့စ် ချို့ယွင်းချက်တစ်ခု ဖြစ်နေပါသည်။ ချို့ယွင်းချက်ကို ကူးယူပြီးနောက် ဤပြဿနာကို ဖြေရှင်းရန်အတွက် အကူအညီရယူရန် Signal ပံ့ပိုးရေးသို့ ဆက်သွယ်နိုင်ပါသည်။ Signal ကိုချက်ချင်းအသုံးပြုရန်လိုအပ်ပါက၊ သင်သည်သင်၏ဒေတာကိုပြန်လည်ရယူရန်ကြိုးစားနိုင်သည်။\n\nဤလင့်ခ်ကို ဝင်ရောက်ခြင်းဖြင့် ပံ့ပိုးရေးသို့ ဆက်သွယ်ပါ- {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "ဒေတာပြန်ယူပါ"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "OS ကုဒ်ပြောင်းဝှက်ခြင်း Keyring backend သည် {previousBackend} မှ {currentBackend} သို့ ပြောင်းသွားသောကြောင့် ဒေတာဘေ့စ် ကုဒ်ဝှက်ခြင်းကီးကို ဝင်သုံး၍မရပါ။ ဥပမာအားဖြင့် GNOME နှင့် KDE အကြား Desktop အခြေအနေ ပြောင်းလဲပါက ၎င်းသည် ဖြစ်ပေါ်နိုင်သည်။\n\nကျေးဇူးပြု၍ ယခင် Desktop အခြေအနေသို့ ပြောင်းပါ။"
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, other {၎င်းခေါ်ဆိုမှုထဲတွင် · {people,number} ယောက်}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "သင်သည် {name} ကို ဘလော့ခ်ထားပါသည်"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} ကို ဘလော့ခ်ထားသည်"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "ရေးသားရန် ခလုတ်"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "ချက်(တ်)များမရှိပါ"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "လတ်တလောချက်(တ်)များ ဤနေရာတွင် ပေါ်လာပါမည်။"
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "ဒီကို ထပ်ဆင့်ပို့မည်"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "ယခု ပြသရန် မကြာသေးမီက စတိုရီများ မရှိသေးပါ"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "စတိုရီများမရှိပါ"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "အပ်ဒိတ်အသစ်များ ဤနေရာတွင် ပေါ်လာပါမည်။"
+  },
   "icu:Stories__list--sending": {
     "messageformat": "ပို့နေဆဲ..."
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "စတိုရီကို ကြည့်ရန် နှိပ်ပါ"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "အပ်ဒိတ်တစ်ခုထည့်ရန် <newStoryIcon>စတိုရီတစ်ခု ပေါင်းထည့်ရန်</newStoryIcon>ကို နှိပ်ပါ။"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} မှ {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "ကောလ်တစ်ခုကို ကြည့်ရှုရန် သို့မဟုတ် စတင်ရန် နှိပ်ပါ"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "အသံ သို့မဟုတ် ဗီဒီယိုကောလ် အသစ်တစ်ခုစတင်ရန် <newCallIcon>ကောလ်အသစ်</newCallIcon> ကိုနှိပ်ပါ။"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ရှာရန်"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "လတ်တလော ခေါ်ဆိုမှုများမရှိ။ သူငယ်ချင်းတစ်ယောက်ကို ခေါ်ဆိုခြင်းဖြင့် စတင်လိုက်ပါ။"
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "ကောလ်များ မရှိပါ"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "လတ်တလောကောလ်များ ဤနေရာတွင် ပေါ်လာပါမည်။"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "လွတ်သွားသော ကောလ်များမရှိပါ"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "လွတ်သွားသော ကောလ်များ ဤနေရာတွင် ပေါ်လာပါမည်။"
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}” အတွက် ရလဒ်မရှိပါ"
@@ -5610,5 +5631,8 @@
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "ဤထုတ်ဝေမှုသည် လင့်ခ်ကြိုတင်ကြည့်ရှုမှု အဆင့်၏ စွမ်းဆောင်ရည်ကိုလည်း မြှင့်တင်ပေးထားပြီး ဆက်တင်ဝင်းဒိုး ပိတ်သည့်အခါတိုင်း ဖြစ်တတ်သည့် အသေးစားချွတ်ယွင်းချက်တစ်ခုကို ပြင်ဆင်ပေးထားသည်။"
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }

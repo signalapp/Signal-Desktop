@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "ਤੁਹਾਡੇ ਡਾਟਾਬੇਸ ਦਾ ਵਰਜ਼ਨ Signal ਦੇ ਇਸ ਵਰਜ਼ਨ ਨਾਲ ਮੇਲ ਨਹੀਂ ਖਾ ਰਿਹਾ ਹੈ। ਯਕੀਨੀ ਬਣਾਓ ਕਿ ਤੁਸੀਂ ਆਪਣੇ ਕੰਪਿਊਟਰ 'ਤੇ Signal ਦਾ ਸਭ ਤੋਂ ਨਵਾਂ ਵਰਜ਼ਨ ਖੋਲ੍ਹ ਰਹੇ ਹੋ।"
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "ਡਾਟਾਬੇਸ ਵਿੱਚ ਕੋਈ ਗੜਬੜ ਆ ਗਈ ਹੈ। ਤੁਸੀਂ ਗੜਬੜ ਬਾਰੇ ਜਾਣਕਾਰੀ ਕਾਪੀ ਕਰ ਸਕਦੇ ਹੋ ਅਤੇ ਸਮੱਸਿਆ ਨੂੰ ਹੱਲ ਕਰਨ ਲਈ Signal ਸਹਾਇਤਾ ਟੀਮ ਨਾਲ ਸੰਪਰਕ ਕਰ ਸਕਦੇ ਹੋ। ਜੇਕਰ ਤੁਸੀਂ ਤੁਰੰਤ Signal ਦੀ ਵਰਤੋਂ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਆਪਣਾ ਡਾਟਾ ਰਿਕਵਰ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰ ਸਕਦੇ ਹੋ।\n\nਇੱਥੇੇ ਜਾ ਕੇ ਸਹਾਇਤਾ ਟੀਮ ਨਾਲ ਸੰਪਰਕ ਕਰੋ: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "ਡਾਟਾ ਰਿਕਵਰ ਕਰੋ"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "ਡਾਟਾਬੇਸ ਇਨਕ੍ਰਿਪਸ਼ਨ ਕੀ ਤੱਕ ਪਹੁੰਚ ਕਰਨ ਵਿੱਚ ਅਸਮਰੱਥ ਰਹੇ ਕਿਉਂਕਿ OS ਇਨਕ੍ਰਿਪਸ਼ਨ ਕੀਰਿੰਗ ਬੈਕਐਂਡ {previousBackend} ਤੋਂ {currentBackend} ਵਿੱਚ ਬਦਲ ਗਿਆ ਹੈ। ਅਜਿਹਾ ਉਦੋਂ ਹੋ ਸਕਦਾ ਹੈ ਜਦੋਂ ਡੈਸਕਟੌਪ ਦਾ ਵਾਤਾਵਰਨ ਬਦਲਦਾ ਹੈ, ਉਦਾਹਰਨ ਦੇ ਲਈ GNOME ਅਤੇ KDE ਵਿਚਕਾਰ।\n\nਕਿਰਪਾ ਕਰਕੇ ਪਿਛਲੇ ਡੈਸਕਟੌਪ ਵਾਤਾਵਰਨ 'ਤੇ ਬਦਲੋ।"
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {ਇਸ ਕਾਲ ਵਿੱਚ {people,number} ਵਿਅਕਤੀ} other {ਇਸ ਕਾਲ ਵਿੱਚ {people,number} ਲੋਕ}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "ਤੁਸੀਂ {name} ਉੱਤੇ ਪਾਬੰਦੀ ਲਗਾ ਦਿੱਤੀ ਹੈ"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} ਉੱਤੇ ਪਾਬੰਦੀ ਲਗਾਈ ਗਈ ਹੈ"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "ਕੰਪੋਜ਼ ਬਟਨ"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "ਕੋਈ ਚੈਟ ਮੌਜੂਦ ਨਹੀਂ ਹੈ"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "ਹਾਲ ਹੀ ਦੀਆਂ ਚੈਟਾਂ ਇੱਥੇ ਦਿਖਾਈ ਦੇਣਗੀਆਂ।"
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "ਇਹਨਾਂ ਨੂੰ ਅੱਗੇ ਭੇਜੋ"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "ਇਸ ਵੇਲੇ ਦਿਖਾਉਣ ਲਈ ਕੋਈ ਵੀ ਨਵੀਂ ਸਟੋਰੀ ਉਪਲਬਧ ਨਹੀਂ ਹੈ"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "ਕੋਈ ਸਟੋਰੀ ਮੌਜੂਦ ਨਹੀਂ ਹੈ"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "ਨਵੀਆਂ ਅੱਪਡੇਟਾਂ ਇੱਥੇ ਦਿਖਾਈ ਦੇਣਗੀਆਂ।"
+  },
   "icu:Stories__list--sending": {
     "messageformat": "ਭੇਜ ਰਿਹਾ ਹੈ .. "
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "ਸਟੋਰੀ ਦੇਖਣ ਲਈ ਕਲਿੱਕ ਕਰੋ"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "ਇੱਕ ਅੱਪਡੇਟ ਸ਼ਾਮਲ ਕਰਨ ਲਈ <newStoryIcon>ਸਟੋਰੀ ਸ਼ਾਮਲ ਕਰੋ</newStoryIcon> ਉੱਤੇ ਕਲਿੱਕ ਕਰੋ।"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} ਵੱਲੋਂ {group} ਵਿੱਚ"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "ਕਾਲ ਦੇਖਣ ਜਾਂ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਕਲਿੱਕ ਕਰੋ"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "ਇੱਕ ਨਵੀਂ ਵੌਇਸ ਜਾਂ ਵੀਡੀਓ ਕਾਲ ਸ਼ੁਰੂ ਕਰਨ ਲਈ <newCallIcon>ਨਵੀਂ ਕਾਲ</newCallIcon> ਉੱਤੇ ਕਲਿੱਕ ਕਰੋ।"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ਖੋਜੋ"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "ਕੋਈ ਹਾਲੀਆ ਕਾਲਾਂ ਮੌਜੂਦ ਨਹੀਂ ਹਨ। ਕਿਸੇ ਦੋਸਤ ਨੂੰ ਕਾਲ ਕਰਕੇ ਸ਼ੁਰੂਆਤ ਕਰੋ।"
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "ਕੋਈ ਕਾਲ ਮੌਜੂਦ ਨਹੀਂ ਹੈ"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "ਹਾਲ ਹੀ ਦੀਆਂ ਕਾਲਾਂ ਇੱਥੇ ਦਿਖਾਈ ਦੇਣਗੀਆਂ।"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "ਕੋਈ ਮਿਸ ਕਾਲ ਨਹੀਂ ਆਈ"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "ਮਿਸ ਕਾਲਾਂ ਇੱਥੇ ਦਿਖਾਈ ਦੇਣਗੀਆਂ।"
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}” ਲਈ ਕੋਈ ਨਤੀਜੇ ਨਹੀਂ ਮਿਲੇ"
@@ -5610,5 +5631,8 @@
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "ਇਹ ਰੀਲੀਜ਼ ਲਿੰਕ ਦੀ ਝਲਕ ਜਨਰੇਸ਼ਨ ਦੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਵੀ ਸੁਧਾਰਦੀ ਹੈ ਅਤੇ ਸੈਟਿੰਗਾਂ ਵਾਲੀ ਵਿੰਡੋ ਨੂੰ ਬੰਦ ਕਰਨ ਵੇਲੇ ਆਉਣ ਵਾਲੀ ਇੱਕ ਮਾਮੂਲੀ ਡਿਸਪਲੇ ਖਰਾਬੀ ਨੂੰ ਠੀਕ ਕਰਦੀ ਹੈ।"
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "ਅਸੀਂ ਇੱਕ ਬੱਗ ਨੂੰ ਠੀਕ ਕੀਤਾ ਹੈ ਜਿਸ ਕਾਰਨ ਕਈ ਵਾਰ ਸਟੋਰੀ ਦੇਖਣ ਵੇਲੇ ਪ੍ਰਗਤੀ ਬਾਰ ਫ੍ਰੀਜ਼ ਹੋ ਜਾਂਦੀ ਸੀ।"
   }
 }

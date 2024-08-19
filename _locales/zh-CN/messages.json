@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "您的数据库版本与此版本的 Signal 不匹配。请确保您在电脑上打开的是最新版本的 Signal。"
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "出现了一个数据库错误。您可以复制错误信息并联系 Signal 支持团队协助处理该问题。如果您需要立即使用 Signal，您可以尝试恢复数据。\n\n请访问此网址联系支持团队：{link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "恢复数据"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "无法访问数据库加密密钥，因为 OS 加密密钥环后端已从 {previousBackend} 更改为 {currentBackend}。当桌面环境发生变化时，如在 GNOME 和 KDE 之间切换，这种情况就会发生。\n\n请切换到之前的桌面环境。"
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, other {此通话 · {people,number} 人}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "您已屏蔽{name}"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name}已被屏蔽"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "撰写按钮"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "无聊天"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "最近的聊天将会在这里显示。"
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "转发给"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "当前没有可以显示的近期动态"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "无动态"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "新的更新将会在这里显示。"
+  },
   "icu:Stories__list--sending": {
     "messageformat": "正在发送……"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "点击查看动态"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "点击<newStoryIcon>添加动态</newStoryIcon>来添加更新。"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name}发送给{group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "点击查看或发起通话"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "点击<newCallIcon>新通话</newCallIcon>来发起一个新的语音或视频通话。"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "搜索"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "没有最近呼叫。 呼叫朋友开始互动吧。"
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "没有通话"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "最近的通话将会在这里显示。"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "无未接来电"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "未接通话将会在这里显示。"
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "没有找到“{query}”的相关结果"
@@ -5610,5 +5631,8 @@
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "此版本还改进了链接预览生成的性能，并修复了关闭设置窗口时会出现的显示小错误。"
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "我们修复了一个漏洞，在浏览动态时，该漏洞有时会导致进度条冻结。"
   }
 }

@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "আপনার ডাটাবেজের সংস্করণ Signal-এর এই সংস্করণের সাথে মিলে না। নিশ্চিত করুন যে আপনি আপনার কম্পিউটারে Signal-এর নতুন সংস্করণ খুলছেন।"
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "ডাটাবেজ সংক্রান্ত একটি ত্রুটি দেখা দিয়েছে। আপনি ত্রুটিটি কপি করতে পারেন এবং সমস্যাটি সমাধানে সাহায্য করতে Signal সাপোর্টের সাথে যোগাযোগ করতে পারেন। আপনার যদি সাথে সাথেই Signal ব্যবহার করার প্রয়োজন হয় তাহলে আপনার ডেটা পুনরুদ্ধারের চেষ্টা করে দেখতে পারেন।\n\nএখানে ভিজিট করার মাধ্যমে সাপোর্টের সাথে যোগাযোগ করুন: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "ডেটা পুনরুদ্ধার করুন"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "ডেটাবেজ এনক্রিপশন কী অ্যাক্সেস করতে সক্ষম নয় কারণ OS এনক্রিপশন কী-রিং ব্যাকএন্ড {previousBackend} থেকে {currentBackend}-এ পরিবর্তিত হয়েছে। যদি ডেস্কটপের পরিবেশ পরিবর্তন হয় তবে এটি ঘটতে পারে, যেমন GNOME এবং KDE-এর মধ্যে পরিবর্তন।\n\nপূর্ববর্তী ডেস্কটপ পরিবেশে স্যুইচ করুন।"
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {এই কলটিতে আছেন · {people,number} জন} other {এই কলটিতে আছেন · {people,number} জন}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "আপনি {name}-কে ব্লক করেছেন"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name}-কে ব্লক করা হয়েছে"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "লিখুন বোতাম"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "কোন চ্যাট নেই"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "সাম্প্রতিক চ্যাট এখানে দেখানো হবে।"
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "ফরওয়ার্ড করুন"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "এই মুহূর্তে দেখানোর মতো কোনো সাম্প্রতিক স্টোরি নেই"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "কোনো স্টোরি নেই"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "নতুন আপডেট এখানে দেখানো হবে।"
+  },
   "icu:Stories__list--sending": {
     "messageformat": "পাঠানো হচ্ছে…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "একটি স্টোরি দেখতে ভিউ-তে ক্লিক করুন"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "কোনও আপডেট যোগ করতে <newStoryIcon>স্টোরি যোগ করুন</newStoryIcon>-এ ক্লিক করুন।"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} থেকে {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "দেখতে বা কল শুরু করতে ক্লিক করুন"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "নতুন ভয়েস বা ভিডিও কল শুরু করতে <newCallIcon>নতুন কল</newCallIcon>-এ ক্লিক করুন।"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "অনুসন্ধান"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "কোনো সাম্প্রতিক কল নেই। একজন বন্ধুকে কল দিয়ে শুরু করুন।"
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "কোন কল নেই"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "সাম্প্রতিক কল এখানে দেখানো হবে।"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "কোনো মিসড কল নেই"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "মিসড কল এখানে দেখানো হবে।"
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}”-এর জন্য কোনো ফলাফল পাওয়া যায়নি"
@@ -5610,5 +5631,8 @@
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "এছাড়াও এই রিলিজটি লিংক প্রিভিউ জেনারেশনের পারফর্মেন্সকে উন্নত করে এবং সেটিংস উইন্ডো বন্ধ করার সময় একটি ছোট ডিসপ্লে বাগ ঠিক করে যার কারণে সেটিংস উইন্ডোটি বন্ধ করার সময় (সাথে সাথে বন্ধ হওয়ার পরিবর্তে) আল্ট্রামেরিনের সুন্দর একটি শেড দেখা যায়।"
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "একটি ভাল স্টোরি সবাই পছন্দ করে এবং আমরা আপনাকে একটি স্টোরি বলতে পারি যেখানে একটি বাগ-এর কারণে কখনও কখনও একটি ভাল স্টোরি দেখার মাঝখানে প্রগ্রেসবার স্থির হয়ে যেত — কিন্তু বাগ নিয়ে সেই অ্যাডভেঞ্চারের ইতিমধ্যেই একটি শুভ পরিণতি ঘটেছে, কারণ আমরা এই রিলিজে সেই বাগটি ঠিক করেছি।"
   }
 }

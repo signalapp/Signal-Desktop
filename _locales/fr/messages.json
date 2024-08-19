@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "La version de votre base de données ne peut pas supporter cette version de Signal. Assurez-vous d’ouvrir la dernière version de Signal sur votre ordinateur."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "Une erreur de base de données s’est produite. Pour nous aider à résoudre le problème, vous pouvez copier l’erreur via le bouton ci-dessous et la transmettre à l’assistance Signal. Si vous devez utiliser Signal immédiatement, vous pouvez aussi tenter de récupérer vos données.\n\nPour contacter l’équipe d’assistance, rendez-vous sur {link}."
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "Récupérer les données"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Impossible d’accéder à la clé de chiffrement de la base de données, car le backend du keyring de chiffrement associé au système d’exploitation est passé de {previousBackend} à {currentBackend}. Cela peut se produire lorsque vous changez d’environnement de bureau pour passer de GNOME à KDE, par exemple.\n\nPour y remédier, revenez à l’ancien environnement de bureau."
   },
@@ -1409,9 +1403,6 @@
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {{people,number} participant} other {{people,number} participants}}"
   },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "Vous avez bloqué {name}"
-  },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} est bloqué"
   },
@@ -1701,7 +1692,7 @@
     "messageformat": "Changements des numéros de sécurité"
   },
   "icu:safetyNumberChangedGroup": {
-    "messageformat": "Le numéro de sécurité avec {name} a changé"
+    "messageformat": "Le numéro de sécurité de {name} a changé"
   },
   "icu:ConversationDetails__viewSafetyNumber": {
     "messageformat": "Afficher le numéro de sécurité"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "bouton « Nouveau message »"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "No chats"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Recent chats will appear here."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Transférer à"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "Aucune story récente à afficher pour le moment"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "No stories"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "New updates will appear here."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Envoi…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Cliquer sur une story pour l’afficher"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} à {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Cliquer sur un appel pour l’afficher ou passer un nouvel appel"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Rechercher"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "Aucun appel récent. Pour commencer, appelez un ami."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "Aucun appel"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Recent calls will appear here."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "Aucun appel manqué"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Missed calls will appear here."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Aucun résultat pour « {query} »"
@@ -5610,5 +5631,8 @@
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "La génération des aperçus de lien n’est pas non plus en reste. Autre amélioration : au moment de fermer la fenêtre Paramètres, celle-ci avait une fâcheuse tendance à se transformer en voyant clignotant d’un bleu outremer… On adore le bleu, mais les lumières clignotantes, on préfère les voir à Noël. "
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
   }
 }

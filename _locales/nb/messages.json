@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Versjonen av databasen passer ikke sammen med denne versjonen av Signal. Sørg for at du bruker den nyeste versjonen av Signal på datamaskinen din."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "Det oppsto en feil med databasen. Du kan kopiere feilen og ta kontakt med Signals brukerstøtte for å få hjelp. Hvis du trenger tilgang til Signal umiddelbart, kan du forsøke å gjenopprette dataene.\n\nTa kontakt med brukerstøtten via {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "Gjenopprett data"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Ingen tilgang til krypteringsnøkkelen for databasen fordi krypteringsringen til operativsystemet har endret seg fra {previousBackend} til {currentBackend}. Dette skjer hvis skrivebordsmiljøet endres, for eksempel fra GNOME til KDE.\n\nBytt tilbake til det forrige miljøet."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {I denne samtalen · {people,number} person} other {I denne samtalen · {people,number} personer}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "Du har blokkert {name}"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} er blokkert"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "opprett-knapp"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "Ingen samtaler"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Nylige samtaler dukker opp her."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Videresend til"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "Ingen nylige storyer å vise"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "Ingen storyer"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "Nye oppdateringer dukker opp her."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Sender …"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Klikk for å se en story"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Trykk på <newStoryIcon>Legg til en story</newStoryIcon> for å legge ut en oppdatering."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} til {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Trykk for å se eller foreta et anrop"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Trykk på <newCallIcon>Nytt anrop</newCallIcon> for å starte en ny lyd- eller videosamtale."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Søk"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "Ingen nylige samtaler. Kom i gang ved å ringe en venn."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "Ingen anrop"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Nylige samtaler dukker opp her."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "Ingen ubesvarte anrop"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Tapte anrop dukker opp her."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "«{query}» ga ingen resultater"
@@ -5610,5 +5631,8 @@
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "I denne oppdateringen har også forhåndsvisninger av lenker blitt bedre, og en liten feil ved lukking av innstillingsvinduet er fikset."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Vi har fikset en feil som fører til at fremdriftslinjen enkelte ganger stopper opp når man ser på en story."
   }
 }

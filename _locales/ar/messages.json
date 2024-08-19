@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "لا يتطابق إصدار قاعدة بياناتك مع إصدار سيجنال هذا. تأكد من فتح أحدث إصدار لِسيجنال على حاسوبك."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "حدث خطأ في قاعدة البيانات. يُمكنك نسخ الخطأ والاتصال بدعم سيجنال لمُساعدتك على حل المشكلة. إذا كنت في حاجة إلى استخدام سيجنال في الحين، يُمكنك محاولة استرداد بياناتك.\n\nاتصل بالدعم عبر زيارة: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "استرداد البيانات"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "تعذّر الوصول إلى مفتاح تشفير قاعدة البيانات لأن الواجهة الخلفية لحلقة مفاتيح تشفير نظام التشغيل تغيّرت من {previousBackend} إلى {currentBackend}. يُمكن أن يَحدث هذا إذا تغيّرت بيئة سطح المكتب، مثلا بين GNOME وKDE.\n\nيُرجى الرجوع إلى بيئة سطح المكتب السابقة."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, zero {في هذه المُكالمة · {people,number} شخص} one {في هذه المكالمة · {people,number} شخص} two {في هذه المُكالمة · {people,number} شخصين} few {في هذه المُكالمة · {people,number} أشخاص} many {في هذه المُكالمة · {people,number} شخص} other {في هذه المُكالمة · {people,number} شخص/أشخاص}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "لقد حظرت {name}"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "تم حَظر {name}"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "زر الكتابة"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "لا توجد دردشات"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "سَتظهر آخر الدردشات هنا."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "إعادة التوجيه نحو"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "لا توجد قصص حديثة للمشاهدة حاليا"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "لا توجد قصص"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "سَتظهر آخر المستجدات هنا."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "جارٍ الإرسال…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "يُرجى الضغط لمشاهدة قصة"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "انقر على <newStoryIcon>أضف قصة</newStoryIcon> لإضافة آخر المستجدات."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "‫من {name} إلى {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "انقر لعرض أو بدء مكالمة"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "انقر على <newCallIcon>مكالمة جديدة</newCallIcon> لبدء مكالمة صوتية أو مكالمة فيديو جديدة."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "بحث"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "لا توجد مكالمات حديثة. ابدأ بالاتصال بصديق."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "لا توجد مكالمات"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "سَتظهر آخر المكالمات هنا."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "لا توجد مكالمات فائتة"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "سَتظهر المكالمات الفائتة هنا."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "لا توجد نتيجة لـ \"{query}\""
@@ -5610,5 +5631,8 @@
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "يُحسّن هذا الإصدار أيضًا أداء إنشاء معاينة الروابط ويصلح خطأ متعلقًا بالعرض عند إغلاق نافذة الإعدادات."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "أصلحنا خطأً كان يتسبب أحيانًا في تجميد شريط التقدم —أثناء عرض القصة."
   }
 }

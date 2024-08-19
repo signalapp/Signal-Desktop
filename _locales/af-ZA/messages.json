@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Die weergawe van jou databasis pas nie by hierdie weergawe van Signal nie. Maak seker dat jy die jongste weergawe van Signal op jou rekenaar oopmaak."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "'n Databasisfout het voorgekom. Jy kan die fout kopieer en Signal-steundiens kontak om die probleem te help oplos. As jy Signal dadelik moet gebruik, kan jy jou data probeer herwin.\n\nKontak die steundiens deur te gaan na: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "Herwin data"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Kan nie toegang tot die databasis-enkripsiesleutel verkry nie, omdat die enkripteringsleutelring-implementering van die bedryfstelsel van {previousBackend} na {currentBackend} verander het. Dit kan gebeur as die rekenaaromgewing verander, byvoorbeeld van GNOME na KDE.\n\nSkakel asseblief terug na die vorige rekenaaromgewing."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {In hierdie oproep · {people,number} persoon} other {In hierdie oproep · {people,number} mense}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "Jy het {name} versper"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} is versper"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "saamstelknop"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "Geen kletse nie"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Onlangse kletse sal hier verskyn."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Stuur aan na"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "Tans geen onlangse stories om te wys nie."
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "Geen stories nie"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "Nuwe opdaterings sal hier verskyn."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Besig om te stuur…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Klik om 'n storie te kyk."
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Klik op <newStoryIcon>Voeg 'n storie by</newStoryIcon> om 'n opdatering by te voeg."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} aan {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Klik om 'n oproep te sien of te begin"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Klik op <newCallIcon>Nuwe oproep</newCallIcon> om 'n nuwe stem- of video-oproep te begin."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Soek"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "Geen onlangse oproepe nie. Begin deur 'n vriend te bel."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "Geen oproepe nie"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Onlangse oproepe sal hier verskyn."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "Geen gemiste oproepe nie"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Gemiste oproepe sal hier verskyn."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Geen resultate vir \"{query}\" nie"
@@ -5610,5 +5631,8 @@
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "Hierdie vrystelling verbeter ook die werkverrigting van skakelvoorskou-generering en stel 'n geringe vertoonfout reg wanneer die Instellingsvenster gesluit word."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Ons het 'n fout reggestel wat soms veroorsaak het dat die vorderingstaaf vries terwyl jy besig was om na 'n storie te kyk."
   }
 }

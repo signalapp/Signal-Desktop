@@ -80,12 +80,6 @@
   "icu:databaseError__startOldVersion": {
     "messageformat": "Ваша версия базы данных не соответствует этой версии Signal. Убедитесь, что на вашем компьютере установлена самая последняя версия Signal."
   },
-  "icu:databaseError__recover__detail": {
-    "messageformat": "Произошла ошибка базы данных. Вы можете создать копию ошибки и обратиться в службу поддержки Signal для решения проблемы. Если вы хотите использовать Signal прямо сейчас, вы можете попытаться восстановить свои данные.\n\nСвязаться с поддержкой можно по адресу: {link}"
-  },
-  "icu:databaseError__recover__button": {
-    "messageformat": "Восстановить данные"
-  },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Не удаётся получить доступ к ключу шифрования базы данных, так как серверная часть связки ключей шифрования ОС изменилась с {previousBackend} на {currentBackend}. Это может произойти при изменении интерфейса ПК, например с GNOME на KDE.\n\nПожалуйста, переключитесь на предыдущей интерфейс ПК."
   },
@@ -1408,9 +1402,6 @@
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, one {В этом звонке · {people,number} человек} few {В этом звонке · {people,number} человека} many {В этом звонке · {people,number} человек} other {В этом звонке · {people,number} человека}}"
-  },
-  "icu:calling__you-have-blocked": {
-    "messageformat": "Вы заблокировали {name}"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} заблокирован(-а)"
@@ -3962,6 +3953,12 @@
   "icu:composeIcon": {
     "messageformat": "кнопку «Новый разговор»"
   },
+  "icu:emptyInbox__title": {
+    "messageformat": "Чатов нет"
+  },
+  "icu:emptyInbox__subtitle": {
+    "messageformat": "Недавние чаты появятся здесь."
+  },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Переслать"
   },
@@ -4850,6 +4847,12 @@
   "icu:Stories__list-empty": {
     "messageformat": "Нет недавних историй"
   },
+  "icu:Stories__list__empty--title": {
+    "messageformat": "Историй нет"
+  },
+  "icu:Stories__list__empty--subtitle": {
+    "messageformat": "Новые истории появятся здесь."
+  },
   "icu:Stories__list--sending": {
     "messageformat": "Отправляем…"
   },
@@ -4864,6 +4867,9 @@
   },
   "icu:Stories__placeholder--text": {
     "messageformat": "Нажмите на историю, чтобы просмотреть её"
+  },
+  "icu:Stories__placeholder-with-icon--text": {
+    "messageformat": "Нажмите <newStoryIcon>Добавить историю</newStoryIcon>, чтобы добавить обновление."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} для {group}"
@@ -5406,6 +5412,9 @@
   "icu:CallsTab__EmptyStateText": {
     "messageformat": "Нажмите, чтобы просмотреть или начать звонок"
   },
+  "icu:CallsTab__EmptyStateText--with-icon": {
+    "messageformat": "Нажмите <newCallIcon>Новый звонок</newCallIcon>, чтобы начать новый аудио- или видеозвонок."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Поиск"
   },
@@ -5417,6 +5426,18 @@
   },
   "icu:CallsList__EmptyState--noQuery": {
     "messageformat": "Нет недавних звонков. Начните со звонка другу."
+  },
+  "icu:CallsList__EmptyState--noQuery__title": {
+    "messageformat": "Нет звонков"
+  },
+  "icu:CallsList__EmptyState--noQuery__subtitle": {
+    "messageformat": "Недавние звонки появятся здесь."
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__title": {
+    "messageformat": "Нет пропущенных звонков"
+  },
+  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
+    "messageformat": "Пропущенные звонки появятся здесь."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Нет результатов для «{query}»"
@@ -5610,5 +5631,8 @@
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "В этом релизе также улучшена генерация просмотра ссылок и исправлена ошибка, из-за которой окно настроек при закрытии всякий раз на мгновение окрашивалось в приятный ультрамариновый оттенок (вместо того, чтобы просто сразу закрыться)."
+  },
+  "icu:WhatsNew__v7.21--0": {
+    "messageformat": "Хорошую историю любят все, и мы могли бы рассказать вам историю об ошибке, из-за которой индикатор прогресса иногда зависал прямо посреди просмотра хорошей истории, но это приключение уже счастливо завершилось, потому что мы исправили ошибку в этом релизе."
   }
 }
