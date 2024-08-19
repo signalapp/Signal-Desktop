@@ -9,6 +9,7 @@ import { Avatar, AvatarSize } from './Avatar';
 import { Input } from './Input';
 import {
   CallLinkNameMaxByteLength,
+  CallLinkNameMaxLength,
   type CallLinkType,
 } from '../types/CallLink';
 import { getColorForCallLink } from '../util/getColorForCallLink';
@@ -113,6 +114,7 @@ export function CallLinkAddNameModal({
           onChange={handleNameInputChange}
           moduleClassName="CallLinkAddNameModal__Input"
           maxByteCount={CallLinkNameMaxByteLength}
+          maxLengthCount={CallLinkNameMaxLength}
         />
       </form>
     </Modal>

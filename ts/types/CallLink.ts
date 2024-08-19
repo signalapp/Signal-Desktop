@@ -21,6 +21,7 @@ export type CallLinkUpdateData = Readonly<{
  */
 
 export const CallLinkNameMaxByteLength = 120;
+export const CallLinkNameMaxLength = 32;
 
 export const callLinkNameSchema = z.string().refine(input => {
   return byteLength(input) <= 120;
