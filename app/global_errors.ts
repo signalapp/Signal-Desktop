@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { app, dialog, clipboard } from 'electron';
+import os from 'node:os';
 
 import * as Errors from '../ts/types/errors';
 import { redactAll } from '../ts/util/privacy';
@@ -31,7 +32,11 @@ function handleError(prefix: string, error: Error): void {
     });
 
     if (buttonIndex === 1) {
-      clipboard.writeText(`${prefix}\n\n${redactAll(formattedError)}`);
+      clipboard.writeText(
+        `${prefix}\n\n${redactAll(formattedError)}\n\n` +
+          `App Version: ${app.getVersion()}\n` +
+          `OS: ${os.platform()}`
+      );
     }
   } else {
     dialog.showErrorBox(prefix, formattedError);
