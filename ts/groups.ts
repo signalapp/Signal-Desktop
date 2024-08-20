@@ -1593,16 +1593,24 @@ export async function modifyGroupV2({
 
         // If we are no longer a member - endorsement won't be present
         if (Bytes.isNotEmpty(groupSendEndorsementResponse)) {
-          log.info(`modifyGroupV2/${logId}: Saving group endorsements`);
+          try {
+            log.info(`modifyGroupV2/${logId}: Saving group endorsements`);
 
-          const groupEndorsementData = decodeGroupSendEndorsementResponse({
-            groupId,
-            groupSendEndorsementResponse,
-            groupSecretParamsBase64: secretParams,
-            groupMembersV2: membersV2,
-          });
+            const groupEndorsementData = decodeGroupSendEndorsementResponse({
+              groupId,
+              groupSendEndorsementResponse,
+              groupSecretParamsBase64: secretParams,
+              groupMembersV2: membersV2,
+            });
 
-          await DataWriter.replaceAllEndorsementsForGroup(groupEndorsementData);
+            await DataWriter.replaceAllEndorsementsForGroup(
+              groupEndorsementData
+            );
+          } catch (error) {
+            log.warn(
+              `modifyGroupV2/${logId}: Problem saving group endorsements ${Errors.toLogFormat(error)}`
+            );
+          }
         }
       });
 
@@ -1912,14 +1920,20 @@ export async function createGroupV2(
       'missing groupSendEndorsementResponse'
     );
 
-    const groupEndorsementData = decodeGroupSendEndorsementResponse({
-      groupId,
-      groupSendEndorsementResponse,
-      groupSecretParamsBase64: secretParams,
-      groupMembersV2: membersV2,
-    });
+    try {
+      const groupEndorsementData = decodeGroupSendEndorsementResponse({
+        groupId,
+        groupSendEndorsementResponse,
+        groupSecretParamsBase64: secretParams,
+        groupMembersV2: membersV2,
+      });
 
-    await DataWriter.replaceAllEndorsementsForGroup(groupEndorsementData);
+      await DataWriter.replaceAllEndorsementsForGroup(groupEndorsementData);
+    } catch (error) {
+      log.warn(
+        `createGroupV2/${logId}: Problem saving group endorsements ${Errors.toLogFormat(error)}`
+      );
+    }
   } catch (error) {
     if (!(error instanceof HTTPError)) {
       throw error;
@@ -2430,7 +2444,7 @@ export async function initiateMigrationToGroupV2(
       let groupSendEndorsementResponse: Uint8Array | null | undefined;
       try {
         const groupResponse = await makeRequestWithCredentials({
-          logId: `createGroup/${logId}`,
+          logId: `initiateMigrationToGroupV2/${logId}`,
           publicParams,
           secretParams,
           request: (sender, options) => sender.createGroup(groupProto, options),
@@ -2485,14 +2499,20 @@ export async function initiateMigrationToGroupV2(
         'missing groupSendEndorsementResponse'
       );
 
-      const groupEndorsementData = decodeGroupSendEndorsementResponse({
-        groupId,
-        groupSendEndorsementResponse,
-        groupSecretParamsBase64: secretParams,
-        groupMembersV2: membersV2,
-      });
+      try {
+        const groupEndorsementData = decodeGroupSendEndorsementResponse({
+          groupId,
+          groupSendEndorsementResponse,
+          groupSecretParamsBase64: secretParams,
+          groupMembersV2: membersV2,
+        });
 
-      await DataWriter.replaceAllEndorsementsForGroup(groupEndorsementData);
+        await DataWriter.replaceAllEndorsementsForGroup(groupEndorsementData);
+      } catch (error) {
+        log.warn(
+          `initiateMigrationToGroupV2/${logId}: Problem saving group endorsements ${Errors.toLogFormat(error)}`
+        );
+      }
     });
   } catch (error) {
     const logId = conversation.idForLogging();
@@ -2969,17 +2989,23 @@ export async function respondToGroupV2Migration({
   });
 
   if (Bytes.isNotEmpty(groupSendEndorsementResponse)) {
-    const { membersV2 } = conversation.attributes;
-    strictAssert(membersV2, 'missing membersV2');
+    try {
+      const { membersV2 } = conversation.attributes;
+      strictAssert(membersV2, 'missing membersV2');
 
-    const groupEndorsementData = decodeGroupSendEndorsementResponse({
-      groupId,
-      groupSendEndorsementResponse,
-      groupSecretParamsBase64: secretParams,
-      groupMembersV2: membersV2,
-    });
+      const groupEndorsementData = decodeGroupSendEndorsementResponse({
+        groupId,
+        groupSendEndorsementResponse,
+        groupSecretParamsBase64: secretParams,
+        groupMembersV2: membersV2,
+      });
 
-    await DataWriter.replaceAllEndorsementsForGroup(groupEndorsementData);
+      await DataWriter.replaceAllEndorsementsForGroup(groupEndorsementData);
+    } catch (error) {
+      log.warn(
+        `respondToGroupV2Migration/${logId}: Problem saving group endorsements ${Errors.toLogFormat(error)}`
+      );
+    }
   }
 }
 
@@ -3747,21 +3773,27 @@ async function updateGroupViaState({
 
   // If we're not in the group, we won't receive endorsements
   if (Bytes.isNotEmpty(groupSendEndorsementResponse)) {
-    // Use the latest state of the group after applying changes
-    const { groupId, membersV2 } = newAttributes;
-    strictAssert(groupId, 'updateGroupViaState: Group must have groupId');
-    strictAssert(membersV2, 'updateGroupViaState: Group must have membersV2');
+    try {
+      // Use the latest state of the group after applying changes
+      const { groupId, membersV2 } = newAttributes;
+      strictAssert(groupId, 'updateGroupViaState: Group must have groupId');
+      strictAssert(membersV2, 'updateGroupViaState: Group must have membersV2');
 
-    log.info(`getCurrentGroupState/${logId}: Saving group endorsements`);
+      log.info(`getCurrentGroupState/${logId}: Saving group endorsements`);
 
-    const groupEndorsementData = decodeGroupSendEndorsementResponse({
-      groupId,
-      groupSendEndorsementResponse,
-      groupSecretParamsBase64: secretParams,
-      groupMembersV2: membersV2,
-    });
+      const groupEndorsementData = decodeGroupSendEndorsementResponse({
+        groupId,
+        groupSendEndorsementResponse,
+        groupSecretParamsBase64: secretParams,
+        groupMembersV2: membersV2,
+      });
 
-    await DataWriter.replaceAllEndorsementsForGroup(groupEndorsementData);
+      await DataWriter.replaceAllEndorsementsForGroup(groupEndorsementData);
+    } catch (error) {
+      log.warn(
+        `updateGroupViaState/${logId}: Problem saving group endorsements ${Errors.toLogFormat(error)}`
+      );
+    }
   }
 
   return {
@@ -3951,22 +3983,28 @@ async function updateGroupViaLogs({
 
   // If we're not in the group, we won't receive endorsements
   if (Bytes.isNotEmpty(groupSendEndorsementResponse)) {
-    log.info(`updateGroupViaLogs/${logId}: Saving group endorsements`);
-    // Use the latest state of the group after applying changes
-    const { membersV2 } = updates.newAttributes;
-    strictAssert(
-      membersV2 != null,
-      'updateGroupViaLogs: Group must have membersV2'
-    );
+    try {
+      log.info(`updateGroupViaLogs/${logId}: Saving group endorsements`);
+      // Use the latest state of the group after applying changes
+      const { membersV2 } = updates.newAttributes;
+      strictAssert(
+        membersV2 != null,
+        'updateGroupViaLogs: Group must have membersV2'
+      );
 
-    const groupEndorsementData = decodeGroupSendEndorsementResponse({
-      groupId,
-      groupSendEndorsementResponse,
-      groupMembersV2: membersV2,
-      groupSecretParamsBase64: secretParams,
-    });
+      const groupEndorsementData = decodeGroupSendEndorsementResponse({
+        groupId,
+        groupSendEndorsementResponse,
+        groupMembersV2: membersV2,
+        groupSecretParamsBase64: secretParams,
+      });
 
-    await DataWriter.replaceAllEndorsementsForGroup(groupEndorsementData);
+      await DataWriter.replaceAllEndorsementsForGroup(groupEndorsementData);
+    } catch (error) {
+      log.warn(
+        `updateGroupViaLogs/${logId}: Problem saving group endorsements ${Errors.toLogFormat(error)}`
+      );
+    }
   }
 
   return updates;
