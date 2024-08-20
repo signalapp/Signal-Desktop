@@ -86,7 +86,6 @@ import {
 import * as Bytes from '../../Bytes';
 import { canBeSynced as canPreferredReactionEmojiBeSynced } from '../../reactions/preferredReactionEmoji';
 import { SendStatus } from '../../messages/MessageSendState';
-import { deriveGroupFields } from '../../groups';
 import { BACKUP_VERSION } from './constants';
 import { getMessageIdForLogging } from '../../util/idForLogging';
 import { getCallsHistoryForRedux } from '../callHistoryLoader';
@@ -811,20 +810,12 @@ export class BackupExportStream extends Readable {
 
       const masterKey = Bytes.fromBase64(convo.masterKey);
 
-      let publicKey;
-      if (convo.publicParams) {
-        publicKey = Bytes.fromBase64(convo.publicParams);
-      } else {
-        ({ publicParams: publicKey } = deriveGroupFields(masterKey));
-      }
-
       res.group = {
         masterKey,
         whitelisted: convo.profileSharing,
         hideStory: convo.hideStory === true,
         storySendMode,
         snapshot: {
-          publicKey,
           title: {
             title: convo.name ?? '',
           },
@@ -2204,8 +2195,6 @@ export class BackupExportStream extends Readable {
       'sendStateByConversationId' | 'unidentifiedDeliveries' | 'errors'
     >
   ): Backups.ChatItem.IOutgoingMessageDetails {
-    const BackupSendStatus = Backups.SendStatus.Status;
-
     const sealedSenderServiceIds = new Set(unidentifiedDeliveries);
     const errorMap = new Map(
       errors.map(({ serviceId, name }) => {
@@ -2213,65 +2202,78 @@ export class BackupExportStream extends Readable {
       })
     );
 
-    const sendStatus = new Array<Backups.ISendStatus>();
+    const sendStatuses = new Array<Backups.ISendStatus>();
     for (const [id, entry] of Object.entries(sendStateByConversationId)) {
       const target = window.ConversationController.get(id);
       if (!target) {
         log.warn(`backups: no send target for a message ${sentAt}`);
         continue;
       }
+      const { serviceId } = target.attributes;
+      const recipientId = this.getOrPushPrivateRecipient(target.attributes);
+      const timestamp =
+        entry.updatedAt != null
+          ? getSafeLongFromTimestamp(entry.updatedAt)
+          : null;
 
-      let deliveryStatus: Backups.SendStatus.Status;
+      const sendStatus = new Backups.SendStatus({ recipientId, timestamp });
+
+      const sealedSender = serviceId
+        ? sealedSenderServiceIds.has(serviceId)
+        : false;
+
       switch (entry.status) {
         case SendStatus.Pending:
-          deliveryStatus = BackupSendStatus.PENDING;
+          sendStatus.pending = new Backups.SendStatus.Pending();
           break;
         case SendStatus.Sent:
-          deliveryStatus = BackupSendStatus.SENT;
+          sendStatus.sent = new Backups.SendStatus.Sent({
+            sealedSender,
+          });
           break;
         case SendStatus.Delivered:
-          deliveryStatus = BackupSendStatus.DELIVERED;
+          sendStatus.delivered = new Backups.SendStatus.Delivered({
+            sealedSender,
+          });
           break;
         case SendStatus.Read:
-          deliveryStatus = BackupSendStatus.READ;
+          sendStatus.read = new Backups.SendStatus.Read({
+            sealedSender,
+          });
           break;
         case SendStatus.Viewed:
-          deliveryStatus = BackupSendStatus.VIEWED;
+          sendStatus.viewed = new Backups.SendStatus.Viewed({
+            sealedSender,
+          });
           break;
-        case SendStatus.Failed:
-          deliveryStatus = BackupSendStatus.FAILED;
+        case SendStatus.Failed: {
+          sendStatus.failed = new Backups.SendStatus.Failed();
+          if (!serviceId) {
+            break;
+          }
+          const errorName = errorMap.get(serviceId);
+          if (!errorName) {
+            break;
+          }
+
+          const identityKeyMismatch = errorName === 'OutgoingIdentityKeyError';
+          if (identityKeyMismatch) {
+            sendStatus.failed.reason =
+              Backups.SendStatus.Failed.FailureReason.IDENTITY_KEY_MISMATCH;
+          } else {
+            sendStatus.failed.reason =
+              Backups.SendStatus.Failed.FailureReason.NETWORK;
+          }
           break;
+        }
         default:
           throw missingCaseError(entry.status);
       }
 
-      const { serviceId } = target.attributes;
-      let networkFailure = false;
-      let identityKeyMismatch = false;
-      let sealedSender = false;
-      if (serviceId) {
-        const errorName = errorMap.get(serviceId);
-        if (errorName !== undefined) {
-          identityKeyMismatch = errorName === 'OutgoingIdentityKeyError';
-          networkFailure = !identityKeyMismatch;
-        }
-        sealedSender = sealedSenderServiceIds.has(serviceId);
-      }
-
-      sendStatus.push({
-        recipientId: this.getOrPushPrivateRecipient(target.attributes),
-        lastStatusUpdateTimestamp:
-          entry.updatedAt != null
-            ? getSafeLongFromTimestamp(entry.updatedAt)
-            : null,
-        deliveryStatus,
-        networkFailure,
-        identityKeyMismatch,
-        sealedSender,
-      });
+      sendStatuses.push(sendStatus);
     }
     return {
-      sendStatus,
+      sendStatus: sendStatuses,
     };
   }
 

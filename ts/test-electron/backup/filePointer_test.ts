@@ -75,7 +75,7 @@ describe('convertFilePointerToAttachment', () => {
         backupLocator: new Backups.FilePointer.BackupLocator({
           mediaName: 'mediaName',
           cdnNumber: 3,
-          size: Long.fromNumber(128),
+          size: 128,
           key: Bytes.fromString('key'),
           digest: Bytes.fromString('digest'),
           transitCdnKey: 'transitCdnKey',
@@ -215,7 +215,7 @@ const defaultBackupLocator = new Backups.FilePointer.BackupLocator({
   cdnNumber: null,
   key: Bytes.fromBase64('key'),
   digest: defaultDigest,
-  size: Long.fromNumber(100),
+  size: 100,
   transitCdnKey: 'cdnKey',
   transitCdnNumber: 2,
 });

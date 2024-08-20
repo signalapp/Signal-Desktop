@@ -1278,8 +1278,6 @@ export class BackupImportStream extends Writable {
     if (outgoing) {
       const sendStateByConversationId: SendStateByConversationId = {};
 
-      const BackupSendStatus = Backups.SendStatus.Status;
-
       const unidentifiedDeliveries = new Array<ServiceIdString>();
       const errors = new Array<CustomError>();
       for (const status of outgoing.sendStatus ?? []) {
@@ -1295,57 +1293,71 @@ export class BackupImportStream extends Writable {
           'status target conversation not found'
         );
 
-        let sendStatus: SendStatus;
-        switch (status.deliveryStatus) {
-          case BackupSendStatus.PENDING:
-            sendStatus = SendStatus.Pending;
-            break;
-          case BackupSendStatus.SENT:
-            sendStatus = SendStatus.Sent;
-            break;
-          case BackupSendStatus.DELIVERED:
-            sendStatus = SendStatus.Delivered;
-            break;
-          case BackupSendStatus.READ:
-            sendStatus = SendStatus.Read;
-            break;
-          case BackupSendStatus.VIEWED:
-            sendStatus = SendStatus.Viewed;
-            break;
-          case BackupSendStatus.FAILED:
-          default:
-            sendStatus = SendStatus.Failed;
-            break;
+        // Desktop does not keep track of users we did not attempt to send to
+        if (status.skipped) {
+          continue;
         }
+        const { serviceId } = target;
 
-        if (target.serviceId) {
-          if (status.sealedSender) {
-            unidentifiedDeliveries.push(target.serviceId);
+        let sendStatus: SendStatus;
+        if (status.pending) {
+          sendStatus = SendStatus.Pending;
+        } else if (status.sent) {
+          sendStatus = SendStatus.Sent;
+          if (serviceId && status.sent.sealedSender) {
+            unidentifiedDeliveries.push(serviceId);
           }
-
-          if (status.identityKeyMismatch) {
-            errors.push({
-              serviceId: target.serviceId,
-              name: 'OutgoingIdentityKeyError',
-              // See: ts/textsecure/Errors
-              message: `The identity of ${target.serviceId} has changed.`,
-            });
-          } else if (status.networkFailure) {
-            errors.push({
-              serviceId: target.serviceId,
-              name: 'OutgoingMessageError',
-              // See: ts/textsecure/Errors
-              message: 'no http error',
-            });
+        } else if (status.delivered) {
+          sendStatus = SendStatus.Delivered;
+          if (serviceId && status.delivered.sealedSender) {
+            unidentifiedDeliveries.push(serviceId);
           }
+        } else if (status.read) {
+          sendStatus = SendStatus.Read;
+          if (serviceId && status.read.sealedSender) {
+            unidentifiedDeliveries.push(serviceId);
+          }
+        } else if (status.viewed) {
+          sendStatus = SendStatus.Viewed;
+          if (serviceId && status.viewed.sealedSender) {
+            unidentifiedDeliveries.push(serviceId);
+          }
+        } else if (status.failed) {
+          sendStatus = SendStatus.Failed;
+          strictAssert(
+            status.failed.reason != null,
+            'Failure reason must exist'
+          );
+          switch (status.failed.reason) {
+            case Backups.SendStatus.Failed.FailureReason.IDENTITY_KEY_MISMATCH:
+              errors.push({
+                serviceId,
+                name: 'OutgoingIdentityKeyError',
+                // See: ts/textsecure/Errors
+                message: `The identity of ${serviceId} has changed.`,
+              });
+              break;
+            case Backups.SendStatus.Failed.FailureReason.NETWORK:
+            case Backups.SendStatus.Failed.FailureReason.UNKNOWN:
+              errors.push({
+                serviceId,
+                name: 'OutgoingMessageError',
+                // See: ts/textsecure/Errors
+                message: 'no http error',
+              });
+              break;
+            default:
+              throw missingCaseError(status.failed.reason);
+          }
+        } else {
+          throw new Error(`Unknown sendStatus received: ${status}`);
         }
 
         sendStateByConversationId[target.id] = {
           status: sendStatus,
           updatedAt:
-            status.lastStatusUpdateTimestamp != null &&
-            !status.lastStatusUpdateTimestamp.isZero()
-              ? getTimestampFromLong(status.lastStatusUpdateTimestamp)
+            status.timestamp != null && !status.timestamp.isZero()
+              ? getTimestampFromLong(status.timestamp)
               : undefined,
         };
       }
