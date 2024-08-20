@@ -34,6 +34,17 @@
       }
     }
 
+    // Calls Tab avatars are 36px
+    &--call-link {
+      width: 36px;
+      height: 36px;
+      border-radius: 9999px;
+    }
+
+    &--call-link::before {
+      -webkit-mask-image: url('../images/icons/v3/link/link.svg');
+    }
+
     &--group::before {
       -webkit-mask-image: url('../images/icons/v3/group/group.svg');
     }
