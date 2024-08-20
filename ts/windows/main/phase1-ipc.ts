@@ -180,7 +180,6 @@ type NetworkStatistics = {
   unauthorizedRequestsCompared?: string;
   unauthorizedHealthcheckFailures?: string;
   unauthorizedHealthcheckBadStatus?: string;
-  unauthorizedUnexpectedReconnects?: string;
   unauthorizedIpVersionMismatches?: string;
 };
 
@@ -219,9 +218,6 @@ ipc.on('additional-log-data-request', async event => {
       ),
       unauthorizedHealthcheckBadStatus: formatCountForLogging(
         unauthorizedStats.healthcheckBadStatus
-      ),
-      unauthorizedUnexpectedReconnects: formatCountForLogging(
-        unauthorizedStats.unexpectedReconnects
       ),
       unauthorizedIpVersionMismatches: formatCountForLogging(
         unauthorizedStats.ipVersionMismatches

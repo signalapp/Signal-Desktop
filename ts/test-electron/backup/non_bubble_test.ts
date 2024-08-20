@@ -10,6 +10,7 @@ import { getRandomBytes } from '../../Crypto';
 import * as Bytes from '../../Bytes';
 import { SignalService as Proto, Backups } from '../../protobuf';
 import { DataWriter } from '../../sql/Client';
+import { APPLICATION_OCTET_STREAM } from '../../types/MIME';
 import { generateAci } from '../../types/ServiceId';
 import { PaymentEventKind } from '../../types/Payment';
 import { ContactFormType } from '../../types/EmbeddedContact';
@@ -372,6 +373,11 @@ describe('backup/non-bubble messages', () => {
           packId: Bytes.toHex(getRandomBytes(16)),
           stickerId: 1,
           packKey: Bytes.toBase64(getRandomBytes(32)),
+          data: {
+            contentType: APPLICATION_OCTET_STREAM,
+            error: true,
+            size: 0,
+          },
         },
         reactions: [
           {

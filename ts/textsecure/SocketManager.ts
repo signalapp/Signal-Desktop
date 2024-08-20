@@ -591,14 +591,12 @@ export class SocketManager extends EventListener {
       : TransportOption.Original;
   }
 
-  private connectLibsignalUnauthenticated(): AbortableProcess<IWebSocketResource> {
-    return connectUnauthenticatedLibsignal({
-      libsignalNet: this.libsignalNet,
-      name: UNAUTHENTICATED_CHANNEL_NAME,
-    });
-  }
-
   private async getUnauthenticatedResource(): Promise<IWebSocketResource> {
+    // awaiting on `this.getProxyAgent()` needs to happen here
+    // so that there are no calls to `await` between checking
+    // the value of `this.unauthenticated` and assigning it later in this function
+    const proxyAgent = await this.getProxyAgent();
+
     if (this.unauthenticated) {
       return this.unauthenticated.getResult();
     }
@@ -613,8 +611,6 @@ export class SocketManager extends EventListener {
 
     log.info('SocketManager: connecting unauthenticated socket');
 
-    const proxyAgent = await this.getProxyAgent();
-
     const transportOption = this.transportOption(proxyAgent);
     log.info(
       `SocketManager: connecting unauthenticated socket, transport option [${transportOption}]`
@@ -623,7 +619,10 @@ export class SocketManager extends EventListener {
     let process: AbortableProcess<IWebSocketResource>;
 
     if (transportOption === TransportOption.Libsignal) {
-      process = this.connectLibsignalUnauthenticated();
+      process = connectUnauthenticatedLibsignal({
+        libsignalNet: this.libsignalNet,
+        name: UNAUTHENTICATED_CHANNEL_NAME,
+      });
     } else {
       process = this.connectResource({
         name: UNAUTHENTICATED_CHANNEL_NAME,
