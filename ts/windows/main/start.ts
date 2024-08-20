@@ -52,6 +52,11 @@ if (!isProduction(window.SignalContext.getVersion())) {
   const SignalDebug = {
     cdsLookup: (options: CdsLookupOptionsType) =>
       window.textsecure.server?.cdsLookup(options),
+    getSelectedConversation: () => {
+      return window.ConversationController.get(
+        window.reduxStore.getState().conversations.selectedConversationId
+      );
+    },
     getConversation: (id: string) => window.ConversationController.get(id),
     getMessageById: (id: string) =>
       window.MessageCache.__DEPRECATED$getById(id),
