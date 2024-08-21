@@ -1098,6 +1098,8 @@ export class ConversationController {
         'draftAttachments',
         'draftBodyRanges',
         'draftTimestamp',
+        'draft',
+        'draftEditMessage',
         'messageCount',
         'messageRequestResponseType',
         'needsTitleTransition',
