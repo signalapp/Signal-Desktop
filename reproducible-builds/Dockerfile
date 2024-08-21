@@ -5,7 +5,7 @@ FROM ubuntu:jammy-20230624@sha256:b060fffe8e1561c9c3e6dea6db487b900100fc26830b9e
 # UNIX timestamp will be generated at the time of the build, and is non-deterministic.
 #
 # Read https://reproducible-builds.org/specs/source-date-epoch/ for more info
-ENV SOURCE_DATE_EPOCH=0
+ENV SOURCE_DATE_EPOCH=1
 
 # Due to some issues with NVM reading .nvmrc, we define the version
 # as an environment variable and use that instead.

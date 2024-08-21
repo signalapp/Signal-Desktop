@@ -3,18 +3,18 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 
 # Usage:
-# ./build.sh [ dev (default) | public (prod and beta builds) | alpha | test | staging ] [ Build timestamp override. Defaults to latest git commit or 0. ]
+# ./build.sh [ dev (default) | public (prod and beta builds) | alpha | test | staging ] [ Build timestamp override. Defaults to latest git commit or 1. ]
 
 # First we prepare the docker container in which our build scripts will run. This container includes
 # all build dependencies at specific versions.
 # We set SOURCE_DATE_EPOCH to make system build timestamps deterministic.
-docker build -t signal-desktop --build-arg SOURCE_DATE_EPOCH=0 --build-arg NODE_VERSION=$(cat ../.nvmrc) .
+docker build -t signal-desktop --build-arg SOURCE_DATE_EPOCH=1 --build-arg NODE_VERSION=$(cat ../.nvmrc) .
 
 # Before performing the actual build, go to the project root.
 cd ..
 
 # Prepare the timestamp of the actual build based on the latest git commit.
-source_date_epoch=0
+source_date_epoch=1
 if [ "$2" != "" ]; then
   echo "Using override timestamp for SOURCE_DATE_EPOCH."
   source_date_epoch=$(($2))
@@ -25,8 +25,8 @@ else
     echo "Setting SOURCE_DATE_EPOCH to latest commit's timestamp."
     source_date_epoch=$((git_timestamp))
   else
-    echo "Can't get latest commit timestamp. Defaulting to 0."
-    source_date_epoch=0
+    echo "Can't get latest commit timestamp. Defaulting to 1."
+    source_date_epoch=1
   fi
 fi
 
