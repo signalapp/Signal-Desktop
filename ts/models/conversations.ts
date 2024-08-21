@@ -224,6 +224,8 @@ const ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE = new Set([
   'storageUnknownFields',
 ]);
 
+const MAX_EXPIRE_TIMER_VERSION = 0xffffffff;
+
 type CachedIdenticon = {
   readonly color: AvatarColorType;
   readonly text?: string;
@@ -4520,6 +4522,7 @@ export class ConversationModel extends window.Backbone
       log.info(`${logId}: queuing send job`);
       // if change wasn't made remotely, send it to the number/group
       try {
+        await this.incrementExpireTimerVersion();
         await conversationJobQueue.add({
           type: conversationQueueJobEnum.enum.DirectExpirationTimerUpdate,
           conversationId: this.id,
@@ -5157,33 +5160,32 @@ export class ConversationModel extends window.Backbone
 
   getExpireTimerVersion(): number | undefined {
     return isDirectConversation(this.attributes)
-      ? this.get('expireTimerVersion')
+      ? Math.min(this.get('expireTimerVersion') || 0, MAX_EXPIRE_TIMER_VERSION)
       : undefined;
   }
 
-  async incrementAndGetExpireTimerVersion(): Promise<number | undefined> {
-    const logId = `incrementAndGetExpireTimerVersion(${this.idForLogging()})`;
+  async incrementExpireTimerVersion(): Promise<void> {
+    const logId = `incrementExpireTimerVersion(${this.idForLogging()})`;
     if (!isDirectConversation(this.attributes)) {
-      return undefined;
+      return;
     }
     const { expireTimerVersion, capabilities } = this.attributes;
 
     // This should not happen in practice, but be ready to handle
-    const MAX_EXPIRE_TIMER_VERSION = 0xffffffff;
     if (expireTimerVersion >= MAX_EXPIRE_TIMER_VERSION) {
       log.warn(`${logId}: expire version overflow`);
-      return MAX_EXPIRE_TIMER_VERSION;
+      return;
     }
 
     if (expireTimerVersion <= 2) {
       if (!capabilities?.versionedExpirationTimer) {
         log.warn(`${logId}: missing recipient capability`);
-        return expireTimerVersion;
+        return;
       }
       const me = window.ConversationController.getOurConversationOrThrow();
       if (!me.get('capabilities')?.versionedExpirationTimer) {
         log.warn(`${logId}: missing sender capability`);
-        return expireTimerVersion;
+        return;
       }
 
       // Increment only if sender and receiver are both capable
@@ -5194,7 +5196,6 @@ export class ConversationModel extends window.Backbone
     const newVersion = expireTimerVersion + 1;
     this.set('expireTimerVersion', newVersion);
     await DataWriter.updateConversation(this.attributes);
-    return newVersion;
   }
 
   // Set of items to captureChanges on:
