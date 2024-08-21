@@ -15,7 +15,7 @@ import type { AttachmentUploadFormResponseType } from '../textsecure/WebAPI';
 import {
   type EncryptedAttachmentV2,
   encryptAttachmentV2ToDisk,
-  safeUnlinkSync,
+  safeUnlink,
   type PlaintextSourceType,
   type HardcodedIVForEncryptionType,
 } from '../AttachmentCrypto';
@@ -117,7 +117,7 @@ export async function encryptAndUploadAttachment({
     return { cdnKey: uploadForm.key, cdnNumber: uploadForm.cdn, encrypted };
   } finally {
     if (absoluteCiphertextPath) {
-      safeUnlinkSync(absoluteCiphertextPath);
+      await safeUnlink(absoluteCiphertextPath);
     }
   }
 }

@@ -2210,6 +2210,15 @@ app.on('ready', async () => {
     );
   }
 
+  try {
+    await attachments.deleteStaleDownloads(userDataPath);
+  } catch (err) {
+    logger.error(
+      'main/ready: Error deleting stale downloads:',
+      Errors.toLogFormat(err)
+    );
+  }
+
   // Initialize IPC channels before creating the window
 
   attachmentChannel.initialize({

@@ -32,6 +32,7 @@ import { filterAndClean } from '../types/BodyRange';
 import { isAciString } from '../util/isAciString';
 import { normalizeAci } from '../util/normalizeAci';
 import { bytesToUuid } from '../util/uuidToBytes';
+import { createName } from '../util/attachmentPath';
 
 const FLAGS = Proto.DataMessage.Flags;
 export const ATTACHMENT_MAX = 32;
@@ -284,7 +285,10 @@ export function processGiftBadge(
 
 export function processDataMessage(
   message: Proto.IDataMessage,
-  envelopeTimestamp: number
+  envelopeTimestamp: number,
+
+  // Only for testing
+  { _createName: doCreateName = createName } = {}
 ): ProcessedDataMessage {
   /* eslint-disable no-bitwise */
 
@@ -309,7 +313,10 @@ export function processDataMessage(
   const result: ProcessedDataMessage = {
     body: dropNull(message.body),
     attachments: (message.attachments ?? []).map(
-      (attachment: Proto.IAttachmentPointer) => processAttachment(attachment)
+      (attachment: Proto.IAttachmentPointer) => ({
+        ...processAttachment(attachment),
+        downloadPath: doCreateName(),
+      })
     ),
     groupV2: processGroupV2Context(message.groupV2),
     flags: message.flags ?? 0,

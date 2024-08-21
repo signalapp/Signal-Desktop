@@ -411,7 +411,7 @@ export async function runDownloadAttachmentJobInner({
 
     const upgradedAttachment =
       await window.Signal.Migrations.processNewAttachment({
-        ...omit(attachment, ['error', 'pending']),
+        ...omit(attachment, ['error', 'pending', 'downloadPath']),
         ...downloaded,
       });
 

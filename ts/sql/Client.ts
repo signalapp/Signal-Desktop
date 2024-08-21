@@ -70,6 +70,7 @@ const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
 const ERASE_STICKERS_KEY = 'erase-stickers';
 const ERASE_TEMP_KEY = 'erase-temp';
 const ERASE_DRAFTS_KEY = 'erase-drafts';
+const ERASE_DOWNLOADS_KEY = 'erase-downloads';
 const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 const ENSURE_FILE_PERMISSIONS = 'ensure-file-permissions';
 const PAUSE_WRITE_ACCESS = 'pause-sql-writes';
@@ -803,6 +804,7 @@ async function removeOtherData(): Promise<void> {
     invokeWithTimeout(ERASE_ATTACHMENTS_KEY),
     invokeWithTimeout(ERASE_STICKERS_KEY),
     invokeWithTimeout(ERASE_TEMP_KEY),
+    invokeWithTimeout(ERASE_DOWNLOADS_KEY),
     invokeWithTimeout(ERASE_DRAFTS_KEY),
   ]);
 }

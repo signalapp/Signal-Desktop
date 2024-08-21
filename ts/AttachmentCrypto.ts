@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { unlinkSync, createReadStream, createWriteStream } from 'fs';
-import { open } from 'fs/promises';
+import { createReadStream, createWriteStream } from 'fs';
+import { open, unlink } from 'fs/promises';
 import { createCipheriv, createHash, createHmac, randomBytes } from 'crypto';
 import type { Hash } from 'crypto';
 import { PassThrough, Transform, type Writable, Readable } from 'stream';
@@ -114,7 +114,7 @@ export async function encryptAttachmentV2ToDisk(
       sink: createWriteStream(absoluteTargetPath),
     });
   } catch (error) {
-    safeUnlinkSync(absoluteTargetPath);
+    await safeUnlink(absoluteTargetPath);
     throw error;
   }
 
@@ -307,7 +307,7 @@ export async function decryptAttachmentV2(
       `${logId}: Failed to decrypt attachment to disk`,
       Errors.toLogFormat(error)
     );
-    safeUnlinkSync(absoluteTargetPath);
+    await safeUnlink(absoluteTargetPath);
     throw error;
   } finally {
     await writeFd?.close();
@@ -523,7 +523,7 @@ export async function decryptAndReencryptLocally(
       `${logId}: Failed to decrypt attachment`,
       Errors.toLogFormat(error)
     );
-    safeUnlinkSync(absoluteTargetPath);
+    await safeUnlink(absoluteTargetPath);
     throw error;
   } finally {
     await writeFd?.close();
@@ -618,9 +618,9 @@ export function getPlaintextHashForInMemoryAttachment(
  * Unlinks a file without throwing an error if it doesn't exist.
  * Throws an error if it fails to unlink for any other reason.
  */
-export function safeUnlinkSync(filePath: string): void {
+export async function safeUnlink(filePath: string): Promise<void> {
   try {
-    unlinkSync(filePath);
+    await unlink(filePath);
   } catch (error) {
     // Ignore if file doesn't exist
     if (error.code !== 'ENOENT') {

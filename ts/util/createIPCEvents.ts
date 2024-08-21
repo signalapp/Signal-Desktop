@@ -104,6 +104,7 @@ export type IPCEventsCallbacksType = {
   }>;
   addCustomColor: (customColor: CustomColorType) => void;
   addDarkOverlay: () => void;
+  cleanupDownloads: () => Promise<void>;
   deleteAllData: () => Promise<void>;
   deleteAllMyStories: () => Promise<void>;
   editCustomColor: (colorId: string, customColor: CustomColorType) => void;
@@ -532,6 +533,10 @@ export function createIPCEvents(
     },
     showKeyboardShortcuts: () =>
       window.reduxActions.globalModals.showShortcutGuideModal(),
+
+    cleanupDownloads: async () => {
+      await ipcRenderer.invoke('cleanup-downloads');
+    },
 
     deleteAllData: async () => {
       renderClearingDataView();

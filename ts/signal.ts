@@ -71,6 +71,7 @@ type MigrationsModuleType = {
   ) => Promise<{ path: string; size: number }>;
   deleteAttachmentData: (path: string) => Promise<void>;
   deleteAvatar: (path: string) => Promise<void>;
+  deleteDownloadData: (path: string) => Promise<void>;
   deleteDraftFile: (path: string) => Promise<void>;
   deleteExternalMessageFiles: (
     attributes: MessageAttributesType
@@ -81,6 +82,7 @@ type MigrationsModuleType = {
   getAbsoluteAttachmentPath: (path: string) => string;
   getAbsoluteAvatarPath: (src: string) => string;
   getAbsoluteBadgeImageFilePath: (path: string) => string;
+  getAbsoluteDownloadsPath: (path: string) => string;
   getAbsoluteDraftPath: (path: string) => string;
   getAbsoluteStickerPath: (path: string) => string;
   getAbsoluteTempPath: (path: string) => string;
@@ -161,6 +163,7 @@ export function initializeMigrations({
     createDoesExist,
     getAvatarsPath,
     getDraftPath,
+    getDownloadsPath,
     getPath,
     getStickersPath,
     getBadgesPath,
@@ -260,6 +263,10 @@ export function initializeMigrations({
   const deleteDraftFile = Attachments.createDeleter(draftPath);
   const readDraftData = createEncryptedReader(draftPath);
 
+  const downloadsPath = getDownloadsPath(userDataPath);
+  const getAbsoluteDownloadsPath = createAbsolutePathGetter(downloadsPath);
+  const deleteDownloadOnDisk = Attachments.createDeleter(downloadsPath);
+
   const avatarsPath = getAvatarsPath(userDataPath);
   const readAvatarData = createEncryptedReader(avatarsPath);
   const getAbsoluteAvatarPath = createAbsolutePathGetter(avatarsPath);
@@ -272,9 +279,13 @@ export function initializeMigrations({
     copyIntoTempDirectory,
     deleteAttachmentData: deleteOnDisk,
     deleteAvatar,
+    deleteDownloadData: deleteDownloadOnDisk,
     deleteDraftFile,
     deleteExternalMessageFiles: MessageType.deleteAllExternalFiles({
-      deleteAttachmentData: Type.deleteData(deleteOnDisk),
+      deleteAttachmentData: Type.deleteData({
+        deleteOnDisk,
+        deleteDownloadOnDisk,
+      }),
       deleteOnDisk,
     }),
     deleteSticker,
@@ -283,6 +294,7 @@ export function initializeMigrations({
     getAbsoluteAttachmentPath,
     getAbsoluteAvatarPath,
     getAbsoluteBadgeImageFilePath,
+    getAbsoluteDownloadsPath,
     getAbsoluteDraftPath,
     getAbsoluteStickerPath,
     getAbsoluteTempPath,
@@ -357,6 +369,7 @@ type StringGetterType = (basePath: string) => string;
 type AttachmentsModuleType = {
   getAvatarsPath: StringGetterType;
   getBadgesPath: StringGetterType;
+  getDownloadsPath: StringGetterType;
   getDraftPath: StringGetterType;
   getPath: StringGetterType;
   getStickersPath: StringGetterType;

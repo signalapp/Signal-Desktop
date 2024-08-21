@@ -184,7 +184,8 @@ type PromiseAjaxOptionsType = {
     | 'jsonwithdetails'
     | 'bytes'
     | 'byteswithdetails'
-    | 'stream';
+    | 'stream'
+    | 'streamwithdetails';
   serverUrl?: string;
   stack?: string;
   timeout?: number;
@@ -211,6 +212,11 @@ type JSONWithDetailsType<Data = unknown> = {
 };
 type BytesWithDetailsType = {
   data: Uint8Array;
+  contentType: string | null;
+  response: Response;
+};
+type StreamWithDetailsType = {
+  stream: Readable;
   contentType: string | null;
   response: Response;
 };
@@ -386,7 +392,10 @@ async function _promiseAjax(
       options.responseType === 'byteswithdetails'
     ) {
       result = await response.buffer();
-    } else if (options.responseType === 'stream') {
+    } else if (
+      options.responseType === 'stream' ||
+      options.responseType === 'streamwithdetails'
+    ) {
       result = response.body;
     } else {
       result = await response.textConverted();
@@ -435,6 +444,24 @@ async function _promiseAjax(
       log.info(logId, response.status, 'Streaming ended');
     });
     return result;
+  }
+
+  if (options.responseType === 'streamwithdetails') {
+    log.info(logId, response.status, 'Streaming with details');
+    response.body.on('error', e => {
+      log.info(logId, 'Errored while streaming:', e.message);
+    });
+    response.body.on('end', () => {
+      log.info(logId, response.status, 'Streaming ended');
+    });
+
+    const fullResult: StreamWithDetailsType = {
+      stream: result as Readable,
+      contentType: getContentType(response),
+      response,
+    };
+
+    return fullResult;
   }
 
   log.info(logId, response.status, 'Success');
@@ -506,6 +533,10 @@ function _outerAjax(
   providedUrl: string | null,
   options: PromiseAjaxOptionsType & { responseType?: 'stream' }
 ): Promise<Readable>;
+function _outerAjax(
+  providedUrl: string | null,
+  options: PromiseAjaxOptionsType & { responseType: 'streamwithdetails' }
+): Promise<StreamWithDetailsType>;
 function _outerAjax(
   providedUrl: string | null,
   options: PromiseAjaxOptionsType
@@ -1217,6 +1248,7 @@ export type WebAPIType = {
     options?: {
       disableRetries?: boolean;
       timeout?: number;
+      downloadOffset?: number;
     };
   }) => Promise<Readable>;
   getAttachment: (args: {
@@ -1225,6 +1257,7 @@ export type WebAPIType = {
     options?: {
       disableRetries?: boolean;
       timeout?: number;
+      downloadOffset?: number;
     };
   }) => Promise<Readable>;
   getAttachmentUploadForm: () => Promise<AttachmentUploadFormResponseType>;
@@ -1793,6 +1826,9 @@ export function initialize({
     function _ajax(
       param: AjaxOptionsType & { responseType: 'stream' }
     ): Promise<Readable>;
+    function _ajax(
+      param: AjaxOptionsType & { responseType: 'streamwithdetails' }
+    ): Promise<StreamWithDetailsType>;
     function _ajax(
       param: AjaxOptionsType & { responseType: 'json' }
     ): Promise<unknown>;
@@ -3459,6 +3495,7 @@ export function initialize({
       options?: {
         disableRetries?: boolean;
         timeout?: number;
+        downloadOffset?: number;
       };
     }) {
       return _getAttachment({
@@ -3485,6 +3522,7 @@ export function initialize({
       options?: {
         disableRetries?: boolean;
         timeout?: number;
+        downloadOffset?: number;
       };
     }) {
       return _getAttachment({
@@ -3499,7 +3537,7 @@ export function initialize({
     async function _getAttachment({
       cdnPath,
       cdnNumber,
-      headers,
+      headers = {},
       redactor,
       options,
     }: {
@@ -3510,12 +3548,13 @@ export function initialize({
       options?: {
         disableRetries?: boolean;
         timeout?: number;
+        downloadOffset?: number;
       };
     }): Promise<Readable> {
       const abortController = new AbortController();
       const cdnUrl = cdnUrlObject[cdnNumber] ?? cdnUrlObject['0'];
 
-      let downloadStream: Readable | undefined;
+      let streamWithDetails: StreamWithDetailsType | undefined;
 
       const cancelRequest = () => {
         abortController.abort();
@@ -3525,23 +3564,38 @@ export function initialize({
 
       // This is going to the CDN, not the service, so we use _outerAjax
       try {
-        downloadStream = await _outerAjax(`${cdnUrl}${cdnPath}`, {
-          headers,
+        const targetHeaders = { ...headers };
+        if (options?.downloadOffset) {
+          targetHeaders.range = `bytes=${options.downloadOffset}-`;
+        }
+        streamWithDetails = await _outerAjax(`${cdnUrl}${cdnPath}`, {
+          headers: targetHeaders,
           certificateAuthority,
           disableRetries: options?.disableRetries,
           proxyUrl,
-          responseType: 'stream',
+          responseType: 'streamwithdetails',
           timeout: options?.timeout ?? DEFAULT_TIMEOUT,
           type: 'GET',
           redactUrl: redactor,
           version,
           abortSignal: abortController.signal,
         });
+
+        if (targetHeaders.range != null) {
+          strictAssert(
+            streamWithDetails.response.status === 206,
+            `Expected 206 status code for offset ${options?.downloadOffset}`
+          );
+          strictAssert(
+            !streamWithDetails.contentType?.includes('multipart'),
+            `Expected non-multipart response for ${cdnUrl}${cdnPath}`
+          );
+        }
       } finally {
-        if (!downloadStream) {
+        if (!streamWithDetails) {
           unregisterInFlightRequest(cancelRequest);
         } else {
-          downloadStream.on('close', () => {
+          streamWithDetails.stream.on('close', () => {
             unregisterInFlightRequest(cancelRequest);
           });
         }
@@ -3553,7 +3607,7 @@ export function initialize({
         abortController,
       });
 
-      const combinedStream = downloadStream
+      const combinedStream = streamWithDetails.stream
         // We do this manually; pipe() doesn't flow errors through the streams for us
         .on('error', (error: Error) => {
           timeoutStream.emit('error', error);

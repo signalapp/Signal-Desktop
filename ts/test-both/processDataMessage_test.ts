@@ -46,7 +46,10 @@ describe('processDataMessage', () => {
         timestamp: Long.fromNumber(TIMESTAMP),
         ...message,
       },
-      TIMESTAMP
+      TIMESTAMP,
+      {
+        _createName: () => 'random-path',
+      }
     );
 
   it('should process attachments', () => {
@@ -54,7 +57,12 @@ describe('processDataMessage', () => {
       attachments: [UNPROCESSED_ATTACHMENT],
     });
 
-    assert.deepStrictEqual(out.attachments, [PROCESSED_ATTACHMENT]);
+    assert.deepStrictEqual(out.attachments, [
+      {
+        ...PROCESSED_ATTACHMENT,
+        downloadPath: 'random-path',
+      },
+    ]);
   });
 
   it('should process attachments with 0 cdnId', () => {
@@ -71,6 +79,7 @@ describe('processDataMessage', () => {
       {
         ...PROCESSED_ATTACHMENT,
         cdnId: undefined,
+        downloadPath: 'random-path',
       },
     ]);
   });
