@@ -16,7 +16,7 @@
   },
   "main": "app/main.js",
   "scripts": {
-    "postinstall": "npm run build:acknowledgments && patch-package && npm run electron:install-app-deps",
+    "postinstall": "npm run build:acknowledgments && patch-package --error-on-fail --error-on-warn && npm run electron:install-app-deps",
     "postuninstall": "npm run build:acknowledgments",
     "start": "electron .",
     "generate": "npm-run-all build-protobuf build:esbuild build:icu-types build:compact-locales sass get-expire-time copy-components",
