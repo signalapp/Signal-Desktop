@@ -747,17 +747,13 @@ function renderChangeDetail<T extends string | JSX.Element>(
   if (detail.type === 'admin-approval-bounce') {
     const { aci, times, isApprovalPending } = detail;
 
-    let firstMessage: T | string;
-    if (times === 1) {
-      firstMessage = i18n('icu:GroupV2--admin-approval-bounce--one', {
-        joinerName: renderContact(aci),
-      });
-    } else {
-      firstMessage = i18n('icu:GroupV2--admin-approval-bounce', {
+    const firstMessage = i18n(
+      'icu:GroupV2--admin-approval-bounce--pluralized',
+      {
         joinerName: renderContact(aci),
         numberOfRequests: times,
-      });
-    }
+      }
+    );
 
     if (!isApprovalPending) {
       return firstMessage;
