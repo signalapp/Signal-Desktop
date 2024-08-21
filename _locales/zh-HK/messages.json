@@ -3353,6 +3353,9 @@
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "{joinerName}透過群組連結請求和取消了{numberOfRequests,number} 的加入請求"
   },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+  },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "你在停用管理員批准的情況下打開了群組連結。"
   },
@@ -3954,10 +3957,10 @@
     "messageformat": "撰寫按鈕"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "沒有聊天"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "最近的聊天將顯示在此處。"
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "轉寄給"
@@ -4848,10 +4851,10 @@
     "messageformat": "目前沒有可顯示的最新限時動態"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "沒有限時動態"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "最新資訊將出現在此處。"
   },
   "icu:Stories__list--sending": {
     "messageformat": "正在傳送..."
@@ -4869,7 +4872,7 @@
     "messageformat": "點擊以瀏覽限時動態"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "點擊「<newStoryIcon>新增限時動態</newStoryIcon>」以新增最新資訊。"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} 傳送給 {group}"
@@ -5413,7 +5416,7 @@
     "messageformat": "點擊以檢視或開始通話"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "點擊「<newCallIcon>新通話</newCallIcon>」以開始新的語音或視訊通話。"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "搜尋"
@@ -5428,16 +5431,16 @@
     "messageformat": "沒有最近的通話。致電給好友，開始使用吧。"
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "冇來電"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "最近的通話將顯示在此處。"
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "沒有未接來電"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "未接來電將顯示在此處。"
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "沒有符合「{query}」的結果"
@@ -5617,22 +5620,10 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "有時乾脆說再見比依依不捨的送別更容易，因此我們加快了刪除大量訊息串文的過程。"
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "如果另一個通話正呼喊你的名字，我們添加了一個快捷方式來退出當前通話並加入新的通話。系統會提示你確認離開，但是否先說再見取決於你。"
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "此更新還修復了區域設定為「POSIX」的用戶在 Linux 上的啟動故障問題。"
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "帶有長標題的限時動態會顯示在輕微漸變的背景上，這樣可提高對比度並使文字更易閱讀。既然別人可以更清楚看到你在說什麼，就可以隨意寫幾段話來說明你為什麼大笑，而不僅僅寫「lol」。"
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "此發行版本還提高了連結預覽產生的效能，並修復了一個錯誤，該錯誤導致「設定」視窗在關閉時短暫閃爍群青色陰影（而不是立即關閉）。"
-  },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "相信大家都不想在觀看限時「動」態時見到進度列凍結不動，但我們在這次發行版本修復了這個錯誤。"
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
   }
 }

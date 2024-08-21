@@ -3353,6 +3353,9 @@
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "{joinerName} pieprasīja un atcēla {numberOfRequests,number} pieprasījumus pievienoties grupai ar saiti"
   },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+  },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Jūs ieslēdzāt grupas saiti ar atspējotu administratora apstiprinājumu."
   },
@@ -3954,10 +3957,10 @@
     "messageformat": "izveidošanas poga"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Nav sarunu"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Šeit būs redzamas nesenākās sarunas."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Pārsūtīt"
@@ -4848,10 +4851,10 @@
     "messageformat": "Nav nesenu stāstu"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Nav stāstu"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Šeit būs redzami jaunumi."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Sūta…"
@@ -4869,7 +4872,7 @@
     "messageformat": "Noklikšķiniet, lai skatītu stāstu"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Piespiediet <newStoryIcon>Pievienot stāstu</newStoryIcon>, lai dalītos ar jaunumiem."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} grupā {group}"
@@ -5413,7 +5416,7 @@
     "messageformat": "Noklikšķiniet, lai skatītu vai sāktu zvanu"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Piespiediet <newCallIcon>Jauns zvans</newCallIcon>, lai sāktu jaunu balss vai video zvanu."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Meklēt"
@@ -5428,16 +5431,16 @@
     "messageformat": "Nav neseno zvanu. Sāciet ar zvanu draugam."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Nav zvanu"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Šeit būs redzami nesenākie zvani."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Nav neatbildētu zvanu"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Šeit būs redzami neatbildētie zvani."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Vaicājumam “{query}” nav rezultātu"
@@ -5617,22 +5620,10 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "Reizēm ātri pateikt \"atā\" ir vieglāk nekā ilgi atvadīties, tāpēc paātrinājām dzēšanas procesu apjomīgām sarakstēm."
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "Mēs pievienojām saīsni, kas ļauj pārtraukt notiekošu zvanu, lai pievienotos jaunam zvanam. Jums būs jāapstiprina tas, ka pametat zvanu."
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "Tāpat šajā atjauninājumā novērsām avarēšanu palaišanas brīdī Linux lietotājiem, kuru iestatītā valoda ir \"POSIX\"."
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stāsti ar gariem aprakstiem tiek rādīti uz neuzkrītoša fona ar krāsu pāreju, lai uzlabotu kontrastu un teksts būtu vieglāk lasāms. Tagad visi var izlasīt to, kas jums sakāms, tāpēc tā vietā, lai rakstītu tikai \"LOL\", droši pievienojiet garāku apcerējumu par to, kas jūs šodien sasmīdināja."
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "Šajā versijā tika uzlabota arī saišu priekšskatījuma ģenerēšanas veiktspēja un izlabota kļūda, kuras dēļ Iestatījumu logs uzreiz neaizvērās, bet gan īsu brīdi mirgoja patīkamā ultramarīna tonī."
-  },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Kuram gan nepatīk interesanti stāsti? Mēs varētu jums pastāstīt par kļūdu, kuras dēļ progresa josla mēdza sastingt stāsta skatīšanās laikā, taču šīs kļūdas piedzīvojumiem jau pienāca laimīgas beigas, jo šajā versijā mēs to novērsām."
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
   }
 }

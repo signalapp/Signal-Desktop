@@ -3353,6 +3353,9 @@
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "{joinerName} kërkoi dhe anuloi {numberOfRequests,number} kërkesën për të marrë pjesë përmes një lidhje grupi"
   },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+  },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Aktivizuat lidhjen e grupit me miratim nga përgjegjësi të çaktivizuar."
   },
@@ -3954,10 +3957,10 @@
     "messageformat": "buton hartimi"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Asnjë bisedë"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Bisedat e fundit do të shfaqen këtu."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Përcille"
@@ -4848,10 +4851,10 @@
     "messageformat": "S’ka postime të përkohshme të freskëta për t’u shfaqur"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Asnjë postim i përkohshëm"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Përditësimet e reja do të shfaqen këtu."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Po dërgohet…"
@@ -4869,7 +4872,7 @@
     "messageformat": "Kliko që të shohësh një postim të përkohshëm"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Kliko <newStoryIcon>Shto një postim të përkohshëm</newStoryIcon> për të shtuar një përditësim."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} për {group}"
@@ -5413,7 +5416,7 @@
     "messageformat": "Kliko për të parë ose nisur një telefonatë"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Kliko <newCallIcon>Thirrje e re</newCallIcon> për të nisur një thirrje të re zanore ose me video."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Kërko"
@@ -5428,16 +5431,16 @@
     "messageformat": "Nuk ka thirrje së voni. Fillo duke telefonuar një mik."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Nuk ka thirrje"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Thirrjet e fundit do të shfaqen këtu."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Asnjë thirrje e humbur"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Thirrjet e humbura do të shfaqen këtu."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Nuk ka rezultate për \"{query}\""
@@ -5617,22 +5620,10 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "Një lamtumirë e shpejtë ndonjëherë është më e lehtë se një lamtumirë e ngadaltë, kështu që ne përshpejtuam procesin e fshirjes së temave të mëdha të mesazheve."
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "Kemi shtuar shkurtoren që të mundëson të largohesh nga thirrja aktuale dhe t'i bashkohesh një të reje, kur emri yt po thërritet nga një thirrje tjetër. Do të të kërkohet të konfirmosh largimin, por varet nga ti nëse do të thuash lamtumirë fillimisht."
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "Përditësimi rregullon edhe gabimin e nisjes në Linux për përdoruesit, lokaliteti i të cilëve është vendosur në \"POSIX\"."
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Tregimet me titra të gjata shfaqen në një sfond delikat gradient që përmirëson kontrastin dhe e bën tekstin më të lehtë për t'u lexuar. Tani që njerëzit mund të shohin se çfarë flet, mos ngurro të shkruash disa paragrafë lidhur me atë çka të bëri vërtet të qeshësh në vend që të thuash thjesht \"lol\"."
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "Ky version përmirëson edhe performancën e gjenerimit të pamjes paraprake të lidhjeve dhe rregullon gabimin që bëri që dritarja e Cilësimeve të ndezë shkurtimisht një nuancë të bukur ultramarine sa herë që mbyllej (në vend që thjesht të mbyllej menjëherë)."
-  },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Të gjithëve u pëlqen një postim i përkohshëm i mirë dhe mund t'ju tregojmë përrallën e një defekti që nganjëherë shkaktonte ngrirjen e shiritit të progresit pikërisht në mes të shikimit të një postimi të përkohshëm të mirë — por aventura e këtij defekti ka tashmë fund të lumtur sepse e rregulluam në këtë version."
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
   }
 }

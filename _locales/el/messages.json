@@ -3353,6 +3353,9 @@
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "Ο/Η {joinerName} έκανε και ακύρωσε {numberOfRequests,number} αιτήματα να μπει μέσω του συνδέσμου της ομάδας."
   },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+  },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Ενεργοποίησες το σύνδεσμο της ομάδας με απενεργοποιημένη την έγκριση διαχειριστή."
   },
@@ -3954,10 +3957,10 @@
     "messageformat": "κουμπί σύνθεσης"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Καμία συνομιλία"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Οι νέες συνομιλίες θα εμφανίζονται εδώ."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Προώθηση σε"
@@ -4848,10 +4851,10 @@
     "messageformat": "Δεν υπάρχουν πρόσφατες ιστορίες αυτή τη στιγμή"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Καμία ιστορία"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Οι νέες ιστορίες θα εμφανίζονται εδώ."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Αποστολή…"
@@ -4869,7 +4872,7 @@
     "messageformat": "Κάνε κλικ για να δεις μια ιστορία"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Πάτα <newStoryIcon>Προσθήκη ιστορίας</newStoryIcon> για να προσθέσεις κάποιο νέο."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} προς {group}"
@@ -5413,7 +5416,7 @@
     "messageformat": "Κάνε κλικ για να δεις ή να ξεκινήσεις μια κλήση"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Πάτα <newCallIcon>Νέα κλήση</newCallIcon> για να ξεκινήσεις μια νέα φωνητική κλήση ή μια βιντεοκλήση."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Αναζήτηση"
@@ -5428,16 +5431,16 @@
     "messageformat": "Δεν υπάρχουν πρόσφατες κλήσεις. Ξεκίνα καλώντας κάποιο φιλαράκι."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Καμία κλήση"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Οι νέες κλήσεις θα εμφανίζονται εδώ."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Δεν υπάρχουν αναπάντητες κλήσεις"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Οι χαμένες κλήσεις θα εμφανίζονται εδώ."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Δεν βρέθηκαν αποτελέσματα για “{query}”"
@@ -5617,22 +5620,10 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "Αυτή η έκδοση επιταχύνει τη διαδικασία διαγραφής μεγάλων νημάτων μηνυμάτων."
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "Προσθέσαμε μια συντόμευση για να κλείνεις και να συνδέεσαι σε μια νέα κλήση όταν μια άλλη κλήση είναι ήδη σε εξέλιξη."
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "Αυτή η ενημέρωση διορθώνει επίσης απρόσμενους τερματισμούς λειτουργίας κατά την εκκίνηση σε Linux για χρήστες των οποίων η γλώσσα έχει οριστεί σε `POSIX`."
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Οι ιστορίες με μακροσκελείς λεζάντες εμφανίζονται τώρα με βελτιωμένη αντίθεση που κάνει το κείμενο πιο ευανάγνωστο."
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "Αυτή η έκδοση βελτιώνει επίσης την απόδοση της δημιουργίας προεπισκόπησης συνδέσμων και διορθώνει ένα μικρό σφάλμα εμφάνισης κατά το κλείσιμο του παραθύρου Ρυθμίσεων."
-  },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Διορθώσαμε ένα σφάλμα που μερικές φορές προκαλούσε το πάγωμα της γραμμής προόδου κατά την προβολή μιας Ιστορίας."
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
   }
 }

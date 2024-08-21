@@ -3353,6 +3353,9 @@
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "{joinerName} نے درخواست کی اور گروپ لنک کے ذریعے {numberOfRequests,number} کی شامل ہونے کی درخواستیں منسوخ کر دیں"
   },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+  },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "آپ نے منتظم کی منظوری کو غیر فعال کرتے ہوئے گروپ لنک آن کردیا۔"
   },
@@ -3954,10 +3957,10 @@
     "messageformat": "compose بٹن"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "کوئی چیٹس نہیں ہیں"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "حالیہ چیٹس یہاں ظاہر ہوں گی۔"
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "فارورڈ بطرف"
@@ -4848,10 +4851,10 @@
     "messageformat": "ابھی دکھانے کے لیے کوئی حالیہ سٹوریز نہیں ہیں"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "کوئی سٹوریز نہیں ہیں"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "نئی اپ ڈیٹس یہاں ظاہر ہوں گی۔"
   },
   "icu:Stories__list--sending": {
     "messageformat": "بھیج رہا ہے ..."
@@ -4869,7 +4872,7 @@
     "messageformat": "سٹوری دیکھنے کے لیے کلک کریں"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "اپ ڈیٹ شامل کرنے کے لیے <newStoryIcon>سٹوری شامل کریں</newStoryIcon> پر کلک کریں۔"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} تا {group}"
@@ -5413,7 +5416,7 @@
     "messageformat": "دیکھنے کے لیے کلک کریں یا کال شروع کریں"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "کسی نئی وائس یا ویڈیو کال شروع کرنے کے لیے <newCallIcon>نئی کال</newCallIcon> پر کلک کریں۔"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "تلا ‎ش کر یں"
@@ -5428,16 +5431,16 @@
     "messageformat": "کوئی حالیہ کالز نہیں۔ دوست کو کال کرنے کے ذریعے آغاز کریں۔"
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "کوئی کالز نہیں ہیں"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "حالیہ کالز یہاں ظاہر ہوں گی۔"
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "کوئی مسڈ کالز نہیں"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "مسڈ کالز یہاں ظاہر ہوں گی۔"
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "\"{query}\" کے لیے کوئی نتائج نہیں ہیں"
@@ -5617,22 +5620,10 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "یہ ریلیزبڑے میسج تھریڈز کو حذف کرنے کے عمل کو تیز کرتا ہے۔"
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "جب دوسری کال پہلے سے جاری ہو تو ہم نے اسے ختم کرنے اور نئی کال میں شامل ہونے کے لیے ایک شارٹ کٹ شامل کی ہے۔"
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "یہ اپ ڈیٹ Linux پر ان یوزر کے لیے اسٹارٹ اپ کریش کو بھی درست کرتی ہے جن کا مقام 'POSIX' پر سیٹ کیا گیا ہے۔"
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "طویل کیپشنز کی حامل سٹوریز اب بہتر امتزاج کے ساتھ ڈسپلے کی جاتی ہیں جو ٹیکسٹ پڑھنے میں آسانی فراہم کرتی ہیں۔"
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "یہ ریلیز لنک کے پیش منظر میں جنریشن کی کارکردگی کو بھی بہتر بناتی ہے اور سیٹنگز کی ونڈو کو بند کرتے وقت معمولی ڈسپلے بگ کو بھی درست کرتی ہے۔"
-  },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "ہم نے نقص جو بعض اوقات سٹوری دیکھتے وقت پیش رفت بار کے منجمد ہونے کا باعث بنتا تھا کو ٹھیک کیا۔"
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
   }
 }

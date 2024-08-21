@@ -3353,6 +3353,9 @@
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "{joinerName} anmodede og annullerede {numberOfRequests,number} anmodninger om at blive medlem via gruppelinket"
   },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+  },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Du aktiverede gruppelinket med administratorgodkendelse slået fra."
   },
@@ -3954,10 +3957,10 @@
     "messageformat": "skriv-knappen"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Ingen chats"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Seneste chats vises her."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Videresend til"
@@ -4848,10 +4851,10 @@
     "messageformat": "Ingen nye historier at vise lige nu"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Ingen historier"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Nye opdateringer vises her."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Sender…"
@@ -4869,7 +4872,7 @@
     "messageformat": "Klik for at se en historie"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Klik på <newStoryIcon>Tilføj en historie</newStoryIcon> for at tilføje en opdatering."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} til {group}"
@@ -5413,7 +5416,7 @@
     "messageformat": "Klik for at se eller starte et opkald"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Klik <newCallIcon>Nyt opkald</newCallIcon> for at starte et nyt tale- eller videoopkald."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Søg"
@@ -5428,16 +5431,16 @@
     "messageformat": "Ingen nye opkald. Kom i gang ved at ringe til en ven."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Ingen opkald"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "De seneste opkald vises her."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Ingen ubesvarede opkald"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Ubesvarede opkald vises her."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Ingen resultater for \"{query}\""
@@ -5617,22 +5620,10 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "Denne opdatering gør det hurtigere at slette store tråde med masser af beskeder."
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "Hvis et andet opkald kalder dit navn, har vi tilføjet en genvej til at forlade det aktuelle opkald og deltage i et nyt. Du bliver bedt om at bekræfte, men det er op til dig, om du siger farvel først."
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "Denne opdatering løser også et opstartsnedbrud på Linux for brugere, hvis lokalitet er indstillet til \"POSIX\"."
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Historier med lange billedtekster vises på en subtil gradientbaggrund, der forbedrer kontrasten og gør teksten lettere at læse. Nu hvor folk kan se, hvad du siger, er du velkommen til at skrive et par linjer om, hvorfor noget virkelig fik dig til at grine i stedet for bare at sige \"lol\"."
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "Denne udgivelse forbedrer også ydeevnen ved generering af linkforhåndsvisning og retter en fejl, der fik vinduet Indstillinger til kortvarigt at blinke en dejlig nuance af ultramarin, når det blev lukket (i stedet for bare at lukke med det samme)."
-  },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Alle elsker en god historie, og vi kan fortælle dig historien om en fejl, der nogle gange fik statuslinjen til at fryse lige midt under at se en god historie – men fejlens eventyr har allerede en lykkelig slutning, da vi har rettet den i denne udgivelse."
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
   }
 }

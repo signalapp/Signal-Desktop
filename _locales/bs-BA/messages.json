@@ -3353,6 +3353,9 @@
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "{joinerName} je zatražio i otkazao zahtjeve (njih {numberOfRequests,number}) da se pridruži putem linka grupe."
   },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+  },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Uključili ste link grupe s onemogućenim odobrenjem administratora."
   },
@@ -3954,10 +3957,10 @@
     "messageformat": "dugme za pisanje"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Nema chatova"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Ovdje će se pojaviti nedavni chatovi."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Proslijedi"
@@ -4848,10 +4851,10 @@
     "messageformat": "Trenutno nema nedavnih priča za prikaz"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Nema priča"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Ovdje će se pojaviti nova ažuriranja."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Slanje…"
@@ -4869,7 +4872,7 @@
     "messageformat": "Kliknite da prikažete priču"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Kliknite na <newStoryIcon>Dodaj priču</newStoryIcon> da dodate ažuriranje."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} šalje u grupu {group}"
@@ -5413,7 +5416,7 @@
     "messageformat": "Kliknite da vidite ili započnete poziv"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Kliknite na <newCallIcon>Novi poziv</newCallIcon> da započnete novi glasovni ili video poziv."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Traži"
@@ -5428,16 +5431,16 @@
     "messageformat": "Nema nedavnih poziva. Započnite pozivom prijatelja."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Nema poziva"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Ovdje će se pojaviti nedavni pozivi."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Nema propuštenih poziva"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Propušteni pozivi će se pojaviti ovdje."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Nema rezultata za “{query}”"
@@ -5617,22 +5620,10 @@
     "messageformat": "Mala podešavanja, otklanjanje grešaka i poboljšanja performansi. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "Brzi rastanak je ponekad lakši od sporog pa smo ubrzali proces brisanja velikih niti poruka."
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "Dodali smo prečac za prekidanje veze i pridruživanje novom pozivu kada je drugi poziv već u tijeku."
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "Ovo ažuriranje također popravlja rušenje pri pokretanju Linuxa za korisnike čija je lokalizacija postavljena na `POSIX`."
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Priče s dugim naslovima sada se prikazuju s poboljšanim kontrastom koji čini tekst lakšim za čitanje."
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "Ovo izdanje također poboljšava izvedbu generiranja pregleda linka i ispravlja manju pogrešku prikaza prilikom zatvaranja prozora postavki."
-  },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Ispravili smo pogrešku koja je ponekad uzrokovala zamrzavanje trake napretka tijekom gledanja priče."
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
   }
 }

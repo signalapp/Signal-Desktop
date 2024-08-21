@@ -3353,6 +3353,9 @@
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "{joinerName} begärt och avbröt {numberOfRequests,number} förfrågningar om att gå med via grupplänken"
   },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+  },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Du aktiverade grupplänken med administratörsgodkännande inaktiverat."
   },
@@ -3954,10 +3957,10 @@
     "messageformat": "skriv-knappen"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Inga chattar"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "De senaste chattarna kommer att visas här."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Vidarebefordra till"
@@ -4848,10 +4851,10 @@
     "messageformat": "Inga nya stories att visa just nu"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Inga stories"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Nya uppdateringar kommer att visas här."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Skickar …"
@@ -4869,7 +4872,7 @@
     "messageformat": "Klicka för att visa en story"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Klicka på <newStoryIcon>Lägg till en story</newStoryIcon> för att lägga till en uppdatering."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} till {group}"
@@ -5413,7 +5416,7 @@
     "messageformat": "Klicka för att visa eller starta ett samtal"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Klicka på <newCallIcon>Nytt samtal</newCallIcon> för att starta ett nytt röst- eller videosamtal."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Sök"
@@ -5428,16 +5431,16 @@
     "messageformat": "Inga nyliga samtal. Kom igång genom att ringa en vän."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Inga samtal"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "De senaste samtalen kommer att visas här."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Inga missade samtal"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Missade samtal kommer att visas här."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Inga resultat för ”{query}”"
@@ -5617,22 +5620,10 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "Denna version snabbar upp processen med att ta bort långa meddelandetrådar."
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "Vi har lagt till en genväg för att lägga på och ansluta till ett nytt samtal medan ett annat samtal redan pågår."
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "Denna uppdatering åtgärdar också en uppstartskrasch på Linux för användare vars språkzon är inställt på POSIX."
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories med långa bildtexter visas nu med förbättrad kontrast som gör texten lättare att läsa."
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "Denna version förbättrar också prestandan för generering av länkförhandsvisning och åtgärdar en mindre visningsbugg när du stänger fönstret Inställningar."
-  },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Vi har åtgärdat en bugg som ibland gjorde att förloppsraden hängde sig när du visade en Story."
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
   }
 }

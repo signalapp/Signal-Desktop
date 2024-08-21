@@ -3353,6 +3353,9 @@
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "{joinerName} បានស្នើសុំ និងបោះបង់សំណើចំនួន {numberOfRequests,number} ដើម្បីចូលរួមតាមរយៈតំណក្រុម។"
   },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+  },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "អ្នកបានបើកតំណក្រុម ដោយការឯកភាពពីអ្នកគ្រប់គ្រងត្រូវបានបិទ។"
   },
@@ -3954,10 +3957,10 @@
     "messageformat": "ប៊ូតុងសរសេរសារ"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "មិនមានការជជែកទេ"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "ការជជែកថ្មីៗនឹងបង្ហាញនៅទីនេះ។"
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "បញ្ជូនបន្តទៅកាន់"
@@ -4848,10 +4851,10 @@
     "messageformat": "មិនមានរឿងរ៉ាវថ្មីៗសម្រាប់បង្ហាញឥឡូវនេះទេ"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "មិនមានរឿងរ៉ាវទេ"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "បច្ចុប្បន្នភាពថ្មីៗនឹងបង្ហាញនៅទីនេះ។"
   },
   "icu:Stories__list--sending": {
     "messageformat": "កំពុងផ្ញើ…"
@@ -4869,7 +4872,7 @@
     "messageformat": "ចុចដើម្បីមើលរឿងរ៉ាវ"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "ចុច <newStoryIcon>បញ្ចូលរឿងរ៉ាវមួយ</newStoryIcon> ដើម្បីបញ្ចូលបច្ចុប្បន្នភាព។"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} ទៅ {group}"
@@ -5413,7 +5416,7 @@
     "messageformat": "ចុចដើម្បីមើល ឬចាប់ផ្តើមការហៅ"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "ចុច <newCallIcon>ការហៅថ្មី</newCallIcon> ដើម្បីចាប់ផ្តើមការហៅជាសំឡេង ឬវីដេអូថ្មី។"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ស្វែងរក"
@@ -5428,16 +5431,16 @@
     "messageformat": "គ្មានការហៅថ្មីៗនេះទេ។ ចាប់ផ្តើមដោយហៅទៅមិត្តភក្តិណាម្នាក់។"
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "មិនមានការហៅទេ"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "ការហៅថ្មីៗនឹងបង្ហាញនៅទីនេះ។"
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "មិនមានការហៅដែលខកខានទេ"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "ការហៅដែលខកខាននឹងបង្ហាញនៅទីនេះ។"
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "គ្មានលទ្ធផលសម្រាប់ “{query}”"
@@ -5617,22 +5620,10 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "ការចេញផ្សាយនេះបង្កើនល្បឿននៃដំណើរការលុបប្រវត្តិសារសន្ទនាវែងៗ។"
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "ប្រសិនបើការហៅផ្សេងទៀតកំពុងហៅឈ្មោះរបស់អ្នក យើងបានបន្ថែមផ្លូវកាត់មួយដើម្បីអាចចេញពីការហៅបច្ចុប្បន្ន ហើយចូលរួមការហៅថ្មីបាន។ អ្នកនឹងត្រូវបានជំរុញឱ្យបញ្ជាក់ពីការចាកចេញរបស់អ្នក ប៉ុន្តែវាអាស្រ័យលើអ្នកទេ ថាតើអ្នកចង់លាទៅមុនឬអត់។"
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "កំណែថ្មីនេះក៏ដោះស្រាយផងដែរនូវបញ្ហាគាំងនៅពេលចាប់ផ្តើមនៅលើ Linux សម្រាប់អ្នកប្រើទាំងឡាយដែលបានកំណត់អ៊ីនធើហ្វេសទៅជា `POSIX`។"
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "រឿងរ៉ាវដែលមានចំណងជើងវែងៗត្រូវបានបង្ហាញនៅលើផ្ទៃខាងក្រោយដែលធ្វើឱ្យមើលឃើញអក្សរច្បាស់ជាងមុន និងកាន់តែងាយស្រួលអាន។ ដោយសារឥឡូវនេះមនុស្សអាចមើលឃើញអ្វីដែលអ្នកកំពុងតែនិយាយ ដូច្នេះអ្នកអាចសរសេរពីរបីកថាខណ្ឌបានដោយសេរី អំពីមូលហេតុដែលអ្វីមួយនោះធ្វើឱ្យអ្នកអស់សំណើចខ្លាំង ប្រសើរជាងគ្រាន់តែនិយាយថា \"lol\"។"
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "ការចេញផ្សាយនេះក៏បង្កើនប្រសិទ្ធភាពនៃការបង្កើតការមើលតំណជាមុនផងដែរ និងដោះស្រាយបញ្ហាបន្តិចបន្តួចលើការបង្ហាញ នៅពេលបិទផ្ទាំងវីនដូ។"
-  },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "មនុស្សគ្រប់គ្នាសុទ្ធតែចូលចិត្តរឿងរ៉ាវដែលល្អ ហើយយើងអាចប្រាប់អ្នកបានថា ធ្លាប់មានបញ្ហាមួយដែលជួនកាលធ្វើឱ្យរបារវឌ្ឍនភាពគាំងភ្លាមៗនៅពាក់កណ្តាលទីពេលកំពុងមើលរឿងរ៉ាវដ៏ល្អ ប៉ុន្តែគួរឱ្យរីករាយណាស់ ដំណើររឿងនៃបញ្ហានោះបានបញ្ចប់ទៅហើយ ដោយសារយើងបានដោះស្រាយវានៅក្នុងការចេញផ្សាយនេះ។"
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
   }
 }

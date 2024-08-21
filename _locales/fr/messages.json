@@ -1632,7 +1632,7 @@
     "messageformat": "Débloquer ce groupe pour envoyer un message."
   },
   "icu:youChangedTheTimer": {
-    "messageformat": "Vous avez défini l’expiration des messages éphémères à {time}"
+    "messageformat": "Vous avez défini le délai avant disparition des messages éphémères sur {time}"
   },
   "icu:timerSetOnSync": {
     "messageformat": "L’expiration des messages éphémères est maintenant à {time}"
@@ -1692,7 +1692,7 @@
     "messageformat": "Changements des numéros de sécurité"
   },
   "icu:safetyNumberChangedGroup": {
-    "messageformat": "Le numéro de sécurité avec {name} a changé"
+    "messageformat": "Le numéro de sécurité de {name} a changé"
   },
   "icu:ConversationDetails__viewSafetyNumber": {
     "messageformat": "Afficher le numéro de sécurité"
@@ -3024,13 +3024,13 @@
     "messageformat": "Le groupe a été créé."
   },
   "icu:GroupV2--title--change--other": {
-    "messageformat": "{memberName} a changé le nom du groupe en « {newTitle} »."
+    "messageformat": "{memberName} a remplacé le nom du groupe par « {newTitle} »."
   },
   "icu:GroupV2--title--change--you": {
-    "messageformat": "Vous avez changé le nom du groupe en « {newTitle} »."
+    "messageformat": "Vous avez remplacé le nom du groupe par « {newTitle} »."
   },
   "icu:GroupV2--title--change--unknown": {
-    "messageformat": "Un membre a changé le nom du groupe en « {newTitle} »."
+    "messageformat": "Un membre a remplacé le nom du groupe par « {newTitle} »."
   },
   "icu:GroupV2--title--remove--other": {
     "messageformat": "{memberName} a supprimé le nom du groupe."
@@ -3352,6 +3352,9 @@
   },
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "{joinerName} a envoyé et annulé {numberOfRequests,number} demandes d’adhésion via le lien du groupe."
+  },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Vous avez activé le lien du groupe et l’approbation d’un administrateur est désactivée."
@@ -3954,10 +3957,10 @@
     "messageformat": "bouton « Nouveau message »"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Aucune conversation"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Les conversations récentes s’afficheront ici."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Transférer à"
@@ -4606,7 +4609,7 @@
     "ignoreUnused": true
   },
   "icu:NSIS__retry-dialog--second-line": {
-    "messageformat": "Fermez l’appli manuellement, puis cliquez sur <strong>Réessayer</strong> pour continuer.",
+    "messageformat": "Fermez l’application manuellement, puis cliquez sur \"Réessayer\" pour continuer.",
     "ignoreUnused": true
   },
   "icu:NSIS__appRunning": {
@@ -4755,7 +4758,7 @@
     "messageformat": "{sender} a initié une procédure de paiement pour vous"
   },
   "icu:payment-event-activation-request-label": {
-    "messageformat": "{sender} souhaite que vous activiez les paiements. N’envoyez de paiements qu’aux personnes en qui vous avez confiance. Vous pouvez activer les paiements depuis votre téléphone mobile via <strong>Paramètres</strong> > <strong>Paiements</strong>."
+    "messageformat": "{sender} souhaite que vous activiez les paiements. N’envoyez de paiements qu’aux personnes en qui vous avez confiance. Vous pouvez activer les paiements depuis votre téléphone mobile via Paramètres > Paiements."
   },
   "icu:payment-event-activation-request-you-label": {
     "messageformat": "Vous avez envoyé une demande d’activation des paiements à {receiver}"
@@ -4848,10 +4851,10 @@
     "messageformat": "Aucune story récente à afficher pour le moment"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Aucune story"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Les nouveaux contenus s’afficheront ici."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Envoi…"
@@ -4869,7 +4872,7 @@
     "messageformat": "Cliquer sur une story pour l’afficher"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Cliquez sur <newStoryIcon>Ajouter une story</newStoryIcon> pour partager un nouveau contenu."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} à {group}"
@@ -5413,7 +5416,7 @@
     "messageformat": "Cliquer sur un appel pour l’afficher ou passer un nouvel appel"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Cliquez sur l’icône <newCallIcon>Nouvel appel</newCallIcon> pour passer un appel vocal ou vidéo."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Rechercher"
@@ -5428,16 +5431,16 @@
     "messageformat": "Aucun appel récent. Pour commencer, appelez un ami."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Aucun appel"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Les appels récents s’afficheront ici."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Aucun appel manqué"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Les appels manqués s’afficheront ici."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Aucun résultat pour « {query} »"
@@ -5617,22 +5620,10 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "Vous n’aimez pas les au revoir qui s’éternisent ? Nous non plus ! Nous avons donc accéléré la procédure de suppression des longs fils de discussion. Et une médaille d’or pour ce sprint !"
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "On vous appelle alors que vous êtes déjà en ligne ? Pas de panique : un nouveau raccourci vous permet de quitter l’appel en cours pour en rejoindre un autre. Signal vous demandera de confirmer votre choix (mais si vous venez de passer 3 h au téléphone avec votre belle-mère et qu’un certain Teddy Riner veut à tout prix vous parler, la décision sera vite prise)."
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "Cette mise à jour corrige aussi une erreur de démarrage qui se produisait sous Linux pour les utilisateurs dont les paramètres régionaux sont définis sur POSIX."
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Vos stories méritent bien de belles et longues légendes. Pour en faciliter la lecture, elles s’affichent désormais sur un fond plus contrasté, avec un léger dégradé. Maintenant que vos amis peuvent lire ce que vous écrivez sans avoir à sortir la loupe, vous pouvez leur raconter ce qui vous a valu le fou rire de l’année plutôt que de vous contenter d’un énième « MDR »."
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "La génération des aperçus de lien n’est pas non plus en reste. Autre amélioration : au moment de fermer la fenêtre Paramètres, celle-ci avait une fâcheuse tendance à se transformer en voyant clignotant d’un bleu outremer… On adore le bleu, mais les lumières clignotantes, on préfère les voir à Noël. "
-  },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Il était une fois un bug qui avait infiltré le royaume de Signal et empêchait parfois la barre de progression d’avancer pendant l’affichage d’une story. Mais le royaume était bien gardé et les chevaliers du roi neutralisèrent rapidement ce bug, pour le plus grand bonheur des utilisateurs, qui vécurent heureux jusqu’à la fin de la story."
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
   }
 }
