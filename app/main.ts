@@ -1847,7 +1847,9 @@ const onDatabaseError = async (error: Error) => {
 
   if (buttonIndex === copyErrorAndQuitButtonIndex) {
     clipboard.writeText(
-      `Database startup error:\n\n${redactAll(Errors.toLogFormat(error))}`
+      `Database startup error:\n\n${redactAll(Errors.toLogFormat(error))}\n\n` +
+        `App Version: ${app.getVersion()}\n` +
+        `OS: ${os.platform()}`
     );
   } else if (
     typeof deleteAllDataButtonIndex === 'number' &&
