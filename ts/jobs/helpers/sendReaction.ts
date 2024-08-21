@@ -190,6 +190,7 @@ export async function sendReaction(
       const dataMessage = await messaging.getDataOrEditMessage({
         attachments: [],
         expireTimer,
+        expireTimerVersion: conversation.getExpireTimerVersion(),
         groupV2: conversation.getGroupV2Info({
           members: recipientServiceIdsWithoutMe,
         }),
@@ -247,6 +248,7 @@ export async function sendReaction(
           deletedForEveryoneTimestamp: undefined,
           timestamp: pendingReaction.timestamp,
           expireTimer,
+          expireTimerVersion: conversation.getExpireTimerVersion(),
           contentHint: ContentHint.RESENDABLE,
           groupId: undefined,
           profileKey,

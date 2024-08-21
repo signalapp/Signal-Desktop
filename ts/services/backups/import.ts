@@ -747,6 +747,7 @@ export class BackupImportStream extends Writable {
       profileFamilyName: dropNull(contact.profileFamilyName),
       hideStory: contact.hideStory === true,
       username: dropNull(contact.username),
+      expireTimerVersion: 1,
     };
 
     if (contact.notRegistered) {
@@ -840,6 +841,7 @@ export class BackupImportStream extends Writable {
       expireTimer: expirationTimerS
         ? DurationInSeconds.fromSeconds(expirationTimerS)
         : undefined,
+      expireTimerVersion: 1,
       accessControl: accessControl
         ? {
             attributes:

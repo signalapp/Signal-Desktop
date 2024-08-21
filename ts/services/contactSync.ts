@@ -68,6 +68,7 @@ async function updateConversationFromContactSync(
       //   setting this will make 'isSetByOther' check true.
       source: window.ConversationController.getOurConversationId(),
       receivedAt: receivedAtCounter,
+      version: details.expireTimerVersion ?? 1,
       fromSync: true,
       isInitialSync,
       reason: `contact sync (sent=${sentAt})`,

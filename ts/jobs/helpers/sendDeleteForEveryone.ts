@@ -133,6 +133,7 @@ export async function sendDeleteForEveryone(
             profileKey,
             recipients: conversation.getRecipients(),
             timestamp,
+            expireTimerVersion: undefined,
           });
           strictAssert(
             proto.dataMessage,
@@ -202,6 +203,7 @@ export async function sendDeleteForEveryone(
                 deletedForEveryoneTimestamp: targetTimestamp,
                 timestamp,
                 expireTimer: undefined,
+                expireTimerVersion: undefined,
                 contentHint,
                 groupId: undefined,
                 profileKey,

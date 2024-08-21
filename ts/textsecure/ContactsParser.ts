@@ -31,6 +31,7 @@ type MessageWithAvatar<Message extends OptionalFields> = Omit<
 > & {
   avatar?: ContactAvatarType;
   expireTimer?: DurationInSeconds;
+  expireTimerVersion: number | null;
   number?: string | undefined;
 };
 
@@ -207,6 +208,7 @@ function prepareContact(
   const result = {
     ...proto,
     expireTimer,
+    expireTimerVersion: proto.expireTimerVersion ?? null,
     aci,
     avatar,
     number: dropNull(proto.number),

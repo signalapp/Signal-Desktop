@@ -188,6 +188,7 @@ export type MessageOptionsType = {
   bodyRanges?: ReadonlyArray<RawBodyRange>;
   contact?: ReadonlyArray<EmbeddedContactWithUploadedAvatar>;
   expireTimer?: DurationInSeconds;
+  expireTimerVersion: number | undefined;
   flags?: number;
   group?: {
     id: string;
@@ -238,6 +239,8 @@ class Message {
 
   expireTimer?: DurationInSeconds;
 
+  expireTimerVersion?: number;
+
   flags?: number;
 
   group?: {
@@ -277,6 +280,7 @@ class Message {
     this.bodyRanges = options.bodyRanges;
     this.contact = options.contact;
     this.expireTimer = options.expireTimer;
+    this.expireTimerVersion = options.expireTimerVersion;
     this.flags = options.flags;
     this.group = options.group;
     this.groupV2 = options.groupV2;
@@ -533,6 +537,9 @@ class Message {
     }
     if (this.expireTimer) {
       proto.expireTimer = this.expireTimer;
+    }
+    if (this.expireTimerVersion) {
+      proto.expireTimerVersion = this.expireTimerVersion;
     }
     if (this.profileKey) {
       proto.profileKey = this.profileKey;
@@ -930,6 +937,7 @@ export default class MessageSender {
       contact,
       deletedForEveryoneTimestamp,
       expireTimer,
+      expireTimerVersion: undefined,
       flags,
       groupCallUpdate,
       groupV2,
@@ -1163,6 +1171,7 @@ export default class MessageSender {
     contentHint,
     deletedForEveryoneTimestamp,
     expireTimer,
+    expireTimerVersion,
     groupId,
     serviceId,
     messageText,
@@ -1185,6 +1194,7 @@ export default class MessageSender {
     contentHint: number;
     deletedForEveryoneTimestamp: number | undefined;
     expireTimer: DurationInSeconds | undefined;
+    expireTimerVersion: number | undefined;
     groupId: string | undefined;
     serviceId: ServiceIdString;
     messageText: string | undefined;
@@ -1209,6 +1219,7 @@ export default class MessageSender {
         contact,
         deletedForEveryoneTimestamp,
         expireTimer,
+        expireTimerVersion,
         preview,
         profileKey,
         quote,

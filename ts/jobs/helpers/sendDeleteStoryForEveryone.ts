@@ -183,6 +183,7 @@ export async function sendDeleteStoryForEveryone(
                 deletedForEveryoneTimestamp: targetTimestamp,
                 timestamp,
                 expireTimer: undefined,
+                expireTimerVersion: undefined,
                 contentHint,
                 groupId: undefined,
                 profileKey: conversation.get('profileSharing')

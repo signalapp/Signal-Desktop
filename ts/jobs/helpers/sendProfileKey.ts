@@ -119,6 +119,7 @@ export async function sendProfileKey(
       flags: Proto.DataMessage.Flags.PROFILE_KEY_UPDATE,
       profileKey,
       recipients: conversation.getRecipients(),
+      expireTimerVersion: undefined,
       timestamp,
       includePniSignatureMessage: true,
     });

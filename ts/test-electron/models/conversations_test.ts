@@ -39,6 +39,7 @@ describe('Conversations', () => {
       sentMessageCount: 0,
       profileSharing: true,
       version: 0,
+      expireTimerVersion: 1,
     });
 
     await window.textsecure.storage.user.setCredentials({
@@ -132,6 +133,7 @@ describe('Conversations', () => {
       sentMessageCount: 0,
       profileSharing: true,
       version: 0,
+      expireTimerVersion: 1,
     });
 
     const resultNoImage = await conversation.getQuoteAttachment(

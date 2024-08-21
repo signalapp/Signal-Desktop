@@ -321,6 +321,7 @@ export function processDataMessage(
     groupV2: processGroupV2Context(message.groupV2),
     flags: message.flags ?? 0,
     expireTimer: DurationInSeconds.fromSeconds(message.expireTimer ?? 0),
+    expireTimerVersion: message.expireTimerVersion ?? 0,
     profileKey:
       message.profileKey && message.profileKey.length > 0
         ? Bytes.toBase64(message.profileKey)

@@ -1070,6 +1070,23 @@ export class ConversationController {
     }
     current.set('active_at', activeAt);
 
+    current.set(
+      'expireTimerVersion',
+      Math.max(
+        obsolete.get('expireTimerVersion') ?? 1,
+        current.get('expireTimerVersion') ?? 1
+      )
+    );
+
+    const obsoleteExpireTimer = obsolete.get('expireTimer');
+    const currentExpireTimer = current.get('expireTimer');
+    if (
+      !currentExpireTimer ||
+      (obsoleteExpireTimer && obsoleteExpireTimer < currentExpireTimer)
+    ) {
+      current.set('expireTimer', obsoleteExpireTimer);
+    }
+
     const currentHadMessages = (current.get('messageCount') ?? 0) > 0;
 
     const dataToCopy: Partial<ConversationAttributesType> = pick(

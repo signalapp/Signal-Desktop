@@ -211,7 +211,7 @@
     "@indutny/parallel-prettier": "3.0.0",
     "@indutny/rezip-electron": "1.3.1",
     "@indutny/symbolicate-mac": "2.3.0",
-    "@signalapp/mock-server": "6.8.1",
+    "@signalapp/mock-server": "6.9.0",
     "@storybook/addon-a11y": "8.1.11",
     "@storybook/addon-actions": "8.1.11",
     "@storybook/addon-controls": "8.1.11",

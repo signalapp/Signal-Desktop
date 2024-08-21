@@ -1856,6 +1856,7 @@ export async function startApp(): Promise<void> {
           //   after connect on every startup
           await server.registerCapabilities({
             deleteSync: true,
+            versionedExpirationTimer: true,
           });
         } catch (error) {
           log.error(
