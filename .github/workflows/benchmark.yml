@@ -65,6 +65,7 @@ jobs:
         NODE_ENV: production
         RUN_COUNT: 10
         ELECTRON_ENABLE_STACK_DUMPING: on
+        DEBUG: 'mock:benchmarks'
         ARTIFACTS_DIR: artifacts/startup
 
     - name: Run send benchmarks
@@ -78,6 +79,7 @@ jobs:
         NODE_ENV: production
         RUN_COUNT: 100
         ELECTRON_ENABLE_STACK_DUMPING: on
+        # DEBUG: 'mock:benchmarks'
         ARTIFACTS_DIR: artifacts/send
 
     - name: Run group send benchmarks
@@ -93,6 +95,7 @@ jobs:
         RUN_COUNT: 100
         CONVERSATION_SIZE: 500
         ELECTRON_ENABLE_STACK_DUMPING: on
+        # DEBUG: 'mock:benchmarks'
         ARTIFACTS_DIR: artifacts/group-send
 
     - name: Run large group send benchmarks with delivery receipts
@@ -112,6 +115,7 @@ jobs:
         RUN_COUNT: 20
         CONVERSATION_SIZE: 50
         ELECTRON_ENABLE_STACK_DUMPING: on
+        # DEBUG: 'mock:benchmarks'
         ARTIFACTS_DIR: artifacts/large-group-send
 
     - name: Run conversation open benchmarks
@@ -126,6 +130,7 @@ jobs:
         NODE_ENV: production
         RUN_COUNT: 100
         ELECTRON_ENABLE_STACK_DUMPING: on
+        # DEBUG: 'mock:benchmarks'
         ARTIFACTS_DIR: artifacts/convo-open
 
     - name: Upload benchmark logs on failure

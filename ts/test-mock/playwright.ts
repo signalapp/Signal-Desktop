@@ -184,6 +184,10 @@ export class App extends EventEmitter {
     return this.waitForEvent('unlinkCleanupComplete');
   }
 
+  public async waitForConversationOpenComplete(): Promise<void> {
+    return this.waitForEvent('conversationOpenComplete');
+  }
+
   // EventEmitter types
 
   public override on(type: 'close', callback: () => void): this;
