@@ -3353,6 +3353,9 @@
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "‫لقد أرسل المستخدم {joinerName} {numberOfRequests,number} طلب الانضمام بواسطة وصلة المجموعة، ثم ألغى ذلك."
   },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+  },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "لقد قمت بتشغيل وصلة المجموعة مع تعطيل موافقة المشرف."
   },
@@ -3954,10 +3957,10 @@
     "messageformat": "زر الكتابة"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "لا توجد دردشات"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "سَتظهر آخر الدردشات هنا."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "إعادة التوجيه نحو"
@@ -4848,10 +4851,10 @@
     "messageformat": "لا توجد قصص حديثة للمشاهدة حاليا"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "لا توجد قصص"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "سَتظهر آخر المستجدات هنا."
   },
   "icu:Stories__list--sending": {
     "messageformat": "جارٍ الإرسال…"
@@ -4869,7 +4872,7 @@
     "messageformat": "يُرجى الضغط لمشاهدة قصة"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "انقر على <newStoryIcon>أضف قصة</newStoryIcon> لإضافة آخر المستجدات."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "‫من {name} إلى {group}"
@@ -5413,7 +5416,7 @@
     "messageformat": "انقر لعرض أو بدء مكالمة"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "انقر على <newCallIcon>مكالمة جديدة</newCallIcon> لبدء مكالمة صوتية أو مكالمة فيديو جديدة."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "بحث"
@@ -5428,16 +5431,16 @@
     "messageformat": "لا توجد مكالمات حديثة. ابدأ بالاتصال بصديق."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "لا توجد مكالمات"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "سَتظهر آخر المكالمات هنا."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "لا توجد مكالمات فائتة"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "سَتظهر المكالمات الفائتة هنا."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "لا توجد نتيجة لـ \"{query}\""
@@ -5617,22 +5620,10 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "يسرّع هذا الإصدار عميلة حذف سلاسل الرسائل الكبيرة."
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "أضفنا اختصارًا لقفل الخط والانضمام إلى مُكالمة جديدة عندما تكون مكالمة أخرى جارية."
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "يُصلح هذا التحديث أيضًا عطلاً على Linux للمُستخدمين الذين اختاروا تحديد إعداداتهم المحلية إلى \"POSIX\"."
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "تظهر القِصص ذات التعليقات الطويلة الآن بتباين أفضل ما يجعل النص أوضح للقراءة."
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "يُحسّن هذا الإصدار أيضًا أداء إنشاء معاينة الروابط ويصلح خطأ متعلقًا بالعرض عند إغلاق نافذة الإعدادات."
-  },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "أصلحنا خطأً كان يتسبب أحيانًا في تجميد شريط التقدم —أثناء عرض القصة."
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
   }
 }

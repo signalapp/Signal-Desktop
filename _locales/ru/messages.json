@@ -3353,6 +3353,9 @@
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "{joinerName} запросил(-а) и отменил(-а) {numberOfRequests,number} запросов на присоединение к группе по ссылке"
   },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+  },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Вы включили ссылку на группу с отключенным одобрением администратора."
   },
@@ -3954,10 +3957,10 @@
     "messageformat": "кнопку «Новый разговор»"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Чатов нет"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Недавние чаты появятся здесь."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Переслать"
@@ -4848,10 +4851,10 @@
     "messageformat": "Нет недавних историй"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Историй нет"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Новые истории появятся здесь."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Отправляем…"
@@ -4869,7 +4872,7 @@
     "messageformat": "Нажмите на историю, чтобы просмотреть её"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Нажмите <newStoryIcon>Добавить историю</newStoryIcon>, чтобы добавить обновление."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} для {group}"
@@ -5413,7 +5416,7 @@
     "messageformat": "Нажмите, чтобы просмотреть или начать звонок"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Нажмите <newCallIcon>Новый звонок</newCallIcon>, чтобы начать новый аудио- или видеозвонок."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Поиск"
@@ -5428,16 +5431,16 @@
     "messageformat": "Нет недавних звонков. Начните со звонка другу."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Нет звонков"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Недавние звонки появятся здесь."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Нет пропущенных звонков"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Пропущенные звонки появятся здесь."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Нет результатов для «{query}»"
@@ -5617,22 +5620,10 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "Долгие проводы — лишние слёзы, поэтому мы ускорили процесс удаления больших тредов сообщений."
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "Если вас вызывают по другому звонку, мы добавили ярлык, позволяющий выйти из текущего звонка и присоединиться к новому. Вам будет предложено подтвердить своё переключение, но вам решать, попрощаетесь ли вы первым."
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "В этом обновлении также исправлен сбой при запуске в Linux у пользователей с языковым стандартом \"POSIX\"."
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Истории с длинными подписями отображаются на тонком градиентном фоне, который повышает контрастность и облегчает чтение текста. Теперь, когда люди могут видеть, что вы хотите сказать, не стесняйтесь написать пару абзацев о том, почему что-то действительно вас рассмешило, вместо того чтобы просто сказать «лол»."
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "В этом релизе также улучшена генерация просмотра ссылок и исправлена ошибка, из-за которой окно настроек при закрытии всякий раз на мгновение окрашивалось в приятный ультрамариновый оттенок (вместо того, чтобы просто сразу закрыться)."
-  },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Хорошую историю любят все, и мы могли бы рассказать вам историю об ошибке, из-за которой индикатор прогресса иногда зависал прямо посреди просмотра хорошей истории, но это приключение уже счастливо завершилось, потому что мы исправили ошибку в этом релизе."
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
   }
 }

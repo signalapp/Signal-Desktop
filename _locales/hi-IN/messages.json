@@ -3353,6 +3353,9 @@
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "{joinerName} ने अनुरोध किया और ग्रुप लिंक के माध्यम से शामिल होने के {numberOfRequests,number} अनुरोध रद्द किए।"
   },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+  },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "आपने समूह लिंक चालू कर दिया है जिसमें व्यवस्थापकीय स्वीकृति अक्षम है."
   },
@@ -3954,10 +3957,10 @@
     "messageformat": "लिखें बटन"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "कोई चैट नहीं"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "हाल ही की चैट यहाँ दिखेंगी।"
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "को फ़ॉरवर्ड करें"
@@ -4848,10 +4851,10 @@
     "messageformat": "अभी दिखाने के लिए कोई भी हाल की स्टोरी नहीं है।"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "कोई स्टोरी नहीं"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "नए अपडेट यहाँ दिखेंगे।"
   },
   "icu:Stories__list--sending": {
     "messageformat": "भेजी जा रही है..."
@@ -4869,7 +4872,7 @@
     "messageformat": "किसी स्टोरी को देखने के लिए उस पर क्लिक करें"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "कोई अपडेट जोड़ने के लिए, <newStoryIcon>स्टोरी जोड़ें</newStoryIcon> पर क्लिक करें।"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} से {group} को"
@@ -5413,7 +5416,7 @@
     "messageformat": "कॉल देखने या शुरू करने के लिए क्लिक करें"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "नया वॉइस या वीडियो कॉल शुरू करने के लिए, <newCallIcon>नया कॉल</newCallIcon> पर क्लिक करें।"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "सर्च"
@@ -5428,16 +5431,16 @@
     "messageformat": "कोई नवीनतम कॉल नहीं। किसी दोस्त को कॉल करके शुरू करें।"
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "कोई कॉल नहीं"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "हाल ही के कॉल यहाँ दिखेंगे।"
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "कोई मिस्ड कॉल नहीं"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "मिस्ड कॉल यहाँ दिखेंगे।"
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}” के लिए कोई परिणाम नहीं"
@@ -5617,22 +5620,10 @@
     "messageformat": "छोटे-छोटे ट्वीक, बग फ़िक्स, और प्रदर्शन में सुधार। Signal इस्तेमाल करने के लिए धन्यवाद।",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "कभी-कभी जल्दी से अलविदा कह देना, धीमी विदाई की तुलना में आसान होता है, तो हमने बड़े संदेश थ्रेड को डिलीट करने की प्रोसेस तेज़ कर दी है।"
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "अगर कोई और कॉल आपके नाम को कॉल करता है, तो हमने मौजूदा कॉल को छोड़कर नए कॉल में शामिल होने के लिए एक शॉर्टकट जोड़ा है। आपको अपने जाने की पुष्टि करने को कहा जाएगा, लेकिन यह आपकी मर्ज़ी है कि आप पहले अलविदा कहना चाहते हैं या नहीं।"
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "इस अपडेट से, उन यूज़र्स के लिए Linux पर स्टार्टअप क्रैश भी ठीक हो जाता है जिनका लोकेल 'POSIX' पर सेट है।"
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "लंबे कैप्शन वाली स्टोरीज़ को सादा ग्रेडिएंट बैकग्राउंड पर दिखाया जाता है, जिससे कंट्रास्ट बेहतर होता है और टेक्स्ट को पढ़ना आसान हो जाता है। अब लोग देख सकते हैं कि आप क्या कह रहे हैं, सिर्फ़ \"lol\" कहने के बजाय, बिना किसी झिझक के एक-दो पैराग्राफ़ लिखकर बताएँ कि आपको कोई चीज़ इतनी मज़ाकिया क्यों लगी।"
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "इस रिलीज़ की मदद से, लिंक प्रीव्यू जनरेशन का प्रदर्शन भी बेहतर होता है और वह गड़बड़ी भी ठीक होती है जिसकी वजह से सेटिंग विंडो बंद होने पर (सीधे बंद होने के बजाय) अल्ट्रामरीन रंग दिखाई देता था।"
-  },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "सभी को अच्छी स्टोरीज़ पसंद होती हैं, और हम आपको एक ऐसी गड़बड़ी की कहानी बता सकते हैं जिसकी वजह से कभी-कभी कोई अच्छी स्टोरी देखते समय प्रोग्रेस बार फ़्रीज़ हो जाता था — लेकिन उस गड़बड़ी का अंत आ गया है, क्योंकि हमने इस रिलीज़ में उसे ठीक कर दिया है।"
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
   }
 }

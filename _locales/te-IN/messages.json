@@ -3353,6 +3353,9 @@
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "{joinerName} అభ్యర్ధించారు మరియు గ్రూపు లింక్ ద్వారా చేరడానికి {numberOfRequests,number} అభ్యర్ధనలను రద్దు చేశారు."
   },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+  },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "నిర్వాహక ఆమోదం నిలిపివేయబడిన మీరు సమూహ లింక్‌ను ఆన్ చేసారు."
   },
@@ -3954,10 +3957,10 @@
     "messageformat": "కంపోజ్ బటన్"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "చాట్స్ లేవు"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "ఇటీవలి చాట్స్ ఇక్కడ కనిపిస్తాయి."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "వీరికి ఫార్వర్డ్ చేయండి"
@@ -4848,10 +4851,10 @@
     "messageformat": "ఇప్పుడు చూపించడానికి ఎలాంటి ఇటీవలి కథలు లేవు"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "కథలు లేవు"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "కొత్త అప్‌డేట్‌లు ఇక్కడ కనిపిస్తాయి."
   },
   "icu:Stories__list--sending": {
     "messageformat": "పంపుతోంది..."
@@ -4869,7 +4872,7 @@
     "messageformat": "ఒక కథను చూడటానికి క్లిక్ చేయండి"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "అప్‌డేట్‌ను జోడించడానికి <newStoryIcon>కథను జోడించండి</newStoryIcon>ని క్లిక్ చేయండి."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} నుంచి {group}కు"
@@ -5413,7 +5416,7 @@
     "messageformat": "ఒక కాల్‌ను వీక్షించడానికి లేదా ప్రారంభించడానికి క్లిక్ చేయండి"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "కొత్త స్వర లేదా వీడియో కాల్ ప్రారంభించడానికి <newCallIcon>కొత్త కాల్</newCallIcon> ను క్లిక్ చేయండి."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "వెతకండి"
@@ -5428,16 +5431,16 @@
     "messageformat": "ఇటీవలి కాల్స్  లేవు స్నేహితుడికి కాల్ చేయడం ద్వారా ప్రారంభించండి."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "కాల్‌లు లేవు"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "ఇటీవలి కాల్‌లు ఇక్కడ కనిపిస్తాయి."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "మిస్డ్ కాల్స్ లేవు"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "మిస్డ్ కాల్స్ ఇక్కడ కనిపిస్తాయి."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}” కోసం ఫలితాలు లేవు"
@@ -5617,22 +5620,10 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "ఈ విడుదల పెద్ద సందేశ థ్రెడ్‌లను తొలగించే ప్రక్రియను వేగవంతం చేస్తుంది."
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "మరొక కాల్ ఇప్పటికే పురోగతిలో ఉన్నప్పుడు హ్యాంగ్ అప్ చేయడానికి మరియు కొత్త కాల్‌లో చేరడానికి మేము సత్వరమార్గాన్ని జోడించాము. మీ నిష్క్రమణను నిర్ధారించమని మీరు ప్రాంప్ట్ చేయబడతారు, అయితే మీరు ముందుగా వీడ్కోలు చెప్పాలా వద్దా అనేది మీ ఇష్టం."
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "ఈ అప్‌డేట్ స్థానికంను `POSIX`కి సెట్ చేయబడిన యూజర్‌ల కోసం Linux లో ప్రారంభ క్రాష్‌ను కూడా పరిష్కరిస్తుంది."
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "పొడవాటి శీర్షికలతో కూడిన కథలు ఇప్పుడు మెరుగైన కాంట్రాస్ట్‌తో ప్రదర్శించబడతాయి, ఇది టెక్స్ట్‌ను సులభంగా చదవడానికి వీలు కల్పిస్తుంది. ఇప్పుడు మీరు ఏమి చెబుతున్నారో ప్రజలు చూడగలుగుతారు, కేవలం \"లోల్\" అని చెప్పడానికి బదులుగా ఏదైనా నిజంగా మిమ్మల్ని ఎందుకు నవ్వించింది అనే దాని గురించి రెండు పేరాలు వ్రాయడానికి సంకోచించకండి."
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "ఈ విడుదల లింక్ ప్రివ్యూ జనరేషన్ యొక్క పనితీరును కూడా మెరుగుపరుస్తుంది మరియు సెట్టింగ్స్ విండోను మూసివేసినప్పుడు ఒక చిన్న డిస్‌ప్లే బగ్‌ను పరిష్కరిస్తుంది."
-  },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "కథను వీక్షిస్తున్నప్పుడు కొన్నిసార్లు ప్రోగ్రెస్ బార్ స్తంభించడానికి కారణమైన ఒక బగ్‌ను మేము పరిష్కరించాము."
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
   }
 }

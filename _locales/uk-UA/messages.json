@@ -2946,7 +2946,7 @@
     "messageformat": "Ви бажаєте приєднатися до цієї групи і поширити ваше ім'я і фото серед її учасників?"
   },
   "icu:GroupV2--join--already-in-group": {
-    "messageformat": "Ви вже у групі."
+    "messageformat": "Ви вже учасник цієї групи."
   },
   "icu:GroupV2--join--already-awaiting-approval": {
     "messageformat": "Ви вже надіслали запит для приєднання до цієї групи."
@@ -3006,7 +3006,7 @@
     "messageformat": "Адміністратор"
   },
   "icu:GroupV2--only-admins": {
-    "messageformat": "Тільки Адміністратори"
+    "messageformat": "Тільки адміністратори"
   },
   "icu:GroupV2--all-members": {
     "messageformat": "Усі учасники"
@@ -3207,7 +3207,7 @@
     "messageformat": "Адміністратор зробив {memberName} адміністратором."
   },
   "icu:GroupV2--member-privilege--promote--you--other": {
-    "messageformat": "{adminName} зробив вас адміністратором."
+    "messageformat": "Користувач {adminName} зробив вас адміністратором."
   },
   "icu:GroupV2--member-privilege--promote--you--unknown": {
     "messageformat": "Адміністратор зробив адміністратором."
@@ -3352,6 +3352,9 @@
   },
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "{joinerName} надіслав та скасував запити: {numberOfRequests,number} на приєднання до групи за посиланням"
+  },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Ви активували посилання на групу без адміністраторського затвердження."
@@ -3621,22 +3624,22 @@
     "messageformat": "Сповіщення"
   },
   "icu:ConversationDetails--group-info-label": {
-    "messageformat": "Хто може редагувати інформацію групи"
+    "messageformat": "Хто може редагувати інформацію про групу"
   },
   "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Оберіть, хто може змінювати назву, фото, опис групи і таймер тимчасових повідомлень."
+    "messageformat": "Оберіть, хто може змінювати назву, фото, опис групи й таймер тимчасових повідомлень."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Хто може додавати учасників"
   },
   "icu:ConversationDetails--add-members-info": {
-    "messageformat": "Виберіть, хто може додавати учасників до цієї групи."
+    "messageformat": "Оберіть, хто може додавати учасників до цієї групи."
   },
   "icu:ConversationDetails--announcement-label": {
     "messageformat": "Хто може надсилати повідомлення"
   },
   "icu:ConversationDetails--announcement-info": {
-    "messageformat": "Виберіть, хто може надсилати повідомлення до цієї групи."
+    "messageformat": "Оберіть, хто може надсилати повідомлення в цій групі."
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Запити і запрошення"
@@ -3954,10 +3957,10 @@
     "messageformat": "Kнопка “Нова розмова”"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Чатів немає"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Тут будуть недавні чати."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Переслати до"
@@ -4848,10 +4851,10 @@
     "messageformat": "Нових історій немає"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Історій немає"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Тут будуть нові історії."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Надсилаємо…"
@@ -4869,7 +4872,7 @@
     "messageformat": "Натисніть, щоб переглянути історію"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Натисніть <newStoryIcon>Додати історію</newStoryIcon>, щоб опублікувати щось нове."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} до {group}"
@@ -5413,7 +5416,7 @@
     "messageformat": "Натисніть, щоб переглянути або розпочати виклик"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Натисніть <newCallIcon>Новий виклик</newCallIcon>, щоб почати новий аудіо- чи відеовиклик."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Пошук"
@@ -5428,16 +5431,16 @@
     "messageformat": "Викликів не було. Подзвоніть комусь із друзів."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Викликів немає"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Тут будуть недавні виклики."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Пропущених викликів немає"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Тут будуть пропущені виклики."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Немає результатів за запитом «{query}»"
@@ -5617,22 +5620,10 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "Іноді прощання краще не затягувати, тому ми прискорили видалення довгих розмов."
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "Ми додали можливість легко вийти з поточного дзвінка й приєднатися до нового, коли під час виклику вам телефонує хтось іще. Вихід потрібно буде підтвердити, а прощатися чи ні — вирішувати вам."
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "У цьому оновленні ми також виправили збій під час запуску застосунку на Linux, що траплявся в користувачів з регіональним стандартом POSIX."
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Історії, у яких багато тексту, тепер матимуть тло з легким градієнтом, що покращить контрастність і полегшить читання. Тепер люди можуть бачити, що саме ви намагаєтеся сказати, а ви можете відвести душу та в деталях розписати, чому хтось в інтернеті неправий."
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "У цьому оновленні ми також покращили генерацію попереднього вигляду вебсторінок і виправили помилку, через яку вікно «Налаштування» іноді спалахувало красивим ультрамариновим кольором, перш ніж закритися (а не просто відразу закривалося)."
-  },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Усі люблять цікаві історії. Ми могли б розказати історію про одну помилку, через яку індикатор прогресу іноді зависав просто посеред перегляду якоїсь цікавої історії. Та пригоди цієї помилки вже мають щасливе завершення, адже в цьому оновленні ми її виправили."
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
   }
 }

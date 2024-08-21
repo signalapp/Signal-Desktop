@@ -3353,6 +3353,9 @@
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "{joinerName} đã yêu cầu và hủy {numberOfRequests,number} yêu cầu tham gia qua đường dẫn nhóm"
   },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+  },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Bạn đã bật đường dẫn nhóm mà không cần chấp duyệt của người quản lý."
   },
@@ -3954,10 +3957,10 @@
     "messageformat": "nút soạn thảo"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Không có cuộc trò chuyện"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Các cuộc trò chuyện gần nhất sẽ hiển thị ở đây."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Chuyển tiếp Đến"
@@ -4848,10 +4851,10 @@
     "messageformat": "Không có story gần đây để hiển thị vào lúc này"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Không có story"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Các cập nhật mới sẽ hiển thị ở đây."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Đang gửi…"
@@ -4869,7 +4872,7 @@
     "messageformat": "Bấm để xem một story"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Bấm <newStoryIcon>Thêm một story</newStoryIcon> để thêm một cập nhật."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} đến {group}"
@@ -5413,7 +5416,7 @@
     "messageformat": "Bấm để xem hoặc bắt đầu cuộc gọi"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Bấm <newCallIcon>Cuộc gọi mới</newCallIcon> để bắt đầu một cuộc gọi thoại hoặc cuộc gọi video."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Tìm kiếm"
@@ -5428,16 +5431,16 @@
     "messageformat": "Không cú gọi gần đây Bắt đầu với việc gọi cho một người bạn."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Không có cuộc gọi"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Các cuộc gọi gần nhất sẽ hiển thị ở đây."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Không có cuộc gọi nhỡ"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Các cuộc gọi nhỡ sẽ hiển thị ở đây."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Không có kết quả cho “{query}”"
@@ -5617,22 +5620,10 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "Quá trình xóa các chuỗi tin nhắn được tăng tốc qua bản cập nhật này."
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "Chúng tôi đã thêm một shortcut để ngắt và tham gia cuộc gọi mới khi đang ở trong một cuộc gọi đang diễn ra."
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "Bản cập nhật này cũng sửa lỗi ứng dụng đóng đột ngột ở nền tảng Linux đối với những người dùng có ngôn ngữ được thiết lập là `POSIX`."
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Các story có phần chú thích dài giờ đây được hiển thị tương phản tốt hơn giúp phần văn bản dễ đọc hơn."
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "Bản cập nhật này nâng cao hiệu suất tạo xem trước đường dẫn và sửa một lỗi hiển thị nhỏ khi đóng cửa sổ Tùy chỉnh."
-  },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Chúng tôi đã sửa lỗi thanh tiến trình đôi khi bị đứng khi đang xem một Story."
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
   }
 }

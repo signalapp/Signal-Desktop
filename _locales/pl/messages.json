@@ -3353,6 +3353,9 @@
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "{joinerName} poprosił(a) i anulowała prośbę o przyjęcie do grupy przez link {numberOfRequests,number} razy"
   },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+  },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Włączyłeś(aś) link do grupy, niewymagający zatwierdzenia przez administratora."
   },
@@ -3954,10 +3957,10 @@
     "messageformat": "przycisk nowej wiadomości"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Brak czatów"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Tutaj będą wyświetlane ostatnie czaty."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Przekaż do"
@@ -4848,10 +4851,10 @@
     "messageformat": "W tej chwili nie ma nowych relacji do pokazania"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Brak relacji"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Tutaj pojawią się nowe relacje."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Trwa wysyłanie…"
@@ -4869,7 +4872,7 @@
     "messageformat": "Kliknij, aby zobaczyć relację"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Jeśli chcesz coś opublikować, kliknij opcję <newStoryIcon>Dodaj relację</newStoryIcon>."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} do {group}"
@@ -5413,7 +5416,7 @@
     "messageformat": "Kliknij, aby wyświetlić lub rozpocząć połączenie"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Kliknij opcję <newCallIcon>Nowe połączenie</newCallIcon>, aby rozpocząć nowe połączenie głosowe lub wideo."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Szukaj"
@@ -5428,16 +5431,16 @@
     "messageformat": "Brak ostatnich połączeń. Zadzwoń do kogoś."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Brak połączeń"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Tutaj będą wyświetlane ostatnie połączenia."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Brak nieodebranych połączeń"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Tutaj będą wyświetlane nieodebrane połączenia."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Brak wyników dla „{query}”"
@@ -5617,22 +5620,10 @@
     "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "Dobrze jest czasem oddzielić przeszłość grubą krechą, dlatego przyspieszyliśmy proces usuwania dużych wątków wiadomości."
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "Masz drugie połączenie? Od teraz możesz skorzystać ze skrótu, który umożliwia opuszczenie bieżącej rozmowy i dołączenie do innej. Poprosimy Cię o potwierdzenie wyboru, ale to już od Ciebie zależy, czy zechcesz się ładnie pożegnać."
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "W tej aktualizacji naprawiliśmy również błąd uruchamiania systemu Linux dla użytkowników z ustawieniami regionalnymi „POSIX”."
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Relacje z długimi napisami od teraz wyświetlać się będą na subtelnym gradientowym tle, które poprawi kontrast i sprawi, że tekst będzie bardziej czytelny. Zapomnij o zdawkowym „lol”. Teraz możesz śmiało się rozpisywać."
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "W tej wersji poprawiliśmy również wydajność generowania podglądu linków i naprawiliśmy błąd, który powodował, że okno ustawień nie znikało się od razu po zamknięciu, ale przez sekundę migało pięknym odcieniem ultramaryny."
-  },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Dawno dawno temu był sobie błąd, który sprawiał, że pasek postępu zatrzymywał się w połowie oglądania relacji — na szczęście ta bajka dobrze się kończy, bo błąd został już naprawiony."
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
   }
 }
