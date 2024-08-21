@@ -27,7 +27,7 @@ export default function updateToSchemaVersion90(
         storyId index */
         AND storyId > '0' 
 
-        AND json->'storyReplyContext.attachment.screenshotData' IS NOT NULL;
+        AND json->'$.storyReplyContext.attachment.screenshotData' IS NOT NULL;
     `;
 
     const info = db.prepare(updateQuery).run(updateParams);
