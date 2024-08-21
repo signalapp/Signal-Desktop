@@ -8,6 +8,17 @@ import * as Errors from '../types/errors';
 
 export async function deleteAllData(): Promise<void> {
   try {
+    // This might fail if websocket closes before we receive the response, while
+    // still unlinking the device on the server.
+    await window.textsecure.server?.unlink();
+  } catch (error) {
+    log.error(
+      'Something went wrong unlinking device:',
+      Errors.toLogFormat(error)
+    );
+  }
+
+  try {
     await deleteAllLogs();
 
     log.info('deleteAllData: deleted all logs');
