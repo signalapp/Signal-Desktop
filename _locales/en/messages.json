@@ -7468,28 +7468,12 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.18--0": {
-    "messageformat": "A quick goodbye is sometimes easier than a slow farewell, so we sped up the process of deleting large message threads.",
-    "description": "(Deleted 2024/07/31) Release notes for version 7.18"
-  },
-  "icu:WhatsNew__v7.19--0": {
-    "messageformat": "If another call is calling your name, we added a shortcut to leave the current call and join a new one. You'll be prompted to confirm your departure, but it's up to you whether or not you say goodbye first.",
-    "description": "(Deleted 2024/08/07) Release notes for version 7.19"
-  },
-  "icu:WhatsNew__v7.19--1": {
-    "messageformat": "This update also fixes a startup crash on Linux for users whose locale is set to `POSIX`.",
-    "description": "(Deleted 2024/08/07) Release notes for version 7.19, part 2"
-  },
-  "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Stories with long captions are displayed on a subtle gradient background that improves contrast and makes the text easier to read. Now that people can see what you're saying, feel free to write a couple paragraphs about why something really made you laugh instead of just saying \"lol.\"",
-    "description": "(Deleted 2024/08/15) Release notes for version 7.20, part 1"
-  },
-  "icu:WhatsNew__v7.20--1": {
-    "messageformat": "This release also improves the performance of link preview generation and fixes a bug that caused the Settings window to briefly flash a lovely shade of ultramarine whenever it was closed (instead of just closing right away).",
-    "description": "(Deleted 2024/08/15) Release notes for version 7.20, part 2"
-  },
   "icu:WhatsNew__v7.21--0": {
     "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release.",
     "description": "Release notes for version 7.21"
+  },
+  "icu:WhatsNew__v7.22--0": {
+    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring.",
+    "description": "Release notes for version 7.22"
   }
 }
