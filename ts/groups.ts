@@ -2049,6 +2049,7 @@ export async function createGroupV2(
   if (expireTimer) {
     await conversation.updateExpirationTimer(expireTimer, {
       reason: 'createGroupV2',
+      version: undefined,
     });
   }
 

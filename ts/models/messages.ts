@@ -1975,6 +1975,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 receivedAtMS: message.get('received_at_ms'),
                 sentAt: message.get('sent_at'),
                 reason: idLog,
+                version: initialMessage.expireTimerVersion,
               });
             } else if (
               // We won't turn off timers for these kinds of messages:
@@ -1987,6 +1988,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 receivedAtMS: message.get('received_at_ms'),
                 sentAt: message.get('sent_at'),
                 reason: idLog,
+                version: initialMessage.expireTimerVersion,
               });
             }
           }

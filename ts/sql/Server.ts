@@ -204,6 +204,7 @@ import { redactGenericText } from '../util/privacy';
 type ConversationRow = Readonly<{
   json: string;
   profileLastFetchedAt: null | number;
+  expireTimerVersion: number;
 }>;
 type ConversationRows = Array<ConversationRow>;
 type StickerRow = Readonly<{
@@ -547,6 +548,7 @@ export function prepare<T extends Array<unknown> | Record<string, unknown>>(
 }
 
 function rowToConversation(row: ConversationRow): ConversationType {
+  const { expireTimerVersion } = row;
   const parsedJson = JSON.parse(row.json);
 
   let profileLastFetchedAt: undefined | number;
@@ -562,6 +564,7 @@ function rowToConversation(row: ConversationRow): ConversationType {
 
   return {
     ...parsedJson,
+    expireTimerVersion,
     profileLastFetchedAt,
   };
 }
@@ -1635,6 +1638,7 @@ function updateConversation(db: WritableDB, data: ConversationType): void {
     profileLastFetchedAt,
     e164,
     serviceId,
+    expireTimerVersion,
   } = data;
 
   const membersList = getConversationMembersList(data);
@@ -1654,7 +1658,8 @@ function updateConversation(db: WritableDB, data: ConversationType): void {
       profileName = $profileName,
       profileFamilyName = $profileFamilyName,
       profileFullName = $profileFullName,
-      profileLastFetchedAt = $profileLastFetchedAt
+      profileLastFetchedAt = $profileLastFetchedAt,
+      expireTimerVersion = $expireTimerVersion
     WHERE id = $id;
     `
   ).run({
@@ -1674,6 +1679,7 @@ function updateConversation(db: WritableDB, data: ConversationType): void {
     profileFamilyName: profileFamilyName || null,
     profileFullName: combineNames(profileName, profileFamilyName) || null,
     profileLastFetchedAt: profileLastFetchedAt || null,
+    expireTimerVersion,
   });
 }
 
@@ -1737,7 +1743,7 @@ function getAllConversations(db: ReadableDB): Array<ConversationType> {
   const rows: ConversationRows = db
     .prepare<EmptyQuery>(
       `
-      SELECT json, profileLastFetchedAt
+      SELECT json, profileLastFetchedAt, expireTimerVersion
       FROM conversations
       ORDER BY id ASC;
       `
@@ -1766,7 +1772,7 @@ function getAllGroupsInvolvingServiceId(
   const rows: ConversationRows = db
     .prepare<Query>(
       `
-      SELECT json, profileLastFetchedAt
+      SELECT json, profileLastFetchedAt, expireTimerVersion
       FROM conversations WHERE
         type = 'group' AND
         members LIKE $serviceId

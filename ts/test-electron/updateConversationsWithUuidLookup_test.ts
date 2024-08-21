@@ -139,6 +139,7 @@ describe('updateConversationsWithUuidLookup', () => {
       sentMessageCount: 0,
       type: 'private' as const,
       version: 0,
+      expireTimerVersion: 2,
       ...attributes,
     });
   }

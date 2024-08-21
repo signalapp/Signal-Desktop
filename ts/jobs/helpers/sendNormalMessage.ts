@@ -262,6 +262,7 @@ export async function sendNormalMessage(
         contact,
         deletedForEveryoneTimestamp,
         expireTimer,
+        expireTimerVersion: conversation.getExpireTimerVersion(),
         groupV2: conversation.getGroupV2Info({
           members: recipientServiceIdsWithoutMe,
         }),
@@ -378,6 +379,7 @@ export async function sendNormalMessage(
           contentHint: ContentHint.RESENDABLE,
           deletedForEveryoneTimestamp,
           expireTimer,
+          expireTimerVersion: conversation.getExpireTimerVersion(),
           groupId: undefined,
           serviceId: recipientServiceIdsWithoutMe[0],
           messageText: body,

@@ -2281,6 +2281,7 @@ export default class MessageReceiver
       preview,
       canReplyToStory: Boolean(msg.allowsReplies),
       expireTimer: DurationInSeconds.DAY,
+      expireTimerVersion: 0,
       flags: 0,
       groupV2,
       isStory: true,

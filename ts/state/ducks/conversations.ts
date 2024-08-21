@@ -1629,6 +1629,7 @@ function setDisappearingMessages(
       task: async () =>
         conversation.updateExpirationTimer(valueToSet, {
           reason: 'setDisappearingMessages',
+          version: undefined,
         }),
     });
     dispatch({

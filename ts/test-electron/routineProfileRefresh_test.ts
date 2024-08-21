@@ -57,6 +57,7 @@ describe('routineProfileRefresh', () => {
       type: 'private',
       serviceId: generateAci(),
       version: 2,
+      expireTimerVersion: 1,
       ...overrideAttributes,
     });
     return result;

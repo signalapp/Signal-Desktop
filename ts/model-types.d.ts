@@ -460,6 +460,7 @@ export type ConversationAttributesType = {
   avatars?: ReadonlyArray<Readonly<AvatarDataType>>;
   description?: string;
   expireTimer?: DurationInSeconds;
+  expireTimerVersion: number;
   membersV2?: Array<GroupV2MemberType>;
   pendingMembersV2?: Array<GroupV2PendingMemberType>;
   pendingAdminApprovalV2?: Array<GroupV2PendingAdminApprovalType>;

@@ -204,6 +204,7 @@ export type ProcessedDataMessage = {
   groupV2?: ProcessedGroupV2Context;
   flags: number;
   expireTimer: DurationInSeconds;
+  expireTimerVersion: number;
   profileKey?: string;
   timestamp: number;
   payment?: AnyPaymentEvent;

@@ -741,7 +741,10 @@ export class BackupExportStream extends Readable {
 
   private toRecipient(
     recipientId: Long,
-    convo: Omit<ConversationAttributesType, 'id' | 'version'>
+    convo: Omit<
+      ConversationAttributesType,
+      'id' | 'version' | 'expireTimerVersion'
+    >
   ): Backups.IRecipient | undefined {
     const res: Backups.IRecipient = {
       id: recipientId,

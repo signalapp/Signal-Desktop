@@ -81,6 +81,7 @@ export async function sendDirectExpirationTimerUpdate(
       expireTimer === undefined
         ? undefined
         : DurationInSeconds.fromSeconds(expireTimer),
+    expireTimerVersion: await conversation.incrementAndGetExpireTimerVersion(),
     flags,
     profileKey,
     recipients: conversation.getRecipients(),

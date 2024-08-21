@@ -302,6 +302,7 @@ export class ConversationModel extends window.Backbone
       verified: window.textsecure.storage.protocol.VerifiedStatus.DEFAULT,
       messageCount: 0,
       sentMessageCount: 0,
+      expireTimerVersion: 1,
     };
   }
 
@@ -3349,6 +3350,7 @@ export class ConversationModel extends window.Backbone
 
       await this.updateExpirationTimer(expireTimer, {
         reason: 'maybeApplyUniversalTimer',
+        version: undefined,
       });
     }
   }
@@ -4434,6 +4436,7 @@ export class ConversationModel extends window.Backbone
       receivedAtMS = Date.now(),
       sentAt: providedSentAt,
       source: providedSource,
+      version,
       fromSync = false,
       isInitialSync = false,
     }: {
@@ -4442,6 +4445,7 @@ export class ConversationModel extends window.Backbone
       receivedAtMS?: number;
       sentAt?: number;
       source?: string;
+      version: number | undefined;
       fromSync?: boolean;
       isInitialSync?: boolean;
     }
@@ -4482,6 +4486,29 @@ export class ConversationModel extends window.Backbone
     if (!expireTimer) {
       expireTimer = undefined;
     }
+
+    const logId =
+      `updateExpirationTimer(${this.idForLogging()}, ` +
+      `${expireTimer || 'disabled'}, version=${version || 0}) ` +
+      `source=${source ?? '?'} reason=${reason}`;
+
+    if (isSetByOther) {
+      const expireTimerVersion = this.getExpireTimerVersion();
+      if (version) {
+        if (expireTimerVersion && version < expireTimerVersion) {
+          log.warn(
+            `${logId}: not updating, local version is ${expireTimerVersion}`
+          );
+          return;
+        }
+        if (version === expireTimerVersion) {
+          log.warn(`${logId}: expire version glare`);
+        } else {
+          this.set({ expireTimerVersion: version });
+          log.info(`${logId}: updating expire version`);
+        }
+      }
+    }
     if (
       this.get('expireTimer') === expireTimer ||
       (!expireTimer && !this.get('expireTimer'))
@@ -4489,15 +4516,9 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    const logId =
-      `updateExpirationTimer(${this.idForLogging()}, ` +
-      `${expireTimer || 'disabled'}) ` +
-      `source=${source ?? '?'} reason=${reason}`;
-
-    log.info(`${logId}: updating`);
-
-    // if change wasn't made remotely, send it to the number/group
     if (!isSetByOther) {
+      log.info(`${logId}: queuing send job`);
+      // if change wasn't made remotely, send it to the number/group
       try {
         await conversationJobQueue.add({
           type: conversationQueueJobEnum.enum.DirectExpirationTimerUpdate,
@@ -4513,12 +4534,17 @@ export class ConversationModel extends window.Backbone
       }
     }
 
+    log.info(`${logId}: updating`);
+
     const ourConversation =
       window.ConversationController.getOurConversationOrThrow();
     source = source || ourConversation.id;
-    const sourceServiceId = ourConversation.get('serviceId');
+    const sourceServiceId =
+      window.ConversationController.get(source)?.get('serviceId');
 
-    this.set({ expireTimer });
+    this.set({
+      expireTimer,
+    });
 
     // This call actually removes universal timer notification and clears
     // the pending flags.
@@ -5127,6 +5153,48 @@ export class ConversationModel extends window.Backbone
 
   areWeAdmin(): boolean {
     return areWeAdmin(this.attributes);
+  }
+
+  getExpireTimerVersion(): number | undefined {
+    return isDirectConversation(this.attributes)
+      ? this.get('expireTimerVersion')
+      : undefined;
+  }
+
+  async incrementAndGetExpireTimerVersion(): Promise<number | undefined> {
+    const logId = `incrementAndGetExpireTimerVersion(${this.idForLogging()})`;
+    if (!isDirectConversation(this.attributes)) {
+      return undefined;
+    }
+    const { expireTimerVersion, capabilities } = this.attributes;
+
+    // This should not happen in practice, but be ready to handle
+    const MAX_EXPIRE_TIMER_VERSION = 0xffffffff;
+    if (expireTimerVersion >= MAX_EXPIRE_TIMER_VERSION) {
+      log.warn(`${logId}: expire version overflow`);
+      return MAX_EXPIRE_TIMER_VERSION;
+    }
+
+    if (expireTimerVersion <= 2) {
+      if (!capabilities?.versionedExpirationTimer) {
+        log.warn(`${logId}: missing recipient capability`);
+        return expireTimerVersion;
+      }
+      const me = window.ConversationController.getOurConversationOrThrow();
+      if (!me.get('capabilities')?.versionedExpirationTimer) {
+        log.warn(`${logId}: missing sender capability`);
+        return expireTimerVersion;
+      }
+
+      // Increment only if sender and receiver are both capable
+    } else {
+      // If we or them updated the timer version past 2 - we are both capable
+    }
+
+    const newVersion = expireTimerVersion + 1;
+    this.set('expireTimerVersion', newVersion);
+    await DataWriter.updateConversation(this.attributes);
+    return newVersion;
   }
 
   // Set of items to captureChanges on:
