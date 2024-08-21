@@ -1330,7 +1330,7 @@ export default class AccountManager extends EventTarget {
     ]);
 
     if (backupFile !== undefined) {
-      await backupsService.importBackup(() => Readable.from(backupFile));
+      await backupsService.importBackup(() => Readable.from([backupFile]));
     }
   }
 
