@@ -4445,10 +4445,14 @@
   },
   "icu:GroupV2--admin-approval-bounce--one": {
     "messageformat": "{joinerName} requested and cancelled their request to join via the group link",
-    "description": "Shown in timeline or conversation preview when v2 group changes"
+    "description": "(Deleted 2024/08/20) Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce": {
     "messageformat": "{joinerName} requested and cancelled {numberOfRequests, number} requests to join via the group link",
+    "description": "(Deleted 2024/08/20) Shown in timeline or conversation preview when v2 group changes"
+  },
+  "icu:GroupV2--admin-approval-bounce--pluralized": {
+    "messageformat": "{joinerName} requested and cancelled {numberOfRequests, plural, one {their request} other {# requests}} to join via the group link",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
