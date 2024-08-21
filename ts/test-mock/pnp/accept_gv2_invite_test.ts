@@ -84,6 +84,9 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
 
     debug('Opening group');
     await leftPane.locator(`[data-testid="${group.id}"]`).click();
+
+    debug('Wait for conversation open fetches to complete');
+    await app.waitForConversationOpenComplete();
   });
 
   afterEach(async function (this: Mocha.Context) {

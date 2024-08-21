@@ -264,9 +264,9 @@ export class ConversationModel extends window.Backbone
 
   throttledBumpTyping?: () => void;
 
-  throttledFetchSMSOnlyUUID?: () => Promise<void> | undefined;
+  throttledFetchSMSOnlyUUID?: () => Promise<void>;
 
-  throttledMaybeMigrateV1Group?: () => Promise<void> | undefined;
+  throttledMaybeMigrateV1Group?: () => Promise<void>;
 
   throttledGetProfiles?: () => Promise<void>;
 

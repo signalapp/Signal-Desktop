@@ -21,7 +21,6 @@ import {
 } from './fixtures';
 import { stats } from '../../util/benchmark/stats';
 import { sleep } from '../../util/sleep';
-import { MINUTE } from '../../util/durations';
 import { typeIntoInput } from '../helpers';
 
 const LAST_MESSAGE = 'start sending messages now';
@@ -31,8 +30,9 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
 
   const members = [...contacts].slice(0, GROUP_SIZE);
 
+  const GROUP_NAME = 'Mock Group';
   const group = await phone.createGroup({
-    title: 'Mock Group',
+    title: GROUP_NAME,
     members: [phone, ...members],
   });
 
@@ -115,10 +115,18 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     const item = leftPane
       .locator(
         '.module-conversation-list__item--contact-or-conversation' +
-          `>> text="${LAST_MESSAGE}"`
+          `>> text="${GROUP_NAME}"`
       )
       .first();
-    await item.click({ timeout: 3 * MINUTE });
+    await item.click();
+  }
+
+  debug('finding message in timeline');
+  {
+    const item = window
+      .locator(`.module-message >> text="${LAST_MESSAGE}"`)
+      .first();
+    await item.click();
   }
 
   const deltaList = new Array<number>();

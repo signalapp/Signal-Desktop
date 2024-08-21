@@ -4297,6 +4297,7 @@ function onConversationOpened(
   | SetQuotedMessageActionType
 > {
   return async (dispatch, getState) => {
+    const promises: Array<Promise<void>> = [];
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
       throw new Error('onConversationOpened: Conversation not found');
@@ -4328,7 +4329,7 @@ function onConversationOpened(
       );
     };
 
-    drop(loadAndUpdate());
+    promises.push(loadAndUpdate());
 
     dispatch(setComposerFocus(conversation.id));
 
@@ -4341,17 +4342,17 @@ function onConversationOpened(
       );
     }
 
-    drop(conversation.fetchLatestGroupV2Data());
+    promises.push(conversation.fetchLatestGroupV2Data());
     strictAssert(
       conversation.throttledMaybeMigrateV1Group !== undefined,
       'Conversation model should be initialized'
     );
-    drop(conversation.throttledMaybeMigrateV1Group());
+    promises.push(conversation.throttledMaybeMigrateV1Group());
     strictAssert(
       conversation.throttledFetchSMSOnlyUUID !== undefined,
       'Conversation model should be initialized'
     );
-    drop(conversation.throttledFetchSMSOnlyUUID());
+    promises.push(conversation.throttledFetchSMSOnlyUUID());
 
     const ourAci = window.textsecure.storage.user.getAci();
     if (
@@ -4367,13 +4368,18 @@ function onConversationOpened(
       });
     }
 
-    drop(conversation.updateVerified());
+    promises.push(conversation.updateVerified());
 
     replaceAttachments(
       conversation.get('id'),
       conversation.get('draftAttachments') || []
     )(dispatch, getState, undefined);
     dispatch(resetComposer(conversationId));
+
+    await Promise.all(promises);
+    if (window.SignalCI) {
+      window.SignalCI.handleEvent('conversationOpenComplete', null);
+    }
   };
 }
 
