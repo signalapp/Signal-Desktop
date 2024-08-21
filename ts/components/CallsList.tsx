@@ -683,17 +683,7 @@ export function CallsList({
                 </span>
               }
               leading={
-                <Avatar
-                  acceptedMessageRequest
-                  conversationType="callLink"
-                  i18n={i18n}
-                  isMe={false}
-                  title=""
-                  sharedGroupNames={[]}
-                  size={AvatarSize.THIRTY_SIX}
-                  badge={undefined}
-                  className="CallsList__ItemAvatar"
-                />
+                <i className="ComposeStepButton__icon ComposeStepButton__icon--call-link" />
               }
               onClick={onCreateCallLink}
             />
