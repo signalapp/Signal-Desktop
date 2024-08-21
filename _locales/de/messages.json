@@ -1194,7 +1194,7 @@
     "messageformat": "Anrufe"
   },
   "icu:calling__call-back": {
-    "messageformat": "Rückruf"
+    "messageformat": "Zurückrufen"
   },
   "icu:calling__call-again": {
     "messageformat": "Erneut anrufen"
@@ -3954,10 +3954,10 @@
     "messageformat": "Verfassen-Schaltfläche"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Keine Chats"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Die letzten Chats werden hier angezeigt."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Weiterleiten an"
@@ -4848,10 +4848,10 @@
     "messageformat": "Derzeit keine aktuellen Storys"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Keine Storys"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Neue Aktualisierungen werden hier angezeigt."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Wird gesendet …"
@@ -4869,7 +4869,7 @@
     "messageformat": "Anklicken, um eine Story anzusehen"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Klicke auf <newStoryIcon>Eine Story hinzufügen</newStoryIcon>, um eine Aktualisierung hinzuzufügen."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} an {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Zum Anzeigen oder Starten eines Anrufs klicken"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Klicke auf <newCallIcon>Neuer Anruf</newCallIcon>, um einen neuen Sprach- oder Videoanruf zu starten."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Suchen"
@@ -5431,13 +5431,13 @@
     "messageformat": "Keine Anrufe"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Die letzten Anrufe werden hier angezeigt."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
     "messageformat": "Keine verpassten Anrufe"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Verpasste Anrufe werden hier angezeigt."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Keine Ergebnisse für »{query}«"
@@ -5624,15 +5624,15 @@
     "messageformat": "Wenn du während eines Anrufs von jemand anderem angerufen wirst, haben wir eine Verknüpfung hinzugefügt, mit der du den aktuellen Anruf verlassen und einem neuen beitreten kannst. Dabei wirst du aufgefordert, das Ende des Anrufs zu bestätigen. Ob du dich vorher noch verabschieden möchtest, liegt bei dir."
   },
   "icu:WhatsNew__v7.19--1": {
-    "messageformat": "Dieses Update behebt außerdem einen Absturz beim Starten von Linux für Nutzer mit festgelegter Region „POSIX“."
+    "messageformat": "Dieses Update behebt außerdem einen Absturz beim Starten von Linux mit der locale Einstellung „POSIX“."
   },
   "icu:WhatsNew__v7.20--0": {
-    "messageformat": "Storys mit langen Untertiteln werden auf einem dezenten Hintergrund mit Farbverlauf angezeigt, der den Kontrast verbessert und das Lesen des Textes erleichtert. Nachdem Leute jetzt sehen können, was du sagst, kannst du statt eines kurzen „Lols“ in ein paar Sätzen beschreiben, warum du etwas lustig fandest."
+    "messageformat": "Storys mit langen Untertiteln werden auf einem dezenten Hintergrund mit Farbverlauf angezeigt, der den Kontrast verbessert und das Lesen des Textes erleichtert. Nachdem Leute jetzt sehen können, was du sagst, kannst du statt eines kurzen „lol“ in ein paar Sätzen beschreiben, warum du etwas lustig fandest."
   },
   "icu:WhatsNew__v7.20--1": {
     "messageformat": "Diese Version verbessert außerdem die Erstellung und Anzeige einer Linkvorschau und behebt den Fehler, der das Einstellungsfenster beim Schließen kurz in einem schönen Blauton angezeigt hat, statt es gleich zu schließen."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Alle lieben gute Storys – und wir erzählen dir gerne die Geschichte eines kleinen Fehlers, der manchmal dafür sorgte, dass der Statusbalken mitten in einer guten Story einfror. Doch zum Glück nimmt dieses Abenteuer ein gutes Ende, denn in dieser Version ist der Fehler behoben."
   }
 }

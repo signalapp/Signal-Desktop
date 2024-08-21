@@ -3954,10 +3954,10 @@
     "messageformat": "жазуу баскычы"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Эч нерсе жок"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Соңку маектер ушул жерде көрүнөт."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Багыттоо"
@@ -4848,10 +4848,10 @@
     "messageformat": "Учурда көрсөтүлө турган соңку окуялар жок"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Эч нерсе жок"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Жаңы окуялар ушул жерде көрүнөт."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Жөнөтүлүүдө..."
@@ -4869,7 +4869,7 @@
     "messageformat": "Окуяны көрүү үчүн басыңыз"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Жаңыртуу үчүн <newStoryIcon>окуя кошуу</newStoryIcon> дегенди басыңыз."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} -> {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Көрүү же чалып баштоо үчүн басыңыз"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Аудио же видео режиминде чалып баштоо үчүн <newCallIcon>Жаңы чалуу</newCallIcon> дегенди басыңыз."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Издөө"
@@ -5428,16 +5428,16 @@
     "messageformat": "Эч нерсе жок. Досуңузга чалып баштаңыз."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Эч нерсе жок"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Соңку чалуулар ушул жерде көрүнөт."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Эч нерсе жок"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Жооп бербей калган чалуулар ушул жерде көрүнөт"
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}” боюнча эч нерсе табылган жок"
@@ -5633,6 +5633,6 @@
     "messageformat": "Бул версияда алдын ала көрүү шилтемелери жакшыраак иштеп, Параметр терезесин жапкандагы мүчүлүштүктөр оңдолду."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Баары тең эле жакшы окуяларга кызыгышат. Окуяларды жагымдуу шарттарда көрүү мүмкүнчүлүгүн берүү үчүн аны орто жерден үзгүлтүккө учураткан мүчүлүштүктү жоюп салдык."
   }
 }

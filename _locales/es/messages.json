@@ -306,7 +306,7 @@
     "messageformat": "Archivar"
   },
   "icu:markUnread": {
-    "messageformat": "Marcar como no leído(s)"
+    "messageformat": "Marcar como no leído"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Seleccionar mensajes"
@@ -873,7 +873,7 @@
     "messageformat": "Activado"
   },
   "icu:off": {
-    "messageformat": "Desactivado"
+    "messageformat": "Desactivados"
   },
   "icu:deleteWarning": {
     "messageformat": "Este mensaje se eliminará de este dispositivo."
@@ -1644,7 +1644,7 @@
     "messageformat": "{name} ha establecido la duración de los mensajes temporales en {time}."
   },
   "icu:disappearingMessages__off": {
-    "messageformat": "desactivado"
+    "messageformat": "desactivados"
   },
   "icu:disappearingMessages": {
     "messageformat": "Mensajes temporales"
@@ -3954,10 +3954,10 @@
     "messageformat": "botón de escribir mensaje"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "No hay chats"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Aquí se mostrarán los chats recientes."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Reenviar a"
@@ -4131,10 +4131,10 @@
     "messageformat": "Final gradiente"
   },
   "icu:customDisappearingTimeOption": {
-    "messageformat": "Tiempo personalizado …"
+    "messageformat": "Duración personalizada…"
   },
   "icu:selectedCustomDisappearingTimeOption": {
-    "messageformat": "Tiempo personalizado"
+    "messageformat": "Duración personalizada"
   },
   "icu:DisappearingTimeDialog__label--value": {
     "messageformat": "Número"
@@ -4143,13 +4143,13 @@
     "messageformat": "Medida de tiempo"
   },
   "icu:DisappearingTimeDialog__title": {
-    "messageformat": "Tiempo personalizado"
+    "messageformat": "Duración personalizada"
   },
   "icu:DisappearingTimeDialog__body": {
     "messageformat": "Elige una duración personalizada para los mensajes temporales."
   },
   "icu:DisappearingTimeDialog__set": {
-    "messageformat": "Fijar"
+    "messageformat": "Definir"
   },
   "icu:DisappearingTimeDialog__seconds": {
     "messageformat": "Segundos"
@@ -4848,10 +4848,10 @@
     "messageformat": "No hay historias recientes que mostrar"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "No hay historias"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Aquí se mostrarán las nuevas actualizaciones."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Enviando…"
@@ -4869,7 +4869,7 @@
     "messageformat": "Haz clic para ver una historia"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Haz clic en <newStoryIcon>Añadir una historia</newStoryIcon> para añadir una actualización."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} a «{group}»"
@@ -5413,7 +5413,7 @@
     "messageformat": "Haz clic para ver o empezar una llamada"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Haz clic en <newCallIcon>Nueva llamada</newCallIcon> para iniciar una nueva llamada de voz o videollamada."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Buscar"
@@ -5428,16 +5428,16 @@
     "messageformat": "No hay llamadas recientes. Empieza llamando a alguien."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "Sin llamadas"
+    "messageformat": "No hay llamadas"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Aquí se mostrarán las llamadas recientes."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
     "messageformat": "No hay llamadas perdidas"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Aquí se mostrarán las llamadas perdidas."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "No se encontraron resultados para «{query}»"
@@ -5633,6 +5633,6 @@
     "messageformat": "Esta versión también mejora el rendimiento en la generación de vistas previas de enlaces y corrige un error que hacía que la ventana de Ajustes parpadeara brevemente en un encantador tono ultramarino cada vez que se cerraba (en lugar de cerrarse de inmediato)."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "¿A quién no le gusta una buena historia? Érase una vez un bichito llamado \"error informático\" que hacía que la barra de progreso se congelase mientras se disfrutaba de una buena historia… por suerte, las aventuras de ese bichito han terminado felizmente, ya que lo hemos solucionado en esta actualización."
   }
 }

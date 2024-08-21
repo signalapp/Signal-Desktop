@@ -3954,10 +3954,10 @@
     "messageformat": "تۈزۈش كۇنۇپكىسى"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "پاراڭلار يوق"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "يېقىنقى پاراڭلار بۇ يەردە كۆرۈنىدۇ."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "ئۇلاپ يوللاش"
@@ -4848,10 +4848,10 @@
     "messageformat": "ھازىر كۆرسىتىدىغان يېقىنقى ھېكايىلەر يوق"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "ھېكايىلەر يوق"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "يېڭىلانمىلار بۇ يەردە كۆرۈنىدۇ."
   },
   "icu:Stories__list--sending": {
     "messageformat": "يوللاۋاتىدۇ..."
@@ -4869,7 +4869,7 @@
     "messageformat": "بۇ يەرنى چېكىپ ھېكايە كۆرۈڭ"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "<newStoryIcon> بىرھېكايە قۇشۇڭ</newStoryIcon>نى چېكىپ بىر يېڭىلانما قوشۇڭ."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} دىن{group} غىچە"
@@ -5413,7 +5413,7 @@
     "messageformat": "كۆرۈش ياكى چاقىرىق باشلىتىش ئۈچۈن بۇ يەرنى چېكىڭ"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "<newCallIcon>يېڭى چاقىرىق</newCallIcon>نى چېكىپ يېڭىدىن بىر ئاۋازلىق ياكى سىنلىق چاقىرىقنى باشلاڭ."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "ئىزدە"
@@ -5428,16 +5428,16 @@
     "messageformat": "يېڭى بىر چاقىرىق يوق. دوستىڭىزغا چاقىرىق قىلىپ باشلاڭ."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "چاقىرىقلار يوق"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "يېقىنقى چاقىرىقلار بۇ يەردە كۆرۈنىدۇ."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
     "messageformat": "ئېلىنمىغان چاقىرىق يوق"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "ئېلىنمىغان چاقىرىقلار بۇ يەردە كۆرۈنىدۇ."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "{query} ئۈچۈن نەتىجە يوق"
@@ -5633,6 +5633,6 @@
     "messageformat": "بۇ نەشىر ئۇلانما كۆرىكى ئېچىش ئىقتىدارىنى ياخشىلايدۇ ۋە تەڭشەك كۆزنىكىنى تاقىغاندا يۈز بېرىدىغان كىچىككىنە ئېكران ھادىسىسىنى ئوڭشايدۇ."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "بىز ھېكايە ئوقۇش جەريانىدا بەزىدە ئىلگىرىلەش بالدىقىنىڭ قېتىپ قېلىشىنى كەلتۈرۈپ چىقىرىدىغان كەمتۈكلۈكنى سىگنالنىڭ بۇ قېتىملىق نەشىرنۇسخىسىدا تۈزىدۇق."
   }
 }

@@ -3954,10 +3954,10 @@
     "messageformat": "buton compunere"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Fără conversații"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Conversațiile recente vor apărea aici."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Redirecționează către"
@@ -4848,10 +4848,10 @@
     "messageformat": "Nu există povești recente"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Fără povești"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Actualizările noi vor apărea aici."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Se trimite..."
@@ -4869,7 +4869,7 @@
     "messageformat": "Fă click pentru a vedea o poveste"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Dă clic pe <newStoryIcon>Adaugă o poveste</newStoryIcon> și adaugă o actualizare."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} către {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Dă clic și vezi sau începe un apel"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Dă clic pe <newCallIcon>Apel nou</newCallIcon> pentru a începe un nou apel vocal sau video."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Caută"
@@ -5431,13 +5431,13 @@
     "messageformat": "Nu aveți apeluri"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Apelurile recente vor apărea aici."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
     "messageformat": "Nu există apeluri pierdute"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Apelurile pierdute vor apărea aici."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Fără rezultate pentru „{query}“"
@@ -5633,6 +5633,6 @@
     "messageformat": "Această versiune îmbunătățește, de asemenea, performanța previzualizării linkurilor și corectează o eroare care făcea ca fereastra Setări să clipească pentru scurt timp într-o nuanță frumoasă de albastru închis, atunci când era închisă (în loc să se închidă imediat)."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Toată lumea iubește o poveste bună și am putea să îți spunem povestea unei erori care uneori a făcut ca bara de progres să înghețe chiar în mijlocul vizionării unei povești bune - dar aventura acelei erori are deja un final fericit, deoarece am remediat-o în această versiune."
   }
 }

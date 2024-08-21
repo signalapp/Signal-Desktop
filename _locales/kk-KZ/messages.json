@@ -3954,10 +3954,10 @@
     "messageformat": "хат жазу"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Чаттар жоқ"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Соңғы чаттар осындай көрінеді."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Жіберілетін контакт"
@@ -4848,10 +4848,10 @@
     "messageformat": "Дәл қазір көрсететін жақында салынған стористер жоқ"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Стористер жоқ"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Жаңа жаңартулар осында көрінеді."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Жіберілуде..."
@@ -4869,7 +4869,7 @@
     "messageformat": "Стористі көру үшін басыңыз"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Жаңартуды қосу үшін <newStoryIcon>Сторис қосу</newStoryIcon> түймесін басыңыз."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} -> {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Қоңырауды көру немесе бастау үшін басыңыз"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Жаңа дауыстық немесе бейне қоңырауды бастау үшін <newCallIcon>Жаңа қоңырау</newCallIcon> түймесін басыңыз."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Іздеу"
@@ -5428,16 +5428,16 @@
     "messageformat": "Соңғы қоңыраулар жоқ. Досыңызға қоңырау шалудан бастаңыз."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Қоңыраулар жоқ"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Соңғы қоңыраулар осында көрінеді."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "No missed calls"
+    "messageformat": "Өткізіп алған қоңыраулар жоқ"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Өткізіп алған қоңыраулар осында көрінеді."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "\"{query}\" бойынша нәтижелер жоқ"
@@ -5633,6 +5633,6 @@
     "messageformat": "Бұл шығарылымда сілтеме мазмұнының нобайын жасау жақсартылған және «Параметрлер» терезесінің (бірден жабылып қалмай) жауып жатқанда аз уақыт жарқылдайтын ақауы түзетілді."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "барлығына жақсы сторис ұнайды және бір сізге кейде ілгерілеу жолағының тура жақсы стористі көріп жатудың ортасында қатып қалуын тудыратын қате туралы әңгімені айтып бергіміз келеді. Бірақ бұл қате туралы хикаяның әлдеқашан жақсы аяқталуы бар, өйткені біз оны осы шығарылымда түзеттік."
   }
 }

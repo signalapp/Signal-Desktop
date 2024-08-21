@@ -3954,10 +3954,10 @@
     "messageformat": "botão Escrever"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Sem conversas "
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "As conversas recentes aparecerão aqui."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Encaminhar para"
@@ -4848,10 +4848,10 @@
     "messageformat": "Nenhum story em exibição no momento"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Sem stories"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Novas atualizações aparecerão aqui."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Enviando…"
@@ -4869,7 +4869,7 @@
     "messageformat": "Clique para ver um story"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Clique em <newStoryIcon>Adicionar um story</newStoryIcon> para postar uma atualização."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} em {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Clique para ver ou iniciar uma chamada"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Clique em <newCallIcon>Nova chamada</newCallIcon> para iniciar uma nova chamada de voz ou vídeo."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Pesquisar"
@@ -5431,13 +5431,13 @@
     "messageformat": "Nenhuma chamada"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "As chamadas recentes aparecerão aqui."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
     "messageformat": "Nenhuma chamada perdida"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "As chamadas perdidas aparecerão aqui."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Nenhum resultado encontrado para “{query}”"
@@ -5633,6 +5633,6 @@
     "messageformat": "Nesta atualização, também melhoramos a performance das prévias de links e corrigimos um bug que fazia a janela de configurações dar uma piscada em um tom de azul ultramarino ao ser fechada, em vez de simplesmente fechar imediatamente."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Corrigimos um erro que, em alguns casos, fazia a barra de progresso travar ao visualizar um Story."
   }
 }

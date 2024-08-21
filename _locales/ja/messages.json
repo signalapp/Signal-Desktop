@@ -3954,10 +3954,10 @@
     "messageformat": "作成ボタン"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "チャットがありません"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "最近のチャットがここに表示されます。"
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "転送先"
@@ -4848,10 +4848,10 @@
     "messageformat": "表示できる最近のストーリーはありません"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "ストーリーがありません"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "新しい更新がここに表示されます"
   },
   "icu:Stories__list--sending": {
     "messageformat": "送信中…"
@@ -4869,7 +4869,7 @@
     "messageformat": "クリックしてストーリーを表示"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "<newStoryIcon>ストーリーを追加</newStoryIcon> をクリックして更新を追加します。"
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} から {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "クリックして通話を表示、または通話を開始します"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "<newCallIcon>通話する</newCallIcon> をクリックして、音声通話またはビデオ通話を開始します。"
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "検索"
@@ -5428,16 +5428,16 @@
     "messageformat": "最近の通話はありません。 友達に電話をかけましょう。"
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "通話がありません"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "最近の通話がここに表示されます。"
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
     "messageformat": "不在着信はありません"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "最近の不在着信がここに表示されます。"
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}” の検索結果はありません"
@@ -5633,6 +5633,6 @@
     "messageformat": "このリリースでは、リンクプレビュー生成のパフォーマンスも改善され、設定画面を閉じた時の軽微な表示バグも修正されました。"
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "ストーリーの閲覧中にプログレスバーがフリーズすることがある不具合を修正しました。"
   }
 }

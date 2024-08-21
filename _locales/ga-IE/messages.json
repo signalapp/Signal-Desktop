@@ -3954,10 +3954,10 @@
     "messageformat": "an cnaipe: Cum"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "Níl aon chomhráite ann"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "Taispeánfar comhráite le déanaí anseo."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "Seol ar aghaidh Chuig"
@@ -4848,10 +4848,10 @@
     "messageformat": "Níl aon scéalta le déanaí le taispeáint díreach anois"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "Níl aon scéalta ann"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "Taispeánfar nuashonruithe nua anseo."
   },
   "icu:Stories__list--sending": {
     "messageformat": "Seoladh…"
@@ -4869,7 +4869,7 @@
     "messageformat": "Cliceáil chun amharc ar scéal"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "Cliceáil <newStoryIcon>Cuir scéal leis</newStoryIcon> le nuashonrú a chur leis."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} chuig {group}"
@@ -5413,7 +5413,7 @@
     "messageformat": "Cliceáil le féachaint ar ghlao nó le tosú air"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "Cliceáil <newCallIcon>Glao Nua</newCallIcon> le tosú ar ghuthghlao nó ar fhísghlao nua."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Cuardaigh"
@@ -5428,16 +5428,16 @@
     "messageformat": "Níl glaonna le déanaí ann. Glaoigh ar chara le tosú air."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "Níl aon ghlaonna ann"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "Taispeánfar glaonna le déanaí anseo."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
     "messageformat": "Níl glaonna caillte ann"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "Taispeánfar glaonna caillte anseo."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Níl aon torthaí ar “{query}”"
@@ -5633,6 +5633,6 @@
     "messageformat": "Feabhsaíonn an eisiúint seo an fheidhmiúlacht freisin chun réamhamharc ar an nasc a ghiniúint agus réitíonn sí fabht beag taispeána ar dhúnadh fhuinneog na Socruithe."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "Réitíomar fabht ba chúis le reo an bharra dul chun cinn agus tú ag féachaint ar Scéal."
   }
 }

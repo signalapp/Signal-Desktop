@@ -3954,10 +3954,10 @@
     "messageformat": "लिहा बटण"
   },
   "icu:emptyInbox__title": {
-    "messageformat": "No chats"
+    "messageformat": "कोणतेही चॅट्स नाहीत"
   },
   "icu:emptyInbox__subtitle": {
-    "messageformat": "Recent chats will appear here."
+    "messageformat": "अलीकडील चॅट्स येथे दिसून येतील."
   },
   "icu:ForwardMessageModal__title": {
     "messageformat": "ला अग्रेषित केला"
@@ -4848,10 +4848,10 @@
     "messageformat": "आता दाखवण्यासाठी अलिकडील स्टोरीज नाहीत"
   },
   "icu:Stories__list__empty--title": {
-    "messageformat": "No stories"
+    "messageformat": "कोणत्याही स्टोरीज नाहीत"
   },
   "icu:Stories__list__empty--subtitle": {
-    "messageformat": "New updates will appear here."
+    "messageformat": "नवीन अद्यतन येथे दृश्यमान होतील."
   },
   "icu:Stories__list--sending": {
     "messageformat": "पाठवत आहे(...)"
@@ -4869,7 +4869,7 @@
     "messageformat": "स्टोरी पाहण्यास क्लिक करा"
   },
   "icu:Stories__placeholder-with-icon--text": {
-    "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update."
+    "messageformat": "एक अद्यतन जोडण्यासाठी <newStoryIcon>स्टोरीज जोडा</newStoryIcon> वर क्लिक करा."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} कडून {group}ला"
@@ -5413,7 +5413,7 @@
     "messageformat": "पाहण्यासाठी किंवा कॉल सुरू करण्यास क्लिक करा"
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
-    "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call."
+    "messageformat": "नवीन व्हॉइस किंवा व्हिडिओ कॉल सुरू करण्यासाठी <newCallIcon>नवीन कॉल</newCallIcon> वर क्लिक करा."
   },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "शोध"
@@ -5428,16 +5428,16 @@
     "messageformat": "कोणतेही अलिकडील कॉल नाहीत. मित्राला कॉल करुन सुरुवात करा."
   },
   "icu:CallsList__EmptyState--noQuery__title": {
-    "messageformat": "No calls"
+    "messageformat": "कोणतेही कॉल नाहीत"
   },
   "icu:CallsList__EmptyState--noQuery__subtitle": {
-    "messageformat": "Recent calls will appear here."
+    "messageformat": "अलीकडील कॉल येथे दिसून येतील."
   },
   "icu:CallsList__EmptyState--noQuery--missed__title": {
     "messageformat": "कोणतेही मिस्ड कॉल नाहीत"
   },
   "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Missed calls will appear here."
+    "messageformat": "मिस्ड कॉल येथे दिसून येतील."
   },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}” साठी कोणतेही परिणाम नाहीत"
@@ -5633,6 +5633,6 @@
     "messageformat": "हे प्रकाशन लिंक पूर्वावलोकनाची कामगिरी देखील सुधारते आणि ज्यामुळे सेटिंग्ज विंडो जेव्हाही बंद होते (फक्त लगेचच बंद होण्याऐवजी) अल्ट्रामरिनची सुंदर शेड हलकेच फ्लॅश होण्याच्या दोषाचे निराकरण करते."
   },
   "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release."
+    "messageformat": "प्रत्येकाला चांगली स्टोरी खूप आवडते, आणि आम्ही तुम्हाला एका बगची कथा सांगतो ज्यामुळे कधीकधी चांगली कथा पाहताना मध्यभागीच प्रगती बार अडकून बसतो — परंतु त्या बगच्या साहसाचा आधीच अंत झाला आहे कारण आम्ही त्याचे या रिलीजमध्ये निराकरण केले आहे."
   }
 }
