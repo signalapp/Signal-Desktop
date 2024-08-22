@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState } from 'react';
+import { noop } from 'lodash';
 import type {
   ConversationType,
   ShowConversationType,
@@ -45,6 +46,7 @@ export function AnnouncementsOnlyGroupBanner({
               onClick={() => {
                 showConversation({ conversationId: admin.id });
               }}
+              onMouseDown={noop}
               theme={theme}
             />
           ))}

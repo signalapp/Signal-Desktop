@@ -172,6 +172,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
       makeFakeLookupConversationWithoutServiceId(),
     showUserNotFoundModal: action('showUserNotFoundModal'),
     setIsFetchingUUID,
+    preloadConversation: action('preloadConversation'),
     showConversation: action('showConversation'),
     blockConversation: action('blockConversation'),
     onOutgoingAudioCallInConversation: action(

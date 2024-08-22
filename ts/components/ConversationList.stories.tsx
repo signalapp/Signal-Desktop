@@ -68,6 +68,7 @@ function Wrapper({
       shouldRecomputeRowHeights={false}
       i18n={i18n}
       blockConversation={action('blockConversation')}
+      onPreloadConversation={action('onPreloadConversation')}
       onSelectConversation={action('onSelectConversation')}
       onOutgoingAudioCallInConversation={action(
         'onOutgoingAudioCallInConversation'

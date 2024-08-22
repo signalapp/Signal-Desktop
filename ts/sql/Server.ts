@@ -3443,11 +3443,9 @@ function getMessageMetricsForConversation(
   );
 
   return {
-    oldest: oldest ? pick(oldest, ['received_at', 'sent_at', 'id']) : undefined,
-    newest: newest ? pick(newest, ['received_at', 'sent_at', 'id']) : undefined,
-    oldestUnseen: oldestUnseen
-      ? pick(oldestUnseen, ['received_at', 'sent_at', 'id'])
-      : undefined,
+    oldest,
+    newest,
+    oldestUnseen,
     totalUnseen,
   };
 }

@@ -50,6 +50,7 @@ type PropsType = {
   messageText?: ReactNode;
   messageTextIsAlwaysFullSize?: boolean;
   onClick?: () => void;
+  onMouseDown?: () => void;
   shouldShowSpinner?: boolean;
   unreadCount?: number;
   unreadMentionsCount?: number;
@@ -100,6 +101,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       messageText,
       messageTextIsAlwaysFullSize,
       onClick,
+      onMouseDown,
       phoneNumber,
       profileName,
       sharedGroupNames,
@@ -289,6 +291,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
           data-testid={testId}
           disabled={disabled}
           onClick={onClick}
+          onMouseDown={onMouseDown}
           type="button"
         >
           {contents}

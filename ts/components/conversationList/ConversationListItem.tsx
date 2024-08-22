@@ -74,6 +74,7 @@ type PropsHousekeeping = {
   buttonAriaLabel?: string;
   i18n: LocalizerType;
   onClick: (id: string) => void;
+  onMouseDown: (id: string) => void;
   theme: ThemeType;
 };
 
@@ -98,6 +99,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     markedUnread,
     muteExpiresAt,
     onClick,
+    onMouseDown,
     phoneNumber,
     profileName,
     removalStage,
@@ -202,6 +204,10 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     }
 
     const onClickItem = useCallback(() => onClick(id), [onClick, id]);
+    const onMouseDownItem = useCallback(
+      () => onMouseDown(id),
+      [onMouseDown, id]
+    );
 
     return (
       <BaseConversationListItem
@@ -223,6 +229,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         messageText={messageText}
         messageTextIsAlwaysFullSize
         onClick={onClickItem}
+        onMouseDown={onMouseDownItem}
         phoneNumber={phoneNumber}
         profileName={profileName}
         sharedGroupNames={sharedGroupNames}

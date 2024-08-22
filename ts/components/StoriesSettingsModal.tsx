@@ -1220,6 +1220,7 @@ export function EditDistributionListModal({
                 onClickContactCheckbox={(conversationId: string) => {
                   toggleSelectedConversation(conversationId);
                 }}
+                onPreloadConversation={shouldNeverBeCalled}
                 onSelectConversation={shouldNeverBeCalled}
                 blockConversation={shouldNeverBeCalled}
                 removeConversation={shouldNeverBeCalled}

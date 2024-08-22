@@ -435,6 +435,11 @@ export type ConversationMessageType = ReadonlyDeep<{
   scrollToMessageId?: string;
   scrollToMessageCounter: number;
 }>;
+export type ConversationPreloadDataType = ReadonlyDeep<{
+  conversationId: string;
+  messages: ReadonlyArray<ReadonlyMessageAttributesType>;
+  metrics: MessageMetricsType;
+}>;
 
 export type MessagesByConversationType = ReadonlyDeep<{
   [key: string]: ConversationMessageType | undefined;
@@ -550,6 +555,8 @@ export type ConversationsStateType = ReadonlyDeep<{
   // Note: it's very important that both of these locations are always kept up to date
   messagesLookup: MessageLookupType;
   messagesByConversation: MessagesByConversationType;
+
+  preloadData?: ConversationPreloadDataType;
 }>;
 
 // Helpers
@@ -979,9 +986,20 @@ type ReplaceAvatarsActionType = ReadonlyDeep<{
     avatars: ReadonlyArray<AvatarDataType>;
   };
 }>;
+export type AddPreloadDataActionType = ReadonlyDeep<{
+  type: 'ADD_PRELOAD_DATA';
+  payload: ConversationPreloadDataType;
+}>;
+export type ConsumePreloadDataActionType = ReadonlyDeep<{
+  type: 'CONSUME_PRELOAD_DATA';
+  payload: {
+    conversationId: string;
+  };
+}>;
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type ConversationActionType =
+  | AddPreloadDataActionType
   | CancelVerificationDataByConversationActionType
   | ClearCancelledVerificationActionType
   | ClearGroupCreationErrorActionType
@@ -997,6 +1015,7 @@ export type ConversationActionType =
   | ComposeDeleteAvatarActionType
   | ComposeReplaceAvatarsActionType
   | ComposeSaveAvatarActionType
+  | ConsumePreloadDataActionType
   | ConversationAddedActionType
   | ConversationChangedActionType
   | ConversationRemovedActionType
@@ -1057,6 +1076,7 @@ export const actions = {
   acceptConversation,
   acknowledgeGroupMemberNameCollisions,
   addMembersToGroup,
+  addPreloadData,
   approvePendingMembershipFromGroupV2,
   reportSpam,
   blockAndReportSpam,
@@ -1076,6 +1096,7 @@ export const actions = {
   composeDeleteAvatarFromDisk,
   composeReplaceAvatar,
   composeSaveAvatarToDisk,
+  consumePreloadData,
   conversationAdded,
   conversationChanged,
   conversationRemoved,
@@ -3028,6 +3049,33 @@ function messagesReset({
     },
   };
 }
+function addPreloadData(
+  preloadData: ConversationPreloadDataType
+): AddPreloadDataActionType {
+  const { messages, conversationId } = preloadData;
+  for (const message of messages) {
+    strictAssert(
+      message.conversationId === conversationId,
+      `addPreloadData(${conversationId}): invalid message conversationId ` +
+        `${message.conversationId}`
+    );
+  }
+
+  return {
+    type: 'ADD_PRELOAD_DATA',
+    payload: preloadData,
+  };
+}
+function consumePreloadData(
+  conversationId: string
+): ConsumePreloadDataActionType {
+  return {
+    type: 'CONSUME_PRELOAD_DATA',
+    payload: {
+      conversationId,
+    },
+  };
+}
 function setMessageLoadingState(
   conversationId: string,
   messageLoadingState: undefined | TimelineMessageLoadingState
@@ -4795,6 +4843,94 @@ function updateNicknameAndNote(
   };
 }
 
+function updateMessageLookup(
+  state: ConversationsStateType,
+  {
+    conversationId,
+    messages,
+    metrics,
+    scrollToMessageId,
+    unboundedFetch,
+  }: {
+    conversationId: string;
+    messages: ReadonlyArray<ReadonlyMessageAttributesType>;
+    metrics: MessageMetricsType;
+    scrollToMessageId?: string | undefined;
+    unboundedFetch: boolean;
+  }
+): ConversationsStateType {
+  const { messagesByConversation, messagesLookup } = state;
+  const existingConversation = messagesByConversation[conversationId];
+
+  const lookup = fromPairs(messages.map(message => [message.id, message]));
+  const sorted = orderBy(
+    values(lookup),
+    ['received_at', 'sent_at'],
+    ['ASC', 'ASC']
+  );
+
+  let { newest, oldest } = metrics;
+
+  // If our metrics are a little out of date, we'll fix them up
+  if (sorted.length > 0) {
+    const first = sorted[0];
+    if (first && (!oldest || first.received_at <= oldest.received_at)) {
+      oldest = pick(first, ['id', 'received_at', 'sent_at']);
+    }
+
+    const last = sorted[sorted.length - 1];
+    if (
+      last &&
+      (!newest || unboundedFetch || last.received_at >= newest.received_at)
+    ) {
+      newest = pick(last, ['id', 'received_at', 'sent_at']);
+    }
+  }
+
+  const messageIds = sorted.map(message => message.id);
+
+  return {
+    ...state,
+    preloadData: undefined,
+    ...(state.selectedConversationId === conversationId
+      ? {
+          targetedMessage: scrollToMessageId,
+          targetedMessageCounter: state.targetedMessageCounter + 1,
+          targetedMessageSource: TargetedMessageSource.Reset,
+        }
+      : {}),
+    messagesLookup: {
+      ...messagesLookup,
+      ...lookup,
+    },
+    messagesByConversation: {
+      ...messagesByConversation,
+      [conversationId]: {
+        messageChangeCounter: 0,
+        scrollToMessageId,
+        scrollToMessageCounter: existingConversation
+          ? existingConversation.scrollToMessageCounter + 1
+          : 0,
+        messageIds,
+        metrics: {
+          ...metrics,
+          newest,
+          oldest,
+        },
+      },
+    },
+  };
+}
+
+function dropPreloadData(
+  state: ConversationsStateType
+): ConversationsStateType {
+  if (state.preloadData == null) {
+    return state;
+  }
+  return { ...state, preloadData: undefined };
+}
+
 export function reducer(
   state: Readonly<ConversationsStateType> = getEmptyState(),
   action: Readonly<
@@ -5395,7 +5531,7 @@ export function reducer(
     if (!existingConversation) {
       return maybeUpdateSelectedMessageForDetails(
         { messageId: id, targetedMessageForDetails: data },
-        state
+        dropPreloadData(state)
       );
     }
 
@@ -5404,14 +5540,14 @@ export function reducer(
     if (!existingMessage) {
       return maybeUpdateSelectedMessageForDetails(
         { messageId: id, targetedMessageForDetails: data },
-        state
+        dropPreloadData(state)
       );
     }
 
     const conversationAttrs = state.conversationLookup[conversationId];
     const isGroupStoryReply = isGroup(conversationAttrs) && data.storyId;
     if (isGroupStoryReply) {
-      return state;
+      return dropPreloadData(state);
     }
 
     const hasNewEdit =
@@ -5434,6 +5570,7 @@ export function reducer(
         },
         state
       ),
+      preloadData: undefined,
       messagesByConversation: {
         ...state.messagesByConversation,
         [conversationId]: {
@@ -5514,74 +5651,31 @@ export function reducer(
   }
 
   if (action.type === 'MESSAGES_RESET') {
-    const {
-      conversationId,
-      messages,
-      metrics,
-      scrollToMessageId,
-      unboundedFetch,
-    } = action.payload;
-    const { messagesByConversation, messagesLookup } = state;
-
-    const existingConversation = messagesByConversation[conversationId];
-
-    const lookup = fromPairs(messages.map(message => [message.id, message]));
-    const sorted = orderBy(
-      values(lookup),
-      ['received_at', 'sent_at'],
-      ['ASC', 'ASC']
-    );
-
-    let { newest, oldest } = metrics;
-
-    // If our metrics are a little out of date, we'll fix them up
-    if (sorted.length > 0) {
-      const first = sorted[0];
-      if (first && (!oldest || first.received_at <= oldest.received_at)) {
-        oldest = pick(first, ['id', 'received_at', 'sent_at']);
-      }
-
-      const last = sorted[sorted.length - 1];
-      if (
-        last &&
-        (!newest || unboundedFetch || last.received_at >= newest.received_at)
-      ) {
-        newest = pick(last, ['id', 'received_at', 'sent_at']);
-      }
-    }
-
-    const messageIds = sorted.map(message => message.id);
-
+    return updateMessageLookup(state, action.payload);
+  }
+  if (action.type === 'ADD_PRELOAD_DATA') {
     return {
       ...state,
-      ...(state.selectedConversationId === conversationId
-        ? {
-            targetedMessage: scrollToMessageId,
-            targetedMessageCounter: state.targetedMessageCounter + 1,
-            targetedMessageSource: TargetedMessageSource.Reset,
-          }
-        : {}),
-      messagesLookup: {
-        ...messagesLookup,
-        ...lookup,
-      },
-      messagesByConversation: {
-        ...messagesByConversation,
-        [conversationId]: {
-          messageChangeCounter: 0,
-          scrollToMessageId,
-          scrollToMessageCounter: existingConversation
-            ? existingConversation.scrollToMessageCounter + 1
-            : 0,
-          messageIds,
-          metrics: {
-            ...metrics,
-            newest,
-            oldest,
-          },
-        },
-      },
+      preloadData: action.payload,
     };
+  }
+  if (action.type === 'CONSUME_PRELOAD_DATA') {
+    const { preloadData, selectedConversationId } = state;
+    const { conversationId } = action.payload;
+    if (!preloadData) {
+      return state;
+    }
+    if (
+      preloadData.conversationId !== conversationId ||
+      selectedConversationId !== conversationId
+    ) {
+      return dropPreloadData(state);
+    }
+
+    return updateMessageLookup(state, {
+      ...preloadData,
+      unboundedFetch: true,
+    });
   }
   if (action.type === 'SET_MESSAGE_LOADING_STATE') {
     const { payload } = action;
@@ -5676,7 +5770,7 @@ export function reducer(
     if (!existingConversation) {
       return maybeUpdateSelectedMessageForDetails(
         { messageId: id, targetedMessageForDetails: undefined },
-        state
+        dropPreloadData(state)
       );
     }
 
@@ -5725,6 +5819,7 @@ export function reducer(
         { messageId: id, targetedMessageForDetails: undefined },
         state
       ),
+      preloadData: undefined,
       messagesLookup: omit(messagesLookup, id),
       messagesByConversation: {
         [conversationId]: {
@@ -5863,7 +5958,7 @@ export function reducer(
           );
         }
 
-        return state;
+        return dropPreloadData(state);
       }
     }
 
@@ -5908,6 +6003,7 @@ export function reducer(
 
     return {
       ...state,
+      preloadData: undefined,
       messagesLookup: {
         ...messagesLookup,
         ...lookup,
@@ -5978,6 +6074,10 @@ export function reducer(
 
     const nextState = {
       ...state,
+      preloadData:
+        state.preloadData?.conversationId === conversationId
+          ? state.preloadData
+          : undefined,
       hasContactSpoofingReview: false,
       selectedConversationId: conversationId,
       targetedMessage: messageId,

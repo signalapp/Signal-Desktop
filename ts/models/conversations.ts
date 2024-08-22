@@ -137,6 +137,7 @@ import {
   isIncoming,
   isStory,
 } from '../state/selectors/message';
+import { getPreloadedConversationId } from '../state/selectors/conversations';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
@@ -180,6 +181,7 @@ import {
   getConversationToDelete,
   getMessageToDelete,
 } from '../util/deleteForMe';
+import { explodePromise } from '../util/explodePromise';
 import { getCallHistorySelector } from '../state/selectors/callHistory';
 
 /* eslint-disable more/no-then */
@@ -1503,24 +1505,32 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  private setInProgressFetch(): () => unknown {
+  private async setInProgressFetch(): Promise<() => void> {
     const logId = `setInProgressFetch(${this.idForLogging()})`;
+    while (this.inProgressFetch != null) {
+      log.warn(`${logId}: blocked, waiting`);
+      // eslint-disable-next-line no-await-in-loop
+      await this.inProgressFetch;
+    }
     const start = Date.now();
 
-    let resolvePromise: (value?: unknown) => void;
-    this.inProgressFetch = new Promise(resolve => {
-      resolvePromise = resolve;
-    });
+    const { resolve, promise } = explodePromise<void>();
+    this.inProgressFetch = promise;
 
+    let isFinished = false;
     let timeout: NodeJS.Timeout;
     const finish = () => {
+      strictAssert(!isFinished, 'inProgressFetch.finish called twice');
+      isFinished = true;
+
       const duration = Date.now() - start;
       if (duration > 500) {
         log.warn(`${logId}: in progress fetch took ${duration}ms`);
       }
 
-      resolvePromise();
+      resolve();
       clearTimeout(timeout);
+      strictAssert(this.inProgressFetch === promise, `${logId}: conflict`);
       this.inProgressFetch = undefined;
     };
     timeout = setTimeout(() => {
@@ -1531,13 +1541,85 @@ export class ConversationModel extends window.Backbone
     return finish;
   }
 
+  async preloadNewestMessages(): Promise<void> {
+    const logId = `preloadNewestMessages/${this.idForLogging()}`;
+
+    const { addPreloadData } = window.reduxActions.conversations;
+
+    // Bail-out of complex paths
+    if (!this.getAccepted()) {
+      log.info(`${logId}: not accepted, skipping`);
+      return;
+    }
+
+    const finish = await this.setInProgressFetch();
+    log.info(`${logId}: starting`);
+    try {
+      let metrics = await getMessageMetricsForConversation({
+        conversationId: this.id,
+        includeStoryReplies: !isGroup(this.attributes),
+      });
+
+      let messages: ReadonlyArray<MessageAttributesType>;
+      if (metrics.oldestUnseen) {
+        const unseen = await getMessageById(metrics.oldestUnseen.id);
+        if (!unseen) {
+          throw new Error(
+            `preloadNewestMessages: failed to load oldestUnseen ${metrics.oldestUnseen.id}`
+          );
+        }
+
+        const receivedAt = unseen.received_at;
+        const sentAt = unseen.sent_at;
+        const {
+          older,
+          newer,
+          metrics: freshMetrics,
+        } = await getConversationRangeCenteredOnMessage({
+          conversationId: this.id,
+          includeStoryReplies: !isGroup(this.attributes),
+          limit: MESSAGE_LOAD_CHUNK_SIZE,
+          messageId: unseen.id,
+          receivedAt,
+          sentAt,
+          storyId: undefined,
+        });
+        messages = [...older, unseen, ...newer];
+
+        metrics = freshMetrics;
+      } else {
+        messages = await getOlderMessagesByConversation({
+          conversationId: this.id,
+          includeStoryReplies: !isGroup(this.attributes),
+          limit: MESSAGE_LOAD_CHUNK_SIZE,
+          storyId: undefined,
+        });
+      }
+
+      const cleaned = await this.cleanAttributes(messages);
+
+      log.info(
+        `${logId}: preloaded ${cleaned.length} messages, ` +
+          `latest timestamp=${cleaned.at(-1)?.sent_at}`
+      );
+
+      addPreloadData({
+        conversationId: this.id,
+        messages: cleaned,
+        metrics,
+      });
+    } finally {
+      finish();
+    }
+  }
+
   async loadNewestMessages(
     newestMessageId: string | undefined,
     setFocus: boolean | undefined
   ): Promise<void> {
     const logId = `loadNewestMessages/${this.idForLogging()}`;
 
-    const { messagesReset, setMessageLoadingState } =
+    const { messagesReset, setMessageLoadingState, consumePreloadData } =
       window.reduxActions.conversations;
     const conversationId = this.id;
 
@@ -1545,10 +1627,28 @@ export class ConversationModel extends window.Backbone
       conversationId,
       TimelineMessageLoadingState.DoingInitialLoad
     );
-    const finish = this.setInProgressFetch();
+    let finish: undefined | (() => void) = await this.setInProgressFetch();
 
+    const preloadedId = getPreloadedConversationId(
+      window.reduxStore.getState()
+    );
     try {
       let scrollToLatestUnread = true;
+
+      if (
+        // Arguments provided by onConversationOpened
+        newestMessageId == null &&
+        !setFocus &&
+        // Cache conditions for preloadNewestMessages above (in case they are
+        // invalidated after loading cache)
+        this.getAccepted() &&
+        // Existing preload
+        preloadedId === conversationId
+      ) {
+        log.info(`${logId}: preload cache still valid, skipping`);
+        consumePreloadData(preloadedId);
+        return;
+      }
 
       if (newestMessageId) {
         const newestInMemoryMessage = await getMessageById(newestMessageId);
@@ -1581,7 +1681,11 @@ export class ConversationModel extends window.Backbone
         metrics.oldest
       ) {
         log.info(`${logId}: scrolling to oldest ${metrics.oldest.sent_at}`);
-        void this.loadAndScroll(metrics.oldest.id, { disableScroll: true });
+        void this.loadAndScroll(metrics.oldest.id, {
+          disableScroll: true,
+          onFinish: finish,
+        });
+        finish = undefined;
         return;
       }
 
@@ -1591,7 +1695,9 @@ export class ConversationModel extends window.Backbone
         );
         void this.loadAndScroll(metrics.oldestUnseen.id, {
           disableScroll: !setFocus,
+          onFinish: finish,
         });
+        finish = undefined;
         return;
       }
 
@@ -1628,7 +1734,7 @@ export class ConversationModel extends window.Backbone
       setMessageLoadingState(conversationId, undefined);
       throw error;
     } finally {
-      finish();
+      finish?.();
     }
   }
   async loadOlderMessages(oldestMessageId: string): Promise<void> {
@@ -1642,7 +1748,7 @@ export class ConversationModel extends window.Backbone
       conversationId,
       TimelineMessageLoadingState.LoadingOlderMessages
     );
-    const finish = this.setInProgressFetch();
+    const finish = await this.setInProgressFetch();
 
     try {
       const message = await getMessageById(oldestMessageId);
@@ -1699,7 +1805,7 @@ export class ConversationModel extends window.Backbone
       conversationId,
       TimelineMessageLoadingState.LoadingNewerMessages
     );
-    const finish = this.setInProgressFetch();
+    const finish = await this.setInProgressFetch();
 
     try {
       const message = await getMessageById(newestMessageId);
@@ -1744,7 +1850,7 @@ export class ConversationModel extends window.Backbone
 
   async loadAndScroll(
     messageId: string,
-    options?: { disableScroll?: boolean }
+    options: { disableScroll?: boolean; onFinish?: () => void } = {}
   ): Promise<void> {
     const { messagesReset, setMessageLoadingState } =
       window.reduxActions.conversations;
@@ -1754,7 +1860,10 @@ export class ConversationModel extends window.Backbone
       conversationId,
       TimelineMessageLoadingState.DoingInitialLoad
     );
-    const finish = this.setInProgressFetch();
+    let { onFinish: finish } = options;
+    if (!finish) {
+      finish = await this.setInProgressFetch();
+    }
 
     try {
       const message = await getMessageById(messageId);
