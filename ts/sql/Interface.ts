@@ -778,6 +778,9 @@ type WritableInterface = {
   ) => void;
   _removeAllReactions: () => void;
   _removeAllMessages: () => void;
+  incrementMessagesMigrationAttempts: (
+    messageIds: ReadonlyArray<string>
+  ) => void;
 
   clearCallHistory: (target: CallLogEventTarget) => ReadonlyArray<string>;
   _removeAllCallHistory: () => void;

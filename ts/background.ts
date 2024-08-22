@@ -1011,6 +1011,8 @@ export async function startApp(): Promise<void> {
             upgradeMessageSchema,
             getMessagesNeedingUpgrade: DataReader.getMessagesNeedingUpgrade,
             saveMessages: DataWriter.saveMessages,
+            incrementMessagesMigrationAttempts:
+              DataWriter.incrementMessagesMigrationAttempts,
           });
           log.info('idleDetector/idle: Upgraded messages:', batchWithIndex);
           isMigrationWithIndexComplete = batchWithIndex.done;
