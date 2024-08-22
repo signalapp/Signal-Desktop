@@ -197,6 +197,7 @@ export type PropsType = {
     conversationId: string,
     disabledReason: undefined | ContactCheckboxDisabledReason
   ) => void;
+  onPreloadConversation: (conversationId: string, messageId?: string) => void;
   onSelectConversation: (conversationId: string, messageId?: string) => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
@@ -220,6 +221,7 @@ export function ConversationList({
   blockConversation,
   onClickArchiveButton,
   onClickContactCheckbox,
+  onPreloadConversation,
   onSelectConversation,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
@@ -411,6 +413,7 @@ export function ConversationList({
               })}
               key={key}
               badge={getPreferredBadge(badges)}
+              onMouseDown={onPreloadConversation}
               onClick={onSelectConversation}
               i18n={i18n}
               theme={theme}
@@ -527,6 +530,7 @@ export function ConversationList({
       onClickContactCheckbox,
       onOutgoingAudioCallInConversation,
       onOutgoingVideoCallInConversation,
+      onPreloadConversation,
       onSelectConversation,
       removeConversation,
       renderMessageSearchResult,

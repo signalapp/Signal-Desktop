@@ -1335,3 +1335,8 @@ export const getLastEditableMessageId = createSelector(
     return undefined;
   }
 );
+
+export const getPreloadedConversationId = createSelector(
+  getConversations,
+  ({ preloadData }): string | undefined => preloadData?.conversationId
+);

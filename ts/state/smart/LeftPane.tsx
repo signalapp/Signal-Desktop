@@ -20,6 +20,7 @@ import { getCountryDataForLocale } from '../../util/getCountryData';
 import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isDone as isRegistrationDone } from '../../util/registration';
+import { drop } from '../../util/drop';
 import { useCallingActions } from '../ducks/calling';
 import { useConversationsActions } from '../ducks/conversations';
 import { ComposerStep, OneTimeModalState } from '../ducks/conversationsEnums';
@@ -256,6 +257,12 @@ const getModeSpecificProps = (
   }
 };
 
+function preloadConversation(conversationId: string): void {
+  drop(
+    window.ConversationController.get(conversationId)?.preloadNewestMessages()
+  );
+}
+
 export const SmartLeftPane = memo(function SmartLeftPane({
   hasFailedStorySends,
   hasPendingUpdate,
@@ -385,6 +392,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       openUsernameReservationModal={openUsernameReservationModal}
       otherTabsUnreadStats={otherTabsUnreadStats}
       preferredWidthFromStorage={preferredWidthFromStorage}
+      preloadConversation={preloadConversation}
       removeConversation={removeConversation}
       renderCaptchaDialog={renderCaptchaDialog}
       renderCrashReportDialog={renderCrashReportDialog}

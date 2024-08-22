@@ -139,6 +139,7 @@ export type PropsType = {
   showFindByUsername: () => void;
   showFindByPhoneNumber: () => void;
   showConversation: ShowConversationType;
+  preloadConversation: (conversationId: string) => void;
   showInbox: () => void;
   startComposing: () => void;
   startSearch: () => unknown;
@@ -205,6 +206,7 @@ export function LeftPane({
 
   openUsernameReservationModal,
   preferredWidthFromStorage,
+  preloadConversation,
   removeConversation,
   renderCaptchaDialog,
   renderCrashReportDialog,
@@ -776,6 +778,7 @@ export function LeftPane({
                 }
                 showConversation={showConversation}
                 blockConversation={blockConversation}
+                onPreloadConversation={preloadConversation}
                 onSelectConversation={onSelectConversation}
                 onOutgoingAudioCallInConversation={
                   onOutgoingAudioCallInConversation

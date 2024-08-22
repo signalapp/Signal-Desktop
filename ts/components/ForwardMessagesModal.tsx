@@ -400,6 +400,7 @@ export function ForwardMessagesModal({
                       showConversation={shouldNeverBeCalled}
                       showUserNotFoundModal={shouldNeverBeCalled}
                       setIsFetchingUUID={shouldNeverBeCalled}
+                      onPreloadConversation={shouldNeverBeCalled}
                       onSelectConversation={shouldNeverBeCalled}
                       blockConversation={shouldNeverBeCalled}
                       removeConversation={shouldNeverBeCalled}
