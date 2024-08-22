@@ -91,10 +91,11 @@ import { updateToSchemaVersion1110 } from './1110-sticker-local-key';
 import { updateToSchemaVersion1120 } from './1120-messages-foreign-keys-indexes';
 import { updateToSchemaVersion1130 } from './1130-isStory-index';
 import { updateToSchemaVersion1140 } from './1140-call-links-deleted-column';
+import { updateToSchemaVersion1150 } from './1150-expire-timer-version';
 import {
-  updateToSchemaVersion1150,
+  updateToSchemaVersion1160,
   version as MAX_VERSION,
-} from './1150-expire-timer-version';
+} from './1160-optimize-calls-unread-count';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -2054,6 +2055,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion1130,
   updateToSchemaVersion1140,
   updateToSchemaVersion1150,
+  updateToSchemaVersion1160,
 ];
 
 export class DBVersionFromFutureError extends Error {

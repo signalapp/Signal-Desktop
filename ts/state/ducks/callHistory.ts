@@ -3,7 +3,7 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
-import { omit } from 'lodash';
+import { debounce, omit } from 'lodash';
 import type { StateType as RootStateType } from '../reducer';
 import {
   clearCallHistoryDataAndSync,
@@ -86,7 +86,7 @@ export function getEmptyState(): CallHistoryState {
   };
 }
 
-function updateCallHistoryUnreadCount(): ThunkAction<
+function updateCallHistoryUnreadCountInner(): ThunkAction<
   void,
   RootStateType,
   unknown,
@@ -104,6 +104,11 @@ function updateCallHistoryUnreadCount(): ThunkAction<
     }
   };
 }
+
+const updateCallHistoryUnreadCount = debounce(
+  updateCallHistoryUnreadCountInner,
+  300
+);
 
 function markCallHistoryRead(
   conversationId: string,
