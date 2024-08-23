@@ -571,7 +571,9 @@ function ReplyOrReactionMessage({
                   }
                 />
               </div>
-              {i18n('icu:StoryViewsNRepliesModal__reacted')}
+              {reply.author.isMe
+                ? i18n('icu:StoryViewsNRepliesModal__reacted--you')
+                : i18n('icu:StoryViewsNRepliesModal__reacted--someone-else')}
               <MessageTimestamp
                 i18n={i18n}
                 isRelativeTime
