@@ -445,6 +445,7 @@ export const DataWriter: ServerWritableInterface = {
   migrateConversationMessages,
   saveEditedMessage,
   saveEditedMessages,
+  incrementMessagesMigrationAttempts,
 
   removeSyncTaskById,
   saveSyncTasks,
@@ -6368,6 +6369,29 @@ function getMessagesNeedingUpgrade(
     });
 
   return rows.map(row => jsonToObject(row.json));
+}
+
+// Exported for tests
+export function incrementMessagesMigrationAttempts(
+  db: WritableDB,
+  messageIds: ReadonlyArray<string>
+): void {
+  batchMultiVarQuery(db, messageIds, (batch: ReadonlyArray<string>): void => {
+    const idSet = sqlJoin(batch);
+    const [sqlQuery, sqlParams] = sql`
+        UPDATE
+          messages
+        SET
+          json = json_set(
+            json,
+            '$.schemaMigrationAttempts',
+            IFNULL(json -> '$.schemaMigrationAttempts', 0) + 1
+          )
+        WHERE
+          id IN (${idSet})
+      `;
+    db.prepare(sqlQuery).run(sqlParams);
+  });
 }
 
 function getMessagesWithVisualMediaAttachments(
