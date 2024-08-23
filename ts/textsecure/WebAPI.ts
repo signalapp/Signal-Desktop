@@ -738,6 +738,8 @@ export type WebAPIConnectType = {
   connect: (options: WebAPIConnectOptionsType) => WebAPIType;
 };
 
+// When updating this make sure to update `observedCapabilities` type in
+// ts/types/Storage.d.ts
 export type CapabilitiesType = {
   deleteSync: boolean;
   versionedExpirationTimer: boolean;
