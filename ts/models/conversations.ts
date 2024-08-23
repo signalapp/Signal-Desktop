@@ -1561,6 +1561,7 @@ export class ConversationModel extends window.Backbone
       });
 
       let messages: ReadonlyArray<MessageAttributesType>;
+      let unboundedFetch = true;
       if (metrics.oldestUnseen) {
         const unseen = await getMessageById(metrics.oldestUnseen.id);
         if (!unseen) {
@@ -1587,6 +1588,7 @@ export class ConversationModel extends window.Backbone
         messages = [...older, unseen, ...newer];
 
         metrics = freshMetrics;
+        unboundedFetch = false;
       } else {
         messages = await getOlderMessagesByConversation({
           conversationId: this.id,
@@ -1607,6 +1609,7 @@ export class ConversationModel extends window.Backbone
         conversationId: this.id,
         messages: cleaned,
         metrics,
+        unboundedFetch,
       });
     } finally {
       finish();

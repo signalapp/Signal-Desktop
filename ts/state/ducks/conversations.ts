@@ -439,6 +439,7 @@ export type ConversationPreloadDataType = ReadonlyDeep<{
   conversationId: string;
   messages: ReadonlyArray<ReadonlyMessageAttributesType>;
   metrics: MessageMetricsType;
+  unboundedFetch: boolean;
 }>;
 
 export type MessagesByConversationType = ReadonlyDeep<{
@@ -5672,10 +5673,7 @@ export function reducer(
       return dropPreloadData(state);
     }
 
-    return updateMessageLookup(state, {
-      ...preloadData,
-      unboundedFetch: true,
-    });
+    return updateMessageLookup(state, preloadData);
   }
   if (action.type === 'SET_MESSAGE_LOADING_STATE') {
     const { payload } = action;
