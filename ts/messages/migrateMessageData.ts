@@ -20,6 +20,7 @@ export async function migrateMessageData({
   upgradeMessageSchema,
   getMessagesNeedingUpgrade,
   saveMessages,
+  incrementMessagesMigrationAttempts,
   maxVersion = CURRENT_SCHEMA_VERSION,
 }: Readonly<{
   numMessagesPerBatch: number;
@@ -35,6 +36,9 @@ export async function migrateMessageData({
     data: ReadonlyArray<MessageAttributesType>,
     options: { ourAci: AciString }
   ) => Promise<unknown>;
+  incrementMessagesMigrationAttempts: (
+    messageIds: ReadonlyArray<string>
+  ) => Promise<void>;
   maxVersion?: number;
 }>): Promise<
   | {
@@ -80,7 +84,7 @@ export async function migrateMessageData({
   const fetchDuration = Date.now() - fetchStartTime;
 
   const upgradeStartTime = Date.now();
-  const failedMessages = new Array<MessageAttributesType>();
+  const failedMessages = new Array<string>();
   const upgradedMessages = (
     await pMap(
       messagesRequiringSchemaUpgrade,
@@ -92,7 +96,7 @@ export async function migrateMessageData({
             'migrateMessageData.upgradeMessageSchema error:',
             Errors.toLogFormat(error)
           );
-          failedMessages.push(message);
+          failedMessages.push(message.id);
           return undefined;
         }
       },
@@ -104,18 +108,10 @@ export async function migrateMessageData({
   const saveStartTime = Date.now();
 
   const ourAci = window.textsecure.storage.user.getCheckedAci();
-  await saveMessages(
-    [
-      ...upgradedMessages,
-
-      // Increment migration attempts
-      ...failedMessages.map(message => ({
-        ...message,
-        schemaMigrationAttempts: (message.schemaMigrationAttempts ?? 0) + 1,
-      })),
-    ],
-    { ourAci }
-  );
+  await saveMessages(upgradedMessages, { ourAci });
+  if (failedMessages.length) {
+    await incrementMessagesMigrationAttempts(failedMessages);
+  }
   const saveDuration = Date.now() - saveStartTime;
 
   const totalDuration = Date.now() - startTime;
