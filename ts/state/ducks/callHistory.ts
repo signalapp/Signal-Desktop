@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { ThunkAction } from 'redux-thunk';
+import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { debounce, omit } from 'lodash';
 import type { StateType as RootStateType } from '../reducer';
 import {
@@ -86,13 +86,10 @@ export function getEmptyState(): CallHistoryState {
   };
 }
 
-function updateCallHistoryUnreadCountInner(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  CallHistoryUpdateUnread
-> {
-  return async dispatch => {
+const updateCallHistoryUnreadCountDebounced = debounce(
+  async (
+    dispatch: ThunkDispatch<RootStateType, unknown, CallHistoryUpdateUnread>
+  ) => {
     try {
       const unreadCount = await DataReader.getCallHistoryUnreadCount();
       dispatch({ type: CALL_HISTORY_UPDATE_UNREAD, payload: unreadCount });
@@ -102,13 +99,20 @@ function updateCallHistoryUnreadCountInner(): ThunkAction<
         Errors.toLogFormat(error)
       );
     }
-  };
-}
-
-const updateCallHistoryUnreadCount = debounce(
-  updateCallHistoryUnreadCountInner,
+  },
   300
 );
+
+function updateCallHistoryUnreadCount(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  CallHistoryUpdateUnread
+> {
+  return async dispatch => {
+    await updateCallHistoryUnreadCountDebounced(dispatch);
+  };
+}
 
 function markCallHistoryRead(
   conversationId: string,
