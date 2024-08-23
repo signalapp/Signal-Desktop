@@ -9,7 +9,9 @@ import type { ConversationModel } from '../models/conversations';
 import type {
   GetProfileOptionsType,
   GetProfileUnauthOptionsType,
+  CapabilitiesType,
 } from '../textsecure/WebAPI';
+import MessageSender from '../textsecure/SendMessage';
 import type { ServiceIdString } from '../types/ServiceId';
 import { DataWriter } from '../sql/Client';
 import * as log from '../logging/log';
@@ -30,6 +32,7 @@ import { parseBadgesFromServer } from '../badges/parseBadgesFromServer';
 import { strictAssert } from '../util/assert';
 import { drop } from '../util/drop';
 import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import { SEALED_SENDER } from '../types/SealedSender';
 import { HTTPError } from '../textsecure/Errors';
 import { Address } from '../types/Address';
@@ -58,6 +61,11 @@ type JobType = {
 //   - Keep track of last profile fetch per conversation, reduce unnecessary re-fetches
 //   - Enforce a maximum profile fetch frequency
 //   - Don't even attempt jobs when offline
+
+const OBSERVED_CAPABILITY_KEYS = Object.keys({
+  deleteSync: true,
+  versionedExpirationTimer: true,
+} satisfies CapabilitiesType) as ReadonlyArray<keyof CapabilitiesType>;
 
 export class ProfileService {
   private jobQueue: PQueue;
@@ -453,10 +461,46 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
       await window.storage.put('paymentAddress', profile.paymentAddress);
     }
 
+    const pastCapabilities = c.get('capabilities');
     if (profile.capabilities) {
       c.set({ capabilities: profile.capabilities });
     } else {
       c.unset('capabilities');
+    }
+
+    if (isMe(c.attributes)) {
+      const newCapabilities = c.get('capabilities');
+
+      let hasChanged = false;
+      const observedCapabilities = {
+        ...window.storage.get('observedCapabilities'),
+      };
+      const newKeys = new Array<string>();
+      for (const key of OBSERVED_CAPABILITY_KEYS) {
+        // Already reported
+        if (observedCapabilities[key]) {
+          continue;
+        }
+
+        if (newCapabilities?.[key]) {
+          if (!pastCapabilities?.[key]) {
+            hasChanged = true;
+            newKeys.push(key);
+          }
+          observedCapabilities[key] = true;
+        }
+      }
+
+      await window.storage.put('observedCapabilities', observedCapabilities);
+      if (hasChanged) {
+        log.info(
+          'getProfile: detected a capability flip, sending fetch profile',
+          newKeys
+        );
+        await singleProtoJobQueue.add(
+          MessageSender.getFetchLocalProfileSyncMessage()
+        );
+      }
     }
 
     const badges = parseBadgesFromServer(profile.badges, updatesUrl);
