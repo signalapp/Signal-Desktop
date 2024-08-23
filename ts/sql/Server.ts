@@ -3623,7 +3623,7 @@ const FOUR_HOURS_IN_MS = sqlConstant(4 * 60 * 60 * 1000);
 function getCallHistoryUnreadCount(db: ReadableDB): number {
   const [query, params] = sql`
     SELECT count(*) FROM messages
-    LEFT JOIN callsHistory ON callsHistory.callId = messages.callId
+    INNER JOIN callsHistory ON callsHistory.callId = messages.callId
     WHERE messages.type IS 'call-history'
       AND messages.seenStatus IS ${SEEN_STATUS_UNSEEN}
       AND callsHistory.status IS ${CALL_STATUS_MISSED}
