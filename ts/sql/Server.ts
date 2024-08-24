@@ -6653,7 +6653,7 @@ function pageMessages(
           (rowid INTEGER PRIMARY KEY ASC);
 
         INSERT INTO tmp_${runId}_updated_messages (rowid)
-        SELECT rowid FROM messages ORDER BY rowid ASC;
+        SELECT rowid FROM messages;
 
         CREATE TEMP TRIGGER tmp_${runId}_message_updates
         UPDATE OF json ON messages
@@ -6679,7 +6679,6 @@ function pageMessages(
         `
       DELETE FROM tmp_${runId}_updated_messages
       RETURNING rowid
-      ORDER BY rowid ASC
       LIMIT $chunkSize;
       `
       )
