@@ -611,6 +611,7 @@ const PUSH_PANEL = 'conversations/PUSH_PANEL';
 const POP_PANEL = 'conversations/POP_PANEL';
 const PANEL_ANIMATION_DONE = 'conversations/PANEL_ANIMATION_DONE';
 const PANEL_ANIMATION_STARTED = 'conversations/PANEL_ANIMATION_STARTED';
+export const MARK_READ = 'conversations/MARK_READ';
 export const MESSAGE_CHANGED = 'MESSAGE_CHANGED';
 export const MESSAGE_DELETED = 'MESSAGE_DELETED';
 export const MESSAGE_EXPIRED = 'conversations/MESSAGE_EXPIRED';
@@ -778,6 +779,12 @@ type ConversationStoppedByMissingVerificationActionType = ReadonlyDeep<{
     conversationId: string;
     distributionId?: StoryDistributionIdString;
     untrustedServiceIds: ReadonlyArray<ServiceIdString>;
+  };
+}>;
+export type MarkReadActionType = ReadonlyDeep<{
+  type: typeof MARK_READ;
+  payload: {
+    conversationId: string;
   };
 }>;
 export type MessageChangedActionType = ReadonlyDeep<{
@@ -1027,6 +1034,7 @@ export type ConversationActionType =
   | CreateGroupRejectedActionType
   | CustomColorRemovedActionType
   | DiscardMessagesActionType
+  | MarkReadActionType
   | MessageChangedActionType
   | MessageDeletedActionType
   | MessageExpandedActionType
@@ -1122,6 +1130,7 @@ export const actions = {
   loadRecentMediaItems,
   markAttachmentAsCorrupted,
   markMessageRead,
+  markOpenConversationRead,
   messageChanged,
   messageDeleted,
   messageExpanded,
@@ -2885,6 +2894,26 @@ function conversationStoppedByMissingVerification(payload: {
   return {
     type: CONVERSATION_STOPPED_BY_MISSING_VERIFICATION,
     payload,
+  };
+}
+
+export function markOpenConversationRead(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, MarkReadActionType> {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const { nav } = state;
+
+    if (nav.selectedNavTab !== NavTab.Chats) {
+      return;
+    }
+
+    dispatch({
+      type: MARK_READ,
+      payload: {
+        conversationId,
+      },
+    });
   };
 }
 
@@ -5524,6 +5553,28 @@ export function reducer(
     };
   }
 
+  if (action.type === MARK_READ) {
+    const { conversationId } = action.payload;
+    const existingConversation = state.messagesByConversation[conversationId];
+
+    // We don't keep track of messages unless their conversation is loaded...
+    if (!existingConversation) {
+      return state;
+    }
+
+    return {
+      ...state,
+      messagesByConversation: {
+        ...state.messagesByConversation,
+        [conversationId]: {
+          ...existingConversation,
+          messageChangeCounter:
+            (existingConversation.messageChangeCounter || 0) + 1,
+        },
+      },
+    };
+  }
+
   if (action.type === MESSAGE_CHANGED) {
     const { id, conversationId, data } = action.payload;
     const existingConversation = state.messagesByConversation[conversationId];
@@ -5553,8 +5604,6 @@ export function reducer(
 
     const hasNewEdit =
       existingMessage.editHistory?.length !== data.editHistory?.length ? 1 : 0;
-    const toIncrement = data.reactions?.length || hasNewEdit;
-
     const updatedMessage = {
       ...data,
       displayLimit: existingMessage.displayLimit,
@@ -5572,14 +5621,6 @@ export function reducer(
         state
       ),
       preloadData: undefined,
-      messagesByConversation: {
-        ...state.messagesByConversation,
-        [conversationId]: {
-          ...existingConversation,
-          messageChangeCounter:
-            (existingConversation.messageChangeCounter || 0) + toIncrement,
-        },
-      },
       messagesLookup: {
         ...state.messagesLookup,
         [id]: updatedMessage,

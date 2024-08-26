@@ -68,8 +68,7 @@ describe('backup/calling', () => {
     callLink = {
       rootKey: rootKey.toString(),
       roomId: getRoomIdFromRootKey(rootKey),
-      // TODO: DESKTOP-7511
-      adminKey: fromAdminKeyBytes(Buffer.concat([adminKey, adminKey])),
+      adminKey: fromAdminKeyBytes(adminKey),
       name: "Let's Talk Rocks",
       restrictions: CallLinkRestrictions.AdminApproval,
       revoked: false,

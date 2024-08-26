@@ -1577,64 +1577,6 @@ describe('both/state/ducks/conversations', () => {
           0
         );
       });
-
-      it('increments message change counter if new message has reactions', () => {
-        const changedMessageWithReaction: MessageType = {
-          ...changedMessage,
-          reactions: [
-            {
-              emoji: '✨',
-              fromId: 'some-other-id',
-              timestamp: 2222,
-              receivedAtDate: 3333,
-              targetTimestamp: 1111,
-            },
-          ],
-        };
-        const state = reducer(
-          startState,
-          messageChanged(messageId, conversationId, changedMessageWithReaction)
-        );
-
-        assert.deepEqual(
-          state.messagesLookup[messageId],
-          changedMessageWithReaction
-        );
-        assert.strictEqual(
-          state.messagesByConversation[conversationId]?.messageChangeCounter,
-          1
-        );
-      });
-
-      it('does not increment message change counter if only old message had reactions', () => {
-        const updatedStartState = {
-          ...startState,
-          messagesLookup: {
-            [messageId]: {
-              ...startState.messagesLookup[messageId],
-              reactions: [
-                {
-                  emoji: '✨',
-                  fromId: 'some-other-id',
-                  timestamp: 2222,
-                  receivedAtDate: 3333,
-                  targetTimestamp: 1111,
-                },
-              ],
-            },
-          },
-        };
-        const state = reducer(
-          updatedStartState,
-          messageChanged(messageId, conversationId, changedMessage)
-        );
-
-        assert.deepEqual(state.messagesLookup[messageId], changedMessage);
-        assert.strictEqual(
-          state.messagesByConversation[conversationId]?.messageChangeCounter,
-          0
-        );
-      });
     });
 
     describe('SHOW_ARCHIVED_CONVERSATIONS', () => {
