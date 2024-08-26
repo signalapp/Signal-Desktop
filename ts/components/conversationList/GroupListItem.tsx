@@ -68,7 +68,11 @@ export function GroupListItem({
       }
       title={<UserText text={group.title} />}
       subtitle={<UserText text={messageText} />}
-      onClick={() => onSelectGroup(group.id)}
+      onClick={() => {
+        if (!group.disabledReason) {
+          onSelectGroup(group.id);
+        }
+      }}
     />
   );
 }
