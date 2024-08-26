@@ -5,6 +5,7 @@ import path from 'path';
 import { debounce, isEqual } from 'lodash';
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { v4 as generateUuid } from 'uuid';
+import { webUtils } from 'electron';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type {
@@ -1069,7 +1070,7 @@ function processAttachments({
             generateScreenshot: true,
           });
           if (!attachment) {
-            removeAttachment(conversationId, file.path)(
+            removeAttachment(conversationId, webUtils.getPathForFile(file))(
               dispatch,
               getState,
               undefined
@@ -1086,7 +1087,7 @@ function processAttachments({
             'handleAttachmentsProcessing: failed to process attachment:',
             err.stack
           );
-          removeAttachment(conversationId, file.path)(
+          removeAttachment(conversationId, webUtils.getPathForFile(file))(
             dispatch,
             getState,
             undefined

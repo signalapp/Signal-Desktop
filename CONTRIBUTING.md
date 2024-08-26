@@ -34,10 +34,8 @@ Install the [Xcode Command-Line Tools](http://osxdaily.com/2014/02/12/install-co
 
 ### Windows
 
-1.  Download _Build Tools for Visual Studio 2019_ from the [Visual Studio 'older downloads' page](https://visualstudio.microsoft.com/vs/older-downloads/) and install it, including the "Desktop development with C++" option.
-2.  Install Windows 10 SDK, version 1803 (10.0.17134.x) from the [SDK Archive page](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive)
-3.  Download and install the latest Python 3 release from https://www.python.org/downloads/windows/ (3.6 or later required).
-4.  Copy `platform.winmd` from your build tools location (like `C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\lib\x86\store\references`) to the Windows SDK path: `C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17134.0`. This is for our [`@nodert-win10-rs4`](https://github.com/NodeRT/NodeRT) dependencies.
+1.  Download _Build Tools for Visual Studio 2022 Community Edition_ from [Microsoft's website](https://visualstudio.microsoft.com/vs/community/) and install it, including the "Desktop development with C++" option.
+2.  Download and install the latest Python 3 release from https://www.python.org/downloads/windows/ (3.6 or later required).
 
 ### Linux
 

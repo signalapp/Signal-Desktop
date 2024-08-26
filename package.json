@@ -98,16 +98,14 @@
     "@formatjs/intl-localematcher": "0.2.32",
     "@indutny/dicer": "0.3.2",
     "@indutny/range-finder": "1.3.4",
+    "@indutny/simple-windows-notifications": "2.0.1",
     "@indutny/sneequals": "4.0.0",
-    "@nodert-win10-rs4/windows.data.xml.dom": "0.4.4",
-    "@nodert-win10-rs4/windows.ui.notifications": "0.4.4",
     "@popperjs/core": "2.11.6",
     "@react-aria/utils": "3.16.0",
     "@react-spring/web": "9.5.5",
-    "@signalapp/better-sqlite3": "8.8.0",
+    "@signalapp/better-sqlite3": "8.8.1",
     "@signalapp/libsignal-client": "0.55.1",
     "@signalapp/ringrtc": "2.46.1",
-    "@signalapp/windows-dummy-keystroke": "1.0.0",
     "@types/fabric": "4.5.3",
     "backbone": "1.4.0",
     "blob-util": "2.0.2",
@@ -291,7 +289,7 @@
     "csv-parse": "5.5.2",
     "danger": "11.3.1",
     "debug": "4.3.3",
-    "electron": "31.3.1",
+    "electron": "32.0.1",
     "electron-builder": "24.13.3",
     "electron-mocha": "12.2.0",
     "endanger": "7.0.4",
@@ -370,7 +368,7 @@
     }
   },
   "engines": {
-    "node": "20.15.1"
+    "node": "20.16.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
@@ -442,6 +440,9 @@
       ],
       "target": [
         "nsis"
+      ],
+      "files": [
+        "node_modules/@indutny/simple-windows-notifications/build/Release/*.node"
       ],
       "asarUnpack": [
         "build/icons/win/icon.ico"
@@ -576,14 +577,10 @@
       "node_modules/@signalapp/better-sqlite3/build/Release/better_sqlite3.node",
       "node_modules/@signalapp/libsignal-client/prebuilds/${platform}-${arch}/*.node",
       "!node_modules/@signalapp/ringrtc/scripts/*",
-      "!node_modules/@nodert-win10-rs4/windows.data.xml.dom/*.cpp",
-      "!node_modules/@nodert-win10-rs4/windows.ui.notifications/*.cpp",
       "node_modules/@signalapp/ringrtc/build/${platform}/*${arch}*.node",
       "node_modules/mac-screen-capture-permissions/build/Release/*.node",
       "node_modules/fs-xattr/build/Release/*.node",
-      "node_modules/@nodert-win10-rs4/windows.data.xml.dom/build/Release/*.node",
-      "node_modules/@nodert-win10-rs4/windows.ui.notifications/build/Release/*.node",
-      "node_modules/@signalapp/windows-dummy-keystroke/build/Release/*.node",
+      "!node_modules/@indutny/simple-windows-notifications/*.cpp",
       "!**/node_modules/react-dom/*/*.development.js",
       "!node_modules/mp4box/**",
       "node_modules/mp4box/package.json",

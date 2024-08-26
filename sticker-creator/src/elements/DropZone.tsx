@@ -2,17 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { FileWithPath } from 'react-dropzone';
 
 import styles from './DropZone.module.scss';
 import { useI18n } from '../contexts/I18n';
+import { getFilePath } from '../util/api';
 import { useStickerDropzone } from '../util/useStickerDropzone';
-import type { FileWithRequiredPath } from '../types.d';
 
 export type Props = {
   readonly inner?: boolean;
   readonly label: string;
-  onDrop(files: ReadonlyArray<FileWithRequiredPath>): unknown;
+  onDrop(files: ReadonlyArray<File>): unknown;
   onDragActive?(active: boolean): unknown;
 };
 
@@ -33,11 +32,9 @@ export function DropZone(props: Props): JSX.Element {
   const i18n = useI18n();
 
   const handleDrop = React.useCallback(
-    (files: ReadonlyArray<FileWithPath>) => {
+    (files: ReadonlyArray<File>) => {
       onDrop(
-        files.filter(
-          (file): file is FileWithRequiredPath => file.path !== undefined
-        )
+        files.filter((file): file is File => getFilePath(file) !== undefined)
       );
     },
     [onDrop]

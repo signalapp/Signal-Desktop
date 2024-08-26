@@ -13,6 +13,7 @@ declare global {
       onProgres?: () => void
     ): Promise<string>;
     installStickerPack(packId: string, key: string): void;
+    getFilePath(file: File): string;
   }
 }
 
@@ -50,4 +51,8 @@ export async function upload(
     key,
     packId,
   };
+}
+
+export function getFilePath(file: File): string {
+  return window.getFilePath(file);
 }

@@ -24,6 +24,7 @@ import { useArtType, useArtData, useArtOrder } from '../selectors/art';
 import type { Props as DropZoneProps } from '../elements/DropZone';
 import { DropZone } from '../elements/DropZone';
 import { assert } from '../util/assert';
+import { getFilePath } from '../util/api';
 import { processImage, ProcessImageError } from '../util/processImage';
 import { useI18n } from '../contexts/I18n';
 import { ArtType, MAX_STICKERS } from '../constants';
@@ -95,7 +96,9 @@ export function ArtGrid({ mode, showGuide }: Props): JSX.Element {
 
   const handleDrop = React.useCallback<DropZoneProps['onDrop']>(
     async files => {
-      dispatch(initializeImages(files.map(({ path, name }) => path || name)));
+      dispatch(
+        initializeImages(files.map(file => getFilePath(file) || file.name))
+      );
       await Promise.all(
         files.map(async file => {
           try {
@@ -103,7 +106,7 @@ export function ArtGrid({ mode, showGuide }: Props): JSX.Element {
             dispatch(addImageData(image));
           } catch (e) {
             debug('Error processing image:', e);
-            dispatch(removeImage(file.path));
+            dispatch(removeImage(getFilePath(file)));
 
             const key =
               e instanceof ProcessImageError
