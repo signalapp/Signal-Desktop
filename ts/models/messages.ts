@@ -156,6 +156,7 @@ import {
   copyFromQuotedMessage,
   copyQuoteContentFromOriginal,
 } from '../messages/copyQuote';
+import { getRoomIdFromCallLink } from '../util/callLinksRingrtc';
 
 /* eslint-disable more/no-then */
 
@@ -1823,19 +1824,34 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
         const urls = LinkPreview.findLinks(dataMessage.body || '');
         const incomingPreview = dataMessage.preview || [];
-        const preview = incomingPreview.filter((item: LinkPreviewType) => {
-          if (!item.image && !item.title) {
-            return false;
-          }
-          // Story link previews don't have to correspond to links in the
-          // message body.
-          if (isStory(message.attributes)) {
-            return true;
-          }
-          return (
-            urls.includes(item.url) && LinkPreview.shouldPreviewHref(item.url)
-          );
-        });
+        const preview = incomingPreview
+          .map((item: LinkPreviewType) => {
+            if (!item.image && !item.title) {
+              return null;
+            }
+            // Story link previews don't have to correspond to links in the
+            // message body.
+            if (isStory(message.attributes)) {
+              return item;
+            }
+            if (
+              !urls.includes(item.url) ||
+              !LinkPreview.shouldPreviewHref(item.url)
+            ) {
+              return undefined;
+            }
+
+            if (LinkPreview.isCallLink(item.url)) {
+              return {
+                ...item,
+                isCallLink: true,
+                callLinkRoomId: getRoomIdFromCallLink(item.url),
+              };
+            }
+
+            return item;
+          })
+          .filter(isNotNil);
         if (preview.length < incomingPreview.length) {
           log.info(
             `${message.idForLogging()}: Eliminated ${

@@ -18,6 +18,7 @@ export default {
   args: {
     i18n,
     callLink: FAKE_CALL_LINK_WITH_ADMIN_KEY,
+    hasActiveCall: false,
     onClose: action('onClose'),
     onCopyCallLink: action('onCopyCallLink'),
     onOpenCallLinkAddNameModal: action('onOpenCallLinkAddNameModal'),
@@ -29,4 +30,8 @@ export default {
 
 export function Basic(args: CallLinkEditModalProps): JSX.Element {
   return <CallLinkEditModal {...args} />;
+}
+
+export function InAnotherCall(args: CallLinkEditModalProps): JSX.Element {
+  return <CallLinkEditModal {...args} hasActiveCall />;
 }

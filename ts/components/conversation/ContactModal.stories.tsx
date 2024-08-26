@@ -127,3 +127,8 @@ InSystemContacts.args = {
     systemGivenName: defaultContact.title,
   },
 };
+
+export const InAnotherCall = Template.bind({});
+InAnotherCall.args = {
+  hasActiveCall: true,
+};

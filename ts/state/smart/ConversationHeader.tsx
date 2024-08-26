@@ -56,7 +56,7 @@ const useOutgoingCallButtonStyle = (
   const callSelector = useSelector(getCallSelector);
   strictAssert(ourAci, 'useOutgoingCallButtonStyle missing our uuid');
 
-  if (activeCall != null) {
+  if (activeCall?.conversationId === conversation.id) {
     return OutgoingCallButtonStyle.None;
   }
 
@@ -100,6 +100,8 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
   const hasPanelShowing = useSelector(getHasPanelOpen);
   const outgoingCallButtonStyle = useOutgoingCallButtonStyle(conversation);
   const theme = useSelector(getTheme);
+  const activeCall = useSelector(getActiveCallState);
+  const hasActiveCall = Boolean(activeCall);
 
   const {
     destroyMessages,
@@ -264,6 +266,7 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
       cannotLeaveBecauseYouAreLastAdmin={cannotLeaveBecauseYouAreLastAdmin}
       conversation={minimalConversation}
       conversationName={conversationName}
+      hasActiveCall={hasActiveCall}
       hasPanelShowing={hasPanelShowing}
       hasStories={hasStories}
       i18n={i18n}

@@ -44,7 +44,7 @@ import {
   formatCallHistoryGroup,
   getCallIdFromEra,
 } from '../util/callDisposition';
-import { CallsNewCallButton } from './CallsNewCall';
+import { CallsNewCallButton } from './CallsNewCallButton';
 import { Tooltip, TooltipPlacement } from './Tooltip';
 import { Theme } from '../util/theme';
 import type { CallingConversationType } from '../types/Calling';

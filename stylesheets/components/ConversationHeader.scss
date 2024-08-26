@@ -171,20 +171,37 @@
       opacity: 0.5;
     }
 
+    &--in-another-call {
+      @include light-theme {
+        opacity: 0.5;
+      }
+      @include dark-theme {
+        opacity: 0.4;
+      }
+    }
+
     &:not(:disabled) {
       @include light-theme {
-        &:hover,
-        &:focus {
+        &:hover {
           background: $color-gray-02;
+        }
+        &:focus {
+          @include keyboard-mode {
+            background: $color-gray-02;
+          }
         }
         &:active {
           background: $color-gray-05;
         }
       }
       @include dark-theme {
-        &:hover,
-        &:focus {
+        &:hover {
           background: $color-gray-80;
+        }
+        &:focus {
+          @include keyboard-mode {
+            background: $color-gray-02;
+          }
         }
         &:active {
           background: $color-gray-75;
@@ -281,13 +298,13 @@
       }
 
       &:not(:disabled) {
-        // Override hover state coming from __button above.
-        &:hover {
+        // Override hover/focus/active state coming from __button above.
+        &:hover,
+        &:active {
           @include any-theme {
             background-color: darken($background, 16%);
           }
         }
-
         &:focus {
           @include keyboard-mode {
             background-color: darken($background, 16%);

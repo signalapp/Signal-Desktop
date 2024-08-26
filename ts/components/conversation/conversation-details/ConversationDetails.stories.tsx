@@ -232,3 +232,15 @@ export function WithCallHistoryGroup(): JSX.Element {
     />
   );
 }
+
+export function InAnotherCallGroup(): JSX.Element {
+  const props = createProps();
+
+  return <ConversationDetails {...props} hasActiveCall />;
+}
+
+export function InAnotherCallIndividual(): JSX.Element {
+  const props = createProps();
+
+  return <ConversationDetails {...props} hasActiveCall isGroup={false} />;
+}

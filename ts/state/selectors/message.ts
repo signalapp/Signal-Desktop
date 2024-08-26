@@ -577,6 +577,7 @@ export const getPropsForQuote = (
 
 export type GetPropsForMessageOptions = Pick<
   GetPropsForBubbleOptions,
+  | 'activeCall'
   | 'conversationSelector'
   | 'ourConversationId'
   | 'ourAci'
@@ -676,6 +677,7 @@ export const getPropsForMessage = (
   const payment = getPayment(message);
 
   const {
+    activeCall,
     accountSelector,
     conversationSelector,
     ourConversationId,
@@ -699,6 +701,7 @@ export const getPropsForMessage = (
   const { sticker } = message;
 
   const isMessageTapToView = isTapToView(message);
+  const activeCallConversationId = activeCall?.conversationId;
 
   const isTargeted = message.id === targetedMessageId;
   const isSelected = selectedMessageIds?.includes(message.id) ?? false;
@@ -726,6 +729,7 @@ export const getPropsForMessage = (
     attachmentDroppedDueToSize,
     author,
     bodyRanges,
+    activeCallConversationId,
     previews,
     quote,
     reactions,

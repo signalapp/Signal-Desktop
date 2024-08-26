@@ -97,10 +97,9 @@ import { PanelType } from '../../types/Panels';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
 import { RenderLocation } from './MessageTextRenderer';
 import { UserText } from '../UserText';
-import {
-  getColorForCallLink,
-  getKeyFromCallLink,
-} from '../../util/getColorForCallLink';
+import { getColorForCallLink } from '../../util/getColorForCallLink';
+import { getKeyFromCallLink } from '../../util/callLinks';
+import { InAnotherCallTooltip } from './InAnotherCallTooltip';
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
@@ -215,6 +214,7 @@ export type PropsData = {
   customColor?: CustomColorType;
   conversationId: string;
   displayLimit?: number;
+  activeCallConversationId?: string;
   text?: string;
   textDirection: TextDirection;
   textAttachment?: AttachmentType;
@@ -1980,22 +1980,37 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   private renderAction(): JSX.Element | null {
-    const { direction, i18n, previews } = this.props;
+    const { direction, activeCallConversationId, i18n, previews } = this.props;
 
     if (this.shouldShowJoinButton()) {
       const firstPreview = previews[0];
+      const inAnotherCall = Boolean(
+        activeCallConversationId &&
+          (!firstPreview.callLinkRoomId ||
+            activeCallConversationId !== firstPreview.callLinkRoomId)
+      );
 
-      return (
+      const joinButton = (
         <button
           type="button"
           className={classNames('module-message__action', {
             'module-message__action--incoming': direction === 'incoming',
             'module-message__action--outgoing': direction === 'outgoing',
+            'module-message__action--incoming--in-another-call':
+              direction === 'incoming' && inAnotherCall,
+            'module-message__action--outgoing--in-another-call':
+              direction === 'outgoing' && inAnotherCall,
           })}
           onClick={() => openLinkInWebBrowser(firstPreview?.url)}
         >
           {i18n('icu:calling__join')}
         </button>
+      );
+
+      return inAnotherCall ? (
+        <InAnotherCallTooltip i18n={i18n}>{joinButton}</InAnotherCallTooltip>
+      ) : (
+        joinButton
       );
     }
 

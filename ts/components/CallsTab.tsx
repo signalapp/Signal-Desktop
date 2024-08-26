@@ -11,7 +11,7 @@ import type {
   CallHistoryGroup,
   CallHistoryPagination,
 } from '../types/CallDisposition';
-import { CallsNewCall } from './CallsNewCall';
+import { CallsNewCall } from './CallsNewCallButton';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import type {
   ActiveCallStateType,

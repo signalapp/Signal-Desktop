@@ -406,7 +406,12 @@
 }
 
 .CallsNewCall__ItemActionButton--join-call-disabled {
-  opacity: 0.5;
+  @include light-theme {
+    opacity: 0.4;
+  }
+  @include dark-theme {
+    opacity: 0.5;
+  }
 }
 
 .CallsNewCall__ItemActionButtonTooltip {
