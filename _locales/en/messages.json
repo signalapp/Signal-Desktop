@@ -6803,7 +6803,15 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "Reacted to the story",
-    "description": "Description of someone reacting to a story"
+    "description": "(Deleted 2024/08/23) Description of someone reacting to a story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story",
+    "description": "Description of you reacting to a story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story",
+    "description": "Description of someone else reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
