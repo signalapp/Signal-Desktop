@@ -106,7 +106,7 @@
     "@react-spring/web": "9.5.5",
     "@signalapp/better-sqlite3": "8.8.0",
     "@signalapp/libsignal-client": "0.55.1",
-    "@signalapp/ringrtc": "2.46.1",
+    "@signalapp/ringrtc": "2.46.2",
     "@signalapp/windows-dummy-keystroke": "1.0.0",
     "@types/fabric": "4.5.3",
     "backbone": "1.4.0",
