@@ -4601,7 +4601,6 @@ function getUnprocessedByIdsAndIncrementAttempts(
 }
 
 function removeUnprocesseds(db: WritableDB, ids: ReadonlyArray<string>): void {
-  logger.info('removeUnprocesseds', { totalIds: ids.length });
   db.prepare<ArrayQuery>(
     `
     DELETE FROM unprocessed
@@ -4611,7 +4610,6 @@ function removeUnprocesseds(db: WritableDB, ids: ReadonlyArray<string>): void {
 }
 
 function removeUnprocessed(db: WritableDB, id: string | Array<string>): void {
-  logger.info('removeUnprocessedSync', { id });
   if (!Array.isArray(id)) {
     prepare(db, 'DELETE FROM unprocessed WHERE id = $id;').run({ id });
 
