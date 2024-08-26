@@ -2,50 +2,37 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { bindActionCreators } from 'redux';
+import { actionCreators } from './actions';
+import { createStore } from './createStore';
+import { getInitialState } from './getInitialState';
+
 import type { BadgesStateType } from './ducks/badges';
 import type { CallHistoryDetails } from '../types/CallDisposition';
 import type { MainWindowStatsType } from '../windows/context';
 import type { MenuOptionsType } from '../types/menu';
 import type { StoryDataType } from './ducks/stories';
 import type { StoryDistributionListDataType } from './ducks/storyDistributionLists';
-import { actionCreators } from './actions';
-import { createStore } from './createStore';
-import { getInitialState } from './getInitialState';
 import type { ThemeType } from '../types/Util';
 import type { CallLinkType } from '../types/CallLink';
+import type { RecentEmojiObjectType } from '../util/loadRecentEmojis';
+import type { StickersStateType } from './ducks/stickers';
 
-export function initializeRedux({
-  callLinks,
-  callsHistory,
-  callsHistoryUnreadCount,
-  initialBadgesState,
-  mainWindowStats,
-  menuOptions,
-  stories,
-  storyDistributionLists,
-  theme,
-}: {
+export type ReduxInitData = {
+  badgesState: BadgesStateType;
+  callHistory: ReadonlyArray<CallHistoryDetails>;
+  callHistoryUnreadCount: number;
   callLinks: ReadonlyArray<CallLinkType>;
-  callsHistory: ReadonlyArray<CallHistoryDetails>;
-  callsHistoryUnreadCount: number;
-  initialBadgesState: BadgesStateType;
   mainWindowStats: MainWindowStatsType;
   menuOptions: MenuOptionsType;
+  recentEmoji: RecentEmojiObjectType;
+  stickers: StickersStateType;
   stories: Array<StoryDataType>;
   storyDistributionLists: Array<StoryDistributionListDataType>;
   theme: ThemeType;
-}): void {
-  const initialState = getInitialState({
-    badges: initialBadgesState,
-    callLinks,
-    callsHistory,
-    callsHistoryUnreadCount,
-    mainWindowStats,
-    menuOptions,
-    stories,
-    storyDistributionLists,
-    theme,
-  });
+};
+
+export function initializeRedux(data: ReduxInitData): void {
+  const initialState = getInitialState(data);
 
   const store = createStore(initialState);
   window.reduxStore = store;

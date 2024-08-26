@@ -18,13 +18,13 @@ import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseE
 import { DurationInSeconds } from '../../util/durations';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SeenStatus } from '../../MessageSeenStatus';
-import { loadCallsHistory } from '../../services/callHistoryLoader';
 import {
   setupBasics,
   asymmetricRoundtripHarness,
   symmetricRoundtripHarness,
   OUR_ACI,
 } from './helpers';
+import { loadAll } from '../../services/allLoaders';
 
 const CONTACT_A = generateAci();
 const GROUP_ID = Bytes.toBase64(getRandomBytes(32));
@@ -56,7 +56,7 @@ describe('backup/non-bubble messages', () => {
       }
     );
 
-    await loadCallsHistory();
+    await loadAll();
   });
 
   it('roundtrips END_SESSION simple update', async () => {

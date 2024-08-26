@@ -4,7 +4,7 @@
 import { take } from 'lodash';
 import { DataReader } from '../sql/Client';
 
-type RecentEmojiObjectType = {
+export type RecentEmojiObjectType = {
   recents: Array<string>;
 };
 

@@ -59,7 +59,7 @@ function useEmoji(payload: string): UseEmojiAction {
 
 // Reducer
 
-function getEmptyState(): EmojisStateType {
+export function getEmptyState(): EmojisStateType {
   return {
     recents: [],
   };

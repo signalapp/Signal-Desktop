@@ -114,6 +114,10 @@ export class App extends EventEmitter {
     return this.waitForEvent('app-loaded');
   }
 
+  public async waitForBackupImportComplete(): Promise<void> {
+    return this.waitForEvent('backupImportComplete');
+  }
+
   public async waitForMessageSend(): Promise<MessageSendInfoType> {
     return this.waitForEvent('message:send-complete');
   }

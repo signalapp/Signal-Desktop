@@ -14,7 +14,6 @@ import * as Bytes from '../../Bytes';
 import { getRandomBytes } from '../../Crypto';
 import { DataReader, DataWriter } from '../../sql/Client';
 import { generateAci } from '../../types/ServiceId';
-import { loadCallsHistory } from '../../services/callHistoryLoader';
 import { setupBasics, symmetricRoundtripHarness } from './helpers';
 import {
   AdhocCallStatus,
@@ -30,6 +29,7 @@ import { fromAdminKeyBytes } from '../../util/callLinks';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SeenStatus } from '../../MessageSeenStatus';
 import { deriveGroupID, deriveGroupSecretParams } from '../../util/zkgroup';
+import { loadAll } from '../../services/allLoaders';
 
 const CONTACT_A = generateAci();
 const GROUP_MASTER_KEY = getRandomBytes(32);
@@ -78,7 +78,7 @@ describe('backup/calling', () => {
 
     await DataWriter.insertCallLink(callLink);
 
-    await loadCallsHistory();
+    await loadAll();
   });
   after(async () => {
     await DataWriter.removeAll();
@@ -99,7 +99,7 @@ describe('backup/calling', () => {
         timestamp: now,
       };
       await DataWriter.saveCallHistory(callHistory);
-      await loadCallsHistory();
+      await loadAll();
 
       const messageUnseen: MessageAttributesType = {
         id: generateGuid(),
@@ -146,7 +146,7 @@ describe('backup/calling', () => {
         timestamp: now,
       };
       await DataWriter.saveCallHistory(callHistory);
-      await loadCallsHistory();
+      await loadAll();
 
       const messageUnseen: MessageAttributesType = {
         id: generateGuid(),
@@ -231,7 +231,7 @@ describe('backup/calling', () => {
         timestamp: now,
       };
       await DataWriter.saveCallHistory(callHistory);
-      await loadCallsHistory();
+      await loadAll();
 
       await symmetricRoundtripHarness([]);
 
@@ -255,7 +255,7 @@ describe('backup/calling', () => {
         timestamp: now,
       };
       await DataWriter.saveCallHistory(callHistory);
-      await loadCallsHistory();
+      await loadAll();
 
       await symmetricRoundtripHarness([]);
 

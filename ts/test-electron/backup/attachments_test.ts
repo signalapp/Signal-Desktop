@@ -14,7 +14,6 @@ import { DataWriter } from '../../sql/Client';
 import { type AciString, generateAci } from '../../types/ServiceId';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SeenStatus } from '../../MessageSeenStatus';
-import { loadCallsHistory } from '../../services/callHistoryLoader';
 import { setupBasics, asymmetricRoundtripHarness } from './helpers';
 import {
   AUDIO_MP3,
@@ -31,6 +30,7 @@ import { isVoiceMessage, type AttachmentType } from '../../types/Attachment';
 import { strictAssert } from '../../util/assert';
 import { SignalService } from '../../protobuf';
 import { getRandomBytes } from '../../Crypto';
+import { loadAll } from '../../services/allLoaders';
 
 const CONTACT_A = generateAci();
 
@@ -51,7 +51,7 @@ describe('backup/attachments', () => {
       { systemGivenName: 'CONTACT_A' }
     );
 
-    await loadCallsHistory();
+    await loadAll();
 
     sandbox = sinon.createSandbox();
     const getAbsoluteAttachmentPath = sandbox.stub(

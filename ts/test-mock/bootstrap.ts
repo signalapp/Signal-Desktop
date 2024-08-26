@@ -344,6 +344,11 @@ export class Bootstrap {
       }
     }
 
+    if (extraConfig?.ciBackupPath) {
+      debug('waiting for backup import to complete');
+      await app.waitForBackupImportComplete();
+    }
+
     await this.phone.waitForSync(this.desktop);
     this.phone.resetSyncState(this.desktop);
 
@@ -512,7 +517,9 @@ export class Bootstrap {
           return;
         }
 
-        debug('screenshot difference', numPixels);
+        debug(
+          `screenshot difference for ${name}: ${numPixels}/${width * height}`
+        );
 
         const outDir = await this.getArtifactsDir(test?.fullTitle());
         if (outDir != null) {
