@@ -12,7 +12,6 @@ import type { MessageAttributesType } from '../../model-types';
 import type { GroupV2ChangeType } from '../../groups';
 import { getRandomBytes } from '../../Crypto';
 import * as Bytes from '../../Bytes';
-import { loadCallsHistory } from '../../services/callHistoryLoader';
 import { strictAssert } from '../../util/assert';
 import { DurationInSeconds } from '../../util/durations';
 import {
@@ -24,6 +23,7 @@ import {
 } from './helpers';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SeenStatus } from '../../MessageSeenStatus';
+import { loadAll } from '../../services/allLoaders';
 
 // Note: this should be kept up to date with GroupV2Change.stories.tsx, to
 //   maintain the comprehensive set of GroupV2 notifications we need to handle
@@ -114,7 +114,7 @@ describe('backup/groupv2/notifications', () => {
       name: 'Rock Enthusiasts',
     });
 
-    await loadCallsHistory();
+    await loadAll();
   });
   afterEach(async () => {
     await DataWriter.removeAll();

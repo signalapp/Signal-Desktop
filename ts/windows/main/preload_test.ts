@@ -99,10 +99,10 @@ window.testUtilities = {
     await Stickers.load();
 
     initializeRedux({
+      badgesState: { byId: {} },
       callLinks: [],
-      callsHistory: [],
-      callsHistoryUnreadCount: 0,
-      initialBadgesState: { byId: {} },
+      callHistory: [],
+      callHistoryUnreadCount: 0,
       mainWindowStats: {
         isFullScreen: false,
         isMaximized: false,
@@ -114,8 +114,17 @@ window.testUtilities = {
         isProduction: false,
         platform: 'test',
       },
+      recentEmoji: {
+        recents: [],
+      },
       stories: [],
       storyDistributionLists: [],
+      stickers: {
+        installedPack: null,
+        packs: {},
+        recentStickers: [],
+        blessedPacks: {},
+      },
       theme: ThemeType.dark,
     });
   },

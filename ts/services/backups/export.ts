@@ -88,7 +88,6 @@ import { canBeSynced as canPreferredReactionEmojiBeSynced } from '../../reaction
 import { SendStatus } from '../../messages/MessageSendState';
 import { BACKUP_VERSION } from './constants';
 import { getMessageIdForLogging } from '../../util/idForLogging';
-import { getCallsHistoryForRedux } from '../callHistoryLoader';
 import { makeLookup } from '../../util/makeLookup';
 import type {
   CallHistoryDetails,
@@ -470,7 +469,7 @@ export class BackupExportStream extends Readable {
 
     let cursor: PageMessagesCursorType | undefined;
 
-    const callHistory = getCallsHistoryForRedux();
+    const callHistory = await DataReader.getAllCallHistory();
     const callHistoryByCallId = makeLookup(callHistory, 'callId');
 
     const me = window.ConversationController.getOurConversationOrThrow();

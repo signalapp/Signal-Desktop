@@ -34,6 +34,8 @@ import { getKeyMaterial } from './crypto';
 import { BackupCredentials } from './credentials';
 import { BackupAPI } from './api';
 import { validateBackup } from './validator';
+import { reinitializeRedux } from '../../state/reinitializeRedux';
+import { getParametersForRedux, loadAll } from '../allLoaders';
 
 const IV_LENGTH = 16;
 
@@ -192,13 +194,26 @@ export class BackupsService {
         'importBackup: Bad MAC, second pass'
       );
 
+      await this.resetStateAfterImport();
+
       log.info('importBackup: finished...');
     } catch (error) {
       log.info(`importBackup: failed, error: ${Errors.toLogFormat(error)}`);
       throw error;
     } finally {
       this.isRunning = false;
+
+      if (window.SignalCI) {
+        window.SignalCI.handleEvent('backupImportComplete', null);
+      }
     }
+  }
+
+  public async resetStateAfterImport(): Promise<void> {
+    window.ConversationController.reset();
+    await window.ConversationController.load();
+    await loadAll();
+    reinitializeRedux(getParametersForRedux());
   }
 
   public async fetchAndSaveBackupCdnObjectMetadata(): Promise<void> {

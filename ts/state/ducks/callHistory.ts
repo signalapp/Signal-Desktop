@@ -26,7 +26,7 @@ import {
 import {
   getCallsHistoryForRedux,
   getCallsHistoryUnreadCountForRedux,
-  loadCallsHistory,
+  loadCallHistory,
 } from '../../services/callHistoryLoader';
 import { makeLookup } from '../../util/makeLookup';
 
@@ -217,7 +217,7 @@ export function reloadCallHistory(): ThunkAction<
 > {
   return async dispatch => {
     try {
-      await loadCallsHistory();
+      await loadCallHistory();
       const callsHistory = getCallsHistoryForRedux();
       const callsHistoryUnreadCount = getCallsHistoryUnreadCountForRedux();
       dispatch({
@@ -234,6 +234,7 @@ export const actions = {
   addCallHistory,
   removeCallHistory,
   resetCallHistory,
+  reloadCallHistory,
   clearAllCallHistory,
   updateCallHistoryUnreadCount,
   markCallHistoryRead,

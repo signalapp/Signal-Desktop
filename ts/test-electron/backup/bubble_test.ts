@@ -13,7 +13,6 @@ import * as Bytes from '../../Bytes';
 import { generateAci } from '../../types/ServiceId';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SeenStatus } from '../../MessageSeenStatus';
-import { loadCallsHistory } from '../../services/callHistoryLoader';
 import { ID_V1_LENGTH } from '../../groups';
 import { DurationInSeconds, WEEK } from '../../util/durations';
 import {
@@ -22,6 +21,7 @@ import {
   symmetricRoundtripHarness,
   OUR_ACI,
 } from './helpers';
+import { loadAll } from '../../services/allLoaders';
 
 const CONTACT_A = generateAci();
 const CONTACT_B = generateAci();
@@ -67,7 +67,7 @@ describe('backup/bubble messages', () => {
       }
     );
 
-    await loadCallsHistory();
+    await loadAll();
   });
 
   it('roundtrips incoming edited message', async () => {
