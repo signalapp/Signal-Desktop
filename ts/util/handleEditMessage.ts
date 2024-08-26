@@ -370,6 +370,10 @@ export async function handleEditMessage(
       isFirstRun: false,
       skipEdits: true,
     });
+
+    window.reduxActions.conversations.markOpenConversationRead(
+      mainMessageConversation.id
+    );
   }
 
   // Apply any other pending edits that target this message

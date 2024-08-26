@@ -2528,6 +2528,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       await DataWriter.saveMessage(this.attributes, {
         ourAci: window.textsecure.storage.user.getCheckedAci(),
       });
+      window.reduxActions.conversations.markOpenConversationRead(
+        conversation.id
+      );
     }
   }
 
