@@ -56,6 +56,7 @@ import {
 } from '../messages/helpers';
 import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent';
 import { missingCaseError } from './missingCaseError';
+import { getUserConversationId } from '../state/selectors/user';
 
 function getNameForNumber(e164: string): string {
   const conversation = window.ConversationController.get(e164);
@@ -433,6 +434,7 @@ export function getNotificationDataForMessage(
   if (isCallHistory(attributes)) {
     const state = window.reduxStore.getState();
     const callingNotification = getPropsForCallHistory(attributes, {
+      ourConversationId: getUserConversationId(state),
       callSelector: getCallSelector(state),
       activeCall: getActiveCall(state),
       callHistorySelector: getCallHistorySelector(state),
