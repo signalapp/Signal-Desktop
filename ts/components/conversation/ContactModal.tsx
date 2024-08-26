@@ -26,9 +26,11 @@ import { Button, ButtonIconType, ButtonVariant } from '../Button';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 import { InContactsIcon } from '../InContactsIcon';
 import { canHaveNicknameAndNote } from '../../util/nicknames';
-import { Tooltip, TooltipPlacement } from '../Tooltip';
-import { offsetDistanceModifier } from '../../util/popperUtil';
 import { getThemeByThemeType } from '../../util/theme';
+import {
+  InAnotherCallTooltip,
+  getTooltipContent,
+} from './InAnotherCallTooltip';
 
 export type PropsDataType = {
   areWeASubscriber: boolean;
@@ -124,11 +126,17 @@ export function ContactModal({
 
   const renderQuickActions = React.useCallback(
     (conversationId: string) => {
+      const inAnotherCallTooltipContent = hasActiveCall
+        ? getTooltipContent(i18n)
+        : undefined;
+      const discouraged = hasActiveCall;
+
       const videoCallButton = (
         <Button
           icon={ButtonIconType.video}
           variant={ButtonVariant.Details}
-          disabled={hasActiveCall}
+          discouraged={discouraged}
+          aria-label={inAnotherCallTooltipContent}
           onClick={() => {
             hideContactModal();
             onOutgoingVideoCallInConversation(conversationId);
@@ -141,7 +149,8 @@ export function ContactModal({
         <Button
           icon={ButtonIconType.audio}
           variant={ButtonVariant.Details}
-          disabled={hasActiveCall}
+          discouraged={discouraged}
+          aria-label={inAnotherCallTooltipContent}
           onClick={() => {
             hideContactModal();
             onOutgoingAudioCallInConversation(conversationId);
@@ -170,28 +179,16 @@ export function ContactModal({
             {i18n('icu:ConversationDetails__HeaderButton--Message')}
           </Button>
           {hasActiveCall ? (
-            <Tooltip
-              className="ContactModal__tooltip"
-              wrapperClassName="ContactModal__tooltip-wrapper"
-              content={i18n('icu:ContactModal--already-in-call')}
-              direction={TooltipPlacement.Top}
-              popperModifiers={[offsetDistanceModifier(5)]}
-            >
+            <InAnotherCallTooltip i18n={i18n}>
               {videoCallButton}
-            </Tooltip>
+            </InAnotherCallTooltip>
           ) : (
             videoCallButton
           )}
           {hasActiveCall ? (
-            <Tooltip
-              className="ContactModal__tooltip"
-              wrapperClassName="ContactModal__tooltip-wrapper"
-              content={i18n('icu:ContactModal--already-in-call')}
-              direction={TooltipPlacement.Top}
-              popperModifiers={[offsetDistanceModifier(5)]}
-            >
+            <InAnotherCallTooltip i18n={i18n}>
               {audioCallButton}
-            </Tooltip>
+            </InAnotherCallTooltip>
           ) : (
             audioCallButton
           )}

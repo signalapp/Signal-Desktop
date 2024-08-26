@@ -23,6 +23,18 @@ export const CALL_LINK_DEFAULT_STATE = {
   expiration: null,
 };
 
+export function getKeyFromCallLink(callLink: string): string {
+  const url = new URL(callLink);
+  if (url == null) {
+    throw new Error('Failed to parse call link URL');
+  }
+
+  const hash = url.hash.slice(1);
+  const hashParams = new URLSearchParams(hash);
+
+  return hashParams.get('key') || '';
+}
+
 export function isCallLinksCreateEnabled(): boolean {
   if (isTestOrMockEnvironment()) {
     return true;

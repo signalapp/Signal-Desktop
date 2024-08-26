@@ -28,7 +28,11 @@ import {
 } from './zkgroup';
 import { getCheckedCallLinkAuthCredentialsForToday } from '../services/groupCredentialFetcher';
 import * as durations from './durations';
-import { fromAdminKeyBytes, toAdminKeyBytes } from './callLinks';
+import {
+  fromAdminKeyBytes,
+  getKeyFromCallLink,
+  toAdminKeyBytes,
+} from './callLinks';
 
 /**
  * RingRTC conversions
@@ -62,6 +66,12 @@ export function getRoomIdFromRootKey(rootKey: CallLinkRootKey): string {
 export function getCallLinkRootKeyFromUrlKey(key: string): Uint8Array {
   // Returns `Buffer` which inherits from `Uint8Array`
   return CallLinkRootKey.parse(key).bytes;
+}
+
+export function getRoomIdFromCallLink(url: string): string {
+  const keyString = getKeyFromCallLink(url);
+  const key = CallLinkRootKey.parse(keyString);
+  return getRoomIdFromRootKey(key);
 }
 
 export async function getCallLinkAuthCredentialPresentation(

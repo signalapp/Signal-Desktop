@@ -154,7 +154,8 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     conversation,
     allComposableConversations
   );
-  const hasActiveCall = activeCall != null;
+  const hasActiveCall =
+    activeCall != null && activeCall.conversationId !== conversationId;
   const hasGroupLink =
     conversation.groupLink != null &&
     conversation.accessControlAddFromInviteLink !== ACCESS_ENUM.UNSATISFIABLE;

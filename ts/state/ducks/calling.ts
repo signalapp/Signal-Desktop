@@ -2104,9 +2104,7 @@ const _startCallLinkLobby = async ({
 
   const { activeCallState } = state.calling;
   if (activeCallState && activeCallState.conversationId === roomId) {
-    dispatch({
-      type: TOGGLE_PIP,
-    });
+    dispatch(togglePip());
     return;
   }
   if (activeCallState) {
@@ -2263,7 +2261,13 @@ function startCallingLobby({
       "startCallingLobby: can't start lobby without a conversation"
     );
 
-    if (state.calling.activeCallState) {
+    const { activeCallState } = state.calling;
+
+    if (activeCallState && activeCallState.conversationId === conversationId) {
+      dispatch(togglePip());
+      return;
+    }
+    if (activeCallState) {
       dispatch(
         toggleConfirmLeaveCallModal({
           type: 'conversation',

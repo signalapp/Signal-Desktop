@@ -23,6 +23,7 @@ export default {
     i18n,
     callHistoryGroup: getFakeCallLinkHistoryGroup(),
     callLink: FAKE_CALL_LINK_WITH_ADMIN_KEY,
+    hasActiveCall: false,
     onDeleteCallLink: action('onDeleteCallLink'),
     onOpenCallLinkAddNameModal: action('onOpenCallLinkAddNameModal'),
     onStartCallLinkLobby: action('onStartCallLinkLobby'),
@@ -37,4 +38,8 @@ export function Admin(args: CallLinkDetailsProps): JSX.Element {
 
 export function NonAdmin(args: CallLinkDetailsProps): JSX.Element {
   return <CallLinkDetails {...args} callLink={FAKE_CALL_LINK} />;
+}
+
+export function InAnotherCall(args: CallLinkDetailsProps): JSX.Element {
+  return <CallLinkDetails {...args} callLink={FAKE_CALL_LINK} hasActiveCall />;
 }

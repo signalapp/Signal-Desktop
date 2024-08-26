@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import type { CallHistoryGroup } from '../../types/CallDisposition';
 import { getIntl } from '../selectors/user';
 import { CallLinkDetails } from '../../components/CallLinkDetails';
-import { getCallLinkSelector } from '../selectors/calling';
+import { getActiveCallState, getCallLinkSelector } from '../selectors/calling';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useCallingActions } from '../ducks/calling';
 import * as log from '../../logging/log';
@@ -60,6 +60,11 @@ export const SmartCallLinkDetails = memo(function SmartCallLinkDetails({
     [roomId, updateCallLinkRestrictions]
   );
 
+  const activeCall = useSelector(getActiveCallState);
+  const hasActiveCall = Boolean(
+    activeCall && callLink && activeCall?.conversationId !== callLink?.roomId
+  );
+
   if (callLink == null) {
     log.error(`SmartCallLinkDetails: callLink not found for room ${roomId}`);
     return null;
@@ -69,6 +74,7 @@ export const SmartCallLinkDetails = memo(function SmartCallLinkDetails({
     <CallLinkDetails
       callHistoryGroup={callHistoryGroup}
       callLink={callLink}
+      hasActiveCall={hasActiveCall}
       i18n={i18n}
       onDeleteCallLink={handleDeleteCallLink}
       onOpenCallLinkAddNameModal={handleOpenCallLinkAddNameModal}

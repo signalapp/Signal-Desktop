@@ -1122,8 +1122,26 @@ LinkPreviewWithCallLink.args = {
   text: 'Use this link to join a Signal call: https://signal.link/call/#key=hzcn-pcff-ctsc-bdbf-stcr-tzpc-bhqx-kghh',
 };
 
-export const LinkPreviewWithCallLinkInGroup = Template.bind({});
-LinkPreviewWithCallLinkInGroup.args = {
+export const LinkPreviewWithCallLinkInAnotherCall = Template.bind({});
+LinkPreviewWithCallLinkInAnotherCall.args = {
+  previews: [
+    {
+      url: 'https://signal.link/call/#key=hzcn-pcff-ctsc-bdbf-stcr-tzpc-bhqx-kghh',
+      title: 'Camping Prep',
+      description: 'Use this link to join a Signal call',
+      image: undefined,
+      date: undefined,
+      isCallLink: true,
+      isStickerPack: false,
+    },
+  ],
+  status: 'sent',
+  activeCallConversationId: 'some-other-conversation',
+  text: 'Use this link to join a Signal call: https://signal.link/call/#key=hzcn-pcff-ctsc-bdbf-stcr-tzpc-bhqx-kghh',
+};
+
+export const LinkPreviewWithCallLinkInCurrentCall = Template.bind({});
+LinkPreviewWithCallLinkInCurrentCall.args = {
   previews: [
     {
       url: 'https://signal.link/call/#key=hzcn-pcff-ctsc-bdbf-stcr-tzpc-bhqx-kghh',
@@ -1133,11 +1151,13 @@ LinkPreviewWithCallLinkInGroup.args = {
       image: undefined,
       date: undefined,
       isCallLink: true,
+      callLinkRoomId: 'room-id',
       isStickerPack: false,
     },
   ],
   conversationType: 'group',
   status: 'sent',
+  activeCallConversationId: 'room-id',
   text: 'Use this link to join a Signal call: https://signal.link/call/#key=hzcn-pcff-ctsc-bdbf-stcr-tzpc-bhqx-kghh',
 };
 

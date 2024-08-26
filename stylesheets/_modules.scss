@@ -7587,10 +7587,14 @@ button.module-calling-participants-list__contact {
   @include font-body-1-bold();
 }
 .module-message__action--outgoing {
+  color: $color-white;
   background-color: rgba($color-white, 0.22);
   &:hover {
     background-color: rgba($color-white, 0.36);
   }
+}
+.module-message__action--outgoing--in-another-call {
+  color: rgba($color-white, 0.5);
 }
 .module-message__action--incoming {
   @include light-theme {
@@ -7606,6 +7610,14 @@ button.module-calling-participants-list__contact {
     &:hover {
       background-color: rgba($color-white, 0.17);
     }
+  }
+}
+.module-message__action--incoming--in-another-call {
+  @include light-theme {
+    color: rgba($color-link, 0.5);
+  }
+  @include dark-theme {
+    color: rgba($color-white, 0.5);
   }
 }
 

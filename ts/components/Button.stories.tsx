@@ -37,6 +37,16 @@ export function KitchenSink(): JSX.Element {
                   {variant}
                 </Button>
               </p>
+              <p>
+                <Button
+                  discouraged
+                  onClick={action('onClick')}
+                  size={size}
+                  variant={variant}
+                >
+                  {variant}
+                </Button>
+              </p>
             </React.Fragment>
           ))}
         </React.Fragment>

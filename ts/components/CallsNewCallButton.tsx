@@ -20,8 +20,10 @@ import { I18n } from './I18n';
 import { SizeObserver } from '../hooks/useSizeObserver';
 import { CallType } from '../types/CallDisposition';
 import type { CallsTabSelectedView } from './CallsTab';
-import { Tooltip, TooltipPlacement } from './Tooltip';
-import { offsetDistanceModifier } from '../util/popperUtil';
+import {
+  InAnotherCallTooltip,
+  getTooltipContent,
+} from './conversation/InAnotherCallTooltip';
 
 type CallsNewCallProps = Readonly<{
   hasActiveCall: boolean;
@@ -53,9 +55,9 @@ export function CallsNewCallButton({
   onClick: () => void;
 }): JSX.Element {
   let innerContent: React.ReactNode | string;
-  let tooltipContent = '';
+  let inAnotherCallTooltipContent = '';
   if (!isEnabled) {
-    tooltipContent = i18n('icu:ContactModal--already-in-call');
+    inAnotherCallTooltipContent = getTooltipContent(i18n);
   }
   // Note: isActive is only set for groups and adhoc calls
   if (isActive) {
@@ -82,7 +84,7 @@ export function CallsNewCallButton({
           ? undefined
           : 'CallsNewCall__ItemActionButton--join-call-disabled'
       )}
-      aria-label={tooltipContent}
+      aria-label={inAnotherCallTooltipContent}
       onClick={event => {
         event.stopPropagation();
         onClick();
@@ -92,17 +94,10 @@ export function CallsNewCallButton({
     </button>
   );
 
-  return tooltipContent === '' ? (
+  return inAnotherCallTooltipContent === '' ? (
     buttonContent
   ) : (
-    <Tooltip
-      className="CallsNewCall__ItemActionButtonTooltip"
-      content={tooltipContent}
-      direction={TooltipPlacement.Top}
-      popperModifiers={[offsetDistanceModifier(15)]}
-    >
-      {buttonContent}
-    </Tooltip>
+    <InAnotherCallTooltip i18n={i18n}>{buttonContent}</InAnotherCallTooltip>
   );
 }
 

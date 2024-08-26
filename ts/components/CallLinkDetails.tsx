@@ -20,6 +20,7 @@ import { getColorForCallLink } from '../util/getColorForCallLink';
 import { isCallLinkAdmin } from '../types/CallLink';
 import { CallLinkRestrictionsSelect } from './CallLinkRestrictionsSelect';
 import { ConfirmationDialog } from './ConfirmationDialog';
+import { InAnotherCallTooltip } from './conversation/InAnotherCallTooltip';
 
 function toUrlWithoutProtocol(url: URL): string {
   return `${url.hostname}${url.pathname}${url.search}${url.hash}`;
@@ -28,6 +29,7 @@ function toUrlWithoutProtocol(url: URL): string {
 export type CallLinkDetailsProps = Readonly<{
   callHistoryGroup: CallHistoryGroup;
   callLink: CallLinkType;
+  hasActiveCall: boolean;
   i18n: LocalizerType;
   onDeleteCallLink: () => void;
   onOpenCallLinkAddNameModal: () => void;
@@ -40,6 +42,7 @@ export function CallLinkDetails({
   callHistoryGroup,
   callLink,
   i18n,
+  hasActiveCall,
   onDeleteCallLink,
   onOpenCallLinkAddNameModal,
   onStartCallLinkLobby,
@@ -51,6 +54,18 @@ export function CallLinkDetails({
   const webUrl = linkCallRoute.toWebUrl({
     key: callLink.rootKey,
   });
+  const joinButton = (
+    <Button
+      className="CallLinkDetails__HeaderButton"
+      variant={ButtonVariant.SecondaryAffirmative}
+      discouraged={hasActiveCall}
+      size={ButtonSize.Small}
+      onClick={onStartCallLinkLobby}
+    >
+      {i18n('icu:CallLinkDetails__Join')}
+    </Button>
+  );
+
   return (
     <div className="CallLinkDetails__Container">
       <header className="CallLinkDetails__Header">
@@ -77,14 +92,13 @@ export function CallLinkDetails({
           </p>
         </div>
         <div className="CallLinkDetails__HeaderActions">
-          <Button
-            className="CallLinkDetails__HeaderButton"
-            variant={ButtonVariant.SecondaryAffirmative}
-            size={ButtonSize.Small}
-            onClick={onStartCallLinkLobby}
-          >
-            {i18n('icu:CallLinkDetails__Join')}
-          </Button>
+          {hasActiveCall ? (
+            <InAnotherCallTooltip i18n={i18n}>
+              {joinButton}
+            </InAnotherCallTooltip>
+          ) : (
+            joinButton
+          )}
         </div>
       </header>
       <CallHistoryGroupPanelSection

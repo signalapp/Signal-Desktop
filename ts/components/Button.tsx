@@ -43,6 +43,7 @@ export enum ButtonIconType {
 export type PropsType = {
   className?: string;
   disabled?: boolean;
+  discouraged?: boolean;
   icon?: ButtonIconType;
   size?: ButtonSize;
   style?: CSSProperties;
@@ -105,6 +106,7 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
       children,
       className,
       disabled = false,
+      discouraged = false,
       icon,
       style,
       tabIndex,
@@ -143,8 +145,10 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
           'module-Button',
           sizeClassName,
           variantClassName,
+          discouraged ? `${variantClassName}--discouraged` : undefined,
           icon && `module-Button--icon--${icon}`,
-          className
+          className,
+          className && discouraged ? `${className}--discouraged` : undefined
         )}
         disabled={disabled}
         onClick={onClick}

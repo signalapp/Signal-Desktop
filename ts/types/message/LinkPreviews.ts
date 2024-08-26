@@ -10,6 +10,7 @@ type GenericLinkPreviewType<Image> = {
   url: string;
   isStickerPack?: boolean;
   isCallLink?: boolean;
+  callLinkRoomId?: string;
   image?: Readonly<Image>;
   date?: number;
 };
