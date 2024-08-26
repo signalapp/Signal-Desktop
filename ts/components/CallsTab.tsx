@@ -319,19 +319,14 @@ export function CallsTab({
             <p className="CallsTab__EmptyStateLabel">
               <I18n
                 i18n={i18n}
-                id="icu:CallsTab__EmptyStateText--with-icon"
+                id="icu:CallsTab__EmptyStateText--with-icon-2"
                 components={{
                   // eslint-disable-next-line react/no-unstable-nested-components
-                  newCallIcon: children => {
-                    let label: string | undefined;
-                    const first = children[0];
-                    if (typeof first === 'string') {
-                      label = first;
-                    }
+                  newCallButtonIcon: () => {
                     return (
                       <span
                         className="CallsTab__EmptyState__ActionIcon"
-                        aria-label={label}
+                        aria-label={i18n('icu:CallsTab__NewCallActionLabel')}
                       />
                     );
                   },

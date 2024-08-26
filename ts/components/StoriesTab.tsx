@@ -225,19 +225,14 @@ export function StoriesTab({
           ) : (
             <I18n
               i18n={i18n}
-              id="icu:Stories__placeholder-with-icon--text"
+              id="icu:Stories__placeholder-with-icon--text-2"
               components={{
                 // eslint-disable-next-line react/no-unstable-nested-components
-                newStoryIcon: children => {
-                  let label: string | undefined;
-                  const first = children[0];
-                  if (typeof first === 'string') {
-                    label = first;
-                  }
+                newStoryButtonIcon: () => {
                   return (
                     <span
                       className="Stories__placeholder__text__action"
-                      aria-label={label}
+                      aria-label={i18n('icu:Stories__add')}
                     />
                   );
                 },

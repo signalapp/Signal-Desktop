@@ -6475,6 +6475,10 @@
   },
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "Click <newStoryIcon>Add a story</newStoryIcon> to add an update.",
+    "description": "(Deleted 2024/08/22) Placeholder label for the story view"
+  },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update.",
     "description": "Placeholder label for the story view"
   },
   "icu:Stories__from-to-group": {
@@ -7199,6 +7203,10 @@
   },
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Click <newCallIcon>New Call</newCallIcon> to start a new voice or video call.",
+    "description": "(Deleted 2024/08/22) Calls Tab > When no call is selected > Empty state > Call to action text"
+  },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call.",
     "description": "Calls Tab > When no call is selected > Empty state > Call to action text"
   },
   "icu:CallsList__SearchInputPlaceholder": {
