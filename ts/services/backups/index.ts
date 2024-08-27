@@ -5,7 +5,8 @@ import { pipeline } from 'stream/promises';
 import { PassThrough } from 'stream';
 import type { Readable, Writable } from 'stream';
 import { createReadStream, createWriteStream } from 'fs';
-import { unlink } from 'fs/promises';
+import { unlink, stat } from 'fs/promises';
+import { ensureFile } from 'fs-extra';
 import { join } from 'path';
 import { createGzip, createGunzip } from 'zlib';
 import { createCipheriv, createHmac, randomBytes } from 'crypto';
@@ -26,13 +27,14 @@ import { getMacAndUpdateHmac } from '../../util/getMacAndUpdateHmac';
 import { HOUR } from '../../util/durations';
 import { CipherType, HashType } from '../../types/Crypto';
 import * as Errors from '../../types/errors';
+import { HTTPError } from '../../textsecure/Errors';
 import { constantTimeEqual } from '../../Crypto';
 import { measureSize } from '../../AttachmentCrypto';
 import { BackupExportStream } from './export';
 import { BackupImportStream } from './import';
 import { getKeyMaterial } from './crypto';
 import { BackupCredentials } from './credentials';
-import { BackupAPI } from './api';
+import { BackupAPI, type DownloadOptionsType } from './api';
 import { validateBackup } from './validator';
 import { reinitializeRedux } from '../../state/reinitializeRedux';
 import { getParametersForRedux, loadAll } from '../allLoaders';
@@ -131,18 +133,54 @@ export class BackupsService {
     return backupsService.importBackup(() => createReadStream(backupFile));
   }
 
-  public async download(): Promise<void> {
-    const path = window.Signal.Migrations.getAbsoluteTempPath(
-      randomBytes(32).toString('hex')
-    );
+  public async download(
+    downloadPath: string,
+    { onProgress }: Omit<DownloadOptionsType, 'downloadOffset'>
+  ): Promise<void> {
+    let downloadOffset = 0;
+    try {
+      ({ size: downloadOffset } = await stat(downloadPath));
+    } catch (error) {
+      if (error.code !== 'ENOENT') {
+        throw error;
+      }
 
-    const stream = await this.api.download();
-    await pipeline(stream, createWriteStream(path));
+      // File is missing - start from the beginning
+    }
 
     try {
-      await this.importFromDisk(path);
-    } finally {
-      await unlink(path);
+      await ensureFile(downloadPath);
+
+      const stream = await this.api.download({
+        downloadOffset,
+        onProgress,
+      });
+
+      await pipeline(
+        stream,
+        createWriteStream(downloadPath, {
+          flags: 'a',
+          start: downloadOffset,
+        })
+      );
+
+      try {
+        await this.importFromDisk(downloadPath);
+      } finally {
+        await unlink(downloadPath);
+      }
+    } catch (error) {
+      // No backup on the server
+      if (error instanceof HTTPError && error.code === 404) {
+        return;
+      }
+
+      try {
+        await unlink(downloadPath);
+      } catch {
+        // Best-effort
+      }
+      throw error;
     }
   }
 

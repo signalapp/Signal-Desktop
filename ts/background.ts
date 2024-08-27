@@ -1310,6 +1310,12 @@ export async function startApp(): Promise<void> {
   });
 
   async function runStorageService() {
+    if (window.storage.get('backupDownloadPath')) {
+      log.info(
+        'background: not running storage service while downloading backup'
+      );
+      return;
+    }
     StorageService.enableStorageService();
     StorageService.runStorageServiceSyncJob();
   }
@@ -1414,12 +1420,6 @@ export async function startApp(): Promise<void> {
         )
       );
 
-      // Now that we authenticated - time to download the backup!
-      if (isBackupEnabled()) {
-        backupsService.start();
-        drop(backupsService.download());
-      }
-
       // Cancel throttled calls to refreshRemoteConfig since our auth changed.
       window.Signal.RemoteConfig.maybeRefreshRemoteConfig.cancel();
       drop(window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server));
@@ -1460,7 +1460,11 @@ export async function startApp(): Promise<void> {
 
     if (isCoreDataValid && Registration.everDone()) {
       drop(connect());
-      window.reduxActions.app.openInbox();
+      if (window.storage.get('backupDownloadPath')) {
+        window.reduxActions.app.openBackupImport();
+      } else {
+        window.reduxActions.app.openInbox();
+      }
     } else {
       window.IPC.readyForUpdates();
       window.reduxActions.app.openInstaller();
@@ -1576,7 +1580,46 @@ export async function startApp(): Promise<void> {
       onOffline();
     }
 
+    if (window.storage.get('backupDownloadPath')) {
+      log.info(
+        'background: not running storage service while downloading backup'
+      );
+      drop(downloadBackup());
+      return;
+    }
+
     server.registerRequestHandler(messageReceiver);
+  }
+
+  async function downloadBackup() {
+    const backupDownloadPath = window.storage.get('backupDownloadPath');
+    if (!backupDownloadPath) {
+      log.warn('No backup download path, cannot download backup');
+      return;
+    }
+
+    const absoluteDownloadPath =
+      window.Signal.Migrations.getAbsoluteDownloadsPath(backupDownloadPath);
+    log.info('downloadBackup: downloading to', absoluteDownloadPath);
+    await backupsService.download(absoluteDownloadPath, {
+      onProgress: (currentBytes, totalBytes) => {
+        window.reduxActions.app.updateBackupImportProgress({
+          currentBytes,
+          totalBytes,
+        });
+      },
+    });
+    await window.storage.remove('backupDownloadPath');
+    window.reduxActions.app.openInbox();
+
+    log.info('downloadBackup: processing websocket messages, storage service');
+    strictAssert(server != null, 'server must be initialized');
+    strictAssert(
+      messageReceiver != null,
+      'MessageReceiver must be initialized'
+    );
+    server.registerRequestHandler(messageReceiver);
+    drop(runStorageService());
   }
 
   window.getSyncRequest = (timeoutMillis?: number) => {

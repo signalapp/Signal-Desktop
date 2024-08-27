@@ -18,6 +18,7 @@ import {
   getIsMainWindowMaximized,
   getIsMainWindowFullScreen,
   getTheme,
+  getIntl,
 } from '../selectors/user';
 import { hasSelectedStoryData as getHasSelectedStoryData } from '../selectors/stories';
 import { useAppActions } from '../ducks/app';
@@ -26,7 +27,7 @@ import { useStoriesActions } from '../ducks/stories';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { ModalContainer } from '../../components/ModalContainer';
 import { SmartInbox } from './Inbox';
-import { getAppView } from '../selectors/app';
+import { getApp } from '../selectors/app';
 
 function renderInbox(): JSX.Element {
   return <SmartInbox />;
@@ -110,7 +111,8 @@ async function uploadProfile({
 }
 
 export const SmartApp = memo(function SmartApp() {
-  const appView = useSelector(getAppView);
+  const i18n = useSelector(getIntl);
+  const state = useSelector(getApp);
   const isMaximized = useSelector(getIsMainWindowMaximized);
   const isFullScreen = useSelector(getIsMainWindowFullScreen);
   const hasSelectedStoryData = useSelector(getHasSelectedStoryData);
@@ -124,7 +126,8 @@ export const SmartApp = memo(function SmartApp() {
 
   return (
     <App
-      appView={appView}
+      i18n={i18n}
+      state={state}
       isMaximized={isMaximized}
       isFullScreen={isFullScreen}
       getCaptchaToken={getCaptchaToken}

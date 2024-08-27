@@ -275,6 +275,22 @@ async function cleanupOrphanedAttachments({
     );
   }
 
+  {
+    const downloads: Array<string> = await sql.sqlRead('getKnownDownloads');
+
+    let missing = 0;
+    for (const known of downloads) {
+      if (!orphanedDownloads.delete(known)) {
+        missing += 1;
+      }
+    }
+
+    console.log(
+      `cleanupOrphanedAttachments: found ${downloads.length} downloads ` +
+        `(${missing} missing), ${orphanedDownloads.size} remain`
+    );
+  }
+
   // This call is intentionally not awaited. We block the app while running
   // all fetches above to ensure that there are no in-flight attachments that
   // are saved to disk, but not put into any message or conversation model yet.
