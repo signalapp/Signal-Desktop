@@ -787,8 +787,8 @@ type WritableInterface = {
   markCallHistoryDeleted: (callId: string) => void;
   cleanupCallHistoryMessages: () => void;
   markCallHistoryRead(callId: string): void;
-  markAllCallHistoryRead(target: CallLogEventTarget): void;
-  markAllCallHistoryReadInConversation(target: CallLogEventTarget): void;
+  markAllCallHistoryRead(target: CallLogEventTarget): number;
+  markAllCallHistoryReadInConversation(target: CallLogEventTarget): number;
   saveCallHistory(callHistory: CallHistoryDetails): void;
   markCallHistoryMissed(callIds: ReadonlyArray<string>): void;
   getRecentStaleRingsAndMarkOlderMissed(): ReadonlyArray<MaybeStaleCallHistory>;
