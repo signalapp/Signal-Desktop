@@ -109,6 +109,14 @@ jobs:
       env:
         DISABLE_INSPECT_FUSE: on
         SIGN_MACOS_SCRIPT: noop.sh
+    - name: Upload installer size
+      if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
+      run: |
+        node ts/scripts/dd-installer-size.js macos-arm64
+        node ts/scripts/dd-installer-size.js macos-x64
+        node ts/scripts/dd-installer-size.js macos-universal
+      env:
+        DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
     - name: Rebuild native modules for x64
       run: npm run electron:install-app-deps
     - run: npm run test-release
@@ -168,6 +176,12 @@ jobs:
       if: github.ref != 'refs/heads/main'
       env:
         DISABLE_INSPECT_FUSE: on
+
+    - name: Upload installer size
+      if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
+      run: node ts/scripts/dd-installer-size.js linux
+      env:
+        DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
 
     - run: xvfb-run --auto-servernum npm run test-node
     - run: xvfb-run --auto-servernum npm run test-electron
@@ -246,6 +260,12 @@ jobs:
       if: github.ref != 'refs/heads/main'
       env:
         DISABLE_INSPECT_FUSE: on
+
+    - name: Upload installer size
+      if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
+      run: node ts/scripts/dd-installer-size.js windows
+      env:
+        DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
 
     - run: npm run test-electron
       env:
