@@ -37,6 +37,11 @@ import {
 import type { MainSQL } from '../ts/sql/main';
 import type { MessageAttachmentsCursorType } from '../ts/sql/Interface';
 import * as Errors from '../ts/types/errors';
+import {
+  APPLICATION_OCTET_STREAM,
+  MIMETypeToString,
+  stringToMIMEType,
+} from '../ts/types/MIME';
 import { sleep } from '../ts/util/sleep';
 import { isPathInside } from '../ts/util/isPathInside';
 import { missingCaseError } from '../ts/util/missingCaseError';
@@ -46,6 +51,10 @@ import { drop } from '../ts/util/drop';
 import { strictAssert } from '../ts/util/assert';
 import { ValidatingPassThrough } from '../ts/util/ValidatingPassThrough';
 import { toWebStream } from '../ts/util/toWebStream';
+import {
+  isImageTypeSupported,
+  isVideoTypeSupported,
+} from '../ts/util/GoogleChrome';
 import { decryptAttachmentV2ToSink } from '../ts/AttachmentCrypto';
 
 let initialized = false;
@@ -550,11 +559,18 @@ function handleRangeRequest({
   const url = new URL(request.url);
 
   // Get content-type
-  const contentType = url.searchParams.get('contentType');
+  const contentTypeParam = url.searchParams.get('contentType');
+  let contentType = MIMETypeToString(APPLICATION_OCTET_STREAM);
+  if (contentTypeParam) {
+    const mime = stringToMIMEType(contentTypeParam);
+    if (isImageTypeSupported(mime) || isVideoTypeSupported(mime)) {
+      contentType = MIMETypeToString(mime);
+    }
+  }
 
   const headers: HeadersInit = {
     'cache-control': 'no-cache, no-store',
-    'content-type': contentType || 'application/octet-stream',
+    'content-type': contentType,
   };
 
   if (size != null) {
