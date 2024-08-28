@@ -2361,10 +2361,13 @@ export async function startApp(): Promise<void> {
     const { data, confirm } = event;
 
     const messageDescriptor = getMessageDescriptor({
-      message: data.message,
       // 'message' event: for 1:1 converations, the conversation is same as sender
       destination: data.source,
       destinationServiceId: data.sourceAci,
+      envelopeId: data.envelopeId,
+      message: data.message,
+      source: data.sourceAci ?? data.source,
+      sourceDevice: data.sourceDevice,
     });
 
     const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
@@ -2706,18 +2709,26 @@ export async function startApp(): Promise<void> {
 
   // Works with 'sent' and 'message' data sent from MessageReceiver
   const getMessageDescriptor = ({
-    message,
     destination,
     destinationServiceId,
+    envelopeId,
+    message,
+    source,
+    sourceDevice,
   }: {
-    message: ProcessedDataMessage;
     destination?: string;
     destinationServiceId?: ServiceIdString;
+    envelopeId: string;
+    message: ProcessedDataMessage;
+    source: string | undefined;
+    sourceDevice: number | undefined;
   }): MessageDescriptor => {
+    const logId = `getMessageDescriptor/${source}.${sourceDevice}-${envelopeId}`;
+
     if (message.groupV2) {
       const { id } = message.groupV2;
       if (!id) {
-        throw new Error('getMessageDescriptor: GroupV2 data was missing an id');
+        throw new Error(`${logId}: GroupV2 data was missing an id`);
       }
 
       // First we check for an existing GroupV2 group
@@ -2752,10 +2763,15 @@ export async function startApp(): Promise<void> {
       };
     }
 
-    const conversation = window.ConversationController.get(
-      destinationServiceId || destination
+    const id = destinationServiceId || destination;
+    strictAssert(
+      id,
+      `${logId}: We need some sort of destination for the conversation`
     );
-    strictAssert(conversation, 'Destination conversation cannot be created');
+    const conversation = window.ConversationController.getOrCreate(
+      id,
+      'private'
+    );
 
     return {
       type: Message.PRIVATE,
@@ -2797,6 +2813,8 @@ export async function startApp(): Promise<void> {
 
     const messageDescriptor = getMessageDescriptor({
       ...data,
+      source: sourceServiceId,
+      sourceDevice: data.device,
     });
 
     const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
