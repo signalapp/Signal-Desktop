@@ -885,49 +885,60 @@ export class CallingClass {
     hasLocalAudio: boolean,
     hasLocalVideo: boolean
   ): Promise<void> {
-    log.info('CallingClass.startOutgoingDirectCall()');
+    const logId = 'CallingClass.startOutgoingDirectCall';
+    log.info(logId);
 
     if (!this.reduxInterface) {
-      throw new Error('Redux actions not available');
+      throw new Error(`${logId}: Redux actions not available`);
     }
 
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      log.error('Could not find conversation, cannot start call');
+      log.error(`${logId}: Could not find conversation, cannot start call`);
       this.stopCallingLobby();
       return;
     }
 
     const remoteUserId = this.getRemoteUserIdFromConversation(conversation);
     if (!remoteUserId || !this.localDeviceId) {
-      log.error('Missing identifier, new call not allowed.');
+      log.error(`${logId}: Missing identifier, new call not allowed.`);
       this.stopCallingLobby();
       return;
     }
 
     const haveMediaPermissions = await this.requestPermissions(hasLocalVideo);
     if (!haveMediaPermissions) {
-      log.info('Permissions were denied, new call not allowed.');
+      log.info(`${logId}: Permissions were denied, new call not allowed.`);
       this.stopCallingLobby();
       return;
     }
 
-    log.info('CallingClass.startOutgoingDirectCall(): Getting call settings');
-
+    log.info(`${logId}: Getting call settings`);
     // Check state after awaiting to debounce call button.
     if (RingRTC.call && RingRTC.call.state !== CallState.Ended) {
-      log.info('Call already in progress, new call not allowed.');
+      log.info(`${logId}: Call already in progress, new call not allowed.`);
       this.stopCallingLobby();
       return;
     }
 
-    log.info('CallingClass.startOutgoingDirectCall(): Starting in RingRTC');
-
+    log.info(`${logId}: Starting in RingRTC`);
     const call = RingRTC.startOutgoingCall(
       remoteUserId,
       hasLocalVideo,
       this.localDeviceId
     );
+
+    // Send profile key to conversation recipient since call protos don't include it
+    if (!conversation.get('profileSharing')) {
+      log.info(`${logId}: Setting profileSharing=true`);
+      conversation.set({ profileSharing: true });
+      await DataWriter.updateConversation(conversation.attributes);
+    }
+    log.info(`${logId}: Sending profile key`);
+    await conversationJobQueue.add({
+      conversationId: conversation.id,
+      type: 'ProfileKey',
+    });
 
     RingRTC.setOutgoingAudio(call.callId, hasLocalAudio);
     RingRTC.setVideoCapturer(call.callId, this.videoCapturer);
