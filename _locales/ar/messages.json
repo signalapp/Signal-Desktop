@@ -3354,7 +3354,7 @@
     "messageformat": "‫لقد أرسل المستخدم {joinerName} {numberOfRequests,number} طلب الانضمام بواسطة وصلة المجموعة، ثم ألغى ذلك."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, zero {أرسل {joinerName} {numberOfRequests,number} طلبًا للانضمام وألغاه عبر رابط المجموعة} one {أرسل {joinerName} طلبًا للانضمام وألغاه عبر رابط المجموعة} two {أرسل {joinerName} {numberOfRequests,number} طلبين للانضمام وألغاهما عبر رابط المجموعة} few {أرسل {joinerName} {numberOfRequests,number} طلبات للانضمام وألغاها عبر رابط المجموعة} many {أرسل {joinerName} {numberOfRequests,number} طلبًا للانضمام وألغاها عبر رابط المجموعة} other {أرسل {joinerName} {numberOfRequests,number} طلب للانضمام وألغاها عبر رابط المجموعة}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "لقد قمت بتشغيل وصلة المجموعة مع تعطيل موافقة المشرف."
@@ -5624,6 +5624,6 @@
     "messageformat": "أصلحنا خطأً كان يتسبب أحيانًا في تجميد شريط التقدم —أثناء عرض القصة."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "يمكن لسيجنال Desktop الآن استئناف تنزيلات المرفقات المتوقفة بشكل تلقائي."
   }
 }

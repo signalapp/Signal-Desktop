@@ -303,7 +303,7 @@
     "messageformat": "Keine archivierten Chats."
   },
   "icu:archiveConversation": {
-    "messageformat": "Archiv"
+    "messageformat": "Archivieren"
   },
   "icu:markUnread": {
     "messageformat": "Als ungelesen markieren"
@@ -405,16 +405,16 @@
     "messageformat": "Zu deiner Sicherheit wird der bisherige Chatverlauf nicht auf neu gekoppelte Geräte übertragen."
   },
   "icu:youMarkedAsVerified": {
-    "messageformat": "Du hast deine Sicherheitsnummer mit {name} als verifiziert markiert"
+    "messageformat": "Du hast deine Sicherheitsnummer mit {name} als verifiziert markiert."
   },
   "icu:youMarkedAsNotVerified": {
     "messageformat": "Du hast deine Sicherheitsnummer mit {name} als nicht verifiziert markiert"
   },
   "icu:youMarkedAsVerifiedOtherDevice": {
-    "messageformat": "Du hast deine Sicherheitsnummer mit {name} von einem anderen Gerät aus als verifiziert markiert"
+    "messageformat": "Du hast deine Sicherheitsnummer mit {name} von einem anderen Gerät aus als verifiziert markiert."
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
-    "messageformat": "Du hast deine Sicherheitsnummer mit {name} von einem anderen Gerät aus als nicht verifiziert markiert"
+    "messageformat": "Du hast deine Sicherheitsnummer mit {name} von einem anderen Gerät aus als nicht verifiziert markiert."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "Die zu verifizierende Sicherheitsnummer hat sich geändert. Bitte überprüfe deine neue Sicherheitsnummer mit {name1}. Diese Veränderung könnte bedeuten, dass jemand versucht, eure Kommunikation abzuhören, oder aber {name2} hat Signal einfach erneut installiert."
@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} hat {numberOfRequests,number} Beitrittsanfragen über den Gruppen-Link gestellt und zurückgezogen."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} hat eine Beitrittsanfrage über den Gruppen-Link gestellt und zurückgezogen.} other {{joinerName} hat {numberOfRequests,number} Beitrittsanfragen über den Gruppen-Link gestellt und zurückgezogen.}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Du hast den Gruppen-Link mit ausgeschalteter Admin-Bestätigung aktiviert."
@@ -5624,6 +5624,6 @@
     "messageformat": "Alle lieben gute Storys – und wir erzählen dir gerne die Geschichte eines kleinen Fehlers, der manchmal dafür sorgte, dass der Statusbalken mitten in einer guten Story einfror. Doch zum Glück nimmt dieses Abenteuer ein gutes Ende, denn in dieser Version ist der Fehler behoben."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal Desktop kann jetzt unterbrochene Downloads von Anhängen automatisch an der Stelle fortsetzen, an der sie unterbrochen wurden. Auch wenn du den Laptop schließt, bevor das Meme von deinem Freund oder deiner Freundin fertig übertragen wurde, musst du jetzt nicht mehr so lange warten, bis du dich darüber amüsieren kannst."
   }
 }

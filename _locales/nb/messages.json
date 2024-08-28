@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} ba om å bli medlem og kansellerte så {numberOfRequests,number} forespørsler via gruppelenken."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} ba om å bli medlem av gruppen, men trakk så tilbake forespørselen via gruppelenken.} other {{joinerName} ba om å bli medlem av gruppen, men trakk så tilbake {numberOfRequests,number} forespørsler via gruppelenken.}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Du slo på gruppelenken med administrativ godkjenning avslått."
@@ -5624,6 +5624,6 @@
     "messageformat": "Vi har fikset en feil som fører til at fremdriftslinjen enkelte ganger stopper opp når man ser på en story."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Nå blir avbrutte nedlastinger av vedlegg automatisk gjenopptatt i Signal Desktop."
   }
 }

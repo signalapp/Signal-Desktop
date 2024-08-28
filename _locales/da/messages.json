@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} anmodede og annullerede {numberOfRequests,number} anmodninger om at blive medlem via gruppelinket"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} anmodede og annullerede deres sin om at blive medlem via gruppelinket} other {{joinerName} anmodede og annullerede {numberOfRequests,number} anmodninger om at blive medlem via gruppelinket}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Du aktiverede gruppelinket med administratorgodkendelse slået fra."
@@ -5624,6 +5624,6 @@
     "messageformat": "Alle elsker en god historie, og vi kan fortælle dig historien om en fejl, der nogle gange fik statuslinjen til at fryse lige midt under at se en god historie – men fejlens eventyr har allerede en lykkelig slutning, da vi har rettet den i denne udgivelse."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal Desktop kan nu automatisk genoptage afbrudte downloads af vedhæftede filer, hvor de slap, så du behøver ikke at vente så længe med at grine, selvom du lukker din bærbare computer, før det meme, din ven sendte dig, er downloadet."
   }
 }

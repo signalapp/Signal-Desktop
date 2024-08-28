@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} குழு இணைப்பு மூலம் சேருவதற்கான கோரிக்கையை விடுத்தார் மற்றும் {numberOfRequests,number} கோரிக்கைகளை ரத்து செய்தார்"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} கோரிக்கை விடுத்து குழு இணைப்பு மூலம் சேருவதற்கான கோரிக்கையை ரத்து செய்துள்ளார்} other {{joinerName} கோரிக்கை விடுத்து குழு இணைப்பு மூலம் சேருவதற்கான {numberOfRequests,number} கோரிக்கைகளை ரத்து செய்துள்ளார்}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "நீங்கள் இயக்கியுள்ளீர்கள் குழு இணைப்பு உடன் நிர்வாக ஒப்புதல் முடக்கப்பட்டது."
@@ -5624,6 +5624,6 @@
     "messageformat": "ஸ்டோரியைப் பார்க்கும்போது சில சமயங்களில் செயலாக்கப் பட்டியைச் செயலிழக்கச்செய்யும் பிழையை நாங்கள் சரிசெய்துள்ளோம்."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "சிக்னல் டெஸ்க்டாப்பால் இப்போது குறுக்கிடப்பட்ட இணைப்புப் பதிவிறக்கங்களை தானாகத் தொடர முடியும்."
   }
 }

@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} ने अनुरोध किया और ग्रुप लिंक के माध्यम से शामिल होने के {numberOfRequests,number} अनुरोध रद्द किए।"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} ने अनुरोध किया और ग्रुप लिंक के ज़रिए शामिल होने का अपना अनुरोध रद्द कर दिया} other {{joinerName} ने अनुरोध किया और ग्रुप लिंक के ज़रिए शामिल होने के {numberOfRequests,number} अनुरोध रद्द कर दिए}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "आपने समूह लिंक चालू कर दिया है जिसमें व्यवस्थापकीय स्वीकृति अक्षम है."
@@ -5624,6 +5624,6 @@
     "messageformat": "सभी को अच्छी स्टोरीज़ पसंद होती हैं, और हम आपको एक ऐसी गड़बड़ी की कहानी बता सकते हैं जिसकी वजह से कभी-कभी कोई अच्छी स्टोरी देखते समय प्रोग्रेस बार फ़्रीज़ हो जाता था — लेकिन उस गड़बड़ी का अंत आ गया है, क्योंकि हमने इस रिलीज़ में उसे ठीक कर दिया है।"
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "अब Signal डेस्कटॉप में, अटैचमेंट के डाउनलोड में रुकावट आने पर ऑटोमैटिक तरीके से उसे फिर से वहीं से चालू किया जा सकता है जहाँ वह रुका था, इसलिए आपको हँसने के लिए ज़्यादा इंतज़ार नहीं करना पड़ेगा, भले ही आप अपने दोस्त के भेजे गए मीम का ट्रांसफ़र पूरा होने से पहले ही लैपटॉप की लिड बंद करें।"
   }
 }

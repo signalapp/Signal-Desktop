@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} نے درخواست کی اور گروپ لنک کے ذریعے {numberOfRequests,number} کی شامل ہونے کی درخواستیں منسوخ کر دیں"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} نے درخواست کی اور گروپ لنک کے ذریعے  شامل ہونے کی ان کی درخواست منسوخ کر دی} other {{joinerName} نے درخواست کی اور گروپ لنک کے ذریعے شامل ہونے کے لیے{numberOfRequests,number} کی درخواستوں کو منسوخ کر دیا}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "آپ نے منتظم کی منظوری کو غیر فعال کرتے ہوئے گروپ لنک آن کردیا۔"
@@ -5624,6 +5624,6 @@
     "messageformat": "ہم نے نقص جو بعض اوقات سٹوری دیکھتے وقت پیش رفت بار کے منجمد ہونے کا باعث بنتا تھا کو ٹھیک کیا۔"
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal ڈیسک ٹاپ اب خودکار طور پر خلل انداز اٹیچمنٹس کی ڈاؤن لوڈز کو دوبارہ شروع کر سکتا ہے۔"
   }
 }

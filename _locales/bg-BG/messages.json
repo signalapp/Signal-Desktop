@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} заяви и отмени {numberOfRequests,number} заявки за присъединяване чрез линка на групата"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} поиска и отмени своята заявка за присъединяване чрез линка на групата} other {{joinerName} поиска и отмени {numberOfRequests,number} заявки за присъединяване чрез линка на групата}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Включили сте линка на групата с деактивирано одобрение от администратор."
@@ -5624,6 +5624,6 @@
     "messageformat": "Коригирахме грешка, която понякога караше лентата за напредък да замръзва при гледане на История."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal Desktop вече може автоматично да възобновява прекъснатите изтегляния на прикачени файлове."
   }
 }

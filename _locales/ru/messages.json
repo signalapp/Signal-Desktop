@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} запросил(-а) и отменил(-а) {numberOfRequests,number} запросов на присоединение к группе по ссылке"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} запросил(-а) и отменил(-а) запрос на присоединение к группе по ссылке} few {{joinerName} запросил(-а) и отменил(-а) {numberOfRequests,number} запроса на присоединение к группе по ссылке} many {{joinerName} запросил(-а) и отменил(-а) {numberOfRequests,number} запросов на присоединение к группе по ссылке} other {{joinerName} запросил(-а) и отменил(-а) {numberOfRequests,number} запроса на присоединение к группе по ссылке}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Вы включили ссылку на группу с отключенным одобрением администратора."
@@ -5624,6 +5624,6 @@
     "messageformat": "Хорошую историю любят все, и мы могли бы рассказать вам историю об ошибке, из-за которой индикатор прогресса иногда зависал прямо посреди просмотра хорошей истории, но это приключение уже счастливо завершилось, потому что мы исправили ошибку в этом релизе."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal Desktop теперь может автоматически возобновлять загрузку вложений с того места, где она была прервана, так что вам не придётся долго ждать, чтобы посмеяться, даже если вы закроете крышку ноутбука до того, как придёт мем, отправленный вам другом."
   }
 }

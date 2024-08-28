@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} meminta dan membatalkan {numberOfRequests,number} permintaan untuk gabung via tautan grup"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, other {{joinerName} mengajukan dan membatalkan {numberOfRequests,number} permintaan untuk bergabung lewat tautan grup}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Anda menyalakan tautan grup tanpa persetujuan admin."
@@ -5624,6 +5624,6 @@
     "messageformat": "Kami memperbaiki bug yang terkadang menyebabkan bilah progres macet saat melihat Cerita."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal Desktop kini bisa otomatis melanjutkan pengunduhan lampiran yang sempat terhenti."
   }
 }

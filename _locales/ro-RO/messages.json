@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} a solicitat și apoi a anulat {numberOfRequests,number} solicitări de alăturare folosind linkul grupului"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} a solicitat și apoi a anulat solicitarea de alăturare folosind linkul grupului} few {{joinerName} a solicitat și apoi a anulat {numberOfRequests,number} solicitări de alăturare folosind linkul grupului} other {{joinerName} a cerut și a anulat {numberOfRequests,number} de solicitări pentru a se alătura prin linkul de grup}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Ai activat linkul de grup cu aprobarea administratorului dezactivată."
@@ -5624,6 +5624,6 @@
     "messageformat": "Toată lumea iubește o poveste bună și am putea să îți spunem povestea unei erori care uneori a făcut ca bara de progres să înghețe chiar în mijlocul vizionării unei povești bune - dar aventura acelei erori are deja un final fericit, deoarece am remediat-o în această versiune."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal Desktop poate relua acum automat descărcările de atașamente întrerupte de unde au rămas, așa că nu va trebui să aștepți atât de mult ca să râzi, chiar dacă închizi laptopul înainte ca meme-ul pe care ți l-a trimis prietenul tău să se termine de încărcat."
   }
 }

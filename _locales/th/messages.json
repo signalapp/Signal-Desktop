@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} ส่งคำขอและยกเลิก {numberOfRequests,number} คำขอเพื่อเข้าร่วมผ่านลิงก์กลุ่มนี้"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, other {{joinerName} ส่งและยกเลิกคำขอ {numberOfRequests,number} รายการในการเข้าร่วมผ่านลิงก์กลุ่มนี้}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "คุณได้เปิดลิงก์กลุ่ม โดยการอนุมัติโดยผู้ดูแลปิดอยู่"
@@ -5624,6 +5624,6 @@
     "messageformat": "เราแก้ไขบั๊กที่อาจเคยทำให้แถบแสดงสถานะสตอรี่หยุดชะงักหรือค้างในระหว่างที่คุณกำลังเปิดดู"
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "เน็ตหลุดหรือคอมสะดุดก็ไม่หวั่น เพราะจากนี้ไป Signal เดสก์ท็อปจะสามารถดำเนินการดาวน์โหลดไฟล์แนบต่อให้คุณได้แบบอัตโนมัติ"
   }
 }

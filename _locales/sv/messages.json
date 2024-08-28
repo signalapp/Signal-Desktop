@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} begärt och avbröt {numberOfRequests,number} förfrågningar om att gå med via grupplänken"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} begärde och avbröt sin begäran att gå med via grupplänken} other {{joinerName} begärde och avbröt {numberOfRequests,number} begäran att gå med via grupplänken}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Du aktiverade grupplänken med administratörsgodkännande inaktiverat."
@@ -5624,6 +5624,6 @@
     "messageformat": "Vi har åtgärdat en bugg som ibland gjorde att förloppsraden hängde sig när du visade en Story."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal Desktop kan nu automatiskt återuppta avbrutna nedladdningar av bilagor."
   }
 }

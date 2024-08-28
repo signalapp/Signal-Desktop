@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} नी गट दुवा मार्गे सामील होण्याची विनंती केली आणि {numberOfRequests,number} विनंत्या रद्द केल्या"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} ने विनंती केली आणि ग्रुप लिंकद्वारे सामील होण्यासाठी त्यांची विनंती रद्द केली} other {{joinerName} ने विनंती केली आणि ग्रुप लिंकद्वारे सामील होण्याच्या {numberOfRequests,number} विनंत्या रद्द केल्या}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "आपण प्रशासक मान्यता अक्षम असलेली गट लिंक चालू केली आहे."
@@ -5624,6 +5624,6 @@
     "messageformat": "प्रत्येकाला चांगली स्टोरी खूप आवडते, आणि आम्ही तुम्हाला एका बगची कथा सांगतो ज्यामुळे कधीकधी चांगली कथा पाहताना मध्यभागीच प्रगती बार अडकून बसतो — परंतु त्या बगच्या साहसाचा आधीच अंत झाला आहे कारण आम्ही त्याचे या रिलीजमध्ये निराकरण केले आहे."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal डेक्सटॉप आता स्वयंचलितपणे व्यत्यय आलेली अटॅचमेंट डाउनलोड तेथून पुन्हा सुरू करू शकतो, त्यामुळे आपल्या मित्राने पाठवलेला मिम ट्रान्सफर होण्यापूर्वी आपण आपल्या लॅटटॉपला बंद केले तरी आपणाला त्यावर हसण्यासाठी फार वेळ वाट पाहावी लागणार नाही."
   }
 }

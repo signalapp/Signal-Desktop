@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} ਨੇ ਗਰੁੱਪ ਲਿੰਕ ਰਾਹੀਂ ਸ਼ਾਮਲ ਹੋਣ ਦੀਆਂ {numberOfRequests,number} ਬੇਨਤੀਆਂ ਕੀਤੀਆਂ ਅਤੇ ਬੇਨਤੀਆਂ ਰੱਦ ਕੀਤੀਆਂ"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} ਨੇ ਗਰੁੱਪ ਲਿੰਕ ਰਾਹੀਂ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਬੇਨਤੀ ਕੀਤੀ ਅਤੇ ਆਪਣੀ ਬੇਨਤੀ ਰੱਦ ਕੀਤੀ} other {{joinerName} ਨੇ ਗਰੁੱਪ ਲਿੰਕ ਰਾਹੀਂ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਬੇਨਤੀ ਕੀਤੀ ਅਤੇ ਆਪਣੀ {numberOfRequests,number} ਬੇਨਤੀਆਂ ਨੂੰ ਰੱਦ ਕੀਤਾ}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "ਤੁਸੀਂ ਐਡਮਿਨ ਮਨਜ਼ੂਰੀ ਨੂੰ ਅਸਮਰੱਥ ਬਣਾ ਕੇ ਗਰੁੱਪ ਲਿੰਕ ਨੂੰ ਚਾਲੂ ਕੀਤਾ।"
@@ -5624,6 +5624,6 @@
     "messageformat": "ਅਸੀਂ ਇੱਕ ਬੱਗ ਨੂੰ ਠੀਕ ਕੀਤਾ ਹੈ ਜਿਸ ਕਾਰਨ ਕਈ ਵਾਰ ਸਟੋਰੀ ਦੇਖਣ ਵੇਲੇ ਪ੍ਰਗਤੀ ਬਾਰ ਫ੍ਰੀਜ਼ ਹੋ ਜਾਂਦੀ ਸੀ।"
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal Desktop ਹੁਣ ਆਪਣੇ-ਆਪ ਹੀ ਅਟੈਚਮੈਂਟ ਦੇ ਰੁਕੇ ਹੋਏ ਡਾਊਨਲੋਡਾਂ ਨੂੰ ਮੁੜ ਸ਼ੁਰੂ ਕਰ ਸਕਦਾ ਹੈ।"
   }
 }

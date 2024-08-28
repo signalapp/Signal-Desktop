@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} шилтеме боюнча топко кошулуу үчүн {numberOfRequests,number} өтүнүчтөрүн жиберди жана жокко чыгарды"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, other {{joinerName} топко шилтеме аркылуу кошулууну {numberOfRequests,number} жолу суранып, жокко чыгарды}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Сиз администратордун уруксаты өчүрүлгөн топко шилтеме коштуңуз."
@@ -5624,6 +5624,6 @@
     "messageformat": "Баары тең эле жакшы окуяларга кызыгышат. Окуяларды жагымдуу шарттарда көрүү мүмкүнчүлүгүн берүү үчүн аны орто жерден үзгүлтүккө учураткан мүчүлүштүктү жоюп салдык."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Тиркеме жүктөлүп жатып үзгүлтүккө учураса, Signal Desktop токтогон жерден улантып кетет."
   }
 }

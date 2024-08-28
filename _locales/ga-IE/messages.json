@@ -3354,7 +3354,7 @@
     "messageformat": "Rinne {joinerName} an líon seo iarratas ar dhul isteach tríd an nasc grúpa agus chuir sé/sí ar ceal iad: {numberOfRequests,number}"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {Rinne {joinerName} iarratas ar dhul isteach tríd an nasc grúpa agus chuir sé/sí an t-iarratas sin ar ceal} two {Rinne {joinerName} {numberOfRequests,number} iarratas ar dhul isteach tríd an nasc grúpa agus chuir sé/sí na hiarratais sin ar ceal} few {Rinne {joinerName} {numberOfRequests,number} iarratas ar dhul isteach tríd an nasc grúpa agus chuir sé/sí na hiarratais sin ar ceal} many {Rinne {joinerName} {numberOfRequests,number} n-iarratas ar dhul isteach tríd an nasc grúpa agus chuir sé/sí na hiarratais sin ar ceal} other {Rinne {joinerName} {numberOfRequests,number} iarratas ar dhul isteach tríd an nasc grúpa agus chuir sé/sí na hiarratais sin ar ceal}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Chas tú air an nasc grúpa le faomhadh riarthóra díchumasaithe."
@@ -5624,6 +5624,6 @@
     "messageformat": "Réitíomar fabht ba chúis le reo an bharra dul chun cinn agus tú ag féachaint ar Scéal."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Anois is féidir le Signal Desktop filleadh go huathoibríoch ar íoslódálacha ceangaltán ar cuireadh isteach orthu."
   }
 }

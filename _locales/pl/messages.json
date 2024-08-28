@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} poprosił(a) i anulowała prośbę o przyjęcie do grupy przez link {numberOfRequests,number} razy"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} wysłał(a) i anulował(a) prośbę o przyjęcie do grupy przez link.} few {{joinerName} wysłał(a) i anulował(a) {numberOfRequests,number} prośby o przyjęcie do grupy przez link.} many {{joinerName} wysłał(a) i anulował(a) {numberOfRequests,number} próśb o przyjęcie do grupy przez link.} other {{joinerName} wysłał(a) i anulował(a) {numberOfRequests,number} próśb o przyjęcie do grupy przez link.}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Włączyłeś(aś) link do grupy, niewymagający zatwierdzenia przez administratora."
@@ -5624,6 +5624,6 @@
     "messageformat": "Dawno dawno temu był sobie błąd, który sprawiał, że pasek postępu zatrzymywał się w połowie oglądania relacji — na szczęście ta bajka dobrze się kończy, bo błąd został już naprawiony."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal Desktop od teraz automatycznie wznawia pobieranie załączników od miejsca, w którym zostało ono przerwane. Koniec z długim czekaniem na otwarcie memów od znajomych — możesz śmiało zamknąć laptopa, a one i tak pobiorą się po otwarciu."
   }
 }

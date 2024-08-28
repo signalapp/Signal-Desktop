@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} అభ్యర్ధించారు మరియు గ్రూపు లింక్ ద్వారా చేరడానికి {numberOfRequests,number} అభ్యర్ధనలను రద్దు చేశారు."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {గ్రూప్ లింక్ ద్వారా చేరాలనే వారి అభ్యర్ధనను {joinerName} అభ్యర్ధించారు మరియు రద్దు చేశారు} other {గ్రూప్ లింక్ ద్వారా చేరడానికి {joinerName} అభ్యర్ధించారు మరియు {numberOfRequests,number} అభ్యర్ధనలను రద్దు చేశారు}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "నిర్వాహక ఆమోదం నిలిపివేయబడిన మీరు సమూహ లింక్‌ను ఆన్ చేసారు."
@@ -5624,6 +5624,6 @@
     "messageformat": "కథను వీక్షిస్తున్నప్పుడు కొన్నిసార్లు ప్రోగ్రెస్ బార్ స్తంభించడానికి కారణమైన ఒక బగ్‌ను మేము పరిష్కరించాము."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "అంతరాయం కలిగించిన అటాచ్‌మెంట్ డౌన్‌లోడ్‌లను Signal డెస్క్‌టాప్ ఇప్పుడు స్వయంచాలకంగా పునఃప్రారంభించవచ్చు."
   }
 }

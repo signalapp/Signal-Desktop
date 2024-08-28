@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} надіслав та скасував запити: {numberOfRequests,number} на приєднання до групи за посиланням"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {Користувач {joinerName} надіслав і скасував запит на приєднання до групи за посиланням} few {Користувач {joinerName} надіслав і скасував {numberOfRequests,number} запити на приєднання до групи за посиланням} many {Користувач {joinerName} надіслав і скасував {numberOfRequests,number} запитів на приєднання до групи за посиланням} other {Користувач {joinerName} надіслав і скасував {numberOfRequests,number} запиту на приєднання до групи за посиланням}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Ви активували посилання на групу без адміністраторського затвердження."
@@ -5624,6 +5624,6 @@
     "messageformat": "Усі люблять цікаві історії. Ми могли б розказати історію про одну помилку, через яку індикатор прогресу іноді зависав просто посеред перегляду якоїсь цікавої історії. Та пригоди цієї помилки вже мають щасливе завершення, адже в цьому оновленні ми її виправили."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Тепер Signal Desktop може автоматично відновлювати завантаження вкладень з місця, на якому воно перервалося. Тож ви зможете побачити смішний мем від друга трошки швидше, навіть якщо закриєте ноутбук до того, як жарт завантажиться."
   }
 }

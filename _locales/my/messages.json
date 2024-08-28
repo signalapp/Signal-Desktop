@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} သည် အဖွဲ့လင့်ခ်မှတစ်ဆင့် ပါဝင်ရန် တောင်းဆိုချက် {numberOfRequests,number} ခုကို တောင်းဆိုပြီးနောက် ပယ်ဖျက်ခဲ့ပါသည်။"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, other {{joinerName} သည် အဖွဲ့လင့်ခ်မှတစ်ဆင့် ပါဝင်ရန် တောင်းဆိုချက် {numberOfRequests,number} ခုကို တောင်းဆိုပြီးနောက် ဖျက်သိမ်းခဲ့ပါသည်}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "သင်သည် ပိတ်ထားသော အက်ဒ်မင် အတည်ပြုမှုဖြင့် အဖွဲ့လင့်ခ်ကို ဖွင့်ခဲ့ပါသည်။"
@@ -5624,6 +5624,6 @@
     "messageformat": "စတိုရီကြည့်နေစဉ် တိုးတက်မှုခြေပြဘားအား တစ်ခါတစ်ရံ ရပ်တန့်သွားစေသည့် ပြစ်ချက်ကို ပြုပြင်ထားသည်။"
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "ယခုအခါ Signal Desktop သည် ဒေါင်းလုဒ် လုပ်လက်စဖြင့် ပြတ်တောက်သွားသော ပူးတွဲဖိုင်များကို အလိုအလျောက် ဆက်၍ဒေါင်းလုဒ်လုပ်နိုင်ပါပြီ။"
   }
 }

@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} 用咗群組連結請求加入群組 {numberOfRequests,number} 次，然後又取消咗請求。"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, other {{joinerName} 透過群組連結請求完又撤回咗 {numberOfRequests,number} 個加入請求}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "你啟用咗唔使管理員批准嘅群組連結。"
@@ -5624,6 +5624,6 @@
     "messageformat": "我哋修復咗一個錯誤，以後你睇緊限時動態嘅時候，就唔會再見到進度列定格唔郁喇。"
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal 桌面版而家可以自動恢復下載中斷咗嘅附件，所以就算你喺朋友傳緊張 meme 圖俾你嗰陣冚埋咗個電腦，都唔使等咁耐先有得笑。"
   }
 }

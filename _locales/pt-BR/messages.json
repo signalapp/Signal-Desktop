@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} solicitou e cancelou {numberOfRequests,number} pedidos de participação via o link do grupo"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} solicitou e cancelou a própria solicitação para participar pelo link do grupo} other {{joinerName} solicitou e cancelou {numberOfRequests,number} solicitações para participar pelo link do grupo}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Você ativou o link do grupo com a aprovação do admin desativada."
@@ -5624,6 +5624,6 @@
     "messageformat": "Corrigimos um erro que, em alguns casos, fazia a barra de progresso travar ao visualizar um Story."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Precisa fechar o computador no meio de um download? Sem problemas! O Signal Desktop retoma o download automaticamente de onde parou, então você pode fechar o notebook sem a preocupação de perder o arquivo."
   }
 }

@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} đã yêu cầu và hủy {numberOfRequests,number} yêu cầu tham gia qua đường dẫn nhóm"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, other {{joinerName} đã yêu cầu và hủy {numberOfRequests,number} yêu cầu tham gia qua đường dẫn nhóm}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Bạn đã bật đường dẫn nhóm mà không cần chấp duyệt của người quản lý."
@@ -5624,6 +5624,6 @@
     "messageformat": "Chúng tôi đã sửa lỗi thanh tiến trình đôi khi bị đứng khi đang xem một Story."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Giờ đây Signal Desktop có thể tự động tiếp tục quá trình tải xuống tập tin đính kèm bị gián đoạn."
   }
 }

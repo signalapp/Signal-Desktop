@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} 님이 그룹 링크를 통한 참가를 {numberOfRequests,number}번 요청했다가 취소했습니다."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, other {{joinerName} 님이 그룹 링크를 통한 참가를 {numberOfRequests,number}번 요청했다가 취소했습니다.}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "관리자 승인을 비활성화한 상태로 그룹 링크를 활성화하셨습니다."
@@ -5624,6 +5624,6 @@
     "messageformat": "스토리를 보는 동안 진행률 막대가 고정되는 버그를 해결했습니다."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal 데스크톱이 이제 끊겼던 첨부 파일 다운로드를 자동으로 계속할 수 있습니다."
   }
 }

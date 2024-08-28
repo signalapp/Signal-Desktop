@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} ha richiesto e annullato {numberOfRequests,number} richieste di unirsi tramite il link del gruppo"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} ha richiesto e annullato la sua richiesta di unirsi tramite il link del gruppo} other {{joinerName} ha richiesto e annullato {numberOfRequests,number} richieste di unirsi tramite il link del gruppo}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Hai attivato il link del gruppo senza l'approvazione degli amministratori."
@@ -5624,6 +5624,6 @@
     "messageformat": "Prima ci affidavamo alle pitture rupestri per raccontare storie, oggi preferiamo foto e video. E non c'è cosa peggiore che interrompere una storia… un po' come il bug di Signal per cui quando vedevi una storia si bloccava la barra di caricamento. Questa storia però ha un lieto fine perché abbiamo risolto il bug!"
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Da ora Signal Desktop può riprendere in automatico il download degli allegati inviati via chat: finalmente si riduce l'attesa per vedere i tuoi nuovi meme giornalieri."
   }
 }

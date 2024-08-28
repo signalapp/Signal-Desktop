@@ -1233,10 +1233,10 @@
     "messageformat": "Signal-oproep"
   },
   "icu:calling__join-request-denied": {
-    "messageformat": "Je verzoek om deel te nemen aan deze oproep is geweigerd."
+    "messageformat": "Je verzoek om deel te nemen aan deze oproep is afgewezen."
   },
   "icu:calling__join-request-denied-title": {
-    "messageformat": "Deelnameverzoek geweigerd"
+    "messageformat": "Deelnameverzoek afgewezen"
   },
   "icu:calling__removed-from-call": {
     "messageformat": "Iemand heeft je uit de oproep verwijderd."
@@ -1311,7 +1311,7 @@
     "messageformat": "Deelnameverzoek goedkeuren"
   },
   "icu:CallingPendingParticipants__DenyUser": {
-    "messageformat": "Deelnameverzoek weigeren"
+    "messageformat": "Deelnameverzoek afwijzen"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
     "messageformat": "Alle goedkeuren"
@@ -3336,25 +3336,25 @@
     "messageformat": "Je verzoek om lid te worden van de groep is door een beheerder afgewezen."
   },
   "icu:GroupV2--admin-approval-remove-one--other--you": {
-    "messageformat": "Je hebt het verzoek van {joinerName} om lid te worden van de groep geweigerd."
+    "messageformat": "Je hebt het verzoek van {joinerName} om lid te worden van de groep afgewezen."
   },
   "icu:GroupV2--admin-approval-remove-one--other--own": {
     "messageformat": "{joinerName} heeft het verzoek om lid te worden van de groep ingetrokken."
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
-    "messageformat": "{adminName} heeft een verzoek van {joinerName} om lid te worden van de groep geweigerd."
+    "messageformat": "{adminName} heeft een verzoek van {joinerName} om lid te worden van de groep afgewezen."
   },
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
-    "messageformat": "Een verzoek van {joinerName} om lid te worden van de groep is geweigerd."
+    "messageformat": "Een verzoek van {joinerName} om lid te worden van de groep is afgewezen."
   },
   "icu:GroupV2--admin-approval-bounce--one": {
     "messageformat": "{joinerName} heeft via de groepslink verzocht lid te worden van de groep en heeft dat verzoek weer ingetrokken"
   },
   "icu:GroupV2--admin-approval-bounce": {
-    "messageformat": "{joinerName} heeft {numberOfRequests,number} keer verzocht om lid te worden van de groep en die verzoeken weer ingetrokken"
+    "messageformat": "{joinerName} heeft {numberOfRequests,number} keer verzocht om lid te worden van de groep en die verzoeken weer ingetrokken."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} heeft verzocht om lid te worden van de groep en dat verzoek weer ingetrokken} other {{joinerName} heeft verzocht om lid te worden van de groep en {numberOfRequests,number} verzoeken weer ingetrokken}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Je hebt de groepslink zonder beheerdersgoedkeuring van nieuwe leden ingeschakeld."
@@ -3669,7 +3669,7 @@
     "messageformat": "De groep {groupName} deblokkeren?"
   },
   "icu:ConversationDetailsActions--block-group-modal-title": {
-    "messageformat": "De groep {groupName} blokkeren en verlaten?"
+    "messageformat": "De groep ‘{groupName}’ blokkeren en verlaten?"
   },
   "icu:ConversationDetailsActions--block-group-modal-content": {
     "messageformat": "Je zult niet langer berichten of meldingen van deze groep ontvangen."
@@ -5624,6 +5624,6 @@
     "messageformat": "Iedereen houdt van een goed verhaal. We zouden je een eng verhaal kunnen vertellen over een fout die er soms voor zorgde dat de voortgangsbalk vastliep terwijl jij genoot van een goed verhaal — maar het avontuur van die fout heeft toch een happy end omdat 't in deze uitgave allemaal is opgelost."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal Desktop kan nu automatisch onderbroken downloads van bijlagen hervatten vanaf het punt waar ze zijn onderbroken, dus je hoeft niet meer zo lang te wachten om te kunnen lachen, zelfs als je je laptop sluit voordat de meme die je vriend je heeft gestuurd klaar is met downloaden."
   }
 }

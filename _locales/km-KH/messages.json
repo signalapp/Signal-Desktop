@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} បានស្នើសុំ និងបោះបង់សំណើចំនួន {numberOfRequests,number} ដើម្បីចូលរួមតាមរយៈតំណក្រុម។"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, other {{joinerName} បានស្នើសុំ និងលុបចោល {numberOfRequests,number} សំណើក្នុងការចូលរួមតាមរយៈតំណក្រុម}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "អ្នកបានបើកតំណក្រុម ដោយការឯកភាពពីអ្នកគ្រប់គ្រងត្រូវបានបិទ។"
@@ -5624,6 +5624,6 @@
     "messageformat": "មនុស្សគ្រប់គ្នាសុទ្ធតែចូលចិត្តរឿងរ៉ាវដែលល្អ ហើយយើងអាចប្រាប់អ្នកបានថា ធ្លាប់មានបញ្ហាមួយដែលជួនកាលធ្វើឱ្យរបារវឌ្ឍនភាពគាំងភ្លាមៗនៅពាក់កណ្តាលទីពេលកំពុងមើលរឿងរ៉ាវដ៏ល្អ ប៉ុន្តែគួរឱ្យរីករាយណាស់ ដំណើររឿងនៃបញ្ហានោះបានបញ្ចប់ទៅហើយ ដោយសារយើងបានដោះស្រាយវានៅក្នុងការចេញផ្សាយនេះ។"
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "ឥឡូវនេះ Signal Desktop អាចបន្តទាញយកដោយស្វ័យប្រវត្តិនូវឯកសារភ្ជាប់ដែលបានរអាក់រអួល ពីកន្លែងដែលវាផ្អាកការទាញយក ដូច្នេះអ្នកមិនបាច់ចាំយូរដើម្បីអស់សំណើចនឹងរូបត្លុកដែលមិត្តភក្តិរបស់អ្នកផ្ញើមកទេ ទោះបីជាអ្នកបិទគម្របកុំព្យូទ័រយួរដៃរបស់អ្នកក៏ដោយ។"
   }
 }

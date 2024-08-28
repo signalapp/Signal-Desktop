@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} -მა მოითხოვა ჯგუფის ბმულით გაწევრიანება და გააუქმა თავისი {numberOfRequests,number} მოთხოვნა"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName}-მა ჯგუფში ბმულით გაწევრიანება მოითხოვა და მოთხოვნა გააუქმა.} other {{joinerName}-მა ჯგუფში ბმულით გაწევრიანება მოითხოვა და {numberOfRequests,number} მოთხოვნა გააუქმა.}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "შენ ჩართე ჯგუფის ბმული ადმინის დასტურის გათიშული ფუნქციით."
@@ -5624,6 +5624,6 @@
     "messageformat": "ჩვენ გამოვასწორეთ შეცდომა, რომელიც ზოგჯერ Story-ის ნახვისას პროგრესის ზოლის გაყინვას იწვევდა."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal Desktop-ს ახლა უკვე შეუძლია ავტომატურად განაგრძოს შეჩერებული მიმაგრებული ფაილების გადმოწერა."
   }
 }

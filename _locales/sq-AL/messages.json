@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} kërkoi dhe anuloi {numberOfRequests,number} kërkesën për të marrë pjesë përmes një lidhje grupi"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} kërkoi dhe anuloi kërkesën e vet për t'u bashkuar përmes lidhjes së grupit} other {{joinerName} kërkuan dhe anuluan{numberOfRequests,number} kërkesat për t'u bashkuar përmes lidhjes së grupit}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Aktivizuat lidhjen e grupit me miratim nga përgjegjësi të çaktivizuar."
@@ -5624,6 +5624,6 @@
     "messageformat": "Të gjithëve u pëlqen një postim i përkohshëm i mirë dhe mund t'ju tregojmë përrallën e një defekti që nganjëherë shkaktonte ngrirjen e shiritit të progresit pikërisht në mes të shikimit të një postimi të përkohshëm të mirë — por aventura e këtij defekti ka tashmë fund të lumtur sepse e rregulluam në këtë version."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal Desktop tani mund të rifillojë automatikisht shkarkimet e ndërprera të bashkëngjitjes nga aty ku kanë ngecur, kështu që nuk do të duhet të presësh aq gjatë të qeshësh edhe nëse e mbyll kapakun e laptopit përpara se të përfundojë transferimi i memes që të dërgoi shoku yt."
   }
 }

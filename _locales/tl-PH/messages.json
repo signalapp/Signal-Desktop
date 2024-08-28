@@ -3354,7 +3354,7 @@
     "messageformat": "Si {joinerName} ay nag-request at kinansela rin pagkatapos ang {numberOfRequests,number} requests to join gamit ang group link."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {Nag-request si {joinerName} at kinansela ang kanyang request na sumali via group link.} other {Nag-request si {joinerName} at kinansela ang kanyang {numberOfRequests,number} requests na sumali via group link.}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Nag-decide kang i-turn on ang group link with admin approval disabled."
@@ -5624,6 +5624,6 @@
     "messageformat": "May inayos kaming bug na minsang nagiging dahilan ng pag-freeze ng progress bar habang tumitingin ng Story."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Kaya nang automatic na ituloy ng Signal Desktop ang naputol na attachment downloads."
   }
 }

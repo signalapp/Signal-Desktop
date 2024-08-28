@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} ഗ്രൂപ്പ് ലിങ്ക് ഉപയോഗിച്ച് ചേരാന്‍ {numberOfRequests,number} അഭ്യർത്ഥനകൾ  നല്‍കുകയും അവ റദ്ദാക്കുകയും ചെയ്‌തു"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {ഗ്രൂപ്പ് ലിങ്ക് ഉപയോഗിച്ച് ചേരാൻ {joinerName} അഭ്യർത്ഥിക്കുകയും ആ ആഭ്യർത്ഥന സ്വയം റദ്ദാക്കുകയും ചെയ്‌തു} other {ഗ്രൂപ്പ് ലിങ്ക് ഉപയോഗിച്ച് ചേരാന്‍ {joinerName} {numberOfRequests,number} അഭ്യർത്ഥിക്കുകയും ആ അഭ്യർത്ഥനകൾ സ്വയം റദ്ദാക്കുകയും ചെയ്‌തു}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "അഡ്മിൻ അംഗീകാരം പ്രവർത്തനരഹിതമാക്കിയുള്ള ഗ്രൂപ്പ് ലിങ്ക് നിങ്ങൾ ഓണാക്കി."
@@ -5624,6 +5624,6 @@
     "messageformat": "ഒരു നല്ല സ്റ്റോറി എല്ലാവർക്കും ഇഷ്ടമാണ്, ഒരു നല്ല സ്റ്റോറി കാണുന്നതിന് ഇടയിൽ, പ്രോഗ്രസ് ബാർ മരവിപ്പിക്കാൻ ഇടവരുത്തിയ ഒരു ബഗിൻ്റെ കഥ ഞങ്ങൾ നിങ്ങളോട് പറയാം - എന്നാൽ ഈ റിലീസിൽ ഞങ്ങൾ അത് പരിഹരിച്ചതിനാൽ ആ ബഗിൻ്റെ സാഹസികതയ്ക്ക് ഇതിനകം തന്നെ സന്തോഷകരമായ ഒരു അന്ത്യമായി."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal ഡെസ്‌ക്‌ടോപ്പിന് ഇപ്പോൾ തടസ്സപ്പെട്ട അറ്റാച്ച്‌മെൻ്റ് ഡൗൺലോഡുകൾ അവ നിർത്തിയിടത്ത് നിന്ന് സ്വയമേവ പുനരാരംഭിക്കാൻ കഴിയും, അതിനാൽ നിങ്ങളുടെ സുഹൃത്ത് അയച്ച മീമിന്റെ കൈമാറ്റം പൂർത്തിയാകുന്നതിന് മുമ്പ് നിങ്ങൾ ലാപ്‌ടോപ്പ് അടച്ചാലും സന്തോഷിക്കാൻ നിങ്ങൾക്ക് ഇനി കാത്തിരിക്കേണ്ടിവരില്ല."
   }
 }

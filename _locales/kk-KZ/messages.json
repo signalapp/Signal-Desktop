@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} топ сілтемесі арқылы топқа қосылуға {numberOfRequests,number} өтініш жіберді және бас тартты"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} өтініш білдірді және топ сілтемесі арқылы топқа қосылуға өтініштен бас тартты.} other {{joinerName} өтініш білдірді және топ сілтемесі арқылы топқа қосылуға {numberOfRequests,number} өтініштен бас тартты.}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Әкімшінің мақұлдауын өшіріп, топ сілтемесін қостыңыз."
@@ -5624,6 +5624,6 @@
     "messageformat": "барлығына жақсы сторис ұнайды және бір сізге кейде ілгерілеу жолағының тура жақсы стористі көріп жатудың ортасында қатып қалуын тудыратын қате туралы әңгімені айтып бергіміз келеді. Бірақ бұл қате туралы хикаяның әлдеқашан жақсы аяқталуы бар, өйткені біз оны осы шығарылымда түзеттік."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal Desktop енді тіркемені жүктеп алу процесі қай жерден тоқтаса, жүктеп алу процесін сол жерден бастап автоматты түрде жалғастыра алады. Сондықтан енді досыңыз сізге жіберген мем аяқталғанға дейін ноутбуктың бетін жаба салғанның өзінде, күлкіден жарылып үлгересіз."
   }
 }

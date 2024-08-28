@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName}برای پیوستن از طریق پیوند گروه {numberOfRequests,number} بار درخواست کرد و درخواست خود را لغو کرد"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} برای پیوستن از طریق پیوند گروه درخواست کرد و درخواست خود را لغو کرد} other {{joinerName} برای پیوستن از طریق پیوند گروه درخواست کرد و {numberOfRequests,number} درخواست خود را لغو کرد}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "شما پیوند گروه را با موافقت مدیر غیرفعال روشن کردید."
@@ -5624,6 +5624,6 @@
     "messageformat": "اشکالی را که گاهی باعث متوقف شدن نوار پیشرفت هنگام مشاهده استوری می‌شد برطرف کردیم."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "سیگنال دسک‌تاپ اکنون می‌تواند دانلود‌های مختل‌شده پیوست‌ها را به‌طور خودکار از سر بگیرد."
   }
 }

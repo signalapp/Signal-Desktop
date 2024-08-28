@@ -3354,7 +3354,7 @@
     "messageformat": "Ο/Η {joinerName} έκανε και ακύρωσε {numberOfRequests,number} αιτήματα να μπει μέσω του συνδέσμου της ομάδας."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {Ο/Η {joinerName} έστειλε αίτημα και το ακύρωσε, για συμμετοχή μέσω του συνδέσμου της ομάδας} other {Ο/Η {joinerName} έστειλε και ακύρωσε {numberOfRequests,number} αιτήματα για συμμετοχή μέσω του συνδέσμου της ομάδας}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Ενεργοποίησες το σύνδεσμο της ομάδας με απενεργοποιημένη την έγκριση διαχειριστή."
@@ -5624,6 +5624,6 @@
     "messageformat": "Διορθώσαμε ένα σφάλμα που μερικές φορές προκαλούσε το πάγωμα της γραμμής προόδου κατά την προβολή μιας Ιστορίας."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Το Signal Desktop μπορεί τώρα να συνεχίσει αυτόματα τις λήψεις συνημμένων που έχουν διακοπεί."
   }
 }

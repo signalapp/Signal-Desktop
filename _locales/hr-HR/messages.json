@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} zatražio/la je i poništio/la je {numberOfRequests,number} zahtjeva za pridruživanje putem poveznice grupe"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} šalje i otkazuje zahtjev za pridruživanje putem poveznice grupe} few {{joinerName} šalje i otkazuje {numberOfRequests,number} zahtjeva za pridruživanje putem poveznice grupe} many {{joinerName} šalje i otkazuje {numberOfRequests,number} zahtjeva za pridruživanje putem poveznice grupe} other {{joinerName} šalje i otkazuje {numberOfRequests,number} zahtjeva za pridruživanje putem poveznice grupe}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Uključili ste poveznicu grupe s onemogućenim administratorskim odobrenjem."
@@ -4836,7 +4836,7 @@
     "messageformat": "Moja priča"
   },
   "icu:Stories__add": {
-    "messageformat": "Dodajte priču"
+    "messageformat": "Dodaj priču"
   },
   "icu:Stories__add-story--text": {
     "messageformat": "Priča s tekstom"
@@ -5624,6 +5624,6 @@
     "messageformat": "Ispravili smo programsku pogrešku koja je uzrokovala povremeno zamrzavanje trake napretka usred prikazivanja priče."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal za desktop sada može automatski nastaviti s prekinutim preuzimanjima privitaka."
   }
 }

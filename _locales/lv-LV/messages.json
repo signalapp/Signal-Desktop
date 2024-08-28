@@ -3354,7 +3354,7 @@
     "messageformat": "{joinerName} pieprasīja un atcēla {numberOfRequests,number} pieprasījumus pievienoties grupai ar saiti"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, zero {{joinerName} pieprasīja un atcēla {numberOfRequests,number} pieprasījumus pievienoties, izmantojot grupas saiti} one {{joinerName} pieprasīja un atcēla pieprasījumu pievienoties, izmantojot grupas saiti} other {{joinerName} nosūtīja un atcēla {numberOfRequests,number} pieprasījumus pievienoties, izmantojot grupas saiti}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Jūs ieslēdzāt grupas saiti ar atspējotu administratora apstiprinājumu."
@@ -5624,6 +5624,6 @@
     "messageformat": "Kuram gan nepatīk interesanti stāsti? Mēs varētu jums pastāstīt par kļūdu, kuras dēļ progresa josla mēdza sastingt stāsta skatīšanās laikā, taču šīs kļūdas piedzīvojumiem jau pienāca laimīgas beigas, jo šajā versijā mēs to novērsām."
   },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Tagad Signal Desktop var automātiski atsākt pielikumu lejupielādēšanu no vietas, kur tā tika pārtraukta, tāpēc par drauga sūtīto jautro bildi varēsiet pasmieties ātrāk pat tad, ja pārsūtīšanas laikā aizvērsiet klēpjdatoru."
   }
 }
