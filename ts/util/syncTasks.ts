@@ -122,7 +122,13 @@ export async function queueSyncTasks(
       }
       drop(
         conversation.queueJob(innerLogId, async () => {
-          log.info(`${innerLogId}: Starting...`);
+          const promises = conversation.getSavePromises();
+          log.info(
+            `${innerLogId}: Waiting for message saves (${promises.length} items)...`
+          );
+          await Promise.all(promises);
+
+          log.info(`${innerLogId}: Starting delete...`);
           const result = await deleteConversation(
             conversation,
             mostRecentMessages,
@@ -145,7 +151,13 @@ export async function queueSyncTasks(
       }
       drop(
         conversation.queueJob(innerLogId, async () => {
-          log.info(`${innerLogId}: Starting...`);
+          const promises = conversation.getSavePromises();
+          log.info(
+            `${innerLogId}: Waiting for message saves (${promises.length} items)...`
+          );
+          await Promise.all(promises);
+
+          log.info(`${innerLogId}: Starting delete...`);
           const result = await deleteLocalOnlyConversation(
             conversation,
             innerLogId

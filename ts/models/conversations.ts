@@ -300,6 +300,8 @@ export class ConversationModel extends window.Backbone
 
   private isShuttingDown = false;
 
+  private savePromises = new Set<Promise<void>>();
+
   override defaults(): Partial<ConversationAttributesType> {
     return {
       unreadCount: 0,
@@ -464,6 +466,16 @@ export class ConversationModel extends window.Backbone
       // the convo saving. If that is indeed the case and it's too disruptive
       // we should add batched saving.
     }
+  }
+
+  addSavePromise(promise: Promise<void>): void {
+    this.savePromises.add(promise);
+  }
+  removeSavePromise(promise: Promise<void>): void {
+    this.savePromises.delete(promise);
+  }
+  getSavePromises(): Array<Promise<void>> {
+    return Array.from(this.savePromises);
   }
 
   toSenderKeyTarget(): SenderKeyTargetType {
