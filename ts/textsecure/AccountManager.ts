@@ -62,6 +62,8 @@ import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import type { StorageAccessType } from '../types/Storage';
 import { linkDeviceRoute } from '../util/signalRoutes';
+import { getRelativePath, createName } from '../util/attachmentPath';
+import { isBackupEnabled } from '../util/isBackupEnabled';
 
 type StorageKeyByServiceIdKind = {
   [kind in ServiceIdKind]: keyof StorageAccessType;
@@ -1271,6 +1273,9 @@ export default class AccountManager extends EventTarget {
 
     const regionCode = getRegionCodeForNumber(number);
     await storage.put('regionCode', regionCode);
+    if (isBackupEnabled()) {
+      await storage.put('backupDownloadPath', getRelativePath(createName()));
+    }
     await storage.protocol.hydrateCaches();
 
     const store = storage.protocol;

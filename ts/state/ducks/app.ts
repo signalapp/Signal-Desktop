@@ -15,12 +15,32 @@ export enum AppViewType {
   Inbox = 'Inbox',
   Installer = 'Installer',
   Standalone = 'Standalone',
+  BackupImport = 'BackupImport',
 }
 
-export type AppStateType = ReadonlyDeep<{
-  appView: AppViewType;
-  hasInitialLoadCompleted: boolean;
-}>;
+export type AppStateType = ReadonlyDeep<
+  {
+    hasInitialLoadCompleted: boolean;
+  } & (
+    | {
+        appView: AppViewType.Blank;
+      }
+    | {
+        appView: AppViewType.Inbox;
+      }
+    | {
+        appView: AppViewType.Installer;
+      }
+    | {
+        appView: AppViewType.Standalone;
+      }
+    | {
+        appView: AppViewType.BackupImport;
+        currentBytes?: number;
+        totalBytes?: number;
+      }
+  )
+>;
 
 // Actions
 
@@ -28,6 +48,8 @@ const INITIAL_LOAD_COMPLETE = 'app/INITIAL_LOAD_COMPLETE';
 const OPEN_INBOX = 'app/OPEN_INBOX';
 const OPEN_INSTALLER = 'app/OPEN_INSTALLER';
 const OPEN_STANDALONE = 'app/OPEN_STANDALONE';
+const OPEN_BACKUP_IMPORT = 'app/OPEN_BACKUP_IMPORT';
+const UPDATE_BACKUP_IMPORT_PROGRESS = 'app/UPDATE_BACKUP_IMPORT_PROGRESS';
 
 type InitialLoadCompleteActionType = ReadonlyDeep<{
   type: typeof INITIAL_LOAD_COMPLETE;
@@ -45,11 +67,25 @@ type OpenStandaloneActionType = ReadonlyDeep<{
   type: typeof OPEN_STANDALONE;
 }>;
 
+type OpenBackupImportActionType = ReadonlyDeep<{
+  type: typeof OPEN_BACKUP_IMPORT;
+}>;
+
+type UpdateBackupImportProgressActionType = ReadonlyDeep<{
+  type: typeof UPDATE_BACKUP_IMPORT_PROGRESS;
+  payload: {
+    currentBytes: number;
+    totalBytes: number;
+  };
+}>;
+
 export type AppActionType = ReadonlyDeep<
   | InitialLoadCompleteActionType
   | OpenInboxActionType
   | OpenInstallerActionType
   | OpenStandaloneActionType
+  | OpenBackupImportActionType
+  | UpdateBackupImportProgressActionType
 >;
 
 export const actions = {
@@ -57,6 +93,8 @@ export const actions = {
   openInbox,
   openInstaller,
   openStandalone,
+  openBackupImport,
+  updateBackupImportProgress,
 };
 
 export const useAppActions = (): BoundActionCreatorsMapObject<typeof actions> =>
@@ -118,6 +156,16 @@ function openStandalone(): ThunkAction<
   };
 }
 
+function openBackupImport(): OpenBackupImportActionType {
+  return { type: OPEN_BACKUP_IMPORT };
+}
+
+function updateBackupImportProgress(
+  payload: UpdateBackupImportProgressActionType['payload']
+): UpdateBackupImportProgressActionType {
+  return { type: UPDATE_BACKUP_IMPORT_PROGRESS, payload };
+}
+
 // Reducer
 
 export function getEmptyState(): AppStateType {
@@ -156,6 +204,25 @@ export function reducer(
     return {
       ...state,
       appView: AppViewType.Standalone,
+    };
+  }
+
+  if (action.type === OPEN_BACKUP_IMPORT) {
+    return {
+      ...state,
+      appView: AppViewType.BackupImport,
+    };
+  }
+
+  if (action.type === UPDATE_BACKUP_IMPORT_PROGRESS) {
+    if (state.appView !== AppViewType.BackupImport) {
+      return state;
+    }
+
+    return {
+      ...state,
+      currentBytes: action.payload.currentBytes,
+      totalBytes: action.payload.totalBytes,
     };
   }
 

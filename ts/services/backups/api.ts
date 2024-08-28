@@ -14,6 +14,11 @@ import type {
 import type { BackupCredentials } from './credentials';
 import { uploadFile } from '../../util/uploadAttachment';
 
+export type DownloadOptionsType = Readonly<{
+  downloadOffset: number;
+  onProgress: (currentBytes: number, totalBytes: number) => void;
+}>;
+
 export class BackupAPI {
   private cachedBackupInfo: GetBackupInfoResponseType | undefined;
   constructor(private credentials: BackupCredentials) {}
@@ -67,7 +72,10 @@ export class BackupAPI {
     });
   }
 
-  public async download(): Promise<Readable> {
+  public async download({
+    downloadOffset,
+    onProgress,
+  }: DownloadOptionsType): Promise<Readable> {
     const { cdn, backupDir, backupName } = await this.getInfo();
     const { headers } = await this.credentials.getCDNReadCredentials(cdn);
 
@@ -76,6 +84,8 @@ export class BackupAPI {
       backupDir,
       backupName,
       headers,
+      downloadOffset,
+      onProgress,
     });
   }
 

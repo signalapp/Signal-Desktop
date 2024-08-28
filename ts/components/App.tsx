@@ -8,14 +8,18 @@ import classNames from 'classnames';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
 import type { VerificationTransport } from '../types/VerificationTransport';
 import { ThemeType } from '../types/Util';
-import { AppViewType } from '../state/ducks/app';
+import type { LocalizerType } from '../types/Util';
+import { missingCaseError } from '../util/missingCaseError';
+import { type AppStateType, AppViewType } from '../state/ducks/app';
 import { SmartInstallScreen } from '../state/smart/InstallScreen';
 import { StandaloneRegistration } from './StandaloneRegistration';
+import { BackupImportScreen } from './BackupImportScreen';
 import { usePageVisibility } from '../hooks/usePageVisibility';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
 type PropsType = {
-  appView: AppViewType;
+  i18n: LocalizerType;
+  state: AppStateType;
   openInbox: () => void;
   getCaptchaToken: () => Promise<string>;
   registerSingleDevice: (
@@ -49,7 +53,8 @@ type PropsType = {
 };
 
 export function App({
-  appView,
+  i18n,
+  state,
   getCaptchaToken,
   hasSelectedStoryData,
   isFullScreen,
@@ -70,9 +75,9 @@ export function App({
 }: PropsType): JSX.Element {
   let contents;
 
-  if (appView === AppViewType.Installer) {
+  if (state.appView === AppViewType.Installer) {
     contents = <SmartInstallScreen />;
-  } else if (appView === AppViewType.Standalone) {
+  } else if (state.appView === AppViewType.Standalone) {
     const onComplete = () => {
       window.IPC.removeSetupMenuItems();
       openInbox();
@@ -87,8 +92,14 @@ export function App({
         uploadProfile={uploadProfile}
       />
     );
-  } else if (appView === AppViewType.Inbox) {
+  } else if (state.appView === AppViewType.Inbox) {
     contents = renderInbox();
+  } else if (state.appView === AppViewType.Blank) {
+    contents = undefined;
+  } else if (state.appView === AppViewType.BackupImport) {
+    contents = <BackupImportScreen i18n={i18n} {...state} />;
+  } else {
+    throw missingCaseError(state);
   }
 
   // This are here so that themes are properly applied to anything that is

@@ -346,6 +346,7 @@ export const DataReader: ServerReadableInterface = {
   finishGetKnownMessageAttachments,
   pageMessages,
   finishPageMessages,
+  getKnownDownloads,
   getKnownConversationAttachments,
 };
 
@@ -6725,6 +6726,17 @@ function finishPageMessages(
     DROP TRIGGER tmp_${runId}_message_updates;
     DROP TRIGGER tmp_${runId}_message_inserts;
   `);
+}
+
+function getKnownDownloads(db: ReadableDB): Array<string> {
+  const result = [];
+
+  const backup = getItemById(db, 'backupDownloadPath');
+  if (backup) {
+    result.push(backup.value);
+  }
+
+  return result;
 }
 
 function getKnownConversationAttachments(db: ReadableDB): Array<string> {

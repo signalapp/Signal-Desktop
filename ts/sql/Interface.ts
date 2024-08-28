@@ -983,6 +983,7 @@ export type ServerReadableDirectInterface = ReadableInterface & {
   finishGetKnownMessageAttachments: (
     cursor: MessageAttachmentsCursorType
   ) => void;
+  getKnownDownloads: () => Array<string>;
   getKnownConversationAttachments: () => Array<string>;
 
   getAllBadgeImageFileLocalPaths: () => Set<string>;

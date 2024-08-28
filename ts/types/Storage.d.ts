@@ -183,6 +183,9 @@ export type StorageAccessType = {
     // remove it in `ts/background.ts`
   };
 
+  // If present - we are downloading backup
+  backupDownloadPath: string;
+
   // Deprecated
   'challenge:retry-message-ids': never;
   nextSignedKeyRotationTime: number;
