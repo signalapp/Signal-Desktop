@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "Némítás"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "A Signal Desktop frissítése nem sikerült. {retry} vagy látogass el a {url} címre és telepítsd az új verziót kézzel, majd lépj kapcsolatba velünk a tapasztalt problémával kapcsolatban: {support}."
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "A Signal frissítése nem sikerült. <retryUpdateButton>Próbáld újra a frissítést</retryUpdateButton> vagy látogass el a(z) {url} webhelyre a manuális telepítéshez. Ezután <contactSupportLink>vedd fel a kapcsolatot az ügyfélszolgálattal</contactSupportLink> a problémával kapcsolatban."
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "A Signal frissítése nem sikerült. Telepítsd az új verziót manuálisan a {url} weboldalról, majd lépj kapcsolatba velünk, és oszd meg tapasztalataidat: {support}"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "A Signal frissítése nem sikerült. Telepítsd az új verziót manuálisan a {url} weboldalról. Ezután <contactSupportLink>vedd fel a kapcsolatot az ügyfélszolgálattal</contactSupportLink> a problémával kapcsolatban."
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "Frissítés újra"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "kapcsolatfelvétel a támogatással"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Kattints a Signal újraindításához!"
@@ -3354,7 +3345,7 @@
     "messageformat": "{joinerName} csatlakozási kérést küldött a csoporthivatkozás segítségével, majd visszavonta {numberOfRequests,number} alkalommal"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} jelezte, majd visszavonta csatlakozási igényét a csoporthivatkozás használatával.} other {{joinerName} {numberOfRequests,number} alkalommal jelezte, majd visszavonta csatlakozási igényét a csoporthivatkozás használatával.}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Bekapcsoltad a csoport-hivatkozásokat (adminisztrátori jóváhagyás nem szükséges)."
@@ -3529,6 +3520,15 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Koppints az „Adományozás a Signalnak” lehetőségre, és iratkozz fel"
+  },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Bővítés"
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "Kattints a <newStoryIcon>Történet hozzáadása</newStoryIcon> lehetőségre frissítés hozzáadásához."
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} → {group}"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "Reagált a Történetre"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Nem válaszolhatsz erre a Történetre, mert már nem vagy tagja ennek a csoportnak."
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Kattints az <newCallIcon>Új hívás</newCallIcon> lehetőségre új hang- vagy videohívás indításához."
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Keresés"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "Elutasítva"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "Csoporthívás"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "Híváshivatkozás"
@@ -5620,10 +5629,13 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Kijavítottunk egy hibát, amely miatt a folyamatjelző sáv néha lefagyott egy történet megtekintése közben."
-  },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "A Signal Desktop mostantól automatikusan folytathatja a megszakított mellékletletöltéseket."
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }

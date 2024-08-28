@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "Silenzia"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "Signal non può essere aggiornato. {retry} o visita {url} per installarlo manualmente. Poi {support} riguardo a questo problema"
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Impossibile aggiornare Signal. <retryUpdateButton>Riprova l'aggiornamento</retryUpdateButton> oppure visita la pagina {url} per installarlo manualmente. Dopodiché, <contactSupportLink>contatta l'assistenza</contactSupportLink> per riferire il tuo problema."
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Signal non può essere aggiornato. Visita {url} per installarlo manualmente. Poi {support} riguardo a questo problema"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "Impossibile aggiornare Signal. Visita la pagina {url} per installarlo manualmente. Dopodiché, <contactSupportLink>contatta l'assistenza</contactSupportLink> per riferire il tuo problema."
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "Riprova l'aggiornamento"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "contatta l'assistenza"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Clicca per riavviare Signal"
@@ -3354,7 +3345,7 @@
     "messageformat": "{joinerName} ha richiesto e annullato {numberOfRequests,number} richieste di unirsi tramite il link del gruppo"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} ha richiesto e annullato la sua richiesta di unirsi tramite il link del gruppo} other {{joinerName} ha richiesto e annullato {numberOfRequests,number} richieste di unirsi tramite il link del gruppo}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Hai attivato il link del gruppo senza l'approvazione degli amministratori."
@@ -3529,6 +3520,15 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Tocca su \"Dona a Signal\" per diventare un supporter di Signal"
+  },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Espandi"
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "Clicca su <newStoryIcon>Aggiungi una storia</newStoryIcon> per condividere qualcosa di tuo."
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} a {group}"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "Ha reagito alla Storia"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Non puoi rispondere o reagire a questa Storia perché non fai più parte di questo gruppo."
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "Clicca su <newCallIcon>Nuova chiamata</newCallIcon> per iniziare una chiamata vocale o una videochiamata."
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Cerca"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "Rifiutata"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "Chiamata di gruppo"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "Link chiamata"
@@ -5620,10 +5629,13 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Prima ci affidavamo alle pitture rupestri per raccontare storie, oggi preferiamo foto e video. E non c'è cosa peggiore che interrompere una storia… un po' come il bug di Signal per cui quando vedevi una storia si bloccava la barra di caricamento. Questa storia però ha un lieto fine perché abbiamo risolto il bug!"
-  },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Da ora Signal Desktop può riprendere in automatico il download degli allegati inviati via chat: finalmente si riduce l'attesa per vedere i tuoi nuovi meme giornalieri."
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }

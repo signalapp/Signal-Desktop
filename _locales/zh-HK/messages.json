@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "靜音"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "Signal無法更新。 {retry} 或瀏覽 {url} 以手動安裝。 然後，{support} 關於這個問題"
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal 無法更新。<retryUpdateButton>嘗試更新</retryUpdateButton>或瀏覽 {url} 以手動安裝。接著<contactSupportLink>聯絡支援團隊</contactSupportLink>以了解問題"
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Signal無法更新。 瀏覽 {url} 以手動安裝。 然後，{support} 關於這個問題"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "Signal 無法更新。瀏覽 {url} 以手動安裝。接著<contactSupportLink>聯絡支援團隊</contactSupportLink>以了解問題"
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "再重試更新"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "聯繫支援部門"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "點擊重新啟動Signal"
@@ -3354,7 +3345,7 @@
     "messageformat": "{joinerName}透過群組連結請求和取消了{numberOfRequests,number} 的加入請求"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, other {{joinerName}透過群組連結請求和取消了{numberOfRequests,number} 的加入請求}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "你在停用管理員批准的情況下打開了群組連結。"
@@ -3529,6 +3520,15 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "點選「捐款給 Signal」並定期贊助我們"
+  },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "擴充"
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "點擊「<newStoryIcon>新增限時動態</newStoryIcon>」以新增最新資訊。"
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} 傳送給 {group}"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "對限時動態表達了心情回應"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "由於你不再是這群組的成員，因此你無法回覆此限時動態。"
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "點擊「<newCallIcon>新通話</newCallIcon>」以開始新的語音或視訊通話。"
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "搜尋"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "已拒絕"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "群組通話"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "通話連結"
@@ -5620,10 +5629,13 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "相信大家都不想在觀看限時「動」態時見到進度列凍結不動，但我們在這次發行版本修復了這個錯誤。"
-  },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal 桌面版現在可以從中斷的位置自動恢復下載附件，因此即使你在朋友發來的 meme 傳輸完成之前蓋上筆電，也無需等待太久就能開懷大笑。"
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }
