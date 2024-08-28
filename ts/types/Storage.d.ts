@@ -80,7 +80,7 @@ export type StorageAccessType = {
   hasSeenGroupStoryEducationSheet: boolean;
   hasViewedOnboardingStory: boolean;
   hasStoriesDisabled: boolean;
-  storyViewReceiptsEnabled: boolean;
+  storyViewReceiptsEnabled: boolean | undefined;
   identityKeyMap: IdentityKeyMap;
   lastAttemptedToRefreshProfilesAt: number;
   lastResortKeyUpdateTime: number;

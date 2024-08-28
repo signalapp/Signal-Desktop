@@ -617,10 +617,14 @@ export class BackupImportStream extends Writable {
       'hasStoriesDisabled',
       accountSettings?.storiesDisabled === true
     );
+
+    // an undefined value for storyViewReceiptsEnabled is semantically different from
+    // false: it causes us to fallback to `read-receipt-setting`
     await storage.put(
       'storyViewReceiptsEnabled',
-      accountSettings?.storyViewReceiptsEnabled === true
+      accountSettings?.storyViewReceiptsEnabled ?? undefined
     );
+
     await storage.put(
       'hasCompletedUsernameOnboarding',
       accountSettings?.hasCompletedUsernameOnboarding === true

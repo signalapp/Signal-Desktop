@@ -4,6 +4,7 @@
 import createDebug from 'debug';
 import Long from 'long';
 import { Proto, StorageState } from '@signalapp/mock-server';
+import { expect } from 'playwright/test';
 
 import { generateStoryDistributionId } from '../../types/StoryDistributionId';
 import { MY_STORY_ID } from '../../types/Stories';
@@ -224,6 +225,9 @@ describe('backups', function (this: Mocha.Suite) {
         debug('Opening story privacy');
         await window.locator('.StoriesTab__MoreActionsIcon').click();
         await window.getByRole('button', { name: 'Story Privacy' }).click();
+        await expect(
+          window.locator('.StoriesSettingsModal__overlay')
+        ).toHaveCSS('opacity', '1');
 
         await snapshot('story privacy');
       },
