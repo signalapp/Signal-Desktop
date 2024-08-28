@@ -821,14 +821,8 @@
   "icu:mute": {
     "messageformat": "મ્યૂટ કરો"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "Signal અપડેટ ન થઈ શક્યું. {retry} અથવા તેને જાતે ઇન્સ્ટોલ કરવા {url}ની મુલાકાત લો. પછી, આ સમસ્યા વિશે {support}."
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal અપડેટ ન થઈ શક્યું. <retryUpdateButton>અપડેટનો ફરી પ્રયાસ કરો</retryUpdateButton> અથવા તેને મેન્યુઅલી ઇન્સ્ટોલ કરવા માટે {url}ની મુલાકાત લો. પછી, આ સમસ્યા વિશે <contactSupportLink>સપોર્ટનો સંપર્ક કરો</contactSupportLink>"
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Signal અપડેટ ન થઈ શક્યું. તેને જાતે ઇન્સ્ટોલ કરવા {url}ની મુલાકાત લો. પછી, આ સમસ્યા વિશે {support}."
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "Signal અપડેટ ન થઈ શક્યું. તેને મેન્યુઅલી ઇન્સ્ટોલ કરવા માટે {url}ની મુલાકાત લો. પછી આ સમસ્યા વિશે <contactSupportLink>સપોર્ટનો સંપર્ક કરો</contactSupportLink>"
@@ -1834,9 +1828,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "અપડેટ કરવાનો ફરી પ્રયાસ કરો"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "સપોર્ટનો સંપર્ક કરો"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Signalને રિસ્ટાર્ટ કરવા ક્લિક કરો"
@@ -3354,7 +3345,7 @@
     "messageformat": "{joinerName}એ ગ્રુપ લિંક વડે જોડાવાની વિનંતી કરી અને {numberOfRequests,number} વિનંતી રદ કરી"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and cancelled their request to join via the group link} other {{joinerName} requested and cancelled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName}એ ગ્રૂપ લિંક વડે જોડાવાની તેમની વિનંતી કરી અને રદ કરી} other {{joinerName} એ ગ્રૂપ લિંક વડે જોડાવાની {numberOfRequests,number} વિનંતીઓ કરી અને રદ કરી}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "તમે એડમિન મંજૂરી અક્ષમ સાથે ગ્રુપ લિંક ચાલુ કરી."
@@ -3529,6 +3520,15 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "\"Signalમાં દાન કરો\" પર ટૅપ કરો અને સબ્સ્ક્રાઇબ કરો"
+  },
+  "icu:BackupImportScreen__title": {
+    "messageformat": "Syncing messages"
+  },
+  "icu:BackupImportScreen__progressbar-hint": {
+    "messageformat": "Downloading {currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+  },
+  "icu:BackupImportScreen__description": {
+    "messageformat": "This may take a few minutes depending on the size of your backup"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "વિસ્તૃત કરો"
@@ -4874,6 +4874,9 @@
   "icu:Stories__placeholder-with-icon--text": {
     "messageformat": "એક અપડેટ ઉમેરવા માટે <newStoryIcon>સ્ટોરી ઉમેરો</newStoryIcon> પર ક્લિક કરો."
   },
+  "icu:Stories__placeholder-with-icon--text-2": {
+    "messageformat": "Click <newStoryButtonIcon></newStoryButtonIcon> to add an update."
+  },
   "icu:Stories__from-to-group": {
     "messageformat": "{name}એ {group}માં"
   },
@@ -5116,6 +5119,12 @@
   },
   "icu:StoryViewsNRepliesModal__reacted": {
     "messageformat": "સ્ટોરી પર પ્રતિક્રિયા આપી"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--you": {
+    "messageformat": "Reacted to the story"
+  },
+  "icu:StoryViewsNRepliesModal__reacted--someone-else": {
+    "messageformat": "Reacted to the story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "તમે આ સ્ટોરીનો જવાબ આપી શકતા નથી કારણ કે તમે હવે આ ગ્રુપના સભ્ય નથી."
@@ -5418,6 +5427,9 @@
   "icu:CallsTab__EmptyStateText--with-icon": {
     "messageformat": "નવો વૉઇસ અથવા વીડિયો કૉલ શરૂ કરવા માટે <newCallIcon>નવો કૉલ</newCallIcon> પર ક્લિક કરો."
   },
+  "icu:CallsTab__EmptyStateText--with-icon-2": {
+    "messageformat": "Click <newCallButtonIcon></newCallButtonIcon> to start a new voice or video call."
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "શોધો"
   },
@@ -5459,9 +5471,6 @@
   },
   "icu:CallsList__ItemCallInfo--Declined": {
     "messageformat": "નકાર્યો"
-  },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "ગ્રુપ કૉલ"
   },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "કૉલ લિંક"
@@ -5620,10 +5629,13 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "અમે એક એવો બગ ઠીક કર્યો છે જેનાથી સ્ટોરી જોતી વખતે પ્રોગ્રેસ બાર ફ્રીઝ થઈ જતો હતો."
-  },
   "icu:WhatsNew__v7.22--0": {
-    "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring."
+    "messageformat": "Signal ડેસ્કટોપ હવે વિક્ષેપિત થયેલ જોડાણને આપમેળે ડાઉનલોડ કરવાનું શરૂ કરી શકે છે."
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick."
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself."
   }
 }

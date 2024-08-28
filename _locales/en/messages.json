@@ -1106,17 +1106,9 @@
     "messageformat": "Mute",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
-  "icu:cannotUpdateDetail": {
-    "messageformat": "Signal couldn't update. {retry} or visit {url} to install it manually. Then, {support} about this problem",
-    "description": "(Deleted 2024/07/23) Shown if a general error happened while trying to install update package"
-  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem",
     "description": "Shown if a general error happened while trying to install update package"
-  },
-  "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, {support} about this problem",
-    "description": "(Deleted 2024/07/23) Shown if a general error happened while trying to install update package and manual update is required"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "Signal couldn't update. Visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem",
@@ -2434,10 +2426,6 @@
   },
   "icu:autoUpdateRetry": {
     "messageformat": "Retry update"
-  },
-  "icu:autoUpdateContactSupport": {
-    "messageformat": "contact support",
-    "description": "(Deleted 2024/07/23)"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Click to restart Signal"
@@ -4765,7 +4753,7 @@
   },
   "icu:ContactModal--already-in-call": {
     "messageformat": "You are already in a call",
-    "description": "Tooltip text for video or voice call button in Contact Details modal"
+    "description": "(Deleted 2024/08/28) Tooltip text for video or voice call button in Contact Details modal"
   },
   "icu:showChatColorEditor": {
     "messageformat": "Chat color",
@@ -7285,10 +7273,6 @@
     "messageformat": "Declined",
     "description": "Calls Tab > Calls List > Call Item > Call Status > When an incoming call was declined"
   },
-  "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "Group call",
-    "description": "(Deleted 2024/07/26) Calls Tab > Calls List > Call Item > Call Status > When group call is in its default state"
-  },
   "icu:CallsList__ItemCallInfo--CallLink": {
     "messageformat": "Call link",
     "description": "On the Calls Tab, the subtitle text for a Call Link entry."
@@ -7498,7 +7482,7 @@
   },
   "icu:WhatsNew__v7.22--0": {
     "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring.",
-    "description": "Release notes for version 7.22"
+    "description": "(Deleted 2024/08/28) Release notes for version 7.22"
   },
   "icu:WhatsNew__v7.23--0": {
     "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick.",
