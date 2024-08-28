@@ -3908,6 +3908,41 @@ async function updateGroupViaSingleChange({
   return singleChangeResult;
 }
 
+function getLastRevisionFromChanges(
+  changes: ReadonlyArray<Proto.IGroupChanges>
+): number | undefined {
+  for (let i = changes.length - 1; i >= 0; i -= 1) {
+    const change = changes[i];
+    if (!change) {
+      continue;
+    }
+
+    const { groupChanges } = change;
+    if (!groupChanges) {
+      continue;
+    }
+
+    for (let j = groupChanges.length - 1; j >= 0; j -= 1) {
+      const groupChange = groupChanges[j];
+      if (!groupChange) {
+        continue;
+      }
+
+      const { groupState } = groupChange;
+      if (!groupState) {
+        continue;
+      }
+
+      const { version } = groupState;
+      if (isNumber(version)) {
+        return version;
+      }
+    }
+  }
+
+  return undefined;
+}
+
 async function updateGroupViaLogs({
   group,
   newRevision,
@@ -4008,8 +4043,14 @@ async function updateGroupViaLogs({
     newRevision,
   });
 
-  // If we're not in the group, we won't receive endorsements
-  if (Bytes.isNotEmpty(groupSendEndorsementResponse)) {
+  const currentVersion = response.paginated
+    ? response.currentRevision
+    : getLastRevisionFromChanges(changes);
+  const isAtLatestVersion =
+    isNumber(currentVersion) &&
+    updates.newAttributes.revision === currentVersion;
+
+  if (isAtLatestVersion && Bytes.isNotEmpty(groupSendEndorsementResponse)) {
     try {
       log.info(`updateGroupViaLogs/${logId}: Saving group endorsements`);
       // Use the latest state of the group after applying changes
