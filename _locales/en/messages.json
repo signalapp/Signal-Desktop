@@ -7496,12 +7496,16 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.21--0": {
-    "messageformat": "Everyone loves a good story, and we could tell you the tale of a bug that sometimes caused the progress bar to freeze right in the middle of watching a good story — but that bug's adventure already has a happy ending because we fixed it in this release.",
-    "description": "(Deleted 2024/08/21) Release notes for version 7.21"
-  },
   "icu:WhatsNew__v7.22--0": {
     "messageformat": "Signal Desktop can now automatically resume interrupted attachment downloads from where they left off, so you won't need to wait as long to laugh even if you close your laptop lid before the meme your friend sent you has finished transferring.",
     "description": "Release notes for version 7.22"
+  },
+  "icu:WhatsNew__v7.23--0": {
+    "messageformat": "Chats now open faster than ever thanks to another round of performance improvements, so you can click on your cliques and see what they're saying real quick.",
+    "description": "Release notes for version 7.23"
+  },
+  "icu:WhatsNew__v7.23--1": {
+    "messageformat": "We also fixed a handful of bugs, including one that sometimes caused \"Unknown contact started a video call\" to appear in the chat list summary after you started the call. Even if you're still on a journey of self-discovery, you are never completely unknown to yourself.",
+    "description": "Release notes for version 7.23"
   }
 }
