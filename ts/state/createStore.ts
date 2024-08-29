@@ -3,16 +3,19 @@
 
 /* eslint-disable no-console */
 
-import type { Store } from 'redux';
+import type { Middleware, Store } from 'redux';
 import { applyMiddleware, createStore as reduxCreateStore } from 'redux';
 
 import promise from 'redux-promise-middleware';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 
+import * as log from '../logging/log';
 import type { StateType } from './reducer';
 import { reducer } from './reducer';
 import { dispatchItemsMiddleware } from '../shims/dispatchItemsMiddleware';
+import { isOlderThan } from '../util/timestamp';
+import { SECOND } from '../util/durations';
 
 declare global {
   // We want to extend `window`'s properties, so we need an interface.
@@ -47,10 +50,49 @@ const logger = createLogger({
   },
 });
 
+const ACTION_COUNT_THRESHOLD = 25;
+type ActionStats = {
+  timestamp: number;
+  names: Array<string>;
+};
+const actionStats: ActionStats = {
+  timestamp: Date.now(),
+  names: [],
+};
+export const actionRateLogger: Middleware = () => next => action => {
+  const name = action.type;
+  const lastTimestamp = actionStats.timestamp;
+  let count = actionStats.names.length;
+
+  if (isOlderThan(lastTimestamp, SECOND)) {
+    if (count > 0) {
+      actionStats.names = [];
+    }
+    actionStats.timestamp = Date.now();
+
+    return next(action);
+  }
+
+  actionStats.names.push(name);
+  count += 1;
+
+  if (count >= ACTION_COUNT_THRESHOLD) {
+    log.warn(
+      `ActionRateLogger: got ${count} events since ${lastTimestamp}: ${actionStats.names.join(',')}`
+    );
+
+    actionStats.names = [];
+    actionStats.timestamp = Date.now();
+  }
+
+  return next(action);
+};
+
 const middlewareList = [
   promise,
   thunk,
   dispatchItemsMiddleware,
+  actionRateLogger,
   ...(env === 'production' ? [] : [logger]),
 ];
 
